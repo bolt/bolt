@@ -1,594 +1,695 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2014-12-06 09:22:41 UTC
-
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
-
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 382 translations
-# 132 keyword based translations
-
-#--- 382 translations ---------------------------------------------------------
-
-"%contenttypes% overview": "%contenttypes% överblick"
-"%name% № %id%": "%name% № %id%"
-"%s files could not be deleted. You should delete them manually.": "%s filer kunde inte tas bort. Du bör ta bort dem manuellt."
-"(default template)": "(standardmall)"
-"(no category)": "(ingen kategori)"
-"(no group)": "(ingen grupp)"
-"(none)": "(ingen)"
-"A password reset link has been sent to '%user%'.": "En återställningslänk för lösenord har skickats till '%user%'."
-"Actions": "Åtgärder"
-"Add a brief, optional comment to describe what's changed.": "Lägg till en kort, valfri kommentar om vad som ändrats."
-"Add a comment:": "Lägg till en kommentar:"
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
-"Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
-"Alas, no about!": "Tyvärr, ingen 'om'-sida!"
-"All content types": "Alla innehållstyper"
-"All users": "Alla användare"
-"Alt": "Alt"
-"An error occurred.": "Ett fel uppstod."
-"Anonymous": "Anonym"
-"Are you sure you want to delete %username%?": "Är du säker på att du vill radera %username%?"
-"Author:": "Författare:"
-"Below are the third party libraries that are used by Bolt.": "Nedan är tredjepartsbiblioteken som används av Bolt."
-"Body": "Body"
-"Bolt - Fatal error.": "Bolt - Allvarligt fel."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Bolttillägget kund inte hittas. Vänligen kontrollera %site% för att se att du har rätt namn."
-"Browser / platform": "Webbläsare / plattform"
-"Built-in role, automatically granted at all times, even if no user is logged in": "Inbyggd roll, automatiskt tilldelad konstant, även när ingen användare är inloggad."
-"Built-in role, automatically granted to every registered user": "Inbyggd roll, automatiskt tilldelad till alla inloggade användare"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Inbyggd roll, endast giltig i en resurskontext och automatiskt tilldelad till ägaren av resursen."
-"Built-in superuser role, automatically grants all permissions": "Inbyggd superanvändarroll, tilldelas automatiskt alla tillåtelser"
-"Cancel": "Avbryt"
-"Categories": "Kategorier"
-"Category": "Kategori"
-"Change Log": "Ändringslogg"
-"Change status to 'draft'": "Ändra status till 'utkast'"
-"Change status to 'held'": "Ändra status till 'avpublicerad'"
-"Chapter": "Kapitel"
-"Chapters": "Kapitel"
-"Check again": "Kontrollera igen"
-"Check database": "Kontrollera databas"
-"Class:": "Klass:"
-"Clear Activitylog": "Rensa aktivitetsloggen"
-"Clear cache again": "Rensa cache igen"
-"Clear filter": "Rensa filter"
-"Clear sort/filter": "Rensa sortering/filter"
-"Clear the cache": "Rensa cache"
-"Clear the current log": "Rensa den aktuella loggen"
-"Click to change current status.": "Klicka för att ändra status."
-"Code:": "Kod:"
-"Collapse sidebar": "Dölj sidomeny"
-"Configuration": "Konfiguration"
+---
+"%contenttypes% overview": '%contenttypes% överblick'
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": 'Bolttillägget kund inte hittas. Vänligen kontrollera %site% för att se att du har rätt namn.'
+Clear Activitylog: Rensa aktivitetsloggen
+Clear the current log: Rensa den aktuella loggen
 "Content '%title%' could not be deleted.": "Dokumentet '%title%' kunde inte tas bort."
-"Content '%title%' could not be modified.": "Dokumentet '%title%' kunde inte modifieras."
 "Content '%title%' has been changed to '%newStatus%'": "Dokumentet '%title%' har ändrats till '%newStatus%'"
 "Content '%title%' has been deleted.": "Dokumentet '%title%' har tagits bort."
-"Content Type Permissions": "Innehållsrättigheter"
-"Content for home not found!": "Startsidans innehåll kunde inte hittas!"
-"Content": "Innehåll"
-"Contenttypes": "Innehållstyper"
-"Create folder": "Skapa mapp"
-"Create the first user": "Skapa första användaren"
-"Created on:": "Skapad:"
-"Current (saved) status:": "Nuvarande (sparad) status:"
-"Current sessions": "Nuvarande inloggningar"
-"Current status:": "Nuvarande status:"
-"Dashboard": "Översikt"
-"Database check / update": "Databas kontroll / uppdatering"
-"Date": "Datum"
-"Datetime": "Datum/Tid"
-"Default status": "Förvald status"
-"Delete %filename%": "Radera %filename%"
-"Delete %foldername%": "Radera %foldername%"
-"Delete %username%": "Radera %username%"
-"Delete selected": "Radera valda"
-"Deleted %s files from cache.": "Rensade %s filer från cache."
-"Depublication date:": "Avpublicerings datum:"
-"Depublish selected": "Avpublicera valda"
-"Deselect all": "Avmarkera alla"
-"Detail template": "Tema"
-"Details": "Information"
-"Disable %username%": "Deaktivera %username%"
-"Do you really want to delete %foldername%?": "Vill du verkligen ta bort %foldername%?"
-"Done!": "klart!"
-"Draft": "Utkast"
-"Duplicate %filename%": "Duplicera %filename%"
-"Edit Roles and Permissions": "Redigera Roller och Rättigheter"
-"Edit file": "Redigera fil"
-"Edit": "Redigera"
-"Enable %username%": "Aktivera %username%"
-"Everybody": "Alla"
-"Excerpt": "Utdrag"
-"Expand sidebar": "Visa sidomeny"
-"Extension log": "Tilläggslogg"
-"Extensions": "Tillägg"
-"Extras": "Extras"
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
+Delete selected: Radera valda
+Depublish selected: Avpublicera valda
+"Do you really want to delete %foldername%?": 'Vill du verkligen ta bort %foldername%?'
+Extension log: Tilläggslogg
 "File '%file%' could not be uploaded.": "Fil '%file%' kunde inte laddas upp."
+Filtering …: Filtrering …
+Next: Nästa
+"No recent %contenttype%.": 'Inga nyligen ändrade %contenttype%.'
+No such action for content.: Det finns ingen sådan åtgärd för innehållet.
+"Originally by %1, ported by %2": 'Ursprungligen av %1, adapterat av %2'
+Other contenttypes: Andra innehållstyper
+Permission denied: Åtkomst nekad
+Previous: Föregående
+"Proudly powered by %s": 'Stolt byggt på %s'
+Publish selected: Publicera valda
+"Recent %contenttypes%": 'Senaste %contenttypes%'
+"Search for:": 'Sök efter:'
+Search…: Sök…
+Skip to content: Hoppa till innehåll
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": 'Tilläggsmappen (<code>%dir%</code>) finns inte eller är inte skrivbar.'
+"The file '%s' doesn't exist, or is not readable.": "Filen '%s' finns inte eller är inte läsbar."
+Trim Activitylog: Rensa aktivitetslogg
+You do not have the right privileges to create a new record.: Du har inte rättighet att skapa ett dokument.
+You must specify both a name and a version to install!: Du måste ange både ett namn och en version för att installera!
+"[Extension error] Initialisation failed for %ext%: %error%": '[Tilläggsfel error] Initialisation failed for %ext%: %error%'
+"[Extension error] Snippet loading failed for %ext%: %error%": '[Extension error] Snippet loading failed for %ext%: %error%'
+"[Extension error] Twig function registration failed for %ext%: %error%": '[Extension error] Twig function registration failed for %ext%: %error%'
+"[Extension error] YAML config failed to load for %ext%: %error%": '[Extension error] YAML config failed to load for %ext%: %error%'
+"in:": 'i:'
+contenttypes.general.choose-an-entry: Välj ett inlägg
+general.thanks: Tack
+contenttypes.generic.error-saving: 'There was an error saving this %contenttype%.'
+field.general.select-from-stack: Välj från filhögen
+field.geolocation.marker: Fäst
+field.video.button.preview: Förhandsgranska
+field.video.preview.button.close: Stäng
+field.video.preview.no-url: Ingen videolänk satt, det finns ingen video att visa.
+"An error occured while updating `%TABLE%`. The error is %ERROR%": 'Ett fel inträffade under uppdateringen av "%TABLE%". Felet är %ERROR%'
+"Are you sure you want to delete %FILENAME%?": 'Är du säker du vill ta bort %FILENAME%?'
+"Are you sure you want to do this for %NUMBER% records?": 'Är du säker du vill göra detta för %NUMBER% inlägg?'
+Are you sure you want to do this for 1 record?: Är du säker du vill göra detta för 1 inlägg?
+Are you sure you want to remove these files?: Är du säker du vill ta bort dessa filer?
+Are you sure you want to remove these images?: Är du säker du vill ta bort dessa bilder?
+Are you sure you want to remove this file?: Är du säker på att du vill ta bort denna fil?
+Are you sure you want to remove this image?: Är du säker på att du vill ta bort denna bild?
+Are you sure you wish to delete this record? There is no undo.: Är du säker du vill ta bort detta inlägg? Det går inte att ångra.
+"At least %NUM% characters required": 'Minst %NUM% tecken krävs'
+Author: Författare
+Choose an entry: Välj ett inlägg
+Clear Change Log: Rensa förändringslogg
+Clear System Log: Rensa systemloggen
+"Client error: %errormessage%": 'Klientfel: %errormessage%'
+Close editor: Stäng redigerare
+Create File: Skapa fil
+Delete: Radera
+Delete Set: Ta bort grupp
+Depublish: Avpublicera
+Depublish date is in the past. Change the status if you want to depublish now: Avpubliceringsdatumet har passerat. Ändra status om du vill avpublicera nu
+"Do you really want to delete %FOLDERNAME%?": 'Vill du verkligen ta bort %FOLDERNAME%?'
+Duplicate Set: Duplicera grupp
+"Extension server returned an error: %errormessage%": 'Tilläggsservern returnerade ett fel: %errormessage%'
+Failed to send password request. Please check the email settings.: Det gick inte att skicka lösenordsåterställning. Vänligen kontrollera e-postinställningarna.
+"Field “%FIELD_NAME%”:": 'Fältet "%FIELD_NAME%":'
+"File '%s' could not be saved, because the form wasn't valid.": "Filen '%s' kunde inte sparas, eftersom formuläret inte var giltigt."
+Files could not be uploaded.: Det gick inte att ladda upp filerna.
+"Generic failure while testing connection to extension server: %errormessage%": 'Generic failure while testing connection to extension server: %errormessage%'
+Has to be a floating point number!: Måste vara ett decimaltal!
+Id (№): ID (№)
+Invalid login parameters.: Ogiltiga loginuppgifter.
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": 'Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter.'
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
+Is required or needs to match a pattern!: Krävs eller måste matcha ett mönster!
+Is required!: Krävs!
+Keyword …: Sökord…
+Language coverage: Language coverage
+Live Edit: Liveredigering
+New Bolt site has been set up: Ny boltsite har satts upp
+No content found.: Inget innehåll funnet.
+No files in the list, yet.: Inga filer i listan ännu.
+No images in the list, yet.: Inga bilder i listan ännu.
+No theme name found. Theme is not generated.: Inget temanamn hittat. Temat har inte genererats.
+Not yet installed.: Inte installerat än.
+Only root can change file extensions.: Endast rotanvändare kan ändra filändelser.
+Order: Sortering
+Others: Andra
+Publish: Publicera
+Records: Inlägg
+"Related content:": 'Relaterat innehåll:'
+Run PHP extension checks: Kör PHP tilläggskontroll
+Run all checks: Kör alla kontroller
+Run directory checks: Kör katalogkontroll
+Run email checks: Kör e-postkontroll
+"Selection (#):": 'Val (#):'
+Something went wrong with logging in after first user creation!: Något gick fel med inloggningen efter skapandet av första användaren!
+Staff Position: Organisationsroll
+Staff_position: Organisations_roll
+Subject: Ämne
+Subjects: Ämnen
+System Configuration Checks: Systemkonfigurations kontroller
+"Testing connection to extension server failed: %errormessage%": 'Testning av anslutning till tilläggsserver misslyckades: %errormessage%'
+Text: Text
+"The Bolt extensions file '%composerjson%' isn't readable.": "Bolttilläggsfilen '%composerjson%' är inte läsbar."
+The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.: "E-postinställningarna 'mailoptions' har inte satts upp. Bolt kan inte skicka återställningen av lösenordet."
+"The file '%s' doesn't exist.": "Filen '%s' finns inte."
+"The file '%s' is not readable.": 'Filen "%s" är inte läsbar.'
+"The value has to be at least “%MINVAL%”!": 'Värdet måste vara minst "%MINVAL%"!'
+"The value must not be greater than “%MAXVAL%”!": 'Värdet får inte vara större än "%MAXVAL%"!'
+There are no saved changes, yet.: Det finns inga sparade ändringar ännu.
+There is no undo!: Det går inte att ångra!
+Thumbnail: Miniatyrbild
+Trim Change Log: Rensa ändringsloggen
+Trim System Log: Rensa systemloggen
+"Unable to create directory: %DIR%": 'Det gick inte att skapa katalogen: %DIR%'
+"Unable to create file: %FILE%": 'Det gick inte att skapa filen: %FILE%'
+"Unable to delete directory: %DIR%": 'Det går inte att ta bort katalogen: %DIR%'
+"Unable to delete file: %FILE%": 'Det går inte att ta bort filen: %FILE%'
+"Unable to rename directory: %DIR%": 'Det gick inte att döpa om katalogen: %DIR%'
+"Unable to rename file: %FILE%": 'Det går inte att döpa om på filen: %FILE%'
+Unable to retrieve login session data. Please check your system's PHP session settings.: Det gick inte att hämta sessionsdata. Kontrollera systemets PHP sessionsinställningar.
+Upload not allowed: Uppladdning inte tillåtet
+Users & Permissions: 'Användare & Användarbehörigheter'
+"Welcome to your new Bolt site, %USER%.": 'Välkommen till din nya boltsite, %USER%.'
+"You cannot '%s' yourself.": 'Du kan inte "%s" dig själv.'
+You do not have the right privileges to edit that user.: Du har inte rättighet att redigera den användaren.
+You have unfinished changes on this page. If you continue without saving, you will lose these changes.: Du har osparade ändringarna på den här sidan. Om du fortsätta utan att spara, förlorar du ändringarna.
+"filtered by <em>'%filter%'</em>": 'filtrerat efter <em>"%filter%"</em>'
+or: eller
+"%name% № %id%": '%name% № %id%'
+"%s files could not be deleted. You should delete them manually.": '%s filer kunde inte tas bort. Du bör ta bort dem manuellt.'
+(default template): (standardmall)
+(no category): (ingen kategori)
+(no group): (ingen grupp)
+(none): (ingen)
+"A password reset link has been sent to '%user%'.": "En återställningslänk för lösenord har skickats till '%user%'."
+Actions: Åtgärder
+Add a brief, optional comment to describe what's changed.: Lägg till en kort, valfri kommentar om vad som ändrats.
+"Add a comment:": 'Lägg till en kommentar:'
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
+"Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
+Alas, no about!: "Tyvärr, ingen 'om'-sida!"
+All content types: Alla innehållstyper
+All users: Alla användare
+Alt: Alt
+An error occurred.: Ett fel uppstod.
+Anonymous: Anonym
+"Are you sure you want to delete %username%?": 'Är du säker på att du vill radera %username%?'
+"Author:": 'Författare:'
+Below are the third party libraries that are used by Bolt.: Nedan är tredjepartsbiblioteken som används av Bolt.
+Body: Innehåll
+Bolt - Fatal error.: 'Bolt - Allvarligt fel.'
+Browser / platform: Webbläsare / plattform
+Built-in role, automatically granted at all times, even if no user is logged in: Inbyggd roll, automatiskt tilldelad konstant, även när ingen användare är inloggad.
+Built-in role, automatically granted to every registered user: Inbyggd roll, automatiskt tilldelad till alla inloggade användare
+Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.: Inbyggd roll, endast giltig i en resurskontext och automatiskt tilldelad till ägaren av resursen.
+Built-in superuser role, automatically grants all permissions: Inbyggd superanvändarroll, tilldelas automatiskt alla tillåtelser
+Cancel: Avbryt
+Categories: Kategorier
+Category: Kategori
+Change Log: Ändringslogg
+Change status to 'draft': "Ändra status till 'utkast'"
+Change status to 'held': "Ändra status till 'avpublicerad'"
+Chapter: Kapitel
+Chapters: Kapitel
+Check again: Kontrollera igen
+Check database: Kontrollera databas
+"Class:": 'Klass:'
+Clear cache again: Rensa cache igen
+Clear filter: Rensa filter
+Clear sort/filter: Rensa sortering/filter
+Clear the cache: Rensa cache
+Click to change current status.: Klicka för att ändra status.
+"Code:": 'Kod:'
+Collapse sidebar: Dölj sidomeny
+Configuration: Konfiguration
+Content: Innehåll
+"Content '%title%' could not be modified.": "Dokumentet '%title%' kunde inte modifieras."
+Content Type Permissions: Innehållsrättigheter
+Content for home not found!: Startsidans innehåll kunde inte hittas!
+Contenttypes: Innehållstyper
+Create folder: Skapa mapp
+Create the first user: Skapa första användaren
+"Created on:": 'Skapad:'
+"Current (saved) status:": 'Nuvarande (sparad) status:'
+Current sessions: Nuvarande inloggningar
+"Current status:": 'Nuvarande status:'
+Dashboard: Översikt
+Database check / update: Databas kontroll / uppdatering
+Date: Datum
+Datetime: Datum/Tid
+Default status: Förvald status
+"Delete %filename%": 'Radera %filename%'
+"Delete %foldername%": 'Radera %foldername%'
+"Delete %username%": 'Radera %username%'
+"Deleted %s files from cache.": 'Rensade %s filer från cache.'
+"Depublication date:": 'Avpublicerings datum:'
+Deselect all: Avmarkera alla
+Detail template: Tema
+Details: Information
+"Disable %username%": 'Deaktivera %username%'
+Done!: klart!
+Draft: Utkast
+"Duplicate %filename%": 'Duplicera %filename%'
+Edit: Redigera
+Edit Roles and Permissions: Redigera Roller och Rättigheter
+Edit file: Redigera fil
+"Enable %username%": 'Aktivera %username%'
+Everybody: Alla
+Excerpt: Utdrag
+Expand sidebar: Visa sidomeny
+Extensions: Tillägg
+Extras: Tillägg
+File: Fil
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
 "File '%file%' was uploaded successfully.": "Fil '%file%' laddades upp."
 "File '%s' could not be saved, for some reason.": "Fil '%s' kunde inte sparas utav någon anledning."
 "File '%s' could not be saved:": "Fil '%s' kunde inte sparas:"
 "File '%s' has been saved.": "Fil '%s' har sparats."
-"File Management": "Filhantering"
-"File is not readable!": "Filen är inte läsbar!"
-"File": "Fil"
-"Filelist": "Fillista"
-"Files in %s": "Filer i %s"
-"Files on the stack": "Filer i filhögen"
-"Files": "Filer"
-"Filesize": "Filstorlek"
-"Fill the database with Dummy Content": "Fyll på databasen med exempelinnehåll"
-"Filter": "Filter"
-"Filtering …": "Filtrering …"
-"Filtering": "Filtrering"
-"Find": "Hitta"
-"Floatfield": "Decimaltals fält"
+File Management: Filhantering
+File is not readable!: Filen är inte läsbar!
+Filelist: Fillista
+Files: Filer
+"Files in %s": 'Filer i %s'
+Files on the stack: Filer i filhögen
+Filesize: Filstorlek
+Fill the database with Dummy Content: Fyll på databasen med exempelinnehåll
+Filter: Filter
+Filtering: Filtrering
+Find: Hitta
+Floatfield: Decimaltals fält
 "Folder '%s' could not be found, or is not readable.": "Mappen '%s' kunde inte hittas, eller är inte läsbar."
-"Folder permissions insufficient": "Otillräckliga mapprättigheter"
-"Folders": "Mappar"
-"Full list …": "Hela listan …"
-"Geolocation": "Geolokalisering "
-"Global Permissions": "Globala Rättigheter"
-"Hints:": "Tips:"
-"Html": "Html"
-"IP address": "IP adress"
-"Id": "Id"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Om det fanns en sida med 'about' som permalänk, så skulle den visas här. Men det finns det inte och därför ser du denna."
-"Image": "Bild"
-"Imagelist": "Bildlista"
-"Info": "Info"
-"Integerfield": "Heltalsfält"
-"Last edited on:": "Senast redigerad:"
-"Last known IP": "Senast kända IP"
-"Last seen": "Senast sedd"
-"Latest entries": "Senaste inlägg"
-"Listing template": "Listmall"
-"Login": "Logga in"
-"Logout": "Logga ut"
-"Long messages": "Långa meddelanden"
-"Main configuration": "Huvudkonfiguration"
-"Maintenance": "Underhåll"
-"Markdown": "Markdown"
-"Menu setup": "Menyer"
-"Message:": "Meddelande:"
-"Messages": "Meddelanden"
-"Meta information": "Metadata"
-"Meta": "Meta"
-"Modifications made to the database:": "Modifikationer skrivna till databasen:"
-"Modifications needed:": "Modifikationer som behövs:"
-"Modified": "Modifierad"
-"Multiselect": "Flerval"
-"Next": "Nästa"
-"No recent %contenttype%.": "Inga nyligen ändrade %contenttype%."
-"No relations found!": "Inga relationer funna!"
+Folder permissions insufficient: Otillräckliga mapprättigheter
+Folders: Mappar
+Full list …: Hela listan …
+Geolocation: 'Geolokalisering '
+Global Permissions: Globala Rättigheter
+"Hints:": 'Tips:'
+Html: Html
+IP address: IP adress
+Id: ID
+If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.: "Om det fanns en sida med 'about' som permalänk, så skulle den visas här. Men det finns det inte och därför ser du denna."
+Image: Bild
+Imagelist: Bildlista
+Info: Information
+Integerfield: Heltalsfält
+"Last edited on:": 'Senast redigerad:'
+Last known IP: Senast kända IP
+Last seen: Senast sedd
+Latest entries: Senaste inlägg
+Listing template: Listmall
+Login: Logga in
+Logout: Logga ut
+Long messages: Långa meddelanden
+Main configuration: Huvudkonfiguration
+Maintenance: Underhåll
+Markdown: Markdown
+Menu setup: Menyer
+"Message:": 'Meddelande:'
+Messages: Meddelanden
+Meta: Metadata
+Meta information: Metadata
+"Modifications made to the database:": 'Modifikationer skrivna till databasen:'
+"Modifications needed:": 'Modifikationer som behövs:'
+Modified: Modifierad
+Multiselect: Flerval
+No relations found!: Inga relationer funna!
 "No results found for '%SEARCHTERM%'. Please try another search.": "Vi kunde inte hitta något för sökningen '%SEARCHTERM%'. Försök att söka efter något annat."
-"No such action for content.": "Det finns ingen sådan åtgärd för innehållet."
 "No such action for user '%s'.": "Det finns ingen sådan åtgärd för användaren '%s'."
-"None": "Ingen"
-"Not published": "Inte publicerad"
-"Note:": "Notering:"
-"Omnisearch": "Multisök"
-"Options": "Alternativ"
-"Order: %sort%": "Sortering: %sort%"
-"Originally by %1, ported by %2": "Ursprungligen av %1, adapterat av %2"
-"Other contenttypes": "Andra innehållstyper"
-"Overview for": "Överblick för"
-"Overview": "Överblick"
-"Owner": "Ägare"
-"Owner:": "Ägare:"
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Lösenordet återställdes ej! Antingen så har det gått för lång tid eller så försökte du återställa lösenordet från fel IP-adress."
-"Password reset successful! You can now log on with the password that was sent to you via email.": "Lösenordet återställdes! Du kan nu logga in med lösenordet som skickades till dig via mail."
-"Path to image file": "Sökväg till bildfilen"
-"Path": "Sökväg"
-"Path:": "Sökväg:"
-"Permalink": "Permalänk"
-"Permission denied": "Åtkomst nekad"
-"Permissions": "Rättigheter"
-"Place on stack": "Lägg på filhögen"
-"Please choose the record you want to link to:": "Välj dokumentet du vill länka till:"
-"Please enter a new file name!": "Välj ett nytt filnamn!"
-"Please enter a new folder name!": "Välj ett nytt mappnamn!"
-"Please log on.": "Vänligen logga in."
-"Please provide a username": "Vänligen skriv in ett användarnamn"
-"Prefill database": "Lägg till exempelinnehåll"
-"Preview": "Förhandsgranska"
-"Previous": "Föregående"
-"Profile": "Profil"
-"Proudly powered by %s": "Stolt byggt på %s"
-"Provided by:": "Tillhandahållet av:"
-"Publication date:": "Publiceringsdatum:"
-"Publish selected": "Publicera valda"
-"Published on:": "Publicerad:"
-"Published": "Publicerad"
-"Read more": "Läs mer"
-"Recent %contenttypes%": "Senaste %contenttypes%"
-"Related content": "Relaterat innehåll"
-"Relationships": "Relationer"
-"Rename %foldername%": "Döp om %foldername%"
-"Roles and Permissions": "Roller och Rättigheter"
-"Roles": "Roller"
-"Save & create new record": "Spara & skapa nytt dokument"
-"Save & return to overview": "Spara & återgå till överblicken"
-"Saved on:": "Sparad:"
-"Saving …": "Sparar …"
-"Search for …": "Sök efter …"
-"Search for:": "Sök efter:"
-"Search results for <b> %search% </b>.": "Sökresultat för <b> %search% </b>."
-"Search …": "Söker …"
-"Search": "Sök"
-"Search…": "Sök…"
-"Select a page": "Välj en sida"
-"Select all": "Välj alla"
-"Select file …": "Välj fil …"
-"Select none": "Välj inga"
-"Select zero or more pages": "Välj en eller flera sidor"
-"Select": "Välj"
-"Selectentry": "Välj inlägg"
-"Selectfield": "Välj fält"
-"Session expires": "Session upphör"
-"Session resumed.": "Session återupptagen."
-"Settings": "Inställningar"
-"Showing %pager_for% %from% - %to% of %count%": "Visar %pager_for% %from% - %to% av %count%"
-"Showing": "Visar"
-"Size": "Storlek"
-"Skip to content": "Hoppa till innehåll"
-"Skipped <tt>%key%</tt> (already has records)": "Hoppade över <tt>%key%</tt> (har redan innehåll)"
-"Skipped <tt>%key%</tt> (not checked)": "Hoppade över <tt>%key%</tt> (inte vald)"
-"Slug": "Permalänk"
-"Slug:": "Permalänk:"
-"Something went wrong": "Något blev fel"
-"Sophisticated, lightweight & simple CMS": "Sofistikerat, snabbt & smidigt CMS"
-"Stack": "Filhög"
-"Status:": "Status:"
-"Tag": "Tagg"
-"Tags": "Taggar"
-"Taxonomy": "Taxonomi"
-"Teaser": "Teaser"
-"Template": "Mall"
-"Textarea": "Textfält"
-"That user does not exist.": "Den användaren finns inte."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Bolts tilläggsbibliotek på %repository% går inte att nå för tillfället. Kontrollera din uppkoppling och försök igen."
-"The change log has been cleared.": "Ändringsloggen har blivit nollställd."
-"The change log has been trimmed.": "Ändringsloggen har blivit rensad."
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databasen behöver uppdateras/repareras. Gå till Konfigurering > '<a href=\"%link%\">Kontrollera Databas</a>' för att göra detta nu."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "Tilläggsmappen (<code>%dir%</code>) finns inte eller är inte skrivbar."
-"The field %field% has been changed to \"%newValue%\"": "Fältet %field% har ändrats till \"%newValue%\""
-"The file '%s' doesn't exist, or is not readable.": "Filen '%s' finns inte eller är inte läsbar."
+None: Ingen
+Not published: Inte publicerad
+"Note:": 'Notering:'
+Omnisearch: Multisök
+Options: Alternativ
+"Order: %sort%": 'Sortering: %sort%'
+Overview: Överblick
+Overview for: Överblick för
+Owner: Ägare
+"Owner:": 'Ägare:'
+Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.: Lösenordet återställdes ej! Antingen så har det gått för lång tid eller så försökte du återställa lösenordet från fel IP-adress.
+Password reset successful! You can now log on with the password that was sent to you via email.: Lösenordet återställdes! Du kan nu logga in med lösenordet som skickades till dig via mail.
+Path: Sökväg
+Path to image file: Sökväg till bildfilen
+"Path:": 'Sökväg:'
+Permalink: Permalänk
+Permissions: Rättigheter
+Place on stack: Lägg på filhögen
+"Please choose the record you want to link to:": 'Välj dokumentet du vill länka till:'
+Please enter a new file name!: Välj ett nytt filnamn!
+Please enter a new folder name!: Välj ett nytt mappnamn!
+Please log on.: Vänligen logga in.
+Please provide a username: Vänligen skriv in ett användarnamn
+Prefill database: Lägg till exempelinnehåll
+Preview: Förhandsgranska
+Profile: Profil
+"Provided by:": 'Tillhandahållet av:'
+"Publication date:": 'Publiceringsdatum:'
+Published: Publicerad
+"Published on:": 'Publicerad:'
+Read more: Läs mer
+Related content: Relaterat innehåll
+Relationships: Relationer
+"Rename %foldername%": 'Döp om %foldername%'
+Roles: Roller
+Roles and Permissions: Roller och Rättigheter
+Save & create new record: 'Spara & skapa nytt dokument'
+Save & return to overview: 'Spara & återgå till överblicken'
+"Saved on:": 'Sparad:'
+Saving …: Sparar …
+Search: Sök
+Search for …: Sök efter …
+"Search results for <b> %search% </b>.": 'Sökresultat för <b> %search% </b>.'
+Search …: Söker …
+Select: Välj
+Select a page: Välj en sida
+Select all: Välj alla
+Select file …: Välj fil …
+Select none: Välj inga
+Select zero or more pages: Välj en eller flera sidor
+Selectentry: Välj inlägg
+Selectfield: Välj fält
+Session expires: Session upphör
+Session resumed.: Session återupptagen.
+Settings: Inställningar
+Showing: Visar
+"Showing %pager_for% %from% - %to% of %count%": 'Visar %pager_for% %from% - %to% av %count%'
+Size: Storlek
+"Skipped <tt>%key%</tt> (already has records)": 'Hoppade över <tt>%key%</tt> (har redan innehåll)'
+"Skipped <tt>%key%</tt> (not checked)": 'Hoppade över <tt>%key%</tt> (inte vald)'
+Slug: Permalänk
+"Slug:": 'Permalänk:'
+Something went wrong: Något blev fel
+Sophisticated, lightweight & simple CMS: 'Sofistikerat, snabbt & smidigt CMS'
+Stack: Filhög
+"Status:": 'Status:'
+Tag: Tagg
+Tags: Taggar
+Taxonomy: Taxonomi
+Teaser: Teaser
+Template: Mall
+Textarea: Textfält
+That user does not exist.: Den användaren finns inte.
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": 'Bolts tilläggsbibliotek på %repository% går inte att nå för tillfället. Kontrollera din uppkoppling och försök igen.'
+The change log has been cleared.: Ändringsloggen har blivit nollställd.
+The change log has been trimmed.: Ändringsloggen har blivit rensad.
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Filen '%s' är inte skrivbar. Du måste använda din egen textredigerare för att göra ändringarna."
 "The folder '%s' could not be found, or is not readable.": "Mappen '%s' kunde inte hittas eller är inte läsbar."
-"The following file could not be read:": "Följande fil kunde inte läsas:"
+"The following file could not be read:": 'Följande fil kunde inte läsas:'
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
-"The requested changelog entry doesn't exist.": "Den begärda ändringsloggen finns inte."
-"The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
+The requested changelog entry doesn't exist.: Den begärda ändringsloggen finns inte.
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": 'Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>.'
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
-"The system log has been cleared.": "Systemloggen har blivit nollställd."
-"The system log has been trimmed.": "Systemloggen har blivit rensad."
+The system log has been cleared.: Systemloggen har blivit nollställd.
+The system log has been trimmed.: Systemloggen har blivit rensad.
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Översättningsfilen '%s' kunde inte skapas. Du behöver använda din egen textredigerare för att ändra på filen."
 "The translations file '%s' is not readable.": "Översättningsfilen '%s' är inte läsbar."
-"Theme successfully generated. You can now edit it directly from your theme folder.": "Temat har genererats. Du kan nu redigera det i din temamapp."
-"There are no items on the Stack, yet.": "Det finns inga filer på filhögen ännu."
-"There are no users in the database. Please create the first user.": "Det finns inga användare i databasen, vänligen skapa den första användaren."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Det finns inga användare i systemet. Vänligen skapa den första användaren, som kommer få root-privilegier."
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Det måste alltid finnas en 'root' användare. Du har just blivit befodrad. Grattis!"
-"This is a checkbox": "Detta är en Kryssruta"
-"This record is related to:": "Detta dokumentet är relaterat till:"
-"This template adds new fields. Save, then refresh to see these changes.": "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
+Theme successfully generated. You can now edit it directly from your theme folder.: Temat har genererats. Du kan nu redigera det i din temamapp.
+There are no items on the Stack, yet.: Det finns inga filer på filhögen ännu.
+There are no users in the database. Please create the first user.: Det finns inga användare i databasen, vänligen skapa den första användaren.
+There are no users present in the system. Please create the first user, which will be granted root privileges.: Det finns inga användare i systemet. Vänligen skapa den första användaren, som kommer få root-privilegier.
+There should always be at least one 'root' user. You have just been promoted. Congratulations!: "Det måste alltid finnas en 'root' användare. Du har just blivit befodrad. Grattis!"
+This is a checkbox: Detta är en Kryssruta
+"This record is related to:": 'Detta dokumentet är relaterat till:'
+This template adds new fields. Save, then refresh to see these changes.: Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
-"Time in 24h/12h format": "Tid i 24h/12h format"
-"Timed publish": "Tidsbaserad publicering"
-"Tip:": "Tips:"
-"Title": "Titel"
-"Translations": "Översättningar"
-"Trim Activitylog": "Rensa aktivitetslogg"
-"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan."
-"Types": "Typer"
-"Update the database": "Uppdatera databasen"
-"Upload a file to this folder": "Ladda upp en fil till denna mappen"
-"Upload file": "Ladda upp fil"
-"Upload image": "Ladda upp bild"
-"Upload": "Ladda upp"
-"Uploaded files": "Uppladdade filer"
-"Uploading to this folder is not allowed.": "Uppladdning till denna mappen är inte tillåtet."
-"Used Libraries / Components": "Använda Bibliotek / Komponenter"
+Time in 24h/12h format: Tid i 24h/12h format
+Timed publish: Tidsbaserad publicering
+"Tip:": 'Tips:'
+Title: Titel
+Translations: Översättningar
+Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.: 'Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan.'
+Types: Typer
+Update the database: Uppdatera databasen
+Upload: Ladda upp
+Upload a file to this folder: Ladda upp en fil till denna mappen
+Upload file: Ladda upp fil
+Upload image: Ladda upp bild
+Uploaded files: Uppladdade filer
+Uploading to this folder is not allowed.: Uppladdning till denna mappen är inte tillåtet.
+Used Libraries / Components: Använda Bibliotek / Komponenter
 "User '%s' could not be deleted.": "Användaren '%s' kunde inte raderas."
 "User '%s' could not be disabled.": "Användaren '%s' kunde inte deaktiveras."
 "User '%s' could not be enabled.": "Användaren '%s' kunde inte aktiveras."
 "User '%s' is deleted.": "Användaren '%s' är raderad."
 "User '%s' is disabled.": "Användaren '%s' är deaktiverad."
 "User '%s' is enabled.": "Användaren '%s' är aktiverad."
-"Username or password not correct. Please check your input.": "Användarnamnet eller lösenordet är inte korrekt."
-"Username": "Användarnamn"
-"Users": "Användare"
-"Video": "Video"
-"View (saved version) on site": "Se sparad version på sidan"
-"View Roles": "Se Roller"
-"View on site": "Se på sidan"
-"View related content": "Se relaterat innehåll"
-"View site": "Visa sida"
-"View/edit Templates": "Se/redigera Mallar"
-"Extensions": "Tillägg"
-"Warning": "Varning"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Vi kunde inte generera temat. Det är mycket troligt att din temamapp är skrivskyddad. Kontrollera rättigheterna och försök igen."
-"Written by <em>%name%</em> on %date%": "Skriven av <em>%name%</em>, %date%"
-"You do not have the right privileges to create a new record.": "Du har inte rättighet att skapa ett dokument."
-"You do not have the right privileges to edit that record.": "Du har inte rättighet att redigera det dokumentet."
-"You do not have the right privileges to view that page.": "Du har inte rättighet att se den sidan."
+Username: Användarnamn
+Username or password not correct. Please check your input.: Användarnamnet eller lösenordet är inte korrekt.
+Users: Användare
+Video: Video
+View (saved version) on site: Se sparad version på sidan
+View Roles: Se Roller
+View on site: Se på sidan
+View related content: Se relaterat innehåll
+View site: Visa sida
+View/edit Templates: Se/redigera Mallar
+Warning: Varning
+We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.: Det gick inte att generera temat. Det är troligt att din tema katalog inte är skrivbar av bolt. Kontrollera rättigheterna och försök igen.
+"Written by <em>%name%</em> on %date%": 'Skriven av <em>%name%</em>, %date%'
+You do not have the right privileges to edit that record.: Du har inte rättighet att redigera det dokumentet.
+You do not have the right privileges to view that page.: Du har inte rättighet att se den sidan.
 "You don't have correct permissions to edit the file '%s'.": "Du har inte rättighet att redigera filen '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "Du har inte rättighet att visa filen eller mappen '%s'."
-"You have been logged out.": "Du har blivit utloggad."
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det."
-"You must specify both a name and a version to install!": "Du måste ange både ett namn och en version för att installera!"
+You have been logged out.: Du har blivit utloggad.
+You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.: Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det.
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Du bör ställa in 'homepage:' i 'app/config/config.yml' till ett skapat dokument. Se till att dokumentet är publicerat, annars kommer det inte visas."
-"You've been logged on successfully.": "Du är nu inloggad."
-"Your account is disabled. Sorry about that.": "Ditt konto är dekativerat. Ursäkta."
-"Your database is already up to date.": "Din databas är redan uppdaterad."
-"Your database is now up to date.": "Din databas är nu uppdaterad."
-"[Extension error] Initialisation failed for %ext%: %error%": "[Tilläggsfel error] Initialisation failed for %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extension error] Snippet loading failed for %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extension error] Twig function registration failed for %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extension error] YAML config failed to load for %ext%: %error%"
-"and edited": "och redigerad"
-"back to editing": "tillbaka till redigering"
-"by": "av"
-"in:": "i:"
-"line": "linje"
-"no content …": "inget innehåll …"
-"no title …": "ingen titel …"
-"none": "ingen"
-"of": "av"
-"show all": "visa alla"
-contenttypes.general.choose-an-entry: "Välj ett inlägg"
-general.about-bolt: "Om Bolt"
-general.about: "Om"
-general.bolt-documentation-on-github: "Boltdokumentationen på GitHub"
-general.bolt-on-github: "Bolt på GitHub"
-general.thanks: "Tack"
-
-logs.change-log: "Ändringslogg"
-logs.system-log: "Systemlogg"
-menu.configuration.routing: "Routing"
-page.extend.button.info-help: "Mer info/hjälp"
-page.extend.headline.currently-installed: "Installerade tillägg"
-page.extend.headline.install-new-extension: "Installera ett nytt tillägg"
-page.extend.headline.installation-complete: "Installation slutförd"
-page.extend.headline.installing-package: "Installerar paket"
-page.extend.headline.stable-versions: "Stabila versioner"
-page.extend.headline.test-versions: "Instabila testversioner"
-page.extend.headline.theme-installation-complete: "Temainstallationen är färdig"
-page.extend.headline.updates: "Uppdateringar"
-page.extend.listheader.actions: "Åtgärder"
-page.extend.listheader.extension: "Tillägg"
-page.extend.listheader.status: "Status"
-page.extend.listheader.version: "Version"
-page.extend.message.add-extension-with-form: "Lägg till ett tillägg med formuläret nedan."
-page.extend.message.before-theme-start: "Innan du kan börja använda temat på din sida behöver vi kopiera till din temamapp. Ifall du vill ge temat ett alternativt namn kan du ange det här."
-page.extend.message.check-for-updates: "Kolla efter uppdateringar"
-page.extend.message.checking-installed-packages: "Kontrollerar installerade paket"
-page.extend.message.checkung-for-updates: "Kollar efter tillgängliga uppdateringar (detta kan ta upp till 60 sekunder)"
-page.extend.message.compatible-unstable-versions: "Versionerna listade nedan är kompatibla med din version av bolt. Eftersom att de är instabila versioner rekommenderar vi att du <strong>inte</strong> använder dessa på produktionssystem."
-page.extend.message.copying: "Kopierar temats resurser …"
-page.extend.message.discover-by-visiting: "Du kan hitta nya tilläg genom att besöka"
-page.extend.message.install-all-updates: "Installera alla uppdateringar"
-page.extend.message.install-all: "Kör installering av alla paket …"
-page.extend.message.installing-selected-package: "Installerar den valda paketversionen (detta kan ta upp till 60 sekunder)."
-page.extend.message.installing: "Förbereder för att installera paket …"
-page.extend.message.installs-all-listed-packages: "Detta kommer se till att alla listade paket är installerade. Använd detta om du just har flyttat till en ny server eller manuellt lagt till ett tillägg."
-page.extend.message.installs-updates: "Detta kommer installera alla uppdateringar."
-page.extend.message.marked-as-stable: "Versionerna listade nedan är markerade som stabila av utvecklaren och är kompatibla med din version av bolt."
-page.extend.message.no-package-check-in-readmode: "Kan inte kontrollera installerade paket i skrivskyddat läge"
-page.extend.message.no-stable-versions-available: "Inga stabila versioner tillgängliga"
-page.extend.message.no-test-versions-available: "Inga testversioner tillgängliga"
-page.extend.message.no-update-check-in-readmode: "Kan inte kolla efter uppdateringar i skrivskyddat läge"
-page.extend.message.overwrite: "Detta kommer skriva över eventuellt existerande filer! Är du säker?"
-page.extend.message.removing: "Förbereder för att ta bort paket …"
-page.extend.message.shows-updates: "Detta kommer inte installera någonting, endast visa dig potentiella uppdateringar"
-page.extend.message.start-using-extension: "Du kan nu börja använda tillägget, dokumentation och implementerings instruktioner finns via länken nedan."
-page.extend.message.updated: "Allting är uppdaterat!"
-page.extend.message.updating: "Söker efter uppdateringar …"
-page.extend.pagetitle: "Utöka %BOLTNAME%"
-users.actions-for-users: "Åtgärder för Användare"
-users.your-password: "Ditt lösenord"
-#--- 132 keyword based translations -------------------------------------------
-
+You've been logged on successfully.: Du är nu inloggad.
+Your account is disabled. Sorry about that.: Ditt konto är dekativerat. Ursäkta.
+Your database is already up to date.: Din databas är redan uppdaterad.
+Your database is now up to date.: Din databas är nu uppdaterad.
+and edited: och redigerad
+back to editing: tillbaka till redigering
+by: av
+general.about: Om
+general.about-bolt: Om Bolt
+general.bolt-documentation: Bolt dokumentation
+general.bolt-on-github: Bolt på GitHub
+general.visit-bolt: Besök Bolt.cm
+line: linje
+logs.change-log: Ändringslogg
+logs.system-log: Systemlogg
+no content …: inget innehåll …
+no title …: ingen titel …
+none: ingen
+of: av
+show all: visa alla
+users.actions-for-users: Åtgärder för Användare
+users.your-password: Ditt lösenord
 component:
-    changelog-detail:
-        by: "av"
-        field: "Fält"
-        value-new: "Nytt värde"
-        value-old: "Gammalt värde"
-    changelog-pager:
-        page: "Sida"
-
+  changelog-detail:
+    by: av
+    field: Fält
+    value-new: Nytt värde
+    value-old: Gammalt värde
+  changelog-pager:
+    page: Sida
 contenttypes:
-    generic:
-        actions-all: "Åtgärder för %contenttypes%"
-        actions-one: "Åtgärder för denna %contenttype%"
-        created: "Denna %contenttype% skapades"
-        delete: "Radera %contenttype%"
-        duplicate: "Duplicera %contenttype%"
-        duplicated-finalize: "Innehållet duplicerades. Klicka på 'Spara %contenttype%' för att spara."
-        edit: "Redigera %contenttype%"
-        error-saving: "Det uppstode ett fel när vi sparade %contenttype%."
-        group:
-            meta: "Metadata"
-            relations: "Relationer"
-            taxonomy: "Taxonomi"
-            ungrouped: "Ickegrupperad"
-        invalid-field: "Kan inte sätta %field% i %contenttype%: Inte ett giltigt fält."
-        last-modified: "Senast redigerade %contenttypes%"
-        new: "Ny %contenttype%"
-        no-latest: "Inga senaste %contenttype%"
-        no-proper-type: "I innehållstypen '%contenttype%', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
-        no-recent: "Inga nyligen redigerade %contenttype%."
-        none-available: "Inga %contenttypes%."
-        not-existing: "%contenttype% du letade efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits."
-        not-saved-yet: "Denna %contenttype% har inte blivit sparad."
-        overview: "%contenttypes% överblick"
-        publish: "Publicera %contenttype%"
-        recent: "Senaste %contenttypes%"
-        recently-edited: "Nyligen redigerade %contenttypes%"
-        recent-changes-one: "Senaste ändringar på denna %contenttype%"
-        reserved-name: "I innehållstypen '%contenttype%', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
-        save: "Spara %contenttype%"
-        saved-changes: "Ändringarna i %contenttype% är sparade."
-        saved-new: "Ny %contenttype% sparad."
-        saving-impossible: "Kunde inte spara %contenttype%."
-        show-more: "Fler %contenttypes%"
-        view: "Se %contenttypes%"
-        wrong-use-field: "I innehållstypen '%contenttype%', fältet '%field%' har 'uses: %uses%', men fältet '%uses%' finns inte. Redigera contenttypes.yml för att lösa det."
-
+  generic:
+    actions-all: 'Åtgärder för %contenttypes%'
+    actions-one: 'Åtgärder för denna %contenttype%'
+    created: 'Denna %contenttype% skapades'
+    delete: 'Radera %contenttype%'
+    duplicate: 'Duplicera %contenttype%'
+    duplicated-finalize: "Innehållet duplicerades. Klicka på 'Spara %contenttype%' för att spara."
+    edit: 'Redigera %contenttype%'
+    group:
+      meta: Metadata
+      relations: Relationer
+      taxonomy: Taxonomi
+      template: Mall
+      ungrouped: Ickegrupperad
+    invalid-field: 'Kan inte sätta %field% i %contenttype%: Inte ett giltigt fält.'
+    invalid-relation: "I innehållstypen för '%contenttype%' definieras relationen '%relation%', som inte är en giltig innehållstyp. Redigera contenttypes.yml, och korrigera detta."
+    last-modified: 'Senast redigerade %contenttypes%'
+    new: 'Ny %contenttype%'
+    no-latest: 'Inga senaste %contenttype%'
+    no-proper-type: "I innehållstypen '%contenttype%', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
+    no-recent: 'Inga nyligen redigerade %contenttype%.'
+    none-available: 'Inga %contenttypes%.'
+    not-existing: '%contenttype% du letade efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits.'
+    not-saved-yet: 'Denna %contenttype% har inte blivit sparad.'
+    overview: '%contenttypes% överblick'
+    publish: 'Publicera %contenttype%'
+    recent: 'Senaste %contenttypes%'
+    recent-changes-one: 'Senaste ändringar på denna %contenttype%'
+    recently-edited: 'Nyligen redigerade %contenttypes%'
+    reserved-name: "I innehållstypen '%contenttype%', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
+    save: 'Spara %contenttype%'
+    saved-changes: 'Ändringarna i %contenttype% är sparade.'
+    saved-new: 'Ny %contenttype% sparad.'
+    saving-impossible: 'Kunde inte spara %contenttype%.'
+    show-more: 'Fler %contenttypes%'
+    view: 'Se %contenttypes%'
+    wrong-use-field: "I innehållstypen '%contenttype%', fältet '%field%' har 'uses: %uses%', men fältet '%uses%' finns inte. Redigera contenttypes.yml för att lösa det."
 field:
-    general:
-        allowed-filetypes: "Tillåtna filtyper är:"
-        select-from-server: "Välj från server"
-        select-from-stack: "Välj från filhögen"
-    geolocation:
-        label:
-            address-lookup: "Adress"
-            latitude: "Latitud"
-            longitude: "Longitud"
-            marker-placement: "Markerings plats"
-        matched-address: "Hittad adress"
-        marker: "Nål"
-        placeholder:
-            address: "Gata, postkod, stad eller annan plats"
-    slug:
-        permalink: "Permalänk"
-    video:
-        button:
-            preview: "Förhandsgranska"
-        label:
-            preview: "Förhandsgranska bild"
-            size: "Storlek"
-            url: "Länk till videon"
-        matched-video: "Hittad video"
-        pixel: "pixel"
-        placeholder:
-            url: "URL till videon på youtube, vimeo eller annan videosite"
-        preview:
-            button.close: "Stäng"
-            no-url: "Ingen url inskriven, därmed ingen video att visa."
-
+  general:
+    allowed-filetypes: 'Tillåtna filtyper är:'
+    select-from-server: Välj från server
+    stack: Filhög
+  geolocation:
+    label:
+      address-lookup: Adress
+      latitude: Latitud
+      longitude: Longitud
+      marker-placement: Markerings plats
+      snap: Fäst till närmaste adress
+    matched-address: Hittad adress
+    placeholder:
+      address: Gata, postkod, stad eller annan plats
+  markdown:
+    label:
+      markedview: Markdown
+      preview: Förhandsgranska
+  slug:
+    button:
+      edit: Redigera
+      link: 'Länka till:'
+      lock: Lås
+    message:
+      warning: Redigering av detta fältet kan bryta befintliga länkar till detta inlägg!
+    permalink: Permalänk
+    unique-alias: Unikt alias
+  video:
+    label:
+      preview: Förhandsgranska bild
+      size: Storlek
+      url: Länk till videon
+    matched-video: Hittad video
+    pixel: pixel
+    placeholder:
+      url: URL till videon på youtube, vimeo eller annan videosite
 generic:
-    noscript:
-        headline: "JavaScript är avstängt"
-        message: "JavaScript är avstängt i din webbläsare. Bolt kräver JavaScript för att fungera korrekt och ifall du fortsätter utan JavaScript så kan du förlora data."
-
+  noscript:
+    headline: JavaScript är avstängt
+    message: JavaScript är avstängt i din webbläsare. Bolt kräver JavaScript för att fungera korrekt och ifall du fortsätter utan JavaScript så kan du förlora data.
+menu:
+  configuration:
+    routing: 'Routing & url:er'
 page:
-    extend:
-        button:
-            update-check: "Kolla efter uppdateringar"
-            update-all: "Uppdatera allt"
-            install-all: "Uppdatera alla paket"
-            browse-versions: "Se Versioner"
-    ckeditor-browse-server:
-        files: "Filer"
-        folders: "Mappar"
-        modified: "Modifierad"
-        pixel: "px."
-        size: "Filstorlek"
-        title: "Filer"
-    dashboard:
-        button:
-            add: "Lägg till …"
-        empty-database: "Det verkar inte finnas något innehåll i databasen."
-        quickstart: "För att komma igång snabbt <a href='%url%'>lägg till lite exempelinnehåll</a>."
-        title: "Översikt"
-    edit-file:
-        button:
-            revert: "Ångra ändringar"
-            save: "Spara"
-        confirm-revert: "Är du säker på att du vill ångra ändringarna? Osparade ändringar kommer att förloras."
-        note-related: "Denna filen har relaterade filer:"
-        title:
-            edit: "Redigera fil"
-            view: "Se fil"
-    edit-locale:
-        button:
-            save: "Spara"
-        title:
-            edit: "Redigera fil"
-            view: "Se fil"
-    edit-users:
-        activated:
-            no: "nej"
-            yes: "ja"
-        button:
-            save: "Spara användare"
-        error:
-            displayname-used: "Visningsnamnet används redan, välj ett annat visningsnamn."
-            email-used: "Den mailadressen används redan, välj en annan mailadress"
-            password-mismatch: "Lösenorden måste stämma överrens."
-            password-short: "Lösenordet är för kort. Lösenord måste vara minst 6 bokstäver långt."
-            username-used: "Användarnamn används redan, välj ett annat användarnamn."
-            password-different-username: "Lösenordet får inte vara samma som användarnamn."
-        label:
-            assigned-roles: "Tilldelade roller"
-            display-name: "Visningsnamnet"
-            email: "Email"
-            last-ip: "Senaste IP"
-            last-seen: "Senast inloggning"
-            password: "Lösenord"
-            password-confirm: "Lösenord (bekräfta)"
-            user-enabled: "Kontot är aktiverat"
-            username: "Användarnamn"
-        log:
-            user-added: "´Skapat användaren '%user%'."
-            user-updated: "Uppdaterat användaren '%user%'."
-        message:
-            saving-user: "Användaren %user% kunde inte sparas, eller så har inget sparats."
-            user-saved: "Användaren %user% har sparats."
-            change-self: "Du har blivit utloggad för att du bytte ditt eget användarnamn. Vänligen logga in igen"
-        note-sqlite: "Du använder SQLite för den första användaren. Om du vill använda MySQL eller PostgreSQL istället, redigera filen <tt>'app/config/config.yml'</tt> och ladda om denna sidan så kommer bolt att sätta upp databastabellerna för dig.."
-        placeholder:
-            displayname: "Välj ett användarnamn / alias"
-            email: "Skriv in en giltig emailadress"
-            password: "Skriv in ett lösenord, längre än 6 tecken"
-            password-confirm: "Bekräfta lösenordet"
-            username: "Välj ett användarnamn, endast gemener"
-        title:
-            create: "Skapa en ny användare"
-            edit: "Redigera användare"
-            profile: "Profil"
-        user-create: "Skapa ett nytt användarkonto, med formuläret nedan. Lösenordsfältet krävs."
-        user-edit: "Redigera ett användarkonto, med formuläret nedan. Lämna lösenordsfälten tomma om du inte vill byta lösenord."
-    login:
-        button:
-            back: "Tillbaka till login"
-            forgot-password: "Jag har glömt mitt lösenord …"
-            log-on: "Login"
-            reset-password: "Återställ mitt lösenord"
-        cookies-required: "Meddelande: Cookies krävs för att logga in i bolt."
-        label:
-            password: "Lösenord"
-            username: "Användarnamn / email"
-        password-hide: "Dölj"
-        password-show: "Visa"
-        placeholder:
-            password: "Ditt användarnamn"
-        title: "Logga in till bolt"
-
+  ckeditor-browse-server:
+    files: Filer
+    folders: Mappar
+    modified: Modifierad
+    pixel: px.
+    size: Filstorlek
+    title: Filer
+  dashboard:
+    button:
+      add: Lägg till …
+    empty-database: Det verkar inte finnas något innehåll i databasen.
+    quickstart: "För att komma igång snabbt <a href='%url%'>lägg till lite exempelinnehåll</a>."
+    title: Översikt
+  edit-file:
+    button:
+      revert: Ångra ändringar
+      save: Spara
+    confirm-revert: Är du säker på att du vill ångra ändringarna? Osparade ändringar kommer att förloras.
+    note-related: 'Denna filen har relaterade filer:'
+    title:
+      edit: Redigera fil
+      view: Se fil
+  edit-locale:
+    button:
+      save: Spara
+    title:
+      edit: Redigera fil
+      view: Se fil
+  edit-users:
+    activated:
+      "no": nej
+      "yes": ja
+    button:
+      save: Spara användare
+    error:
+      displayname-used: Visningsnamnet används redan, välj ett annat visningsnamn.
+      email-used: Den mailadressen används redan, välj en annan mailadress
+      password-different-displayname: Lösenordet får inte vara en del av visningsnamnet.
+      password-different-username: Lösenordet får inte vara samma som användarnamn.
+      password-mismatch: Lösenorden måste stämma överrens.
+      password-short: Lösenordet är för kort. Lösenord måste vara minst 6 bokstäver långt.
+      username-used: Användarnamn används redan, välj ett annat användarnamn.
+    label:
+      assigned-roles: Tilldelade roller
+      display-name: Visningsnamnet
+      email: E-post
+      last-ip: Senaste IP
+      last-seen: Senast inloggning
+      password: Lösenord
+      password-confirm: Lösenord (bekräfta)
+      user-enabled: Kontot är aktiverat
+      username: Användarnamn
+    log:
+      user-added: "´Skapat användaren '%user%'."
+      user-updated: "Uppdaterat användaren '%user%'."
+    message:
+      change-self: Du har blivit utloggad för att du bytte ditt eget användarnamn. Vänligen logga in igen
+      saving-user: 'Användaren %user% kunde inte sparas, eller så har inget sparats.'
+      user-saved: 'Användaren %user% har sparats.'
+    note-sqlite: "Du använder SQLite för den första användaren. Om du vill använda MySQL eller PostgreSQL istället, redigera filen <tt>'app/config/config.yml'</tt> och ladda om denna sidan så kommer bolt att sätta upp databastabellerna för dig.."
+    placeholder:
+      displayname: Välj ett användarnamn / alias
+      email: Skriv in en giltig emailadress
+      password: Skriv in ett lösenord, längre än 6 tecken
+      password-confirm: Bekräfta lösenordet
+      username: Välj ett användarnamn, endast gemener
+    title:
+      create: Skapa en ny användare
+      edit: Redigera användare
+      profile: Profil
+    user-create: Skapa ett nytt användarkonto, med formuläret nedan. Lösenordsfältet krävs.
+    user-edit: Redigera ett användarkonto, med formuläret nedan. Lämna lösenordsfälten tomma om du inte vill byta lösenord.
+  extend:
+    button:
+      autoload-dump: Återbygg Autoloader
+      browse-versions: Se Versioner
+      config: Konfiguration
+      copy-to-theme-folder: Kopiera till temamappen
+      info-help: Mer information/hjälp
+      install-all: Uppdatera alla paket
+      install-package: Installera tillägg
+      install-this-version: Installera den här versionen
+      readme: Readme
+      show-all-versions: Visa alla versioner
+      uninstall: Avinstallera
+      update-all: Uppdatera allt
+      update-check: Kolla efter uppdateringar
+      update-package: Uppdatera paket
+      versions: Versioner
+    headline:
+      currently-installed: Dina installerade tillägg
+      install-new-extension: Installera ett nytt tillägg
+      installation-complete: Installation slutförd
+      installing-package: Installera tillägg
+      latest-version: Senaste stabila versionen
+      stable-versions: Stabila versioner
+      test-versions: Instabila testversioner
+      theme-installation-complete: Temainstallation klar
+      updates: Uppdateringar
+    listheader:
+      actions: Åtgärder
+      extension: Tillägg
+      status: Status
+      version: Version
+    message:
+      add-extension-with-form: Lägg till ett nytt tillägg via formuläret nedan.
+      autoload-dump: Detta kommer att bygga om både autoload filer och cache.
+      bad-json: JSON svar med fel format. Kontrollera att debug är av och att ingen annan kod läggs till i svaret
+      before-theme-start: Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here.
+      check-for-updates: Sök efter uppdateringar
+      checking-installed-packages: Checking installed packages
+      checkung-for-updates: Checking for available updates (this may take up to 60 seconds)
+      compatible-unstable-versions: 'The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.'
+      confirm-remove: Please confirm that you want to remove this extension?
+      copying: Kopierar temafiler…
+      discover-by-visiting: Du kan hitta fler tillägg genom att besöka
+      ext-dir-missing: 'The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>).'
+      install-all: Kör installation av alla tillägg…
+      installing: Förbereder för att installera tillägg…
+      installing-selected-package: Installerar den valda tilläggsversionen (detta kan ta upp till 60 sekunder).
+      installs-all-listed-packages: Detta installerar alla tillägg som inte är installerade Använd detta om du har nyligen flyttat till en ny server eller om du har manuellt lagt till ett tillägg.
+      installs-updates: Detta kommer att installera alla tillgängliga uppdateringar.
+      latest-version: De versioner som anges nedan är markerade som stabila versioner av utvecklaren och är kompatibla med versionen av bolt du använder.
+      loading-disabled: 'Tilläggsladdning har inaktiverats av en administratör i filen %CONFIG%. Du kan installera, uppdatera och avinstallera tillägg men de kommer inte att laddas förrän denna inställning har ändrats.'
+      maintenance: Underhåll
+      marked-as-stable: De versioner som anges nedan är markerade som stabila versioner av utvecklaren och är kompatibla med versionen av bolt du använder.
+      no-bolt-extensions-installed: Inga bolttillägg installerade.
+      no-package-check-in-readmode: Går inte att kontrollera installerade tillägg i skrivskyddat läge
+      no-stable-versions-available: Inga stabila versioner tillgängliga
+      no-test-versions-available: Inga testversioner tillgängliga
+      no-update-check-in-readmode: Kan inte söka efter uppdateringar i skrivskyddat läge
+      overwrite: Detta kommer att skriva över befintliga filer! Är du säker?
+      removing: Förbereder att ta bort paketet…
+      running-update: Kör uppdateringar…
+      shows-updates: Detta kommer inte att installera något, bara visa dig tillgängliga uppdateringar
+      start-using-extension: Nu kan du börja använda det installerade tillägget, dokumentation och readme hittas via länkarna nedan.
+      updated: Allt är uppdaterat!
+      updating: Söker efter tillgängliga uppdateringar…
+    pagetitle: '%BOLTNAME% tillägg'
+  login:
+    button:
+      back: Tillbaka till login
+      forgot-password: Jag har glömt mitt lösenord …
+      log-on: Login
+      reset-password: Återställ mitt lösenord
+    cookies-required: 'Meddelande: Cookies krävs för att logga in i bolt.'
+    label:
+      password: Lösenord
+      username: Användarnamn / email
+    password-hide: Dölj
+    password-show: Visa
+    placeholder:
+      password: Ditt användarnamn
+    title: Logga in till bolt
 panel:
-    latest-activity:
-        button:
-            more: "Mer aktivitet"
-        by: "av"
-        change: "Senaste ändringar"
-        logged-in: "Loggade in"
-        logged-out: "Loggade ut"
-        created: "Skapad"
-        saved: "Sparad"
-        system: "Senaste systemaktivitet"
-        deleted: "Raderad"
-        unknown: "okänd"
-    user-actions:
-        button:
-            add: "Lägg till en ny användare"
+  latest-activity:
+    button:
+      more: Mer aktivitet
+    by: av
+    change: Senaste ändringar
+    created: Skapad
+    deleted: Raderad
+    logged-in: Loggade in
+    logged-out: Loggade ut
+    saved: Sparad
+    system: Senaste systemaktivitet
+    unknown: okänd
+  user-actions:
+    button:
+      add: Lägg till en ny användare

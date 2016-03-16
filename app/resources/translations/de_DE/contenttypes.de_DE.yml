@@ -1,137 +1,116 @@
-# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2015-05-18 11:09:08 UTC
-
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
-
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-#  no translations
-# 106 keyword based translations
-
-#--- 106 keyword based translations -------------------------------------------
-
+---
+contenttypes.pages.group.content: Inhalt
 contenttypes:
-    entries:
-        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
-        group:
-            content: "Inhalt"
-            media: "Medien"
-        name:
-            plural: "Einträge"
-            singular: "Eintrag"
-        text:
-            actions-all: "Aktionen für Einträge"
-            actions-one: "Aktionen für diesen Eintrag"
-            created: "Dieser Eintrag wurde erstellt"
-            delete: "Eintrag löschen"
-            duplicate: "Eintrag kopieren"
-            duplicated-finalize: "Inhalt wurde kopiert. Zum Beenden „Eintrag speichern“ klicken."
-            edit: "Bearbeite Eintrag"
-            error-saving: "Es gab einen Fehler beim Speichern des Eintrags."
-            invalid-field: "Kann %field% im Eintrag nicht setzen. Kein gültiges Feld."
-            last-modified: "Zuletzt geänderte Einträge"
-            new: "Neuer Eintrag"
-            no-latest: "Keine neuesten Einträge"
-            no-proper-type: "Beim Datentyp „Einträge“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
-            no-recent: "Keine letzen Einträge"
-            none-available: "Keine Einträge verfügbar"
-            not-existing: "Der Eintrag ist nicht vorhanden. Entweder wurde dieser gelöscht, oder hat nie existiert."
-            not-saved-yet: "Dieser Eintrag wurde noch nicht gespeichert."
-            overview: "Übersicht Einträge"
-            publish: "Eintrag veröffentlichen"
-            recent: "Letzte Einträge"
-            recent-changes-one: "Neueste Änderungen an Eintrag"
-            recently-edited: "Zuletzt bearbeitete Einträge"
-            reserved-name: "Beim Datentyp „Einträge“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
-            save: "Eintrag speichern"
-            saved-changes: "Die Änderungen an diesem Eintrag wurden gespeichert."
-            saved-new: "Der neue Eintrag wurde gespeichert."
-            saving-impossible: "Konnte den Eintrag nicht speichern."
-            show-more: "weitere Einträge"
-            view: "Einträge anzeigen"
-            wrong-use-field: "Beim Datentyp „Einträge“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
-    pages:
-        description: "Der Datentyp **Seiten** kann für eher „statische“ Seiten Ihrer Webseite verwendet werden, wie beispielsweise _„Über uns“_, _„Kontakt“_ oder eine _„Haftungsablehnung“_. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
-        group:
-            content: "Inhalt"
-        name:
-            plural: "Seiten"
-            singular: "Seite"
-        text:
-            actions-all: "Aktionen für Seiten"
-            actions-one: "Aktionen für diese Seite"
-            created: "Die Seite wurde erstellt"
-            delete: "Seite löschen"
-            duplicate: "Seite kopieren"
-            duplicated-finalize: "Inhalt wurde kopiert. Zum Beenden „Seite speichern“ klicken."
-            edit: "Seite bearbeiten"
-            error-saving: "Konnte die Seite nicht speichern."
-            invalid-field: "Kann %field% in der Seite nicht setzen. Kein gültiges Feld."
-            last-modified: "Zuletzt geänderte Seiten"
-            new: "Neue Seite"
-            no-latest: "Keine neueste Seite"
-            no-proper-type: "Beim Datentyp „Seiten“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
-            no-recent: "Keine letzte Seite"
-            none-available: "Keine Seiten verfügbar"
-            not-existing: "Diese Seite ist nicht vorhanden. Entweder wurde diese gelöscht, oder hat nie existiert."
-            not-saved-yet: "Diese Seite wurde noch nicht gespeichert."
-            overview: "Seiten Übersicht"
-            publish: "Seite veröffentlichen"
-            recent: "Letzte Seiten"
-            recent-changes-one: "Neueste Änderungen an Seite"
-            recently-edited: "Zuletzt bearbeitete Seiten"
-            reserved-name: "Beim Datentyp „Seiten“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
-            save: "Seite speichern"
-            saved-changes: "Die Änderungen an dieser Seite wurden gespeichert."
-            saved-new: "Die neue Seite wurde gespeichert."
-            saving-impossible: "Konnte Seite nicht speichern."
-            show-more: "weitere Seiten"
-            view: "Seiten anzeigen"
-            wrong-use-field: "Beim Datentyp „Seiten“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
-    showcases:
-        description: "Der Datentyp **Showcases** zeigt alle verfügbaren Feldtypen auf. Praktisch eher weniger von Nutzen, aber geeignet um etwas über die verfügaren Felder und ihre Verwendung zu lernen. Um die Felder dieses Datentyps zu ändern bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
-        group:
-            files: "Dateien"
-            media: "Medien"
-            other: "Sonstiges"
-            text: "Text"
-        name:
-            plural: "Showcases"
-            singular: "Showcase"
-        text:
-            actions-all: "Aktionen für Showcases"
-            actions-one: "Aktionen für diesen Showcase"
-            created: "Showcase wurde erstellt"
-            delete: "Showcase löschen"
-            duplicate: "Showcase kopieren"
-            duplicated-finalize: "Inhalt kopiert. Zum Fertigstellen „Showcase speichern“ klicken."
-            edit: "Showcase bearbeiten"
-            error-saving: "Fehler beim Speichern von Showcase."
-            invalid-field: "Kann %field% in Showcase nicht setzen. Kein gültiges Feld."
-            last-modified: "Zuletzt bearbeitete Showcases"
-            new: "Showcase erstellen"
-            no-latest: "Keine neuesten Showcase"
-            no-proper-type: "Beim Datentyp „Showcases“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
-            no-recent: "Keine letzten Showcase"
-            none-available: "Keine Showcases."
-            not-existing: "Der gesuchte Datentyp „Showcase“ konnte nicht gefunden werden."
-            not-saved-yet: "Showcase wurde noch nicht gespeichert."
-            overview: "Showcases Übersicht"
-            publish: "Showcase veröffentlichen"
-            recent: "Neue Showcases"
-            recent-changes-one: "Neueste Änderungen an Showcase"
-            recently-edited: "Kürzlich bearbeitete Showcases"
-            reserved-name: "Beim Datentyp „Showcases“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
-            save: "Showcase speichern"
-            saved-changes: "Die Änderungen am Showcase wurden gespeichert."
-            saved-new: "Neuer Showcase wurde gespeichert."
-            saving-impossible: "Konnte Showcase nicht speichern."
-            show-more: "Weitere Showcases"
-            view: "Showcases anzeigen"
-            wrong-use-field: "Beim Datentyp „Showcases“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren."
+  entries:
+    description: 'Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite.'
+    group:
+      content: Inhalt
+      media: Medien
+    name:
+      plural: Einträge
+      singular: Eintrag
+    text:
+      actions-all: Aktionen für Einträge
+      actions-one: Aktionen für diesen Eintrag
+      created: Dieser Eintrag wurde erstellt
+      delete: Eintrag löschen
+      duplicate: Eintrag kopieren
+      duplicated-finalize: Inhalt wurde kopiert. Zum Beenden „Eintrag speichern“ klicken.
+      edit: Bearbeite Eintrag
+      error-saving: Es gab einen Fehler beim Speichern des Eintrags.
+      invalid-field: 'Kann %field% im Eintrag nicht setzen. Kein gültiges Feld.'
+      last-modified: Zuletzt geänderte Einträge
+      new: Neuer Eintrag
+      no-latest: Keine neuesten Einträge
+      no-proper-type: 'Beim Datentyp „Einträge“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'
+      no-recent: Keine letzen Einträge
+      none-available: Keine Einträge verfügbar
+      not-existing: Der Eintrag ist nicht vorhanden. Entweder wurde dieser gelöscht, oder hat nie existiert.
+      not-saved-yet: Dieser Eintrag wurde noch nicht gespeichert.
+      overview: Übersicht Einträge
+      publish: Eintrag veröffentlichen
+      recent: Letzte Einträge
+      recently-edited: Zuletzt bearbeitete Einträge
+      reserved-name: 'Beim Datentyp „Einträge“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist.'
+      save: Eintrag speichern
+      saved-changes: Die Änderungen an diesem Eintrag wurden gespeichert.
+      saved-new: Der neue Eintrag wurde gespeichert.
+      saving-impossible: Konnte den Eintrag nicht speichern.
+      show-more: weitere Einträge
+      view: Einträge anzeigen
+      wrong-use-field: 'Beim Datentyp „Einträge“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'
+  pages:
+    description: 'Der Datentyp **Seiten** kann für eher „statische“ Seiten Ihrer Webseite verwendet werden, wie beispielsweise _„Über uns“_, _„Kontakt“_ oder eine _„Haftungsablehnung“_. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite.'
+    name:
+      plural: Seiten
+      singular: Seite
+    text:
+      actions-all: Aktionen für Seiten
+      actions-one: Aktionen für diese Seite
+      created: Die Seite wurde erstellt
+      delete: Seite löschen
+      duplicate: Seite kopieren
+      duplicated-finalize: Inhalt wurde kopiert. Zum Beenden „Seite speichern“ klicken.
+      edit: Seite bearbeiten
+      error-saving: Konnte die Seite nicht speichern.
+      invalid-field: 'Kann %field% in der Seite nicht setzen. Kein gültiges Feld.'
+      last-modified: Zuletzt geänderte Seiten
+      new: Neue Seite
+      no-latest: Keine neueste Seite
+      no-proper-type: 'Beim Datentyp „Seiten“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'
+      no-recent: Keine letzte Seite
+      none-available: Keine Seiten verfügbar
+      not-existing: Diese Seite ist nicht vorhanden. Entweder wurde diese gelöscht, oder hat nie existiert.
+      not-saved-yet: Diese Seite wurde noch nicht gespeichert.
+      overview: Seiten Übersicht
+      publish: Seite veröffentlichen
+      recent: Letzte Seiten
+      recently-edited: Zuletzt bearbeitete Seiten
+      reserved-name: 'Beim Datentyp „Seiten“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist.'
+      save: Seite speichern
+      saved-changes: Die Änderungen an dieser Seite wurden gespeichert.
+      saved-new: Die neue Seite wurde gespeichert.
+      saving-impossible: Konnte Seite nicht speichern.
+      show-more: weitere Seiten
+      view: Seiten anzeigen
+      wrong-use-field: 'Beim Datentyp „Seiten“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'
+  showcases:
+    description: 'Der Datentyp **Showcases** zeigt alle verfügbaren Feldtypen auf. Praktisch eher weniger von Nutzen, aber geeignet um etwas über die verfügaren Felder und ihre Verwendung zu lernen. Um die Felder dieses Datentyps zu ändern bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite.'
+    group:
+      files: Dateien
+      media: Medien
+      other: Sonstiges
+      text: Text
+    name:
+      plural: Showcases
+      singular: Showcase
+    text:
+      actions-all: Aktionen für Showcases
+      actions-one: Aktionen für diesen Showcase
+      created: Showcase wurde erstellt
+      delete: Showcase löschen
+      duplicate: Showcase kopieren
+      duplicated-finalize: Inhalt kopiert. Zum Fertigstellen „Showcase speichern“ klicken.
+      edit: Showcase bearbeiten
+      error-saving: Fehler beim Speichern von Showcase.
+      invalid-field: 'Kann %field% in Showcase nicht setzen. Kein gültiges Feld.'
+      last-modified: Zuletzt bearbeitete Showcases
+      new: Showcase erstellen
+      no-latest: Keine neuesten Showcase
+      no-proper-type: 'Beim Datentyp „Showcases“ wurde im Feld „%field%“ der Typ „type: %type%“ gesetzt, was kein gültiger Feldtyp ist. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'
+      no-recent: Keine letzten Showcase
+      none-available: Keine Showcases.
+      not-existing: Der gesuchte Datentyp „Showcase“ konnte nicht gefunden werden.
+      not-saved-yet: Showcase wurde noch nicht gespeichert.
+      overview: Showcases Übersicht
+      publish: Showcase veröffentlichen
+      recent: Neue Showcases
+      recently-edited: Kürzlich bearbeitete Showcases
+      reserved-name: 'Beim Datentyp „Showcases“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist.'
+      save: Showcase speichern
+      saved-changes: Die Änderungen am Showcase wurden gespeichert.
+      saved-new: Neuer Showcase wurde gespeichert.
+      saving-impossible: Konnte Showcase nicht speichern.
+      show-more: Weitere Showcases
+      view: Showcases anzeigen
+      wrong-use-field: 'Beim Datentyp „Showcases“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten, um dies zu korrigieren.'

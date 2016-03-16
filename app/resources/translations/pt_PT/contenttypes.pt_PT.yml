@@ -1,0 +1,116 @@
+---
+contenttypes.pages.group.content: Conteúdo
+contenttypes:
+  entries:
+    description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    group:
+      content: Conteúdo
+      media: Multimédia
+    name:
+      plural: Artigos
+      singular: Artigo
+    text:
+      actions-all: Ações para artigo
+      actions-one: Ações para este artigo
+      created: Este artigo foi criado
+      delete: Eliminar artigo
+      duplicate: Duplicar artigo
+      duplicated-finalize: "Content was duplicated. Click 'Save Entry' to finalize."
+      edit: Editar artigo
+      error-saving: Ocorreu um erro ao guardar este artigo.
+      invalid-field: "Can't set %field% in Entry: Not a valid field."
+      last-modified: Últimos artigos editados
+      new: Novo artigo
+      no-latest: No latest Entry
+      no-proper-type: "In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+      no-recent: Nenhum artigo recente.
+      none-available: Nenhum artigo disponível.
+      not-existing: The Entry you were looking for does not exist. It was probably deleted, or it never existed.
+      not-saved-yet: Este artigo ainda não foi guardado.
+      overview: Visão geral dos artigos
+      publish: Publicar artigo
+      recent: Artigos recentes
+      recently-edited: Artigos editados recentemente
+      reserved-name: "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+      save: Guardar artigo
+      saved-changes: The changes to the Entry have been saved.
+      saved-new: O novo artigo foi guardado.
+      saving-impossible: Não foi possível guardar o artigo.
+      show-more: Mais artigos
+      view: Ver artigos
+      wrong-use-field: "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+  pages:
+    description: "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    name:
+      plural: Páginas
+      singular: Página
+    text:
+      actions-all: Ações para páginas
+      actions-one: Ações para esta página
+      created: Esta página foi criada
+      delete: Eliminar página
+      duplicate: Duplicar página
+      duplicated-finalize: "Content was duplicated. Click 'Save Page' to finalize."
+      edit: Editar página
+      error-saving: Ocorreu um erro ao guardar esta página.
+      invalid-field: "Can't set %field% in Page: Not a valid field."
+      last-modified: Últimas páginas editadas
+      new: Nova página
+      no-latest: Não existem páginas recentes
+      no-proper-type: "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+      no-recent: Não existem página recentes.
+      none-available: Nenhuma página disponível.
+      not-existing: The Page you were looking for does not exist. It was probably deleted, or it never existed.
+      not-saved-yet: Esta página ainda não foi guardada.
+      overview: Visão geral das páginas
+      publish: Publicar página
+      recent: Páginas recentes
+      recently-edited: Páginas editadas recentemente
+      reserved-name: "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+      save: Guardar página
+      saved-changes: The changes to the Page have been saved.
+      saved-new: A nova página foi guardada.
+      saving-impossible: Não foi possível guardar a página.
+      show-more: Mais páginas
+      view: Ver páginas
+      wrong-use-field: "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+  showcases:
+    description: "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    group:
+      files: Ficheiros
+      media: Multimédia
+      other: Outro
+      text: Texto
+    name:
+      plural: Mostruários
+      singular: Mostruário
+    text:
+      actions-all: Ações para mostruários
+      actions-one: Ações para este mostruário
+      created: Este mostruário foi criado
+      delete: Eliminar mostruário
+      duplicate: Duplicar mostruário
+      duplicated-finalize: "O conteúdo foi duplicado. Clique em 'Guardar mostruário' para concluir."
+      edit: Editar mostruário
+      error-saving: Ocorreu um erro ao guardar este mostruário.
+      invalid-field: "Can't set %field% in Showcase: Not a valid field."
+      last-modified: Mostruários modificados recentemente
+      new: Novo mostruário
+      no-latest: Nenhum mostruário novo
+      no-proper-type: "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+      no-recent: Nenhum mostruário recente.
+      none-available: Nenhum mostruário disponível.
+      not-existing: The Showcase you were looking for does not exist. It was probably deleted, or it never existed.
+      not-saved-yet: This Showcase has not been saved yet.
+      overview: Visão geral de mostruários
+      publish: Publicar mostruário
+      recent: Mostruários recentes
+      recently-edited: Mostruários editados recentemente
+      reserved-name: "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+      save: Guardar mostruário
+      saved-changes: As mudanças ao mostruário foram guardadas.
+      saved-new: O novo mostruário foi guardado.
+      saving-impossible: Não foi possível guardar o mostruário.
+      show-more: Mais mostruários
+      view: Ver mostruários
+      wrong-use-field: "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."

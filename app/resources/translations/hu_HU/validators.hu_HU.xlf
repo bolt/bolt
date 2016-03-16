@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext" target-language="hu">
+    <body>
+      <trans-unit id="1">
+        <source>Passwords must match.</source>
+        <target xml:lang="hu" state="translated">A jelszavaknak egyezniük kell.</target>
+        <alt-trans>
+          <target xml:lang="hu">A jelszavak nem egyeznek.</target>
+        </alt-trans>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

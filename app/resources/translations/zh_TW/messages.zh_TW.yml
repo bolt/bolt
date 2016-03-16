@@ -1,589 +1,695 @@
-# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2015-03-13 11:23:09 UTC
-
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
-
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 379 translations
-# 132 keyword based translations
-
-#--- 379 translations ---------------------------------------------------------
-
-"%contenttypes% overview": "%contenttypes% overview"
-"%name% № %id%": "%name% № %id%"
-"%s files could not be deleted. You should delete them manually.": "%s 不能被刪除。你需要手動刪除這些檔案。"
-"(default template)": "(默認模板)"
-"(no category)": "(沒有分類)"
-"(no group)": "(沒有分組)"
-"(none)": "(無)"
-"A password reset link has been sent to '%user%'.": "密碼重置連結已發送到 '%user%'。"
-"Actions": "操作"
-"Add a brief, optional comment to describe what's changed.": "添加一個可選的簡短註釋描述變更。"
-"Add a comment:": "添加註釋："
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
-"Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Alas, no about!": "沒有關於資訊"
-"All content types": "所有內容格式"
-"All users": "所有使用者"
-"Alt": "Alt"
-"An error occurred.": "發生了一個錯誤。"
-"Anonymous": "匿名"
-"Are you sure you want to delete %username%?": "確定要刪除 %username% 嗎？"
-"Author:": "作者："
-"Below are the third party libraries that are used by Bolt.": "以下是Bolt所用到的第三方庫。"
-"Body": "主體"
-"Bolt - Fatal error.": "Bolt - 致命錯誤。"
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "未找到 Bolt 擴展。請檢視 %site% 檢查名稱是否有誤。"
-"Browser / platform": "瀏覽器 / 平臺"
-"Built-in role, automatically granted at all times, even if no user is logged in": "內建角色，即使沒有使用者登入也會被自動授予。"
-"Built-in role, automatically granted to every registered user": "內建角色，自動授予給每位註冊用戶。"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "內建角色，只對某種資源生效，並且該資源的擁有者會被自動指定為該角色。"
-"Built-in superuser role, automatically grants all permissions": "內建Superuser角色，自動被授予所有權限。"
-"Cancel": "取消"
-"Categories": "類別"
-"Category": "類別"
-"Change Log": "變更紀錄"
-"Change status to 'draft'": "將狀態更改為 '草稿'"
-"Change status to 'held'": "將狀態更改為 '保留'"
-"Chapter": "章節"
-"Chapters": "章節"
-"Check again": "再次檢查"
-"Check database": "檢查資料庫"
-"Class:": "分級:"
-"Clear Activitylog": "清理活動日誌"
-"Clear cache again": "再次清理快取"
-"Clear filter": "清理過濾器"
-"Clear sort/filter": "清理排序/過濾器"
-"Clear the cache": "清理快取"
-"Clear the current log": "清理當前日誌"
-"Click to change current status.": "點選改變當前狀態。"
-"Code:": "程式碼:"
-"Collapse sidebar": "摺疊側邊欄"
-"Configuration": "配置"
+---
+"%contenttypes% overview": '%contenttypes% overview'
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": '未找到 Bolt 擴展。請檢視 %site% 檢查名稱是否有誤。'
+Clear Activitylog: 清理活動日誌
+Clear the current log: 清理當前日誌
 "Content '%title%' could not be deleted.": "不能刪除內容 '%title%'。"
-"Content '%title%' could not be modified.": "不能修改內容 '%title%'。"
 "Content '%title%' has been changed to '%newStatus%'": "內容 '%title%' 已經變為 '%newStatus%'。"
 "Content '%title%' has been deleted.": "已刪除內容 '%title%'。"
-"Content Type Permissions": "內容格式的許可權"
-"Content for home not found!": "未找到首頁！"
-"Content": "內容"
-"Contenttypes": "內容格式"
-"Create folder": "創建資料夾"
-"Create the first user": "創建第一個使用者"
-"Created on:": "創建於："
-"Current (saved) status:": "當前(儲存的)狀態:"
-"Current sessions": "當前會話"
-"Current status:": "當前狀態："
-"Dashboard": "操作檯"
-"Database check / update": "資料庫檢查 / 更新"
-"Date": "日期"
-"Datetime": "日期時間"
-"Default status": "默認狀態"
-"Delete %filename%": "刪除 %filename%"
-"Delete %foldername%": "刪除 %foldername%"
-"Delete %username%": "刪除 %username%"
-"Delete selected": "刪除 selected"
-"Deleted %s files from cache.": "已從快取中刪除 %s 個檔案。"
-"Depublication date:": "撤除日期："
-"Depublish selected": "已選擇撤除"
-"Deselect all": "取消全選"
-"Detail template": "詳情頁模板"
-"Details": "詳情"
-"Disable %username%": "禁用 %username%"
-"Do you really want to delete %foldername%?": "確認要刪除 %foldername% 嗎？"
-"Done!": "完成!"
-"Draft": "草稿"
-"Duplicate %filename%": "複製 %filename%"
-"Edit Roles and Permissions": "編輯腳色與權限"
-"Edit file": "編輯檔案"
-"Edit": "編輯"
-"Enable %username%": "啟用 %username%"
-"Everybody": "Everybody"
-"Excerpt": "摘要"
-"Expand sidebar": "展開"
-"Extension log": "擴展日誌"
-"Extensions": "擴展"
-"Extras": "附加功能"
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
+Delete selected: 刪除 selected
+Depublish selected: 已選擇撤除
+"Do you really want to delete %foldername%?": '確認要刪除 %foldername% 嗎？'
+Extension log: 擴展日誌
 "File '%file%' could not be uploaded.": "無法上傳檔案 '%file%'。"
+Filtering …: 篩選 …
+Next: 下一個
+"No recent %contenttype%.": '沒有最近的%contenttype%.'
+No such action for content.: 該內容無此項操作。
+"Originally by %1, ported by %2": 'Originally by %1, ported by %2'
+Other contenttypes: 其他的內容格式
+Permission denied: 許可權被拒絕
+Previous: 下一個
+"Proudly powered by %s": 'Proudly powered by %s'
+Publish selected: 已選擇釋出
+"Recent %contenttypes%": '近來的%contenttypes%'
+"Search for:": 搜尋：
+Search…: 搜尋…
+Skip to content: 跳過到內容
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": '擴展目錄 (<code>%dir%</code>) 不存在，或者不可寫。'
+"The file '%s' doesn't exist, or is not readable.": "檔案 '%s' 不存在，或者不可讀。"
+Trim Activitylog: 清理舊的活動日誌
+You do not have the right privileges to create a new record.: 你沒有許可權創建新記錄。
+You must specify both a name and a version to install!: 欲安裝必須先指定名稱與版本。
+"[Extension error] Initialisation failed for %ext%: %error%": '[Extension error] Initialisation failed for %ext%: %error%'
+"[Extension error] Snippet loading failed for %ext%: %error%": '[Extension error] Snippet loading failed for %ext%: %error%'
+"[Extension error] Twig function registration failed for %ext%: %error%": '[Extension error] Twig function registration failed for %ext%: %error%'
+"[Extension error] YAML config failed to load for %ext%: %error%": '[Extension error] YAML config failed to load for %ext%: %error%'
+"in:": '於:'
+contenttypes.general.choose-an-entry: 選擇條目
+general.thanks: 感謝
+contenttypes.generic.error-saving: 'There was an error saving this %contenttype%.'
+field.general.select-from-stack: Select from stack
+field.geolocation.marker: Pin
+field.video.button.preview: Preview
+field.video.preview.button.close: Close
+field.video.preview.no-url: No video url is set, no video to show.
+"An error occured while updating `%TABLE%`. The error is %ERROR%": 'An error occured while updating `%TABLE%`. The error is %ERROR%'
+"Are you sure you want to delete %FILENAME%?": 'Are you sure you want to delete %FILENAME%?'
+"Are you sure you want to do this for %NUMBER% records?": 'Are you sure you want to do this for %NUMBER% records?'
+Are you sure you want to do this for 1 record?: Are you sure you want to do this for 1 record?
+Are you sure you want to remove these files?: Are you sure you want to remove these files?
+Are you sure you want to remove these images?: Are you sure you want to remove these images?
+Are you sure you want to remove this file?: Are you sure you want to remove this file?
+Are you sure you want to remove this image?: Are you sure you want to remove this image?
+Are you sure you wish to delete this record? There is no undo.: Are you sure you wish to delete this record? There is no undo.
+"At least %NUM% characters required": 'At least %NUM% characters required'
+Author: Author
+Choose an entry: 選擇條目
+Clear Change Log: Clear Change Log
+Clear System Log: Clear System Log
+"Client error: %errormessage%": 'Client error: %errormessage%'
+Close editor: Close editor
+Create File: Create File
+Delete: Delete
+Delete Set: Delete Set
+Depublish: Depublish
+Depublish date is in the past. Change the status if you want to depublish now: Depublish date is in the past. Change the status if you want to depublish now
+"Do you really want to delete %FOLDERNAME%?": 'Do you really want to delete %FOLDERNAME%?'
+Duplicate Set: Duplicate Set
+"Extension server returned an error: %errormessage%": 'Extension server returned an error: %errormessage%'
+Failed to send password request. Please check the email settings.: Failed to send password request. Please check the email settings.
+"Field “%FIELD_NAME%”:": 'Field “%FIELD_NAME%”:'
+"File '%s' could not be saved, because the form wasn't valid.": "File '%s' could not be saved, because the form wasn't valid."
+Files could not be uploaded.: Files could not be uploaded.
+"Generic failure while testing connection to extension server: %errormessage%": 'Generic failure while testing connection to extension server: %errormessage%'
+Has to be a floating point number!: Has to be a floating point number!
+Id (№): Id (№)
+Invalid login parameters.: Invalid login parameters.
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": 'Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.'
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": 'Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!'
+Is required or needs to match a pattern!: Is required or needs to match a pattern!
+Is required!: Is required!
+Keyword …: Keyword …
+Language coverage: Language coverage
+Live Edit: Live Edit
+New Bolt site has been set up: New Bolt site has been set up
+No content found.: No content found.
+No files in the list, yet.: No files in the list, yet.
+No images in the list, yet.: No images in the list, yet.
+No theme name found. Theme is not generated.: No theme name found. Theme is not generated.
+Not yet installed.: Not yet installed.
+Only root can change file extensions.: Only root can change file extensions.
+Order: Order
+Others: Others
+Publish: Publish
+Records: Records
+"Related content:": 'Related content:'
+Run PHP extension checks: Run PHP extension checks
+Run all checks: Run all checks
+Run directory checks: Run directory checks
+Run email checks: Run email checks
+"Selection (#):": 'Selection (#):'
+Something went wrong with logging in after first user creation!: Something went wrong with logging in after first user creation!
+Staff Position: Staff Position
+Staff_position: Staff_position
+Subject: Subject
+Subjects: Subjects
+System Configuration Checks: System Configuration Checks
+"Testing connection to extension server failed: %errormessage%": 'Testing connection to extension server failed: %errormessage%'
+Text: 文字
+"The Bolt extensions file '%composerjson%' isn't readable.": "The Bolt extensions file '%composerjson%' isn't readable."
+The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.: "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"The file '%s' doesn't exist.": "The file '%s' doesn't exist."
+"The file '%s' is not readable.": "The file '%s' is not readable."
+"The value has to be at least “%MINVAL%”!": 'The value has to be at least “%MINVAL%”!'
+"The value must not be greater than “%MAXVAL%”!": 'The value must not be greater than “%MAXVAL%”!'
+There are no saved changes, yet.: There are no saved changes, yet.
+There is no undo!: There is no undo!
+Thumbnail: Thumbnail
+Trim Change Log: Trim Change Log
+Trim System Log: Trim System Log
+"Unable to create directory: %DIR%": 'Unable to create directory: %DIR%'
+"Unable to create file: %FILE%": 'Unable to create file: %FILE%'
+"Unable to delete directory: %DIR%": 'Unable to delete directory: %DIR%'
+"Unable to delete file: %FILE%": 'Unable to delete file: %FILE%'
+"Unable to rename directory: %DIR%": 'Unable to rename directory: %DIR%'
+"Unable to rename file: %FILE%": 'Unable to rename file: %FILE%'
+Unable to retrieve login session data. Please check your system's PHP session settings.: "Unable to retrieve login session data. Please check your system's PHP session settings."
+Upload not allowed: Upload not allowed
+Users & Permissions: 'Users & Permissions'
+"Welcome to your new Bolt site, %USER%.": 'Welcome to your new Bolt site, %USER%.'
+"You cannot '%s' yourself.": "You cannot '%s' yourself."
+You do not have the right privileges to edit that user.: You do not have the right privileges to edit that user.
+You have unfinished changes on this page. If you continue without saving, you will lose these changes.: You have unfinished changes on this page. If you continue without saving, you will lose these changes.
+"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
+or: or
+"%name% № %id%": '%name% № %id%'
+"%s files could not be deleted. You should delete them manually.": '%s 不能被刪除。你需要手動刪除這些檔案。'
+(default template): (默認模板)
+(no category): (沒有分類)
+(no group): (沒有分組)
+(none): (無)
+"A password reset link has been sent to '%user%'.": "密碼重置連結已發送到 '%user%'。"
+Actions: 操作
+Add a brief, optional comment to describe what's changed.: 添加一個可選的簡短註釋描述變更。
+"Add a comment:": 添加註釋：
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
+"Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
+Alas, no about!: 沒有關於資訊
+All content types: 所有內容格式
+All users: 所有使用者
+Alt: Alt
+An error occurred.: 發生了一個錯誤。
+Anonymous: 匿名
+"Are you sure you want to delete %username%?": '確定要刪除 %username% 嗎？'
+"Author:": 作者：
+Below are the third party libraries that are used by Bolt.: 以下是Bolt所用到的第三方庫。
+Body: 主體
+Bolt - Fatal error.: 'Bolt - 致命錯誤。'
+Browser / platform: 瀏覽器 / 平臺
+Built-in role, automatically granted at all times, even if no user is logged in: 內建角色，即使沒有使用者登入也會被自動授予。
+Built-in role, automatically granted to every registered user: 內建角色，自動授予給每位註冊用戶。
+Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.: 內建角色，只對某種資源生效，並且該資源的擁有者會被自動指定為該角色。
+Built-in superuser role, automatically grants all permissions: 內建Superuser角色，自動被授予所有權限。
+Cancel: 取消
+Categories: 類別
+Category: 類別
+Change Log: 變更紀錄
+Change status to 'draft': "將狀態更改為 '草稿'"
+Change status to 'held': "將狀態更改為 '保留'"
+Chapter: 章節
+Chapters: 章節
+Check again: 再次檢查
+Check database: 檢查資料庫
+"Class:": '分級:'
+Clear cache again: 再次清理快取
+Clear filter: 清理過濾器
+Clear sort/filter: 清理排序/過濾器
+Clear the cache: 清理快取
+Click to change current status.: 點選改變當前狀態。
+"Code:": '程式碼:'
+Collapse sidebar: 摺疊側邊欄
+Configuration: 配置
+Content: 內容
+"Content '%title%' could not be modified.": "不能修改內容 '%title%'。"
+Content Type Permissions: 內容格式的許可權
+Content for home not found!: 未找到首頁！
+Contenttypes: 內容格式
+Create folder: 創建資料夾
+Create the first user: 創建第一個使用者
+"Created on:": 創建於：
+"Current (saved) status:": '當前(儲存的)狀態:'
+Current sessions: 當前會話
+"Current status:": 當前狀態：
+Dashboard: 操作檯
+Database check / update: 資料庫檢查 / 更新
+Date: 日期
+Datetime: 日期時間
+Default status: 默認狀態
+"Delete %filename%": '刪除 %filename%'
+"Delete %foldername%": '刪除 %foldername%'
+"Delete %username%": '刪除 %username%'
+"Deleted %s files from cache.": '已從快取中刪除 %s 個檔案。'
+"Depublication date:": 撤除日期：
+Deselect all: 取消全選
+Detail template: 詳情頁模板
+Details: 詳情
+"Disable %username%": '禁用 %username%'
+Done!: 完成!
+Draft: 草稿
+"Duplicate %filename%": '複製 %filename%'
+Edit: 編輯
+Edit Roles and Permissions: 編輯腳色與權限
+Edit file: 編輯檔案
+"Enable %username%": '啟用 %username%'
+Everybody: Everybody
+Excerpt: 摘要
+Expand sidebar: 展開
+Extensions: 檢視/安裝擴展
+Extras: 附加功能
+File: 檔案
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
 "File '%file%' was uploaded successfully.": "檔案 '%file%' 上傳成功。"
 "File '%s' could not be saved, for some reason.": "由於某種原因，檔案 '%s' 不能儲存。"
 "File '%s' could not be saved:": "無法儲存檔案 '%s'："
 "File '%s' has been saved.": "已儲存檔案 '%s'。"
-"File Management": "檔案管理"
-"File is not readable!": "檔案不可讀取！"
-"File": "檔案"
-"Filelist": "檔案列表"
-"Files in %s": "%s 中的檔案"
-"Files on the stack": "暫存區中的檔案"
-"Files": "檔案"
-"Filesize": "檔案大小"
-"Fill the database with Dummy Content": "用示例內容填充資料庫"
-"Filter": "篩選"
-"Filtering …": "篩選 …"
-"Filtering": "篩選"
-"Find": "查找"
-"Floatfield": "Floatfield"
+File Management: 檔案管理
+File is not readable!: 檔案不可讀取！
+Filelist: 檔案列表
+Files: 檔案
+"Files in %s": '%s 中的檔案'
+Files on the stack: 暫存區中的檔案
+Filesize: 檔案大小
+Fill the database with Dummy Content: 用示例內容填充資料庫
+Filter: 篩選
+Filtering: 篩選
+Find: 查找
+Floatfield: Floatfield
 "Folder '%s' could not be found, or is not readable.": "找不到 '%s' 資料夾，或者該資料夾不可讀。"
-"Folder permissions insufficient": "資料夾許可權不足"
-"Folders": "資料夾"
-"Full list …": "完整列表 …"
-"Geolocation": "地理位置"
-"Global Permissions": "全局許可權"
-"Hints:": "提示："
-"Html": "Html"
-"IP address": "IP 地址"
-"Id": "Id"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "如果存在一個帶有 'about' slug 的頁面，那它會顯示在這裡。如果沒有的話，你就會看到這些提示。"
-"Image": "影象"
-"Imagelist": "影象列表"
-"Info": "資訊"
-"Integerfield": "整數欄位"
-"Last edited on:": "上一次編輯於:"
-"Last known IP": "上一次 IP"
-"Last seen": "上次登入"
-"Latest entries": "最新的條目"
-"Listing template": "列表頁模板"
-"Login": "登入"
-"Logout": "登出"
-"Long messages": "長資訊"
-"Main configuration": "主配置檔案"
-"Maintenance": "維護"
-"Markdown": "Markdown"
-"Menu setup": "設定選單"
-"Message:": "訊息:"
-"Messages": "訊息"
-"Meta information": "Meta資訊"
-"Meta": "元"
-"Modifications made to the database:": "對資料庫作出的變更："
-"Modifications needed:": "需要作出的修改："
-"Modified": "已修改"
-"Multiselect": "多選"
-"Next": "下一個"
-"No recent %contenttype%.": "沒有最近的%contenttype%."
-"No relations found!": "沒有找到關聯！"
+Folder permissions insufficient: 資料夾許可權不足
+Folders: 資料夾
+Full list …: 完整列表 …
+Geolocation: 地理位置
+Global Permissions: 全局許可權
+"Hints:": 提示：
+Html: Html
+IP address: IP 地址
+Id: Id
+If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.: "如果存在一個帶有 'about' slug 的頁面，那它會顯示在這裡。如果沒有的話，你就會看到這些提示。"
+Image: 影象
+Imagelist: 影象列表
+Info: 資訊
+Integerfield: 整數欄位
+"Last edited on:": '上一次編輯於:'
+Last known IP: 上一次 IP
+Last seen: 上次登入
+Latest entries: 最新的條目
+Listing template: 列表頁模板
+Login: 登入
+Logout: 登出
+Long messages: 長資訊
+Main configuration: 主配置檔案
+Maintenance: 維護
+Markdown: Markdown
+Menu setup: 設定選單
+"Message:": '訊息:'
+Messages: 訊息
+Meta: 元
+Meta information: Meta資訊
+"Modifications made to the database:": 對資料庫作出的變更：
+"Modifications needed:": 需要作出的修改：
+Modified: 已修改
+Multiselect: 多選
+No relations found!: 沒有找到關聯！
 "No results found for '%SEARCHTERM%'. Please try another search.": "沒有找到 '%SEARCHTERM%'，請嘗試其他關鍵詞。"
-"No such action for content.": "該內容無此項操作。"
 "No such action for user '%s'.": "使用者 '%s' 無此項操作。"
-"None": "無"
-"Not published": "未釋出"
-"Note:": "注意："
-"Omnisearch": "全能搜索"
-"Options": "選項"
-"Order: %sort%": "排序：%sort%"
-"Originally by %1, ported by %2": "Originally by %1, ported by %2"
-"Other contenttypes": "其他的內容格式"
-"Overview for": "概覽"
-"Overview": "概覽"
-"Owner": "所有者"
-"Owner:": "所有者："
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "密碼重置失敗！可能是token不對，或者連結過期，或者嘗試從不同的IP地址重設密碼。"
-"Password reset successful! You can now log on with the password that was sent to you via email.": "密碼重置成功！你現在可以使用Email中的新密碼登入了。"
-"Path to image file": "影象檔案路徑"
-"Path": "路徑"
-"Path:": "路徑:"
-"Permalink": "永久連結"
-"Permission denied": "許可權被拒絕"
-"Permissions": "許可權"
-"Place on stack": "放到暫存區"
-"Please choose the record you want to link to:": "請選擇要連結的記錄："
-"Please enter a new file name!": "請輸入新檔名"
-"Please enter a new folder name!": "請輸入新資料夾名"
-"Please log on.": "請登入。"
-"Please provide a username": "請提供一個使用者名"
-"Prefill database": "填充資料庫"
-"Preview": "預覽"
-"Previous": "下一個"
-"Profile": "個人資料"
-"Proudly powered by %s": "Proudly powered by %s"
-"Provided by:": "提供者："
-"Publication date:": "釋出日期："
-"Publish selected": "已選擇釋出"
-"Published on:": "發表於："
-"Published": "已釋出"
-"Read more": "閱讀更多"
-"Recent %contenttypes%": "近來的%contenttypes%"
-"Related content": "相關內容"
-"Relationships": "關係"
-"Rename %foldername%": "重新命名 %foldername%"
-"Roles and Permissions": "角色和許可權"
-"Roles": "角色"
-"Save & create new record": "儲存並創建新記錄"
-"Save & return to overview": "儲存並返回概覽"
-"Saved on:": "儲存在："
-"Saving …": "正在儲存 …"
-"Search for …": "搜索 …"
-"Search for:": "搜尋："
-"Search results for <b> %search% </b>.": "<b> %search% </b> 的搜索結果。"
-"Search …": "搜索 …"
-"Search": "搜索"
-"Search…": "搜尋…"
-"Select a page": "選擇一個頁面"
-"Select all": "全選"
-"Select file …": "選擇檔案 …"
-"Select none": "取消選擇"
-"Select zero or more pages": "選擇零或多個頁面"
-"Select": "選擇"
-"Selectentry": "條目選擇"
-"Selectfield": "欄位選擇"
-"Session expires": "會話過期"
-"Session resumed.": "會話已恢復。"
-"Settings": "設定"
-"Showing %pager_for% %from% - %to% of %count%": "顯示 %count% 條記錄中的 %from% 到 %to% 條%pager_for%記錄"
-"Showing": "正在展示"
-"Size": "大小"
-"Skip to content": "跳過到內容"
-"Skipped <tt>%key%</tt> (already has records)": "跳過 <tt>%key%</tt> (已有記錄)"
-"Skipped <tt>%key%</tt> (not checked)": "跳過 <tt>%key%</tt> (已檢查)"
-"Slug": "Slug"
-"Slug:": "Slug:"
-"Something went wrong": "有些不對勁"
-"Sophisticated, lightweight & simple CMS": "精緻、輕量、簡潔的 CMS"
-"Stack": "Stack"
-"Status:": "狀態："
-"Tag": "標籤"
-"Tags": "標籤"
-"Taxonomy": "分類"
-"Teaser": "摘要"
-"Template": "模板"
-"Textarea": "編輯區域"
-"That user does not exist.": "那個使用者不存在。"
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "在%repository%的Bolt外掛目前無法使用，檢查你的網路連線並再試一次。"
-"The change log has been cleared.": "變更紀錄已被清除。"
-"The change log has been trimmed.": "變更紀錄已被縮減。"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "資料庫需要更新/修復 。前往 '設定' > '<a href=\"%link%\">檢查資料庫</a>' 完成此項工作。"
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "擴展目錄 (<code>%dir%</code>) 不存在，或者不可寫。"
-"The field %field% has been changed to \"%newValue%\"": "欄位 %field% 已更改為 \"%newValue%\""
-"The file '%s' doesn't exist, or is not readable.": "檔案 '%s' 不存在，或者不可讀。"
+None: 無
+Not published: 未釋出
+"Note:": 注意：
+Omnisearch: 全能搜索
+Options: 選項
+"Order: %sort%": '排序：%sort%'
+Overview: 概覽
+Overview for: 概覽
+Owner: 所有者
+"Owner:": 所有者：
+Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.: 密碼重置失敗！可能是token不對，或者連結過期，或者嘗試從不同的IP地址重設密碼。
+Password reset successful! You can now log on with the password that was sent to you via email.: 密碼重置成功！你現在可以使用Email中的新密碼登入了。
+Path: 路徑
+Path to image file: 影象檔案路徑
+"Path:": '路徑:'
+Permalink: 永久連結
+Permissions: 許可權
+Place on stack: 放到暫存區
+"Please choose the record you want to link to:": 請選擇要連結的記錄：
+Please enter a new file name!: 請輸入新檔名
+Please enter a new folder name!: 請輸入新資料夾名
+Please log on.: 請登入。
+Please provide a username: 請提供一個使用者名
+Prefill database: 填充資料庫
+Preview: 預覽
+Profile: 個人資料
+"Provided by:": 提供者：
+"Publication date:": 釋出日期：
+Published: 已釋出
+"Published on:": 發表於：
+Read more: 閱讀更多
+Related content: 相關內容
+Relationships: 關係
+"Rename %foldername%": '重新命名 %foldername%'
+Roles: 角色
+Roles and Permissions: 角色和許可權
+Save & create new record: 儲存並創建新記錄
+Save & return to overview: 儲存並返回概覽
+"Saved on:": 儲存在：
+Saving …: 正在儲存 …
+Search: 搜索
+Search for …: 搜索 …
+"Search results for <b> %search% </b>.": '<b> %search% </b> 的搜索結果。'
+Search …: 搜索 …
+Select: 選擇
+Select a page: 選擇一個頁面
+Select all: 全選
+Select file …: 選擇檔案 …
+Select none: 取消選擇
+Select zero or more pages: 選擇零或多個頁面
+Selectentry: 條目選擇
+Selectfield: 欄位選擇
+Session expires: 會話過期
+Session resumed.: 會話已恢復。
+Settings: 設定
+Showing: 正在展示
+"Showing %pager_for% %from% - %to% of %count%": '顯示 %count% 條記錄中的 %from% 到 %to% 條%pager_for%記錄'
+Size: 大小
+"Skipped <tt>%key%</tt> (already has records)": '跳過 <tt>%key%</tt> (已有記錄)'
+"Skipped <tt>%key%</tt> (not checked)": '跳過 <tt>%key%</tt> (已檢查)'
+Slug: Slug
+"Slug:": 'Slug:'
+Something went wrong: 有些不對勁
+Sophisticated, lightweight & simple CMS: 精緻、輕量、簡潔的 CMS
+Stack: Stack
+"Status:": 狀態：
+Tag: 標籤
+Tags: 標籤
+Taxonomy: 分類
+Teaser: 摘要
+Template: 模板
+Textarea: 編輯區域
+That user does not exist.: 那個使用者不存在。
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": '在%repository%的Bolt外掛目前無法使用，檢查你的網路連線並再試一次。'
+The change log has been cleared.: 變更紀錄已被清除。
+The change log has been trimmed.: 變更紀錄已被縮減。
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "檔案 '%s' 不可寫。你需要自行使用編輯器修改檔案。"
 "The folder '%s' could not be found, or is not readable.": "無法找到資料夾 '%s'，或者它不可讀。"
-"The following file could not be read:": "不能讀取以下檔案："
+"The following file could not be read:": 不能讀取以下檔案：
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
-"The requested changelog entry doesn't exist.": "所請求的 changelog 條目不存在。"
-"The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
+The requested changelog entry doesn't exist.: 所請求的 changelog 條目不存在。
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": '角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。'
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
-"The system log has been cleared.": "系統紀錄已被清除。"
-"The system log has been trimmed.": "系統紀錄已被縮減。"
+The system log has been cleared.: 系統紀錄已被清除。
+The system log has been trimmed.: 系統紀錄已被縮減。
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "無法創建翻譯檔案 '%s'。你需要自行使用編輯器修改檔案。"
 "The translations file '%s' is not readable.": "翻譯檔案 '%s' 不可讀取。"
-"Theme successfully generated. You can now edit it directly from your theme folder.": "布景產生成功，你現在可以從存放布景的資料夾修改它。"
-"There are no items on the Stack, yet.": "暫存區中沒有東西。"
-"There are no users in the database. Please create the first user.": "資料庫中沒有使用者，請創建第一個使用者。"
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "系統中沒有使用者。請創建第一個使用者，它將同時擁有管理員許可權。"
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
-"This is a checkbox": "這是個覈取方塊"
-"This record is related to:": "這條記錄關聯到:"
+Theme successfully generated. You can now edit it directly from your theme folder.: 布景產生成功，你現在可以從存放布景的資料夾修改它。
+There are no items on the Stack, yet.: 暫存區中沒有東西。
+There are no users in the database. Please create the first user.: 資料庫中沒有使用者，請創建第一個使用者。
+There are no users present in the system. Please create the first user, which will be granted root privileges.: 系統中沒有使用者。請創建第一個使用者，它將同時擁有管理員許可權。
+There should always be at least one 'root' user. You have just been promoted. Congratulations!: "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
+This is a checkbox: 這是個覈取方塊
+"This record is related to:": '這條記錄關聯到:'
+This template adds new fields. Save, then refresh to see these changes.: This template adds new fields. Save, then refresh to see these changes.
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
-"Time in 24h/12h format": "24/12小時制"
-"Timed publish": "定時釋出"
-"Tip:": "小貼士："
-"Title": "標題"
-"Translations": "翻譯"
-"Trim Activitylog": "清理舊的活動日誌"
-"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。"
-"Types": "類型"
-"Update the database": "更新資料庫"
-"Upload a file to this folder": "上傳檔案到此資料夾"
-"Upload file": "上傳檔案"
-"Upload image": "上傳影象"
-"Upload": "上傳"
-"Uploaded files": "已上傳的檔案"
-"Uploading to this folder is not allowed.": "不允許上傳到此資料夾。"
-"Used Libraries / Components": "使用的庫/元件"
+Time in 24h/12h format: 24/12小時制
+Timed publish: 定時釋出
+"Tip:": 小貼士：
+Title: 標題
+Translations: 翻譯
+Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.: '可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。'
+Types: 類型
+Update the database: 更新資料庫
+Upload: 上傳
+Upload a file to this folder: 上傳檔案到此資料夾
+Upload file: 上傳檔案
+Upload image: 上傳影象
+Uploaded files: 已上傳的檔案
+Uploading to this folder is not allowed.: 不允許上傳到此資料夾。
+Used Libraries / Components: 使用的庫/元件
 "User '%s' could not be deleted.": "不能刪除使用者 '%s'。"
 "User '%s' could not be disabled.": "不能禁用使用者 '%s' 。"
 "User '%s' could not be enabled.": "不能啟用使用者 '%s'。"
 "User '%s' is deleted.": "使用者 '%s' 已刪除。"
 "User '%s' is disabled.": "使用者 '%s' 已禁用。"
 "User '%s' is enabled.": "使用者 '%s' 已啟用。"
-"Username or password not correct. Please check your input.": "使用者名或密碼不正確，請檢查輸入。"
-"Username": "使用者名"
-"Users": "使用者"
-"Video": "視訊"
-"View (saved version) on site": "觀看站點中(儲存的版本)"
-"View Roles": "檢視腳色"
-"View on site": "在站點上觀看"
-"View related content": "檢視相關內容"
-"View site": "檢視站點"
-"View/edit Templates": "檢視/編輯模板"
-"Extensions": "檢視/安裝擴展"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "reinstalling.\""
-"Written by <em>%name%</em> on %date%": "由<em>%name%</em>在%date%書寫"
-"You do not have the right privileges to create a new record.": "你沒有許可權創建新記錄。"
-"You do not have the right privileges to edit that record.": "你沒有許可權編輯那條記錄。"
-"You do not have the right privileges to view that page.": "你沒有許可權檢視那個頁面。"
+Username: 使用者名
+Username or password not correct. Please check your input.: 使用者名或密碼不正確，請檢查輸入。
+Users: 使用者
+Video: 視訊
+View (saved version) on site: 觀看站點中(儲存的版本)
+View Roles: 檢視腳色
+View on site: 在站點上觀看
+View related content: 檢視相關內容
+View site: 檢視站點
+View/edit Templates: 檢視/編輯模板
+Warning: Warning
+We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.: We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.
+"Written by <em>%name%</em> on %date%": '由<em>%name%</em>在%date%書寫'
+You do not have the right privileges to edit that record.: 你沒有許可權編輯那條記錄。
+You do not have the right privileges to view that page.: 你沒有許可權檢視那個頁面。
 "You don't have correct permissions to edit the file '%s'.": "你沒有許可權編輯檔案 '%s'。"
 "You don't have the correct permissions to display the file or directory '%s'.": "你沒有許可權顯示檔案/目錄 '%s'。"
-"You have been logged out.": "你已成功退出登入。"
-"You must specify both a name and a version to install!": "欲安裝必須先指定名稱與版本。"
+You have been logged out.: 你已成功退出登入。
+You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.: You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "你需要將 'app/config/config.yml' 中的 'homepage:' 欄位指向一條已存在的記錄，還需要確保記錄已釋出，否則它將不會顯示。"
-"You've been logged on successfully.": "你已成功登入。"
-"Your account is disabled. Sorry about that.": "非常抱歉，你的賬戶已被禁用。"
-"Your database is already up to date.": "資料庫已經是最新的。"
-"Your database is now up to date.": "資料庫現在是最新的。"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Extension error] Initialisation failed for %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extension error] Snippet loading failed for %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extension error] Twig function registration failed for %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extension error] YAML config failed to load for %ext%: %error%"
-"and edited": "及編輯於"
-"back to editing": "返回編輯"
-"by": "由"
-"in:": "於:"
-"line": "行"
-"no content …": "無內容 …"
-"no title …": "無標題 …"
-"none": "無"
-"of": "中的"
-"show all": "顯示全部"
-contenttypes.general.choose-an-entry: "選擇條目"
-general.about-bolt: "關於 Bolt"
-general.about: "關於"
-general.bolt-documentation-on-github: "Bolt 在 Github 上的文件"
-general.bolt-on-github: "Github 上的 Bolt"
-general.thanks: "感謝"
-logs.change-log: "變更紀錄"
-logs.system-log: "系統紀錄"
-menu.configuration.routing: "路由設定"
-page.extend.button.info-help: "更多資訊/幫助"
-page.extend.headline.currently-installed: "已經安裝的擴展"
-page.extend.headline.install-new-extension: "安裝新擴展"
-page.extend.headline.installation-complete: "安裝完成"
-page.extend.headline.installing-package: "正在安裝包"
-page.extend.headline.stable-versions: "穩定版本"
-page.extend.headline.test-versions: "不穩定測試版本"
-page.extend.headline.theme-installation-complete: "主題安裝完畢"
-page.extend.headline.updates: "更新"
-page.extend.listheader.actions: "操作"
-page.extend.listheader.extension: "擴展"
-page.extend.listheader.status: "狀態"
-page.extend.listheader.version: "版本"
-page.extend.message.add-extension-with-form: "請用下列表單添加新擴展，"
-page.extend.message.before-theme-start: "在能將主題應用到站點之前，需要將主題複製到theme目錄中。如果想給主題指定另一個名稱，可以在此處添加一個。"
-page.extend.message.check-for-updates: "檢查更新"
-page.extend.message.checking-installed-packages: "檢查已安裝的包"
-page.extend.message.checkung-for-updates: "檢查可用更新 (最多可能需要60秒)"
-page.extend.message.compatible-unstable-versions: "以下列出的版本與你當前使用的 Bolt 版本相容。由於這些是不穩定版本，我們建議你<strong>不要</strong>在生產環境中使用。"
-page.extend.message.copying: "拷貝佈景相關資源中…"
-page.extend.message.discover-by-visiting: "要查找新擴展，請訪問"
-page.extend.message.install-all-updates: "安裝所有更新"
-page.extend.message.install-all: "正在安裝所有包 …"
-page.extend.message.installing-selected-package: "安裝選擇的包版本 (最多可能需要60秒)。"
-page.extend.message.installing: "準備安裝包 …"
-page.extend.message.installs-all-listed-packages: "這將確保列出的所有包都會安裝。如果你遷移到了新伺服器，或者手動添加了擴展，就可以使用這個選項。"
-page.extend.message.installs-updates: "這將安裝所有可用更新。"
-page.extend.message.marked-as-stable: "以下列出的版本由開發者標記為穩定版，與你當前使用的 Bolt 版本相容。"
-page.extend.message.no-package-check-in-readmode: "無法在只讀模式下檢查已安裝的包"
-page.extend.message.no-stable-versions-available: "沒有可用的穩定版本"
-page.extend.message.no-test-versions-available: "沒有可用的測試版本"
-page.extend.message.no-update-check-in-readmode: "無法在只讀模式下檢查更新"
-page.extend.message.overwrite: "這會覆蓋任何存在的檔案！你確定嗎？"
-page.extend.message.removing: "準備解除安裝包 …"
-page.extend.message.shows-updates: "不會安裝任何東西，只顯示可用的更新。"
-page.extend.message.start-using-extension: "現在你可以開始使用安裝的擴展。文件和實現說明可以在下面的連結中找到。"
-page.extend.message.updated: "已保持最新狀態！"
-page.extend.message.updating: "搜索可用更新 …"
-page.extend.pagetitle: "展開 %BOLTNAME%"
-users.actions-for-users: "使用者操作"
-users.your-password: "你的密碼"
-
-#--- 132 keyword based translations -------------------------------------------
-
+You've been logged on successfully.: 你已成功登入。
+Your account is disabled. Sorry about that.: 非常抱歉，你的賬戶已被禁用。
+Your database is already up to date.: 資料庫已經是最新的。
+Your database is now up to date.: 資料庫現在是最新的。
+and edited: 及編輯於
+back to editing: 返回編輯
+by: 由
+general.about: 關於
+general.about-bolt: 關於 Bolt
+general.bolt-documentation: Bolt documentation
+general.bolt-on-github: Github 上的 Bolt
+general.visit-bolt: Visit Bolt.cm
+line: 行
+logs.change-log: 變更紀錄
+logs.system-log: 系統紀錄
+no content …: 無內容 …
+no title …: 無標題 …
+none: 無
+of: 中的
+show all: 顯示全部
+users.actions-for-users: 使用者操作
+users.your-password: 你的密碼
 component:
-    changelog-detail:
-        by: "由"
-        field: "欄位"
-        value-new: "新值"
-        value-old: "舊值"
-    changelog-pager:
-        page: "頁"
-
+  changelog-detail:
+    by: 由
+    field: 欄位
+    value-new: 新值
+    value-old: 舊值
+  changelog-pager:
+    page: 頁
 contenttypes:
-    generic:
-        actions-all: "對%contenttypes%的操作"
-        actions-one: "對%contenttype%的操作"
-        created: "已創建此%contenttype%"
-        delete: "刪除%contenttype%"
-        duplicate: "複製%contenttype%"
-        duplicated-finalize: "內容已複製。點選 '儲存%contenttype%' 以確認。"
-        edit: "編輯%contenttype%"
-        error-saving: "儲存次%contenttype%時發生錯誤"
-        group:
-            meta: "元"
-            relations: "關聯"
-            taxonomy: "分類"
-            ungrouped: "未分組"
-        invalid-field: "未能設定%contenttype%的%field%欄位：欄位無效。"
-        last-modified: "最近修改的%contenttypes%"
-        new: "新建%contenttype%"
-        no-latest: "無最新%contenttype%"
-        no-proper-type: "“%contenttype%(Entry)”的內容格式配置中，設定為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml檔案，修復此問題。"
-        no-recent: "無歷史%contenttype%。"
-        none-available: "無可用%contenttypes%。"
-        not-existing: "未找到你所尋找的%contenttype%，它可能已經被刪除，或者根本不存在。"
-        not-saved-yet: "這項%contenttype%尚未儲存。"
-        overview: "%contenttypes%一覽"
-        publish: "釋出%contenttype%"
-        recent: "歷史%contenttypes%"
-        recently-edited: "曾經編輯的%contenttypes%"
-        recent-changes-one: "Recent changes to this %contenttype%"
-        reserved-name: "“%contenttype%”的內容格式配置中，所設定的'%field%'欄位是保留字。請編輯contenttypes.yml檔案，修復此問題。"
-        save: "儲存%contenttype%"
-        saved-changes: "對此%contenttype%所做出的變更已經儲存。"
-        saved-new: "已儲存新%contenttype%。"
-        saving-impossible: "無法儲存%contenttype%。"
-        show-more: "更多%contenttypes%"
-        view: "檢視%contenttypes%"
-        wrong-use-field: "“%contenttype%”的內容格式配置中，欄位'%field%'所設定的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml檔案，修復此問題。"
-
+  generic:
+    actions-all: '對%contenttypes%的操作'
+    actions-one: '對%contenttype%的操作'
+    created: '已創建此%contenttype%'
+    delete: '刪除%contenttype%'
+    duplicate: '複製%contenttype%'
+    duplicated-finalize: "內容已複製。點選 '儲存%contenttype%' 以確認。"
+    edit: '編輯%contenttype%'
+    group:
+      meta: 元
+      relations: 關聯
+      taxonomy: 分類
+      template: 模板
+      ungrouped: 未分組
+    invalid-field: '未能設定%contenttype%的%field%欄位：欄位無效。'
+    invalid-relation: "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+    last-modified: '最近修改的%contenttypes%'
+    new: '新建%contenttype%'
+    no-latest: '無最新%contenttype%'
+    no-proper-type: "“%contenttype%(Entry)”的內容格式配置中，設定為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml檔案，修復此問題。"
+    no-recent: '無歷史%contenttype%。'
+    none-available: '無可用%contenttypes%。'
+    not-existing: '未找到你所尋找的%contenttype%，它可能已經被刪除，或者根本不存在。'
+    not-saved-yet: '這項%contenttype%尚未儲存。'
+    overview: '%contenttypes%一覽'
+    publish: '釋出%contenttype%'
+    recent: '歷史%contenttypes%'
+    recent-changes-one: 'Recent changes to this %contenttype%'
+    recently-edited: '曾經編輯的%contenttypes%'
+    reserved-name: "“%contenttype%”的內容格式配置中，所設定的'%field%'欄位是保留字。請編輯contenttypes.yml檔案，修復此問題。"
+    save: '儲存%contenttype%'
+    saved-changes: '對此%contenttype%所做出的變更已經儲存。'
+    saved-new: '已儲存新%contenttype%。'
+    saving-impossible: '無法儲存%contenttype%。'
+    show-more: '更多%contenttypes%'
+    view: '檢視%contenttypes%'
+    wrong-use-field: "“%contenttype%”的內容格式配置中，欄位'%field%'所設定的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml檔案，修復此問題。"
 field:
-    general:
-        allowed-filetypes: "允許的檔案類型為："
-        select-from-server: "在伺服器上選擇"
-        select-from-stack: "從暫存區中選擇"
-    geolocation:
-        label:
-            address-lookup: "查找地址"
-            latitude: "維度"
-            longitude: "經度"
-            marker-placement: "放置標記"
-        matched-address: "匹配的地址"
-        placeholder:
-            address: "街道、郵編、城市或者其他位置資訊"
-    slug:
-        permalink: "永久連結"
-    video:
-        button:
-            preview: "預覽"
-        label:
-            preview: "預覽圖片"
-            size: "大小"
-            url: "要嵌入的視訊URL"
-        matched-video: "匹配的視訊"
-        pixel: "畫素"
-        placeholder:
-            url: "Youtube、Vimeo 或者其他視訊網站的URL"
-        preview:
-            button.close: "關閉"
-            no-url: "沒有設定視訊URL，無法顯示視訊。"
-
+  general:
+    allowed-filetypes: 允許的檔案類型為：
+    select-from-server: 在伺服器上選擇
+    stack: Stack
+  geolocation:
+    label:
+      address-lookup: 查找地址
+      latitude: 維度
+      longitude: 經度
+      marker-placement: 放置標記
+      snap: Snap to nearest address
+    matched-address: 匹配的地址
+    placeholder:
+      address: 街道、郵編、城市或者其他位置資訊
+  markdown:
+    label:
+      markedview: Markdown
+      preview: Preview
+  slug:
+    button:
+      edit: 編輯
+      link: 'Link to:'
+      lock: Lock
+    message:
+      warning: Editing this field might break existing links to this record!
+    permalink: 永久連結
+    unique-alias: Unique alias
+  video:
+    label:
+      preview: 預覽圖片
+      size: 大小
+      url: 要嵌入的視訊URL
+    matched-video: 匹配的視訊
+    pixel: 畫素
+    placeholder:
+      url: Youtube、Vimeo 或者其他視訊網站的URL
 generic:
-    noscript:
-        headline: "JavaScript 已禁用"
-        message: "你的瀏覽器當前已禁用JavaScript。Bolt的大多數功能無需它的支援，但是為何獲得更好的體驗我們建議你啟用瀏覽器的JavaScript。"
-
+  noscript:
+    headline: JavaScript 已禁用
+    message: 你的瀏覽器當前已禁用JavaScript。Bolt的大多數功能無需它的支援，但是為何獲得更好的體驗我們建議你啟用瀏覽器的JavaScript。
+menu:
+  configuration:
+    routing: Routing set up
 page:
-    extend:
-        button:
-            update-check: "運行更新檢查"
-            update-all: "運行全部更新"
-            install-all: "安裝所有包"
-            browse-versions: "檢視版本"
-    ckeditor-browse-server:
-        files: "檔案"
-        folders: "資料夾"
-        modified: "修改時間"
-        pixel: "畫素"
-        size: "檔案大小"
-        title: "檔案"
-    dashboard:
-        button:
-            add: "添加 …"
-        empty-database: "資料庫當前為空。"
-        quickstart: "要快速開始使用，你可以<a href='%url%'>填充 Lorem Ipsum 示例資訊</a>。"
-        title: "操作檯"
-    edit-file:
-        button:
-            revert: "撤回更改"
-            save: "儲存"
-        confirm-revert: "你確認要撤回嗎？如果你不儲存的話所有資訊將丟失。"
-        note-related: "注意，此檔案與以下檔案有聯繫:"
-        title:
-            edit: "編輯檔案"
-            view: "檢視檔案"
-    edit-locale:
-        button:
-            save: "儲存"
-        title:
-            edit: "編輯檔案"
-            view: "檢視檔案"
-    edit-users:
-        activated:
-            no: "否"
-            yes: "是"
-        button:
-            save: "儲存使用者"
-        error:
-            displayname-used: "顯示名已被佔用，請選擇別的顯示名。"
-            email-used: "Email、地址已被佔用，請使用別的Email地址。"
-            password-mismatch: "兩次輸入的密碼必須一致。"
-            password-short: "密碼太短，至少要有6個字元。"
-            username-used: "使用者名已被佔用，請選擇別的名稱。"
-        label:
-            assigned-roles: "分配角色"
-            display-name: "顯示名"
-            email: "Email"
-            last-ip: "上一次IP"
-            last-seen: "上一次時間"
-            password: "密碼"
-            password-confirm: "密碼(確認)"
-            user-enabled: "啟用使用者"
-            username: "使用者名"
-        log:
-            user-added: "已添加使用者 '%user%'。"
-            user-updated: "已更新使用者 '%user%'。"
-        message:
-            saving-user: "不能儲存使用者%user%，什麼也沒發生。"
-            user-saved: "已儲存使用者%user%。"
-            change-self: "You've been logged off, because you changed your own username. Please log on again."
-        note-sqlite: "你當前正在使用 SQLite 資料庫設定第一個使用者，如果你想使用 MySQL 或者 PostgreSQL 的話，請編輯 <tt>'app/config/config.yml'</tt> 檔案，Bolt 會為你自動建立資料表。更換了資料庫以後，請重新整理頁面再繼續操作。"
-        placeholder:
-            displayname: "輸入顯示名/別名"
-            email: "輸入合法的Email地址"
-            password: "輸入至少6位密碼"
-            password-confirm: "確認你的密碼"
-            username: "輸入使用者名，英文全小寫"
-        title:
-            create: "創建新使用者"
-            edit: "編輯使用者"
-            profile: "個人資料"
-        user-create: "使用下面的表單創建新使用者。密碼欄位為必填項。"
-        user-edit: "使用下面的表單編輯現有使用者。如果不想更改使用者密碼，就留空密碼欄位。"
-    login:
-        button:
-            back: "返回登入"
-            forgot-password: "我忘記了自己的密碼"
-            log-on: "登入"
-            reset-password: "重設密碼"
-        cookies-required: "注意: 登入 Bolt 需要啟用 Cookies。請開啟 Cookies 功能。"
-        label:
-            password: "密碼"
-            username: "使用者名 / email"
-        password-hide: "隱藏"
-        password-show: "顯示"
-        placeholder:
-            password: "你的使用者名"
-        title: "登入 Bolt"
-
+  ckeditor-browse-server:
+    files: 檔案
+    folders: 資料夾
+    modified: 修改時間
+    pixel: 畫素
+    size: 檔案大小
+    title: 檔案
+  dashboard:
+    button:
+      add: 添加 …
+    empty-database: 資料庫當前為空。
+    quickstart: "要快速開始使用，你可以<a href='%url%'>填充 Lorem Ipsum 示例資訊</a>。"
+    title: 操作檯
+  edit-file:
+    button:
+      revert: 撤回更改
+      save: 儲存
+    confirm-revert: 你確認要撤回嗎？如果你不儲存的話所有資訊將丟失。
+    note-related: '注意，此檔案與以下檔案有聯繫:'
+    title:
+      edit: 編輯檔案
+      view: 檢視檔案
+  edit-locale:
+    button:
+      save: 儲存
+    title:
+      edit: 編輯檔案
+      view: 檢視檔案
+  edit-users:
+    activated:
+      "no": 否
+      "yes": 是
+    button:
+      save: 儲存使用者
+    error:
+      displayname-used: 顯示名已被佔用，請選擇別的顯示名。
+      email-used: Email、地址已被佔用，請使用別的Email地址。
+      password-different-displayname: Password must not be a part of the display name.
+      password-different-username: Password must not match the username.
+      password-mismatch: 兩次輸入的密碼必須一致。
+      password-short: 密碼太短，至少要有6個字元。
+      username-used: 使用者名已被佔用，請選擇別的名稱。
+    label:
+      assigned-roles: 分配角色
+      display-name: 顯示名
+      email: Email
+      last-ip: 上一次IP
+      last-seen: 上一次時間
+      password: 密碼
+      password-confirm: 密碼(確認)
+      user-enabled: 啟用使用者
+      username: 使用者名
+    log:
+      user-added: "已添加使用者 '%user%'。"
+      user-updated: "已更新使用者 '%user%'。"
+    message:
+      change-self: "You've been logged off, because you changed your own username. Please log on again."
+      saving-user: '不能儲存使用者%user%，什麼也沒發生。'
+      user-saved: '已儲存使用者%user%。'
+    note-sqlite: "你當前正在使用 SQLite 資料庫設定第一個使用者，如果你想使用 MySQL 或者 PostgreSQL 的話，請編輯 <tt>'app/config/config.yml'</tt> 檔案，Bolt 會為你自動建立資料表。更換了資料庫以後，請重新整理頁面再繼續操作。"
+    placeholder:
+      displayname: 輸入顯示名/別名
+      email: 輸入合法的Email地址
+      password: 輸入至少6位密碼
+      password-confirm: 確認你的密碼
+      username: 輸入使用者名，英文全小寫
+    title:
+      create: 創建新使用者
+      edit: 編輯使用者
+      profile: 個人資料
+    user-create: 使用下面的表單創建新使用者。密碼欄位為必填項。
+    user-edit: 使用下面的表單編輯現有使用者。如果不想更改使用者密碼，就留空密碼欄位。
+  extend:
+    button:
+      autoload-dump: Rebuild Autoloader
+      browse-versions: 檢視版本
+      config: Config
+      copy-to-theme-folder: Copy to theme folder
+      info-help: More info/help
+      install-all: 安裝所有包
+      install-package: Install Package
+      install-this-version: Install This Version
+      readme: Readme
+      show-all-versions: Show all versions
+      uninstall: Uninstall
+      update-all: 運行全部更新
+      update-check: 運行更新檢查
+      update-package: Update Package
+      versions: Versions
+    headline:
+      currently-installed: Your Currently Installed Extensions
+      install-new-extension: Install a new Extension
+      installation-complete: Installation complete
+      installing-package: Installing package
+      latest-version: Latest stable version
+      stable-versions: Stable versions
+      test-versions: Unstable test versions
+      theme-installation-complete: Theme installation complete
+      updates: Updates
+    listheader:
+      actions: 操作
+      extension: Extension
+      status: Status
+      version: Version
+    message:
+      add-extension-with-form: Add a new extension using the form below.
+      autoload-dump: This will rebuild both the autoload files and cache.
+      bad-json: Malformed JSON response. Ensure no debugging or other code is being added to the response
+      before-theme-start: Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here.
+      check-for-updates: Check for updates
+      checking-installed-packages: Checking installed packages
+      checkung-for-updates: Checking for available updates (this may take up to 60 seconds)
+      compatible-unstable-versions: 'The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.'
+      confirm-remove: Please confirm that you want to remove this extension?
+      copying: Copying theme assets …
+      discover-by-visiting: You can discover new extensions by visiting
+      ext-dir-missing: 'The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>).'
+      install-all: Running install of all packages …
+      installing: Preparing to install package …
+      installing-selected-package: Installing selected package version (this may take up to 60 seconds).
+      installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+      installs-updates: This will install all available updates.
+      latest-version: The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using.
+      loading-disabled: 'Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed.'
+      maintenance: 維護
+      marked-as-stable: The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.
+      no-bolt-extensions-installed: No Bolt Extensions installed.
+      no-package-check-in-readmode: Cannot check installed packages in read-only mode
+      no-stable-versions-available: No Stable Versions Available
+      no-test-versions-available: No Test Versions Available
+      no-update-check-in-readmode: Cannot check for updates in read-only mode
+      overwrite: This will overwrite any existing files! Are you sure?
+      removing: Preparing to remove package …
+      running-update: Running update …
+      shows-updates: "This won't install anything, just show you available updates"
+      start-using-extension: You can now start using the installed extension, documentation and implementation instructions can be found using the link below.
+      updated: Everything is up to date!
+      updating: Searching for available updates …
+    pagetitle: 'Extend %BOLTNAME%'
+  login:
+    button:
+      back: 返回登入
+      forgot-password: 我忘記了自己的密碼
+      log-on: 登入
+      reset-password: 重設密碼
+    cookies-required: '注意: 登入 Bolt 需要啟用 Cookies。請開啟 Cookies 功能。'
+    label:
+      password: 密碼
+      username: 使用者名 / email
+    password-hide: 隱藏
+    password-show: 顯示
+    placeholder:
+      password: 你的使用者名
+    title: 登入 Bolt
 panel:
-    latest-activity:
-        button:
-            more: "更多活動日誌"
-        by: "由"
-        change: "Latest changes"
-        logged-in: "登入"
-        logged-out: "登出"
-        created: "Created"
-        saved: "已儲存"
-        system: "Latest system activity"
-        deleted: "Deleted"
-        unknown: "未知"
-    user-actions:
-        button:
-            add: "添加新使用者"
+  latest-activity:
+    button:
+      more: 更多活動日誌
+    by: 由
+    change: Latest changes
+    created: Created
+    deleted: Deleted
+    logged-in: 登入
+    logged-out: 登出
+    saved: 已儲存
+    system: Latest system activity
+    unknown: 未知
+  user-actions:
+    button:
+      add: 添加新使用者

@@ -1,0 +1,695 @@
+---
+"%contenttypes% overview": '%contenttypes% overview'
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": 'Bolt Extension could not be found. Please check at %site% to ensure correct name.'
+Clear Activitylog: Καθαρισμός Πρόσφατων Ενεργειών
+Clear the current log: Clear the current log
+"Content '%title%' could not be deleted.": "Το '%title%' δεν μπορεί να διαγραφεί."
+"Content '%title%' has been changed to '%newStatus%'": "Το '%title%' άλλαξε σε κατάσταση : '%newStatus%'"
+"Content '%title%' has been deleted.": "Το '%title%' διαγράφηκε."
+Delete selected: Delete selected
+Depublish selected: Depublish selected
+"Do you really want to delete %foldername%?": 'Do you really want to delete %foldername%?'
+Extension log: Extension log
+"File '%file%' could not be uploaded.": "Το αρχείο '%file%' δεν μπορεί να φορτωθεί."
+Filtering …: Filtering …
+Next: Next
+"No recent %contenttype%.": 'No recent %contenttype%.'
+No such action for content.: Δεν υπάρχει τέτοια επιλογή.
+"Originally by %1, ported by %2": 'Originally by %1, ported by %2'
+Other contenttypes: Other contenttypes
+Permission denied: Άρνηση δικαιωμάτων
+Previous: Previous
+"Proudly powered by %s": 'Proudly powered by %s'
+Publish selected: Publish selected
+"Recent %contenttypes%": 'Recent %contenttypes%'
+"Search for:": 'Search for:'
+Search…: Αναζήτηση…
+Skip to content: Skip to content
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": 'The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.'
+"The file '%s' doesn't exist, or is not readable.": "Το αρχείο '%s' δεν υπάρχει ή δεν μπορεί να διαβαστεί."
+Trim Activitylog: Trim Activitylog
+You do not have the right privileges to create a new record.: Δεν έχετε τα κατάλληλα δικαιώματα για την εισαγωγή νέας εγγραφής.
+You must specify both a name and a version to install!: You must specify both a name and a version to install!
+"[Extension error] Initialisation failed for %ext%: %error%": '[Extension error] Initialisation failed for %ext%: %error%'
+"[Extension error] Snippet loading failed for %ext%: %error%": '[Extension error] Snippet loading failed for %ext%: %error%'
+"[Extension error] Twig function registration failed for %ext%: %error%": '[Extension error] Twig function registration failed for %ext%: %error%'
+"[Extension error] YAML config failed to load for %ext%: %error%": '[Extension error] YAML config failed to load for %ext%: %error%'
+"in:": 'μέσα:'
+contenttypes.general.choose-an-entry: Επιλογή Καταχώρησης
+general.thanks: Ευχαριστώ
+contenttypes.generic.error-saving: 'There was an error saving this %contenttype%.'
+field.general.select-from-stack: Select from stack
+field.geolocation.marker: Pin
+field.video.button.preview: Preview
+field.video.preview.button.close: Close
+field.video.preview.no-url: No video url is set, no video to show.
+"An error occured while updating `%TABLE%`. The error is %ERROR%": 'An error occured while updating `%TABLE%`. The error is %ERROR%'
+"Are you sure you want to delete %FILENAME%?": 'Are you sure you want to delete %FILENAME%?'
+"Are you sure you want to do this for %NUMBER% records?": 'Are you sure you want to do this for %NUMBER% records?'
+Are you sure you want to do this for 1 record?: Are you sure you want to do this for 1 record?
+Are you sure you want to remove these files?: Are you sure you want to remove these files?
+Are you sure you want to remove these images?: Are you sure you want to remove these images?
+Are you sure you want to remove this file?: Are you sure you want to remove this file?
+Are you sure you want to remove this image?: Are you sure you want to remove this image?
+Are you sure you wish to delete this record? There is no undo.: Are you sure you wish to delete this record? There is no undo.
+"At least %NUM% characters required": 'At least %NUM% characters required'
+Author: Author
+Choose an entry: Επιλογή Καταχώρησης
+Clear Change Log: Clear Change Log
+Clear System Log: Clear System Log
+"Client error: %errormessage%": 'Client error: %errormessage%'
+Close editor: Close editor
+Create File: Create File
+Delete: Delete
+Delete Set: Delete Set
+Depublish: Depublish
+Depublish date is in the past. Change the status if you want to depublish now: Depublish date is in the past. Change the status if you want to depublish now
+"Do you really want to delete %FOLDERNAME%?": 'Do you really want to delete %FOLDERNAME%?'
+Duplicate Set: Duplicate Set
+"Extension server returned an error: %errormessage%": 'Extension server returned an error: %errormessage%'
+Failed to send password request. Please check the email settings.: Failed to send password request. Please check the email settings.
+"Field “%FIELD_NAME%”:": 'Field “%FIELD_NAME%”:'
+"File '%s' could not be saved, because the form wasn't valid.": "File '%s' could not be saved, because the form wasn't valid."
+Files could not be uploaded.: Files could not be uploaded.
+"Generic failure while testing connection to extension server: %errormessage%": 'Generic failure while testing connection to extension server: %errormessage%'
+Has to be a floating point number!: Has to be a floating point number!
+Id (№): Id (№)
+Invalid login parameters.: Invalid login parameters.
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": 'Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.'
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": 'Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!'
+Is required or needs to match a pattern!: Is required or needs to match a pattern!
+Is required!: Is required!
+Keyword …: Keyword …
+Language coverage: Language coverage
+Live Edit: Live Edit
+New Bolt site has been set up: New Bolt site has been set up
+No content found.: No content found.
+No files in the list, yet.: No files in the list, yet.
+No images in the list, yet.: No images in the list, yet.
+No theme name found. Theme is not generated.: No theme name found. Theme is not generated.
+Not yet installed.: Not yet installed.
+Only root can change file extensions.: Only root can change file extensions.
+Order: Order
+Others: Others
+Publish: Publish
+Records: Records
+"Related content:": 'Related content:'
+Run PHP extension checks: Run PHP extension checks
+Run all checks: Run all checks
+Run directory checks: Run directory checks
+Run email checks: Run email checks
+"Selection (#):": 'Selection (#):'
+Something went wrong with logging in after first user creation!: Something went wrong with logging in after first user creation!
+Staff Position: Staff Position
+Staff_position: Staff_position
+Subject: Subject
+Subjects: Subjects
+System Configuration Checks: System Configuration Checks
+"Testing connection to extension server failed: %errormessage%": 'Testing connection to extension server failed: %errormessage%'
+Text: Text
+"The Bolt extensions file '%composerjson%' isn't readable.": "The Bolt extensions file '%composerjson%' isn't readable."
+The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.: "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"The file '%s' doesn't exist.": "The file '%s' doesn't exist."
+"The file '%s' is not readable.": "The file '%s' is not readable."
+"The value has to be at least “%MINVAL%”!": 'The value has to be at least “%MINVAL%”!'
+"The value must not be greater than “%MAXVAL%”!": 'The value must not be greater than “%MAXVAL%”!'
+There are no saved changes, yet.: There are no saved changes, yet.
+There is no undo!: There is no undo!
+Thumbnail: Thumbnail
+Trim Change Log: Trim Change Log
+Trim System Log: Trim System Log
+"Unable to create directory: %DIR%": 'Unable to create directory: %DIR%'
+"Unable to create file: %FILE%": 'Unable to create file: %FILE%'
+"Unable to delete directory: %DIR%": 'Unable to delete directory: %DIR%'
+"Unable to delete file: %FILE%": 'Unable to delete file: %FILE%'
+"Unable to rename directory: %DIR%": 'Unable to rename directory: %DIR%'
+"Unable to rename file: %FILE%": 'Unable to rename file: %FILE%'
+Unable to retrieve login session data. Please check your system's PHP session settings.: "Unable to retrieve login session data. Please check your system's PHP session settings."
+Upload not allowed: Upload not allowed
+Users & Permissions: 'Users & Permissions'
+"Welcome to your new Bolt site, %USER%.": 'Welcome to your new Bolt site, %USER%.'
+"You cannot '%s' yourself.": "You cannot '%s' yourself."
+You do not have the right privileges to edit that user.: You do not have the right privileges to edit that user.
+You have unfinished changes on this page. If you continue without saving, you will lose these changes.: You have unfinished changes on this page. If you continue without saving, you will lose these changes.
+"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
+or: or
+"%name% № %id%": '%name% № %id%'
+"%s files could not be deleted. You should delete them manually.": '%s αρχεία δεν διαγράφηκαν. Θα πρέπει να τα διαγράψετε χειροκίνητα.'
+(default template): (standardní šablona)
+(no category): (χωρίς κατηγορία)
+(no group): (χωρίς ομάδα)
+(none): (none)
+"A password reset link has been sent to '%user%'.": "Σύνδεσμος για καινούριο κωδικό πρόσβασης στάλθηκε στον '%user%'."
+Actions: Ενέργεις
+Add a brief, optional comment to describe what's changed.: "Add a brief, optional comment to describe what's changed."
+"Add a comment:": 'Add a comment:'
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
+"Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
+Alas, no about!: Alas, no about!
+All content types: Ολοι οι τύποι
+All users: Όλοι οι χρήστες
+Alt: Alt
+An error occurred.: Παρουσιάστηκε ένα πρόβλημα
+Anonymous: Ανώνυμος
+"Are you sure you want to delete %username%?": 'Είστε σίγουροι ότι θέλετε να διαγραφεί ο/η %username%?'
+"Author:": 'Συγγραφέας:'
+Below are the third party libraries that are used by Bolt.: Below are the third party libraries that are used by Bolt.
+Body: Body
+Bolt - Fatal error.: 'Bolt - Μοιραίο λάθος.'
+Browser / platform: Browser / platform
+Built-in role, automatically granted at all times, even if no user is logged in: Built-in role, automatically granted at all times, even if no user is logged in
+Built-in role, automatically granted to every registered user: Built-in role, automatically granted to every registered user
+Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.: Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.
+Built-in superuser role, automatically grants all permissions: Built-in superuser role, automatically grants all permissions
+Cancel: Ακύρο
+Categories: Κατηγορίες
+Category: Κατηγορία
+Change Log: Αρχείο αλλαγών
+Change status to 'draft': "Αλλαγή κατάστασης σε 'draft'"
+Change status to 'held': "Αλλαγή κατάστασης σε 'held'"
+Chapter: Κεφάλαιο
+Chapters: Κεφάλαια
+Check again: Έλεγχος ξανά
+Check database: Έλεγχος βάσης δεδομένων
+"Class:": 'Κλάση:'
+Clear cache again: Καθαρισμός cache ξανα
+Clear filter: Καθαρισμός φίλτρου
+Clear sort/filter: Καθαρισμός ταξινόμησης/φίλτρου
+Clear the cache: Καθαρισμός cache
+Click to change current status.: Αλλαγή κατάστασης.
+"Code:": 'Κώδικας:'
+Collapse sidebar: Collapse sidebar
+Configuration: Παραμετροποίηση
+Content: Περιεχόμενο
+"Content '%title%' could not be modified.": "Το '%title%' δεν μπορει να αλλαχτεί."
+Content Type Permissions: Content Type Permissions
+Content for home not found!: Δεν βρήθηκε περιεχόμενο για την αρχική σελίδα!
+Contenttypes: Contenttypes
+Create folder: Create folder
+Create the first user: Δημιουργία του πρώτου χρήστη
+"Created on:": 'Δημιουργήθηκε στις:'
+"Current (saved) status:": 'Τρέχουσα (αποθηκευμένη) κατάσταση:'
+Current sessions: Τρέχων sessions
+"Current status:": 'Τρέχουσα κατάσταση:'
+Dashboard: Dashboard
+Database check / update: Έλεγχος / ανανέωση Βάσης Δεδομένων
+Date: Date
+Datetime: Datetime
+Default status: Default status
+"Delete %filename%": 'Διαγραφή %filename%'
+"Delete %foldername%": 'Delete %foldername%'
+"Delete %username%": 'Διαγραφή %username%'
+"Deleted %s files from cache.": 'Διαγράφηκαν %s αρχεία απο την cache.'
+"Depublication date:": 'Ημερομηνία αντιγραφής:'
+Deselect all: Αποεπιλογή όλων
+Detail template: Detail template
+Details: Details
+"Disable %username%": 'Απενεργοποίηση %username%'
+Done!: Τέλος!
+Draft: Προσχέδιο
+"Duplicate %filename%": 'Αντιγραφή %filename%'
+Edit: Επεξεργασία
+Edit Roles and Permissions: Edit Roles and Permissions
+Edit file: Επεξερφασία αρχείου
+"Enable %username%": 'Ενεργοποίηση %username%'
+Everybody: Όλοι
+Excerpt: Απόσπασμα
+Expand sidebar: Expand sidebar
+Extensions: Επεκτάσεις
+Extras: Extras
+File: File
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
+"File '%file%' was uploaded successfully.": "Το αρχείο '%file%' φορτώθηκε με επιτυχία."
+"File '%s' could not be saved, for some reason.": "Το αρχέιο '%s' δεν μπορεί να αποθηκευτεί για κάποιο λόγο."
+"File '%s' could not be saved:": "Το αρχείο '%s' δεν μπορεί να αποθηκευτεί:"
+"File '%s' has been saved.": "Το αρχείο '%s' αποθηκεύτηκε."
+File Management: Διαχείριση Αρχείων
+File is not readable!: Το αρχείο δεν μπορεί να διαβαστεί!
+Filelist: File list
+Files: Αρχεία
+"Files in %s": 'Αρχεία στο %s'
+Files on the stack: Αρχεία στο stack
+Filesize: Μέγεθος αρχείου
+Fill the database with Dummy Content: Γέμισε την Βάση Δεδομένων με Χαζό Περιεχόμενο
+Filter: Φίλτρο
+Filtering: Filtering
+Find: Find
+Floatfield: Float field
+"Folder '%s' could not be found, or is not readable.": "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."
+Folder permissions insufficient: Folder permissions insufficient
+Folders: Κατάλογοι
+Full list …: Full list …
+Geolocation: Geolocation
+Global Permissions: Καθολικά Δικαιώματα
+"Hints:": 'Hints:'
+Html: Html
+IP address: Διεύθυνση IP
+Id: Id
+If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.: "Εάν υπήρχε σελίδα με slug 'about' θα εμφανιζόταν εδώ. Αλλα δεν υπάρχει και για αυτό βλέπετε αυτό."
+Image: Εικόνα
+Imagelist: Image list
+Info: Πληροφορίες
+Integerfield: Integer field
+"Last edited on:": 'Τελευταία τροποποίηση στις:'
+Last known IP: Τελευταία γνωστή IP
+Last seen: Τελευταία προβλήθηκε
+Latest entries: Τελευταίες καταχωρήσης
+Listing template: Listing template
+Login: Σύνδεση
+Logout: Αποσύνδεση
+Long messages: Μακρύ μηνύματα
+Main configuration: Main configuration
+Maintenance: Συντήρηση
+Markdown: Markdown
+Menu setup: Επεξεργασία Menu
+"Message:": 'Μήνυμα:'
+Messages: Μηνύματα
+Meta: Meta
+Meta information: Meta πληροφορίες
+"Modifications made to the database:": 'Αλλαγές στην Βάση Δεδομένων:'
+"Modifications needed:": 'Αλλαγές που χρειάστηκαν:'
+Modified: Τροποποιήθηκε
+Multiselect: Multi-select
+No relations found!: No relations found!
+"No results found for '%SEARCHTERM%'. Please try another search.": "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
+"No such action for user '%s'.": "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
+None: Κανένα
+Not published: Μη δημοσιευμένο
+"Note:": 'Note:'
+Omnisearch: Omnisearch
+Options: Επιλογές
+"Order: %sort%": 'Σειρά: %sort%'
+Overview: Σύνοψη
+Overview for: Σύνοψη για
+Owner: Ιδιοκτήτης
+"Owner:": 'Ιδιοκτήτης:'
+Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.: Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.
+Password reset successful! You can now log on with the password that was sent to you via email.: Επιτυχής επαναφορά κωδικού. Μπορείτε τώρα να συνδεθείτε με τον κωδικό που απεστάλη στο email σας.
+Path: Διαδρομή
+Path to image file: Path to image file
+"Path:": 'Διαδρομή:'
+Permalink: Μόνιμος Συνδεσμος
+Permissions: Δικαιώματα
+Place on stack: Καταχώρηση στο Stack
+"Please choose the record you want to link to:": 'Επιλέξτε την εγγραφή που θέλετε να συνδέσετε πρός:'
+Please enter a new file name!: Please enter a new file name!
+Please enter a new folder name!: Please enter a new folder name!
+Please log on.: Please log on.
+Please provide a username: Παρακαλώ καταχωρήστε ένα όνομα χρήστη
+Prefill database: Pre-fill database
+Preview: Προεπισκόπηση
+Profile: Προφίλ
+"Provided by:": 'Παρέχεται απο:'
+"Publication date:": 'Ημερομηνία δημοσίευσης:'
+Published: Δημοσιεύτηκε
+"Published on:": 'Δημοσιεύτηκε στις:'
+Read more: Διαβάστε περισσότερα
+Related content: Σχετικό περιεχόμενο
+Relationships: Σχέσεις
+"Rename %foldername%": 'Rename %foldername%'
+Roles: Ρόλοι
+Roles and Permissions: Ρόλοι και Δικαιώματα
+Save & create new record: 'Save & create new record'
+Save & return to overview: Αποθήκευση κι Επιστροφή στην σύνοψη
+"Saved on:": 'Αποθήκευση στις:'
+Saving …: Saving …
+Search: Αναζήτηση
+Search for …: Search for …
+"Search results for <b> %search% </b>.": 'Αποτελέσματα αναζήτησης για <b> %search% </b>.'
+Search …: Search …
+Select: Επιλογή
+Select a page: Επιλογή σελίδας
+Select all: Επιλογή όλων
+Select file …: Select file …
+Select none: Επιλογή κανενός
+Select zero or more pages: Επιλεξτε μηδέν ή περισσότερες σελίδες.
+Selectentry: Select entry
+Selectfield: Select field
+Session expires: Η συνεδρία λήγει.
+Session resumed.: Η συνεδρία συνεχίστηκε.
+Settings: Ρυθμίσεις
+Showing: Εμφάνιση
+"Showing %pager_for% %from% - %to% of %count%": 'Εμφάνιση %pager_for% %from% - %to% απο %count%'
+Size: Μέγεθος
+"Skipped <tt>%key%</tt> (already has records)": 'Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)'
+"Skipped <tt>%key%</tt> (not checked)": 'Παράληψη <tt>%key%</tt> (δεν ελέγθηκε)'
+Slug: Slug
+"Slug:": 'Slug:'
+Something went wrong: Κάτι πήγε στραβά
+Sophisticated, lightweight & simple CMS: 'Sophisticated, lightweight & simple CMS'
+Stack: Stack
+"Status:": 'Κατάσταση:'
+Tag: Tag
+Tags: Tags
+Taxonomy: Taxonomy
+Teaser: Teaser
+Template: Template
+Textarea: Textarea
+That user does not exist.: Ο χρήστης αυτός δεν υπάρχει.
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": 'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.'
+The change log has been cleared.: The change log has been cleared.
+The change log has been trimmed.: The change log has been trimmed.
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "The file '%s' is not writable. You will have to use your own editor to make modifications to this file."
+"The folder '%s' could not be found, or is not readable.": "The folder '%s' could not be found, or is not readable."
+"The following file could not be read:": 'The following file could not be read:'
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
+The requested changelog entry doesn't exist.: "The requested changelog entry doesn't exist."
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": 'The settings for roles and permissions are stored in <code>%permissions%</code>.'
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct."
+The system log has been cleared.: The system log has been cleared.
+The system log has been trimmed.: The system log has been trimmed.
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
+"The translations file '%s' is not readable.": "The translations file '%s' is not readable."
+Theme successfully generated. You can now edit it directly from your theme folder.: Theme successfully generated. You can now edit it directly from your theme folder.
+There are no items on the Stack, yet.: There are no items on the Stack, yet.
+There are no users in the database. Please create the first user.: There are no users in the database. Please create the first user.
+There are no users present in the system. Please create the first user, which will be granted root privileges.: There are no users present in the system. Please create the first user, which will be granted root privileges.
+There should always be at least one 'root' user. You have just been promoted. Congratulations!: "There should always be at least one 'root' user. You have just been promoted. Congratulations!"
+This is a checkbox: This is a checkbox
+"This record is related to:": 'This record is related to:'
+This template adds new fields. Save, then refresh to see these changes.: This template adds new fields. Save, then refresh to see these changes.
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
+Time in 24h/12h format: Time in 24h/12h format
+Timed publish: Timed publish
+"Tip:": 'Μυστικό:'
+Title: Τίτλος
+Translations: Μεταφράσεις
+Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.: 'Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.'
+Types: Τύποι
+Update the database: Ανανέωση της Βασης Δεδομένων
+Upload: Φόρτωση
+Upload a file to this folder: Upload a file to this folder
+Upload file: Φόρτωση αρχείου
+Upload image: Φόρτωση εικόνας
+Uploaded files: Φορτωμένο αρχείο
+Uploading to this folder is not allowed.: Η φόρτωση αρχείου σε αυτον τον κατάλογο δεν επιτρέπετε.
+Used Libraries / Components: Used Libraries / Components
+"User '%s' could not be deleted.": 'Ο χρήστης %s δεν μπορεί να διαγραφεί.'
+"User '%s' could not be disabled.": 'Ο χρήστης %s δεν μπορεί να απενεργοποιηθεί.'
+"User '%s' could not be enabled.": 'Ο χρήστης %s δεν μπορεί να ενεργοποιηθεί.'
+"User '%s' is deleted.": "Ο χρήστης '%s' διαγράφηκε."
+"User '%s' is disabled.": "Ο χρήστης '%s' απενεργοποιήθηκε."
+"User '%s' is enabled.": "Ο χρήστης '%s' ενεργοποιήθηκε."
+Username: Όνομα χρήστη
+Username or password not correct. Please check your input.: Όνομα χρήστης ή κωδικός δεν είναι σωστός.
+Users: Χρήστες
+Video: Video
+View (saved version) on site: View (saved version) on site
+View Roles: View Roles
+View on site: Εμφάνιση στο site
+View related content: View related content
+View site: Εμφάνιση site
+View/edit Templates: View/edit Templates
+Warning: Warning
+We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.: We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.
+"Written by <em>%name%</em> on %date%": 'Γράφτηκε απο τον <em>%name%</em> στις %date%'
+You do not have the right privileges to edit that record.: Δεν έχετε τα κατάλληλα δικαιώματα για να επεξεργαστείτε αυτην την εγγραφή.
+You do not have the right privileges to view that page.: Δεν έχετε τα κατάλληλα δικαιώματα για την εμφάνιση αυτής τις εγγραφής.
+"You don't have correct permissions to edit the file '%s'.": "You don't have correct permissions to edit the file '%s'."
+"You don't have the correct permissions to display the file or directory '%s'.": "You don't have the correct permissions to display the file or directory '%s'."
+You have been logged out.: Αποσυνδεθήκατα.
+You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.: You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown."
+You've been logged on successfully.: Συνδεθήκατε επιτυχώς.
+Your account is disabled. Sorry about that.: Ο λογαριασμός σας απενεργοποιήθηκε.
+Your database is already up to date.: Your database is already up to date.
+Your database is now up to date.: Your database is now up to date.
+and edited: και επεξεργάστηκε
+back to editing: πίσω στην επεξεργασία
+by: απο
+general.about: Σχετικά
+general.about-bolt: Σχετικά με το Bolt
+general.bolt-documentation: Bolt documentation
+general.bolt-on-github: Bolt στο Github
+general.visit-bolt: Visit Bolt.cm
+line: σειρά
+logs.change-log: Αρχείο αλλαγών
+logs.system-log: System Log
+no content …: no content …
+no title …: no title …
+none: κανένα
+of: απο
+show all: εμφάνιση όλων
+users.actions-for-users: Ενέργεις για Χρήστες
+users.your-password: Ο κωδικός σας
+component:
+  changelog-detail:
+    by: απο
+    field: Field
+    value-new: New value
+    value-old: Old value
+  changelog-pager:
+    page: Page
+contenttypes:
+  generic:
+    actions-all: 'Actions for %contenttypes%'
+    actions-one: 'Actions for this %contenttype%'
+    created: 'This %contenttype% was created'
+    delete: 'Delete %contenttype%'
+    duplicate: 'Duplicate %contenttype%'
+    duplicated-finalize: "Content was duplicated. Click 'Save %contenttype%' to finalize."
+    edit: 'Edit %contenttype%'
+    group:
+      meta: Meta
+      relations: Σχέσεις
+      taxonomy: Taxonomy
+      template: Template
+      ungrouped: Ungrouped
+    invalid-field: "Can't set %field% in %contenttype%: Not a valid field."
+    invalid-relation: "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+    last-modified: 'Last modified %contenttypes%'
+    new: 'New %contenttype%'
+    no-latest: 'No latest %contenttype%'
+    no-proper-type: "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+    no-recent: 'No recent %contenttype%.'
+    none-available: 'No %contenttypes% available.'
+    not-existing: 'The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.'
+    not-saved-yet: 'This %contenttype% has not been saved yet.'
+    overview: '%contenttypes% overview'
+    publish: 'Publish %contenttype%'
+    recent: 'Recent %contenttypes%'
+    recent-changes-one: 'Recent changes to this %contenttype%'
+    recently-edited: 'Recently edited %contenttypes%'
+    reserved-name: "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+    save: 'Save %contenttype%'
+    saved-changes: 'The changes to the %contenttype% have been saved.'
+    saved-new: 'The new %contenttype% has been saved.'
+    saving-impossible: 'Could not save %contenttype%.'
+    show-more: 'More %contenttypes%'
+    view: 'View %contenttypes%'
+    wrong-use-field: "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+field:
+  general:
+    allowed-filetypes: 'Allowed file types are:'
+    select-from-server: Select from server
+    stack: Stack
+  geolocation:
+    label:
+      address-lookup: Address lookup
+      latitude: Latitude
+      longitude: Longitude
+      marker-placement: Marker placement
+      snap: Snap to nearest address
+    matched-address: Matched address
+    placeholder:
+      address: Street, ZIP code, city or other location
+  markdown:
+    label:
+      markedview: Markdown
+      preview: Preview
+  slug:
+    button:
+      edit: Επεξεργασία
+      link: 'Link to:'
+      lock: Lock
+    message:
+      warning: Editing this field might break existing links to this record!
+    permalink: Μόνιμος Συνδεσμος
+    unique-alias: Unique alias
+  video:
+    label:
+      preview: Preview image
+      size: Μέγεθος
+      url: URL of video to embed
+    matched-video: Matched video
+    pixel: pixel
+    placeholder:
+      url: URL of video on Youtube, Vimeo or other video website
+generic:
+  noscript:
+    headline: JavaScript disabled
+    message: JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data.
+menu:
+  configuration:
+    routing: Routing set up
+page:
+  ckeditor-browse-server:
+    files: Files
+    folders: Κατάλογοι
+    modified: Τροποποιήθηκε
+    pixel: px.
+    size: Filesize
+    title: Files
+  dashboard:
+    button:
+      add: Add …
+    empty-database: "It seems there's no content in the database."
+    quickstart: "To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>."
+    title: Dashboard
+  edit-file:
+    button:
+      revert: Revert changes
+      save: Save
+    confirm-revert: "Are you sure you wish to revert? Your changes will be lost if you don't save them."
+    note-related: 'Note, this file has related files:'
+    title:
+      edit: Επεξερφασία αρχείου
+      view: View file
+  edit-locale:
+    button:
+      save: Save
+    title:
+      edit: Επεξερφασία αρχείου
+      view: View file
+  edit-users:
+    activated:
+      "no": 'no'
+      "yes": 'yes'
+    button:
+      save: Save user
+    error:
+      displayname-used: This displayname is already in use. Choose another displayname.
+      email-used: This email address is already in use. Choose another email address.
+      password-different-displayname: Password must not be a part of the display name.
+      password-different-username: Password must not match the username.
+      password-mismatch: Passwords must match.
+      password-short: This value is too short. It should have 6 characters or more.
+      username-used: This username is already in use. Choose another username.
+    label:
+      assigned-roles: Assigned roles
+      display-name: Display name
+      email: Email
+      last-ip: Last IP
+      last-seen: Τελευταία προβλήθηκε
+      password: Password
+      password-confirm: Password (confirmation)
+      user-enabled: User account is enabled
+      username: Όνομα χρήστη
+    log:
+      user-added: "Added user account '%user%'."
+      user-updated: "Updated user account '%user%'."
+    message:
+      change-self: "You've been logged off, because you changed your own username. Please log on again."
+      saving-user: 'User %user% could not be saved, or nothing was changed.'
+      user-saved: 'User %user% has been saved.'
+    note-sqlite: "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
+    placeholder:
+      displayname: Pick a display name / alias
+      email: Enter a valid email address
+      password: Enter a password, longer than 6 chars
+      password-confirm: Confirm your password
+      username: Pick a username, lowercase only
+    title:
+      create: Create a new user account
+      edit: Edit user account
+      profile: Προφίλ
+    user-create: Create a new user account, using the form below. The password field is required.
+    user-edit: Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password.
+  extend:
+    button:
+      autoload-dump: Rebuild Autoloader
+      browse-versions: Browse Versions
+      config: Config
+      copy-to-theme-folder: Copy to theme folder
+      info-help: More info/help
+      install-all: Install all Packages
+      install-package: Install Package
+      install-this-version: Install This Version
+      readme: Readme
+      show-all-versions: Show all versions
+      uninstall: Uninstall
+      update-all: Run all Updates
+      update-check: Run update check
+      update-package: Update Package
+      versions: Versions
+    headline:
+      currently-installed: Your Currently Installed Extensions
+      install-new-extension: Install a new Extension
+      installation-complete: Installation complete
+      installing-package: Installing package
+      latest-version: Latest stable version
+      stable-versions: Stable versions
+      test-versions: Unstable test versions
+      theme-installation-complete: Theme installation complete
+      updates: Updates
+    listheader:
+      actions: Ενέργεις
+      extension: Extension
+      status: Status
+      version: Version
+    message:
+      add-extension-with-form: Add a new extension using the form below.
+      autoload-dump: This will rebuild both the autoload files and cache.
+      bad-json: Malformed JSON response. Ensure no debugging or other code is being added to the response
+      before-theme-start: Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here.
+      check-for-updates: Check for updates
+      checking-installed-packages: Checking installed packages
+      checkung-for-updates: Checking for available updates (this may take up to 60 seconds)
+      compatible-unstable-versions: 'The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.'
+      confirm-remove: Please confirm that you want to remove this extension?
+      copying: Copying theme assets …
+      discover-by-visiting: You can discover new extensions by visiting
+      ext-dir-missing: 'The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>).'
+      install-all: Running install of all packages …
+      installing: Preparing to install package …
+      installing-selected-package: Installing selected package version (this may take up to 60 seconds).
+      installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+      installs-updates: This will install all available updates.
+      latest-version: The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using.
+      loading-disabled: 'Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed.'
+      maintenance: Συντήρηση
+      marked-as-stable: The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.
+      no-bolt-extensions-installed: No Bolt Extensions installed.
+      no-package-check-in-readmode: Cannot check installed packages in read-only mode
+      no-stable-versions-available: No Stable Versions Available
+      no-test-versions-available: No Test Versions Available
+      no-update-check-in-readmode: Cannot check for updates in read-only mode
+      overwrite: This will overwrite any existing files! Are you sure?
+      removing: Preparing to remove package …
+      running-update: Running update …
+      shows-updates: "This won't install anything, just show you available updates"
+      start-using-extension: You can now start using the installed extension, documentation and implementation instructions can be found using the link below.
+      updated: Everything is up to date!
+      updating: Searching for available updates …
+    pagetitle: 'Extend %BOLTNAME%'
+  login:
+    button:
+      back: Back to login
+      forgot-password: I forgot my password …
+      log-on: Log on
+      reset-password: Reset my password
+    cookies-required: 'Note: Cookies are required to log on to Bolt. Please allow cookies.'
+    label:
+      password: Password
+      username: Username / email
+    password-hide: Hide
+    password-show: Show
+    placeholder:
+      password: Your username
+    title: Sign in to Bolt
+panel:
+  latest-activity:
+    button:
+      more: more activity
+    by: απο
+    change: Latest changes
+    created: Created
+    deleted: Deleted
+    logged-in: logged in
+    logged-out: logged out
+    saved: Saved
+    system: Latest system activity
+    unknown: unknown
+  user-actions:
+    button:
+      add: Add a new user

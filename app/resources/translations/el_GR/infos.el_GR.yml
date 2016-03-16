@@ -1,0 +1,83 @@
+---
+info:
+  upload:
+    image: |
+      Χρησιμοποιείστε αυτο το πεδίο για φορτώσετε μία εικόνα. Κάντε κλικ στο κουμπί για να φορτώσετε ένα αρχείο
+      απο τον υπολογιστή σας, ή εάν χρησιμοποιείτε τελευταίες εκδόσεις του Chrome ή Firefox, μπορείτε απλά να
+      σύρετε ένα αρχείο απο την επιφάνει εργασίας ή απο άλλο παράθυρο εξερεύνησης.<br/>
+      Εναλλακτικά, μπορείτε να χρησιμοποιείσετε μια εικόνα που φορτώσατε παλιότερα. Για να επιλέξετε,
+      πληκτρολογήστε ένα μέρος του ονόματος αρχείου στην περιοχή εισόδου και θα συμπληρωθεί το υπόλοιπο
+      αυτόματα.
+    file: |
+      Use this field to upload a file to include as a download or to use inside a page on the
+      website. Click the button to upload a file from your computer, or if you're using a recent version
+      of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
+      browser window. <br />
+      Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
+      type (part) of the file name in the input area, and it will be autocompleted.
+    filelist: |
+      Χρησιμοποιείστε αυτο το πεδίο για φορτώσετε πολλαπλά αρχεία και μερικές περιγραφές. Όπως και με την
+      περιοχή φόρτωσης μοναδικού αρχείου, πρόσφατες εκδόσεις Chrome και Firefox μπορούν να αντιληφθούν πότε ένα
+      αρχείο σύρετε πάνω απο την περιοχή εισόδου. Τι θα 'λεγες να το δοκιμάσεις;
+    filesmall: |
+      Χρησιμοποιείστε αυτο το κουμπί για να φορτώσετε ένα αρχείο. μπορείτε να χρησιμοποιείσετε . Για να επιλέξετε
+      μια εικόνα που φορτώσατε παλιότερα, πληκτρολογήστε ένα μέρος του ονόματος αρχείου στην περιοχή εισόδου
+      και θα συμπληρωθεί το υπόλοιπο αυτόματα.
+    imagelist: |
+      Χρησιμοποιείστε αυτο το κουμπί για να φορτώσετε πολλά αρχεία. Κάντε κλικ στο κουμπί για να φορτώσετε ένα
+      αρχείοαπο τον υπολογιστή σας, ή εάν χρησιμοποιείτε τελευταίες εκδόσεις του Chrome ή Firefox, μπορείτε απλά
+      να σύρετε ένα αρχείο απο την επιφάνει εργασίας ή απο άλλο παράθυρο εξερεύνησης.<br /> Εναλλακτικά, μπορείτε
+      να χρησιμοποιείσετε μια εικόνα που φορτώσατε παλιότερα. Σύρετε για ν'αλλάξετε την σειρά και αλλάξτε τις
+      περιγραφές.
+    video: |
+      Χρησιμοποιείστε αυτο το πεδίο για να ενσωματώσετε ένα video σε μια σελίδα. Αντιγράψτε το URL ενός video
+      απο το Youtube, Vimeo ή οποιαδήποτε άλλη σελίδα διαμοιριασμού video.<br />
+      Το Bolt θα φέρει αυτόματα τον κώδικα &amp;lt;embed&amp;gt; με τον σωστό ύψος και πλάτος και τον τίτλο.
+      Εάν αλλάξετε τον ύψος ή το πλάτος, η άλλη τιμή θα αλλάξει για να διατηρηθεί η αναλογία.
+  geolocation: |
+    Use this field to get the geolocation of any address, or place the marker
+    manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
+    and the corresponding latitude and longitude will be retrieved using the Google Maps API,
+    together with the closest matching address, according to Google. <br>
+    If you want to move the marker to a different location, just drag'n'drop the pin on the
+    mini-map. The latitude and longitude will be updated automatically.
+  markdown: |
+    Markdown is a text-to-HTML conversion tool for web writers.
+    <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
+    which is then converted to structurally valid HTML.</p>
+    <p><strong>Quick reference:</strong><br>
+    # This is an &lt;h1&gt;-tag<br>
+    ## This is an &lt;h2&gt;-tag<br>
+    ###### This is an &lt;h6&gt;-tag</p>
+    <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
+    ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
+    this **<strong>is bold</strong>**.
+    <p>Create <a href='#'>links</a> like this:<br>
+    An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+    <p>&nbsp; * This is an unordered list<br>
+    &nbsp; * Item 2</p>
+    <p>&nbsp; 1 This is an ordered list<br>
+    &nbsp; 2 Item 2</p>
+  relationships: |
+    By selecting other records as a 'relation', you are actually
+    creating a link between this record, and the one you selected. On the
+    website, this can by used for 'related articles', 'see also' or to display
+    how this record fits into a certain structure.
+  taxonomy: |
+    Επιλέγοντας μία ή περισσότερες taxonomies γι'αυτήν την εγγραφή,
+    By selecting one or more taxonomies for this record, ορίζετε ότι η εγγραφή αυτη θα περιέχει αυτες τις ιδιοτήτες.
+    Στο website αυτο θα χρησιμοποιηθεί για ομαδοποιήσει ορισμένες εγγραφές, ή για να δημιουρήσει αυτόματα
+    συνδέσμους προς τις ομαδοποιημένες εγγραφές.
+about:
+  bolt: |
+    <p>Το Bolt είναι ένα σύστημα διαχείρισης περιεχομένου(CMS), που τήνει να είναι απλό,
+    γρήγορο και εύκολο στην χρήση του. Και για developers και για content-editors. Το Bolt είναι ανοιχτού κώδικα.
+    Εάν είστε developer, είστε καλοδεχούμνος να συμβάλετε στην ανάπτυξη του Bolt
+    </p>
+  licence: |
+    <p>Όλα τα συστατικά του Bolt είναι ελεύθερα και υπο την αιγίδα της άδειας ΜΙΤ. Μπορείτε να βρείτε
+    ολοκληρωμενό το κείμενο της άδειας <a href="%paths_root%LICENSE.md">εδώ</a>.</p>
+prefill:
+  short_help: |
+    <p>Ελεγξτε τα contenttypes για τα οποία θέλετε αυτόματα να παράγετε εγγραφές με χαζό περιεχόμενο Lorem Ipsum.</p>
+    <p>Εάν δεν επιλεχτεί κανένα, το Bolt θα γεμίσει μόνο τα contenttypes που δεν έχουν ακόμη περιεχόμενο.</p>
