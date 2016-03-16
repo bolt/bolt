@@ -1,0 +1,695 @@
+---
+"%contenttypes% overview": '%contenttypes% - visão geral '
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": 'A extensão Bolt não foi encontrada. Por favor verifique no %site% para garantir o nome correto.'
+Clear Activitylog: Limpar registo de atividades
+Clear the current log: Limpar o registo atual
+"Content '%title%' could not be deleted.": 'Não foi possível eliminar o conteúdo %title%.'
+"Content '%title%' has been changed to '%newStatus%'": "O conteúdo '%title%' foi alterado para '%newStatus%'"
+"Content '%title%' has been deleted.": 'O conteúdo %title% foi eliminado'
+Delete selected: Eliminar selecionado
+Depublish selected: Despublicar selecionado
+"Do you really want to delete %foldername%?": 'Deseja mesmo eliminar %foldername%?'
+Extension log: Registo de extensão
+"File '%file%' could not be uploaded.": "O ficheiro '%file%' não pode ser carregado."
+Filtering …: A filtrar…
+Next: Seguinte
+"No recent %contenttype%.": 'Sem %contenttype% recente.'
+No such action for content.: Nenhuma ação para este conteúdo.
+"Originally by %1, ported by %2": 'Originalmente por %1, portado por %2'
+Other contenttypes: Outros tipos de conteúdo
+Permission denied: Permissão recusada
+Previous: Anterior
+"Proudly powered by %s": 'Criado em %s'
+Publish selected: Publicar selecionado
+"Recent %contenttypes%": '%contenttypes% recentes'
+"Search for:": 'Pesquisar por:'
+Search…: Pesquisar…
+Skip to content: Ir para o conteúdo
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": 'A pasta de extensões (<code>%dir%</code>) não existe, ou não é editável.'
+"The file '%s' doesn't exist, or is not readable.": "O ficheiro '%s' não existe ou não é legível."
+Trim Activitylog: Aparar registo de atividades
+You do not have the right privileges to create a new record.: Não tem os privilégios adequados para criar um novo registo.
+You must specify both a name and a version to install!: Deve especificar um nome e uma versão a instalar!
+"[Extension error] Initialisation failed for %ext%: %error%": '[Erro de Extensão] falha na inicialização para %ext%: %error%'
+"[Extension error] Snippet loading failed for %ext%: %error%": '[Extension error] Snippet loading failed for %ext%: %error%'
+"[Extension error] Twig function registration failed for %ext%: %error%": '[Extension error] Twig function registration failed for %ext%: %error%'
+"[Extension error] YAML config failed to load for %ext%: %error%": '[Extension error] YAML config failed to load for %ext%: %error%'
+"in:": 'em:'
+contenttypes.general.choose-an-entry: Escolha uma entrada
+general.thanks: Obrigado
+contenttypes.generic.error-saving: 'Ocorreu um erro ao guardar este %contenttype%.'
+field.general.select-from-stack: Selecionar a partir da pilha
+field.geolocation.marker: Pin
+field.video.button.preview: Pré-visualizar
+field.video.preview.button.close: Fechar
+field.video.preview.no-url: 'Nenhum URL de vídeo indicado: nenhum vídeo será mostrado.'
+"An error occured while updating `%TABLE%`. The error is %ERROR%": 'An error occured while updating `%TABLE%`. The error is %ERROR%'
+"Are you sure you want to delete %FILENAME%?": 'Are you sure you want to delete %FILENAME%?'
+"Are you sure you want to do this for %NUMBER% records?": 'Are you sure you want to do this for %NUMBER% records?'
+Are you sure you want to do this for 1 record?: Are you sure you want to do this for 1 record?
+Are you sure you want to remove these files?: Are you sure you want to remove these files?
+Are you sure you want to remove these images?: Are you sure you want to remove these images?
+Are you sure you want to remove this file?: Are you sure you want to remove this file?
+Are you sure you want to remove this image?: Are you sure you want to remove this image?
+Are you sure you wish to delete this record? There is no undo.: Are you sure you wish to delete this record? There is no undo.
+"At least %NUM% characters required": 'At least %NUM% characters required'
+Author: Autor
+Choose an entry: Escolha um artigo
+Clear Change Log: Clear Change Log
+Clear System Log: Clear System Log
+"Client error: %errormessage%": 'Client error: %errormessage%'
+Close editor: Fechar editor
+Create File: Criar ficheiro
+Delete: Eliminar
+Delete Set: Eliminar o conjunto
+Depublish: Despublicar
+Depublish date is in the past. Change the status if you want to depublish now: Depublish date is in the past. Change the status if you want to depublish now
+"Do you really want to delete %FOLDERNAME%?": 'Do you really want to delete %FOLDERNAME%?'
+Duplicate Set: Duplicar conjunto
+"Extension server returned an error: %errormessage%": 'Extension server returned an error: %errormessage%'
+Failed to send password request. Please check the email settings.: Failed to send password request. Please check the email settings.
+"Field “%FIELD_NAME%”:": 'Field “%FIELD_NAME%”:'
+"File '%s' could not be saved, because the form wasn't valid.": "File '%s' could not be saved, because the form wasn't valid."
+Files could not be uploaded.: Files could not be uploaded.
+"Generic failure while testing connection to extension server: %errormessage%": 'Generic failure while testing connection to extension server: %errormessage%'
+Has to be a floating point number!: Has to be a floating point number!
+Id (№): Id (№)
+Invalid login parameters.: Invalid login parameters.
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": 'Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.'
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": 'Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!'
+Is required or needs to match a pattern!: Is required or needs to match a pattern!
+Is required!: É obrigatório!
+Keyword …: Termo-chave...
+Language coverage: Language coverage
+Live Edit: Editar ao vivo
+New Bolt site has been set up: New Bolt site has been set up
+No content found.: No content found.
+No files in the list, yet.: No files in the list, yet.
+No images in the list, yet.: No images in the list, yet.
+No theme name found. Theme is not generated.: No theme name found. Theme is not generated.
+Not yet installed.: Ainda não instalado.
+Only root can change file extensions.: Only root can change file extensions.
+Order: Order
+Others: Outros
+Publish: Publicar
+Records: Registos
+"Related content:": 'Conteúdo relacionado:'
+Run PHP extension checks: Executar verificações de extensão PHP
+Run all checks: Executar todas as verificações
+Run directory checks: Executar verificações de diretórios
+Run email checks: Executar verificações de email
+"Selection (#):": 'Seleção (#):'
+Something went wrong with logging in after first user creation!: Something went wrong with logging in after first user creation!
+Staff Position: Staff Position
+Staff_position: Staff_position
+Subject: Assunto
+Subjects: Assuntos
+System Configuration Checks: Verificações de configuração do sistema
+"Testing connection to extension server failed: %errormessage%": 'Testing connection to extension server failed: %errormessage%'
+Text: Texto
+"The Bolt extensions file '%composerjson%' isn't readable.": "The Bolt extensions file '%composerjson%' isn't readable."
+The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.: "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"The file '%s' doesn't exist.": "O ficheiro '%s' não existe."
+"The file '%s' is not readable.": "O ficheiro '%s' não é editável."
+"The value has to be at least “%MINVAL%”!": 'The value has to be at least “%MINVAL%”!'
+"The value must not be greater than “%MAXVAL%”!": 'The value must not be greater than “%MAXVAL%”!'
+There are no saved changes, yet.: There are no saved changes, yet.
+There is no undo!: Não existe nada a desfazer!
+Thumbnail: Miniatura
+Trim Change Log: Aparar o registo de alterações
+Trim System Log: Aparar o registo do sistema
+"Unable to create directory: %DIR%": 'Unable to create directory: %DIR%'
+"Unable to create file: %FILE%": 'Unable to create file: %FILE%'
+"Unable to delete directory: %DIR%": 'Unable to delete directory: %DIR%'
+"Unable to delete file: %FILE%": 'Unable to delete file: %FILE%'
+"Unable to rename directory: %DIR%": 'Unable to rename directory: %DIR%'
+"Unable to rename file: %FILE%": 'Unable to rename file: %FILE%'
+Unable to retrieve login session data. Please check your system's PHP session settings.: "Unable to retrieve login session data. Please check your system's PHP session settings."
+Upload not allowed: Carregamento não permitido
+Users & Permissions: Utilizadores e Permissões
+"Welcome to your new Bolt site, %USER%.": '%USER%, bem-vindo ao seu novo sítio Bolt.'
+"You cannot '%s' yourself.": "You cannot '%s' yourself."
+You do not have the right privileges to edit that user.: You do not have the right privileges to edit that user.
+You have unfinished changes on this page. If you continue without saving, you will lose these changes.: You have unfinished changes on this page. If you continue without saving, you will lose these changes.
+"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
+or: ou
+"%name% № %id%": '%name% N.º %id%'
+"%s files could not be deleted. You should delete them manually.": '%s ficheiros não puderam ser eliminados. Terá de os eliminar manualmente.'
+(default template): (tema padrão)
+(no category): (sem categoria)
+(no group): (sem grupo)
+(none): (nenhum)
+"A password reset link has been sent to '%user%'.": "Foi enviada uma ligação ao '%user%' para poder redefinir a senha."
+Actions: Ações
+Add a brief, optional comment to describe what's changed.: Adicionar um curto comentário para descrever o que mudou. (opcional)
+"Add a comment:": 'Adicionar comentário:'
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registo com Loripsum text</a>"
+"Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
+Alas, no about!: Informação em falta!
+All content types: Todos os tipos de conteúdo
+All users: Todos os utilizadores
+Alt: Alt
+An error occurred.: Ocorreu um erro.
+Anonymous: Anónimo
+"Are you sure you want to delete %username%?": 'Tem a certeza de que deseja eliminar %username%?'
+"Author:": 'Autor:'
+Below are the third party libraries that are used by Bolt.: Abaixo as bibliotecas de terceiros usadas pelo Bolt
+Body: Corpo
+Bolt - Fatal error.: 'Bolt - Erro fatal'
+Browser / platform: Navegador / plataforma
+Built-in role, automatically granted at all times, even if no user is logged in: Função integrada, concedida automaticamente em todos os momentos, mesmo que nenhum utilizador esteja autenticado
+Built-in role, automatically granted to every registered user: Função integrada, concedida automaticamente a todos os utilizadores registados
+Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.: Função integrada, válida apenas no contexto de um recurso, e atribuído automaticamente ao proprietário deste recurso.
+Built-in superuser role, automatically grants all permissions: Função integrada de super-tilizador, concede automaticamente todas as permissões
+Cancel: Cancelar
+Categories: Categorias
+Category: Categoria
+Change Log: Registo de alterações
+Change status to 'draft': "Mudar estado para 'rascunho'"
+Change status to 'held': "Mudar estado para 'Mantido'"
+Chapter: Capítulo
+Chapters: Capítulos
+Check again: Verificar novamente
+Check database: Verificar base de dados
+"Class:": 'Classe:'
+Clear cache again: Limpar a cache novamente
+Clear filter: Limpar filtro
+Clear sort/filter: Limpar ordenação/filtro
+Clear the cache: Limpar cache
+Click to change current status.: Clique para alterar o estado atual.
+"Code:": 'Código:'
+Collapse sidebar: Minimizar barra lateral
+Configuration: Configurações
+Content: Conteúdo
+"Content '%title%' could not be modified.": "Não foi possível modificar o conteúdo '%title%'."
+Content Type Permissions: Permissões de tipos de conteúdo
+Content for home not found!: Conteúdo da entrada não foi encontrado!
+Contenttypes: Tipos de conteúdo
+Create folder: Criar pasta
+Create the first user: Criar o primeiro utilizador
+"Created on:": 'Criado em:'
+"Current (saved) status:": 'Estado atual (guardado):'
+Current sessions: Sessões atuais
+"Current status:": 'Estado atual:'
+Dashboard: Painel
+Database check / update: Verificar/atualizar base de dados
+Date: Data
+Datetime: Data e hora
+Default status: Estado padrão
+"Delete %filename%": 'Eliminar %filename%'
+"Delete %foldername%": 'Eliminar %foldername%'
+"Delete %username%": 'Eliminar %username%'
+"Deleted %s files from cache.": '%s ficheiros eliminados da cache.'
+"Depublication date:": 'Date de fim de publicação:'
+Deselect all: Desmarcar tudo
+Detail template: Detalhes do tema
+Details: Detalhes
+"Disable %username%": 'Desativar %username%'
+Done!: Concluído!
+Draft: Rascunho
+"Duplicate %filename%": 'Duplicar %filename%'
+Edit: Editar
+Edit Roles and Permissions: Editar funções e permissões
+Edit file: Editar ficheiro
+"Enable %username%": 'Ativar %username%'
+Everybody: Todos
+Excerpt: Resumo
+Expand sidebar: Expandir barra lateral
+Extensions: Extensões
+Extras: Extras
+File: Ficheiro
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
+"File '%file%' was uploaded successfully.": "O ficheiro '%file%' foi carregado com sucesso."
+"File '%s' could not be saved, for some reason.": "O ficheiro '%s' não pode ser guardado por alguma razão."
+"File '%s' could not be saved:": "Ficheiro '%s' não pode ser guardado:"
+"File '%s' has been saved.": "Ficheiro '%s' guardado."
+File Management: Gerir ficheiros
+File is not readable!: O ficheiro não pode ser lido!
+Filelist: Lista de ficheiros
+Files: Ficheiros
+"Files in %s": 'Ficheiros em %s'
+Files on the stack: Ficheiros na pilha
+Filesize: Tamanho do ficheiro
+Fill the database with Dummy Content: Preencher com conteúdo aleatório
+Filter: Filtro
+Filtering: A filtrar
+Find: Pesquisar
+Floatfield: Campo flutuante
+"Folder '%s' could not be found, or is not readable.": "Pasta '%s' não foi encontrada ou não pode ser lida."
+Folder permissions insufficient: Permissões insuficientes na pasta
+Folders: Pastas
+Full list …: Lista completa…
+Geolocation: Geolocalização
+Global Permissions: Permissões globais
+"Hints:": 'Dicas:'
+Html: HTML
+IP address: Endereço IP
+Id: ID
+If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.: "Se existisse uma página que utilizasse 'about' como nome curto, seria exibida aqui. Como não existe surge este texto no seu espaço reservado."
+Image: Imagem
+Imagelist: Lista de imagens
+Info: Informações
+Integerfield: Campo de números inteiros
+"Last edited on:": 'Última edição em:'
+Last known IP: Último IP conhecido
+Last seen: Última visualização
+Latest entries: Últimas entradas
+Listing template: A listar modelo
+Login: Iniciar sessão
+Logout: Sair
+Long messages: Mensagens longas
+Main configuration: Configurações principais
+Maintenance: Manutenção
+Markdown: Markdown
+Menu setup: Configuração de menu
+"Message:": Mensagem
+Messages: Mensagens
+Meta: Metadados
+Meta information: Meta informação
+"Modifications made to the database:": 'Alterações efetuadas na base de dados:'
+"Modifications needed:": Alterações necessárias
+Modified: Modificado
+Multiselect: Seleção múltipla
+No relations found!: Não foram encontradas relações!
+"No results found for '%SEARCHTERM%'. Please try another search.": "No results found for '%SEARCHTERM%'. Please try another search."
+"No such action for user '%s'.": "Nenhuma ação para o utilizador '%s'."
+None: Sem
+Not published: Não publicado
+"Note:": 'Nota:'
+Omnisearch: Omnisearch
+Options: Opções
+"Order: %sort%": 'Ordenar: %sort%'
+Overview: Visão geral
+Overview for: Visão geral sobre
+Owner: Proprietário
+"Owner:": 'Proprietário:'
+Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.: 'A redefinição de senha não foi bem sucedida! Causas prováveis: o token pode estar incorreto, você demorou muito tempo ou tentou redefinir a senha a partir de um endereço IP diferente.'
+Password reset successful! You can now log on with the password that was sent to you via email.: Senha redefinida com sucesso! Você pode iniciar sessão com a nova senha enviada para o seu email.
+Path: Caminho
+Path to image file: Caminho para o ficheiro de imagem
+"Path:": 'Caminho:'
+Permalink: Ligação permanente
+Permissions: Permissões
+Place on stack: Colocar na pilha
+"Please choose the record you want to link to:": Por favor, escolha o registo a que deseja ligar
+Please enter a new file name!: Por favor insira um novo nome de ficheiro!
+Please enter a new folder name!: Por favor digite um novo nome para a pasta!
+Please log on.: Por favor autentique-se.
+Please provide a username: Por favor, indique um nome de utilizador
+Prefill database: Pré-preenchimento da base de dados
+Preview: Pré-visualizar
+Profile: Perfil
+"Provided by:": 'Fornecido por:'
+"Publication date:": 'Data de publicação: '
+Published: Publicado
+"Published on:": 'Publicado em:'
+Read more: Ler mais…
+Related content: Conteúdo relacionado
+Relationships: Relacionamentos
+"Rename %foldername%": 'Renomear %foldername%'
+Roles: Funções
+Roles and Permissions: Funções e permissões
+Save & create new record: Guardar e criar um novo registo
+Save & return to overview: Guardar e voltar à visualização
+"Saved on:": 'Guardado em:'
+Saving …: A guardar…
+Search: Pesquisar
+Search for …: Pesquisar por…
+"Search results for <b> %search% </b>.": 'Resultados sobre <b> %search% </b>.'
+Search …: Pesquisar…
+Select: Selecionar
+Select a page: Selecionar uma página
+Select all: Selecionar tudo
+Select file …: Selecionar ficheiro…
+Select none: Selecionar nenhum
+Select zero or more pages: Selecione zero ou mais páginas
+Selectentry: Selecionar artigo
+Selectfield: Selecionar campo
+Session expires: Sessão expira
+Session resumed.: Sessão reiniciada.
+Settings: Configurações
+Showing: A exibir
+"Showing %pager_for% %from% - %to% of %count%": 'A exibir página %pager_for% %from% - %to% de %count%'
+Size: Tamanho
+"Skipped <tt>%key%</tt> (already has records)": 'Ignorado <tt>%key%</tt> (já possui um registo)'
+"Skipped <tt>%key%</tt> (not checked)": 'Ignorado <tt>%key%</tt> (não marcado)'
+Slug: Nome curto
+"Slug:": 'Nome curto:'
+Something went wrong: Ocorreu um erro
+Sophisticated, lightweight & simple CMS: CMS sofisticado, leve e simples
+Stack: Pilha
+"Status:": 'Estado:'
+Tag: Etiqueta
+Tags: Etiquetas
+Taxonomy: Taxonomia
+Teaser: Antevisão
+Template: Tema
+Textarea: Área de texto
+That user does not exist.: Esse utilizador não existe.
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": 'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.'
+The change log has been cleared.: The change log has been cleared.
+The change log has been trimmed.: The change log has been trimmed.
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
+"The folder '%s' could not be found, or is not readable.": "A pasta '%s' não pode ser encontrada, ou não é legível."
+"The following file could not be read:": 'O ficheiro seguinte não pode ser lido:'
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
+The requested changelog entry doesn't exist.: O registo não existe no registo de alterações.
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": 'As definições para papéis e permissões são armazenadas em <code>%permissions%</code>.'
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
+The system log has been cleared.: The system log has been cleared.
+The system log has been trimmed.: The system log has been trimmed.
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
+"The translations file '%s' is not readable.": "As traduções em '%s' não são legíveis."
+Theme successfully generated. You can now edit it directly from your theme folder.: Theme successfully generated. You can now edit it directly from your theme folder.
+There are no items on the Stack, yet.: Ainda não existem itens na pilha.
+There are no users in the database. Please create the first user.: Não existem utilizadores na base de dados. Por favor, crie o primeiro utilizador.
+There are no users present in the system. Please create the first user, which will be granted root privileges.: Não existem utilizadores no sistema. Po favor, crie o primeiro utilizador ao qual será concedido privilégios de ROOT.
+There should always be at least one 'root' user. You have just been promoted. Congratulations!: "Sempre deve haver pelo menos um utilizador 'root'. Você acaba de ser promovido. Parabéns!"
+This is a checkbox: Esta é uma caixa de verificação
+"This record is related to:": 'Esse registo está relacionado com:'
+This template adds new fields. Save, then refresh to see these changes.: This template adds new fields. Save, then refresh to see these changes.
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este site é <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>Bolt</a>."
+Time in 24h/12h format: Horário no formato 24h / 12h
+Timed publish: Publicação temporizada
+"Tip:": 'Dica:'
+Title: Título
+Translations: Traduções
+Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.: 'Tente ligar-se através do seu cliente de FTP e tornar o ficheiro legível. Caso contrário, tente <a>voltar</a> para a última página.'
+Types: Tipos
+Update the database: Atualizar a base de dados
+Upload: Carregar
+Upload a file to this folder: Carregar um ficheiro para esta pasta
+Upload file: Carregar ficheiro
+Upload image: Carregar imagem
+Uploaded files: Ficheiros carregados
+Uploading to this folder is not allowed.: Não é permitido carregar para esta pasta.
+Used Libraries / Components: Bibliotecas/Componentes utilizados
+"User '%s' could not be deleted.": "Utilizador '%s' não pode ser eliminado."
+"User '%s' could not be disabled.": "Utilizador '%s' não pode ser desativado."
+"User '%s' could not be enabled.": "Utilizador '%s' não pode ser ativado"
+"User '%s' is deleted.": "Utilizador '%s' eliminado."
+"User '%s' is disabled.": "Utilizador '%s' desativado."
+"User '%s' is enabled.": "Utilizador '%s' ativado."
+Username: Nome de utilizador
+Username or password not correct. Please check your input.: Nome de utilizador/Senha incorretos. Verifique e tente novamente.
+Users: Utilizadores
+Video: Vídeo
+View (saved version) on site: Visualizar (versão guardada) no sítio
+View Roles: Ver funções
+View on site: Visualizar no sítio
+View related content: Visualizar conteúdo relacionado
+View site: Visualizar sítio
+View/edit Templates: Visualizar/Alterar temas
+Warning: Atenção!
+We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.: We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.
+"Written by <em>%name%</em> on %date%": 'Escrito por <em>%name%</em> em %date%'
+You do not have the right privileges to edit that record.: Não possui permissões para alterar este registo.
+You do not have the right privileges to view that page.: Não possui privilégios para visualizar esta página.
+"You don't have correct permissions to edit the file '%s'.": "Não tem permissões adequadas para editar o ficheiro '%s'"
+"You don't have the correct permissions to display the file or directory '%s'.": "Não tem as permissões corretas para mostrar o ficheiro ou pasta '%s'."
+You have been logged out.: A sua sessão foi terminada.
+You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.: You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Você deve definir 'homepage:' em seu 'app / config / config.yml' para um registo existente. Certifique-se de que o conteúdo está publicado, caso contrário ele não será mostrado."
+You've been logged on successfully.: Autenticação realizada com sucesso!
+Your account is disabled. Sorry about that.: A sua conta foi desativada. Lamentamos.
+Your database is already up to date.: A sua base de dados está atualizada.
+Your database is now up to date.: A sua base de dados está agora atualizada!
+and edited: e alterado
+back to editing: voltar à edição
+by: por
+general.about: Sobre
+general.about-bolt: Sobre o Bolt
+general.bolt-documentation: Bolt documentation
+general.bolt-on-github: Bolt no Github
+general.visit-bolt: Visit Bolt.cm
+line: linha
+logs.change-log: Change Log
+logs.system-log: System Log
+no content …: sem conteúdo …
+no title …: sem título …
+none: nenhum
+of: de
+show all: mostrar todos
+users.actions-for-users: Ações para utilizadores
+users.your-password: A sua senha
+component:
+  changelog-detail:
+    by: por
+    field: Campo
+    value-new: Novo valor
+    value-old: Valor antigo
+  changelog-pager:
+    page: Página
+contenttypes:
+  generic:
+    actions-all: 'Ações para %contenttypes%'
+    actions-one: 'Ações para %contenttype%'
+    created: '%contenttype% criado'
+    delete: 'Eliminar %contenttype%'
+    duplicate: 'Duplicar %contenttype%'
+    duplicated-finalize: "O conteúdo foi duplicado. Clique em 'Guardar %contenttype%' para concluir."
+    edit: 'Editar %contenttype%'
+    group:
+      meta: Metadados
+      relations: Relacionamentos
+      taxonomy: Taxonomia
+      template: Tema
+      ungrouped: Não agrupado
+    invalid-field: 'Não pode repor %field% em %contenttype%. Não é um campo válido'
+    invalid-relation: "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+    last-modified: 'Última modificação em %contenttypes%'
+    new: 'Criar %contenttype%'
+    no-latest: 'Sem %contenttype%'
+    no-proper-type: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
+    no-recent: 'Sem %contenttype% recente'
+    none-available: 'Sem %contenttypes%.'
+    not-existing: 'O %contenttype% que está à procura não existe. Provavelmente foi eliminado, ou nunca existiu.'
+    not-saved-yet: 'Este %contenttype% ainda não foi guardado.'
+    overview: '%contenttypes% - visão geral '
+    publish: 'Publicar %contenttype%'
+    recent: '%contenttypes% recentes'
+    recent-changes-one: 'Alterações recentes a %contenttype%'
+    recently-edited: '%contenttypes% - Edições recentes'
+    reserved-name: "No tipo de conteúdo '%contenttype%', o campo '%field%' definido, é um nome reservado. Por favor, edite o contenttypes.yml, e corrija isso."
+    save: 'Guardar %contenttype%'
+    saved-changes: 'As mudanças neste %contenttype% foram guardadas.'
+    saved-new: '%contenttype% foi guardado.'
+    saving-impossible: 'Não é possível guardar %contenttype%.'
+    show-more: 'Mais %contenttypes%'
+    view: 'Visualizar %contenttypes%'
+    wrong-use-field: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija isso."
+field:
+  general:
+    allowed-filetypes: 'Tipos de ficheiros permitidos:'
+    select-from-server: Selecionar a partir do servidor
+    stack: Pilha
+  geolocation:
+    label:
+      address-lookup: Pesquisa de endereço
+      latitude: Latitude
+      longitude: Longitude
+      marker-placement: Colocação do marcador
+      snap: Snap to nearest address
+    matched-address: 'Endereços encontrados:'
+    placeholder:
+      address: Street, ZIP code, city or other location
+  markdown:
+    label:
+      markedview: Markdown
+      preview: Pré-visualizar
+  slug:
+    button:
+      edit: Editar
+      link: 'Ligar a:'
+      lock: Bloquear
+    message:
+      warning: Editing this field might break existing links to this record!
+    permalink: Ligação permanente
+    unique-alias: Unique alias
+  video:
+    label:
+      preview: Pré-visualizar imagem
+      size: Tamanho
+      url: URL do vídeo a ser adicionado
+    matched-video: Video correspondente
+    pixel: pixel
+    placeholder:
+      url: URL do vídeo no Youtube, Vimeo ou outro sítio de vídeos
+generic:
+  noscript:
+    headline: Javascript desativado
+    message: Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador.
+menu:
+  configuration:
+    routing: Configuração de Roteamentos
+page:
+  ckeditor-browse-server:
+    files: Ficheiros
+    folders: Pastas
+    modified: Modificado
+    pixel: px.
+    size: Tamanho do ficheiro
+    title: Ficheiros
+  dashboard:
+    button:
+      add: Adicionar…
+    empty-database: Parece que não existe conteúdo na base de dados.
+    quickstart: "Para começar rapidamente, <a href='%url%'>adicione um conteúdo Lorem Ipsum</a>."
+    title: Painel
+  edit-file:
+    button:
+      revert: Anular alterações
+      save: Guardar
+    confirm-revert: Tem a certeza de que deseja reverter? As suas alterações serão perdidas, se não as guardar.
+    note-related: 'Nota, este ficheiro tem ficheiros relacionados:'
+    title:
+      edit: Editar ficheiro
+      view: Ver ficheiro
+  edit-locale:
+    button:
+      save: Guardar
+    title:
+      edit: Editar ficheiro
+      view: Ver ficheiro
+  edit-users:
+    activated:
+      "no": não
+      "yes": sim
+    button:
+      save: Guardar utilizador
+    error:
+      displayname-used: Este nome já está em uso. Escolha outro por favor.
+      email-used: Este endereço de email já está em uso. Escolha outro por favor.
+      password-different-displayname: A senha não pode ser igual ao nome de exibição.
+      password-different-username: A senha não pode ser igual ao nome de utilizador.
+      password-mismatch: As senhas devem ser iguais.
+      password-short: This value is too short. It should have 6 characters or more.
+      username-used: This username is already in use. Choose another username.
+    label:
+      assigned-roles: Funções atribuídas
+      display-name: Nome de exibição
+      email: Email
+      last-ip: Last IP
+      last-seen: Última visualização
+      password: Senha
+      password-confirm: Senha (confirmação)
+      user-enabled: Conta de utilizador está ativada
+      username: Nome de utilizador
+    log:
+      user-added: "Added user account '%user%'."
+      user-updated: "Updated user account '%user%'."
+    message:
+      change-self: "You've been logged off, because you changed your own username. Please log on again."
+      saving-user: 'User %user% could not be saved, or nothing was changed.'
+      user-saved: 'User %user% has been saved.'
+    note-sqlite: "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
+    placeholder:
+      displayname: Pick a display name / alias
+      email: Insira um endereço de email válido
+      password: Digite uma senha com mais de 6 caracteres
+      password-confirm: Confirme a sua senha
+      username: Escolha um nome de utilizador (apenas letras minúsculas)
+    title:
+      create: Criar um novo utilizador
+      edit: Editar utilizador
+      profile: Perfil
+    user-create: Create a new user account, using the form below. The password field is required.
+    user-edit: Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password.
+  extend:
+    button:
+      autoload-dump: Rebuild Autoloader
+      browse-versions: Procurar versões
+      config: Configurar
+      copy-to-theme-folder: Copiar para pasta do tema
+      info-help: More info/help
+      install-all: Instalar todos os pacotes
+      install-package: Instalar pacote
+      install-this-version: Install This Version
+      readme: Informações
+      show-all-versions: Mostrar todas as versões
+      uninstall: Desinstalar
+      update-all: Executar todas as atualizações
+      update-check: Executar verificador de atualizações
+      update-package: Update Package
+      versions: Versões
+    headline:
+      currently-installed: Your Currently Installed Extensions
+      install-new-extension: Install a new Extension
+      installation-complete: Installation complete
+      installing-package: Installing package
+      latest-version: Latest stable version
+      stable-versions: Stable versions
+      test-versions: Unstable test versions
+      theme-installation-complete: Theme installation complete
+      updates: Atualizações
+    listheader:
+      actions: Ações
+      extension: Extensão
+      status: Estado
+      version: Versão
+    message:
+      add-extension-with-form: Add a new extension using the form below.
+      autoload-dump: This will rebuild both the autoload files and cache.
+      bad-json: Malformed JSON response. Ensure no debugging or other code is being added to the response
+      before-theme-start: Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here.
+      check-for-updates: Procurar por atualizações
+      checking-installed-packages: A verificar pacotes instalados
+      checkung-for-updates: Checking for available updates (this may take up to 60 seconds)
+      compatible-unstable-versions: 'The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.'
+      confirm-remove: Please confirm that you want to remove this extension?
+      copying: Copiar recursos do tema...
+      discover-by-visiting: You can discover new extensions by visiting
+      ext-dir-missing: 'The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>).'
+      install-all: Running install of all packages …
+      installing: Preparing to install package …
+      installing-selected-package: Installing selected package version (this may take up to 60 seconds).
+      installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+      installs-updates: This will install all available updates.
+      latest-version: The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using.
+      loading-disabled: 'Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed.'
+      maintenance: Manutenção
+      marked-as-stable: As versões listadas abaixo estão marcadas como versões estáveis pelo programador e são compatíveis com a versão do Bolt que está a usar atualmente.
+      no-bolt-extensions-installed: No Bolt Extensions installed.
+      no-package-check-in-readmode: Cannot check installed packages in read-only mode
+      no-stable-versions-available: No Stable Versions Available
+      no-test-versions-available: No Test Versions Available
+      no-update-check-in-readmode: Cannot check for updates in read-only mode
+      overwrite: Isto irá sobrescrever os ficheiros existentes! Tem a certeza?
+      removing: A preparar para remover o pacote...
+      running-update: A executar atualização...
+      shows-updates: "This won't install anything, just show you available updates"
+      start-using-extension: Pode começar a usar a extensão instalada. Documentação e instruções de execução podem ser encontradas usando a ligação abaixo.
+      updated: Está tudo atualizado!
+      updating: A procurar atualizações disponíveis...
+    pagetitle: 'Evoluir %BOLTNAME%'
+  login:
+    button:
+      back: Voltar à autenticação
+      forgot-password: Esqueci-me da minha senha…
+      log-on: Criar conta
+      reset-password: Redefinir a minha senha
+    cookies-required: 'Nota: são necessários Cookies para entrar no Bolt. Por favor ative os cookies.'
+    label:
+      password: Senha
+      username: Nome de utilizador/Email
+    password-hide: Ocultar
+    password-show: Exibir
+    placeholder:
+      password: O seu nome de utilizador
+    title: Iniciar sessão
+panel:
+  latest-activity:
+    button:
+      more: mais atividades
+    by: por
+    change: Últimas alterações
+    created: Criado
+    deleted: Eliminado
+    logged-in: autenticado
+    logged-out: terminou sessão
+    saved: Guardado
+    system: Atividade recente do sistema
+    unknown: desconhecido
+  user-actions:
+    button:
+      add: Adicionar novo utilizador
