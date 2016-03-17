@@ -30,14 +30,27 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             'files',
             'themes',
         ];
+
+        $app['thumbnails.save_files'] = $app['config']->get('general/thumbnails/save_files');
+
         $app['thumbnails.filesystem_cache'] = $app->share(function ($app) {
+            if ($app['thumbnails.save_files'] === false) {
+                return null;
+            }
             if (!$app['filesystem']->hasFilesystem('web')) {
                 return null;
             }
 
             return $app['filesystem']->getFilesystem('web');
         });
+
+        $app['thumbnails.caching'] = $app['config']->get('general/caching/thumbnails');
+
         $app['thumbnails.cache'] = $app->share(function ($app) {
+            if ($app['thumbnails.caching'] === false) {
+                return null;
+            }
+
             return $app['cache'];
         });
 
@@ -56,8 +69,6 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         $app['thumbnails.cache_time'] = $app['config']->get('general/thumbnails/browser_cache_time');
 
         $app['thumbnails.limit_upscaling'] = !$app['config']->get('general/thumbnails/allow_upscale', false);
-
-        $app['thumbnails.save_files'] = $app['config']->get('general/thumbnails/save_files');
 
         ImageResource::setNormalizeJpegOrientation($app['config']->get('general/thumbnails/exif_orientation', true));
         ImageResource::setQuality($app['config']->get('general/thumbnails/quality', 80));

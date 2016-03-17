@@ -161,6 +161,7 @@ caching:
     request: false
     duration: 10
     authenticated: false
+    thumbnails: true
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 #
