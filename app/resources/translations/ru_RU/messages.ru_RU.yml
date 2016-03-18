@@ -1,0 +1,695 @@
+---
+"%contenttypes% overview": '%contenttypes% overview'
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": 'Расширение не было найдено. Пожалуйста пройдите по ссылке %site% чтобы проверить имя.'
+Clear Activitylog: Очистить журнал активности
+Clear the current log: Очистить текущий лог
+"Content '%title%' could not be deleted.": "Не удалось удалить запись '%title%'."
+"Content '%title%' has been changed to '%newStatus%'": "Статус '%title%' был изменен на '%newStatus%'"
+"Content '%title%' has been deleted.": "Запись '%title%' удалена."
+Delete selected: Удалить выбранное
+Depublish selected: Выбрано для скрытия
+"Do you really want to delete %foldername%?": 'Вы действительно хотите удалить папку %foldername%?'
+Extension log: Журнал расширений
+"File '%file%' could not be uploaded.": "Файл '%file%' не может быть загружен."
+Filtering …: Фильтрация …
+Next: Next
+"No recent %contenttype%.": 'No recent %contenttype%.'
+No such action for content.: Неверное действие для контента.
+"Originally by %1, ported by %2": 'Originally by %1, ported by %2'
+Other contenttypes: Другие сущности
+Permission denied: Доступ запрещен
+Previous: Previous
+"Proudly powered by %s": 'Proudly powered by %s'
+Publish selected: Выбрано для публикации
+"Recent %contenttypes%": 'Recent %contenttypes%'
+"Search for:": 'Search for:'
+Search…: Search…
+Skip to content: Skip to content
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": 'The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.'
+"The file '%s' doesn't exist, or is not readable.": "Файл '%s' не существует, или недоступен для чтения."
+Trim Activitylog: Обрезать лог активности
+You do not have the right privileges to create a new record.: У вас недостаточно прав на создание новой записи.
+You must specify both a name and a version to install!: You must specify both a name and a version to install!
+"[Extension error] Initialisation failed for %ext%: %error%": '[Extension error] Initialisation failed for %ext%: %error%'
+"[Extension error] Snippet loading failed for %ext%: %error%": '[Extension error] Snippet loading failed for %ext%: %error%'
+"[Extension error] Twig function registration failed for %ext%: %error%": '[Extension error] Twig function registration failed for %ext%: %error%'
+"[Extension error] YAML config failed to load for %ext%: %error%": '[Extension error] YAML config failed to load for %ext%: %error%'
+"in:": 'в:'
+contenttypes.general.choose-an-entry: Выберите запрись
+general.thanks: Спасибо
+contenttypes.generic.error-saving: 'There was an error saving this %contenttype%.'
+field.general.select-from-stack: Select from stack
+field.geolocation.marker: Pin
+field.video.button.preview: Preview
+field.video.preview.button.close: Close
+field.video.preview.no-url: No video url is set, no video to show.
+"An error occured while updating `%TABLE%`. The error is %ERROR%": 'An error occured while updating `%TABLE%`. The error is %ERROR%'
+"Are you sure you want to delete %FILENAME%?": 'Are you sure you want to delete %FILENAME%?'
+"Are you sure you want to do this for %NUMBER% records?": 'Are you sure you want to do this for %NUMBER% records?'
+Are you sure you want to do this for 1 record?: Are you sure you want to do this for 1 record?
+Are you sure you want to remove these files?: Are you sure you want to remove these files?
+Are you sure you want to remove these images?: Are you sure you want to remove these images?
+Are you sure you want to remove this file?: Are you sure you want to remove this file?
+Are you sure you want to remove this image?: Are you sure you want to remove this image?
+Are you sure you wish to delete this record? There is no undo.: Are you sure you wish to delete this record? There is no undo.
+"At least %NUM% characters required": 'At least %NUM% characters required'
+Author: Author
+Choose an entry: Выберите запрись
+Clear Change Log: Clear Change Log
+Clear System Log: Clear System Log
+"Client error: %errormessage%": 'Client error: %errormessage%'
+Close editor: Close editor
+Create File: Create File
+Delete: Delete
+Delete Set: Delete Set
+Depublish: Depublish
+Depublish date is in the past. Change the status if you want to depublish now: Depublish date is in the past. Change the status if you want to depublish now
+"Do you really want to delete %FOLDERNAME%?": 'Do you really want to delete %FOLDERNAME%?'
+Duplicate Set: Duplicate Set
+"Extension server returned an error: %errormessage%": 'Extension server returned an error: %errormessage%'
+Failed to send password request. Please check the email settings.: Failed to send password request. Please check the email settings.
+"Field “%FIELD_NAME%”:": 'Field “%FIELD_NAME%”:'
+"File '%s' could not be saved, because the form wasn't valid.": "File '%s' could not be saved, because the form wasn't valid."
+Files could not be uploaded.: Files could not be uploaded.
+"Generic failure while testing connection to extension server: %errormessage%": 'Generic failure while testing connection to extension server: %errormessage%'
+Has to be a floating point number!: Has to be a floating point number!
+Id (№): Id (№)
+Invalid login parameters.: Invalid login parameters.
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": 'Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.'
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": 'Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!'
+Is required or needs to match a pattern!: Is required or needs to match a pattern!
+Is required!: Is required!
+Keyword …: Keyword …
+Language coverage: Language coverage
+Live Edit: Live Edit
+New Bolt site has been set up: New Bolt site has been set up
+No content found.: No content found.
+No files in the list, yet.: No files in the list, yet.
+No images in the list, yet.: No images in the list, yet.
+No theme name found. Theme is not generated.: No theme name found. Theme is not generated.
+Not yet installed.: Not yet installed.
+Only root can change file extensions.: Only root can change file extensions.
+Order: Order
+Others: Others
+Publish: Publish
+Records: Records
+"Related content:": 'Related content:'
+Run PHP extension checks: Run PHP extension checks
+Run all checks: Run all checks
+Run directory checks: Run directory checks
+Run email checks: Run email checks
+"Selection (#):": 'Selection (#):'
+Something went wrong with logging in after first user creation!: Something went wrong with logging in after first user creation!
+Staff Position: Staff Position
+Staff_position: Staff_position
+Subject: Subject
+Subjects: Subjects
+System Configuration Checks: System Configuration Checks
+"Testing connection to extension server failed: %errormessage%": 'Testing connection to extension server failed: %errormessage%'
+Text: Text
+"The Bolt extensions file '%composerjson%' isn't readable.": "The Bolt extensions file '%composerjson%' isn't readable."
+The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.: "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"The file '%s' doesn't exist.": "The file '%s' doesn't exist."
+"The file '%s' is not readable.": "The file '%s' is not readable."
+"The value has to be at least “%MINVAL%”!": 'The value has to be at least “%MINVAL%”!'
+"The value must not be greater than “%MAXVAL%”!": 'The value must not be greater than “%MAXVAL%”!'
+There are no saved changes, yet.: There are no saved changes, yet.
+There is no undo!: There is no undo!
+Thumbnail: Thumbnail
+Trim Change Log: Trim Change Log
+Trim System Log: Trim System Log
+"Unable to create directory: %DIR%": 'Unable to create directory: %DIR%'
+"Unable to create file: %FILE%": 'Unable to create file: %FILE%'
+"Unable to delete directory: %DIR%": 'Unable to delete directory: %DIR%'
+"Unable to delete file: %FILE%": 'Unable to delete file: %FILE%'
+"Unable to rename directory: %DIR%": 'Unable to rename directory: %DIR%'
+"Unable to rename file: %FILE%": 'Unable to rename file: %FILE%'
+Unable to retrieve login session data. Please check your system's PHP session settings.: "Unable to retrieve login session data. Please check your system's PHP session settings."
+Upload not allowed: Upload not allowed
+Users & Permissions: 'Users & Permissions'
+"Welcome to your new Bolt site, %USER%.": 'Welcome to your new Bolt site, %USER%.'
+"You cannot '%s' yourself.": "You cannot '%s' yourself."
+You do not have the right privileges to edit that user.: You do not have the right privileges to edit that user.
+You have unfinished changes on this page. If you continue without saving, you will lose these changes.: You have unfinished changes on this page. If you continue without saving, you will lose these changes.
+"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
+or: or
+"%name% № %id%": '%Имя% № %id%'
+"%s files could not be deleted. You should delete them manually.": '%s файлы не могут быть удалены. Вы должны удалить их вручную.'
+(default template): (шаблон по умолчанию)
+(no category): (без категории)
+(no group): (нет группы)
+(none): (отсутствует)
+"A password reset link has been sent to '%user%'.": "Ссылка для сброса пароля была выслана '%user%'."
+Actions: Действия
+Add a brief, optional comment to describe what's changed.: Кратко, необязательный комментарий, который описывает что изменилось.
+"Add a comment:": 'Добавить комментарий:'
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
+"Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
+Alas, no about!: "Увы, раздел 'О нас' отсутсвует!"
+All content types: Все сущности
+All users: Все пользователи
+Alt: Другое
+An error occurred.: Невозможно выполнить запрос.
+Anonymous: Аноним
+"Are you sure you want to delete %username%?": 'Вы действительно хотите удалить пользователя %username%?'
+"Author:": 'Автор:'
+Below are the third party libraries that are used by Bolt.: Ниже приведен перечень библиотек, используемых Bolt.
+Body: Тело
+Bolt - Fatal error.: 'Bolt - Неустранимая ошибка.'
+Browser / platform: Браузер / платформа
+Built-in role, automatically granted at all times, even if no user is logged in: Роль, которая назначается автоматически каждый раз, даже если пользователь не залогинен
+Built-in role, automatically granted to every registered user: Роль, которая назначается автоматически для всех зарегистрированных пользователей
+Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.: Роль, действует только в контексте ресурса, и автоматически присваивается владельцу этого ресурса.
+Built-in superuser role, automatically grants all permissions: Роль супер-пользователя, автоматически предоставляет все разрешения
+Cancel: Отмена
+Categories: Категории
+Category: Категория
+Change Log: История изменений
+Change status to 'draft': "Изменить статус на 'черновик'"
+Change status to 'held': "Изменить статус на 'заблокирован'"
+Chapter: Раздел
+Chapters: Разделы
+Check again: Проверить снова
+Check database: Проверить базу данных
+"Class:": 'Класс:'
+Clear cache again: Очистить кэш снова
+Clear filter: Сбросить фильтр
+Clear sort/filter: Сбросить сортировку/фильтр
+Clear the cache: Очистить кэш
+Click to change current status.: Нажмите для смены статуса.
+"Code:": 'Код:'
+Collapse sidebar: Свернуть боковую панель
+Configuration: Настройки
+Content: Контент
+"Content '%title%' could not be modified.": "Не удалось изменить запись '%title%'."
+Content Type Permissions: Разрешения для сущности
+Content for home not found!: Контент для домашней страницы не найден!
+Contenttypes: Сущности
+Create folder: Создать папку
+Create the first user: Создание первого пользователя
+"Created on:": 'Создан:'
+"Current (saved) status:": 'Текущий (сохранённый) статус:'
+Current sessions: Текущие сессии
+"Current status:": 'Текущий статус:'
+Dashboard: Панель управления
+Database check / update: Проверить базу данных / обновить
+Date: Дата
+Datetime: Дата и время
+Default status: Статус по умолчанию
+"Delete %filename%": 'Удалить %filename%'
+"Delete %foldername%": 'Удалить %foldername%'
+"Delete %username%": 'Удалить %username%'
+"Deleted %s files from cache.": 'Удалить %s файлы из кэша.'
+"Depublication date:": 'Дата скрытия:'
+Deselect all: Отменить выбор всех
+Detail template: Сведения о шаблоне
+Details: Сведения
+"Disable %username%": 'Отключить %username%'
+Done!: Готово!
+Draft: Черновик
+"Duplicate %filename%": 'Копия %filename%'
+Edit: Редактировать
+Edit Roles and Permissions: Edit Roles and Permissions
+Edit file: Редактирование файла
+"Enable %username%": 'Включить %username%'
+Everybody: Все
+Excerpt: Задержка
+Expand sidebar: Развернуть боковую панель
+Extensions: Просмотр/установка расширений
+Extras: Дополнительно
+File: Файл
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Файл '%file%' не может быть загружен (неверный/неразрешенный тип файла). Убедитесь что расширение файла является одним из следующих:"
+"File '%file%' was uploaded successfully.": "Файл '%file%' успешно загружен."
+"File '%s' could not be saved, for some reason.": "Файл '%s' по непонятным причинам, не может быть сохранён."
+"File '%s' could not be saved:": "Файл '%s' не может быть сохранён:"
+"File '%s' has been saved.": "Файл '%s' сохранён."
+File Management: Менеджер файлов
+File is not readable!: Файл недоступен для чтения!
+Filelist: Лист файлов
+Files: Файлы
+"Files in %s": 'Файлы в %s'
+Files on the stack: Файлы в стеке
+Filesize: Размер файла
+Fill the database with Dummy Content: Наполнить базу данных демо-контентом
+Filter: Фильтр
+Filtering: Фильтрация
+Find: Найти
+Floatfield: Поле Float
+"Folder '%s' could not be found, or is not readable.": "Папка '%s' не может быть найдена, или недоступна для чтения."
+Folder permissions insufficient: Недостаточно прав на чтение папки
+Folders: Папки
+Full list …: Full list …
+Geolocation: Геолокация
+Global Permissions: Глобальные права
+"Hints:": 'Hints:'
+Html: Html
+IP address: IP адрес
+Id: Id
+If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.: "Если бы была страница с url 'about', вы бы не увидели бы этого. Покуда не таких, вот вы и видите эту строку."
+Image: Изображение
+Imagelist: Изображения
+Info: Информация
+Integerfield: Поле Integer
+"Last edited on:": 'Последнее редактирование:'
+Last known IP: Последний известный IP
+Last seen: Последний раз заходил
+Latest entries: Последние записи
+Listing template: Код шаблона
+Login: Войти
+Logout: Выйти
+Long messages: Длинные сообщения
+Main configuration: Основная конфигурация
+Maintenance: Обслуживание
+Markdown: Markdown
+Menu setup: Настройка меню
+"Message:": 'Сообщение:'
+Messages: Сообщения
+Meta: Мета
+Meta information: Мета информация
+"Modifications made to the database:": 'Изменения выполнены для базы данных:'
+"Modifications needed:": 'Изменения необходимы:'
+Modified: Изменено
+Multiselect: Multi-select
+No relations found!: Не найдено связей!
+"No results found for '%SEARCHTERM%'. Please try another search.": "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
+"No such action for user '%s'.": "Неверное действие для пользователя '%s'."
+None: Отсутствует
+Not published: Неопубликованно
+"Note:": 'Заметка:'
+Omnisearch: Омнипоиск
+Options: Настройки
+"Order: %sort%": 'Сортировка: %sort%'
+Overview: Обзор
+Overview for: Обзор для
+Owner: Владелец
+"Owner:": 'Владелец:'
+Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.: Сбросить пароль не удалось! Либо ссылка была неверная, либо прошло слишком много времени, или вы пытались восстановить пароль с другого IP-адреса.
+Password reset successful! You can now log on with the password that was sent to you via email.: Пароль сброшен успешно! Теперь вы можете войти с паролем, который мы выслали на указанный email.
+Path: Путь
+Path to image file: Путь до изображения
+"Path:": 'Путь:'
+Permalink: Постоянная ссылка
+Permissions: Разрешения
+Place on stack: Поместить в стек
+"Please choose the record you want to link to:": 'Пожалуйста выберите запись, с которой вы хотите сделать связь:'
+Please enter a new file name!: Пожалуйста, введите новое имя файла!
+Please enter a new folder name!: Пожалуйста, введите новое имя папки!
+Please log on.: Пожалуйста входите.
+Please provide a username: Пожалуйста, введите имя пользователя
+Prefill database: Предзаполнение базы данных
+Preview: Предварительный просмотр
+Profile: Профиль
+"Provided by:": 'Предоставлено:'
+"Publication date:": 'Дата публикации:'
+Published: Опубликовано
+"Published on:": 'Опубликовано:'
+Read more: Далее
+Related content: Материалы по теме
+Relationships: Связи
+"Rename %foldername%": 'Переименовать %foldername%'
+Roles: Роли
+Roles and Permissions: Роли и права доступа
+Save & create new record: Сохранить и создать новую запись
+Save & return to overview: Сохранить и показать обзор
+"Saved on:": 'Сохранено:'
+Saving …: Сохранение …
+Search: Поиск
+Search for …: Поиск для …
+"Search results for <b> %search% </b>.": 'Результаты для <b> %search% </b>.'
+Search …: Поиск …
+Select: Выбор
+Select a page: Выбрать страницу
+Select all: Выбрать все
+Select file …: Выбрать файл …
+Select none: Ничего не выбирать
+Select zero or more pages: Выбрать 0 или больше страниц
+Selectentry: Выбрать запись
+Selectfield: Выбрать поле
+Session expires: Сессия устареет
+Session resumed.: Сессия возобновлена.
+Settings: Настройки
+Showing: Показ
+"Showing %pager_for% %from% - %to% of %count%": 'Показ %pager_for% %from% - %to% из %count%'
+Size: Размер
+"Skipped <tt>%key%</tt> (already has records)": 'Пропущено <tt>%key%</tt> (уже имеется записи)'
+"Skipped <tt>%key%</tt> (not checked)": 'Пропущено <tt>%key%</tt> (не проверено)'
+Slug: Slug
+"Slug:": 'Slug:'
+Something went wrong: Что то не так
+Sophisticated, lightweight & simple CMS: Мощная, лёгкая и простая CMS
+Stack: Стек
+"Status:": 'Статус:'
+Tag: Тег
+Tags: Теги
+Taxonomy: Таксономия
+Teaser: Тизер
+Template: Шаблон
+Textarea: Текстовое поле
+That user does not exist.: Пользователь не существует.
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": 'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.'
+The change log has been cleared.: The change log has been cleared.
+The change log has been trimmed.: The change log has been trimmed.
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Файл '%s' недоступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
+"The folder '%s' could not be found, or is not readable.": "Папка '%s' не найдена, или недоступна для чтения."
+"The following file could not be read:": 'Следующие файлы не могут быть прочтены:'
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Идентификатор для slug '%taxonomytype%' не может быть идентичным ('%slug%' и '%taxonomytype%'). Пожалуйста, отредактируйте taxonomy.yml, и сделать их соответствие для предотвращения несоответствий между хранением баз данных и шаблонов."
+The requested changelog entry doesn't exist.: История изменений не существует.
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": 'Настройки для роли и права доступа сохранены в <code>%permissions%</code>.'
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
+The system log has been cleared.: The system log has been cleared.
+The system log has been trimmed.: The system log has been trimmed.
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Файл перевода '%s' не может быть создан. Вам необходимо используя свой редактор чтобы сделать изменения для этого файла."
+"The translations file '%s' is not readable.": "Перевод '%s' недоступен для чтения."
+Theme successfully generated. You can now edit it directly from your theme folder.: Theme successfully generated. You can now edit it directly from your theme folder.
+There are no items on the Stack, yet.: В стеке пока файлов нет.
+There are no users in the database. Please create the first user.: В базе данных нет пользователей. Пожалуйста, создайте одного.
+There are no users present in the system. Please create the first user, which will be granted root privileges.: В системе нет ни одного пользователя. Пожалуйста создайте одного, которому будут доступны root привилегии.
+There should always be at least one 'root' user. You have just been promoted. Congratulations!: "Всегда должен быть хотя бы один 'root' пользователь. Вы только что были повышены. Поздравляем!"
+This is a checkbox: Это чекбокс
+"This record is related to:": 'Эта запись относится к:'
+This template adds new fields. Save, then refresh to see these changes.: This template adds new fields. Save, then refresh to see these changes.
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
+Time in 24h/12h format: Time in 24h/12h format
+Timed publish: Отложенная публикация
+"Tip:": 'Подсказка:'
+Title: Заголовок
+Translations: Переводы
+Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.: 'Попробуйте зайти при помощи ftp-клиента и сделать эти файл доступными для чтения. Или пройдите <a>назад</a> на последнюю страницу.'
+Types: Типы
+Update the database: Обновить базу данных
+Upload: Загрузка
+Upload a file to this folder: Загрузить файл в эту папку
+Upload file: Загрузить файл
+Upload image: Загрузить изображение
+Uploaded files: Загрузить файлы
+Uploading to this folder is not allowed.: Недостаточно прав на загрузку в эту папку.
+Used Libraries / Components: Используемые библиотеки / Компоненты
+"User '%s' could not be deleted.": "Пользователь '%s' не может быть удалён."
+"User '%s' could not be disabled.": "Пользователь '%s' не может быть отключен."
+"User '%s' could not be enabled.": "Пользователь '%s' не может быть включен."
+"User '%s' is deleted.": "Пользователь '%s' удалён."
+"User '%s' is disabled.": "Пользователь '%s' отключен."
+"User '%s' is enabled.": "Пользователь '%s' включен."
+Username: Имя пользователя
+Username or password not correct. Please check your input.: Имя пользователя или пароль неверный. Попробуйте еще раз.
+Users: Пользователи
+Video: Видео
+View (saved version) on site: Просмотр (сохранённой версии) на сайте
+View Roles: View Roles
+View on site: Просмотреть на сайте
+View related content: Посмотреть материалы по теме
+View site: Открыть сайт
+View/edit Templates: Просмотр/редактирование шаблонов
+Warning: Warning
+We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.: We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.
+"Written by <em>%name%</em> on %date%": 'Написано <em>%name%</em> от %date%'
+You do not have the right privileges to edit that record.: У вас недостаточно прав на редактирование этой записи.
+You do not have the right privileges to view that page.: У вас недостаточно прав на просмотр этой страницы.
+"You don't have correct permissions to edit the file '%s'.": "У вас недостаточно прав на редактирование файла '%s'."
+"You don't have the correct permissions to display the file or directory '%s'.": "У вас недостаточно прав на просмотр файла или папки '%s'."
+You have been logged out.: Вы успешно разлогинились.
+You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.: You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Вы должны установить 'homepage:' в вашем 'app/config/config.yml' на существующую запись. Убедитесь, что контент опубликован, в противном случае он не будет показан."
+You've been logged on successfully.: Вы успешно вошли.
+Your account is disabled. Sorry about that.: Ваш аккаунт был заблокирован. Мы сожалеем об этом.
+Your database is already up to date.: Ваша база данных актуальна.
+Your database is now up to date.: Ваша база данных теперь актуальна.
+and edited: и редактирован
+back to editing: назад к редактированию
+by: by
+general.about: О проекте
+general.about-bolt: О Bolt
+general.bolt-documentation: Bolt documentation
+general.bolt-on-github: Bolt в GitHub
+general.visit-bolt: Visit Bolt.cm
+line: строка
+logs.change-log: История изменений
+logs.system-log: System Log
+no content …: нет контента …
+no title …: нет заголовка …
+none: отсутствует
+of: из
+show all: показать все
+users.actions-for-users: Действия пользователей
+users.your-password: Ваш пароль
+component:
+  changelog-detail:
+    by: by
+    field: поле
+    value-new: Новое значение
+    value-old: Старое значение
+  changelog-pager:
+    page: Страница
+contenttypes:
+  generic:
+    actions-all: 'Действия для %contenttypes%'
+    actions-one: 'Действия для этой %contenttype%'
+    created: '%contenttype% создано'
+    delete: 'Удаление %contenttype%'
+    duplicate: 'Дублирование %contenttype%'
+    duplicated-finalize: "Контент дублируется. Нажмите 'Сохранить %contenttype%' для подтверждения."
+    edit: 'Редактирование %contenttype%'
+    group:
+      meta: Мета
+      relations: Связи
+      taxonomy: Таксономия
+      template: Шаблон
+      ungrouped: Ungrouped
+    invalid-field: 'Невозможно установить %field% в %contenttype%: Поле недействительно.'
+    invalid-relation: "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+    last-modified: 'Последнее редактирование %contenttypes%'
+    new: 'Новый %contenttype%'
+    no-latest: 'Нет последних %contenttype%'
+    no-proper-type: "В сущности '%contenttype%', поле '%field%' имеет 'тип: %type%', который не является допустимым. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+    no-recent: 'Нет недавних %contenttype%.'
+    none-available: 'Нет доступных %contenttypes%.'
+    not-existing: '%contenttype% которое вы искали не существует. Возможно оно было удалено, или никогда не существовало.'
+    not-saved-yet: '%contenttype% не было сохранено.'
+    overview: '%contenttypes% обзор'
+    publish: 'Опубликовать %contenttype%'
+    recent: 'Недавние %contenttypes%'
+    recent-changes-one: 'Recent changes to this %contenttype%'
+    recently-edited: 'Недавно отредактировано %contenttypes%'
+    reserved-name: "В сущности '%contenttype%', поле '%field%' определено, которое соответствует зарезервированному имени. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+    save: 'Сохранить %contenttype%'
+    saved-changes: 'Изменения для %contenttype% были сохранены.'
+    saved-new: 'Новое %contenttype% было сохранено.'
+    saving-impossible: 'Невозможно %contenttype%.'
+    show-more: 'Больше %contenttypes%'
+    view: 'Просмотр %contenttypes%'
+    wrong-use-field: "В сущности '%contenttype%', поле '%field%' 'uses: %uses%', но тип '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+field:
+  general:
+    allowed-filetypes: 'Доступные типы файлов:'
+    select-from-server: Выбрать из сервера
+    stack: Стек
+  geolocation:
+    label:
+      address-lookup: Поиск адреса
+      latitude: Широта
+      longitude: Долгота
+      marker-placement: Установка маркера
+      snap: Snap to nearest address
+    matched-address: Найденный адрес
+    placeholder:
+      address: Улица, ZIP код, город или другое местоположение
+  markdown:
+    label:
+      markedview: Markdown
+      preview: Preview
+  slug:
+    button:
+      edit: Редактировать
+      link: 'Link to:'
+      lock: Lock
+    message:
+      warning: Editing this field might break existing links to this record!
+    permalink: Постоянная ссылка
+    unique-alias: Unique alias
+  video:
+    label:
+      preview: Предварительный просмотр изображения
+      size: Размер
+      url: Адрес ролика для вставки
+    matched-video: Найденные ролики
+    pixel: пиксель
+    placeholder:
+      url: Адрес ролика на Youtube, Vimeo или другого ресурса
+generic:
+  noscript:
+    headline: JavaScript отключен
+    message: JavaScript в данный момент отключен. Большинство функционала Bolt не будет работать без него, для лучшего использования мы рекомендуем вам включить JavaScript в настройках вашего браузера.
+menu:
+  configuration:
+    routing: Routing set up
+page:
+  ckeditor-browse-server:
+    files: Файлы
+    folders: Папки
+    modified: Изменен
+    pixel: px.
+    size: Размер файла
+    title: Файлы
+  dashboard:
+    button:
+      add: Добавить …
+    empty-database: Похоже что ваша база данных пуста.
+    quickstart: "Для быстрого старта, нажмите <a href='%url%'>Lorem Ipsum демо-контент</a>."
+    title: Панель управления
+  edit-file:
+    button:
+      revert: Откатить изменения
+      save: Сохранить
+    confirm-revert: Вы действительно хотите откатить изменения? Все не сохранённые данные будут утеряны.
+    note-related: 'Примечание, файл имеет связанные файлы:'
+    title:
+      edit: Редактировать файл
+      view: Просмотр файла
+  edit-locale:
+    button:
+      save: Сохранить
+    title:
+      edit: Редактировать файл
+      view: Просмотр файла
+  edit-users:
+    activated:
+      "no": нет
+      "yes": да
+    button:
+      save: Сохранить пользователя
+    error:
+      displayname-used: Отображаемое имя уже занято. Выберите другое отображаемое имя.
+      email-used: Этот email уже занят. Пожалуйста выберите другое email адрес.
+      password-different-displayname: Password must not be a part of the display name.
+      password-different-username: Password must not match the username.
+      password-mismatch: Пароли не совпадают.
+      password-short: Пароль слишком короткий. Пароль должен быть длинное 6 и более символов.
+      username-used: Имя пользователя уже занято. Выберите другое имя пользователя.
+    label:
+      assigned-roles: Назначенные роли
+      display-name: Отображаемое имя
+      email: Email
+      last-ip: Последний IP
+      last-seen: Последний раз заходил
+      password: Пароль
+      password-confirm: Пароль (подтверждение)
+      user-enabled: Пользователь включен
+      username: Имя пользователя
+    log:
+      user-added: "Добавлен пользователь '%user%'."
+      user-updated: "Пользователь '%user%' обновлен."
+    message:
+      change-self: "You've been logged off, because you changed your own username. Please log on again."
+      saving-user: 'Пользователь %user% не может быть сохранён, или не было изменений.'
+      user-saved: 'Пользователь %user% сохранён.'
+    note-sqlite: "В данный момент вы используете SQLite чтобы создать первого пользователя. Если вы хотите использовать MySQL или PostgreSQL, вам необходимо отредактировать <tt>'app/config/config.yml'</tt> и Bolt установит все таблицы в БД. Обновите страницу, прежде чем продолжить."
+    placeholder:
+      displayname: Введите отображаемое имя
+      email: Введите верный email
+      password: Введите пароль, длиннее 6 символов
+      password-confirm: Подтвердите ваш пароль
+      username: Выберите имя пользователя, только в нижнем регистре
+    title:
+      create: Создание нового пользователя
+      edit: Редактирование пользователя
+      profile: Профиль
+    user-create: Создание нового пользователя.
+    user-edit: Редактирование существующего пользователя. Оставьте поля пароля пустыми, если вы не хотите изменить его.
+  extend:
+    button:
+      autoload-dump: Rebuild Autoloader
+      browse-versions: Обзор версий
+      config: Config
+      copy-to-theme-folder: Copy to theme folder
+      info-help: More info/help
+      install-all: Установить все пакеты
+      install-package: Install Package
+      install-this-version: Install This Version
+      readme: Readme
+      show-all-versions: Show all versions
+      uninstall: Uninstall
+      update-all: Запустить все обновления
+      update-check: Проверить обновления
+      update-package: Update Package
+      versions: Versions
+    headline:
+      currently-installed: Your Currently Installed Extensions
+      install-new-extension: Install a new Extension
+      installation-complete: Installation complete
+      installing-package: Installing package
+      latest-version: Latest stable version
+      stable-versions: Stable versions
+      test-versions: Unstable test versions
+      theme-installation-complete: Theme installation complete
+      updates: Updates
+    listheader:
+      actions: Действия
+      extension: Extension
+      status: Status
+      version: Version
+    message:
+      add-extension-with-form: Add a new extension using the form below.
+      autoload-dump: This will rebuild both the autoload files and cache.
+      bad-json: Malformed JSON response. Ensure no debugging or other code is being added to the response
+      before-theme-start: Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here.
+      check-for-updates: Check for updates
+      checking-installed-packages: Checking installed packages
+      checkung-for-updates: Checking for available updates (this may take up to 60 seconds)
+      compatible-unstable-versions: 'The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.'
+      confirm-remove: Please confirm that you want to remove this extension?
+      copying: Copying theme assets …
+      discover-by-visiting: You can discover new extensions by visiting
+      ext-dir-missing: 'The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>).'
+      install-all: Running install of all packages …
+      installing: Preparing to install package …
+      installing-selected-package: Installing selected package version (this may take up to 60 seconds).
+      installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+      installs-updates: This will install all available updates.
+      latest-version: The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using.
+      loading-disabled: 'Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed.'
+      maintenance: Обслуживание
+      marked-as-stable: The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.
+      no-bolt-extensions-installed: No Bolt Extensions installed.
+      no-package-check-in-readmode: Cannot check installed packages in read-only mode
+      no-stable-versions-available: No Stable Versions Available
+      no-test-versions-available: No Test Versions Available
+      no-update-check-in-readmode: Cannot check for updates in read-only mode
+      overwrite: This will overwrite any existing files! Are you sure?
+      removing: Preparing to remove package …
+      running-update: Running update …
+      shows-updates: "This won't install anything, just show you available updates"
+      start-using-extension: You can now start using the installed extension, documentation and implementation instructions can be found using the link below.
+      updated: Everything is up to date!
+      updating: Searching for available updates …
+    pagetitle: 'Extend %BOLTNAME%'
+  login:
+    button:
+      back: Вернуться на страницу логина
+      forgot-password: Я забыл свой пароль …
+      log-on: Войти
+      reset-password: Восстановить пароль
+    cookies-required: 'Примечание: Сookies необходимы чтобы войти в Bolt. Пожалуйста, разрешите использование Cookies в настройках.'
+    label:
+      password: Пароль
+      username: Имя пользователя / email
+    password-hide: Скрыть
+    password-show: Показать
+    placeholder:
+      password: Ваше имя пользователя
+    title: Войти в Bolt
+panel:
+  latest-activity:
+    button:
+      more: больше активности
+    by: by
+    change: Latest changes
+    created: Created
+    deleted: Deleted
+    logged-in: Вошел в систему
+    logged-out: Вышел из системы
+    saved: Сохранён
+    system: Latest system activity
+    unknown: неизвестно
+  user-actions:
+    button:
+      add: Добавить нового пользователя

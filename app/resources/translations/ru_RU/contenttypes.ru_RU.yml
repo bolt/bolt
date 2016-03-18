@@ -1,0 +1,116 @@
+---
+contenttypes.pages.group.content: Content
+contenttypes:
+  entries:
+    description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    group:
+      content: Content
+      media: Media
+    name:
+      plural: Записи
+      singular: Запись
+    text:
+      actions-all: Действия для всех записей
+      actions-one: Действия для записи
+      created: Запись создана
+      delete: Удалить запись
+      duplicate: Копировать запись
+      duplicated-finalize: "Контент дублируется. Нажмите 'Сохранить запись' для подтверждения."
+      edit: Редактировать запись
+      error-saving: Произошла ошибка во время сохранении записи.
+      invalid-field: 'Невозможно установить %field% в записи: Значение не действительно.'
+      last-modified: Последние редактированные записи
+      new: Новая запись
+      no-latest: Нет последних записей
+      no-proper-type: "В сущности 'Entry', поле '%field%' имеет 'тип: %type%', которое не является допустим. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      no-recent: Нет недавних записей.
+      none-available: Нет доступных записей.
+      not-existing: Запись которую вы ищите не существует. Возможно она была удалена, или никогда не существовала.
+      not-saved-yet: Запись еще не сохранена.
+      overview: Обзор записей
+      publish: Опубликовать запись
+      recent: Последние записи
+      recently-edited: Последние редактированные записи
+      reserved-name: "В сущности 'Entry', поле '%field%' определено, которое является резеревированным именем. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      save: Сохранить запись
+      saved-changes: Изменения были сохранены.
+      saved-new: Новая запись сохранена.
+      saving-impossible: Невозможно сохранить запись.
+      show-more: Больше записей
+      view: Обзор записей
+      wrong-use-field: "В сущности 'Entry', поле '%field%' использует 'uses: %uses%', но тип '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+  pages:
+    description: "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    name:
+      plural: Страницы
+      singular: Страница
+    text:
+      actions-all: Действия для всех страниц
+      actions-one: Действия для страницы
+      created: Страница была создана
+      delete: Удаление страницы
+      duplicate: Копирование страницы
+      duplicated-finalize: "Контент дублируется. Нажмите 'Сохранить страницу' для подтверждения."
+      edit: Редактировать страницу
+      error-saving: Произошла ошибка вовремя редактировании страницы.
+      invalid-field: 'Невозможно установить %field% для страницы: Значение не действительно.'
+      last-modified: Последние редактированные страницы
+      new: Новая страница
+      no-latest: Нет последних страниц
+      no-proper-type: "В сущности 'Entry', поле '%field%' имеет 'тип: %type%', которое не является допустим. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      no-recent: Нет недавних страниц.
+      none-available: Нет доступных страниц.
+      not-existing: Страница которую вы ищите не существует. Возможно она была удалена, или никогда не существовала.
+      not-saved-yet: Страница еще не сохранена.
+      overview: Обзор страниц
+      publish: Опубликовать страницу
+      recent: Последние страницы
+      recently-edited: Последние редактированные страницы
+      reserved-name: "В сущности 'Pages', поле '%field%' определено, которое является резеревированным именем. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      save: Сохранить страницу
+      saved-changes: Изменения были сохранены.
+      saved-new: Новая страница сохранена.
+      saving-impossible: Невозможно сохранить страницу.
+      show-more: Больше страниц
+      view: Обзор страниц
+      wrong-use-field: "В сущности 'Pages', поле '%field%' использует 'uses: %uses%', но тип '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+  showcases:
+    description: "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+    group:
+      files: Files
+      media: Media
+      other: Other
+      text: Text
+    name:
+      plural: Витрины
+      singular: Витрина
+    text:
+      actions-all: Действия для всех витрин
+      actions-one: Действия для витрины
+      created: Витрина была создана
+      delete: Удаление витрины
+      duplicate: Копирование витрины
+      duplicated-finalize: "Контент дублируется. Нажмите 'Сохранить витрину' для подтверждения."
+      edit: Редактировать витрину
+      error-saving: Произошла ошибка вовремя редактировании витрины.
+      invalid-field: 'Невозможно установить %field% для витрины: Значение не действительно.'
+      last-modified: Последние редактированные витрины
+      new: Новая витрина
+      no-latest: Нет последних витрин
+      no-proper-type: "В сущности 'Showcases', поле '%field%' имеет 'тип: %type%', которое не является допустим. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      no-recent: Нет недавних витрин.
+      none-available: Нет доступных витрин.
+      not-existing: Витрин которую вы ищите не существует. Возможно она была удалена, или никогда не существовала.
+      not-saved-yet: Витрин еще не сохранена.
+      overview: Обзор витрин
+      publish: Опубликовать витрину
+      recent: Последние витрины
+      recently-edited: Последние редактированные витрины
+      reserved-name: "В сущности 'Showcases', поле '%field%' определено, которое является резеревированным именем. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+      save: Сохранить витрину
+      saved-changes: Изменения были сохранены.
+      saved-new: Новая витрина сохранена.
+      saving-impossible: Невозможно сохранить витрину.
+      show-more: Больше витрин
+      view: Обзор витрин
+      wrong-use-field: "В сущности 'Showcases', поле '%field%' использует 'uses: %uses%', но тип '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."

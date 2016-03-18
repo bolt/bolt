@@ -1,137 +1,116 @@
-# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2015-07-21 13:44:01 Europe/Prague
-
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
-
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-#  no translations
-# 106 keyword based translations
-
-#--- 106 keyword based translations -------------------------------------------
-
+---
+contenttypes.pages.group.content: Content
 contenttypes:
-    entries:
-        description: "Typ obsahu **Novinky** může být použit pro obsah typu _'Novinky'_ nebo _'Blog'_. Mají teaser, který může být použít jako přehled / anotace na stránkách s výpisy, umožňujíc nášvštěvníkům procházet zbytek příspěvku. Obsahuje také obrázek či volitelně video. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
-        group:
-            content: "Obsah"
-            media: "Média"
-        name:
-            plural: "Novinky"
-            singular: "Novinka"
-        text:
-            actions-all: "Akce pro"
-            actions-one: "Akce pro"
-            created: "Novinka byla vytvořena"
-            delete: "Odstranit"
-            duplicate: "Duplikovat "
-            duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit Novinku' pro dokončení."
-            edit: "Upravit"
-            error-saving: "Při ukládání  nastala chyba."
-            invalid-field: "Nelze nastavit pole %field% v Novince: Neplatné pole."
-            last-modified: "Naposled upravované novinky"
-            new: "Novinka"
-            no-latest: "Žádné poslední novinky"
-            no-proper-type: "Typ obsahu 'Novinka', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            no-recent: "Zatím nebyly publikovány žádné novinky."
-            none-available: "Novinka nenalezena."
-            not-existing: "Hledaná novinka neexistuje. Byla buď smazána nebo nikdy neexistovala."
-            not-saved-yet: "Novinka zatím nebyla uloženo."
-            overview: "Přehled Novinek"
-            publish: "Publikovat novinku"
-            recent: "Poslední novinky"
-            recent-changes-one: "Poslední změny této Novinky"
-            recently-edited: "Poslední úpravy:"
-            reserved-name: "Typ obsahu 'Novinka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            save: "Uložit Novinku"
-            saved-changes: "Změny byly uloženy (Novinka)."
-            saved-new: "Novinka byla vytvořena."
-            saving-impossible: "Nelze uložit novinku."
-            show-more: "Více novinek"
-            view: "Zobrazit "
-            wrong-use-field: "Typ obsahu 'Novinka', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
-    pages:
-        description: "Typ obsahu **Strany** bývá používán pro statické typy stránek na vašem webu. tedy stránek jako jsou _'O nás'_ nebo _'Kontakt'_. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
-        group:
-            content: "Obsah"
-        name:
-            plural: "Strany"
-            singular: "Strana"
-        text:
-            actions-all: "Akce pro"
-            actions-one: "Akce pro"
-            created: "Strana byla vytvořena"
-            delete: "Odstranit"
-            duplicate: "Duplikovat"
-            duplicated-finalize: "Strana byla zduplikována. Klikněte na 'Uložit stranu' pro dokončení."
-            edit: "Upravit"
-            error-saving: "Při ukládání strany nastala chyba."
-            invalid-field: "U strany nelze nastavit pole %field%: Neplatné pole."
-            last-modified: "Naposledy upravené strany"
-            new: "Stranu"
-            no-latest: "Žádné poslední strany"
-            no-proper-type: "Typ obsahu 'Strana', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            no-recent: "Nebyly publikovány žádné strany."
-            none-available: "Strana nenalezena."
-            not-existing: "Hledaná strana neexistuje. Byla buď smazána nebo nikdy neexistovala."
-            not-saved-yet: "Strana zatím nebyla uložena."
-            overview: "Přehled stran"
-            publish: "Publikovat stranu"
-            recent: "Poslední strany"
-            recent-changes-one: "Poslední změny této Strany"
-            recently-edited: "Poslední úpravy:"
-            reserved-name: "Typ obsahu 'Strana' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            save: "Uložit Stranu"
-            saved-changes: "Změny byly uloženy (strana)."
-            saved-new: "Nová Strana byla uložena."
-            saving-impossible: "Stranu nelze uložit."
-            show-more: "Více "
-            view: "Zobrazit "
-            wrong-use-field: "Typ obsahu 'Strana', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
-    showcases:
-        description: "Typ obsahu **Ukázky** je typ obsahu určený k demonstrování všech dostupných typů polí. Není určený k praktickému použití, ale určitě si projděte, která jaké typy polí lze využít. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
-        group:
-            files: "Soubory"
-            media: "Média"
-            other: "Další"
-            text: "Texty"
-        name:
-            plural: "Ukázky"
-            singular: "Ukázka"
-        text:
-            actions-all: "Akce pro"
-            actions-one: "Akce pro"
-            created: "Ukázka byla vytvořena"
-            delete: "Odstranit "
-            duplicate: "Duplikovat "
-            duplicated-finalize: "Ukázka byla zduplikována. Klikněte na 'Uložit Ukázku' pro dokončení."
-            edit: "Upravit"
-            error-saving: "Při ukládání ukázky nastala chyba."
-            invalid-field: "U Ukázky nelze pole %field%: Neplatné pole."
-            last-modified: "Naposledy upravné Ukázky"
-            new: "Ukázka"
-            no-latest: "Žádné poslední Ukázky"
-            no-proper-type: "Typ obsahu 'Ukázka', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            no-recent: "Nebyly publikovány žádné ukázky"
-            none-available: "Ukázka nebyla nenalezena."
-            not-existing: "Hledaná ukázka neexistuje. Byla buď smazána nebo nikdy neexistovala."
-            not-saved-yet: " zatím neuloženo."
-            overview: " přehled"
-            publish: "Publikovat "
-            recent: "Poslední "
-            recent-changes-one: "Poslední změny této Ukázky"
-            recently-edited: "Poslední úpravy: "
-            reserved-name: "Typ obsahu 'Ukázka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
-            save: "Uložit Ukázku"
-            saved-changes: "Změny byly uloženy (Ukázka)."
-            saved-new: "Nová Ukázka byla uložena."
-            saving-impossible: "Ukázku nelze uložit."
-            show-more: "Více "
-            view: "Zobrazit "
-            wrong-use-field: "Typ obsahu 'Ukázka', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
+  entries:
+    description: "Typ obsahu **Novinky** může být použit pro obsah typu _'Novinky'_ nebo _'Blog'_. Mají teaser, který může být použít jako přehled / anotace na stránkách s výpisy, umožňujíc nášvštěvníkům procházet zbytek příspěvku. Obsahuje také obrázek či volitelně video. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+    group:
+      content: Obsah
+      media: Média
+    name:
+      plural: Novinky
+      singular: Novinka
+    text:
+      actions-all: Akce pro
+      actions-one: Akce pro
+      created: Novinka byla vytvořena
+      delete: Odstranit
+      duplicate: 'Duplikovat '
+      duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit Novinku' pro dokončení."
+      edit: Upravit
+      error-saving: 'Při ukládání  nastala chyba.'
+      invalid-field: 'Nelze nastavit pole %field% v Novince: Neplatné pole.'
+      last-modified: Naposled upravované novinky
+      new: Novinka
+      no-latest: Žádné poslední novinky
+      no-proper-type: "Typ obsahu 'Novinka', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      no-recent: Zatím nebyly publikovány žádné novinky.
+      none-available: Novinka nenalezena.
+      not-existing: Hledaná novinka neexistuje. Byla buď smazána nebo nikdy neexistovala.
+      not-saved-yet: Novinka zatím nebyla uloženo.
+      overview: Přehled Novinek
+      publish: Publikovat novinku
+      recent: Poslední novinky
+      recently-edited: 'Poslední úpravy:'
+      reserved-name: "Typ obsahu 'Novinka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      save: Uložit Novinku
+      saved-changes: Změny byly uloženy (Novinka).
+      saved-new: Novinka byla vytvořena.
+      saving-impossible: Nelze uložit novinku.
+      show-more: Více novinek
+      view: 'Zobrazit '
+      wrong-use-field: "Typ obsahu 'Novinka', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
+  pages:
+    description: "Typ obsahu **Strany** bývá používán pro statické typy stránek na vašem webu. tedy stránek jako jsou _'O nás'_ nebo _'Kontakt'_. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+    name:
+      plural: Strany
+      singular: Strana
+    text:
+      actions-all: Akce pro
+      actions-one: Akce pro
+      created: Strana byla vytvořena
+      delete: Odstranit
+      duplicate: Duplikovat
+      duplicated-finalize: "Strana byla zduplikována. Klikněte na 'Uložit stranu' pro dokončení."
+      edit: Upravit
+      error-saving: Při ukládání strany nastala chyba.
+      invalid-field: 'U strany nelze nastavit pole %field%: Neplatné pole.'
+      last-modified: Naposledy upravené strany
+      new: Stranu
+      no-latest: Žádné poslední strany
+      no-proper-type: "Typ obsahu 'Strana', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      no-recent: Nebyly publikovány žádné strany.
+      none-available: Strana nenalezena.
+      not-existing: Hledaná strana neexistuje. Byla buď smazána nebo nikdy neexistovala.
+      not-saved-yet: Strana zatím nebyla uložena.
+      overview: Přehled stran
+      publish: Publikovat stranu
+      recent: Poslední strany
+      recently-edited: 'Poslední úpravy:'
+      reserved-name: "Typ obsahu 'Strana' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      save: Uložit Stranu
+      saved-changes: Změny byly uloženy (strana).
+      saved-new: Nová Strana byla uložena.
+      saving-impossible: Stranu nelze uložit.
+      show-more: 'Více '
+      view: 'Zobrazit '
+      wrong-use-field: "Typ obsahu 'Strana', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
+  showcases:
+    description: "Typ obsahu **Ukázky** je typ obsahu určený k demonstrování všech dostupných typů polí. Není určený k praktickému použití, ale určitě si projděte, která jaké typy polí lze využít. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
+    group:
+      files: Soubory
+      media: Média
+      other: Další
+      text: Texty
+    name:
+      plural: Ukázky
+      singular: Ukázka
+    text:
+      actions-all: Akce pro
+      actions-one: Akce pro
+      created: Ukázka byla vytvořena
+      delete: 'Odstranit '
+      duplicate: 'Duplikovat '
+      duplicated-finalize: "Ukázka byla zduplikována. Klikněte na 'Uložit Ukázku' pro dokončení."
+      edit: Upravit
+      error-saving: Při ukládání ukázky nastala chyba.
+      invalid-field: 'U Ukázky nelze pole %field%: Neplatné pole.'
+      last-modified: Naposledy upravné Ukázky
+      new: Ukázka
+      no-latest: Žádné poslední Ukázky
+      no-proper-type: "Typ obsahu 'Ukázka', pole '%field%' používá 'typ: %type%', což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      no-recent: Nebyly publikovány žádné ukázky
+      none-available: Ukázka nebyla nenalezena.
+      not-existing: Hledaná ukázka neexistuje. Byla buď smazána nebo nikdy neexistovala.
+      not-saved-yet: ' zatím neuloženo.'
+      overview: ' přehled'
+      publish: 'Publikovat '
+      recent: 'Poslední '
+      recently-edited: 'Poslední úpravy: '
+      reserved-name: "Typ obsahu 'Ukázka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
+      save: Uložit Ukázku
+      saved-changes: Změny byly uloženy (Ukázka).
+      saved-new: Nová Ukázka byla uložena.
+      saving-impossible: Ukázku nelze uložit.
+      show-more: 'Více '
+      view: 'Zobrazit '
+      wrong-use-field: "Typ obsahu 'Ukázka', pole '%field%' používá: '%uses%', ale pole '%uses%' neexistuje. Proveďte prosím potřebné úpravy v contenttypes.yml."
