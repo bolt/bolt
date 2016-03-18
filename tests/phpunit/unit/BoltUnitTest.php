@@ -242,7 +242,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $app['filesystem'],
         ];
 
-        $cache = $this->getMock('Bolt\Cache', ['doFlush'], $params);
+        $cache = $this->getMock('Bolt\Cache', ['flushAll'], $params);
 
         return $cache;
     }

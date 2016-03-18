@@ -59,7 +59,7 @@ class Environment
             return;
         }
         $this->syncView();
-        $this->cache->doFlush();
+        $this->cache->flushAll();
         $this->updateAutoloader();
         $this->updateCacheVersion();
     }

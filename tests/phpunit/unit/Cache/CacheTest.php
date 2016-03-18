@@ -36,7 +36,7 @@ class CacheTest extends BoltUnitTest
 
     public function tearDown()
     {
-        $this->cache->doFlush();
+        $this->cache->flushAll();
         $this->clean($this->workspace);
     }
 
