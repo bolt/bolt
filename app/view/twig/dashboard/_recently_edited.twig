@@ -17,7 +17,7 @@
                 'permissions':   context.permissions[contenttype],
                 'thumbsize':     54,
             } %}
-            {% include ['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'] with listing_vars %}
+            {{ include(['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'],  listing_vars) }}
         {% endfor %}
     </table>
 </div>
