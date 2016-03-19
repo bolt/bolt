@@ -21,14 +21,14 @@
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
             <div class="container-fluid">
-                {% include '@bolt/_nav/_primary.twig' %}
+                {{ include('@bolt/_nav/_primary.twig') }}
             </div>
         </nav>
 
         <nav id="navpage-secondary" class="navbar-default navbar-static-side">
-            {% include '@bolt/_nav/_secondary.twig' %}
+            {{ include('@bolt/_nav/_secondary.twig') }}
             {# Note: We include the footer here, because of z-index issues otherwise. #}
-            {% include '@bolt/_nav/_footer.twig' %}
+            {{ include('@bolt/_nav/_footer.twig') }}
         </nav>
 
         <div id="navpage-content" class="container-fluid">
@@ -60,7 +60,7 @@
             {{ widgets('below_header', 'backend') }}
 
             {% block messages %}
-                {% include '@bolt/_sub/_messages.twig' with {'wrapper': true} %}
+                {{ include('@bolt/_sub/_messages.twig', {'wrapper': true}) }}
             {% endblock messages %}
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}

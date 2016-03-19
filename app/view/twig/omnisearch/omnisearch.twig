@@ -39,7 +39,7 @@
                                     'heading': loop.first ? heading : '',
                                 }
                             } %}
-                            {% include includes with listing_vars %}
+                            {{ include(includes with listing_vars) }}
                         {% endfor %}
                     </table>
                 </div>
@@ -74,7 +74,7 @@
         </div>
 
         <aside class="col-md-4">
-            {% include '@bolt/omnisearch/_aside.twig' %}
+            {{ include('@bolt/omnisearch/_aside.twig') }}
         </aside>
 
     </div>

@@ -17,11 +17,11 @@
 {# Process field specific includes and data #}
 
 {% for type in context.fieldtypes %}
-    {% include '@bolt/editcontent/fielddata/_' ~ type ~ '.twig' ignore missing %}
+    {{ include('@bolt/editcontent/fielddata/_' ~ type ~ '.twig', ignore_missing = true) }}
 {% endfor %}
 
 {# Has uploads? #}
 
 {% if 'file' in context.fieldtypes or 'filelist' in context.fieldtypes or 'image' in context.fieldtypes or 'imagelist' in context.fieldtypes %}
-    {% include '@bolt/editcontent/data/_uploads.twig' %}
+    {{ include('@bolt/editcontent/data/_uploads.twig') }}
 {% endif %}

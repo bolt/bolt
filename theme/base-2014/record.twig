@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{{ include('_header.twig') }}
 
 <!-- Main Page Content and Sidebar -->
 
@@ -19,7 +19,7 @@
             {{ dump(record) }}
             #}
 
-            {% include '_recordfooter.twig' with {'record': record} %}
+            {{ include('_recordfooter.twig', {'record': record}) }}
 
             <p class="meta">
                 {% set previous = record.previous('id') %}
@@ -51,10 +51,10 @@
 
     <!-- End Main Content -->
 
-    {% include '_aside.twig' %}
+    {{ include('_aside.twig') }}
 
     <!-- End Main Content and Sidebar -->
 
 
 
-    {% include '_footer.twig' %}
+    {{ include('_footer.twig') }}

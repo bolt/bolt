@@ -14,25 +14,25 @@
     <div class="row">
         <div class="col-md-8">
 
-            {% include '@bolt/_sub/_messages.twig' %}
+            {{ include('@bolt/_sub/_messages.twig') }}
 
             {% if context.suggestloripsum %}
-                {% include '@bolt/dashboard/_suggestloripsum.twig' %}
+                {{ include('@bolt/dashboard/_suggestloripsum.twig') }}
             {% endif %}
 
             {{ widgets('dashboard_below_header', 'backend') }}
 
             <div class="quicklinks">
                 {% if app.config.get('contenttypes')|length() > 3 %}
-                    {% include '@bolt/dashboard/_quicklinks-dropdown.twig' %}
+                    {{ include('@bolt/dashboard/_quicklinks-dropdown.twig') }}
                 {% else %}
-                    {% include '@bolt/dashboard/_quicklinks-buttons.twig' %}
+                    {{ include('@bolt/dashboard/_quicklinks-buttons.twig') }}
                 {% endif %}
             </div>
 
             {% for contenttype, multiplecontent in context.latest %}
                 {% if multiplecontent %}
-                    {% include '@bolt/dashboard/_recently_edited.twig' %}
+                    {{ include('@bolt/dashboard/_recently_edited.twig') }}
                 {% endif %}
             {% endfor %}
 
@@ -41,7 +41,7 @@
         </div>
 
         <aside class="col-md-4">
-            {% include '@bolt/dashboard/_aside.twig' %}
+            {{ include('@bolt/dashboard/_aside.twig') }}
         </aside>
 
     </div>

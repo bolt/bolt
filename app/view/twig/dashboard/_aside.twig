@@ -1,7 +1,7 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
 {# Configuration notices #}
-{% include '@bolt/_sub/_configuration_notices.twig' %}
+{{ include('@bolt/_sub/_configuration_notices.twig') }}
 
 {# If we're running a development version, show annoying message. #}
 {% if not bolt_stable %}

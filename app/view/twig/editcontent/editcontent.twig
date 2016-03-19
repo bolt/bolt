@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-md-8">
 
-            {% include '@bolt/_sub/_messages.twig' %}
+            {{ include('@bolt/_sub/_messages.twig') }}
 
             {{ widgets('editcontent_below_header', 'backend') }}
 
@@ -80,7 +80,7 @@
             {% endif %}
 
             <form{{ macro.attr(attr_form) }}>
-                {% include '@bolt/_sub/_csrf_token.twig' %}
+                {{ include('@bolt/_sub/_csrf_token.twig') }}
 
                 <input{{ macro.attr(attributes.hid_editreferrer) }}>
                 <input{{ macro.attr(attributes.hid_contenttype) }}>
@@ -94,21 +94,21 @@
                     {% for key in group.fields %}
 
                         {% if key == '*relations' %}
-                            {% include '@bolt/editcontent/_relations.twig' %}
+                            {{ include('@bolt/editcontent/_relations.twig') }}
 
                         {% elseif key == '*taxonomy' %}
-                            {% include '@bolt/editcontent/_taxonomies.twig' %}
+                            {{ include('@bolt/editcontent/_taxonomies.twig') }}
 
                         {% elseif key == '*meta' %}
                             <div data-bolt-fieldset="meta">
-                                {% include '@bolt/editcontent/fields/_meta.twig' %}
+                                {{ include('@bolt/editcontent/fields/_meta.twig') }}
                             </div>
 
                         {% elseif key == '*template' %}
-                            {% include '@bolt/editcontent/_templatefields.twig' %}
+                            {{ include('@bolt/editcontent/_templatefields.twig') }}
 
                         {% else %}
-                            {% include '@bolt/editcontent/_field.twig' %}
+                            {{ include('@bolt/editcontent/_field.twig') }}
                         {% endif %}
 
                     {% endfor %}
@@ -121,22 +121,22 @@
 
                 <input type="hidden" name="_live-editor-preview" value=""/>
 
-                {% include '@bolt/editcontent/_buttons.twig' %}
+                {{ include('@bolt/editcontent/_buttons.twig') }}
             </form>
 
-            {% include '@bolt/editcontent/_includes-data.twig' %}
+            {{ include('@bolt/editcontent/_includes-data.twig') }}
 
             {{ widgets('editcontent_bottom', 'backend') }}
 
         </div>
 
         <aside class="col-md-4 hidden-sm">
-            {% include '@bolt/editcontent/_aside.twig' %}
+            {{ include('@bolt/editcontent/_aside.twig') }}
         </aside>
     </div>
 
 {% endblock page_main %}
 
 {% block page_main_extra_content %}
-    {% include '@bolt/editcontent/_live-editor.twig' %}
+    {{ include('@bolt/editcontent/_live-editor.twig') }}
 {% endblock %}

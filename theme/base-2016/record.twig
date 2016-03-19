@@ -13,7 +13,7 @@
             {{ dump(record) }}
             #}
 
-            {% include '_recordfooter.twig' with {'record': record} %}
+            {{ include('_recordfooter.twig', {'record': record}) }}
             <p class="meta">
                 {% set previous = record.previous('id') %}
                 {% if previous %}
@@ -37,6 +37,6 @@
             {% endif %}
             {{ widgets('main_bottom') }}
         </article>
-    {% include '_aside.twig' %}
+    {{ include('_aside.twig') }}
     </div>
 {% endblock %}

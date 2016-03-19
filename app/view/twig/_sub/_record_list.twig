@@ -53,7 +53,7 @@
                     },
                     'filter':        filter
                 } %}
-                {% include includes with listing_vars %}
+                {{ include(includes, listing_vars) }}
 
                 {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                     {% set lastgroup = content.group.name %}

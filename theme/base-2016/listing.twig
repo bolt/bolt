@@ -43,7 +43,7 @@
             {% else %}
                 <p>{{ record.excerpt(300, false, search|default('')) }}</p>
             {% endif %}
-            {% include '_recordfooter.twig' with {'record': record} %}
+            {{ include('_recordfooter.twig', {'record': record}) }}
             {% if not loop.last %}<hr>{% endif %}
         {% else %}
             <article>
@@ -66,6 +66,6 @@
         {{ pager() }}
         {{ widgets('main_bottom') }}
     </section>
-    {% include '_aside.twig' %}
+    {{ include('_aside.twig') }}
     </div>
 {% endblock %}

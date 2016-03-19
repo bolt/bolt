@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{{ include('_header.twig') }}
 
 <!-- Main Page Content and Sidebar -->
 
@@ -90,10 +90,10 @@
     <!-- End Main Content -->
     {# include the sidebar. The include tag can be used to break up your templates in logical parts,
        and re-use them across different templates/pages. #}
-    {% include '_aside.twig' %}
+    {{ include('_aside.twig') }}
 
 <!-- End Main Content and Sidebar -->
 
 
 
-{% include '_footer.twig' %}
+{{ include('_footer.twig') }}

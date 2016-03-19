@@ -31,7 +31,7 @@
             {{ widgets('files_below_header', 'backend') }}
 
             {% if context.directories|length > 0 %}
-                {% include '@bolt/files/_folders.twig' %}
+                {{ include('@bolt/files/_folders.twig') }}
             {% endif %}
 
             <p>
@@ -52,12 +52,12 @@
             </p>
 
             {% if context.files|length > 0 %}
-                {% include '@bolt/files/_files.twig' %}
+                {{ include('@bolt/files/_files.twig') }}
             {% endif %}
 
             {# Only show the "Upload here" form, if the folder is writable. #}
             {% if context.form != false %}
-                {% include '@bolt/files/_upload.twig' %}
+                {{ include('@bolt/files/_upload.twig') }}
             {% else %}
                 <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
             {% endif %}

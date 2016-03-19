@@ -28,11 +28,11 @@
     {{ files_path(context.pathsegments, context.namespace, pathoptions) }}
 
     {% if context.folders|length > 0 %}
-        {% include '@bolt/files_ck/_folders.twig' %}
+        {{ include('@bolt/files_ck/_folders.twig') }}
     {% endif %}
 
     {% if context.files|length > 0 %}
-            {% include '@bolt/files_ck/_files.twig' %}
+            {{ include('@bolt/files_ck/_files.twig') }}
     {% endif %}
 
 {% endblock page_main %}
