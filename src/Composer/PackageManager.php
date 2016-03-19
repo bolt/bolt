@@ -125,6 +125,9 @@ class PackageManager
      */
     private function setup()
     {
+        // Create our Factory
+        $this->factory = new Factory($this->app, $this->options);
+
         if ($this->app['extend.writeable']) {
             // Copy/update installer helper
             $this->copyInstaller();
@@ -143,9 +146,6 @@ class PackageManager
                 $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
             }
         }
-
-        // Create our Factory
-        $this->factory = new Factory($this->app, $this->options);
     }
 
     /**
