@@ -3,8 +3,10 @@
 namespace Bolt;
 
 use Bolt\Configuration\Composer;
+use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 use Bolt\Exception\LowlevelException;
+use Silex;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -39,19 +41,20 @@ return call_user_func(function () {
         $boltRootPath . '/../../autoload.php'  => [Composer::class, $boltRootPath . '/../../..'],
     ];
 
+    $error = true;
     foreach ($autodetectionMappings as $autoloadPath => list($resourcesClass, $rootPath)) {
         if (!file_exists($autoloadPath)) {
             continue;
         }
+
         require_once $autoloadPath;
-        // Instantiate the configuration class
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-        $resources = new $resourcesClass($rootPath);
+
+        $error = false;
         break;
     }
 
     // None of the mappings matched, error
-    if (!isset($resources)) {
+    if ($error) {
         include $boltRootPath . '/src/Exception/LowlevelException.php';
         throw new LowlevelException(
             'Configuration autodetection failed because The file ' .
@@ -72,7 +75,9 @@ return call_user_func(function () {
      * simple values and PHP supports any programmatic logic if required.
      */
     $config = [
-        'paths' => [],
+        'application' => null,
+        'resources'   => null,
+        'paths'       => [],
     ];
 
     if (file_exists($rootPath . '/.bolt.yml')) {
@@ -85,6 +90,23 @@ return call_user_func(function () {
         }
     }
 
+    // If application object is provided, assume it is ready to go.
+    if ($config['application'] instanceof Silex\Application) {
+        return $config['application'];
+    }
+
+    // Use resources from config, or instantiate the class based on mapping above.
+    if ($config['resources'] instanceof ResourceManager) {
+        $resources = $config['resources'];
+    } else {
+        if ($config['resources'] !== null && is_a($config['resources'], ResourceManager::class)) {
+            $resourcesClass = $config['resources'];
+        }
+
+        /** @var \Bolt\Configuration\ResourceManager $resources */
+        $resources = new $resourcesClass($rootPath);
+    }
+
     // Set any non-standard paths
     foreach ((array) $config['paths'] as $name => $path) {
         $resources->setPath($name, $path);
@@ -94,10 +116,16 @@ return call_user_func(function () {
     $resources->verify();
 
     // Create the 'Bolt application'
-    $app = new Application(['resources' => $resources]);
+    $appClass = Application::class;
+    if ($config['application'] !== null && is_a($config['application'], Silex\Application::class)) {
+        $appClass = $config['application'];
+    }
+    $app = new $appClass(['resources' => $resources]);
 
     // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
-    $app->initialize();
+    if (method_exists($app, 'initialize')) {
+        $app->initialize();
+    }
 
     return $app;
 });
