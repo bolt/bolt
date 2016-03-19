@@ -6,6 +6,8 @@ use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\Package\Version\VersionSelector;
+use Composer\Repository\ComposerRepository;
+use Composer\Repository\ConfigurableRepositoryInterface;
 use Silex\Application;
 
 abstract class BaseAction
@@ -149,7 +151,11 @@ abstract class BaseAction
     {
         $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
+        /** @var ConfigurableRepositoryInterface $repo */
         foreach ($repos as $repo) {
+            if (!$repo instanceof ComposerRepository) {
+                continue;
+            }
             $reflection = new \ReflectionClass($repo);
             $allowSslDowngrade = $reflection->getProperty('allowSslDowngrade');
             $allowSslDowngrade->setAccessible(true);
