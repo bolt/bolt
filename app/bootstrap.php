@@ -2,7 +2,10 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\Composer;
+use Bolt\Configuration\Standard;
 use Bolt\Exception\LowlevelException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Second stage loader. Do bootstrapping within a new local scope to avoid
@@ -10,18 +13,17 @@ use Bolt\Exception\LowlevelException;
  *
  * Here we bootstrap the app:
  * - Initialize mb functions for UTF-8
- * - Figure out path structure
+ * - Figure out root path
  * - Bring in the autoloader
+ * - Load initialization config from .bolt file
  * - Load and verify configuration
  * - Initialize the application
  *
- * @param array $paths Paths in the format ['name' => 'relative/path']
- *
  * @throws LowlevelException
  *
- * @return \Closure
+ * @return \Silex\Application
  */
-return function (array $paths = []) {
+return call_user_func(function () {
     // Use UTF-8 for all multi-byte functions
     mb_internal_encoding('UTF-8');
     mb_http_output('UTF-8');
@@ -33,23 +35,23 @@ return function (array $paths = []) {
     // and autodetect an appropriate configuration class based on this
     // information. (autoload.php path maps to a configuration class)
     $autodetectionMappings = [
-        $boltRootPath . '/vendor/autoload.php' => 'Standard',
-        $boltRootPath . '/../../autoload.php'  => 'Composer',
+        $boltRootPath . '/vendor/autoload.php' => [Standard::class, $boltRootPath],
+        $boltRootPath . '/../../autoload.php'  => [Composer::class, $boltRootPath . '/../../..'],
     ];
 
-    foreach ($autodetectionMappings as $autoloadPath => $configType) {
-        if (file_exists($autoloadPath)) {
-            $loader = require $autoloadPath;
-            // Instantiate the configuration class
-            $configClass = '\\Bolt\\Configuration\\' . $configType;
-            /** @var \Bolt\Configuration\ResourceManager $config */
-            $config = new $configClass($loader);
-            break;
+    foreach ($autodetectionMappings as $autoloadPath => list($resourcesClass, $rootPath)) {
+        if (!file_exists($autoloadPath)) {
+            continue;
         }
+        require_once $autoloadPath;
+        // Instantiate the configuration class
+        /** @var \Bolt\Configuration\ResourceManager $resources */
+        $resources = new $resourcesClass($rootPath);
+        break;
     }
 
     // None of the mappings matched, error
-    if (!isset($config)) {
+    if (!isset($resources)) {
         include $boltRootPath . '/src/Exception/LowlevelException.php';
         throw new LowlevelException(
             'Configuration autodetection failed because The file ' .
@@ -58,19 +60,44 @@ return function (array $paths = []) {
         );
     }
 
+    /*
+     * Load initialization config needed to bootstrap application.
+     *
+     * In order for paths to be customized and still have the standard
+     * index.php (web) and nut (CLI) work, there needs to be a standard
+     * place these are defined. This is ".bolt.yml" or ".bolt.php" in the
+     * project root (determined above).
+     *
+     * Yes, YAML and PHP are supported here (not both). YAML works for
+     * simple values and PHP supports any programmatic logic if required.
+     */
+    $config = [
+        'paths' => [],
+    ];
+
+    if (file_exists($rootPath . '/.bolt.yml')) {
+        $yaml = Yaml::parse(file_get_contents($rootPath . '/.bolt.yml')) ?: [];
+        $config = array_replace_recursive($config, $yaml);
+    } elseif (file_exists($rootPath . '/.bolt.php')) {
+        $php = include $rootPath . '/.bolt.php';
+        if (is_array($php)) {
+            $config = array_replace_recursive($config, $php);
+        }
+    }
+
     // Set any non-standard paths
-    foreach ($paths as $name => $path) {
-        $config->setPath($name, $path);
+    foreach ((array) $config['paths'] as $name => $path) {
+        $resources->setPath($name, $path);
     }
 
     /** @var \Bolt\Configuration\ResourceManager $config */
-    $config->verify();
+    $resources->verify();
 
     // Create the 'Bolt application'
-    $app = new Application(['resources' => $config]);
+    $app = new Application(['resources' => $resources]);
 
     // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
     $app->initialize();
 
     return $app;
-};
+});
