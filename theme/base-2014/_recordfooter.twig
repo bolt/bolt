@@ -8,5 +8,5 @@
     <a href="{{ record.link }}">{{ __('Permalink') }}</a> -
     {# include the 'default' links to taxonomies. Check the documentation for ways to modify and customize
        what is output to the browser: http://docs.bolt.cm/taxonomies#taxonomies #}
-    {% include '_sub_taxonomylinks.twig' with {record: record} %}
+    {{ include('_sub_taxonomylinks.twig', {record: record}) }}
 </h6>

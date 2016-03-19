@@ -45,7 +45,7 @@
             {{ dump(record) }}
             #}
 
-            {% include '_recordfooter.twig' with {'record': record} %}
+            {{ include('_recordfooter.twig', {'record': record}) }}
             <p class="meta">
                 {% set previous = record.previous('id') %}
                 {% if previous %}

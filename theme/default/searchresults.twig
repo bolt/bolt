@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{{ include('_header.twig') }}
 
 <h1>Search results</h1>
 
@@ -15,7 +15,7 @@
 
             {{ record.excerpt(300) }}
 
-            {% include '_recordfooter.twig' with {record: record} %}
+            {{ include('_recordfooter.twig', {record: record}) }}
 
         </article>
     {% endfor %}
@@ -26,5 +26,5 @@
 {{ pager() }}
 
 
-{% include '_footer.twig' %}
+{{ include('_footer.twig') }}
 

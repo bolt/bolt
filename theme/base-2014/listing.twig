@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{{ include('_header.twig') }}
 
 <!-- Main Page Content and Sidebar -->
 
@@ -53,7 +53,7 @@
                     <p>{{ record.excerpt(300, false, search|default('')) }}</p>
                 {% endif %}
 
-                {% include '_recordfooter.twig' with {'record': record} %}
+                {{ include('_recordfooter.twig', {'record': record}) }}
 
             </article>
 
@@ -85,8 +85,8 @@
 
     <!-- End Main Content -->
 
-    {% include '_aside.twig' %}
+    {{ include('_aside.twig') }}
 
 <!-- End Main Content and Sidebar -->
 
-{% include '_footer.twig' %}
+{{ include('_footer.twig') }}

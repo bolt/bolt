@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{{ include('_header.twig') }}
 
 
 {% setcontent entries = "entries/latest/4" allowpaging %}
@@ -14,7 +14,7 @@
 
     {{ entry.teaser }}
 
-    {% include '_recordfooter.twig' with {record: record} %}
+    {{ include('_recordfooter.twig', {record: record}) }}
 
 </article>
 {% endfor %}
@@ -22,5 +22,5 @@
 {{ pager() }}
 
 
-{% include '_footer.twig' %}
+{{ include('_footer.twig') }}
 
