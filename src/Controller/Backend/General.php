@@ -81,15 +81,12 @@ class General extends BackendBase
      */
     public function clearCache()
     {
-        $result = $this->app['cache']->doFlush();
+        $result = $this->app['cache']->flushAll();
 
-        $output = Trans::__('Deleted %s files from cache.', ['%s' => $result['successfiles']]);
-
-        if (!empty($result['failedfiles'])) {
-            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', ['%s' => $result['failedfiles']]);
-            $this->flashes()->error($output);
+        if ($result) {
+            $this->flashes()->success(Trans::__('Cleared cache.'));
         } else {
-            $this->flashes()->success($output);
+            $this->flashes()->error(Trans::__('Failed to clear cache. You should delete it manually.'));
         }
 
         return $this->render('@bolt/clearcache/clearcache.twig');

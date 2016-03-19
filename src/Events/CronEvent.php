@@ -84,7 +84,7 @@ class CronEvent extends Event
     private function cronWeekly()
     {
         // Clear the cache
-        $this->app['cache']->doFlush();
+        $this->app['cache']->flushAll();
         $this->notify('Clearing cache');
 
         // Trim system log files

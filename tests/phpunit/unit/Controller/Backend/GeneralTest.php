@@ -51,12 +51,12 @@ class GeneralTest extends ControllerUnitTest
         $this->allowLogin($this->getApp());
         $cache = $this->getCacheMock();
         $cache->expects($this->at(0))
-            ->method('doFlush')
-            ->will($this->returnValue(['successfiles' => '1.txt', 'failedfiles' => '2.txt']));
+            ->method('flushAll')
+            ->will($this->returnValue(false));
 
         $cache->expects($this->at(1))
-            ->method('doFlush')
-            ->will($this->returnValue(['successfiles' => '1.txt']));
+            ->method('flushAll')
+            ->will($this->returnValue(true));
 
         $this->setService('cache', $cache);
         $this->setRequest(Request::create('/bolt/clearcache'));

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CacheClear extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -22,23 +22,18 @@ class CacheClear extends BaseCommand
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['cache']->doFlush();
-
-        $output->writeln(sprintf("Deleted %s files from cache.\n", $result['successfiles']));
-
-        if (!empty($result['failedfiles'])) {
-            $output->writeln(sprintf('<error>These %s files could not be deleted. You should delete them manually.</error>', $result['failedfiles']));
-            foreach ($result['failed'] as $failed) {
-                $output->writeln(" - $failed");
-            }
-            $output->writeln('');
-        }
+        $result = $this->app['cache']->flushAll();
 
         $this->auditLog(__CLASS__, 'Cache cleared');
-        $output->writeln('<info>Cache cleared!</info>');
+
+        if ($result) {
+            $output->writeln('<info>Cache cleared!</info>');
+        } else {
+            $output->writeln('<warning>Failed to clear cache. You should delete it manually.</warning>');
+        }
     }
 }

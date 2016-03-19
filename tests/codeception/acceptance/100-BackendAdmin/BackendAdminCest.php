@@ -564,8 +564,7 @@ class BackendAdminCest
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/clearcache');
 
-        $I->see('Deleted');
-        $I->see('files from cache.');
+        $I->see('Cleared cache');
         $I->see('Clear cache again', 'a');
     }
 

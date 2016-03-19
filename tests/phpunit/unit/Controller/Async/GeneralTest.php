@@ -117,7 +117,7 @@ class GeneralTest extends ControllerUnitTest
     public function testDashboardNewsWithVariable()
     {
         $app = $this->getApp();
-        $app['cache']->doFlush();
+        $app['cache']->flushAll();
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app['config']->set('general/branding/news_variable', 'testing');
 

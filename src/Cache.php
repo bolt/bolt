@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt\Filesystem\AggregateFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 
@@ -14,6 +14,7 @@ use Doctrine\Common\Cache\FilesystemCache;
  *
  * @author Bob den Otter <bob@twokings.nl>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class Cache extends FilesystemCache
 {
@@ -40,21 +41,13 @@ class Cache extends FilesystemCache
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use doFlush() instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use flushAll() instead.
      */
     public function clearCache()
     {
-        return $this->doFlush();
-    }
+        $this->flushAll();
 
-    /**
-     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
-     *
-     * @return array
-     */
-    public function doFlush()
-    {
-        $result = [
+        return [
             'successfiles'   => 0,
             'failedfiles'    => 0,
             'failed'         => [],
@@ -62,16 +55,24 @@ class Cache extends FilesystemCache
             'failedfolders'  => 0,
             'log'            => '',
         ];
+    }
 
+    /**
+     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
+     *
+     * @return bool
+     */
+    protected function doFlush()
+    {
         // Clear Doctrine's folder.
-        parent::doFlush();
+        $result = parent::doFlush();
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
             // Clear our own cache folder.
-            $this->flushFilesystemCache($this->filesystem->getFilesystem('cache'), '/', $result);
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/'));
 
             // Clear the thumbs folder.
-            $this->flushFilesystemCache($this->filesystem->getFilesystem('web'), '/thumbs', $result);
+            $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));
         }
 
         return $result;
@@ -80,20 +81,15 @@ class Cache extends FilesystemCache
     /**
      * Helper function for doFlush().
      *
-     * @param FilesystemInterface $filesystem
-     * @param string              $path
-     * @param array               $result
+     * @param DirectoryInterface $directory
      */
-    private function flushFilesystemCache(FilesystemInterface $filesystem, $path, &$result)
+    private function flushDirectory(DirectoryInterface $directory)
     {
-        if (!$filesystem->has($path)) {
+        if (!$directory->exists()) {
             return;
         }
 
-        $files = $filesystem->find()
-            ->in($path)
-            ->files()
-            ->notName('index.html')
+        $files = $directory->find()
             ->ignoreDotFiles()
             ->ignoreVCS()
         ;
@@ -102,26 +98,7 @@ class Cache extends FilesystemCache
         foreach ($files as $file) {
             try {
                 $file->delete();
-                $result['successfiles']++;
             } catch (IOException $e) {
-                $result['failedfiles']++;
-                $result['failed'][] = $file->getPath();
-            }
-        }
-
-        $dirs = $filesystem->find()
-            ->in($path)
-            ->directories()
-            ->depth('< 1')
-        ;
-
-        /** @var HandlerInterface $dir */
-        foreach ($dirs as $dir) {
-            try {
-                $dir->delete();
-                $result['successfolders']++;
-            } catch (IOException $e) {
-                $result['failedfolders']++;
             }
         }
     }

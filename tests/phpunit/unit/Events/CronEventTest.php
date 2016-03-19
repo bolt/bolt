@@ -22,7 +22,7 @@ class CronEventTest extends BoltUnitTest
         $app['cache'] = $this->getCacheMock();
         $app['cache']
             ->expects($this->exactly(1))
-            ->method('doFlush');
+            ->method('flushAll');
 
         $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
         $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
