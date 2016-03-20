@@ -1,8 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Extensions;
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
+use Bolt\Asset\Target;
 
 /**
  * Class to test correct operation and locations of extensions.
@@ -237,44 +237,44 @@ HTML;
         $app = $this->getApp();
 
         // Test snippet inserts at top of <head>
-        $app['extensions']->insertSnippet(SnippetLocation::START_OF_HEAD, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::START_OF_HEAD, '<meta name="test-snippet" />');
 
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
 
         // Test snippet inserts at end of <head>
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::END_OF_HEAD, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
 
         // Test snippet inserts at end of body
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::START_OF_BODY, '<p class="test-snippet"></p>');
+        $app['extensions']->insertSnippet(Target::START_OF_BODY, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfBody), $this->html($html));
 
         // Test snippet inserts at end of </html>
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::END_OF_HTML, '<p class="test-snippet"></p>');
+        $app['extensions']->insertSnippet(Target::END_OF_HTML, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($html));
 
         // Test snippet inserts before existing css
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::BEFORE_CSS, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::BEFORE_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($html));
 
         // Test snippet inserts after existing css
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::AFTER_CSS, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::AFTER_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterCss), $this->html($html));
 
         // Test snippet inserts after existing meta tags
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::AFTER_META, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::AFTER_META, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($html));
     }
@@ -297,7 +297,7 @@ HTML;
 
         $app = $this->getApp();
         $app['extensions']->insertSnippet(
-            SnippetLocation::AFTER_META,
+            Target::AFTER_META,
             '\Bolt\Tests\Extensions\globalSnippet',
             'core',
             "\n"
@@ -323,16 +323,16 @@ HTML;
         $this->markTestIncomplete('Update required');
 
         $locations = [
-            SnippetLocation::START_OF_HEAD,
-            SnippetLocation::START_OF_BODY,
-            SnippetLocation::END_OF_BODY,
-            SnippetLocation::END_OF_HTML,
-            SnippetLocation::AFTER_META,
-            SnippetLocation::AFTER_CSS,
-            SnippetLocation::BEFORE_CSS,
-            SnippetLocation::BEFORE_JS,
-            SnippetLocation::AFTER_CSS,
-            SnippetLocation::AFTER_JS,
+            Target::START_OF_HEAD,
+            Target::START_OF_BODY,
+            Target::END_OF_BODY,
+            Target::END_OF_HTML,
+            Target::AFTER_META,
+            Target::AFTER_CSS,
+            Target::BEFORE_CSS,
+            Target::BEFORE_JS,
+            Target::AFTER_CSS,
+            Target::AFTER_JS,
             'madeuplocation',
         ];
         foreach ($locations as $location) {
