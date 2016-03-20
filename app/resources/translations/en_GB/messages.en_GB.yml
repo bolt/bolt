@@ -1,4 +1,4 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-03-20 17:43:18 Europe/Berlin
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-03-20 17:54:44 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,69 +8,11 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  55 unused messages
+#  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
 # 404 translations
 # 206 keyword based translations
-
-#--- 55 unused messages -------------------------------------------------------
-
-"%contenttypes% overview": "%contenttypes% overview"
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Bolt Extension could not be found. Please check at %site% to ensure correct name."
-"Clear Activitylog": "Clear activity log"
-"Clear the current log": "Clear the current log"
-"Content '%title%' could not be deleted.": "Content '%title%' could not be deleted."
-"Content '%title%' has been changed to '%newStatus%'": "Content '%title%' has been changed to '%newStatus%'"
-"Content '%title%' has been deleted.": "Content '%title%' has been deleted."
-"Delete selected": "Delete selected"
-"Depublish selected": "Depublish selected"
-"Do you really want to delete %foldername%?": "Do you really want to delete %foldername%?"
-"Extension log": "Extension log"
-"File '%file%' could not be uploaded.": "File '%file%' could not be uploaded."
-"Filtering …": "Filtering …"
-"Next": "Next"
-"No recent %contenttype%.": "No recent %contenttype%."
-"No such action for content.": "No such action for content."
-"Originally by %1, ported by %2": "Originally by %1, ported by %2"
-"Other contenttypes": "Other contenttypes"
-"Permission denied": "Permission denied"
-"Previous": "Previous"
-"Proudly powered by %s": "Proudly powered by %s"
-"Publish selected": "Publish selected"
-"Recent %contenttypes%": "Recent %contenttypes%"
-"Search for:": "Search for:"
-"Search…": "Search…"
-"Skip to content": "Skip to content"
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "The extensions directory (<code>%dir%</code>) does not exist, or it is not writable."
-"The file '%s' doesn't exist, or is not readable.": "The file '%s' doesn't exist, or is not readable."
-"Trim Activitylog": "Trim Activitylog"
-"You do not have the right privileges to create a new record.": "You do not have the right privileges to create a new record."
-"You must specify both a name and a version to install!": "You must specify both a name and a version to install!"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Extension error] Initialisation failed for %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extension error] Snippet loading failed for %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extension error] Twig function registration failed for %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extension error] YAML config failed to load for %ext%: %error%"
-"in:": "in:"
-"contenttypes.general.choose-an-entry": "Choose an entry"
-"general.thanks": "Thanks"
-"contenttypes.generic.error-saving": "There was an error saving this %contenttype%."
-"field.general.select-from-stack": "Select from stack"
-"field.geolocation.marker": "Pin"
-"field.video.button.preview": "Preview"
-"field.video.preview.button.close": "Close"
-"field.video.preview.no-url": "No video url is set, no video to show."
-"The Bolt extensions file '%composerjson%' isn't readable.": #
-"An error occurred.": "An error occurred."
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly."
-"This record is related to:": "This record is related to:"
-"page.ckeditor-browse-server.pixel": "px."
-"Repeat": #
-"Subsubtitle": #
-"Subtitle": #
-"%s files could not be deleted. You should delete them manually.": "%s files could not be deleted. You should delete them manually."
-"Deleted %s files from cache.": "Deleted %s files from cache."
 
 #--- 404 translations ---------------------------------------------------------
 
