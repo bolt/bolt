@@ -8,6 +8,7 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
+use Webmozart\PathUtil\Path;
 
 /**
  * Composer JSON file manager class.
@@ -104,12 +105,9 @@ class JsonManager
         $extensionsPath = $this->app['resources']->getPath('extensions');
         $srcPath = $this->app['resources']->getPath('src');
         $webPath = $this->app['resources']->getPath('web');
-        $pathToRoot = $this->app['resources']->findRelativePath($extensionsPath, $rootPath);
-        $pathToWeb = $this->app['resources']->findRelativePath($extensionsPath, $webPath);
-        $eventPath = sprintf(
-            '%sComposer/EventListener',
-            $this->app['resources']->findRelativePath($extensionsPath, $srcPath)
-        );
+        $pathToRoot = Path::makeRelative($rootPath, $extensionsPath);
+        $pathToWeb = Path::makeRelative($webPath, $extensionsPath);
+        $eventPath = Path::makeRelative($srcPath . '/Composer/EventListener', $extensionsPath);
 
         // Enforce standard settings
         $defaults = [
