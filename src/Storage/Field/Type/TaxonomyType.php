@@ -181,11 +181,11 @@ class TaxonomyType extends FieldTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT($column ORDER BY $order ASC) as $alias";
+                return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT($column) as $alias";
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
             case 'postgresql':
-                return "string_agg($column, ',' ORDER BY $order) as $alias";
+                return "string_agg(DISTINCT $column, ',' ORDER BY $order) as $alias";
         }
     }
 

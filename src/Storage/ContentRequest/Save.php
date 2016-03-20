@@ -177,14 +177,14 @@ class Save
 
         // Set the object values appropriately
         foreach ($formValues as $name => $value) {
-            if ($name === 'relation') {
-                $this->setPostedRelations($content, $formValues);
-            } elseif ($name === 'taxonomy') {
-                $this->setPostedTaxonomies($content, $formValues);
+            if ($name === 'relation' || $name === 'taxonomy') {
+                continue;
             } else {
                 $content->set($name, empty($value) ? null : $value);
             }
         }
+        $this->setPostedRelations($content, $formValues);
+        $this->setPostedTaxonomies($content, $formValues);
     }
 
     /**
@@ -196,10 +196,6 @@ class Save
      */
     private function setPostedRelations(Entity\Content $content, $formValues)
     {
-        if (!isset($formValues['relation'])) {
-            return;
-        }
-
         $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         $related->setFromPost($formValues, $content);
         $content->setRelation($related);
@@ -213,10 +209,6 @@ class Save
      */
     private function setPostedTaxonomies(Entity\Content $content, $formValues)
     {
-        if (!isset($formValues['taxonomy'])) {
-            return;
-        }
-
         $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
         $taxonomies->setFromPost($formValues, $content);
         $content->setTaxonomy($taxonomies);

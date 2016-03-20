@@ -42,6 +42,9 @@ class Relations extends ArrayCollection
             $flatVals = $formValues;
         }
         foreach ($flatVals as $field => $values) {
+            if (!is_array($values)) {
+                continue;
+            }
             foreach ($values as $val) {
                 if (!$val) {
                     continue;

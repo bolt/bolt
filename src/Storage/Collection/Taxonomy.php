@@ -38,6 +38,9 @@ class Taxonomy extends ArrayCollection
             $flatVals = $formValues;
         }
         foreach ($flatVals as $field => $values) {
+            if (!is_array($values)) {
+                continue;
+            }
             foreach ($values as $val) {
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
                 if (isset($this->config[$field]['options'][$val])) {
