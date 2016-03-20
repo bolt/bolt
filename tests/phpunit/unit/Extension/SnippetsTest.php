@@ -9,7 +9,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionsProviderTest extends AbstractExtensionsUnitTest
+class SnippetsTest extends AbstractExtensionsUnitTest
 {
     public $template = <<<HTML
 <html>
