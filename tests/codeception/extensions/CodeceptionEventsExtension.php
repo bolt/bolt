@@ -219,6 +219,7 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         if ($fs->exists(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml')) {
             $fs->remove(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml');
         }
+        system('php ' . NUT_PATH . ' extensions:dumpautoload');
     }
 
     /**
