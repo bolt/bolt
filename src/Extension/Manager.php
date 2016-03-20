@@ -91,7 +91,9 @@ class Manager
         if (isset($this->extensions[$id])) {
             return $this->extensions[$id];
         } elseif (isset($this->composerNames[$id])) {
-            return $this->extensions[$this->composerNames[$id]];
+            $id = (string) $this->composerNames[$id];
+
+            return $this->extensions[$id];
         }
 
         return null;
