@@ -1,24 +1,20 @@
-# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-20 18:26:30 Europe/Berlin
+# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-20 18:29:49 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#   1 untranslated keyword based messages
+#  no untranslated keyword based messages
 #  no translations
-# 141 keyword based translations
+# 142 keyword based translations
 
-#--- 1 untranslated keyword based messages ------------------------------------
-
-"contenttypes.showcases.group.repeater": #
-
-#--- 141 keyword based translations -------------------------------------------
+#--- 142 keyword based translations -------------------------------------------
 
 contenttypes.blocks.description: "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
 contenttypes.blocks.group.block: "Block"
@@ -130,6 +126,7 @@ contenttypes.showcases.description: "The **Showcases** contenttype is used to sh
 contenttypes.showcases.group.files: "Files"
 contenttypes.showcases.group.media: "Media"
 contenttypes.showcases.group.other: "Other"
+contenttypes.showcases.group.repeater: "Repeater"
 contenttypes.showcases.group.template: "Template"
 contenttypes.showcases.group.text: "Text"
 contenttypes.showcases.name.plural: "Showcases"
