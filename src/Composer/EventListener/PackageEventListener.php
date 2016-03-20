@@ -62,10 +62,8 @@ class PackageEventListener
     {
         $composer = $event->getComposer();
 
-        $extra = $event->getComposer()->getPackage()->getExtra();
-        $webDir = realpath($extra['bolt-web-path']) . '/';
+        $extra = $composer->getPackage()->getExtra();
         $includeAssetsDir = realpath($extra['bolt-web-path']) === realpath($extra['bolt-root-path']);
-        $baseWebPath = str_replace($webDir, '', getcwd());
 
         /** @var PackageDescriptor[] $extensions */
         $extensions = [];
@@ -74,11 +72,10 @@ class PackageEventListener
         foreach ($finder as $jsonFile) {
             $jsonData = json_decode($jsonFile->getContents(), true);
             if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
-                $webPath = $baseWebPath . '/' . $jsonFile->getPath();
-                if ($includeAssetsDir) {
-                    $webPath .= '/' . ltrim(isset($jsonData['extra']['bolt-assets']) ? $jsonData['extra']['bolt-assets'] : '', '/');
+                $webPath = 'extensions/vendor/'. $jsonData['name'];
+                if ($includeAssetsDir && !empty($jsonData['extra']['bolt-assets'])) {
+                    $webPath .= '/' . trim($jsonData['extra']['bolt-assets'], '/');
                 }
-                $webPath = rtrim($webPath, '/');
 
                 $extensions[$jsonData['name']] = PackageDescriptor::parse($composer, $webPath, $jsonFile->getPath(), $jsonData);
             }
