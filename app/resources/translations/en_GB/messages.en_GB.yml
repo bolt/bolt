@@ -1,4 +1,4 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-03-20 17:54:44 Europe/Berlin
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-03-20 18:19:20 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 404 translations
-# 206 keyword based translations
+# 395 translations
+# 215 keyword based translations
 
-#--- 404 translations ---------------------------------------------------------
+#--- 395 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
 "(default template)": "(default template)"
@@ -404,24 +404,15 @@
 "back to editing": "back to editing"
 "by": "by"
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
-"general.about": "About"
-"general.about-bolt": "About Bolt"
-"general.bolt-documentation": "Bolt documentation"
-"general.bolt-on-github": "Bolt on GitHub"
-"general.visit-bolt": "Visit Bolt.cm"
 "line": "line"
-"logs.change-log": "Change Log"
-"logs.system-log": "System Log"
 "no content …": "no content …"
 "no title …": "no title …"
 "none": "none"
 "of": "of"
 "or": "or"
 "show all": "show all"
-"users.actions-for-users": "Actions for Users"
-"users.your-password": "Your password"
 
-#--- 206 keyword based translations -------------------------------------------
+#--- 215 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "by"
 component.changelog-detail.field: "Field"
@@ -497,8 +488,22 @@ field.video.pixel: "pixel"
 field.video.placeholder.url: "URL of video on Youtube, Vimeo or other video website"
 field.video.width: "Width"
 
+general.about: "About"
+
+general.about-bolt: "About Bolt"
+
+general.bolt-documentation: "Bolt documentation"
+
+general.bolt-on-github: "Bolt on GitHub"
+
+general.visit-bolt: "Visit Bolt.cm"
+
 generic.noscript.headline: "JavaScript disabled"
 generic.noscript.message: "JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data."
+
+logs.change-log: "Change Log"
+
+logs.system-log: "System Log"
 
 menu.configuration.routing: "Routing set up"
 
@@ -647,3 +652,7 @@ panel.latest-activity.system: "Latest system activity"
 panel.latest-activity.unknown: "unknown"
 
 panel.user-actions.button.add: "Add a new user"
+
+users.actions-for-users: "Actions for Users"
+
+users.your-password: "Your password"
