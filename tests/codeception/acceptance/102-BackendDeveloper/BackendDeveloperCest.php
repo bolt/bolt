@@ -161,7 +161,7 @@ class BackendDeveloperCest
         $I->amOnPage('/bolt/tr');
 
         // Go into edit mode
-        $I->see('contenttypes.general.choose-an-entry', 'textarea');
+        $I->see('page.login.button.forgot-password', 'textarea');
 
         // Edit the field
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
