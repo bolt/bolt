@@ -189,46 +189,6 @@ HTML;
         return $app;
     }
 
-    public function testExtensionRegister()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['extensions']->register(new Mock\Extension($app));
-        $this->assertTrue(isset($app['extensions']));
-        $this->assertTrue($app['extensions']->isEnabled('testext'));
-        $app['extensions']->register(new Mock\Extension($app));
-    }
-
-    public function testBadExtension()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
-        $bad = new Mock\BadExtension($app);
-        $app['extensions']->register($bad);
-        $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
-    }
-
-    public function testBadExtensionSnippets()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
-            $app['asset.injector'],
-            $app['cache'],
-            $app['config'],
-            $app['resources'],
-            $app['request_stack']
-        );
-        $app['extensions']->register(new Mock\BadExtensionSnippets($app));
-
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->snippetException), $this->html($html));
-    }
-
     // This method normalises the html so that differing whitespace doesn't effect the strings.
     protected function html($string)
     {
@@ -267,50 +227,6 @@ HTML;
         $html = preg_replace($search, $replace, $this->html($html));
 
         return $html;
-    }
-
-    public function testLocalload()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $jsonFile = PHPUNIT_WEBROOT . '/extensions/composer.json';
-        $lockFile = PHPUNIT_WEBROOT . '/cache/.local.autoload.built';
-        @unlink($lockFile);
-
-        $this->localExtensionInstall();
-        $app = $this->getApp();
-
-        $this->assertTrue($app['extensions']->isEnabled('testlocal'));
-
-        $this->assertFileExists($jsonFile, 'Extension composer.json file not created');
-        $json = json_decode(file_get_contents($jsonFile), true);
-
-        $this->assertTrue(unlink($jsonFile), 'Unable to remove composer.json file');
-
-        $this->assertArrayHasKey('autoload', $json);
-        $this->assertArrayHasKey('psr-4', $json['autoload']);
-        $this->assertArrayHasKey('Bolt\\Extensions\\TestVendor\\TestExt\\', $json['autoload']['psr-4']);
-        $this->assertRegExp('#local/testvendor/testext/#', $json['autoload']['psr-4']['Bolt\\Extensions\\TestVendor\\TestExt\\']);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testLocalloadAutoload()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $this->tearDown();
-        $this->localExtensionInstall();
-        $app = $this->getApp();
-
-        require_once PHPUNIT_WEBROOT . '/extensions/vendor/autoload.php';
-
-        $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
-        $this->assertSame('Koala Power!', $koala->getDropBear());
-
-        @unlink($app['resources']->getPath('extensions/composer.json'));
-        @unlink($app['resources']->getPath('cache/.local.autoload.built'));
     }
 
     public function testSnippet()
