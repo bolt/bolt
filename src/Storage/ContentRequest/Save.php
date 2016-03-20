@@ -348,7 +348,9 @@ class Save
 
         $val = $content->toArray();
 
-        if (isset($val['datechanged'])) {
+        if ($val['datechanged'] instanceof Carbon) {
+            $val['datechanged'] = $val['datechanged']->toIso8601String();
+        } elseif (isset($val['datechanged'])) {
             $val['datechanged'] = (new Carbon($val['datechanged']))->toIso8601String();
         }
 
