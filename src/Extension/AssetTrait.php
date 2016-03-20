@@ -4,15 +4,11 @@ namespace Bolt\Extension;
 
 use Bolt\Asset\AssetInterface;
 use Bolt\Asset\File\FileAssetInterface;
-use Bolt\Asset\File\JavaScript;
-use Bolt\Asset\File\Stylesheet;
-use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
-use Bolt\Asset\Widget\Widget;
 use Bolt\Asset\Widget\WidgetAssetInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
-use Bolt\Response\BoltResponse;
 use Pimple as Container;
+use Silex\Application;
 
 /**
  * Asset loading trait for an extension.
@@ -43,6 +39,7 @@ trait AssetTrait
      */
     final protected function extendAssetServices()
     {
+        /** @var Application $app */
         $app = $this->getContainer();
 
         $app['asset.queue.file'] = $app->share(
@@ -133,85 +130,6 @@ trait AssetTrait
         }
         $this->assets[] = $asset;
     }
-
-    /**
-     * Add a particular CSS file to the output. This will be inserted before the
-     * other css files.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
-     *
-     * @param FileAssetInterface|string $fileAsset Asset object, or file name
-     */
-    protected function addCss($fileAsset)
-    {
-        if (!$fileAsset instanceof FileAssetInterface) {
-            $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
-        }
-        $this->normalizeAsset($fileAsset);
-        $this->assets[] = $fileAsset;
-    }
-
-    /**
-     * Add a particular javascript file to the output. This will be inserted after
-     * the other javascript files.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
-     *
-     * @param FileAssetInterface|string $fileAsset File name
-     */
-    protected function addJavascript($fileAsset)
-    {
-        if (!$fileAsset instanceof FileAssetInterface) {
-            $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
-        }
-        $this->normalizeAsset($fileAsset);
-        $this->assets[] = $fileAsset;
-    }
-
-    /**
-     * Insert a snippet into the generated HTML.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
-     *
-     * @param string $location
-     * @param string $callback
-     * @param array  $callbackArguments
-     */
-    protected function addSnippet($location, $callback, $callbackArguments = [])
-    {
-        if ($callback instanceof BoltResponse) {
-            $callback = (string) $callback;
-        }
-
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $snippet = (new Snippet())
-            ->setLocation($location)
-            ->setCallback($callback)
-            ->setExtension($this->getName())
-            ->setCallbackArguments((array) $callbackArguments)
-        ;
-
-        $this->assets[] = $snippet;
-    }
-
-    /**
-     * Add a Widget to the render queue.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
-     *
-     * @param Widget $widget
-     */
-    protected function addWidget($widget)
-    {
-        if ($widget instanceof Widget) {
-            $this->assets[] = $widget;
-        }
-    }
-
     /**
      * Add jQuery to the output.
      *
@@ -264,77 +182,6 @@ trait AssetTrait
             $app['resources']->getUrl('theme')
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
-    }
-
-    /**
-     * Set up an asset.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param FileAssetInterface $asset
-     * @param string             $path
-     * @param array              $options
-     *
-     * @return FileAssetInterface
-     */
-    private function setupAsset(FileAssetInterface $asset, $path, array $options)
-    {
-        $options = array_merge(
-            [
-                'late'     => false,
-                'priority' => 0,
-                'attrib'   => [],
-            ],
-            $this->getCompatibleArgs($options)
-        );
-
-        $asset
-            ->setPath($path)
-            ->setLate($options['late'])
-            ->setAttributes($options['attrib'])
-            ->setPriority($options['priority'])
-        ;
-
-        return $asset;
-    }
-
-    /**
-     * Get options that are compatible with Bolt 2.1 & 2.2 function signatures.
-     * < 2.2 ($filename, $late = false, $priority = 0)
-     * 2.2.x ($filename, $options = [])
-     *
-     * Where options were:
-     *   'late'     - True to add to the end of the HTML <body>
-     *   'priority' - Loading priority
-     *   'attrib'   - A string containing either/both 'defer', and 'async'
-     *
-     * Passed in $args array can be:
-     * - args[0] always the file name
-     * - args[1] either $late     or $options[]
-     * - args[2] either $priority or not set
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param array $args
-     *
-     * @return array
-     */
-    private function getCompatibleArgs(array $args)
-    {
-        if (empty($args[1]) || !is_array($args[1])) {
-            return [
-                'late'     => isset($args[1]) ? $args[1] : false,
-                'priority' => isset($args[2]) ? $args[2] : 0,
-                'attrib'   => [],
-            ];
-        }
-
-        $options = $args[1];
-        if (isset($options['attrib'])) {
-            $options['attrib'] = explode(' ', $options['attrib']);
-        }
-
-        return $options;
     }
 
     /** @return Container */

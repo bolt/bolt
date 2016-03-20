@@ -1,15 +1,15 @@
 <?php
+
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Extensions;
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
+use Bolt\Asset\Target;
 
 /**
  * Class to test correct operation and locations of extensions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionsProviderTest extends AbstractExtensionsUnitTest
+class SnippetsTest extends AbstractExtensionsUnitTest
 {
     public $template = <<<HTML
 <html>
@@ -189,46 +189,6 @@ HTML;
         return $app;
     }
 
-    public function testExtensionRegister()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['extensions']->register(new Mock\Extension($app));
-        $this->assertTrue(isset($app['extensions']));
-        $this->assertTrue($app['extensions']->isEnabled('testext'));
-        $app['extensions']->register(new Mock\Extension($app));
-    }
-
-    public function testBadExtension()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
-        $bad = new Mock\BadExtension($app);
-        $app['extensions']->register($bad);
-        $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
-    }
-
-    public function testBadExtensionSnippets()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $app = $this->getApp();
-        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
-            $app['asset.injector'],
-            $app['cache'],
-            $app['config'],
-            $app['resources'],
-            $app['request_stack']
-        );
-        $app['extensions']->register(new Mock\BadExtensionSnippets($app));
-
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->snippetException), $this->html($html));
-    }
-
     // This method normalises the html so that differing whitespace doesn't effect the strings.
     protected function html($string)
     {
@@ -269,50 +229,6 @@ HTML;
         return $html;
     }
 
-    public function testLocalload()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $jsonFile = PHPUNIT_WEBROOT . '/extensions/composer.json';
-        $lockFile = PHPUNIT_WEBROOT . '/cache/.local.autoload.built';
-        @unlink($lockFile);
-
-        $this->localExtensionInstall();
-        $app = $this->getApp();
-
-        $this->assertTrue($app['extensions']->isEnabled('testlocal'));
-
-        $this->assertFileExists($jsonFile, 'Extension composer.json file not created');
-        $json = json_decode(file_get_contents($jsonFile), true);
-
-        $this->assertTrue(unlink($jsonFile), 'Unable to remove composer.json file');
-
-        $this->assertArrayHasKey('autoload', $json);
-        $this->assertArrayHasKey('psr-4', $json['autoload']);
-        $this->assertArrayHasKey('Bolt\\Extensions\\TestVendor\\TestExt\\', $json['autoload']['psr-4']);
-        $this->assertRegExp('#local/testvendor/testext/#', $json['autoload']['psr-4']['Bolt\\Extensions\\TestVendor\\TestExt\\']);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testLocalloadAutoload()
-    {
-        $this->markTestIncomplete('Update required');
-
-        $this->tearDown();
-        $this->localExtensionInstall();
-        $app = $this->getApp();
-
-        require_once PHPUNIT_WEBROOT . '/extensions/vendor/autoload.php';
-
-        $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
-        $this->assertSame('Koala Power!', $koala->getDropBear());
-
-        @unlink($app['resources']->getPath('extensions/composer.json'));
-        @unlink($app['resources']->getPath('cache/.local.autoload.built'));
-    }
-
     public function testSnippet()
     {
         $this->markTestIncomplete('Update required');
@@ -321,44 +237,44 @@ HTML;
         $app = $this->getApp();
 
         // Test snippet inserts at top of <head>
-        $app['extensions']->insertSnippet(SnippetLocation::START_OF_HEAD, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::START_OF_HEAD, '<meta name="test-snippet" />');
 
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
 
         // Test snippet inserts at end of <head>
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::END_OF_HEAD, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
 
         // Test snippet inserts at end of body
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::START_OF_BODY, '<p class="test-snippet"></p>');
+        $app['extensions']->insertSnippet(Target::START_OF_BODY, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedStartOfBody), $this->html($html));
 
         // Test snippet inserts at end of </html>
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::END_OF_HTML, '<p class="test-snippet"></p>');
+        $app['extensions']->insertSnippet(Target::END_OF_HTML, '<p class="test-snippet"></p>');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($html));
 
         // Test snippet inserts before existing css
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::BEFORE_CSS, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::BEFORE_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($html));
 
         // Test snippet inserts after existing css
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::AFTER_CSS, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::AFTER_CSS, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterCss), $this->html($html));
 
         // Test snippet inserts after existing meta tags
         $app['extensions']->clearSnippetQueue();
-        $app['extensions']->insertSnippet(SnippetLocation::AFTER_META, '<meta name="test-snippet" />');
+        $app['extensions']->insertSnippet(Target::AFTER_META, '<meta name="test-snippet" />');
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($html));
     }
@@ -381,7 +297,7 @@ HTML;
 
         $app = $this->getApp();
         $app['extensions']->insertSnippet(
-            SnippetLocation::AFTER_META,
+            Target::AFTER_META,
             '\Bolt\Tests\Extensions\globalSnippet',
             'core',
             "\n"
@@ -407,16 +323,16 @@ HTML;
         $this->markTestIncomplete('Update required');
 
         $locations = [
-            SnippetLocation::START_OF_HEAD,
-            SnippetLocation::START_OF_BODY,
-            SnippetLocation::END_OF_BODY,
-            SnippetLocation::END_OF_HTML,
-            SnippetLocation::AFTER_META,
-            SnippetLocation::AFTER_CSS,
-            SnippetLocation::BEFORE_CSS,
-            SnippetLocation::BEFORE_JS,
-            SnippetLocation::AFTER_CSS,
-            SnippetLocation::AFTER_JS,
+            Target::START_OF_HEAD,
+            Target::START_OF_BODY,
+            Target::END_OF_BODY,
+            Target::END_OF_HTML,
+            Target::AFTER_META,
+            Target::AFTER_CSS,
+            Target::BEFORE_CSS,
+            Target::BEFORE_JS,
+            Target::AFTER_CSS,
+            Target::AFTER_JS,
             'madeuplocation',
         ];
         foreach ($locations as $location) {

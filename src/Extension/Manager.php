@@ -8,7 +8,6 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
-use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use Silex\Application;
@@ -20,8 +19,6 @@ use Silex\Application;
  */
 class Manager
 {
-    use ExtensionsTrait;
-
     /** @var ResolvedExtension[] */
     protected $extensions = [];
     /** @var string[] */
@@ -94,7 +91,9 @@ class Manager
         if (isset($this->extensions[$id])) {
             return $this->extensions[$id];
         } elseif (isset($this->composerNames[$id])) {
-            return $this->extensions[$this->composerNames[$id]];
+            $id = (string) $this->composerNames[$id];
+
+            return $this->extensions[$id];
         }
 
         return null;
