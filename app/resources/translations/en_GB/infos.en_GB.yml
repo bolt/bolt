@@ -3,14 +3,14 @@ info:
         image: |
             Use this field to upload a photo or image. Click the button to upload a file from your
             computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-            from your desktop or from a different browser window.<br/>
+            from your desktop or from a different browser window.<br>
             Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
             type (part) of the file name in the input area, and it will be autocompleted.
         file: |
             Use this field to upload a file to include as a download or to use inside a page on the
             website. Click the button to upload a file from your computer, or if you're using a recent version
             of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
-            browser window. <br />
+            browser window.<br>
             Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
             type (part) of the file name in the input area, and it will be autocompleted.
         filelist: |
@@ -22,12 +22,12 @@ info:
         imagelist: |
             Use this field to upload a set of photos or image. Click the button to upload a file from your
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. <br />
+                from your desktop or from a different browser window.<br>
+                Alternatively, you can use a previously uploaded image.<br>
                 You can rearrange the images using drag'n'drop, and change the descriptions of the images.
         video: |
             Use this field to embed a video inside a page on the website. Just copy/paste the
-                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
+                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website.<br>
                   Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
                   title. If you change the width or height, the other value will change accordingly, to maintain the
                   aspect ratio.
@@ -35,7 +35,7 @@ info:
         Use this field to get the geolocation of any address, or place the marker
             manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
             and the corresponding latitude and longitude will be retrieved using the Google Maps API,
-            together with the closest matching address, according to Google. <br>
+            together with the closest matching address, according to Google.<br>
             If you want to move the marker to a different location, just drag'n'drop the pin on the
             mini-map. The latitude and longitude will be updated automatically.
     markdown: |
@@ -69,15 +69,13 @@ info:
 about:
     bolt: |
         <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-            components. If you are a developer you're very welcome to help in the further development of Bolt.
-        </p>
+        developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
+        components. If you are a developer you're very welcome to help in the further development of Bolt.</p>
     licence: |
         <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
-        </p>
+        found here, in the included <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
 prefill:
     short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.<p>
+        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.</p>
         <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
 

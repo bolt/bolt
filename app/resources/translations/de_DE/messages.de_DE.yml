@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2015-05-18 11:09:25 UTC
+# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2016-03-15 17:12:52 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,13 +8,120 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 437 translations
-# 140 keyword based translations
+#  31 unused messages
+#  54 untranslated messages
+#  13 untranslated keyword based messages
+# 351 translations
+# 194 keyword based translations
 
-#--- 437 translations ---------------------------------------------------------
+#--- 31 unused messages -------------------------------------------------------
+
+"An error occurred.": "Ein Fehler ist aufgetreten."
+"Are you sure you wish to delete these records? There is no undo.": "Sind Sie sicher, dass Sie diese Einträge löschen möchten? Dies kann nicht rückgängig gemacht werden."
+"Attempt to modify invalid Contenttype.": "Sie versuchen einen ungültigen Inhaltstyp zu bearbeiten."
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen Sie auf %site% um den richtigen Namen sicherzustellen"
+"Content '%title%' could not be deleted.": "Inhalt '%title%' konnte nicht gelöscht werden."
+"Content '%title%' has been changed to '%newStatus%'": "Inhalt '%title%' hat nun den Status '%newStatus%'"
+"Content '%title%' has been deleted.": "Inhalt %title% wurde gelöscht."
+"Delete selected": "Ausgewählte löschen"
+"Depublish selected": "Ausgewählte archivieren"
+"Extensions loading has been disabled by an administrator in the %config% file. ": "Das Laden der Erweiterung wurde von einem Administrator in der %config% Datei deaktiviert. "
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Wenn es eine Seite mit dem Slug „about“ gäbe, würde deren Inhalt an dieser Stelle stehen. Aber es gibt keine solche, daher sehen Sie hier nur diesen Platzhalter."
+"No such action for content.": "Aktion für diesen Inhalt nicht gefunden."
+"Permission denied": "Zugriff verweigert"
+"Publish selected": "Auswahl veröffentlichen"
+"Remove selected": "Ausgewählte entfernen"
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Das Bold-Erweiterungs Repro %repository% ist zur Zeit nicht erreichbar. Überprüfen Sie Ihre Verbindung und versuchen Sie es gleich nochmal."
+"The Bolt extensions file '%composerjson%' isn't readable.": "Die Datei '%composerjson%' der Bolt Erweiterung ist nicht lesbar."
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Das Erweiterungsverzeichnis (<code>%dir%</code>) existiert nicht oder ist nicht beschreibbar. "
+"The file '%s' doesn't exist, or is not readable.": "Die Datei '%s' wurde nicht gefunden oder ist nicht beschreibbar."
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Während dem Dateiupload ist ein Fehler aufgetreten. \\nStellen Sie sicher, dass der Dateityp in einer der folgenden ist:\\n%TYPELIST%"
+"This record is related to:": "Dieser Eintrag ist verknüpft mit:"
+"Uploading": "Hochladen"
+"general.bolt-documentation-on-github": "Bolt-Dokumentation auf Github (EN)"
+"general.thanks": "Dank an"
+"page.extend.message.install-all-updates": "Installiere alle Aktualisierungen"
+"contenttypes.generic.error-saving": "Fehler beim Speichern von %contenttype%."
+"field.general.select-from-stack": "Vom Stapel wählen"
+"field.video.button.preview": "Vorschau"
+"field.video.preview.button.close": "Schließen"
+"field.video.preview.no-url": "Keine Video-URL gesetzt, zeige kein Video."
+"page.ckeditor-browse-server.pixel": "Px."
+
+#--- 54 untranslated messages -------------------------------------------------
+
+"Add Selected": #
+"An error occured while updating `%TABLE%`. The error is %ERROR%": #
+"Are you sure you want to do this for %NUMBER% records?": #
+"Are you sure you want to do this for 1 record?": #
+"Are you sure you want to remove these files?": #
+"At least %NUM% characters required": #
+"Author": #
+"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+"Check/Uncheck all": #
+"Delete": #
+"Delete Set": #
+"Depublish": #
+"Duplicate Set": #
+"Error reading extensions/composer.json file: %ERROR%": #
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
+"Id (№)": #
+"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
+"Invalid login parameters.": #
+"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
+"Move Down": #
+"Move Up": #
+"No Preview": #
+"Only root can change file extensions.": #
+"Order": #
+"Others": #
+"Publish": #
+"Related content:": #
+"Repeat": #
+"Search results for <b>%search%</b>.": #
+"Selection (#):": #
+"Show proposed alterations": #
+"Something went wrong with logging in after first user creation!": #
+"Subsubtitle": #
+"Subtitle": #
+"The Bolt extensions composer.json isn't readable.": #
+"The Bolt extensions composer.json isn't writable.": #
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+"The file '%s' doesn't exist.": #
+"The file '%s' is not readable.": #
+"There is no undo!": #
+"This record is related to the following %CTNAME%:": #
+"Unable to create directory: %DIR%": #
+"Unable to create file: %FILE%": #
+"Unable to delete directory: %DIR%": #
+"Unable to delete file: %FILE%": #
+"Unable to duplicate file: %FILE%": #
+"Unable to get installation information for %PACKAGE% %VERSION%.": #
+"Unable to rename directory: %DIR%": #
+"Unable to rename file: %FILE%": #
+"Unable to retrieve login session data. Please check your system's PHP session settings.": #
+"general.bolt-documentation": # "Bolt documentation"
+"general.visit-bolt": # "Visit Bolt.cm"
+
+#--- 13 untranslated keyword based messages -----------------------------------
+
+"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"field.general.stack": # "Stack"
+"field.geolocation.label.snap": # "Snap to nearest address"
+"field.video.height": "Höhe"
+"field.video.width": "Breite"
+"page.extend.button.autoload-dump": # "Rebuild Autoloader"
+"page.extend.button.show-all-versions": # "Show all versions"
+"page.extend.headline.latest-version": # "Latest stable version"
+"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
+"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
+"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+"page.extend.message.maintenance": # "Maintenance"
+
+#--- 351 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% Nr. %id%"
 "%s files could not be deleted. You should delete them manually.": "%s Dateien konnten nicht gelöscht werden. Bitte manuell löschen."
@@ -32,21 +139,17 @@
 "All content types": "Alle Datentypen"
 "All users": "Alle Benutzer"
 "Alt": "Alt"
-"An error occurred.": "Ein Fehler ist aufgetreten."
 "Anonymous": "Anonym"
 "Are you sure you want to delete %FILENAME%?": "Sind Sie sicher, dass Sie %FILENAME% löschen möchten?"
 "Are you sure you want to delete %username%?": "Sicher, dass Sie %username% löschen möchten?"
 "Are you sure you want to remove these images?": "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
 "Are you sure you want to remove this file?": "Sind Sie sicher, dass Sie diese Datei entfernen möchten?"
 "Are you sure you want to remove this image?": "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
-"Are you sure you wish to delete these records? There is no undo.": "Sind Sie sicher, dass Sie diese Einträge löschen möchten? Dies kann nicht rückgängig gemacht werden."
 "Are you sure you wish to delete this record? There is no undo.": "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
-"Attempt to modify invalid Contenttype.": "Sie versuchen einen ungültigen Inhaltstyp zu bearbeiten."
 "Author:": "Autor:"
 "Below are the third party libraries that are used by Bolt.": "Hier die Bibliotheken von Drittanbietern, welche Bolt verwendet."
 "Body": "Inhalt"
 "Bolt - Fatal error.": "Bolt - Schwerwiegender Fehler."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen Sie auf %site% um den richtigen Namen sicherzustellen"
 "Browser / platform": "Browser / Plattform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Standard-Rolle, automatisch eingeräumt, selbst wenn kein Benutzer eingeloggt ist"
 "Built-in role, automatically granted to every registered user": "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
@@ -76,13 +179,10 @@
 "Code:": "Quellcode:"
 "Collapse sidebar": "Menü einklappen"
 "Configuration": "Konfiguration"
-"Content '%title%' could not be deleted.": "Inhalt '%title%' konnte nicht gelöscht werden."
+"Content": "Inhalt"
 "Content '%title%' could not be modified.": "Inhalt '%title%' konnte nicht geändert werden."
-"Content '%title%' has been changed to '%newStatus%'": "Inhalt '%title%' hat nun den Status '%newStatus%'"
-"Content '%title%' has been deleted.": "Inhalt %title% wurde gelöscht."
 "Content Type Permissions": "Datentyp-Berechtigungen"
 "Content for home not found!": "Inhalt für die Startseite nicht gefunden!"
-"Content": "Inhalt"
 "Contenttypes": "Datentypen"
 "Create File": "Datei erstellen"
 "Create folder": "Verzeichnis erstellen"
@@ -99,11 +199,9 @@
 "Delete %filename%": "%filename% löschen"
 "Delete %foldername%": "%foldername% löschen"
 "Delete %username%": "%username% löschen"
-"Delete selected": "Ausgewählte löschen"
 "Deleted %s files from cache.": "%s Dateien aus dem Cache gelöscht."
 "Depublication date:": "Datum der Archivierung:"
 "Depublish date is in the past. Change the status if you want to depublish now": "Das Veröffentlichungsdatum liegt in der Vergangenheit. Verändern Sie den Status, wenn Sie jetzt archivieren möchten"
-"Depublish selected": "Ausgewählte archivieren"
 "Deselect all": "Alle abwählen"
 "Detail template": "Anzeigevorlage"
 "Details": "Details"
@@ -113,19 +211,19 @@
 "Done!": "Fertig!"
 "Draft": "Entwurf"
 "Duplicate %filename%": "%filename% kopieren"
+"Edit": "Bearbeiten"
 "Edit Roles and Permissions": "Rollen und Zugriffsrechte bearbeiten"
 "Edit file": "Datei bearbeiten"
-"Edit": "Bearbeiten"
 "Enable %username%": "%username% aktivieren"
 "Everybody": "Jeder"
 "Excerpt": "Auszug"
 "Expand sidebar": "Menü ausklappen"
 "Extension server returned an error: %errormessage%": "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "Das Laden der Erweiterung wurde von einem Administrator in der %config% Datei deaktiviert. "
 "Extensions": "Erweiterungen"
 "Extras": "Extras"
 "Failed to send password request. Please check the email settings.": "Das Senden der Passwort-Anfrage ist fehlgeschlagen. Bitte prüfen Sie die E-Mail Einstellungen."
 "Field “%FIELD_NAME%”:": "Feld „%FIELD_NAME%”:"
+"File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
 "File '%file%' was uploaded successfully.": "Die Datei '%file%' wurde erfolgreich hochgeladen."
 "File '%s' could not be saved, because the form wasn't valid.": "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
@@ -134,12 +232,11 @@
 "File '%s' has been saved.": "Die Datei '%s' wurde gespeichert."
 "File Management": "Dateiverwaltung"
 "File is not readable!": "Die Datei ist nicht lesbar!"
-"File": "Datei"
 "Filelist": "Dateiliste"
+"Files": "Dateien"
 "Files could not be uploaded.": "Die Dateien konnten nicht hochgeladen werden."
 "Files in %s": "Dateien in %s"
 "Files on the stack": "Dateien auf dem Stapel"
-"Files": "Dateien"
 "Filesize": "Dateigröße"
 "Fill the database with Dummy Content": "Datenbank mit Testdaten füllen"
 "Filter": "Filter"
@@ -158,7 +255,6 @@
 "Html": "HTML"
 "IP address": "IP Adresse"
 "Id": "ID"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Wenn es eine Seite mit dem Slug „about“ gäbe, würde deren Inhalt an dieser Stelle stehen. Aber es gibt keine solche, daher sehen Sie hier nur diesen Platzhalter."
 "Image": "Bild"
 "Imagelist": "Bilderliste"
 "Info": "Info"
@@ -183,8 +279,8 @@
 "Menu setup": "Menü-Einstellungen"
 "Message:": "Nachricht"
 "Messages": "Meldungen"
-"Meta information": "Metainformation"
 "Meta": "Meta"
+"Meta information": "Metainformation"
 "Modifications made to the database:": "Durchgeführte Änderungen an der Datenbank:"
 "Modifications needed:": "Benötigte Änderungen:"
 "Modified": "Bearbeitet"
@@ -195,7 +291,6 @@
 "No images in the list, yet.": "Zur Zeit befinden sich keine Bilder in der Liste."
 "No relations found!": "Keine Verknüpfungen gefunden!"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Keine Ergebnisse für %SEARCHTERM% gefunden. Bitte einen anderen Suchbegriff probieren."
-"No such action for content.": "Aktion für diesen Inhalt nicht gefunden."
 "No such action for user '%s'.": "Aktion für Benutzer '%s' nicht gefunden."
 "No theme name found. Theme is not generated.": "Kein Theme-Name gefunden. Das Theme wurde nicht erzeugt."
 "None": "Keine/r"
@@ -206,17 +301,16 @@
 "Options": "Optionen"
 "Order: %sort%": "Reihenfolge: %sort%"
 "Other content": "Andere Inhalte"
-"Overview for": "Übersicht für"
 "Overview": "Übersicht"
+"Overview for": "Übersicht für"
 "Owner": "Besitzer"
 "Owner:": "Besitzer:"
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Passwort wurde nicht zurückgesetzt. Entweder war das Token verkehrt, die Zeit überschritten, oder Sie haben versucht das Passwort von einer anderen IP-Adresse aus zurückzusetzen."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Passwort erfolgreich zurückgesetzt! Sie können sich nun mit dem an Sie per E-Mail versandten Passwort neu anmelden."
-"Path to image file": "Bildpfad"
 "Path": "Pfad"
+"Path to image file": "Bildpfad"
 "Path:": "Pfad"
 "Permalink": "Permanenter Link"
-"Permission denied": "Zugriff verweigert"
 "Permissions": "Berechtigungen"
 "Place on stack": "Auf dem Stapel platzieren"
 "Please choose the record you want to link to:": "Bitte den zu verlinkenden Eintrag wählen:"
@@ -229,17 +323,15 @@
 "Profile": "Profil"
 "Provided by:": "Zur Verfügung gestellt von:"
 "Publication date:": "Datum der Veröffentlichung:"
-"Publish selected": "Auswahl veröffentlichen"
-"Published on:": "Veröffentlicht am:"
 "Published": "Veröffentlicht"
+"Published on:": "Veröffentlicht am:"
 "Read more": "Mehr …"
 "Records": "Einträge"
 "Related content": "Verknüpfte Inhalte"
 "Relationships": "Beziehungen"
-"Remove selected": "Ausgewählte entfernen"
 "Rename %foldername%": "%foldername% umbenennen"
-"Roles and Permissions": "Rollen und Berechtigungen"
 "Roles": "Rollen"
+"Roles and Permissions": "Rollen und Berechtigungen"
 "Run PHP extension checks": "PHP-Erweiterungen überprüfen"
 "Run all checks": "Alle Überprüfungen ausführen"
 "Run directory checks": "Verzeichnisse überprüfen"
@@ -248,23 +340,23 @@
 "Save & return to overview": "Speichern & zurück zur Übersicht"
 "Saved on:": "Gespeichert am:"
 "Saving …": "Speichere …"
+"Search": "Suche"
 "Search for …": "Suche nach …"
 "Search results for <b> %search% </b>.": "Suchergebnisse für <b> %search% </b>."
 "Search …": "Suche …"
-"Search": "Suche"
+"Select": "Auswählen"
 "Select a page": "Seite auswählen"
 "Select all": "Alle anwählen"
 "Select file …": "Datei auswählen …"
 "Select none": "Auswahl aufheben"
 "Select zero or more pages": "Keine oder mehrere Seiten auswählen"
-"Select": "Auswählen"
 "Selectentry": "Eintrag auswählen"
 "Selectfield": "Auswahlfeld"
 "Session expires": "Sitzung läuft ab"
 "Session resumed.": "Sitzung wieder aufgenommen."
 "Settings": "Einstellungen"
-"Showing %pager_for% %from% - %to% of %count%": "Zeige %pager_for% %from% - %to% von %count%"
 "Showing": "Zeige an"
+"Showing %pager_for% %from% - %to% of %count%": "Zeige %pager_for% %from% - %to% von %count%"
 "Size": "Größe"
 "Skipped <tt>%key%</tt> (already has records)": "Überspringe <tt>%key%</tt> (bereits Einträge vorhanden)"
 "Skipped <tt>%key%</tt> (not checked)": "Überspringe <tt>%key%</tt> (nicht geprüft)"
@@ -283,14 +375,10 @@
 "Testing connection to extension server failed: %errormessage%": "Das Prüfen der Verbindung zum Erweiterungsserver ist fehlgeschlagen: %errormessage%"
 "Textarea": "Textbereich"
 "That user does not exist.": "Der Benutzer ist nicht bekannt."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Das Bold-Erweiterungs Repro %repository% ist zur Zeit nicht erreichbar. Überprüfen Sie Ihre Verbindung und versuchen Sie es gleich nochmal."
-"The Bolt extensions file '%composerjson%' isn't readable.": "Die Datei '%composerjson%' der Bolt Erweiterung ist nicht lesbar."
 "The change log has been cleared.": "Der Änderungsverlauf wurde geleert."
 "The change log has been trimmed.": "Der Änderungsverlauf wurde aufgeräumt."
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss auf den neuesten Stand gebracht oder repariert werden. Gehen sie auf 'Konfiguration' > '<a href=\"%link%\"'>Datenbank überprüfen</a>', um dies jetzt zu tun."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Das Erweiterungsverzeichnis (<code>%dir%</code>) existiert nicht oder ist nicht beschreibbar. "
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde in \"%newValue%\" geändert"
-"The file '%s' doesn't exist, or is not readable.": "Die Datei '%s' wurde nicht gefunden oder ist nicht beschreibbar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Keine Schreibrechte für '%s'. Änderungen bitte mit einem eigenen Editor vornehmen."
 "The folder '%s' could not be found, or is not readable.": "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
 "The following file could not be read:": "Die folgende Datei konnte nicht gelesen werden:"
@@ -310,9 +398,7 @@
 "There are no users in the database. Please create the first user.": "Es gibt keine Benutzer in der Datenbank. Bitte erstellen Sie den ersten Benutzer."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Es sollte immer mindestens einen 'root' Benutzer geben. Sie wurden soeben befördert. Glückwunsch!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Während dem Dateiupload ist ein Fehler aufgetreten. \\nStellen Sie sicher, dass der Dateityp in einer der folgenden ist:\\n%TYPELIST%"
 "This is a checkbox": "Das ist ein Kontrollkästchen"
-"This record is related to:": "Dieser Eintrag ist verknüpft mit:"
 "This template adds new fields. Save, then refresh to see these changes.": "Dieses Template fügt neue Felder hinzu. Speichern und aktualisieren Sie die Seite, um diese Änderungen zu sehen."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 "Thumbnail": "Vorschaubild"
@@ -327,14 +413,13 @@
 "Types": "Typen"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unglücklicherweise konnte kein Inhalt gefunden werden. Probieren Sie eine andere Seite, oder besuchen Sie die <a href=\"%paths_root%\">Startseite</a>."
 "Update the database": "Datenbank aktualisieren"
+"Upload": "Hochladen"
 "Upload a file to this folder": "Eine Datei in dieses Verzeichnis hochladen"
 "Upload file": "Datei hochladen"
 "Upload image": "Bild hochladen"
 "Upload not allowed": "Hochladen nicht erlaubt"
-"Upload": "Hochladen"
 "Uploaded files": "Hochgeladene Dateien"
 "Uploading to this folder is not allowed.": "Das Hochladen in dieses Verzeichnis ist nicht erlaubt."
-"Uploading": "Hochladen"
 "Used Libraries / Components": "Verwendete Bibliotheken/Komponenten"
 "User '%s' could not be deleted.": "Benutzer '%s' konnte nicht gelöscht werden."
 "User '%s' could not be disabled.": "Benutzer '%s' konnte nicht deaktiviert werden."
@@ -342,10 +427,10 @@
 "User '%s' is deleted.": "Benutzer '%s' wurde gelöscht."
 "User '%s' is disabled.": "Benutzer '%s' wurde deaktiviert."
 "User '%s' is enabled.": "Benutzer '%s' wurde aktiviert."
-"Username or password not correct. Please check your input.": "Benutzername oder Passwort falsch. Bitte Eingabe überprüfen."
 "Username": "Benutzername"
-"Users & Permissions": "Benutzer & Benutzerrechte"
+"Username or password not correct. Please check your input.": "Benutzername oder Passwort falsch. Bitte Eingabe überprüfen."
 "Users": "Benutzer"
+"Users & Permissions": "Benutzer & Benutzerrechte"
 "Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "View Roles": "Rollen anzeigen"
@@ -353,7 +438,6 @@
 "View related content": "Verknüpfte Inhalte anzeigen"
 "View site": "Site anzeigen"
 "View/edit Templates": "Templates anzeigen/bearbeiten"
-"Extensions": "Erweiterungen anzeigen/installieren"
 "Warning": "Warnung"
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Das Theme konnte nicht generiert werden. Offenbar ist das Verzeichnis nicht durch Bolt beschreibbar. Bitte die Schreibrechte prüfen und nochmals versuchen."
 "Welcome to your new Bolt site, %USER%.": "Willkommen auf Ihrer neuen Bolt Webseite, %USER%."
@@ -378,9 +462,7 @@
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 "general.about": "Über"
 "general.about-bolt": "Über Bolt"
-"general.bolt-documentation-on-github": "Bolt-Dokumentation auf Github (EN)"
 "general.bolt-on-github": "Bolt auf Github"
-"general.thanks": "Dank an"
 "line": "Zeile"
 "logs.change-log": "Änderungsverlauf"
 "logs.system-log": "Systemverlauf"
@@ -392,14 +474,152 @@
 "show all": "alle anzeigen"
 "users.actions-for-users": "Aktionen für Benutzer"
 "users.your-password": "Ihr Passwort"
+
+#--- 194 keyword based translations -------------------------------------------
+
+component.changelog-detail.by: "durch"
+component.changelog-detail.field: "Feld"
+component.changelog-detail.value-new: "Neuer Wert"
+component.changelog-detail.value-old: "Alter Wert"
+
+component.changelog-pager.page: "Seite"
+
+contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
+contenttypes.generic.actions-one: "Aktionen für %contenttype%"
+contenttypes.generic.created: "%contenttype% wurde erstellt"
+contenttypes.generic.delete: "%contenttype% löschen"
+contenttypes.generic.duplicate: "%contenttype% kopieren"
+contenttypes.generic.duplicated-finalize: "Inhalt kopiert. Zum Fertigstellen „%contenttype% speichern“ klicken."
+contenttypes.generic.edit: "%contenttype% bearbeiten"
+contenttypes.generic.group.meta: "Meta"
+contenttypes.generic.group.relations: "Beziehungen"
+contenttypes.generic.group.taxonomy: "Taxonomie"
+contenttypes.generic.group.template: "Template"
+contenttypes.generic.group.ungrouped: "Nicht gruppiert"
+contenttypes.generic.invalid-field: "Kann %field% in %contenttype% nicht setzen. Kein gültiges Feld."
+contenttypes.generic.last-modified: "Zuletzt bearbeitete %contenttypes%"
+contenttypes.generic.new: "%contenttype% erstellen"
+contenttypes.generic.no-latest: "Keine neuesten %contenttype%"
+contenttypes.generic.no-proper-type: "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
+contenttypes.generic.no-recent: "Keine letzten %contenttype%"
+contenttypes.generic.none-available: "Keine %contenttypes%."
+contenttypes.generic.not-existing: "Der gesuchte Datentyp „%contenttype%“ konnte nicht gefunden werden."
+contenttypes.generic.not-saved-yet: "%contenttype% wurde noch nicht gespeichert."
+contenttypes.generic.overview: "%contenttypes% Übersicht"
+contenttypes.generic.publish: "%contenttype% veröffentlichen"
+contenttypes.generic.recent: "Neue %contenttypes%"
+contenttypes.generic.recent-changes-one: "Neueste Änderungen an %contenttype%"
+contenttypes.generic.recently-edited: "Kürzlich bearbeitete %contenttypes%"
+contenttypes.generic.reserved-name: "%contenttype%: Das Feld „%field%“ ist definiert, was ein reservierter Name ist. Bitte contenttypes.yml editieren und dies korrigieren."
+contenttypes.generic.save: "%contenttype% speichern"
+contenttypes.generic.saved-changes: "Die Änderungen an %contenttype% wurden gespeichert."
+contenttypes.generic.saved-new: "Neuer %contenttype% wurde gespeichert."
+contenttypes.generic.saving-impossible: "Konnte %contenttype% nicht speichern."
+contenttypes.generic.show-more: "Weitere %contenttypes%"
+contenttypes.generic.view: "%contenttypes% anzeigen"
+contenttypes.generic.wrong-use-field: "%contenttype%: das Feld „%field%“ nutzt die Angabe „uses: %uses%“, und referenziert auf ein nicht existentes Feld. Bitte contenttypes.yml editieren und dies korrigieren."
+
+field.general.allowed-filetypes: "Erlaubte Dateitypen sind:"
+field.general.select-from-server: "Vom Server wählen"
+
+field.geolocation.label.address-lookup: "Adresse nachschlagen"
+field.geolocation.label.latitude: "Breitengrad"
+field.geolocation.label.longitude: "Längengrad"
+field.geolocation.label.marker-placement: "Markierung setzen"
+field.geolocation.matched-address: "Gefundene Adresse"
+field.geolocation.placeholder.address: "Straße, Postleitzahl, Stadt oder Ortsangabe"
+
+field.markdown.label.markedview: "Markdown"
+field.markdown.label.preview: "Vorschau"
+
+field.slug.button.edit: "Ändern"
+field.slug.button.link: "Verknüpfen mit:"
+field.slug.button.lock: "Sperren"
+field.slug.message.warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
+field.slug.permalink: "Permanenter Link"
+field.slug.unique-alias: "Eindeutiger Alias"
+
+field.video.label.preview: "Vorschaubild"
+field.video.label.size: "Größe"
+field.video.label.url: "URL des einzubindenden Videos"
+field.video.matched-video: "Gefundenes Video"
+field.video.pixel: "Pixel"
+field.video.placeholder.url: "URL des Videos auf Youtube, Vimeo oder einer anderen Webseite"
+
+generic.noscript.headline: "Javascript nicht verfügbar"
+generic.noscript.message: "Javascript ist in Ihrem Browser deaktiviert. Vieles wird auch ohne funktionieren, doch um Bolt vollständig nutzen zu können, raten wir Ihnen, Javascript zu aktivieren."
+
+menu.configuration.routing: "Routing einrichten"
+
+page.ckeditor-browse-server.files: "Dateien"
+page.ckeditor-browse-server.folders: "Verzeichnisse"
+page.ckeditor-browse-server.modified: "Bearbeitet"
+page.ckeditor-browse-server.size: "Dateigröße"
+page.ckeditor-browse-server.title: "Dateien"
+
+page.dashboard.button.add: "Hinzufügen …"
+page.dashboard.empty-database: "Es scheint, als seien keine Inhalte in der Datenbank."
+page.dashboard.quickstart: "Um schnell zu starten, können Sie die die Datenbank einfach mit <a href='%url%'>Lorem Ipsum Inhalten füllen</a>."
+page.dashboard.title: "Übersicht"
+
+page.edit-file.button.revert: "Änderungen verwerfen"
+page.edit-file.button.save: "Speichern"
+page.edit-file.confirm-revert: "Sind Sie sicher, dass Sie alle Änderungen verwerfen wollen?"
+page.edit-file.note-related: "Achtung, diese Datei hat verknüpfte Dateien:"
+page.edit-file.title.edit: "Datei bearbeiten"
+page.edit-file.title.view: "Datei anzeigen"
+
+page.edit-locale.button.save: "Speichern"
+page.edit-locale.title.edit: "Datei bearbeiten"
+page.edit-locale.title.view: "Datei anzeigen"
+
+page.edit-users.activated.no: "nein"
+page.edit-users.activated.yes: "ja"
+page.edit-users.button.save: "Benutzer speichern"
+page.edit-users.error.displayname-used: "Dieser Anzeigename ist bereits in Verwendung. Bitte andere Wahl treffen."
+page.edit-users.error.email-used: "Diese E-Mail Adresse wird bereits benutzt. Bitte eine andere wählen."
+page.edit-users.error.password-different-displayname: "Das Passwort darf nicht Teil des Anzeigenamens sein."
+page.edit-users.error.password-different-username: "Das Passwort darf nicht mit dem Benutzernamen übereinstimmen."
+page.edit-users.error.password-mismatch: "Passwörter müssen gleich sein."
+page.edit-users.error.password-short: "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
+page.edit-users.error.username-used: "Benutzername bereits in Verwendung. Bitte andere Wahl treffen."
+page.edit-users.label.assigned-roles: "Zugewiesene Rollen"
+page.edit-users.label.display-name: "Angezeigter Name"
+page.edit-users.label.email: "E-Mail"
+page.edit-users.label.last-ip: "Letzte IP"
+page.edit-users.label.last-seen: "Zuletzt gesehen"
+page.edit-users.label.password: "Passwort"
+page.edit-users.label.password-confirm: "Passwort (Bestätigung)"
+page.edit-users.label.user-enabled: "Benutzer ist aktiviert."
+page.edit-users.label.username: "Benutzername"
+page.edit-users.log.user-added: "Benutzer '%user%' hinzugefügt."
+page.edit-users.log.user-updated: "Benutzer '%user%' aktualisiert."
+page.edit-users.message.change-self: "Sie wurden abgemeldet weil Sie Ihren Benutzernamen geändert haben. Bitte melden Sie sich erneut an."
+page.edit-users.message.saving-user: "Benutzer %user% konnte nicht gespeichert werden, oder es wurde nichts geändert."
+page.edit-users.message.user-saved: "Benutzer %user% wurde gespeichert."
+page.edit-users.note-sqlite: "Sie verwenden momentan SQLite um den ersten Benutzer anzulegen. Wenn Sie MySQL oder PostgreSQL benutzen wollen, bearbeiten Sie <tt>'app/config/config.yml'</tt> und Bolt wird die Datenbank für Sie erzeugen. Aktualisieren Sie anschließend die Seite, bevor Sie fortfahren."
+page.edit-users.placeholder.displayname: "Anzeigename eingeben"
+page.edit-users.placeholder.email: "Gültige E-Mail Adresse eingeben"
+page.edit-users.placeholder.password: "Passwort eingeben, mindestens 6 Zeichen"
+page.edit-users.placeholder.password-confirm: "Passwort bestätigen"
+page.edit-users.placeholder.username: "Benutzername eingeben, nur Kleinbuchstaben"
+page.edit-users.title.create: "Neuen Benutzer erstellen"
+page.edit-users.title.edit: "Benutzer bearbeiten"
+page.edit-users.title.profile: "Profil"
+page.edit-users.user-create: "Erstelle einen neuen Benutzer mit dem Formular unten. Das Passwortfeld ist auszufüllen."
+page.edit-users.user-edit: "Bearbeite einen existierenden benutzer mit dem folgenden Formular. Lassen sie die Passwortfelder frei, es sei denn, Sie wollen das Passwort ändern."
+
+page.extend.button.browse-versions: "Versionen anzeigen"
 page.extend.button.config: "Konfigurieren"
 page.extend.button.copy-to-theme-folder: "In Theme Verzeichnis kopieren"
 page.extend.button.info-help: "Mehr Info/Hilfe"
-
+page.extend.button.install-all: "Installiere alle Pakete"
 page.extend.button.install-package: "Paket installieren"
 page.extend.button.install-this-version: "Installiere diese Version"
 page.extend.button.readme: "Liesmich"
 page.extend.button.uninstall: "Deinstallieren"
+page.extend.button.update-all: "Alle Aktualisierungen ausführen"
+page.extend.button.update-check: "Auf Aktualisierungen prüfen"
 page.extend.button.update-package: "Paket aktualisieren"
 page.extend.button.versions: "Versionen"
 page.extend.headline.currently-installed: "Momentan installierte Erweiterungen"
@@ -424,10 +644,9 @@ page.extend.message.compatible-unstable-versions: "Die unten gelisteten Versione
 page.extend.message.confirm-remove: "Sind Sie sicher, dass Sie diese Erweiterung entfernen möchten?"
 page.extend.message.copying: "Kopiere Theme Dateien …"
 page.extend.message.discover-by-visiting: "Hier können Sie neue Erweiterungen entdecken:"
-page.extend.message.install-all-updates: "Installiere alle Aktualisierungen"
 page.extend.message.install-all: "Installation aller Pakete ausführen …"
-page.extend.message.installing-selected-package: "Installiere ausgewählte Paketversion (Dies kann bis zu 60 Sekunden dauern)."
 page.extend.message.installing: "Bereite Paketinstallation vor …"
+page.extend.message.installing-selected-package: "Installiere ausgewählte Paketversion (Dies kann bis zu 60 Sekunden dauern)."
 page.extend.message.installs-all-listed-packages: "Dies überprüft, ob alle gelisteten Pakete auch installiert sind. Benutzen Sie dies, falls Sie kürzlich auf einen neuen Server umgezogen sind oder eine Erweiterung manuell hinzugefügt haben."
 page.extend.message.installs-updates: "Dies wird alle verfügbaren Aktualisierungen vornehmen."
 page.extend.message.marked-as-stable: "Die unten gelisteten Versionen werden vom Autor als stabil empfunden und sind mit der aktuell von Ihnen genutzten Bolt-Version kompatibel."
@@ -444,216 +663,28 @@ page.extend.message.start-using-extension: "Sie können die installierte Erweite
 page.extend.message.updated: "Alles ist aktuell!"
 page.extend.message.updating: "Nach möglichen Aktualisierungen suchen …"
 page.extend.pagetitle: "%BOLTNAME% erweitern"
-#--- 140 keyword based translations -------------------------------------------
 
-component:
-    changelog-detail:
-        by: "durch"
-        field: "Feld"
-        value-new: "Neuer Wert"
-        value-old: "Alter Wert"
-    changelog-pager:
-        page: "Seite"
+page.login.button.back: "Zurück zur Anmeldung"
+page.login.button.forgot-password: "Ich habe mein Passwort vergessen …"
+page.login.button.log-on: "Anmelden"
+page.login.button.reset-password: "Mein Passwort zurücksetzen"
+page.login.cookies-required: "Achtung, Cookies sind Vorraussetzung, um sich in Bolt anmelden zu können. Bitte erlauben Sie Cookies."
+page.login.label.password: "Passwort"
+page.login.label.username: "Benutzername / E-Mail Adresse"
+page.login.password-hide: "Verstecken"
+page.login.password-show: "Anzeigen"
+page.login.placeholder.password: "Ihr Benutzername"
+page.login.title: "In Bolt anmelden"
 
-contenttypes:
-    generic:
-        actions-all: "Aktionen für %contenttypes%"
-        actions-one: "Aktionen für %contenttype%"
-        created: "%contenttype% wurde erstellt"
-        delete: "%contenttype% löschen"
-        duplicate: "%contenttype% kopieren"
-        duplicated-finalize: "Inhalt kopiert. Zum Fertigstellen „%contenttype% speichern“ klicken."
-        edit: "%contenttype% bearbeiten"
-        error-saving: "Fehler beim Speichern von %contenttype%."
-        group:
-            meta: "Meta"
-            relations: "Beziehungen"
-            taxonomy: "Taxonomie"
-            template: "Template"
-            ungrouped: "Nicht gruppiert"
-        invalid-field: "Kann %field% in %contenttype% nicht setzen. Kein gültiges Feld."
-        last-modified: "Zuletzt bearbeitete %contenttypes%"
-        new: "%contenttype% erstellen"
-        no-latest: "Keine neuesten %contenttype%"
-        no-proper-type: "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
-        no-recent: "Keine letzten %contenttype%"
-        none-available: "Keine %contenttypes%."
-        not-existing: "Der gesuchte Datentyp „%contenttype%“ konnte nicht gefunden werden."
-        not-saved-yet: "%contenttype% wurde noch nicht gespeichert."
-        overview: "%contenttypes% Übersicht"
-        publish: "%contenttype% veröffentlichen"
-        recent: "Neue %contenttypes%"
-        recent-changes-one: "Neueste Änderungen an %contenttype%"
-        recently-edited: "Kürzlich bearbeitete %contenttypes%"
-        reserved-name: "%contenttype%: Das Feld „%field%“ ist definiert, was ein reservierter Name ist. Bitte contenttypes.yml editieren und dies korrigieren."
-        save: "%contenttype% speichern"
-        saved-changes: "Die Änderungen an %contenttype% wurden gespeichert."
-        saved-new: "Neuer %contenttype% wurde gespeichert."
-        saving-impossible: "Konnte %contenttype% nicht speichern."
-        show-more: "Weitere %contenttypes%"
-        view: "%contenttypes% anzeigen"
-        wrong-use-field: "%contenttype%: das Feld „%field%“ nutzt die Angabe „uses: %uses%“, und referenziert auf ein nicht existentes Feld. Bitte contenttypes.yml editieren und dies korrigieren."
+panel.latest-activity.button.more: "weitere Aktivitäten"
+panel.latest-activity.by: "von"
+panel.latest-activity.change: "Neueste Änderung"
+panel.latest-activity.created: "Erstellt"
+panel.latest-activity.deleted: "Gelöscht"
+panel.latest-activity.logged-in: "angemeldet"
+panel.latest-activity.logged-out: "abgemeldet"
+panel.latest-activity.saved: "Gespeichert"
+panel.latest-activity.system: "Neuester Systemverlauf"
+panel.latest-activity.unknown: "unbekannt"
 
-field:
-    general:
-        allowed-filetypes: "Erlaubte Dateitypen sind:"
-        select-from-server: "Vom Server wählen"
-        select-from-stack: "Vom Stapel wählen"
-    geolocation:
-        label:
-            address-lookup: "Adresse nachschlagen"
-            latitude: "Breitengrad"
-            longitude: "Längengrad"
-            marker-placement: "Markierung setzen"
-        matched-address: "Gefundene Adresse"
-        placeholder:
-            address: "Straße, Postleitzahl, Stadt oder Ortsangabe"
-        title-pin: "Pin"
-    markdown:
-        label:
-            markedview: "Markdown"
-            preview: "Vorschau"
-    slug:
-        button:
-            edit: "Ändern"
-            link: "Verknüpfen mit:"
-            lock: "Sperren"
-        message:
-            warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
-        permalink: "Permanenter Link"
-        unique-alias: "Eindeutiger Alias"
-    video:
-        button:
-            preview: "Vorschau"
-        label:
-            preview: "Vorschaubild"
-            size: "Größe"
-            url: "URL des einzubindenden Videos"
-        matched-video: "Gefundenes Video"
-        pixel: "Pixel"
-        placeholder:
-            url: "URL des Videos auf Youtube, Vimeo oder einer anderen Webseite"
-        preview:
-            button.close: "Schließen"
-            no-url: "Keine Video-URL gesetzt, zeige kein Video."
-
-generic:
-    noscript:
-        headline: "Javascript nicht verfügbar"
-        message: "Javascript ist in Ihrem Browser deaktiviert. Vieles wird auch ohne funktionieren, doch um Bolt vollständig nutzen zu können, raten wir Ihnen, Javascript zu aktivieren."
-
-menu:
-    configuration:
-        routing: "Routing einrichten"
-
-page:
-    extend:
-        button:
-            update-check: "Auf Aktualisierungen prüfen"
-            update-all: "Alle Aktualisierungen ausführen"
-            install-all: "Installiere alle Pakete"
-            browse-versions: "Versionen anzeigen"
-    ckeditor-browse-server:
-        files: "Dateien"
-        folders: "Verzeichnisse"
-        modified: "Bearbeitet"
-        pixel: "Px."
-        size: "Dateigröße"
-        title: "Dateien"
-    dashboard:
-        button:
-            add: "Hinzufügen …"
-        empty-database: "Es scheint, als seien keine Inhalte in der Datenbank."
-        quickstart: "Um schnell zu starten, können Sie die die Datenbank einfach mit <a href='%url%'>Lorem Ipsum Inhalten füllen</a>."
-        title: "Übersicht"
-    edit-file:
-        button:
-            revert: "Änderungen verwerfen"
-            save: "Speichern"
-        confirm-revert: "Sind Sie sicher, dass Sie alle Änderungen verwerfen wollen?"
-        note-related: "Achtung, diese Datei hat verknüpfte Dateien:"
-        title:
-            edit: "Datei bearbeiten"
-            view: "Datei anzeigen"
-    edit-locale:
-        button:
-            save: "Speichern"
-        title:
-            edit: "Datei bearbeiten"
-            view: "Datei anzeigen"
-    edit-users:
-        activated:
-            no: "nein"
-            yes: "ja"
-        button:
-            save: "Benutzer speichern"
-        error:
-            displayname-used: "Dieser Anzeigename ist bereits in Verwendung. Bitte andere Wahl treffen."
-            email-used: "Diese E-Mail Adresse wird bereits benutzt. Bitte eine andere wählen."
-            password-different-displayname: "Das Passwort darf nicht Teil des Anzeigenamens sein."
-            password-different-username: "Das Passwort darf nicht mit dem Benutzernamen übereinstimmen."
-            password-mismatch: "Passwörter müssen gleich sein."
-            password-short: "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
-            username-used: "Benutzername bereits in Verwendung. Bitte andere Wahl treffen."
-        label:
-            assigned-roles: "Zugewiesene Rollen"
-            display-name: "Angezeigter Name"
-            email: "E-Mail"
-            last-ip: "Letzte IP"
-            last-seen: "Zuletzt gesehen"
-            password: "Passwort"
-            password-confirm: "Passwort (Bestätigung)"
-            user-enabled: "Benutzer ist aktiviert."
-            username: "Benutzername"
-        log:
-            user-added: "Benutzer '%user%' hinzugefügt."
-            user-updated: "Benutzer '%user%' aktualisiert."
-        message:
-            change-self: "Sie wurden abgemeldet weil Sie Ihren Benutzernamen geändert haben. Bitte melden Sie sich erneut an."
-            saving-user: "Benutzer %user% konnte nicht gespeichert werden, oder es wurde nichts geändert."
-            user-saved: "Benutzer %user% wurde gespeichert."
-        note-sqlite: "Sie verwenden momentan SQLite um den ersten Benutzer anzulegen. Wenn Sie MySQL oder PostgreSQL benutzen wollen, bearbeiten Sie <tt>'app/config/config.yml'</tt> und Bolt wird die Datenbank für Sie erzeugen. Aktualisieren Sie anschließend die Seite, bevor Sie fortfahren."
-        placeholder:
-            displayname: "Anzeigename eingeben"
-            email: "Gültige E-Mail Adresse eingeben"
-            password: "Passwort eingeben, mindestens 6 Zeichen"
-            password-confirm: "Passwort bestätigen"
-            username: "Benutzername eingeben, nur Kleinbuchstaben"
-        title:
-            create: "Neuen Benutzer erstellen"
-            edit: "Benutzer bearbeiten"
-            profile: "Profil"
-        user-create: "Erstelle einen neuen Benutzer mit dem Formular unten. Das Passwortfeld ist auszufüllen."
-        user-edit: "Bearbeite einen existierenden benutzer mit dem folgenden Formular. Lassen sie die Passwortfelder frei, es sei denn, Sie wollen das Passwort ändern."
-    login:
-        button:
-            back: "Zurück zur Anmeldung"
-            forgot-password: "Ich habe mein Passwort vergessen …"
-            log-on: "Anmelden"
-            reset-password: "Mein Passwort zurücksetzen"
-        cookies-required: "Achtung, Cookies sind Vorraussetzung, um sich in Bolt anmelden zu können. Bitte erlauben Sie Cookies."
-        label:
-            password: "Passwort"
-            username: "Benutzername / E-Mail Adresse"
-        password-hide: "Verstecken"
-        password-show: "Anzeigen"
-        placeholder:
-            password: "Ihr Benutzername"
-        title: "In Bolt anmelden"
-
-panel:
-    latest-activity:
-        button:
-            more: "weitere Aktivitäten"
-        by: "von"
-        change: "Neueste Änderung"
-        created: "Erstellt"
-        deleted: "Gelöscht"
-        logged-in: "angemeldet"
-        logged-out: "abgemeldet"
-        saved: "Gespeichert"
-        system: "Neuester Systemverlauf"
-        unknown: "unbekannt"
-    user-actions:
-        button:
-            add: "Benutzer anlegen"
+panel.user-actions.button.add: "Benutzer anlegen"

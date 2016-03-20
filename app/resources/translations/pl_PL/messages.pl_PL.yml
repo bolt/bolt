@@ -1,4 +1,4 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2015-03-11 20:05:06 CET
+# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2016-03-15 17:33:46 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,13 +8,166 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 411 translations
-# 137 keyword based translations
+#  39 unused messages
+#  82 untranslated messages
+#  24 untranslated keyword based messages
+# 323 translations
+# 183 keyword based translations
 
-#--- 411 translations ---------------------------------------------------------
+#--- 39 unused messages -------------------------------------------------------
+
+"An error occurred.": "Wystąpił błąd."
+"Are you sure you wish to delete these records? There is no undo.": "Czy na pewno chcesz usunąć te rekordy? Operacja jest nieodwracalna."
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Nie znaleziono rozszerzenia Bolt. Proszę sprawdzić na %site% czy nazwa jest prawidłowa."
+"Content '%title%' could not be deleted.": "Zawartość '%title%' nie może zostać usunięta."
+"Content '%title%' has been changed to '%newStatus%'": "Zawartość '%title%' została zmieniona na '%newStatus%'"
+"Content '%title%' has been deleted.": "Zawartość '%title%' została usunięta."
+"Delete selected": "Usuń zaznaczone"
+"Depublish selected": "Cofnij publikację wybranych"
+"Do you really want to delete %foldername%?": "Czy na pewno chcesz usunąć %foldername%?"
+"Extensions loading has been disabled by an administrator in the %config% file. ": "Ładowanie rozszerzeń zostało wyłączone przez administratora w pliku konfiguracyjnym: %config%."
+"File '%file%' could not be uploaded.": "Plik '%file%' nie może zostać przesłany."
+"Filtering …": "Filtrowanie …"
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Jeśli istniałaby Strona o slug 'about', to byłaby tutaj wyświetlona. Ale nie ma takiej, dlatego właśnie widzisz ten zastępczy tekst."
+"No such action for content.": "Nie ma takiej akcji dla zawartości."
+"Other contenttypes": "Inne typy zawartości"
+"Permission denied": "Brak dostępu"
+"Publish selected": "Opublikuj wybrane"
+"Remove selected": "Usuń wybrane"
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Repozytorium rozszerzeń Bolt %repository% jest aktualnie niedostępne. Sprawdź swoje połączenie i spróbuj ponownie."
+"The Bolt extensions file '%composerjson%' isn't readable.": "Plik rozszerzeń Bolt '%composerjson%' nie posiada praw do odczytu."
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Katalog rozszerzeń (<code>%dir%</code>) nie istnieje, lub nie ma praw do zapisu."
+"The file '%s' doesn't exist, or is not readable.": "Plik '%s' nie istnieje lub nie posiada praw do odczytu."
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Wystąpił błąd podczas wysyłania pliku.\\nUpewnij się że typ pliku jest jednym z:\\n %TYPELIST%"
+"This record is related to:": "Ten rekord jest powiązany z:"
+"You do not have the right privileges to create a new record.": "Nie posiadasz odpowiednich uprawnień aby utworzyć nowy rekord."
+"You do not have the right privileges to upload.": "Nie posiadasz odpowiednich uprawnień aby przesyłać pliki."
+"cURL experienced an error: %errormessage%": "cURL doświadczył błędu: %errormessage%"
+"cURL library doesn't support TLS. Downgrading to HTTP.": "Biblioteka cURL nie obsługuje TLS. Przełączenie do HTTP."
+"general.bolt-documentation-on-github": "Dokumentacja Bolt na GitHub"
+"general.thanks": "Dziękuję"
+"page.extend.message.install-all-updates": "Zainstaluj wszystkie aktualizacje"
+"contenttypes.generic.error-saving": "Wystąpił błąd podczas zapisywania tego %contenttype%."
+"field.general.select-from-stack": "Wybierz ze stosu"
+"field.slug.message.set": "Ustaw slug na:"
+"field.slug.message.unlock": "Jesteś pewien że chcesz odblokować ten slug? To może zepsuć istniejące adresy do tego rekordu."
+"field.video.button.preview": "Podgląd"
+"field.video.preview.button.close": "Zamknij"
+"field.video.preview.no-url": "Nie ustalono adresu do wideo, więc wideo nie będzie wyświetlane."
+"page.ckeditor-browse-server.pixel": "px."
+
+#--- 82 untranslated messages -------------------------------------------------
+
+"Add Selected": #
+"An error occured while updating `%TABLE%`. The error is %ERROR%": #
+"Are you sure you want to delete %FILENAME%?": #
+"Are you sure you want to do this for %NUMBER% records?": #
+"Are you sure you want to do this for 1 record?": #
+"Are you sure you want to remove these files?": #
+"At least %NUM% characters required": #
+"Author": #
+"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+"Check/Uncheck all": #
+"Client error: %errormessage%": #
+"Close editor": #
+"Create File": #
+"Delete": #
+"Delete Set": #
+"Depublish": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Do you really want to delete %FOLDERNAME%?": #
+"Duplicate Set": #
+"Error reading extensions/composer.json file: %ERROR%": #
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
+"Extension server returned an error: %errormessage%": #
+"File '%s' could not be saved, because the form wasn't valid.": #
+"Files could not be uploaded.": #
+"Generic failure while testing connection to extension server: %errormessage%": #
+"Id (№)": #
+"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
+"Invalid login parameters.": #
+"Keyword …": #
+"Live Edit": #
+"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
+"Move Down": #
+"Move Up": #
+"No Preview": #
+"No theme name found. Theme is not generated.": #
+"Only root can change file extensions.": #
+"Order": #
+"Other content": #
+"Others": #
+"Publish": #
+"Records": #
+"Related content:": #
+"Repeat": #
+"Run PHP extension checks": #
+"Run all checks": #
+"Run directory checks": #
+"Run email checks": #
+"Search results for <b>%search%</b>.": #
+"Selection (#):": #
+"Show proposed alterations": #
+"Something went wrong with logging in after first user creation!": #
+"Subsubtitle": #
+"Subtitle": #
+"System Configuration Checks": #
+"The Bolt extensions composer.json isn't readable.": #
+"The Bolt extensions composer.json isn't writable.": #
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+"The file '%s' doesn't exist.": #
+"The file '%s' is not readable.": #
+"There is no undo!": #
+"This record is related to the following %CTNAME%:": #
+"This template adds new fields. Save, then refresh to see these changes.": #
+"Thumbnail": #
+"Unable to create directory: %DIR%": #
+"Unable to create file: %FILE%": #
+"Unable to delete directory: %DIR%": #
+"Unable to delete file: %FILE%": #
+"Unable to duplicate file: %FILE%": #
+"Unable to get installation information for %PACKAGE% %VERSION%.": #
+"Unable to rename directory: %DIR%": #
+"Unable to rename file: %FILE%": #
+"Unable to retrieve login session data. Please check your system's PHP session settings.": #
+"Warning": #
+"Welcome to your new Bolt site, %USER%.": #
+"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+"filtered by <em>'%filter%'</em>": #
+"general.bolt-documentation": # "Bolt documentation"
+"general.visit-bolt": # "Visit Bolt.cm"
+"or": #
+
+#--- 24 untranslated keyword based messages -----------------------------------
+
+"contenttypes.generic.group.template": # "Template"
+"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"field.general.stack": # "Stack"
+"field.geolocation.label.snap": # "Snap to nearest address"
+"field.markdown.label.markedview": # "Markdown"
+"field.markdown.label.preview": # "Preview"
+"field.slug.button.edit": # "Edit"
+"field.slug.button.link": # "Link to:"
+"field.slug.button.lock": # "Lock"
+"field.slug.message.warning": # "Editing this field might break existing links to this record!"
+"field.slug.unique-alias": # "Unique alias"
+"field.video.height": #
+"field.video.width": #
+"page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.extend.button.autoload-dump": # "Rebuild Autoloader"
+"page.extend.button.show-all-versions": # "Show all versions"
+"page.extend.headline.latest-version": # "Latest stable version"
+"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
+"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
+"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+"page.extend.message.maintenance": # "Maintenance"
+
+#--- 323 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% nr %id%"
 "%s files could not be deleted. You should delete them manually.": "%s pliki nie mogą zostać usunięte. Należy usunąć je ręcznie."
@@ -32,19 +185,16 @@
 "All content types": "Wszystkie typy zawartości"
 "All users": "Wszyscy użytkownicy"
 "Alt": "Alt"
-"An error occurred.": "Wystąpił błąd."
 "Anonymous": "Anonimowy"
 "Are you sure you want to delete %username%?": "Czy na pewno chcesz usunąć %username%?"
 "Are you sure you want to remove these images?": "Czy na pewno chcesz usunąć te obrazy?"
 "Are you sure you want to remove this file?": "Czy na pewno chcesz usunąć ten plik?"
 "Are you sure you want to remove this image?": "Czy na pewno chcesz usunąć ten obraz?"
-"Are you sure you wish to delete these records? There is no undo.": "Czy na pewno chcesz usunąć te rekordy? Operacja jest nieodwracalna."
 "Are you sure you wish to delete this record? There is no undo.": "Czy na pewno chcesz usunąć ten rekord? Operacja jest nieodwracalna."
 "Author:": "Autor:"
 "Below are the third party libraries that are used by Bolt.": "Poniżej znajdują się biblioteki osób trzecich wykorzystywane przez Bolt."
 "Body": "Treść"
 "Bolt - Fatal error.": "Bolt - Błąd krytyczny."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Nie znaleziono rozszerzenia Bolt. Proszę sprawdzić na %site% czy nazwa jest prawidłowa."
 "Browser / platform": "Przeglądarka / platforma"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Wbudowana rola, automatycznie przyznawana przez cały czas, nawet gdy użytkownik nie jest zalogowany"
 "Built-in role, automatically granted to every registered user": "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
@@ -72,13 +222,10 @@
 "Code:": "Kod:"
 "Collapse sidebar": "Zwiń pasek boczny"
 "Configuration": "Konfiguracja"
-"Content '%title%' could not be deleted.": "Zawartość '%title%' nie może zostać usunięta."
+"Content": "Zawartość"
 "Content '%title%' could not be modified.": "Zawartość '%title%' nie może zostać zmodyfikowana."
-"Content '%title%' has been changed to '%newStatus%'": "Zawartość '%title%' została zmieniona na '%newStatus%'"
-"Content '%title%' has been deleted.": "Zawartość '%title%' została usunięta."
 "Content Type Permissions": "Uprawnienia do Typu zawartości"
 "Content for home not found!": "Nie znaleziono zawartości dla strony głównej!"
-"Content": "Zawartość"
 "Contenttypes": "Typy zawartości"
 "Create folder": "Utwórz katalog"
 "Create the first user": "Utwórz pierwszego użytkownika"
@@ -94,48 +241,42 @@
 "Delete %filename%": "Usuń %filename%"
 "Delete %foldername%": "Usuń %foldername%"
 "Delete %username%": "Usuń %username%"
-"Delete selected": "Usuń zaznaczone"
 "Deleted %s files from cache.": "Usunięto %s plików z pamięci podręcznej."
 "Depublication date:": "Data cofnięcia publikacji:"
 "Depublish date is in the past. Change the status if you want to depublish now": "Data cofnięcia publikacji jest przeszła. Zmień status jeśli chcesz cofnąć publikację teraz"
-"Depublish selected": "Cofnij publikację wybranych"
 "Deselect all": "Odznacz wszystko"
 "Detail template": "Szczegóły szablonu"
 "Details": "Szczegóły"
 "Disable %username%": "Deaktywuj %username%"
-"Do you really want to delete %foldername%?": "Czy na pewno chcesz usunąć %foldername%?"
 "Done!": "Gotowe!"
 "Draft": "Szkic"
 "Duplicate %filename%": "Zduplikuj %filename%"
+"Edit": "Edytuj"
 "Edit Roles and Permissions": "Edytuj role i uprawnienia"
 "Edit file": "Edytuj plik"
-"Edit": "Edytuj"
 "Enable %username%": "Aktywuj %username%"
 "Everybody": "Wszyscy"
 "Excerpt": "Fragment"
 "Expand sidebar": "Rozwiń pasek boczny"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "Ładowanie rozszerzeń zostało wyłączone przez administratora w pliku konfiguracyjnym: %config%."
 "Extensions": "Rozszerzenia"
 "Extras": "Dodatki"
 "Failed to send password request. Please check the email settings.": "Nie udało się wysłać żądania o hasło. Proszę sprawdzić ustawienia e-mail."
 "Field “%FIELD_NAME%”:": "Pole “%FIELD_NAME%”:"
+"File": "Plik"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Plik '%file%' nie może zostać przesłany (niewłaściwy/niedozwolony typ pliku). Upewnij się, że rozszerzenie pliku jest jednym z następujących:"
-"File '%file%' could not be uploaded.": "Plik '%file%' nie może zostać przesłany."
 "File '%file%' was uploaded successfully.": "Plik '%file%' został przesłany."
 "File '%s' could not be saved, for some reason.": "Plik '%s' nie może zostać zapisany, z jakiegoś powodu."
 "File '%s' could not be saved:": "Plik '%s' nie może zostać zapisany:"
 "File '%s' has been saved.": "Plik '%s' został zapisany."
 "File Management": "Zarządzanie plikami"
 "File is not readable!": "Nie można odczytać pliku!"
-"File": "Plik"
 "Filelist": "Lista plików"
+"Files": "Pliki"
 "Files in %s": "Pliki w %s"
 "Files on the stack": "Pliki na stosie"
-"Files": "Pliki"
 "Filesize": "Rozmiar pliku"
 "Fill the database with Dummy Content": "Wypełnij bazę danych losowymi danymi"
 "Filter": "Filtr"
-"Filtering …": "Filtrowanie …"
 "Filtering": "Filtrowanie"
 "Find": "Znajdź"
 "Floatfield": "Liczba zmiennoprzecinkowa"
@@ -150,7 +291,6 @@
 "Html": "HTML"
 "IP address": "Adres IP"
 "Id": "ID"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Jeśli istniałaby Strona o slug 'about', to byłaby tutaj wyświetlona. Ale nie ma takiej, dlatego właśnie widzisz ten zastępczy tekst."
 "Image": "Obraz"
 "Imagelist": "Lista obrazów"
 "Info": "Info"
@@ -173,8 +313,8 @@
 "Menu setup": "Ustawienia menu"
 "Message:": "Komunikat:"
 "Messages": "Komunikaty"
-"Meta information": "Meta informacje"
 "Meta": "Meta"
+"Meta information": "Meta informacje"
 "Modifications made to the database:": "Zmiany zapisane do bazy danych:"
 "Modifications needed:": "Potrzebne zmiany:"
 "Modified": "Zmodyfikowany"
@@ -185,7 +325,6 @@
 "No images in the list, yet.": "Jeszcze nie ma żadnych obrazów."
 "No relations found!": "Nie znaleziono relacji!"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Nie znaleziono wyników dla '%SEARCHTERM%'. Proszę spróbować innych fraz."
-"No such action for content.": "Nie ma takiej akcji dla zawartości."
 "No such action for user '%s'.": "Nie ma takiej akcji dla użytkownika '%s'."
 "None": "Żaden"
 "Not published": "Nie opublikowane"
@@ -194,18 +333,16 @@
 "Omnisearch": "Wyszukiwarka"
 "Options": "Opcje"
 "Order: %sort%": "Kolejność: %sort%"
-"Other contenttypes": "Inne typy zawartości"
-"Overview for": "Informacje dla"
 "Overview": "Przegląd"
+"Overview for": "Informacje dla"
 "Owner": "Właściciel"
 "Owner:": "Właściciel:"
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Nie udało się\_zresetować hasła. Albo token jest nieprawidłowy, albo upłynęło zbyt dużo czasu, albo próbujesz resetować hasło z innego adresu IP."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Udało się zresetować hasło. Teraz możesz zalogować się używając hasła wysłanego w wiadomości e-mail."
-"Path to image file": "Ścieżka do pliku obrazu"
 "Path": "Ścieżka"
+"Path to image file": "Ścieżka do pliku obrazu"
 "Path:": "Ścieżka:"
 "Permalink": "Link permanentny"
-"Permission denied": "Brak dostępu"
 "Permissions": "Uprawnienia"
 "Place on stack": "Miejsce na stosie"
 "Please choose the record you want to link to:": "Wproszę wybrać rekord, który chcesz linkować:"
@@ -218,37 +355,35 @@
 "Profile": "Profil"
 "Provided by:": "Dostarczone przez:"
 "Publication date:": "Data publikacji:"
-"Publish selected": "Opublikuj wybrane"
-"Published on:": "Opublikowany:"
 "Published": "Opublikowany"
+"Published on:": "Opublikowany:"
 "Read more": "Czytaj dalej"
 "Related content": "Powiązana zawartość"
 "Relationships": "Relacje"
-"Remove selected": "Usuń wybrane"
 "Rename %foldername%": "Zmiań nazwę %foldername%"
-"Roles and Permissions": "Role i uprawnienia"
 "Roles": "Role"
+"Roles and Permissions": "Role i uprawnienia"
 "Save & create new record": "Zapisz i utwórz nowy rekord"
 "Save & return to overview": "Zapisz i wyświetl podsumowanie"
 "Saved on:": "Zapisany:"
 "Saving …": "Zapisywanie …"
+"Search": "Szukaj"
 "Search for …": "Wyszukiwanie …"
 "Search results for <b> %search% </b>.": "Wyszukiwanie wyników dla <b> %search% </b>."
 "Search …": "Szukaj …"
-"Search": "Szukaj"
+"Select": "Wybierz"
 "Select a page": "Wybierz stronę"
 "Select all": "Wybierz wszystko"
 "Select file …": "Wybierz plik …"
 "Select none": "Wybierz nic"
 "Select zero or more pages": "Wybierz zero lub więcej stron"
-"Select": "Wybierz"
 "Selectentry": "Wybierz wpis"
 "Selectfield": "Wybierz pole"
 "Session expires": "Sesja wygasła"
 "Session resumed.": "Sesja wznowiona."
 "Settings": "Ustawienia"
-"Showing %pager_for% %from% - %to% of %count%": "Wyświetlanie %pager_for% %from% - %to% z %count%"
 "Showing": "Wyświetlanie"
+"Showing %pager_for% %from% - %to% of %count%": "Wyświetlanie %pager_for% %from% - %to% z %count%"
 "Size": "Rozmiar"
 "Skipped <tt>%key%</tt> (already has records)": "Pominięty <tt>%key%</tt> (posiada rekordy)"
 "Skipped <tt>%key%</tt> (not checked)": "Pominięty <tt>%key%</tt> (nie zaznaczony)"
@@ -266,14 +401,10 @@
 "Testing connection to extension server failed: %errormessage%": "Testowanie połączenia do serwera rozszerzeń zakończone błędem: %errormessage%"
 "Textarea": "Pole tekstowe"
 "That user does not exist.": "Taki użytkownik nie istneje."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Repozytorium rozszerzeń Bolt %repository% jest aktualnie niedostępne. Sprawdź swoje połączenie i spróbuj ponownie."
-"The Bolt extensions file '%composerjson%' isn't readable.": "Plik rozszerzeń Bolt '%composerjson%' nie posiada praw do odczytu."
 "The change log has been cleared.": "Dziennik zmian został wyczyszczony."
 "The change log has been trimmed.": "Dziennik zmian został skrócony."
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Baza danych wymaga aktualizacji/naprawy. Przejdź do 'Konfiguracja' > '<a href=\"%link%\">Sprawdź bazę danych</a>' aby zrobić to teraz."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Katalog rozszerzeń (<code>%dir%</code>) nie istnieje, lub nie ma praw do zapisu."
 "The field %field% has been changed to \"%newValue%\"": "Pole %field% zostało zmienione na \"%newValue%\""
-"The file '%s' doesn't exist, or is not readable.": "Plik '%s' nie istnieje lub nie posiada praw do odczytu."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Plik '%s' nie posiada praw do zapisu. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "The folder '%s' could not be found, or is not readable.": "Nie można znaleźć katalogu '%s', albo nie posiada praw do odczytu."
 "The following file could not be read:": "Nie można odczytać następującego pliku:"
@@ -293,9 +424,7 @@
 "There are no users in the database. Please create the first user.": "Nie ma żadnych użytkowników w bazie danych. Proszę utworzyć pierwszego użytkownika."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Brak użytkowników w systemie. Proszę utworzyć pierwszego użytkownika, który uzyska uprawnienia root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Zawsze powinien być co najmniej jeden użytkownik 'root'. Właśnie awansowałeś. Gratulacje!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Wystąpił błąd podczas wysyłania pliku.\\nUpewnij się że typ pliku jest jednym z:\\n %TYPELIST%"
 "This is a checkbox": "To jest checkbox"
-"This record is related to:": "Ten rekord jest powiązany z:"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."
 "Time in 24h/12h format": "Czas w formacie 24h/12h"
 "Timed publish": "Planowana publikacja"
@@ -308,11 +437,11 @@
 "Types": "Typy"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Niestety, nie można znaleźć zawartości. Spróbuj inną stronę, lub udaj się na <a href=\"%paths_root%\">stronę\_główną</a>."
 "Update the database": "Zaktualizuj bazę danych"
+"Upload": "Prześlij"
 "Upload a file to this folder": "Wyślij plik do tego katalogu"
 "Upload file": "Prześlij plik"
 "Upload image": "Prześlij obraz"
 "Upload not allowed": "Przesyłanie plików jest niedozwolone"
-"Upload": "Prześlij"
 "Uploaded files": "Przesłane pliki"
 "Uploading to this folder is not allowed.": "Przesyłanie plików do tego katalogu jest niedozwolone."
 "Used Libraries / Components": "Użyte biblioteki / komponenty"
@@ -322,10 +451,10 @@
 "User '%s' is deleted.": "Konto użytkownika '%s' zostało usunięte."
 "User '%s' is disabled.": "Konto użytkownika '%s' jest nieaktywne."
 "User '%s' is enabled.": "Konto użytkownika '%s' jest aktywne."
-"Username or password not correct. Please check your input.": "Nazwa użytkownika lub hasło jest niepoprawne. Proszę sprawdzić wprowadzane dane."
 "Username": "Nazwa użytkownika"
-"Users & Permissions": "Użytkownicy i uprawnienia"
+"Username or password not correct. Please check your input.": "Nazwa użytkownika lub hasło jest niepoprawne. Proszę sprawdzić wprowadzane dane."
 "Users": "Użytkownicy"
+"Users & Permissions": "Użytkownicy i uprawnienia"
 "Video": "Wideo"
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "View Roles": "Przeglądaj Role"
@@ -333,14 +462,11 @@
 "View related content": "Przeglądaj powiązaną zawartość"
 "View site": "Zobacz stronę"
 "View/edit Templates": "Przeglądaj/edytuj szablony"
-"Extensions": "Przeglądaj/instaluj rozszerzenia"
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Nie byliśmy w stanie wygenerować skórki. Jest prawdopodobne, że twój katalog skórek nie ma praw zapisu. Sprawdź uprawnienia i spróbuj ponownie zainstalować."
 "Written by <em>%name%</em> on %date%": "Napisane przez <em>%name%</em> w dniu %date%"
 "You cannot '%s' yourself.": "Nie możesz '%s' siebie."
-"You do not have the right privileges to create a new record.": "Nie posiadasz odpowiednich uprawnień aby utworzyć nowy rekord."
 "You do not have the right privileges to edit that record.": "Nie posiadasz odpowiednich uprawnień aby edytować ten rekord."
 "You do not have the right privileges to edit that user.": "Nie posiadasz odpowiednich uprawnień aby edytować tego użytkownika."
-"You do not have the right privileges to upload.": "Nie posiadasz odpowiednich uprawnień aby przesyłać pliki."
 "You do not have the right privileges to view that page.": "Nie posiadasz odpowiednich uprawnień aby wyświetlać tą stronę."
 "You don't have correct permissions to edit the file '%s'.": "Nie posiadasz odpowiednich uprawnień aby edytować plik '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "Nie posiadasz odpowiednich uprawnień aby wyświetlać plik lub katalog '%s'."
@@ -353,13 +479,9 @@
 "and edited": "oraz edytowany"
 "back to editing": "powrót do edycji"
 "by": "przez"
-"cURL experienced an error: %errormessage%": "cURL doświadczył błędu: %errormessage%"
-"cURL library doesn't support TLS. Downgrading to HTTP.": "Biblioteka cURL nie obsługuje TLS. Przełączenie do HTTP."
 "general.about": "O Bolt"
 "general.about-bolt": "Na temat Bolt"
-"general.bolt-documentation-on-github": "Dokumentacja Bolt na GitHub"
 "general.bolt-on-github": "Bolt na GitHub"
-"general.thanks": "Dziękuję"
 "line": "linia"
 "logs.change-log": "Dziennik zmian"
 "logs.system-log": "Dziennik systemowy"
@@ -370,13 +492,141 @@
 "show all": "pokaż wszystko"
 "users.actions-for-users": "Akcje dla Użytkowników"
 "users.your-password": "Twoje hasło"
+
+#--- 183 keyword based translations -------------------------------------------
+
+component.changelog-detail.by: "przez"
+component.changelog-detail.field: "Pole"
+component.changelog-detail.value-new: "Nowa wartość"
+component.changelog-detail.value-old: "Stara wartość"
+
+component.changelog-pager.page: "Strona"
+
+contenttypes.generic.actions-all: "Akcje dla %contenttypes%"
+contenttypes.generic.actions-one: "Akcje dla tego %contenttype%"
+contenttypes.generic.created: "Nowy %contenttype% został utworzony"
+contenttypes.generic.delete: "Usuń %contenttype%"
+contenttypes.generic.duplicate: "Powiel %contenttype%"
+contenttypes.generic.duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz %contenttype%' aby zakończyć."
+contenttypes.generic.edit: "Edytuj %contenttype%"
+contenttypes.generic.group.meta: "Meta"
+contenttypes.generic.group.relations: "Relacje"
+contenttypes.generic.group.taxonomy: "Taksonomia"
+contenttypes.generic.group.ungrouped: "Nie pogrupowane"
+contenttypes.generic.invalid-field: "Nie można ustawić %field% w %contenttype%: Niepoprawne pole."
+contenttypes.generic.last-modified: "Ostatnio zmodyfikowane %contenttypes%"
+contenttypes.generic.new: "Nowy %contenttype%"
+contenttypes.generic.no-latest: "Brak ostatnich %contenttype%"
+contenttypes.generic.no-proper-type: "W typie zawartości '%contenttype%', pole '%field%' jest typu: '%type%', co nie jest poprawnym typem pola. Proszę edytować contenttypes.yml, i poprawić to."
+contenttypes.generic.no-recent: "Brak ostatnich %contenttype%"
+contenttypes.generic.none-available: "Brak dostępnych %contenttypes%."
+contenttypes.generic.not-existing: "Typ %contenttype% którego szukasz, nie istnieje. Został usunięty albo nigdy nie istniał."
+contenttypes.generic.not-saved-yet: "Ten %contenttype% nie został jeszcze zapisany."
+contenttypes.generic.overview: "Przegląd %contenttypes%"
+contenttypes.generic.publish: "Publikuj %contenttype%"
+contenttypes.generic.recent: "Ostatnie %contenttypes%"
+contenttypes.generic.recent-changes-one: "Ostatnie zmiany w tym %contenttype%"
+contenttypes.generic.recently-edited: "Ostatnio edytowane %contenttypes%"
+contenttypes.generic.reserved-name: "W typie zawartości '%contenttype%', pole '%field%' jest zdefiniowane z użyciem zarezerwowanej nazwy. Proszę edytować contenttypes.yml, i poprawić to."
+contenttypes.generic.save: "Zapisz %contenttype%"
+contenttypes.generic.saved-changes: "Zmiany wprowadzone w tym %contenttype% zostały zapisane."
+contenttypes.generic.saved-new: "Nowy %contenttype% został zapisany."
+contenttypes.generic.saving-impossible: "Nie można zapisać %contenttype%."
+contenttypes.generic.show-more: "Więcej %contenttypes%"
+contenttypes.generic.view: "Przeglądaj %contenttypes%"
+contenttypes.generic.wrong-use-field: "W typie zawartości '%contenttype%', pole '%field%' używa: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
+
+field.general.allowed-filetypes: "Lista dozwolonych typów plików:"
+field.general.select-from-server: "Wybierz z serwera"
+
+field.geolocation.label.address-lookup: "Wyszukiwanie adresu"
+field.geolocation.label.latitude: "Szerokość geograficzna (Latitude)"
+field.geolocation.label.longitude: "Długość geograficzna (Longitude)"
+field.geolocation.label.marker-placement: "Umieszczenie pinezki"
+field.geolocation.matched-address: "Dopasowany adres"
+field.geolocation.placeholder.address: "Ulica, kod pocztowy, miasto lub inna lokalizacja"
+
+field.slug.permalink: "Adres permanentny"
+
+field.video.label.preview: "Podgląd obrazu"
+field.video.label.size: "Rozmiar"
+field.video.label.url: "Adres URL wideo do osadzenia"
+field.video.matched-video: "Pasujące wideo"
+field.video.pixel: "piksel"
+field.video.placeholder.url: "Adres URL do wideo na Youtube, Vimeo lub innej strony z materiałami wideo"
+
+generic.noscript.headline: "JavaScript jest wyłączony"
+generic.noscript.message: "JavaScript is aktualnie wyłączony w Twojej przeglądarce. Większość funkcjonalności Bolt będzie działać bez tego, ale dla większej wygody użytkowania zalecamy włączenie JavaScript w Twojej przeglądarce."
+
+menu.configuration.routing: "Ustawienia trasowania"
+
+page.ckeditor-browse-server.files: "Pliki"
+page.ckeditor-browse-server.folders: "Katalogi"
+page.ckeditor-browse-server.modified: "Zmodyfikowany"
+page.ckeditor-browse-server.size: "Rozmiar pliku"
+page.ckeditor-browse-server.title: "Pliki"
+
+page.dashboard.button.add: "Dodaj …"
+page.dashboard.empty-database: "Wygląda na to że nie ma zawartości w bazie danych."
+page.dashboard.quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę\_demonstracyjnej zawartości `Lorem Ipsum`</a>."
+page.dashboard.title: "Pulpit sterowania"
+
+page.edit-file.button.revert: "Wycofaj zmiany"
+page.edit-file.button.save: "Zapisz"
+page.edit-file.confirm-revert: "Jesteś pewien że chcesz wycofać zmiany? Twoje zmiany przepadną jeśli ich nie zachowasz."
+page.edit-file.note-related: "Ten plik posiada powiązane pliki:"
+page.edit-file.title.edit: "Edytuj plik"
+page.edit-file.title.view: "Podgląd pliku"
+
+page.edit-locale.button.save: "Zapisz tłumaczenia"
+page.edit-locale.title.edit: "Edycja tłumaczeń"
+page.edit-locale.title.view: "Zobacz tłumaczenia"
+
+page.edit-users.activated.no: "nie"
+page.edit-users.activated.yes: "tak"
+page.edit-users.button.save: "Zapisz użytkownika"
+page.edit-users.error.displayname-used: "Ta nazwa wyświetlana użytkownika jest już w użyciu. Wybierz inną."
+page.edit-users.error.email-used: "Ten adres e-mail jest już w użyciu. Wybierz inny."
+page.edit-users.error.password-mismatch: "Hasła muszą się zgadzać."
+page.edit-users.error.password-short: "Ta wartość jest za krótka. Powinna być długości 6 lub wiecej znaków."
+page.edit-users.error.username-used: "Ta nazwa użytkownika jest już w użyciu. Wybierz inną."
+page.edit-users.label.assigned-roles: "Przypisane role"
+page.edit-users.label.display-name: "Nazwa wyświetlana użytkownika"
+page.edit-users.label.email: "Adres e-mail"
+page.edit-users.label.last-ip: "Ostatnie IP"
+page.edit-users.label.last-seen: "Ostatnio widziany"
+page.edit-users.label.password: "Hasło"
+page.edit-users.label.password-confirm: "Hasło (potwierdzenie)"
+page.edit-users.label.user-enabled: "Konto użytkownika jest aktywne"
+page.edit-users.label.username: "Nazwa użytkownika"
+page.edit-users.log.user-added: "Dodano konto użytkownika '%user%'."
+page.edit-users.log.user-updated: "Zaktualizowano konto użytkownika '%user%'."
+page.edit-users.message.change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj sie\_ponownie."
+page.edit-users.message.saving-user: "Użytkownik %user% nie może zostać zapisany, albo nic nie uległo zmianie."
+page.edit-users.message.user-saved: "Użytkownik %user% został zapisany."
+page.edit-users.note-sqlite: "Używasz aktualnie SQLite do skonfigurowania pierwszego użytkownika. Jeśli chcesz używać zamiast tego MySQL lub PostgreSQL, edytuj plik konfiguracyjny <tt>'app/config/config.yml'</tt> a Bolt skonfiguruje tabele bazy danych dla Ciebie. Odśwież tą stronę przed kontynuacją."
+page.edit-users.placeholder.displayname: "Wybierz nazwę wyświetlaną / alias"
+page.edit-users.placeholder.email: "Wpisz poprawny adres e-mail"
+page.edit-users.placeholder.password: "Wpisz hasło, dłuższe niż 6 znaków"
+page.edit-users.placeholder.password-confirm: "Potwierdź swoje hasło"
+page.edit-users.placeholder.username: "Wybierz nazwę użytkownika, tylko małe litery"
+page.edit-users.title.create: "Utwórz nowe konto użytkownika"
+page.edit-users.title.edit: "Edytuj konto użytkownika"
+page.edit-users.title.profile: "Profil"
+page.edit-users.user-create: "Utwórz nowego użytkownika, używając formularza poniżej. Pole hasła jest wymagane."
+page.edit-users.user-edit: "Edytuj isniejące onto użytkowika, używając formularza poniżej. Pozostaw pole hasła puste, chyba że chcesz zmienić hasło."
+
+page.extend.button.browse-versions: "Przegladaj Wersje"
 page.extend.button.config: "Konfiguracja"
 page.extend.button.copy-to-theme-folder: "Skopiuj do katalogu skórek"
 page.extend.button.info-help: "Więcej informacji/pomoc"
+page.extend.button.install-all: "Zainstaluj wszystkie pakiety"
 page.extend.button.install-package: "Zainstaluj pakiet"
 page.extend.button.install-this-version: "Zainstaluj tą wersję"
 page.extend.button.readme: "Przeczytaj To"
 page.extend.button.uninstall: "Odinstaluj"
+page.extend.button.update-all: "Wykonaj wszystkie aktualizacje"
+page.extend.button.update-check: "Wykonaj wyszukiwanie aktualizacji"
 page.extend.button.update-package: "Zaktualizuj Pakiet"
 page.extend.button.versions: "Wersje"
 page.extend.headline.currently-installed: "Twoje aktualnie zainstalowane rozszerzenia"
@@ -397,14 +647,13 @@ page.extend.message.before-theme-start: "Zanim będziesz mógł zacząć korzyst
 page.extend.message.check-for-updates: "Sprawdź aktualizacje"
 page.extend.message.checking-installed-packages: "Sprawdzanie zainstalowanych pakietów"
 page.extend.message.checkung-for-updates: "Sprawdzanie dostępności aktualizacji (może to potrwać do 60 sekund)"
-page.extend.message.compatible-unstable-versions: "Wersje wymienione poniżej są kompatybilne z wersją Bolt, której używasz. Ponieważ są to wersje niestabilne, zalecane jest <strong>nie</ strong> korzystać z nich w systemach produkcyjnych."
+page.extend.message.compatible-unstable-versions: "Wersje wymienione poniżej są kompatybilne z wersją Bolt, której używasz. Ponieważ są to wersje niestabilne, zalecane jest <strong>nie</strong> korzystać z nich w systemach produkcyjnych."
 page.extend.message.confirm-remove: "Proszę potwierdzić czy chcesz usunąć to rozszerzenie?"
 page.extend.message.copying: "Kopiowanie assetów skórki …"
 page.extend.message.discover-by-visiting: "Możesz znaleźć nowe rozszerzenia, odwiedzając"
-page.extend.message.install-all-updates: "Zainstaluj wszystkie aktualizacje"
 page.extend.message.install-all: "Uruchamianie instalacji wszystkich pakietów …"
-page.extend.message.installing-selected-package: "Instalacja wybranej wersji pakietu (może to potrwać do 60 sekund)."
 page.extend.message.installing: "Przygotowania do instalacji pakietu …"
+page.extend.message.installing-selected-package: "Instalacja wybranej wersji pakietu (może to potrwać do 60 sekund)."
 page.extend.message.installs-all-listed-packages: "To sprawi, że wszystkie wymienione pakiety zostaną zainstalowane. Użyj tego jeśli niedawno przeniosłeś się na nowy serwer lub jeśli ręcznie dodałeś rozszerzenie."
 page.extend.message.installs-updates: "To zainstaluje wszystkie dostępne aktualizacje."
 page.extend.message.marked-as-stable: "Wersje wymienione poniżej są oznaczone jako stabilne wydania przez dewelopera i są kompatybilne z wersją Bolt, której aktualnie używasz."
@@ -422,204 +671,27 @@ page.extend.message.updated: "Wszystko jest aktualne!"
 page.extend.message.updating: "Wyszukiwanie dostępnych aktualizacji …"
 page.extend.pagetitle: "Rozszerz %BOLTNAME%"
 
-#--- 137 keyword based translations -------------------------------------------
+page.login.button.back: "Powrót do logowania"
+page.login.button.forgot-password: "Zapomniałem hasła …"
+page.login.button.log-on: "Zaloguj"
+page.login.button.reset-password: "Zresetuj moje hasło"
+page.login.cookies-required: "Info: Ciasteczka są wymagane aby zalogować się do Bolt. Proszę zezwolić na ciasteczka."
+page.login.label.password: "Hasło"
+page.login.label.username: "Nazwa użytkownika / adres e-mail"
+page.login.password-hide: "Ukryj"
+page.login.password-show: "Pokaż"
+page.login.placeholder.password: "Twoja nazwa użytkownika"
+page.login.title: "Zaloguj się\_do Bolt"
 
-component:
-    changelog-detail:
-        by: "przez"
-        field: "Pole"
-        value-new: "Nowa wartość"
-        value-old: "Stara wartość"
-    changelog-pager:
-        page: "Strona"
+panel.latest-activity.button.more: "więcej aktywności"
+panel.latest-activity.by: "przez"
+panel.latest-activity.change: "Ostatnie zmiany"
+panel.latest-activity.created: "Utworzony"
+panel.latest-activity.deleted: "Usunięty"
+panel.latest-activity.logged-in: "zalogowany"
+panel.latest-activity.logged-out: "wylogowany"
+panel.latest-activity.saved: "Zapisany"
+panel.latest-activity.system: "Ostatnia aktywność systemowa"
+panel.latest-activity.unknown: "nieznany"
 
-contenttypes:
-    generic:
-        actions-all: "Akcje dla %contenttypes%"
-        actions-one: "Akcje dla tego %contenttype%"
-        created: "Nowy %contenttype% został utworzony"
-        delete: "Usuń %contenttype%"
-        duplicate: "Powiel %contenttype%"
-        duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz %contenttype%' aby zakończyć."
-        edit: "Edytuj %contenttype%"
-        error-saving: "Wystąpił błąd podczas zapisywania tego %contenttype%."
-        group:
-            meta: "Meta"
-            relations: "Relacje"
-            taxonomy: "Taksonomia"
-            ungrouped: "Nie pogrupowane"
-        invalid-field: "Nie można ustawić %field% w %contenttype%: Niepoprawne pole."
-        last-modified: "Ostatnio zmodyfikowane %contenttypes%"
-        new: "Nowy %contenttype%"
-        no-latest: "Brak ostatnich %contenttype%"
-        no-proper-type: "W typie zawartości '%contenttype%', pole '%field%' jest typu: '%type%', co nie jest poprawnym typem pola. Proszę edytować contenttypes.yml, i poprawić to."
-        no-recent: "Brak ostatnich %contenttype%"
-        none-available: "Brak dostępnych %contenttypes%."
-        not-existing: "Typ %contenttype% którego szukasz, nie istnieje. Został usunięty albo nigdy nie istniał."
-        not-saved-yet: "Ten %contenttype% nie został jeszcze zapisany."
-        overview: "Przegląd %contenttypes%"
-        publish: "Publikuj %contenttype%"
-        recent: "Ostatnie %contenttypes%"
-        recent-changes-one: "Ostatnie zmiany w tym %contenttype%"
-        recently-edited: "Ostatnio edytowane %contenttypes%"
-        reserved-name: "W typie zawartości '%contenttype%', pole '%field%' jest zdefiniowane z użyciem zarezerwowanej nazwy. Proszę edytować contenttypes.yml, i poprawić to."
-        save: "Zapisz %contenttype%"
-        saved-changes: "Zmiany wprowadzone w tym %contenttype% zostały zapisane."
-        saved-new: "Nowy %contenttype% został zapisany."
-        saving-impossible: "Nie można zapisać %contenttype%."
-        show-more: "Więcej %contenttypes%"
-        view: "Przeglądaj %contenttypes%"
-        wrong-use-field: "W typie zawartości '%contenttype%', pole '%field%' używa: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
-
-field:
-    general:
-        allowed-filetypes: "Lista dozwolonych typów plików:"
-        select-from-server: "Wybierz z serwera"
-        select-from-stack: "Wybierz ze stosu"
-    geolocation:
-        label:
-            address-lookup: "Wyszukiwanie adresu"
-            latitude: "Szerokość geograficzna (Latitude)"
-            longitude: "Długość geograficzna (Longitude)"
-            marker-placement: "Umieszczenie pinezki"
-        matched-address: "Dopasowany adres"
-        placeholder:
-            address: "Ulica, kod pocztowy, miasto lub inna lokalizacja"
-    slug:
-        message:
-            set: "Ustaw slug na:"
-            unlock: "Jesteś pewien że chcesz odblokować ten slug? To może zepsuć istniejące adresy do tego rekordu."
-        permalink: "Adres permanentny"
-    video:
-        button:
-            preview: "Podgląd"
-        label:
-            preview: "Podgląd obrazu"
-            size: "Rozmiar"
-            url: "Adres URL wideo do osadzenia"
-        matched-video: "Pasujące wideo"
-        pixel: "piksel"
-        placeholder:
-            url: "Adres URL do wideo na Youtube, Vimeo lub innej strony z materiałami wideo"
-        preview:
-            button.close: "Zamknij"
-            no-url: "Nie ustalono adresu do wideo, więc wideo nie będzie wyświetlane."
-
-generic:
-    noscript:
-        headline: "JavaScript jest wyłączony"
-        message: "JavaScript is aktualnie wyłączony w Twojej przeglądarce. Większość funkcjonalności Bolt będzie działać bez tego, ale dla większej wygody użytkowania zalecamy włączenie JavaScript w Twojej przeglądarce."
-
-menu:
-    configuration:
-        routing: "Ustawienia trasowania"
-
-page:
-    extend:
-        button:
-            update-check: "Wykonaj wyszukiwanie aktualizacji"
-            update-all: "Wykonaj wszystkie aktualizacje"
-            install-all: "Zainstaluj wszystkie pakiety"
-            browse-versions: "Przegladaj Wersje"
-    ckeditor-browse-server:
-        files: "Pliki"
-        folders: "Katalogi"
-        modified: "Zmodyfikowany"
-        pixel: "px."
-        size: "Rozmiar pliku"
-        title: "Pliki"
-    dashboard:
-        button:
-            add: "Dodaj …"
-        empty-database: "Wygląda na to że nie ma zawartości w bazie danych."
-        quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę\_demonstracyjnej zawartości `Lorem Ipsum`</a>."
-        title: "Pulpit sterowania"
-    edit-file:
-        button:
-            revert: "Wycofaj zmiany"
-            save: "Zapisz"
-        confirm-revert: "Jesteś pewien że chcesz wycofać zmiany? Twoje zmiany przepadną jeśli ich nie zachowasz."
-        note-related: "Ten plik posiada powiązane pliki:"
-        title:
-            edit: "Edytuj plik"
-            view: "Podgląd pliku"
-    edit-locale:
-        button:
-            save: "Zapisz tłumaczenia"
-        title:
-            edit: "Edycja tłumaczeń"
-            view: "Zobacz tłumaczenia"
-    edit-users:
-        activated:
-            no: "nie"
-            yes: "tak"
-        button:
-            save: "Zapisz użytkownika"
-        error:
-            displayname-used: "Ta nazwa wyświetlana użytkownika jest już w użyciu. Wybierz inną."
-            email-used: "Ten adres e-mail jest już w użyciu. Wybierz inny."
-            password-mismatch: "Hasła muszą się zgadzać."
-            password-short: "Ta wartość jest za krótka. Powinna być długości 6 lub wiecej znaków."
-            username-used: "Ta nazwa użytkownika jest już w użyciu. Wybierz inną."
-        label:
-            assigned-roles: "Przypisane role"
-            display-name: "Nazwa wyświetlana użytkownika"
-            email: "Adres e-mail"
-            last-ip: "Ostatnie IP"
-            last-seen: "Ostatnio widziany"
-            password: "Hasło"
-            password-confirm: "Hasło (potwierdzenie)"
-            user-enabled: "Konto użytkownika jest aktywne"
-            username: "Nazwa użytkownika"
-        log:
-            user-added: "Dodano konto użytkownika '%user%'."
-            user-updated: "Zaktualizowano konto użytkownika '%user%'."
-        message:
-            change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj sie\_ponownie."
-            saving-user: "Użytkownik %user% nie może zostać zapisany, albo nic nie uległo zmianie."
-            user-saved: "Użytkownik %user% został zapisany."
-        note-sqlite: "Używasz aktualnie SQLite do skonfigurowania pierwszego użytkownika. Jeśli chcesz używać zamiast tego MySQL lub PostgreSQL, edytuj plik konfiguracyjny <tt>'app/config/config.yml'</tt> a Bolt skonfiguruje tabele bazy danych dla Ciebie. Odśwież tą stronę przed kontynuacją."
-        placeholder:
-            displayname: "Wybierz nazwę wyświetlaną / alias"
-            email: "Wpisz poprawny adres e-mail"
-            password: "Wpisz hasło, dłuższe niż 6 znaków"
-            password-confirm: "Potwierdź swoje hasło"
-            username: "Wybierz nazwę użytkownika, tylko małe litery"
-        title:
-            create: "Utwórz nowe konto użytkownika"
-            edit: "Edytuj konto użytkownika"
-            profile: "Profil"
-        user-create: "Utwórz nowego użytkownika, używając formularza poniżej. Pole hasła jest wymagane."
-        user-edit: "Edytuj isniejące onto użytkowika, używając formularza poniżej. Pozostaw pole hasła puste, chyba że chcesz zmienić hasło."
-    login:
-        button:
-            back: "Powrót do logowania"
-            forgot-password: "Zapomniałem hasła …"
-            log-on: "Zaloguj"
-            reset-password: "Zresetuj moje hasło"
-        cookies-required: "Info: Ciasteczka są wymagane aby zalogować się do Bolt. Proszę zezwolić na ciasteczka."
-        label:
-            password: "Hasło"
-            username: "Nazwa użytkownika / adres e-mail"
-        password-hide: "Ukryj"
-        password-show: "Pokaż"
-        placeholder:
-            password: "Twoja nazwa użytkownika"
-        title: "Zaloguj się\_do Bolt"
-
-panel:
-    latest-activity:
-        button:
-            more: "więcej aktywności"
-        by: "przez"
-        change: "Ostatnie zmiany"
-        created: "Utworzony"
-        deleted: "Usunięty"
-        logged-in: "zalogowany"
-        logged-out: "wylogowany"
-        saved: "Zapisany"
-        system: "Ostatnia aktywność systemowa"
-        unknown: "nieznany"
-    user-actions:
-        button:
-            add: "Dodaj nowego użytkownika"
+panel.user-actions.button.add: "Dodaj nowego użytkownika"

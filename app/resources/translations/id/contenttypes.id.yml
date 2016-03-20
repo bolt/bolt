@@ -1,4 +1,4 @@
-# app/resources/translations/pt/contenttypes.pt.yml – generated on 2016-03-15 17:34:24 Europe/Berlin
+# app/resources/translations/id/contenttypes.id.yml – generated on 2016-03-15 17:26:58 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,78 +8,28 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  51 unused messages
+#  no unused messages
 #  no untranslated messages
-# 100 untranslated keyword based messages
+# 108 untranslated keyword based messages
 #  no translations
-#   8 keyword based translations
+#  no keyword based translations
 
-#--- 51 unused messages -------------------------------------------------------
-
-"Actions for Pages": "Ações para páginas"
-"Actions for this Entry": "Ações para este post"
-"Actions for this Page": "Ações para esta página"
-"Can't set %field% in Entry: Not a valid field.": "Não pode usar o campo %field$. Este campo é inválido."
-"Can't set %field% in Page: Not a valid field.": "Não pode usar o campo %field$ na página. Não é um campo válido."
-"Content was duplicated. Click 'Save Entry' to finalize.": "Conteúdo duplicado. Clique em 'Salvar Post' para finalizar."
-"Content was duplicated. Click 'Save Page' to finalize.": "Conteúdo duplicado. Clique em 'Salvar Página' para finalizar."
-"Delete Entry": "Excluir Post"
-"Delete Page": "Excluir Página"
-"Duplicate Page": "Duplicar página"
-"Edit Entry » %title%": "Alterar entrada » %title%"
-"Edit Page » %title%": "Alterar página » %title%"
-"Entries overview": "Lista de posts"
-"Last modified Entries": "Posts modificados recentemente"
-"Last modified Pages": "Páginas modificadas recentemente"
-"Latest Entries.": "Posts recentes"
-"Latest Pages.": "Páginas recentes"
-"More Entries »": "Mais posts"
-"More Pages »": "Mais páginas"
-"New Entry": "Novo post"
-"New Page": "Nova página"
-"No Entries available.": "Nenhum post disponível"
-"No Pages available.": "Não há páginas disponíveis"
-"No latest Entry": "Não há posts recentes"
-"No latest Page": "Não há páginas recentes"
-"No recent Entry.": "Não há posts recentes"
-"No recent Page.": "Não há página recentes"
-"Pages overview": "Visão geral das páginas"
-"Preview Entry": "Pré-visualizar post"
-"Preview Page": "Pré-visualizar página"
-"Publish Entry": "Publicar post"
-"Publish Page": "Publicar página"
-"Recent Entries": "Posts recentes"
-"Recent Pages": "Páginas recentes"
-"Save Entry": "Salvar Post"
-"Save Page": "Salvar Página"
-"The changes to the Entry have been saved.": "Alterações para este post salvas"
-"The changes to the Page have been saved.": "Alterações para esta página salvas"
-"The new Entry has been saved.": "Novo post salvo"
-"The new Page has been saved.": "Nova página salva"
-"There was an error saving this Entry.": "Ocorreu um erro ao salvar post"
-"There was an error saving this Page.": "Ocorreu um erro ao salvar esta página"
-"This Entry was created": "Post criado"
-"This Page was created": "Esta Página foi salva"
-"This record is related to Entry": "Este registro está relacionado com o post"
-"This record is related to Page": "Este registro está relacionado com a página"
-"View Entries": "Ver posts"
-"View Pages": "Ver páginas"
-"contenttypes.entries.text.error-saving": # "There was an error saving this Entry."
-"contenttypes.pages.text.error-saving": # "There was an error saving this Page."
-"contenttypes.showcases.text.error-saving": # "There was an error saving this Showcase."
-
-#--- 100 untranslated keyword based messages ----------------------------------
+#--- 108 untranslated keyword based messages ----------------------------------
 
 "contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 "contenttypes.entries.group.content": # "Content"
 "contenttypes.entries.group.media": # "Media"
+"contenttypes.entries.name.plural": # "Entries"
+"contenttypes.entries.name.singular": # "Entry"
+"contenttypes.entries.text.actions-all": # "Actions for Entries"
 "contenttypes.entries.text.actions-one": # "Actions for this Entry"
 "contenttypes.entries.text.created": # "This Entry was created"
 "contenttypes.entries.text.delete": # "Delete Entry"
+"contenttypes.entries.text.duplicate": # "Duplicate Entry"
 "contenttypes.entries.text.duplicated-finalize": # "Content was duplicated. Click 'Save Entry' to finalize."
 "contenttypes.entries.text.edit": # "Edit Entry"
 "contenttypes.entries.text.invalid-field": # "Can't set %field% in Entry: Not a valid field."
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Post', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.entries.text.last-modified": # "Last modified Entries"
 "contenttypes.entries.text.new": # "New Entry"
 "contenttypes.entries.text.no-latest": # "No latest Entry"
@@ -91,7 +41,7 @@
 "contenttypes.entries.text.overview": # "Entries overview"
 "contenttypes.entries.text.publish": # "Publish Entry"
 "contenttypes.entries.text.recent": # "Recent Entries"
-"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Post"
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
 "contenttypes.entries.text.recently-edited": # "Recently edited Entries"
 "contenttypes.entries.text.reserved-name": # "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.entries.text.save": # "Save Entry"
@@ -103,6 +53,8 @@
 "contenttypes.entries.text.wrong-use-field": # "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 "contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 "contenttypes.pages.group.content": # "Content"
+"contenttypes.pages.name.plural": # "Pages"
+"contenttypes.pages.name.singular": # "Page"
 "contenttypes.pages.text.actions-all": # "Actions for Pages"
 "contenttypes.pages.text.actions-one": # "Actions for this Page"
 "contenttypes.pages.text.created": # "This Page was created"
@@ -111,7 +63,7 @@
 "contenttypes.pages.text.duplicated-finalize": # "Content was duplicated. Click 'Save Page' to finalize."
 "contenttypes.pages.text.edit": # "Edit Page"
 "contenttypes.pages.text.invalid-field": # "Can't set %field% in Page: Not a valid field."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Página', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.pages.text.last-modified": # "Last modified Pages"
 "contenttypes.pages.text.new": # "New Page"
 "contenttypes.pages.text.no-latest": # "No latest Page"
@@ -123,7 +75,7 @@
 "contenttypes.pages.text.overview": # "Pages overview"
 "contenttypes.pages.text.publish": # "Publish Page"
 "contenttypes.pages.text.recent": # "Recent Pages"
-"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Página"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
 "contenttypes.pages.text.recently-edited": # "Recently edited Pages"
 "contenttypes.pages.text.reserved-name": # "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.pages.text.save": # "Save Page"
@@ -140,6 +92,8 @@
 "contenttypes.showcases.group.repeats": #
 "contenttypes.showcases.group.template": #
 "contenttypes.showcases.group.text": # "Text"
+"contenttypes.showcases.name.plural": # "Showcases"
+"contenttypes.showcases.name.singular": # "Showcase"
 "contenttypes.showcases.text.actions-all": # "Actions for Showcases"
 "contenttypes.showcases.text.actions-one": # "Actions for this Showcase"
 "contenttypes.showcases.text.created": # "This Showcase was created"
@@ -148,7 +102,7 @@
 "contenttypes.showcases.text.duplicated-finalize": # "Content was duplicated. Click 'Save Showcase' to finalize."
 "contenttypes.showcases.text.edit": # "Edit Showcase"
 "contenttypes.showcases.text.invalid-field": # "Can't set %field% in Showcase: Not a valid field."
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Mostruários', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.showcases.text.last-modified": # "Last modified Showcases"
 "contenttypes.showcases.text.new": # "New Showcase"
 "contenttypes.showcases.text.no-latest": # "No latest Showcase"
@@ -160,7 +114,7 @@
 "contenttypes.showcases.text.overview": # "Showcases overview"
 "contenttypes.showcases.text.publish": # "Publish Showcase"
 "contenttypes.showcases.text.recent": # "Recent Showcases"
-"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Mostruários"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
 "contenttypes.showcases.text.recently-edited": # "Recently edited Showcases"
 "contenttypes.showcases.text.reserved-name": # "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.showcases.text.save": # "Save Showcase"
@@ -170,16 +124,3 @@
 "contenttypes.showcases.text.show-more": # "More Showcases"
 "contenttypes.showcases.text.view": # "View Showcases"
 "contenttypes.showcases.text.wrong-use-field": # "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
-
-#--- 8 keyword based translations ---------------------------------------------
-
-contenttypes.entries.name.plural: "Posts"
-contenttypes.entries.name.singular: "Post"
-contenttypes.entries.text.actions-all: "Ações para posts"
-contenttypes.entries.text.duplicate: "Duplicar post"
-
-contenttypes.pages.name.plural: "Páginas"
-contenttypes.pages.name.singular: "Página"
-
-contenttypes.showcases.name.plural: "Mostruário"
-contenttypes.showcases.name.singular: "Mostruários"
