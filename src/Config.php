@@ -1191,7 +1191,7 @@ class Config
             // Yup, all seems to be right.
             return true;
         }
-        
+
         return false;
     }
 
