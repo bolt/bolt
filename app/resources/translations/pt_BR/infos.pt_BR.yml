@@ -1,0 +1,76 @@
+info:
+    upload:
+        image: |
+            Use este campo para fazer o upload de uma foto ou imagem. Clique no botão para enviar um arquivo
+            de seu computador, ou caso você possua uma versão recente do Chrome ou Firefox, simplesmente arraste seu arquivo
+            de seu computador ou de uma outra janela<br/>
+            Você também pode usar uma imagem previamente enviada. Para isto, digite parte do nome
+            do arquivo no campo de texto e ele será auto-completado com os arquivos disponíveis.
+        file: |
+            Use este campo para enviar um arquivo para incluir como download ou para usar dentros das páginas do site.
+            Clique no botão para enviar um arquivo de seu computador, ou caso você possua uma versão recente
+            do Chrome ou Firefox, simplesmente arraste seu arquivo de seu computador ou de uma outra janela<br/>
+            Você também pode usar um arquivo previamente enviado. Para isto, digite parte do nome
+            do arquivo no campo de texto e ele será auto-completado com os arquivos disponíveis.
+        filesmall: |
+            Use o botão para enviar um arquivo. Você também pode usar um arquivo previamente enviada. Para isto, digite parte do nome
+            do arquivo no campo de texto e ele será auto-completado com os arquivos disponíveis.
+        imagelist: |
+            Use este campo para enviar várias imagens ou fotos. Clique no botão para enviar um arquivo
+            de seu computador, ou caso você possua uma versão recente do Chrome ou Firefox, simplesmente arraste seu arquivo
+            de seu computador ou de uma outra janela<br/>
+            Você também pode usar uma imagem previamente enviada. <br />
+            Você pode re-organizar as imagens arrastando-as. É possível alterar a descrição das imagens.
+        video: |
+            Use este campo para adicionar um vídeo a uma página do site. Basta copiar/colar a
+                  URL do vídeo no Youtube, Vimeo ou outro site de compartilhamento de vídeos. <br>
+                  O sistema automaticamente incorpora o código, com a largura e altura corretas além do título original.
+                  Se você alterar a largura ou altura, a proporção será mantida.
+    geolocation: |
+        Use este campo para obter a geolocalização de qualquer endereço, ou adicione o marcador
+            manualmente arrastando o marcador. Primeiramente informe o endereço e as coordenadas
+            correspondentes serão obtidas usando a API do Google Maps,
+            junto com os endereços próximos, de acordo com o Google Maps. <br>
+            Se você desejar alterar a localização do marcador, arraste o mesmo no mini-mapa.
+            As coordenadas serão ajustadas automaticamente.
+    markdown: |
+        Markdown é uma ferramenta para converter texto para HTML.
+            <p>Markdown permite que você escreva facilmente usando um formato de texto,
+            que será convertida para uma estrutura HTML válida.</p>
+            <p><strong>Rápida referência:</strong><br>
+            # Isto é uma tag &amp;lt;h1&amp;gt;<br>
+            ## Isto é uma tag &amp;lt;h2&amp;gt;<br>
+            ###### Isto é uma tag &amp;lt;h6&amp;gt;</p>
+            <p>Isto _<em>é itálico</em>_, isto __<strong>é negrito</strong>__ e isto é
+            ___<em><strong>negrito e itálico</strong></em>___. Você também poderá utilizar asteriscos: Isto *<em>é itálico</em>*,
+            isto é **<strong>negrito</strong>**.
+            <p>Crie <a href='#'>links</a> assim:<br>
+            Um [site](http://exemplo.org/ &amp;quot;Título do link&amp;quot;)</p>
+            <p>&nbsp; * Isto é uma lista não-ordenada<br>
+            &nbsp; * Item 2</p>
+            <p>&nbsp; 1 Isto é uma lista ordenada<br>
+            &nbsp; 2 Item 2</p>
+    relationships: |
+        Selecionando outros registros como 'relacionamentos', você estará
+            criando um link entre os registros. No site, isto poderá ser usado para criar os 'artigos relacionados',
+            'veja também' ou outros exemplos para mostrar como a página se relaciona com outra.
+    taxonomy: |
+        Selecionando uma ou mais taxonomias para este registro,
+                  você estará classificando este registro para ter estas propriedades.
+                  No site você poderá usar isto para agrupar certos registros, ou para criar
+                  automaticamente links para os registros que compartilham esta classificação.
+about:
+    bolt: |
+        <p>Bolt é um SGC (CMS) que se esforça para ser simples, rápido, e fácil de usar. Tanto para desenvolvedores
+            e editores de conteúdo. Bolt é Open Source, e como tal utiliza outros componentes Open Source.
+            Se você é desenvolvedor, você será muito bem-vindo para ajudar no desenvolvimento de Bolt.
+        </p>
+    licence: |
+        <p>Todas as partes do Bolt são livres para serem utilizadas sob a licença open-source MIT. O texto completo desta licença
+        pode ser encontrada aqui: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
+        </p>
+prefill:
+    short_help: |
+        <p>Verifique os tipos de arquivo para cada um dos campos que precisa popular com conteúdo Lorem Ipsum.<p>
+        <p>Se todos os checkboxes a esquerda estão desmarcados, Bolt somente irá pré-popular os contenttypes que ainda não possuem conteúdo.</p>
+
