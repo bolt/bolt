@@ -1131,8 +1131,8 @@ class Config
     protected function loadCache()
     {
         $dir = $this->app['resources']->getPath('config');
-        /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
-           it shouldn't trigger an update for the cache, while the others should.
+        /* Get the timestamps for the config files. `config_local.yml` and `extensions.yml` default to '0', because if
+           they aren't present, it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = [
             file_exists($dir . '/config.yml') ? filemtime($dir . '/config.yml') : 10000000000,
@@ -1141,7 +1141,7 @@ class Config
             file_exists($dir . '/menu.yml') ? filemtime($dir . '/menu.yml') : 10000000000,
             file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
-            file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 10000000000,
+            file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 0,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
         $configCache = $this->app['resources']->getPath('cache/config-cache.json');
@@ -1191,7 +1191,7 @@ class Config
             // Yup, all seems to be right.
             return true;
         }
-
+        
         return false;
     }
 
