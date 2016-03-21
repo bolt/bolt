@@ -2,7 +2,6 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Pimple as Container;
 
 /**
@@ -15,7 +14,13 @@ trait DatabaseSchemaTrait
     /**
      * Return a set of tables to register.
      *
-     * @return BaseTable[]
+     * <pre>
+     *  return [
+     *      'table_name' => \Fully\Qualified\Table\ClassName::class,
+     *  ];
+     * </pre>
+     *
+     * @return string[]
      */
     protected function registerExtensionTables()
     {
@@ -34,9 +39,13 @@ trait DatabaseSchemaTrait
         $app['schema.extension_tables'] = $app->share(
             $app->extend(
                 'schema.extension_tables',
-                function (\Pimple $tables) use ($app) {
+                function (Container $tables) use ($app) {
+                    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
+                    $platform = $app['db']->getDatabasePlatform();
+                    $prefix = $app['schema.prefix'];
+
                     foreach ((array) $this->registerExtensionTables() as $baseName => $table) {
-                        $tables[$baseName] = $table;
+                        $tables[$baseName] = new $table($platform, $prefix);
                     }
 
                     return $tables;
