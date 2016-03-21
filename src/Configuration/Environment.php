@@ -129,15 +129,19 @@ class Environment
     }
 
     /**
-     * Uppdate the extension autoloader.
+     * Update the extension autoloader.
      */
     protected function updateAutoloader()
     {
+        $cwd = getcwd();
+
         try {
             $this->actions['autoload']->execute();
         } catch (PackageManagerException $e) {
             // Write access is potentially disabled
         }
+
+        chdir($cwd);
     }
 
     /**
