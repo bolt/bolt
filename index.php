@@ -42,8 +42,6 @@ if (php_sapi_name() === 'cli-server') {
     }
 }
 
-/** @var \Closure $bootstrap */
-$bootstrap = require_once __DIR__ . '/app/bootstrap.php';
 /** @var \Silex\Application $app */
-$app = $bootstrap();
+$app = require __DIR__ . '/app/bootstrap.php';
 $app->run();
