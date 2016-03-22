@@ -104,6 +104,13 @@ class ScriptHandler
 
         $filesystem->dumpFile('.bolt.yml', Yaml::dump($config));
 
+        $chmodDirs = [
+            'extensions',
+            $web . '/extensions',
+            $web . '/thumbs'
+        ];
+        $filesystem->chmod($chmodDirs, static::configureDirMode($event));
+
         // reset app so the path changes are picked up
         static::$app = null;
     }
