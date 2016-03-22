@@ -19,12 +19,21 @@ class ScriptHandler
     /**
      * Install Bolt's assets.
      *
-     * This should be ran on "post-autoload-dump" event.
+     * This should be ran on "post-install-cmd" and "post-update-cmd" events.
      *
      * @param Event $event
+     * @param bool  $checkForCreateProject
      */
-    public static function installAssets(Event $event)
+    public static function installAssets(Event $event, $checkForCreateProject = true)
     {
+        /*
+         * Ugly hack to prevent application from being booted before configureProject can be called.
+         */
+        global $argv;
+        if ($checkForCreateProject && strpos(implode(' ', $argv), 'create-project') > 0) {
+            return;
+        }
+
         $webDir = static::getWebDir($event);
         if ($webDir === null) {
             return;
@@ -113,6 +122,9 @@ class ScriptHandler
 
         // reset app so the path changes are picked up
         static::$app = null;
+
+        // Install assets here since they they were skipped above
+        static::installAssets($event, false);
     }
 
     protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '', $chmod = true)
