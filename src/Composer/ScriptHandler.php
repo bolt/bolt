@@ -5,6 +5,8 @@ namespace Bolt\Composer;
 use Bolt\Exception\LowlevelException;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
+use Webmozart\PathUtil\Path;
 
 class ScriptHandler
 {
@@ -66,6 +68,72 @@ class ScriptHandler
     }
 
     /**
+     * Configures installation's directory structure.
+     *
+     * The configured paths are written to .bolt.yml
+     * and the skeleton structure is modified accordingly.
+     *
+     * @param Event $event
+     */
+    public static function configureProject(Event $event)
+    {
+        static::configureDirMode($event);
+
+        $web = static::configureDir($event, 'web', 'public');
+        $themes = static::configureDir($event, 'themes', 'themes', $web . '/');
+        $files = static::configureDir($event, 'files', 'files', $web . '/');
+
+        $config = static::configureDir($event, 'config', 'app/config');
+        $database = static::configureDir($event, 'database', 'app/database');
+        $cache = static::configureDir($event, 'cache', 'app/cache');
+
+        $config = [
+            'paths' => [
+                'cache'     => $cache,
+                'config'    => $config,
+                'database'  => $database,
+                'web'       => $web,
+                'themebase' => $themes,
+                'files'     => $files,
+                'view'      => $web . '/bolt-public/view',
+            ],
+        ];
+
+        $filesystem = new Filesystem();
+
+        $filesystem->dumpFile('.bolt.yml', Yaml::dump($config));
+
+        // reset app so the path changes are picked up
+        static::$app = null;
+    }
+
+    protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '')
+    {
+        $default = static::getOption($event, $name . '-dir', $defaultInSkeleton);
+
+        if ($event->getIO()->isInteractive()) {
+            $relative = $prefix ? '<comment>' . $prefix . '</comment>' : 'project root';
+            $question = sprintf('<info>Where do you want your <comment>%s</comment> directory? (relative to %s) [default: <comment>%s</comment>] </info>', $name, $relative, $default);
+            $dir = $event->getIO()->ask($question, $default);
+        } else {
+            $dir = $default;
+        }
+
+        $dir = rtrim($dir, '/');
+
+        if ($dir !== $defaultInSkeleton) {
+            $origin = $prefix . $defaultInSkeleton;
+            $target = $prefix . $dir;
+            $event->getIO()->writeError(sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target));
+            $fs = new Filesystem();
+            $fs->mkdir(dirname($target)); // ensure parent directory exists
+            $fs->rename($origin, $target);
+        }
+
+        return $prefix . $dir;
+    }
+
+    /**
      * Gets the directory mode value, sets umask with it, and returns it.
      *
      * @param Event $event
@@ -120,6 +188,7 @@ class ScriptHandler
             $app = static::getApp($event);
 
             $dir = $app['resources']->getPath($name);
+            $dir = Path::makeRelative($dir, getcwd());
         } catch (LowlevelException $e) {
             $dir = static::getOption($event, $name . '-dir', $default);
         }
