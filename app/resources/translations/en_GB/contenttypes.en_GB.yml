@@ -1,4 +1,4 @@
-# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-15 19:27:51 Europe/Berlin
+# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-20 18:29:49 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -12,9 +12,44 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-# 108 keyword based translations
+# 142 keyword based translations
 
-#--- 108 keyword based translations -------------------------------------------
+#--- 142 keyword based translations -------------------------------------------
+
+contenttypes.blocks.description: "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+contenttypes.blocks.group.block: "Block"
+contenttypes.blocks.name.plural: "Blocks"
+contenttypes.blocks.name.singular: "Block"
+contenttypes.blocks.text.actions-all: "Actions for Blocks"
+contenttypes.blocks.text.actions-one: "Actions for this Block"
+contenttypes.blocks.text.created: "This Block was created"
+contenttypes.blocks.text.delete: "Delete Block"
+contenttypes.blocks.text.duplicate: "Duplicate Block"
+contenttypes.blocks.text.duplicated-finalize: "Content was duplicated. Click 'Save Block' to finalize."
+contenttypes.blocks.text.edit: "Edit Block"
+contenttypes.blocks.text.invalid-field: "Can't set %field% in Block: Not a valid field."
+contenttypes.blocks.text.invalid-relation: "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+contenttypes.blocks.text.last-modified: "Last modified Blocks"
+contenttypes.blocks.text.new: "New Block"
+contenttypes.blocks.text.no-latest: "No latest Block"
+contenttypes.blocks.text.no-proper-type: "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+contenttypes.blocks.text.no-recent: "No recent Block."
+contenttypes.blocks.text.none-available: "No Blocks available."
+contenttypes.blocks.text.not-existing: "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+contenttypes.blocks.text.not-saved-yet: "This Block has not been saved yet."
+contenttypes.blocks.text.overview: "Blocks overview"
+contenttypes.blocks.text.publish: "Publish Block"
+contenttypes.blocks.text.recent: "Recent Blocks"
+contenttypes.blocks.text.recent-changes-one: "Recent changes to this Block"
+contenttypes.blocks.text.recently-edited: "Recently edited Blocks"
+contenttypes.blocks.text.reserved-name: "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.blocks.text.save: "Save Block"
+contenttypes.blocks.text.saved-changes: "The changes to the Block have been saved."
+contenttypes.blocks.text.saved-new: "The new Block has been saved."
+contenttypes.blocks.text.saving-impossible: "Could not save Block."
+contenttypes.blocks.text.show-more: "More Blocks"
+contenttypes.blocks.text.view: "View Blocks"
+contenttypes.blocks.text.wrong-use-field: "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
 contenttypes.entries.description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.entries.group.content: "Content"
@@ -91,7 +126,7 @@ contenttypes.showcases.description: "The **Showcases** contenttype is used to sh
 contenttypes.showcases.group.files: "Files"
 contenttypes.showcases.group.media: "Media"
 contenttypes.showcases.group.other: "Other"
-contenttypes.showcases.group.repeats: "Repeats"
+contenttypes.showcases.group.repeater: "Repeater"
 contenttypes.showcases.group.template: "Template"
 contenttypes.showcases.group.text: "Text"
 contenttypes.showcases.name.plural: "Showcases"
