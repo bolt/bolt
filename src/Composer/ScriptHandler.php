@@ -90,7 +90,7 @@ class ScriptHandler
     public static function configureProject(Event $event)
     {
         $web = static::configureDir($event, 'web', 'public', '', false);
-        $themes = static::configureDir($event, 'themes', 'themes', $web . '/');
+        $themes = static::configureDir($event, 'theme', 'theme', $web . '/');
         $files = static::configureDir($event, 'files', 'files', $web . '/');
 
         $config = static::configureDir($event, 'config', 'app/config');
