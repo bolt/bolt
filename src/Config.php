@@ -244,20 +244,20 @@ class Config
         if (is_string($value)) {
             $serviceName = substr($value, 1, strlen($value) - 2);
 
-            if (!isset($this->app[$serviceName])) {
-                return;
-            }
-
             if (strpos($serviceName, ":") !== false) {
                 list($serviceName, $params) = explode(':', $serviceName);
             } else {
                 $params = [];
             }
 
+            if (!isset($this->app[$serviceName])) {
+                return;
+            }
+
             $service = $this->app[$serviceName];
 
             if (is_callable($service)) {
-                return call_user_func_array($service, $params);
+                return call_user_func_array($service, [$params]);
             } else {
                 return $service;
             }
