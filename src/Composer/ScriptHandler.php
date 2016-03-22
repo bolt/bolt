@@ -5,6 +5,7 @@ namespace Bolt\Composer;
 use Bolt\Exception\LowlevelException;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
 
@@ -12,6 +13,8 @@ class ScriptHandler
 {
     /** @var \Silex\Application */
     private static $app;
+    /** @var int */
+    private static $dirMode;
 
     /**
      * Install Bolt's assets.
@@ -77,9 +80,7 @@ class ScriptHandler
      */
     public static function configureProject(Event $event)
     {
-        static::configureDirMode($event);
-
-        $web = static::configureDir($event, 'web', 'public');
+        $web = static::configureDir($event, 'web', 'public', '', false);
         $themes = static::configureDir($event, 'themes', 'themes', $web . '/');
         $files = static::configureDir($event, 'files', 'files', $web . '/');
 
@@ -107,7 +108,7 @@ class ScriptHandler
         static::$app = null;
     }
 
-    protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '')
+    protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '', $chmod = true)
     {
         $default = static::getOption($event, $name . '-dir', $defaultInSkeleton);
 
@@ -134,10 +135,17 @@ class ScriptHandler
         $origin = $prefix . $defaultInSkeleton;
         $target = $prefix . $dir;
 
+        $dirMode = static::configureDirMode($event);
+
         if ($dir !== $defaultInSkeleton) {
             $event->getIO()->writeError(sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target));
             $fs->mkdir(dirname($target)); // ensure parent directory exists
             $fs->rename($origin, $target);
+        }
+
+        if ($chmod) {
+            $it = (new Finder)->directories()->in($target)->append([$target]);
+            $fs->chmod($it, $dirMode);
         }
 
         return $target;
@@ -152,12 +160,16 @@ class ScriptHandler
      */
     protected static function configureDirMode(Event $event)
     {
-        $dirMode = static::getOption($event, 'dir-mode', 0777);
-        $dirMode = is_string($dirMode) ? octdec($dirMode) : $dirMode;
+        if (static::$dirMode === null) {
+            $dirMode = static::getOption($event, 'dir-mode', 0777);
+            $dirMode = is_string($dirMode) ? octdec($dirMode) : $dirMode;
 
-        umask(0777 - $dirMode);
+            umask(0777 - $dirMode);
 
-        return $dirMode;
+            static::$dirMode = $dirMode;
+        }
+
+        return static::$dirMode;
     }
 
     /**
