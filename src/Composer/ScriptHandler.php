@@ -111,26 +111,36 @@ class ScriptHandler
     {
         $default = static::getOption($event, $name . '-dir', $defaultInSkeleton);
 
-        if ($event->getIO()->isInteractive()) {
-            $relative = $prefix ? '<comment>' . $prefix . '</comment>' : 'project root';
-            $question = sprintf('<info>Where do you want your <comment>%s</comment> directory? (relative to %s) [default: <comment>%s</comment>] </info>', $name, $relative, $default);
-            $dir = $event->getIO()->ask($question, $default);
-        } else {
-            $dir = $default;
-        }
+        $validator = function ($value) use ($prefix, $name) {
+            if ($prefix) {
+                $basePath = Path::makeAbsolute($prefix, getcwd());
+                $path = Path::makeAbsolute($value, $basePath);
+                if (!Path::isBasePath($basePath, $path)) {
+                    throw new \RuntimeException("The $name directory must be inside the $prefix directory.");
+                }
+            }
 
-        $dir = rtrim($dir, '/');
+            return Path::canonicalize($value);
+        };
+
+        $default = $validator($default);
+
+        $relative = $prefix ? '<comment>' . $prefix . '</comment>' : 'project root';
+        $question = sprintf('<info>Where do you want your <comment>%s</comment> directory? (relative to %s) [default: <comment>%s</comment>] </info>', $name, $relative, $default);
+        $dir = $event->getIO()->askAndValidate($question, $validator, null, $default);
+
+        $fs = new Filesystem();
+
+        $origin = $prefix . $defaultInSkeleton;
+        $target = $prefix . $dir;
 
         if ($dir !== $defaultInSkeleton) {
-            $origin = $prefix . $defaultInSkeleton;
-            $target = $prefix . $dir;
             $event->getIO()->writeError(sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target));
-            $fs = new Filesystem();
             $fs->mkdir(dirname($target)); // ensure parent directory exists
             $fs->rename($origin, $target);
         }
 
-        return $prefix . $dir;
+        return $target;
     }
 
     /**
