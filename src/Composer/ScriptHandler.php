@@ -1,124 +1,174 @@
 <?php
-/**
- * Based on Sensio\Bundle\DistributionBundle\Composer\ScriptHandler.
- *
- * @see https://github.com/sensio/SensioDistributionBundle/blob/master/Composer/ScriptHandler.php
- */
 
 namespace Bolt\Composer;
 
+use Bolt\Exception\LowlevelException;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
 {
+    /** @var \Silex\Application */
+    private static $app;
+
     /**
-     * Install basic assets and create needed directories.
+     * Install Bolt's assets.
      *
-     * @param Event      $event
-     * @param array|bool $options
+     * This should be ran on "post-autoload-dump" event.
+     *
+     * @param Event $event
      */
-    public static function installAssets(Event $event, $options = false)
+    public static function installAssets(Event $event)
     {
-        $filesystem = new Filesystem();
-
-        if (false === $options) {
-            $options = self::getOptions($event);
-        }
-        $webDir = $options['bolt-web-dir'];
-        $dirMode = is_string($options['bolt-dir-mode']) ? octdec($options['bolt-dir-mode']) : $options['bolt-dir-mode'];
-        umask(0777 - $dirMode);
-
-        // Set up target directory
-        $targetDir = $webDir . '/bolt-public/';
-        $filesystem->remove($targetDir);
-        $filesystem->mkdir($targetDir, $dirMode);
-
-        if (!is_dir($webDir)) {
-            $event->getIO()->write(sprintf('<error>The bolt-web-dir (%s) specified in composer.json was not found in %s, can not install assets.</error>', $webDir, getcwd()));
-
+        $webDir = static::getWebDir($event);
+        if ($webDir === null) {
             return;
         }
 
+        $filesystem = new Filesystem();
+
+        $originDir = __DIR__ . '/../../app/view/';
+        $targetDir = $webDir . '/bolt-public/view/';
+
+        $event->getIO()->writeError(sprintf('Installing assets to <info>%s</info>', rtrim($targetDir, '/')));
         foreach (['css', 'fonts', 'img', 'js'] as $dir) {
-            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir, null, ['override' => true]);
-        }
-
-        if (!$filesystem->exists($webDir . '/files/')) {
-            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files', null, ['override' => true]);
-        }
-
-        if (!$filesystem->exists($webDir . '/theme/')) {
-            $filesystem->mkdir($webDir . '/theme/', $dirMode);
-            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme', null, ['override' => true]);
-        }
-
-        // The first check handles the case where the bolt-web-dir is different to the root.
-        // If thie first works, then the second won't need to run
-        if (!$filesystem->exists(getcwd() . '/extensions/')) {
-            $filesystem->mkdir(getcwd() . '/extensions/', $dirMode);
-        }
-
-        if (!$filesystem->exists($webDir . '/extensions/')) {
-            $filesystem->mkdir($webDir . '/extensions/', $dirMode);
-        }
-
-        // Now we handle the app directory creation
-        $appDir = $options['bolt-app-dir'];
-        if (!$filesystem->exists($appDir)) {
-            $filesystem->mkdir($appDir, $dirMode);
-            $filesystem->mkdir($appDir . '/database/', $dirMode);
-            $filesystem->mkdir($appDir . '/cache/',    $dirMode);
-            $filesystem->mkdir($appDir . '/config/',   $dirMode);
+            $filesystem->mirror($originDir . $dir, $targetDir . $dir, null, ['override' => true, 'delete' => true]);
         }
     }
 
     /**
-     * Bootstrap a new Composer based install.
+     * Install Bolt's default themes and files.
+     *
+     * This should be ran on "post-create-project-cmd" event.
      *
      * @param Event $event
      */
-    public static function bootstrap(Event $event)
+    public static function installThemesAndFiles(Event $event)
     {
-        $defaultOptions = self::getOptions($event);
-        $webRoot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', $defaultOptions['bolt-separate-web-dir']);
+        static::configureDirMode($event);
 
-        if ($webRoot) {
-            $defaultDir = $defaultOptions['bolt-web-dir'];
-            $webDirName  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: ' . $defaultDir . '] </info>', $defaultDir);
-            $webDirName  = trim($webDirName, '/');
-            $assetDir = './' . $webDirName;
-        } else {
-            $webDirName  = null;
-            $assetDir = '.';
+        $webDir = static::getWebDir($event);
+        if ($webDir === null) {
+            return;
         }
 
-        $generator = new BootstrapGenerator($webRoot, $webDirName);
-        $generator->create();
-        $options = array_merge($defaultOptions, ['bolt-web-dir' => $assetDir]);
-        self::installAssets($event, $options);
-        $event->getIO()->write('<info>Your project has been setup</info>');
+        $filesystem = new Filesystem();
+
+        $root = __DIR__ . '/../../';
+
+        $target = static::getDir($event, 'files');
+        $event->getIO()->writeError(sprintf('Installing <info>files</info> to <info>%s</info>', $target));
+        $filesystem->mirror($root . 'files', $target, null, ['override' => true]);
+
+        $target = static::getDir($event, 'themebase');
+        $event->getIO()->writeError(sprintf('Installing <info>themes</info> to <info>%s</info>', $target));
+        $filesystem->mirror($root . 'theme', $target, null, ['override' => true]);
     }
 
     /**
-     * Get a default set of options.
+     * Gets the directory mode value, sets umask with it, and returns it.
      *
      * @param Event $event
      *
-     * @return array
+     * @return number
      */
-    protected static function getOptions(Event $event)
+    protected static function configureDirMode(Event $event)
     {
-        $options = array_merge(
-            [
-                'bolt-separate-web-dir' => true,
-                'bolt-web-dir'          => 'public',
-                'bolt-app-dir'          => 'app',
-                'bolt-dir-mode'         => 0777,
-            ],
-            $event->getComposer()->getPackage()->getExtra()
-        );
+        $dirMode = static::getOption($event, 'dir-mode', 0777);
+        $dirMode = is_string($dirMode) ? octdec($dirMode) : $dirMode;
 
-        return $options;
+        umask(0777 - $dirMode);
+
+        return $dirMode;
+    }
+
+    /**
+     * Gets the web directory either from configured application or composer's extra section/environment variable.
+     *
+     * If the web directory doesn't exist an error is emitted and null is returned.
+     *
+     * @param Event $event
+     *
+     * @return string|null
+     */
+    protected static function getWebDir(Event $event)
+    {
+        $webDir = static::getDir($event, 'web', 'public');
+
+        if (!is_dir($webDir)) {
+            $error = '<error>The web directory (%s) was not found in %s, can not install assets.</error>';
+            $event->getIO()->write(sprintf($error, $webDir, getcwd()));
+
+            return null;
+        }
+
+        return $webDir;
+    }
+
+    /**
+     * Gets the directory requested either from configured application or composer's extra section/environment variable.
+     *
+     * @param Event       $event
+     * @param string      $name
+     * @param string|null $default
+     *
+     * @return string
+     */
+    protected static function getDir(Event $event, $name, $default = null)
+    {
+        try {
+            $app = static::getApp($event);
+
+            $dir = $app['resources']->getPath($name);
+        } catch (LowlevelException $e) {
+            $dir = static::getOption($event, $name . '-dir', $default);
+        }
+
+        return rtrim($dir, '/');
+    }
+
+    /**
+     * Loads the application once from bootstrap file (which is configured with .bolt.yml/.bolt.php file).
+     *
+     * NOTE: This only works on the "post-autoload-dump" command as the autoload.php file has not been generated before
+     * that point.
+     *
+     * @param Event $event
+     *
+     * @return \Silex\Application
+     */
+    protected static function getApp(Event $event)
+    {
+        if (static::$app === null) {
+            $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+            static::$app = require $vendorDir . '/bolt/bolt/app/bootstrap.php';
+        }
+
+        return static::$app;
+    }
+
+    /**
+     * Get an option from environment variable or composer's extra section.
+     *
+     * Example: With key "dir-mode" it checks for "BOLT_DIR_MODE" environment variable,
+     * then "bolt-dir-mode" in composer's extra section, then returns given default value.
+     *
+     * @param Event  $event
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    protected static function getOption(Event $event, $key, $default = null)
+    {
+        $key = 'bolt-' . $key;
+
+        if ($value = getenv(strtoupper(str_replace('-', '_', $key)))) {
+            return $value;
+        }
+
+        $extra = $event->getComposer()->getPackage()->getExtra();
+
+        return isset($extra[$key]) ? $extra[$key] : $default;
     }
 }
