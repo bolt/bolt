@@ -212,7 +212,10 @@ class Config
     }
 
     /**
-     * replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     * Replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     *
+     * @internal This is only public so that it can be called from the service provider boot method.
+     * Do not access this directly since the API is liable to be changed at short notice.
      *
      * @param mixed $value
      *
