@@ -222,7 +222,7 @@ class Config
     {
         if ($value === null) {
             $this->data = $this->doReplacements($this->data);
-            dump($this->data); exit;
+
             return;
         }
 
