@@ -204,9 +204,8 @@ class Config
             $value = $part[$key];
             $part = & $part[$key];
         }
-
         if ($value !== null) {
-            return $this->doReplacements($value);
+            return $value;
         }
 
         return $default;
@@ -219,14 +218,23 @@ class Config
      *
      * @return mixed
      */
-    protected function doReplacements($value)
+    public function doReplacements($value = null)
     {
+        if ($value === null) {
+            $this->data = $this->doReplacements($this->data);
+            dump($this->data); exit;
+            return;
+        }
+
         if (!is_array($value) && ('%' !== substr($value, 0, 1) && '%' !== substr($value, -1, 1))) {
             return $value;
         }
 
         if (is_array($value)) {
             foreach ($value as $k => $v) {
+                if ($v === null) {
+                    continue;
+                }
                 $value[$k] = $this->doReplacements($v);
             }
 
@@ -234,7 +242,25 @@ class Config
         }
 
         if (is_string($value)) {
-            return $this->app[substr($value, 1, strlen($value) - 2)];
+            $serviceName = substr($value, 1, strlen($value) - 2);
+
+            if (!isset($this->app[$serviceName])) {
+                return;
+            }
+
+            if (strpos($serviceName, ":") !== false) {
+                list($serviceName, $params) = explode(':', $serviceName);
+            } else {
+                $params = [];
+            }
+
+            $service = $this->app[$serviceName];
+
+            if (is_callable($service)) {
+                return call_user_func_array($service, $params);
+            } else {
+                return $service;
+            }
         }
 
         return $value;
