@@ -296,9 +296,9 @@ class TranslationFile
         ];
         foreach ($newTranslations as $key => $translation) {
             $set = ['trans' => $translation];
-            if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
+            if (preg_match('%^[a-z0-9-]+\.[a-z0-9-.]+$%', $key)) {
                 $type = 'Key';
-                $set['key'] = array_slice($match, 1);
+                $set['key'] = preg_split('%\.%', $key);
             } else {
                 $type = 'Real';
             }
