@@ -1,4 +1,4 @@
-# app/resources/translations/pt/contenttypes.pt.yml – generated on 2016-03-21 14:27:51 Europe/Berlin
+# app/resources/translations/pt/contenttypes.pt.yml – generated on 2016-03-23 11:27:51 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -7,6 +7,49 @@
 #          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+#  no translations
+# 142 keyword based translations
+
+#--- 142 keyword based translations -------------------------------------------
+
+contenttypes.blocks.description: "O tipo de conteúdo BLOCO é chamado um 'recurso de tipo de conteúdo'. Isto significa que pode ser usado para gerir pequenos pedaços de conteúdo, como o texto 'sobre nós', um 'nosso endereço' no rodapé ou em pequenos segmentos de texto similares."
+contenttypes.blocks.group.block: "Bloco"
+contenttypes.blocks.name.plural: "Blocos"
+contenttypes.blocks.name.singular: "Bloco"
+contenttypes.blocks.text.actions-all: "Ações para blocos"
+contenttypes.blocks.text.actions-one: "Ações para este bloco"
+contenttypes.blocks.text.created: "Este bloco foi criado"
+contenttypes.blocks.text.delete: "Eliminar bloco"
+contenttypes.blocks.text.duplicate: "Duplicar bloco"
+contenttypes.blocks.text.duplicated-finalize: "O conteúdo foi duplicado. Clique em 'Guardar bloco' para concluir."
+contenttypes.blocks.text.edit: "Editar bloco"
+contenttypes.blocks.text.invalid-field: "Não pode definir %field% no bloco. Não é um campo válido."
+contenttypes.blocks.text.invalid-relation: "No tipo de conteúdo Bloco, está definida uma relação '%relation%' mas que não é um tipo de conteúdo válido. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
+contenttypes.blocks.text.last-modified: "Últimos blocos editados"
+contenttypes.blocks.text.new: "Novo bloco"
+contenttypes.blocks.text.no-latest: "Nenhum bloco recente"
+contenttypes.blocks.text.no-proper-type: "No tipo de conteúdo Bloco, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija o problema."
+contenttypes.blocks.text.no-recent: "Nenhum bloco recente."
+contenttypes.blocks.text.none-available: "Nenhum bloco disponível."
+contenttypes.blocks.text.not-existing: "O bloco de que está à procura não existe. Provavelmente foi eliminado ou nunca existiu."
+contenttypes.blocks.text.not-saved-yet: "Este bloco ainda não foi guardado."
+contenttypes.blocks.text.overview: "Visão geral de blocos"
+contenttypes.blocks.text.publish: "Publicar bloco"
+contenttypes.blocks.text.recent: "Blocos recentes"
+contenttypes.blocks.text.recent-changes-one: "Alterações recentes neste bloco"
+contenttypes.blocks.text.recently-edited: "Blocos editados recentemente"
+contenttypes.blocks.text.reserved-name: "No tipo de conteúdo 'Bloco', está definido o campo '%field%' mas é um nome reservado. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
+contenttypes.blocks.text.save: "Guardar bloco"
+contenttypes.blocks.text.saved-changes: "As alterações ao bloco foram guardadas."
+contenttypes.blocks.text.saved-new: "O novo bloco foi guardado."
+contenttypes.blocks.text.saving-impossible: "Não foi possível guardar o bloco."
+contenttypes.blocks.text.show-more: "Mais blocos"
+contenttypes.blocks.text.view: "Ver bloco"
+contenttypes.blocks.text.wrong-use-field: "No tipo de conteúdo BLOCO, o campo '%field%' tem como 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija o problema."
 
 contenttypes.entries.description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.entries.group.content: "Conteúdo"
@@ -83,7 +126,7 @@ contenttypes.showcases.description: "The **Showcases** contenttype is used to sh
 contenttypes.showcases.group.files: "Ficheiros"
 contenttypes.showcases.group.media: "Multimédia"
 contenttypes.showcases.group.other: "Outro"
-contenttypes.showcases.group.repeats: "Repetição"
+contenttypes.showcases.group.repeater: "Repetidor"
 contenttypes.showcases.group.template: "Tema"
 contenttypes.showcases.group.text: "Texto"
 contenttypes.showcases.name.plural: "Mostruários"
