@@ -1,0 +1,64 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+        {# This template is used for search results. If 'search' is defined,
+           we display an appropriate title. The 'records' array contains all of the
+           records matching the current query. If there are no results, the
+           code in the 'else' part of the for-loop is used. #}
+        <h1>
+            {% if search is not empty %}
+                {{ __('Search results for <b>%search%</b>.', { '%search%': search|escape }) }}
+            {% else %}
+                {{ __('Search') }}
+            {% endif %}
+        </h1>
+
+        {# Perhaps we post a small teaser, stored in the 'block' named 'Search teaser' #}
+        {% setcontent block = "block/search-teaser" %}
+
+        {# check if we have 'content'. If so, we know we have have a teaser to display. #}
+        {% if block.content is defined %}
+            {{ block.content }}
+        {% endif %}
+
+        <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
+            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search …") }}" name="search" >
+            <button type="submit" class="button">{{ __("Search") }}</button>
+        </form>
+
+        {% for record in records %}
+            <article>
+
+                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+
+                {% if record.image!="" %}
+                    <div class="large-4 imageholder">
+                        <a href="{{ image(record.image) }}">
+                            <img src="{{ thumbnail(record.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# display something introduction-like.. #}
+                <p>{{ record.excerpt(300, false, search|default('')) }}</p>
+
+            </article>
+
+            {% if not loop.last %}
+                <hr>
+            {% endif %}
+
+        {% else %}
+            <article>
+
+                <p>
+                    {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
+                </p>
+
+            </article>
+        {% endfor %}
+
+        {# If there are more records than will fit on one page, the pager is shown. #}
+
+{% endblock main %}

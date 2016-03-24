@@ -1,41 +1,22 @@
-{% extends '_base.twig' %}
+{% extends 'partials/_master.twig' %}
 
-{% block body %}
-{# Make sure we can get info from both listings and single records: #}
-{% if records.id is defined and record is defined %}
-    {% set records = [record] %}
-{% endif %}
-<div class="headerimage" style="background-image:url({{ image(theme.frontpage_image ?: records|first.getImage(), 1920, 1080) }})"></div>
-<div class="flex container margin padding popUppers">
-    <main class="eight s-twelve">
-        {{ widgets('main_top') }}
-        {% for record in records %}
-            <article>
-                <h1>{{ record.title }}</h1>
-                {{ record.body }}
-            </article>
-        {% endfor %}
-        {{ widgets('main_bottom') }}
-    </main>
-    {% setcontent sidebar_content = theme.sidebar_content %}
-    {% if sidebar_content or (haswidgets('aside_top') or haswidgets('aside_top')) %}
-        <aside class="four s-twelve">
-            {{ widgets('aside_top') }}
-            {% for record in sidebar_content %}
-                {% if loop.first %}
-                    <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': record.contenttype.name}) }}</h2>
-                {% endif %}
-                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
-                <p>
-                    {{ showimage(record.getImage(), 440, 0) }}
-                    {{ record.body|excerpt(250) }}
-                </p>
-                {% if loop.last %}
-                    <p><a href="{{ paths.root }}{{ record.contenttype.slug }}">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
-                {% endif %}
-            {% endfor %}
-            {{ widgets('aside_bottom') }}
-        </aside>
+{% block main %}
+
+    <h1>{{ record.title }}</h1>
+
+    {# Remove this block if you don't need it anymore. #}
+    {{ include('partials/_fresh_install.twig') }}
+
+    {{ record.teaser }}
+
+    {% if record.image!="" %}
+        <a href="{{ image(record.image) }}">
+            <img src="{{ thumbnail(record.image, 1200, 500) }}">
+        </a>
     {% endif %}
-</div>
-{% endblock %}
+
+    {{ record.body }}
+
+    {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+
+{% endblock main %}

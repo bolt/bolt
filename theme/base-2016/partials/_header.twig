@@ -1,0 +1,18 @@
+<!-- Header bar -->
+
+{# You can either hardcode the filename for the header, or take a value from the current
+   content in 'record', or - as we do in this example - take a random one from the list
+   in the /theme/foundation/theme.yml file. #}
+
+{% set headerimage_low = paths.theme ~ 'images/' ~ random(theme.headerimage) %}
+{% set headerimage = paths.theme ~ 'images/' ~ random(theme.headerimage) %}
+
+{# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
+<div class="large-12 columns headertitle">
+<h2>{{ app.config.get('general/sitename') }}</h2>
+    {% if app.config.get('general/payoff') %}
+        <p>{{ app.config.get('general/payoff') }}</p>
+    {% endif %}
+</div>
+<div class="large-12 columns headerphoto" style='background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0.5)), url({{ headerimage_low }})'>
+</div>

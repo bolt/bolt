@@ -110,7 +110,7 @@ class BackendDeveloperCest
 
         // Navigate into a subdirectory
         $I->click('css/',     Locator::href("/bolt/files/themes/$dir/css"));
-        $I->see('custom.css', Locator::href("/bolt/file/edit/themes/$dir/css/custom.css"));
+        $I->see('theme.css', Locator::href("/bolt/file/edit/themes/$dir/css/theme.css"));
     }
 
     /**
@@ -120,15 +120,15 @@ class BackendDeveloperCest
      */
     public function editTemplateTest(\AcceptanceTester $I)
     {
-        $I->wantTo("See that the 'developer' user can edit and save the _base.twig template file.");
+        $I->wantTo("See that the 'developer' user can edit and save the partials/_footer.twig template file.");
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/_base.twig');
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
 
         // Put _footer.twig into edit mode
-        $I->see('<footer class="flex margin">', 'textarea');
+        $I->see('<footer class="row">', 'textarea');
 
         // Edit the field
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
@@ -137,12 +137,12 @@ class BackendDeveloperCest
 
         // Save it
         $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/_base.twig', [
+        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/partials/_footer.twig', [
             'form[_token]'   => $token,
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/_base.twig');
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 

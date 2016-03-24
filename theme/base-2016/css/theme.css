@@ -1,0 +1,26 @@
+.headerphoto {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 500px;
+  min-height: 20vh;
+  max-height: 40vw; }
+
+.column, .columns {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem; }
+
+.headertitle {
+  text-align: center; }
+
+[type='search'] {
+  box-shadow: none; }
+
+.menu > li {
+  padding: 0; }
+  .menu > li a {
+    color: #2B2B2B; }
+  .menu > li.active > a {
+    color: #2B2B2B;
+    background-color: inherit;
+    border-bottom: 1px solid; }
