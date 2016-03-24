@@ -103,8 +103,8 @@ class FrontendCest
 
         $I->amOnPage('/resources');
 
-        $I->see('Well, this is kind of embarrassing!');
-        $I->see('You have what we call in the business, a 404.');
+        $I->see('404 not found');
+        $I->see('The requested page was not found.');
     }
 
     /**
@@ -118,8 +118,8 @@ class FrontendCest
 
         $I->amOnPage('/derp-a-derp');
 
-        $I->see('Well, this is kind of embarrassing!');
-        $I->see('You have what we call in the business, a 404.');
+        $I->see('404 not found');
+        $I->see('The requested page was not found.');
     }
 
     /**

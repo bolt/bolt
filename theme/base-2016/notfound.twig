@@ -2,6 +2,10 @@
 
 {% setcontent record = 'blocks/404-not-found' %}
 
+{% set record = record|default({
+    title: '404 not found'
+}) %}
+
 {% block title %}
     {{ record.title }}
 {% endblock title %}
