@@ -1,0 +1,40 @@
+// Your theme-specific styles go in here.
+@charset 'utf-8';
+
+@import 'settings';
+
+// The Headerphoto, with the background image.
+.headerphoto {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 500px;
+    min-height: 20vh;
+    max-height: 40vw;
+}
+
+.column, .columns{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.headertitle {
+    text-align: center;
+}
+
+[type='search'] {
+    box-shadow: none;
+}
+
+// Override the a inside .menu-text, for topbar navigation, where the 'homepage' has a link.
+.menu > li {
+    padding: 0;
+    a {
+        color: #2B2B2B;
+    }
+    &.active > a {
+        color: #2B2B2B;
+        background-color: inherit;
+        border-bottom: 1px solid;
+    }
+}

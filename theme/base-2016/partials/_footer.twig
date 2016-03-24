@@ -1,0 +1,22 @@
+<!-- Footer -->
+<footer class="row">
+    <hr />
+    <div class="large-6 columns">
+        <p>{{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
+        </p>
+    </div>
+    <div class="large-6 columns">
+        {{ menu(
+            identifier = 'main',
+            template = 'partials/_sub_menu.twig',
+            params = {'withsubmenus': false, 'class': 'inline-list align-right'}
+        ) }}
+    </div>
+
+    {{ widgets('footer') }}
+
+</footer>
+
+<script src="{{ paths.theme }}js/jquery.min.js"></script>
+<script src="{{ paths.theme }}js/foundation.js"></script>
+<script src="{{ paths.theme }}js/app.js"></script>

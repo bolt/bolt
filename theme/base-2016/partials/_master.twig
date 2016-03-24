@@ -1,0 +1,61 @@
+{% set main_width = theme.layout.main_width|default(8) %}
+{% set aside_width = theme.layout.aside_width|default(4) %}
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Foundation for Bolt{% endblock title %}</title>
+        <link rel="stylesheet" href="{{ paths.theme }}css/foundation.css">
+        <link rel="stylesheet" href="{{ paths.theme }}css/theme.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        {% block headincludes %}
+        {% endblock headincludes %}
+    </head>
+    <body>
+
+        {% block body %}
+
+            {% if theme.layout.variant != 'wide' %}
+                <div class="row">
+            {% endif %}
+
+            {{ include('partials/_topbar.twig') }}
+            {{ include('partials/_header.twig') }}
+
+            {% if theme.layout.variant != 'wide' %}
+                </div>
+            {% endif %}
+
+            <div class="row">
+
+                {% if theme.layout.aside == "left" %}
+                    {{ include('partials/_aside.twig') }}
+                {% endif %}
+
+                <div class="{% if theme.layout.aside not in ['left', 'right'] %}large-centered{% endif %} large-{{ main_width }} columns">
+
+                    {{ widgets('main_top') }}
+
+                    {% block main %}
+                    {% endblock main %}
+
+                    {{ widgets('main_bottom') }}
+
+                </div>
+
+                {% if theme.layout.aside == "right" %}
+                    {{ include('partials/_aside.twig') }}
+                {% endif %}
+
+            </div>
+
+        {% endblock body %}
+
+        {{ include('partials/_footer.twig') }}
+
+        {% block bottomincludes %}
+        {% endblock bottomincludes %}
+    </body>
+</html>

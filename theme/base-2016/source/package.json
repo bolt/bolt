@@ -1,0 +1,37 @@
+{
+  "name": "foundation-sites-template",
+  "version": "1.0.0",
+  "description": "Basic template for a new Bolt theme based on Zurb Foundation for Sites project.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp sass"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobdenotter/bolt-foundation-theme"
+  },
+  "bugs": {
+    "url": "https://github.com/bobdenotter/bolt-foundation-theme/issues",
+    "email": "bob@bolt.cm"
+  },
+  "author": "Bob den Otter <bob@bolt.cm>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3",
+    "js-yaml": "^3.5.5",
+    "yargs": "^4.3.2"
+  }
+}

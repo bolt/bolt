@@ -1,33 +1,33 @@
+# Optional config file for the theme.
+
 # Variables that are in this file, can be used in your twig template like {{ theme.foo }}
-# Note: If variables do not immediately show up, clear the cache, in the Bolt Backend.
-foo: bar
 
-# Choose which image is shown on the frontpage, set to false to use an image 
-# from the content
-frontpage_image: base-2016/images/image1.jpg
+layout:
+  aside: right # left, right, none
+  aside_width: 4 # out of 12
+  main_width: 8 # out of 12
+  variant: centered # wide or centered
 
-# Choose which content to list in the frontpage sidebar, can be the slug of a
-# contenttype or a setcontent query like "entries/latest/4"
-sidebar_content: pages
+# Setting the header image. The default images in this theme all came from Visualhunt: https://visualhunt.com/
+headerimage:
+ - 01.jpg
+ - 02.jpg
+ - 03.jpg
+ - 04.jpg
+ - 05.jpg
+ - 06.jpg
+ - 07.jpg
+ - 08.jpg
 
 # Template filenames. If you 're creating a theme for distribution, you can specify
 # the filenames of the templates here. The templates you will set in this config
 # file will override the ones in the global app/config/config.yml, so beware!
 # maintenance_template: maintenance_default.twig
-#
-# homepage_template: index.twig
-# record_template: record.twig
-# listing_template: listing.twig
-# search_results_template: listing.twig
-
-# Amount of records and sorting in listing. If you're creating a theme for
-# distribution, you can specify the amount of records displayed on listing pages,
-# including search results. The values you will set in this config will override
-# the ones defined in the global app/config/config.yml.
-#
-# listing_records : 10
-# listing_sort : datepublish DESC
-# search_results_records: 10
+homepage_template: index.twig
+record_template: record.twig
+listing_template: listing.twig
+search_results_template: search.twig
+notfound: notfound.twig
 
 templatefields:
     extrafields.twig:

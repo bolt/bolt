@@ -1,42 +1,16 @@
-{% extends '_base.twig' %}
+{% extends 'partials/_master.twig' %}
 
-{% block body %}
-<div class="headerimage" style="background-image:url({{ image(record.getImage(), 1920, 1080) }})"></div>
-<div class="flex container margin padding popUppers">
-        <article class="eight s-twelve record">
-            {{ widgets('main_top') }}
-            <h1 data-bolt-field="title">{{ record.title }}</h1>
+{% block main %}
 
-            {{ fields(common = true, extended = false, repeaters = true) }}
+    <h1>{{ record.title }}</h1>
 
-            {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
-            {{ dump(record) }}
-            #}
+    {{ fields() }}
 
-            {{ include('_recordfooter.twig', {'record': record}) }}
-            <p class="meta">
-                {% set previous = record.previous('id') %}
-                {% if previous %}
-                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
-                {% endif %}
-                -
-                {% set next = record.next('id') %}
-                {% if next %}
-                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
-                {% endif %}
-            </p>
-            {% set relatedrecords = record.related() %}
-            {% if relatedrecords is not empty %}
-                <p class="meta">{{ __('Related content:') }}
-                <ul>
-                    {% for related in relatedrecords %}
-                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
-                    {%  endfor %}
-                </ul>
-                </p>
-            {% endif %}
-            {{ widgets('main_bottom') }}
-        </article>
-    {{ include('_aside.twig') }}
-    </div>
-{% endblock %}
+    {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
+    {{ dump(record) }}
+    #}
+
+    {% include 'partials/_recordfooter.twig' with { 'record': record } %}
+
+{% endblock main %}
+

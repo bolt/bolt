@@ -1,80 +1,16 @@
-{% extends '_base.twig' %}
+{% extends 'partials/_master.twig' %}
 
-{% block body %}
-<div class="headerimage" style="background-image:url({{ image(record.getImage(), 1920, 1080) }})"></div>
-<div class="flex container margin padding popUppers">
-        <article class="eight s-twelve">
-            {{ widgets('main_top') }}
-            <h1 data-bolt-field="title">{{ record.title }}</h1>
-            {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields'] %}
-                {% if record.fieldtype(key) == "imagelist" and value is not empty %}
-                    {% set list = attribute(record, key) %}
-                    <div class="images">
-                        {% for item in list %}
-                            <div class="imageholder">
-                                {{ popup(item.filename) }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% elseif record.fieldtype(key) == "image" %}
-                    {{ popup(value, 440, 0) }}
-                {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
-                    {{ value.responsive }}
-                {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
-                    <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
-                {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
-                    <div data-bolt-field="{{key}}">{{ attribute(record, key) }}</div>
-                {% elseif record.fieldtype(key) == "select" and value is not empty %}
-                    <p><strong>{{ key }}: </strong>
-                        {{ attribute(record, key)|join(", ") }}
-                    </p>
-                {% elseif record.fieldtype(key) == "checkbox" %}
-                        <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
-                {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" and value is not empty  %}
-                    <p><strong>{{ key }}: </strong>
-                        {% if attribute(record, key) is iterable %}
-                            {{ dump(attribute(record, key)) }}
-                        {% else %}
-                            {{ attribute(record, key) }}
-                        {% endif %}
-                    </p>
-                {%  endif %}
-            {% endfor %}
+{% block main %}
 
-            {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
-            {{ dump(record) }}
-            #}
+    <h1>{{ record.title }}</h1>
 
-            {{ include('_recordfooter.twig', {'record': record}) }}
-            <p class="meta">
-                {% set previous = record.previous('id') %}
-                {% if previous %}
-                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
-                {% endif %}
-                -
-                {% set next = record.next('id') %}
-                {% if next %}
-                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
-                {% endif %}
-            </p>
-            {% set relatedrecords = record.related() %}
-            {% if relatedrecords is not empty %}
-                <p class="meta">{{ __('Related content:') }}
-                <ul>
-                    {% for related in relatedrecords %}
-                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
-                    {%  endfor %}
-                </ul>
-                </p>
-            {% endif %}
-            {{ widgets('main_bottom') }}
-        </article>
-        <article class="four m-twelve">
-            {{ widgets('aside_top') }}
-            <h2 data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</h2>
-            {{ popup(record.templatefields.image, 440, 0) }}
-            <div data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</div>
-            {{ widgets('aside_bottom') }}
-         </article>
-    </div>
-{% endblock %}
+    {{ fields() }}
+
+    {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
+    {{ dump(record) }}
+    #}
+
+    {% include 'partials/_recordfooter.twig' with { 'record': record } %}
+
+{% endblock main %}
+

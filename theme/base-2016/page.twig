@@ -1,0 +1,26 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+    <h1>{{ record.title }}</h1>
+
+    {{ record.teaser }}
+
+    {% if record.image!="" %}
+        <a href="{{ image(record.image) }}">
+            <img src="{{ thumbnail(record.image, 740, 560) }}">
+        </a>
+    {% endif %}
+
+    {{ record.body }}
+
+    {# If there are repeaters, we should output them. #}
+    {{ fields(common = false, extended = false, repeaters = true) }}
+
+    {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
+    {{ dump(record) }}
+    #}
+
+    {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+
+{% endblock main %}

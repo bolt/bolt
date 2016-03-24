@@ -1,10 +1,14 @@
-{% extends '_base.twig' %}
+{% extends 'partials/_master.twig' %}
 
-{% block body %}
-<div class="headerimage" style="background-image:url({{ image(records|first.getImage(), 1920, 1080) }})"></div>
-<div class="flex container margin padding popUppers">
-    <section class="eight s-twelve">
-        {{ widgets('main_top') }}
+{% block main %}
+
+        {# This template is used for 'listings': Generic pages that list a number of
+           records from a certain contenttype. These records are available as an array
+           called 'records'. In the for-loop below, we iterate over the records that
+           are on this page. It can be used for overview pages like 'all entries', or
+           'all records tagged with kittens'. #}
+
+        {# If used for listing a taxonomy, we add a heading.: #}
         {% if taxonomytype is defined %}
             <h1>
                 {{ __('Overview for') }}
@@ -14,58 +18,55 @@
                     {{ slug }}
                 {% endif %}
             </h1>
-
-            {# Taxonomies are fetched unordered by design except if has_sortorder is set to
-               true. This way we keep 'grouping' intact in the listing. #}
+            {# Taxonomies are fetched unordered by design except if 'has_sortorder'
+               is set to true. This way we keep 'grouping' intact in the listing. #}
             {% if not taxonomy.has_sortorder %}
                 {# If we specified an order in config.yml, sort them here, accordingly: #}
                 {% set records = records|order(app.config.get('general/listing_sort')) %}
             {% endif %}
-
-        {% elseif search is defined %}
-            <h1>
-                {{ __('Search results for <b> %search% </b>.', { '%search%': search|escape }) }}
-            </h1>
-        {% elseif records %}
-            <h1>
-                {{ __('Overview for') }}
-                {{records|first.contenttype.name}}
-            </h1>
         {% endif %}
+
         {% for record in records %}
-            <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
-            {{ popup(record.image, 440, 0) }}
-            {# display something introduction-like.. #}
-            {% if record.introduction %}
-                {{ record.introduction }}
-            {% elseif record.teaser %}
-                {{ record.teaser }}
-            {% else %}
-                <p>{{ record.excerpt(300, false, search|default('')) }}</p>
+            <article>
+
+                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+
+                {% if record.image!="" %}
+                    <div class="large-4 imageholder">
+                        <a href="{{ image(record.image) }}">
+                            <img src="{{ thumbnail(record.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# display something introduction-like.. #}
+                {% if record.introduction %}
+                    {{ record.introduction }}
+                {% elseif record.teaser %}
+                    {{ record.teaser }}
+                {% else %}
+                    <p>{{ record.excerpt(300, false, search|default('')) }}</p>
+                {% endif %}
+
+            </article>
+
+            {% if not loop.last %}
+                <hr>
             {% endif %}
-            {{ include('_recordfooter.twig', {'record': record}) }}
-            {% if not loop.last %}<hr>{% endif %}
+
         {% else %}
             <article>
-                {% if search is defined %}
-                    <p>
-                        {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
-                    </p>
-                {% else %}
-                    <h2>{{ __("No content found.") }}</h2>
-                    <p>
-                        {{ __("Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.", {'%paths_root%': paths.root} ) }}
-                    </p>
-                {% endif %}
-                {#
-                optionally, you can redirect the browser to another page. Just uncomment the next line to do so.
-                {{ redirect('/') }}
-                #}
+
+                <h2>{{ __("No content found.") }}</h2>
+
+                <p>
+                    {{ __("Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.", {'%paths_root%': paths.root} ) }}
+                </p>
+
             </article>
         {% endfor %}
+
+        {# If there are more records than will fit on one page, the pager is shown. #}
         {{ pager() }}
-        {{ widgets('main_bottom') }}
-    </section>
-    {{ include('_aside.twig') }}
-    </div>
-{% endblock %}
+
+{% endblock main %}
