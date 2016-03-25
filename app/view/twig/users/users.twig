@@ -18,6 +18,8 @@
 
             {{ include('@bolt/_sub/_messages.twig') }}
 
+            {{ widgets('users_below_header', 'backend') }}
+
             {{ include('@bolt/users/_userlist.twig') }}
 
             <h2><strong>{{ __('Roles and Permissions') }}</strong></h2>
@@ -27,6 +29,8 @@
             <h2><strong>{{ __('Current sessions') }}</strong></h2>
 
             {{ include('@bolt/users/_sessions.twig') }}
+
+            {{ widgets('users_bottom', 'backend') }}
 
         </div>
 
