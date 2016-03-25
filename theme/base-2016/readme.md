@@ -10,8 +10,8 @@ The documentation laid in this README will cover how to get started with
 Foundation for Bolt and how some Foundation components, are integrated with
 Bolt.
 
-Features included with Foundation for Bolt?
--------------------------------------------
+Features included with Foundation for Bolt
+------------------------------------------
 
 Foundation for Bolt comes with all of the great features that are found in the
 Zurb Foundation framework, and a few things more. Simply put, if it works in
@@ -25,14 +25,15 @@ Foundation, it will work in Foundation for Bolt. The theme also includes:
 Requirements for Foundation for Bolt
 ------------------------------------
 
-You can use whatever you want – seriously. You can use CodeKit, Grunt, Compass
-or nothing at all. It’s completely up to you how you decide to build your theme
-– Foundation for Bolt will stay out of your workflow as much as possible.
+You can use whatever you want – seriously. You can use Gulp, the
+Foundation CLI-tool, Codekit or nothing at all. It’s completely up to
+you how you decide to build your theme – Foundation for Bolt will stay
+out of your workflow as much as possible.
 
-This theme does include Bower and Gulp files, and is optimized for a Gulp-based
-workflow. To get the most out of Foundation for Bolt, Gulp is highly
-recommended. However, if you're not using Gulp yet, you can also modify the
-compiled CSS files as is.
+This theme does include Bower and Gulp files, and is optimized for a
+Gulp-based workflow. To get the most out of Foundation for Bolt, Gulp
+is highly recommended. However, if you're not using Gulp yet, you can
+also modify the compiled CSS files as is.
 
 File Structure
 --------------
@@ -197,13 +198,18 @@ The basic HTML structure, and a handful of other included partials.
 Options in `theme.yml`
 ----------------------
 
-This theme comes with its own configuration file, named `theme.yml`. In this file you can set certain specific options for the theme, such as the default images for the header, the position of the 'aside' sidebar, and the global layout.
+This theme comes with its own configuration file, named `theme.yml`. In this
+file you can set certain specific options for the theme, such as the default
+images for the header, the position of the 'aside' sidebar, and the global
+layout.
 
 ### Setting `layout:variant`
 
-You can select a global layout, which determines if the way the website looks. Possible options are:
+You can select a global layout, which determines if the way the website looks.
+Possible options are:
 
-`centered`: Centers the layout on wide screens, so that the 'main content' is in the middle of the screen.
+`centered`: Centers the layout on wide screens, so that the 'main content' is in
+the middle of the screen.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -230,7 +236,8 @@ You can select a global layout, which determines if the way the website looks. P
 └───────┴─────────────────────────────────┴─┴────────────────────┴───────┘
 ```
 
-`wide`: uses a 'wide' layout, meaning the header and top bar are streched to the edges of the browser on large screens:
+`wide`: uses a 'wide' layout, meaning the header and top bar are streched to the
+edges of the browser on large screens:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -284,6 +291,56 @@ You can select a global layout, which determines if the way the website looks. P
 └─────┴─┴─────────────────────────────────┴─┴────────────────────┴─┴─────┘
 ```
 
+The `theme.yml` file also defines the default images, that are used in the
+header of the website. Feel free to change these for other images. A lot of
+royalty-free images to be used, can be found at
+[visualhunt.com](http://visualhunt.com).
+
+Finally, the last section defines the settings for which templates are used for
+which types of pages. The templates you will set in this config file will
+override the ones in the global app/config/config.yml, so beware!
+
+```
+# maintenance_template: maintenance_default.twig
+homepage_template: index.twig
+record_template: record.twig
+listing_template: listing.twig
+search_results_template: search.twig
+notfound: notfound.twig
+```
+
+For details on which page is used when, see the next section in this document.
+
+
+Working with the `.twig` files
+------------------------------
+
+You are free to do what you want, when it comes to the .twig files. Out-of-the-
+box, this theme comes with a handful of templates, that correspond to
+the default contenttypes when you have a fresh install of Bolt.
+
+Most of the templates will be pretty straightforward, especially if you're
+familiar with the concept of Template Inheritance. The main templates are:
+
+ - `index.twig`: Used as the frontpage or homepage of the site.
+ - `listing.twig`: This template is used for listing overviews of all kind, like
+   `/pages` for all records in the 'pages contenttype' or `category/movies` for
+   all records that have the 'movies' category assigned to them. Note that
+   'search' uses its own template, though.
+ - `notfound.twig`: This template is used as the template that's shown when the
+   visitor hits a non-existing page on the website.
+ - `page.twig`: The detail page for a single record of the 'pages' contenttype.
+   Automatically picked up by Bolt, if the name matches.
+ - `record.twig`: The "generic" detail page for a single record page. This is
+   used as the fallback, if there's no specific template set for a single record
+   page.
+ - `search.twig`: This page displays the search results and a search box, to
+   search again.
+ - `styleguide.twig`: A sample page, showing most of the common typograhy
+   options, form elements, as well as other components supplied by Foundation 6.
+   Use your browser to go to `/styleguide` to view this page.
+
+
 Working with the `.scss` files
 ------------------------------
 
@@ -321,6 +378,9 @@ Next, to install the local Bower and NPM modules, run:
 npm install
 bower install
 ```
+
+The build process has been tested on Gulp v3.9.0, Bower v1.7.7, NPM 3.7.3 and
+Node v5.8.0.
 
 Now you can simply run `gulp` to compile the javascript and sass files. When
 developing, you'll want to run:
