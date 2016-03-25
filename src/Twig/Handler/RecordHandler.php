@@ -123,7 +123,7 @@ class RecordHandler
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
             $globals = $env->getGlobals();
-            $record = $globals['record'];
+            $record = isset($globals['record']) ? $globals['record'] : [];
         }
 
         // Still no record? Nothing to do here, then.
