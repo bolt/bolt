@@ -49,7 +49,7 @@ abstract class AbstractExtension implements ExtensionInterface
      */
     public function getBaseDirectory()
     {
-        if ($this->webDirectory === null) {
+        if ($this->baseDirectory === null) {
             throw new \LogicException('Extension was not added with a base directory');
         }
 
