@@ -1,7 +1,7 @@
-Foundation for Bolt Theme
-=========================
+Bolt Base-2016 Theme
+====================
 
-Foundation for Bolt is a blank theme for Bolt, built on top of
+Base-2016 is a blank theme for Bolt, built on top of
 [Zurb Foundation for sites 6](http://foundation.zurb.com/). To learn more about
 specific Foundation components, check out the
 [Foundation 6 Documentation](http://foundation.zurb.com/sites/docs/).
@@ -10,11 +10,11 @@ The documentation laid in this README will cover how to get started with
 Foundation for Bolt and how some Foundation components, are integrated with
 Bolt.
 
-Features included with Foundation for Bolt
-------------------------------------------
+Features included with Base-2016
+--------------------------------
 
-Foundation for Bolt comes with all of the great features that are found in the
-Zurb Foundation framework, and a few things more. Simply put, if it works in
+Base-2016 comes with all of the great features that are found in the Zurb
+Foundation framework, and a few things more. Simply put, if it works in
 Foundation, it will work in Foundation for Bolt. The theme also includes:
 
  - Sass(scss) or CSS Versions
@@ -22,8 +22,8 @@ Foundation, it will work in Foundation for Bolt. The theme also includes:
  - Optional Bower and Gulp Support
  - And much, much more!
 
-Requirements for Foundation for Bolt
-------------------------------------
+Requirements for Base-2016
+--------------------------
 
 You can use whatever you want – seriously. You can use Gulp, the
 Foundation CLI-tool, Codekit or nothing at all. It’s completely up to
@@ -83,14 +83,8 @@ These are the most important files, included in this theme.
 Installation
 ------------
 
-To install this theme, simply search for 'Foundation' in Bolt's backend, and
-click the buttons.
-
-Alternatively, download the `.zip` or `.tgz` file from the [bobdenotter/bolt-
-foundation-theme Github repository](https://github.com/bobdenotter/bolt-
-foundation-theme/releases). Extract the file, and place the `foundation` folder
-in your `theme` folder. Don't forget to set `theme: foundation` in your
-`config.yml` file.
+No need to install anything. This theme comes with Bolt. Don't forget to set
+`theme: base-2016` in your `config.yml` file, if it doesn't show up already.
 
 Getting Started
 ---------------
