@@ -25,7 +25,10 @@
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-9">
+
+            {{ widgets('edituser_below_header', 'backend') }}
+
             {% if context.kind != 'profile' %}
                 <p style="max-width: 500px;">
                     {% if context.kind == 'edit' %}
@@ -46,7 +49,15 @@
 
                 <input type="submit" value="{{ __('page.edit-users.button.save') }}" name="submit" class="btn btn-primary">
             </form>
+
+            {{ widgets('edituser_bottom', 'backend') }}
+
         </div>
+
+        <aside class="col-md-3">
+            {{ include('@bolt/edituser/_aside.twig') }}
+        </aside>
+
     </div>
 
     <div class="progress" id="progress-wrapper">
