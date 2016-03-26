@@ -10,10 +10,10 @@
     ],
     "license" : "MIT",
     "require" : {
-        "bolt/filesystem" : "^2.0@dev",
+        "bolt/filesystem" : "^2.0@beta",
         "bolt/package-wrapper": "^3.0",
         "bolt/pathogen" : "~0.6",
-        "bolt/thumbs" : "~3.0@dev",
+        "bolt/thumbs" : "~3.0@beta",
         "brandonwamboldt/utilphp" : "~1.0",
         "cocur/slugify" : "~1.0",
         "composer/composer" : "^1.0@beta",
