@@ -204,29 +204,40 @@ class Config
             $value = $part[$key];
             $part = & $part[$key];
         }
-
         if ($value !== null) {
-            return $this->doReplacements($value);
+            return $value;
         }
 
         return $default;
     }
 
     /**
-     * replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     * Replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     *
+     * @internal This is only public so that it can be called from the service provider boot method.
+     * Do not access this directly since the API is liable to be changed at short notice.
      *
      * @param mixed $value
      *
      * @return mixed
      */
-    protected function doReplacements($value)
+    public function doReplacements($value = null)
     {
+        if ($value === null) {
+            $this->data = $this->doReplacements($this->data);
+
+            return;
+        }
+
         if (!is_array($value) && ('%' !== substr($value, 0, 1) && '%' !== substr($value, -1, 1))) {
             return $value;
         }
 
         if (is_array($value)) {
             foreach ($value as $k => $v) {
+                if ($v === null) {
+                    continue;
+                }
                 $value[$k] = $this->doReplacements($v);
             }
 
@@ -234,7 +245,25 @@ class Config
         }
 
         if (is_string($value)) {
-            return $this->app[substr($value, 1, strlen($value) - 2)];
+            $serviceName = substr($value, 1, strlen($value) - 2);
+
+            if (strpos($serviceName, ":") !== false) {
+                list($serviceName, $params) = explode(':', $serviceName);
+            } else {
+                $params = [];
+            }
+
+            if (!isset($this->app[$serviceName])) {
+                return;
+            }
+
+            $service = $this->app[$serviceName];
+
+            if (is_callable($service)) {
+                return call_user_func_array($service, [$params]);
+            } else {
+                return $service;
+            }
         }
 
         return $value;
