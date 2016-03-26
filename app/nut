@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/*
+ * This could be loaded on a very old version of PHP so no syntax/methods over 5.2 in this file.
+ */
 
 $minVersion = '5.5.9';
 if (version_compare(PHP_VERSION, $minVersion, '<')) {
