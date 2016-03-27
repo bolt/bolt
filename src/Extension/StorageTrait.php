@@ -37,8 +37,28 @@ trait StorageTrait
         $app = $this->getContainer();
         foreach ($this->registerRepositoryMappings() as $alias => $map) {
             $app['storage.repositories'] += $map;
-            $app['storage.metadata']->setDefaultAlias($app['schema.prefix'] . $alias, key($map));
-            $app['storage']->setRepository(key($map), current($map));
+
+            $app['storage.metadata'] = $app->share(
+                $app->extend(
+                    'storage.metadata',
+                    function ($storageMetadata) use ($app, $alias, $map) {
+                        $storageMetadata->setDefaultAlias($app['schema.prefix'] . $alias, key($map));
+
+                        return $storageMetadata;
+                    }
+                )
+            );
+
+            $app['storage'] = $app->share(
+                $app->extend(
+                    'storage',
+                    function ($entityManager) use ($app, $alias, $map) {
+                        $entityManager->setRepository(key($map), current($map));
+                        
+                        return $entityManager;
+                    }
+                )
+            );
         }
     }
 
