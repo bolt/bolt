@@ -17,7 +17,6 @@ headerimage:
  - 05.jpg
  - 06.jpg
  - 07.jpg
- - 08.jpg
 
 # Template filenames. If you 're creating a theme for distribution, you can specify
 # the filenames of the templates here. The templates you will set in this config
@@ -56,4 +55,3 @@ templateselect:
            filename: 'extrafields.twig'
          - name: 'Another template with extra fields'
            filename: 'anotherextrafields.twig'
-        
