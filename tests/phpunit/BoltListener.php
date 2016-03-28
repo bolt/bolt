@@ -85,7 +85,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     protected function getTheme($theme)
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
-            return $this->getPath('theme', 'theme/base-2014');
+            return $this->getPath('theme', 'theme/base-2016');
         } else {
             return $this->getPath('theme', $theme['theme']);
         }
