@@ -188,7 +188,7 @@ HTML;
 
         $handler = new HtmlHandler($app);
 
-        $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], false);
+        $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy'], false);
         $this->assertRegExp('#<li class="index-1 first">#', $result);
     }
 

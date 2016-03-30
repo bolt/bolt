@@ -444,11 +444,14 @@ GRINGALET;
         $handler = new RecordHandler($app);
 
         $result = $handler->listTemplates(null, false);
-        $this->assertArrayHasKey('entry.twig', $result);
+        $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
         $this->assertArrayHasKey('listing.twig', $result);
         $this->assertArrayHasKey('record.twig', $result);
+        $this->assertArrayHasKey('notfound.twig', $result);
+        $this->assertArrayHasKey('search.twig', $result);
+        $this->assertArrayHasKey('styleguide.twig', $result);
     }
 
     public function testListTemplatesAllTwig()
@@ -458,11 +461,14 @@ GRINGALET;
         $handler = new RecordHandler($app);
 
         $result = $handler->listTemplates('*.twig', false);
-        $this->assertArrayHasKey('entry.twig', $result);
+        $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
         $this->assertArrayHasKey('listing.twig', $result);
         $this->assertArrayHasKey('record.twig', $result);
+        $this->assertArrayHasKey('notfound.twig', $result);
+        $this->assertArrayHasKey('search.twig', $result);
+        $this->assertArrayHasKey('styleguide.twig', $result);
     }
 
     public function testListTemplatesLimitedTwig()
@@ -471,9 +477,9 @@ GRINGALET;
         $app['config']->set('theme/templateselect', null);
         $handler = new RecordHandler($app);
 
-        $result = $handler->listTemplates('e*.twig', false);
-        $this->assertArrayHasKey('entry.twig', $result);
-        $this->assertArrayHasKey('extrafields.twig', $result);
+        $result = $handler->listTemplates('s*.twig', false);
+        $this->assertArrayHasKey('search.twig', $result);
+        $this->assertArrayHasKey('styleguide.twig', $result);
         $this->assertArrayNotHasKey('index.twig', $result);
         $this->assertArrayNotHasKey('listing.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);

@@ -48,9 +48,21 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('index.twig', $response->getTemplateName());
     }
 
-    public function testConfiguredHomepageTemplate()
+    public function testConfiguredConfigHomepageTemplate()
     {
         $this->getService('config')->set('general/homepage_template', 'custom-home.twig');
+        $this->setRequest(Request::create('/'));
+
+        $response = $this->controller()->homepage($this->getRequest());
+
+        $this->assertTrue($response instanceof BoltResponse);
+        $this->assertSame('index.twig', $response->getTemplateName());
+    }
+
+
+    public function testConfiguredThemeHomepageTemplate()
+    {
+        $this->getService('config')->set('theme/homepage_template', 'custom-home.twig');
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
@@ -122,7 +134,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($this->getRequest(), 'pages', 'test');
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
+        $this->assertSame('page.twig', $response->getTemplateName());
         $this->assertNotEmpty($response->getGlobalContext());
     }
 
@@ -197,7 +209,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($this->getRequest(), 'pages', 5);
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
+        $this->assertSame('page.twig', $response->getTemplateName());
         $this->assertNotEmpty($response->getGlobalContext());
     }
 
