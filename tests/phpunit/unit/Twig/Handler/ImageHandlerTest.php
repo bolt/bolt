@@ -120,7 +120,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup();
-        $this->assertSame('&nbsp;', $result);
+        $this->assertSame('', $result);
     }
 
     public function testPopupFileNameOnly()
@@ -209,7 +209,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage();
-        $this->assertSame('&nbsp;', $result);
+        $this->assertSame('', $result);
     }
 
     public function testShowImageFileNameOnly()
