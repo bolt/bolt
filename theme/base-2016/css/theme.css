@@ -16,10 +16,29 @@
 [type='search'] {
   box-shadow: none; }
 
+.pagination .active a {
+  color: #e6e6e6;
+  background: #0a0a0a; }
+
+.pagination a {
+  text-decoration: none; }
+
+h1 a, h2 a, h3 a {
+  text-decoration: none; }
+
+@media screen and (min-width: 40em) {
+  h1, h2 {
+    margin-bottom: 2rem; }
+  img {
+    margin: 0 auto 1rem;
+    max-width: 80%;
+    display: block; } }
+
 .menu > li {
   padding: 0; }
   .menu > li a {
-    color: #2B2B2B; }
+    color: #2B2B2B;
+    text-decoration: none; }
   .menu > li.active > a {
     color: #2B2B2B;
     background-color: inherit;

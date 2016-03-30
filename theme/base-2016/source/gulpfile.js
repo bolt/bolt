@@ -43,6 +43,7 @@ var PATHS = {
     'bower_components/foundation-sites/js/foundation.tabs.js',
     'bower_components/foundation-sites/js/foundation.toggler.js',
     'bower_components/foundation-sites/js/foundation.tooltip.js',
+    'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
     'src/assets/js/**/!(app).js',
     'src/assets/js/app.js'
   ]
