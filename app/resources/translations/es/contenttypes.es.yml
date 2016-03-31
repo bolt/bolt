@@ -1,4 +1,4 @@
-# app/resources/translations/es/contenttypes.es.yml – generated on 2016-03-05 08:31:23 UTC
+# app/resources/translations/es/contenttypes.es.yml – generated on 2016-03-31 11:01:10 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,18 +10,25 @@
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   4 untranslated keyword based messages
 #  no translations
-# 104 keyword based translations
+# 100 keyword based translations
 
-#--- 104 keyword based translations -------------------------------------------
+#--- 4 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.showcases.group.meta": # "Meta"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+
+#--- 100 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
         description: "El Tipo de Contenido **Entradas** tipo de contenido puede ser usado para cosas como _'noticias'_ o _'entradas de blog'_. Tienen un sumario, que se puede utilizar para una breve reseña en la vista de listado, permitiendo a los visitantes hacer clic para ver el resto de la entrada. También tiene campos para una imagen y un vídeo opcional. Para cambiar los campos que se encuentran en este Tipo de Contenido, editar el archivo 'contenttypes.yml' contenidos en la carpeta 'app/config/', usando el editor de su elección, o en 'Configuración'» 'Tipos de contenido' en el menú de la izquierda."
         group:
             content: "Contenido"
-            media: "Media"
+            media: "Medios"
         name:
             plural: "Entradas"
             singular: "Entrada"
@@ -45,7 +52,6 @@ contenttypes:
             overview: "Vista general de Entradas"
             publish: "Publicar Entradas"
             recent: "Entradas Recientes"
-            recent-changes-one: "Cambios recientes en Entrada"
             recently-edited: "Entradas editas recientemente"
             reserved-name: "En el Tipo de Contenido 'Entradas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
             save: "Guardar Entrada"
@@ -82,7 +88,6 @@ contenttypes:
             overview: "Vista general de Páginas"
             publish: "Publicar Página"
             recent: "Páginas Recientes"
-            recent-changes-one: "Cambios recientes en Página"
             recently-edited: "Páginas editas recientemente"
             reserved-name: "En el Tipo de Contenido 'Páginas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
             save: "Guardar Página"
@@ -96,8 +101,7 @@ contenttypes:
         description: "El Tipo de Contenido **Escaparates** es usado para mostrar todos los tipos de campos disponibles. En la práctica, sus uso es limitado, pero asegúrese de echar un vistazo para conocer los campos disponibles. Para cambiar (o borrar) los campos que se encuentran en este Tipo de Contenido, editar el archivo 'contenttypes.yml' contenidos en la carpeta 'app/config/', usando el editor de su elección, o en 'Configuración'» 'Tipos de contenido' en el menú de la izquierda."
         group:
             files: "Archivos"
-            media: "Media"
-            meta: "Meta"
+            media: "Medios"
             other: "Otros"
             text: "Texto"
         name:
@@ -123,7 +127,6 @@ contenttypes:
             overview: "Vista general de Escaparates"
             publish: "Publicar Escaparate"
             recent: "Escaparates Recientes"
-            recent-changes-one: "Cambios recientes en Escaparate"
             recently-edited: "Escaparates editados recientemente"
             reserved-name: "En el Tipo de Contenido 'Escaparates', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
             save: "Guardar Escaparate"

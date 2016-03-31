@@ -1,24 +1,30 @@
-# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2015-05-18 11:09:08 UTC
+# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2016-03-31 10:58:39 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   3 untranslated keyword based messages
 #  no translations
-# 106 keyword based translations
+# 101 keyword based translations
 
-#--- 106 keyword based translations -------------------------------------------
+#--- 3 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+
+#--- 101 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
-        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann, und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
+        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
         group:
             content: "Inhalt"
             media: "Medien"
@@ -33,7 +39,6 @@ contenttypes:
             duplicate: "Eintrag kopieren"
             duplicated-finalize: "Inhalt wurde kopiert. Zum Beenden „Eintrag speichern“ klicken."
             edit: "Bearbeite Eintrag"
-            error-saving: "Es gab einen Fehler beim Speichern des Eintrags."
             invalid-field: "Kann %field% im Eintrag nicht setzen. Kein gültiges Feld."
             last-modified: "Zuletzt geänderte Einträge"
             new: "Neuer Eintrag"
@@ -46,7 +51,6 @@ contenttypes:
             overview: "Übersicht Einträge"
             publish: "Eintrag veröffentlichen"
             recent: "Letzte Einträge"
-            recent-changes-one: "Neueste Änderungen an Eintrag"
             recently-edited: "Zuletzt bearbeitete Einträge"
             reserved-name: "Beim Datentyp „Einträge“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
             save: "Eintrag speichern"
@@ -66,12 +70,11 @@ contenttypes:
         text:
             actions-all: "Aktionen für Seiten"
             actions-one: "Aktionen für diese Seite"
-            created: "Diese Seite wurde erstellt"
+            created: "Die Seite wurde erstellt"
             delete: "Seite löschen"
             duplicate: "Seite kopieren"
             duplicated-finalize: "Inhalt wurde kopiert. Zum Beenden „Seite speichern“ klicken."
             edit: "Seite bearbeiten"
-            error-saving: "Konnte die Seite nicht speichern."
             invalid-field: "Kann %field% in der Seite nicht setzen. Kein gültiges Feld."
             last-modified: "Zuletzt geänderte Seiten"
             new: "Neue Seite"
@@ -84,7 +87,6 @@ contenttypes:
             overview: "Seiten Übersicht"
             publish: "Seite veröffentlichen"
             recent: "Letzte Seiten"
-            recent-changes-one: "Neueste Änderungen an Seite"
             recently-edited: "Zuletzt bearbeitete Seiten"
             reserved-name: "Beim Datentyp „Seiten“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
             save: "Seite speichern"
@@ -99,6 +101,7 @@ contenttypes:
         group:
             files: "Dateien"
             media: "Medien"
+            meta: "Meta"
             other: "Sonstiges"
             text: "Text"
         name:
@@ -112,7 +115,6 @@ contenttypes:
             duplicate: "Showcase kopieren"
             duplicated-finalize: "Inhalt kopiert. Zum Fertigstellen „Showcase speichern“ klicken."
             edit: "Showcase bearbeiten"
-            error-saving: "Fehler beim Speichern von Showcase."
             invalid-field: "Kann %field% in Showcase nicht setzen. Kein gültiges Feld."
             last-modified: "Zuletzt bearbeitete Showcases"
             new: "Showcase erstellen"
@@ -125,7 +127,6 @@ contenttypes:
             overview: "Showcases Übersicht"
             publish: "Showcase veröffentlichen"
             recent: "Neue Showcases"
-            recent-changes-one: "Neueste Änderungen an Showcase"
             recently-edited: "Kürzlich bearbeitete Showcases"
             reserved-name: "Beim Datentyp „Showcases“ wurde der Feldname „%field%“ gesetzt. Bitte in contenttypes.yml den Namen ändern, da dies ein reservierter Name ist."
             save: "Showcase speichern"

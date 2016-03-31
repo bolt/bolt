@@ -1,0 +1,135 @@
+# app/resources/translations/hu/contenttypes.hu.yml – generated on 2016-03-31 11:18:08 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  62 untranslated keyword based messages
+#  no translations
+#  42 keyword based translations
+
+#--- 62 untranslated keyword based messages -----------------------------------
+
+"contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.entries.text.duplicated-finalize": # "Content was duplicated. Click 'Save Entry' to finalize."
+"contenttypes.entries.text.invalid-field": # "Can't set %field% in Entry: Not a valid field."
+"contenttypes.entries.text.no-proper-type": # "In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.entries.text.reserved-name": # "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.view": # "View Entries"
+"contenttypes.entries.text.wrong-use-field": # "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.pages.name.plural": # "Pages"
+"contenttypes.pages.name.singular": # "Page"
+"contenttypes.pages.text.actions-all": # "Actions for Pages"
+"contenttypes.pages.text.actions-one": # "Actions for this Page"
+"contenttypes.pages.text.created": # "This Page was created"
+"contenttypes.pages.text.delete": # "Delete Page"
+"contenttypes.pages.text.duplicate": # "Duplicate Page"
+"contenttypes.pages.text.duplicated-finalize": # "Content was duplicated. Click 'Save Page' to finalize."
+"contenttypes.pages.text.edit": # "Edit Page"
+"contenttypes.pages.text.invalid-field": # "Can't set %field% in Page: Not a valid field."
+"contenttypes.pages.text.last-modified": # "Last modified Pages"
+"contenttypes.pages.text.new": # "New Page"
+"contenttypes.pages.text.no-latest": # "No latest Page"
+"contenttypes.pages.text.no-proper-type": # "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.no-recent": # "No recent Page."
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.pages.text.reserved-name": # "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.wrong-use-field": # "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.description": # "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.showcases.group.files": # "Files"
+"contenttypes.showcases.group.other": # "Other"
+"contenttypes.showcases.group.text": # "Text"
+"contenttypes.showcases.name.plural": # "Showcases"
+"contenttypes.showcases.name.singular": # "Showcase"
+"contenttypes.showcases.text.actions-all": # "Actions for Showcases"
+"contenttypes.showcases.text.actions-one": # "Actions for this Showcase"
+"contenttypes.showcases.text.created": # "This Showcase was created"
+"contenttypes.showcases.text.delete": # "Delete Showcase"
+"contenttypes.showcases.text.duplicate": # "Duplicate Showcase"
+"contenttypes.showcases.text.duplicated-finalize": # "Content was duplicated. Click 'Save Showcase' to finalize."
+"contenttypes.showcases.text.edit": # "Edit Showcase"
+"contenttypes.showcases.text.invalid-field": # "Can't set %field% in Showcase: Not a valid field."
+"contenttypes.showcases.text.last-modified": # "Last modified Showcases"
+"contenttypes.showcases.text.new": # "New Showcase"
+"contenttypes.showcases.text.no-latest": # "No latest Showcase"
+"contenttypes.showcases.text.no-proper-type": # "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.no-recent": # "No recent Showcase."
+"contenttypes.showcases.text.none-available": # "No Showcases available."
+"contenttypes.showcases.text.not-existing": # "The Showcase you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.showcases.text.not-saved-yet": # "This Showcase has not been saved yet."
+"contenttypes.showcases.text.overview": # "Showcases overview"
+"contenttypes.showcases.text.publish": # "Publish Showcase"
+"contenttypes.showcases.text.recent": # "Recent Showcases"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+"contenttypes.showcases.text.recently-edited": # "Recently edited Showcases"
+"contenttypes.showcases.text.reserved-name": # "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.save": # "Save Showcase"
+"contenttypes.showcases.text.saved-changes": # "The changes to the Showcase have been saved."
+"contenttypes.showcases.text.saved-new": # "The new Showcase has been saved."
+"contenttypes.showcases.text.saving-impossible": # "Could not save Showcase."
+"contenttypes.showcases.text.show-more": # "More Showcases"
+"contenttypes.showcases.text.view": # "View Showcases"
+"contenttypes.showcases.text.wrong-use-field": # "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+
+#--- 42 keyword based translations --------------------------------------------
+
+contenttypes:
+    entries:
+        group:
+            content: "Tartalom"
+            media: "Média"
+        name:
+            plural: "Bejegyzések"
+            singular: "Bejegyzés"
+        text:
+            actions-all: "Műveletek a Bejegyzésekhez"
+            actions-one: "Műveletek ehhez a Bejegyzéshez"
+            created: "Ez a Bejegyzés létrehozva"
+            delete: "Bejegyzés törlése"
+            duplicate: "Bejegyzés duplikálása"
+            edit: "Bejegyzés szerkesztése"
+            last-modified: "Utoljára módosított Bejegyzések"
+            new: "Új Bejegyzés"
+            no-latest: "Nincs legutóbbi Bejegyzés"
+            no-recent: "Nincs friss Bejegyzés."
+            none-available: "Nincs elérhető Bejegyzés."
+            not-existing: "A Bejegyzés amit keresett nem létezik. Biztosan törölték vagy nem is létezett."
+            not-saved-yet: "Ez a Bejegyzés még nincs mentve."
+            overview: "Bejegyzések áttekintése"
+            publish: "Bejegyzés publikálása"
+            recent: "Friss Bejegyzések"
+            recently-edited: "Nemrégiben módosított Bejegyzések"
+            save: "Bejegyzés mentése"
+            saved-changes: "A Bejegyzés módosításai mentve."
+            saved-new: "Az új Bejegyzés mentve."
+            saving-impossible: "A Bejegyzés nem menthető."
+            show-more: "Még több Bejegyzés"
+    pages:
+        group:
+            content: "Tartalom"
+        text:
+            none-available: "Nincs elérhető Oldal."
+            not-existing: "Az Oldal amit keresett nem létezik. Biztosan törölték vagy nem is létezett."
+            not-saved-yet: "Ez az Oldal még nincs mentve."
+            overview: "Oldalak áttekintése"
+            publish: "Oldal publikálása"
+            recent: "Friss Oldalak"
+            recently-edited: "Nemrégiben módosított Oldalak"
+            save: "Oldal mentése"
+            saved-changes: "Az Oldal módosításai mentve."
+            saved-new: "Az új Oldal mentve."
+            saving-impossible: "Az Oldal nem menthető."
+            show-more: "Még több Oldal"
+            view: "Oldalak megtekintése"
+    showcases:
+        group:
+            media: "Média"
+            meta: "Meta"

@@ -1,24 +1,26 @@
-# app/resources/translations/zh_TW/contenttypes.zh_TW.yml – generated on 2015-03-13 23:00:56 UTC
+# app/resources/translations/zh_TW/contenttypes.zh_TW.yml – generated on 2016-03-31 11:47:49 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#   1 untranslated keyword based messages
+#   3 untranslated keyword based messages
 #  no translations
-# 102 keyword based translations
+# 101 keyword based translations
 
-#--- 1 untranslated keyword based messages ------------------------------------
+#--- 3 untranslated keyword based messages ------------------------------------
 
-"contenttypes.pages.group.content":  "內容"
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
 
-#--- 102 keyword based translations -------------------------------------------
+#--- 101 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
@@ -37,7 +39,6 @@ contenttypes:
             duplicate: "複製條目"
             duplicated-finalize: "內容已複製。點選 '儲存條目' 以確認。"
             edit: "編輯條目"
-            error-saving: "儲存次條目時發生錯誤"
             invalid-field: "未能設定條目的%field%欄位：欄位無效。"
             last-modified: "最近修改的條目"
             new: "新建條目"
@@ -61,6 +62,8 @@ contenttypes:
             wrong-use-field: "“條目(Entry)”的內容格式配置資訊中，欄位'%field%'所設定的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml檔案，修復此問題。"
     pages:
         description: "內容格式**頁面**可用在站點的 '靜態' 內容上，例如 _'關於我們'_, _'聯繫資訊'_ 或者 _'免責聲明'_。要更改這項內容格式的內部欄位，請用自己喜歡的編輯器編輯 `app/config/` 資料夾下的 `contenttypes.yml` 檔案，或者開啟左側的 '配置' » '內容格式' 選單。"
+        group:
+            content: "內容"
         name:
             plural: "頁面"
             singular: "頁面"
@@ -72,7 +75,6 @@ contenttypes:
             duplicate: "複製頁面"
             duplicated-finalize: "內容已複製。點選 '儲存頁面' 以確認。"
             edit: "編輯頁面"
-            error-saving: "儲存次頁面時發生錯誤"
             invalid-field: "未能設定頁面的%field%欄位：欄位無效。"
             last-modified: "最近修改的頁面"
             new: "新建頁面"
@@ -99,6 +101,7 @@ contenttypes:
         group:
             files: "檔案"
             media: "媒體"
+            meta: "元"
             other: "其他"
             text: "文字"
         name:
@@ -112,7 +115,6 @@ contenttypes:
             duplicate: "複製展區"
             duplicated-finalize: "內容已複製。點選 '儲存展區' 以確認。"
             edit: "編輯展區"
-            error-saving: "儲存次展區時發生錯誤"
             invalid-field: "未能設定展區的%field%欄位：欄位無效。"
             last-modified: "最近修改的展區"
             new: "新建展區"

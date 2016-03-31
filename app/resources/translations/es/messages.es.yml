@@ -1,4 +1,4 @@
-# app/resources/translations/es/messages.es.yml – generated on 2016-03-05 06:50:18 UTC
+# app/resources/translations/es/messages.es.yml – generated on 2016-03-31 11:01:36 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,14 +9,126 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 434 translations
-# 141 keyword based translations
+#  97 untranslated messages
+#  10 untranslated keyword based messages
+# 339 translations
+# 131 keyword based translations
 
-#--- 434 translations ---------------------------------------------------------
+#--- 97 untranslated messages -------------------------------------------------
 
-"%name% № %id%": "%name% № %id%"
+"%name% № %id%": #
+"Add Selected": #
+"Add a new extension using the form below.": #
+"Alt": #
+"Are you sure you wish to delete these records? There is no undo.": #
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": #
+"Browse Versions": #
+"Cannot check for updates in read-only mode": #
+"Cannot check installed packages in read-only mode": #
+"Check for updates": #
+"Check/Uncheck all": #
+"Checking for available updates (this may take up to 60 seconds)": #
+"Checking installed packages": #
+"Config": #
+"Configure Extensions": #
+"Copy to theme folder": #
+"Copying theme assets …": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Everything is up to date!": #
+"Extend %boltname%": #
+"Extension": #
+"Extensions loading has been disabled by an administrator in the %config% file. ": #
+"Extras": #
+"Html": #
+"Id": #
+"If you would like to give the theme an alternative name you can add one here.": #
+"Info": #
+"Install Package": #
+"Install This Version": #
+"Install a new Extension": #
+"Install all Packages": #
+"Install all updates": #
+"Installation complete": #
+"Installing package": #
+"Installing selected package version (this may take up to 60 seconds).": #
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
+"Malformed JSON response. Ensure no debugging or other code is being added to the response": #
+"Markdown": #
+"Meta": #
+"More info/help": #
+"Multiselect": # "Multi-select"
+"No Bolt Extensions installed.": #
+"No Stable Versions Available": #
+"No Test Versions Available": #
+"No results found for '%search%'. Please try another search.": #
+"No such user.": #
+"Omnisearch": #
+"Other content": #
+"Please confirm that you want to remove this extension?": #
+"Please enter a new folder name": #
+"Preparing to install package …": #
+"Preparing to remove package …": #
+"Readme": #
+"Remove selected": #
+"Roles": #
+"Run all Updates": #
+"Run update check": #
+"Running install of all packages …": #
+"Running update …": #
+"Searching for available updates …": #
+"Slug": #
+"Stable versions": #
+"Status": #
+"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": #
+"The field %field% has been changed to \"%newValue%\"": #
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": #
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": #
+"Theme installation complete": #
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": # "There was an error uploading the file.\\\nMake sure that the file type is of:\\\n%typelist%\n"
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": # "Sítio criado em <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>CMS Bolt</a>."
+"This will install all available updates.": #
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": #
+"This will overwrite any existing files! Are you sure?": #
+"This won't install anything, just show you available updates": #
+"Thumbnail": #
+"Tip:": #
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"Uninstall": #
+"Unique Alias": #
+"Unstable test versions": #
+"Update Package": #
+"Updates": #
+"Uploading": #
+"Version": #
+"Versions": #
+"Video": #
+"View/install Extensions": #
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+"You can discover new extensions by visiting": #
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": #
+"You do not have the right privileges to %ACTION% that record.": #
+"You do not have the right privileges to upload.": #
+"Your Currently Installed Extensions": #
+"cURL experienced an error: %errormessage%": #
+"general.bolt-documentation-on-github": # "Bolt documentation on GitHub"
+
+#--- 10 untranslated keyword based messages -----------------------------------
+
+"contenttypes.generic.group.meta": # "Meta"
+"field.general.select-from-stack": # "Select from stack"
+"field.geolocation.title-pin": # "Marker"
+"field.markdown.label.markedview": # "Markdown"
+"field.slug.message.set": # "Set the slug to:"
+"field.slug.message.unlock": # "Are you sure you wish to unlock the slug? This might break existing links to this record."
+"field.video.pixel": # "pixel"
+"field.video.preview.button.close": # "Close"
+"field.video.preview.no-url": # "No video url is set, no video to show."
+"page.edit-users.activated.no": # "no"
+
+#--- 339 translations ---------------------------------------------------------
+
 "%s files could not be deleted. You should delete them manually.": " %s archivos no pueden ser eliminados. Debes eliminarlos manualmente."
 "(default template)": "(plantilla predeterminada)"
 "(no category)": "(sin categoría)"
@@ -26,13 +138,11 @@
 "Actions": "Acciones"
 "Add a brief, optional comment to describe what's changed.": "Añadir un breve comentario, opcional para describir lo que ha cambiado."
 "Add a comment:": "Añade un comentario:"
-"Add a new extension using the form below.": "Agregar una nueva extensión utilizando el siguiente formulario."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Lástima, ¡no hay acerca!"
 "All content types": "Todos los tipos de contenido"
 "All users": "Todos los usuarios"
-"Alt": "Alt"
 "An error occurred.": "Ha ocurrido un error."
 "Anonymous": "Anónimo"
 "Are you sure you want to delete %FILENAME%?": "¿Seguro que quieres eliminar %FILENAME%?"
@@ -40,23 +150,18 @@
 "Are you sure you want to remove these images?": "¿Seguro que quieres borrar estas imágenes?"
 "Are you sure you want to remove this file?": "¿Seguro que quieres borrar este archivo?"
 "Are you sure you want to remove this image?": "¿Seguro que quieres borrar esta imagen?"
-"Are you sure you wish to delete these records? There is no undo.": "¿Está seguro de que desea eliminar estos registros? No se puede deshacer."
 "Are you sure you wish to delete this record? There is no undo.": "¿Está seguro que desea eliminar este registro? No se puede deshacer."
 "Author:": "Autor"
-"Before you can start using the theme on your site we need to make a copy to your theme folder.": "Antes de poder empezar a utilizar el tema en su sitio tenemos que hacer una copia a su carpeta de temas."
 "Below are the third party libraries that are used by Bolt.": "Enseguida se muestran las librerías de terceros usadas por Bolt."
 "Body": "Cuerpo"
 "Bolt - Fatal error.": "Bolt - Error fatal"
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "La extensión de Bolt no pudo ser encontrar. Por favor, compruebe en  %site% para estar seguro de el nombre correcto."
-"Browse Versions": "Versión del navegador"
 "Browser / platform": "Navegador / plataforma"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Rol incorporado, otorgado automáticamente todo el tiempo, incluso si el usuario no ha iniciado sesión"
 "Built-in role, automatically granted to every registered user": "Rol incorporado, otorgado automáticamente a cada usuario registrado"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Rol incorporado, solamente válido en el contexto de un recurso, y automáticamente asignado al propietario del recurso"
 "Built-in superuser role, automatically grants all permissions": "Rol incorporado de superadministrador, automáticamente otorga todos los permisos"
 "Cancel": "Cancelar"
-"Cannot check for updates in read-only mode": "No se puede comprobar si hay actualizaciones en modo de sólo lectura"
-"Cannot check installed packages in read-only mode": "No es posible comprobar los paquetes instalados en modo de sólo lectura"
 "Categories": "Categorías"
 "Category": "Categoría"
 "Change Log": "(Registro de cambios)"
@@ -66,9 +171,6 @@
 "Chapters": "Capítulos"
 "Check again": "Verficar de nuevo"
 "Check database": "Verificar base de datos"
-"Check for updates": "Buscar actualizaciones"
-"Checking for available updates (this may take up to 60 seconds)": "Comprobar actualizaciones disponibles (esto puede tardar hasta 60 segundos)"
-"Checking installed packages": "Comprobar los paquetes instalados"
 "Choose an entry": "Escoger una entrada"
 "Class:": "Clase:"
 "Clear Change Log": "Limpiar Registro de Cambios"
@@ -81,9 +183,7 @@
 "Close editor": "Cerrar editor"
 "Code:": "Código:"
 "Collapse sidebar": "Colapsar barra lateral"
-"Config": "Configuración"
 "Configuration": "Configuración"
-"Configure Extensions": "Configurar Extensiones"
 "Content": "Contenido"
 "Content '%title%' could not be deleted.": "El contenido %title% no puede ser eliminado."
 "Content '%title%' could not be modified.": "El contenido %title% no puede ser modificado."
@@ -92,8 +192,6 @@
 "Content Type Permissions": "Permisos por tipo de contenido"
 "Content for home not found!": "Contenido para página de inicio no encontrado!"
 "Contenttypes": "Tipos de contenido"
-"Copy to theme folder": "Copiar a la carpeta de temas"
-"Copying theme assets …": "Copia de elementos del tema ..."
 "Create folder": "Crear carpeta"
 "Create the first user": "Crear el primer usuario"
 "Created on:": "Creado el:"
@@ -116,7 +214,6 @@
 "Deselect all": "Deseleccionar todo"
 "Detail template": "Detalles de la plantilla"
 "Details": "Detalles"
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detectamos que la versión de Bolt cambió a <b>%VERSION%</b>,y la cache ha sido limpiada. Por favor, <a href=\"%URI%\">compruebe la base de datos</a>, si aún no lo a hecho."
 "Disable %username%": "Deshabilitar a %username%"
 "Do you really want to delete %FOLDERNAME%?": "¿Realmente quieres borrar %FOLDERNAME%?"
 "Done!": "¡Hecho!"
@@ -127,14 +224,9 @@
 "Edit file": "Editar fichero"
 "Enable %username%": "Habilitar %username%"
 "Everybody": "Todos los usuario"
-"Everything is up to date!": "¡Todo está actualizado!"
 "Excerpt": "Extracto"
 "Expand sidebar": "Expandir barra lateral"
-"Extend %boltname%": "Extender %boltname%"
-"Extension": "Extensiones"
 "Extensions": "Extensiones"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "La carga de las extensiones ha sido deshabilitada por un administrador en el archivo de %config%. "
-"Extras": "Extras"
 "Failed to send password request. Please check the email settings.": "No se pudo enviar el pedido de contraseña. Por favor, compruebe los ajustes de correo electrónico."
 "Field “%FIELD_NAME%”:": "Campo “%FIELD_NAME%”:"
 "File": "Archivo"
@@ -165,25 +257,12 @@
 "Global Permissions": "Permisos globales"
 "Has to be a floating point number!": "Tiene que ser un número de coma flotante!"
 "Hints:": "Consejos"
-"Html": "Html"
 "IP address": "Dirección IP"
-"Id": "Id"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Si hay una página con el slug 'about' esta se mostrará aquí. Pero si no lo la hay, vas a ver este mensaje."
-"If you would like to give the theme an alternative name you can add one here.": "Si desea dar al tema un nombre alternativo se puede añadir uno aquí."
 "Image": "Imagen"
 "Imagelist": "Lista de imágenes"
-"Info": "Info"
-"Install Package": "Instalar Paquete"
-"Install This Version": "Instalar Esta Versión"
-"Install a new Extension": "Instalar una nueva Extensión"
-"Install all Packages": "Instalar todos los Paquetes"
-"Install all updates": "Instalar todas las actualizaciones"
-"Installation complete": "Instalación completa"
-"Installing package": "Instalación de paquete"
-"Installing selected package version (this may take up to 60 seconds).": "Instalar la versión del paquete seleccionado (esto puede tardar hasta 60 segundos)."
 "Integerfield": "Campo Entero"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "'Path' no válido para el menú (%PATH%), establecida en menu.yml. No coincide con ningún tipo de contenido o ruta configurada."
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "'Path' no válido en el menú (%PATH%), establecido en menu.yml. ¡Probablemente debería haber un 'link': en su lugar!"
 "Is required or needs to match a pattern!": "Es requerido o se necesita que coincida con un patrón"
 "Is required!": "¡Es requerido!"
 "Keyword …": "Palabra clave"
@@ -198,40 +277,28 @@
 "Long messages": "Mensajes largos"
 "Main configuration": "Configuración principal"
 "Maintenance": "Mantenimiento"
-"Malformed JSON response. Ensure no debugging or other code is being added to the response": "Respuesta JSON con formato incorrecto. Asegurase que no esta depurando o se añade otro código para la respuesta"
-"Markdown": "Markdown"
 "Menu setup": "Configuración de menú"
 "Message:": "Mensaje"
 "Messages": "Mensajes"
-"Meta": "Meta"
 "Meta information": "Meta información"
 "Modifications made to the database:": "Modificaciones hechas a la base de datos:"
 "Modifications needed:": "Modificaciones necesarias"
 "Modified": "Modificado"
-"More info/help": "Más información/ayuda"
-"Multiselect": "Multi-select"
 "New Bolt site has been set up": "Nuevo sitio Bolt ha sido establecido"
-"No Bolt Extensions installed.": "No hay Extensiones de Bolt instaladas"
-"No Stable Versions Available": "No Hay Versiones Estables Disponibles"
-"No Test Versions Available": "No hay versiones de prueba disponibles"
 "No content found.": "No se ha encontrado el contenido"
 "No files in the list, yet.": "Todavía no hay archivos en la lista"
 "No images in the list, yet.": "Todavía no hay imágenes en la lista"
 "No relations found!": "¡No se han encontrado relaciones!"
-"No results found for '%search%'. Please try another search.": "No hay resultados para %search%. Prueba otra búsqueda. "
 "No such action for content.": "No existe esa acción para el contenido."
 "No such action for user '%s'.": "No existe esa acción para el usuario '%s'."
-"No such user.": "Este usuario no existe."
 "No theme name found. Theme is not generated.": "Nombre del tema no encontrado, no se generó el tema"
 "None": "Nada"
 "Not published": "No publicado"
 "Not yet installed.": "Todavía no se ha instalado"
 "Note:": "Nota"
-"Omnisearch": "Omnisearch"
 "Only root can change file extensions.": "Solo root puede cambiar las extensiones de archivo"
 "Options": "Opciones"
 "Order: %sort%": "Ordenar: %sort%"
-"Other content": "Otro contenido"
 "Overview": "Listado"
 "Overview for": "Listado de"
 "Owner": "Propietario"
@@ -246,15 +313,11 @@
 "Permissions": "Permisos"
 "Place on stack": "Poner en la pila"
 "Please choose the record you want to link to:": "Seleccione el registro al que quiere enlazar:"
-"Please confirm that you want to remove this extension?": "Por favor confirme, ¿desea eliminar esta extensión?"
 "Please enter a new file name!": "Por favor, ¡introduzca un nuevo nombre de archivo!"
-"Please enter a new folder name": "Por favor, ¡introduzca un nuevo nombre de carpeta"
 "Please enter a new folder name!": "Por favor, ¡introduzca un nuevo nombre de carpeta!"
 "Please log on.": "Por favor inicia sesión."
 "Please provide a username": "Por favor proporciona un nombre de usuario"
 "Prefill database": "Rellenar base de datos"
-"Preparing to install package …": "Preparando para instalar paquete"
-"Preparing to remove package …": "Preparando para remover paquete"
 "Preview": "Previsualizar"
 "Profile": "Perfil"
 "Provided by:": "Proporcionado por"
@@ -263,18 +326,11 @@
 "Published": "Publicado"
 "Published on:": "Publicado el:"
 "Read more": "Leer más"
-"Readme": "Léeme"
 "Related content": "Contenido relacionado"
 "Related content:": "Contenido Relacionado"
 "Relationships": "Relaciones"
-"Remove selected": "Eliminar selección"
 "Rename %foldername%": "Renombrar %foldername%"
-"Roles": "Roles"
 "Roles and Permissions": "Roles y permisos"
-"Run all Updates": "Ejecutar todas las actualizaciones"
-"Run update check": "Ejecutar comprobación de actualización"
-"Running install of all packages …": "Ejecutar instalación de todos los paquetes ..."
-"Running update …": "Ejecutar actualiazación ..."
 "Save & create new record": "Guardar y crear nuevo registro"
 "Save & return to overview": "Guardar y regresar al listado"
 "Saved on:": "Guardado el"
@@ -283,7 +339,6 @@
 "Search for …": "Buscar por ..."
 "Search results for <b> %search% </b>.": "Resultados para la búsqueda <strong>%search%</strong>."
 "Search …": "Buscar…"
-"Searching for available updates …": "Buscando actualizaciones disponibles"
 "Select": "Seleccionar"
 "Select a page": "Selecciona una página"
 "Select all": "Seleccionar todo"
@@ -300,15 +355,11 @@
 "Size": "Tamaño"
 "Skipped <tt>%key%</tt> (already has records)": "Saltado <tt>%key%</tt> (ya tiene registros)"
 "Skipped <tt>%key%</tt> (not checked)": "Saltado <tt>%key%</tt> (no verificado)"
-"Slug": "Slug"
 "Slug:": "Slug"
 "Something went wrong": "Algo salió mal"
 "Sophisticated, lightweight & simple CMS": "CMS sofisticado, ligero y simple"
-"Stable versions": "Versiones estable"
 "Stack": "Pila"
-"Status": "Estado"
 "Status:": "Estado:"
-"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.": "La biblioteca 'cURL' no es compatible con TLS, o la configuración de la entidad emisora de certificados no se ha completado (%ERROR%). Ver http://curl.haxx.se/docs/sslcerts.html para más detalles. Prueba con HTTP."
 "Tag": "Etiqueta"
 "Tags": "Etiquetas"
 "Taxonomy": "Taxonomía"
@@ -321,9 +372,6 @@
 "The Bolt extensions file '%composerjson%' isn't readable.": "El archivo de las extensiones de Bolt '%composerjson%' no se puede leer"
 "The change log has been cleared.": "El regisgro de cambios se ha despejado"
 "The change log has been trimmed.": "El registro de cambios se ha recortado"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "La base de datos necesita ser actualizada / reparada. Ve a 'Configuración' > '<a href=\"%link%\">Verificar base de datos</a>'"
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "El directorio de las extensiones (<code>%dir%</code>) no existe, o no se puede escribir."
-"The field %field% has been changed to \"%newValue%\"": "El campo %field% ha cambiado a \"%newValue%\""
 "The file '%s' doesn't exist, or is not readable.": "El archivo '%s' no existe o no se puede leer."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "El archivo '%s' no es editable. Necesitas usar tu propio editor para hacer modificaciones al archivo."
 "The folder '%s' could not be found, or is not readable.": "Las carpeta '%s' no se pudo encontrar, o no es legible."
@@ -338,28 +386,17 @@
 "The translations file '%s' is not readable.": "El archivo de traducción '%s' no se puede leer."
 "The value has to be at least “%MINVAL%”!": "¡El valor tiene que ser por lo menos “%MINVAL%”!"
 "The value must not be greater than “%MAXVAL%”!": "¡El valor no puede ser más grande que “%MAXVAL%”!"
-"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": "Las versiones que figuran a continuación son compatibles con la versión de Bolt que está utilizando. Puesto que son versiones inestables, se recomienda <strong>no</strong> las utilizan en sistemas de producción."
-"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": "Las siguientes versiones fueron marcadas por el desarrollador como versiones estables y son compatibles con la versión de Bolt que está utilizando actualmente."
-"Theme installation complete": "Instalación del tema completada"
 "Theme successfully generated. You can now edit it directly from your theme folder.": "Tema generado exitosamente. Puedes editarlo directamente desde la carpeta de temas"
 "There are no items on the Stack, yet.": "Todavía no hay elementos en la Pila"
 "There are no saved changes, yet.": "Todavía no has guardado los cambios"
 "There are no users in the database. Please create the first user.": "No hay usuarios en la base de datos. Por favor crea el primer usuario."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "No hay usuarios presentes en el sistema. Por favor, cree el primer usuario, al cual se le concederá privilegios de root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Siempre debe haber al menos un usuario 'superadministrador'. Acabas de ser promovido. ¡Felicidades!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": "Se ha producido un error al subir el archivo. \\nAsegúrese de que el tipo de archivo es:\\n%typelist%"
 "This is a checkbox": "Esto es una caja de verificación"
 "This record is related to:": "Este registro está relacionado con:"
 "This template adds new fields. Save, then refresh to see these changes.": "Esta plantilla añade nuevos campos. Guarda y continuación actualiza para ver los cambios."
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este sitio web está hecho con <a href='%url%' target='_blank' title='CMS sofisticado, ligero y simple'>Bolt</a>."
-"This will install all available updates.": "Esto instalará todas las actualizaciones disponibles."
-"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "Esto se asegurará de que se hayan instalado todos los paquetes listados. Use esto si ha mudado recientemente a un nuevo servidor o si ha añadido manualmente una extensión."
-"This will overwrite any existing files! Are you sure?": "¡Esto sobrescribirá cualquier archivo existente! ¿Estás seguro?"
-"This won't install anything, just show you available updates": "Esto no va a instalar nada, sólo le mostrará las actualizaciones disponibles"
-"Thumbnail": "Miniaturas"
 "Time in 24h/12h format": "Tiempo en formato 24h/12h"
 "Timed publish": "Publicación Programada"
-"Tip:": "Tip:"
 "Title": "Título"
 "Translations": "Traducciones"
 "Trim Change Log": "Recortar Registro de Cambios"
@@ -371,20 +408,13 @@
 "Unable to delete file: %FILE%": "No se puede borrar el archivo: %FILE%"
 "Unable to rename directory: %DIR%": "No se puede renombrar la carpeta %DIR%"
 "Unable to rename file: %FILE%": "No se puede renombrar el archivo: %FILE%"
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Por desgracia, no se ha encontrado el contenido. Pruebe otra página, o vaya a la <a href=\"%paths_root%\">página de inicio</a>."
-"Uninstall": "Desinstalar"
-"Unique Alias": "Alias Único"
-"Unstable test versions": "Versiones de prueba inestables"
-"Update Package": "Actualizar Paquete"
 "Update the database": "Actualizar la base de datos"
-"Updates": "Actualizaciones"
 "Upload": "Subir"
 "Upload a file to this folder": "Subir un archivo a esta carpeta"
 "Upload file": "Subir archivo"
 "Upload image": "Subir imagen"
 "Upload not allowed": "Subir no está permitido"
 "Uploaded files": "Archivos subidos"
-"Uploading": "Subiendo"
 "Uploading to this folder is not allowed.": "Subir a esta carpeta no está permitido"
 "Used Libraries / Components": "Librerías / Componentes usados"
 "User '%s' could not be deleted.": "El usuario '%s' no puede ser eliminado."
@@ -397,27 +427,18 @@
 "Username or password not correct. Please check your input.": "El usuario o contraseña no es correcto. Por favor verifica lo que escribiste."
 "Users": "Usuarios"
 "Users & Permissions": "Usuarios y Permisos"
-"Version": "Versión"
-"Versions": "Versiones"
-"Video": "Video"
 "View (saved version) on site": "Ver (versión guardada) en el sitio"
 "View Roles": "Ver Roles"
 "View on site": "Ver en el sitio"
 "View related content": "Ver contenido relacionado"
 "View site": "Ver sitio"
 "View/edit Templates": "Ver / Editar plantillas"
-"View/install Extensions": "Ver / Instalar Extensiones"
 "Warning": "Advertencia"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "No se pudo generar el tema. Es probable que Bolt no se puede escribir el directorio de temas. Compruebe los permisos y vuelva a instalar."
 "Written by <em>%name%</em> on %date%": "Escrito por <em>%name%</em> el %date%"
-"You can discover new extensions by visiting": "Puede descubrir nuevas extensiones visitando"
-"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Ahora puede comenzar a utilizar la extensión instalada, la documentación y las instrucciones de aplicación se puede encontrar utilizando el siguiente enlace."
 "You cannot '%s' yourself.": "No puedes '%s' a ti mismo"
-"You do not have the right privileges to %ACTION% that record.": "Usted no tiene los privilegios adecuados para %ACTION% ese registro."
 "You do not have the right privileges to create a new record.": "No tienes los privilegios correctos para crear un nuevo registro."
 "You do not have the right privileges to edit that record.": "No tienes permiso para editar este registro."
 "You do not have the right privileges to edit that user.": "Usted no tiene los privilegios adecuados para editar ese usuario."
-"You do not have the right privileges to upload.": "Usted no tiene los privilegios adecuados para subir archivos."
 "You do not have the right privileges to view that page.": "No tienes permiso para ver esta página."
 "You don't have correct permissions to edit the file '%s'.": "Usted no tiene los privilegios adecuados para editar el archivo '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "Usted no tiene los privilegios adecuados para ver el archivo o directrio '%s'."
@@ -426,18 +447,15 @@
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Es posible que pierdas algunos de los campos de la plantilla con este cambio. Ve a la plantilla y anota sus valores antes de hacer esto."
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Debe establecer 'homepage:' en su archivo 'app/config/config.yml' a un registro existente. Asegúrese de que el contenido se publica, de lo contrario no se mostrará."
 "You've been logged on successfully.": "Has cerrado sesión exitosamente"
-"Your Currently Installed Extensions": "Actualmente Tienes Extensiones Instaladas"
 "Your account is disabled. Sorry about that.": "Tu cuenta está deshabilitada. Lo sentimos."
 "Your database is already up to date.": "Tu base de datos ya está actualizada."
 "Your database is now up to date.": "Tu base de datos ahora está actualizada"
 "and edited": "y editado"
 "back to editing": "regresar a editar"
 "by": "por"
-"cURL experienced an error: %errormessage%": "cURL experimentó un error: %errormessage%"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 "general.about": "Acerca"
 "general.about-bolt": "Acerca de Bolt"
-"general.bolt-documentation-on-github": "Documentación de Bolt en Github (inglés)"
 "general.bolt-on-github": "Bolt en Github"
 "line": "línea:"
 "logs.change-log": "Registro de cambios"
@@ -451,7 +469,7 @@
 "users.actions-for-users": "Acciones para usuarios"
 "users.your-password": "Tu contraseña"
 
-#--- 141 keyword based translations -------------------------------------------
+#--- 131 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -472,7 +490,6 @@ contenttypes:
         duplicated-finalize: "El contenido fue duplicado. Haz clic en 'Guardar %contenttype%'."
         edit: "Editar %contenttype%"
         group:
-            meta: "Meta"
             relations: "Relaciones"
             taxonomy: "Taxonomía"
             ungrouped: "Desagrupados"
@@ -503,7 +520,6 @@ field:
     general:
         allowed-filetypes: "Tipos de archivo permitidos:"
         select-from-server: "Seleccionar desde el servidor"
-        select-from-stack: "Seleccionar de la pila"
     geolocation:
         label:
             address-lookup: "Busqueda de dirección"
@@ -514,15 +530,10 @@ field:
         matched-address: "Dirección correspondiente:"
         placeholder:
             address: "Calle, código postal, ciudad o población"
-        title-pin: "Pin"
     markdown:
         label:
-            markedview: "Markdown"
             preview: "Vista precia"
     slug:
-        message:
-            set: "Establecer el slug a:"
-            unlock: "¿Está seguro que desea desbloquear el slug? Esto podría romper los enlaces existentes a este registro."
         permalink: "Enlace permanente"
     video:
         button:
@@ -532,12 +543,8 @@ field:
             size: "Tamaño"
             url: "URL del video a incrustar"
         matched-video: "Video correspondiente"
-        pixel: "pixel"
         placeholder:
             url: "URL del video en Youtube, Vimeo u otro sitio de videos"
-        preview:
-            button.close: "Cerrar"
-            no-url: "No se ha introducido una URL de un video, no hay video para mostrar."
 
 generic:
     noscript:
@@ -579,7 +586,6 @@ page:
             view: "Ver fichero"
     edit-users:
         activated:
-            no: "no"
             yes: "si"
         button:
             save: "Guardar usuario"
