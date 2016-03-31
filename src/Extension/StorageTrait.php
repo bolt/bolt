@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Helpers\Arr;
 use Pimple as Container;
 
 /**
@@ -16,7 +17,7 @@ trait StorageTrait
      *
      * <pre>
      *  return [
-     *      'alias' => [\Entity\Class\Name => \Repository\Class\Name],
+     *      'alias' => [\Entity\Class::class => \Repository\Class::class],
      *  ];
      * </pre>
      *
@@ -41,6 +42,10 @@ trait StorageTrait
                 'storage',
                 function ($entityManager) use ($app) {
                     foreach ($this->registerRepositoryMappings() as $alias => $map) {
+                        if (Arr::isIndexedArray($map)) {
+                            // Usually caused by [entity, repo] instead of [entity => repo]
+                            throw new \RuntimeException(sprintf('Repository mapping for %s `%s` is not an associative array.', __CLASS__, $alias));
+                        }
                         $app['storage.repositories'] += $map;
                         $app['storage.metadata']->setDefaultAlias($app['schema.prefix'] . $alias, key($map));
                         $entityManager->setRepository(key($map), current($map));
