@@ -13,10 +13,10 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the {theme_path}/base-2014 folder, and
+# The theme to use. Be sure to copy the {theme_path}/base-2016 folder, and
 # change the name here accordingly.
 #
-# Don't edit the templates in theme/base-2014, because they _will_ get updated
+# Don't edit the templates in theme/base-2016, because they _will_ get updated
 # in next releases
 theme: base-2016
 
