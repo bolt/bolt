@@ -325,10 +325,10 @@ class Config
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($general['cookies_domain'])) {
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $hostname = $_SERVER['HTTP_HOST'];
-            } elseif (isset($_SERVER['SERVER_NAME'])) {
+            if (isset($_SERVER['SERVER_NAME'])) {
                 $hostname = $_SERVER['SERVER_NAME'];
+            } elseif (isset($_SERVER['HTTP_HOST'])) {
+                $hostname = reset(explode(':', $_SERVER['HTTP_HOST']));
             } else {
                 $hostname = '';
             }
