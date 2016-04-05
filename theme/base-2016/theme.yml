@@ -48,10 +48,3 @@ templatefields:
         image:
             type: image
 
-# There can be defined the templates for the template chooser
-templateselect:
-    templates:
-         - name: 'Template with extra fields'
-           filename: 'extrafields.twig'
-         - name: 'Another template with extra fields'
-           filename: 'anotherextrafields.twig'
