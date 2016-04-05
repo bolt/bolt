@@ -9,7 +9,7 @@
     %}
 
     {% if not async %}
-        {{ include('@bolt/_sub/_record_list_data.twig'}) }}
+        {{ include('@bolt/_sub/_record_list_data.twig') }}
     {% endif %}
 
     {% set selection_toolbar %}
@@ -20,7 +20,7 @@
     {% endset %}
 
     {% if not async %}
-        <div class="buic-listing" data-bolt-widget="buicListing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+        <div class="buic-listing" data-bolt-widget="buicListing" data-contenttype="{{ contenttype.slug }}" data-contenttype-name="{{ contenttype.singular_name }}" data-bolt_csrf_token="{{ token() }}">
     {% endif %}
         <table class="{{ extra_classes }} dashboardlisting listing">
             {% for content in multiplecontent %}
