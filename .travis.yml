@@ -71,7 +71,7 @@ before_script:
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
   # Get the composer.json from our bolt/composer-install repo
   - git clone https://github.com/bolt/composer-install.git .tmp
-  # - cd .tmp
+  - cd .tmp git && git checkout release/2.2 && cd ..
   # Add requires
   - composer require --working-dir=.tmp/ --no-update "bolt/bolt:2.2.*@dev" "phpunit/phpunit:^4.5" "codeception/codeception:<=2.1.2" lstrojny/phpunit-function-mocker:dev-master
   # Create the project
