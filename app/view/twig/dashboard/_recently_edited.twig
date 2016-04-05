@@ -7,6 +7,8 @@
         <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
 </div>
 
+{{ include('@bolt/_sub/_record_list_data.twig') }}
+
 <div class="buic-listing" data-bolt-widget="buicListing">
     <table class="table dashboardlisting listing">
         {% for content in multiplecontent %}
