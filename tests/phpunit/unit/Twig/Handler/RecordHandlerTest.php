@@ -490,22 +490,23 @@ GRINGALET;
         $app = $this->getApp();
         $app['config']->set('theme/templateselect/templates', [
             'koala' => [
-                'name'     => 'koala.twig',
-                'filename' => 'koala.twig',
+                'name'     => 'Koala',
+                'filename' => 'extrafields.twig',
             ],
             'clippy' => [
-                'name'     => 'clippy.twig',
-                'filename' => 'clippy.twig',
+                'name'     => 'Clippy',
+                'filename' => 'anotherextrafields.twig',
             ],
         ]);
         $handler = new RecordHandler($app);
 
-        $result = $handler->listTemplates('*.twig', false);
-        $this->assertArrayHasKey('koala.twig', $result);
-        $this->assertArrayHasKey('clippy.twig', $result);
+        $result = $handler->listTemplates('*extra*', false);
+        $this->assertArrayHasKey('extrafields.twig', $result);
+        $this->assertArrayHasKey('anotherextrafields.twig', $result);
+        $this->assertContains('Koala', $result);
+        $this->assertContains('Clippy', $result);
 
         $this->assertArrayNotHasKey('entry.twig', $result);
-        $this->assertArrayNotHasKey('extrafields.twig', $result);
         $this->assertArrayNotHasKey('index.twig', $result);
         $this->assertArrayNotHasKey('listing.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);
