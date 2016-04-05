@@ -178,7 +178,8 @@ class UtilsHandler
      *
      * @return boolean
      */
-    private function allowDebug($safe) {
+    private function allowDebug($safe)
+    {
         return (
             !$safe &&
             ( ($this->app['debug'] && $this->app['users']->getCurrentUser()) ||
