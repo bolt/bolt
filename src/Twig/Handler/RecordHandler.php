@@ -178,20 +178,7 @@ class RecordHandler
             return null;
         }
 
-        // Get the active themeconfig
-        $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
         $files = [];
-
-        // Check: Are the templates for template chooser defined?
-        if ($themeConfig) {
-            foreach ($themeConfig as $templateFile) {
-                if (!empty($templateFile['name']) && !empty($templateFile['filename'])) {
-                    $files[$templateFile['filename']] = $templateFile['name'];
-                }
-            }
-
-            return $files;
-        }
 
         $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';
         $finder = new Finder();
@@ -209,6 +196,18 @@ class RecordHandler
         foreach ($finder as $file) {
             $name = $file->getRelativePathname();
             $files[$name] = $name;
+        }
+
+        // Get the active themeconfig
+        $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
+        
+        // Check: Have we defined names for any of the matched templates?
+        if ($themeConfig) {
+            foreach ($themeConfig as $templateFile) {
+                if (!empty($templateFile['name']) && !empty($templateFile['filename']) && in_array($templateFile['filename'], $files)) {
+                    $files[$templateFile['filename']] = $templateFile['name'];
+                }
+            }
         }
 
         return $files;
