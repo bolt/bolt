@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Pager\PagerManager;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PagerServiceProvider implements ServiceProviderInterface
 {
@@ -19,15 +20,28 @@ class PagerServiceProvider implements ServiceProviderInterface
         // the provider
         $app['pager'] = $app->share(
             function () use ($app) {
-                $manager = new PagerManager();
-                $request = $app['request_stack']->getCurrentRequest();
-                if ($request) {
-                    $manager->initialize($request);
-                }
+                $manager = $app['pager.manager_factory']();
 
                 return $manager;
             }
         );
+
+        $app['pager.manager_factory'] = $app->protect(
+            $app->share(
+                function (Request $request = null) use ($app) {
+                    $manager = new PagerManager();
+                    if (!$request) {
+                        $request = $app['request_stack']->getCurrentRequest();
+                    }
+                    if ($request) {
+                        $manager->initialize($request);
+                    }
+
+                    return $manager;
+                }
+            )
+        );
+
     }
 
     /**

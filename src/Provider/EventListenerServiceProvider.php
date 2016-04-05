@@ -80,7 +80,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.pager'] = $app->share(
             function ($app) {
-                return new Listener\PagerListener($app->raw('pager'));
+                return new Listener\PagerListener($app['pager.manager_factory']);
             }
         );
 

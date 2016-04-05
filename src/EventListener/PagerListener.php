@@ -38,12 +38,10 @@ class PagerListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        // because of vaious type of requests fires event (Frontend/Async/Thumbs/etc.)
+        // because of various type of requests fires event (Frontend/Async/Thumbs/etc.)
         // we're just listening to which has page parameter
         if (PagerManager::isPagingRequest($request)) {
-            /** @var $manager \Bolt\Pager\PagerManager */
-            $manager = $this->managerFactory->__invoke($dummy = null);
-            $manager->initialize($event->getRequest());
+            $this->managerFactory->__invoke($request);
         }
     }
 
