@@ -1,3 +1,17 @@
+{# This file specifies the default output for the `fields()` tag. This file is
+   split into three parts:
+    - The first section initializes the variables and settings, both from the
+      contenttype definitions as well as passed in variables.
+    - The second section defines the macros that are used to output the desired
+      fields in succession.
+    - The last section is where the actual looping is done for the 'contenttype
+      fields', 'repeater fields' and 'template fields' in turn.
+
+    Read the relevant section in the documentation on usage of this
+    functionality: https://docs.bolt.cm/master/fields-tag
+#}
+
+{# SECTION 1: INITIALIZATION #}
 
 {# Set up the array of fieldnames that should be iterated. We do this by looping
    over _all_ the fields, and skipping those in the 'omittedkeys' array. #}
@@ -7,29 +21,46 @@
     {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
 {% endif %}
 
+{# We also skip over the fields that are explicitly excluded. #}
 {% if exclude is iterable %}
     {% set omittedkeys = omittedkeys|merge(exclude) %}
 {% endif %}
 
+{# SECTION 2: MACROS #}
+
+{# If 'allowtwig' is true for this field, we'll need to parse it as
+   Twig here. Note, that we're doing this inside a macro, so the
+   snippet has a limited scope. No global variables, etc. #}
+{% macro parsetextfield(key, value, contenttype) %}
+    {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
+        {% set value = value|twig %}
+    {% endif %}
+
+    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
+{% endmacro %}
+
+{% macro imagelistfield(images) %}
+    <div class="bolt-imagelist">
+        {% for image in images %}
+            <div class="bolt-imageholder">
+                {{ popup(image.filename, 200, 0) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
 
 {# Macro for "basic" fields like HTML, Markdown, Textarea and Text #}
 {% macro commonfields(key, value, fieldtype, contenttype) %}
+        {% import _self as macro %}
 
         {# HTML, Markdown, Textarea, Text fields #}
         {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
-
-            {# If 'allowtwig' is true for this field, we'll need to parse it as Twig here. Note, that we're
-               doing this inside a macro, so the snippet has a limited scope. No global variables, etc. #}
-            {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
-                {% set value = value|twig %}
-            {% endif %}
-
-            <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
+            {{ macro.parsetextfield(key, value, contenttype) }}
         {% endif %}
 
         {# Image fields #}
         {% if fieldtype == "image" %}
-            {{ popup(value, 440, 0) }}
+            {{ popup(value, 1200, 0) }}
         {% endif %}
 
         {# Video fields #}
@@ -39,13 +70,7 @@
 
         {# Imagelist fields #}
         {% if fieldtype == "imagelist" and value is not empty %}
-            <div class="bolt-imagelist">
-                {% for item in value %}
-                    <div class="bolt-imageholder">
-                        {{ popup(item.filename) }}
-                    </div>
-                {% endfor %}
-            </div>
+            {{ macro.imagelistfield(value) }}
         {% endif %}
 
 {% endmacro %}
@@ -67,7 +92,7 @@
 
         {# Checkbox fields #}
         {% if fieldtype == "checkbox" %}
-                <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
+                <p>Checkbox {{ key }}: {{value ? "checked" : "not checked"}}</p>
         {% endif %}
 
         {# No special case defined for this type of field. We just output them, if it's
@@ -86,10 +111,13 @@
 
 {% import _self as macro %}
 
+{# SECTION 3: LOOPING AND ITERATION #}
+
 {# The actual looping is done here. #}
 {% for key, value in record.values if (key not in omittedkeys) %}
 
-    {# Fields that are considered 'common': 'html', 'markdown', 'textarea', 'text', 'image', 'video' and 'imagelist' #}
+    {# Fields that are considered 'common': 'html', 'markdown', 'textarea',
+       'text', 'image', 'video' and 'imagelist' #}
     {% if common == true %}
 
         {% set fieldtype = record.fieldtype(key) %}
