@@ -469,6 +469,8 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
     /**
      * Just for safe_twig. Main twig overrides this function.
+     * 
+     * @see \Bolt\Provider\TwigServiceProvider
      */
     public function printDump()
     {
