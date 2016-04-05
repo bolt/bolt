@@ -9,9 +9,8 @@
     %}
 
     {% if not async %}
-        {{ include('@bolt/_sub/_record_list_data.twig') }}
+        {{ include('@bolt/_sub/_record_list_data.twig'}) }}
     {% endif %}
-
 
     {% set selection_toolbar %}
         <button type="button" data-stb-cmd="record:delete" class="danger separator"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
