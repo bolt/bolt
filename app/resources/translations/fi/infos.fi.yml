@@ -1,0 +1,70 @@
+---
+info:
+  upload:
+    image: |
+      Käytä tätä kenttää lataaksesi kuvan. Klikkaa nappia lataaksesi kuvan koneeltasi, tai uusilla Chrome
+      ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän. <br/>
+      Vaihtoehtoisesti voi käyttää aiemmin ladattua kuvaa. Valitaksesi aiemmin ladatun tiedoston, kirjoita
+      (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
+    file: |
+      Käytä tätä kenttää lataaksesi tiedoston ladattavaksi tai sisällytettäväksi sivustolle. Klikkaa
+      nappia lataaksesi tiedoston koneeltasi, tai uusilla Chrome ja Firefox selaimilla voi raahata tiedoston
+      koneeltasi tai toisesta selainikkunasta tähän. <br/>
+      Vaihtoehtoisesti voi käyttää aiemmin ladattua tiedostoa. Valitaksesi aiemmin ladatun tiedoston, kirjoita
+      (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
+    filelist: |
+      Käytä tätä kenttää lataaksesi useamman tiedoston ja kuvaukset. Kuten yksittäinen "file" kentän kanssa,
+      uusimmilla selaimilla voit raahata tiedostot tähän kenttään. Kokeile vaikka?
+    filesmall: |
+      Käytä tätä lataaksesi tiedoston. Valitaksesi aiemmin ladatun tiedoston, kirjoita
+      (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
+    imagelist: |
+      Käytä tätä kenttää lataaksesi joukon kuvia. Klikkaa nappia lataaksesi kuvan koneeltasi, tai uusilla Chrome
+      ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän. <br/>
+      Vaihtoehtoisesti voi käyttää aiemmin ladattuja kuvia <br/>
+      Voit järjestää kuvia raahamalla ja vaihtaa kuvien kuvauksia.
+    video: |
+      Käytä tätä kenttää upottaaksesi videon sivulle. Raahaa videosivun URL Youtubesta, Vimeosta tai melkein
+      mista tahansa videosivustolta. <br/>
+      Bolt hakee automaattisesti upotuskoodin oikean kokoisena ja alkuperäisella otsikolla. Jos haluat
+      muuttaa leveyttä tai korkeutta, toinen arvo päivittyy sen mukaiseksi säilyttäen kuvasuhteen.
+  geolocation: |
+    Käytä tätä kenttää saadaksesi minkä tahansa osoitteen geosijainti tai sijoita merkki itse raahaamalla
+    pinniä. Ensin anna (summittainen) osoite 'osoite'-kenttään ja vastaavat pituus- ja leveysasteet
+    saadaan Google Maps APIlta yhdessä Googlen löytämän lähimmän oikean osoitteen kanssa. <br>
+    Jos haluat siirtää merkin eri sijaintiin, raahaa pinniä minikartalla. Pituus- ja leveysasteet
+    päivittyvät automaattisesti.
+  markdown: |
+    Markdown on teksti-HTML -muunnostyökalu nettikirjoittajille.
+    <p>Markdown antaa sinun kirjoittaa helposti luettavassa ja kirjoitettavassa selkotekstimuodossa,
+    joka sitten muutetaan rakenteellisesti oikeaan HTML-muotoon.</p>
+    <p><strong>Pikaohje:</strong><br>
+    # Tämä on &lt;h1&gt;-tagi<br>
+    ## Tämä on &lt;h2&gt;-tagi<br>
+    ###### Tämä on &lt;h6&gt;-tagi</p>
+    <p>Tämä on _<em>kursiivi</em>_, tämä on __<strong>paksu</strong>__, ja tämä on
+    ___<em><strong>molempia</strong></em>___. Voit käyttää myös tähtiä: Tämä on *<em>kursiivi</em>*,
+    tämä on **<strong>paksu</strong>**.
+    <p>Luo <a href='#'>linkki</a> näin:<br>
+    Tässä [mielenkiintoinen nettisivu](http://example.org/ &amp;quot;Linkin otsikko&amp;quot;)</p>
+    <p>&nbsp; * Tämä on järjestämätön lista<br>
+    &nbsp; * Toinen rivi</p>
+    <p>&nbsp; 1 Tämä on järjestetty lista<br>
+    &nbsp; 2 Toinen rivi</p>
+  relationships: |
+    Valitsemalla toisen tietueen 'suhteeksi', teet itseasiassa linkin näiden tietueiden välille.
+    Nettisivulla tätä voidaan käyttää 'liittyvät artikkelit, 'katso myös' tarkoituksiin tai näyttämään
+    tämän tietueen merkitys järjestelmässä.
+  taxonomy: |
+    Valitsemalla tietueelle yhden tai useamman luokituksen voit merkitä sen omaamaan tiettyjä ominaisuuksia.
+    Nettisivulla voidaan täten ryhmitellä tietyt tietueet yhteen tai luoda automaattisesti linkkejä
+    vastaavasti luokitetujen tietueiden välille.
+about:
+  bolt: |
+    <p>Bolt on CMS joka pyrkii olemaan yksinkertainen, nopea, suoraviivainen ja mukava käyttää, sekä
+    kehittäjille että sisällöntuottajille. Bolt on avointa lähdekoodia ja se käyttää muita avoimen
+    lähdekoodin komponentteja. Jos olet kehittäjä, olet tervetullut auttamaan Boltin jatkokehityksessä.</p>
+  licence: |
+    <p>Kaikki Boltin osat ovat vapaita käyttää avoimen lähdekoodin MIT lisenssin alaisuudessa. Täysi
+    lisenssiteksti teksti on luettavissa mukanatulevassa <a href="%paths_root%LICENSE.md">LICENSE.md</a> -tiedostossa.
+    </p>

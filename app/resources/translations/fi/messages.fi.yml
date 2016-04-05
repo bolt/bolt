@@ -1,263 +1,660 @@
-# app/resources/translations/de/messages.fi.yml -- generated on 2013/06/08 03:56:43
-# 2 untranslated strings
+# app/resources/translations/fi/messages.fi.yml – generated on 2016-03-31 11:03:24 UTC
 
-"Cancel": "Peruuta"
-"Please choose the %contenttype% you want to link to:": "Valitse haluamasi %contenttype%, joihin haluat linkata"
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
 
-#-----------------------------------------
-# 243 translated strings
+#  no unused messages
+#  88 untranslated messages
+#   9 untranslated keyword based messages
+# 348 translations
+# 132 keyword based translations
 
-"%contenttypes%": "Sisältötyypit"
+#--- 88 untranslated messages -------------------------------------------------
+
+"%name% № %id%": #
+"Add Selected": #
+"Add a new extension using the form below.": #
+"Are you sure you wish to delete these records? There is no undo.": #
+"Before you can start using the theme on your site we need to make a copy to your theme folder.": #
+"Browse Versions": #
+"Cannot check for updates in read-only mode": #
+"Cannot check installed packages in read-only mode": #
+"Check for updates": #
+"Check/Uncheck all": #
+"Checking for available updates (this may take up to 60 seconds)": #
+"Checking installed packages": #
+"Config": #
+"Configure Extensions": #
+"Copy to theme folder": #
+"Copying theme assets …": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Everything is up to date!": #
+"Extend %boltname%": #
+"Extension": #
+"Extensions loading has been disabled by an administrator in the %config% file. ": #
+"Html": #
+"If you would like to give the theme an alternative name you can add one here.": #
+"Info": #
+"Install Package": #
+"Install This Version": #
+"Install a new Extension": #
+"Install all Packages": #
+"Install all updates": #
+"Installation complete": #
+"Installing package": #
+"Installing selected package version (this may take up to 60 seconds).": #
+"Malformed JSON response. Ensure no debugging or other code is being added to the response": #
+"Markdown": #
+"Meta": #
+"More info/help": #
+"No Bolt Extensions installed.": #
+"No Stable Versions Available": #
+"No Test Versions Available": #
+"No results found for '%search%'. Please try another search.": #
+"No such user.": #
+"Other content": #
+"Please confirm that you want to remove this extension?": #
+"Please enter a new folder name": #
+"Preparing to install package …": #
+"Preparing to remove package …": #
+"Readme": #
+"Remove selected": #
+"Run all Updates": #
+"Run update check": #
+"Running install of all packages …": #
+"Running update …": #
+"Searching for available updates …": #
+"Stable versions": #
+"Status": #
+"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
+"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": #
+"The field %field% has been changed to \"%newValue%\"": #
+"The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.": #
+"The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.": #
+"Theme installation complete": #
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": # "There was an error uploading the file.\\\nMake sure that the file type is of:\\\n%typelist%\n"
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": # "Sítio criado em <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>CMS Bolt</a>."
+"This will install all available updates.": #
+"This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": #
+"This will overwrite any existing files! Are you sure?": #
+"This won't install anything, just show you available updates": #
+"Thumbnail": #
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"Uninstall": #
+"Unique Alias": #
+"Unstable test versions": #
+"Update Package": #
+"Updates": #
+"Uploading": #
+"Version": #
+"Versions": #
+"Video": #
+"View/install Extensions": #
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+"You can discover new extensions by visiting": #
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": #
+"You do not have the right privileges to %ACTION% that record.": #
+"You do not have the right privileges to upload.": #
+"Your Currently Installed Extensions": #
+"cURL experienced an error: %errormessage%": #
+"general.bolt-documentation-on-github": # "Bolt documentation on GitHub"
+
+#--- 9 untranslated keyword based messages ------------------------------------
+
+"contenttypes.generic.group.meta": # "Meta"
+"field.general.select-from-stack": # "Select from stack"
+"field.geolocation.title-pin": # "Marker"
+"field.markdown.label.markedview": # "Markdown"
+"field.slug.message.set": # "Set the slug to:"
+"field.slug.message.unlock": # "Are you sure you wish to unlock the slug? This might break existing links to this record."
+"field.video.preview.button.close": # "Close"
+"field.video.preview.no-url": # "No video url is set, no video to show."
+"page.ckeditor-browse-server.pixel": # "px."
+
+#--- 348 translations ---------------------------------------------------------
+
 "%s files could not be deleted. You should delete them manually.": " %s tiedostoja ei voitu tuhota. Tuhoa ne manuaalisesti."
+"(default template)": "(oletussivupohja)"
+"(no category)": "(ei kategoriaa)"
 "(no group)": "(ei ryhmää)"
+"(none)": "(ei mitään)"
+"A password reset link has been sent to '%user%'.": "Salasanan palautuslinkki lähetettiin käyttäjälle '%user%'."
 "Actions": "Toiminnot"
-"Add existing image": "Lisää olemassaoleva kuva"
-"Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Lisää esimerksiksi <a href='%url%'>Diibadaaba tekstiä</a>."
+"Add a brief, optional comment to describe what's changed.": "Lisää lyhyt, valinnainen kuvaus muutoksista."
+"Add a comment:": "Lisää kommentti:"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
-"Alas, no about!": "Voi ei, ei lisätietoja saatavilla!"
-"Allowed contenttypes": "Sallitut sisältötyypit"
+"Alas, no about!": "Voi ei, lisätietoja ei saatavilla!"
+"All content types": "Kaikki sisältötyypit"
+"All users": "Kaikki käyttäjät"
+"Alt": "Alt-teksti"
+"An error occurred.": "Tapahtui virhe."
+"Anonymous": "Anonyymi"
+"Are you sure you want to delete %FILENAME%?": "Haluatko varmasti poistaa %FILENAME%?"
 "Are you sure you want to delete %username%?": "Oletko varma, että haluat poistaa käyttäjän %username% "
+"Are you sure you want to remove these images?": "Haluatko varmasti poistaa nämä kuvat?"
+"Are you sure you want to remove this file?": "Haluatko varmasti poistaa tämän tiedoston?"
+"Are you sure you want to remove this image?": "Haluatko varmasti poistaa tämän kuvan?"
+"Are you sure you wish to delete this record? There is no undo.": "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
 "Author:": "Kirjoittaja:"
 "Below are the third party libraries that are used by Bolt.": "Alla Boltin käyttämät kolmannen osapuolen ohjelmistokirjastot"
-"Body": "Body"
+"Body": "Runko"
 "Bolt - Fatal error.": "Bolt - Vakava virhe."
+"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Bolt laajennosta ei löydy. Tarkista sivusto %site% jotta nimi on oikein."
+"Browser / platform": "Selain / alusta"
+"Built-in role, automatically granted at all times, even if no user is logged in": "Sisäänrakennettu rooli, automaattisesti myötetty aina, myös ilman kirjautuneita käyttäjiä."
+"Built-in role, automatically granted to every registered user": "Sisäänrakennettu rooli, automaattisesti myönnetty jokaiselle rekisteröityneelle käyttäjälle."
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Sisäänrakennettu rooli, kelvollinen vain resurssin yhteydessä, annetaan automaattisesti resurssin omistajalle."
+"Built-in superuser role, automatically grants all permissions": "Sisäänrakennettu pääkäyttäjän rooli, myöntää automaattisesti kaikki oikeudet"
+"Cancel": "Peruuta"
 "Categories": "Kategoriat"
 "Category": "Kategoria"
+"Change Log": "Muutoslogi"
 "Change status to 'draft'": "Vaihda tilaan 'luonnos'"
 "Change status to 'held'": "Vaihda tilaan 'lukittu'"
 "Chapter": "Kappale"
 "Chapters": "Kappaleet"
+"Check again": "Uudelleentarkista"
 "Check database": "Tarkista tietokanta"
-"Clear Activitylog": "Tyhjennä tapahtumaloki"
-"Clear filter": "Tyhjennä suodattimet"
-"Clear sort/filter": "Tyhjennä järjestys ja suodattimet"
+"Choose an entry": "Valitse merkintä"
+"Class:": "Luokka"
+"Clear Change Log": "Tyhjennä muutoslogi"
+"Clear System Log": "Tyhjennä järjestelmälogi"
+"Clear cache again": "Tyhjennä välimuisti uudestaan"
+"Clear filter": "Poista suodattimet"
+"Clear sort/filter": "Poista lajittelu/suodattimet"
 "Clear the cache": "Tyhjennä välimuistit"
+"Click to change current status.": "Klikkaa vaihtaaksesi nykyisen tilan."
+"Close editor": "Sulje editori"
+"Code:": "Koodi:"
+"Collapse sidebar": "Piilota sivupalkki"
 "Configuration": "Asetukset"
+"Content": "Sisältö"
 "Content '%title%' could not be deleted.": "Sisältöä %title% ei voida tuhota."
 "Content '%title%' could not be modified.": "Sisältöä %title% ei voi muokata."
-"Content '%title%' has been changed to 'draft'.": "Sisältö %%title% asetettu tilaan 'luonnos'"
-"Content '%title%' has been changed to 'held'": "Sisältö %title% asetettu tilaan 'lukittu'"
+"Content '%title%' has been changed to '%newStatus%'": "Sisältö '%title%' muutettiin tilaan '%newStatus%'"
 "Content '%title%' has been deleted.": "Sisältö %title% on tuhottu\""
-"Content '%title%' is published.": "Sisältö %title% on julkaistu."
-"Content": "Sisältö"
+"Content Type Permissions": "Sisätötyyppien oikeudet"
+"Content for home not found!": "Kotisivun sisältöä ei löydy"
 "Contenttypes": "Sisältötyypit"
+"Create folder": "Luo kansio"
 "Create the first user": "Luo ensimmäinen käyttäjä"
 "Created on:": "Luotu:"
+"Current (saved) status:": "Nykyinen (tallennettu) tila:"
+"Current sessions": "Nykyiset istunnot:"
 "Current status:": "Tämänhetkinen tila:"
 "Dashboard": "Yleiskatsaus"
-"Database check / update": "Datenbank tarkistus/päivitys"
-"Date": "Päivämäärä"
-"Datetime": "Aikaleima"
+"Database check / update": "Tietokannan tarkistus/päivitys"
+"Date": "Päiväys"
+"Datetime": "Aika"
+"Default status": "Oletustila"
 "Delete %filename%": "Tuhoa %filename%"
+"Delete %foldername%": "Poista %foldername%"
 "Delete %username%": "Tuhoa %username%"
+"Delete selected": "Poista valitut"
 "Deleted %s files from cache.": "Tuhoa tiedostot %s välimuistista"
-"Disable %username%": "Poiskytke %username%"
+"Depublication date:": "Arkistointipäiväys"
+"Depublish date is in the past. Change the status if you want to depublish now": "Arkistointipäiväys on menneisyydessä. Vaihda tila jos haluat arkistoida nyt."
+"Depublish selected": "Arkistoi valitut"
+"Deselect all": "Poista valinnat"
+"Detail template": "Yksityiskohtapohja"
+"Details": "Yksityiskohdat"
+"Disable %username%": "Sulje %username%"
+"Do you really want to delete %FOLDERNAME%?": "Haluatko varmasti poistaa kansion '%FOLDERNAME%'?"
 "Done!": "Valmis!"
+"Draft": "Luonnos"
 "Duplicate %filename%": "Kopioi %filename%"
-"Edit a user": "Muokkaa käyttäjää"
-"Edit file '%s'.": "Muokkaa tiedostoa '%s'"
 "Edit": "Muokkaa"
+"Edit Roles and Permissions": "Muokkaa rooleja ja oikeuksia"
+"Edit file": "Muokkaa tiedostoa"
 "Enable %username%": "Aktivoi %username%"
-"Excerpt": "Poiminto/ingressi"
+"Everybody": "Kaikki"
+"Excerpt": "Näyte"
+"Expand sidebar": "Avaa sivupalkki"
 "Extensions": "Laajennukset"
-"File '%s' could not be saved, for some reason.": "Syystä tahi toisesta tiedostoa '%s' ei voida tallentaa"
+"Extras": "Extrat"
+"Failed to send password request. Please check the email settings.": "Salasananpyynnön lähetys ei onnistunut. Tarkista sähköpostiasetukset."
+"Field “%FIELD_NAME%”:": "Kenttä “%FIELD_NAME%”:"
+"File": "Tiedosto"
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Tiedostoa '%file%' ei voitu ladata (väärä/kielletty tiedostomuoto). Varmista että tiedostomuoto on jokin seuraavista:"
+"File '%file%' could not be uploaded.": "Tiedostoa '%file%' ei voitu ladata."
+"File '%file%' was uploaded successfully.": "Tiedosto '%file%' ladattiin onnistuneesti."
+"File '%s' could not be saved, because the form wasn't valid.": "Tiedostoa '%s' ei voitu tallentaa, koska lomake oli virheellinen."
+"File '%s' could not be saved, for some reason.": "Jostain syystä tiedostoa '%s' ei voida tallentaa."
 "File '%s' could not be saved:": "Tiedostoa '%s' ei voida tallentaa:"
 "File '%s' has been saved.": "Tiedosto '%s' tallennettu."
 "File Management": "Tiedostohallinta"
-"File": "Tiedosto"
-"Files in %s": "Tiedostot sijainnissa %s"
+"File is not readable!": "Tiedostoa ei voida lukea."
+"Filelist": "Tiedostolistaus"
 "Files": "Tiedostot"
-"Files: %path%": "Tiedostot: %path%"
-"Filesize": "Tiedostokoko"
-"Fill the database with Dummy Content": "Käytä tietokanta diibadaaba-sisällöllä"
+"Files in %s": "Tiedostot sijainnissa %s"
+"Files on the stack": "Pinon tiedostot"
+"Filesize": "Koko"
+"Fill the database with Dummy Content": "Täytä tietokanta mallisisällöllä"
 "Filter": "Suodatin"
-"Filtering:": "Suodatukset:"
+"Filtering": "Suodatus"
+"Find": "Etsi"
 "Floatfield": "Liukulukukenttä"
 "Folder '%s' could not be found, or is not readable.": "Hakemistoa '%s' ei löydy tai sitä ei voida lukea."
+"Folder permissions insufficient": "Puutteeliset kansion oikeudet"
 "Folders": "Hakemistot"
+"Full list …": "Koko lista …"
 "Geolocation": "Geolokaatio"
-"Html": "Html"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Jos tässä olisi sivu osoitteella 'about', se näytettäisiin tässä. Sitä ei ole, joten tässä tämä diibadaaba-sivu."
+"Global Permissions": "Globaalit oikeudet"
+"Has to be a floating point number!": "Vaaditaan liukulukunumero!"
+"Hints:": "Vihjeet:"
+"IP address": "IP-osoite"
+"Id": "Tunnus"
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Jos olisi sivu tunnisteella 'about', se näytettäisiin tässä. Sen puuttuessa näet tämän sijaistekstin."
 "Image": "Kuva"
 "Imagelist": "Kuvalista"
-"Info": "+Info"
 "Integerfield": "Kokonaislukukenttä"
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Ei vastaa määritettyjä sisältötyyppejä tai reittejä."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Luultavasti sen pitäisi olla 'link:'!"
+"Is required or needs to match a pattern!": "Vaadittu, tai täytyy noudattaa kaavaa!"
+"Is required!": "Vaadittu!"
+"Keyword …": "Avainsana …"
 "Last edited on:": "Viimeksi muokattu:"
-"Last known IP": "Viimeisin tunnettu IP-osoite"
+"Last known IP": "Edellinen IP-osoite"
 "Last seen": "Viimeksi nähty"
-"Latest %contenttypes%.": "Viimeisimmät %contenttypes%"
-"Latest entries": "Viimeisimmät merkinnät"
-"Level": "Taso"
+"Latest entries": "Viimeisimmät Merkinnät"
+"Listing template": "Listauksen sivupohja"
+"Live Edit": "Live-muokkaus"
 "Login": "Kirjaudu"
-"Logout %name%": "Kirjaudu ulos, %name%"
+"Logout": "Uloskirjaudu"
 "Long messages": "Pitkät viestit"
+"Main configuration": "Pääasetukset"
 "Maintenance": "Ylläpito"
-"Markdown": "Markdown"
 "Menu setup": "Valikkoasetukset"
+"Message:": "Viesti:"
 "Messages": "Viestit"
-"Meta": "Meta"
+"Meta information": "Metatieto"
 "Modifications made to the database:": "Tietokantaan tehdyt muutokset:"
 "Modifications needed:": "Tarvittavat muutokset:"
 "Modified": "Muokattu"
-"New user": "Uusi käyttäjä"
-"No results found for '%search%'. Please try another search.": "Hakusi '%search%' ei tuottanu tuloksia. Ole hyvä ja kokeile toista hakua."
-"No such action for content.": "Sisällölle ei ole vastaavaa toimintoa"
-"No such action for user '%s'.": "Käyttäjälle '%s' ei ole asetettu vastaavaa toimintoa"
-"Oops! An error has occurred!": "Voi saakeli! Tapahtui virhe!"
-"Options": "Asetukset"
+"Multiselect": "Monivalinta"
+"New Bolt site has been set up": "Uusi Bolt-sivusto asennettiin"
+"No content found.": "Ei sisältöä"
+"No files in the list, yet.": "Ei tiedostoja listassa, vielä"
+"No images in the list, yet.": "Ei kuvia listassa, vielä"
+"No relations found!": "Ei suhteita!"
+"No such action for content.": "Sisällölle ei ole tätä toimintoa"
+"No such action for user '%s'.": "Käyttäjälle '%s' ei ole tätä toimintoa"
+"No theme name found. Theme is not generated.": "Teeman nimeä ei löydy. Teemaa ei luotu."
+"None": "Ei mitään"
+"Not published": "Ei julkaistu"
+"Not yet installed.": "Ei vielä asennettu."
+"Note:": "Huomio:"
+"Omnisearch": "Monihaku"
+"Only root can change file extensions.": "Vain pääkäyttäjä voi vaihtaa tiedostopäätteen."
+"Options": "Valinnat"
 "Order: %sort%": "Järjestys: %sort%"
-"Overview » %contenttypes%": "Sisältötyppien yleiskatsaus"
+"Overview": "Yleiskatsaus"
+"Overview for": "Yleiskatsaus:"
+"Owner": "Omistaja"
 "Owner:": "Omistaja"
-"Page:": "Sivu"
-"Password (confirmation)": "Salasana (varmistus)"
-"Password": "Salasana"
-"Passwords must match.": "Salasanojen on vastattava toisiaan"
+"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Salasanan palautus ei onnistunut! Joko tunniste oli virheellinen, olit myöhässä tai käytit eri IP-osoitetta."
+"Password reset successful! You can now log on with the password that was sent to you via email.": "Salasanan palautus onnistui! Voin nyt kirjautua sinulle sähköpostilla lähetetyllä salasanalla."
+"Path": "Polku"
+"Path to image file": "Kuvatiedoston polku"
 "Path:": "Polku"
 "Permalink": "Pysyvä linkki"
+"Permission denied": "Lupa evätty"
 "Permissions": "Oikeudet"
+"Place on stack": "Laita pinoon"
+"Please choose the record you want to link to:": "Valitse tietue johon haluat linkittää:"
+"Please enter a new file name!": "Anna uusi tiedoston nimi!"
+"Please enter a new folder name!": "Anna uusi kansion nimi!"
 "Please log on.": "Ole hyvä ja kirjaudu sisään"
-"Prefill": "Esitäyttö"
-"Preview %contenttype%": "Esikatsele sisältötyyppiä"
-"Preview video": "Esikatsele video"
+"Please provide a username": "Anna käyttäjätunnus"
+"Prefill database": "Esitäytä tietokanta"
 "Preview": "Esikatselu"
+"Profile": "Profiili"
+"Provided by:": "Toimittanut:"
 "Publication date:": "Julkaisupäivä:"
+"Publish selected": "Julkaise valitut"
+"Published": "Julkaise"
 "Published on:": "Julkaisuaika:"
 "Read more": "Lue lisää"
 "Related content": "Liittyvä sisältö"
+"Related content:": "Liittyvät sisällöt"
 "Relationships": "Liitokset"
-"Search results for <b> %search% </b>.": "Tulokset haulle <b> %search% </b>."
+"Rename %foldername%": "Uudelleennimeä  %foldername%"
+"Roles": "Roolit"
+"Roles and Permissions": "Roolit ja oikeudet"
+"Save & create new record": "Tallenna   luo uusi tietue"
+"Save & return to overview": "Tallenna   palaa yleiskatsaukseen"
+"Saved on:": "Tallenna:"
+"Saving …": "Tallennetaan …"
 "Search": "Hae"
+"Search for …": "Hae …"
+"Search results for <b> %search% </b>.": "Hakutulokset: <b> %search% </b>."
+"Search …": "Haetaan …"
+"Select": "Valitse"
 "Select a page": "Valitse sivu"
-"Select zero or more pages": "Valitse nolla tai useampi sivu"
+"Select all": "Valitse kaikki"
+"Select file …": "Valitse tiedosto …"
+"Select none": "Tyhjennä valinnat"
+"Select zero or more pages": "Valitse nolla tai useampi sivua"
+"Selectentry": "Valitse merkintä"
 "Selectfield": "Valintakenttä"
+"Session expires": "Istunto vanheni"
+"Session resumed.": "Istunto palautettu"
 "Settings": "Asetukset"
-"Showing %pager_for% %from% - %to% of %count%": "Näytetään sivu %pager_for% (%from% - %to%, yhteensä %count%)"
-"Sitemap": "Sivukartta"
-"Size:": "Koko:"
-"Skipped <tt>%key%</tt> (already has records)": "Hypättin yli <tt>%key%</tt> (sisältää jo tietoja)"
-"Skipped <tt>%key%</tt> (not checked)": "Hypättiin yli <tt>%key%</tt> (ei tarkistettu)"
-"Slug": "tunniste"
+"Showing": "Näytetään"
+"Showing %pager_for% %from% - %to% of %count%": "Näytetään sivu %pager_for% (%from% - %to% / %count%)"
+"Size": "Koko"
+"Skipped <tt>%key%</tt> (already has records)": "Ohitettiin <tt>%key%</tt> (sisältää jo tietoja)"
+"Skipped <tt>%key%</tt> (not checked)": "Ohitettiin <tt>%key%</tt> (ei valittu)"
+"Slug": "Tunniste"
 "Slug:": "Tunniste:"
+"Something went wrong": "Jokin meni pieleen"
 "Sophisticated, lightweight & simple CMS": "Kehittynyt, kevyt ja yksinkertainen sisällönhallinta"
+"Stack": "Pino"
 "Status:": "Tila:"
-"Tag": "Tägi"
-"Tags": "Tägit"
-"Taxonomy": "Taksonomia"
-"Teaser": "Tiiseri"
+"Tag": "Tagi"
+"Tags": "Tagit"
+"Taxonomy": "Luokittelu"
+"Teaser": "Näyte"
 "Template": "Sivupohja"
+"Testing connection to extension server failed: %errormessage%": "Yhteydentarkistus laajennospalvelimelle epäonnistui: %errormessage%"
 "Textarea": "Tekstialue"
 "That user does not exist.": "Käyttäjää ei ole olemassa."
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Tietokanta pitää päivittää. Mene kohtaan: Asetukset > <a href=\"%link%\">Tarkista tietokanta</a>"
+"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Bolt laajennospankki %repository% ei ole saatavilla. Tarkista nettiyhteytesi ja yritä kohta uudelleen."
+"The Bolt extensions file '%composerjson%' isn't readable.": "Boltin laajennostiedostoa '%composerjson% ei voida lukea."
+"The change log has been cleared.": "Muutoslogi tyhjennettiin."
+"The change log has been trimmed.": "Muutoslogi karsittiin."
 "The file '%s' doesn't exist, or is not readable.": "Tiedostoa '%s' ei ole olemassa tai sitä ei voida lukea."
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Tiedostoa '%s' ei voida kirjottaa. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Tiedostoon '%s' ei voida kirjottaa. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
+"The folder '%s' could not be found, or is not readable.": "Kansiota '%s' ei löydy tai sitä ei voida lukea."
+"The following file could not be read:": "Seuraavaa tiedostoa ei voida lukea:"
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Tyypin '%taxonomytype%' tunnus ja tunniste eivät ole samat ('%slug%' vs. '%taxonomytype%'). Muokkaa ne samoiksi tiedostossa taxonomy.yml estääksesi ristiriidat tietokannan ja sivupohjiesi välillä."
+"The requested changelog entry doesn't exist.": "Pyydetty muutoslogin merkintä ei ole olemassa."
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
+"The system log has been cleared.": "Järjestelmälogi tyhjennettiin."
+"The system log has been trimmed.": "Järjestelmälogi karsittiin."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 "The translations file '%s' is not readable.": "Käännöstiedostoa '%s' ei voida lukea."
+"The value has to be at least “%MINVAL%”!": "Arvon täytyy olla vähintään “%MINVAL%”!"
+"The value must not be greater than “%MAXVAL%”!": "Arvo ei saa olla yli “%MAXVAL%”!"
+"Theme successfully generated. You can now edit it directly from your theme folder.": "Teema luotiin onnistuneesti. Voit nyt muokata sitä suoraan teemakansiostasi."
+"There are no items on the Stack, yet.": "Ei kohteita pinossa, vielä."
+"There are no saved changes, yet.": "Ei tallennettuja muutoksia, vielä."
 "There are no users in the database. Please create the first user.": "Tietokannassa ei ole käyttäjiä. Ole hyvä ja luo ensimmäinen käyttäjä."
-"This record is related to %contenttype%": "Tämä merkintä liittyy sisältötyyppiin"
-"This username is already in use. Choose another username.": "Käyttäjätunnus on jo käytössä. Ole hyvä ja valitse jokin muu."
-"This value is too short. It should have 6 characters or more.": "Syöttämäsi arvo on liian lyhyt, siinä tulisi olla vähintään kuusi merkkiä"
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
+"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Järjestelmässä ei ole käyttäjiä. Luo ensimmäinen käyttäjä, joka saa pääkäyttäjän oikeudet."
+"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Täytyy olla vähintään yksi pääkäyttäjä. Sinut on juuri ylennetty. Onneksi olkoon!"
+"This is a checkbox": "Tämä on valintaruutu"
+"This record is related to:": "Tämä tietue liittyy:"
+"This template adds new fields. Save, then refresh to see these changes.": "Tämä sivupohja lisää kenttiä. Tallenna ja päivitä nähdäksesi muutokset."
+"Time in 24h/12h format": "Aika 24h/12h muodossa"
+"Timed publish": "Ajoitettu julkaisu"
 "Tip:": "Vinkki:"
 "Title": "Otsikko"
-"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Päästäksesi alkuun nopeasti, <a href='%url%'>luo tietokantaan diibadaaba-sisältöä</a>"
 "Translations": "Käännökset"
-"Trim Activitylog": "Karsi tapahtumalokin sisältö"
-"URL:": "URL:"
+"Trim Change Log": "Karsi muutoslogi"
+"Trim System Log": "Karsi järjestelmälogi"
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Yritä kirjautua ftp-ohjelmalla ja anna tiedostolle kirjoitusoikeudet. Muutoin mene <a>takaisin</a>"
+"Types": "Tyypit"
+"Unable to create directory: %DIR%": "Ei voida luoda kansiota: %DIR%"
+"Unable to delete directory: %DIR%": "Ei voida poistaa kansiota: %DIR%"
+"Unable to delete file: %FILE%": "Ei voida poistaa tiedostoa: %FILE%"
+"Unable to rename directory: %DIR%": "Ei voida uudelleennimetä kansiota: %DIR%"
+"Unable to rename file: %FILE%": "Ei voida uudelleennimetä tiedostoa: %FILE%"
 "Update the database": "Päivitä tietokanta"
+"Upload": "Lataa"
+"Upload a file to this folder": "Lataa tiedosto tähän kansioon"
 "Upload file": "Lataa tiedosto"
 "Upload image": "Lataa kuva"
+"Upload not allowed": "Lataus ei sallittu"
 "Uploaded files": "Ladatut tiedostot"
+"Uploading to this folder is not allowed.": "Lataus tähän kansioon ei ole sallittu."
 "Used Libraries / Components": "Käytetyt ohjelmistokirjastot"
-"User %s could not be saved, or nothing was changed.": "Käyttäjää ei voitu tallentaa tai mitään ei muutettu."
-"User %s has been saved.": "Käyttäjä %s tallennettu."
 "User '%s' could not be deleted.": "Käyttäjää '%s' ei voitu poistaa."
-"User '%s' could not be disabled.": "Käyttäjää '%s' ei voitu poiskytkeä."
+"User '%s' could not be disabled.": "Käyttäjää '%s' ei voitu sulkea."
 "User '%s' could not be enabled.": "Käyttäjää '%s' ei voitu aktivoida."
 "User '%s' is deleted.": "Käyttäjä '%s' poistettu."
-"User '%s' is disabled.": "Käyttäjä '%s' poiskytketty."
+"User '%s' is disabled.": "Käyttäjä '%s' suljettu."
 "User '%s' is enabled.": "Käyttäjä '%s' aktivoitu."
-"User is enabled": "Käyttäjä on aktivoitu."
-"Username or password not correct. Please check your input.": "Käyttäjätunnus tai salasana väärin. Ole hyvä ja tarkista tiedot."
 "Username": "Käyttäjätunnus"
+"Username or password not correct. Please check your input.": "Käyttäjätunnus tai salasana väärin. Ole hyvä ja tarkista tiedot."
 "Users": "Käyttäjät"
-"Video": "Video"
-"View file '%s'.": "Näytä tiedosto '%s'."
-"View on site": "Näytä julkisella sivustolla"
-"View site": "Näytä julkisella sivustolla"
+"Users & Permissions": "Käyttäjät   Oikeudet"
+"View (saved version) on site": "Näytä (tallennettu versio) sivustolla."
+"View Roles": "Näytä roolit"
+"View on site": "Näytä sivustolla"
+"View related content": "Näytä liittyvä sisältö"
+"View site": "Näytä sivusto"
 "View/edit Templates": "Näytä tai muokkaa sivupohjia"
+"Warning": "Varoitus"
 "Written by <em>%name%</em> on %date%": "Kirjoittanut <em>%name%</em>, %date%"
+"You cannot '%s' yourself.": "Et voi '%s' itseäsi."
+"You do not have the right privileges to create a new record.": "Sinulla ei ole tarvittavia oikeuksia luoda uutta tietuetta."
 "You do not have the right privileges to edit that record.": "Sinulla ei ole oikeuksia muokata merkintää."
+"You do not have the right privileges to edit that user.": "Sinulla ei ole tarvittavia oikeuksia muokata käyttäjää."
 "You do not have the right privileges to view that page.": "Sinulla ei ole oikeuksia näyttää sivua."
+"You don't have correct permissions to edit the file '%s'.": "Sinulla ei ole tarvittavia oikeuksia muokata tiedostoa '%s'."
+"You don't have the correct permissions to display the file or directory '%s'.": "Sinulla ei ole tarvittavia oikeuksia katsella tiedostoa tai kansiota '%s'."
 "You have been logged out.": "Olet kirjautunut ulos."
+"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Sinulla on keskeneräisiä muutoksia sivulla. Jos jatkat tallentamatta, menetä nämä muutokset."
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Voit menettää joitain sivupohjan kenttiä tällä muutoksella. Mene sivupohjaosioon ja kirjaa arvot muistiin ennen kuin teet tämän."
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Määritä 'homepage:' tiedostossa 'app/config/config.yml' olemassa olevaan tietueeseen. Varmista että sisältö on julkaistu, muuten sitä ei näytetä."
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
-"Your account is disabled. Sorry about that.": "Käyttäjätilisi on kytketty pois päältä."
+"Your account is disabled. Sorry about that.": "Anteeksi, mutta käyttäjätilisi on suljettu."
 "Your database is already up to date.": "Tietokanta on ajantasalla."
 "Your database is now up to date.": "Tietokanta on päivitetty."
 "and edited": "ja muokattu"
-"contenttypes.generic.actions-all": "Sisältötyyppien toiminnot"
-"contenttypes.generic.actions-one": "Tämän sisältötyypin toiminnot"
-"contenttypes.generic.created": "%contenttype% luotiin"
-"contenttypes.generic.delete": "Tuhoa %contenttype%"
-"contenttypes.generic.duplicate": "Kopioi %contenttype%"
-"contenttypes.generic.duplicated-finalize": "Sisältö on duplikaatti. Klikkaa 'tallenna %contenttype%' jatkaaksesi."
-"contenttypes.generic.edit": "Muokkaa %contenttype%"
-"contenttypes.generic.error-saving": "Sisältötyypin tallennuksessa tapahtui virhe."
-"contenttypes.generic.group.meta": "Meta"
-"contenttypes.generic.group.relations": "Liitokset"
-"contenttypes.generic.group.taxonomy": "Taksonomia"
-"contenttypes.generic.invalid-field": "Kenttää %field% sisältötyypissä %contenttype% ei voida asettaa. Kenttä ei ole hyväksytty."
-"contenttypes.generic.last-modified": "Viimeiseksi muokatut sisältötyypit %contenttypes%"
-"contenttypes.generic.new": "Uusi %contenttype%"
-"contenttypes.generic.no-latest": "Ei viimeisintä sisältötyyppiä"
-"contenttypes.generic.no-recent": "Ei viimeisiä sisältötyyppejä"
-"contenttypes.generic.none-available": "Ei %contenttypes% saatavilla"
-"contenttypes.generic.overview": "%contenttypes% yleiskatsaus"
-"contenttypes.generic.publish": "Julkaise %contenttype%"
-"contenttypes.generic.recent": "Uudet sisältötyypit %contenttypes%"
-"contenttypes.generic.save": "Tallenna %contenttype%"
-"contenttypes.generic.saved-changes": "Muokkaukset sisältötyyppiin on tallennettu."
-"contenttypes.generic.saved-new": "Uusi %contenttype% tallennettu."
-"contenttypes.generic.show-more": "Lisää sisältötyyppejä"
-"contenttypes.generic.view": "Näytä %contenttypes%"
-"field.geolocation.label.address-lookup:": "Osoitehaku:"
-"field.geolocation.label.latitude": "Leveyspiiri"
-"field.geolocation.label.longitude": "Pituuspiiri"
-"field.geolocation.matched-address": "Vastaava osoite:"
-"field.slug.permalink": "Pysyvä linkki"
-"field.video.button.preview": "Esikatselu"
-"field.video.preview.button.close": "Sulje"
-"field.video.preview.no-url": "Videon osoitetta ei ole asetettu, videota ei voida näyttää"
-"page.ckeditor-browse-server.files": "Tiedostot"
-"page.ckeditor-browse-server.folders": "Hakemistot"
-"page.ckeditor-browse-server.modified": "Muokattu"
-"page.ckeditor-browse-server.size": "Tiedostokoko"
-"page.ckeditor-browse-server.title": "Tiedostot"
-"page.dashboard.button.add": "Lisää …"
-"page.dashboard.empty-database": "Vaikuttaa siltä että tieokannassa ei ole sisältöä."
-"page.dashboard.quickstart": "Päästäksesi alkuun nopeasti, <a href='%url%'>luo tietokantaan diibadaaba-sisältöä</a>"
-"page.dashboard.title": "Yleiskatsaus"
-"page.edit-file.button.save": "Tallenna"
-"page.edit-file.path": "Polku"
-"page.edit-locale.button.save": "Tallenna"
-"page.edit-users.error.displayname-used": "Julkinen käyttäjätunnus on jo käytössä. Ole hyvä ja valitse jokin muu."
-"page.edit-users.error.email-used": "Sähköpostiosoite on jo käytössä. Ole hyvä ja valitse jokin muu."
-"page.edit-users.title.create": "Luo uusi käyttäjä"
-"page.login.button.back": "Takaisin sisäänkirjautumiseen"
-"page.login.button.forgot-password": "Unohdin salasanani…"
-"page.login.button.log-on": "Kirjaudu sisään"
-"page.login.button.reset-password": "Uusi salasanani"
-"page.login.label.password": "Salasana"
-"page.login.label.username": "Käyttäjätunnus / sähköposti"
-"page.login.password-show": "Näytä"
-"page.login.placeholder.password": "Käyttäjätunnuksesi"
-"panel.latest-activity.button.more": "Lisää tapahtumia"
-"panel.latest-activity.headline": "Viimeisin toiminta"
-"type:": "Tyyppi:"
-contenttypes.general.choose-an-entry: "Valitse merkintä"
-general.about-bolt: "Lisätietoja Boltista"
-general.about: "Lisätietoja"
-general.bolt-documentation-on-github: "Boltin dokumentointi (englanniksi)"
-general.bolt-on-github: "Bolt Githubissa"
-page.extend.listheader.actions: "Toiminnot"
-users.actions-for-users: "Käyttäjien toiminnot"
-users.your-password: "Salasanasi"
+"back to editing": "palaa muokkaamaan"
+"by": "@"
+"filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
+"general.about": "Lisätietoja"
+"general.about-bolt": "Lisätietoja Boltista"
+"general.bolt-on-github": "Bolt Githubissa"
+"line": "rivi"
+"logs.change-log": "Muutoslogi"
+"logs.system-log": "Järjestelmälogi"
+"no content …": "ei sisältöä …"
+"no title …": "ei otsikkoa …"
+"none": "ei mitään"
+"of": "/"
+"or": "tai"
+"show all": "näytä kaikki"
+"users.actions-for-users": "Käyttäjien toiminnot"
+"users.your-password": "Salasanasi"
+
+#--- 132 keyword based translations -------------------------------------------
+
+component:
+    changelog-detail:
+        by: "@"
+        field: "Kenttä"
+        value-new: "Uusi arvo"
+        value-old: "Vanha arvo"
+    changelog-pager:
+        page: "Sivu"
+
+contenttypes:
+    generic:
+        actions-all: "Sisältötyyppien toiminnot"
+        actions-one: "Tämän sisältötyypin toiminnot"
+        created: "%contenttype% luotiin"
+        delete: "Tuhoa %contenttype%"
+        duplicate: "Kopioi %contenttype%"
+        duplicated-finalize: "Sisältö on duplikaatti. Klikkaa 'tallenna %contenttype%' jatkaaksesi."
+        edit: "Muokkaa %contenttype%"
+        group:
+            relations: "Liitokset"
+            taxonomy: "Luokittelu"
+            ungrouped: "Ryhmätön"
+        invalid-field: "Kenttää %field% sisältötyypissä %contenttype% ei voida asettaa. Kenttä ei ole hyväksytty."
+        last-modified: "Viimeiseksi muokatut sisältötyypit %contenttypes%"
+        new: "Uusi %contenttype%"
+        no-latest: "Ei viimeisintä sisältötyyppiä"
+        no-proper-type: "Sisältötyypissä '%contenttype%' kenttä '%field%' on määritetty 'type: %type%', joka ei ole kelvollinen kenttätyyppi. Muokkaa contenttypes.yml korjataksesi tämän."
+        no-recent: "Ei viimeisiä sisältötyyppejä"
+        none-available: "Ei %contenttypes% saatavilla"
+        not-existing: "Etsimäsi %contenttype% ei ole olemassa. Se on luultavasti poistettu, tai sitä ei ole koskaan ollutkaan."
+        not-saved-yet: "%contenttype% ei ole vielä tallennettu."
+        overview: "%contenttypes% yleiskatsaus"
+        publish: "Julkaise %contenttype%"
+        recent: "Uudet %contenttypes%"
+        recent-changes-one: "Viimeisimmät muutokset %contenttype%"
+        recently-edited: "Viimeksi muokatut %contenttype%"
+        reserved-name: "Sisältötyypissä '%contenttype%' kenttä '%field%' on määrietty varatulla nimellä. Muokkaa contenttypes.yml korjataksesi tämän."
+        save: "Tallenna %contenttype%"
+        saved-changes: "Muokkaukset sisältötyyppiin on tallennettu."
+        saved-new: "Uusi %contenttype% tallennettu."
+        saving-impossible: "%contenttype% ei voitu tallentaa."
+        show-more: "Lisää sisältötyyppejä"
+        view: "Näytä %contenttypes%"
+        wrong-use-field: "Sisältötyypissä '%contenttype%.' kenttä on määritetty 'uses: %uses%', mutta kenttää '%uses%' ei ole olemassa. Muokkaa contenttypes.yml korjataksesi tämän."
+
+field:
+    general:
+        allowed-filetypes: "Sallitut tiedostomuodot ovat:"
+        select-from-server: "Valitse palvelimelta"
+    geolocation:
+        label:
+            address-lookup: "Osoitehaku"
+            latitude: "Leveyspiiri"
+            longitude: "Pituuspiiri"
+            marker-placement: "Merkin sijoitus"
+            snap: "Tarraa lähimpään osoitteeseen."
+        matched-address: "Vastaava osoite:"
+        placeholder:
+            address: "Katu, postinumero, kaupunkin tai muu sijainti"
+    markdown:
+        label:
+            preview: "Esikatselu"
+    slug:
+        permalink: "Pysyvä linkki"
+    video:
+        button:
+            preview: "Esikatselu"
+        label:
+            preview: "Esikatselukuva"
+            size: "Koko"
+            url: "Upotettavan videon URL"
+        matched-video: "Löydetyt videot"
+        pixel: "pikseli"
+        placeholder:
+            url: "Videon URL Youtubessa, Vimeossa tai muulla videosivustolla"
+
+generic:
+    noscript:
+        headline: "JavaScript pois käytöstä"
+        message: "JavaScript on poistettu käytöstä selaimessasi. Suurin osa Boltin toiminnoista toimii ilman sitä, mutta käytettävyyden parantamiseksi suosittelemme ottamaan JavaScriptin käyttöön."
+
+menu:
+    configuration:
+        routing: "Reititys asetettu"
+
+page:
+    ckeditor-browse-server:
+        files: "Tiedostot"
+        folders: "Hakemistot"
+        modified: "Muokattu"
+        size: "Tiedostokoko"
+        title: "Tiedostot"
+    dashboard:
+        button:
+            add: "Lisää …"
+        empty-database: "Vaikuttaa siltä ettei tiekokannassa ole sisältöä."
+        quickstart: "Päästäksesi alkuun nopeasti, <a href='%url%'>luo tietokantaan sisältöä täytetekstillä.</a>"
+        title: "Yleiskatsaus"
+    edit-file:
+        button:
+            revert: "Peru muutokset"
+            save: "Tallenna"
+        confirm-revert: "Haluatko varmasti perua. Muutokset menetetään jos et tallenna niitä."
+        note-related: "Huomioi, että jotkin tiedostot liittyvät tähän:"
+        title:
+            edit: "Muokkaa tiedostoa"
+            view: "Näytä tiedosto"
+    edit-locale:
+        button:
+            save: "Tallenna"
+        title:
+            edit: "Muokkaa tiedostoa"
+            view: "Näytä tiedosto"
+    edit-users:
+        activated:
+            no: "ei"
+            yes: "kyllä"
+        button:
+            save: "Tallenna käyttäjä"
+        error:
+            displayname-used: "Julkinen käyttäjätunnus on jo käytössä. Ole hyvä ja valitse jokin muu."
+            email-used: "Sähköpostiosoite on jo käytössä. Ole hyvä ja valitse jokin muu."
+            password-different-username: "Salasana ei saa olla sama kuin käyttäjätunnus."
+            password-mismatch: "Salasanojen täytyy täsmätä."
+            password-short: "Liian lyhyt. Salasanan tulee olla vähintään 6 merkkiä."
+            username-used: "Käyttäjätunnus on jo käytössä. Valitse toinen."
+        label:
+            assigned-roles: "Asetetut roolit"
+            display-name: "Näyttönimi"
+            email: "Sähköposti"
+            last-ip: "Edellinen IP"
+            last-seen: "Viimeksi nähty"
+            password: "Salasana"
+            password-confirm: "Salasana (varmistus)"
+            user-enabled: "Käyttäjätunnus on aktivoitu"
+            username: "Käyttäjätunnus"
+        log:
+            user-added: "Lisättiin käyttäjätili '%user%'."
+            user-updated: "Päivitettiin käyttäjätili '%user%'."
+        message:
+            change-self: "Kirjauduit ulos, koska vaihdoit käyttäjätunnuksen. Kirjaudu uudelleen."
+            saving-user: "Käyttäjää %user% ei voitu tallentaa tai mitään ei oltu muutettu."
+            user-saved: "Käyttäjä %user% tallennettiin."
+        note-sqlite: "Käytät nyt SQLiteä asettaessasi ensimmäistä käyttäjää. Jos haluat sen sijaan käyttää MySQL tai PostgreSQL, muokkaa asetustiedostoa <tt>'app/config/config.yml'</tt> ja Bolt asettaa tietokannan sinulle. Lataa sivu uudelleen ennen kuin jatkat."
+        placeholder:
+            displayname: "Valitse näyttönimi / alias"
+            email: "Anna toimiva sähköpostiosoite"
+            password: "Anna vähintään 6 merkkiä pitkä salasana"
+            password-confirm: "Vahvista salasanasi"
+            username: "Valitse käyttäjätunnus, vain pikkukirjaimilla"
+        title:
+            create: "Luo uusi käyttäjä"
+            edit: "Muokkaa käyttäjätiliä"
+            profile: "Profiili"
+        user-create: "Luo uusi käyttäjätili alla olevalla lomakkeella. Salasana kenttä on pakollinen."
+        user-edit: "Muokkaa olemassa olevaa käyttäjätiliä alla olevalla lomakkeella. Jätä salasanakenttä tyhjäksi, jos et halua vaihtaa salasanaa."
+    login:
+        button:
+            back: "Takaisin sisäänkirjautumiseen"
+            forgot-password: "Unohdin salasanani…"
+            log-on: "Kirjaudu sisään"
+            reset-password: "Uusi salasanani"
+        cookies-required: "Huom: Boltin sisäänkirjautuminen tarvitsee evästeitä. Salli evästeiden käyttö."
+        label:
+            password: "Salasana"
+            username: "Käyttäjätunnus / sähköposti"
+        password-hide: "Piilota"
+        password-show: "Näytä"
+        placeholder:
+            password: "Käyttäjätunnuksesi"
+        title: "Bolt sisäänkirjautuminen"
+
+panel:
+    latest-activity:
+        button:
+            more: "Lisää tapahtumia"
+        by: "@"
+        change: "Viimeisimmät muutokset"
+        created: "Luotu"
+        deleted: "Poistettu"
+        logged-in: "kirjautui sisään"
+        logged-out: "kirjautui ulos"
+        saved: "Tallennettu"
+        system: "Viimeisimmät järjestelmätapahtumat"
+        unknown: "tuntematon"
+    user-actions:
+        button:
+            add: "Lisää uusi käyttäjä"

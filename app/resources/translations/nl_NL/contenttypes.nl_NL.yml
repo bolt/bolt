@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2015-08-16 19:19:52 Europe/Amsterdam
+# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2016-03-31 11:32:44 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -12,9 +12,9 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-# 106 keyword based translations
+# 104 keyword based translations
 
-#--- 106 keyword based translations -------------------------------------------
+#--- 104 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
@@ -33,7 +33,6 @@ contenttypes:
             duplicate: "Dupliceer bericht"
             duplicated-finalize: "Het bericht is gedupliceerd. Klik op 'Bericht opslaan' om de wijzigingen op te slaan."
             edit: "Bewerk bericht"
-            error-saving: "Er is een fout opgetreden bij het opslaan van dit bericht"
             invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
             last-modified: "Laatst gewijzigde berichten"
             new: "Nieuw bericht"
@@ -46,7 +45,7 @@ contenttypes:
             overview: "Berichten overzicht"
             publish: "Publiceer bericht"
             recent: "Recente berichten"
-            recent-changes-one: "Recente wijzigen aan dit bericht"
+            recent-changes-one: "Recente wijzigingen van dit Bericht"
             recently-edited: "Recent gewijzigde berichten"
             reserved-name: "Het veld '%field%' in het contenttype voor 'Entry', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
             save: "Bericht opslaan"
@@ -71,7 +70,6 @@ contenttypes:
             duplicate: "Dupliceer pagina"
             duplicated-finalize: "De pagina is gedupliceerd. Klik op 'Pagina opslaan' om de nieuwe pagina op te slaan."
             edit: "Pagina bewerken"
-            error-saving: "Er is een fout opgetreden bij het opslaan van deze pagina."
             invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
             last-modified: "Laatst gewijzigde pagina's"
             new: "Nieuwe pagina"
@@ -84,7 +82,7 @@ contenttypes:
             overview: "Pagina's overzicht"
             publish: "Publiceer pagina"
             recent: "Recente pagina's"
-            recent-changes-one: "Recente wijzigen aan deze pagina"
+            recent-changes-one: "Recente wijzigingen van deze pagina"
             recently-edited: "Recent gewijzigde pagina's"
             reserved-name: "Het veld '%field%' in het contenttype voor 'Page', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
             save: "Pagina opslaan"
@@ -99,11 +97,12 @@ contenttypes:
         group:
             files: "Bestanden"
             media: "Media"
+            meta: "Meta"
             other: "Anders"
             text: "Tekst"
         name:
-            plural: "Showcases"
-            singular: "Showcase"
+            plural: "Voorbeelden"
+            singular: "Voorbeeld"
         text:
             actions-all: "Handelingen voor showcases"
             actions-one: "Handelingen voor deze showcase"
@@ -112,7 +111,6 @@ contenttypes:
             duplicate: "Dupliceer showcase"
             duplicated-finalize: "De showcase is gedupliceerd. Klik op 'Showcase opslaan' om de wijzigingen op te slaan."
             edit: "Bewerk showcase"
-            error-saving: "Er is een probleem opgetreden bij het opslaan van deze showcase."
             invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
             last-modified: "Laatst gewijzigde showcase"
             new: "Nieuwe showcase"
@@ -125,7 +123,7 @@ contenttypes:
             overview: "Showcases overzicht"
             publish: "Publiceer showcase"
             recent: "Recente showcases"
-            recent-changes-one: "Recente wijzigen aan deze Showcase"
+            recent-changes-one: "Recente wijzigingen van deze Showcase"
             recently-edited: "Recent gewijzigde showcases"
             reserved-name: "Het veld '%field%' in het contenttype voor 'Showcase', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
             save: "Showcase opslaan"

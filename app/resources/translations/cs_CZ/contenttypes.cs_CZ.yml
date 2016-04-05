@@ -1,4 +1,4 @@
-# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2015-07-21 13:44:01 Europe/Prague
+# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2016-03-31 10:52:59 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,11 +10,18 @@
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   4 untranslated keyword based messages
 #  no translations
-# 106 keyword based translations
+# 100 keyword based translations
 
-#--- 106 keyword based translations -------------------------------------------
+#--- 4 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.showcases.group.meta": # "Meta"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+
+#--- 100 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
@@ -33,7 +40,6 @@ contenttypes:
             duplicate: "Duplikovat "
             duplicated-finalize: "Obsah byl zduplikován. Klikněte na 'Uložit Novinku' pro dokončení."
             edit: "Upravit"
-            error-saving: "Při ukládání  nastala chyba."
             invalid-field: "Nelze nastavit pole %field% v Novince: Neplatné pole."
             last-modified: "Naposled upravované novinky"
             new: "Novinka"
@@ -46,7 +52,6 @@ contenttypes:
             overview: "Přehled Novinek"
             publish: "Publikovat novinku"
             recent: "Poslední novinky"
-            recent-changes-one: "Poslední změny této Novinky"
             recently-edited: "Poslední úpravy:"
             reserved-name: "Typ obsahu 'Novinka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Novinku"
@@ -71,7 +76,6 @@ contenttypes:
             duplicate: "Duplikovat"
             duplicated-finalize: "Strana byla zduplikována. Klikněte na 'Uložit stranu' pro dokončení."
             edit: "Upravit"
-            error-saving: "Při ukládání strany nastala chyba."
             invalid-field: "U strany nelze nastavit pole %field%: Neplatné pole."
             last-modified: "Naposledy upravené strany"
             new: "Stranu"
@@ -84,7 +88,6 @@ contenttypes:
             overview: "Přehled stran"
             publish: "Publikovat stranu"
             recent: "Poslední strany"
-            recent-changes-one: "Poslední změny této Strany"
             recently-edited: "Poslední úpravy:"
             reserved-name: "Typ obsahu 'Strana' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Stranu"
@@ -112,7 +115,6 @@ contenttypes:
             duplicate: "Duplikovat "
             duplicated-finalize: "Ukázka byla zduplikována. Klikněte na 'Uložit Ukázku' pro dokončení."
             edit: "Upravit"
-            error-saving: "Při ukládání ukázky nastala chyba."
             invalid-field: "U Ukázky nelze pole %field%: Neplatné pole."
             last-modified: "Naposledy upravné Ukázky"
             new: "Ukázka"
@@ -125,7 +127,6 @@ contenttypes:
             overview: " přehled"
             publish: "Publikovat "
             recent: "Poslední "
-            recent-changes-one: "Poslední změny této Ukázky"
             recently-edited: "Poslední úpravy: "
             reserved-name: "Typ obsahu 'Ukázka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Ukázku"

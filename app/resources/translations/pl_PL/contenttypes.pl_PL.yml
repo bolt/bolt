@@ -1,27 +1,33 @@
-# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2015-02-27 16:52:38 Europe/Warsaw
+# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2016-03-31 11:34:09 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   3 untranslated keyword based messages
 #  no translations
-# 106 keyword based translations
+# 101 keyword based translations
 
-#--- 106 keyword based translations -------------------------------------------
+#--- 3 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+
+#--- 101 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
         description: "**Wpisy** mogą być stosowane do takich rzeczy jak _'aktualności'_ lub _'wiadomości'_. Mają zajawkę, która może być stosowana dla krótkich notek na listach, dzięki czemu użytkownicy mogą przejść szybko do reszty zawartości. Posiada również pola dla obrazu oraz opcjonalnie wideo. Aby zmienić pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej."
         group:
             content: "Zawartość"
-            media: "Media"
+            media: "Multimedia"
         name:
             plural: "Wpisy"
             singular: "Wpis"
@@ -33,7 +39,6 @@ contenttypes:
             duplicate: "Powiel Wpis"
             duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz Wpis' aby zakończyć."
             edit: "Edytuj Wpis"
-            error-saving: "Wystąpił błąd podczas zapisywania tego Wpisu."
             invalid-field: "Nie można ustawić %field% we Wpisie: Nieprawidłowe pole."
             last-modified: "Ostatnio zmodyfikowane Wpisy"
             new: "Nowy Wpis"
@@ -46,7 +51,6 @@ contenttypes:
             overview: "Przegląd Wpisy"
             publish: "Opublikuj Wpis"
             recent: "Ostatnie Wpisy"
-            recent-changes-one: "Ostatnie zmiany w tym Wpisie"
             recently-edited: "Ostatnio edytowane Wpisy"
             reserved-name: "W typie zawartości 'Wpis', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
             save: "Zapisz Wpis"
@@ -71,7 +75,6 @@ contenttypes:
             duplicate: "Powiel Stronę"
             duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz Stronę' aby zakończyć."
             edit: "Edytuj Stronę"
-            error-saving: "Wystąpił błąd podczas zapisywania tej Strony."
             invalid-field: "Nie można ustawić %field% w Stronie: Nieprawidłowe pole."
             last-modified: "Ostatnio zmodyfikowane Strony"
             new: "Nowa Strona"
@@ -84,7 +87,6 @@ contenttypes:
             overview: "Przegląd Strony"
             publish: "Opublikuj Stronę"
             recent: "Ostatnie Strony"
-            recent-changes-one: "Ostatnie zmiany w tej Stronie"
             recently-edited: "Ostatnio edytowane Strony"
             reserved-name: "W typie zawartości 'Strona', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
             save: "Zapisz Stronę"
@@ -95,43 +97,42 @@ contenttypes:
             view: "Obejrzyj Stronę"
             wrong-use-field: "W typie zawartości 'Strona', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
     showcases:
-        description: "**Wizytówki** służą do wyświetlania wszystkich dostępnych typów pól. W praktyce jej zastosowania są ograniczone, ale należy spojrzeć, aby zobaczyć, które pola są dostępne do użytku. Aby zmienić (lub usunąć) pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej stronie."
+        description: "**Prezentacje** służą do wyświetlania wszystkich dostępnych typów pól. W praktyce jej zastosowania są ograniczone, ale należy spojrzeć, aby zobaczyć, które pola są dostępne do użytku. Aby zmienić (lub usunąć) pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej stronie."
         group:
             files: "Pliki"
-            media: "Media"
+            media: "Multimedia"
+            meta: "Metadane"
             other: "Inne"
             text: "Tekst"
         name:
-            plural: "Wizytówki"
-            singular: "Wizytówka"
+            plural: "Prezentacje"
+            singular: "Prezentacja"
         text:
-            actions-all: "Akcje dla Wizytówek"
-            actions-one: "Akcje dla tej Wizytówki"
-            created: "Ta Wizytówka została utworzona"
+            actions-all: "Akcje dla Prezentacji"
+            actions-one: "Akcje dla tej Prezentacji"
+            created: "Ta Prezentacja została utworzona"
             delete: "Usuń Wizytówkę"
             duplicate: "Powiel Wizytówkę"
             duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz Wizytówkę' aby zakończyć."
             edit: "Edytuj Wizytówkę"
-            error-saving: "Wystąpił błąd podczas zapisywania tej Wizytówki."
             invalid-field: "Nie można ustawić %field% w Wizytówce: Nieprawidłowe pole."
-            last-modified: "Ostatnio zmodyfikowane Wizytówki"
-            new: "Nowa Wizytówka"
+            last-modified: "Ostatnio zmodyfikowane Prezentacje"
+            new: "Nowa Prezentacja"
             no-latest: "Brak ostatnich Wizytówek"
-            no-proper-type: "W typie zawartości 'Wizytówka', pole '%field%' jest typu: '%type%', co nie jest właściwym typem pola. Proszę edytuj contenttypes.yml, i popraw to."
+            no-proper-type: "W typie zawartości 'Prezentacja', pole '%field%' jest typu: '%type%', co nie jest właściwym typem pola. Proszę edytuj contenttypes.yml, i popraw to."
             no-recent: "Brak ostatnich Wizytówek."
             none-available: "Brak dostępnych Wizytówek."
-            not-existing: "Wizytówka, której szukasz, nie istnieje. Prawdopodobnie została usunięta, albo nigdy nie istniała."
-            not-saved-yet: "Ta Wizytówka nie została jeszcze zapisana."
+            not-existing: "Prezentacja, której szukasz, nie istnieje. Prawdopodobnie została usunięta, albo nigdy nie istniała."
+            not-saved-yet: "Ta Prezentacja nie została jeszcze zapisana."
             overview: "Przegląd Wizytówek"
             publish: "Opublikuj Wizytówkę"
-            recent: "Ostatnie Wizytówki"
-            recent-changes-one: "Ostatnie zmiany w tej Wizytówce"
-            recently-edited: "Ostatnio edytowane Wizytówki"
-            reserved-name: "W typie zawartości 'Wizytówka', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
+            recent: "Ostatnie Prezentacje"
+            recently-edited: "Ostatnio edytowane Prezentacje"
+            reserved-name: "W typie zawartości 'Prezentacja', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
             save: "Zapisz Wizytówkę"
             saved-changes: "Zmiany w tej Wizytówce zostały zapisane."
-            saved-new: "Nowa Wizytówka została zapisana."
-            saving-impossible: "Nie można zapisać Wizytówki."
+            saved-new: "Nowa Prezentacja została zapisana."
+            saving-impossible: "Nie można zapisać Prezentacji."
             show-more: "Więcej Wizytówek"
-            view: "Obejrzyj Wizytówki"
-            wrong-use-field: "W typie zawartości 'Wizytówka', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
+            view: "Obejrzyj Prezentacje"
+            wrong-use-field: "W typie zawartości 'Prezentacja', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."

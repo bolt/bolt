@@ -1,0 +1,138 @@
+# app/resources/translations/pt_BR/contenttypes.pt_BR.yml – generated on 2016-03-31 11:35:57 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  37 untranslated keyword based messages
+#  no translations
+#  67 keyword based translations
+
+#--- 37 untranslated keyword based messages -----------------------------------
+
+"contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.entries.text.no-proper-type": # "In the contenttype for 'Entry', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.not-existing": # "The Entry you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.entries.text.not-saved-yet": # "This Entry has not been saved yet."
+"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.entries.text.recently-edited": # "Recently edited Entries"
+"contenttypes.entries.text.reserved-name": # "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.saved-changes": # "The changes to the Entry have been saved."
+"contenttypes.entries.text.saved-new": # "The new Entry has been saved."
+"contenttypes.entries.text.saving-impossible": # "Could not save Entry."
+"contenttypes.entries.text.wrong-use-field": # "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.pages.text.no-latest": # "No latest Page"
+"contenttypes.pages.text.no-proper-type": # "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.not-existing": # "The Page you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.pages.text.not-saved-yet": # "This Page has not been saved yet."
+"contenttypes.pages.text.overview": # "Pages overview"
+"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.pages.text.reserved-name": # "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.saved-new": # "The new Page has been saved."
+"contenttypes.pages.text.wrong-use-field": # "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.description": # "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.showcases.group.meta": # "Meta"
+"contenttypes.showcases.text.delete": # "Delete Showcase"
+"contenttypes.showcases.text.duplicated-finalize": # "Content was duplicated. Click 'Save Showcase' to finalize."
+"contenttypes.showcases.text.invalid-field": # "Can't set %field% in Showcase: Not a valid field."
+"contenttypes.showcases.text.last-modified": # "Last modified Showcases"
+"contenttypes.showcases.text.no-proper-type": # "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.not-existing": # "The Showcase you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.showcases.text.not-saved-yet": # "This Showcase has not been saved yet."
+"contenttypes.showcases.text.overview": # "Showcases overview"
+"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+"contenttypes.showcases.text.reserved-name": # "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.saved-changes": # "The changes to the Showcase have been saved."
+"contenttypes.showcases.text.saved-new": # "The new Showcase has been saved."
+"contenttypes.showcases.text.saving-impossible": # "Could not save Showcase."
+"contenttypes.showcases.text.wrong-use-field": # "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+
+#--- 67 keyword based translations --------------------------------------------
+
+contenttypes:
+    entries:
+        group:
+            content: "Conteúdo"
+            media: "Midia"
+        name:
+            plural: "Posts"
+            singular: "Post"
+        text:
+            actions-all: "Ações para posts"
+            actions-one: "Ações para este post"
+            created: "Post criado"
+            delete: "Excluir Post"
+            duplicate: "Duplicar post"
+            duplicated-finalize: "Conteúdo duplicado. Clique em 'Salvar Post' para finalizar."
+            edit: "Editar post"
+            invalid-field: "Não pode setar %field% em post. Não é um campo válido."
+            last-modified: "Posts modificados recentemente"
+            new: "Novo post"
+            no-latest: "Não há posts recentes"
+            no-recent: "Não há posts recentes."
+            none-available: "Nenhum post disponível."
+            overview: "Lista de posts"
+            publish: "Publicar post"
+            recent: "Posts recentes"
+            save: "Salvar Post"
+            show-more: "Mais posts"
+            view: "Ver posts"
+    pages:
+        group:
+            content: "Conteúdo"
+        name:
+            plural: "Páginas"
+            singular: "Página"
+        text:
+            actions-all: "Ações para páginas"
+            actions-one: "Ações para esta página"
+            created: "Esta página foi criada"
+            delete: "Excluir Página"
+            duplicate: "Duplicar página"
+            duplicated-finalize: "Conteúdo duplicado. Clique em 'Salvar Página' para finalizar."
+            edit: "Editar página"
+            invalid-field: "Não pode setar %field% na página. Não é um campo válido."
+            last-modified: "Últimas páginas editadas"
+            new: "Nova página"
+            no-recent: "Não há página recentes."
+            none-available: "Não há páginas disponíveis."
+            publish: "Publicar página"
+            recent: "Páginas recentes"
+            recently-edited: "Páginas visitadas recentemente"
+            save: "Salvar Página"
+            saved-changes: "Alterações para esta página salvas."
+            saving-impossible: "Não foi possível salvar página."
+            show-more: "Mais páginas"
+            view: "Ver páginas"
+    showcases:
+        group:
+            files: "Arquivos"
+            media: "Midia"
+            other: "Outro"
+            text: "Texto"
+        name:
+            plural: "Mostruários"
+            singular: "Mostruário"
+        text:
+            actions-all: "Ações para mostruários"
+            actions-one: "Ações para este mostruário"
+            created: "Este mostruário foi criado"
+            duplicate: "Duplicar mostruário"
+            edit: "Editar mostruário"
+            new: "Novo mostruário"
+            no-latest: "Nenhum mostruário recente"
+            no-recent: "Nenhum mostruário recente."
+            none-available: "Nenhum mostruário disponível."
+            publish: "Publicar mostruário"
+            recent: "Mostruários recentes"
+            recently-edited: "Mostruários editados recentemente"
+            save: "Salvar mostruário"
+            show-more: "Mais mostruários"
+            view: "Ver mostruários"
