@@ -42,7 +42,7 @@ class PagerListener implements EventSubscriberInterface
         // we're just listening to which has page parameter
         if (PagerManager::isPagingRequest($request)) {
             /** @var $manager \Bolt\Pager\PagerManager */
-            $manager = $this->managerFactory->__invoke();
+            $manager = $this->managerFactory->__invoke($dummy = null);
             $manager->initialize($event->getRequest());
         }
     }
