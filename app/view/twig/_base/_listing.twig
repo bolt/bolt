@@ -129,7 +129,7 @@
 {#
  # DATA ROW
  #}
-<tr {% if content.status!='published' %}class="dim"{% endif %}{% if prop.extended and modifiable %} id="item_{{ content.id }}"{% endif %}>
+<tr {% if content.status!='published' %}class="dim"{% endif %}{% if modifiable %} id="item_{{ content.id }}"{% endif %}>
 
     {### BLOCK: ID ###}
     {% block listing_id %}

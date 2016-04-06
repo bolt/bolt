@@ -23,6 +23,7 @@
         _create: function () {
             this.csrfToken  = this.element.data('bolt_csrf_token');
             this.contentType = this.element.data('contenttype');
+            this.contentTypeName = this.element.data('contenttype-name');
 
             this.element.find('table.listing tbody').buicListingPart();
         },
@@ -39,11 +40,11 @@
                 modifications = {},
                 actions = {
                     'delete': {
-                        'name': bolt.data('recordlisting.action.delete'),
+                        'name': bolt.data('recordlisting.action.delete', {'%CTNAME%': this.contentTypeName}),
                         'cmd': {'delete': null}
                     },
                     'publish': {
-                        'name': bolt.data('recordlisting.action.publish'),
+                        'name': bolt.data('recordlisting.action.publish', {'%CTNAME%': this.contentTypeName}),
                         'cmd': {'modify': {'status': 'published'}}
                     },
                     'depublish': {
