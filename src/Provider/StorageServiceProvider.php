@@ -242,6 +242,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['schema'],
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
+                    $app['password_factory'],
                     $app['access_control.hash.strength']
                 );
             }

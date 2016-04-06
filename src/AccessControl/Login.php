@@ -109,8 +109,7 @@ class Login extends AccessChecker
             return $this->loginFailed($userEntity);
         }
 
-        $factory = new PasswordLib();
-        $isValid = $factory->verifyPasswordHash($password, $userAuth->getPassword());
+        $isValid = $this->app['password_factory']->verifyHash($password, $userAuth->getPassword());
         if (!$isValid) {
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
@@ -119,7 +118,7 @@ class Login extends AccessChecker
 
         // Rehash password if not using Blowfish algorithm
         if (!Blowfish::detect($userAuth->getPassword())) {
-            $userEntity->setPassword($factory->createPasswordHash($password));
+            $userEntity->setPassword($this->app['password_factory']->createHash($password, '$2y$'));
             $this->repositoryUsers->update($userEntity);
         }
 
