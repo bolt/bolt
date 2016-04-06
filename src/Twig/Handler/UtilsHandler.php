@@ -52,7 +52,7 @@ class UtilsHandler
      */
     public function printBacktrace($depth, $safe)
     {
-        if ($safe || !$this->app['debug']) {
+        if (!$this->allowDebug($safe)) {
             return null;
         }
 
@@ -70,7 +70,7 @@ class UtilsHandler
      */
     public function printFirebug($var, $msg, $safe)
     {
-        if ($safe || !$this->app['debug']) {
+        if (!$this->allowDebug($safe)) {
             return null;
         }
 
@@ -132,5 +132,24 @@ class UtilsHandler
         }
 
         return $request;
+    }
+
+
+    /**
+     * Helper function to determine if we're supposed to allow `backtrace`
+     * and `firebug`. If `$safe` is set or `$this->app['debug']` is false, we
+     * don't allow it. Otherwise we show only to _logged on_ users, _or_
+     * non-authenticated users, but then `debug_show_loggedoff` needs to be set.
+     *
+     * @param string $safe
+     *
+     * @return boolean
+     */
+    private function allowDebug($safe)
+    {
+        return (
+            !$safe && $this->app['debug'] &&
+            ($this->app['users']->getCurrentUser() ||
+            $this->app['config']->get('general/debug_show_loggedoff') ) );
     }
 }
