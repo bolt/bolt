@@ -14,16 +14,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class PagerListener implements EventSubscriberInterface
 {
-    protected $managerFactory;
+    protected $manager;
 
     /**
      * PagerListener constructor.
-     *
-     * @param \Closure $pagerManagerFactory
+     * @param PagerManager $manager
      */
-    public function __construct(\Closure $pagerManagerFactory)
+    public function __construct(PagerManager $manager)
     {
-        $this->managerFactory = $pagerManagerFactory;
+        $this->manager = $manager;
     }
 
     /**
@@ -37,12 +36,7 @@ class PagerListener implements EventSubscriberInterface
             return;
         }
 
-        $request = $event->getRequest();
-        // because of various type of requests fires event (Frontend/Async/Thumbs/etc.)
-        // we're just listening to which has page parameter
-        if (PagerManager::isPagingRequest($request)) {
-            $this->managerFactory->__invoke($request);
-        }
+        $this->manager->initialize($event->getRequest());
     }
 
     /**

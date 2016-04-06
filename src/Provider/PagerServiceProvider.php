@@ -20,28 +20,9 @@ class PagerServiceProvider implements ServiceProviderInterface
         // the provider
         $app['pager'] = $app->share(
             function () use ($app) {
-                $manager = $app['pager.manager_factory']();
-
-                return $manager;
+                return new PagerManager();
             }
         );
-
-        $app['pager.manager_factory'] = $app->protect(
-            $app->share(
-                function (Request $request = null) use ($app) {
-                    $manager = new PagerManager();
-                    if (!$request) {
-                        $request = $app['request_stack']->getCurrentRequest();
-                    }
-                    if ($request) {
-                        $manager->initialize($request);
-                    }
-
-                    return $manager;
-                }
-            )
-        );
-
     }
 
     /**
