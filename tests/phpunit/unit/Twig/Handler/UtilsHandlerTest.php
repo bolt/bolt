@@ -70,12 +70,27 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->assertNull($result);
     }
 
+
+    public function testPrintBacktraceNoSafeDebugOffLoggedoff()
+    {
+        $app = $this->getApp();
+        $app['debug'] = true;
+        $app['config']->set('general/debug_show_loggedoff', false);
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->printBacktrace(5, false);
+        $this->assertNull($result);
+    }
+
+
     public function testPrintBacktraceNoSafeDebugOn()
     {
         $this->stubVarDumper();
 
         $app = $this->getApp();
         $app['debug'] = true;
+        $app['config']->set('general/debug_show_loggedoff', true);
+
         $handler = new UtilsHandler($app);
 
         $result = $handler->printBacktrace(5, false);
@@ -106,12 +121,24 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->assertNull($result);
     }
 
+    public function testPrintFirebugNoSafeDebugOffLoggedOff()
+    {
+        $app = $this->getApp();
+        $app['debug'] = true;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $this->assertNull($result);
+    }
+
+
     public function testPrintFirebugNoSafeDebugOnArrayString()
     {
         $this->stubVarDumper();
 
         $app = $this->getApp();
         $app['debug'] = true;
+        $app['config']->set('general/debug_show_loggedoff', true);
 
         $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
@@ -129,6 +156,7 @@ class UtilsHandlerTest extends BoltUnitTest
 
         $app = $this->getApp();
         $app['debug'] = true;
+        $app['config']->set('general/debug_show_loggedoff', true);
 
         $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
