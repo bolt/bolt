@@ -8,6 +8,7 @@ use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
+use PasswordLib\Password\Implementation\Blowfish;
 use PasswordLib\PasswordLib;
 use Silex\Application;
 
@@ -108,12 +109,20 @@ class Login extends AccessChecker
             return $this->loginFailed($userEntity);
         }
 
-        $check = (new PasswordLib())->verifyPasswordHash($password, $userAuth->getPassword());
-        if (!$check) {
+        $factory = new PasswordLib();
+        $isValid = $factory->verifyPasswordHash($password, $userAuth->getPassword());
+        if (!$isValid) {
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
             return $this->loginFailed($userEntity);
         }
+
+        // Rehash password if not using Blowfish algorithm
+        if (!Blowfish::detect($userAuth->getPassword())) {
+            $userEntity->setPassword($factory->createPasswordHash($password));
+            $this->repositoryUsers->update($userEntity);
+        }
+
         $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
         return $this->loginFinish($userEntity);
