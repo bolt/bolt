@@ -328,7 +328,8 @@ class Config
             if (isset($_SERVER['SERVER_NAME'])) {
                 $hostname = $_SERVER['SERVER_NAME'];
             } elseif (isset($_SERVER['HTTP_HOST'])) {
-                $hostname = reset(explode(':', $_SERVER['HTTP_HOST']));
+                $hostSegments = explode(':', $_SERVER['HTTP_HOST']);
+                $hostname = reset($hostSegments);
             } else {
                 $hostname = '';
             }
