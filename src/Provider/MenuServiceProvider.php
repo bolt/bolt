@@ -28,7 +28,8 @@ class MenuServiceProvider implements ServiceProviderInterface
          */
         $app['menu.admin'] = $app->share(
             function ($app) {
-                $adminMenu = new AdminMenuBuilder(new MenuEntry('root', $app['config']->get('general/branding/path')));
+                $baseUrl = rtrim($app['resources']->getUrl('root'), '/') . $app['config']->get('general/branding/path');
+                $adminMenu = new AdminMenuBuilder(new MenuEntry('root', $baseUrl));
                 $rootEntry = $adminMenu->build($app);
 
                 return $rootEntry;
