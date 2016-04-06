@@ -27,16 +27,16 @@ class DumpExtension extends BaseDumpExtension
     /**
      * Constructor.
      *
-     * @param ClonerInterface          $cloner
-     * @param DataDumperInterface|null $dumper
-     * @param Users                    $users
-     * @param boolean                  $debugShowLoggedoff
+     * @param ClonerInterface     $cloner
+     * @param DataDumperInterface $dumper
+     * @param Users               $users
+     * @param boolean             $debugShowLoggedoff
      */
-    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper = null, Users $users, $debugShowLoggedoff)
+    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper, Users $users, $debugShowLoggedoff)
     {
         parent::__construct($cloner);
         $this->cloner = $cloner;
-        $this->dumper = $dumper ?: new HtmlDumper();
+        $this->dumper = $dumper;
         $this->users = $users;
         $this->debugShowLoggedoff = $debugShowLoggedoff;
     }
