@@ -12,7 +12,8 @@ use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
-use PasswordLib\PasswordLib;
+use PasswordLib\Password\Factory as PasswordFactory;
+use PasswordLib\Password\Implementation as Password;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -30,25 +31,37 @@ class StorageEventListener implements EventSubscriberInterface
     protected $urlGenerator;
     /** @var \Bolt\Logger\FlashLoggerInterface */
     protected $loggerFlash;
+    /** @var PasswordFactory */
+    protected $passwordFactory;
     /** @var integer */
     protected $hashStrength;
 
     /**
      * Constructor.
      *
-     * @param EntityManager        $em
-     * @param Config               $config
-     * @param Manager              $schemaManager
-     * @param FlashLoggerInterface $loggerFlash
-     * @param integer              $hashStrength
+     * @param EntityManager         $em
+     * @param Config                $config
+     * @param Manager               $schemaManager
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param FlashLoggerInterface  $loggerFlash
+     * @param PasswordFactory       $passwordFactory
+     * @param integer               $hashStrength
      */
-    public function __construct(EntityManager $em, Config $config, Manager $schemaManager, UrlGeneratorInterface $urlGenerator, FlashLoggerInterface $loggerFlash, $hashStrength)
-    {
+    public function __construct(
+        EntityManager $em,
+        Config $config,
+        Manager $schemaManager,
+        UrlGeneratorInterface $urlGenerator,
+        FlashLoggerInterface $loggerFlash,
+        PasswordFactory $passwordFactory,
+        $hashStrength
+    ) {
         $this->em = $em;
         $this->config = $config;
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
         $this->loggerFlash = $loggerFlash;
+        $this->passwordFactory = $passwordFactory;
         $this->hashStrength = $hashStrength;
     }
 
@@ -160,17 +173,17 @@ class StorageEventListener implements EventSubscriberInterface
      */
     private function getValidHash($password)
     {
-        if (strlen($password) === 60 && strpos($password, '$2y$') === 0) {
+        if (Password\Blowfish::detect($password)) {
             return $password;
         }
-        if (strlen($password) === 34 && strpos($password, '$P$') === 0) {
+        if (Password\PHPASS::detect($password)) {
             return $password;
         }
         if (strlen($password) < 6) {
             throw new AccessControlException('Can not save a password with a length shorter than 6 characters!');
         }
 
-        return (new PasswordLib())->createPasswordHash($password, '$2y$');
+        return $this->passwordFactory->createHash($password, '$2y$');
     }
 
     /**

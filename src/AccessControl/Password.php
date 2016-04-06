@@ -6,7 +6,6 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
-use PasswordLib\PasswordLib;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -133,9 +132,8 @@ class Password
         }
 
         // Generate shadow password and hash
-        $crypt = new PasswordLib();
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
-        $shadowPasswordHash = $crypt->createPasswordHash($shadowPassword, '$2a$');
+        $shadowPasswordHash = $this->app['password_factory']->createHash($shadowPassword, '$2y$');
 
         // Generate shadow token and hash
         $shadowToken = $this->app['randomgenerator']->generateString(32);
