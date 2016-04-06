@@ -156,7 +156,7 @@ class BackendDeveloperCest
         $I->amOnPage('/bolt/tr');
 
         // Go into edit mode
-        $I->see('contenttypes.general.choose-an-entry', 'textarea');
+        $I->see('changelog-detail:', 'textarea');
 
         // Edit the field
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
@@ -220,7 +220,7 @@ class BackendDeveloperCest
         $I->amOnPage('/bolt/tr/contenttypes');
 
         // Go into edit mode
-        $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
+        $I->see('contenttypes:', 'textarea');
         $I->see('The Entry you were looking for does not exist.', 'textarea');
 
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
