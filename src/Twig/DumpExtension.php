@@ -19,12 +19,18 @@ class DumpExtension extends BaseDumpExtension
     private $cloner;
     /** @var DataDumperInterface */
     private $dumper;
+    /** @var Users */
+    private $users;
+
+    private $debugShowLoggedoff;
 
     /**
      * Constructor.
      *
      * @param ClonerInterface          $cloner
      * @param DataDumperInterface|null $dumper
+     * @param Users                    $users
+     * @param boolean                  $debugShowLoggedoff
      */
     public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper = null, Users $users, $debugShowLoggedoff)
     {
@@ -40,7 +46,9 @@ class DumpExtension extends BaseDumpExtension
      */
     public function dump(\Twig_Environment $env, $context)
     {
-        if (!$env->isDebug() || (($this->users->getCurrentUser() == null) && !$this->debugShowLoggedoff)) {
+        // Return if 'debug' is `false` in Twig, or there's no logged on user _and_ `debug_show_loggedoff` in
+        // config.yml is `false`.
+        if (!$env->isDebug() || (($this->users->getCurrentUser() === null) && !$this->debugShowLoggedoff)) {
             return null;
         }
 
