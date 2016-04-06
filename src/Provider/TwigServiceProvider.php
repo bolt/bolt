@@ -76,8 +76,13 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
                     $twig->addExtension($app['twig.extension.asset']);
 
-                    if ($app['debug'] && isset($app['dump'])) {
-                        $twig->addExtension(new DumpExtension($app['dumper.cloner'], $app['dumper.html']));
+                    if (isset($app['dump'])) {
+                        $twig->addExtension(new DumpExtension(
+                            $app['dumper.cloner'],
+                            $app['dumper.html'],
+                            $app['users'],
+                            $app['config']->get('general/debug_show_loggedoff', false)
+                        ));
                     }
 
                     return $twig;

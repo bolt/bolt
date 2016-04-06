@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt\Users;
 use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
@@ -25,11 +26,13 @@ class DumpExtension extends BaseDumpExtension
      * @param ClonerInterface          $cloner
      * @param DataDumperInterface|null $dumper
      */
-    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper = null)
+    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper = null, Users $users, $debugShowLoggedoff)
     {
         parent::__construct($cloner);
-        $this->dumper = $dumper ?: new HtmlDumper();
         $this->cloner = $cloner;
+        $this->dumper = $dumper ?: new HtmlDumper();
+        $this->users = $users;
+        $this->debugShowLoggedoff = $debugShowLoggedoff;
     }
 
     /**
@@ -37,7 +40,7 @@ class DumpExtension extends BaseDumpExtension
      */
     public function dump(\Twig_Environment $env, $context)
     {
-        if (!$env->isDebug()) {
+        if (!$env->isDebug() || (($this->users->getCurrentUser() == null) && !$this->debugShowLoggedoff)) {
             return null;
         }
 
