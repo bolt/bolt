@@ -76,9 +76,6 @@
     "conflict": {
         "rossriley/flysystem53": "*"
     },
-    "config" : {
-        "preferred-install" : "dist"
-    },
     "autoload" : {
         "psr-4" : {
             "Bolt\\" : "src"
