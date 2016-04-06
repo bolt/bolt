@@ -126,7 +126,6 @@ class Edit
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
-
         if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
             $this->setCanUpload($templateFields->getContenttype());
         }
