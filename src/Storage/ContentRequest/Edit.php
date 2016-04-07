@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\TemplateFields;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
@@ -125,7 +126,7 @@ class Edit
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
-        if ($templateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
+        if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
             $this->setCanUpload($templateFields->getContenttype());
         }
 
@@ -398,7 +399,7 @@ class Edit
             'meta' => true,
         ];
 
-        if ($content->getTemplatefields()) {
+        if ($content->getTemplatefields() instanceof TemplateFields) {
             $templateFields = $content->getTemplatefields()->getContenttype()->getFields() ?: [];
         } else {
             $templateFields = [];
