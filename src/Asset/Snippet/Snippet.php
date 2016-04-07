@@ -20,8 +20,6 @@ class Snippet implements SnippetAssetInterface
     /** @var array */
     protected $callbackArguments;
     /** @var string */
-    protected $extension = 'core';
-    /** @var string */
     protected $zone = Zone::FRONTEND;
 
     /**
@@ -111,34 +109,6 @@ class Snippet implements SnippetAssetInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtension()
-    {
-        return $this->extension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtension($extensionName)
-    {
-        $this->extension = $extensionName;
-
-        return $this;
-    }
-
-    /**
-     * Check if the snippet is for core or an extension.
-     *
-     * @return boolean
-     */
-    public function isCore()
-    {
-        return $this->extension === 'core';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getZone()
     {
         return $this->zone;
@@ -163,37 +133,19 @@ class Snippet implements SnippetAssetInterface
      */
     private function getCallableResult()
     {
-        if ($this->extension === 'core' && is_callable($this->callback)) {
-            // Snippet is a callback in the 'global scope'
+        if (is_callable($this->callback)) {
             return call_user_func_array($this->callback, (array) $this->callbackArguments);
-        } elseif ($callable = $this->getCallable()) {
-            // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $this->callbackArguments);
         } elseif (is_string($this->callback) || $this->callback instanceof \Twig_Markup) {
             // Insert the 'callback' as a string.
             return (string) $this->callback;
         }
 
         try {
-            $msg = sprintf('Snippet loading failed for %s with callable %s', $this->extension, serialize($this->callback));
+            $msg = sprintf('Snippet loading failed with callable %s', serialize($this->callback));
         } catch (\Exception $e) {
-            $msg = sprintf('Snippet loading failed for %s with an unknown callback.', $this->extension);
+            $msg = sprintf('Snippet loading failed with an unknown callback.');
         }
 
         throw new \RuntimeException($msg);
-    }
-
-    /**
-     * Check for a valid snippet callback.
-     *
-     * @return callable|null
-     */
-    private function getCallable()
-    {
-        if (is_callable($this->callback)) {
-            return $this->callback;
-        } elseif (is_callable([$this->extension, $this->callback])) {
-            return [$this->extension, $this->callback];
-        }
     }
 }
