@@ -127,7 +127,7 @@ class Edit
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
         if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
-            $this->setCanUpload($templateFields->getContenttype());
+            $templateFields->getContenttype()['fields'] = $this->setCanUpload($templateFields->getContenttype()->getFields());
         }
 
         // Build context for Twig.
