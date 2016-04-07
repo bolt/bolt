@@ -57,20 +57,4 @@ interface SnippetAssetInterface extends AssetInterface
      * @return Snippet
      */
     public function setCallbackArguments($callbackArguments);
-
-    /**
-     * Get the extension name that this connects to.
-     *
-     * @return string
-     */
-    public function getExtension();
-
-    /**
-     * Set the extension name that this connects to.
-     *
-     * @param string $extensionName
-     *
-     * @return Snippet
-     */
-    public function setExtension($extensionName);
 }
