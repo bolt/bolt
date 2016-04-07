@@ -325,11 +325,12 @@ class Config
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($general['cookies_domain'])) {
-            if (isset($_SERVER['SERVER_NAME'])) {
-                $hostname = $_SERVER['SERVER_NAME'];
-            } elseif (isset($_SERVER['HTTP_HOST'])) {
-                $hostSegments = explode(':', $_SERVER['HTTP_HOST']);
+            $request = Request::createFromGlobals();
+            if ($request->server->get('HTTP_HOST', false)) {
+                $hostSegments = explode(':', $request->server->get('HTTP_HOST'));
                 $hostname = reset($hostSegments);
+            } elseif ($request->server->get('SERVER_NAME', false)) {
+                $hostname = $request->server->get('SERVER_NAME');
             } else {
                 $hostname = '';
             }
