@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt\Users;
 use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
@@ -18,18 +19,26 @@ class DumpExtension extends BaseDumpExtension
     private $cloner;
     /** @var DataDumperInterface */
     private $dumper;
+    /** @var Users */
+    private $users;
+
+    private $debugShowLoggedoff;
 
     /**
      * Constructor.
      *
-     * @param ClonerInterface          $cloner
-     * @param DataDumperInterface|null $dumper
+     * @param ClonerInterface     $cloner
+     * @param DataDumperInterface $dumper
+     * @param Users               $users
+     * @param boolean             $debugShowLoggedoff
      */
-    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper = null)
+    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper, Users $users, $debugShowLoggedoff)
     {
         parent::__construct($cloner);
-        $this->dumper = $dumper ?: new HtmlDumper();
         $this->cloner = $cloner;
+        $this->dumper = $dumper;
+        $this->users = $users;
+        $this->debugShowLoggedoff = $debugShowLoggedoff;
     }
 
     /**
@@ -37,7 +46,9 @@ class DumpExtension extends BaseDumpExtension
      */
     public function dump(\Twig_Environment $env, $context)
     {
-        if (!$env->isDebug()) {
+        // Return if 'debug' is `false` in Twig, or there's no logged on user _and_ `debug_show_loggedoff` in
+        // config.yml is `false`.
+        if (!$env->isDebug() || (($this->users->getCurrentUser() === null) && !$this->debugShowLoggedoff)) {
             return null;
         }
 
