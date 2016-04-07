@@ -134,7 +134,6 @@ class UtilsHandler
         return $request;
     }
 
-
     /**
      * Helper function to determine if we're supposed to allow `backtrace`
      * and `firebug`. If `$safe` is set or `$this->app['debug']` is false, we
@@ -147,9 +146,10 @@ class UtilsHandler
      */
     private function allowDebug($safe)
     {
-        return (
-            !$safe && $this->app['debug'] &&
-            ($this->app['users']->getCurrentUser() ||
-            $this->app['config']->get('general/debug_show_loggedoff') ) );
+        $debug = $this->app['debug'];
+        $isUser = (bool) $this->app['users']->getCurrentUser() ?: false;
+        $showAlways = $this->app['config']->get('general/debug_show_loggedoff', false);
+
+        return !$safe && $debug && ($isUser || $showAlways);
     }
 }
