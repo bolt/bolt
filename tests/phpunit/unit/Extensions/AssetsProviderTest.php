@@ -491,7 +491,6 @@ HTML;
         $snippet = (new Snippet())
             ->setLocation($location)
             ->setCallback($callback)
-            ->setExtension($extensionName)
             ->setCallbackArguments($callbackArguments)
         ;
 

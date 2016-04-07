@@ -18,7 +18,6 @@ class Extension extends BaseExtension
         $snippet = (new Snippet())
             ->setLocation(Target::END_OF_HEAD)
             ->setCallback([$this, 'snippetCallBack'])
-            ->setExtension(__CLASS__)
         ;
         $app['asset.queue.snippet']->add($snippet);
     }

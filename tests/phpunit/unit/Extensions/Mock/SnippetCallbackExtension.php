@@ -17,7 +17,6 @@ class SnippetCallbackExtension extends Extension
         $snippet = (new Snippet())
             ->setLocation(Target::START_OF_HEAD)
             ->setCallback([$this, 'snippetCallBack'])
-            ->setExtension(__CLASS__)
         ;
         $app['asset.queue.snippet']->add($snippet);
     }

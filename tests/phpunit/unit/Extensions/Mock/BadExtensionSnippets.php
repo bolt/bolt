@@ -17,7 +17,6 @@ class BadExtensionSnippets extends Extension
         $snippet = (new Snippet())
             ->setLocation(Target::END_OF_HEAD)
             ->setCallback([$this, 'badSnippetCallBack'])
-            ->setExtension(__CLASS__)
         ;
         $app['asset.queue.snippet']->add($snippet);
     }
