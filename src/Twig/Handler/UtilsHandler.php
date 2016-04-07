@@ -140,7 +140,7 @@ class UtilsHandler
      * don't allow it. Otherwise we show only to _logged on_ users, _or_
      * non-authenticated users, but then `debug_show_loggedoff` needs to be set.
      *
-     * @param string $safe
+     * @param boolean $safe
      *
      * @return boolean
      */
