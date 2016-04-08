@@ -4,6 +4,8 @@
 
     <h1>{{ record.title }}</h1>
 
+    {# Output all fields, in the order as defined in the contenttype. Change the generated html
+       in 'partials/_sub_fields.twig' See: https://docs.bolt.cm/master/fields-tag #}
     {{ fields( template = 'partials/_sub_fields.twig' ) }}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
