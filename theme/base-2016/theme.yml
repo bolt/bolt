@@ -28,6 +28,8 @@ listing_template: listing.twig
 search_results_template: search.twig
 notfound: notfound.twig
 
+# Extra 'templatefields' can be specified for use in the records / contenttypes that make use of a 
+# specific template. This allows editors to add additional fields to a certain page, but not to others.
 templatefields:
     extrafields.twig:
         section_1:
@@ -48,7 +50,8 @@ templatefields:
         image:
             type: image
 
-# There can be defined the templates for the template chooser
+# Templates can be named for display in the template selector, to allow editors to pick 
+# from easier to understand names.
 templateselect:
     templates:
          - name: 'Template with extra fields'
