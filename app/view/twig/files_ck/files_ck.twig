@@ -27,7 +27,7 @@
 
     {{ files_path(context.pathsegments, context.namespace, pathoptions) }}
 
-    {% if context.folders|length > 0 %}
+    {% if context.directories|length > 0 %}
         {{ include('@bolt/files_ck/_folders.twig') }}
     {% endif %}
 
