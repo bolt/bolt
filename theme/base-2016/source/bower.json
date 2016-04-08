@@ -11,7 +11,8 @@
   "dependencies": {
     "foundation-sites": "~6.2.0",
     "motion-ui": "~1.2.2",
-    "what-input": "~2.0.1"
+    "what-input": "~2.0.1",
+    "magnific-popup": "^1.1.0"
   },
   "ignore": [
     "**/.*",

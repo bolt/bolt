@@ -9,11 +9,7 @@
 
     {{ record.teaser }}
 
-    {% if record.image!="" %}
-        <a href="{{ image(record.image) }}">
-            <img src="{{ thumbnail(record.image, 1200, 500) }}">
-        </a>
-    {% endif %}
+    {{ popup(record.image, 1200, 500) }}
 
     {{ record.body }}
 

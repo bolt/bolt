@@ -26,14 +26,40 @@
     box-shadow: none;
 }
 
+.pagination .active a {
+    color: $light-gray;
+    background: $black;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+h1 a, h2 a, h3 a {
+    text-decoration: none;
+}
+
+@media screen and (min-width: 40em){
+    h1, h2{
+        margin-bottom: 2rem;
+    }
+
+    img {
+        margin: 0 auto 1rem;
+        max-width: 80%;
+        display: block;
+    }
+}
+
 // Override the a inside .menu-text, for topbar navigation, where the 'homepage' has a link.
 .menu > li {
     padding: 0;
     a {
-        color: #2B2B2B;
+        color: $primary-color;
+        text-decoration: none;
     }
     &.active > a {
-        color: #2B2B2B;
+        color: $primary-color;
         background-color: inherit;
         border-bottom: 1px solid;
     }
