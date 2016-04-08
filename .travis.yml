@@ -50,6 +50,9 @@ before_install:
   - sudo service nginx restart
   # Start postfix
   - sudo service postfix restart
+  # Environment set up
+  - export COMPOSER_PR_REPO=../.bolt-git-install/
+  - export COMPOSER_INSTALL=../.composer-install/
 
 before_script:
   # Set up Composer
@@ -67,18 +70,8 @@ before_script:
   - psql -c "CREATE DATABASE bolt_travis;" -U postgres || true
   - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
-  # Get the composer.json from our bolt/composer-install repo
-  - git clone https://github.com/bolt/composer-install.git .tmp
-  # Add requires
-  - composer require --working-dir=.tmp/ --no-update bolt/bolt:^3.0@dev phpunit/phpunit:^4.7 codeception/codeception:^2.1 lstrojny/phpunit-function-mocker:dev-master@dev guzzlehttp/guzzle:^5.3 composer/composer:^1.0@beta passwordlib/passwordlib:^1.0@beta
-  # Temporary until versions are tagged
-  - composer require --working-dir=.tmp/ --no-update bolt/filesystem:^2.0@beta bolt/thumbs:^3.0@beta
-  # Create the project
-  - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
-  # Update the Composer Bolt install with the PR files
-  - rsync -a --delete src/ .tmp/vendor/bolt/bolt/src/
-  - rsync -a --delete app/ .tmp/vendor/bolt/bolt/app/
-  - rsync -a --delete tests/ .tmp/vendor/bolt/bolt/tests/
+  # Composer install set up
+  - ./tests/travis/composer-setup
 
 script:
   ## Default install tests
@@ -97,10 +90,8 @@ script:
   ## Composer install test
   # To enable Composer tests, set RUN_COMPOSER_TEST=true in the web UI at https://travis-ci.org/bolt/bolt/settings/env_vars
   # - if [[ $RUN_COMPOSER_TEST != true ]] ; then echo "Composer tests disabled. " ; exit 0 ; fi
-  # Remove git installed stuff
-  - rm ./* -rf ; rm .git* -rf
-  - mv .tmp/* .
-  - mv .tmp/.bolt.yml .
+  # Sync in composer install
+  - rsync -a --delete $COMPOSER_INSTALL ./
   # Set up Nginx
   - find . -name '*nginx*'
   - cat vendor/bolt/bolt/tests/travis/nginx.conf > nginx.conf
