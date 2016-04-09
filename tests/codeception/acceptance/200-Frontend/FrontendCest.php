@@ -150,7 +150,7 @@ class FrontendCest
 
         $I->amOnPage('/');
         $I->seeElement('a', ['href' => '/', 'class' => 'first']);
-        $I->seeElement('li', ['class' => 'index-1 first active']);
+        $I->seeElement('li', ['class' => 'index-1 menu-text first active']);
 
         $I->amOnPage('/pages');
         $I->seeElement('li', ['class' => 'index-3 active']);
