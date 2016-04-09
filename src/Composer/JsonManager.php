@@ -131,7 +131,7 @@ class JsonManager
                 'bolt/bolt' => Bolt\Version::forComposer(),
             ],
             'extra' => [
-                'bolt-web-path' => $pathToWeb,
+                'bolt-web-path'  => $pathToWeb,
                 'bolt-root-path' => $pathToRoot,
             ],
             'autoload' => [

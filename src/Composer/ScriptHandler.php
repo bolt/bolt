@@ -116,7 +116,7 @@ class ScriptHandler
         $chmodDirs = [
             'extensions',
             $web . '/extensions',
-            $web . '/thumbs'
+            $web . '/thumbs',
         ];
         $filesystem->chmod($chmodDirs, static::configureDirMode($event));
 
@@ -163,7 +163,7 @@ class ScriptHandler
         }
 
         if ($chmod) {
-            $it = (new Finder)->directories()->in($target)->append([$target]);
+            $it = (new Finder())->directories()->in($target)->append([$target]);
             $fs->chmod($it, $dirMode);
         }
 

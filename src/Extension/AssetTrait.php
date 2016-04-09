@@ -165,6 +165,7 @@ trait AssetTrait
         $file = $this->getWebDirectory()->getFile($asset->getPath());
         if ($file->exists()) {
             $asset->setPackageName('extensions')->setPath($file->getPath());
+
             return;
         }
 
@@ -172,6 +173,7 @@ trait AssetTrait
 
         if ($app['filesystem']->has(sprintf('theme://%s', $path))) {
             $asset->setPackageName('theme')->setPath($path);
+
             return;
         }
 

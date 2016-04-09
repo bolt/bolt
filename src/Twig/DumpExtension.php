@@ -6,7 +6,6 @@ use Bolt\Users;
 use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
  * Extended to allow dumper to be passed in.
