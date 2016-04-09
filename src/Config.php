@@ -247,7 +247,7 @@ class Config
         if (is_string($value)) {
             $serviceName = substr($value, 1, strlen($value) - 2);
 
-            if (strpos($serviceName, ":") !== false) {
+            if (strpos($serviceName, ':') !== false) {
                 list($serviceName, $params) = explode(':', $serviceName);
             } else {
                 $params = [];

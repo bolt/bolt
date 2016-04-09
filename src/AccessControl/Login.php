@@ -9,7 +9,6 @@ use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use PasswordLib\Password\Implementation\Blowfish;
-use PasswordLib\PasswordLib;
 use Silex\Application;
 
 /**
@@ -55,8 +54,9 @@ class Login extends AccessChecker
      * @param string             $password
      * @param AccessControlEvent $event
      *
-     * @return bool
      * @throws AccessControlException
+     *
+     * @return bool
      */
     public function login($userName, $password, AccessControlEvent $event)
     {

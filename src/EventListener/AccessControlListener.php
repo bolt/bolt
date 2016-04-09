@@ -9,7 +9,6 @@ use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Session\SessionStorage;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
-use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

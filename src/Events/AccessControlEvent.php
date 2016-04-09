@@ -2,7 +2,6 @@
 
 namespace Bolt\Events;
 
-use Silex\Application;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -33,7 +32,7 @@ class AccessControlEvent extends Event
      * For security reasons we don't store the request object here so the
      * values in the event remain immutable.
      *
-     * @param Request   $request
+     * @param Request $request
      */
     public function __construct(Request $request)
     {
