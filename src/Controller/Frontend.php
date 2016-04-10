@@ -193,11 +193,11 @@ class Frontend extends ConfigurableBase
     {
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // First, get the preview from Post.
-        $content = $this->storage()->getContentObject($contenttypeslug);
-
-        if ($id = $request->get('id')) {
-            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true]);
+        $id = $request->request->get('id');
+        if ($id) {
+            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
+        } else {
+            $content = $this->storage()->getContentObject($contenttypeslug);
         }
 
         $content->setFromPost($request->request->all(), $contenttype);
