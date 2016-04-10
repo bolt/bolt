@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Database\Schema;
 
+use Bolt\Events\SchemaEvent;
+use Bolt\Events\SchemaEvents;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
@@ -149,6 +151,9 @@ class Manager
         $modifier = new TableModifier($this->connection, $this->app['logger.system'], $this->app['logger.flash']);
         $modifier->createTables($creates, $response);
         $modifier->alterTables($alters, $response);
+
+        $event = new SchemaEvent($creates, $alters);
+        $this->app['dispatcher']->dispatch(SchemaEvents::UPDATE, $event);
 
         // Recheck now that we've processed
         $fromTables = $this->getInstalledTables();
