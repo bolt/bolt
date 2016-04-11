@@ -109,7 +109,7 @@ class SessionServiceProvider implements ServiceProviderInterface
             'name'            => 'bolt_session_',
             'restrict_realm'  => true,
             'save_handler'    => 'filesystem',
-            'save_path'       => 'cache://sessions',
+            'save_path'       => 'cache://.sessions',
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
             'cookie_path'     => $app['resources']->getUrl('root'),
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
