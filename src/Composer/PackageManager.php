@@ -613,7 +613,7 @@ class PackageManager
         $this->getFactory()->downgradeSsl = true;
 
         $this->messages[] = Trans::__(
-            "System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.",
+            "System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.html for more details. Downgrading to HTTP.",
             array('%ERROR%' => trim($err)));
 
         return Response::HTTP_OK;
