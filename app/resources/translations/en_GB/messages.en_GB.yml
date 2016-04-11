@@ -350,7 +350,7 @@
 "This is a checkbox": "This is a checkbox"
 "This record is related to:": "This record is related to:"
 "This template adds new fields. Save, then refresh to see these changes.": "This template adds new fields. Save, then refresh to see these changes."
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sítio criado em <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>CMS Bolt</a>."
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "This will install all available updates.": "This will install all available updates."
 "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.": "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
 "This will overwrite any existing files! Are you sure?": "This will overwrite any existing files! Are you sure?"
