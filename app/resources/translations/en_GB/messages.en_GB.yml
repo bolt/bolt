@@ -309,7 +309,7 @@
 "Stack": "Stack"
 "Status": "Status"
 "Status:": "Status:"
-"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.": "System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP."
+"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.html for more details. Downgrading to HTTP.": "System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.html for more details. Downgrading to HTTP."
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomy"
