@@ -33,6 +33,7 @@ pages:
         template:
             type: templateselect
             filter: '*.twig'
+            group: template
     taxonomy: [ chapters ]
     recordsperpage: 100
 
@@ -175,10 +176,6 @@ showcases:
                     extensions: [ gif, jpg, png ]
                 repeatcontent:
                     type: html
-        template:
-            type: templateselect
-            filter: '*.twig'
-            group: template
     relations:
         entries:
             multiple: false
