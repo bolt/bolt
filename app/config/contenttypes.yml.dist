@@ -5,7 +5,7 @@
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
 # field, which allows you to override the record_template setting for an
 # individual page.
-# The taxonomy for this contenttype is defined as 'chapters', which is a so-called
+# The taxonomy for this contenttype is defined as 'groups', which is a so-called
 # "grouping taxonomy". This way you can easily group sets of pages that logically
 # belong together. If your site has a 'services' section, in which you'd like to
 # list the different types of services a company provides, you can group these
@@ -33,8 +33,7 @@ pages:
         template:
             type: templateselect
             filter: '*.twig'
-            group: template
-    taxonomy: [ chapters ]
+    taxonomy: [ groups ]
     recordsperpage: 100
 
 

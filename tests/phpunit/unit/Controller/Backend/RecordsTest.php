@@ -206,7 +206,7 @@ class RecordsTest extends ControllerUnitTest
             'GET',
             [
                 'filter'            => 'Lorem',
-                'taxonomy-chapters' => 'main',
+                'taxonomy-groups' => 'main',
             ]
         ));
         $response = $this->controller()->overview($this->getRequest(), 'pages');
@@ -214,7 +214,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->assertArrayHasKey('filter', $context['context']);
         $this->assertEquals('Lorem', $context['context']['filter'][0]);
-        $this->assertEquals('main', $context['context']['filter']['chapters']);
+        $this->assertEquals('main', $context['context']['filter']['groups']);
     }
 
     public function testRelated()
