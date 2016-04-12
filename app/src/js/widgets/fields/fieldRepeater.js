@@ -220,7 +220,7 @@
         _resetEditors: function (container) {
             var editors = container.find('.ckeditor');
 
-            editors.each(function (editor) {
+            editors.each(function (i, editor) {
                 cke.instances[editor.id].destroy();
                 cke.replace(editor.id);
             });
