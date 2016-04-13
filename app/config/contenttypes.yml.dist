@@ -305,5 +305,3 @@ blocks:
 # select - varchar(256) - select with predefined values
 # templateselect - varchar(256) - select with template filenames
 # checkbox - integer - checkbox-field which is 1 (checked) or 0 (unchecked)
-
-# number (deprecated) - input type decimal(18,9), useful for storing number that need to be sortable
