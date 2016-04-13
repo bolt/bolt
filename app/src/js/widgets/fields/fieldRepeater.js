@@ -1,8 +1,9 @@
 /**
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
+ * @param {Object} cke  - CKEDITOR global or undefined
  */
-(function ($, bolt) {
+(function ($, bolt, cke) {
     'use strict';
 
     /**
@@ -108,6 +109,7 @@
 
                 setToMove.insertBefore(setToMove.prev('.repeater-group'));
                 self._renumber();
+                self._resetEditors(setToMove);
             });
 
             self.element.on('click', '.move-down', function () {
@@ -115,6 +117,7 @@
 
                 setToMove.insertAfter(setToMove.next('.repeater-group'));
                 self._renumber();
+                self._resetEditors(setToMove);
             });
 
             // Add initial groups until minimum number is reached.
@@ -206,7 +209,25 @@
         },
 
         /**
-         * Adds a vlaue to the group counter and adjust button states according to it.
+         * Reset ckeditors within a given context.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.repeater
+         *
+         * @param {Object} container - jQuery context object
+         */
+        _resetEditors: function (container) {
+            var editors = container.find('.ckeditor');
+
+            editors.each(function (i, editor) {
+                cke.instances[editor.id].destroy();
+                cke.replace(editor.id);
+            });
+        },
+
+        /**
+         * Adds a value to the group counter and adjust button states according to it.
          *
          * @private
          * @function clone
@@ -231,4 +252,4 @@
             }
         }
     });
-})(jQuery, Bolt);
+})(jQuery, Bolt, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
