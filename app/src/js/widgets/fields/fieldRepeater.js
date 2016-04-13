@@ -227,7 +227,7 @@
         },
 
         /**
-         * Adds a vlaue to the group counter and adjust button states according to it.
+         * Adds a value to the group counter and adjust button states according to it.
          *
          * @private
          * @function clone
