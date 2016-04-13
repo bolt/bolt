@@ -9,11 +9,11 @@ tags:
     allow_spaces: false
     #listing_template: tag-listing.twig #custom template
 
-chapters:
-    slug: chapters
-    singular_slug: chapter
+groups:
+    slug: groups
+    singular_slug: group
     behaves_like: grouping
-    options: { main: "The main chapter", meta: "Meta Chapter", other: "The other stuff" }
+    options: { main: "The main group", meta: "Meta group", other: "The other stuff" }
     has_sortorder: true
 
 categories:

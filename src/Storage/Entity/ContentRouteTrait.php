@@ -143,7 +143,7 @@ trait ContentRouteTrait
                     // Special case, if we need to have a date
                     $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
                 } elseif (isset($this->taxonomy[$fieldName])) {
-                    // Turn something like '/chapters/meta' to 'meta'. Note: we use
+                    // Turn something like '/groups/meta' to 'meta'. Note: we use
                     // two temp vars here, to prevent "Only variables should be passed
                     // by reference"-notices.
                     $tempKeys = array_keys($this->taxonomy[$fieldName]);
