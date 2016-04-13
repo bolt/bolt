@@ -229,6 +229,25 @@ blocks:
     icon_many: "fa:cubes"
     icon_one: "fa:cube"
 
+# Possible field types:
+#
+# text - varchar(256) - input type text.
+# integer - integer - Input field for integer numbers.
+# float - double - Input field for floating numbers, stored as 'Double'.
+# geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
+# imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
+# image - varchar(256) - image select/upload widget, stored as filename.
+# file - varchar(256) - file select/upload widget, stored as filename.
+# filelist - text (65kb) - Input type for a list of files. Including a description.
+# video - varchar(256) - Video embed widget, stored as filename.
+# html - text (65kb) - wysiwyg element.
+# textarea - varchar(32768) - Simple, plain < textarea > field.
+# markdown - varchar(32768) - Simple, plain < textarea > field, which is parsed as Markdown text.
+# datetime - datetime - date and time selector widget.
+# date - datetime - date selector widget.
+# select - varchar(256) - select with predefined values
+# templateselect - varchar(256) - select with template filenames
+# checkbox - integer - checkbox-field which is 1 (checked) or 0 (unchecked)
 
 # Using YAML repeated nodes
 #
@@ -285,23 +304,3 @@ blocks:
 #            filter: '*_xyz.twig'
 #    taxonomy: [ tags ]
 #    recordsperpage: 20
-
-# Possible field types:
-#
-# text - varchar(256) - input type text.
-# integer - integer - Input field for integer numbers.
-# float - double - Input field for floating numbers, stored as 'Double'.
-# geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
-# imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
-# image - varchar(256) - image select/upload widget, stored as filename.
-# file - varchar(256) - file select/upload widget, stored as filename.
-# filelist - text (65kb) - Input type for a list of files. Including a description.
-# video - varchar(256) - Video embed widget, stored as filename.
-# html - text (65kb) - wysiwyg element.
-# textarea - varchar(32768) - Simple, plain < textarea > field.
-# markdown - varchar(32768) - Simple, plain < textarea > field, which is parsed as Markdown text.
-# datetime - datetime - date and time selector widget.
-# date - datetime - date selector widget.
-# select - varchar(256) - select with predefined values
-# templateselect - varchar(256) - select with template filenames
-# checkbox - integer - checkbox-field which is 1 (checked) or 0 (unchecked)
