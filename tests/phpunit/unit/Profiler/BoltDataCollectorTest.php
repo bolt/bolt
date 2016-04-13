@@ -32,7 +32,7 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertNotEmpty($data->getName());
         $this->assertNotEmpty($data->getVersion());
         $this->assertNotEmpty($data->getPayoff());
-        $this->assertNotEmpty($data->getAboutLink());
+        $this->assertNotEmpty($data->getDashboardLink());
         $this->assertEmpty($data->getEditLink());
         $this->assertEmpty($data->getEditTitle());
     }
