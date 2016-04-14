@@ -134,10 +134,5 @@
 {% block page_script %}
 {% endblock page_script %}
 
-{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml. #}
-{% if app.config.get('general/grunt/livereload') %}
-    <script src="//{{ app.request.host }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
-{% endif %}
-
 </body>
 </html>
