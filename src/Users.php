@@ -73,7 +73,7 @@ class Users
         $request = Request::createFromGlobals();
         $this->hostName  = $request->getHost();
         $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
-        $this->userAgent = substr($request->server->get('HTTP_USER_AGENT'), 0, 128);
+        $this->userAgent = substr(strip_tags($request->server->get('HTTP_USER_AGENT')), 0, 128);
         $this->authToken = $request->cookies->get('bolt_authtoken');
 
         // Set 'validsession', to see if the current session is valid.
