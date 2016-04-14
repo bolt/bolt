@@ -134,7 +134,7 @@ class Authtoken extends Entity
      */
     public function setUseragent($useragent)
     {
-        $this->useragent = substr($useragent, 0, 128);
+        $this->useragent = substr(strip_tags($useragent), 0, 128);
     }
 
     /**
