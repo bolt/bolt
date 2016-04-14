@@ -36,12 +36,12 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            'version'     => Bolt\Version::VERSION,
-            'payoff'      => 'Sophisticated, lightweight & simple CMS',
-            'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('about'), 'About'),
-            'branding'    => null,
-            'editlink'    => null,
-            'edittitle'   => null,
+            'version'       => Bolt\Version::VERSION,
+            'payoff'        => 'Sophisticated, lightweight & simple CMS',
+            'dashboardlink' => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('dashboard'), 'Dashboard'),
+            'branding'      => null,
+            'editlink'      => null,
+            'edittitle'     => null,
         ];
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
@@ -90,13 +90,13 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for aboutlink.
+     * Getter for dashboardlink.
      *
      * @return string
      */
-    public function getAboutlink()
+    public function getDashboardlink()
     {
-        return $this->data['aboutlink'];
+        return $this->data['dashboardlink'];
     }
 
     /**
@@ -110,7 +110,7 @@ class BoltDataCollector extends DataCollector
     }
 
     /**
-     * Getter for aboutlink.
+     * Getter for edittitle.
      *
      * @return string
      */
