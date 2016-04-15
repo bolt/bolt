@@ -34,6 +34,14 @@ h1 a, h2 a, h3 a {
     max-width: 80%;
     display: block; } }
 
+@media screen and (max-width: 39.9375em) {
+  .no-js .top-bar {
+    display: none; } }
+
+@media screen and (min-width: 40em) {
+  .no-js .title-bar {
+    display: none; } }
+
 .menu > li {
   padding: 0; }
   .menu > li a {

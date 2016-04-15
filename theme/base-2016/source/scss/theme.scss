@@ -39,7 +39,7 @@ h1 a, h2 a, h3 a {
     text-decoration: none;
 }
 
-@media screen and (min-width: 40em){
+@include breakpoint(medium) {
     h1, h2{
         margin-bottom: 2rem;
     }
@@ -49,6 +49,20 @@ h1 a, h2 a, h3 a {
         max-width: 80%;
         display: block;
     }
+}
+
+.no-js {
+  @include breakpoint(small only) {
+    .top-bar {
+      display: none;
+    }
+  }
+
+  @include breakpoint(medium) {
+    .title-bar {
+      display: none;
+    }
+  }
 }
 
 // Override the a inside .menu-text, for topbar navigation, where the 'homepage' has a link.

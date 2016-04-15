@@ -222,7 +222,7 @@
             // Close the dropdown.
             link.closest('.btn-group').removeClass('open');
 
-            this._onSetPath(event, {path: link.data('path')});
+            this._onAddPath(event, {path: link.data('path')});
             event.preventDefault();
         },
 
