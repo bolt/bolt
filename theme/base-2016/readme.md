@@ -338,62 +338,41 @@ familiar with the concept of Template Inheritance. The main templates are:
 Working with the `.scss` files
 ------------------------------
 
-This theme uses NPM, Gulp and bower to run the tasks to compile and minify the
-Sass files.
+This theme uses Node and NPM to run the tasks to compile and minify the Sass
+files. If you don't have Node and NPM yet, install them from [Nodejs.org](https://nodejs.org).
 
-If you don't have Node and Gulp running yet, install it from
-[Nodejs.org](https://nodejs.org) and run the following command from the command
-line:
-
-```
-npm install -g bower gulp
-```
-
-If you're new to Gulp, these two tutorials on the subject might be of interest
-to you:
-
- - https://markgoodyear.com/2014/01/getting-started-with-gulp/
- - https://travismaynard.com/writing/getting-started-with-gulp
-
-Note that we're using ES6, so you _might_ find yourself in "NPM dependency
-hell". If you do, your best bet would be to make sure you've updated your Gulp,
-Bower and NPM to their respective latest versions. To do so, just run `npm
-install -g bower gulp` again. You might also need to update Node and NPM:
-
-```
-sudo npm cache clean -f;
-sudo npm install -g n;
-sudo n stable
-```
-
-Next, to install the local Bower and NPM modules, run:
+To install the themes dependencies, run the following in the source directory:
 
 ```
 npm install
-bower install
 ```
 
-The build process has been tested on Gulp v3.9.0, Bower v1.7.7, NPM 3.7.3 and
-Node v5.8.0.
-
-Now you can simply run `gulp` to compile the javascript and sass files. When
-developing, you'll want to run:
-
-```
-cd foundation/source
-gulp
-```
-
-This will run gulp, and it will continue to monitor changes to the `.scss`
-files. If you make a change, the compiled files will be updated immediately.
-When you're ready to deploy, and put the site in production, be sure to build
-the files and minify them:
+Now you can simply run `npm start` to compile the javascript and sass files.
+This will build the files, and it will continue to monitor changes to the
+`.scss` files. If you make a change, the compiled files will be updated
+immediately. When you're ready to deploy, and put the site in production, be
+sure to build the files and minify them:
 
 ```
-gulp build --production
+npm run-script build
 ```
 
 This will build the files that you can deploy, or put into your versioning
 system.
 
+The build process has been tested on NPM 3.7.3 and Node v5.8.0. If you do not
+have the correct versions you can use [n](https://www.npmjs.com/package/n) to
+manage your Node and NPM versions:
 
+```
+sudo npm install -g n;
+sudo n stable
+```
+
+And then go through the above steps again.
+
+If you're interested to learn more about the process these two tutorials on
+Gulp (which is what we use under the hood) might be of interest to you:
+
+ - https://markgoodyear.com/2014/01/getting-started-with-gulp/
+ - https://travismaynard.com/writing/getting-started-with-gulp
