@@ -85,6 +85,10 @@ class TemplateFieldsType extends FieldTypeBase
             $fieldobj = $this->em->getFieldManager()->get($field['fieldtype'], $field);
             $type = $fieldobj->getStorageType();
             $key = $field['fieldname'];
+
+            if ($this->isJson($input[$key])) {
+                $input[$key] = json_decode($input[$key], true);
+            }
             $output[$key] = $type->convertToDatabaseValue($input[$key], $this->getPlatform());
         }
 
