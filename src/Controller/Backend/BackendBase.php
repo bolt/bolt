@@ -56,7 +56,9 @@ abstract class BackendBase extends Base
 
         // Handle the case where the route doesn't equal the role.
         if ($roleRoute === null) {
-            $roleRoute = $route;
+            $roleRoute = $this->getRoutePermission($route);
+        } else {
+            $roleRoute = $this->getRoutePermission($roleRoute);
         }
 
         // Sanity checks for doubles in in contenttypes. This has to be done
@@ -116,6 +118,24 @@ abstract class BackendBase extends Base
         $app['stopwatch']->stop('bolt.backend.before');
 
         return null;
+    }
+
+    /**
+     * Temporary hack to get the permission name associated with the route.
+     *
+     * @internal
+     *
+     * @param string $route
+     *
+     * @return string
+     */
+    private function getRoutePermission($route)
+    {
+        if ($route === 'omnisearch-results') {
+            return 'omnisearch';
+        }
+
+        return $route;
     }
 
     /**
