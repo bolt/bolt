@@ -24,7 +24,11 @@
             {% endif %}
             <li>
                 {% if log.route == 'postLogin' %}
-                    <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-in') }}
+                    {% if log.ownerid == 0 %}
+                        <em>{{ log.message }}</em>
+                    {% else %}
+                        <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-in') }}
+                    {% endif %}
                 {% elseif log.route == 'logout' %}
                     <em>{{ userlink }}</em> {{ __('panel.latest-activity.logged-out') }}
                 {% else %}
