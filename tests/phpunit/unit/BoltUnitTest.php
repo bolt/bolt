@@ -124,6 +124,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'email'       => 'admin@example.com',
             'displayname' => 'Admin',
             'roles'       => ['admin'],
+            'enabled'     => true   ,
         ];
 
         $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
@@ -131,7 +132,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $user;
     }
 
-    protected function addNewUser($app, $username, $displayname, $role, $enabled = 1)
+    protected function addNewUser($app, $username, $displayname, $role, $enabled = true)
     {
         $user = [
             'username'    => $username,
@@ -139,7 +140,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'email'       => $username . '@example.com',
             'displayname' => $displayname,
             'roles'       => [$role],
-            'enabled'    => $enabled,
+            'enabled'     => $enabled,
         ];
 
         $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
