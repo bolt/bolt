@@ -70,4 +70,25 @@ class BackendAuthorCest
 
         $I->see('The changes to the Page have been saved.');
     }
+
+    /**
+     * Search for the 'About' page record.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function omnisearchTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Search for the 'About' page as the 'author' user");
+
+        // Set up the browser
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $I->amOnPage('/bolt/omnisearch');
+
+        $I->fillField('.col-md-8 .form-control', 'About');
+
+        $I->click('Search', '.col-md-8 [type="submit"]');
+
+        $I->seeLink('Edit', '/bolt/editcontent/pages/2');
+    }
 }
