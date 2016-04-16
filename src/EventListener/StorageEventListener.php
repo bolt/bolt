@@ -77,7 +77,6 @@ class StorageEventListener implements EventSubscriberInterface
 
         if ($entityRecord instanceof Entity\Users) {
             $this->passwordHash($entityRecord);
-            $this->enableUser($entityRecord);
         }
     }
 
@@ -184,18 +183,6 @@ class StorageEventListener implements EventSubscriberInterface
         }
 
         return $this->passwordFactory->createHash($password, '$2y$');
-    }
-
-    /**
-     * Set user as enabled if user is new
-     *
-     * @param Entity\Users $usersEntity
-     */
-    protected function enableUser(Entity\Users $usersEntity)
-    {
-        if ($usersEntity->getId() === null) {
-            $usersEntity->setEnabled(true);
-        }
     }
 
     public static function getSubscribedEvents()
