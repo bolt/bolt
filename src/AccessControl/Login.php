@@ -8,6 +8,7 @@ use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use PasswordLib\Password\Implementation\Blowfish;
 use Silex\Application;
 
@@ -119,7 +120,11 @@ class Login extends AccessChecker
         // Rehash password if not using Blowfish algorithm
         if (!Blowfish::detect($userAuth->getPassword())) {
             $userEntity->setPassword($this->app['password_factory']->createHash($password, '$2y$'));
-            $this->repositoryUsers->update($userEntity);
+            try {
+                $this->repositoryUsers->update($userEntity);
+            } catch (NotNullConstraintViolationException $e) {
+                // Database needs updating
+            }
         }
 
         $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
@@ -252,7 +257,13 @@ class Login extends AccessChecker
 
         // Don't try to save the password on login
         $userEntity->setPassword(null);
-        if ($this->repositoryUsers->save($userEntity)) {
+        try {
+            $saved = $this->repositoryUsers->save($userEntity);
+        } catch (NotNullConstraintViolationException $e) {
+            // Database needs updating
+            $saved = true;
+        }
+        if ($saved) {
             $this->flashLogger->success(Trans::__("You've been logged on successfully."));
 
             return true;
