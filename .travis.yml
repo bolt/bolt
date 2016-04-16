@@ -1,10 +1,5 @@
 language: php
 
-# Prevent cutover to GCE. Can be removed once full Travis legacy envvironment is upgraded
-sudo: required
-dist: precise
-group: legacy
-
 php:
   - 5.5
   - 5.6
@@ -50,6 +45,8 @@ before_install:
   - sudo service nginx restart
   # Start postfix
   - sudo service postfix restart
+  # Increase PHP memory limit. Required for Composer & PHPUnit.
+  - echo "memory_limit=2G" ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Environment set up
   - export COMPOSER_PR_REPO=../.bolt-git-install/
   - export COMPOSER_INSTALL=../.composer-install/
