@@ -157,8 +157,9 @@ class Login extends AccessChecker
                 return false;
             }
 
+            $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+            $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
-            $userTokenEntity->setValidity(Carbon::create()->addSeconds($this->cookieOptions['lifetime']));
             $this->repositoryAuthtoken->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('Session resumed.'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
@@ -307,12 +308,12 @@ class Login extends AccessChecker
 
         $username = $userEntity->getUsername();
         $token = $this->getAuthToken($username, $salt);
-        $validityPeriod = $this->cookieOptions['lifetime'];
+        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
 
         $tokenEntity->setUsername($userEntity->getUsername());
         $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
-        $tokenEntity->setValidity(Carbon::create()->addSeconds($validityPeriod));
+        $tokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
         $tokenEntity->setIp($this->getClientIp());
         $tokenEntity->setLastseen(Carbon::now());
         $tokenEntity->setUseragent($this->getClientUserAgent());
