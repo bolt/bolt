@@ -29,7 +29,9 @@ class Login extends AccessChecker
      */
     public function __construct(Application $app)
     {
+        /** @var \Bolt\Storage\Repository\AuthtokenRepository $repoAuth */
         $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        /** @var \Bolt\Storage\Repository\UsersRepository $repoUsers */
         $repoUsers = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
         parent::__construct(
