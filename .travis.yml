@@ -47,6 +47,8 @@ before_install:
   - sudo service nginx restart
   # Start postfix
   - sudo service postfix restart
+  # Increase PHP memory limit. Required for Composer & PHPUnit.
+  - echo "memory_limit = 2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   
 before_script:
   # Set up Composer 
