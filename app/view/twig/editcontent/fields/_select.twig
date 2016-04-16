@@ -6,6 +6,7 @@
     multiple:  (field.multiple is defined and field.multiple),
     required:  field.required|default(false),
     values:    field.values|default([]),
+    default:   field.default|default(null),
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -26,7 +27,7 @@
 {% endif %}
 
 {# Get the current selection. Either a single value, or an array. #}
-{% set selection = context.content.get(contentkey)|default(null) %}
+{% set selection = context.content.get(contentkey)|default(option.default) %}
 {% if selection is not iterable %}
     {% set selection = [ selection ] %}
 {% endif %}
