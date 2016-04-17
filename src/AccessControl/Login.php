@@ -8,6 +8,7 @@ use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use PasswordLib\Password\Implementation\Blowfish;
 use Silex\Application;
 
@@ -28,7 +29,9 @@ class Login extends AccessChecker
      */
     public function __construct(Application $app)
     {
+        /** @var \Bolt\Storage\Repository\AuthtokenRepository $repoAuth */
         $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        /** @var \Bolt\Storage\Repository\UsersRepository $repoUsers */
         $repoUsers = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
         parent::__construct(
@@ -119,7 +122,11 @@ class Login extends AccessChecker
         // Rehash password if not using Blowfish algorithm
         if (!Blowfish::detect($userAuth->getPassword())) {
             $userEntity->setPassword($this->app['password_factory']->createHash($password, '$2y$'));
-            $this->repositoryUsers->update($userEntity);
+            try {
+                $this->repositoryUsers->update($userEntity);
+            } catch (NotNullConstraintViolationException $e) {
+                // Database needs updating
+            }
         }
 
         $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
@@ -152,8 +159,9 @@ class Login extends AccessChecker
                 return false;
             }
 
+            $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+            $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
-            $userTokenEntity->setValidity(Carbon::create()->addSeconds($this->cookieOptions['lifetime']));
             $this->repositoryAuthtoken->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('Session resumed.'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
@@ -252,7 +260,13 @@ class Login extends AccessChecker
 
         // Don't try to save the password on login
         $userEntity->setPassword(null);
-        if ($this->repositoryUsers->save($userEntity)) {
+        try {
+            $saved = $this->repositoryUsers->save($userEntity);
+        } catch (NotNullConstraintViolationException $e) {
+            // Database needs updating
+            $saved = true;
+        }
+        if ($saved) {
             $this->flashLogger->success(Trans::__("You've been logged on successfully."));
 
             return true;
@@ -296,12 +310,12 @@ class Login extends AccessChecker
 
         $username = $userEntity->getUsername();
         $token = $this->getAuthToken($username, $salt);
-        $validityPeriod = $this->cookieOptions['lifetime'];
+        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
 
         $tokenEntity->setUsername($userEntity->getUsername());
         $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
-        $tokenEntity->setValidity(Carbon::create()->addSeconds($validityPeriod));
+        $tokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
         $tokenEntity->setIp($this->getClientIp());
         $tokenEntity->setLastseen(Carbon::now());
         $tokenEntity->setUseragent($this->getClientUserAgent());
