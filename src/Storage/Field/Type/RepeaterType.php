@@ -81,7 +81,7 @@ class RepeaterType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
-        $vals = array_filter(explode(',', $data['fields']));
+        $vals = array_filter(explode(',', $data[$key]));
         $values = [];
         foreach ($vals as $fieldKey) {
             $split = explode('_', $fieldKey);
