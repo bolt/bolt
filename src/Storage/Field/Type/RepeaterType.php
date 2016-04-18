@@ -39,7 +39,7 @@ class RepeaterType extends FieldTypeBase
 
         $dummy = 'f_' . $field;
 
-        $query->addSelect($this->getPlatformGroupConcat('fields', $query))
+        $query->addSelect($this->getPlatformGroupConcat($field, $query))
             ->leftJoin(
                 $alias,
                 $this->mapping['tables']['field_value'],
