@@ -109,7 +109,6 @@ class Users extends BackendBase
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
             $userEntity = $this->validateUserForm($request, $form, false);
-
             if ($userEntity !== false && $userEntity->getId() == $currentUser->getId() && $userEntity->getUsername() !== $currentUser->getUsername()) {
                 // If the current user changed their own login name, the session
                 // is effectively invalidated. If so, we must redirect to the
@@ -635,11 +634,11 @@ class Users extends BackendBase
      *
      * @param Request $request
      * @param Form    $form      A Symfony form
-     * @param boolean $firstuser If this is a first user set up
+     * @param boolean $firstUser If this is a first user set up
      *
      * @return Entity\Users|false
      */
-    private function validateUserForm(Request $request, Form $form, $firstuser = false)
+    private function validateUserForm(Request $request, Form $form, $firstUser = false)
     {
         $form->submit($request->get($form->getName()));
         if (!$form->isValid()) {
@@ -649,13 +648,16 @@ class Users extends BackendBase
         $userEntity = new Entity\Users($form->getData());
         $userEntity->setUsername($this->app['slugify']->slugify($userEntity->getUsername()));
 
-        if (!$firstuser) {
+        if ($firstUser) {
+            $userEntity->setEnabled(true);
+        } else {
             $userEntity->setRoles($this->users()->filterManipulatableRoles($userEntity->getId(), $userEntity->getRoles()));
         }
 
-        if ($this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity)) {
+        $saved = $this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+        if ($saved) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
-            $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstuser);
+            $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstUser);
         } else {
             $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));
         }
