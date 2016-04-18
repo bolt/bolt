@@ -75,6 +75,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', $this->user['author']['password']);
         $I->fillField('form[email]',                 $this->user['author']['email']);
         $I->fillField('form[displayname]',           $this->user['author']['displayname']);
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "editor" role
         $I->checkOption('#form_roles_1');
@@ -109,6 +110,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', $this->user['editor']['password']);
         $I->fillField('form[email]',                 $this->user['editor']['email']);
         $I->fillField('form[displayname]',           $this->user['editor']['displayname']);
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "editor" role
         $I->checkOption('#form_roles_0');
@@ -143,6 +145,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', $this->user['manager']['password']);
         $I->fillField('form[email]',                 $this->user['manager']['email']);
         $I->fillField('form[displayname]',           $this->user['manager']['displayname']);
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "chief-editor" role
         $I->checkOption('#form_roles_1');
@@ -177,6 +180,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', $this->user['developer']['password']);
         $I->fillField('form[email]',                 $this->user['developer']['email']);
         $I->fillField('form[displayname]',           $this->user['developer']['displayname']);
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "developer" role
         $I->checkOption('#form_roles_3');
@@ -211,6 +215,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', $this->user['lemmings']['password']);
         $I->fillField('form[email]',                 $this->user['lemmings']['email']);
         $I->fillField('form[displayname]',           $this->user['lemmings']['displayname']);
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "admin" role
         $I->checkOption('#form_roles_2');
@@ -245,6 +250,7 @@ class BackendAdminCest
         $I->fillField('form[password_confirmation]', 'DerpADerp');
         $I->fillField('form[email]',                 'derpaderp');
         $I->fillField('form[displayname]',           'Derpy Derpaderp');
+        $I->selectOption('form[enabled]',            1);
 
         // Add the "admin" role
         $I->checkOption('#form_roles_2');
