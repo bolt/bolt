@@ -44,7 +44,7 @@ class RepeaterType extends FieldTypeBase
                 $alias,
                 $this->mapping['tables']['field_value'],
                 $dummy,
-                $dummy . ".content_id = $alias.id AND " . $dummy . ".contenttype='$boltname'"
+                $dummy . ".content_id = $alias.id AND " . $dummy . ".contenttype='$boltname' AND " . $dummy . ".name = '$field'"
             );
     }
 
