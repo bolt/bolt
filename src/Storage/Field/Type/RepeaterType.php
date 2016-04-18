@@ -39,12 +39,12 @@ class RepeaterType extends FieldTypeBase
 
         $dummy = 'f_' . $field;
 
-        $query->addSelect($this->getPlatformGroupConcat('fields', $query))
+        $query->addSelect($this->getPlatformGroupConcat($field, $query))
             ->leftJoin(
                 $alias,
                 $this->mapping['tables']['field_value'],
                 $dummy,
-                $dummy . ".content_id = $alias.id AND " . $dummy . ".contenttype='$boltname'"
+                $dummy . ".content_id = $alias.id AND " . $dummy . ".contenttype='$boltname' AND " . $dummy . ".name = '$field'"
             );
     }
 
@@ -81,7 +81,7 @@ class RepeaterType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
-        $vals = array_filter(explode(',', $data['fields']));
+        $vals = array_filter(explode(',', $data[$key]));
         $values = [];
         foreach ($vals as $fieldKey) {
             $split = explode('_', $fieldKey);
