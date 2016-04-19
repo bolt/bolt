@@ -1,9 +1,35 @@
-Bolt 3.0 DEV-head
+Bolt 3.0.0 beta 3
 -----------------
 
-Not yet released.
+Released 2016-04-19. Notable changes:
 
- - Lots (list needs to be compiled)
+ - Added: Add omnisearch test [#5203](https://github.com/bolt/bolt/pull/5203)
+ - Change: Change the 'About' link in the profiler to a slightly more useful 'Dashboard' link. [#5174](https://github.com/bolt/bolt/pull/5174)
+ - Change: Move "Possible field types" in config.yml [#5176](https://github.com/bolt/bolt/pull/5176)
+ - Change: Put the 'template select' in the "Template" tab, where it makes most sense [#5160](https://github.com/bolt/bolt/pull/5160)
+ - Change: Rename chapter taxonomy example to group [#5169](https://github.com/bolt/bolt/pull/5169)
+ - Change: Set session.save_path to a hidden directory, to persist after flush [#5154](https://github.com/bolt/bolt/pull/5154)
+ - Change: Show better log message for "failed login attempt". [#5177](https://github.com/bolt/bolt/pull/5177)
+ - Change: Updating base-2016 dependencies [#5175](https://github.com/bolt/bolt/pull/5175)
+ - Change: Various theme improvements [#5189](https://github.com/bolt/bolt/pull/5189)
+ - Deprecation: Remove livereload settings from config.yml and _page.twig [#5166](https://github.com/bolt/bolt/pull/5166)
+ - Deprecation: Remove number from contenttypes.yml [#5167](https://github.com/bolt/bolt/pull/5167)
+ - Fixed: A few issues regarding database constraints. [#5207](https://github.com/bolt/bolt/pull/5207), [#5219](https://github.com/bolt/bolt/pull/5219), [#5224](https://github.com/bolt/bolt/pull/5224)
+ - Fixed: Adding missing .control-label class to fields, markdown, image, imagelist and textarea [#5200](https://github.com/bolt/bolt/pull/5200)
+ - Fixed: Bad default values for list types [#5221](https://github.com/bolt/bolt/pull/5221)
+ - Fixed: Don't re-fetch record on preview [#5151](https://github.com/bolt/bolt/pull/5151)
+ - Fixed: Don't throw a fatal exception on missing table [#5223](https://github.com/bolt/bolt/pull/5223)
+ - Fixed: Fix default value for select contenttype [#5187](https://github.com/bolt/bolt/pull/5187)
+ - Fixed: Fix for recursive join bug in repeaters [#5216](https://github.com/bolt/bolt/pull/5216)
+ - Fixed: JS Fix for imagelists in templatefields [#5188](https://github.com/bolt/bolt/pull/5188)
+ - Fixed: Look for template files in deeper folders. [#5217](https://github.com/bolt/bolt/pull/5217)
+ - Fixed: Only force enabling user entity on first user creation [#5208](https://github.com/bolt/bolt/pull/5208)
+ - Fixed: Reset moved ckeditor instances in repeaters [#5171](https://github.com/bolt/bolt/pull/5171)
+ - Fixed: Show folders in ck_files template [#5147](https://github.com/bolt/bolt/pull/5147)
+ - Fixed: Strip tags from useragent. (minor security issue) [#5178](https://github.com/bolt/bolt/pull/5178)
+ - Fixed: Temporary hack to get the permission name associated with the route [#5202](https://github.com/bolt/bolt/pull/5202)
+ - Fixed: Use right syntax for Omnisearch templates [#5192](https://github.com/bolt/bolt/pull/5192)
+ - Travis: Composer install testing [#5150](https://github.com/bolt/bolt/pull/5150)
 
 Bolt 3.0.0 beta 2
 -----------------
@@ -123,7 +149,7 @@ Released 2016-01-01. Notable changes:
 Bolt 2.2.15
 -----------
 
-Released 2015-12-29. Notable changes: 
+Released 2015-12-29. Notable changes:
 
  - Fixed: Exception is no longer thrown when editing an empty config file or template. (See #4636)
  - Added: Add custom sidebar groups for contenttypes. (Backport of #3793)
@@ -151,10 +177,10 @@ Released 2015-11-27. Notable changes:
  - Fixed: Fixing reordering images in an ImageList. (See #3573)
  - Fixed: Retrieve existing relations before setting them from POST. Fixes "No related entries on preview" issue. (See #4340)
  - Fixed: Handle save status transition (See #4326)
- - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record. 
+ - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record.
  - Fixed: Don't insert Bolt meta tags on AJAX requests (See #4297)
  - Fixed: Put correct cannonical link into html head on paging content request
- - Fixed: Increase z-index, so popups cover `{{ dump() }}` output. 
+ - Fixed: Increase z-index, so popups cover `{{ dump() }}` output.
 
 Bolt 2.2.13
 -----------
@@ -202,7 +228,7 @@ Not yet released. Notable changes:
 - Changed: Moving 'Install new extension' to the top of the screen.
 - Fixed: Don't sort getContent in listing view, when the contenttype has a taxonomy that has a sortorder.
 - Fixed: Use hydration for `{{ record.previous() }}` and `{{ record.next() }}`, so routes that use taxonmies in slugs work correctly. (see #4193)
-- Fixed: Don't override "templatechosen" if previously set. Makes sure the correct template is shown in the Twig nub in the Toolbar. (see #4191) 
+- Fixed: Don't override "templatechosen" if previously set. Makes sure the correct template is shown in the Twig nub in the Toolbar. (see #4191)
 - Fixed: Don't show (non working) drag'n'drop in list overviews.
 - Fixed: Fix the info text for imagelist fields (See #4051)
 - Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
