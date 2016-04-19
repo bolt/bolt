@@ -45,6 +45,20 @@ Released 2016-03-26. Notable changes:
 
  - So much new things, first release of majow new version. See: https://bolt.cm/newsitem/bolt-3-beta-1
 
+Bolt 2.2.20
+-----------
+
+Released 2016-04-19. Notable changes:
+
+ - Fixed: templates output `{{ dump() }}` when not logged in. (See #5122)
+ - Change: Better log messages for failed login attempts (See #5197)
+ - Fixed: Strip tags from useragent. (minor security issue) ((See #5179)
+ - Fixed: Fix issue with imagelists not updating due to event checking. (See #5159)
+ - Change: Update Composer version constraint for stable version (See #5130)
+ - Fix: Only skip htmlsnippets if we are returning a cached response (See #5121)
+ - [Travis] Ensure that Composer install is built against Bolt 2.2 (See #5118)
+ - Move create factory to the start of setup in src/Composer/PackageManager (See #5048)
+
 Bolt 2.2.19
 -----------
 
