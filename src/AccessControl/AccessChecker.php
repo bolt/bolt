@@ -155,7 +155,11 @@ class AccessChecker
 
         // Remove all auth tokens when logging off a user
         if ($sessionAuth = $this->session->get('authentication')) {
-            $this->repositoryAuthtoken->deleteTokens($sessionAuth->getUser()->getUsername());
+            try {
+                $this->repositoryAuthtoken->deleteTokens($sessionAuth->getUser()->getUsername());
+            } catch (TableNotFoundException $e) {
+                // Database tables have been dropped
+            }
         }
 
         $this->session->remove('authentication');
