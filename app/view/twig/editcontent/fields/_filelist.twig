@@ -21,7 +21,7 @@
     }
 } %}
 
-{% if context.content.get(key) is defined %}
+{% if context.content.get(contentkey) is defined %}
     {% set list = context.content.get(contentkey) %}
 {% else %}
     {% set list = [] %}
