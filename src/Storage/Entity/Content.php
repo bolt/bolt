@@ -337,7 +337,7 @@ class Content extends Entity
 
     public function getTemplatefields()
     {
-        return $this->templatefields;
+        return $this->templatefields ?: [];
     }
 
     public function setTemplatefields($value)
