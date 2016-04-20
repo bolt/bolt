@@ -188,7 +188,7 @@ class RecordHandler
             ->notPath('node_modules')
             ->notPath('bower_components')
             ->notPath('.sass-cache')
-            ->depth('<2')
+            ->depth('<4')
             ->path($name)
             ->sortByName()
         ;
@@ -200,7 +200,7 @@ class RecordHandler
 
         // Get the active themeconfig
         $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
-        
+
         // Check: Have we defined names for any of the matched templates?
         if ($themeConfig) {
             foreach ($themeConfig as $templateFile) {

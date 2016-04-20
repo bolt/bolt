@@ -21,11 +21,7 @@
     }
 } %}
 
-{% if context.content.get(key) is defined %}
-    {% set list = context.content.get(contentkey) %}
-{% else %}
-    {% set list = [] %}
-{% endif %}
+{% set list = context.content.get(contentkey)|default([]) %}
 
 {% set can_upload = context.can.upload and option.can_upload %}
 
