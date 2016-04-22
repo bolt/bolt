@@ -296,11 +296,9 @@ wysiwyg:
     codesnippet: false       # Allows the user to insert code snippets using `<pre><code>`-tags.
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     ck:
-        allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
-        # viewSourceRoles: [ 'admin', 'developer' ] # The roles which are allowed to use the [Source]-button.
 
 # Global option to enable/disable the live editor
 liveeditor: true
