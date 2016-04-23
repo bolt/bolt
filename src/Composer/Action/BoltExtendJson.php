@@ -91,7 +91,6 @@ final class BoltExtendJson
         $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));
 
         // Enforce standard settings
-        $json['repositories']['packagist'] = false;
         $json['repositories']['bolt'] = array(
             'type' => 'composer',
             'url'  => $app['extend.site'] . 'satis/'
@@ -102,13 +101,39 @@ final class BoltExtendJson
             'discard-changes'   => true,
             'preferred-install' => 'dist'
         );
-        $json['provide']['bolt/bolt'] = $app['bolt_version'];
         $json['extra']['bolt-web-path'] = $pathToWeb;
         $json['autoload']['psr-4']['Bolt\\Composer\\'] = '';
         $json['scripts'] = array(
             'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
             'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
         );
+
+        $json['replace'] = array('bolt/bolt' => array($app['bolt_version']));
+        $json['conflict'] = array();
+        $json['provide'] = array();
+
+        $lockFile = new JsonFile($app['paths']['rootpath'].'composer.lock');
+        if ($lockFile->exists()) {
+            $locked = $lockFile->read();
+
+            foreach ($locked['packages'] as $package) {
+                $json['replace'][$package['name']][] = $package['version'];
+
+                foreach (array('conflict', 'provide', 'replace') as $fieldType) {
+                    if (isset($package[$fieldType])) {
+                        foreach ($package[$fieldType] as $name => $version) {
+                            $json[$fieldType][$name][] = $version;
+                        }
+                    }
+                }
+            }
+
+            foreach (array('conflict', 'provide', 'replace') as $fieldType) {
+                foreach ($json[$fieldType] as &$version) {
+                    $version = implode(' || ', array_unique($version));
+                }
+            }
+        }
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonorig) {
