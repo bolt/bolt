@@ -13,7 +13,10 @@
     {# Fields #}
     {% set labelkey = field.label ?: key|ucfirst %}
 
-    {% include context.fields[field.type].template with {
+    {# Temporary approach until v4. @see https://github.com/bolt/bolt/issues/5237 #}
+    {% set templatename = context.fields[field.type].template %}
+    {% set templatename = [ templatename, '@bolt/' ~ templatename, '@bolt/editcontent/fields/_not_found.twig' ] %}
+    {% include templatename with {
         'key': key,
         'name': key,
         'contentkey': key
