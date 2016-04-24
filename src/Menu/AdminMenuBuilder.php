@@ -233,7 +233,7 @@ final class AdminMenuBuilder
     {
         $this->rootEntry->add(
             (new MenuEntry('extend', 'extend'))
-                ->setLabel(Trans::__('Extensions'))
+                ->setLabel(Trans::__('Extend'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
         );
