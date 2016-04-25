@@ -122,6 +122,7 @@ class RepeatingFieldCollection extends ArrayCollection
         foreach ($collection->flatten() as $entity) {
             $master = $this->getOriginal($entity);
             $master->setValue($entity->getValue());
+            $master->setFieldtype($entity->getFieldtype());
             $master->handleStorage($this->getFieldType($entity->getFieldname()));
 
             $updated[] = $master;

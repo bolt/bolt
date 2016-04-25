@@ -215,6 +215,11 @@ class MetadataDriver implements MappingDriver
             if ($data['type'] === 'repeater') {
                 foreach ($data['fields'] as $rkey => &$value) {
                     $value['fieldname'] = $rkey;
+
+                    if ($value['type'] === 'select' && isset($value['multiple']) && $value['multiple'] === true) {
+                        $value['type'] = 'selectmultiple';
+                    }
+
                     if (isset($this->typemap[$value['type']])) {
                         $value['fieldtype'] = $this->typemap[$value['type']];
                     } else {
