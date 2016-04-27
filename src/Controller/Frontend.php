@@ -95,8 +95,9 @@ class Frontend extends ConfigurableBase
      */
     public function homepage(Request $request)
     {
-        $listingparameters = $this->getListingParameters($request, $this->getOption('general/homepage'));
-        $content = $this->getContent($this->getOption('general/homepage'), $listingparameters);
+        $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
+        $listingparameters = $this->getListingParameters($request, $homepage);
+        $content = $this->getContent($homepage, $listingparameters);
 
         $template = $this->templateChooser()->homepage($content);
         $globals = [];
