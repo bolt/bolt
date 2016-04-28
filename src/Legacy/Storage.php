@@ -17,6 +17,7 @@ use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Exception;
 use Silex\Application;
 use utilphp\util;
 
@@ -2720,9 +2721,12 @@ class Storage
             foreach ($contenttype['fields'] as $fieldkey => $field) {
                 if ($field['type'] == 'repeater') {
                     $collection = new RepeatingFieldCollection($this->app['storage'], $field);
-                    $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
-                    foreach ($existingFields as $group => $ids) {
-                        $collection->addFromReferences($ids, $group);
+                    try {
+                        $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
+                        foreach ($existingFields as $group => $ids) {
+                            $collection->addFromReferences($ids, $group);
+                        }
+                    } catch (Exception $e) {
                     }
                     $content[$id]->setValue($fieldkey, $collection);
                 }
