@@ -110,8 +110,8 @@ class ArrayHandler
                 return 0;
             }
 
-            $aVal = (is_array($a) ? $a[$this->order_on] : $a->{$this->order_on});
-            $bVal = (is_array($b) ? $b[$this->order_on] : $b->{$this->order_on});
+            $aVal = (is_array($a) ? $a[$this->order_on] : $a->{$this->order_on_secondary});
+            $bVal = (is_array($b) ? $b[$this->order_on] : $b->{$this->order_on_secondary});
 
             if ($aVal < $bVal) {
                 return !$this->order_ascending_secondary;
