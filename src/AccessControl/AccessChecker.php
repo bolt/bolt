@@ -216,7 +216,7 @@ class AccessChecker
 
         // Check if user is _still_ allowed to log on.
         if (!$this->permissions->isAllowed('login', $sessionAuth->getUser()->toArray(), null) || !$sessionAuth->isEnabled()) {
-            $this->systemLogger->error('User ' . $sessionAuth->getUser()->getUserName() . ' has been disabled and can not login.', ['event' => 'authentication']);
+            $this->systemLogger->error('User ' . $sessionAuth->getUser()->getUsername() . ' has been disabled and can not login.', ['event' => 'authentication']);
 
             return false;
         }
