@@ -16,6 +16,10 @@ class AccessControlEvents
     const RESET_SUCCESS = 'reset.success';
     const RESET_FAILURE = 'reset.failure';
 
+    const ACCESS_CHECK_REQUEST = 'access.check.request';
+    const ACCESS_CHECK_SUCCESS = 'access.check.success';
+    const ACCESS_CHECK_FAILURE = 'access.check.failure';
+
     const FAILURE_INVALID  = 1;
     const FAILURE_PASSWORD = 2;
     const FAILURE_DISABLED = 4;
