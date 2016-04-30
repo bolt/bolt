@@ -301,7 +301,7 @@ wysiwyg:
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
 
 # Global option to enable/disable the live editor
-liveeditor: true
+liveeditor: false
 
 # Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
 # or PHP's built-in `mail()`-function.
