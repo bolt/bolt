@@ -121,4 +121,17 @@ class AccessControlEvent extends Event
     {
         return $this->userName;
     }
+
+    /**
+     * @internal
+     *
+     * @param string $userName
+     */
+    public function setUserName($userName)
+    {
+        if ($this->userName !== null) {
+            throw new \RuntimeException('Attempted to change event user name.');
+        }
+        $this->userName = $userName;
+    }
 }
