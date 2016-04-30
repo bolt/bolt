@@ -505,7 +505,7 @@ contenttypes:
         publish: "Julkaise %contenttype%"
         recent: "Uudet %contenttypes%"
         recent-changes-one: "Viimeisimmät muutokset %contenttype%"
-        recently-edited: "Viimeksi muokatut %contenttype%"
+        recently-edited: "Viimeksi muokatut %contenttypes%"
         reserved-name: "Sisältötyypissä '%contenttype%' kenttä '%field%' on määrietty varatulla nimellä. Muokkaa contenttypes.yml korjataksesi tämän."
         save: "Tallenna %contenttype%"
         saved-changes: "Muokkaukset sisältötyyppiin on tallennettu."
