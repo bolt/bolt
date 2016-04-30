@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
@@ -9,6 +11,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
 use RandomLib\Generator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use UAParser;
@@ -36,6 +39,8 @@ class AccessChecker
     protected $permissions;
     /** @var \RandomLib\Generator */
     protected $randomGenerator;
+    /** @var EventDispatcherInterface */
+    protected $dispatcher;
     /** @var array */
     protected $cookieOptions;
     /** @var boolean */
@@ -44,21 +49,23 @@ class AccessChecker
     /**
      * Constructor.
      *
-     * @param AuthtokenRepository  $repositoryAuthtoken
-     * @param UsersRepository      $repositoryUsers
-     * @param RequestStack         $requestStack
-     * @param SessionInterface     $session
-     * @param FlashLoggerInterface $flashLogger
-     * @param LoggerInterface      $systemLogger
-     * @param Permissions          $permissions
-     * @param Generator            $randomGenerator
-     * @param array                $cookieOptions
+     * @param AuthtokenRepository      $repositoryAuthtoken
+     * @param UsersRepository          $repositoryUsers
+     * @param RequestStack             $requestStack
+     * @param SessionInterface         $session
+     * @param EventDispatcherInterface $dispatcher
+     * @param FlashLoggerInterface     $flashLogger
+     * @param LoggerInterface          $systemLogger
+     * @param Permissions              $permissions
+     * @param Generator                $randomGenerator
+     * @param array                    $cookieOptions
      */
     public function __construct(
         AuthtokenRepository $repositoryAuthtoken,
         UsersRepository $repositoryUsers,
         RequestStack $requestStack,
         SessionInterface $session,
+        EventDispatcherInterface $dispatcher,
         FlashLoggerInterface $flashLogger,
         LoggerInterface $systemLogger,
         Permissions $permissions,
@@ -69,6 +76,7 @@ class AccessChecker
         $this->repositoryUsers = $repositoryUsers;
         $this->requestStack = $requestStack;
         $this->session = $session;
+        $this->dispatcher = $dispatcher;
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;
         $this->permissions = $permissions;
@@ -244,6 +252,14 @@ class AccessChecker
         if ($key === $tokenEntity->getToken()) {
             return true;
         }
+
+        // Audit the failure
+        $event = new AccessControlEvent($this->requestStack->getCurrentRequest());
+        /** @var Token\Token $sessionAuth */
+        $sessionAuth = $this->session->get('authentication');
+        $userName = $sessionAuth ? $sessionAuth->getToken()->getUsername() : null;
+        $event->setUserName($userName);
+        $this->dispatcher->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
         $this->systemLogger->error("Invalidating session: Recalculated session token '$key' doesn't match user provided token '" . $tokenEntity->getToken() . "'", ['event' => 'authentication']);
         $this->systemLogger->info("Automatically logged out user '" . $userEntity->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
