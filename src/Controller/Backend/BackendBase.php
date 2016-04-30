@@ -4,6 +4,7 @@ namespace Bolt\Controller\Backend;
 use Bolt\Controller\Base;
 use Bolt\Controller\Zone;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Version;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,7 +72,7 @@ abstract class BackendBase extends Base
             $notice = Trans::__(
                 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
                 [
-                    '%VERSION%' => $app->getVersion(),
+                    '%VERSION%' => Version::VERSION,
                     '%URI%'     => $app['resources']->getUrl('bolt') . 'dbcheck',
                 ]
             );
