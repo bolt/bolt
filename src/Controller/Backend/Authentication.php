@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -90,13 +92,17 @@ class Authentication extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
+        $event = new AccessControlEvent($request);
+        /** @var Token $sessionAuth */
         $sessionAuth = $this->session()->get('authentication');
-        $displayname = $sessionAuth ? $sessionAuth->getToken()->getDisplayname() : false;
-        if ($displayname) {
-            $this->app['logger.system']->info('Logged out: ' . $displayname, ['event' => 'authentication']);
+        $userName = $sessionAuth ? $sessionAuth->getToken()->getUsername() : false;
+        if ($userName) {
+            $this->app['logger.system']->info('Logged out: ' . $userName, ['event' => 'authentication']);
+            $event->setUserName($userName);
         }
+        $this->app['dispatcher']->dispatch(AccessControlEvents::LOGOUT_SUCCESS, $event);
 
         // Clear the session
         $this->accessControl()->revokeSession();

@@ -70,6 +70,10 @@ class Users
     public function isValidSession()
     {
         $request = Request::createFromGlobals();
+        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        if ($authCookie === null) {
+            return false;
+        }
 
         return $this->app['access_control']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
@@ -80,6 +84,10 @@ class Users
     public function checkValidSession()
     {
         $request = Request::createFromGlobals();
+        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        if ($authCookie === null) {
+            return false;
+        }
 
         return $this->app['access_control']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }

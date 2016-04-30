@@ -73,7 +73,7 @@ class RedirectListener implements EventSubscriberInterface
     protected function handleNoBackendAccess(RedirectResponse $response)
     {
         $authCookie = $this->session->get('authentication');
-        if (!$this->authentication->isValidSession((string) $authCookie)) {
+        if ($authCookie === null || !$this->authentication->isValidSession($authCookie)) {
             return;
         }
 
