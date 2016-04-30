@@ -3,6 +3,8 @@ namespace Bolt\Controller\Backend;
 
 use Bolt\Controller\Base;
 use Bolt\Controller\Zone;
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Version;
 use Silex\Application;
@@ -55,6 +57,10 @@ abstract class BackendBase extends Base
 
         $route = $request->get('_route');
 
+        // Initial event
+        $event = new AccessControlEvent($request);
+        $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_REQUEST, $event);
+
         // Handle the case where the route doesn't equal the role.
         if ($roleRoute === null) {
             $roleRoute = $this->getRoutePermission($route);
@@ -94,6 +100,8 @@ abstract class BackendBase extends Base
         // Confirm the user is enabled or bounce them
         if (($sessionUser = $this->getUser()) && !$sessionUser->getEnabled()) {
             $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $event->setReason(AccessControlEvents::FAILURE_DISABLED);
+            $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
 
             return $this->redirectToRoute('logout');
         }
@@ -111,9 +119,14 @@ abstract class BackendBase extends Base
 
         if (!$this->isAllowed($roleRoute)) {
             $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
+            $event->setReason(AccessControlEvents::FAILURE_DENIED);
+            $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
 
             return $this->redirectToRoute('dashboard');
         }
+
+        // Success!
+        $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_SUCCESS, $event);
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
