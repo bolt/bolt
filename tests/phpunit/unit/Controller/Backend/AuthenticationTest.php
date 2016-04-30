@@ -152,7 +152,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/logout', 'POST', []));
 
-        $response = $this->controller()->logout();
+        $response = $this->controller()->logout($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
