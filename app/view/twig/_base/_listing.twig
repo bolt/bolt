@@ -76,12 +76,10 @@
                 <strong>
                     {% if modifiable %}
                         <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
-                            {{ title }}
+                            {{ title -}}
                         </a>
                     {% else %}
-                        <strong>
-                            {{ title }}
-                        </strong>
+                        {{ title }}
                      {% endif %}
                 </strong>
                 {{ content.excerpt(excerptlength - title|length) }}
