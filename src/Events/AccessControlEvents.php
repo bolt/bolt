@@ -26,6 +26,7 @@ class AccessControlEvents
     const FAILURE_PASSWORD = 2;
     const FAILURE_DISABLED = 4;
     const FAILURE_LOCKED   = 8;
+    const FAILURE_DENIED   = 16;
 
     /**
      * Singleton constructor.
