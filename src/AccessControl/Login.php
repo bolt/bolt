@@ -39,6 +39,7 @@ class Login extends AccessChecker
             $repoUsers,
             $app['request_stack'],
             $app['session'],
+            $app['dispatcher'],
             $app['logger.flash'],
             $app['logger.system'],
             $app['permissions'],

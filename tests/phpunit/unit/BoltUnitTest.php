@@ -195,6 +195,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param \Silex\Application $app
      * @param array              $functions Defaults to ['isValidSession']
+     *
+     * @return \Bolt\AccessControl\AccessChecker|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
     {
@@ -206,6 +208,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
                 $app['request_stack'],
                 $app['session'],
+                $app['dispatcher'],
                 $app['logger.flash'],
                 $app['logger.system'],
                 $app['permissions'],

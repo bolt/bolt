@@ -2,7 +2,6 @@
  * BUIC: Modal.
  */
 .buic-modal {
-    z-index: 100002; // One higher than #navpage-secondary
 
     .modal-body {
         min-height: 200px;
@@ -40,4 +39,8 @@
         margin-left: -18px;
         margin-top: 50px;
     }
+}
+
+.bootbox {
+    z-index: 100002; // One higher than #navpage-secondary
 }
