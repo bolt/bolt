@@ -1,6 +1,10 @@
-Bolt 3.0.0 RC 1
+Changelog for Bolt
+==================
 
-Releases 2016-05-02. Notable changes: 
+Bolt 3.0.0 RC 1
+---------------
+
+Released 2016-05-02. Notable changes: 
 
  - Added: ACL Events, for hunting down trouble with sessions. [#5265](https://github.com/bolt/bolt/pull/5265)
  - Added: Created `server:run` nut command [#5228](https://github.com/bolt/bolt/pull/5228)
