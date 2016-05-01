@@ -1,3 +1,23 @@
+Bolt 3.0.0 RC 1
+
+Releases 2016-05-02. Notable changes: 
+
+ - Added: ACL Events, for hunting down trouble with sessions. [#5265](https://github.com/bolt/bolt/pull/5265)
+ - Added: Created `server:run` nut command [#5228](https://github.com/bolt/bolt/pull/5228)
+ - Changed: Disabled the "live editor" by default [#5266](https://github.com/bolt/bolt/pull/5266)
+ - Fixed: Case error in entity hydration [#5258](https://github.com/bolt/bolt/pull/5258)
+ - Fixed: error for repository `findBy` query [#5231](https://github.com/bolt/bolt/pull/5231)
+ - Fixed: for multiple select fields in repeater collection [#5230](https://github.com/bolt/bolt/pull/5230)
+ - Fixed: Hack to get web path for local extensions on a git install [#5244](https://github.com/bolt/bolt/pull/5244)
+ - Fixed: Handle custom fields with incorrectly namespaced field templates [#5238](https://github.com/bolt/bolt/pull/5238)
+ - Fixed: Handle exception when table is missing [#5253](https://github.com/bolt/bolt/pull/5253)
+ - Fixed: Set a CSRF token for 'recently edited' on Dashboard [#5255](https://github.com/bolt/bolt/pull/5255)
+ - Fixed: Setting z-index for bootbox correctly. [#5259](https://github.com/bolt/bolt/pull/5259)
+ - Fixed: Sync configuration defaults with `config.yml` [#5234](https://github.com/bolt/bolt/pull/5234)
+ - Fixed: Typo induced inconsistency in `Extends` [#5243](https://github.com/bolt/bolt/pull/5243)
+ - Removed: 'serve' shell script [#5277](https://github.com/bolt/bolt/pull/5277)
+ - Removed: The `viewSourceRoles` option that don't work [#5236](https://github.com/bolt/bolt/pull/5236)
+
 Bolt 3.0.0 beta 3
 -----------------
 
