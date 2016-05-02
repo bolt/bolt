@@ -1,161 +1,29 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2016-03-15 17:19:33 Europe/Berlin
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2016-05-02 16:01:20 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  37 unused messages
-#  65 untranslated messages
-#  22 untranslated keyword based messages
-# 340 translations
-# 185 keyword based translations
+#  no unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+# 390 translations
+# 215 keyword based translations
 
-#--- 37 unused messages -------------------------------------------------------
-
-"An error occurred.": "Došlo k nějaké chybě."
-"Are you sure you wish to delete these records? There is no undo.": "Určitě chcete odstranit tyto záznamy? Změny není možné vrátit zpět."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Rozšíření Boltu se nepodařilo nalézt. Zkuste na webu %site% ověřit správnost názvu."
-"Content '%title%' could not be deleted.": "Obsah '%title%' nelze odstranit."
-"Content '%title%' has been changed to '%newStatus%'": "Obsah '%title%' byl pozměněn: '%newStatus%'"
-"Content '%title%' has been deleted.": "Obsah '%title%' byl odstraněn."
-"Delete selected": "Smazat vybrané"
-"Depublish selected": "Zrušit status publikováno pro vybrané"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "Instalace rozšíření byla zakázána administrátorem v konfiguračním souboru %config%. "
-"File '%file%' could not be uploaded.": "Soubor '%file%' nemohl být uploadován."
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "kdyby zde byla informační strana s trvalým odkazem 'about', zobrazila by se zde. Jenže není. Proto čtete toto hlášení."
-"No such action for content.": "Pro obsah není tato akce možná."
-"No such user.": "Uživatel neexistuje."
-"Permission denied": "Přístup zamítnut"
-"Please enter a new folder name": "Prosím zadejte nové jméno složky"
-"Publish selected": "Publikovat vybrané"
-"Remove selected": "Odstranit vybrané"
-"System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.": "Systemová knihovna cURL nepodporuje TLS nebo nebyla dokončena instalace Certifikační autority (%ERROR%). Více na http://curl.haxx.se/docs/sslcerts.html. Přecházím zpět na HTTP."
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Repozitář rozšíření Boltu %repository% je momentálně nedostupný. Zkontrolujte připojení a po chvíli zkuste znovu."
-"The Bolt extensions file '%composerjson%' isn't readable.": "Soubor rozšíření '%composerjson%' nelze přečíst."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "Složka rozšíření (<code>%dir%</code>) neexistuje nebo do ní nelze zapisovat. "
-"The file '%s' doesn't exist, or is not readable.": "Soubor '%s' neexistuje nebo nelze přečíst."
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Při nahrávání souboru se vyskytla chyba.Ujistěte se, že uploadovaný soubor je požadovaného typu:\\n%TYPELIST%"
-"This record is related to:": "Tento záznam souvisí s:"
-"Uploading": "Nahrává se"
-"You do not have the right privileges to create a new record.": "Nemáte oprávnění pro vytvoření nového záznamu."
-"You do not have the right privileges to upload.": "Nemáte dostatečné opravnění pro ukládání."
-"cURL experienced an error: %errormessage%": "cURL narazil na neočekávanou chybu: %errormessage%"
-"general.bolt-documentation-on-github": "Dokumetace Bolt na Github"
-"general.thanks": "Děkujeme"
-"page.extend.message.install-all-updates": "Nainstalovat všechny aktualizace"
-"contenttypes.generic.error-saving": "Při ukládání %contenttype% nastala chyba."
-"field.general.select-from-stack": "Vybrat ze Zásobníku"
-"field.video.button.preview": "Náhled"
-"field.video.preview.button.close": "Zavřít"
-"field.video.preview.no-url": "Nebyla zadána URL adresa videa, není co ukázat."
-"page.ckeditor-browse-server.pixel": "px."
-
-#--- 65 untranslated messages -------------------------------------------------
-
-"Add Selected": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"At least %NUM% characters required": #
-"Author": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Check/Uncheck all": #
-"Client error: %errormessage%": #
-"Create File": #
-"Delete": #
-"Delete Set": #
-"Depublish": #
-"Duplicate Set": #
-"Error reading extensions/composer.json file: %ERROR%": #
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
-"Extension server returned an error: %errormessage%": #
-"Files could not be uploaded.": #
-"Generic failure while testing connection to extension server: %errormessage%": #
-"Id (№)": #
-"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
-"Invalid login parameters.": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
-"Move Up": #
-"No Preview": #
-"Only root can change file extensions.": #
-"Order": #
-"Others": #
-"Publish": #
-"Records": #
-"Repeat": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Search results for <b>%search%</b>.": #
-"Selection (#):": #
-"Show proposed alterations": #
-"Something went wrong with logging in after first user creation!": #
-"Subsubtitle": #
-"Subtitle": #
-"System Configuration Checks": #
-"The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"There is no undo!": #
-"This record is related to the following %CTNAME%:": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
-"Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
-"Welcome to your new Bolt site, %USER%.": #
-"general.bolt-documentation": # "Bolt documentation"
-"general.visit-bolt": # "Visit Bolt.cm"
-
-#--- 22 untranslated keyword based messages -----------------------------------
-
-"contenttypes.generic.group.template": # "Template"
-"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"field.general.stack": # "Stack"
-"field.geolocation.label.snap": # "Snap to nearest address"
-"field.markdown.label.markedview": # "Markdown"
-"field.markdown.label.preview": # "Preview"
-"field.slug.button.edit": # "Edit"
-"field.slug.button.link": # "Link to:"
-"field.slug.button.lock": # "Lock"
-"field.slug.message.warning": # "Editing this field might break existing links to this record!"
-"field.video.height": #
-"field.video.width": #
-"page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
-"page.extend.button.autoload-dump": # "Rebuild Autoloader"
-"page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.headline.latest-version": # "Latest stable version"
-"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
-"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
-"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-"page.extend.message.maintenance": # "Maintenance"
-
-#--- 340 translations ---------------------------------------------------------
+#--- 390 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% č. %id%"
-"%s files could not be deleted. You should delete them manually.": "%s soubory nelze odstranit. Smažte je ručně."
 "(default template)": "(standardní šablona)"
 "(no category)": "(bez kategorie)"
-"(no group)": "(nez zařazení do skupiny)"
+"(no group)": "(nezařazení do skupiny)"
 "(none)": "(nic)"
 "A password reset link has been sent to '%user%'.": "Odkaz na obnovení hesla byl odeslán '%user%'."
 "Actions": "Nástroje"
+"Add Selected": "Přidat vybrané"
 "Add a brief, optional comment to describe what's changed.": "Přidat stručný, volitelný komentář k provedeným změnám."
 "Add a comment:": "Přidat komentář"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-default'>Záznam s Lorem ipsum</a>"
@@ -164,17 +32,24 @@
 "All content types": "Všechny typy obsahu"
 "All users": "Všichni uživatelé"
 "Alt": "Alt"
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Během aktualizace `%TABLE%` došlo k chybě: %ERROR%"
 "Anonymous": "Anonymous"
 "Are you sure you want to delete %FILENAME%?": "Určitě chcete odstranit %FILENAME%?"
 "Are you sure you want to delete %username%?": "Určitě chcete odstranit %username%?"
+"Are you sure you want to do this for %NUMBER% records?": "Určitě chcete provést s %NUMBER% záznamy?"
+"Are you sure you want to do this for 1 record?": "Určitě provést pro jeden záznam?"
+"Are you sure you want to remove these files?": "Určitě chete odstranit tyto soubory?"
 "Are you sure you want to remove these images?": "Určitě chcete odstranit tyto obrázky?"
 "Are you sure you want to remove this file?": "Určitě chcete odstranit tento soubor?"
 "Are you sure you want to remove this image?": "Určitě chcete odstranit tento obrázek?"
 "Are you sure you wish to delete this record? There is no undo.": "Určitě chcete odstranit tento záznam? Změny není možné vrátit zpět."
+"At least %NUM% characters required": "Požadováni minimálně %NUM% znaků"
+"Author": "Autor"
 "Author:": "Autor:"
 "Below are the third party libraries that are used by Bolt.": "Níže jsou uveden knihovny třetích stran použité v Bolt."
 "Body": "Tělo"
 "Bolt - Fatal error.": "Bolt - závažná chyba."
+"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": "Bolt zaznamenal problémy s konfigurací (minimálně jeden). Pro optimální výkon byste je(j) měli vyřešit."
 "Browser / platform": "Prohlížeč / Operační systém"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Implicitní oprávnění, přidělená automaticky i v případě, že není uživatel zalogován."
 "Built-in role, automatically granted to every registered user": "Implicitní oprávnění, automaticky přidělené každému registrovanému uživateli."
@@ -186,10 +61,9 @@
 "Change Log": "Změnit záznam"
 "Change status to 'draft'": "Změnit status na 'draft'"
 "Change status to 'held'": "Změnit status na 'held'"
-"Chapter": "Kapitola"
-"Chapters": "Kapitoly"
 "Check again": "Znovu ověřit"
 "Check database": "Ověřit databázi"
+"Check/Uncheck all": "Označ/odznač vše"
 "Choose an entry": "Vyberte záznam"
 "Class:": "Třída:"
 "Clear Change Log": "Smazat záznamy změn"
@@ -198,7 +72,9 @@
 "Clear filter": "Smazat filtr"
 "Clear sort/filter": "Zrušit třídění/filtr"
 "Clear the cache": "Vyprázdnit cache"
+"Cleared cache.": "Vymazání vyrovnávací paměti hotovo."
 "Click to change current status.": "Klikni pro změnu stavu."
+"Client error: %errormessage%": "Chyba klienta: %errormessage%"
 "Close editor": "Zavřít editor"
 "Code:": "Kód:"
 "Collapse sidebar": "Skrýt postranní lištu"
@@ -206,8 +82,8 @@
 "Content": "Obsah"
 "Content '%title%' could not be modified.": "Obsah '%title%' nelze upravit."
 "Content Type Permissions": "Oprávnění typu obsahu"
-"Content for home not found!": "Obsah pro úvodní stranu nenalezen!"
 "Contenttypes": "Typy obsahu"
+"Create File": "Vytvořit soubor"
 "Create folder": "Vytvořit složku"
 "Create the first user": "Založení prvního uživatele"
 "Created on:": "Vytvořeno:"
@@ -219,11 +95,13 @@
 "Date": "Datum"
 "Datetime": "Datum a čas"
 "Default status": "Výchozí stav"
+"Delete": "Odstranit"
 "Delete %filename%": "Smazat %filename%"
 "Delete %foldername%": "Smazat %foldername%"
 "Delete %username%": "Odstranit %username%"
-"Deleted %s files from cache.": "Z cache smazáno %s souborů."
+"Delete Set": "Odstranit sadu"
 "Depublication date:": "Datum expirace:"
+"Depublish": "Odpublikovat"
 "Depublish date is in the past. Change the status if you want to depublish now": "Datum expirace je v minulosti. Pokud chcete nyní zrušit publikování, změňte status článku na nevydáno nebo koncept."
 "Deselect all": "Odznačit vše"
 "Detail template": "Detail šablony"
@@ -234,15 +112,21 @@
 "Done!": "Hotovo!"
 "Draft": "Koncept"
 "Duplicate %filename%": "Duplikovat %filename%"
+"Duplicate Set": "Duplikovat sadu"
 "Edit": "Upravit"
 "Edit Roles and Permissions": "Upravit uživatelské role a oprávnění"
 "Edit file": "Upravit soubor"
 "Enable %username%": "Povolit %username%"
+"Error reading extensions/composer.json file: %ERROR%": "Chyba při čtení souboru extensions/composer.json: %ERROR%"
 "Everybody": "Všichni"
 "Excerpt": "Souhrn"
 "Expand sidebar": "Roztáhnout postranní lištu"
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Balíček rozšíření %NAME% base class '%CLASS%' neimplementuje \\\\Bolt\\\\Extension\\\\ExtensionInterface a byl proto přeskočen."
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
+"Extension server returned an error: %errormessage%": "Server rozšíření vrací chybové hlášení: %errormessage%"
 "Extensions": "Rozšíření"
 "Extras": "Doplňky"
+"Failed to clear cache. You should delete it manually.": "Vymazání vyrovnávací paměti selhalo. Musíte ji vymazat ručně."
 "Failed to send password request. Please check the email settings.": "Nepodařilo se odeslat heslo. Zkontrolujte prosím nasavení emailu."
 "Field “%FIELD_NAME%”:": "Pole “%FIELD_NAME%”:"
 "File": "Soubor"
@@ -256,6 +140,7 @@
 "File is not readable!": "Soubor není čitelný!"
 "Filelist": "Více souborů"
 "Files": "Soubory"
+"Files could not be uploaded.": "Soubory nelze nahrát."
 "Files in %s": "Soubory v %s"
 "Files on the stack": "Soubory v Zásobníku"
 "Filesize": "Velikost souboru"
@@ -268,17 +153,22 @@
 "Folder permissions insufficient": "Nemáte dostatečné oprávnění k této složce"
 "Folders": "Složky"
 "Full list …": "Kompletní výpis…"
+"Generic failure while testing connection to extension server: %errormessage%": "Selhal pokus o přihlášení k serveru s rozšířeními: %errormessage%"
 "Geolocation": "Zeměpisná poloha"
 "Global Permissions": "Globální oprávnění"
+"Group": "Skupina"
+"Groups": "Skupiny"
 "Has to be a floating point number!": "Musí být desetinné číslo!"
 "Hints:": "Tipy:"
 "Html": "Html"
 "IP address": "IP adresa"
 "Id": "ID"
+"Id (№)": "Id (№)"
 "Image": "Obrázek"
 "Imagelist": "Více obrázků"
 "Info": "Info"
 "Integerfield": "Číslo"
+"Invalid login parameters.": "Neplatné parametry přihlášení."
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "V menu je nastavená špatná cesta (%PATH%). Neodpovídá žádnému z nastavených typů obsahu ani souačsnému routingu. Zkontrolujte soubor menu.yml."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "V menu menu.yml je nastavená špatná cesta (%PATH%). Mělo by tam pravděpodobně být link: !\""
 "Is required or needs to match a pattern!": "Je vyžadováno nebu musí odpovídat vzoru!"
@@ -287,15 +177,17 @@
 "Last edited on:": "Upraveno:"
 "Last known IP": "Poslední známá IP adresa"
 "Last seen": "Naposledy přihlášen"
-"Latest entries": "Poslední příspěvky"
+"Link": "Odkaz"
 "Listing template": "Šablona výpisu"
 "Live Edit": "Live Edit"
+"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": "Lokální instalace rozšíření není kompletní. Spusťte prosím 'Instalovat všechny balíčky' na stránce Rozšíření."
 "Login": "Přihlášení"
 "Logout": "Odhlásit"
 "Long messages": "Nápověda"
 "Main configuration": "Hlavní nastavení"
 "Maintenance": "Údržba"
 "Markdown": "Mardown"
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Vlastnost menu \"add\" již enní podporována. Použijte \"#\" pod \"param\"."
 "Menu setup": "Editace menu"
 "Message:": "Zpráva:"
 "Messages": "Prostředí"
@@ -304,8 +196,11 @@
 "Modifications made to the database:": "Změny provedené v databázi:"
 "Modifications needed:": "Potřebné úpravy:"
 "Modified": "Upraveno"
+"Move Down": "Posunout dolů"
+"Move Up": "Posunout nahoru"
 "Multiselect": "Multivýběr"
 "New Bolt site has been set up": "Nový web na systému BOLT byl právě nastaven."
+"No Preview": "Náled není"
 "No content found.": "Nebyl nalezen žádný obsah."
 "No files in the list, yet.": "Žádné soubory v seznamu."
 "No images in the list, yet.": "Žádné obrázky v seznamu."
@@ -318,9 +213,12 @@
 "Not yet installed.": "Ještě nenainstalováno."
 "Note:": "není"
 "Omnisearch": "Vyhledávání"
+"Only root can change file extensions.": "Pouze administrátor může změnit typy souborů."
 "Options": "Možnosti"
+"Order": "Pořadí"
 "Order: %sort%": "Pořadí: %sort%"
 "Other content": "Ostatní obsah"
+"Others": "Ostatní"
 "Overview": "Přehled"
 "Overview for": "Přehled"
 "Owner": "Vlastník"
@@ -343,22 +241,28 @@
 "Profile": "Profil"
 "Provided by:": "Administruje:"
 "Publication date:": "Datum publikace:"
+"Publish": "Publikovat"
 "Published": "Publikováno"
 "Published on:": "Publikováno:"
 "Read more": "Více"
+"Records": "Záznamy"
 "Related content": "Související obsah"
-"Related content:": "Související obsah"
 "Relationships": "Související obsah"
 "Rename %foldername%": "Přejmenovat %foldername%"
+"Repeater": "Opakovací pole"
 "Roles": "Práva"
 "Roles and Permissions": "Nastavení oprávnění"
+"Run PHP extension checks": "Spustit PHP ověření rozšíření"
+"Run all checks": "Spustit všechna ověření"
+"Run directory checks": "Oběřit složku"
+"Run email checks": "Spustit ověření emailu"
 "Save & create new record": "Uložit & vytvořit nový záznam"
 "Save & return to overview": "Uložit & a zpět na přehled"
 "Saved on:": "Uloženo:"
 "Saving …": "Ukládání…"
 "Search": "Hledat"
 "Search for …": "Hledat…"
-"Search results for <b> %search% </b>.": "Výsledky hledání pro <b> %search% </b>."
+"Search results for <b>%search%</b>.": "Výsledky hledání pro <strong>%search%</strong>"
 "Search …": "Hledat…"
 "Select": "Vybrat"
 "Select a page": "Vybrat stranu"
@@ -368,9 +272,11 @@
 "Select zero or more pages": "Vyberte žnádnou, jednu nebo více stran."
 "Selectentry": "Vybrat záznam"
 "Selectfield": "Vybrat pole"
+"Selection (#):": "Výběr (#):"
 "Session expires": "Přihlášení ukončeno pro nečinnost."
 "Session resumed.": "Přihlášení bylo obnoveno."
 "Settings": "Nastavení"
+"Show proposed alterations": "Ukázat navrhované změny"
 "Showing": "Zobrazuji"
 "Showing %pager_for% %from% - %to% of %count%": "Zobrazuji %pager_for% %from% - %to% z %count%"
 "Size": "Velikost"
@@ -379,9 +285,11 @@
 "Slug": "Trvalý odkaz"
 "Slug:": "Odkaz v URL:"
 "Something went wrong": "Něco je špatně"
+"Something went wrong with logging in after first user creation!": "Něco se nezdařilo s přihlášením po vytvoření prvního uživatele!"
 "Sophisticated, lightweight & simple CMS": "Sofistikovaný, rychlý a jednoduchý redakční systém"
 "Stack": "Zásobník"
 "Status:": "Stav:"
+"System Configuration Checks": "Ověření konfigurace systému"
 "Tag": "Štítek"
 "Tags": "Štítky"
 "Taxonomy": "Taxonomie"
@@ -390,10 +298,15 @@
 "Testing connection to extension server failed: %errormessage%": "Test spojení s repozitářem zozšíření selhalo: %errormessage%"
 "Textarea": "Textové pole"
 "That user does not exist.": "Neexistující uživatel."
+"The Bolt extensions composer.json isn't readable.": "Nelze přečíst composer.json pro rozšíření Boltu."
+"The Bolt extensions composer.json isn't writable.": "Nelze zapisovat do composer.json rozšíření Boltu."
 "The change log has been cleared.": "Záznamy změn byly smazány."
 "The change log has been trimmed.": "Záznamy změn byly zkráceny o 1 stranu."
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databáze potřebuje být aktualizována / opravena. Volbu naleznete v 'Konfigurace' > '<a href=\"%link%\">Ověřit databázi</a>'."
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": "Dosud nebyly nakonfigurovány hodnoty emailu 'mailoptions'. Bolt pravděpodobně nebude moci odeslat odkaz na resetování hesla."
 "The field %field% has been changed to \"%newValue%\"": "Pole %field% bylo změněno na \"%newValue%\""
+"The file '%s' doesn't exist.": "Soubor '%s' neexituje."
+"The file '%s' is not readable.": "Soubor '%s' nelze přečíst."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Soubor '%s' nelze zapsat. Pro úpravu souboru budete muset použít vlastní editor."
 "The folder '%s' could not be found, or is not readable.": "Složka '%s' není k nalezení nebo nelze přečíst."
 "The following file could not be read:": "Nelze načíst soubor:"
@@ -412,8 +325,11 @@
 "There are no saved changes, yet.": "Zatím nebyly uloženy žádné změny."
 "There are no users in the database. Please create the first user.": "V databázi není žádný uživatel. Vytvořte prosím prvního uživatele."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "V systému nejsou žádní uživatelé. Prosím vytvořte prvního uživatele, kterému bude poskytnuto oprávnění root."
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Zatím neexistuje žádný blok s url 'o-nas' nebo 'about-us'. Pokud ho vytvoříte, objeví se právě zde.. Můžeho také vygenerovat jako vzorový obsah pomocí 'Nastavení' > 'Ověřit databázi' a volbou 'Vygenerovat vzorový obsah'."
+"There is no undo!": "Funkce Zpět zde není k dispozici!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Vždy musí být alespoň jeden uživatel s právy 'root'. Gratulujeme! Právě jste byl/a vybrán/a."
 "This is a checkbox": "Toto je zašrtávací políčko"
+"This record is related to the following %CTNAME%:": "Tanto záznam souvisí s %CTNAME%:"
 "This template adds new fields. Save, then refresh to see these changes.": "Šablona obsahuje nová pole obsahu. Uložte a aktualizujte stránku v prohlížeči, abyste změny viděli."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tento web běží na <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Bolt</a>."
 "Thumbnail": "Náhled"
@@ -426,6 +342,15 @@
 "Trim System Log": "Zmenšit záznamy aktivit systému"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Zkuste se přihlásit pomocí ftp klienta a nastavte atributy souboru pro zápis. Nebo zkuste jít <a>zpět</a> na poslední stranu."
 "Types": "Typy"
+"Unable to create directory: %DIR%": "Nelze vytvořit složku: %DIR%"
+"Unable to create file: %FILE%": "Nelze vytvořit soubor: %FILE%"
+"Unable to delete directory: %DIR%": "Nelze odstranit složku: %DIR%"
+"Unable to delete file: %FILE%": "Nelze odstranit soubor: %FILE%"
+"Unable to duplicate file: %FILE%": "Nelze zduplikovat soubor: %FILE%"
+"Unable to get installation information for %PACKAGE% %VERSION%.": "Nelze získat instalační informace k %PACKAGE% %VERSION%."
+"Unable to rename directory: %DIR%": "Nelze přejmenovat složku: %DIR%"
+"Unable to rename file: %FILE%": "Nelze přejmenovat soubor: %FILE%"
+"Unable to retrieve login session data. Please check your system's PHP session settings.": "Nelze získat session informace o zalogování. Zkontrolujte prosím vaše nastavení PHP session."
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Bohužel zde není k nalezení žádný obsah. Zkuste jinou stránku nebo <a href=\"%paths_root%\">úvodní stranu</a>."
 "Update the database": "Aktualizovat databázi"
 "Upload": "Nahrát"
@@ -455,6 +380,7 @@
 "View/edit Templates": "Zobrazit / upravit Šablony"
 "Warning": "Varování"
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Nelze vygenerovat šablonu. Do složky se šablonami patrně nelze zapisovat. Zkontrolujte oprávnění a zkuste instalaci zopakovat."
+"Welcome to your new Bolt site, %USER%.": "Vítejte na svém novém Bolt webu, %USER%."
 "Written by <em>%name%</em> on %date%": "Vytvořeno <em>%name%</em> %date%"
 "You cannot '%s' yourself.": "Nelze '%s' sám sebe."
 "You do not have the right privileges to edit that record.": "Nemáte oprávnění pro editaci záznamu."
@@ -465,7 +391,6 @@
 "You have been logged out.": "Byl jste odhlášen/a."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Strana obsahje neuložené změny. Pokud budete pokračovat bez uložení, přijdete o ně."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Tato změna může způsobit ztrátu některých polí obsahu šablony. Doporučujeme si předem uložit jejich obsah."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Měli byste nastavit 'homepage:' v souboru 'app/config/config.yml' na existující záznam/obsah. Ujistěte se, že daný obsah je publikovaný, jinak se nezobrazí."
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "Your account is disabled. Sorry about that.": "Je nám líto, ale Váš účet byl zablokován."
 "Your database is already up to date.": "Vaše databáze je již aktualizována."
@@ -474,22 +399,15 @@
 "back to editing": "zpět do editace"
 "by": "od"
 "filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
-"general.about": "O"
-"general.about-bolt": "Co je Bolt"
-"general.bolt-on-github": "Bolt na Github"
 "line": "řádek"
-"logs.change-log": "Záznam změn (log)"
-"logs.system-log": "Záznam aktivit systému"
 "no content …": "žádný obsah …"
 "no title …": "žádný nadpis …"
 "none": "žádný"
 "of": "z"
 "or": "nebo"
 "show all": "zobrazit vše"
-"users.actions-for-users": "Akce pro Uživatele"
-"users.your-password": "Vaše heslo"
 
-#--- 185 keyword based translations -------------------------------------------
+#--- 215 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "od"
 component.changelog-detail.field: "pole"
@@ -508,8 +426,10 @@ contenttypes.generic.edit: "Upravit %contenttype%"
 contenttypes.generic.group.meta: "Meta"
 contenttypes.generic.group.relations: "Související obsah"
 contenttypes.generic.group.taxonomy: "Taxonomie"
+contenttypes.generic.group.template: "Šablona"
 contenttypes.generic.group.ungrouped: "Bez zařazení"
 contenttypes.generic.invalid-field: "Nezlez anstavit pole %field% v %contenttype%: Neplatné pole."
+contenttypes.generic.invalid-relation: "V definici obsahu '%contenttype%' je definována relace '%relation%', což není platný typ obsahu. Upravte prosím contenttypes.yml tak, aby to začalo dávat smysl."
 contenttypes.generic.last-modified: "Poslední úpravy %contenttypes%"
 contenttypes.generic.new: "%contenttype%"
 contenttypes.generic.no-latest: "Žádný poslední %contenttype%"
@@ -534,26 +454,51 @@ contenttypes.generic.wrong-use-field: "Typ obsahu '%contenttype%', pole '%field%
 
 field.general.allowed-filetypes: "Povolené typy souborů"
 field.general.select-from-server: "Vybrat na serveru"
+field.general.stack: "Zásobník"
 
 field.geolocation.label.address-lookup: "Vyhledání adresy"
 field.geolocation.label.latitude: "Zeměpisná šířka"
 field.geolocation.label.longitude: "Zeměpisná délka"
 field.geolocation.label.marker-placement: "Umístění značky"
+field.geolocation.label.snap: "Přiřadit nejbližší adresu"
 field.geolocation.matched-address: "Odpovídající adresa:"
 field.geolocation.placeholder.address: "Ulice, PSČ, město nebo jiné označení polohy"
 
+field.markdown.label.markedview: "Markdown"
+field.markdown.label.preview: "Náhled"
+
+field.slug.button.edit: "Upravit"
+field.slug.button.link: "Odkaz na:"
+field.slug.button.lock: "Uzamnkout"
+field.slug.message.warning: "Úprava tohoto pole může znehodnotit existající odkazy na tento záznam!"
 field.slug.permalink: "Trvalý odkaz"
 field.slug.unique-alias: "Jedinečný alias"
 
+field.video.height: "výška"
 field.video.label.preview: "Náhled obrázku"
 field.video.label.size: "Velikost"
 field.video.label.url: "URL adresa videa"
 field.video.matched-video: "Odpovídající video"
 field.video.pixel: "pixel"
 field.video.placeholder.url: "URL videa na Youtube, Vimeo nabo jiném video webu"
+field.video.width: "šířka"
+
+general.about: "O"
+
+general.about-bolt: "Co je Bolt"
+
+general.bolt-documentation: "Bolt dokumentace"
+
+general.bolt-on-github: "Bolt na Github"
+
+general.visit-bolt: "navštívit Bolt.cm"
 
 generic.noscript.headline: "Javascript je zakázán"
 generic.noscript.message: "V prohlížeči máte zakázán Javascript. Většina funkcí redakčního systému Bolt se bez něj obejde… nicméně pro větší komfort doporučujeme Javascript povolit."
+
+logs.change-log: "Záznam změn (log)"
+
+logs.system-log: "Záznam aktivit systému"
 
 menu.configuration.routing: "Nastavení routingu"
 
@@ -584,6 +529,7 @@ page.edit-users.activated.yes: "ano"
 page.edit-users.button.save: "Uložit uživatele"
 page.edit-users.error.displayname-used: "Uživatelské jméno již existuje. Zvolte si jiné."
 page.edit-users.error.email-used: "Tato emailová adresa je již používána. Zvolte jinou."
+page.edit-users.error.password-different-displayname: "Heslo nemůže být část uživatelského jména."
 page.edit-users.error.password-different-username: "Heslo nesmí být stejné jako uživatelské jméno."
 page.edit-users.error.password-mismatch: "Hesla se musí shodovat."
 page.edit-users.error.password-short: "Příliš krátké zadání. Vložte minimálně 6 znaků."
@@ -614,7 +560,8 @@ page.edit-users.title.profile: "Profil"
 page.edit-users.user-create: "K vytvoření nového uživatele použijte tento formulář. Heslo je povinné."
 page.edit-users.user-edit: "Pro upravení uživatele použijte formulář. Heslo nevyplňujte, pokud si nepřejete heslo změnit.."
 
-page.extend.button.browse-versions: "Projít sotupné verze"
+page.extend.button.autoload-dump: "Obnovit automaticky načítané soubory"
+page.extend.button.browse-versions: "Projít dostupné verze"
 page.extend.button.config: "Nastavení"
 page.extend.button.copy-to-theme-folder: "Kopírovat do složky šablony"
 page.extend.button.info-help: "Více informací / nápověda"
@@ -622,6 +569,7 @@ page.extend.button.install-all: "Nainstalovat všechny Balíčky"
 page.extend.button.install-package: "Instalovat balíček"
 page.extend.button.install-this-version: "Instalovat tuto verzi"
 page.extend.button.readme: "Čti mě"
+page.extend.button.show-all-versions: "Zobrazit všechny verze"
 page.extend.button.uninstall: "Odinstalovat"
 page.extend.button.update-all: "Spustit všechny aktualizace"
 page.extend.button.update-check: "Spustit kontrolu aktualizací"
@@ -631,6 +579,7 @@ page.extend.headline.currently-installed: "Vaše nainstalovaná rozšíření"
 page.extend.headline.install-new-extension: "Nainstalovat nové Rozšíření"
 page.extend.headline.installation-complete: "Instalace dokončena"
 page.extend.headline.installing-package: "Instalování balíčku"
+page.extend.headline.latest-version: "Poslední stabilní verze"
 page.extend.headline.stable-versions: "Stabilní verze"
 page.extend.headline.test-versions: "nestabilní testovací verze"
 page.extend.headline.theme-installation-complete: "Instalace šabolny dokončena"
@@ -640,6 +589,7 @@ page.extend.listheader.extension: "Rozšíření"
 page.extend.listheader.status: "Stav"
 page.extend.listheader.version: "Verze"
 page.extend.message.add-extension-with-form: "Přidat rozšíření pomocí formuláře níže"
+page.extend.message.autoload-dump: "Obnovit automaticky načítané soubory a cache."
 page.extend.message.bad-json: "Neznámá odezva JSON. Ujistěte se, že není spuštěna žádná ladící utilita a ani žádný další kód neovlivňuje odpoveď."
 page.extend.message.before-theme-start: "Předtím než začnete používat tuto šablonu na vaší stránce, potřebujeme udělat kopii do vaší složky s šablonou. Pokud chcete tuto šablonu pojmenovat jinak, jméno můžete přidat zde."
 page.extend.message.check-for-updates: "Zkontrolovat aktualizace"
@@ -649,11 +599,15 @@ page.extend.message.compatible-unstable-versions: "Verze uvedené níže jsou ko
 page.extend.message.confirm-remove: "Určitě chcete odinstalovat toto rozšíření?"
 page.extend.message.copying: "Kopírují se zdroje šablony …"
 page.extend.message.discover-by-visiting: "Nová rozšíření objevíte navštívením"
+page.extend.message.ext-dir-missing: "Složka rozšíření (<code>%DIRECTORY%</code>) neexistuje nebo do ní nelze zapisovat. V praxi to znamená, že nemůže spravovat rozšíření Boltu v administračním rozhraní. Můžete rozšíření spravovat ručně/přímo, nabo umožněte zápis do složky (<code>%DIRECTORY%</code>)."
 page.extend.message.install-all: "Probíhá instalace všech balíčků..."
 page.extend.message.installing: "Příprava instalace balíčku…"
 page.extend.message.installing-selected-package: "Instalování vybrané verze balíčku (toto může trvat i 60 vteřin)"
 page.extend.message.installs-all-listed-packages: "Tímto bude zkontrolováno zda jsou všechny uvedené balíčky nainstalovány. Použijte v případě, že jste nedávno měnil server nebo pokud jste ručně přidával rozšíření."
 page.extend.message.installs-updates: "Tímto se nainstalují všechny dostupné aktualizace."
+page.extend.message.latest-version: "Verze uvedená níže je posledním stabilním vydáním označené vývojářem, které je kompatibilní s verzí Boltu, kterou používáte."
+page.extend.message.loading-disabled: "Načítání rozšíření bylo vypnuto administrátorem v konfiguračním souboru %CONFIG%. Můžete instalovat, aktualizovat či odinstalovat jakékoliv rozšíření. Rozšíření ale nebudou aktivní, pokdu nebude změněno toto nastavení."
+page.extend.message.maintenance: "Údržba"
 page.extend.message.marked-as-stable: "Verze uvedené níže jsou označeny jako stabilní vydání vyvojářem a jsou komptatibilní s verzí Boltu kterou současně požíváte."
 page.extend.message.no-bolt-extensions-installed: "Nejsou nainstalována žádná rozšíření."
 page.extend.message.no-package-check-in-readmode: "Nelze zkontrolovat nainstalované balíčky v režimu pouze pro čtení"
@@ -693,3 +647,7 @@ panel.latest-activity.system: "Poslední aktivity systému"
 panel.latest-activity.unknown: "neznámý"
 
 panel.user-actions.button.add: "Přidat nového uživatele"
+
+users.actions-for-users: "Akce pro Uživatele"
+
+users.your-password: "Vaše heslo"
