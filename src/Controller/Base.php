@@ -287,7 +287,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param integer|string|null $userId
      *
-     * @return Entity\Users|null
+     * @return Entity\Users|false
      */
     protected function getUser($userId = null)
     {
@@ -297,7 +297,7 @@ abstract class Base implements ControllerProviderInterface
                 return $sessionAuth->getUser();
             }
 
-            return;
+            return false;
         }
         /** @var Repository\UsersRepository $repo */
         $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
