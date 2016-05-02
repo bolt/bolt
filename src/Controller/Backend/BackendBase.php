@@ -98,12 +98,16 @@ abstract class BackendBase extends Base
         }
 
         // Confirm the user is enabled or bounce them
-        if (($sessionUser = $this->getUser()) && !$sessionUser->getEnabled()) {
+        $sessionUser = $this->getUser();
+        if ($sessionUser && !$sessionUser->getEnabled()) {
             $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
             $event->setReason(AccessControlEvents::FAILURE_DISABLED);
+            $event->setUserName($sessionUser->getUsername());
             $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
 
             return $this->redirectToRoute('logout');
+        } elseif ($sessionUser) {
+            $event->setUserName($sessionUser->getUsername());
         }
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
