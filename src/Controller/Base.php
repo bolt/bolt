@@ -222,13 +222,13 @@ abstract class Base implements ControllerProviderInterface
      * Check if csrf token is valid.
      *
      * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
-     * @param string      $id    The token ID. 
+     * @param string      $id    The token ID.
      *
      * @return bool
      */
     protected function isCsrfTokenValid($value = null, $id = 'bolt')
     {
-        $token = new CsrfToken($id, $value ?: $this->app['request']->get('bolt_csrf_token'));
+        $token = new CsrfToken($id, $value ?: $this->app['request_stack']->getCurrentRequest()->get('bolt_csrf_token'));
 
         return $this->app['csrf']->isTokenValid($token);
     }
