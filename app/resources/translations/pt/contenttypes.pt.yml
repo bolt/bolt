@@ -1,20 +1,26 @@
-# app/resources/translations/pt/contenttypes.pt.yml – generated on 2016-03-23 11:27:51 Europe/Berlin
+# app/resources/translations/pt/contenttypes.pt.yml – generated on 2016-05-02 21:08:52 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-#  no untranslated keyword based messages
+#   3 untranslated keyword based messages
 #  no translations
-# 142 keyword based translations
+# 138 keyword based translations
 
-#--- 142 keyword based translations -------------------------------------------
+#--- 3 untranslated keyword based messages ------------------------------------
+
+"contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+"contenttypes.showcases.description": # "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
+
+#--- 138 keyword based translations -------------------------------------------
 
 contenttypes.blocks.description: "O tipo de conteúdo BLOCO é chamado um 'recurso de tipo de conteúdo'. Isto significa que pode ser usado para gerir pequenos pedaços de conteúdo, como o texto 'sobre nós', um 'nosso endereço' no rodapé ou em pequenos segmentos de texto similares."
 contenttypes.blocks.group.block: "Bloco"
@@ -31,7 +37,7 @@ contenttypes.blocks.text.invalid-field: "Não pode definir %field% no bloco. Nã
 contenttypes.blocks.text.invalid-relation: "No tipo de conteúdo Bloco, está definida uma relação '%relation%' mas que não é um tipo de conteúdo válido. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.blocks.text.last-modified: "Últimos blocos editados"
 contenttypes.blocks.text.new: "Novo bloco"
-contenttypes.blocks.text.no-latest: "Nenhum bloco recente"
+contenttypes.blocks.text.no-latest: "Nenhum bloco novo"
 contenttypes.blocks.text.no-proper-type: "No tipo de conteúdo Bloco, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija o problema."
 contenttypes.blocks.text.no-recent: "Nenhum bloco recente."
 contenttypes.blocks.text.none-available: "Nenhum bloco disponível."
@@ -51,7 +57,6 @@ contenttypes.blocks.text.show-more: "Mais blocos"
 contenttypes.blocks.text.view: "Ver bloco"
 contenttypes.blocks.text.wrong-use-field: "No tipo de conteúdo BLOCO, o campo '%field%' tem como 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija o problema."
 
-contenttypes.entries.description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.entries.group.content: "Conteúdo"
 contenttypes.entries.group.media: "Multimédia"
 contenttypes.entries.name.plural: "Artigos"
@@ -67,8 +72,8 @@ contenttypes.entries.text.invalid-field: "Não pode definir %field% no artigo. N
 contenttypes.entries.text.invalid-relation: "No tipo de conteúdo Artigo, está definida uma relação '%relation%' mas que não é um tipo de conteúdo válido. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.entries.text.last-modified: "Últimos artigos editados"
 contenttypes.entries.text.new: "Novo artigo"
-contenttypes.entries.text.no-latest: "Sem entradas recentes"
-contenttypes.entries.text.no-proper-type: "No tipo de conteúdo Artigo, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija o problema."
+contenttypes.entries.text.no-latest: "Nenhum artigo novo"
+contenttypes.entries.text.no-proper-type: "No tipo de conteúdo Artigo, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml para corrigir o problema."
 contenttypes.entries.text.no-recent: "Nenhum artigo recente."
 contenttypes.entries.text.none-available: "Nenhum artigo disponível."
 contenttypes.entries.text.not-existing: "O artigo de que está à procura não existe. Provavelmente foi eliminado ou nunca existiu."
@@ -78,16 +83,15 @@ contenttypes.entries.text.publish: "Publicar artigo"
 contenttypes.entries.text.recent: "Artigos recentes"
 contenttypes.entries.text.recent-changes-one: "Alterações recentes neste artigo"
 contenttypes.entries.text.recently-edited: "Artigos editados recentemente"
-contenttypes.entries.text.reserved-name: "No tipo de conteúdo 'Artigo', o campo '%field%' está definido mas é um nome reservado. Por favor, edite o ficheiro contenttypes.yml para corrigir."
+contenttypes.entries.text.reserved-name: "No tipo de conteúdo 'Artigo', o campo '%field%' está definido mas é um nome reservado. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.entries.text.save: "Guardar artigo"
 contenttypes.entries.text.saved-changes: "As alterações ao artigo foram guardadas."
 contenttypes.entries.text.saved-new: "O novo artigo foi guardado."
 contenttypes.entries.text.saving-impossible: "Não foi possível guardar o artigo."
 contenttypes.entries.text.show-more: "Mais artigos"
 contenttypes.entries.text.view: "Ver artigos"
-contenttypes.entries.text.wrong-use-field: "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+contenttypes.entries.text.wrong-use-field: "No tipo de conteúdo Artigo, o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 
-contenttypes.pages.description: "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.pages.group.content: "Conteúdo"
 contenttypes.pages.name.plural: "Páginas"
 contenttypes.pages.name.singular: "Página"
@@ -99,35 +103,33 @@ contenttypes.pages.text.duplicate: "Duplicar página"
 contenttypes.pages.text.duplicated-finalize: "O conteúdo foi duplicado. Clique em 'Guardar página' para concluir."
 contenttypes.pages.text.edit: "Editar página"
 contenttypes.pages.text.invalid-field: "Não pode definir %field% na página. Não é um campo válido."
-contenttypes.pages.text.invalid-relation: "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+contenttypes.pages.text.invalid-relation: "No tipo de conteúdo Página, está definida uma relação '%relation%' mas que não é um tipo de conteúdo válido. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.pages.text.last-modified: "Últimas páginas editadas"
 contenttypes.pages.text.new: "Nova página"
-contenttypes.pages.text.no-latest: "Não existem páginas recentes"
-contenttypes.pages.text.no-proper-type: "In the contenttype for 'Page', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
-contenttypes.pages.text.no-recent: "Não existem página recentes."
+contenttypes.pages.text.no-latest: "Nenhuma página nova"
+contenttypes.pages.text.no-proper-type: "No tipo de conteúdo Página, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml para corrigir o problema."
+contenttypes.pages.text.no-recent: "Não existem páginas recentes."
 contenttypes.pages.text.none-available: "Nenhuma página disponível."
-contenttypes.pages.text.not-existing: "The Page you were looking for does not exist. It was probably deleted, or it never existed."
+contenttypes.pages.text.not-existing: "A página de que está à procura não existe. Provavelmente foi eliminada ou nunca existiu."
 contenttypes.pages.text.not-saved-yet: "Esta página ainda não foi guardada."
 contenttypes.pages.text.overview: "Visão geral das páginas"
 contenttypes.pages.text.publish: "Publicar página"
 contenttypes.pages.text.recent: "Páginas recentes"
 contenttypes.pages.text.recent-changes-one: "Alterações recentes nesta página"
 contenttypes.pages.text.recently-edited: "Páginas editadas recentemente"
-contenttypes.pages.text.reserved-name: "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.pages.text.reserved-name: "No tipo de conteúdo Página, o campo '%field%' está definido mas é um nome reservado. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.pages.text.save: "Guardar página"
 contenttypes.pages.text.saved-changes: "As alterações à página foram guardadas."
 contenttypes.pages.text.saved-new: "A nova página foi guardada."
 contenttypes.pages.text.saving-impossible: "Não foi possível guardar a página."
 contenttypes.pages.text.show-more: "Mais páginas"
 contenttypes.pages.text.view: "Ver páginas"
-contenttypes.pages.text.wrong-use-field: "In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+contenttypes.pages.text.wrong-use-field: "No tipo de conteúdo Página, o campo '%field%' tem como 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml para corrigir o problema."
 
-contenttypes.showcases.description: "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.showcases.group.files: "Ficheiros"
 contenttypes.showcases.group.media: "Multimédia"
 contenttypes.showcases.group.other: "Outro"
 contenttypes.showcases.group.repeater: "Repetidor"
-contenttypes.showcases.group.template: "Tema"
 contenttypes.showcases.group.text: "Texto"
 contenttypes.showcases.name.plural: "Mostruários"
 contenttypes.showcases.name.singular: "Mostruário"
@@ -139,11 +141,11 @@ contenttypes.showcases.text.duplicate: "Duplicar mostruário"
 contenttypes.showcases.text.duplicated-finalize: "O conteúdo foi duplicado. Clique em 'Guardar mostruário' para concluir."
 contenttypes.showcases.text.edit: "Editar mostruário"
 contenttypes.showcases.text.invalid-field: "Não pode definir %field% no mostruário. Não é um campo válido."
-contenttypes.showcases.text.invalid-relation: "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+contenttypes.showcases.text.invalid-relation: "No tipo de conteúdo Mostruário, está definida uma relação '%relation%' mas que não é um tipo de conteúdo válido. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.showcases.text.last-modified: "Mostruários modificados recentemente"
 contenttypes.showcases.text.new: "Novo mostruário"
 contenttypes.showcases.text.no-latest: "Nenhum mostruário novo"
-contenttypes.showcases.text.no-proper-type: "In the contenttype for 'Showcase', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this."
+contenttypes.showcases.text.no-proper-type: "No tipo de conteúdo Mostruário, o campo '%field%' tem como 'type: %type%', o que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml para corrigir o problema."
 contenttypes.showcases.text.no-recent: "Nenhum mostruário recente."
 contenttypes.showcases.text.none-available: "Nenhum mostruário disponível."
 contenttypes.showcases.text.not-existing: "O mostruário de que está à procura não existe. Provavelmente foi eliminado ou nunca existiu."
@@ -153,11 +155,11 @@ contenttypes.showcases.text.publish: "Publicar mostruário"
 contenttypes.showcases.text.recent: "Mostruários recentes"
 contenttypes.showcases.text.recent-changes-one: "Alterações recentes neste mostruário"
 contenttypes.showcases.text.recently-edited: "Mostruários editados recentemente"
-contenttypes.showcases.text.reserved-name: "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.showcases.text.reserved-name: "No tipo de conteúdo Mostruário, o campo '%field%' está definido mas é um nome reservado. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."
 contenttypes.showcases.text.save: "Guardar mostruário"
 contenttypes.showcases.text.saved-changes: "As mudanças ao mostruário foram guardadas."
 contenttypes.showcases.text.saved-new: "O novo mostruário foi guardado."
 contenttypes.showcases.text.saving-impossible: "Não foi possível guardar o mostruário."
 contenttypes.showcases.text.show-more: "Mais mostruários"
 contenttypes.showcases.text.view: "Ver mostruários"
-contenttypes.showcases.text.wrong-use-field: "No tipo de conteúdo Mostruário', o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o ficheiro contenttypes.yml, para corrigir."
+contenttypes.showcases.text.wrong-use-field: "No tipo de conteúdo Mostruário, o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o ficheiro contenttypes.yml para corrigir o problema."

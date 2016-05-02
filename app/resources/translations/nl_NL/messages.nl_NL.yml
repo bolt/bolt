@@ -1,193 +1,48 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2016-03-15 17:15:31 Europe/Berlin
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2016-05-02 21:07:14 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  62 unused messages
-#  78 untranslated messages
-#  21 untranslated keyword based messages
-# 327 translations
-# 186 keyword based translations
+#  no unused messages
+#  16 untranslated messages
+#  no untranslated keyword based messages
+# 375 translations
+# 215 keyword based translations
 
-#--- 62 unused messages -------------------------------------------------------
+#--- 16 untranslated messages -------------------------------------------------
 
-"%contenttypes% overview": "%contenttypes% overzicht"
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "De Bolt extensie kon niet worden gevonden. Controleer op %site% of je de goede naam gebruikt."
-"Clear Activitylog": "Wis activiteitenlog"
-"Clear the current log": "Wis de huidige log"
-"Do you really want to delete %foldername%?": "Weet je zeker dat je %foldername% wilt verwijderen?"
-"Extension log": "Extensie log"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "Het laden van extensies is uitgeschakeld door een administrator in het %config% bestand"
-"File '%file%' could not be uploaded.": "Bestand '%file%' kon niet geüpload worden."
-"Filtering …": "Filtering …"
-"Next": "Volgende"
-"No recent %contenttype%.": "Geen recente %contenttype%."
-"Originally by %1, ported by %2": "Oorspronkelijk door %1, omgezet door %2"
-"Other contenttypes": "Andere contenttypes"
-"Previous": "Vorige"
-"Proudly powered by %s": "Met trots aangedreven door %s"
-"Recent %contenttypes%": "Recente %contenttypes%"
-"Search for:": "Zoek naar:"
-"Search…": "Zoek…"
-"Skip to content": "Spring naar content"
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "De directory voor extensies (<code>%dir%</code> bestaat niet of is niet schrijfbaar."
-"Trim Activitylog": "Verklein activiteitenlog"
-"You do not have the right privileges to create a new record.": "Je hebt niet de juiste privileges om een record aan te maken."
-"You do not have the right privileges to upload.": "Je bent niet gerechtigd om te uploaden."
-"You must specify both a name and a version to install!": "Je moet zowel een naam als een versie opgeven voor de installatie!"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Extensie fout] Initialisatie niet gelukt in %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extensie fout] Snippet laden niet gelukt in %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extensie fout] Twig functie initialiseren niet gelukt in %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extensie fout] YAML configuratie laden niet gelukt in %ext%: %error%"
-"in:": "in:"
-"general.thanks": "Bedankt"
-"Attempt to modify invalid Contenttype.": #
-"You do not have the right privileges to %ACTION% that record.": #
-"An error occurred.": "Er is een fout opgetreden."
-"Are you sure you wish to delete these records? There is no undo.": "Weet je zeker dat je deze records wilt verwijderen? Ongedaan maken is niet mogelijk"
-"Content '%title%' could not be deleted.": "Inhoud '%title%' kon niet worden opgeslagen."
-"Content '%title%' has been changed to '%newStatus%'": "Content '%title%' is aangepast naar '%newStatus%'"
-"Content '%title%' has been deleted.": "Inhoud '%title%' is verwijderd."
-"Delete selected": "Verwijder geselecteerd"
-"Depublish selected": "Depubliceer geselecteerd"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
-"No such action for content.": "Die actie kun je niet uitvoeren."
-"Permission denied": "Permissie gewiegerd"
-"Publish selected": "Publiceer geselecteerde"
-"Remove selected": "Verwijder geselecteerde items"
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "De Bolt extensies Repo op %repository% is momenteel niet beschikbaar. Controleer je verbinding, en probeer het straks opnieuw"
-"The Bolt extensions file '%composerjson%' isn't readable.": "Het Bolt extensie bestand '%composerjson%' kan niet worden gelezen."
-"The file '%s' doesn't exist, or is not readable.": "Het bestand '%s' bestaat niet, of is niet leesbaar."
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Er is iets fout gegaan bij het uploaden.\\nControleer dat het bestand een van de volgende types is:\\n%TYPELIST%"
-"This record is related to:": "Dit record is gerelateerd aan:"
-"Uploading": "Bezig met uploaden"
-"general.bolt-documentation-on-github": "Bolt documentatie op Github"
-"contenttypes.generic.error-saving": "Er was een probleem met het opslaan van deze %contenttype%."
-"field.general.select-from-stack": "Kies van de stack"
-"field.video.button.preview": "Voorvertoning"
-"field.video.preview.button.close": "Sluit"
-"field.video.preview.no-url": "Geen URL van de video ingesteld, dus niets om te tonen."
-"page.ckeditor-browse-server.pixel": "px."
-
-#--- 78 untranslated messages -------------------------------------------------
-
-"Add Selected": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"At least %NUM% characters required": #
-"Author": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Check/Uncheck all": #
-"Choose an entry": #
-"Client error: %errormessage%": #
-"Close editor": #
-"Create File": #
-"Delete": #
-"Delete Set": #
-"Depublish": #
-"Do you really want to delete %FOLDERNAME%?": #
-"Duplicate Set": #
-"Error reading extensions/composer.json file: %ERROR%": #
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
-"Extension server returned an error: %errormessage%": #
-"File '%s' could not be saved, because the form wasn't valid.": #
-"Files could not be uploaded.": #
-"Generic failure while testing connection to extension server: %errormessage%": #
-"Id (№)": #
-"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
-"Invalid login parameters.": #
-"Live Edit": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+"Cleared cache.": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Extend": #
+"Failed to clear cache. You should delete it manually.": #
+"Group": #
+"Groups": #
+"Link": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
-"Move Up": #
-"New Bolt site has been set up": #
-"No Preview": #
-"Only root can change file extensions.": #
-"Order": #
-"Others": #
-"Publish": #
-"Records": #
-"Related content:": #
-"Repeat": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Search results for <b>%search%</b>.": #
-"Selection (#):": #
-"Show proposed alterations": #
-"Something went wrong with logging in after first user creation!": #
-"Subsubtitle": #
-"Subtitle": #
-"System Configuration Checks": #
 "The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"There is no undo!": #
-"This record is related to the following %CTNAME%:": #
-"This template adds new fields. Save, then refresh to see these changes.": #
-"Thumbnail": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
+"The field %field% has been changed to \"%newValue%\"": #
+"The value has to be at least “%MINVAL%”!": #
+"The value must not be greater than “%MAXVAL%”!": #
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
-"Warning": #
-"Welcome to your new Bolt site, %USER%.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
-"general.bolt-documentation": # "Bolt documentation"
-"general.visit-bolt": # "Visit Bolt.cm"
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 21 untranslated keyword based messages -----------------------------------
-
-"contenttypes.generic.group.template": # "Template"
-"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"field.general.stack": # "Stack"
-"field.geolocation.label.snap": # "Snap to nearest address"
-"field.slug.button.edit": # "Edit"
-"field.slug.button.link": # "Link to:"
-"field.slug.button.lock": # "Lock"
-"field.slug.message.warning": # "Editing this field might break existing links to this record!"
-"field.slug.unique-alias": # "Unique alias"
-"field.video.height": #
-"field.video.width": #
-"page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
-"page.edit-users.error.password-different-username": # "Password must not match the username."
-"page.extend.button.autoload-dump": # "Rebuild Autoloader"
-"page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.headline.latest-version": # "Latest stable version"
-"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
-"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
-"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-
-#--- 327 translations ---------------------------------------------------------
+#--- 375 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
-"%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
 "(no group)": "(geen groep)"
 "(none)": "(geen)"
 "A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
 "Actions": "Acties"
+"Add Selected": "Selectie toevoegen"
 "Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
 "Add a comment:": "Voeg een opmerking toe:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
@@ -196,16 +51,24 @@
 "All content types": "Alle contenttypes"
 "All users": "Alle gebruikers"
 "Alt": "Alt."
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Er is een fout opgetreden tijdens het bijwerken van de '%TABLE%'. De fout is %ERROR%"
 "Anonymous": "Anoniem"
+"Are you sure you want to delete %FILENAME%?": "Weet je zeker dat je %FILENAME% wil verwijderen?"
 "Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
-"Are you sure you want to remove these images?": "Weet je zeker dat je deze afbeeldingen wilt verwijderen?"
-"Are you sure you want to remove this file?": "Weet je zeker dat je dit bestand wilt verwijderen?"
-"Are you sure you want to remove this image?": "Weet je zeker dat je deze afbeelding wilt verwijderen?"
-"Are you sure you wish to delete this record? There is no undo.": "Weet je zeker dat je dit record wilt verwijderen? Ongedaan maken is niet mogelijk"
+"Are you sure you want to do this for %NUMBER% records?": "Weet je zeker dat je dit voor %NUMBER% records wil uitvoeren?"
+"Are you sure you want to do this for 1 record?": "Weet je zeker dat je dit wilt uitvoeren voor 1 record?"
+"Are you sure you want to remove these files?": "Weet je zeker dat je deze bestanden wil verwijderen?"
+"Are you sure you want to remove these images?": "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
+"Are you sure you want to remove this file?": "Weet je zeker dat je dit bestand wil verwijderen?"
+"Are you sure you want to remove this image?": "Weet je zeker dat je deze afbeelding wil verwijderen?"
+"Are you sure you wish to delete this record? There is no undo.": "Weet je zeker dat je dit gegeven wil verwijderen? Dit kan je niet ongedaan maken."
+"At least %NUM% characters required": "Tenminste %NUM% tekens zijn vereist"
+"Author": "Schrijver"
 "Author:": "Auteur:"
 "Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
 "Body": "Broodtekst"
 "Bolt - Fatal error.": "Bolt - Kritieke fout."
+"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": "Bolt heeft één of meer configuratieproblemen gedetecteerd. Voor optimale prestatie zou je deze eerst moeten oplossen:"
 "Browser / platform": "Browser / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
 "Built-in role, automatically granted to every registered user": "Ingebouwde rol die aan iedere ingelogde gebruiker wordt toegekend"
@@ -217,105 +80,120 @@
 "Change Log": "Changelog"
 "Change status to 'draft'": "Zet status op 'klad'"
 "Change status to 'held'": "Zet status op 'niet gepubliceerd'"
-"Chapter": "Hoofdstuk"
-"Chapters": "Hoofdstukken"
 "Check again": "Controleer nogmaals"
 "Check database": "Controleer de database"
+"Check/Uncheck all": "Selecteer / deselecteer alles"
+"Choose an entry": "Selecteer een bericht"
 "Class:": "Class"
-"Clear Change Log": "Wis changelog"
-"Clear System Log": "Wis systeemlog"
+"Clear Change Log": "Wis het Change Log"
+"Clear System Log": "Wis het Systeem Log"
 "Clear cache again": "Leeg de cache nogmaals"
 "Clear filter": "Wis filter"
 "Clear sort/filter": "Wis sortering/filter"
 "Clear the cache": "Leeg de cache"
 "Click to change current status.": "Klik om de huidige status aan te passen."
+"Client error: %errormessage%": "Client fout: %errormessage%"
+"Close editor": "Sluit editor"
 "Code:": "Code"
 "Collapse sidebar": "Zijbalk invouwen"
 "Configuration": "Configuratie"
-"Content": "Inhoud"
+"Content": "Content"
 "Content '%title%' could not be modified.": "Inhoud '%title%' kon niet worden aangepast."
 "Content Type Permissions": "Content type permissies"
-"Content for home not found!": "Content voor 'home' kon niet gevonden worden."
 "Contenttypes": "Contenttypen"
+"Create File": "Maak bestand aan"
 "Create folder": "Maak map aan"
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op:"
 "Current (saved) status:": "Huidige (opgeslagen) status"
 "Current sessions": "Huidige sessie"
 "Current status:": "Huidige status:"
-"Dashboard": "Dashboard"
+"Dashboard": "Overzicht"
 "Database check / update": "Database controleren / bijwerken"
 "Date": "Datum"
 "Datetime": "Datum/tijd"
 "Default status": "Standaard status"
+"Delete": "Verwijderen"
 "Delete %filename%": "Verwijder %filename%"
 "Delete %foldername%": "Verwijder %foldername%"
 "Delete %username%": "Verwijder %username%"
-"Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
+"Delete Set": "Set verwijderen"
 "Depublication date:": "Depublicatiedatum:"
-"Depublish date is in the past. Change the status if you want to depublish now": "Depublicatiedatum ligt in het verleden. Verander de status als je nu wilt depubliceren"
+"Depublish": "Publicatie opheffen"
+"Depublish date is in the past. Change the status if you want to depublish now": "De datum van het opheffen van de publicatie ligt in het verleden. Wijzig de status als je de publicatie nu wilt opheffen"
 "Deselect all": "Deselecteer alles"
-"Detail template": "Detail template"
+"Detail template": "Detail sjabloon"
 "Details": "Details"
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "De Bolt versie is veranderd naar <b>%VERSION%</b>, en de cache is geleegd. <a href=\"%URI%\">Check de database</a>, als je dat nog niet hebt gedaan."
 "Disable %username%": "Schakel %username% uit"
+"Do you really want to delete %FOLDERNAME%?": "Weet u zeker dat u %FOLDERNAME% wil verwijderen?"
 "Done!": "Klaar!"
 "Draft": "Klad"
 "Duplicate %filename%": "Dupliceer %filename%"
+"Duplicate Set": "Dupliceer Set"
 "Edit": "Bewerk"
 "Edit Roles and Permissions": "Bewerk Rollen en Permissies"
 "Edit file": "Bewerk bestand"
 "Enable %username%": "Schakel %username% in"
+"Error reading extensions/composer.json file: %ERROR%": "Fout bij het lezen van extensions/composer.json bestand: %ERROR%"
 "Everybody": "Iedereen"
 "Excerpt": "Samenvatting"
 "Expand sidebar": "Zijbalk uitklappen"
-"Extensions": "Extensies"
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extensie package %NAME% base class '%CLASS%' is geen implementatie van \\\\\\Bolt\\\\\\Extension\\\\\\ExtensionInterface en is overgeslagen."
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extensie package %NAME% heeft een ongeldige class '%CLASS%' en is overgeslagen."
+"Extension server returned an error: %errormessage%": "De extensie server meldt een fout: %errormessage%"
+"Extensions": "Bekijk/installeer extensies"
 "Extras": "Extra's"
-"Failed to send password request. Please check the email settings.": "Het sturen van een wachtwoord verzoek is mislukt. Controleer de email instellingen."
-"Field “%FIELD_NAME%”:": "Veld “%FIELD_NAME%”:"
+"Failed to send password request. Please check the email settings.": "Het is mislukt om een wachtwoord-aanvraag te verzenden. Controleer de e-mailinstellingen."
+"Field “%FIELD_NAME%”:": "Invoerveld \"%FIELD_NAME%\":"
 "File": "Bestand"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Het bestand '%file%' kon niet worden geüpload (foutief bestandstype). Zorg ervoor dat de bestandsextensie een van de volgende is."
 "File '%file%' was uploaded successfully.": "Bestand '%file%' is goed geüpload."
-"File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
+"File '%s' could not be saved, because the form wasn't valid.": "Het bestand %s kon niet worden opgeslagen omdat het formulier niet juist is ingevuld."
+"File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om een onduidelijke reden."
 "File '%s' could not be saved:": "Bestand '%s' kon niet worden opgeslagen: "
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
 "File is not readable!": "Bestand is niet leesbaar!"
 "Filelist": "Bestandenlijst"
 "Files": "Bestanden"
+"Files could not be uploaded.": "De bestanden konden niet worden geüpload."
 "Files in %s": "Bestanden in %s"
 "Files on the stack": "Bestanden op de Stack"
 "Filesize": "Bestandsgrootte"
 "Fill the database with Dummy Content": "Vul de database met Dummy-inhoud"
 "Filter": "Filter"
-"Filtering": "Filtering"
+"Filtering": "Filteren"
 "Find": "Vind"
 "Floatfield": "Floatveld"
 "Folder '%s' could not be found, or is not readable.": "Map '%s' werd niet gevonden, of is niet leesbaar."
 "Folder permissions insufficient": "Onvoldoende permissies op map"
 "Folders": "Mappen"
 "Full list …": "Volledige lijst…"
+"Generic failure while testing connection to extension server: %errormessage%": "Algemene fout tijdens het testen van de verbinding met de server van de uitbreiding: %errormessage%"
 "Geolocation": "Geolocatie"
 "Global Permissions": "Globale permissies"
-"Has to be a floating point number!": "Moet een decimaal getal zijn!"
+"Has to be a floating point number!": "Dit moet een kommagetal zijn!"
 "Hints:": "Hints:"
 "Html": "Html"
 "IP address": "IP-adres"
 "Id": "Id"
+"Id (№)": "Id (№)"
 "Image": "Afbeelding"
 "Imagelist": "Afbeeldingenlijst"
 "Info": "Info"
 "Integerfield": "Integer getallen veld"
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ongeldig menu pad (%PATH%) in menu.yml. Matcht niet met de geconfigureerde contenttypes of routes."
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldig menu pad (%PATH%) in menu.yml. Waarschijnlijk moet het een link: zijn!"
-"Is required or needs to match a pattern!": "Is verplicht of moet een patroon matchen!"
-"Is required!": "Is verplicht!"
-"Keyword …": "Keyword …"
+"Invalid login parameters.": "Onjuiste login parameters."
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Het stemt niet overeen met bestaande contenttypes of routes."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Waarschijnlijk had deze een link moeten zijn!"
+"Is required or needs to match a pattern!": "Is vereist of heeft een onjuiste opbouw!"
+"Is required!": "Is vereist!"
+"Keyword …": "Trefwoord …"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laatst bekende IP"
 "Last seen": "Laatst gezien"
-"Latest entries": "Nieuwste berichten"
 "Listing template": "Lijst template"
+"Live Edit": "Live bewerken"
+"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": "Lokale installatie van extensie is onvolledig. Ga naar de extensie pagina en selecteer 'Alle pakketten installeren'."
 "Login": "Log in"
 "Logout": "Uitloggen"
 "Long messages": "Lange meldingen"
@@ -330,22 +208,29 @@
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"
 "Modified": "Aangepast"
+"Move Down": "Omlaag Verplaatsen"
+"Move Up": "Omhoog Verplaatsen"
 "Multiselect": "Multiselect"
+"New Bolt site has been set up": "Nieuwe Bolt site is opgezet"
+"No Preview": "Geen Voorbeeld Beschikbaar"
 "No content found.": "Geen content gevonden."
-"No files in the list, yet.": "Nog geen bestanden in de lijst."
-"No images in the list, yet.": "Nog geen afbeeldingen in de lijst."
+"No files in the list, yet.": "De lijst bevat nog geen bestanden."
+"No images in the list, yet.": "De lijst bevat nog geen afbeeldingen."
 "No relations found!": "Geen relaties gevonden!"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Geen resultaat gevonden voor '%SEARCHTERM%'. Probeer het met een andere zoekterm."
 "No such action for user '%s'.": "Die actie kun je niet uitvoeren op gebruiker '%s'."
-"No theme name found. Theme is not generated.": "Geen thema naam gevonden. Thema is niet aangemaakt."
+"No theme name found. Theme is not generated.": "Geen themanaam gevonden. Het thema is niet gegenereerd."
 "None": "Geen"
 "Not published": "Niet gepubliceerd"
-"Not yet installed.": "Nog niet geinstalleerd."
+"Not yet installed.": "Nog niet geïnstalleerd."
 "Note:": "Opmerking: "
 "Omnisearch": "Omnisearch"
+"Only root can change file extensions.": "Alleen root kan bestandsextensies wijzigen."
 "Options": "Opties"
+"Order": "Volgorde"
 "Order: %sort%": "Volgorde: %sort%"
 "Other content": "Andere content"
+"Others": "Anderen"
 "Overview": "Overzicht"
 "Overview for": "Overzicht van"
 "Owner": "Eigenaar"
@@ -368,21 +253,28 @@
 "Profile": "Profiel"
 "Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum:"
+"Publish": "Publiceren"
 "Published": "Gepubliceerd"
 "Published on:": "Gepubliceerd op:"
 "Read more": "Lees verder"
+"Records": "Records"
 "Related content": "Gerelateerde content"
 "Relationships": "Relaties"
 "Rename %foldername%": "Hernoem %foldername%"
+"Repeater": "Repeater"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
+"Run PHP extension checks": "Controleer PHP extensie op fouten"
+"Run all checks": "Controleer alles"
+"Run directory checks": "Controleer directories op fouten"
+"Run email checks": "E-mail controles uitvoeren"
 "Save & create new record": "Sla op & maak nieuwe"
 "Save & return to overview": "Sla op & naar overzicht"
 "Saved on:": "Opgeslagen op:"
 "Saving …": "Opslaan…"
 "Search": "Zoeken"
 "Search for …": "Zoek naar …"
-"Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>."
+"Search results for <b>%search%</b>.": "Zoekresultaten voor <b>%search%</b>."
 "Search …": "Zoek…"
 "Select": "Kies"
 "Select a page": "Kies een pagina"
@@ -392,9 +284,11 @@
 "Select zero or more pages": "Kies nul of meer pagina's"
 "Selectentry": "Selecteer bericht"
 "Selectfield": "Selecteer veld"
+"Selection (#):": "Selectie (#):"
 "Session expires": "Sessie verloopt"
 "Session resumed.": "Sessie hervat."
 "Settings": "Instellingen"
+"Show proposed alterations": "Toon voorgestelde wijzigingen"
 "Showing": "Toont"
 "Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% van %count%"
 "Size": "Grootte"
@@ -403,21 +297,25 @@
 "Slug": "Slug"
 "Slug:": "Slug:"
 "Something went wrong": "Er ging iets mis"
+"Something went wrong with logging in after first user creation!": "Er ging iets mis met het inloggen na het aanmaken van de eerste gebruiker!"
 "Sophisticated, lightweight & simple CMS": "Weldoordacht, lichtgewicht en eenvoudig CMS"
-"Stack": "Stack"
+"Stack": "Stapel"
 "Status:": "Status:"
-"Tag": "Tag"
-"Tags": "Tags"
+"System Configuration Checks": "Systeem Configuratie Controles"
+"Tag": "Label"
+"Tags": "Labels"
 "Taxonomy": "Taxonomie"
 "Teaser": "Teaser"
-"Template": "Template"
-"Testing connection to extension server failed: %errormessage%": "Testen van de verbinding met de extensie server mislukt: %errormessage%"
+"Template": "Sjabloon"
+"Testing connection to extension server failed: %errormessage%": "Het testen van de verbinding met de extensie is niet gelukt: %errormessage%"
 "Textarea": "Tekstveld"
 "That user does not exist.": "Die gebruiker bestaat niet."
+"The Bolt extensions composer.json isn't writable.": "Het Bolt extensies bestand composer.json is niet schrijfbaar."
 "The change log has been cleared.": "De changelog is gewist."
 "The change log has been trimmed.": "De changelog is verkleind."
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Configuratie' > '<a href=\"%link%\">Controleer Database</a>' om dit nu te doen."
-"The field %field% has been changed to \"%newValue%\"": "Het veld %field% is gewijzigd in \"%newValue%\"."
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": "De email configuratie 'mailopties' is niet ingesteld. Mogelijk slaagt Bolt er niet in een wachtwoord-reset-email te verzenden."
+"The file '%s' doesn't exist.": "Het bestand '%s' bestaat niet."
+"The file '%s' is not readable.": "Het bestand '%s' is niet leesbaar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen in dit bestand aan te brengen."
 "The folder '%s' could not be found, or is not readable.": "De map '%s' kon niet worden gevonden of is niet schrijfbaar."
 "The following file could not be read:": "Het volgende bestand kon niet worden gelezen:"
@@ -429,32 +327,41 @@
 "The system log has been trimmed.": "De systeemlog is verkleind."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
-"The value has to be at least “%MINVAL%”!": "De waarde moet mag niet lager zijn dan “%MINVAL%”!"
-"The value must not be greater than “%MAXVAL%”!": "De waarde mag niet hoger zijn dan “%MAXVAL%”!"
 "Theme successfully generated. You can now edit it directly from your theme folder.": "Thema aangemaakt! Je kunt de bestanden bewerken in de thema-map."
 "There are no items on the Stack, yet.": "Nog geen bestanden op de Stack."
-"There are no saved changes, yet.": "Er zijn nog geen opgeslagen wijzigingen."
+"There are no saved changes, yet.": "Er zijn nog geen opgeslagen wijzigingen om te tonen."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
+"There is no undo!": "Dit kan niet ongedaan worden gemaakt!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Er moet altijd minstens één 'root'-gebruiker zijn. Gefeliciteerd, je hebt promotie gekregen!"
 "This is a checkbox": "Dit is een checkbox"
+"This record is related to the following %CTNAME%:": "Deze record heeft betrekking op de volgende %CTNAME%:"
+"This template adds new fields. Save, then refresh to see these changes.": "Deze sjabloon voegt nieuwe velden toe. Opslaan en vervolgens vernieuwen om deze wijzigingen te zien."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
+"Thumbnail": "Thumbnail"
 "Time in 24h/12h format": "Tijd in 24h/12h notering"
 "Timed publish": "Publicatiedatum"
 "Tip:": "Tip:"
 "Title": "Titel"
 "Translations": "Vertalingen"
-"Trim Change Log": "Verklein changelog"
-"Trim System Log": "Verklein systeemlog"
+"Trim Change Log": "Trim Change Log"
+"Trim System Log": "Trim System Log"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Log in met je ftp-account en maak het bestand leesbaar, of ga <a>terug</a> naar de vorige pagina."
 "Types": "Types"
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Helaas kon er geen content worden gevonden. Probeer een andere pagina, of ga naar de <a href=\"%paths_root%\">homepage</a>."
+"Unable to create directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
+"Unable to create file: %FILE%": "Bestand %FILE% kan niet worden aangemaakt"
+"Unable to delete directory: %DIR%": "Directory %DIR% kan niet worden verwijderd"
+"Unable to delete file: %FILE%": "Bestand %FILE% kan niet worden verwijderd"
+"Unable to get installation information for %PACKAGE% %VERSION%.": "Niet in staat om de installatiegegevens op te halen voor %PACKAGE% %VERSION%."
+"Unable to rename directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
+"Unable to rename file: %FILE%": "De naam van het bestand %FILE% kon niet worden gewijzigd"
+"Unable to retrieve login session data. Please check your system's PHP session settings.": "Het ophalen van loginsessiegegevens is mislukt. Controleer de PHP sessie-instellingen van je systeem."
 "Update the database": "Werk de database bij"
 "Upload": "Uploaden"
 "Upload a file to this folder": "Upload een bestand naar deze map"
 "Upload file": "Upload bestand"
 "Upload image": "Upload afbeelding"
-"Upload not allowed": "Upload niet toegestaan"
+"Upload not allowed": "Deze upload is niet toegestaan"
 "Uploaded files": "Geüploade bestanden"
 "Uploading to this folder is not allowed.": "Uploaden naar deze map is niet toegestaan."
 "Used Libraries / Components": "Gebruikte Libraries / Componenten"
@@ -467,7 +374,7 @@
 "Username": "Gebruikersnaam"
 "Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
 "Users": "Gebruikers"
-"Users & Permissions": "Gebruikers & Rechten"
+"Users & Permissions": "Gebruikers en machtigingen"
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "View Roles": "Bekijk Rollen"
@@ -475,16 +382,19 @@
 "View related content": "Bekijk gerelateerde inhoud"
 "View site": "Bekijk site"
 "View/edit Templates": "Bekijk / bewerk templates"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "We konden het thema niet aanmaken. Waarschijnlijk is de thema-map niet schrijfbaar voor Bolt. Controleer de schrijfrechten en probeer opnieuw."
+"Warning": "Waarschuwing"
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Het thema kon niet worden aangemaakt. Het is mogelijk dat de directory waarin het thema zich bevindt niet schrijfbaar is door bolt. Controleer de rechten en probeer opnieuw te installeren."
+"Welcome to your new Bolt site, %USER%.": "Welkom bij je nieuwe bout site, %USER%."
 "Written by <em>%name%</em> on %date%": "Geschreven door <em>%name%</em> op %date%"
-"You cannot '%s' yourself.": "Je kunt jezelf niet '%s'."
+"You cannot '%s' yourself.": "Je kan jezelf niet %s."
 "You do not have the right privileges to edit that record.": "Je bent niet gerechtigd om dat record te wijzigen."
-"You do not have the right privileges to edit that user.": "Je bent niet gerechtigd om deze gebruiker te wijzigen."
+"You do not have the right privileges to edit that user.": "Je beschikt niet over de juiste rechten om deze gebruiker te bewerken."
 "You do not have the right privileges to view that page.": "Je bent niet gerechtigd om die pagina te bekijken."
 "You don't have correct permissions to edit the file '%s'.": "Je hebt niet de juiste rechten om het bestand '%s' te bewerken."
 "You don't have the correct permissions to display the file or directory '%s'.": "Je hebt niet de juiste rechten om het bestand of directory '%s' weer te geven."
 "You have been logged out.": "Je bent uitgelogd."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Link 'homepage:' in 'app/config/config.yml' aan een bestaande record. Zorg ervoor dat de content is gepubliceerd, omdat het anders niet weergegeven wordt."
+"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Je hebt onvoltooide wijzigingen op deze pagina. Als je zonder op te slaan doorgaat, zal je deze veranderingen verliezen."
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Sommige velden binnen je template zullen verloren gaan met deze aanpassing. Ga naar de template tab en neem de waarden over vóórdat je hieraan begint."
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "Your account is disabled. Sorry about that.": "Je account is uitgeschakeld. Sorry daarvoor."
 "Your database is already up to date.": "Je database was al bijgewerkt."
@@ -492,30 +402,23 @@
 "and edited": "en bewerkt"
 "back to editing": "terug naar bewerken"
 "by": "door"
-"filtered by <em>'%filter%'</em>": "gefilterd op <em>'%filter%'</em>"
-"general.about": "Over"
-"general.about-bolt": "Over Bolt"
-"general.bolt-on-github": "Bolt op Github"
+"filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 "line": "regel"
-"logs.change-log": "Changelog"
-"logs.system-log": "Systeemlog"
 "no content …": "geen content …"
 "no title …": "geen titel …"
 "none": "geen"
 "of": "van"
 "or": "of"
 "show all": "Toon alle"
-"users.actions-for-users": "Handelingen voor Gebruikers"
-"users.your-password": "Je wachtwoord"
 
-#--- 186 keyword based translations -------------------------------------------
+#--- 215 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "door"
 component.changelog-detail.field: "veld"
 component.changelog-detail.value-new: "nieuwe waarde"
 component.changelog-detail.value-old: "oude waarde"
 
-component.changelog-pager.page: "pagina"
+component.changelog-pager.page: "Pagina"
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
@@ -527,8 +430,10 @@ contenttypes.generic.edit: "Bewerk %contenttype%"
 contenttypes.generic.group.meta: "Meta"
 contenttypes.generic.group.relations: "Relaties"
 contenttypes.generic.group.taxonomy: "Taxonomie"
+contenttypes.generic.group.template: "Sjabloon"
 contenttypes.generic.group.ungrouped: "Zonder groep"
 contenttypes.generic.invalid-field: "Kan %field% in %contenttype% niet opslaan: Geen geldig veld."
+contenttypes.generic.invalid-relation: "In het contenttype voor '%contenttype%', is de relatie '%relation%' gedefinieerd, maar dat is een ongeldig contenttype. Bewerk contenttypes.yml om dit corrigeren."
 contenttypes.generic.last-modified: "Laatst aangepaste %contenttypes%"
 contenttypes.generic.new: "Nieuwe %contenttype%"
 contenttypes.generic.no-latest: "Geen nieuwste %contenttype%"
@@ -553,28 +458,51 @@ contenttypes.generic.wrong-use-field: "In het contenttype voor '%contenttype%', 
 
 field.general.allowed-filetypes: "Toegestane bestandtypes:"
 field.general.select-from-server: "Kies vanaf de server"
+field.general.stack: "Stapel"
 
 field.geolocation.label.address-lookup: "Adres zoeken"
 field.geolocation.label.latitude: "Breedtegraad"
 field.geolocation.label.longitude: "Lengtegraad"
 field.geolocation.label.marker-placement: "Adres op kaart"
+field.geolocation.label.snap: "Uitlijnen op het dichtstbijzijnde adres"
 field.geolocation.matched-address: "Overeenkomstig adres:"
 field.geolocation.placeholder.address: "Adres invullen"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
 
+field.slug.button.edit: "Bewerk"
+field.slug.button.link: "Link naar:"
+field.slug.button.lock: "Vergrendelen"
+field.slug.message.warning: "Het aanpassen van dit bewerkingsvlak kan bestaande koppelingen aan deze record verbreken!"
 field.slug.permalink: "Permalink"
+field.slug.unique-alias: "Unieke alias"
 
+field.video.height: "Hoogte"
 field.video.label.preview: "Voorbeeld video"
 field.video.label.size: "Grootte"
 field.video.label.url: "Url naar video"
 field.video.matched-video: "Gevonden video"
 field.video.pixel: "pixels"
 field.video.placeholder.url: "Url van de video invullen"
+field.video.width: "Breedte"
+
+general.about: "Over"
+
+general.about-bolt: "Over Bolt"
+
+general.bolt-documentation: "Bolt documentatie"
+
+general.bolt-on-github: "Bolt op Github"
+
+general.visit-bolt: "Bezoek Bolt.cm"
 
 generic.noscript.headline: "Javascript uitgeschakeld"
 generic.noscript.message: "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen."
+
+logs.change-log: "Changelog"
+
+logs.system-log: "Systeemlog"
 
 menu.configuration.routing: "Route instellingen"
 
@@ -587,7 +515,7 @@ page.ckeditor-browse-server.title: "Bestanden"
 page.dashboard.button.add: "Voeg toe …"
 page.dashboard.empty-database: "Het lijkt er op dat geen inhoud in de database zit."
 page.dashboard.quickstart: "Om snel te kunnen starten, <a href='%url%'>voeg wat Lorem Ipsum dummy-inhoud toe</a>."
-page.dashboard.title: "Dashboard"
+page.dashboard.title: "Overzicht"
 
 page.edit-file.button.revert: "Terugdraaien"
 page.edit-file.button.save: "Opslaan"
@@ -605,6 +533,8 @@ page.edit-users.activated.yes: "Gebruiker geactiveerd"
 page.edit-users.button.save: "Gebruiker opslaan"
 page.edit-users.error.displayname-used: "Deze schermnaam is al in gebruik. Kies een andere schermnaam."
 page.edit-users.error.email-used: "Dit e-mailadres is al in gebruik"
+page.edit-users.error.password-different-displayname: "Jouw wachtwoord mag geen deel uitmaken van jouw weergavenaam."
+page.edit-users.error.password-different-username: "Het wachtwoord mag niet gelijk zijn aan de gebruikersnaam."
 page.edit-users.error.password-mismatch: "Wachtwoord komt niet overeen"
 page.edit-users.error.password-short: "Het wachtwoord is te kort"
 page.edit-users.error.username-used: "Gebruikersnaam al in gebruik"
@@ -634,14 +564,16 @@ page.edit-users.title.profile: "Profiel"
 page.edit-users.user-create: "Nieuwe gebruiker aanmaken"
 page.edit-users.user-edit: "Gebruiker bewerken"
 
+page.extend.button.autoload-dump: "Autoloader herstellen"
 page.extend.button.browse-versions: "Blader tussen versies"
-page.extend.button.config: "Config"
+page.extend.button.config: "Instellingen"
 page.extend.button.copy-to-theme-folder: "kopiëer naar thema map"
 page.extend.button.info-help: "Meer info/help"
 page.extend.button.install-all: "Installeer alle packages"
 page.extend.button.install-package: "Installeer package"
 page.extend.button.install-this-version: "Installeer deze versie"
 page.extend.button.readme: "Leesmij"
+page.extend.button.show-all-versions: "Toon alle versies"
 page.extend.button.uninstall: "Deinstalleer"
 page.extend.button.update-all: "Doe alle updates"
 page.extend.button.update-check: "Doe update check"
@@ -651,6 +583,7 @@ page.extend.headline.currently-installed: "Geïnstalleerde extensies"
 page.extend.headline.install-new-extension: "Installeer een nieuwe extensie"
 page.extend.headline.installation-complete: "Installatie voltooid"
 page.extend.headline.installing-package: "Package installeren"
+page.extend.headline.latest-version: "Meest recente stabiele versie"
 page.extend.headline.stable-versions: "Stabiele versies"
 page.extend.headline.test-versions: "Onstabiele testversies"
 page.extend.headline.theme-installation-complete: "Installatie van het thema is gereed."
@@ -660,6 +593,7 @@ page.extend.listheader.extension: "Extensie"
 page.extend.listheader.status: "Status"
 page.extend.listheader.version: "Versie"
 page.extend.message.add-extension-with-form: "Voeg een nieuwe extensie toe met onderstaand formulier."
+page.extend.message.autoload-dump: "Deze handeling zal zowel de autoload bestanden als de cache bestanden herstellen."
 page.extend.message.bad-json: "Misvormde JSON respons. Zorg ervoor dat er geen debugging of andere code wordt toegevoegd aan de reactie"
 page.extend.message.before-theme-start: "Voordat je deze theme kunt gebruiken, moeten we een kopie maken naar je theme map. Als je een alternatieve naam wilt opgeven voor het theme, dan kan dat hier."
 page.extend.message.check-for-updates: "Controleer op updates"
@@ -669,11 +603,14 @@ page.extend.message.compatible-unstable-versions: "De hieronder opgesomde versie
 page.extend.message.confirm-remove: "Bevestig dat je deze extensie wilt verwijderen?"
 page.extend.message.copying: "Thema-bestanden kopiëren …"
 page.extend.message.discover-by-visiting: "Ontdek nieuwe extensies"
+page.extend.message.ext-dir-missing: "De maplocatie van de extensie (<code>%DIRECTORY%</code>) bestaat niet of is niet schrijfbaar. Daarom kan u Bolt extensies niet bewerken vanuit de backend. Probeer de extensies handmatig te bewerken of verander de bestandsrechten om Bolt een schrijfrecht te verlenen voor (<code>%DIRECTORY%</code>)."
 page.extend.message.install-all: "Bezig met de installatie van alle packages …"
 page.extend.message.installing: "Package installatie aan het voorbereiden …"
 page.extend.message.installing-selected-package: "Geselecteerde packages worden geïnstalleerd. (Dit kan tot 60 seconden duren)"
 page.extend.message.installs-all-listed-packages: "Dit zorgt ervoor dat alle opgesomde pakketten worden geïnstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geïnstalleerd."
 page.extend.message.installs-updates: "Dit zal alle updates installeren."
+page.extend.message.latest-version: "De hieronder vermelde versie is de laatste stabiele versie zoals aangegeven door de ontwikkelaar, die compatibel is met de versie van Bolt die u momenteel gebruikt."
+page.extend.message.loading-disabled: "Extensies laden is uitgeschakeld door een beheerder in het bestand %CONFIG%. Je kan extensies installeren, bijwerken en verwijderen, maar deze zullen niet laden totdat deze instelling is gewijzigd."
 page.extend.message.maintenance: "Onderhoud"
 page.extend.message.marked-as-stable: "De hieronder opgesomde versies zijn als stabiel aangemerkt door de ontwikkelaar en zijn compatibel met de Bolt-versie die je momenteel gebruikt."
 page.extend.message.no-bolt-extensions-installed: "Geen Bolt extensies geinstalleerd."
@@ -714,3 +651,7 @@ panel.latest-activity.system: "Recente systeem activiteit"
 panel.latest-activity.unknown: "onbekend"
 
 panel.user-actions.button.add: "Nieuwe gebruiker toevoegen"
+
+users.actions-for-users: "Handelingen voor Gebruikers"
+
+users.your-password: "Je wachtwoord"

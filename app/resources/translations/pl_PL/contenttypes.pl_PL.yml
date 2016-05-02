@@ -1,38 +1,65 @@
-# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2016-03-15 17:33:58 Europe/Berlin
+# app/resources/translations/pl_PL/contenttypes.pl_PL.yml – generated on 2016-05-02 21:08:09 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
+#  no unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#  38 untranslated keyword based messages
 #  no translations
 # 103 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 38 untranslated keyword based messages -----------------------------------
 
-"contenttypes.entries.text.error-saving": "Wystąpił błąd podczas zapisywania tego Wpisu."
-"contenttypes.pages.text.error-saving": "Wystąpił błąd podczas zapisywania tej Strony."
-"contenttypes.showcases.text.error-saving": "Wystąpił błąd podczas zapisywania tej Wizytówki."
-
-#--- 5 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Wpis', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Strona', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Wizytówka', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.group.block": # "Block"
+"contenttypes.blocks.name.plural": # "Blocks"
+"contenttypes.blocks.name.singular": # "Block"
+"contenttypes.blocks.text.actions-all": # "Actions for Blocks"
+"contenttypes.blocks.text.actions-one": # "Actions for this Block"
+"contenttypes.blocks.text.created": # "This Block was created"
+"contenttypes.blocks.text.delete": # "Delete Block"
+"contenttypes.blocks.text.duplicate": # "Duplicate Block"
+"contenttypes.blocks.text.duplicated-finalize": # "Content was duplicated. Click 'Save Block' to finalize."
+"contenttypes.blocks.text.edit": # "Edit Block"
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.new": # "New Block"
+"contenttypes.blocks.text.no-latest": # "No latest Block"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.none-available": # "No Blocks available."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.overview": # "Blocks overview"
+"contenttypes.blocks.text.publish": # "Publish Block"
+"contenttypes.blocks.text.recent": # "Recent Blocks"
+"contenttypes.blocks.text.recent-changes-one": # "Recent changes to this Block"
+"contenttypes.blocks.text.recently-edited": # "Recently edited Blocks"
+"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.save": # "Save Block"
+"contenttypes.blocks.text.saved-changes": # "The changes to the Block have been saved."
+"contenttypes.blocks.text.saved-new": # "The new Block has been saved."
+"contenttypes.blocks.text.saving-impossible": # "Could not save Block."
+"contenttypes.blocks.text.show-more": # "More Blocks"
+"contenttypes.blocks.text.view": # "View Blocks"
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.group.repeater": # "Repeater"
+"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 
 #--- 103 keyword based translations -------------------------------------------
 
 contenttypes.entries.description: "**Wpisy** mogą być stosowane do takich rzeczy jak _'aktualności'_ lub _'wiadomości'_. Mają zajawkę, która może być stosowana dla krótkich notek na listach, dzięki czemu użytkownicy mogą przejść szybko do reszty zawartości. Posiada również pola dla obrazu oraz opcjonalnie wideo. Aby zmienić pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej."
 contenttypes.entries.group.content: "Zawartość"
-contenttypes.entries.group.media: "Media"
+contenttypes.entries.group.media: "Multimedia"
 contenttypes.entries.name.plural: "Wpisy"
 contenttypes.entries.name.singular: "Wpis"
 contenttypes.entries.text.actions-all: "Akcje dla Wpisów"
@@ -54,7 +81,7 @@ contenttypes.entries.text.not-saved-yet: "Ten Wpis nie został jeszcze zapisany.
 contenttypes.entries.text.overview: "Przegląd Wpisy"
 contenttypes.entries.text.publish: "Opublikuj Wpis"
 contenttypes.entries.text.recent: "Ostatnie Wpisy"
-contenttypes.entries.text.recent-changes-one: "Ostatnie zmiany w tym Wpisie"
+contenttypes.entries.text.recent-changes-one: "Ostatnie zmiany tego Wpisu"
 contenttypes.entries.text.recently-edited: "Ostatnio edytowane Wpisy"
 contenttypes.entries.text.reserved-name: "W typie zawartości 'Wpis', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
 contenttypes.entries.text.save: "Zapisz Wpis"
@@ -88,7 +115,7 @@ contenttypes.pages.text.not-saved-yet: "Ta Strona nie została jeszcze zapisana.
 contenttypes.pages.text.overview: "Przegląd Strony"
 contenttypes.pages.text.publish: "Opublikuj Stronę"
 contenttypes.pages.text.recent: "Ostatnie Strony"
-contenttypes.pages.text.recent-changes-one: "Ostatnie zmiany w tej Stronie"
+contenttypes.pages.text.recent-changes-one: "Ostatnie zmiany tej Strony"
 contenttypes.pages.text.recently-edited: "Ostatnio edytowane Strony"
 contenttypes.pages.text.reserved-name: "W typie zawartości 'Strona', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
 contenttypes.pages.text.save: "Zapisz Stronę"
@@ -99,39 +126,39 @@ contenttypes.pages.text.show-more: "Więcej Stron"
 contenttypes.pages.text.view: "Obejrzyj Stronę"
 contenttypes.pages.text.wrong-use-field: "W typie zawartości 'Strona', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
 
-contenttypes.showcases.description: "**Wizytówki** służą do wyświetlania wszystkich dostępnych typów pól. W praktyce jej zastosowania są ograniczone, ale należy spojrzeć, aby zobaczyć, które pola są dostępne do użytku. Aby zmienić (lub usunąć) pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej stronie."
+contenttypes.showcases.description: "**Prezentacje** służą do wyświetlania wszystkich dostępnych typów pól. W praktyce jej zastosowania są ograniczone, ale należy spojrzeć, aby zobaczyć, które pola są dostępne do użytku. Aby zmienić (lub usunąć) pola, które są w tym typie zawartości, zmodyfikuj plik `contenttypes.yml` w folderze `app/config/`, za pomocą własnego edytora, lub przechodząc do \"Konfiguracja\" » \"Typy zawartości\" w menu po lewej stronie."
 contenttypes.showcases.group.files: "Pliki"
-contenttypes.showcases.group.media: "Media"
+contenttypes.showcases.group.media: "Multimedia"
 contenttypes.showcases.group.other: "Inne"
 contenttypes.showcases.group.text: "Tekst"
-contenttypes.showcases.name.plural: "Wizytówki"
-contenttypes.showcases.name.singular: "Wizytówka"
-contenttypes.showcases.text.actions-all: "Akcje dla Wizytówek"
-contenttypes.showcases.text.actions-one: "Akcje dla tej Wizytówki"
-contenttypes.showcases.text.created: "Ta Wizytówka została utworzona"
+contenttypes.showcases.name.plural: "Prezentacje"
+contenttypes.showcases.name.singular: "Prezentacja"
+contenttypes.showcases.text.actions-all: "Akcje dla Prezentacji"
+contenttypes.showcases.text.actions-one: "Akcje dla tej Prezentacji"
+contenttypes.showcases.text.created: "Ta Prezentacja została utworzona"
 contenttypes.showcases.text.delete: "Usuń Wizytówkę"
 contenttypes.showcases.text.duplicate: "Powiel Wizytówkę"
 contenttypes.showcases.text.duplicated-finalize: "Zawartość została powielona. Kliknij 'Zapisz Wizytówkę' aby zakończyć."
 contenttypes.showcases.text.edit: "Edytuj Wizytówkę"
 contenttypes.showcases.text.invalid-field: "Nie można ustawić %field% w Wizytówce: Nieprawidłowe pole."
-contenttypes.showcases.text.last-modified: "Ostatnio zmodyfikowane Wizytówki"
-contenttypes.showcases.text.new: "Nowa Wizytówka"
+contenttypes.showcases.text.last-modified: "Ostatnio zmodyfikowane Prezentacje"
+contenttypes.showcases.text.new: "Nowa Prezentacja"
 contenttypes.showcases.text.no-latest: "Brak ostatnich Wizytówek"
-contenttypes.showcases.text.no-proper-type: "W typie zawartości 'Wizytówka', pole '%field%' jest typu: '%type%', co nie jest właściwym typem pola. Proszę edytuj contenttypes.yml, i popraw to."
+contenttypes.showcases.text.no-proper-type: "W typie zawartości 'Prezentacja', pole '%field%' jest typu: '%type%', co nie jest właściwym typem pola. Proszę edytuj contenttypes.yml, i popraw to."
 contenttypes.showcases.text.no-recent: "Brak ostatnich Wizytówek."
 contenttypes.showcases.text.none-available: "Brak dostępnych Wizytówek."
-contenttypes.showcases.text.not-existing: "Wizytówka, której szukasz, nie istnieje. Prawdopodobnie została usunięta, albo nigdy nie istniała."
-contenttypes.showcases.text.not-saved-yet: "Ta Wizytówka nie została jeszcze zapisana."
+contenttypes.showcases.text.not-existing: "Prezentacja, której szukasz, nie istnieje. Prawdopodobnie została usunięta, albo nigdy nie istniała."
+contenttypes.showcases.text.not-saved-yet: "Ta Prezentacja nie została jeszcze zapisana."
 contenttypes.showcases.text.overview: "Przegląd Wizytówek"
 contenttypes.showcases.text.publish: "Opublikuj Wizytówkę"
-contenttypes.showcases.text.recent: "Ostatnie Wizytówki"
-contenttypes.showcases.text.recent-changes-one: "Ostatnie zmiany w tej Wizytówce"
-contenttypes.showcases.text.recently-edited: "Ostatnio edytowane Wizytówki"
-contenttypes.showcases.text.reserved-name: "W typie zawartości 'Wizytówka', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
+contenttypes.showcases.text.recent: "Ostatnie Prezentacje"
+contenttypes.showcases.text.recent-changes-one: "Ostatnie zmiany w tej Prezentacji"
+contenttypes.showcases.text.recently-edited: "Ostatnio edytowane Prezentacje"
+contenttypes.showcases.text.reserved-name: "W typie zawartości 'Prezentacja', pole '%field%', jest zdefiniowane z zarezerwowaną nazwą. Proszę edytuj contenttypes.yml, i popraw to."
 contenttypes.showcases.text.save: "Zapisz Wizytówkę"
 contenttypes.showcases.text.saved-changes: "Zmiany w tej Wizytówce zostały zapisane."
-contenttypes.showcases.text.saved-new: "Nowa Wizytówka została zapisana."
-contenttypes.showcases.text.saving-impossible: "Nie można zapisać Wizytówki."
+contenttypes.showcases.text.saved-new: "Nowa Prezentacja została zapisana."
+contenttypes.showcases.text.saving-impossible: "Nie można zapisać Prezentacji."
 contenttypes.showcases.text.show-more: "Więcej Wizytówek"
-contenttypes.showcases.text.view: "Obejrzyj Wizytówki"
-contenttypes.showcases.text.wrong-use-field: "W typie zawartości 'Wizytówka', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."
+contenttypes.showcases.text.view: "Obejrzyj Prezentacje"
+contenttypes.showcases.text.wrong-use-field: "W typie zawartości 'Prezentacja', pole '%field%' korzysta z: '%uses%', ale pole '%uses%' nie istnieje. Proszę edytuj contenttypes.yml, i popraw to."

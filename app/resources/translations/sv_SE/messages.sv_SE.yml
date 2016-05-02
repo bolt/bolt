@@ -1,227 +1,63 @@
-# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2016-03-15 17:35:06 Europe/Berlin
+# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2016-05-02 21:10:29 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  51 unused messages
-# 110 untranslated messages
-#  35 untranslated keyword based messages
-# 295 translations
-# 172 keyword based translations
+#  no unused messages
+#  33 untranslated messages
+#   2 untranslated keyword based messages
+# 358 translations
+# 213 keyword based translations
 
-#--- 51 unused messages -------------------------------------------------------
-
-"%contenttypes% overview": "%contenttypes% överblick"
-"An error occurred.": "Ett fel uppstod."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Bolttillägget kund inte hittas. Vänligen kontrollera %site% för att se att du har rätt namn."
-"Clear Activitylog": "Rensa aktivitetsloggen"
-"Clear the current log": "Rensa den aktuella loggen"
-"Content '%title%' could not be deleted.": "Dokumentet '%title%' kunde inte tas bort."
-"Content '%title%' has been changed to '%newStatus%'": "Dokumentet '%title%' har ändrats till '%newStatus%'"
-"Content '%title%' has been deleted.": "Dokumentet '%title%' har tagits bort."
-"Delete selected": "Radera valda"
-"Depublish selected": "Avpublicera valda"
-"Do you really want to delete %foldername%?": "Vill du verkligen ta bort %foldername%?"
-"Extension log": "Tilläggslogg"
-"File '%file%' could not be uploaded.": "Fil '%file%' kunde inte laddas upp."
-"Filtering …": "Filtrering …"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Om det fanns en sida med 'about' som permalänk, så skulle den visas här. Men det finns det inte och därför ser du denna."
-"Next": "Nästa"
-"No recent %contenttype%.": "Inga nyligen ändrade %contenttype%."
-"No such action for content.": "Det finns ingen sådan åtgärd för innehållet."
-"Originally by %1, ported by %2": "Ursprungligen av %1, adapterat av %2"
-"Other contenttypes": "Andra innehållstyper"
-"Permission denied": "Åtkomst nekad"
-"Previous": "Föregående"
-"Proudly powered by %s": "Stolt byggt på %s"
-"Publish selected": "Publicera valda"
-"Recent %contenttypes%": "Senaste %contenttypes%"
-"Search for:": "Sök efter:"
-"Search…": "Sök…"
-"Skip to content": "Hoppa till innehåll"
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "Bolts tilläggsbibliotek på %repository% går inte att nå för tillfället. Kontrollera din uppkoppling och försök igen."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "Tilläggsmappen (<code>%dir%</code>) finns inte eller är inte skrivbar."
-"The file '%s' doesn't exist, or is not readable.": "Filen '%s' finns inte eller är inte läsbar."
-"This record is related to:": "Detta dokumentet är relaterat till:"
-"Trim Activitylog": "Rensa aktivitetslogg"
-"You do not have the right privileges to create a new record.": "Du har inte rättighet att skapa ett dokument."
-"You must specify both a name and a version to install!": "Du måste ange både ett namn och en version för att installera!"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Tilläggsfel error] Initialisation failed for %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extension error] Snippet loading failed for %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extension error] Twig function registration failed for %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extension error] YAML config failed to load for %ext%: %error%"
-"in:": "i:"
-"contenttypes.general.choose-an-entry": "Välj ett inlägg"
-"general.bolt-documentation-on-github": "Boltdokumentationen på GitHub"
-"general.thanks": "Tack"
-"page.extend.message.install-all-updates": "Installera alla uppdateringar"
-"contenttypes.generic.error-saving": "Det uppstode ett fel när vi sparade %contenttype%."
-"field.general.select-from-stack": "Välj från filhögen"
-"field.geolocation.marker": "Nål"
-"field.video.button.preview": "Förhandsgranska"
-"field.video.preview.button.close": "Stäng"
-"field.video.preview.no-url": "Ingen url inskriven, därmed ingen video att visa."
-"page.ckeditor-browse-server.pixel": "px."
-
-#--- 110 untranslated messages ------------------------------------------------
+#--- 33 untranslated messages -------------------------------------------------
 
 "Add Selected": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
-"At least %NUM% characters required": #
-"Author": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
-"Choose an entry": #
-"Clear Change Log": #
-"Clear System Log": #
-"Client error: %errormessage%": #
-"Close editor": #
-"Create File": #
-"Delete": #
-"Delete Set": #
-"Depublish": #
-"Depublish date is in the past. Change the status if you want to depublish now": #
+"Cleared cache.": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Do you really want to delete %FOLDERNAME%?": #
-"Duplicate Set": #
 "Error reading extensions/composer.json file: %ERROR%": #
+"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
-"Extension server returned an error: %errormessage%": #
-"Failed to send password request. Please check the email settings.": #
-"Field “%FIELD_NAME%”:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
-"Files could not be uploaded.": #
-"Generic failure while testing connection to extension server: %errormessage%": #
-"Has to be a floating point number!": #
-"Id (№)": #
-"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
-"Invalid login parameters.": #
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Is required or needs to match a pattern!": #
-"Is required!": #
-"Keyword …": #
-"Live Edit": #
+"Failed to clear cache. You should delete it manually.": #
+"Group": #
+"Groups": #
+"Link": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Move Down": #
 "Move Up": #
-"New Bolt site has been set up": #
 "No Preview": #
-"No content found.": #
-"No files in the list, yet.": #
-"No images in the list, yet.": #
-"No theme name found. Theme is not generated.": #
-"Not yet installed.": #
-"Only root can change file extensions.": #
-"Order": #
 "Other content": #
-"Others": #
-"Publish": #
-"Records": #
-"Related content:": #
-"Repeat": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
+"Repeater": #
 "Search results for <b>%search%</b>.": #
-"Selection (#):": #
 "Show proposed alterations": #
-"Something went wrong with logging in after first user creation!": #
-"Subsubtitle": #
-"Subtitle": #
-"System Configuration Checks": #
-"Testing connection to extension server failed: %errormessage%": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
+"The field %field% has been changed to \"%newValue%\"": #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
-"There are no saved changes, yet.": #
-"There is no undo!": #
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "This record is related to the following %CTNAME%:": #
-"Thumbnail": #
-"Trim Change Log": #
-"Trim System Log": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload not allowed": #
-"Users & Permissions": #
-"Welcome to your new Bolt site, %USER%.": #
-"You cannot '%s' yourself.": #
-"You do not have the right privileges to edit that user.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"filtered by <em>'%filter%'</em>": #
-"general.bolt-documentation": # "Bolt documentation"
-"general.visit-bolt": # "Visit Bolt.cm"
-"or": #
 
-#--- 35 untranslated keyword based messages -----------------------------------
+#--- 2 untranslated keyword based messages ------------------------------------
 
-"contenttypes.generic.group.template": # "Template"
-"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"field.general.stack": # "Stack"
-"field.geolocation.label.snap": # "Snap to nearest address"
-"field.markdown.label.markedview": # "Markdown"
-"field.markdown.label.preview": # "Preview"
-"field.slug.button.edit": # "Edit"
-"field.slug.button.link": # "Link to:"
-"field.slug.button.lock": # "Lock"
-"field.slug.message.warning": # "Editing this field might break existing links to this record!"
-"field.slug.unique-alias": # "Unique alias"
-"field.video.height": #
-"field.video.width": #
-"page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
-"page.extend.button.autoload-dump": # "Rebuild Autoloader"
-"page.extend.button.config": # "Config"
-"page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
-"page.extend.button.install-package": # "Install Package"
-"page.extend.button.install-this-version": # "Install This Version"
-"page.extend.button.readme": # "Readme"
-"page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.button.uninstall": # "Uninstall"
-"page.extend.button.update-package": # "Update Package"
-"page.extend.button.versions": # "Versions"
-"page.extend.headline.latest-version": # "Latest stable version"
-"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
-"page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
-"page.extend.message.confirm-remove": # "Please confirm that you want to remove this extension?"
-"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
-"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-"page.extend.message.maintenance": # "Maintenance"
-"page.extend.message.no-bolt-extensions-installed": # "No Bolt Extensions installed."
-"page.extend.message.running-update": # "Running update …"
+"field.video.height": # "Height"
+"field.video.width": # "Width"
 
-#--- 295 translations ---------------------------------------------------------
+#--- 358 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% № %id%"
-"%s files could not be deleted. You should delete them manually.": "%s filer kunde inte tas bort. Du bör ta bort dem manuellt."
 "(default template)": "(standardmall)"
 "(no category)": "(ingen kategori)"
 "(no group)": "(ingen grupp)"
@@ -236,11 +72,22 @@
 "All content types": "Alla innehållstyper"
 "All users": "Alla användare"
 "Alt": "Alt"
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Ett fel inträffade under uppdateringen av '%TABLE%'. Felet är %ERROR%"
 "Anonymous": "Anonym"
+"Are you sure you want to delete %FILENAME%?": "Är du säker du vill ta bort %FILENAME%?"
 "Are you sure you want to delete %username%?": "Är du säker på att du vill radera %username%?"
+"Are you sure you want to do this for %NUMBER% records?": "Är du säker du vill göra detta för %NUMBER% inlägg?"
+"Are you sure you want to do this for 1 record?": "Är du säker du vill göra detta för 1 inlägg?"
+"Are you sure you want to remove these files?": "Är du säker du vill ta bort dessa filer?"
+"Are you sure you want to remove these images?": "Är du säker du vill ta bort dessa bilder?"
+"Are you sure you want to remove this file?": "Är du säker på att du vill ta bort denna fil?"
+"Are you sure you want to remove this image?": "Är du säker på att du vill ta bort denna bild?"
+"Are you sure you wish to delete this record? There is no undo.": "Är du säker du vill ta bort detta inlägg? Det går inte att ångra."
+"At least %NUM% characters required": "Minst %NUM% tecken krävs"
+"Author": "Författare"
 "Author:": "Författare:"
 "Below are the third party libraries that are used by Bolt.": "Nedan är tredjepartsbiblioteken som används av Bolt."
-"Body": "Body"
+"Body": "Innehåll"
 "Bolt - Fatal error.": "Bolt - Allvarligt fel."
 "Browser / platform": "Webbläsare / plattform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Inbyggd roll, automatiskt tilldelad konstant, även när ingen användare är inloggad."
@@ -253,24 +100,27 @@
 "Change Log": "Ändringslogg"
 "Change status to 'draft'": "Ändra status till 'utkast'"
 "Change status to 'held'": "Ändra status till 'avpublicerad'"
-"Chapter": "Kapitel"
-"Chapters": "Kapitel"
 "Check again": "Kontrollera igen"
 "Check database": "Kontrollera databas"
+"Choose an entry": "Välj ett inlägg"
 "Class:": "Klass:"
+"Clear Change Log": "Rensa förändringslogg"
+"Clear System Log": "Rensa systemloggen"
 "Clear cache again": "Rensa cache igen"
 "Clear filter": "Rensa filter"
 "Clear sort/filter": "Rensa sortering/filter"
 "Clear the cache": "Rensa cache"
 "Click to change current status.": "Klicka för att ändra status."
+"Client error: %errormessage%": "Klientfel: %errormessage%"
+"Close editor": "Stäng redigerare"
 "Code:": "Kod:"
 "Collapse sidebar": "Dölj sidomeny"
 "Configuration": "Konfiguration"
 "Content": "Innehåll"
 "Content '%title%' could not be modified.": "Dokumentet '%title%' kunde inte modifieras."
 "Content Type Permissions": "Innehållsrättigheter"
-"Content for home not found!": "Startsidans innehåll kunde inte hittas!"
 "Contenttypes": "Innehållstyper"
+"Create File": "Skapa fil"
 "Create folder": "Skapa mapp"
 "Create the first user": "Skapa första användaren"
 "Created on:": "Skapad:"
@@ -282,18 +132,23 @@
 "Date": "Datum"
 "Datetime": "Datum/Tid"
 "Default status": "Förvald status"
+"Delete": "Radera"
 "Delete %filename%": "Radera %filename%"
 "Delete %foldername%": "Radera %foldername%"
 "Delete %username%": "Radera %username%"
-"Deleted %s files from cache.": "Rensade %s filer från cache."
+"Delete Set": "Ta bort grupp"
 "Depublication date:": "Avpublicerings datum:"
+"Depublish": "Avpublicera"
+"Depublish date is in the past. Change the status if you want to depublish now": "Avpubliceringsdatumet har passerat. Ändra status om du vill avpublicera nu"
 "Deselect all": "Avmarkera alla"
 "Detail template": "Tema"
 "Details": "Information"
 "Disable %username%": "Deaktivera %username%"
+"Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
 "Done!": "klart!"
 "Draft": "Utkast"
 "Duplicate %filename%": "Duplicera %filename%"
+"Duplicate Set": "Duplicera grupp"
 "Edit": "Redigera"
 "Edit Roles and Permissions": "Redigera Roller och Rättigheter"
 "Edit file": "Redigera fil"
@@ -301,11 +156,15 @@
 "Everybody": "Alla"
 "Excerpt": "Utdrag"
 "Expand sidebar": "Visa sidomeny"
+"Extension server returned an error: %errormessage%": "Tilläggsservern returnerade ett fel: %errormessage%"
 "Extensions": "Tillägg"
-"Extras": "Extras"
+"Extras": "Tillägg"
+"Failed to send password request. Please check the email settings.": "Det gick inte att skicka lösenordsåterställning. Vänligen kontrollera e-postinställningarna."
+"Field “%FIELD_NAME%”:": "Fältet \"%FIELD_NAME%\":"
 "File": "Fil"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
 "File '%file%' was uploaded successfully.": "Fil '%file%' laddades upp."
+"File '%s' could not be saved, because the form wasn't valid.": "Filen '%s' kunde inte sparas, eftersom formuläret inte var giltigt."
 "File '%s' could not be saved, for some reason.": "Fil '%s' kunde inte sparas utav någon anledning."
 "File '%s' could not be saved:": "Fil '%s' kunde inte sparas:"
 "File '%s' has been saved.": "Fil '%s' har sparats."
@@ -313,6 +172,7 @@
 "File is not readable!": "Filen är inte läsbar!"
 "Filelist": "Fillista"
 "Files": "Filer"
+"Files could not be uploaded.": "Det gick inte att ladda upp filerna."
 "Files in %s": "Filer i %s"
 "Files on the stack": "Filer i filhögen"
 "Filesize": "Filstorlek"
@@ -325,21 +185,30 @@
 "Folder permissions insufficient": "Otillräckliga mapprättigheter"
 "Folders": "Mappar"
 "Full list …": "Hela listan …"
+"Generic failure while testing connection to extension server: %errormessage%": "Ett fel inträffade när vi testade anslutningen till tilläggsservern: %errormessage%"
 "Geolocation": "Geolokalisering "
 "Global Permissions": "Globala Rättigheter"
+"Has to be a floating point number!": "Måste vara ett decimaltal!"
 "Hints:": "Tips:"
 "Html": "Html"
 "IP address": "IP adress"
-"Id": "Id"
+"Id": "ID"
+"Id (№)": "ID (№)"
 "Image": "Bild"
 "Imagelist": "Bildlista"
-"Info": "Info"
+"Info": "Information"
 "Integerfield": "Heltalsfält"
+"Invalid login parameters.": "Ogiltiga loginuppgifter."
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
+"Is required or needs to match a pattern!": "Krävs eller måste matcha ett mönster!"
+"Is required!": "Krävs!"
+"Keyword …": "Sökord…"
 "Last edited on:": "Senast redigerad:"
 "Last known IP": "Senast kända IP"
 "Last seen": "Senast sedd"
-"Latest entries": "Senaste inlägg"
 "Listing template": "Listmall"
+"Live Edit": "Liveredigering"
 "Login": "Logga in"
 "Logout": "Logga ut"
 "Long messages": "Långa meddelanden"
@@ -349,21 +218,30 @@
 "Menu setup": "Menyer"
 "Message:": "Meddelande:"
 "Messages": "Meddelanden"
-"Meta": "Meta"
+"Meta": "Metadata"
 "Meta information": "Metadata"
 "Modifications made to the database:": "Modifikationer skrivna till databasen:"
 "Modifications needed:": "Modifikationer som behövs:"
 "Modified": "Modifierad"
 "Multiselect": "Flerval"
+"New Bolt site has been set up": "Ny boltsite har satts upp"
+"No content found.": "Inget innehåll funnet."
+"No files in the list, yet.": "Inga filer i listan ännu."
+"No images in the list, yet.": "Inga bilder i listan ännu."
 "No relations found!": "Inga relationer funna!"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Vi kunde inte hitta något för sökningen '%SEARCHTERM%'. Försök att söka efter något annat."
 "No such action for user '%s'.": "Det finns ingen sådan åtgärd för användaren '%s'."
+"No theme name found. Theme is not generated.": "Inget temanamn hittat. Temat har inte genererats."
 "None": "Ingen"
 "Not published": "Inte publicerad"
+"Not yet installed.": "Inte installerat än."
 "Note:": "Notering:"
 "Omnisearch": "Multisök"
+"Only root can change file extensions.": "Endast rotanvändare kan ändra filändelser."
 "Options": "Alternativ"
+"Order": "Sortering"
 "Order: %sort%": "Sortering: %sort%"
+"Others": "Andra"
 "Overview": "Överblick"
 "Overview for": "Överblick för"
 "Owner": "Ägare"
@@ -386,21 +264,26 @@
 "Profile": "Profil"
 "Provided by:": "Tillhandahållet av:"
 "Publication date:": "Publiceringsdatum:"
+"Publish": "Publicera"
 "Published": "Publicerad"
 "Published on:": "Publicerad:"
 "Read more": "Läs mer"
+"Records": "Inlägg"
 "Related content": "Relaterat innehåll"
 "Relationships": "Relationer"
 "Rename %foldername%": "Döp om %foldername%"
 "Roles": "Roller"
 "Roles and Permissions": "Roller och Rättigheter"
+"Run PHP extension checks": "Kör PHP tilläggskontroll"
+"Run all checks": "Kör alla kontroller"
+"Run directory checks": "Kör katalogkontroll"
+"Run email checks": "Kör e-postkontroll"
 "Save & create new record": "Spara & skapa nytt dokument"
 "Save & return to overview": "Spara & återgå till överblicken"
 "Saved on:": "Sparad:"
 "Saving …": "Sparar …"
 "Search": "Sök"
 "Search for …": "Sök efter …"
-"Search results for <b> %search% </b>.": "Sökresultat för <b> %search% </b>."
 "Search …": "Söker …"
 "Select": "Välj"
 "Select a page": "Välj en sida"
@@ -410,6 +293,7 @@
 "Select zero or more pages": "Välj en eller flera sidor"
 "Selectentry": "Välj inlägg"
 "Selectfield": "Välj fält"
+"Selection (#):": "Val (#):"
 "Session expires": "Session upphör"
 "Session resumed.": "Session återupptagen."
 "Settings": "Inställningar"
@@ -421,20 +305,24 @@
 "Slug": "Permalänk"
 "Slug:": "Permalänk:"
 "Something went wrong": "Något blev fel"
+"Something went wrong with logging in after first user creation!": "Något gick fel med inloggningen efter skapandet av första användaren!"
 "Sophisticated, lightweight & simple CMS": "Sofistikerat, snabbt & smidigt CMS"
 "Stack": "Filhög"
 "Status:": "Status:"
+"System Configuration Checks": "Systemkonfigurations kontroller"
 "Tag": "Tagg"
 "Tags": "Taggar"
 "Taxonomy": "Taxonomi"
 "Teaser": "Teaser"
 "Template": "Mall"
+"Testing connection to extension server failed: %errormessage%": "Testning av anslutning till tilläggsserver misslyckades: %errormessage%"
 "Textarea": "Textfält"
 "That user does not exist.": "Den användaren finns inte."
 "The change log has been cleared.": "Ändringsloggen har blivit nollställd."
 "The change log has been trimmed.": "Ändringsloggen har blivit rensad."
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databasen behöver uppdateras/repareras. Gå till Konfigurering > '<a href=\"%link%\">Kontrollera Databas</a>' för att göra detta nu."
-"The field %field% has been changed to \"%newValue%\"": "Fältet %field% har ändrats till \"%newValue%\""
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": "E-postinställningarna 'mailoptions' har inte satts upp. Bolt kan inte skicka återställningen av lösenordet."
+"The file '%s' doesn't exist.": "Filen '%s' finns inte."
+"The file '%s' is not readable.": "Filen \"%s\" är inte läsbar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Filen '%s' är inte skrivbar. Du måste använda din egen textredigerare för att göra ändringarna."
 "The folder '%s' could not be found, or is not readable.": "Mappen '%s' kunde inte hittas eller är inte läsbar."
 "The following file could not be read:": "Följande fil kunde inte läsas:"
@@ -448,24 +336,37 @@
 "The translations file '%s' is not readable.": "Översättningsfilen '%s' är inte läsbar."
 "Theme successfully generated. You can now edit it directly from your theme folder.": "Temat har genererats. Du kan nu redigera det i din temamapp."
 "There are no items on the Stack, yet.": "Det finns inga filer på filhögen ännu."
+"There are no saved changes, yet.": "Det finns inga sparade ändringar ännu."
 "There are no users in the database. Please create the first user.": "Det finns inga användare i databasen, vänligen skapa den första användaren."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Det finns inga användare i systemet. Vänligen skapa den första användaren, som kommer få root-privilegier."
+"There is no undo!": "Det går inte att ångra!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Det måste alltid finnas en 'root' användare. Du har just blivit befodrad. Grattis!"
 "This is a checkbox": "Detta är en Kryssruta"
 "This template adds new fields. Save, then refresh to see these changes.": "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
+"Thumbnail": "Miniatyrbild"
 "Time in 24h/12h format": "Tid i 24h/12h format"
 "Timed publish": "Tidsbaserad publicering"
 "Tip:": "Tips:"
 "Title": "Titel"
 "Translations": "Översättningar"
+"Trim Change Log": "Rensa ändringsloggen"
+"Trim System Log": "Rensa systemloggen"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan."
 "Types": "Typer"
+"Unable to create directory: %DIR%": "Det gick inte att skapa katalogen: %DIR%"
+"Unable to create file: %FILE%": "Det gick inte att skapa filen: %FILE%"
+"Unable to delete directory: %DIR%": "Det går inte att ta bort katalogen: %DIR%"
+"Unable to delete file: %FILE%": "Det går inte att ta bort filen: %FILE%"
+"Unable to rename directory: %DIR%": "Det gick inte att döpa om katalogen: %DIR%"
+"Unable to rename file: %FILE%": "Det går inte att döpa om på filen: %FILE%"
+"Unable to retrieve login session data. Please check your system's PHP session settings.": "Det gick inte att hämta sessionsdata. Kontrollera systemets PHP sessionsinställningar."
 "Update the database": "Uppdatera databasen"
 "Upload": "Ladda upp"
 "Upload a file to this folder": "Ladda upp en fil till denna mappen"
 "Upload file": "Ladda upp fil"
 "Upload image": "Ladda upp bild"
+"Upload not allowed": "Uppladdning inte tillåtet"
 "Uploaded files": "Uppladdade filer"
 "Uploading to this folder is not allowed.": "Uppladdning till denna mappen är inte tillåtet."
 "Used Libraries / Components": "Använda Bibliotek / Komponenter"
@@ -478,6 +379,7 @@
 "Username": "Användarnamn"
 "Username or password not correct. Please check your input.": "Användarnamnet eller lösenordet är inte korrekt."
 "Users": "Användare"
+"Users & Permissions": "Användare & Användarbehörigheter"
 "Video": "Video"
 "View (saved version) on site": "Se sparad version på sidan"
 "View Roles": "Se Roller"
@@ -486,15 +388,18 @@
 "View site": "Visa sida"
 "View/edit Templates": "Se/redigera Mallar"
 "Warning": "Varning"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Vi kunde inte generera temat. Det är mycket troligt att din temamapp är skrivskyddad. Kontrollera rättigheterna och försök igen."
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Det gick inte att generera temat. Det är troligt att din tema katalog inte är skrivbar av bolt. Kontrollera rättigheterna och försök igen."
+"Welcome to your new Bolt site, %USER%.": "Välkommen till din nya boltsite, %USER%."
 "Written by <em>%name%</em> on %date%": "Skriven av <em>%name%</em>, %date%"
+"You cannot '%s' yourself.": "Du kan inte \"%s\" dig själv."
 "You do not have the right privileges to edit that record.": "Du har inte rättighet att redigera det dokumentet."
+"You do not have the right privileges to edit that user.": "Du har inte rättighet att redigera den användaren."
 "You do not have the right privileges to view that page.": "Du har inte rättighet att se den sidan."
 "You don't have correct permissions to edit the file '%s'.": "Du har inte rättighet att redigera filen '%s'."
 "You don't have the correct permissions to display the file or directory '%s'.": "Du har inte rättighet att visa filen eller mappen '%s'."
 "You have been logged out.": "Du har blivit utloggad."
+"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Du har osparade ändringarna på den här sidan. Om du fortsätta utan att spara, förlorar du ändringarna."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Du bör ställa in 'homepage:' i 'app/config/config.yml' till ett skapat dokument. Se till att dokumentet är publicerat, annars kommer det inte visas."
 "You've been logged on successfully.": "Du är nu inloggad."
 "Your account is disabled. Sorry about that.": "Ditt konto är dekativerat. Ursäkta."
 "Your database is already up to date.": "Din databas är redan uppdaterad."
@@ -502,21 +407,16 @@
 "and edited": "och redigerad"
 "back to editing": "tillbaka till redigering"
 "by": "av"
-"general.about": "Om"
-"general.about-bolt": "Om Bolt"
-"general.bolt-on-github": "Bolt på GitHub"
+"filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 "line": "linje"
-"logs.change-log": "Ändringslogg"
-"logs.system-log": "Systemlogg"
 "no content …": "inget innehåll …"
 "no title …": "ingen titel …"
 "none": "ingen"
 "of": "av"
+"or": "eller"
 "show all": "visa alla"
-"users.actions-for-users": "Åtgärder för Användare"
-"users.your-password": "Ditt lösenord"
 
-#--- 172 keyword based translations -------------------------------------------
+#--- 213 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "av"
 component.changelog-detail.field: "Fält"
@@ -535,8 +435,10 @@ contenttypes.generic.edit: "Redigera %contenttype%"
 contenttypes.generic.group.meta: "Metadata"
 contenttypes.generic.group.relations: "Relationer"
 contenttypes.generic.group.taxonomy: "Taxonomi"
+contenttypes.generic.group.template: "Mall"
 contenttypes.generic.group.ungrouped: "Ickegrupperad"
 contenttypes.generic.invalid-field: "Kan inte sätta %field% i %contenttype%: Inte ett giltigt fält."
+contenttypes.generic.invalid-relation: "I innehållstypen för '%contenttype%' definieras relationen '%relation%', som inte är en giltig innehållstyp. Redigera contenttypes.yml, och korrigera detta."
 contenttypes.generic.last-modified: "Senast redigerade %contenttypes%"
 contenttypes.generic.new: "Ny %contenttype%"
 contenttypes.generic.no-latest: "Inga senaste %contenttype%"
@@ -561,15 +463,25 @@ contenttypes.generic.wrong-use-field: "I innehållstypen '%contenttype%', fälte
 
 field.general.allowed-filetypes: "Tillåtna filtyper är:"
 field.general.select-from-server: "Välj från server"
+field.general.stack: "Filhög"
 
 field.geolocation.label.address-lookup: "Adress"
 field.geolocation.label.latitude: "Latitud"
 field.geolocation.label.longitude: "Longitud"
 field.geolocation.label.marker-placement: "Markerings plats"
+field.geolocation.label.snap: "Fäst till närmaste adress"
 field.geolocation.matched-address: "Hittad adress"
 field.geolocation.placeholder.address: "Gata, postkod, stad eller annan plats"
 
+field.markdown.label.markedview: "Markdown"
+field.markdown.label.preview: "Förhandsgranska"
+
+field.slug.button.edit: "Redigera"
+field.slug.button.link: "Länka till:"
+field.slug.button.lock: "Lås"
+field.slug.message.warning: "Redigering av detta fältet kan bryta befintliga länkar till detta inlägg!"
 field.slug.permalink: "Permalänk"
+field.slug.unique-alias: "Unikt alias"
 
 field.video.label.preview: "Förhandsgranska bild"
 field.video.label.size: "Storlek"
@@ -578,10 +490,24 @@ field.video.matched-video: "Hittad video"
 field.video.pixel: "pixel"
 field.video.placeholder.url: "URL till videon på youtube, vimeo eller annan videosite"
 
+general.about: "Om"
+
+general.about-bolt: "Om Bolt"
+
+general.bolt-documentation: "Bolt dokumentation"
+
+general.bolt-on-github: "Bolt på GitHub"
+
+general.visit-bolt: "Besök Bolt.cm"
+
 generic.noscript.headline: "JavaScript är avstängt"
 generic.noscript.message: "JavaScript är avstängt i din webbläsare. Bolt kräver JavaScript för att fungera korrekt och ifall du fortsätter utan JavaScript så kan du förlora data."
 
-menu.configuration.routing: "Routing"
+logs.change-log: "Ändringslogg"
+
+logs.system-log: "Systemlogg"
+
+menu.configuration.routing: "Routing & url:er"
 
 page.ckeditor-browse-server.files: "Filer"
 page.ckeditor-browse-server.folders: "Mappar"
@@ -610,15 +536,16 @@ page.edit-users.activated.yes: "ja"
 page.edit-users.button.save: "Spara användare"
 page.edit-users.error.displayname-used: "Visningsnamnet används redan, välj ett annat visningsnamn."
 page.edit-users.error.email-used: "Den mailadressen används redan, välj en annan mailadress"
+page.edit-users.error.password-different-displayname: "Lösenordet får inte vara en del av visningsnamnet."
 page.edit-users.error.password-different-username: "Lösenordet får inte vara samma som användarnamn."
 page.edit-users.error.password-mismatch: "Lösenorden måste stämma överrens."
 page.edit-users.error.password-short: "Lösenordet är för kort. Lösenord måste vara minst 6 bokstäver långt."
 page.edit-users.error.username-used: "Användarnamn används redan, välj ett annat användarnamn."
 page.edit-users.label.assigned-roles: "Tilldelade roller"
 page.edit-users.label.display-name: "Visningsnamnet"
-page.edit-users.label.email: "Email"
+page.edit-users.label.email: "E-post"
 page.edit-users.label.last-ip: "Senaste IP"
-page.edit-users.label.last-seen: "Senast inloggning"
+page.edit-users.label.last-seen: "Senast sedd"
 page.edit-users.label.password: "Lösenord"
 page.edit-users.label.password-confirm: "Lösenord (bekräfta)"
 page.edit-users.label.user-enabled: "Kontot är aktiverat"
@@ -640,48 +567,68 @@ page.edit-users.title.profile: "Profil"
 page.edit-users.user-create: "Skapa ett nytt användarkonto, med formuläret nedan. Lösenordsfältet krävs."
 page.edit-users.user-edit: "Redigera ett användarkonto, med formuläret nedan. Lämna lösenordsfälten tomma om du inte vill byta lösenord."
 
+page.extend.button.autoload-dump: "Återbygg Autoloader"
 page.extend.button.browse-versions: "Se Versioner"
-page.extend.button.info-help: "Mer info/hjälp"
+page.extend.button.config: "Konfiguration"
+page.extend.button.copy-to-theme-folder: "Kopiera till temamappen"
+page.extend.button.info-help: "Mer information/hjälp"
 page.extend.button.install-all: "Uppdatera alla paket"
+page.extend.button.install-package: "Installera tillägg"
+page.extend.button.install-this-version: "Installera den här versionen"
+page.extend.button.readme: "Readme"
+page.extend.button.show-all-versions: "Visa alla versioner"
+page.extend.button.uninstall: "Avinstallera"
 page.extend.button.update-all: "Uppdatera allt"
 page.extend.button.update-check: "Kolla efter uppdateringar"
-page.extend.headline.currently-installed: "Installerade tillägg"
+page.extend.button.update-package: "Uppdatera paket"
+page.extend.button.versions: "Versioner"
+page.extend.headline.currently-installed: "Dina installerade tillägg"
 page.extend.headline.install-new-extension: "Installera ett nytt tillägg"
 page.extend.headline.installation-complete: "Installation slutförd"
-page.extend.headline.installing-package: "Installerar paket"
+page.extend.headline.installing-package: "Installera tillägg"
+page.extend.headline.latest-version: "Senaste stabila versionen"
 page.extend.headline.stable-versions: "Stabila versioner"
 page.extend.headline.test-versions: "Instabila testversioner"
-page.extend.headline.theme-installation-complete: "Temainstallationen är färdig"
+page.extend.headline.theme-installation-complete: "Temainstallation klar"
 page.extend.headline.updates: "Uppdateringar"
 page.extend.listheader.actions: "Åtgärder"
 page.extend.listheader.extension: "Tillägg"
 page.extend.listheader.status: "Status"
 page.extend.listheader.version: "Version"
-page.extend.message.add-extension-with-form: "Lägg till ett tillägg med formuläret nedan."
-page.extend.message.before-theme-start: "Innan du kan börja använda temat på din sida behöver vi kopiera till din temamapp. Ifall du vill ge temat ett alternativt namn kan du ange det här."
-page.extend.message.check-for-updates: "Kolla efter uppdateringar"
-page.extend.message.checking-installed-packages: "Kontrollerar installerade paket"
-page.extend.message.checkung-for-updates: "Kollar efter tillgängliga uppdateringar (detta kan ta upp till 60 sekunder)"
-page.extend.message.compatible-unstable-versions: "Versionerna listade nedan är kompatibla med din version av bolt. Eftersom att de är instabila versioner rekommenderar vi att du <strong>inte</strong> använder dessa på produktionssystem."
-page.extend.message.copying: "Kopierar temats resurser …"
-page.extend.message.discover-by-visiting: "Du kan hitta nya tilläg genom att besöka"
-page.extend.message.install-all: "Kör installering av alla paket …"
-page.extend.message.installing: "Förbereder för att installera paket …"
-page.extend.message.installing-selected-package: "Installerar den valda paketversionen (detta kan ta upp till 60 sekunder)."
-page.extend.message.installs-all-listed-packages: "Detta kommer se till att alla listade paket är installerade. Använd detta om du just har flyttat till en ny server eller manuellt lagt till ett tillägg."
-page.extend.message.installs-updates: "Detta kommer installera alla uppdateringar."
-page.extend.message.marked-as-stable: "Versionerna listade nedan är markerade som stabila av utvecklaren och är kompatibla med din version av bolt."
-page.extend.message.no-package-check-in-readmode: "Kan inte kontrollera installerade paket i skrivskyddat läge"
+page.extend.message.add-extension-with-form: "Lägg till ett nytt tillägg via formuläret nedan."
+page.extend.message.autoload-dump: "Detta kommer att bygga om både autoload filer och cache."
+page.extend.message.bad-json: "JSON svar med fel format. Kontrollera att debug är av och att ingen annan kod läggs till i svaret"
+page.extend.message.before-theme-start: "Innan du kan börja använda temat på din webbplats måste vi kopiera det till din temamapp. Om du vill ge temat ett annat namn kan du lägga till det här."
+page.extend.message.check-for-updates: "Sök efter uppdateringar"
+page.extend.message.checking-installed-packages: "Kontrollera installerade paket"
+page.extend.message.checkung-for-updates: "Söker efter tillgängliga uppdateringar (detta kan ta upp till 60 sekunder)"
+page.extend.message.compatible-unstable-versions: "De versioner som visas nedan är kompatibla med versionen av bolt du använder. Eftersom de är instabila versioner, rekommenderar vi att du <strong>inte</strong> använder dessa på produktionssystem."
+page.extend.message.confirm-remove: "Är du säker på att du vill ta bort detta tillägg?"
+page.extend.message.copying: "Kopierar temafiler…"
+page.extend.message.discover-by-visiting: "Du kan hitta fler tillägg genom att besöka"
+page.extend.message.ext-dir-missing: "Tilläggsmappen (<code>%DIRECTORY%</code>) finns inte eller är inte skrivbar. Detta innebär att du inte kan hantera bolttillägg genom webbgränssnittet; Du kan antingen att hantera tillägg manuellt eller ändra filbehörigheter för att tillåta bolt skrivåtkomst till (<code>%DIRECTORY%</code>)."
+page.extend.message.install-all: "Kör installation av alla tillägg…"
+page.extend.message.installing: "Förbereder för att installera tillägg…"
+page.extend.message.installing-selected-package: "Installerar den valda tilläggsversionen (detta kan ta upp till 60 sekunder)."
+page.extend.message.installs-all-listed-packages: "Detta installerar alla tillägg som inte är installerade Använd detta om du har nyligen flyttat till en ny server eller om du har manuellt lagt till ett tillägg."
+page.extend.message.installs-updates: "Detta kommer att installera alla tillgängliga uppdateringar."
+page.extend.message.latest-version: "De versioner som anges nedan är markerade som stabila versioner av utvecklaren och är kompatibla med versionen av bolt du använder."
+page.extend.message.loading-disabled: "Tilläggsladdning har inaktiverats av en administratör i filen %CONFIG%. Du kan installera, uppdatera och avinstallera tillägg men de kommer inte att laddas förrän denna inställning har ändrats."
+page.extend.message.maintenance: "Underhåll"
+page.extend.message.marked-as-stable: "De versioner som anges nedan är markerade som stabila versioner av utvecklaren och är kompatibla med versionen av bolt du använder."
+page.extend.message.no-bolt-extensions-installed: "Inga bolttillägg installerade."
+page.extend.message.no-package-check-in-readmode: "Går inte att kontrollera installerade tillägg i skrivskyddat läge"
 page.extend.message.no-stable-versions-available: "Inga stabila versioner tillgängliga"
 page.extend.message.no-test-versions-available: "Inga testversioner tillgängliga"
-page.extend.message.no-update-check-in-readmode: "Kan inte kolla efter uppdateringar i skrivskyddat läge"
-page.extend.message.overwrite: "Detta kommer skriva över eventuellt existerande filer! Är du säker?"
-page.extend.message.removing: "Förbereder för att ta bort paket …"
-page.extend.message.shows-updates: "Detta kommer inte installera någonting, endast visa dig potentiella uppdateringar"
-page.extend.message.start-using-extension: "Du kan nu börja använda tillägget, dokumentation och implementerings instruktioner finns via länken nedan."
-page.extend.message.updated: "Allting är uppdaterat!"
-page.extend.message.updating: "Söker efter uppdateringar …"
-page.extend.pagetitle: "Utöka %BOLTNAME%"
+page.extend.message.no-update-check-in-readmode: "Kan inte söka efter uppdateringar i skrivskyddat läge"
+page.extend.message.overwrite: "Detta kommer att skriva över befintliga filer! Är du säker?"
+page.extend.message.removing: "Förbereder att ta bort paketet…"
+page.extend.message.running-update: "Kör uppdateringar…"
+page.extend.message.shows-updates: "Detta kommer inte att installera något, bara visa dig tillgängliga uppdateringar"
+page.extend.message.start-using-extension: "Nu kan du börja använda det installerade tillägget, dokumentation och readme hittas via länkarna nedan."
+page.extend.message.updated: "Allt är uppdaterat!"
+page.extend.message.updating: "Söker efter tillgängliga uppdateringar…"
+page.extend.pagetitle: "%BOLTNAME% tillägg"
 
 page.login.button.back: "Tillbaka till login"
 page.login.button.forgot-password: "Jag har glömt mitt lösenord …"
@@ -707,3 +654,7 @@ panel.latest-activity.system: "Senaste systemaktivitet"
 panel.latest-activity.unknown: "okänd"
 
 panel.user-actions.button.add: "Lägg till en ny användare"
+
+users.actions-for-users: "Åtgärder för Användare"
+
+users.your-password: "Ditt lösenord"

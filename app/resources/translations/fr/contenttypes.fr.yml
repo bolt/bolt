@@ -1,34 +1,55 @@
-# app/resources/translations/fr_FR/contenttypes.fr_FR.yml – generated on 2016-03-15 17:25:40 Europe/Berlin
+# app/resources/translations/fr/contenttypes.fr.yml – generated on 2016-05-02 21:00:04 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
+#  no unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#  no untranslated keyword based messages
 #  no translations
-# 103 keyword based translations
+# 141 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 141 keyword based translations -------------------------------------------
 
-"contenttypes.entries.text.error-saving": "Une erreur est survenue lors de l'enregistrement du billet"
-"contenttypes.pages.text.error-saving": "Une erreur est survenue lors de l'enregistrement de cette page."
-"contenttypes.showcases.text.error-saving": "Une erreur est survenue lors de l'enregistrement de la démonstration"
-
-#--- 5 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Billet', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Démonstration', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-
-#--- 103 keyword based translations -------------------------------------------
+contenttypes.blocks.description: "Les **Blocs** sont assimilés à un 'type de contenu ressource'. Cela signifie qu'ils peuvent être utilisés pour gérer les petits morceaux de contenu, comme le texte 'qui sommes-nous', un 'notre adresse' dans le pied de page ou n'importe quel autre petit texte."
+contenttypes.blocks.group.block: "Bloc"
+contenttypes.blocks.name.plural: "Blocs"
+contenttypes.blocks.name.singular: "Bloc"
+contenttypes.blocks.text.actions-all: "Actions pour les blocs"
+contenttypes.blocks.text.actions-one: "Actions pour ce bloc"
+contenttypes.blocks.text.created: "Ce bloc a été créé"
+contenttypes.blocks.text.delete: "Supprimer le bloc"
+contenttypes.blocks.text.duplicate: "Dupliquer le bloc"
+contenttypes.blocks.text.duplicated-finalize: "Le contenu a été dupliqué. Cliquez sur 'Enregistrer le bloc' pour finaliser."
+contenttypes.blocks.text.edit: "Modifier le bloc"
+contenttypes.blocks.text.invalid-field: "Impossible de définir le champ %field% pour le bloc : champ invalide."
+contenttypes.blocks.text.invalid-relation: "Dans le type de contenu 'Bloc', la relation '%relation%' est définie mais n'est pas un type de contenu valide. Veuillez modifier le fichier contenttypes.yml et corriger ce problème."
+contenttypes.blocks.text.last-modified: "Derniers blocs modifiés"
+contenttypes.blocks.text.new: "Nouveau bloc"
+contenttypes.blocks.text.no-latest: "Aucun bloc"
+contenttypes.blocks.text.no-proper-type: "Dans le type de contenu 'Bloc', le champ '%field%' possède 'type: %type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+contenttypes.blocks.text.no-recent: "Aucun bloc récent."
+contenttypes.blocks.text.none-available: "Aucun bloc disponible."
+contenttypes.blocks.text.not-existing: "Le bloc que vous recherchez n'existe pas. Il a été soit supprimé soit n'a jamais existé."
+contenttypes.blocks.text.not-saved-yet: "Le bloc n'a pas encore été enregistré."
+contenttypes.blocks.text.overview: "Aperçu du bloc"
+contenttypes.blocks.text.publish: "Publier le bloc"
+contenttypes.blocks.text.recent: "Blocs récents"
+contenttypes.blocks.text.recent-changes-one: "Changements récents sur ce bloc"
+contenttypes.blocks.text.recently-edited: "Derniers blocs modifiés"
+contenttypes.blocks.text.reserved-name: "Le champ '%field%' est défini pour le type de contenu 'Bloc' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+contenttypes.blocks.text.save: "Enregistrer"
+contenttypes.blocks.text.saved-changes: "Les modifications de ce bloc ont été enregistrées."
+contenttypes.blocks.text.saved-new: "Le nouveau bloc a été enregistré."
+contenttypes.blocks.text.saving-impossible: "Impossible d'enregistrer le bloc."
+contenttypes.blocks.text.show-more: "Plus de blocs"
+contenttypes.blocks.text.view: "Afficher les blocs"
+contenttypes.blocks.text.wrong-use-field: "Dans le type de contenu 'Bloc', le champ '%field%' référence le champ '%uses%' qui n'existe pas. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 
 contenttypes.entries.description: "Le type de contenu **Billet** peut être utilisé pour des _'actualités'_ ou des _'post de blog'_. Il possède une accroche qui peut être affichée dans les pages de listes ainsi que des champs image et vidéo (optionnels) La définition de ce type de contenu est stockée dans le fichier `contenttypes.yml` situé dans le répertoire `app/config/`. Ce fichier peut être modifié manuellement ou par l'élément 'Configuration'  » 'Types de contenu' dans le menu latéral."
 contenttypes.entries.group.content: "Contenu"
@@ -43,6 +64,7 @@ contenttypes.entries.text.duplicate: "Dupliquer le billet"
 contenttypes.entries.text.duplicated-finalize: "Le billet a été dupliqué. Cliquer sur 'Enregistrer' pour finir."
 contenttypes.entries.text.edit: "Modifier le billet"
 contenttypes.entries.text.invalid-field: "Impossible de définir le champ %field% pour le billet : champ invalide"
+contenttypes.entries.text.invalid-relation: "Dans le type de contenu 'Billet', la relation '%relation%' est définie mais n'est pas un type de contenu valide. Veuillez modifier le fichier contenttypes.yml et corriger ce problème."
 contenttypes.entries.text.last-modified: "Derniers billets modifiés"
 contenttypes.entries.text.new: "Nouveau billet"
 contenttypes.entries.text.no-latest: "Aucun billet"
@@ -56,7 +78,7 @@ contenttypes.entries.text.publish: "Publier le billet"
 contenttypes.entries.text.recent: "Billets récents"
 contenttypes.entries.text.recent-changes-one: "Changements récents sur ce billet"
 contenttypes.entries.text.recently-edited: "Derniers billets modifiés"
-contenttypes.entries.text.reserved-name: "Le champ '%field' est défini pour le type de contenu 'Billet' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+contenttypes.entries.text.reserved-name: "Le champ '%field%' est défini pour le type de contenu 'Billet' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 contenttypes.entries.text.save: "Enregistrer"
 contenttypes.entries.text.saved-changes: "Les modifications de ce billet ont été enregistrées."
 contenttypes.entries.text.saved-new: "Le nouveau billet a été enregistré."
@@ -77,6 +99,7 @@ contenttypes.pages.text.duplicate: "Dupliquer la page"
 contenttypes.pages.text.duplicated-finalize: "La page a été dupliquée. Cliquer sur 'Enregistrer' pour finir."
 contenttypes.pages.text.edit: "Modifier la page"
 contenttypes.pages.text.invalid-field: "Impossible de définir le champ %field% pour la page : champ invalide"
+contenttypes.pages.text.invalid-relation: "Dans le type de contenu 'Page', la relation '%relation%' est définie mais n'est pas un type de contenu valide. Veuillez modifier le fichier contenttypes.yml et corriger ce problème."
 contenttypes.pages.text.last-modified: "Dernières pages modifiées"
 contenttypes.pages.text.new: "Nouvelle page"
 contenttypes.pages.text.no-latest: "Aucune page"
@@ -90,7 +113,7 @@ contenttypes.pages.text.publish: "Publier la page"
 contenttypes.pages.text.recent: "Pages récentes"
 contenttypes.pages.text.recent-changes-one: "Changements récents sur cette page"
 contenttypes.pages.text.recently-edited: "Dernières pages modifiées"
-contenttypes.pages.text.reserved-name: "Le champ '%field' est défini pour le type de contenu 'Page' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+contenttypes.pages.text.reserved-name: "Le champ '%field%' est défini pour le type de contenu 'Page' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 contenttypes.pages.text.save: "Enregistrer"
 contenttypes.pages.text.saved-changes: "Les modifications de cette page ont été enregistrées."
 contenttypes.pages.text.saved-new: "La nouvelle page a été enregistrée."
@@ -103,6 +126,7 @@ contenttypes.showcases.description: "Le type de contenu **Démonstration** est u
 contenttypes.showcases.group.files: "Fichiers"
 contenttypes.showcases.group.media: "Médias"
 contenttypes.showcases.group.other: "Autres"
+contenttypes.showcases.group.repeater: "Collection"
 contenttypes.showcases.group.text: "Texte"
 contenttypes.showcases.name.plural: "Démonstrations"
 contenttypes.showcases.name.singular: "Démonstration"
@@ -114,6 +138,7 @@ contenttypes.showcases.text.duplicate: "Dupliquer la démonstration"
 contenttypes.showcases.text.duplicated-finalize: "La démonstration a été dupliquée. Cliquer sur 'Enregistrer' pour finir."
 contenttypes.showcases.text.edit: "Modifier la démonstration"
 contenttypes.showcases.text.invalid-field: "Impossible de définir le champ %field% pour la démonstration : champ invalide"
+contenttypes.showcases.text.invalid-relation: "Dans le type de contenu 'Démonstration', la relation '%relation%' est définie mais n'est pas un type de contenu valide. Veuillez modifier le fichier contenttypes.yml et corriger ce problème."
 contenttypes.showcases.text.last-modified: "Dernières démonstrations modifiées"
 contenttypes.showcases.text.new: "Nouvelle démonstration"
 contenttypes.showcases.text.no-latest: "Aucune démonstration"
@@ -127,7 +152,7 @@ contenttypes.showcases.text.publish: "Publier la démonstration"
 contenttypes.showcases.text.recent: "Démonstrations récentes"
 contenttypes.showcases.text.recent-changes-one: "Changements récents sur cette démonstration"
 contenttypes.showcases.text.recently-edited: "Dernières démonstrations modifiées"
-contenttypes.showcases.text.reserved-name: "Le champ '%field' est défini pour le type de contenu 'Démonstration' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+contenttypes.showcases.text.reserved-name: "Le champ '%field%' est défini pour le type de contenu 'Démonstration' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 contenttypes.showcases.text.save: "Enregistrer"
 contenttypes.showcases.text.saved-changes: "Les modifications de cette démonstration ont été enregistrées."
 contenttypes.showcases.text.saved-new: "La nouvelle démonstration a été enregistrée."

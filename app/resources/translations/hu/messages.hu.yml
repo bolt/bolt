@@ -1,104 +1,44 @@
-# app/resources/translations/hu/messages.hu.yml – generated on 2016-03-15 17:25:57 Europe/Berlin
+# app/resources/translations/hu/messages.hu.yml – generated on 2016-05-02 21:00:19 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  55 unused messages
-#  68 untranslated messages
-#  29 untranslated keyword based messages
-# 337 translations
-# 178 keyword based translations
+#  no unused messages
+#  53 untranslated messages
+#  19 untranslated keyword based messages
+# 338 translations
+# 196 keyword based translations
 
-#--- 55 unused messages -------------------------------------------------------
-
-"A password reset link has been sent to ": "Jelszó törlési kérelem elküldve "
-"An error occurred.": "Hiba történt."
-"Are you sure you wish to delete these records? There is no undo.": "Biztos törlöd ezeket a rekordokat? A művelet nem vonható vissza."
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Ez a Bolt bővítmény nem található. Itt tudod ellenőrizni, hogy helyes névre hivatkozol: %site%."
-"Clear Activitylog": "Aktivitási napló törlése"
-"Clear the current log": "Az aktuális napló törlése"
-"Content '%title%' could not be deleted.": "'%title%' tartalom nem törölhető."
-"Content '%title%' has been changed to '%newStatus%'": "A(z) '%title%' állapota módosítva: '%newStatus%'"
-"Content '%title%' has been deleted.": "'%title%' tartalom törölve."
-"Delete selected": "A kijelöltek törlése"
-"Depublish selected": "Visszavonás kijelölve"
-"Do you really want to delete %foldername%?": "Tényleg törlöd a %foldername% könyvtárt?"
-"Extension log": "Bővítménynapló"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "A bővítmények betöltését tiltotta az adminisztrátor a %config% fájlban."
-"File '%file%' could not be uploaded.": "A '%file%' fájlt nem lehet feltölteni."
-"Filtering …": "Szűrés…"
-"Help Tag": "Help cimke"
-"Help tags": "Help cimkék"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Ha volna egy tartalom 'about' sluggal, akkor az lenne itt. De nincs, ezért látod ezt itt."
-"If you would like to give the theme an alternative name you can add one here.": "Ha másik nevet szeretnél adni a témának, most megteheted."
-"No such action for content.": "Nincs ilyen művelet a tartalomhoz."
-"No such user.": "Ilyen felhasználó nincs."
-"Other contenttypes": "Egyéb tartalomtípus"
-"Permission denied": "Engedély megtagadva"
-"Publish selected": "Publikálás kijelölve"
-"Remove selected": "A kijelöltek eltávolítása"
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "A Bolt bővítménytár - %repository% - éppen nem elérhető. Ellenőrizd a kapcsolatot és próbáld újra."
-"The Bolt extensions file '%composerjson%' isn't readable.": "A Bolt bővítményfájl %composerjson% nem olvasható."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ": "A bővítménymappa (<code>%dir%</code>) nem létezik vagy nem írható."
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "A bővítménymappa (<code>%dir%</code>) nem létezik vagy nem írható."
-"The file '%s' doesn't exist, or is not readable.": "A '%s' fájl nem létezik vagy nem olvasható."
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Hiba történt a fájl feltöltésekor.\\nEllenőrizd, hogy a fájl típusa:\\n%TYPELIST%"
-"This record is related to:": "A rekordhoz kapcsolódik:"
-"Trim Activitylog": "Aktivitási napló tömörítése"
-"Uploading": "Feltöltés"
-"You do not have the right privileges to create a new record.": "Nincs jogosultságod új bejegyzés létrehozásához."
-"You do not have the right privileges to upload.": "Nincs megfelelő jogköröd a feltöltéshez."
-"You must specify both a name and a version to install!": "Meg kell adnod a nevet és a verziót is!"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Bővítmény hiba] Az inicializácó meghiúsult. %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Bővítmény hiba] Snippet betöltés meghiúsult. %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Bővítmény hiba] Twig függvény regisztráció hiba. %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Bővítmény hiba] YAML konfiguráció betöltési hiba. %ext%: %error%"
-"cURL experienced an error: %errormessage%": "cURL hibát észlelt: %errormessage%"
-"cURL library doesn't support TLS. Downgrading to HTTP.": "A cURL nem támogatja a TLS-t, így visszaáll HTTP-re."
-"contenttypes.general.choose-an-entry": "Válassz egy bejegyzést"
-"general.bolt-documentation-on-github": "Bolt dokumentáció a Githubon"
-"general.thanks": "Köszönet"
-"in:": "itt:"
-"page.extend.message.install-all-updates": "Frissítések telepítése"
-"contenttypes.generic.error-saving": "Hiba történt a %contenttype% mentésekor."
-"field.general.select-from-stack": "Választás kötegből"
-"field.video.button.preview": "Előnézet"
-"field.video.preview.button.close": "Bezárás"
-"field.video.preview.no-url": "Nincs video url beállítva, így nincs megjeleníthető video."
-"page.ckeditor-browse-server.pixel": "px."
-
-#--- 68 untranslated messages -------------------------------------------------
+#--- 53 untranslated messages -------------------------------------------------
 
 "Add Selected": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"At least %NUM% characters required": #
-"Author": #
+"Alt": #
+"Body": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
-"Choose an entry": #
-"Client error: %errormessage%": #
-"Create File": #
-"Delete": #
+"Cleared cache.": #
 "Delete Set": #
 "Depublish": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Duplicate Set": #
 "Error reading extensions/composer.json file: %ERROR%": #
+"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
-"Extension server returned an error: %errormessage%": #
-"Files could not be uploaded.": #
-"Generic failure while testing connection to extension server: %errormessage%": #
+"Failed to clear cache. You should delete it manually.": #
+"Group": #
+"Groups": #
+"Html": #
+"Id": #
 "Id (№)": #
-"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
-"Invalid login parameters.": #
+"Info": #
+"Link": #
+"Live Edit": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Move Down": #
@@ -106,78 +46,55 @@
 "No Preview": #
 "Only root can change file extensions.": #
 "Order": #
-"Others": #
 "Publish": #
-"Records": #
-"Related content:": #
-"Repeat": #
+"Repeater": #
 "Run PHP extension checks": #
 "Run all checks": #
-"Run directory checks": #
-"Run email checks": #
 "Search results for <b>%search%</b>.": #
-"Selection (#):": #
 "Show proposed alterations": #
+"Slug": #
+"Slug:": #
 "Something went wrong with logging in after first user creation!": #
-"Subsubtitle": #
-"Subtitle": #
-"System Configuration Checks": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+"The field %field% has been changed to \"%newValue%\"": #
 "The file '%s' doesn't exist.": #
 "The file '%s' is not readable.": #
-"There is no undo!": #
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "This record is related to the following %CTNAME%:": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #
-"Welcome to your new Bolt site, %USER%.": #
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "You cannot '%s' yourself.": #
-"general.bolt-documentation": # "Bolt documentation"
-"general.visit-bolt": # "Visit Bolt.cm"
 
-#--- 29 untranslated keyword based messages -----------------------------------
+#--- 19 untranslated keyword based messages -----------------------------------
 
-"contenttypes.generic.group.template": # "Template"
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
-"field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
-"field.markdown.label.markedview": # "Markdown"
-"field.markdown.label.preview": # "Preview"
-"field.slug.button.edit": # "Edit"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
-"field.video.height": #
-"field.video.width": #
+"field.video.height": # "Height"
+"field.video.pixel": # "pixel"
+"field.video.width": # "Width"
+"general.visit-bolt": # "Visit Bolt.cm"
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
-"page.edit-users.error.password-different-username": # "Password must not match the username."
-"page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
-"page.extend.button.autoload-dump": # "Rebuild Autoloader"
-"page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.headline.latest-version": # "Latest stable version"
 "page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
 "page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
 "page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-"page.extend.message.maintenance": # "Maintenance"
 "panel.latest-activity.change": # "Latest changes"
 "panel.latest-activity.created": # "Created"
 "panel.latest-activity.deleted": # "Deleted"
 "panel.latest-activity.system": # "Latest system activity"
 
-#--- 337 translations ---------------------------------------------------------
+#--- 338 translations ---------------------------------------------------------
 
 "%name% № %id%": "[%id%] %name%"
-"%s files could not be deleted. You should delete them manually.": "%s fájlok nem törölhetők. Próbálja meg manuálisan."
 "(default template)": "(alapértelmezett sablon)"
 "(no category)": "(nincs kategória)"
 "(no group)": "(nincs csoport)"
@@ -191,17 +108,21 @@
 "Alas, no about!": "Jaj, nincs bemutatkozás!"
 "All content types": "Minden tartalomtípus"
 "All users": "Minden felhasználó"
-"Alt": "Alt"
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Hiba történt `%TABLE%` frissítése közben. A hiba: %ERROR%"
 "Anonymous": "Ismeretlen"
 "Are you sure you want to delete %FILENAME%?": "Biztos, hogy törölni szeretnéd a %FILENAME% fájlt?"
 "Are you sure you want to delete %username%?": "Biztos, hogy eltávolítod a %username% felhasználót?"
+"Are you sure you want to do this for %NUMBER% records?": "Biztosan végre akarja hajtani ezt %NUMBER% rekordra?"
+"Are you sure you want to do this for 1 record?": "Biztosan végre akarja hajtani ezt 1 rekordra?"
+"Are you sure you want to remove these files?": "Biztosan törölni szeretné ezeket a fájlokat?"
 "Are you sure you want to remove these images?": "Valóban törölni szeretnéd ezeket a képeket?"
 "Are you sure you want to remove this file?": "Valóban törölni szeretnéd ezt a fájlt?"
 "Are you sure you want to remove this image?": "Valóban törölni szeretnéd ezt a képet?"
 "Are you sure you wish to delete this record? There is no undo.": "Biztos törlöd ezt a rekordot? Később már nemlehet visszavonni."
+"At least %NUM% characters required": "Legalább %NUM% karakter szükséges"
+"Author": "Szerző"
 "Author:": "Szerző"
 "Below are the third party libraries that are used by Bolt.": "A Bolt által használt harmadik féltől származó könyvtárak alább láthatók."
-"Body": "Body"
 "Bolt - Fatal error.": "Bolt - Végzetes hiba."
 "Browser / platform": "Böngésző / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Beépített szerepkör, automatikusan biztosítva minden alkalommal még ha nincs is bejelentkezett felhasználó"
@@ -214,10 +135,9 @@
 "Change Log": "Változásnapló"
 "Change status to 'draft'": "Állapot váltása 'piszkozatba'"
 "Change status to 'held'": "Állapot váltása 'visszatartottba'"
-"Chapter": "Fejezet"
-"Chapters": "Fejezetek"
 "Check again": "Ismételt vizsgálat"
 "Check database": "Adatbázis ellenőrzése"
+"Choose an entry": "Válassz egy bejegyzést"
 "Class:": "Osztály"
 "Clear Change Log": "Változtatásnapló törlése"
 "Clear System Log": "Rendszernapló törlése"
@@ -226,6 +146,7 @@
 "Clear sort/filter": "Rendezés/szűrés törlése"
 "Clear the cache": "Gyorsítótár ürítése"
 "Click to change current status.": "Kattints a státusz megváltoztatásához."
+"Client error: %errormessage%": "Ügyfél hiba: %errormessage%"
 "Close editor": "Editor bezárása"
 "Code:": "Kód:"
 "Collapse sidebar": "Oldalsáv becsukása"
@@ -233,8 +154,8 @@
 "Content": "Tartalom"
 "Content '%title%' could not be modified.": "'%title%' tartalom nem módosítható."
 "Content Type Permissions": "Tartalomtípus Engedélyek"
-"Content for home not found!": "A kezdőlap tartalma nem található!"
 "Contenttypes": "Tartalomtípusok"
+"Create File": "Fájl létrehozása"
 "Create folder": "Könyvtár létrehozása"
 "Create the first user": "Első felhasználó létrehozása"
 "Created on:": "Létrehozva:"
@@ -246,16 +167,15 @@
 "Date": "Dátum"
 "Datetime": "Dátum/idő"
 "Default status": "Alap státusz"
+"Delete": "Törlés"
 "Delete %filename%": "%filename% törlése"
 "Delete %foldername%": "%foldername% törlése"
 "Delete %username%": "%username% törlése"
-"Deleted %s files from cache.": "%s fájlok törlése a gyorsítótárból."
 "Depublication date:": "Publikáció visszavonásának dátuma:"
 "Depublish date is in the past. Change the status if you want to depublish now": "A lejárati dátum már elmúlt. Inaktiváláshoz a státuszt állítsd"
 "Deselect all": "Összes kiválasztás törlése"
 "Detail template": "Részletek sablon"
 "Details": "Részletek"
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Új Bolt <b>%VERSION%</b> verzióra váltás történt ezért a gyorsítótárat töröltük. Ellenőrizd az <a href=\"%URI%\">adatbázist</a> ha még nem tetted volna."
 "Disable %username%": "%username% érvénytelenítése"
 "Do you really want to delete %FOLDERNAME%?": "Valóban törölni szeretnéd a %FOLDERNAME% mappát?"
 "Done!": "Kész!"
@@ -268,6 +188,7 @@
 "Everybody": "Mindenki"
 "Excerpt": "Kivonat"
 "Expand sidebar": "Oldalsáv kinyitása"
+"Extension server returned an error: %errormessage%": "A bővítmény kiszolgáló hibával tért vissza: %errormessage%"
 "Extensions": "Kiterjesztések"
 "Extras": "Extrák"
 "Failed to send password request. Please check the email settings.": "A jelszó kérelem küldése meghiúsult. Kérlek ellenőrizd a levelező beállításokat!"
@@ -283,6 +204,7 @@
 "File is not readable!": "A fájl nem olvasható!"
 "Filelist": "Fájl lista"
 "Files": "Fájlok"
+"Files could not be uploaded.": "Sikertelen fájlfeltöltés."
 "Files in %s": "Fájlok %s-ben"
 "Files on the stack": "Fájlok a kötegben"
 "Filesize": "Fájlméret"
@@ -295,17 +217,16 @@
 "Folder permissions insufficient": "A könyvtár-engedélyek elégtelenek"
 "Folders": "Könyvtárak"
 "Full list …": "Teljes lista…"
+"Generic failure while testing connection to extension server: %errormessage%": "Általános hiba történt a bővítmény kiszolgálóval való kapcsolat tesztelése közben: %errormessage%"
 "Geolocation": "Geolokáció"
 "Global Permissions": "Globális engedélyek"
 "Has to be a floating point number!": "Lebegőpontos számnak kell lennie!"
 "Hints:": "Tippek"
-"Html": "Html"
 "IP address": "IP cím"
-"Id": "Id"
 "Image": "Kép"
 "Imagelist": "Képek listája"
-"Info": "Info"
 "Integerfield": "Egészszám mező"
+"Invalid login parameters.": "Érvénytelen bejelentkezési paraméterek."
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Nincs egyező tartalomtípus vagy az útvonalválasztó."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
 "Is required or needs to match a pattern!": "Kötelező vagy mintának megfelelő!"
@@ -314,9 +235,7 @@
 "Last edited on:": "Utoljára szerkesztve:"
 "Last known IP": "Utolsó ismert IP"
 "Last seen": "Utoljára látva"
-"Latest entries": "Legutóbbi bejegyzések"
 "Listing template": "Sablon listázás"
-"Live Edit": "Live Edit"
 "Login": "Bejelentkezés"
 "Logout": "Kijelentkezés"
 "Long messages": "Hosszú nyelvi címkék"
@@ -348,6 +267,7 @@
 "Options": "Opciók"
 "Order: %sort%": "Rendezés: %sort%"
 "Other content": "Egyéb tartalom"
+"Others": "Egyebek"
 "Overview": "Áttekintés"
 "Overview for": "Áttekintés:"
 "Owner": "Tulajdonos"
@@ -373,18 +293,20 @@
 "Published": "Publikált"
 "Published on:": "Publikálva:"
 "Read more": "Bővebben"
+"Records": "Rekordok"
 "Related content": "Kapcsolódó tartalom"
 "Relationships": "Kapcsolatok"
 "Rename %foldername%": "%foldername% átnevezése"
 "Roles": "Szerepek"
 "Roles and Permissions": "Szerepek és Engedélyek"
+"Run directory checks": "Könyvtár ellenőrzések futtatása"
+"Run email checks": "Email-ellenőrzések futtatása"
 "Save & create new record": "Mentés és Új rekord"
 "Save & return to overview": "Mentés és visszatérés az áttekintéshez"
 "Saved on:": "Mentve ekkor:"
 "Saving …": "Mentés…"
 "Search": "Keresés"
 "Search for …": "Keresd…"
-"Search results for <b> %search% </b>.": "<b>%search%</b> keresési eredményei."
 "Search …": "Keresés…"
 "Select": "Kiválasztás"
 "Select a page": "Oldal kiválasztása"
@@ -394,6 +316,7 @@
 "Select zero or more pages": "Válasszon ki egy vagy több oldalt"
 "Selectentry": "Bejegyzés választó"
 "Selectfield": "Mező választó"
+"Selection (#):": "Kiválasztás (#):"
 "Session expires": "A munkamenet lejár"
 "Session resumed.": "A munkamenet visszaállítva."
 "Settings": "Beállítások"
@@ -402,12 +325,11 @@
 "Size": "Méret"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
 "Skipped <tt>%key%</tt> (not checked)": "<tt>%key%</tt> kihagyva (nincs vizsgálva)"
-"Slug": "Slug"
-"Slug:": "Slug:"
 "Something went wrong": "Valami hiba történt."
 "Sophisticated, lightweight & simple CMS": "Kifinomult, korszerű és egyszerű tartalomkezelő"
 "Stack": "Köteg"
 "Status:": "Állapot"
+"System Configuration Checks": "Rendszerkonfiguráció ellenőrzés"
 "Tag": "Címke"
 "Tags": "Címkék"
 "Taxonomy": "Taxonómia"
@@ -418,8 +340,6 @@
 "That user does not exist.": "Ez a felhasználó nem létezik."
 "The change log has been cleared.": "A változásnapló törölve."
 "The change log has been trimmed.": "A változásnapló lerövidítve."
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Az adatbázist frissíteni / javítani kell. Menj a 'Beállítások' > '<a href=\"%link%\">Adatbázis ellenőrzése</a>' menüpontba, hogy ezt megtehesd."
-"The field %field% has been changed to \"%newValue%\"": "A %field% mező új értéke \"%newValue%\""
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "A '%s' fájl nem írható. Egy saját szerkesztőt kell használnod a fájl módosításához."
 "The folder '%s' could not be found, or is not readable.": "A '%s' mappa nem található vagy nem olvasható."
 "The following file could not be read:": "A következő fájl nem olvasható:"
@@ -438,6 +358,7 @@
 "There are no saved changes, yet.": "A változásokat még nem mentetted."
 "There are no users in the database. Please create the first user.": "Nincsenek felhasználók az adatbázisban. Hozd létre az első felhasználót."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Nincsenek még felhasználók a rendszerben. Hozd létre az első felhasználót akinek root jogosultsága lesz."
+"There is no undo!": "Nincs visszavonás!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Mindig lennie kell legalább egy 'root' felhasználónak. Te lettél kinevezve. Gratulálunk!"
 "This is a checkbox": "Ez egy jelölőnégyzet"
 "This template adds new fields. Save, then refresh to see these changes.": "A sablon új mezőket tartalmaz. Mentsd, majd frissítés után a változások érvénybe lépnek."
@@ -452,7 +373,12 @@
 "Trim System Log": "Rendszernapló rövidítése"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Próbálj bejelentkezni az FTP klienseddel és állítsd a fájlt olvashatóvá vagy lépj <a>vissza</a> a legutóbbi oldalra."
 "Types": "Típusok"
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Sajnos nem található tartalom. Próbálj egy másik lapot, vagy navigálj a <a href=\"%paths_root%\">kezdőoldalra</a>."
+"Unable to create directory: %DIR%": "%DIR% mappa létrehozása sikertelen"
+"Unable to create file: %FILE%": "%FILE% fájl nem hozható létre"
+"Unable to delete directory: %DIR%": "%DIR% mappa törlése sikertelen"
+"Unable to delete file: %FILE%": "Nem lehet törölni a %FILE% fájlt"
+"Unable to rename directory: %DIR%": "%DIR% mappa átnevezése sikertelen"
+"Unable to rename file: %FILE%": "%FILE% fájl átnevezése sikertelen"
 "Update the database": "Adatbázis frissítése"
 "Upload": "Feltöltés"
 "Upload a file to this folder": "Fájl feltöltése ebbe a mappába"
@@ -481,6 +407,7 @@
 "View/edit Templates": "Sablonok megtekintése / szerkesztése"
 "Warning": "Figyelem!"
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Nem tudjuk előállítani a témát. Olyan mint ha a téma mappa nem lenne írható. Ellenőrizd a jogokat és próbáld újra!"
+"Welcome to your new Bolt site, %USER%.": "Üdvözöljük az új Bolt oldalán, %USER%."
 "Written by <em>%name%</em> on %date%": "Írta <em>%name%</em> %date% napon"
 "You do not have the right privileges to edit that record.": "Nincs megfelelő jogosultságod a bejegyzés szerkesztéséhez."
 "You do not have the right privileges to edit that user.": "Nincs megfelelő jogköröd szerkeszteni a felhasználó adatait."
@@ -490,7 +417,6 @@
 "You have been logged out.": "Kijelentkeztél."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Nem mentetted a változásokat. Ha mentés nélkül folytatod, ezek el fognak veszni."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Ezzel a változtatással némelyik mező elveszhet. Keresd ki a sablon szekciót és jegyezd fel az értékeket, miwlőtt ezt megtennéd."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Állítsd be a 'app/config/config.yml' fájl 'homepage:' értékét egy létező rekordra. Győződj meg róla, hogy a rekord publikálva lett különben nem fog megjelenni."
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 "Your account is disabled. Sorry about that.": "Az őn fiókja tiltott. Sajnáljuk."
 "Your database is already up to date.": "Az adatbázis már a legfrissebb."
@@ -499,22 +425,15 @@
 "back to editing": "vissza a szerkesztéshez"
 "by": "általa:"
 "filtered by <em>'%filter%'</em>": "szűrés: <em>'%filter%'</em>"
-"general.about": "Bemutatkozás"
-"general.about-bolt": "A Boltról"
-"general.bolt-on-github": "Bolt a Githubon"
 "line": "sor"
-"logs.change-log": "Változásnapló"
-"logs.system-log": "Rendszernapló"
 "no content …": "nincs tartalom…"
 "no title …": "nincs cím…"
 "none": "nincs"
 "of": "/"
 "or": "vagy"
 "show all": "összes mutatása"
-"users.actions-for-users": "Műveletek a felhasználókhoz"
-"users.your-password": "Az ön jelszava"
 
-#--- 178 keyword based translations -------------------------------------------
+#--- 196 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "általa:"
 component.changelog-detail.field: "mező"
@@ -533,6 +452,7 @@ contenttypes.generic.edit: "%contenttype% szerkesztése"
 contenttypes.generic.group.meta: "Meta"
 contenttypes.generic.group.relations: "Kapcsolatok"
 contenttypes.generic.group.taxonomy: "Taxonómia"
+contenttypes.generic.group.template: "Sablon"
 contenttypes.generic.group.ungrouped: "Nem csoportosított"
 contenttypes.generic.invalid-field: "A %field% mező nem beállítható a %contenttype% tartalomban: Nem érvényes mező."
 contenttypes.generic.last-modified: "Utoljára módosított %contenttypes%"
@@ -558,6 +478,7 @@ contenttypes.generic.wrong-use-field: "A(z) '%contenttype%' tartalomtípusának 
 
 field.general.allowed-filetypes: "Engedélyezett fájltípusok:"
 field.general.select-from-server: "Kiválasztás a szerverről"
+field.general.stack: "Köteg"
 
 field.geolocation.label.address-lookup: "Cím keresés"
 field.geolocation.label.latitude: "Földrajzi szélesség"
@@ -566,6 +487,10 @@ field.geolocation.label.marker-placement: "Jelölőpont"
 field.geolocation.matched-address: "Egyező cím:"
 field.geolocation.placeholder.address: "Utca, irsz., város vagy egyéb hely"
 
+field.markdown.label.markedview: "Markdown"
+field.markdown.label.preview: "Előnézet"
+
+field.slug.button.edit: "Szerkesztés"
 field.slug.permalink: "Permalink"
 field.slug.unique-alias: "Egyedi álnév"
 
@@ -573,11 +498,22 @@ field.video.label.preview: "Kép előnézet"
 field.video.label.size: "Méret"
 field.video.label.url: "Beemelni kívánt videó URL"
 field.video.matched-video: "Megegyező videó"
-field.video.pixel: "pixel"
 field.video.placeholder.url: "Youtube, Vimeo vagy egy videó website URL"
+
+general.about: "Bemutatkozás"
+
+general.about-bolt: "A Boltról"
+
+general.bolt-documentation: "Bolt dokumentáció"
+
+general.bolt-on-github: "Bolt a Githubon"
 
 generic.noscript.headline: "A Javascript nincs engedélyezve"
 generic.noscript.message: "A böngészőjében nincs engedélyezve a Javascript. A legtöbb funkció így is elérhető lesz, de a hibátlan működéshez javallott az engedélyezése."
+
+logs.change-log: "Változásnapló"
+
+logs.system-log: "Rendszernapló"
 
 menu.configuration.routing: "Útvonalkezelő beállítása"
 
@@ -608,7 +544,8 @@ page.edit-users.activated.yes: "igen"
 page.edit-users.button.save: "Felhasználó mentés"
 page.edit-users.error.displayname-used: "Ez a megjelenített név foglalt. Válassz másikat."
 page.edit-users.error.email-used: "Ez az email már foglalt a rendszerben. Használj másik email címet."
-page.edit-users.error.password-mismatch: "A jelszavak nem egyeznek"
+page.edit-users.error.password-different-username: "A jelszó nem egyezhet a felhasználónévvel."
+page.edit-users.error.password-mismatch: "A jelszavaknak egyezniük kell."
 page.edit-users.error.password-short: "Túl rövid érték. Legalább 6 karakter hosszú legyen."
 page.edit-users.error.username-used: "Ez a felhasználónév már foglalt. Válassz másikat."
 page.edit-users.label.assigned-roles: "Kiosztott szerepkörök"
@@ -622,6 +559,7 @@ page.edit-users.label.user-enabled: "Felhasználó engedélyezve"
 page.edit-users.label.username: "Felhasználónév"
 page.edit-users.log.user-added: "'%user%' hozzáadva."
 page.edit-users.log.user-updated: "'%user%' frissítve."
+page.edit-users.message.change-self: "Ki lett jelentkeztetve, mert megváltoztatta a saját felhasználónevét. Kérjük, jelentkezzen be újra."
 page.edit-users.message.saving-user: "%user% nem menthető vagy az adatok nem változtak."
 page.edit-users.message.user-saved: "%user% elmentve."
 page.edit-users.note-sqlite: "Az első felhasználó SQLite adatbázisba lett elmentve. ha inkább MySQL vagy PostgreSQL adatbázist használnál, szerkeszd a <tt>'app/config/config.yml'</tt> konfigurációs fájlt és a Bolt beállítja a szükséges táblákat. Frissítsd az oldalt a későbbi folytatáshoz."
@@ -636,6 +574,7 @@ page.edit-users.title.profile: "Profil"
 page.edit-users.user-create: "Hozz létre egy felhasználót az alábbi űrlappal. A jelszó mező kitöltése kötelező."
 page.edit-users.user-edit: "Az alábbi űrlappal szerkeszd a felhasználót. Hagyd a jelszó mezőt üresen ha nem akarsz jelszót változtatni."
 
+page.extend.button.autoload-dump: "Az Autoloader újraépítése"
 page.extend.button.browse-versions: "Verziók áttekintése"
 page.extend.button.config: "Konfiguráció"
 page.extend.button.copy-to-theme-folder: "Téma mappába másolás"
@@ -644,6 +583,7 @@ page.extend.button.install-all: "Az összes csomag telepítése"
 page.extend.button.install-package: "Csomag telepítése"
 page.extend.button.install-this-version: "Ezt a verziót telepítsd"
 page.extend.button.readme: "Olvass el"
+page.extend.button.show-all-versions: "Minden verzió mutatása"
 page.extend.button.uninstall: "Eltávolítás"
 page.extend.button.update-all: "Teljes frissítés"
 page.extend.button.update-check: "Frissítések ellenőrzése"
@@ -653,6 +593,7 @@ page.extend.headline.currently-installed: "Telepített bővítmények"
 page.extend.headline.install-new-extension: "Új bővítmény telepítése"
 page.extend.headline.installation-complete: "A telepítés ebfejeződött"
 page.extend.headline.installing-package: "Csomag telepítése"
+page.extend.headline.latest-version: "Legfrissebb stabil verzió"
 page.extend.headline.stable-versions: "Stabil verziók"
 page.extend.headline.test-versions: "Nem stabil, teszt verziók"
 page.extend.headline.theme-installation-complete: "A téma telepítés befejeződött"
@@ -676,6 +617,7 @@ page.extend.message.installing: "Felkészülés csomag telepítésre…"
 page.extend.message.installing-selected-package: "A kijelölt csomag verziók telepítése (akár 1 percig is tarthat)."
 page.extend.message.installs-all-listed-packages: "Ez biztosítja az elérhető csomagok telepítését. Akkor használd, ha épp új szerverre költöztél vagy ha kézzel adtál hozzá bővítményeket."
 page.extend.message.installs-updates: "Ez az elérhető frissítéseket fogja telepíteni."
+page.extend.message.maintenance: "Karbantartás"
 page.extend.message.marked-as-stable: "Az alábbi bővítményeket a fejlesztőik stabil verziónak jelölték és kompatibilisek a Bolt jelenleg használt verziójával."
 page.extend.message.no-bolt-extensions-installed: "Nincs telepített bővítmény."
 page.extend.message.no-package-check-in-readmode: "'Read-only' módban a telepített csomagok nem ellenőrizhetők"
@@ -711,3 +653,7 @@ panel.latest-activity.saved: "Mentve"
 panel.latest-activity.unknown: "ismeretlen"
 
 panel.user-actions.button.add: "Új felhasználó"
+
+users.actions-for-users: "Műveletek a felhasználókhoz"
+
+users.your-password: "Az ön jelszava"
