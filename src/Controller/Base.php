@@ -1,8 +1,10 @@
 <?php
 namespace Bolt\Controller;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
@@ -290,12 +292,14 @@ abstract class Base implements ControllerProviderInterface
     protected function getUser($userId = null)
     {
         if ($userId === null) {
+            /** @var Token $sessionAuth */
             if ($this->session()->isStarted() && $sessionAuth = $this->session()->get('authentication')) {
                 return $sessionAuth->getUser();
             }
 
             return;
         }
+        /** @var Repository\UsersRepository $repo */
         $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
 
         return $repo->getUser($userId);
@@ -313,8 +317,9 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function isAllowed($what, $user = null, $contenttype = null, $contentid = null)
     {
-        if ($user === null && $user = $this->session()->get('authentication')) {
-            $user = $user->getUser()->toArray();
+        /** @var Token $sessionAuth */
+        if ($user === null && $sessionAuth = $this->session()->get('authentication')) {
+            $user = $sessionAuth->getUser()->toArray();
         }
 
         return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
