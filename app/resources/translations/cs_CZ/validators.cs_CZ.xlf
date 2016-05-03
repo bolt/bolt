@@ -4,7 +4,7 @@
     <body>
       <trans-unit id="1" approved="yes">
         <source>Passwords must match.</source>
-        <target xml:lang="zh-CN">两次输入的密码必须一致。</target>
+        <target xml:lang="cs">Hesla se musí shodovat.</target>
       </trans-unit>
     </body>
   </file>

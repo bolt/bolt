@@ -1,36 +1,68 @@
-# app/resources/translations/es/contenttypes.es.yml – generated on 2016-03-15 17:23:15 Europe/Berlin
+# app/resources/translations/es/contenttypes.es.yml – generated on 2016-05-02 20:58:43 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   1 unused messages
+#  no unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#  41 untranslated keyword based messages
 #  no translations
-# 103 keyword based translations
+# 100 keyword based translations
 
-#--- 1 unused messages --------------------------------------------------------
+#--- 41 untranslated keyword based messages -----------------------------------
 
-"contenttypes.showcases.group.meta": "Meta"
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.group.block": # "Block"
+"contenttypes.blocks.name.plural": # "Blocks"
+"contenttypes.blocks.name.singular": # "Block"
+"contenttypes.blocks.text.actions-all": # "Actions for Blocks"
+"contenttypes.blocks.text.actions-one": # "Actions for this Block"
+"contenttypes.blocks.text.created": # "This Block was created"
+"contenttypes.blocks.text.delete": # "Delete Block"
+"contenttypes.blocks.text.duplicate": # "Duplicate Block"
+"contenttypes.blocks.text.duplicated-finalize": # "Content was duplicated. Click 'Save Block' to finalize."
+"contenttypes.blocks.text.edit": # "Edit Block"
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.new": # "New Block"
+"contenttypes.blocks.text.no-latest": # "No latest Block"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.none-available": # "No Blocks available."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.overview": # "Blocks overview"
+"contenttypes.blocks.text.publish": # "Publish Block"
+"contenttypes.blocks.text.recent": # "Recent Blocks"
+"contenttypes.blocks.text.recent-changes-one": # "Recent changes to this Block"
+"contenttypes.blocks.text.recently-edited": # "Recently edited Blocks"
+"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.save": # "Save Block"
+"contenttypes.blocks.text.saved-changes": # "The changes to the Block have been saved."
+"contenttypes.blocks.text.saved-new": # "The new Block has been saved."
+"contenttypes.blocks.text.saving-impossible": # "Could not save Block."
+"contenttypes.blocks.text.show-more": # "More Blocks"
+"contenttypes.blocks.text.view": # "View Blocks"
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.recent-changes-one": # "Recent change to this Entry"
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.recent-changes-one": # "Recent change to this Page"
+"contenttypes.showcases.group.repeater": # "Repeater"
+"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.recent-changes-one": # "Recent change to this Showcase"
 
-#--- 5 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entrada', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Página', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Escaparate', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-
-#--- 103 keyword based translations -------------------------------------------
+#--- 100 keyword based translations -------------------------------------------
 
 contenttypes.entries.description: "El Tipo de Contenido **Entradas** tipo de contenido puede ser usado para cosas como _'noticias'_ o _'entradas de blog'_. Tienen un sumario, que se puede utilizar para una breve reseña en la vista de listado, permitiendo a los visitantes hacer clic para ver el resto de la entrada. También tiene campos para una imagen y un vídeo opcional. Para cambiar los campos que se encuentran en este Tipo de Contenido, editar el archivo 'contenttypes.yml' contenidos en la carpeta 'app/config/', usando el editor de su elección, o en 'Configuración'» 'Tipos de contenido' en el menú de la izquierda."
 contenttypes.entries.group.content: "Contenido"
-contenttypes.entries.group.media: "Media"
+contenttypes.entries.group.media: "Medios"
 contenttypes.entries.name.plural: "Entradas"
 contenttypes.entries.name.singular: "Entrada"
 contenttypes.entries.text.actions-all: "Acciones para Entradas"
@@ -52,7 +84,6 @@ contenttypes.entries.text.not-saved-yet: "Esta Entrada aún no ha sido guardada.
 contenttypes.entries.text.overview: "Vista general de Entradas"
 contenttypes.entries.text.publish: "Publicar Entradas"
 contenttypes.entries.text.recent: "Entradas Recientes"
-contenttypes.entries.text.recent-changes-one: "Cambios recientes en Entrada"
 contenttypes.entries.text.recently-edited: "Entradas editas recientemente"
 contenttypes.entries.text.reserved-name: "En el Tipo de Contenido 'Entradas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.entries.text.save: "Guardar Entrada"
@@ -86,7 +117,6 @@ contenttypes.pages.text.not-saved-yet: "Esta Página aún no ha sido guardada."
 contenttypes.pages.text.overview: "Vista general de Páginas"
 contenttypes.pages.text.publish: "Publicar Página"
 contenttypes.pages.text.recent: "Páginas Recientes"
-contenttypes.pages.text.recent-changes-one: "Cambios recientes en Página"
 contenttypes.pages.text.recently-edited: "Páginas editas recientemente"
 contenttypes.pages.text.reserved-name: "En el Tipo de Contenido 'Páginas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.pages.text.save: "Guardar Página"
@@ -99,7 +129,7 @@ contenttypes.pages.text.wrong-use-field: "En el Tipo de Contenido 'Páginas', el
 
 contenttypes.showcases.description: "El Tipo de Contenido **Escaparates** es usado para mostrar todos los tipos de campos disponibles. En la práctica, sus uso es limitado, pero asegúrese de echar un vistazo para conocer los campos disponibles. Para cambiar (o borrar) los campos que se encuentran en este Tipo de Contenido, editar el archivo 'contenttypes.yml' contenidos en la carpeta 'app/config/', usando el editor de su elección, o en 'Configuración'» 'Tipos de contenido' en el menú de la izquierda."
 contenttypes.showcases.group.files: "Archivos"
-contenttypes.showcases.group.media: "Media"
+contenttypes.showcases.group.media: "Medios"
 contenttypes.showcases.group.other: "Otros"
 contenttypes.showcases.group.text: "Texto"
 contenttypes.showcases.name.plural: "Escaparates"
@@ -123,7 +153,6 @@ contenttypes.showcases.text.not-saved-yet: "Este Esparate aún no ha sido guarda
 contenttypes.showcases.text.overview: "Vista general de Escaparates"
 contenttypes.showcases.text.publish: "Publicar Escaparate"
 contenttypes.showcases.text.recent: "Escaparates Recientes"
-contenttypes.showcases.text.recent-changes-one: "Cambios recientes en Escaparate"
 contenttypes.showcases.text.recently-edited: "Escaparates editados recientemente"
 contenttypes.showcases.text.reserved-name: "En el Tipo de Contenido 'Escaparates', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.showcases.text.save: "Guardar Escaparate"

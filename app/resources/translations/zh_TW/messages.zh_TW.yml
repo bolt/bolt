@@ -1,75 +1,24 @@
-# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2016-03-15 17:36:08 Europe/Berlin
+# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2016-05-02 21:12:26 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  50 unused messages
-# 113 untranslated messages
-#  36 untranslated keyword based messages
-# 292 translations
-# 171 keyword based translations
+#  no unused messages
+# 125 untranslated messages
+#  78 untranslated keyword based messages
+# 266 translations
+# 137 keyword based translations
 
-#--- 50 unused messages -------------------------------------------------------
+#--- 125 untranslated messages ------------------------------------------------
 
-"%contenttypes% overview": "%contenttypes% overview"
-"An error occurred.": "發生了一個錯誤。"
-"Bolt Extension could not be found. Please check at %site% to ensure correct name.": "未找到 Bolt 擴展。請檢視 %site% 檢查名稱是否有誤。"
-"Clear Activitylog": "清理活動日誌"
-"Clear the current log": "清理當前日誌"
-"Content '%title%' could not be deleted.": "不能刪除內容 '%title%'。"
-"Content '%title%' has been changed to '%newStatus%'": "內容 '%title%' 已經變為 '%newStatus%'。"
-"Content '%title%' has been deleted.": "已刪除內容 '%title%'。"
-"Delete selected": "刪除 selected"
-"Depublish selected": "已選擇撤除"
-"Do you really want to delete %foldername%?": "確認要刪除 %foldername% 嗎？"
-"Extension log": "擴展日誌"
-"File '%file%' could not be uploaded.": "無法上傳檔案 '%file%'。"
-"Filtering …": "篩選 …"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "如果存在一個帶有 'about' slug 的頁面，那它會顯示在這裡。如果沒有的話，你就會看到這些提示。"
-"Next": "下一個"
-"No recent %contenttype%.": "沒有最近的%contenttype%."
-"No such action for content.": "該內容無此項操作。"
-"Originally by %1, ported by %2": "Originally by %1, ported by %2"
-"Other contenttypes": "其他的內容格式"
-"Permission denied": "許可權被拒絕"
-"Previous": "下一個"
-"Proudly powered by %s": "Proudly powered by %s"
-"Publish selected": "已選擇釋出"
-"Recent %contenttypes%": "近來的%contenttypes%"
-"Search for:": "搜尋："
-"Search…": "搜尋…"
-"Skip to content": "跳過到內容"
-"The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": "在%repository%的Bolt外掛目前無法使用，檢查你的網路連線並再試一次。"
-"The extensions directory (<code>%dir%</code>) does not exist, or it is not writable.": "擴展目錄 (<code>%dir%</code>) 不存在，或者不可寫。"
-"The file '%s' doesn't exist, or is not readable.": "檔案 '%s' 不存在，或者不可讀。"
-"This record is related to:": "這條記錄關聯到:"
-"Trim Activitylog": "清理舊的活動日誌"
-"You do not have the right privileges to create a new record.": "你沒有許可權創建新記錄。"
-"You must specify both a name and a version to install!": "欲安裝必須先指定名稱與版本。"
-"[Extension error] Initialisation failed for %ext%: %error%": "[Extension error] Initialisation failed for %ext%: %error%"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Extension error] Snippet loading failed for %ext%: %error%"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Extension error] Twig function registration failed for %ext%: %error%"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Extension error] YAML config failed to load for %ext%: %error%"
-"in:": "於:"
-"contenttypes.general.choose-an-entry": "選擇條目"
-"general.bolt-documentation-on-github": "Bolt 在 Github 上的文件"
-"general.thanks": "感謝"
-"page.extend.message.install-all-updates": "安裝所有更新"
-"contenttypes.generic.error-saving": "儲存次%contenttype%時發生錯誤"
-"field.general.select-from-stack": "從暫存區中選擇"
-"field.video.button.preview": "預覽"
-"field.video.preview.button.close": "關閉"
-"field.video.preview.no-url": "沒有設定視訊URL，無法顯示視訊。"
-"page.ckeditor-browse-server.pixel": "畫素"
-
-#--- 113 untranslated messages ------------------------------------------------
-
+"%name% № %id%": #
 "Add Selected": #
+"Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -83,9 +32,9 @@
 "Author": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
-"Choose an entry": #
 "Clear Change Log": #
 "Clear System Log": #
+"Cleared cache.": #
 "Client error: %errormessage%": #
 "Close editor": #
 "Create File": #
@@ -97,25 +46,33 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Duplicate Set": #
 "Error reading extensions/composer.json file: %ERROR%": #
+"Everybody": #
+"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
+"Failed to clear cache. You should delete it manually.": #
 "Failed to send password request. Please check the email settings.": #
 "Field “%FIELD_NAME%”:": #
 "File '%s' could not be saved, because the form wasn't valid.": #
 "Files could not be uploaded.": #
 "Generic failure while testing connection to extension server: %errormessage%": #
+"Group": #
+"Groups": #
 "Has to be a floating point number!": #
+"Html": #
+"Id": #
 "Id (№)": #
-"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Is required or needs to match a pattern!": #
 "Is required!": #
 "Keyword …": #
+"Link": #
 "Live Edit": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+"Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Move Down": #
 "Move Up": #
@@ -132,8 +89,7 @@
 "Others": #
 "Publish": #
 "Records": #
-"Related content:": #
-"Repeat": #
+"Repeater": #
 "Run PHP extension checks": #
 "Run all checks": #
 "Run directory checks": #
@@ -141,19 +97,23 @@
 "Search results for <b>%search%</b>.": #
 "Selection (#):": #
 "Show proposed alterations": #
+"Slug": #
+"Slug:": #
 "Something went wrong with logging in after first user creation!": #
-"Subsubtitle": #
-"Subtitle": #
+"Stack": #
 "System Configuration Checks": #
 "Testing connection to extension server failed: %errormessage%": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+"The field %field% has been changed to \"%newValue%\"": #
 "The file '%s' doesn't exist.": #
 "The file '%s' is not readable.": #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
 "There are no saved changes, yet.": #
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "There is no undo!": #
 "This record is related to the following %CTNAME%:": #
 "This template adds new fields. Save, then refresh to see these changes.": #
@@ -173,36 +133,39 @@
 "Upload not allowed": #
 "Users & Permissions": #
 "Warning": #
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
 "Welcome to your new Bolt site, %USER%.": #
 "You cannot '%s' yourself.": #
 "You do not have the right privileges to edit that user.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 "filtered by <em>'%filter%'</em>": #
-"general.bolt-documentation": # "Bolt documentation"
-"general.visit-bolt": # "Visit Bolt.cm"
 "or": #
 
-#--- 36 untranslated keyword based messages -----------------------------------
+#--- 78 untranslated keyword based messages -----------------------------------
 
-"contenttypes.generic.group.template": # "Template"
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.markdown.label.markedview": # "Markdown"
-"field.markdown.label.preview": # "Preview"
-"field.slug.button.edit": # "Edit"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
 "field.slug.unique-alias": # "Unique alias"
-"field.video.height": #
-"field.video.width": #
+"field.video.height": # "Height"
+"field.video.width": # "Width"
+"general.bolt-documentation": # "Bolt documentation"
+"general.visit-bolt": # "Visit Bolt.cm"
+"menu.configuration.routing": # "Routing set up"
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.label.email": # "Email"
+"page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.config": # "Config"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
+"page.extend.button.info-help": # "More info/help"
 "page.extend.button.install-package": # "Install Package"
 "page.extend.button.install-this-version": # "Install This Version"
 "page.extend.button.readme": # "Readme"
@@ -210,21 +173,58 @@
 "page.extend.button.uninstall": # "Uninstall"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
+"page.extend.headline.install-new-extension": # "Install a new Extension"
+"page.extend.headline.installation-complete": # "Installation complete"
+"page.extend.headline.installing-package": # "Installing package"
 "page.extend.headline.latest-version": # "Latest stable version"
+"page.extend.headline.stable-versions": # "Stable versions"
+"page.extend.headline.test-versions": # "Unstable test versions"
+"page.extend.headline.theme-installation-complete": # "Theme installation complete"
+"page.extend.headline.updates": # "Updates"
+"page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.status": # "Status"
+"page.extend.listheader.version": # "Version"
+"page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
 "page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
 "page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
+"page.extend.message.before-theme-start": # "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
+"page.extend.message.check-for-updates": # "Check for updates"
+"page.extend.message.checking-installed-packages": # "Checking installed packages"
+"page.extend.message.checkung-for-updates": # "Checking for available updates (this may take up to 60 seconds)"
+"page.extend.message.compatible-unstable-versions": # "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 "page.extend.message.confirm-remove": # "Please confirm that you want to remove this extension?"
+"page.extend.message.copying": # "Copying theme assets …"
+"page.extend.message.discover-by-visiting": # "You can discover new extensions by visiting"
 "page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+"page.extend.message.install-all": # "Running install of all packages …"
+"page.extend.message.installing": # "Preparing to install package …"
+"page.extend.message.installing-selected-package": # "Installing selected package version (this may take up to 60 seconds)."
+"page.extend.message.installs-all-listed-packages": # "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+"page.extend.message.installs-updates": # "This will install all available updates."
 "page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-"page.extend.message.maintenance": # "Maintenance"
+"page.extend.message.marked-as-stable": # "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
 "page.extend.message.no-bolt-extensions-installed": # "No Bolt Extensions installed."
+"page.extend.message.no-package-check-in-readmode": # "Cannot check installed packages in read-only mode"
+"page.extend.message.no-stable-versions-available": # "No Stable Versions Available"
+"page.extend.message.no-test-versions-available": # "No Test Versions Available"
+"page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
+"page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
+"page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
+"page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
+"page.extend.message.updated": # "Everything is up to date!"
+"page.extend.message.updating": # "Searching for available updates …"
+"page.extend.pagetitle": # "Extend %BOLTNAME%"
+"panel.latest-activity.change": # "Latest changes"
+"panel.latest-activity.created": # "Created"
+"panel.latest-activity.deleted": # "Deleted"
+"panel.latest-activity.system": # "Latest system activity"
 
-#--- 292 translations ---------------------------------------------------------
+#--- 266 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% № %id%"
-"%s files could not be deleted. You should delete them manually.": "%s 不能被刪除。你需要手動刪除這些檔案。"
 "(default template)": "(默認模板)"
 "(no category)": "(沒有分類)"
 "(no group)": "(沒有分組)"
@@ -238,7 +238,6 @@
 "Alas, no about!": "沒有關於資訊"
 "All content types": "所有內容格式"
 "All users": "所有使用者"
-"Alt": "Alt"
 "Anonymous": "匿名"
 "Are you sure you want to delete %username%?": "確定要刪除 %username% 嗎？"
 "Author:": "作者："
@@ -256,10 +255,9 @@
 "Change Log": "變更紀錄"
 "Change status to 'draft'": "將狀態更改為 '草稿'"
 "Change status to 'held'": "將狀態更改為 '保留'"
-"Chapter": "章節"
-"Chapters": "章節"
 "Check again": "再次檢查"
 "Check database": "檢查資料庫"
+"Choose an entry": "選擇條目"
 "Class:": "分級:"
 "Clear cache again": "再次清理快取"
 "Clear filter": "清理過濾器"
@@ -272,7 +270,6 @@
 "Content": "內容"
 "Content '%title%' could not be modified.": "不能修改內容 '%title%'。"
 "Content Type Permissions": "內容格式的許可權"
-"Content for home not found!": "未找到首頁！"
 "Contenttypes": "內容格式"
 "Create folder": "創建資料夾"
 "Create the first user": "創建第一個使用者"
@@ -288,7 +285,6 @@
 "Delete %filename%": "刪除 %filename%"
 "Delete %foldername%": "刪除 %foldername%"
 "Delete %username%": "刪除 %username%"
-"Deleted %s files from cache.": "已從快取中刪除 %s 個檔案。"
 "Depublication date:": "撤除日期："
 "Deselect all": "取消全選"
 "Detail template": "詳情頁模板"
@@ -301,10 +297,9 @@
 "Edit Roles and Permissions": "編輯腳色與權限"
 "Edit file": "編輯檔案"
 "Enable %username%": "啟用 %username%"
-"Everybody": "Everybody"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
-"Extensions": "擴展"
+"Extensions": "檢視/安裝擴展"
 "Extras": "附加功能"
 "File": "檔案"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
@@ -331,9 +326,7 @@
 "Geolocation": "地理位置"
 "Global Permissions": "全局許可權"
 "Hints:": "提示："
-"Html": "Html"
 "IP address": "IP 地址"
-"Id": "Id"
 "Image": "影象"
 "Imagelist": "影象列表"
 "Info": "資訊"
@@ -341,14 +334,12 @@
 "Last edited on:": "上一次編輯於:"
 "Last known IP": "上一次 IP"
 "Last seen": "上次登入"
-"Latest entries": "最新的條目"
 "Listing template": "列表頁模板"
 "Login": "登入"
 "Logout": "登出"
 "Long messages": "長資訊"
 "Main configuration": "主配置檔案"
 "Maintenance": "維護"
-"Markdown": "Markdown"
 "Menu setup": "設定選單"
 "Message:": "訊息:"
 "Messages": "訊息"
@@ -403,7 +394,6 @@
 "Saving …": "正在儲存 …"
 "Search": "搜索"
 "Search for …": "搜索 …"
-"Search results for <b> %search% </b>.": "<b> %search% </b> 的搜索結果。"
 "Search …": "搜索 …"
 "Select": "選擇"
 "Select a page": "選擇一個頁面"
@@ -421,11 +411,8 @@
 "Size": "大小"
 "Skipped <tt>%key%</tt> (already has records)": "跳過 <tt>%key%</tt> (已有記錄)"
 "Skipped <tt>%key%</tt> (not checked)": "跳過 <tt>%key%</tt> (已檢查)"
-"Slug": "Slug"
-"Slug:": "Slug:"
 "Something went wrong": "有些不對勁"
 "Sophisticated, lightweight & simple CMS": "精緻、輕量、簡潔的 CMS"
-"Stack": "Stack"
 "Status:": "狀態："
 "Tag": "標籤"
 "Tags": "標籤"
@@ -436,8 +423,6 @@
 "That user does not exist.": "那個使用者不存在。"
 "The change log has been cleared.": "變更紀錄已被清除。"
 "The change log has been trimmed.": "變更紀錄已被縮減。"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "資料庫需要更新/修復 。前往 '設定' > '<a href=\"%link%\">檢查資料庫</a>' 完成此項工作。"
-"The field %field% has been changed to \"%newValue%\"": "欄位 %field% 已更改為 \"%newValue%\""
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "檔案 '%s' 不可寫。你需要自行使用編輯器修改檔案。"
 "The folder '%s' could not be found, or is not readable.": "無法找到資料夾 '%s'，或者它不可讀。"
 "The following file could not be read:": "不能讀取以下檔案："
@@ -487,14 +472,12 @@
 "View related content": "檢視相關內容"
 "View site": "檢視站點"
 "View/edit Templates": "檢視/編輯模板"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "reinstalling.\""
 "Written by <em>%name%</em> on %date%": "由<em>%name%</em>在%date%書寫"
 "You do not have the right privileges to edit that record.": "你沒有許可權編輯那條記錄。"
 "You do not have the right privileges to view that page.": "你沒有許可權檢視那個頁面。"
 "You don't have correct permissions to edit the file '%s'.": "你沒有許可權編輯檔案 '%s'。"
 "You don't have the correct permissions to display the file or directory '%s'.": "你沒有許可權顯示檔案/目錄 '%s'。"
 "You have been logged out.": "你已成功退出登入。"
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "你需要將 'app/config/config.yml' 中的 'homepage:' 欄位指向一條已存在的記錄，還需要確保記錄已釋出，否則它將不會顯示。"
 "You've been logged on successfully.": "你已成功登入。"
 "Your account is disabled. Sorry about that.": "非常抱歉，你的賬戶已被禁用。"
 "Your database is already up to date.": "資料庫已經是最新的。"
@@ -502,28 +485,21 @@
 "and edited": "及編輯於"
 "back to editing": "返回編輯"
 "by": "由"
-"general.about": "關於"
-"general.about-bolt": "關於 Bolt"
-"general.bolt-on-github": "Github 上的 Bolt"
 "line": "行"
-"logs.change-log": "變更紀錄"
-"logs.system-log": "系統紀錄"
 "no content …": "無內容 …"
 "no title …": "無標題 …"
 "none": "無"
 "of": "中的"
 "show all": "顯示全部"
-"users.actions-for-users": "使用者操作"
-"users.your-password": "你的密碼"
 
-#--- 171 keyword based translations -------------------------------------------
+#--- 137 keyword based translations -------------------------------------------
 
 component.changelog-detail.by: "由"
 component.changelog-detail.field: "欄位"
 component.changelog-detail.value-new: "新值"
 component.changelog-detail.value-old: "舊值"
 
-component.changelog-pager.page: "頁"
+component.changelog-pager.page: "頁面"
 
 contenttypes.generic.actions-all: "對%contenttypes%的操作"
 contenttypes.generic.actions-one: "對%contenttype%的操作"
@@ -533,8 +509,9 @@ contenttypes.generic.duplicate: "複製%contenttype%"
 contenttypes.generic.duplicated-finalize: "內容已複製。點選 '儲存%contenttype%' 以確認。"
 contenttypes.generic.edit: "編輯%contenttype%"
 contenttypes.generic.group.meta: "元"
-contenttypes.generic.group.relations: "關聯"
+contenttypes.generic.group.relations: "關係"
 contenttypes.generic.group.taxonomy: "分類"
+contenttypes.generic.group.template: "模板"
 contenttypes.generic.group.ungrouped: "未分組"
 contenttypes.generic.invalid-field: "未能設定%contenttype%的%field%欄位：欄位無效。"
 contenttypes.generic.last-modified: "最近修改的%contenttypes%"
@@ -548,7 +525,6 @@ contenttypes.generic.not-saved-yet: "這項%contenttype%尚未儲存。"
 contenttypes.generic.overview: "%contenttypes%一覽"
 contenttypes.generic.publish: "釋出%contenttype%"
 contenttypes.generic.recent: "歷史%contenttypes%"
-contenttypes.generic.recent-changes-one: "Recent changes to this %contenttype%"
 contenttypes.generic.recently-edited: "曾經編輯的%contenttypes%"
 contenttypes.generic.reserved-name: "“%contenttype%”的內容格式配置中，所設定的'%field%'欄位是保留字。請編輯contenttypes.yml檔案，修復此問題。"
 contenttypes.generic.save: "儲存%contenttype%"
@@ -569,6 +545,9 @@ field.geolocation.label.marker-placement: "放置標記"
 field.geolocation.matched-address: "匹配的地址"
 field.geolocation.placeholder.address: "街道、郵編、城市或者其他位置資訊"
 
+field.markdown.label.preview: "預覽"
+
+field.slug.button.edit: "編輯"
 field.slug.permalink: "永久連結"
 
 field.video.label.preview: "預覽圖片"
@@ -578,14 +557,22 @@ field.video.matched-video: "匹配的視訊"
 field.video.pixel: "畫素"
 field.video.placeholder.url: "Youtube、Vimeo 或者其他視訊網站的URL"
 
+general.about: "關於"
+
+general.about-bolt: "關於 Bolt"
+
+general.bolt-on-github: "Github 上的 Bolt"
+
 generic.noscript.headline: "JavaScript 已禁用"
 generic.noscript.message: "你的瀏覽器當前已禁用JavaScript。Bolt的大多數功能無需它的支援，但是為何獲得更好的體驗我們建議你啟用瀏覽器的JavaScript。"
 
-menu.configuration.routing: "路由設定"
+logs.change-log: "變更紀錄"
+
+logs.system-log: "系統紀錄"
 
 page.ckeditor-browse-server.files: "檔案"
 page.ckeditor-browse-server.folders: "資料夾"
-page.ckeditor-browse-server.modified: "修改時間"
+page.ckeditor-browse-server.modified: "已修改"
 page.ckeditor-browse-server.size: "檔案大小"
 page.ckeditor-browse-server.title: "檔案"
 
@@ -615,16 +602,14 @@ page.edit-users.error.password-short: "密碼太短，至少要有6個字元。"
 page.edit-users.error.username-used: "使用者名已被佔用，請選擇別的名稱。"
 page.edit-users.label.assigned-roles: "分配角色"
 page.edit-users.label.display-name: "顯示名"
-page.edit-users.label.email: "Email"
 page.edit-users.label.last-ip: "上一次IP"
-page.edit-users.label.last-seen: "上一次時間"
+page.edit-users.label.last-seen: "上次登入"
 page.edit-users.label.password: "密碼"
 page.edit-users.label.password-confirm: "密碼(確認)"
 page.edit-users.label.user-enabled: "啟用使用者"
 page.edit-users.label.username: "使用者名"
 page.edit-users.log.user-added: "已添加使用者 '%user%'。"
 page.edit-users.log.user-updated: "已更新使用者 '%user%'。"
-page.edit-users.message.change-self: "You've been logged off, because you changed your own username. Please log on again."
 page.edit-users.message.saving-user: "不能儲存使用者%user%，什麼也沒發生。"
 page.edit-users.message.user-saved: "已儲存使用者%user%。"
 page.edit-users.note-sqlite: "你當前正在使用 SQLite 資料庫設定第一個使用者，如果你想使用 MySQL 或者 PostgreSQL 的話，請編輯 <tt>'app/config/config.yml'</tt> 檔案，Bolt 會為你自動建立資料表。更換了資料庫以後，請重新整理頁面再繼續操作。"
@@ -640,47 +625,11 @@ page.edit-users.user-create: "使用下面的表單創建新使用者。密碼�
 page.edit-users.user-edit: "使用下面的表單編輯現有使用者。如果不想更改使用者密碼，就留空密碼欄位。"
 
 page.extend.button.browse-versions: "檢視版本"
-page.extend.button.info-help: "更多資訊/幫助"
 page.extend.button.install-all: "安裝所有包"
 page.extend.button.update-all: "運行全部更新"
 page.extend.button.update-check: "運行更新檢查"
-page.extend.headline.currently-installed: "已經安裝的擴展"
-page.extend.headline.install-new-extension: "安裝新擴展"
-page.extend.headline.installation-complete: "安裝完成"
-page.extend.headline.installing-package: "正在安裝包"
-page.extend.headline.stable-versions: "穩定版本"
-page.extend.headline.test-versions: "不穩定測試版本"
-page.extend.headline.theme-installation-complete: "主題安裝完畢"
-page.extend.headline.updates: "更新"
 page.extend.listheader.actions: "操作"
-page.extend.listheader.extension: "擴展"
-page.extend.listheader.status: "狀態"
-page.extend.listheader.version: "版本"
-page.extend.message.add-extension-with-form: "請用下列表單添加新擴展，"
-page.extend.message.before-theme-start: "在能將主題應用到站點之前，需要將主題複製到theme目錄中。如果想給主題指定另一個名稱，可以在此處添加一個。"
-page.extend.message.check-for-updates: "檢查更新"
-page.extend.message.checking-installed-packages: "檢查已安裝的包"
-page.extend.message.checkung-for-updates: "檢查可用更新 (最多可能需要60秒)"
-page.extend.message.compatible-unstable-versions: "以下列出的版本與你當前使用的 Bolt 版本相容。由於這些是不穩定版本，我們建議你<strong>不要</strong>在生產環境中使用。"
-page.extend.message.copying: "拷貝佈景相關資源中…"
-page.extend.message.discover-by-visiting: "要查找新擴展，請訪問"
-page.extend.message.install-all: "正在安裝所有包 …"
-page.extend.message.installing: "準備安裝包 …"
-page.extend.message.installing-selected-package: "安裝選擇的包版本 (最多可能需要60秒)。"
-page.extend.message.installs-all-listed-packages: "這將確保列出的所有包都會安裝。如果你遷移到了新伺服器，或者手動添加了擴展，就可以使用這個選項。"
-page.extend.message.installs-updates: "這將安裝所有可用更新。"
-page.extend.message.marked-as-stable: "以下列出的版本由開發者標記為穩定版，與你當前使用的 Bolt 版本相容。"
-page.extend.message.no-package-check-in-readmode: "無法在只讀模式下檢查已安裝的包"
-page.extend.message.no-stable-versions-available: "沒有可用的穩定版本"
-page.extend.message.no-test-versions-available: "沒有可用的測試版本"
-page.extend.message.no-update-check-in-readmode: "無法在只讀模式下檢查更新"
-page.extend.message.overwrite: "這會覆蓋任何存在的檔案！你確定嗎？"
-page.extend.message.removing: "準備解除安裝包 …"
-page.extend.message.shows-updates: "不會安裝任何東西，只顯示可用的更新。"
-page.extend.message.start-using-extension: "現在你可以開始使用安裝的擴展。文件和實現說明可以在下面的連結中找到。"
-page.extend.message.updated: "已保持最新狀態！"
-page.extend.message.updating: "搜索可用更新 …"
-page.extend.pagetitle: "展開 %BOLTNAME%"
+page.extend.message.maintenance: "維護"
 
 page.login.button.back: "返回登入"
 page.login.button.forgot-password: "我忘記了自己的密碼"
@@ -696,13 +645,13 @@ page.login.title: "登入 Bolt"
 
 panel.latest-activity.button.more: "更多活動日誌"
 panel.latest-activity.by: "由"
-panel.latest-activity.change: "Latest changes"
-panel.latest-activity.created: "Created"
-panel.latest-activity.deleted: "Deleted"
 panel.latest-activity.logged-in: "登入"
 panel.latest-activity.logged-out: "登出"
 panel.latest-activity.saved: "已儲存"
-panel.latest-activity.system: "Latest system activity"
 panel.latest-activity.unknown: "未知"
 
 panel.user-actions.button.add: "添加新使用者"
+
+users.actions-for-users: "使用者操作"
+
+users.your-password: "你的密碼"

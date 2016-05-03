@@ -1,35 +1,61 @@
-# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2016-03-15 17:17:00 Europe/Berlin
+# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2016-05-02 21:07:28 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   4 unused messages
+#  no unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#  12 untranslated keyword based messages
 #  no translations
-# 103 keyword based translations
+# 129 keyword based translations
 
-#--- 4 unused messages --------------------------------------------------------
+#--- 12 untranslated keyword based messages -----------------------------------
 
-"contenttypes.entries.text.error-saving": "Er is een fout opgetreden bij het opslaan van dit bericht"
-"contenttypes.pages.text.error-saving": "Er is een fout opgetreden bij het opslaan van deze pagina."
-"contenttypes.showcases.group.meta": "Meta"
-"contenttypes.showcases.text.error-saving": "Er is een probleem opgetreden bij het opslaan van deze showcase."
-
-#--- 5 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Bericht', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Pagina', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 
-#--- 103 keyword based translations -------------------------------------------
+#--- 129 keyword based translations -------------------------------------------
+
+contenttypes.blocks.group.block: "Blok"
+contenttypes.blocks.name.plural: "Blokken"
+contenttypes.blocks.name.singular: "Blok"
+contenttypes.blocks.text.actions-all: "Mogelijkheden voor Blokken"
+contenttypes.blocks.text.actions-one: "Mogelijkheden voor dit Blok"
+contenttypes.blocks.text.created: "Het Blok is aangemaakt"
+contenttypes.blocks.text.delete: "Blok Verwijderen"
+contenttypes.blocks.text.duplicate: "Blok Dupliceren"
+contenttypes.blocks.text.duplicated-finalize: "Content is gedupliceerd. Klik op 'Blok Opslaan' om af te ronden."
+contenttypes.blocks.text.edit: "Blok Bewerken"
+contenttypes.blocks.text.new: "Nieuw Blok"
+contenttypes.blocks.text.no-latest: "Geen recente Blokken"
+contenttypes.blocks.text.none-available: "Geen Blokken beschikbaar."
+contenttypes.blocks.text.overview: "Blokken overzicht"
+contenttypes.blocks.text.publish: "Blok Publiceren"
+contenttypes.blocks.text.recent: "Recente Blokken"
+contenttypes.blocks.text.recent-changes-one: "Recente wijzigingen aan dit Blok"
+contenttypes.blocks.text.recently-edited: "Recent gewijzigde Blokken"
+contenttypes.blocks.text.reserved-name: "Het veld '%field%' in het contenttype voor 'Block', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
+contenttypes.blocks.text.save: "Blok Opslaan"
+contenttypes.blocks.text.saved-changes: "De wijzigingen aan het Blok zijn opgeslagen."
+contenttypes.blocks.text.saved-new: "Het nieuwe Blok is opgeslagen."
+contenttypes.blocks.text.saving-impossible: "Het Blok kon niet worden opgeslagen."
+contenttypes.blocks.text.show-more: "Meer Blokken"
+contenttypes.blocks.text.view: "Blokken bekijken"
 
 contenttypes.entries.description: "Het **Berichten** contenttype kan worden gebruikt voor zaken als _'nieuws'_ of _'blogposts'_. Ze hebben een teaser, die kan worden gebruikt voor een introductie van op overzichtpagina's, zodat bezoekers door kunnen klikken naar de rest van het bericht. Er kan ook een afbeelding en optioneel een video aan toegevoegd worden. Om de velden die in dit contenttype te veranderen, bewerkt u het bestand `contenttypes.yml` in de map `app/config/`, met behulp van uw eigen editor, of door naar 'Configuratie' » 'Contenttypen' aan te klikken in het menu aan de linkerkant."
 contenttypes.entries.group.content: "Content"
@@ -55,7 +81,7 @@ contenttypes.entries.text.not-saved-yet: "Dit bericht is nog niet opgeslagen."
 contenttypes.entries.text.overview: "Berichten overzicht"
 contenttypes.entries.text.publish: "Publiceer bericht"
 contenttypes.entries.text.recent: "Recente berichten"
-contenttypes.entries.text.recent-changes-one: "Recente wijzigen aan dit bericht"
+contenttypes.entries.text.recent-changes-one: "Recente wijziging van dit Bericht"
 contenttypes.entries.text.recently-edited: "Recent gewijzigde berichten"
 contenttypes.entries.text.reserved-name: "Het veld '%field%' in het contenttype voor 'Entry', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
 contenttypes.entries.text.save: "Bericht opslaan"
@@ -89,7 +115,7 @@ contenttypes.pages.text.not-saved-yet: "Deze pagina is nog niet opgeslagen."
 contenttypes.pages.text.overview: "Pagina's overzicht"
 contenttypes.pages.text.publish: "Publiceer pagina"
 contenttypes.pages.text.recent: "Recente pagina's"
-contenttypes.pages.text.recent-changes-one: "Recente wijzigen aan deze pagina"
+contenttypes.pages.text.recent-changes-one: "Recente wijziging van deze pagina"
 contenttypes.pages.text.recently-edited: "Recent gewijzigde pagina's"
 contenttypes.pages.text.reserved-name: "Het veld '%field%' in het contenttype voor 'Page', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
 contenttypes.pages.text.save: "Pagina opslaan"
@@ -104,9 +130,10 @@ contenttypes.showcases.description: "Het **Showcases** contenttype wordt gebruik
 contenttypes.showcases.group.files: "Bestanden"
 contenttypes.showcases.group.media: "Media"
 contenttypes.showcases.group.other: "Anders"
+contenttypes.showcases.group.repeater: "Repeater"
 contenttypes.showcases.group.text: "Tekst"
-contenttypes.showcases.name.plural: "Showcases"
-contenttypes.showcases.name.singular: "Showcase"
+contenttypes.showcases.name.plural: "Voorbeelden"
+contenttypes.showcases.name.singular: "Voorbeeld"
 contenttypes.showcases.text.actions-all: "Handelingen voor showcases"
 contenttypes.showcases.text.actions-one: "Handelingen voor deze showcase"
 contenttypes.showcases.text.created: "De showcase is aangemaakt"
@@ -126,7 +153,7 @@ contenttypes.showcases.text.not-saved-yet: "Deze showcase is nog niet opgeslagen
 contenttypes.showcases.text.overview: "Showcases overzicht"
 contenttypes.showcases.text.publish: "Publiceer showcase"
 contenttypes.showcases.text.recent: "Recente showcases"
-contenttypes.showcases.text.recent-changes-one: "Recente wijzigen aan deze Showcase"
+contenttypes.showcases.text.recent-changes-one: "Recente wijziging van deze Showcase"
 contenttypes.showcases.text.recently-edited: "Recent gewijzigde showcases"
 contenttypes.showcases.text.reserved-name: "Het veld '%field%' in het contenttype voor 'Showcase', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
 contenttypes.showcases.text.save: "Showcase opslaan"

@@ -1,34 +1,63 @@
-# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2016-03-15 17:19:56 Europe/Berlin
+# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2016-05-02 20:55:35 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
+#  no unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#  40 untranslated keyword based messages
 #  no translations
-# 103 keyword based translations
+# 101 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 40 untranslated keyword based messages -----------------------------------
 
-"contenttypes.entries.text.error-saving": "Při ukládání  nastala chyba."
-"contenttypes.pages.text.error-saving": "Při ukládání strany nastala chyba."
-"contenttypes.showcases.text.error-saving": "Při ukládání ukázky nastala chyba."
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.group.block": # "Block"
+"contenttypes.blocks.name.plural": # "Blocks"
+"contenttypes.blocks.name.singular": # "Block"
+"contenttypes.blocks.text.actions-all": # "Actions for Blocks"
+"contenttypes.blocks.text.actions-one": # "Actions for this Block"
+"contenttypes.blocks.text.created": # "This Block was created"
+"contenttypes.blocks.text.delete": # "Delete Block"
+"contenttypes.blocks.text.duplicate": # "Duplicate Block"
+"contenttypes.blocks.text.duplicated-finalize": # "Content was duplicated. Click 'Save Block' to finalize."
+"contenttypes.blocks.text.edit": # "Edit Block"
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.new": # "New Block"
+"contenttypes.blocks.text.no-latest": # "No latest Block"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.none-available": # "No Blocks available."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.overview": # "Blocks overview"
+"contenttypes.blocks.text.publish": # "Publish Block"
+"contenttypes.blocks.text.recent": # "Recent Blocks"
+"contenttypes.blocks.text.recent-changes-one": # "Recent changes to this Block"
+"contenttypes.blocks.text.recently-edited": # "Recently edited Blocks"
+"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.save": # "Save Block"
+"contenttypes.blocks.text.saved-changes": # "The changes to the Block have been saved."
+"contenttypes.blocks.text.saved-new": # "The new Block has been saved."
+"contenttypes.blocks.text.saving-impossible": # "Could not save Block."
+"contenttypes.blocks.text.show-more": # "More Blocks"
+"contenttypes.blocks.text.view": # "View Blocks"
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.recent-changes-one": # "Recent change to this Entry"
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.recent-changes-one": # "Recent change to this Page"
+"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.recent-changes-one": # "Recent change to this Showcase"
 
-#--- 5 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Novinka', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Strana', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Ukázka', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-
-#--- 103 keyword based translations -------------------------------------------
+#--- 101 keyword based translations -------------------------------------------
 
 contenttypes.entries.description: "Typ obsahu **Novinky** může být použit pro obsah typu _'Novinky'_ nebo _'Blog'_. Mají teaser, který může být použít jako přehled / anotace na stránkách s výpisy, umožňujíc nášvštěvníkům procházet zbytek příspěvku. Obsahuje také obrázek či volitelně video. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
 contenttypes.entries.group.content: "Obsah"
@@ -54,7 +83,6 @@ contenttypes.entries.text.not-saved-yet: "Novinka zatím nebyla uloženo."
 contenttypes.entries.text.overview: "Přehled Novinek"
 contenttypes.entries.text.publish: "Publikovat novinku"
 contenttypes.entries.text.recent: "Poslední novinky"
-contenttypes.entries.text.recent-changes-one: "Poslední změny této Novinky"
 contenttypes.entries.text.recently-edited: "Poslední úpravy:"
 contenttypes.entries.text.reserved-name: "Typ obsahu 'Novinka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
 contenttypes.entries.text.save: "Uložit Novinku"
@@ -88,7 +116,6 @@ contenttypes.pages.text.not-saved-yet: "Strana zatím nebyla uložena."
 contenttypes.pages.text.overview: "Přehled stran"
 contenttypes.pages.text.publish: "Publikovat stranu"
 contenttypes.pages.text.recent: "Poslední strany"
-contenttypes.pages.text.recent-changes-one: "Poslední změny této Strany"
 contenttypes.pages.text.recently-edited: "Poslední úpravy:"
 contenttypes.pages.text.reserved-name: "Typ obsahu 'Strana' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
 contenttypes.pages.text.save: "Uložit Stranu"
@@ -103,6 +130,7 @@ contenttypes.showcases.description: "Typ obsahu **Ukázky** je typ obsahu určen
 contenttypes.showcases.group.files: "Soubory"
 contenttypes.showcases.group.media: "Média"
 contenttypes.showcases.group.other: "Další"
+contenttypes.showcases.group.repeater: "Opakovací pole"
 contenttypes.showcases.group.text: "Texty"
 contenttypes.showcases.name.plural: "Ukázky"
 contenttypes.showcases.name.singular: "Ukázka"
@@ -125,7 +153,6 @@ contenttypes.showcases.text.not-saved-yet: " zatím neuloženo."
 contenttypes.showcases.text.overview: " přehled"
 contenttypes.showcases.text.publish: "Publikovat "
 contenttypes.showcases.text.recent: "Poslední "
-contenttypes.showcases.text.recent-changes-one: "Poslední změny této Ukázky"
 contenttypes.showcases.text.recently-edited: "Poslední úpravy: "
 contenttypes.showcases.text.reserved-name: "Typ obsahu 'Ukázka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
 contenttypes.showcases.text.save: "Uložit Ukázku"
