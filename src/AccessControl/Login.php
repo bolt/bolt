@@ -303,19 +303,22 @@ class Login extends AccessChecker
      */
     protected function updateAuthToken($userEntity)
     {
-        $salt = $this->randomGenerator->generateString(32);
+        $username = $userEntity->getUsername();
+        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+        $tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent());
 
-        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent())) {
+        if ($tokenEntity) {
+            $token = $tokenEntity->getToken();
+        } else {
+            $salt = $this->randomGenerator->generateString(32);
+            $token = $this->getAuthToken($username, $salt);
+
             $tokenEntity = new Entity\Authtoken();
+            $tokenEntity->setUsername($userEntity->getUsername());
+            $tokenEntity->setToken($token);
+            $tokenEntity->setSalt($salt);
         }
 
-        $username = $userEntity->getUsername();
-        $token = $this->getAuthToken($username, $salt);
-        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
-
-        $tokenEntity->setUsername($userEntity->getUsername());
-        $tokenEntity->setToken($token);
-        $tokenEntity->setSalt($salt);
         $tokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
         $tokenEntity->setIp($this->getClientIp());
         $tokenEntity->setLastseen(Carbon::now());
