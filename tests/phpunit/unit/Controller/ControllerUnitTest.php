@@ -18,6 +18,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
     protected function setRequest(Request $request)
     {
         $this->getApp()->offsetSet('request', $request);
+        $this->getApp()->offsetGet('request_stack')->push($request);
     }
 
     /**
