@@ -68,6 +68,16 @@ $global-weight-bold: bold;
 $global-radius: 0;
 $global-text-direction: ltr;
 
+// Set the global Foundation palette.
+// @see: http://foundation.zurb.com/sites/docs/global.html#colors
+$foundation-palette: (
+  primary: #2199E8,
+  secondary: #777777,
+  success: #3ADB76,
+  warning: #FFAE00,
+  alert: #EC5840,
+) !default;
+
 // 2. Breakpoints
 // --------------
 
