@@ -12,9 +12,9 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-# 142 keyword based translations
+# 141 keyword based translations
 
-#--- 142 keyword based translations -------------------------------------------
+#--- 141 keyword based translations -------------------------------------------
 
 contenttypes.blocks.description: "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
 contenttypes.blocks.group.block: "Block"
@@ -127,7 +127,6 @@ contenttypes.showcases.group.files: "Files"
 contenttypes.showcases.group.media: "Media"
 contenttypes.showcases.group.other: "Other"
 contenttypes.showcases.group.repeater: "Repeater"
-contenttypes.showcases.group.template: "Template"
 contenttypes.showcases.group.text: "Text"
 contenttypes.showcases.name.plural: "Showcases"
 contenttypes.showcases.name.singular: "Showcase"

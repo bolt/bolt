@@ -1,4 +1,4 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-03-20 18:19:20 Europe/Berlin
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-05-03 15:30:34 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -11,7 +11,7 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 395 translations
+# 391 translations
 # 215 keyword based translations
 
 #--- 395 translations ---------------------------------------------------------
@@ -61,8 +61,6 @@
 "Change Log": "Change Log"
 "Change status to 'draft'": "Change status to 'draft'"
 "Change status to 'held'": "Change status to 'held'"
-"Chapter": "Chapter"
-"Chapters": "Chapters"
 "Check again": "Check again"
 "Check database": "Check database"
 "Check/Uncheck all": "Check/Uncheck all"
@@ -84,7 +82,6 @@
 "Content": "Content"
 "Content '%title%' could not be modified.": "Content '%title%' could not be modified."
 "Content Type Permissions": "Content Type Permissions"
-"Content for home not found!": "Content for home not found!"
 "Contenttypes": "Contenttypes"
 "Create File": "Create File"
 "Create folder": "Create folder"
@@ -124,6 +121,7 @@
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
+"Extend": "Extend"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
 "Extension server returned an error: %errormessage%": "Extension server returned an error: %errormessage%"
@@ -159,6 +157,8 @@
 "Generic failure while testing connection to extension server: %errormessage%": "Generic failure while testing connection to extension server: %errormessage%"
 "Geolocation": "Geolocation"
 "Global Permissions": "Global Permissions"
+"Group": "Group"
+"Groups": "Groups"
 "Has to be a floating point number!": "Has to be a floating point number!"
 "Hints:": "Hints:"
 "Html": "Html"
@@ -178,7 +178,6 @@
 "Last edited on:": "Last edited on:"
 "Last known IP": "Last known IP"
 "Last seen": "Last seen"
-"Latest entries": "Latest entries"
 "Link": "Link"
 "Listing template": "Listing template"
 "Live Edit": "Live Edit"
@@ -249,7 +248,6 @@
 "Read more": "Read more"
 "Records": "Records"
 "Related content": "Related content"
-"Related content:": "Related content:"
 "Relationships": "Relationships"
 "Rename %foldername%": "Rename %foldername%"
 "Repeater": "Repeater"
@@ -394,7 +392,6 @@
 "You have been logged out.": "You have been logged out."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown."
 "You've been logged on successfully.": "You've been logged on successfully."
 "Your account is disabled. Sorry about that.": "Your account is disabled. Sorry about that."
 "Your database is already up to date.": "Your database is already up to date."
