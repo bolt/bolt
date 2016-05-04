@@ -141,7 +141,8 @@ class PermissionParser
      *
      * @param $what
      *
-     * @throws Exception Parser or lexer errors are thrown as
+     * @throws PermissionLexerException
+     * @throws PermissionParserException
      *
      * @return array A parse tree.
      */
@@ -155,7 +156,7 @@ class PermissionParser
      *
      * @param $query
      *
-     * @throws \Bolt\Exception\PermissionLexerException
+     * @throws PermissionLexerException
      *
      * @return array
      */
