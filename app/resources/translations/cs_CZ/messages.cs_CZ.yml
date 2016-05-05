@@ -25,7 +25,6 @@
 "Extend": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Html": #
-"Id (№)": #
 "Info": #
 "Live Edit": #
 "Markdown": #
@@ -102,7 +101,6 @@
 
 #--- 365 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% č. %id%"
 "(default template)": "(standardní šablona)"
 "(no category)": "(bez kategorie)"
 "(no group)": "(nezařazení do skupiny)"

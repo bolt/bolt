@@ -36,7 +36,6 @@
 
 #--- 381 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% N.º %id%"
 "(default template)": "(tema padrão)"
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
@@ -183,7 +182,6 @@
 "Html": "HTML"
 "IP address": "Endereço IP"
 "Id": "ID"
-"Id (№)": "ID (N.º)"
 "Image": "Imagem"
 "Imagelist": "Lista de imagens"
 "Info": "Informações"

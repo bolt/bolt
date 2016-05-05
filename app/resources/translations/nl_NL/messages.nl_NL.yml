@@ -35,7 +35,6 @@
 
 #--- 375 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% № %id%"
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
 "(no group)": "(geen groep)"
@@ -177,7 +176,6 @@
 "Html": "Html"
 "IP address": "IP-adres"
 "Id": "Id"
-"Id (№)": "Id (№)"
 "Image": "Afbeelding"
 "Imagelist": "Afbeeldingenlijst"
 "Info": "Info"

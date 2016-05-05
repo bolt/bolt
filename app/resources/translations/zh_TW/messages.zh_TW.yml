@@ -16,7 +16,6 @@
 
 #--- 125 untranslated messages ------------------------------------------------
 
-"%name% № %id%": #
 "Add Selected": #
 "Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
@@ -62,7 +61,6 @@
 "Has to be a floating point number!": #
 "Html": #
 "Id": #
-"Id (№)": #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #

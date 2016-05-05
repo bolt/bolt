@@ -16,7 +16,6 @@
 
 #--- 202 untranslated messages ------------------------------------------------
 
-"%name% № %id%": #
 "(none)": #
 "Add Selected": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -89,7 +88,6 @@
 "Hints:": #
 "Html": #
 "Id": #
-"Id (№)": #
 "Imagelist": # "Image list"
 "Info": #
 "Integerfield": # "Integer field"

@@ -57,7 +57,6 @@
 
 #--- 358 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% № %id%"
 "(default template)": "(standardmall)"
 "(no category)": "(ingen kategori)"
 "(no group)": "(ingen grupp)"
@@ -193,7 +192,6 @@
 "Html": "Html"
 "IP address": "IP adress"
 "Id": "ID"
-"Id (№)": "ID (№)"
 "Image": "Bild"
 "Imagelist": "Bildlista"
 "Info": "Information"

@@ -74,7 +74,6 @@
 "Has to be a floating point number!": #
 "Hints:": #
 "Id": #
-"Id (№)": #
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
@@ -312,7 +311,6 @@
 
 #--- 222 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name%　ID: %id%"
 "(default template)": "（デフォルトテンプレート）"
 "(no category)": "（カテゴリなし）"
 "(no group)": "（グループなし）"

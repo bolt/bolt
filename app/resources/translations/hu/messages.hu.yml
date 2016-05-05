@@ -35,7 +35,6 @@
 "Groups": #
 "Html": #
 "Id": #
-"Id (№)": #
 "Info": #
 "Link": #
 "Live Edit": #
@@ -94,7 +93,6 @@
 
 #--- 338 translations ---------------------------------------------------------
 
-"%name% № %id%": "[%id%] %name%"
 "(default template)": "(alapértelmezett sablon)"
 "(no category)": "(nincs kategória)"
 "(no group)": "(nincs csoport)"

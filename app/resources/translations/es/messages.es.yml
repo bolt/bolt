@@ -16,7 +16,6 @@
 
 #--- 60 untranslated messages -------------------------------------------------
 
-"%name% № %id%": #
 "Add Selected": #
 "Alt": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
@@ -287,7 +286,6 @@
 "Has to be a floating point number!": "Tiene que ser un número de coma flotante!"
 "Hints:": "Consejos"
 "IP address": "Dirección IP"
-"Id (№)": "Id (№)"
 "Image": "Imagen"
 "Imagelist": "Lista de imágenes"
 "Integerfield": "Campo Entero"

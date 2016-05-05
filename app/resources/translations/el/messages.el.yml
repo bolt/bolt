@@ -95,7 +95,6 @@
 "Hints:": #
 "Html": #
 "Id": #
-"Id (№)": #
 "Imagelist": # "Image list"
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #
@@ -418,7 +417,6 @@
 
 #--- 167 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% # %id%"
 "(default template)": "(standardní šablona)"
 "(no category)": "(χωρίς κατηγορία)"
 "(no group)": "(χωρίς ομάδα)"

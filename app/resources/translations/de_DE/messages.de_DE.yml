@@ -84,7 +84,6 @@
 
 #--- 355 translations ---------------------------------------------------------
 
-"%name% № %id%": "%name% Nr. %id%"
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
 "(no group)": "(keine Gruppe)"
@@ -219,7 +218,6 @@
 "Html": "HTML"
 "IP address": "IP Adresse"
 "Id": "ID"
-"Id (№)": "Id (№)"
 "Image": "Bild"
 "Imagelist": "Bilderliste"
 "Info": "Info"

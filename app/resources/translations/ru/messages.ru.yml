@@ -64,7 +64,6 @@
 "Hints:": #
 "Html": #
 "Id": #
-"Id (№)": #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
@@ -240,7 +239,6 @@
 
 #--- 256 translations ---------------------------------------------------------
 
-"%name% № %id%": "%Имя% № %id%"
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
 "(no group)": "(нет группы)"

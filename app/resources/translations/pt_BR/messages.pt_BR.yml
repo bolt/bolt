@@ -16,7 +16,6 @@
 
 #--- 133 untranslated messages ------------------------------------------------
 
-"%name% № %id%": #
 "Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
@@ -59,7 +58,6 @@
 "Group": #
 "Groups": #
 "Has to be a floating point number!": #
-"Id (№)": #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #

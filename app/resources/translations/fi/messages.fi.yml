@@ -16,7 +16,6 @@
 
 #--- 77 untranslated messages -------------------------------------------------
 
-"%name% № %id%": #
 "Add Selected": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -45,7 +44,6 @@
 "Group": #
 "Groups": #
 "Html": #
-"Id (№)": #
 "Info": #
 "Invalid login parameters.": #
 "Link": #
