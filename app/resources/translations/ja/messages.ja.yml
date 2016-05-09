@@ -60,7 +60,7 @@ general.phrase.edit-role-permissions: #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
 general.phrase.extras: #
-"Failed to clear cache. You should delete it manually.": #
+general.phrase.error-cache-clear: #
 "Failed to send password request. Please check the email settings.": #
 "Field “%FIELD_NAME%”:": #
 "File '%s' could not be saved, because the form wasn't valid.": #

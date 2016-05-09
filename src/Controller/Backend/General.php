@@ -86,7 +86,7 @@ class General extends BackendBase
         if ($result) {
             $this->flashes()->success(Trans::__('general.phrase.clear-cache-complete'));
         } else {
-            $this->flashes()->error(Trans::__('Failed to clear cache. You should delete it manually.'));
+            $this->flashes()->error(Trans::__('general.phrase.error-cache-clear'));
         }
 
         return $this->render('@bolt/clearcache/clearcache.twig');

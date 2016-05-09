@@ -38,7 +38,7 @@ general.phrase.duplicate-set: #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Failed to clear cache. You should delete it manually.": #
+general.phrase.error-cache-clear: #
 "Files could not be uploaded.": #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
