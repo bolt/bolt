@@ -361,7 +361,7 @@ page.extend.theme.generation.success: "Das Theme wurde erfolgreich generiert. Si
 general.phrase.stack-empty: "Noch keine Dateien auf dem Stapel."
 general.phrase.not-saved: "Noch keine gespeicherten Änderungen vorhanden."
 general.phrase.users-none-create-first: "Es gibt keine Benutzer in der Datenbank. Bitte erstellen Sie den ersten Benutzer."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
+general.phrase.users-none-create-first-extended: "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 "There is no undo!": "Es gibt kein Zurück!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Es sollte immer mindestens einen 'root' Benutzer geben. Sie wurden soeben befördert. Glückwunsch!"
 "This is a checkbox": "Das ist ein Kontrollkästchen"

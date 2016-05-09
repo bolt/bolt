@@ -174,7 +174,7 @@ general.phrase.directory-not-found-writable: #
 page.extend.theme.generation.success: #
 general.phrase.stack-empty: #
 general.phrase.not-saved: #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
+general.phrase.users-none-create-first-extended: #
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "There is no undo!": #
 "This record is related to the following %CTNAME%:": #

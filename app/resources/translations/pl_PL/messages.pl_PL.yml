@@ -418,7 +418,7 @@ page.extend.theme.generation.success: "Skórka wygenerowana z powodzeniem. Teraz
 general.phrase.stack-empty: "Nie ma jeszcze żadnych rzeczy na stosie."
 general.phrase.not-saved: "Nie zapisano jeszcze żadnych zmian."
 general.phrase.users-none-create-first: "Nie ma żadnych użytkowników w bazie danych. Proszę utworzyć pierwszego użytkownika."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Brak użytkowników w systemie. Proszę utworzyć pierwszego użytkownika, który uzyska uprawnienia root."
+general.phrase.users-none-create-first-extended: "Brak użytkowników w systemie. Proszę utworzyć pierwszego użytkownika, który uzyska uprawnienia root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Zawsze powinien być co najmniej jeden użytkownik 'root'. Właśnie awansowałeś. Gratulacje!"
 "This is a checkbox": "To jest checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."

@@ -387,7 +387,7 @@ page.extend.theme.generation.success: "Šablona úspěšně nainstalována. Nyn�
 general.phrase.stack-empty: "V Zásobníku nejsou zatím žádné položky."
 general.phrase.not-saved: "Zatím nebyly uloženy žádné změny."
 general.phrase.users-none-create-first: "V databázi není žádný uživatel. Vytvořte prosím prvního uživatele."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "V systému nejsou žádní uživatelé. Prosím vytvořte prvního uživatele, kterému bude poskytnuto oprávnění root."
+general.phrase.users-none-create-first-extended: "V systému nejsou žádní uživatelé. Prosím vytvořte prvního uživatele, kterému bude poskytnuto oprávnění root."
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Zatím neexistuje žádný blok s url 'o-nas' nebo 'about-us'. Pokud ho vytvoříte, objeví se právě zde.. Můžeho také vygenerovat jako vzorový obsah pomocí 'Nastavení' > 'Ověřit databázi' a volbou 'Vygenerovat vzorový obsah'."
 "There is no undo!": "Funkce Zpět zde není k dispozici!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Vždy musí být alespoň jeden uživatel s právy 'root'. Gratulujeme! Právě jste byl/a vybrán/a."

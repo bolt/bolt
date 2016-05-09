@@ -412,7 +412,7 @@ page.extend.theme.generation.success: "Teema luotiin onnistuneesti. Voit nyt muo
 general.phrase.stack-empty: "Ei kohteita pinossa, vielä."
 general.phrase.not-saved: "Ei tallennettuja muutoksia, vielä."
 general.phrase.users-none-create-first: "Tietokannassa ei ole käyttäjiä. Ole hyvä ja luo ensimmäinen käyttäjä."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Järjestelmässä ei ole käyttäjiä. Luo ensimmäinen käyttäjä, joka saa pääkäyttäjän oikeudet."
+general.phrase.users-none-create-first-extended: "Järjestelmässä ei ole käyttäjiä. Luo ensimmäinen käyttäjä, joka saa pääkäyttäjän oikeudet."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Täytyy olla vähintään yksi pääkäyttäjä. Sinut on juuri ylennetty. Onneksi olkoon!"
 "This is a checkbox": "Tämä on valintaruutu"
 "This template adds new fields. Save, then refresh to see these changes.": "Tämä sivupohja lisää kenttiä. Tallenna ja päivitä nähdäksesi muutokset."

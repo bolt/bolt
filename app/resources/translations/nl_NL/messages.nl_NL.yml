@@ -328,7 +328,7 @@ page.extend.theme.generation.success: "Thema aangemaakt! Je kunt de bestanden be
 general.phrase.stack-empty: "Nog geen bestanden op de Stack."
 general.phrase.not-saved: "Er zijn nog geen opgeslagen wijzigingen om te tonen."
 general.phrase.users-none-create-first: "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
+general.phrase.users-none-create-first-extended: "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
 "There is no undo!": "Dit kan niet ongedaan worden gemaakt!"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Er moet altijd minstens één 'root'-gebruiker zijn. Gefeliciteerd, je hebt promotie gekregen!"
 "This is a checkbox": "Dit is een checkbox"

@@ -442,7 +442,7 @@ general.phrase.file-not-readable-following-colon: "Следующие файлы
 "The translations file '%s' is not readable.": "Перевод '%s' недоступен для чтения."
 general.phrase.stack-empty: "В стеке пока файлов нет."
 general.phrase.users-none-create-first: "В базе данных нет пользователей. Пожалуйста, создайте одного."
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "В системе нет ни одного пользователя. Пожалуйста создайте одного, которому будут доступны root привилегии."
+general.phrase.users-none-create-first-extended: "В системе нет ни одного пользователя. Пожалуйста создайте одного, которому будут доступны root привилегии."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Всегда должен быть хотя бы один 'root' пользователь. Вы только что были повышены. Поздравляем!"
 "This is a checkbox": "Это чекбокс"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
