@@ -267,7 +267,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     {% endif %}
                     <li>
                         <a class="nolink">
-                            {{ __('Author:') }} <strong><i class="fa fa-user"></i>
+                            {{ __('general.phrase.author-colon') }} <strong><i class="fa fa-user"></i>
                                 {% if content.user.displayname is defined %}
                                     {{ content.user.displayname|trimtext(15) }}
                                 {% else %}
