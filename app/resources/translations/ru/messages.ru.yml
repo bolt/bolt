@@ -346,7 +346,7 @@ general.phrase.last-edited-on-colon: "Последнее редактирова�
 general.phrase.last-known-ip: "Последний известный IP"
 general.phrase.last-seen: "Последний раз заходил"
 general.phrase.listing-template: "Код шаблона"
-"Login": "Войти"
+general.phrase.login: "Войти"
 "Logout": "Выйти"
 "Long messages": "Длинные сообщения"
 "Main configuration": "Основная конфигурация"
