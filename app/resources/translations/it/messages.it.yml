@@ -50,7 +50,7 @@ general.phrase.clear-cache-complete: #
 general.phrase.change-current-status: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
-"Code:": #
+general.phrase.code-colon: #
 "Collapse sidebar": #
 "Content Type Permissions": #
 "Create File": #
