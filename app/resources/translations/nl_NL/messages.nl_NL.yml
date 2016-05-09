@@ -220,7 +220,7 @@ general.phrase.no-such-action-for-user: "Die actie kun je niet uitvoeren op gebr
 page.extend.theme.generation.missing.name: "Geen themanaam gevonden. Het thema is niet gegenereerd."
 general.phrase.none: "Geen"
 general.phrase.not-published: "Niet gepubliceerd"
-"Not yet installed.": "Nog niet geïnstalleerd."
+general.phrase.not-installed-yet: "Nog niet geïnstalleerd."
 general.phrase.note-colon: "Opmerking: "
 "Omnisearch": "Omnisearch"
 "Only root can change file extensions.": "Alleen root kan bestandsextensies wijzigen."

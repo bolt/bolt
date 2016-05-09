@@ -280,7 +280,7 @@ general.phrase.no-such-action-for-user: "Pro uživatele '%s' není tato akce dos
 page.extend.theme.generation.missing.name: "Žádné jméno téma"
 general.phrase.none: "není"
 general.phrase.not-published: "Nepublikováno"
-"Not yet installed.": "Ještě nenainstalováno."
+general.phrase.not-installed-yet: "Ještě nenainstalováno."
 general.phrase.note-colon: "není"
 "Omnisearch": "Vyhledávání"
 "Only root can change file extensions.": "Pouze administrátor může změnit typy souborů."

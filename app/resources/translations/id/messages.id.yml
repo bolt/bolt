@@ -132,7 +132,7 @@ general.phrase.no-result-for-search-term: #
 general.phrase.no-such-action-for-user: #
 page.extend.theme.generation.missing.name: #
 general.phrase.none: #
-"Not yet installed.": #
+general.phrase.not-installed-yet: #
 general.phrase.note-colon: #
 "Omnisearch": #
 "Only root can change file extensions.": #

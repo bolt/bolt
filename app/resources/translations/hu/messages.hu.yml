@@ -259,7 +259,7 @@ general.phrase.no-such-action-for-user: "Nincs ilyen művelet a '%s' felhasznál
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 general.phrase.none: "Nincs"
 general.phrase.not-published: "Visszavont"
-"Not yet installed.": "Még nincs telepítve."
+general.phrase.not-installed-yet: "Még nincs telepítve."
 general.phrase.note-colon: "Jegyzet"
 "Omnisearch": "Kereső"
 "Options": "Opciók"

@@ -258,7 +258,7 @@ general.phrase.no-such-action-for-user: "Aktion für Benutzer '%s' nicht gefunde
 page.extend.theme.generation.missing.name: "Kein Theme-Name gefunden. Das Theme wurde nicht erzeugt."
 general.phrase.none: "Keine/r"
 general.phrase.not-published: "Nicht veröffentlicht"
-"Not yet installed.": "Noch nicht installiert."
+general.phrase.not-installed-yet: "Noch nicht installiert."
 general.phrase.note-colon: "Bemerkung:"
 "Omnisearch": "Suche"
 "Only root can change file extensions.": "Nur root kann Dateierweiterungen ändern."

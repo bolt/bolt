@@ -135,7 +135,7 @@ general.phrase.no-relations-found-bang: #
 page.extend.theme.generation.missing.name: #
 general.phrase.none: #
 general.phrase.not-published: #
-"Not yet installed.": #
+general.phrase.not-installed-yet: #
 general.phrase.note-colon: #
 "Omnisearch": #
 "Only root can change file extensions.": #
