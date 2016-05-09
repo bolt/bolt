@@ -169,7 +169,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Extensions', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('Extensions'),
+                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.extensions'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 6,
                     'path'        => $this->generatePath('extend'),
@@ -227,7 +227,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => [$extension->getLabel(), 'Extensions'],
-                    'label'       => Trans::__('Extensions') . ' » ' . $extension->getLabel(),
+                    'label'       => Trans::__('general.phrase.extensions') . ' » ' . $extension->getLabel(),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_EXTENSION - $index,
                     'path'        => $extension->getUri(),

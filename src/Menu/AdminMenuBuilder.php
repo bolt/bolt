@@ -161,7 +161,7 @@ final class AdminMenuBuilder
     {
         $fileEntry = $this->rootEntry->add(
             (new MenuEntry('files', 'files'))
-                ->setLabel(Trans::__('Extensions'))
+                ->setLabel(Trans::__('general.phrase.extensions'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
         );
