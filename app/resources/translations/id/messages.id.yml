@@ -81,7 +81,7 @@ general.phrase.error-send-password-request: #
 general.phrase.field-fieldname: #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
+page.file-management.message.save-failed-invalid-form: #
 "Filelist": # "File list"
 "Files": #
 "Files could not be uploaded.": #

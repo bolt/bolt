@@ -63,7 +63,7 @@ general.phrase.extras: #
 general.phrase.error-cache-clear: #
 general.phrase.error-send-password-request: #
 general.phrase.field-fieldname: #
-"File '%s' could not be saved, because the form wasn't valid.": #
+page.file-management.message.save-failed-invalid-form: #
 "Files could not be uploaded.": #
 "Filtering": #
 "Find": #
