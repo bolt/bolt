@@ -214,7 +214,7 @@ general.phrase.thumbnail: #
 general.phrase.time-format-24-12: #
 general.phrase.publish-timed: #
 general.phrase.tip-colon: #
-"Trim Change Log": #
+general.phrase.log-change-trim: #
 "Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Types": #

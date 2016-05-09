@@ -129,7 +129,7 @@ general.phrase.record-related-to-variable: #
 general.phrase.warning-template: #
 general.phrase.thumbnail: #
 general.phrase.time-format-24-12: #
-"Trim Change Log": #
+general.phrase.log-change-trim: #
 "Trim System Log": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
