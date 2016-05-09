@@ -256,7 +256,7 @@ general.phrase.no-images-in-list: "Zur Zeit befinden sich keine Bilder in der Li
 "No results found for '%SEARCHTERM%'. Please try another search.": "Keine Ergebnisse für %SEARCHTERM% gefunden. Bitte einen anderen Suchbegriff probieren."
 "No such action for user '%s'.": "Aktion für Benutzer '%s' nicht gefunden."
 "No theme name found. Theme is not generated.": "Kein Theme-Name gefunden. Das Theme wurde nicht erzeugt."
-"None": "Keine/r"
+general.phrase.none: "Keine/r"
 "Not published": "Nicht veröffentlicht"
 "Not yet installed.": "Noch nicht installiert."
 "Note:": "Bemerkung:"

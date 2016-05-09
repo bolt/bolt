@@ -5,7 +5,7 @@
     <a href="#statusselect" id="lastsavedstatus" title="{{ __('general.phrase.change-current-status') }}">
         <strong>
             <i class="fa fa-circle status-{{ context.content.status|default(__('general.phrase.none')) }}"></i>
-            {{ status_names[context.content.status]|default(__("None")) }}
+            {{ status_names[context.content.status]|default(__('general.phrase.none')) }}
         </strong>
     </a>
 </p>

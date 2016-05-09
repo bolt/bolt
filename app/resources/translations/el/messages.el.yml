@@ -503,7 +503,7 @@ general.phrase.modifications-needed-colon: "Αλλαγές που χρειάστ
 general.phrase.modified: "Τροποποιήθηκε"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
 "No such action for user '%s'.": "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
-"None": "Κανένα"
+general.phrase.none: "Κανένα"
 "Not published": "Μη δημοσιευμένο"
 "Options": "Επιλογές"
 "Order: %sort%": "Σειρά: %sort%"
