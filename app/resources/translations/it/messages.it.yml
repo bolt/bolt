@@ -62,7 +62,7 @@ general.phrase.dashboard: #
 general.phrase.status-default: #
 general.phrase.delete: #
 general.phrase.delete-directory-name: #
-"Delete Set": #
+general.phrase.delete-set: #
 "Depublish": #
 "Depublish date is in the past. Change the status if you want to depublish now": #
 "Detail template": #
