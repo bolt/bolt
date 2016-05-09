@@ -384,7 +384,7 @@ page.extend.theme.generation.failure: "Nous n'avons pu générer le thème. Il e
 general.bolt-welcome-new-site: "Bienvenue sur votre nouveau site Bolt %USER% !"
 general.phrase.written-by-on: "Rédigé par <em>%name%</em> le %date%"
 general.phrase.access-denied-self-action: "Vous ne pouvez vous '%s'."
-"You do not have the right privileges to edit that record.": "Vous n'avez pas les droits suffisant pour modifier cet enregistrement."
+general.phrase.access-denied-privilege-edit-record: "Vous n'avez pas les droits suffisant pour modifier cet enregistrement."
 "You do not have the right privileges to edit that user.": "Vous n'avez pas les droits suffisant pour modifier cet utilisateur."
 "You do not have the right privileges to view that page.": "Vous n'avez pas les droits suffisant pour afficher cette page."
 "You don't have correct permissions to edit the file '%s'.": "Vous n'avez pas les droits suffisant pour modifier le fichier '%s'."

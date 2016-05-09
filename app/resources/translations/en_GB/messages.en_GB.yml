@@ -378,7 +378,7 @@ page.extend.theme.generation.failure: "We were unable to generate the theme. It 
 general.bolt-welcome-new-site: "Welcome to your new Bolt site, %USER%."
 general.phrase.written-by-on: "Written by <em>%name%</em> on %date%"
 general.phrase.access-denied-self-action: "You cannot '%s' yourself."
-"You do not have the right privileges to edit that record.": "You do not have the right privileges to edit that record."
+general.phrase.access-denied-privilege-edit-record: "You do not have the right privileges to edit that record."
 "You do not have the right privileges to edit that user.": "You do not have the right privileges to edit that user."
 "You do not have the right privileges to view that page.": "You do not have the right privileges to view that page."
 "You don't have correct permissions to edit the file '%s'.": "You don't have correct permissions to edit the file '%s'."
