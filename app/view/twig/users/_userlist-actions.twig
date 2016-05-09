@@ -25,7 +25,7 @@
                     <form action="{{ path('useraction', {'action': 'enable', 'id': user.id}) }}" method="post">
                         {{ include('@bolt/_sub/_csrf_token.twig') }}
                         <button type="submit" class="btn btn-block btn-link">
-                            <span class="pull-left">{{ __('Enable %username%',{'%username%':user.displayname}) }}</span>
+                            <span class="pull-left">{{ __('general.phrase.enable-user-name',{'%username%':user.displayname}) }}</span>
                         </button>
                     </form>
                 </li>
