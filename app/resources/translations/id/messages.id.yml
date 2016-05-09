@@ -112,7 +112,7 @@ general.phrase.keyword-ellipsis: #
 general.phrase.listing-template: #
 general.phrase.live-edit: #
 general.phrase.error-local-extension-set-up-incomplete: #
-"Logout": #
+general.phrase.logout: #
 "Main configuration": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #

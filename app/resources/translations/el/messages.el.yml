@@ -491,7 +491,7 @@ general.phrase.last-edited-on-colon: "Τελευταία τροποποίηση 
 general.phrase.last-known-ip: "Τελευταία γνωστή IP"
 general.phrase.last-seen: "Τελευταία προβλήθηκε"
 general.phrase.login: "Σύνδεση"
-"Logout": "Αποσύνδεση"
+general.phrase.logout: "Αποσύνδεση"
 "Long messages": "Μακρύ μηνύματα"
 "Maintenance": "Συντήρηση"
 "Menu setup": "Επεξεργασία Menu"

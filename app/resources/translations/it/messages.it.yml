@@ -117,7 +117,7 @@ general.phrase.listing-template: #
 general.phrase.live-edit: #
 general.phrase.error-local-extension-set-up-incomplete: #
 general.phrase.login: #
-"Logout": #
+general.phrase.logout: #
 "Main configuration": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
