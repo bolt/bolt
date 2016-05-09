@@ -443,7 +443,7 @@ general.phrase.missing-root-jackpot: "总会有一个 'root' 用户存在，而�
 "This is a checkbox": "这是个复选框"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本网站由<a href='%url%' target='_blank' title='精致、轻量、简洁的 CMS'>Bolt 构建</a>。"
 general.phrase.publish-timed: "定时发布"
-"Tip:": "小贴士："
+general.phrase.tip-colon: "小贴士："
 "Title": "标题"
 "Translations": "翻译"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以试着用FTP客户端登录，将文件设置可读权限，也可以尝试<a>返回</a>上一个页面。"

@@ -338,7 +338,7 @@ general.phrase.warning-template: "Deze sjabloon voegt nieuwe velden toe. Opslaan
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Tijd in 24h/12h notering"
 general.phrase.publish-timed: "Publicatiedatum"
-"Tip:": "Tip:"
+general.phrase.tip-colon: "Tip:"
 "Title": "Titel"
 "Translations": "Vertalingen"
 "Trim Change Log": "Trim Change Log"

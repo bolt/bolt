@@ -419,7 +419,7 @@ general.phrase.warning-template: "Tämä sivupohja lisää kenttiä. Tallenna ja
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
 general.phrase.time-format-24-12: "Aika 24h/12h muodossa"
 general.phrase.publish-timed: "Ajoitettu julkaisu"
-"Tip:": "Vinkki:"
+general.phrase.tip-colon: "Vinkki:"
 "Title": "Otsikko"
 "Translations": "Käännökset"
 "Trim Change Log": "Karsi muutoslogi"

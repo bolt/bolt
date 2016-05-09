@@ -472,7 +472,7 @@ general.phrase.missing-root-jackpot: "Sempre deve haver pelo menos um usuário '
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este site é <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>Bolt</a>."
 general.phrase.time-format-24-12: "Horário no formato 24h/12h"
 general.phrase.publish-timed: "Publicação temporária"
-"Tip:": "Dica:"
+general.phrase.tip-colon: "Dica:"
 "Title": "Título"
 "Translations": "Traduções"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente fazer o login com o seu ftp-client e tornar o arquivo legível. Caso contrário, tente <a>voltar</a> para a última página."

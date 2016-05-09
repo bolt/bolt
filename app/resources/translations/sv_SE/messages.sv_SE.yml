@@ -344,7 +344,7 @@ general.phrase.warning-template: "Denna mallen lägger till fler fält. Spara, o
 general.phrase.thumbnail: "Miniatyrbild"
 general.phrase.time-format-24-12: "Tid i 24h/12h format"
 general.phrase.publish-timed: "Tidsbaserad publicering"
-"Tip:": "Tips:"
+general.phrase.tip-colon: "Tips:"
 "Title": "Titel"
 "Translations": "Översättningar"
 "Trim Change Log": "Rensa ändringsloggen"

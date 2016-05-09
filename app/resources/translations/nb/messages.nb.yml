@@ -563,7 +563,7 @@ general.phrase.users-none-create-first: "Det er ingen brukere i databasen. Lag d
 general.phrase.missing-root-jackpot: "Det bør alltid være minst en «root»-bruker. Du har nettopp blitt forfremmet. Gratulerer."
 "This is a checkbox": "Dette er en avkrysningsboks"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
-"Tip:": "Tips:"
+general.phrase.tip-colon: "Tips:"
 "Title": "Tittel"
 "Translations": "Oversettelser"
 "Update the database": "Oppdater databasen"

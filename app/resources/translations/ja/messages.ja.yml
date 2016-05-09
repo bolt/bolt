@@ -493,7 +493,7 @@ general.phrase.missing-root-jackpot: "少なくとも１つの'root'ユーザー
 "This is a checkbox": "これはチェックボックスです"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
 general.phrase.publish-timed: "予約公開"
-"Tip:": "Tip："
+general.phrase.tip-colon: "Tip："
 "Title": "タイトル"
 "Translations": "翻訳"
 "Types": "種類"

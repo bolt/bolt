@@ -347,7 +347,7 @@ general.phrase.warning-template: "Este modelo acrescenta novos campos. Guarde e,
 general.phrase.thumbnail: "Miniatura"
 general.phrase.time-format-24-12: "Horário no formato 24h / 12h"
 general.phrase.publish-timed: "Publicação temporizada"
-"Tip:": "Dica:"
+general.phrase.tip-colon: "Dica:"
 "Title": "Título"
 "Translations": "Traduções"
 "Trim Change Log": "Aparar o registo de alterações"

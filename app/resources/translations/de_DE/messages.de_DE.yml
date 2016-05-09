@@ -370,7 +370,7 @@ general.phrase.warning-template: "Dieses Template fügt neue Felder hinzu. Speic
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Zeit im 24/12 Stunden Format"
 general.phrase.publish-timed: "Zeitgesteuerte Veröffentlichung"
-"Tip:": "Tipp:"
+general.phrase.tip-colon: "Tipp:"
 "Title": "Titel"
 "Translations": "Übersetzungen"
 "Trim Change Log": "Änderungsverlauf aufräumen"

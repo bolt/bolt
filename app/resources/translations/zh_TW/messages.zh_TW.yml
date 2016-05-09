@@ -440,7 +440,7 @@ general.phrase.missing-root-jackpot: "總會有一個 'root' 使用者存在，�
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
 general.phrase.time-format-24-12: "24/12小時制"
 general.phrase.publish-timed: "定時釋出"
-"Tip:": "小貼士："
+general.phrase.tip-colon: "小貼士："
 "Title": "標題"
 "Translations": "翻譯"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。"

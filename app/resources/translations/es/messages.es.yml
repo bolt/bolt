@@ -66,7 +66,7 @@ general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 general.phrase.record-related-to-variable: #
 general.phrase.thumbnail: #
-"Tip:": #
+general.phrase.tip-colon: #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #

@@ -363,7 +363,7 @@ general.phrase.warning-template: "A sablon új mezőket tartalmaz. Mentsd, majd 
 general.phrase.thumbnail: "Miniatűr"
 general.phrase.time-format-24-12: "Idő 24/12 fromátumban"
 general.phrase.publish-timed: "Időzített publikálás"
-"Tip:": "Tipp:"
+general.phrase.tip-colon: "Tipp:"
 "Title": "Cím"
 "Translations": "Fordítások"
 "Trim Change Log": "Változásnapló rövidítése"

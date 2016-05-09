@@ -330,7 +330,7 @@ general.phrase.warning-template: "This template adds new fields. Save, then refr
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Time in 24h/12h format"
 general.phrase.publish-timed: "Timed publish"
-"Tip:": "Tip:"
+general.phrase.tip-colon: "Tip:"
 "Title": "Title"
 "Translations": "Translations"
 "Trim Change Log": "Trim Change Log"
