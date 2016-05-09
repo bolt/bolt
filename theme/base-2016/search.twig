@@ -23,7 +23,7 @@
         {% endif %}
 
         <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
-            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search …") }}" name="search" >
+            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __('general.phrase.search-ellipsis') }}" name="search" >
             <button type="submit" class="button">{{ __('general.phrase.search') }}</button>
         </form>
 

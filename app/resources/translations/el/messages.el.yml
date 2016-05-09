@@ -146,7 +146,7 @@ general.phrase.save-and-create-new-record: #
 general.phrase.saving-ellipsis: #
 general.phrase.search-for-ellipsis: #
 "Search results for <b>%search%</b>.": #
-"Search …": #
+general.phrase.search-ellipsis: #
 "Select file …": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
