@@ -477,7 +477,7 @@ general.phrase.line: "linia"
 general.phrase.no-content: "brak treści …"
 general.phrase.no-title: "brak tytułu …"
 general.phrase.none: "nic"
-"of": "z"
+general.phrase.of: "z"
 "show all": "pokaż wszystko"
 
 #--- 146 keyword based translations -------------------------------------------

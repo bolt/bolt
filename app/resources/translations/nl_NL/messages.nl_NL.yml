@@ -404,7 +404,7 @@ general.phrase.line: "regel"
 general.phrase.no-content: "geen content …"
 general.phrase.no-title: "geen titel …"
 general.phrase.none: "geen"
-"of": "van"
+general.phrase.of: "van"
 "or": "of"
 "show all": "Toon alle"
 

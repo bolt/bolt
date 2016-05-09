@@ -599,7 +599,7 @@ general.phrase.edited: "dan diedit"
 general.phrase.by: "oleh"
 general.phrase.line: "baris"
 general.phrase.none: "Tidak ada"
-"of": "dari"
+general.phrase.of: "dari"
 "show all": "tampilkan semua"
 
 #--- 24 keyword based translations --------------------------------------------

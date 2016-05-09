@@ -516,7 +516,7 @@ general.phrase.line: "linha"
 general.phrase.no-content: "sem conteúdo …"
 general.phrase.no-title: "sem título …"
 general.phrase.none: "nenhum"
-"of": "de"
+general.phrase.of: "de"
 "show all": "mostrar todos"
 
 #--- 107 keyword based translations -------------------------------------------

@@ -486,7 +486,7 @@ general.phrase.line: "行"
 general.phrase.no-content: "無內容 …"
 general.phrase.no-title: "無標題 …"
 general.phrase.none: "無"
-"of": "中的"
+general.phrase.of: "中的"
 "show all": "顯示全部"
 
 #--- 137 keyword based translations -------------------------------------------

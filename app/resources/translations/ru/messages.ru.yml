@@ -491,7 +491,7 @@ general.phrase.line: "строка"
 general.phrase.no-content: "нет контента …"
 general.phrase.no-title: "нет заголовка …"
 general.phrase.none: "отсутствует"
-"of": "из"
+general.phrase.of: "из"
 "show all": "показать все"
 
 #--- 132 keyword based translations -------------------------------------------

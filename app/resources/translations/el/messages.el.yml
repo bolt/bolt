@@ -580,7 +580,7 @@ general.phrase.return-editing: "πίσω στην επεξεργασία"
 general.phrase.by: "απο"
 general.phrase.line: "σειρά"
 general.phrase.none: "κανένα"
-"of": "απο"
+general.phrase.of: "απο"
 "show all": "εμφάνιση όλων"
 
 #--- 43 keyword based translations --------------------------------------------

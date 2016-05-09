@@ -433,7 +433,7 @@ general.phrase.line: "Zeile"
 general.phrase.no-content: "kein Inhalt"
 general.phrase.no-title: "kein Titel …"
 general.phrase.none: "nichts"
-"of": "von"
+general.phrase.of: "von"
 "or": "oder"
 "show all": "alle anzeigen"
 

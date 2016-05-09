@@ -481,7 +481,7 @@ general.phrase.line: "línea:"
 general.phrase.no-content: "sin contenido"
 general.phrase.no-title: "sin titulo"
 general.phrase.none: "ninguno"
-"of": "de"
+general.phrase.of: "de"
 "or": "o"
 "show all": "mostrar todo"
 

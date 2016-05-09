@@ -529,7 +529,7 @@ general.phrase.edited: "更新日："
 general.phrase.return-editing: "編集に戻る"
 general.phrase.line: "行"
 general.phrase.none: "なし"
-"of": "の"
+general.phrase.of: "の"
 "show all": "全てを表示"
 
 #--- 94 keyword based translations --------------------------------------------

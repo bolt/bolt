@@ -404,7 +404,7 @@ general.phrase.line: "ligne"
 general.phrase.no-content: "sans contenu …"
 general.phrase.no-title: "sans titre …"
 general.phrase.none: "aucun"
-"of": "sur"
+general.phrase.of: "sur"
 "or": "ou"
 "show all": "afficher tout"
 

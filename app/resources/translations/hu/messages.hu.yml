@@ -426,7 +426,7 @@ general.phrase.line: "sor"
 general.phrase.no-content: "nincs tartalom…"
 general.phrase.no-title: "nincs cím…"
 general.phrase.none: "nincs"
-"of": "/"
+general.phrase.of: "/"
 "or": "vagy"
 "show all": "összes mutatása"
 

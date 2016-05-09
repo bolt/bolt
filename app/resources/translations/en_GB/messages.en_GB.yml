@@ -398,7 +398,7 @@ general.phrase.line: "line"
 general.phrase.no-content: "no content …"
 general.phrase.no-title: "no title …"
 general.phrase.none: "none"
-"of": "of"
+general.phrase.of: "of"
 "or": "or"
 "show all": "show all"
 

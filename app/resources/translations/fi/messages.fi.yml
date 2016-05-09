@@ -479,7 +479,7 @@ general.phrase.line: "rivi"
 general.phrase.no-content: "ei sisältöä …"
 general.phrase.no-title: "ei otsikkoa …"
 general.phrase.none: "ei mitään"
-"of": "/"
+general.phrase.of: "/"
 "or": "tai"
 "show all": "näytä kaikki"
 

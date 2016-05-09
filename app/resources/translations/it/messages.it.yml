@@ -548,7 +548,7 @@ general.phrase.no-such-action-for-user: "Azione non disponibile per l'utente '%s
 "Your database is now up to date.": "Il tuo database ora è aggiornato"
 general.phrase.edited: "e modificato"
 general.phrase.none: "nessuno"
-"of": "di"
+general.phrase.of: "di"
 "show all": "mostra tutto"
 
 #--- 75 keyword based translations --------------------------------------------

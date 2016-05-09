@@ -461,7 +461,7 @@ general.phrase.line: "řádek"
 general.phrase.no-content: "žádný obsah …"
 general.phrase.no-title: "žádný nadpis …"
 general.phrase.none: "žádný"
-"of": "z"
+general.phrase.of: "z"
 "or": "nebo"
 "show all": "zobrazit vše"
 
