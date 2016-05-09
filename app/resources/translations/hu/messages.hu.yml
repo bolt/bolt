@@ -229,7 +229,7 @@ general.phrase.error-login-invalid-parameters: "Érvénytelen bejelentkezési pa
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
 general.phrase.required-is-or-match-pattern: "Kötelező vagy mintának megfelelő!"
 general.phrase.required-is-bang: "Kötelező!"
-"Keyword …": "Kulcsszó _"
+general.phrase.keyword-ellipsis: "Kulcsszó _"
 "Last edited on:": "Utoljára szerkesztve:"
 "Last known IP": "Utolsó ismert IP"
 "Last seen": "Utoljára látva"

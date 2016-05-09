@@ -191,7 +191,7 @@ general.phrase.error-login-invalid-parameters: "Parâmetros de autenticação in
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
 general.phrase.required-is-or-match-pattern: "É necessário ou tem de corresponder a um padrão!"
 general.phrase.required-is-bang: "É obrigatório!"
-"Keyword …": "Termo-chave..."
+general.phrase.keyword-ellipsis: "Termo-chave..."
 "Last edited on:": "Última edição em:"
 "Last known IP": "Último IP conhecido"
 "Last seen": "Última visualização"

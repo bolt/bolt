@@ -293,7 +293,7 @@ general.phrase.error-login-invalid-parameters: "Parámetros de inicio de sesión
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "'Path' no válido para el menú (%PATH%), establecida en menu.yml. No coincide con ningún tipo de contenido o ruta configurada."
 general.phrase.required-is-or-match-pattern: "Es requerido o se necesita que coincida con un patrón"
 general.phrase.required-is-bang: "¡Es requerido!"
-"Keyword …": "Palabra clave"
+general.phrase.keyword-ellipsis: "Palabra clave"
 "Last edited on:": "Editado por última vez el:"
 "Last known IP": "Última dirección IP registrada"
 "Last seen": "Visto por última vez"

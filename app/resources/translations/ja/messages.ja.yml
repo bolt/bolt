@@ -80,7 +80,7 @@ general.phrase.error-login-invalid-parameters: #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 general.phrase.required-is-or-match-pattern: #
 general.phrase.required-is-bang: #
-"Keyword …": #
+general.phrase.keyword-ellipsis: #
 "Link": #
 "Listing template": #
 "Live Edit": #

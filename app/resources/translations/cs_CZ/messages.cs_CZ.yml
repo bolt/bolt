@@ -247,7 +247,7 @@ general.phrase.error-login-invalid-parameters: "Neplatné parametry přihlášen
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "V menu menu.yml je nastavená špatná cesta (%PATH%). Mělo by tam pravděpodobně být link: !\""
 general.phrase.required-is-or-match-pattern: "Je vyžadováno nebu musí odpovídat vzoru!"
 general.phrase.required-is-bang: "Povinné!"
-"Keyword …": "Klíčové slovo …"
+general.phrase.keyword-ellipsis: "Klíčové slovo …"
 "Last edited on:": "Upraveno:"
 "Last known IP": "Poslední známá IP adresa"
 "Last seen": "Naposledy přihlášen"

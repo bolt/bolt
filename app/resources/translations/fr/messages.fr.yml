@@ -179,7 +179,7 @@ general.phrase.error-login-invalid-parameters: "Paramètres de connexion invalid
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Une entrée de menu invalide (%PATH%) est présente dans le fichier `menu.yml` : cela devrait certainement être un lien de type link"
 general.phrase.required-is-or-match-pattern: "Obligatoire ou doit correspondre à un masque."
 general.phrase.required-is-bang: "Obligatoire"
-"Keyword …": "Mot-clef …"
+general.phrase.keyword-ellipsis: "Mot-clef …"
 "Last edited on:": "Dernière édition le"
 "Last known IP": "Dernière adresse IP connue"
 "Last seen": "Vu pour la dernière fois"
