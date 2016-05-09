@@ -147,7 +147,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Menu setup', 'Configuration'],
-                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('Menu setup'),
+                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('general.phrase.menu-setup'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 4,
                     'path'        => $this->generatePath('fileedit', ['namespace' => 'config', 'file' => 'menu.yml']),

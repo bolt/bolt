@@ -101,7 +101,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'menu.yml']);
         $configEntry->add(
             (new MenuEntry('config_menu', $path))
-            ->setLabel(Trans::__('Menu setup'))
+            ->setLabel(Trans::__('general.phrase.menu-setup'))
             ->setIcon('fa:list')
             ->setPermission('files:config')
         );
