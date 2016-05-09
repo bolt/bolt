@@ -365,7 +365,7 @@ general.phrase.no-such-action-for-user: "Неверное действие дл�
 general.phrase.none: "Отсутствует"
 general.phrase.not-published: "Неопубликованно"
 general.phrase.note-colon: "Заметка:"
-"Omnisearch": "Омнипоиск"
+general.phrase.omnisearch: "Омнипоиск"
 "Options": "Настройки"
 "Order: %sort%": "Сортировка: %sort%"
 "Overview": "Обзор"
