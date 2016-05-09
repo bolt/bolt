@@ -139,7 +139,7 @@ permissions.roles.description.root: "Vestvěné oprávnění superuživatele –
 general.phrase.cancel: "Zrušit"
 "Categories": "Kategorie"
 "Category": "Kategorie"
-"Change status to 'draft'": "Změnit status na 'draft'"
+general.phrase.status-change-draft: "Změnit status na 'draft'"
 "Change status to 'held'": "Změnit status na 'held'"
 "Check again": "Znovu ověřit"
 "Check database": "Ověřit databázi"
