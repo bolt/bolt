@@ -11,7 +11,7 @@
     <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
       <ul class="menu">
         <li><input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search …") }}" name="search"></li>
-        <li><button type="submit" class="button secondary">{{ __("Search") }}</button></li>
+        <li><button type="submit" class="button secondary">{{ __('general.phrase.search') }}</button></li>
       </ul>
     </form>
   </div>

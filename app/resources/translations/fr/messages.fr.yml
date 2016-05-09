@@ -264,7 +264,7 @@ general.phrase.save-and-create-new-record: "Enregistrer & créer un nouvel enreg
 general.phrase.save-and-return-overview: "Enregistrer & revenir à la liste"
 general.phrase.saved-on-colon: "Enregistré le :"
 general.phrase.saving-ellipsis: "Enregistrement …"
-"Search": "Rechercher"
+general.phrase.search: "Rechercher"
 general.phrase.search-for-ellipsis: "Recherche de …"
 "Search results for <b>%search%</b>.": "Résultats de recherche pour <b>%search%</b>."
 "Search …": "Recherche …"

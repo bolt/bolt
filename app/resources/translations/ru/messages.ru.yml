@@ -401,7 +401,7 @@ general.phrase.save-and-create-new-record: "Сохранить и создать
 general.phrase.save-and-return-overview: "Сохранить и показать обзор"
 general.phrase.saved-on-colon: "Сохранено:"
 general.phrase.saving-ellipsis: "Сохранение …"
-"Search": "Поиск"
+general.phrase.search: "Поиск"
 general.phrase.search-for-ellipsis: "Поиск для …"
 "Search …": "Поиск …"
 "Select": "Выбор"
