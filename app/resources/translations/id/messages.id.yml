@@ -188,7 +188,7 @@ general.phrase.system-config-checks: #
 page.extend.error-composer-json-not-readable: #
 page.extend.error-composer-json-not-writable: #
 logs.change-log.cleared: #
-"The change log has been trimmed.": #
+logs.change-log.trimmed: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
 "The field %field% has been changed to \"%newValue%\"": #

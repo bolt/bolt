@@ -53,7 +53,7 @@ class Log extends BackendBase
             return $this->redirectToRoute('changelog');
         } elseif ($action == 'trim') {
             $this->manager()->trim('change');
-            $this->flashes()->success(Trans::__('The change log has been trimmed.'));
+            $this->flashes()->success(Trans::__('logs.change-log.trimmed'));
 
             return $this->redirectToRoute('changelog');
         }
