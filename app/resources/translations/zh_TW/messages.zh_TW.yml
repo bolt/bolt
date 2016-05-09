@@ -435,7 +435,7 @@ page.extend.theme.generation.success: "布景產生成功，你現在可以從�
 general.phrase.stack-empty: "暫存區中沒有東西。"
 general.phrase.users-none-create-first: "資料庫中沒有使用者，請創建第一個使用者。"
 general.phrase.users-none-create-first-extended: "系統中沒有使用者。請創建第一個使用者，它將同時擁有管理員許可權。"
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
+general.phrase.missing-root-jackpot: "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
 "This is a checkbox": "這是個覈取方塊"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
 "Time in 24h/12h format": "24/12小時制"

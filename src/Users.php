@@ -436,7 +436,7 @@ class Users
         $this->app['schema']->update();
 
         // Show a helpful message to the user.
-        $this->app['logger.flash']->info(Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
+        $this->app['logger.flash']->info(Trans::__('general.phrase.missing-root-jackpot'));
 
         // If we reach this point, there is no user 'root'. We promote the current user.
         return $this->addRole($this->getCurrentUsername(), 'root');

@@ -340,7 +340,7 @@ general.phrase.users-none-create-first: "Não existem utilizadores na base de da
 general.phrase.users-none-create-first-extended: "Não existem utilizadores no sistema. Po favor, crie o primeiro utilizador ao qual será concedido privilégios de ROOT."
 general.phrase.missing-about-page-block: "Atualmente não existe nenhum bloco com o nome curto 'about-us'. Para ver o seu conteúdo aqui pode criar, manualmente, um bloco com esse nome abreviado. Em alternativa pode adicionar automaticamente blocos padrão. Para isso entre em 'Configuração' > 'verificar base de dados' e selecione 'Adicionar dados de amostra' para gerar automaticamente este e outros blocos."
 general.phrase.no-undo: "Não existe nada a desfazer!"
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Sempre deve haver pelo menos um utilizador 'root'. Você acaba de ser promovido. Parabéns!"
+general.phrase.missing-root-jackpot: "Sempre deve haver pelo menos um utilizador 'root'. Você acaba de ser promovido. Parabéns!"
 "This is a checkbox": "Esta é uma caixa de verificação"
 "This record is related to the following %CTNAME%:": "Este registo está relacionado com a seguinte %CTNAME%:"
 "This template adds new fields. Save, then refresh to see these changes.": "Este modelo acrescenta novos campos. Guarde e, em seguida, atualize para ver essas mudanças."
