@@ -239,7 +239,7 @@ general.phrase.only-root-change-file-extensions: "Endast rotanvändare kan ändr
 general.phrase.options: "Alternativ"
 general.phrase.order: "Sortering"
 general.phrase.order-colon-sort: "Sortering: %sort%"
-"Others": "Andra"
+general.phrase.others: "Andra"
 "Overview": "Överblick"
 "Overview for": "Överblick för"
 "Owner": "Ägare"
