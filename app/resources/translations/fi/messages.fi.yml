@@ -199,7 +199,7 @@ permissions.roles.description.anonymous: "Sisäänrakennettu rooli, automaattise
 permissions.roles.description.everyone: "Sisäänrakennettu rooli, automaattisesti myönnetty jokaiselle rekisteröityneelle käyttäjälle."
 permissions.roles.description.owner: "Sisäänrakennettu rooli, kelvollinen vain resurssin yhteydessä, annetaan automaattisesti resurssin omistajalle."
 permissions.roles.description.root: "Sisäänrakennettu pääkäyttäjän rooli, myöntää automaattisesti kaikki oikeudet"
-"Cancel": "Peruuta"
+general.phrase.cancel: "Peruuta"
 "Categories": "Kategoriat"
 "Category": "Kategoria"
 "Change Log": "Muutoslogi"

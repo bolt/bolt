@@ -136,7 +136,7 @@ permissions.roles.description.anonymous: "Implicitní oprávnění, přidělená
 permissions.roles.description.everyone: "Implicitní oprávnění, automaticky přidělené každému registrovanému uživateli."
 permissions.roles.description.owner: "Implicitné oprávnění. Platné pouze v kontextu – autoamticky přiřazeno vlastníkovi zdroje."
 permissions.roles.description.root: "Vestvěné oprávnění superuživatele – jsou přidělena veškerá práva."
-"Cancel": "Zrušit"
+general.phrase.cancel: "Zrušit"
 "Categories": "Kategorie"
 "Category": "Kategorie"
 "Change status to 'draft'": "Změnit status na 'draft'"

@@ -287,7 +287,7 @@ permissions.roles.description.anonymous: "Criar papel, concedido automaticamente
 permissions.roles.description.everyone: "Criar papel, concedido automaticamente para todos os usuários registrados"
 permissions.roles.description.owner: "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
 permissions.roles.description.root: "Criar papel de super-usuário, concede automaticamente todas as permissões"
-"Cancel": "Cancelar"
+general.phrase.cancel: "Cancelar"
 "Categories": "Categorias"
 "Category": "Categoria"
 "Change Log": "Registro de alterações"

@@ -332,7 +332,7 @@ permissions.roles.description.anonymous: "ビルトインのロール。 ユー�
 permissions.roles.description.everyone: "ビルトインのロール。すべての登録ユーザに自動的に許可される。"
 permissions.roles.description.owner: "ビルトインのロール。 リソースの文脈でのみ有効。リソースの所有者に自動的に割り当てられる。"
 permissions.roles.description.root: "ビルトインの　スーパーユーザーのロール。自動的にすべての権限が許可される。"
-"Cancel": "キャンセル"
+general.phrase.cancel: "キャンセル"
 "Categories": "カテゴリ"
 "Category": "カテゴリ"
 "Change Log": "変更ログ"

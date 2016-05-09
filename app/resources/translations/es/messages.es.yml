@@ -190,7 +190,7 @@ permissions.roles.description.anonymous: "Rol incorporado, otorgado automáticam
 permissions.roles.description.everyone: "Rol incorporado, otorgado automáticamente a cada usuario registrado"
 permissions.roles.description.owner: "Rol incorporado, solamente válido en el contexto de un recurso, y automáticamente asignado al propietario del recurso"
 permissions.roles.description.root: "Rol incorporado de superadministrador, automáticamente otorga todos los permisos"
-"Cancel": "Cancelar"
+general.phrase.cancel: "Cancelar"
 "Categories": "Categorías"
 "Category": "Categoría"
 "Change Log": "(Registro de cambios)"

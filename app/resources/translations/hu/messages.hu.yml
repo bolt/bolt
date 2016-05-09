@@ -127,7 +127,7 @@ permissions.roles.description.anonymous: "Beépített szerepkör, automatikusan 
 permissions.roles.description.everyone: "Beépített szerepkör, automatikusan biztosítva minden regisztrált felhasználónak"
 permissions.roles.description.owner: "Beépített szerepkör, csak egy adott erőforrás esetén érvényes és automatikusan hozzárendelődik annak tulajdonosához."
 permissions.roles.description.root: "Beépített superuser szerepkör, automatikusan megad minden jogot"
-"Cancel": "Mégse"
+general.phrase.cancel: "Mégse"
 "Categories": "Kategóriák"
 "Category": "Kategória"
 "Change Log": "Változásnapló"

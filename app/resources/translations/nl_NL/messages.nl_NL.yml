@@ -73,7 +73,7 @@ permissions.roles.description.anonymous: "Ingebouwde rol die aan iedereen wordt 
 permissions.roles.description.everyone: "Ingebouwde rol die aan iedere ingelogde gebruiker wordt toegekend"
 permissions.roles.description.owner: "Ingebouwde rol, alleen geldig in specifieke context, en word automatisch toegekend aan de eigenaar van deze data."
 permissions.roles.description.root: "Ingebouwde super-user rol, krijgt automatisch alle permissies"
-"Cancel": "Annuleer"
+general.phrase.cancel: "Annuleer"
 "Categories": "Categorieën"
 "Category": "Categorie"
 "Change Log": "Changelog"

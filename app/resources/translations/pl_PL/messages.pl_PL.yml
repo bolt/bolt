@@ -204,7 +204,7 @@ permissions.roles.description.anonymous: "Wbudowana rola, automatycznie przyznaw
 permissions.roles.description.everyone: "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
 permissions.roles.description.owner: "Wbudowana rola, obowiązująca tylko w kontekście zasobów, i automatycznie przypisana do właściciela tego zasobu."
 permissions.roles.description.root: "Wbudowana rola super użytkownika, automatycznie przyznająca wszystkie uprawnienia"
-"Cancel": "Anuluj"
+general.phrase.cancel: "Anuluj"
 "Categories": "Kategorie"
 "Category": "Kategoria"
 "Change Log": "Dziennik zmian"

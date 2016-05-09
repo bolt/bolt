@@ -120,7 +120,7 @@ permissions.roles.description.anonymous: "Standard-Rolle, automatisch eingeräum
 permissions.roles.description.everyone: "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
 permissions.roles.description.owner: "Standard-Rolle, nur kontextbezogen gültig und automatisch an den Besitzer einer Quelle zugewiesen."
 permissions.roles.description.root: "Standard Superuser Rolle, vergibt automatisch alle Berechtigungen"
-"Cancel": "Abbrechen"
+general.phrase.cancel: "Abbrechen"
 "Categories": "Kategorien"
 "Category": "Kategorie"
 "Change Log": "Änderungsverlauf"

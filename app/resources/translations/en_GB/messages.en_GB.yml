@@ -54,7 +54,7 @@ permissions.roles.description.anonymous: "Built-in role, automatically granted a
 permissions.roles.description.everyone: "Built-in role, automatically granted to every registered user"
 permissions.roles.description.owner: "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
 permissions.roles.description.root: "Built-in superuser role, automatically grants all permissions"
-"Cancel": "Cancel"
+general.phrase.cancel: "Cancel"
 "Categories": "Categories"
 "Category": "Category"
 "Change Log": "Change Log"

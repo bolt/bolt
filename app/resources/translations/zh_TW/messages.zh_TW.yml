@@ -247,7 +247,7 @@ permissions.roles.description.anonymous: "內建角色，即使沒有使用者�
 permissions.roles.description.everyone: "內建角色，自動授予給每位註冊用戶。"
 permissions.roles.description.owner: "內建角色，只對某種資源生效，並且該資源的擁有者會被自動指定為該角色。"
 permissions.roles.description.root: "內建Superuser角色，自動被授予所有權限。"
-"Cancel": "取消"
+general.phrase.cancel: "取消"
 "Categories": "類別"
 "Category": "類別"
 "Change Log": "變更紀錄"

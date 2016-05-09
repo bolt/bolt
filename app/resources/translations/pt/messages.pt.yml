@@ -74,7 +74,7 @@ permissions.roles.description.anonymous: "Função integrada, concedida automati
 permissions.roles.description.everyone: "Função integrada, concedida automaticamente a todos os utilizadores registados"
 permissions.roles.description.owner: "Função integrada, válida apenas no contexto de um recurso, e atribuído automaticamente ao proprietário deste recurso."
 permissions.roles.description.root: "Função integrada de super-tilizador, concede automaticamente todas as permissões"
-"Cancel": "Cancelar"
+general.phrase.cancel: "Cancelar"
 "Categories": "Categorias"
 "Category": "Categoria"
 "Change Log": "Registo de alterações"

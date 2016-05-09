@@ -93,7 +93,7 @@ permissions.roles.description.anonymous: "Inbyggd roll, automatiskt tilldelad ko
 permissions.roles.description.everyone: "Inbyggd roll, automatiskt tilldelad till alla inloggade användare"
 permissions.roles.description.owner: "Inbyggd roll, endast giltig i en resurskontext och automatiskt tilldelad till ägaren av resursen."
 permissions.roles.description.root: "Inbyggd superanvändarroll, tilldelas automatiskt alla tillåtelser"
-"Cancel": "Avbryt"
+general.phrase.cancel: "Avbryt"
 "Categories": "Kategorier"
 "Category": "Kategori"
 "Change Log": "Ändringslogg"

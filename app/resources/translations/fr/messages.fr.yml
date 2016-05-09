@@ -65,7 +65,7 @@ permissions.roles.description.anonymous: "Rôle natif, assigné à tous les visi
 permissions.roles.description.everyone: "Rôle natif, assigné à tous les utilisateurs enregistrés"
 permissions.roles.description.owner: "Rôle natif, valable uniquement dans le contexte d'une ressource et assigné au propriétaire de cette ressource."
 permissions.roles.description.root: "Rôle super-utilisateur natif, donne tous les droits"
-"Cancel": "Annuler"
+general.phrase.cancel: "Annuler"
 "Categories": "Catégories"
 "Category": "Catégorie"
 "Change Log": "Journal des changements"
