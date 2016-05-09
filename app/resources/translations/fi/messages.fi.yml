@@ -404,7 +404,7 @@ general.phrase.file-not-readable-following-colon: "Seuraavaa tiedostoa ei voida 
 logs.change-log.not-found: "Pyydetty muutoslogin merkintä ei ole olemassa."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
-"The system log has been cleared.": "Järjestelmälogi tyhjennettiin."
+logs.system-log.cleared: "Järjestelmälogi tyhjennettiin."
 "The system log has been trimmed.": "Järjestelmälogi karsittiin."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 "The translations file '%s' is not readable.": "Käännöstiedostoa '%s' ei voida lukea."

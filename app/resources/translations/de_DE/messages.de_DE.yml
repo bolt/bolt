@@ -353,7 +353,7 @@ general.phrase.file-not-readable-following-colon: "Die folgende Datei konnte nic
 logs.change-log.not-found: "Der angeforderte Änderungsverlauf existiert nicht."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Das Kürzel '%slug%' wird in mehreren Datentypen verwendet. Bitte sorgen Sie in contenttypes.yml für Einzigartigkeit."
-"The system log has been cleared.": "Der Systemverlauf wurde geleert."
+logs.system-log.cleared: "Der Systemverlauf wurde geleert."
 "The system log has been trimmed.": "Der Systemverlauf wurde aufgeräumt."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Die Übersetzungsdatei '%s' konnte nicht erstellt werden. Änderungen bitte mit einem eigenen Editor vornehmen."
 "The translations file '%s' is not readable.": "Übersetzungsdatei '%s' nicht lesbar."

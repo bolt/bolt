@@ -327,7 +327,7 @@ general.phrase.file-not-readable-following-colon: "Följande fil kunde inte läs
 logs.change-log.not-found: "Den begärda ändringsloggen finns inte."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
-"The system log has been cleared.": "Systemloggen har blivit nollställd."
+logs.system-log.cleared: "Systemloggen har blivit nollställd."
 "The system log has been trimmed.": "Systemloggen har blivit rensad."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Översättningsfilen '%s' kunde inte skapas. Du behöver använda din egen textredigerare för att ändra på filen."
 "The translations file '%s' is not readable.": "Översättningsfilen '%s' är inte läsbar."

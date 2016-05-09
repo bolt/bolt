@@ -159,7 +159,7 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->manager()->clear('system');
-            $this->flashes()->success(Trans::__('The system log has been cleared.'));
+            $this->flashes()->success(Trans::__('logs.system-log.cleared'));
 
             return $this->redirectToRoute('systemlog');
         } elseif ($action == 'trim') {
