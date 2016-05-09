@@ -169,7 +169,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Extensions', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.extensions'),
+                    'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('general.phrase.extensions'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 6,
                     'path'        => $this->generatePath('extend'),
@@ -178,7 +178,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Check database', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.check-database'),
+                    'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('general.phrase.check-database'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 7,
                     'path'        => $this->generatePath('dbcheck'),
@@ -187,7 +187,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Clear the cache', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.clear-cache'),
+                    'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('general.phrase.clear-cache'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 8,
                     'path'        => $this->generatePath('clearcache'),
@@ -196,7 +196,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Change log', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('logs.change-log'),
+                    'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('logs.change-log'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 9,
                     'path'        => $this->generatePath('changelog'),
@@ -205,7 +205,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['System log', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('logs.system-log'),
+                    'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('logs.system-log'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 10,
                     'path'        => $this->generatePath('systemlog'),
