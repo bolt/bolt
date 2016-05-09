@@ -399,7 +399,7 @@ general.phrase.no-content: "no content …"
 general.phrase.no-title: "no title …"
 general.phrase.none: "none"
 general.phrase.of: "of"
-"or": "or"
+general.phrase.or: "or"
 "show all": "show all"
 
 #--- 215 keyword based translations -------------------------------------------

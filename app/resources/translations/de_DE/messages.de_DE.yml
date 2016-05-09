@@ -434,7 +434,7 @@ general.phrase.no-content: "kein Inhalt"
 general.phrase.no-title: "kein Titel …"
 general.phrase.none: "nichts"
 general.phrase.of: "von"
-"or": "oder"
+general.phrase.or: "oder"
 "show all": "alle anzeigen"
 
 #--- 189 keyword based translations -------------------------------------------

@@ -412,7 +412,7 @@ general.phrase.no-content: "sem conteúdo..."
 general.phrase.no-title: "sem título..."
 general.phrase.none: "nenhum"
 general.phrase.of: "de"
-"or": "ou"
+general.phrase.or: "ou"
 "show all": "mostrar todos"
 
 #--- 211 keyword based translations -------------------------------------------

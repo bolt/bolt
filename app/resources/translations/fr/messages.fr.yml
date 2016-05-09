@@ -405,7 +405,7 @@ general.phrase.no-content: "sans contenu …"
 general.phrase.no-title: "sans titre …"
 general.phrase.none: "aucun"
 general.phrase.of: "sur"
-"or": "ou"
+general.phrase.or: "ou"
 "show all": "afficher tout"
 
 #--- 215 keyword based translations -------------------------------------------

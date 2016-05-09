@@ -410,7 +410,7 @@ general.phrase.no-content: "inget innehåll …"
 general.phrase.no-title: "ingen titel …"
 general.phrase.none: "ingen"
 general.phrase.of: "av"
-"or": "eller"
+general.phrase.or: "eller"
 "show all": "visa alla"
 
 #--- 213 keyword based translations -------------------------------------------

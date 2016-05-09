@@ -36,7 +36,7 @@
                     </option>
                 {% endfor %}
                 </select>
-                {{ __("or") }}
+                {{ __('general.phrase.or') }}
             {% endif %}
         {% endfor %}
             <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">

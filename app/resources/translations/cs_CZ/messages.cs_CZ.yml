@@ -462,7 +462,7 @@ general.phrase.no-content: "žádný obsah …"
 general.phrase.no-title: "žádný nadpis …"
 general.phrase.none: "žádný"
 general.phrase.of: "z"
-"or": "nebo"
+general.phrase.or: "nebo"
 "show all": "zobrazit vše"
 
 #--- 161 keyword based translations -------------------------------------------
