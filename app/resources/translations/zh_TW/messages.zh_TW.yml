@@ -250,7 +250,7 @@ permissions.roles.description.root: "內建Superuser角色，自動被授予所�
 general.phrase.cancel: "取消"
 "Categories": "類別"
 "Category": "類別"
-"Change Log": "變更紀錄"
+general.phrase.change-log: "變更紀錄"
 "Change status to 'draft'": "將狀態更改為 '草稿'"
 "Change status to 'held'": "將狀態更改為 '保留'"
 "Check again": "再次檢查"

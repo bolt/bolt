@@ -57,7 +57,7 @@ permissions.roles.description.root: "Built-in superuser role, automatically gran
 general.phrase.cancel: "Cancel"
 "Categories": "Categories"
 "Category": "Category"
-"Change Log": "Change Log"
+general.phrase.change-log: "Change Log"
 "Change status to 'draft'": "Change status to 'draft'"
 "Change status to 'held'": "Change status to 'held'"
 "Check again": "Check again"

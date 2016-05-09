@@ -77,7 +77,7 @@ permissions.roles.description.root: "Função integrada de super-tilizador, conc
 general.phrase.cancel: "Cancelar"
 "Categories": "Categorias"
 "Category": "Categoria"
-"Change Log": "Registo de alterações"
+general.phrase.change-log: "Registo de alterações"
 "Change status to 'draft'": "Mudar estado para 'Rascunho'"
 "Change status to 'held'": "Mudar estado para 'Retido'"
 "Check again": "Verificar novamente"

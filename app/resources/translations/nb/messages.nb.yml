@@ -435,7 +435,7 @@ permissions.roles.description.root: "Innebygd superbrukerrolle, automatisk tilde
 general.phrase.cancel: "Avbryt"
 "Categories": "Kategorier"
 "Category": "Kategori"
-"Change Log": "Endringslogg"
+general.phrase.change-log: "Endringslogg"
 "Change status to 'draft'": "Endret status til «kladd»"
 "Change status to 'held'": "Endret status til «holdt»"
 "Check again": "Sjekk igjen"

@@ -202,7 +202,7 @@ permissions.roles.description.root: "Sisäänrakennettu pääkäyttäjän rooli,
 general.phrase.cancel: "Peruuta"
 "Categories": "Kategoriat"
 "Category": "Kategoria"
-"Change Log": "Muutoslogi"
+general.phrase.change-log: "Muutoslogi"
 "Change status to 'draft'": "Vaihda tilaan 'luonnos'"
 "Change status to 'held'": "Vaihda tilaan 'lukittu'"
 "Check again": "Uudelleentarkista"

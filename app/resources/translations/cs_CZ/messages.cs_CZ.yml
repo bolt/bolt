@@ -19,7 +19,7 @@
 field.image.label.alt: #
 permissions.roles.label.anonymous: #
 general.phrase.author: #
-"Change Log": #
+general.phrase.change-log: #
 "Delete": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Extend": #

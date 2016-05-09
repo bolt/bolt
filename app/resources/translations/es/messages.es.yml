@@ -193,7 +193,7 @@ permissions.roles.description.root: "Rol incorporado de superadministrador, auto
 general.phrase.cancel: "Cancelar"
 "Categories": "Categorías"
 "Category": "Categoría"
-"Change Log": "(Registro de cambios)"
+general.phrase.change-log: "(Registro de cambios)"
 "Change status to 'draft'": "Cambiar estado a 'Borrador'"
 "Change status to 'held'": "Cambiar estado a 'Pendiente'"
 "Check again": "Verficar de nuevo"

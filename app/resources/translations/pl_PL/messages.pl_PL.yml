@@ -207,7 +207,7 @@ permissions.roles.description.root: "Wbudowana rola super użytkownika, automaty
 general.phrase.cancel: "Anuluj"
 "Categories": "Kategorie"
 "Category": "Kategoria"
-"Change Log": "Dziennik zmian"
+general.phrase.change-log: "Dziennik zmian"
 "Change status to 'draft'": "Zmiana statusu na 'szkic'"
 "Change status to 'held'": "Zmiana statusu na 'wstrzymany'"
 "Check again": "Sprawdź ponownie"

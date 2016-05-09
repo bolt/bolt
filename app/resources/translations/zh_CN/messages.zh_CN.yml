@@ -34,7 +34,7 @@ permissions.roles.description.anonymous: #
 permissions.roles.description.everyone: #
 permissions.roles.description.owner: #
 permissions.roles.description.root: #
-"Change Log": #
+general.phrase.change-log: #
 "Check/Uncheck all": #
 "Clear Change Log": #
 "Clear System Log": #

@@ -68,7 +68,7 @@ permissions.roles.description.root: "Rôle super-utilisateur natif, donne tous l
 general.phrase.cancel: "Annuler"
 "Categories": "Catégories"
 "Category": "Catégorie"
-"Change Log": "Journal des changements"
+general.phrase.change-log: "Journal des changements"
 "Change status to 'draft'": "Mettre à brouillon"
 "Change status to 'held'": "Dépublier"
 "Check again": "Revérifier"

@@ -290,7 +290,7 @@ permissions.roles.description.root: "Criar papel de super-usuário, concede auto
 general.phrase.cancel: "Cancelar"
 "Categories": "Categorias"
 "Category": "Categoria"
-"Change Log": "Registro de alterações"
+general.phrase.change-log: "Registro de alterações"
 "Change status to 'draft'": "Mudar status para 'rascunho'"
 "Change status to 'held'": "Mudar status para 'Mantido'"
 "Check again": "Verificar novamente"

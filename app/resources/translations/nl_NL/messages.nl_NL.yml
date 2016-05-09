@@ -76,7 +76,7 @@ permissions.roles.description.root: "Ingebouwde super-user rol, krijgt automatis
 general.phrase.cancel: "Annuleer"
 "Categories": "Categorieën"
 "Category": "Categorie"
-"Change Log": "Changelog"
+general.phrase.change-log: "Changelog"
 "Change status to 'draft'": "Zet status op 'klad'"
 "Change status to 'held'": "Zet status op 'niet gepubliceerd'"
 "Check again": "Controleer nogmaals"

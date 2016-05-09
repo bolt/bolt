@@ -123,7 +123,7 @@ permissions.roles.description.root: "Standard Superuser Rolle, vergibt automatis
 general.phrase.cancel: "Abbrechen"
 "Categories": "Kategorien"
 "Category": "Kategorie"
-"Change Log": "Änderungsverlauf"
+general.phrase.change-log: "Änderungsverlauf"
 "Change status to 'draft'": "Status auf 'Enwurf'"
 "Change status to 'held'": "Status auf 'Gehalten'"
 "Check again": "Nochmals überprüfen"

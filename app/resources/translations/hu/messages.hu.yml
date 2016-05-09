@@ -130,7 +130,7 @@ permissions.roles.description.root: "Beépített superuser szerepkör, automatik
 general.phrase.cancel: "Mégse"
 "Categories": "Kategóriák"
 "Category": "Kategória"
-"Change Log": "Változásnapló"
+general.phrase.change-log: "Változásnapló"
 "Change status to 'draft'": "Állapot váltása 'piszkozatba'"
 "Change status to 'held'": "Állapot váltása 'visszatartottba'"
 "Check again": "Ismételt vizsgálat"

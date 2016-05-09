@@ -96,7 +96,7 @@ permissions.roles.description.root: "Inbyggd superanvändarroll, tilldelas autom
 general.phrase.cancel: "Avbryt"
 "Categories": "Kategorier"
 "Category": "Kategori"
-"Change Log": "Ändringslogg"
+general.phrase.change-log: "Ändringslogg"
 "Change status to 'draft'": "Ändra status till 'utkast'"
 "Change status to 'held'": "Ändra status till 'avpublicerad'"
 "Check again": "Kontrollera igen"

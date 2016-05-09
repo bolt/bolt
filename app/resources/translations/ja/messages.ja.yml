@@ -335,7 +335,7 @@ permissions.roles.description.root: "ビルトインの　スーパーユーザ�
 general.phrase.cancel: "キャンセル"
 "Categories": "カテゴリ"
 "Category": "カテゴリ"
-"Change Log": "変更ログ"
+general.phrase.change-log: "変更ログ"
 "Change status to 'draft'": "ステータスを'下書き'に変更"
 "Change status to 'held'": "ステータスを'非公開'に変更"
 "Check again": "再チェック"
