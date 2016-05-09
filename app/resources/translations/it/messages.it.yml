@@ -113,7 +113,7 @@ general.phrase.required-is-or-match-pattern: #
 general.phrase.required-is-bang: #
 general.phrase.keyword-ellipsis: #
 "Link": #
-"Listing template": #
+general.phrase.listing-template: #
 "Live Edit": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Login": #
