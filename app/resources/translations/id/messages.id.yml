@@ -127,7 +127,7 @@ general.phrase.no-preview: #
 general.phrase.no-content-found: #
 general.phrase.no-files-in-list: #
 general.phrase.no-images-in-list: #
-"No relations found!": #
+general.phrase.no-relations-found-bang: #
 "No results found for '%SEARCHTERM%'. Please try another search.": #
 "No such action for user '%s'.": #
 "No theme name found. Theme is not generated.": #
