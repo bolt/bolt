@@ -416,7 +416,7 @@ general.phrase.file-not-readable-following-colon: "Nie można odczytać następu
 "The translations file '%s' is not readable.": "Plik tłumaczeń '%s' nie posiada praw do odczytu."
 page.extend.theme.generation.success: "Skórka wygenerowana z powodzeniem. Teraz można edytować ją bezpośrednio z katalogu skórek."
 general.phrase.stack-empty: "Nie ma jeszcze żadnych rzeczy na stosie."
-"There are no saved changes, yet.": "Nie zapisano jeszcze żadnych zmian."
+general.phrase.not-saved: "Nie zapisano jeszcze żadnych zmian."
 "There are no users in the database. Please create the first user.": "Nie ma żadnych użytkowników w bazie danych. Proszę utworzyć pierwszego użytkownika."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Brak użytkowników w systemie. Proszę utworzyć pierwszego użytkownika, który uzyska uprawnienia root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Zawsze powinien być co najmniej jeden użytkownik 'root'. Właśnie awansowałeś. Gratulacje!"

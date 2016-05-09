@@ -326,7 +326,7 @@ general.phrase.file-not-readable-following-colon: "Het volgende bestand kon niet
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
 page.extend.theme.generation.success: "Thema aangemaakt! Je kunt de bestanden bewerken in de thema-map."
 general.phrase.stack-empty: "Nog geen bestanden op de Stack."
-"There are no saved changes, yet.": "Er zijn nog geen opgeslagen wijzigingen om te tonen."
+general.phrase.not-saved: "Er zijn nog geen opgeslagen wijzigingen om te tonen."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
 "There is no undo!": "Dit kan niet ongedaan worden gemaakt!"

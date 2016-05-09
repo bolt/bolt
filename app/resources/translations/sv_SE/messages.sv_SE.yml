@@ -333,7 +333,7 @@ general.phrase.file-not-readable-following-colon: "Följande fil kunde inte läs
 "The translations file '%s' is not readable.": "Översättningsfilen '%s' är inte läsbar."
 page.extend.theme.generation.success: "Temat har genererats. Du kan nu redigera det i din temamapp."
 general.phrase.stack-empty: "Det finns inga filer på filhögen ännu."
-"There are no saved changes, yet.": "Det finns inga sparade ändringar ännu."
+general.phrase.not-saved: "Det finns inga sparade ändringar ännu."
 "There are no users in the database. Please create the first user.": "Det finns inga användare i databasen, vänligen skapa den första användaren."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Det finns inga användare i systemet. Vänligen skapa den första användaren, som kommer få root-privilegier."
 "There is no undo!": "Det går inte att ångra!"

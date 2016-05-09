@@ -359,7 +359,7 @@ general.phrase.file-not-readable-following-colon: "Die folgende Datei konnte nic
 "The translations file '%s' is not readable.": "Übersetzungsdatei '%s' nicht lesbar."
 page.extend.theme.generation.success: "Das Theme wurde erfolgreich generiert. Sie können es nun direkt in Ihrem Themeverzeichnis bearbeiten."
 general.phrase.stack-empty: "Noch keine Dateien auf dem Stapel."
-"There are no saved changes, yet.": "Noch keine gespeicherten Änderungen vorhanden."
+general.phrase.not-saved: "Noch keine gespeicherten Änderungen vorhanden."
 "There are no users in the database. Please create the first user.": "Es gibt keine Benutzer in der Datenbank. Bitte erstellen Sie den ersten Benutzer."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 "There is no undo!": "Es gibt kein Zurück!"

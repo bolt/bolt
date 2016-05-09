@@ -324,7 +324,7 @@ general.phrase.file-not-readable-following-colon: "Le fichier suivant n'est pas 
 "The value must not be greater than “%MAXVAL%”!": "La valeur ne doit pas être supérieure à '%MAXVAL%' !"
 page.extend.theme.generation.success: "Le thème a été généré. Vous pouvez dorénavant le modifier directement à partir du répertoire des thèmes."
 general.phrase.stack-empty: "Aucun fichier n'est présent dans la pile."
-"There are no saved changes, yet.": "Aucune modification enregistrée."
+general.phrase.not-saved: "Aucune modification enregistrée."
 "There are no users in the database. Please create the first user.": "Aucun utilisateur n'est présent dans la base. Veuillez créer l'utilisateur initial."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Aucun utilisateur n'est présent dans la base. Veuillez créer l'utilisateur initial qui possédera les droits 'root' sur le site."
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a aucun bloc avec la valeur 'about-us' comme slug. Si vous en créez un, il s'affichera ici. Dirigez-vous sur 'Configuration' > 'Vérifier la base de données' et 'Ajouter des enregistrements de démonstration', pour générer automatiquement ce bloc."

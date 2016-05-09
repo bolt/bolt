@@ -173,7 +173,7 @@ general.phrase.directory-not-found-writable: #
 "The value must not be greater than “%MAXVAL%”!": #
 page.extend.theme.generation.success: #
 general.phrase.stack-empty: #
-"There are no saved changes, yet.": #
+general.phrase.not-saved: #
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": #
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
 "There is no undo!": #

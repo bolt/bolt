@@ -352,7 +352,7 @@ general.phrase.file-not-readable-following-colon: "A következő fájl nem olvas
 "The value must not be greater than “%MAXVAL%”!": "Az érték legfeljebb “%MAXVAL%” lehet!"
 page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
 general.phrase.stack-empty: "Nincsenek képek a kupacban."
-"There are no saved changes, yet.": "A változásokat még nem mentetted."
+general.phrase.not-saved: "A változásokat még nem mentetted."
 "There are no users in the database. Please create the first user.": "Nincsenek felhasználók az adatbázisban. Hozd létre az első felhasználót."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Nincsenek még felhasználók a rendszerben. Hozd létre az első felhasználót akinek root jogosultsága lesz."
 "There is no undo!": "Nincs visszavonás!"
