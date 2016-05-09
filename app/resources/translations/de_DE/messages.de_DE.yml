@@ -16,7 +16,7 @@
 
 #--- 36 untranslated messages -------------------------------------------------
 
-"Add Selected": #
+general.phrase.add-selected: #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
 "Cleared cache.": #

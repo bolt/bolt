@@ -16,7 +16,7 @@
 
 #--- 125 untranslated messages ------------------------------------------------
 
-"Add Selected": #
+general.phrase.add-selected: #
 "Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #

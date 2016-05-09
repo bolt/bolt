@@ -16,7 +16,7 @@
 
 #--- 77 untranslated messages -------------------------------------------------
 
-"Add Selected": #
+general.phrase.add-selected: #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to do this for %NUMBER% records?": #
 "Are you sure you want to do this for 1 record?": #

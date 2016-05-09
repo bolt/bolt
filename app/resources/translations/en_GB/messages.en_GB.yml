@@ -22,7 +22,7 @@
 "(none)": "(none)"
 "A password reset link has been sent to '%user%'.": "A password reset link has been sent to '%user%'."
 general.phrase.action-plural: "Actions"
-"Add Selected": "Add Selected"
+general.phrase.add-selected: "Add Selected"
 "Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 contenttypes.record.comment-add-colon: "Add a comment:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"

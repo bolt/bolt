@@ -42,7 +42,7 @@
 "(none)": "(nenhum)"
 "A password reset link has been sent to '%user%'.": "Foi enviada uma ligação ao '%user%' para poder redefinir a senha."
 general.phrase.action-plural: "Ações"
-"Add Selected": "Adicionar selecionados"
+general.phrase.add-selected: "Adicionar selecionados"
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 contenttypes.record.comment-add-colon: "Adicionar comentário:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"

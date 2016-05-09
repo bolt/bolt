@@ -16,7 +16,7 @@
 
 #--- 135 untranslated messages ------------------------------------------------
 
-"Add Selected": #
+general.phrase.add-selected: #
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #

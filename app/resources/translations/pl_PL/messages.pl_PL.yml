@@ -16,7 +16,7 @@
 
 #--- 79 untranslated messages -------------------------------------------------
 
-"Add Selected": #
+general.phrase.add-selected: #
 "Alt": #
 "At least %NUM% characters required": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
