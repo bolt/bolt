@@ -505,7 +505,7 @@ general.phrase.pager-showing-from-to-of: "Visualizzo %pager_for% %from% - %to% d
 general.phrase.size: "Dimensione"
 "Skipped <tt>%key%</tt> (already has records)": "Saltato <tt>%key%</tt> (ha già contenuti)"
 "Skipped <tt>%key%</tt> (not checked)": "Saltato <tt>%key%</tt> (non selezionato)"
-"Sophisticated, lightweight & simple CMS": "Sofisticato, ultraleggero e semplice CMS"
+general.bolt-tagline: "Sofisticato, ultraleggero e semplice CMS"
 "Status:": "Stato:"
 "Taxonomy": "Tassonomia"
 "That user does not exist.": "L'utente non esiste"

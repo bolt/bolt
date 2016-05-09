@@ -545,7 +545,7 @@ general.phrase.pager-showing-from-to-of: "Viser %pager_for% %from% - %to% av %co
 general.phrase.size: "Størrelse"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppet over <tt>%key%</tt> (har allerede poster)"
 "Skipped <tt>%key%</tt> (not checked)": "Hoppet over <tt>%key%</tt> (ikke kontrollert)"
-"Sophisticated, lightweight & simple CMS": "Sofistikert, lett og enkelt CMS"
+general.bolt-tagline: "Sofistikert, lett og enkelt CMS"
 "Stack": "Bunke"
 "Tag": "Merkelapp"
 "Tags": "Merkelapper"
