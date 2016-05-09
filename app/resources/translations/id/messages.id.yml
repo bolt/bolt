@@ -215,7 +215,7 @@ general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 general.phrase.missing-root-jackpot: #
 general.phrase.record-related-to-variable: #
-"This template adds new fields. Save, then refresh to see these changes.": #
+general.phrase.warning-template: #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Thumbnail": #
 "Time in 24h/12h format": #

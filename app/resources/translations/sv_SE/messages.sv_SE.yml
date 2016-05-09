@@ -339,7 +339,7 @@ general.phrase.users-none-create-first-extended: "Det finns inga användare i sy
 general.phrase.no-undo: "Det går inte att ångra!"
 general.phrase.missing-root-jackpot: "Det måste alltid finnas en 'root' användare. Du har just blivit befodrad. Grattis!"
 "This is a checkbox": "Detta är en Kryssruta"
-"This template adds new fields. Save, then refresh to see these changes.": "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
+general.phrase.warning-template: "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
 "Thumbnail": "Miniatyrbild"
 "Time in 24h/12h format": "Tid i 24h/12h format"

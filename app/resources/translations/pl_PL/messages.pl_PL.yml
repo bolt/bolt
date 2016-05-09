@@ -77,7 +77,7 @@ general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 general.phrase.record-related-to-variable: #
-"This template adds new fields. Save, then refresh to see these changes.": #
+general.phrase.warning-template: #
 "Thumbnail": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #

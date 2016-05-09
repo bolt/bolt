@@ -365,7 +365,7 @@ general.phrase.users-none-create-first-extended: "Auf dem System existieren kein
 general.phrase.no-undo: "Es gibt kein Zurück!"
 general.phrase.missing-root-jackpot: "Es sollte immer mindestens einen 'root' Benutzer geben. Sie wurden soeben befördert. Glückwunsch!"
 "This is a checkbox": "Das ist ein Kontrollkästchen"
-"This template adds new fields. Save, then refresh to see these changes.": "Dieses Template fügt neue Felder hinzu. Speichern und aktualisieren Sie die Seite, um diese Änderungen zu sehen."
+general.phrase.warning-template: "Dieses Template fügt neue Felder hinzu. Speichern und aktualisieren Sie die Seite, um diese Änderungen zu sehen."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 "Thumbnail": "Thumbnail"
 "Time in 24h/12h format": "Zeit im 24/12 Stunden Format"

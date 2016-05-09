@@ -126,7 +126,7 @@ general.phrase.not-saved: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 general.phrase.record-related-to-variable: #
-"This template adds new fields. Save, then refresh to see these changes.": #
+general.phrase.warning-template: #
 "Thumbnail": #
 "Time in 24h/12h format": #
 "Trim Change Log": #
