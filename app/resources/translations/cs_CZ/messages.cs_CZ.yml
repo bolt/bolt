@@ -470,7 +470,7 @@
 general.phrase.by: "od"
 general.phrase.field: "pole"
 general.phrase.value-new: "nová hodnota"
-component.changelog-detail.value-old: "původní hodnota"
+general.phrase.value-old: "původní hodnota"
 
 component.changelog-pager.page: "Strana"
 

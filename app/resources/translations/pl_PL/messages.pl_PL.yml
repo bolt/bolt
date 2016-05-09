@@ -485,7 +485,7 @@
 general.phrase.by: "przez"
 general.phrase.field: "Pole"
 general.phrase.value-new: "Nowa wartość"
-component.changelog-detail.value-old: "Stara wartość"
+general.phrase.value-old: "Stara wartość"
 
 component.changelog-pager.page: "Strona"
 

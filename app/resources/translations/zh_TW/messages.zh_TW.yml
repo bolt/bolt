@@ -494,7 +494,7 @@
 general.phrase.by: "由"
 general.phrase.field: "欄位"
 general.phrase.value-new: "新值"
-component.changelog-detail.value-old: "舊值"
+general.phrase.value-old: "舊值"
 
 component.changelog-pager.page: "頁面"
 

@@ -488,7 +488,7 @@
 general.phrase.by: "@"
 general.phrase.field: "Kenttä"
 general.phrase.value-new: "Uusi arvo"
-component.changelog-detail.value-old: "Vanha arvo"
+general.phrase.value-old: "Vanha arvo"
 
 component.changelog-pager.page: "Sivu"
 

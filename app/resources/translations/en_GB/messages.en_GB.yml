@@ -407,7 +407,7 @@
 general.phrase.by: "by"
 general.phrase.field: "Field"
 general.phrase.value-new: "New value"
-component.changelog-detail.value-old: "Old value"
+general.phrase.value-old: "Old value"
 
 component.changelog-pager.page: "Page"
 

@@ -490,7 +490,7 @@
 general.phrase.by: "por"
 general.phrase.field: "campo"
 general.phrase.value-new: "nuevo valor"
-component.changelog-detail.value-old: "antiguo valor"
+general.phrase.value-old: "antiguo valor"
 
 component.changelog-pager.page: "Página"
 

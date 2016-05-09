@@ -418,7 +418,7 @@
 general.phrase.by: "av"
 general.phrase.field: "Fält"
 general.phrase.value-new: "Nytt värde"
-component.changelog-detail.value-old: "Gammalt värde"
+general.phrase.value-old: "Gammalt värde"
 
 component.changelog-pager.page: "Sida"
 

@@ -498,7 +498,7 @@
 
 general.phrase.field: "поле"
 general.phrase.value-new: "Новое значение"
-component.changelog-detail.value-old: "Старое значение"
+general.phrase.value-old: "Старое значение"
 
 component.changelog-pager.page: "Страница"
 
