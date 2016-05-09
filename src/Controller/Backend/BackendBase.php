@@ -122,7 +122,7 @@ abstract class BackendBase extends Base
         }
 
         if (!$this->isAllowed($roleRoute)) {
-            $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
+            $app['logger.flash']->error(Trans::__('general.phrase.access-denied-privilege-view-page'));
             $event->setReason(AccessControlEvents::FAILURE_DENIED);
             $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
 

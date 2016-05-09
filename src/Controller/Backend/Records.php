@@ -104,7 +104,7 @@ class Records extends BackendBase
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
-            $this->flashes()->error(Trans::__('You do not have the right privileges to view that page.'));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-view-page'));
 
             return $this->redirectToRoute('dashboard');
         }
