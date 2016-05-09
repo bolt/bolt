@@ -70,7 +70,7 @@
         {% endif %}
         {% if context.contenttype.relations|default('') is iterable %}
             <li>
-                {{ __("Relationships") }}:
+                {{ __('general.phrase.relationships') }}:
                 {% for rel, data in context.contenttype.relations %}
                     {{ rel }}{% if not loop.last %}, {% endif %}
                 {% endfor %}

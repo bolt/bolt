@@ -526,7 +526,7 @@ general.phrase.publication-date-colon: "Ημερομηνία δημοσίευσ�
 general.phrase.published: "Δημοσιεύτηκε"
 general.phrase.published-on-colon: "Δημοσιεύτηκε στις:"
 general.phrase.read-more: "Διαβάστε περισσότερα"
-"Relationships": "Σχέσεις"
+general.phrase.relationships: "Σχέσεις"
 "Roles": "Ρόλοι"
 "Roles and Permissions": "Ρόλοι και Δικαιώματα"
 "Save & return to overview": "Αποθήκευση κι Επιστροφή στην σύνοψη"

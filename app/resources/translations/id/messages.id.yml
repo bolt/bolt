@@ -152,7 +152,7 @@ general.phrase.database-prefill: # "Pre-fill database"
 general.phrase.profile: #
 general.phrase.publish: #
 general.phrase.records: #
-"Relationships": #
+general.phrase.relationships: #
 "Rename %foldername%": #
 "Repeater": #
 "Roles and Permissions": #
