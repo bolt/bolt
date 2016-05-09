@@ -20,7 +20,7 @@
 general.phrase.add-selected: #
 "Add a brief, optional comment to describe what's changed.": #
 contenttypes.record.comment-add-colon: #
-"Alt": #
+field.image.label.alt: #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #

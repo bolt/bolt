@@ -17,7 +17,7 @@
 #--- 53 untranslated messages -------------------------------------------------
 
 general.phrase.add-selected: #
-"Alt": #
+field.image.label.alt: #
 "Body": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
