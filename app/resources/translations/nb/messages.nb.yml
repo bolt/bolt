@@ -77,7 +77,7 @@ page.file-management.message.save-failed-invalid-form: #
 page.file-management.title: #
 general.phrase.file-upload-failed: #
 general.phrase.filtering: #
-"Find": #
+general.phrase.find: #
 "Floatfield": # "Float field"
 "Folder permissions insufficient": #
 "Generic failure while testing connection to extension server: %errormessage%": #
