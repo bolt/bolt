@@ -179,7 +179,7 @@
             </span>
         {% else %}
             <button type="button" class="btn btn-sm" disabled="disabled">
-                {{ __('Upload not allowed') }}
+                {{ __('general.phrase.upload-not-allowed') }}
                 {# creating a dummy stub, instead of the uploader. Needed (currently) to attach events to #}
                 {% set attr_upload = attr_upload|merge({'type' : 'hidden'}) %}
                 <input{{ attr(attr_upload) }}>

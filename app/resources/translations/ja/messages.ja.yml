@@ -165,7 +165,7 @@ page.extend.message.package-install-info-fail: #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 general.phrase.upload-file-to-directory: #
-"Upload not allowed": #
+general.phrase.upload-not-allowed: #
 "Users & Permissions": #
 "View (saved version) on site": #
 "View Roles": #

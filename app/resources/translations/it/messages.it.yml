@@ -231,7 +231,7 @@ general.phrase.error-session-data-login: #
 general.phrase.upload: #
 general.phrase.upload-file-to-directory: #
 general.phrase.upload-file: #
-"Upload not allowed": #
+general.phrase.upload-not-allowed: #
 "Users & Permissions": #
 "Video": #
 "View (saved version) on site": #
