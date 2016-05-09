@@ -99,7 +99,7 @@ class Password
         } else {
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
-            $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['logger.flash']->error(Trans::__('general.access-control.reset-failed'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;

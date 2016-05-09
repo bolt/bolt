@@ -128,7 +128,7 @@ general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
 general.phrase.other-content: #
 general.phrase.others: #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
+general.access-control.reset-failed: #
 "Path to image file": #
 "Please enter a new file name!": #
 "Please enter a new folder name!": #
