@@ -486,7 +486,7 @@ page.file-management.message.folder-not-found: "Klarte ikke finne mappa «%s» e
 general.phrase.folders: "Mapper"
 general.phrase.full-list-ellipsis: "Fullstendig liste …"
 general.phrase.global-permissions: "Globale rettigheter"
-"IP address": "IP-adresse"
+general.phrase.ip.address: "IP-adresse"
 "Image": "Bilde"
 "Last edited on:": "Sist endret:"
 "Last known IP": "Sist kjente IP"

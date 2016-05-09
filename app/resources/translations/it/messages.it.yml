@@ -459,7 +459,7 @@ general.phrase.database-prefill-dummy-content: "Inserisci nel database del conte
 general.phrase.filter: "Filtri"
 page.file-management.message.folder-not-found: "La directory '%s' non è stata trovata, o non è leggibile."
 general.phrase.folders: "Cartelle"
-"IP address": "Indirizzo IP"
+general.phrase.ip.address: "Indirizzo IP"
 "Last edited on:": "Ultima modifica del:"
 "Last known IP": "Ultimo IP conosciuto"
 "Last seen": "Ultima visita"

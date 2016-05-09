@@ -337,7 +337,7 @@ page.file-management.message.folder-access-denied: "Недостаточно п�
 general.phrase.folders: "Папки"
 "Geolocation": "Геолокация"
 general.phrase.global-permissions: "Глобальные права"
-"IP address": "IP адрес"
+general.phrase.ip.address: "IP адрес"
 "Image": "Изображение"
 "Imagelist": "Изображения"
 general.phrase.info: "Информация"
