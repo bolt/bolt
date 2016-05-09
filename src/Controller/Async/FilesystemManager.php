@@ -83,7 +83,7 @@ class FilesystemManager extends AsyncBase
         try {
             $filesystem->listContents($path);
         } catch (IOException $e) {
-            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
+            $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
             $this->logException($msg, $e);
             $this->flashes()->error($msg);
         }
