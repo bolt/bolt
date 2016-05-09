@@ -146,7 +146,7 @@ class Login extends AccessChecker
     protected function loginCheckAuthtoken($authCookie, AccessControlEvent $event)
     {
         if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
-            $this->flashLogger->error(Trans::__('Invalid login parameters.'));
+            $this->flashLogger->error(Trans::__('general.phrase.error-login-invalid-parameters'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
             return false;

@@ -35,7 +35,7 @@ general.phrase.error-cache-clear: #
 "Group": #
 "Groups": #
 general.phrase.info: #
-"Invalid login parameters.": #
+general.phrase.error-login-invalid-parameters: #
 "Link": #
 "Live Edit": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
