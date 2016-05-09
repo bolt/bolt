@@ -206,7 +206,7 @@ general.phrase.stack-empty: #
 general.phrase.not-saved: #
 general.phrase.users-none-create-first-extended: #
 general.phrase.missing-about-page-block: #
-"There is no undo!": #
+general.phrase.no-undo: #
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
 "This record is related to the following %CTNAME%:": #
 "This template adds new fields. Save, then refresh to see these changes.": #

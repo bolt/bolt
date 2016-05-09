@@ -120,7 +120,7 @@ general.phrase.file-not-readable: #
 page.extend.theme.generation.success: #
 general.phrase.not-saved: #
 general.phrase.missing-about-page-block: #
-"There is no undo!": #
+general.phrase.no-undo: #
 "This record is related to the following %CTNAME%:": #
 "This template adds new fields. Save, then refresh to see these changes.": #
 "Thumbnail": #

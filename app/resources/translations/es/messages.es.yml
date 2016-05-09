@@ -63,7 +63,7 @@ general.phrase.file-not-readable: #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
 general.phrase.missing-about-page-block: #
-"There is no undo!": #
+general.phrase.no-undo: #
 "This record is related to the following %CTNAME%:": #
 "Thumbnail": #
 "Tip:": #
