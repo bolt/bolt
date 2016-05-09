@@ -356,7 +356,7 @@ general.phrase.error-session-data-login: "Het ophalen van loginsessiegegevens is
 general.phrase.update-database: "Werk de database bij"
 "Upload": "Uploaden"
 general.phrase.upload-file-to-directory: "Upload een bestand naar deze map"
-"Upload file": "Upload bestand"
+general.phrase.upload-file: "Upload bestand"
 "Upload image": "Upload afbeelding"
 "Upload not allowed": "Deze upload is niet toegestaan"
 general.phrase.general.phrase.uploaded-files: "Geüploade bestanden"

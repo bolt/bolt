@@ -350,7 +350,7 @@ general.phrase.error-session-data-login: "Unable to retrieve login session data.
 general.phrase.update-database: "Update the database"
 "Upload": "Upload"
 general.phrase.upload-file-to-directory: "Upload a file to this folder"
-"Upload file": "Upload file"
+general.phrase.upload-file: "Upload file"
 "Upload image": "Upload image"
 "Upload not allowed": "Upload not allowed"
 general.phrase.general.phrase.uploaded-files: "Uploaded files"

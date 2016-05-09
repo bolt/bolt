@@ -356,7 +356,7 @@ general.phrase.error-session-data-login: "Impossible de reprendre la session. Me
 general.phrase.update-database: "Mettre à jour la base de données"
 "Upload": "Envoyer"
 general.phrase.upload-file-to-directory: "Envoyer un fichier"
-"Upload file": "Envoyer"
+general.phrase.upload-file: "Envoyer"
 "Upload image": "Envoyer une image"
 "Upload not allowed": "Envoi interdit."
 general.phrase.general.phrase.uploaded-files: "Fichiers envoyés"

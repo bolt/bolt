@@ -415,7 +415,7 @@ general.phrase.error-session-data-login: "Nelze získat session informace o zalo
 general.phrase.update-database: "Aktualizovat databázi"
 "Upload": "Nahrát"
 general.phrase.upload-file-to-directory: "Nahrajte soubor do této složky"
-"Upload file": "Nahrát soubor"
+general.phrase.upload-file: "Nahrát soubor"
 "Upload image": "Nahrát obrázek"
 "Upload not allowed": "Ukládání není povoleno"
 general.phrase.general.phrase.uploaded-files: "Nahrané soubory"

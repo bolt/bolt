@@ -365,7 +365,7 @@ page.extend.message.package-install-info-fail: "Não foi possível obter dados d
 general.phrase.update-database: "Atualizar a base de dados"
 "Upload": "Carregar"
 general.phrase.upload-file-to-directory: "Carregar um ficheiro para esta pasta"
-"Upload file": "Carregar ficheiro"
+general.phrase.upload-file: "Carregar ficheiro"
 "Upload image": "Carregar imagem"
 "Upload not allowed": "Carregamento não permitido"
 general.phrase.general.phrase.uploaded-files: "Ficheiros carregados"
