@@ -467,7 +467,7 @@ general.phrase.error-user-name-password-incorrect: "用户名或密码不正确�
 general.phrase.users: "用户"
 "Video": "视频"
 "View (saved version) on site": "观看站点中(保存的版本)"
-"View on site": "在站点上观看"
+general.phrase.view-on-site: "在站点上观看"
 "View related content": "查看相关内容"
 "View site": "查看站点"
 general.phrase.view-edit-templates: "查看/编辑模板"

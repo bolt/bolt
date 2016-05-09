@@ -567,7 +567,7 @@ general.phrase.user-enabled: "Ο χρήστης '%s' ενεργοποιήθηκ�
 general.phrase.user-name: "Όνομα χρήστη"
 general.phrase.error-user-name-password-incorrect: "Όνομα χρήστης ή κωδικός δεν είναι σωστός."
 general.phrase.users: "Χρήστες"
-"View on site": "Εμφάνιση στο site"
+general.phrase.view-on-site: "Εμφάνιση στο site"
 "View site": "Εμφάνιση site"
 "Written by <em>%name%</em> on %date%": "Γράφτηκε απο τον <em>%name%</em> στις %date%"
 "You do not have the right privileges to edit that record.": "Δεν έχετε τα κατάλληλα δικαιώματα για να επεξεργαστείτε αυτην την εγγραφή."

@@ -471,7 +471,7 @@ general.phrase.error-user-name-password-incorrect: "Имя пользовате�
 general.phrase.users: "Пользователи"
 "Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"
-"View on site": "Просмотреть на сайте"
+general.phrase.view-on-site: "Просмотреть на сайте"
 "View related content": "Посмотреть материалы по теме"
 "View site": "Открыть сайт"
 general.phrase.view-edit-templates: "Просмотр/редактирование шаблонов"

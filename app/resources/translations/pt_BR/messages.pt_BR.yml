@@ -495,7 +495,7 @@ general.phrase.error-user-name-password-incorrect: "Login/Senha incorretos. Veri
 general.phrase.users: "Usuários"
 "Video": "Video"
 "View (saved version) on site": "Visualizar (versão salva) no site"
-"View on site": "Visualizar no site"
+general.phrase.view-on-site: "Visualizar no site"
 "View related content": "Visualizar conteúdo relacionado"
 "View site": "Visualizar site"
 general.phrase.view-edit-templates: "Visualizar / alterar Templates"
