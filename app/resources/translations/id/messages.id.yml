@@ -130,7 +130,7 @@ general.phrase.no-images-in-list: #
 general.phrase.no-relations-found-bang: #
 general.phrase.no-result-for-search-term: #
 general.phrase.no-such-action-for-user: #
-"No theme name found. Theme is not generated.": #
+page.extend.theme.generation.missing.name: #
 general.phrase.none: #
 "Not yet installed.": #
 general.phrase.note-colon: #

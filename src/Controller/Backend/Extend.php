@@ -120,7 +120,7 @@ class Extend extends BackendBase
         $newName = $request->get('name');
 
         if (empty($theme)) {
-            return new Response(Trans::__('No theme name found. Theme is not generated.'));
+            return new Response(Trans::__('page.extend.theme.generation.missing.name'));
         }
 
         if (! $newName) {

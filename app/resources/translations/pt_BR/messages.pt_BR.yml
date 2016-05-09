@@ -74,7 +74,7 @@ general.phrase.no-preview: #
 general.phrase.no-content-found: #
 general.phrase.no-files-in-list: #
 general.phrase.no-images-in-list: #
-"No theme name found. Theme is not generated.": #
+page.extend.theme.generation.missing.name: #
 "Not yet installed.": #
 "Omnisearch": #
 "Only root can change file extensions.": #

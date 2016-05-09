@@ -45,7 +45,7 @@ general.phrase.move-down: #
 general.phrase.move-up: #
 general.phrase.no-preview: #
 general.phrase.no-result-for-search-term: #
-"No theme name found. Theme is not generated.": #
+page.extend.theme.generation.missing.name: #
 "Only root can change file extensions.": #
 "Order": #
 "Other content": #
