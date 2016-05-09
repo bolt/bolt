@@ -67,7 +67,7 @@ general.phrase.record-related-to-variable: #
 page.extend.message.package-install-info-fail: #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"You cannot '%s' yourself.": #
+general.phrase.access-denied-self-action: #
 
 #--- 19 untranslated keyword based messages -----------------------------------
 

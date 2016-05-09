@@ -223,7 +223,7 @@ class Users extends BackendBase
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
         if ($currentuser->getId() == $user->getId()) {
-            $this->flashes()->error(Trans::__("You cannot '%s' yourself.", ['%s', $action]));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-self-action', ['%s', $action]));
 
             return $this->redirectToRoute('users');
         }
