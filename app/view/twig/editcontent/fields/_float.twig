@@ -49,7 +49,7 @@
 
     {% if option.required %}
         {% set validation = validation|merge({required: true}) %}
-        {{ data('validation.required', __('Is required!')) }}
+        {{ data('validation.required', __('general.phrase.required-is-bang')) }}
     {% endif %}
 
     {% if option.min %}

@@ -62,7 +62,7 @@ general.phrase.error-login-invalid-parameters: #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Is required or needs to match a pattern!": #
-"Is required!": #
+general.phrase.required-is-bang: #
 "Keyword …": #
 "Link": #
 "Live Edit": #

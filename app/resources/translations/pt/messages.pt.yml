@@ -190,7 +190,7 @@ general.phrase.error-login-invalid-parameters: "Parâmetros de autenticação in
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
 "Is required or needs to match a pattern!": "É necessário ou tem de corresponder a um padrão!"
-"Is required!": "É obrigatório!"
+general.phrase.required-is-bang: "É obrigatório!"
 "Keyword …": "Termo-chave..."
 "Last edited on:": "Última edição em:"
 "Last known IP": "Último IP conhecido"
