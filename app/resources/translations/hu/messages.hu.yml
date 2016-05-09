@@ -37,7 +37,7 @@ general.phrase.error-cache-clear: #
 general.phrase.id: #
 general.phrase.info: #
 "Link": #
-"Live Edit": #
+general.phrase.live-edit: #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Move Down": #

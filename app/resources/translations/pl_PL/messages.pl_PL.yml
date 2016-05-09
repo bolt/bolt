@@ -37,7 +37,7 @@ general.phrase.error-cache-clear: #
 general.phrase.info: #
 general.phrase.error-login-invalid-parameters: #
 "Link": #
-"Live Edit": #
+general.phrase.live-edit: #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
