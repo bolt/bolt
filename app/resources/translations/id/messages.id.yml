@@ -86,7 +86,7 @@ page.file-management.message.save-failed-invalid-form: #
 page.file-management.title: #
 general.phrase.file-upload-failed: #
 general.phrase.stack-files: #
-"Filtering": #
+general.phrase.filtering: #
 "Find": #
 "Floatfield": # "Float field"
 "Folder permissions insufficient": #

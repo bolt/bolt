@@ -30,7 +30,7 @@
 
     <form class="form-inline" style="margin-top:15px;">
         <input type="hidden" value="{{ request('show', '', true) }}" name="show">
-        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering') }}">
+        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.filtering') }}">
         <button type="submit" class="btn">{{ __('general.phrase.filter') }}</button>
         {% if request('filter') %}<p><a href="?">{{ __('general.phrase.clear-filter') }}</a></p>{% endif %}
     </form>

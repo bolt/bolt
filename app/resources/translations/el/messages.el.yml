@@ -82,7 +82,7 @@ general.phrase.field-fieldname: #
 page.file-management.message.save-failed-invalid-form: #
 "Filelist": # "File list"
 general.phrase.file-upload-failed: #
-"Filtering": #
+general.phrase.filtering: #
 "Find": #
 "Floatfield": # "Float field"
 "Folder permissions insufficient": #

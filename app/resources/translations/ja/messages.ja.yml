@@ -65,7 +65,7 @@ general.phrase.error-send-password-request: #
 general.phrase.field-fieldname: #
 page.file-management.message.save-failed-invalid-form: #
 general.phrase.file-upload-failed: #
-"Filtering": #
+general.phrase.filtering: #
 "Find": #
 "Floatfield": # "Float field"
 "Generic failure while testing connection to extension server: %errormessage%": #
