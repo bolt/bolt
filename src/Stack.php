@@ -217,7 +217,7 @@ class Stack
             if ($type == 'image') {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf('%s × %s', $size[0], $size[1]);
-                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('Size'), $size[0], $size[1]);
+                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('general.phrase.size'), $size[0], $size[1]);
             }
 
             //add it to our list.

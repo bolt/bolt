@@ -542,7 +542,7 @@ general.phrase.session-resumed-colon: "Η συνεδρία συνεχίστηκ�
 general.phrase.settings: "Ρυθμίσεις"
 general.phrase.showing: "Εμφάνιση"
 general.phrase.pager-showing-from-to-of: "Εμφάνιση %pager_for% %from% - %to% απο %count%"
-"Size": "Μέγεθος"
+general.phrase.size: "Μέγεθος"
 "Skipped <tt>%key%</tt> (already has records)": "Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)"
 "Skipped <tt>%key%</tt> (not checked)": "Παράληψη <tt>%key%</tt> (δεν ελέγθηκε)"
 "Something went wrong": "Κάτι πήγε στραβά"
