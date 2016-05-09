@@ -64,7 +64,7 @@
 "A password reset link has been sent to '%user%'.": "En återställningslänk för lösenord har skickats till '%user%'."
 general.phrase.action-plural: "Åtgärder"
 "Add a brief, optional comment to describe what's changed.": "Lägg till en kort, valfri kommentar om vad som ändrats."
-"Add a comment:": "Lägg till en kommentar:"
+contenttypes.record.comment-add-colon: "Lägg till en kommentar:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Tyvärr, ingen 'om'-sida!"

@@ -43,7 +43,7 @@
 general.phrase.action-plural: "Acties"
 "Add Selected": "Selectie toevoegen"
 "Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
-"Add a comment:": "Voeg een opmerking toe:"
+contenttypes.record.comment-add-colon: "Voeg een opmerking toe:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Helaas, geen 'over ons'!"

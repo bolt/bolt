@@ -176,7 +176,7 @@
 "A password reset link has been sent to '%user%'.": "Salasanan palautuslinkki lähetettiin käyttäjälle '%user%'."
 general.phrase.action-plural: "Toiminnot"
 "Add a brief, optional comment to describe what's changed.": "Lisää lyhyt, valinnainen kuvaus muutoksista."
-"Add a comment:": "Lisää kommentti:"
+contenttypes.record.comment-add-colon: "Lisää kommentti:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Voi ei, lisätietoja ei saatavilla!"

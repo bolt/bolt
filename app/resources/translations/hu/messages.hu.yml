@@ -100,7 +100,7 @@
 "A password reset link has been sent to '%user%'.": "Jelszó visszaállítási link elküldve a '%user%' felhasználónak."
 general.phrase.action-plural: "Műveletek"
 "Add a brief, optional comment to describe what's changed.": "Rövid, tetszőleges megjegyzés ami leírja, mi változott."
-"Add a comment:": "Megjegyzés hozzáadása:"
+contenttypes.record.comment-add-colon: "Megjegyzés hozzáadása:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Jaj, nincs bemutatkozás!"

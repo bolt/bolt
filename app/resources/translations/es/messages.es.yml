@@ -162,7 +162,7 @@
 "A password reset link has been sent to '%user%'.": "Se ha enviado un enlace para reiniciar la contraseña de '%user%'."
 general.phrase.action-plural: "Acciones"
 "Add a brief, optional comment to describe what's changed.": "Añadir un breve comentario, opcional para describir lo que ha cambiado."
-"Add a comment:": "Añade un comentario:"
+contenttypes.record.comment-add-colon: "Añade un comentario:"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Lástima, ¡no hay acerca!"

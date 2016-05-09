@@ -246,7 +246,7 @@
 "A password reset link has been sent to '%user%'.": "Ссылка для сброса пароля была выслана '%user%'."
 general.phrase.action-plural: "Действия"
 "Add a brief, optional comment to describe what's changed.": "Кратко, необязательный комментарий, который описывает что изменилось."
-"Add a comment:": "Добавить комментарий:"
+contenttypes.record.comment-add-colon: "Добавить комментарий:"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Увы, раздел 'О нас' отсутсвует!"
 "All content types": "Все сущности"

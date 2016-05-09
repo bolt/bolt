@@ -19,7 +19,7 @@
 "(none)": #
 "Add Selected": #
 "Add a brief, optional comment to describe what's changed.": #
-"Add a comment:": #
+contenttypes.record.comment-add-colon: #
 "Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #

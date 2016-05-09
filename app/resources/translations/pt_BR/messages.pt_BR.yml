@@ -269,7 +269,7 @@
 general.phrase.action-plural: "Ações"
 "Add Selected": "Adicionar selecionados"
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
-"Add a comment:": "Adicione um comentário"
+contenttypes.record.comment-add-colon: "Adicione um comentário"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Ooops. nada sobre :( "
