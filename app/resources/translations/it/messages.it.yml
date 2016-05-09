@@ -43,7 +43,7 @@ permissions.roles.description.owner: #
 permissions.roles.description.root: #
 general.phrase.change-log: #
 general.phrase.toggle-all: #
-"Class:": #
+general.phrase.stay-classy-colon: #
 "Clear Change Log": #
 "Clear System Log": #
 "Cleared cache.": #

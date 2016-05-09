@@ -272,7 +272,7 @@ general.phrase.status-change-held: "Изменить статус на 'забл
 general.phrase.check-again: "Проверить снова"
 general.phrase.check-database: "Проверить базу данных"
 "Choose an entry": "Выберите запрись"
-"Class:": "Класс:"
+general.phrase.stay-classy-colon: "Класс:"
 "Clear cache again": "Очистить кэш снова"
 "Clear filter": "Сбросить фильтр"
 "Clear sort/filter": "Сбросить сортировку/фильтр"
