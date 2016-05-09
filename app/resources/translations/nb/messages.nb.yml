@@ -111,7 +111,7 @@ general.phrase.move-up: #
 "Multiselect": # "Multi-select"
 general.bolt-new-site-set-up: #
 "No Preview": #
-"No content found.": #
+general.phrase.no-content-found: #
 "No files in the list, yet.": #
 "No images in the list, yet.": #
 "No relations found!": #

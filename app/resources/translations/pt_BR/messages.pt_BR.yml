@@ -71,7 +71,7 @@ general.phrase.error-local-extension-set-up-incomplete: #
 general.phrase.meta: #
 general.bolt-new-site-set-up: #
 "No Preview": #
-"No content found.": #
+general.phrase.no-content-found: #
 "No files in the list, yet.": #
 "No images in the list, yet.": #
 "No theme name found. Theme is not generated.": #

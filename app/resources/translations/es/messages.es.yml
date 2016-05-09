@@ -312,7 +312,7 @@ general.phrase.modifications-database-colon: "Modificaciones hechas a la base de
 general.phrase.modifications-needed-colon: "Modificaciones necesarias"
 general.phrase.modified: "Modificado"
 general.bolt-new-site-set-up: "Nuevo sitio Bolt ha sido establecido"
-"No content found.": "No se ha encontrado el contenido"
+general.phrase.no-content-found: "No se ha encontrado el contenido"
 "No files in the list, yet.": "Todavía no hay archivos en la lista"
 "No images in the list, yet.": "Todavía no hay imágenes en la lista"
 "No relations found!": "¡No se han encontrado relaciones!"
