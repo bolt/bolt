@@ -458,7 +458,7 @@ general.phrase.database-check-update: "Έλεγχος / ανανέωση Βάσ�
 general.phrase.delete-file-name: "Διαγραφή %filename%"
 general.phrase.delete-user-name: "Διαγραφή %username%"
 general.phrase.depublication-date-colon: "Ημερομηνία αντιγραφής:"
-"Deselect all": "Αποεπιλογή όλων"
+general.phrase.deselect-all: "Αποεπιλογή όλων"
 "Disable %username%": "Απενεργοποίηση %username%"
 "Done!": "Τέλος!"
 "Draft": "Προσχέδιο"
