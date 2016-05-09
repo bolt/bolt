@@ -83,7 +83,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
         $configEntry->add(
             (new MenuEntry('config_contenttypes', $path))
-                ->setLabel(Trans::__('Contenttypes'))
+                ->setLabel(Trans::__('general.phrase.content-types'))
                 ->setIcon('fa:paint-brush')
                 ->setPermission('files:config')
         );
@@ -220,7 +220,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('translation', ['domain' => 'contenttypes']);
         $translationEntry->add(
             (new MenuEntry('tr_contenttypes', $path))
-                ->setLabel(Trans::__('Contenttypes'))
+                ->setLabel(Trans::__('general.phrase.content-types'))
                 ->setIcon('fa:flag')
                 ->setPermission('translation')
         );

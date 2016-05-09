@@ -129,7 +129,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Contenttypes', 'Configuration'],
-                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('Contenttypes'),
+                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('general.phrase.content-types'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 2,
                     'path'        => $this->generatePath('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']),
