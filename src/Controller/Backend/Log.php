@@ -164,7 +164,7 @@ class Log extends BackendBase
             return $this->redirectToRoute('systemlog');
         } elseif ($action == 'trim') {
             $this->manager()->trim('system');
-            $this->flashes()->success(Trans::__('The system log has been trimmed.'));
+            $this->flashes()->success(Trans::__('logs.system-log.trimmed'));
 
             return $this->redirectToRoute('systemlog');
         }

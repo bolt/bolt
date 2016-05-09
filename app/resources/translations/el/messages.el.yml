@@ -182,7 +182,7 @@ logs.change-log.not-found: #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": #
 logs.system-log.cleared: #
-"The system log has been trimmed.": #
+logs.system-log.trimmed: #
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
 "The translations file '%s' is not readable.": #
 "The value has to be at least “%MINVAL%”!": #

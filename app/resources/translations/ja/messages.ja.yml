@@ -138,7 +138,7 @@ general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
 general.phrase.directory-not-found-writable: #
 logs.system-log.cleared: #
-"The system log has been trimmed.": #
+logs.system-log.trimmed: #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
 page.extend.theme.generation.success: #
