@@ -59,7 +59,7 @@
             {% if context.form != false %}
                 {{ include('@bolt/files/_upload.twig') }}
             {% else %}
-                <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
+                <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('page.file-management.message.access-denied') }}</p>
             {% endif %}
 
             {{ widgets('files_bottom', 'backend') }}

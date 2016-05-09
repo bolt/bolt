@@ -482,7 +482,7 @@ general.phrase.upload-file-to-directory: "Fazer upload de um arquivo para esta p
 general.phrase.upload-file: "Upload de arquivo"
 general.phrase.upload-image: "Enviar imagem"
 general.phrase.general.phrase.uploaded-files: "Enviar arquivos"
-"Uploading to this folder is not allowed.": "Uploading para esta pasta não é permitido."
+page.file-management.message.access-denied: "Uploading para esta pasta não é permitido."
 "Used Libraries / Components": "Bibliotecas/Componentes utilizados"
 "User '%s' could not be deleted.": "Usuário '%s' não pdoe ser excluído."
 "User '%s' could not be disabled.": "Usuário '%s' não pode ser desabilitado."
