@@ -137,7 +137,7 @@ general.phrase.rename-foldername: #
 "Run PHP extension checks": #
 page.checks.run-all: #
 page.checks.run-directory-checks: #
-"Run email checks": #
+page.checks.run-email-checks: #
 "Save & create new record": #
 "Search for …": #
 "Search results for <b>%search%</b>.": #
