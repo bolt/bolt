@@ -85,7 +85,7 @@ general.bolt-new-site-set-up: #
 "No Preview": #
 general.phrase.no-content-found: #
 general.phrase.no-files-in-list: #
-"No images in the list, yet.": #
+general.phrase.no-images-in-list: #
 "No theme name found. Theme is not generated.": #
 "Not yet installed.": #
 "Only root can change file extensions.": #
