@@ -232,7 +232,7 @@ abstract class BackendBase extends Base
         // Repair the DB, and let's add a new user.
         if (!$tableExists || $userCount === 0) {
             $app['schema']->update();
-            $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
+            $app['logger.flash']->info(Trans::__('general.phrase.users-none-create-first'));
 
             return $this->redirectToRoute('userfirst');
         }

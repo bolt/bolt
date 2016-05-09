@@ -414,7 +414,7 @@ general.phrase.file-not-readable-following-colon: "El siguiente archivo no puede
 page.extend.theme.generation.success: "Tema generado exitosamente. Puedes editarlo directamente desde la carpeta de temas"
 general.phrase.stack-empty: "Todavía no hay elementos en la Pila"
 general.phrase.not-saved: "Todavía no has guardado los cambios"
-"There are no users in the database. Please create the first user.": "No hay usuarios en la base de datos. Por favor crea el primer usuario."
+general.phrase.users-none-create-first: "No hay usuarios en la base de datos. Por favor crea el primer usuario."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "No hay usuarios presentes en el sistema. Por favor, cree el primer usuario, al cual se le concederá privilegios de root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Siempre debe haber al menos un usuario 'superadministrador'. Acabas de ser promovido. ¡Felicidades!"
 "This is a checkbox": "Esto es una caja de verificación"

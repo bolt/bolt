@@ -559,7 +559,7 @@ general.phrase.file-not-readable-following-colon: "Klarte ikke lese følgende fi
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
 "The translations file '%s' is not readable.": "Oversettelsesfila «%s» er ikke lesbar."
-"There are no users in the database. Please create the first user.": "Det er ingen brukere i databasen. Lag den første brukeren."
+general.phrase.users-none-create-first: "Det er ingen brukere i databasen. Lag den første brukeren."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Det bør alltid være minst en «root»-bruker. Du har nettopp blitt forfremmet. Gratulerer."
 "This is a checkbox": "Dette er en avkrysningsboks"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."

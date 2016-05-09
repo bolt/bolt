@@ -488,7 +488,7 @@ general.phrase.file-not-readable-following-colon: "以下のファイルは読�
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "翻訳ファイル '%s' を作成できません。エディタを使ってあなたの手でこのファイルを修正してください。"
 "The translations file '%s' is not readable.": "翻訳ファイル '%s' は読み取り可能ではありません。"
-"There are no users in the database. Please create the first user.": "データベースにユーザーが存在しません。最初のユーザーを作成してください。"
+general.phrase.users-none-create-first: "データベースにユーザーが存在しません。最初のユーザーを作成してください。"
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "少なくとも１つの'root'ユーザーアカウントが存在する必要があります。あなたのアカウントが昇格されました。おめでとうございます！"
 "This is a checkbox": "これはチェックボックスです"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"

@@ -516,7 +516,7 @@ general.phrase.file-not-readable-following-colon: "Il seguente file non può ess
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Lo slug '%slug%' è utilizzato in più di un tipo di contenuto. Modifica contenttypes.yml e rendili differenti."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Il file di traduzione '%s' non può essere creato. Dovrai utilizzare un editor sul server per creare il file."
 "The translations file '%s' is not readable.": "Il file di traduzione '%s' non è leggibile."
-"There are no users in the database. Please create the first user.": "Non ci sono utenti nel database. Procedi con la creazione del primo utente."
+general.phrase.users-none-create-first: "Non ci sono utenti nel database. Procedi con la creazione del primo utente."
 "This is a checkbox": "Questo è un checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Questo sito web è <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>realizzato con Bolt</a>."
 "Title": "Titolo"

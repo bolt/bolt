@@ -465,7 +465,7 @@ general.phrase.file-not-readable-following-colon: "O seguinte arquivo não pode 
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
 "The translations file '%s' is not readable.": "As traduções em '%s' não são legíveis."
 general.phrase.stack-empty: "Ainda não há itens na pilha."
-"There are no users in the database. Please create the first user.": "Não há usuários no banco de dados. Por favor, crie o primeiro usuário."
+general.phrase.users-none-create-first: "Não há usuários no banco de dados. Por favor, crie o primeiro usuário."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Não há usuários presentes no sistema. Po favor, crie o primeiro usuário, que será concedido privilégios de root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Sempre deve haver pelo menos um usuário 'root'. Você acaba de ser promovido. Parabéns!"
 "This is a checkbox": "Este é um checkbox"
