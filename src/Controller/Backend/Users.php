@@ -365,7 +365,7 @@ class Users extends BackendBase
         $token = $this->session()->get('authentication');
         if ($login && $token) {
             $this->flashes()->clear();
-            $this->flashes()->success(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
+            $this->flashes()->success(Trans::__('general.bolt-welcome-new-site', ['%USER%' => $userEntity->getDisplayname()]));
 
             $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
 

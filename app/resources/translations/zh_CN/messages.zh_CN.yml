@@ -146,7 +146,7 @@ general.phrase.users-permissions: #
 general.phrase.view-roles: #
 general.phrase.warning: #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
-"Welcome to your new Bolt site, %USER%.": #
+general.bolt-welcome-new-site: #
 "You cannot '%s' yourself.": #
 "You do not have the right privileges to edit that user.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
