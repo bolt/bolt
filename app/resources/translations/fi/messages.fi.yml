@@ -25,7 +25,7 @@ general.phrase.required-character-count: #
 general.phrase.author: #
 general.bolt-configuration-issues-detected: #
 general.phrase.toggle-all: #
-"Cleared cache.": #
+general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 "Create File": #
 "Delete": #

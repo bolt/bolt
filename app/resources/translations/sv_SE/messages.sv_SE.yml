@@ -19,7 +19,7 @@
 general.phrase.add-selected: #
 general.bolt-configuration-issues-detected: #
 general.phrase.toggle-all: #
-"Cleared cache.": #
+general.phrase.clear-cache-complete: #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Extend": #

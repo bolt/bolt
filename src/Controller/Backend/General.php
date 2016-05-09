@@ -84,7 +84,7 @@ class General extends BackendBase
         $result = $this->app['cache']->flushAll();
 
         if ($result) {
-            $this->flashes()->success(Trans::__('Cleared cache.'));
+            $this->flashes()->success(Trans::__('general.phrase.clear-cache-complete'));
         } else {
             $this->flashes()->error(Trans::__('Failed to clear cache. You should delete it manually.'));
         }

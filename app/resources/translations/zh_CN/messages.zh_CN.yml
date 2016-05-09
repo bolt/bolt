@@ -38,7 +38,7 @@ general.phrase.change-log: #
 general.phrase.toggle-all: #
 general.phrase.clear-change-log: #
 "Clear System Log": #
-"Cleared cache.": #
+general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 "Close editor": #
 "Create File": #

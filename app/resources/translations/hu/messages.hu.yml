@@ -21,7 +21,7 @@ field.image.label.alt: #
 "Body": #
 general.bolt-configuration-issues-detected: #
 general.phrase.toggle-all: #
-"Cleared cache.": #
+general.phrase.clear-cache-complete: #
 "Delete Set": #
 "Depublish": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
