@@ -160,7 +160,7 @@ general.phrase.stack: #
 general.phrase.system-config-checks: #
 "Tag": #
 "Tags": #
-"Taxonomy": #
+general.phrase.taxonomy: #
 "Teaser": #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #

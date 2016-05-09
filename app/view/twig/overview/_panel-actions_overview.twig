@@ -66,7 +66,7 @@
         <li>{{ __('general.phrase.listing-template') }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
         <li>{{ __('general.phrase.template-detail') }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
         {% if context.contenttype.taxonomy|default('') is iterable %}
-            <li>{{ __("Taxonomy") }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
+            <li>{{ __('general.phrase.taxonomy') }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
         {% endif %}
         {% if context.contenttype.relations|default('') is iterable %}
             <li>

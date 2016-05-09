@@ -92,7 +92,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml']);
         $configEntry->add(
             (new MenuEntry('config_taxonomy', $path))
-                ->setLabel(Trans::__('Taxonomy'))
+                ->setLabel(Trans::__('general.phrase.taxonomy'))
                 ->setIcon('fa:tags')
                 ->setPermission('files:config')
         );

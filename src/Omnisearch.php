@@ -138,7 +138,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Taxonomy', 'Configuration'],
-                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('Taxonomy'),
+                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('general.phrase.taxonomy'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 3,
                     'path'        => $this->generatePath('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml']),
