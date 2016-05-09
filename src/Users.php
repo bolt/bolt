@@ -139,7 +139,7 @@ class Users
         $user = $this->repository->find($id);
 
         if (!$user) {
-            $this->app['logger.flash']->warning(Trans::__('That user does not exist.'));
+            $this->app['logger.flash']->warning(Trans::__('general.phrase.user-not-exist'));
 
             return false;
         }

@@ -472,7 +472,7 @@ class Users extends BackendBase
         if (empty($id)) {
             return new Entity\Users();
         } elseif (!$userEntity = $this->getUser($id)) {
-            $this->flashes()->error(Trans::__('That user does not exist.'));
+            $this->flashes()->error(Trans::__('general.phrase.user-not-exist'));
 
             return false;
         }
