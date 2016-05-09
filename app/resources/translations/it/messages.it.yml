@@ -249,7 +249,7 @@ general.phrase.keyword-ellipsis: #
 general.phrase.return-editing: #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
-"line": #
+general.phrase.line: #
 "no content …": #
 "no title …": #
 "or": #
