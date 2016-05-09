@@ -182,7 +182,7 @@ class FileManager extends BackendBase
                         'multiple' => true,
                         'attr'     => [
                             'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('Select file …'),
+                            'title'                   => Trans::__('general.phrase.select-file'),
                         ],
                     ]
                 )

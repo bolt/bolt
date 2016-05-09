@@ -118,7 +118,7 @@ page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 general.phrase.search-for-ellipsis: #
 general.phrase.search-results-for-variable: #
-"Select file …": #
+general.phrase.select-file: #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 "Selection": #

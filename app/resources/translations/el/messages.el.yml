@@ -147,7 +147,7 @@ general.phrase.saving-ellipsis: #
 general.phrase.search-for-ellipsis: #
 general.phrase.search-results-for-variable: #
 general.phrase.search-ellipsis: #
-"Select file …": #
+general.phrase.select-file: #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 "Selection": #
