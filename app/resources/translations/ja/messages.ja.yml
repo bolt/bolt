@@ -443,7 +443,7 @@ general.phrase.database-prefill: "データベースに事前にデータを挿�
 general.phrase.preview: "プレビュー"
 general.phrase.provided-by-colon: "提供："
 general.phrase.publication-date-colon: "公開日時"
-"Published": "公開"
+general.phrase.published: "公開"
 "Published on:": "公開日時："
 "Read more": "続きを読む"
 "Relationships": "リレーションシップ"

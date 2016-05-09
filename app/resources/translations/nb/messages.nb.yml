@@ -130,7 +130,7 @@ page.file-management.message.create-file: #
 page.file-management.message.create-folder: #
 general.phrase.profile: #
 "Publish": #
-"Published": #
+general.phrase.published: #
 "Records": #
 "Rename %foldername%": #
 "Repeater": #
