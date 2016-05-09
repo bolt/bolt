@@ -212,7 +212,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             <div class="btn-group">
                 {% if modifiable %}
                     <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
-                        <i class="fa fa-edit"></i> {{ __('Edit') }}
+                        <i class="fa fa-edit"></i> {{ __('general.phrase.edit') }}
                     </a>
                 {% endif %}
                 <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">

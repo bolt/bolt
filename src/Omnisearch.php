@@ -368,7 +368,7 @@ class Omnisearch
             $item = [
                 'label' => sprintf(
                     '%s %s № %s » <span>%s</span>',
-                    Trans::__('Edit'),
+                    Trans::__('general.phrase.edit'),
                     $result->contenttype['singular_name'],
                     $result->id,
                     $result->getTitle()
