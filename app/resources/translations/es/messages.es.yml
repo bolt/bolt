@@ -410,7 +410,7 @@ logs.change-log.not-found: "La entrada solicitada del registro de cambios no exi
 logs.system-log.cleared: "El registro del sistema se ha despejado"
 logs.system-log.trimmed: "El registro del sistema se ha recortado"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "El archivo de traducciones '%s' no puede ser creado. Necesitas usar tu propio editor para hacer modificaciones al archivo."
-"The translations file '%s' is not readable.": "El archivo de traducción '%s' no se puede leer."
+general.phrase.error-translation-file-not-readable: "El archivo de traducción '%s' no se puede leer."
 page.extend.theme.generation.success: "Tema generado exitosamente. Puedes editarlo directamente desde la carpeta de temas"
 general.phrase.stack-empty: "Todavía no hay elementos en la Pila"
 general.phrase.not-saved: "Todavía no has guardado los cambios"

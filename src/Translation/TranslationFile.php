@@ -542,7 +542,7 @@ class TranslationFile
 
         // File is not readable: abort
         } elseif (file_exists($this->absPath) && !is_readable($this->absPath)) {
-            $msg = Trans::__("The translations file '%s' is not readable.", $msgRepl);
+            $msg = Trans::__('general.phrase.error-translation-file-not-readable', $msgRepl);
             $this->app->abort(Response::HTTP_NOT_FOUND, $msg);
 
         // File is writeable

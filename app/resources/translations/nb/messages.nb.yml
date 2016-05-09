@@ -558,7 +558,7 @@ logs.change-log.not-found: "Den forespurte oppføringen i endringsloggen fins ik
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Innstillinger for roller og rettigheter lagres i %permissions%."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
-"The translations file '%s' is not readable.": "Oversettelsesfila «%s» er ikke lesbar."
+general.phrase.error-translation-file-not-readable: "Oversettelsesfila «%s» er ikke lesbar."
 general.phrase.users-none-create-first: "Det er ingen brukere i databasen. Lag den første brukeren."
 general.phrase.missing-root-jackpot: "Det bør alltid være minst en «root»-bruker. Du har nettopp blitt forfremmet. Gratulerer."
 "This is a checkbox": "Dette er en avkrysningsboks"

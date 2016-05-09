@@ -439,7 +439,7 @@ logs.change-log.not-found: "История изменений не сущест�
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Настройки для роли и права доступа сохранены в <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Файл перевода '%s' не может быть создан. Вам необходимо используя свой редактор чтобы сделать изменения для этого файла."
-"The translations file '%s' is not readable.": "Перевод '%s' недоступен для чтения."
+general.phrase.error-translation-file-not-readable: "Перевод '%s' недоступен для чтения."
 general.phrase.stack-empty: "В стеке пока файлов нет."
 general.phrase.users-none-create-first: "В базе данных нет пользователей. Пожалуйста, создайте одного."
 general.phrase.users-none-create-first-extended: "В системе нет ни одного пользователя. Пожалуйста создайте одного, которому будут доступны root привилегии."
