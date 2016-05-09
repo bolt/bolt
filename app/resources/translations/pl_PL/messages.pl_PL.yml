@@ -354,7 +354,7 @@ general.phrase.choose-record-link-to: "Wproszę wybrać rekord, który chcesz li
 page.file-management.message.create-file: "Proszę wprowadzić nazwę dla nowego pliku!"
 page.file-management.message.create-folder: "Proszę wprowadzić nazwę dla nowego katalogu!"
 general.phrase.please-logon: "Proszę się zalogować"
-"Please provide a username": "Prosze podać nazwę użytkownika"
+general.phrase.please-provide-username: "Prosze podać nazwę użytkownika"
 "Prefill database": "Wypełnij bazę danych"
 "Preview": "Podgląd"
 "Profile": "Profil"

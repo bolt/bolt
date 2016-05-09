@@ -414,7 +414,7 @@ general.phrase.choose-record-link-to: "Por favor, escolha o registro que deseja 
 page.file-management.message.create-file: "Por favor insira um novo nome de arquivo!"
 page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
 general.phrase.please-logon: "Por favor, faça seu login"
-"Please provide a username": "Por favor, forneça um nome de usuário"
+general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
 "Prefill database": "Pré-preenchimento do banco de dados"
 "Preview": "Pré-visualizar"
 "Profile": "Perfil"

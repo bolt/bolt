@@ -147,7 +147,7 @@ general.phrase.choose-record-link-to: #
 page.file-management.message.create-file: #
 page.file-management.message.create-folder: #
 general.phrase.please-logon: #
-"Please provide a username": #
+general.phrase.please-provide-username: #
 "Prefill database": # "Pre-fill database"
 "Profile": #
 "Publish": #

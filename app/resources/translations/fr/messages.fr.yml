@@ -240,7 +240,7 @@ general.phrase.choose-record-link-to: "Veuillez choisir l'enregistrement à asso
 page.file-management.message.create-file: "Nom du fichier :"
 page.file-management.message.create-folder: "Nom du répertoire :"
 general.phrase.please-logon: "Veuillez vous identifier."
-"Please provide a username": "Veuillez saisir un identifiant"
+general.phrase.please-provide-username: "Veuillez saisir un identifiant"
 "Prefill database": "Insérer les enregistrements"
 "Preview": "Aperçu"
 "Profile": "Mon profil"

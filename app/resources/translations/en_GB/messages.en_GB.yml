@@ -231,7 +231,7 @@ general.phrase.choose-record-link-to: "Please choose the record you want to link
 page.file-management.message.create-file: "Please enter a new file name!"
 page.file-management.message.create-folder: "Please enter a new folder name!"
 general.phrase.please-logon: "Please log on."
-"Please provide a username": "Please provide a username"
+general.phrase.please-provide-username: "Please provide a username"
 "Prefill database": "Pre-fill database"
 "Preview": "Preview"
 "Profile": "Profile"

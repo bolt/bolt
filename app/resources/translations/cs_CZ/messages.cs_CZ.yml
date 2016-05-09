@@ -304,7 +304,7 @@ general.phrase.choose-record-link-to: "Zvolte prosím záznam pro vytvoření va
 page.file-management.message.create-file: "Zadejte prosím nové jméno souboru!"
 page.file-management.message.create-folder: "Zadejte prosím nové jméno složky!"
 general.phrase.please-logon: "Přihlašte se, prosím."
-"Please provide a username": "Vyplňte uživatelské jméno, prosím"
+general.phrase.please-provide-username: "Vyplňte uživatelské jméno, prosím"
 "Prefill database": "Naplnit databázi"
 "Preview": "Náhled"
 "Profile": "Profil"
