@@ -165,7 +165,7 @@ general.phrase.save-and-return-overview: #
 general.phrase.search-for-ellipsis: #
 general.phrase.search-results-for-variable: #
 general.phrase.select-file: #
-"Select none": #
+general.phrase.select-none: #
 "Select zero or more pages": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
