@@ -125,7 +125,7 @@ general.phrase.not-installed-yet: #
 general.phrase.note-colon: #
 general.phrase.omnisearch: #
 general.phrase.only-root-change-file-extensions: #
-"Order": #
+general.phrase.order: #
 "Other content": #
 "Others": #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
