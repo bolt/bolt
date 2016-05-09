@@ -12,10 +12,10 @@
 
 {% block page_main %}
 
-    {{ data('files.msg.create_folder', __('Please enter a new folder name!')) }}
+    {{ data('files.msg.create_folder', __('page.file-management.message.create-folder')) }}
     {{ data('files.msg.create_file', __('page.file-management.message.create-file')) }}
     {% if context.directories|length > 0 %}
-        {{ data('files.msg.rename_folder', __('Please enter a new folder name!')) }}
+        {{ data('files.msg.rename_folder', __('page.file-management.message.create-folder')) }}
         {{ data('files.msg.delete_folder', __('Do you really want to delete %FOLDERNAME%?')) }}
     {% endif %}
     {% if context.files|length > 0 %}

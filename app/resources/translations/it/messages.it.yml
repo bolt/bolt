@@ -148,7 +148,7 @@ general.access-control.reset-successful: #
 general.phrase.path-image-file: #
 general.phrase.path-colon: #
 page.file-management.message.create-file: #
-"Please enter a new folder name!": #
+page.file-management.message.create-folder: #
 "Profile": #
 "Publish": #
 "Published": #

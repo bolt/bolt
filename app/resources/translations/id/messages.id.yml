@@ -145,7 +145,7 @@ general.phrase.path-image-file: #
 general.phrase.stack-add: #
 general.phrase.choose-record-link-to: #
 page.file-management.message.create-file: #
-"Please enter a new folder name!": #
+page.file-management.message.create-folder: #
 "Please log on.": #
 "Please provide a username": #
 "Prefill database": # "Pre-fill database"

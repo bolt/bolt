@@ -131,7 +131,7 @@ general.phrase.others: #
 general.access-control.reset-failed: #
 general.phrase.path-image-file: #
 page.file-management.message.create-file: #
-"Please enter a new folder name!": #
+page.file-management.message.create-folder: #
 "Please log on.": #
 "Prefill database": # "Pre-fill database"
 "Publish": #
