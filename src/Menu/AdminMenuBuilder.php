@@ -211,7 +211,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('translation', ['domain' => 'infos']);
         $translationEntry->add(
             (new MenuEntry('tr_long_messages', $path))
-                ->setLabel(Trans::__('Long messages'))
+                ->setLabel(Trans::__('general.phrase.long-messages'))
                 ->setIcon('fa:flag')
                 ->setPermission('translation')
         );
