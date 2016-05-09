@@ -150,7 +150,7 @@ page.file-management.message.file-not-readable: "Le fichier n'est pas accessible
 "Filelist": "Liste de fichiers"
 "Files": "Fichiers"
 general.phrase.file-upload-failed: "Les fichiers n'ont pu être envoyés."
-"Files in %s": "Fichiers dans le répertoire %s"
+page.file-management.message.files-in: "Fichiers dans le répertoire %s"
 "Files on the stack": "Pile de fichiers"
 "Filesize": "Taille"
 "Fill the database with Dummy Content": "Insérer des enregistrements de démonstration"

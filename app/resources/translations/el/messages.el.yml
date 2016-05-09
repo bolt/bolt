@@ -476,7 +476,7 @@ page.file-management.message.save-success: "Το αρχείο '%s' αποθηκ�
 general.phrase.file-management: "Διαχείριση Αρχείων"
 page.file-management.message.file-not-readable: "Το αρχείο δεν μπορεί να διαβαστεί!"
 "Files": "Αρχεία"
-"Files in %s": "Αρχεία στο %s"
+page.file-management.message.files-in: "Αρχεία στο %s"
 "Files on the stack": "Αρχεία στο stack"
 "Filesize": "Μέγεθος αρχείου"
 "Fill the database with Dummy Content": "Γέμισε την Βάση Δεδομένων με Χαζό Περιεχόμενο"

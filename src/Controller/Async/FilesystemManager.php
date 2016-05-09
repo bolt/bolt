@@ -102,7 +102,7 @@ class FilesystemManager extends AsyncBase
         return $this->render(
             '@bolt/async/browse.twig',
             ['context' => $context],
-            ['title', Trans::__('Files in %s', ['%s' => $path])]
+            ['title', Trans::__('page.file-management.message.files-in', ['%s' => $path])]
         );
     }
 
