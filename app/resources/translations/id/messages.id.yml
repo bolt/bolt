@@ -85,7 +85,7 @@ page.file-management.message.save-failed-invalid-form: #
 "Filelist": # "File list"
 "Files": #
 general.phrase.file-upload-failed: #
-"Files on the stack": #
+general.phrase.stack-files: #
 "Filtering": #
 "Find": #
 "Floatfield": # "Float field"

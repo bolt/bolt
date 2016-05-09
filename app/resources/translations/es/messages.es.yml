@@ -269,7 +269,7 @@ page.file-management.message.file-not-readable: "¡El archivo no puede ser leido
 "Files": "Archivos"
 general.phrase.file-upload-failed: "Algunos archivos no pudieron cargarse."
 page.file-management.message.files-in: "Archivos en %s"
-"Files on the stack": "Archivos en la pila"
+general.phrase.stack-files: "Archivos en la pila"
 general.phrase.file-size: "Tamaño del archivo"
 "Fill the database with Dummy Content": "Llena la base de datos con contenido de ejemplo"
 "Filter": "Filtro"

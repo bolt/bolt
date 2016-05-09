@@ -388,7 +388,7 @@ page.file-management.message.file-not-readable: "ファイルが読み取り可�
 "Filelist": "ファイルリスト"
 "Files": "ファイル"
 page.file-management.message.files-in: "%s の中のファイル"
-"Files on the stack": "スタック上のファイル"
+general.phrase.stack-files: "スタック上のファイル"
 general.phrase.file-size: "ファイルサイズ"
 "Fill the database with Dummy Content": "ダミーコンテンツをデータベースに挿入"
 "Filter": "フィルタ"
