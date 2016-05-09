@@ -35,7 +35,7 @@ general.phrase.author: #
 general.bolt-configuration-issues-detected: #
 general.phrase.toggle-all: #
 "Choose an entry": #
-"Clear Change Log": #
+general.phrase.clear-change-log: #
 "Clear System Log": #
 "Cleared cache.": #
 "Client error: %errormessage%": #

@@ -42,7 +42,7 @@ permissions.roles.description.everyone: #
 permissions.roles.description.owner: #
 permissions.roles.description.root: #
 general.phrase.toggle-all: #
-"Clear Change Log": #
+general.phrase.clear-change-log: #
 "Clear System Log": #
 "Cleared cache.": #
 "Client error: %errormessage%": #

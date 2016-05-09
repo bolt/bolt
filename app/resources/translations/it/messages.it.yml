@@ -44,7 +44,7 @@ permissions.roles.description.root: #
 general.phrase.change-log: #
 general.phrase.toggle-all: #
 general.phrase.stay-classy-colon: #
-"Clear Change Log": #
+general.phrase.clear-change-log: #
 "Clear System Log": #
 "Cleared cache.": #
 "Click to change current status.": #
