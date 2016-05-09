@@ -148,7 +148,7 @@ page.file-management.message.save-success: "Enregistrement réussi du fichier '%
 general.phrase.file-management: "Fichiers"
 page.file-management.message.file-not-readable: "Le fichier n'est pas accessible en lecture !"
 "Filelist": "Liste de fichiers"
-"Files": "Fichiers"
+page.file-management.title: "Fichiers"
 general.phrase.file-upload-failed: "Les fichiers n'ont pu être envoyés."
 page.file-management.message.files-in: "Fichiers dans le répertoire %s"
 general.phrase.stack-files: "Pile de fichiers"

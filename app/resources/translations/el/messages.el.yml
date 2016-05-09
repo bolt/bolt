@@ -475,7 +475,7 @@ page.file-management.message.save-failed-colon: "Το αρχείο '%s' δεν �
 page.file-management.message.save-success: "Το αρχείο '%s' αποθηκεύτηκε."
 general.phrase.file-management: "Διαχείριση Αρχείων"
 page.file-management.message.file-not-readable: "Το αρχείο δεν μπορεί να διαβαστεί!"
-"Files": "Αρχεία"
+page.file-management.title: "Αρχεία"
 page.file-management.message.files-in: "Αρχεία στο %s"
 general.phrase.stack-files: "Αρχεία στο stack"
 general.phrase.file-size: "Μέγεθος αρχείου"

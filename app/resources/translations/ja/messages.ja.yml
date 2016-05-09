@@ -386,7 +386,7 @@ page.file-management.message.save-success: "ファイル '%s' を保存しまし
 general.phrase.file-management: "ファイル管理"
 page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
 "Filelist": "ファイルリスト"
-"Files": "ファイル"
+page.file-management.title: "ファイル"
 page.file-management.message.files-in: "%s の中のファイル"
 general.phrase.stack-files: "スタック上のファイル"
 general.phrase.file-size: "ファイルサイズ"

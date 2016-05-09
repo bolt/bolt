@@ -451,7 +451,7 @@ page.file-management.message.save-failed-colon: "Il file '%s' non può esser sal
 page.file-management.message.save-success: "Il file '%s' è stato salvato."
 general.phrase.file-management: "Gestione File"
 page.file-management.message.file-not-readable: "Il file non è leggibile"
-"Files": "File"
+page.file-management.title: "File"
 page.file-management.message.files-in: "File in %s"
 general.phrase.stack-files: "File nello Stack"
 general.phrase.file-size: "Dimensione file"
