@@ -159,7 +159,7 @@ general.phrase.roles: #
 general.phrase.roles-permissions: #
 "Run PHP extension checks": #
 page.checks.run-all: #
-"Run directory checks": #
+page.checks.run-directory-checks: #
 "Run email checks": #
 "Save & create new record": #
 "Save & return to overview": #

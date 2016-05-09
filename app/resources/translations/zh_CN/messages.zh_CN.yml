@@ -97,7 +97,7 @@ general.phrase.records: #
 "Repeater": #
 "Run PHP extension checks": #
 page.checks.run-all: #
-"Run directory checks": #
+page.checks.run-directory-checks: #
 "Run email checks": #
 "Search results for <b>%search%</b>.": #
 "Selection": #
