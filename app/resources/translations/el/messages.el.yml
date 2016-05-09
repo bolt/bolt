@@ -505,7 +505,7 @@ general.phrase.no-result-for-search-term: "Δεν βρήθηκαν αποτελ�
 general.phrase.no-such-action-for-user: "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
 general.phrase.none: "Κανένα"
 general.phrase.not-published: "Μη δημοσιευμένο"
-"Options": "Επιλογές"
+general.phrase.options: "Επιλογές"
 "Order: %sort%": "Σειρά: %sort%"
 "Overview": "Σύνοψη"
 "Overview for": "Σύνοψη για"

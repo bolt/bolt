@@ -422,7 +422,7 @@ general.phrase.no-result-for-search-term: "'%SEARCHTERM%'に対する検索結�
 general.phrase.no-such-action-for-user: "ユーザー '%s' に対してそのアクションはありません。"
 general.phrase.none: "なし"
 general.phrase.not-published: "非公開"
-"Options": "オプション"
+general.phrase.options: "オプション"
 "Order: %sort%": "並び順： %sort%"
 "Overview": "一覧"
 "Overview for": "一覧"
