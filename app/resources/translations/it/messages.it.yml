@@ -193,7 +193,7 @@ logs.change-log.trimmed: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
-"The file '%s' doesn't exist.": #
+general.phrase.file-not-exist: #
 "The file '%s' is not readable.": #
 "The folder '%s' could not be found, or is not readable.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #

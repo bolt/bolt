@@ -311,7 +311,7 @@ page.extend.error-composer-json-not-writable: "Het Bolt extensies bestand compos
 logs.change-log.cleared: "De changelog is gewist."
 logs.change-log.trimmed: "De changelog is verkleind."
 general.phrase.error-mail-options-not-set: "De email configuratie 'mailopties' is niet ingesteld. Mogelijk slaagt Bolt er niet in een wachtwoord-reset-email te verzenden."
-"The file '%s' doesn't exist.": "Het bestand '%s' bestaat niet."
+general.phrase.file-not-exist: "Het bestand '%s' bestaat niet."
 "The file '%s' is not readable.": "Het bestand '%s' is niet leesbaar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen in dit bestand aan te brengen."
 "The folder '%s' could not be found, or is not readable.": "De map '%s' kon niet worden gevonden of is niet schrijfbaar."

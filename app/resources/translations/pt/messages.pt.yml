@@ -318,7 +318,7 @@ page.extend.error-composer-json-not-readable: "O ficheiro composer.json das exte
 page.extend.error-composer-json-not-writable: "O ficheiro composer.json das extensões Bolt não é editável."
 logs.change-log.cleared: "O registo de alterações foi limpo."
 logs.change-log.trimmed: "O registo de alterações foi reduzido."
-"The file '%s' doesn't exist.": "O ficheiro '%s' não existe."
+general.phrase.file-not-exist: "O ficheiro '%s' não existe."
 "The file '%s' is not readable.": "O ficheiro '%s' não é editável."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
 "The folder '%s' could not be found, or is not readable.": "A pasta '%s' não pode ser encontrada, ou não é legível."

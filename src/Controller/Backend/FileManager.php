@@ -83,7 +83,7 @@ class FileManager extends BackendBase
             $type = Lib::getExtension($file->getPath());
             $data = ['contents' => $file->read()];
         } catch (FileNotFoundException $e) {
-            $error = Trans::__("The file '%s' doesn't exist.", ['%s' => $file->getPath()]);
+            $error = Trans::__('general.phrase.file-not-exist', ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         } catch (IOException $e) {
             $error = Trans::__("The file '%s' is not readable.", ['%s' => $file->getPath()]);

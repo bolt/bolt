@@ -307,7 +307,7 @@ page.extend.error-composer-json-not-writable: "Le fichier des extensions compose
 logs.change-log.cleared: "Le journal des changements a été vidangé."
 logs.change-log.trimmed: "Le journal des changements a été purgé."
 general.phrase.error-mail-options-not-set: "Le paramètre 'mailoptions', relatif aux mails, n'a pas été défini dans la configuration. Bolt ne pourra peut-être pas réinitialiser les mots de passe."
-"The file '%s' doesn't exist.": "Le fichier '%s' n'existe pas."
+general.phrase.file-not-exist: "Le fichier '%s' n'existe pas."
 "The file '%s' is not readable.": "Le fichier '%s' n'est pas accessible en lecture."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Le fichier '%s' n'est pas accessible en écriture. Vous devrez utiliser votre propre éditeur de texte pour le modifier."
 "The folder '%s' could not be found, or is not readable.": "Le répertoire '%s' n'existe pas ou n'est pas accessible en lecture."
