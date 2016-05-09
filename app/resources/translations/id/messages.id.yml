@@ -118,7 +118,7 @@ general.phrase.configuration-main: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.meta: #
 general.phrase.modifications-database-colon: #
-"Modifications needed:": #
+general.phrase.modifications-needed-colon: #
 "Move Down": #
 "Move Up": #
 "Multiselect": # "Multi-select"

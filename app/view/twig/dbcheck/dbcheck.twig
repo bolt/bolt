@@ -27,7 +27,7 @@
 
             {% elseif context.check.responsestrings %}
 
-                {{ list(__('Modifications needed:'), context.check.responsestrings) }}
+                {{ list(__('general.phrase.modifications-needed-colon'), context.check.responsestrings) }}
                 {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
