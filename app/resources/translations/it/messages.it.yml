@@ -104,7 +104,7 @@ general.phrase.hints-colon: #
 general.phrase.id: #
 "Image": #
 "Imagelist": # "Image list"
-"Info": #
+general.phrase.info: #
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #

@@ -44,7 +44,7 @@ general.phrase.file-upload-failed: #
 "Group": #
 "Groups": #
 "Html": #
-"Info": #
+general.phrase.info: #
 "Invalid login parameters.": #
 "Link": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #

@@ -32,7 +32,7 @@ general.phrase.error-cache-clear: #
 "Groups": #
 "Html": #
 general.phrase.id: #
-"Info": #
+general.phrase.info: #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Link": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #

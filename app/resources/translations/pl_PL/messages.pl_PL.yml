@@ -34,7 +34,7 @@ general.phrase.error-cache-clear: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-"Info": #
+general.phrase.info: #
 "Invalid login parameters.": #
 "Link": #
 "Live Edit": #

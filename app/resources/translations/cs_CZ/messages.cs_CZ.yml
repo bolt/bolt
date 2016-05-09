@@ -25,7 +25,7 @@ general.phrase.delete: #
 "Extend": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Html": #
-"Info": #
+general.phrase.info: #
 "Live Edit": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #

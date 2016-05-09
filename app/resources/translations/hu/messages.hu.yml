@@ -35,7 +35,7 @@ general.phrase.error-cache-clear: #
 "Groups": #
 "Html": #
 general.phrase.id: #
-"Info": #
+general.phrase.info: #
 "Link": #
 "Live Edit": #
 "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
