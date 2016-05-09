@@ -515,7 +515,7 @@ general.phrase.error-user-name-password-incorrect: "ユーザー名もしくは�
 general.phrase.users: "ユーザー"
 "Video": "動画"
 general.phrase.view-on-site: "サイト上で表示"
-"View site": "サイトを表示"
+general.phrase.view-site: "サイトを表示"
 general.phrase.view-edit-templates: "テンプレートを表示/編集"
 "Written by <em>%name%</em> on %date%": "投稿者： <em>%name%</em> 投稿日時： %date%"
 "You do not have the right privileges to edit that record.": "そのレコードを編集する権限がありません。"
