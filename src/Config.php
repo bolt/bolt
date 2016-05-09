@@ -1191,7 +1191,7 @@ class Config
                         'Try logging in with your ftp-client and make the file readable. ' .
                         'Else try to go <a>back</a> to the last page.'
                     );
-                    $message = '<p>' . Translator::__('The following file could not be read:') . '</p>' .
+                    $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
                         '<pre>' . htmlspecialchars($configCache) . '</pre>' .
                         '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
