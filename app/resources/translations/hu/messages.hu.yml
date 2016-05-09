@@ -47,7 +47,7 @@ general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
 general.phrase.publish: #
 "Repeater": #
-"Run PHP extension checks": #
+page.checks.run-php-ext-checks: #
 page.checks.run-all: #
 "Search results for <b>%search%</b>.": #
 "Show proposed alterations": #
