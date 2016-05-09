@@ -332,7 +332,7 @@ general.phrase.users-none-create-first-extended: "Het systeem heeft nog geen geb
 general.phrase.no-undo: "Dit kan niet ongedaan worden gemaakt!"
 general.phrase.missing-root-jackpot: "Er moet altijd minstens één 'root'-gebruiker zijn. Gefeliciteerd, je hebt promotie gekregen!"
 "This is a checkbox": "Dit is een checkbox"
-"This record is related to the following %CTNAME%:": "Deze record heeft betrekking op de volgende %CTNAME%:"
+general.phrase.record-related-to-variable: "Deze record heeft betrekking op de volgende %CTNAME%:"
 "This template adds new fields. Save, then refresh to see these changes.": "Deze sjabloon voegt nieuwe velden toe. Opslaan en vervolgens vernieuwen om deze wijzigingen te zien."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 "Thumbnail": "Thumbnail"

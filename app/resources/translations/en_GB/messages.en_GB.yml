@@ -324,7 +324,7 @@ general.phrase.missing-about-page-block: "There currently is no Block with 'abou
 general.phrase.no-undo: "There is no undo!"
 general.phrase.missing-root-jackpot: "There should always be at least one 'root' user. You have just been promoted. Congratulations!"
 "This is a checkbox": "This is a checkbox"
-"This record is related to the following %CTNAME%:": "This record is related to the following %CTNAME%:"
+general.phrase.record-related-to-variable: "This record is related to the following %CTNAME%:"
 "This template adds new fields. Save, then refresh to see these changes.": "This template adds new fields. Save, then refresh to see these changes."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "Thumbnail": "Thumbnail"

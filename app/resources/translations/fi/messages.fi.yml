@@ -81,7 +81,7 @@ general.phrase.value-minimum-variable: #
 general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
-"This record is related to the following %CTNAME%:": #
+general.phrase.record-related-to-variable: #
 "Thumbnail": #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #

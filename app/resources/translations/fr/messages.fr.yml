@@ -331,7 +331,7 @@ general.phrase.missing-about-page-block: "Il n'y a aucun bloc avec la valeur 'ab
 general.phrase.no-undo: "Cette opération est irréversible !"
 general.phrase.missing-root-jackpot: "Au moins un utilisateur avec les droits root doit exister. Vous venez d'obtenir une promotion ! Félicitations."
 "This is a checkbox": "Ceci est une case à cocher"
-"This record is related to the following %CTNAME%:": "Cet enregistrement est lié à %CTNAME% :"
+general.phrase.record-related-to-variable: "Cet enregistrement est lié à %CTNAME% :"
 "This template adds new fields. Save, then refresh to see these changes.": "Ce modèle ajoute de nouveaux champs. Veuillez enregistrer le contenu puis rafraichir la page pour les voir."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
 "Thumbnail": "Miniature"

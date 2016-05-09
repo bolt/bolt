@@ -46,7 +46,7 @@ page.extend.error-composer-json-not-writable: #
 general.phrase.value-minimum-variable: #
 general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
-"This record is related to the following %CTNAME%:": #
+general.phrase.record-related-to-variable: #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #

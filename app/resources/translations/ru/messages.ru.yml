@@ -121,7 +121,7 @@ page.extend.theme.generation.success: #
 general.phrase.not-saved: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
-"This record is related to the following %CTNAME%:": #
+general.phrase.record-related-to-variable: #
 "This template adds new fields. Save, then refresh to see these changes.": #
 "Thumbnail": #
 "Time in 24h/12h format": #
