@@ -258,7 +258,7 @@ class Users extends BackendBase
             case 'delete':
                 if ($this->isCsrfTokenValid() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
-                    $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-deleted', ['%s' => $user->getDisplayname()]));
                 } else {
                     $this->flashes()->info(Trans::__('general.phrase.user-failed-delete', ['%s' => $user->getDisplayname()]));
                 }

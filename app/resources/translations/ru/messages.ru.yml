@@ -463,7 +463,7 @@ general.phrase.used-libraries: "Используемые библиотеки / 
 general.phrase.user-failed-delete: "Пользователь '%s' не может быть удалён."
 general.phrase.user-failed-disabled: "Пользователь '%s' не может быть отключен."
 general.phrase.user-failed-enable: "Пользователь '%s' не может быть включен."
-"User '%s' is deleted.": "Пользователь '%s' удалён."
+general.phrase.user-deleted: "Пользователь '%s' удалён."
 "User '%s' is disabled.": "Пользователь '%s' отключен."
 "User '%s' is enabled.": "Пользователь '%s' включен."
 general.phrase.user-name: "Имя пользователя"

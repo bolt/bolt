@@ -561,7 +561,7 @@ page.file-management.message.access-denied: "Η φόρτωση αρχείου σ
 general.phrase.user-failed-delete: "Ο χρήστης %s δεν μπορεί να διαγραφεί."
 general.phrase.user-failed-disabled: "Ο χρήστης %s δεν μπορεί να απενεργοποιηθεί."
 general.phrase.user-failed-enable: "Ο χρήστης %s δεν μπορεί να ενεργοποιηθεί."
-"User '%s' is deleted.": "Ο χρήστης '%s' διαγράφηκε."
+general.phrase.user-deleted: "Ο χρήστης '%s' διαγράφηκε."
 "User '%s' is disabled.": "Ο χρήστης '%s' απενεργοποιήθηκε."
 "User '%s' is enabled.": "Ο χρήστης '%s' ενεργοποιήθηκε."
 general.phrase.user-name: "Όνομα χρήστη"

@@ -507,7 +507,7 @@ general.phrase.used-libraries: "利用したライブラリ/コンポーネン�
 general.phrase.user-failed-delete: "ユーザー '%s' は削除できません。"
 general.phrase.user-failed-disabled: "ユーザー '%s' は無効化できません。"
 general.phrase.user-failed-enable: "ユーザー '%s' は有効化できません。"
-"User '%s' is deleted.": "ユーザー '%s' は削除されました。"
+general.phrase.user-deleted: "ユーザー '%s' は削除されました。"
 "User '%s' is disabled.": "ユーザー '%s' は無効化されています。"
 "User '%s' is enabled.": "ユーザー '%s' は有効化されています。"
 general.phrase.user-name: "ユーザー名"
