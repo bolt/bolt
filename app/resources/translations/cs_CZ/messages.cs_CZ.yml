@@ -452,7 +452,7 @@ general.phrase.warning-templatefields-loss: "Tato změna může způsobit ztrát
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 general.phrase.login-account-disabled: "Je nám líto, ale Váš účet byl zablokován."
 general.phrase.database-up-to-date-already: "Vaše databáze je již aktualizována."
-"Your database is now up to date.": "Vaše databáze je nyní aktuální."
+general.phrase.databaase-up-to-date: "Vaše databáze je nyní aktuální."
 general.phrase.edited: "a upraveno"
 general.phrase.return-editing: "zpět do editace"
 general.phrase.by: "od"

@@ -472,7 +472,7 @@ general.phrase.warning-templatefields-loss: "Es posible que pierdas algunos de l
 "You've been logged on successfully.": "Has cerrado sesión exitosamente"
 general.phrase.login-account-disabled: "Tu cuenta está deshabilitada. Lo sentimos."
 general.phrase.database-up-to-date-already: "Tu base de datos ya está actualizada."
-"Your database is now up to date.": "Tu base de datos ahora está actualizada"
+general.phrase.databaase-up-to-date: "Tu base de datos ahora está actualizada"
 general.phrase.edited: "y editado"
 general.phrase.return-editing: "regresar a editar"
 general.phrase.by: "por"

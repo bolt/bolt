@@ -395,7 +395,7 @@ general.phrase.warning-templatefields-loss: "Sommige velden binnen je template z
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 general.phrase.login-account-disabled: "Je account is uitgeschakeld. Sorry daarvoor."
 general.phrase.database-up-to-date-already: "Je database was al bijgewerkt."
-"Your database is now up to date.": "Je database is nu bijgewerkt."
+general.phrase.databaase-up-to-date: "Je database is nu bijgewerkt."
 general.phrase.edited: "en bewerkt"
 general.phrase.return-editing: "terug naar bewerken"
 general.phrase.by: "door"

@@ -417,7 +417,7 @@ general.phrase.warning-templatefields-loss: "Ezzel a változtatással némelyik 
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 general.phrase.login-account-disabled: "Az őn fiókja tiltott. Sajnáljuk."
 general.phrase.database-up-to-date-already: "Az adatbázis már a legfrissebb."
-"Your database is now up to date.": "Az adatbázis frissítve."
+general.phrase.databaase-up-to-date: "Az adatbázis frissítve."
 general.phrase.edited: "és szerkesztve"
 general.phrase.return-editing: "vissza a szerkesztéshez"
 general.phrase.by: "általa:"

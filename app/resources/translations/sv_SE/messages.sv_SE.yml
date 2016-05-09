@@ -400,7 +400,7 @@ general.phrase.warning-templatefields-loss: "Du kan komma att förlora vissa fä
 "You've been logged on successfully.": "Du är nu inloggad."
 general.phrase.login-account-disabled: "Ditt konto är dekativerat. Ursäkta."
 general.phrase.database-up-to-date-already: "Din databas är redan uppdaterad."
-"Your database is now up to date.": "Din databas är nu uppdaterad."
+general.phrase.databaase-up-to-date: "Din databas är nu uppdaterad."
 general.phrase.edited: "och redigerad"
 general.phrase.return-editing: "tillbaka till redigering"
 general.phrase.by: "av"

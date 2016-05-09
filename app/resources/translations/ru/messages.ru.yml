@@ -484,7 +484,7 @@ general.phrase.access-denied-logged-out: "Вы успешно разлогини
 "You've been logged on successfully.": "Вы успешно вошли."
 general.phrase.login-account-disabled: "Ваш аккаунт был заблокирован. Мы сожалеем об этом."
 general.phrase.database-up-to-date-already: "Ваша база данных актуальна."
-"Your database is now up to date.": "Ваша база данных теперь актуальна."
+general.phrase.databaase-up-to-date: "Ваша база данных теперь актуальна."
 general.phrase.edited: "и редактирован"
 general.phrase.return-editing: "назад к редактированию"
 general.phrase.line: "строка"

@@ -424,7 +424,7 @@ general.phrase.warning-templatefields-loss: "Einige Ihrer Template-Felder könnt
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 general.phrase.login-account-disabled: "Ihr Account wurde deaktiviert. Tut uns leid."
 general.phrase.database-up-to-date-already: "Ihre Datenbank ist bereits aktuell."
-"Your database is now up to date.": "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
+general.phrase.databaase-up-to-date: "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
 general.phrase.edited: "und bearbeitet"
 general.phrase.return-editing: "zurück zum Bearbeiten"
 general.phrase.by: "von"

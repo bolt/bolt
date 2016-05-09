@@ -389,7 +389,7 @@ general.phrase.warning-templatefields-loss: "You may lose some of your template 
 "You've been logged on successfully.": "You've been logged on successfully."
 general.phrase.login-account-disabled: "Your account is disabled. Sorry about that."
 general.phrase.database-up-to-date-already: "Your database is already up to date."
-"Your database is now up to date.": "Your database is now up to date."
+general.phrase.databaase-up-to-date: "Your database is now up to date."
 general.phrase.edited: "and edited"
 general.phrase.return-editing: "back to editing"
 general.phrase.by: "by"

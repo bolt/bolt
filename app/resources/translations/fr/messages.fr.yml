@@ -395,7 +395,7 @@ general.phrase.warning-templatefields-loss: "Vous pourriez perdre les champs per
 "You've been logged on successfully.": "Connexion réussie."
 general.phrase.login-account-disabled: "Votre compte est désactivé. Désolé."
 general.phrase.database-up-to-date-already: "La base de données est déjà à jour."
-"Your database is now up to date.": "La base de données est à jour."
+general.phrase.databaase-up-to-date: "La base de données est à jour."
 general.phrase.edited: "et modifié(e)"
 general.phrase.return-editing: "retour à l'édition"
 general.phrase.by: "par"

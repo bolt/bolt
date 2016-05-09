@@ -19,7 +19,7 @@
                 {{ list(__('general.phrase.modifications-database-colon'), context.changes) }}
                 {{ list(__('general.phrase.hints-colon'), hints) }}
 
-                <p class="alert alert-success" role="alert">{{ __('Your database is now up to date.') }}</p>
+                <p class="alert alert-success" role="alert">{{ __('general.phrase.databaase-up-to-date') }}</p>
 
                 <form action="{{ path('dbcheck') }}" method="get">
                     <p><button type="submit" class="btn btn-default btn-primary">{{ __('general.phrase.check-again') }}</button></p>

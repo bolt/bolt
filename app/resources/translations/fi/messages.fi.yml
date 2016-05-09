@@ -470,7 +470,7 @@ general.phrase.warning-templatefields-loss: "Voit menettää joitain sivupohjan 
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 general.phrase.login-account-disabled: "Anteeksi, mutta käyttäjätilisi on suljettu."
 general.phrase.database-up-to-date-already: "Tietokanta on ajantasalla."
-"Your database is now up to date.": "Tietokanta on päivitetty."
+general.phrase.databaase-up-to-date: "Tietokanta on päivitetty."
 general.phrase.edited: "ja muokattu"
 general.phrase.return-editing: "palaa muokkaamaan"
 general.phrase.by: "@"
