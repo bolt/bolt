@@ -464,7 +464,7 @@ contenttypes.record.comment-add-colon: #
 general.phrase.action-plural: "Aksi"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
 general.phrase.missing-about-page: "Waduh, tidak ada tentang kami!"
-"All content types": "Semua tipe konten"
+logs.change-log.contenttypes.all: "Semua tipe konten"
 "All users": "Semua Pengguna"
 "Are you sure you want to delete %username%?": "Anda yakin menghapus %username%?"
 "Author:": "Penulis:"

@@ -125,7 +125,7 @@ class Log extends BackendBase
         if (empty($contenttype)) {
             // Case 1: No content type given, show from *all* items. This is easy:
             $data = [
-                'title'   => Trans::__('All content types'),
+                'title'   => Trans::__('logs.change-log.contenttypes.all'),
                 'entries' => $this->changeLogRepository()->getChangeLog($queryOptions),
                 'count'   => $this->changeLogRepository()->countChangeLog(),
             ];
