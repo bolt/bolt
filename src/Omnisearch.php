@@ -178,7 +178,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Check database', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('Check database'),
+                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.check-database'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 7,
                     'path'        => $this->generatePath('dbcheck'),

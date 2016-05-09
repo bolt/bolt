@@ -119,7 +119,7 @@ final class AdminMenuBuilder
         $path = $this->rootEntry->getUri() . '/dbcheck';
         $configEntry->add(
             (new MenuEntry('dbcheck', $path))
-                ->setLabel(Trans::__('Check database'))
+                ->setLabel(Trans::__('general.phrase.check-database'))
                 ->setIcon('fa:database')
                 ->setPermission('dbupdate')
         );
