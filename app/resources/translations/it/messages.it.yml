@@ -475,7 +475,7 @@ general.phrase.no-result-for-search-term: "Nessun risultato per '%SEARCHTERM%'. 
 general.phrase.no-such-action-for-user: "Azione non disponibile per l'utente '%s'"
 general.phrase.options: "Opzioni"
 general.phrase.order-colon-sort: "Ordine: %sort%"
-"Overview": "Anteprima"
+general.phrase.overview: "Anteprima"
 general.phrase.overview-for: "Anteprima"
 "Owner:": "Proprietario:"
 "Path": "Percorso"

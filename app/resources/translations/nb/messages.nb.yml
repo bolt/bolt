@@ -505,7 +505,7 @@ general.phrase.no-result-for-search-term: "Ingen resultat funnet for «%SEARCHTE
 general.phrase.no-such-action-for-user: "Ingen slik handling for bruker «%s»."
 general.phrase.options: "Innstillinger"
 general.phrase.order-colon-sort: "Rekkefølge: %sort%"
-"Overview": "Oversikt"
+general.phrase.overview: "Oversikt"
 general.phrase.overview-for: "Oversikt for"
 "Owner": "Eier"
 "Owner:": "Eier:"

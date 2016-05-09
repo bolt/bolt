@@ -327,7 +327,7 @@ general.phrase.only-root-change-file-extensions: "Solo root puede cambiar las ex
 general.phrase.options: "Opciones"
 general.phrase.order-colon-sort: "Ordenar: %sort%"
 general.phrase.others: "Otros"
-"Overview": "Listado"
+general.phrase.overview: "Listado"
 general.phrase.overview-for: "Listado de"
 "Owner": "Propietario"
 "Owner:": "Propietario"
