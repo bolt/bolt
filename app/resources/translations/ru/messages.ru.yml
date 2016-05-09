@@ -467,7 +467,7 @@ general.phrase.used-libraries: "Используемые библиотеки / 
 "User '%s' is disabled.": "Пользователь '%s' отключен."
 "User '%s' is enabled.": "Пользователь '%s' включен."
 general.phrase.user-name: "Имя пользователя"
-"Username or password not correct. Please check your input.": "Имя пользователя или пароль неверный. Попробуйте еще раз."
+general.phrase.error-user-name-password-incorrect: "Имя пользователя или пароль неверный. Попробуйте еще раз."
 "Users": "Пользователи"
 "Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"

@@ -237,7 +237,7 @@ general.phrase.error-session-data-login: #
 general.phrase.upload-file-to-directory: #
 general.phrase.upload-not-allowed: #
 general.phrase.used-libraries: #
-"Username or password not correct. Please check your input.": #
+general.phrase.error-user-name-password-incorrect: #
 "Users & Permissions": #
 "Video": #
 "View (saved version) on site": #

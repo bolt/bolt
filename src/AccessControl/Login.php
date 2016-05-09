@@ -232,7 +232,7 @@ class Login extends AccessChecker
      */
     protected function loginFailed(Entity\Users $userEntity)
     {
-        $this->flashLogger->error(Trans::__('Username or password not correct. Please check your input.'));
+        $this->flashLogger->error(Trans::__('general.phrase.error-user-name-password-incorrect'));
         $this->systemLogger->info("Failed login attempt for '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
 
         // Update the failed login attempts, and perhaps throttle the logins.
