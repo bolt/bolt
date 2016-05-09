@@ -11,7 +11,7 @@
         {# If used for listing a taxonomy, we add a heading.: #}
         {% if taxonomytype is defined %}
             <h1>
-                {{ __('Overview for') }}
+                {{ __('general.phrase.overview-for') }}
                 {% if taxonomy.options[slug] is defined %}
                     {{ taxonomy.options[slug] }}
                 {% else %}
@@ -51,7 +51,7 @@
         {% else %}
             <article>
 
-                <h2>{{ __("No content found.") }}</h2>
+                <h2>{{ __('general.phrase.no-content-found') }}</h2>
 
                 <p>
                     {{ __("Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.", {'%paths_root%': paths.root} ) }}

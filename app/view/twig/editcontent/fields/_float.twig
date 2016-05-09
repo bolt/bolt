@@ -45,21 +45,21 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
-    {{ data('validation.float', __('Has to be a floating point number!')) }}
+    {{ data('validation.float', __('general.phrase.floating-point-required-bang')) }}
 
     {% if option.required %}
         {% set validation = validation|merge({required: true}) %}
-        {{ data('validation.required', __('Is required!')) }}
+        {{ data('validation.required', __('general.phrase.required-is-bang')) }}
     {% endif %}
 
     {% if option.min %}
         {% set validation = validation|merge({min: option.min}) %}
-        {{ data('validation.min', __('The value has to be at least “%MINVAL%”!')) }}
+        {{ data('validation.min', __('general.phrase.value-minimum-variable')) }}
     {% endif %}
 
     {% if option.max %}
         {% set validation = validation|merge({max: option.max}) %}
-        {{ data('validation.max', __('The value must not be greater than “%MAXVAL%”!')) }}
+        {{ data('validation.max', __('general.phrase.value-maximum-variable')) }}
     {% endif %}
 
     <div class="col-sm-9">

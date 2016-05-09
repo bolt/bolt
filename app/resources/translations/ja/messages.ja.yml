@@ -1,4 +1,4 @@
-# app/resources/translations/ja/messages.ja.yml – generated on 2016-05-02 21:02:24 Europe/Paris
+# app/resources/translations/ja/messages.ja.yml – generated on 2016-05-09 07:28:41 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,19 +8,20 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-# 169 untranslated messages
-# 121 untranslated keyword based messages
-# 222 translations
-#  94 keyword based translations
+#   1 unused messages
+#  49 untranslated messages
+# 240 untranslated keyword based messages
+#  41 translations
+# 272 keyword based translations
 
-#--- 169 untranslated messages ------------------------------------------------
+#--- 1 unused messages --------------------------------------------------------
+
+"component.changelog-detail.by": #
+
+#--- 49 untranslated messages -------------------------------------------------
 
 "(none)": #
-"Add Selected": #
 "Add a brief, optional comment to describe what's changed.": #
-"Add a comment:": #
-"Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -30,172 +31,56 @@
 "Are you sure you want to remove this file?": #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
-"At least %NUM% characters required": #
-"Author": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Check/Uncheck all": #
 "Choose an entry": #
-"Clear Change Log": #
-"Clear System Log": #
-"Cleared cache.": #
 "Client error: %errormessage%": #
-"Close editor": #
-"Collapse sidebar": #
-"Create File": #
-"Default status": #
-"Delete": #
-"Delete Set": #
-"Depublish": #
-"Depublish date is in the past. Change the status if you want to depublish now": #
-"Detail template": #
-"Details": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
-"Duplicate Set": #
-"Edit Roles and Permissions": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
 "Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Extras": #
-"Failed to clear cache. You should delete it manually.": #
-"Failed to send password request. Please check the email settings.": #
-"Field “%FIELD_NAME%”:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
-"Files could not be uploaded.": #
-"Filtering": #
-"Find": #
 "Floatfield": # "Float field"
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
-"Hints:": #
-"Id": #
-"Id (№)": #
 "Integerfield": # "Integer field"
-"Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Is required or needs to match a pattern!": #
-"Is required!": #
-"Keyword …": #
 "Link": #
-"Listing template": #
-"Live Edit": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
-"Logout": #
-"Main configuration": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
-"Move Up": #
 "Multiselect": # "Multi-select"
-"New Bolt site has been set up": #
-"No Preview": #
-"No content found.": #
-"No files in the list, yet.": #
-"No images in the list, yet.": #
-"No relations found!": #
-"No theme name found. Theme is not generated.": #
-"Not yet installed.": #
-"Note:": #
-"Omnisearch": #
-"Only root can change file extensions.": #
-"Order": #
-"Other content": #
-"Others": #
-"Path to image file": #
-"Please enter a new file name!": #
-"Profile": #
-"Publish": #
-"Records": #
 "Repeater": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Save & create new record": #
-"Search for …": #
-"Search results for <b>%search%</b>.": #
-"Select file …": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection (#):": #
-"Show proposed alterations": #
 "Slug": #
-"Something went wrong with logging in after first user creation!": #
-"System Configuration Checks": #
 "Testing connection to extension server failed: %errormessage%": #
-"The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
-"The change log has been cleared.": #
-"The change log has been trimmed.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"The folder '%s' could not be found, or is not readable.": #
-"The system log has been cleared.": #
-"The system log has been trimmed.": #
-"The value has to be at least “%MINVAL%”!": #
-"The value must not be greater than “%MAXVAL%”!": #
-"Theme successfully generated. You can now edit it directly from your theme folder.": #
-"There are no items on the Stack, yet.": #
-"There are no saved changes, yet.": #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
-"There is no undo!": #
-"This record is related to the following %CTNAME%:": #
-"This template adds new fields. Save, then refresh to see these changes.": #
-"Thumbnail": #
-"Time in 24h/12h format": #
-"Trim Change Log": #
-"Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload a file to this folder": #
-"Upload not allowed": #
-"Users & Permissions": #
 "View (saved version) on site": #
-"View Roles": #
-"View related content": #
-"Warning": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
-"Welcome to your new Bolt site, %USER%.": #
-"You cannot '%s' yourself.": #
-"You do not have the right privileges to edit that user.": #
-"You don't have correct permissions to edit the file '%s'.": #
-"You don't have the correct permissions to display the file or directory '%s'.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
-"by": #
 "filtered by <em>'%filter%'</em>": #
-"no content …": #
-"no title …": #
-"or": #
 
-#--- 121 untranslated keyword based messages ----------------------------------
+#--- 240 untranslated keyword based messages ----------------------------------
 
-"component.changelog-detail.by": # "by"
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
+"contenttypes.record.comment-add-colon": #
 "field.geolocation.label.address-lookup": # "Address lookup"
 "field.geolocation.label.marker-placement": # "Marker placement"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.image.label.alt": # "Alt"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -208,9 +93,118 @@
 "field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
 "field.video.width": # "Width"
 "general.about": # "About"
+"general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.bolt-documentation": # "Bolt documentation"
+"general.bolt-new-site-set-up": # "New Bolt site has been set up"
+"general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
+"general.phrase.access-denied-permissions-edit-file": # "You don't have correct permissions to edit the file '%s'."
+"general.phrase.access-denied-permissions-view-file-directory": # "You don't have the correct permissions to display the file or directory '%s'."
+"general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
+"general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
+"general.phrase.add-selected": # "Add Selected"
+"general.phrase.author": # "Author"
+"general.phrase.by": # "by"
+"general.phrase.clear-cache-complete": # "Cleared cache."
+"general.phrase.clear-change-log": # "Clear Change Log"
+"general.phrase.clear-system-log": # "Clear System Log"
+"general.phrase.close-editor": # "Close editor"
+"general.phrase.collapse-sidebar": # "Collapse sidebar"
+"general.phrase.configuration-main": # "Main configuration"
+"general.phrase.delete": # "Delete"
+"general.phrase.delete-set": # "Delete Set"
+"general.phrase.depublish": # "Depublish"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.details": # "Details"
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.duplicate-set": # "Duplicate Set"
+"general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
+"general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
+"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
+"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extras": # "Extras"
+"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
+"general.phrase.file-not-exist": # "The file '%s' doesn't exist."
+"general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.filtering": # "Filtering"
+"general.phrase.find": # "Find"
+"general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.hints-colon": # "Hints:"
+"general.phrase.id": # "Id"
+"general.phrase.keyword-ellipsis": # "Keyword …"
+"general.phrase.listing-template": # "Listing template"
+"general.phrase.live-edit": # "Live Edit"
+"general.phrase.log-change-trim": # "Trim Change Log"
+"general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.logout": # "Logout"
+"general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+"general.phrase.move-down": # "Move Down"
+"general.phrase.move-up": # "Move Up"
+"general.phrase.no-content": # "no content …"
+"general.phrase.no-content-found": # "No content found."
+"general.phrase.no-files-in-list": # "No files in the list, yet."
+"general.phrase.no-images-in-list": # "No images in the list, yet."
+"general.phrase.no-preview": # "No Preview"
+"general.phrase.no-relations-found-bang": # "No relations found!"
+"general.phrase.no-title": # "no title …"
+"general.phrase.no-undo": # "There is no undo!"
+"general.phrase.not-installed-yet": # "Not yet installed."
+"general.phrase.not-saved": # "There are no saved changes, yet."
+"general.phrase.note-colon": # "Note:"
+"general.phrase.omnisearch": # "Omnisearch"
+"general.phrase.only-root-change-file-extensions": # "Only root can change file extensions."
+"general.phrase.or": # "or"
+"general.phrase.order": # "Order"
+"general.phrase.other-content": # "Other content"
+"general.phrase.others": # "Others"
+"general.phrase.path-image-file": # "Path to image file"
+"general.phrase.profile": # "Profile"
+"general.phrase.publish": # "Publish"
+"general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
+"general.phrase.records": # "Records"
+"general.phrase.related-content": #
+"general.phrase.required-character-count": # "At least %NUM% characters required"
+"general.phrase.required-is-bang": # "Is required!"
+"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
+"general.phrase.save-and-create-new-record": # "Save & create new record"
+"general.phrase.search-for-ellipsis": # "Search for …"
+"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
+"general.phrase.select-file": # "Select file …"
+"general.phrase.selection": # "Selection"
+"general.phrase.show-proposed-alterations": # "Show proposed alterations"
+"general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.stack-empty": # "There are no items on the Stack, yet."
+"general.phrase.status-default": # "Default status"
+"general.phrase.system-config-checks": # "System Configuration Checks"
+"general.phrase.template-detail": # "Detail template"
+"general.phrase.thumbnail": # "Thumbnail"
+"general.phrase.time-format-24-12": # "Time in 24h/12h format"
+"general.phrase.toggle-all": # "Check/Uncheck all"
+"general.phrase.upload-file-to-directory": # "Upload a file to this folder"
+"general.phrase.upload-not-allowed": # "Upload not allowed"
+"general.phrase.users-none-create-first-extended": # "There are no users present in the system. Please create the first user, which will be granted root privileges."
+"general.phrase.users-permissions": # "Users & Permissions"
+"general.phrase.value-maximum-variable": # "The value must not be greater than “%MAXVAL%”!"
+"general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
+"general.phrase.view-related": # "View related content"
+"general.phrase.view-roles": # "View Roles"
+"general.phrase.warning": # "Warning"
+"general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
+"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"general.phrase.warning-unfinished-changes-loss": # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "general.visit-bolt": # "Visit Bolt.cm"
+"logs.change-log.cleared": # "The change log has been cleared."
+"logs.change-log.trimmed": # "The change log has been trimmed."
 "logs.system-log": # "System Log"
+"logs.system-log.cleared": # "The system log has been cleared."
+"logs.system-log.trimmed": # "The system log has been trimmed."
+"page.checks.run-all": # "Run all checks"
+"page.checks.run-directory-checks": # "Run directory checks"
+"page.checks.run-email-checks": # "Run email checks"
+"page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.edit-file.note-related": # "Note, this file has related files:"
 "page.edit-users.activated.no": # "no"
 "page.edit-users.activated.yes": # "yes"
@@ -256,6 +250,8 @@
 "page.extend.button.update-check": # "Run update check"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -294,6 +290,7 @@
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
@@ -301,6 +298,12 @@
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.file-management.label.create-file": # "Create File"
+"page.file-management.message.create-file": # "Please enter a new file name!"
+"page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.login.cookies-required": # "Note: Cookies are required to log on to Bolt. Please allow cookies."
 "page.login.title": # "Sign in to Bolt"
 "panel.latest-activity.by": # "by"
@@ -310,238 +313,51 @@
 "panel.latest-activity.system": # "Latest system activity"
 "panel.user-actions.button.add": # "Add a new user"
 
-#--- 222 translations ---------------------------------------------------------
+#--- 41 translations ----------------------------------------------------------
 
-"%name% № %id%": "%name%　ID: %id%"
 "(default template)": "（デフォルトテンプレート）"
 "(no category)": "（カテゴリなし）"
 "(no group)": "（グループなし）"
-"A password reset link has been sent to '%user%'.": "パスワードリセット用のリンクが '%user%'に送信されました"
-"Actions": "操作"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
-"Alas, no about!": "ああ、aboutがありません！"
-"All content types": "すべてのコンテンツタイプ"
-"All users": "すべてのユーザー"
-"Anonymous": "匿名"
 "Are you sure you want to delete %username%?": "本当に '%username%' を"
-"Author:": "著書："
-"Below are the third party libraries that are used by Bolt.": "以下はBoltが利用するサードパーティのライブラリです。"
 "Body": "本文"
-"Bolt - Fatal error.": "Bolt - 致命的なエラー。"
-"Browser / platform": "ブラウザ / プラットフォーム"
-"Built-in role, automatically granted at all times, even if no user is logged in": "ビルトインのロール。 ユーザーがログインしていなくても自動的に毎回許可される。"
-"Built-in role, automatically granted to every registered user": "ビルトインのロール。すべての登録ユーザに自動的に許可される。"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "ビルトインのロール。 リソースの文脈でのみ有効。リソースの所有者に自動的に割り当てられる。"
-"Built-in superuser role, automatically grants all permissions": "ビルトインの　スーパーユーザーのロール。自動的にすべての権限が許可される。"
-"Cancel": "キャンセル"
 "Categories": "カテゴリ"
 "Category": "カテゴリ"
-"Change Log": "変更ログ"
-"Change status to 'draft'": "ステータスを'下書き'に変更"
-"Change status to 'held'": "ステータスを'非公開'に変更"
-"Check again": "再チェック"
-"Check database": "データベースをチェック"
-"Class:": "クラス："
-"Clear cache again": "もう一度キャッシュをクリア"
-"Clear filter": "フィルタをクリア"
-"Clear sort/filter": "並び替え/フィルタをクリア"
-"Clear the cache": "キャッシュをクリア"
-"Click to change current status.": "クリックして現在のステータスを変更"
-"Code:": "コード："
-"Configuration": "全般設定"
 "Content": "コンテンツ"
-"Content '%title%' could not be modified.": "コンテンツ '%title%' は更新できません。"
-"Content Type Permissions": "コンテンツタイプのパーミッション"
-"Contenttypes": "コンテンツタイプ"
-"Create folder": "フォルダを作成"
-"Create the first user": "最初のユーザを作成"
-"Created on:": "作成日時："
 "Current (saved) status:": "現在の（保存された）ステータス："
-"Current sessions": "現在のセッション"
-"Current status:": "現在のステータス："
-"Dashboard": "ダッシュボード"
-"Database check / update": "データベースのチェック/アップデート"
 "Date": "日付"
 "Datetime": "日時"
-"Delete %filename%": "%filename% を削除"
-"Delete %foldername%": "%foldername% を削除"
-"Delete %username%": "%username% を削除"
-"Depublication date:": "公開停止日時："
-"Deselect all": "全てを選択解除"
-"Disable %username%": "%username% を無効化"
-"Done!": "完了！"
-"Draft": "下書き"
-"Duplicate %filename%": "%filename% を複製"
-"Edit": "編集"
-"Edit file": "ファイルを編集"
-"Enable %username%": "%username% を有効化"
 "Everybody": "みなさん"
 "Excerpt": "概要"
-"Extensions": "エクステンション"
 "File": "ファイル"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "ファイル '%file%' をアップロードできませんでした（間違っている/許可されていない ファイルの種類）。 ファイルの拡張子が以下に含まれるかご確認ください:"
-"File '%file%' was uploaded successfully.": "ファイル '%file%' は正常にアップロードされました。"
-"File '%s' could not be saved, for some reason.": "何らかの理由でファイル '%s' を保存できませんでした。"
-"File '%s' could not be saved:": "ファイル '%s' を保存できませんでした："
-"File '%s' has been saved.": "ファイル '%s' を保存しました。"
-"File Management": "ファイル管理"
-"File is not readable!": "ファイルが読み取り可能ではありません！"
 "Filelist": "ファイルリスト"
-"Files": "ファイル"
-"Files in %s": "%s の中のファイル"
-"Files on the stack": "スタック上のファイル"
-"Filesize": "ファイルサイズ"
-"Fill the database with Dummy Content": "ダミーコンテンツをデータベースに挿入"
-"Filter": "フィルタ"
-"Folder '%s' could not be found, or is not readable.": "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
-"Folder permissions insufficient": "フォルダのパーミッションが不適切です"
-"Folders": "フォルダ"
-"Full list …": "全てのリスト…"
 "Geolocation": "位置情報"
-"Global Permissions": "グローバル パーミッション"
 "Html": "HTML"
-"IP address": "IPアドレス"
 "Image": "画像"
 "Imagelist": "画像リスト"
-"Info": "情報"
-"Last edited on:": "最終更新日："
-"Last known IP": "最後の既知のIP"
-"Last seen": "最終閲覧"
-"Login": "ログイン"
-"Long messages": "長いメッセージ"
-"Maintenance": "メンテナンス"
 "Markdown": "マークダウン"
-"Menu setup": "メニュー設定"
-"Message:": "メッセージ："
-"Messages": "メッセージ"
-"Meta": "メタ"
-"Meta information": "メタ情報"
-"Modifications made to the database:": "データベースを修正しました："
-"Modifications needed:": "修正が必要です。"
-"Modified": "修正された"
-"No results found for '%SEARCHTERM%'. Please try another search.": "'%SEARCHTERM%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
-"No such action for user '%s'.": "ユーザー '%s' に対してそのアクションはありません。"
-"None": "なし"
-"Not published": "非公開"
-"Options": "オプション"
-"Order: %sort%": "並び順： %sort%"
-"Overview": "一覧"
-"Overview for": "一覧"
-"Owner": "所有者"
-"Owner:": "所有者："
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "パスワードのリセットに失敗しました！　トークンが正しくなかった、操作が遅すぎた、または違うIPアドレスからパスワードのリセットを試みた、のいずれかが原因です。"
-"Password reset successful! You can now log on with the password that was sent to you via email.": "パスワードを正常にリセットしました！メールで送信されたパスワードを用いてすぐにログオン可能です。"
-"Path": "パス"
-"Path:": "パス："
-"Permalink": "パーマリンク"
-"Permissions": "パーミッション"
-"Place on stack": "スタックに追加"
-"Please choose the record you want to link to:": "リンクしたいレコードを選んでください："
-"Please enter a new folder name!": "新しいフォルダ名を入力してください"
-"Please log on.": "ログオンしてください。"
-"Please provide a username": "ユーザー名を入力してください"
-"Prefill database": "データベースに事前にデータを挿入"
-"Preview": "プレビュー"
-"Provided by:": "提供："
-"Publication date:": "公開日時"
-"Published": "公開"
-"Published on:": "公開日時："
-"Read more": "続きを読む"
-"Related content": "関連するコンテンツ"
-"Relationships": "リレーションシップ"
-"Rename %foldername%": "%foldername% をリネーム"
-"Roles": "ロール"
-"Roles and Permissions": "ロールとパーミッション"
-"Save & return to overview": "保存して一覧に戻る"
-"Saved on:": "保存日時："
-"Saving …": "保存しています…"
-"Search": "検索"
-"Search …": "検索…"
-"Select": "選択"
 "Select a page": "ページを選択"
-"Select all": "全てを選択"
-"Select none": "何も選択しない"
 "Select zero or more pages": "0以上のページを選択"
-"Session expires": "セッション期限切れ"
-"Session resumed.": "セッションを回復しました。"
-"Settings": "設定"
-"Showing": "表示しています"
-"Showing %pager_for% %from% - %to% of %count%": "%page_for%を表示 %from%～%to%件目 / 全 %count% 件"
-"Size": "サイズ"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt>をスキップしました (すでにレコードが存在します)"
 "Skipped <tt>%key%</tt> (not checked)": " <tt>%key%</tt> をスキップしました（チェックされません）"
-"Slug:": "スラッグ："
-"Something went wrong": "不具合が発生しました。"
-"Sophisticated, lightweight & simple CMS": "洗練された、軽量でシンプルなCMS"
-"Stack": "スタック"
-"Status:": "ステータス："
 "Tag": "タグ"
 "Tags": "タグ"
-"Taxonomy": "タクソノミー"
 "Teaser": "要約"
 "Template": "テンプレート"
 "Textarea": "テキストエリア"
-"That user does not exist.": "そのユーザーは存在しません。"
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "ファイル '%s' は書き込み可能ではありません。エディタを利用してあなた自身の手でこのファイルを修正しなければなりません。"
-"The following file could not be read:": "以下のファイルは読み取れませんでした："
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' の識別名とスラッグが同じではありません('%slug%' vs. '%taxonomytype%')。taxonomy.xml を編集して、２つを一致させ、データベースとテンプレートの不整合を解消してください。"
-"The requested changelog entry doesn't exist.": "リクエストされた変更ログのエントリは存在しません。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "ロールとパーミッションの設定は<code>%permissions%</code>に保存されています。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "翻訳ファイル '%s' を作成できません。エディタを使ってあなたの手でこのファイルを修正してください。"
-"The translations file '%s' is not readable.": "翻訳ファイル '%s' は読み取り可能ではありません。"
-"There are no users in the database. Please create the first user.": "データベースにユーザーが存在しません。最初のユーザーを作成してください。"
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "少なくとも１つの'root'ユーザーアカウントが存在する必要があります。あなたのアカウントが昇格されました。おめでとうございます！"
 "This is a checkbox": "これはチェックボックスです"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
-"Timed publish": "予約公開"
-"Tip:": "Tip："
 "Title": "タイトル"
-"Translations": "翻訳"
-"Types": "種類"
-"Update the database": "データベースをアップデート"
-"Upload": "アップロード"
-"Upload file": "ファイルをアップロード"
-"Upload image": "画像をアップロード"
-"Uploaded files": "アップロードされたファイル"
-"Uploading to this folder is not allowed.": "このフォルダへのアップロードは許可されていません。"
-"Used Libraries / Components": "利用したライブラリ/コンポーネント"
-"User '%s' could not be deleted.": "ユーザー '%s' は削除できません。"
-"User '%s' could not be disabled.": "ユーザー '%s' は無効化できません。"
-"User '%s' could not be enabled.": "ユーザー '%s' は有効化できません。"
-"User '%s' is deleted.": "ユーザー '%s' は削除されました。"
-"User '%s' is disabled.": "ユーザー '%s' は無効化されています。"
-"User '%s' is enabled.": "ユーザー '%s' は有効化されています。"
-"Username": "ユーザー名"
-"Username or password not correct. Please check your input.": "ユーザー名もしくはパスワードが正しくありません。入力内容を確認してください。"
-"Users": "ユーザー"
 "Video": "動画"
-"View on site": "サイト上で表示"
-"View site": "サイトを表示"
-"View/edit Templates": "テンプレートを表示/編集"
-"Written by <em>%name%</em> on %date%": "投稿者： <em>%name%</em> 投稿日時： %date%"
-"You do not have the right privileges to edit that record.": "そのレコードを編集する権限がありません。"
-"You do not have the right privileges to view that page.": "そのページを閲覧する権限がありません。"
-"You have been logged out.": "ログアウトしました。"
 "You've been logged on successfully.": "正常にログインしました。"
-"Your account is disabled. Sorry about that.": "申し訳ありません。あなたのアカウントは無効化されています。"
-"Your database is already up to date.": "データベースはすでに最新です。"
-"Your database is now up to date.": "データベースは最新です。"
-"and edited": "更新日："
-"back to editing": "編集に戻る"
-"line": "行"
-"none": "なし"
-"of": "の"
-"show all": "全てを表示"
 
-#--- 94 keyword based translations --------------------------------------------
-
-component.changelog-detail.field: "フィールド"
-component.changelog-detail.value-new: "新しい値"
-component.changelog-detail.value-old: "古い値"
-
-component.changelog-pager.page: "ページ"
+#--- 272 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "%contenttypes%の操作"
 contenttypes.generic.actions-one: "この%contenttype%の操作"
@@ -594,12 +410,181 @@ field.video.label.size: "サイズ"
 
 general.about-bolt: "Boltについて"
 
+general.access-control.reset-failed: "パスワードのリセットに失敗しました！　トークンが正しくなかった、操作が遅すぎた、または違うIPアドレスからパスワードのリセットを試みた、のいずれかが原因です。"
+general.access-control.reset-successful: "パスワードを正常にリセットしました！メールで送信されたパスワードを用いてすぐにログオン可能です。"
+
+general.access-denied.content-not-modified: "コンテンツ '%title%' は更新できません。"
+
+general.bolt-fatal-error: "Bolt - 致命的なエラー。"
+
 general.bolt-on-github: "Github上のBolt"
+
+general.bolt-tagline: "洗練された、軽量でシンプルなCMS"
+
+general.bolt-third-party-libraries: "以下はBoltが利用するサードパーティのライブラリです。"
+
+general.phrase.access-denied-logged-out: "ログアウトしました。"
+general.phrase.access-denied-privilege-edit-record: "そのレコードを編集する権限がありません。"
+general.phrase.access-denied-privilege-view-page: "そのページを閲覧する権限がありません。"
+general.phrase.action-plural: "操作"
+general.phrase.author-colon: "著書："
+general.phrase.browswer-platform: "ブラウザ / プラットフォーム"
+general.phrase.cancel: "キャンセル"
+general.phrase.change-current-status: "クリックして現在のステータスを変更"
+general.phrase.change-log: "変更ログ"
+general.phrase.check-again: "再チェック"
+general.phrase.check-database: "データベースをチェック"
+general.phrase.choose-record-link-to: "リンクしたいレコードを選んでください："
+general.phrase.clear-cache: "キャッシュをクリア"
+general.phrase.clear-cache-again: "もう一度キャッシュをクリア"
+general.phrase.clear-filter: "フィルタをクリア"
+general.phrase.clear-filter-sort: "並び替え/フィルタをクリア"
+general.phrase.code-colon: "コード："
+general.phrase.configuration: "全般設定"
+general.phrase.content-type-permissions: "コンテンツタイプのパーミッション"
+general.phrase.content-types: "コンテンツタイプ"
+general.phrase.create-user-first: "最初のユーザを作成"
+general.phrase.created-on-colon: "作成日時："
+general.phrase.current-session-plural: "現在のセッション"
+general.phrase.dashboard: "ダッシュボード"
+general.phrase.databaase-up-to-date: "データベースは最新です。"
+general.phrase.database-check-update: "データベースのチェック/アップデート"
+general.phrase.database-prefill: "データベースに事前にデータを挿入"
+general.phrase.database-prefill-dummy-content: "ダミーコンテンツをデータベースに挿入"
+general.phrase.database-up-to-date-already: "データベースはすでに最新です。"
+general.phrase.delete-directory-name: "%foldername% を削除"
+general.phrase.delete-file-name: "%filename% を削除"
+general.phrase.delete-user-name: "%username% を削除"
+general.phrase.depublication-date-colon: "公開停止日時："
+general.phrase.deselect-all: "全てを選択解除"
+general.phrase.disable-user-name: "%username% を無効化"
+general.phrase.done-bang: "完了！"
+general.phrase.draft: "下書き"
+general.phrase.duplicate-file-name: "%filename% を複製"
+general.phrase.edit: "編集"
+general.phrase.edit-file: "ファイルを編集"
+general.phrase.edited: "更新日："
+general.phrase.enable-user-name: "%username% を有効化"
+general.phrase.error-translation-file-not-readable: "翻訳ファイル '%s' は読み取り可能ではありません。"
+general.phrase.error-user-name-password-incorrect: "ユーザー名もしくはパスワードが正しくありません。入力内容を確認してください。"
+general.phrase.extensions: "エクステンション"
+general.phrase.field: "フィールド"
+general.phrase.file-management: "ファイル管理"
+general.phrase.file-not-readable-following-colon: "以下のファイルは読み取れませんでした："
+general.phrase.file-not-writable: "ファイル '%s' は書き込み可能ではありません。エディタを利用してあなた自身の手でこのファイルを修正しなければなりません。"
+general.phrase.file-size: "ファイルサイズ"
+general.phrase.filter: "フィルタ"
+general.phrase.folders: "フォルダ"
+general.phrase.full-list-ellipsis: "全てのリスト…"
+general.phrase.general.phrase.uploaded-files: "アップロードされたファイル"
+general.phrase.global-permissions: "グローバル パーミッション"
+general.phrase.info: "情報"
+general.phrase.ip.address: "IPアドレス"
+general.phrase.last-edited-on-colon: "最終更新日："
+general.phrase.last-known-ip: "最後の既知のIP"
+general.phrase.last-seen: "最終閲覧"
+general.phrase.line: "行"
+general.phrase.login: "ログイン"
+general.phrase.login-account-disabled: "申し訳ありません。あなたのアカウントは無効化されています。"
+general.phrase.long-messages: "長いメッセージ"
+general.phrase.maintenance: "メンテナンス"
+general.phrase.menu-setup: "メニュー設定"
+general.phrase.message-colon: "メッセージ："
+general.phrase.messages: "メッセージ"
+general.phrase.meta: "メタ"
+general.phrase.meta-information: "メタ情報"
+general.phrase.missing-about-page: "ああ、aboutがありません！"
+general.phrase.missing-root-jackpot: "少なくとも１つの'root'ユーザーアカウントが存在する必要があります。あなたのアカウントが昇格されました。おめでとうございます！"
+general.phrase.modifications-database-colon: "データベースを修正しました："
+general.phrase.modifications-needed-colon: "修正が必要です。"
+general.phrase.modified: "修正された"
+general.phrase.no-result-for-search-term: "'%SEARCHTERM%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
+general.phrase.no-such-action-for-user: "ユーザー '%s' に対してそのアクションはありません。"
+general.phrase.none: "なし"
+general.phrase.not-published: "非公開"
+general.phrase.of: "の"
+general.phrase.options: "オプション"
+general.phrase.order-colon-sort: "並び順： %sort%"
+general.phrase.overview: "一覧"
+general.phrase.overview-for: "一覧"
+general.phrase.owner-colon: "所有者："
+general.phrase.page: "ページ"
+general.phrase.pager-showing-from-to-of: "%page_for%を表示 %from%～%to%件目 / 全 %count% 件"
+general.phrase.path: "パス"
+general.phrase.path-colon: "パス："
+general.phrase.permalink: "パーマリンク"
+general.phrase.permissions: "パーミッション"
+general.phrase.please-logon: "ログオンしてください。"
+general.phrase.please-provide-username: "ユーザー名を入力してください"
+general.phrase.preview: "プレビュー"
+general.phrase.provided-by-colon: "提供："
+general.phrase.publication-date-colon: "公開日時"
+general.phrase.publish-timed: "予約公開"
+general.phrase.published: "公開"
+general.phrase.published-on-colon: "公開日時："
+general.phrase.read-more: "続きを読む"
+general.phrase.relationships: "リレーションシップ"
+general.phrase.rename-foldername: "%foldername% をリネーム"
+general.phrase.return-editing: "編集に戻る"
+general.phrase.roles: "ロール"
+general.phrase.roles-permissions: "ロールとパーミッション"
+general.phrase.save-and-return-overview: "保存して一覧に戻る"
+general.phrase.saved-on-colon: "保存日時："
+general.phrase.saving-ellipsis: "保存しています…"
+general.phrase.search: "検索"
+general.phrase.search-ellipsis: "検索…"
+general.phrase.select: "選択"
+general.phrase.select-all: "全てを選択"
+general.phrase.select-none: "何も選択しない"
+general.phrase.session-expires: "セッション期限切れ"
+general.phrase.session-resumed-colon: "セッションを回復しました。"
+general.phrase.settings: "設定"
+general.phrase.show-all: "全てを表示"
+general.phrase.showing: "表示しています"
+general.phrase.size: "サイズ"
+general.phrase.slug-colon: "スラッグ："
+general.phrase.something-went-wrong: "不具合が発生しました。"
+general.phrase.stack: "スタック"
+general.phrase.stack-add: "スタックに追加"
+general.phrase.stack-files: "スタック上のファイル"
+general.phrase.status-change-draft: "ステータスを'下書き'に変更"
+general.phrase.status-change-held: "ステータスを'非公開'に変更"
+general.phrase.status-colon: "ステータス："
+general.phrase.status-current-colon: "現在のステータス："
+general.phrase.stay-classy-colon: "クラス："
+general.phrase.taxonomy: "タクソノミー"
+general.phrase.tip-colon: "Tip："
+general.phrase.translations: "翻訳"
+general.phrase.types: "種類"
+general.phrase.update-database: "データベースをアップデート"
+general.phrase.upload: "アップロード"
+general.phrase.upload-file: "ファイルをアップロード"
+general.phrase.upload-image: "画像をアップロード"
+general.phrase.used-libraries: "利用したライブラリ/コンポーネント"
+general.phrase.user-deleted: "ユーザー '%s' は削除されました。"
+general.phrase.user-disabled: "ユーザー '%s' は無効化されています。"
+general.phrase.user-enabled: "ユーザー '%s' は有効化されています。"
+general.phrase.user-failed-delete: "ユーザー '%s' は削除できません。"
+general.phrase.user-failed-disabled: "ユーザー '%s' は無効化できません。"
+general.phrase.user-failed-enable: "ユーザー '%s' は有効化できません。"
+general.phrase.user-name: "ユーザー名"
+general.phrase.user-not-exist: "そのユーザーは存在しません。"
+general.phrase.users: "ユーザー"
+general.phrase.users-none-create-first: "データベースにユーザーが存在しません。最初のユーザーを作成してください。"
+general.phrase.users.all: "すべてのユーザー"
+general.phrase.value-new: "新しい値"
+general.phrase.value-old: "古い値"
+general.phrase.view-edit-templates: "テンプレートを表示/編集"
+general.phrase.view-on-site: "サイト上で表示"
+general.phrase.view-site: "サイトを表示"
+general.phrase.written-by-on: "投稿者： <em>%name%</em> 投稿日時： %date%"
 
 generic.noscript.headline: "JavaScriptが無効"
 generic.noscript.message: "お使いのブラウザの設定でJavaScriptが現在無効になっています。Boltのほとんどの機能はJavaScriptなしでも動作しますが、大きく使い勝手が向上するため、ブラウザのJavaScriptを有効にすることをおすすめします。"
 
 logs.change-log: "変更ログ"
+logs.change-log.contenttypes.all: "すべてのコンテンツタイプ"
+logs.change-log.not-found: "リクエストされた変更ログのエントリは存在しません。"
 
 menu.configuration.routing: "ルーティング設定"
 
@@ -634,6 +619,19 @@ page.edit-users.title.edit: "ユーザーを編集"
 page.extend.listheader.actions: "操作"
 page.extend.message.maintenance: "メンテナンス"
 
+page.file-management.label.create-folder: "フォルダを作成"
+page.file-management.message.access-denied: "このフォルダへのアップロードは許可されていません。"
+page.file-management.message.create-folder: "新しいフォルダ名を入力してください"
+page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
+page.file-management.message.files-in: "%s の中のファイル"
+page.file-management.message.folder-access-denied: "フォルダのパーミッションが不適切です"
+page.file-management.message.folder-not-found: "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
+page.file-management.message.save-failed-colon: "ファイル '%s' を保存できませんでした："
+page.file-management.message.save-failed-unknown: "何らかの理由でファイル '%s' を保存できませんでした。"
+page.file-management.message.save-success: "ファイル '%s' を保存しました。"
+page.file-management.message.upload-success: "ファイル '%file%' は正常にアップロードされました。"
+page.file-management.title: "ファイル"
+
 page.login.button.back: "ログイン画面に戻る"
 page.login.button.forgot-password: "パスワードを忘れた…"
 page.login.button.log-on: "ログオン"
@@ -641,6 +639,7 @@ page.login.button.reset-password: "パスワードをリセット"
 page.login.label.password: "パスワード"
 page.login.label.username: "ユーザー名 / メール"
 page.login.password-hide: "隠す"
+page.login.password-reset-link-sent: "パスワードリセット用のリンクが '%user%'に送信されました"
 page.login.password-show: "表示"
 page.login.placeholder.password: "ユーザー名"
 
@@ -649,6 +648,13 @@ panel.latest-activity.logged-in: "ログイン"
 panel.latest-activity.logged-out: "ログアウト"
 panel.latest-activity.saved: "保存しました"
 panel.latest-activity.unknown: "不明"
+
+permissions.roles.description.anonymous: "ビルトインのロール。 ユーザーがログインしていなくても自動的に毎回許可される。"
+permissions.roles.description.everyone: "ビルトインのロール。すべての登録ユーザに自動的に許可される。"
+permissions.roles.description.owner: "ビルトインのロール。 リソースの文脈でのみ有効。リソースの所有者に自動的に割り当てられる。"
+permissions.roles.description.root: "ビルトインの　スーパーユーザーのロール。自動的にすべての権限が許可される。"
+permissions.roles.label.anonymous: "匿名"
+permissions.roles.label.owner: "所有者"
 
 users.actions-for-users: "ユーザーの操作"
 

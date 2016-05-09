@@ -10,7 +10,7 @@
         {% for link, value in values %}
             <a href="{{ link }}">{{ value }}</a>{% if not loop.last %}, {% endif %}
         {% else %}
-            {{ __('none') }}
+            {{ __('general.phrase.none') }}
         {% endfor %}
         {% if not loop.last %} - {% endif %}
     {% endfor %}

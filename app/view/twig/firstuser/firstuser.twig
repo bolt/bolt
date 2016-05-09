@@ -2,14 +2,14 @@
 
 {% extends '@bolt/_base/_page-no_nav.twig' %}
 
-{% block page_title __('Create the first user') %}
+{% block page_title __('general.phrase.create-user-first') %}
 
 {% block page_main %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
     <p class="first-user">
-        {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
+        {{ __('general.phrase.users-none-create-first-extended') }}
     </p>
 
     <form method="post" class="form-horizontal submitspinner" autocomplete="off">
@@ -21,13 +21,13 @@
         {{ form_widget(context.form) }}
 
         <button type="submit" class="btn btn-primary" name="submit" value="login">
-            <i class="fa fa-sign-in fa-fw"></i> {{ __('Create the first user') }}
+            <i class="fa fa-sign-in fa-fw"></i> {{ __('general.phrase.create-user-first') }}
         </button>
     </form>
 
     {% if context.note is not empty %}
         <p class="alert alert-info" style="max-width: 550px; margin-top:10px;">
-            <strong>{{ __('Note:') }}</strong> {{ context.note|raw }}
+            <strong>{{ __('general.phrase.note-colon') }}</strong> {{ context.note|raw }}
         </p>
     {% endif %}
 

@@ -136,7 +136,7 @@ class Storage
             }
         }
 
-        $output .= "<br>\n\n" . Trans::__('Done!');
+        $output .= "<br>\n\n" . Trans::__('general.phrase.done-bang');
 
         return $output;
     }

@@ -34,13 +34,13 @@
                         {% if entry.title %}
                             {% set title = macro.contentlink_by_id(context.contenttype, entry.title, entry.contentid) %}
                         {% else %}
-                            {% set title = __('%name% № %id%', {'%name%': context.contenttype.singular_name, '%id%': entry.contentid}) %}
+                            {% set title = '%name% № %id%'|replace({'%name%': context.contenttype.singular_name, '%id%': entry.contentid}) %}
                         {% endif %}
                         № {{ entry.contentid }}.
                     {% endif %}
                     {{ title }}
                     {{ changelog_mutation(entry.mutation_type) }}
-                    {{ __('by') }} <em>{{ macro.userlink(entry.ownerid|default('')) }}</em>
+                    {{ __('general.phrase.by') }} <em>{{ macro.userlink(entry.ownerid|default('')) }}</em>
                     <small>({{ buic_moment(entry.date) }})</small>
                     <small><a href="{{ path('changelogrecordsingle', {'contenttype': context.contenttype.slug, 'contentid': entry.contentid, 'id': entry.id}) }}">view</a></small>
                 </li>
@@ -61,7 +61,7 @@
     </ul>
     {% if context.changelog is defined and context.contentid and context.filtered %}
         <a href="{{ path('changelogrecordall', {'contenttype': context.contenttype.slug, 'contentid': context.contentid}) }}">
-            {{ __('Full list …') }}
+            {{ __('general.phrase.full-list-ellipsis') }}
         </a>
     {% endif %}
 

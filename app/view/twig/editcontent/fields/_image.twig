@@ -59,7 +59,7 @@
         {% if aid == 'title' %}
             {% set atitle = __('Title') %}
         {% elseif aid == 'alt' %}
-            {% set atitle = __('Alt') %}
+            {% set atitle = __('field.image.label.alt') %}
         {% endif %}
 
         {% set uid = key ~ '-' ~ aid %}
@@ -98,7 +98,7 @@
                 {# Path #}
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <label{{ hattr(hattr.path_label) }}>{{ __('Path to image file') }}</label><input{{ hattr(hattr.path) }}>
+                        <label{{ hattr(hattr.path_label) }}>{{ __('general.phrase.path-image-file') }}</label><input{{ hattr(hattr.path) }}>
                     </div>
                 </div>
 
@@ -124,7 +124,7 @@
             {# Preview #}
             <div class="col-xs-4">
                 <div class="right-on-large">
-                    <label>{{ __('Preview') }}</label>
+                    <label>{{ __('general.phrase.preview') }}</label>
                     <div class="content-preview imageholder">
                         <img{{ hattr(hattr.preview) }}>
                     </div>

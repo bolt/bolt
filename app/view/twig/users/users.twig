@@ -4,7 +4,7 @@
 
 {% block page_nav 'Settings/Configuration' %}
 
-{% block page_title __('All users') %}
+{% block page_title __('general.phrase.users.all') %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}
@@ -22,11 +22,11 @@
 
             {{ include('@bolt/users/_userlist.twig') }}
 
-            <h2><strong>{{ __('Roles and Permissions') }}</strong></h2>
+            <h2><strong>{{ __('general.phrase.roles-permissions') }}</strong></h2>
 
             {{ include('@bolt/users/_roles-permissons.twig') }}
 
-            <h2><strong>{{ __('Current sessions') }}</strong></h2>
+            <h2><strong>{{ __('general.phrase.current-session-plural') }}</strong></h2>
 
             {{ include('@bolt/users/_sessions.twig') }}
 

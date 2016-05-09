@@ -25,14 +25,14 @@
     <li>
         <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
             <i class="fa fa-fw fa-external-link-square"></i>
-            {{ __('View site') }}
+            {{ __('general.phrase.view-site') }}
         </a>
     </li>
 
     <li class="close-live-editor">
         <a>
             <i class="fa fa-fw fa-times-circle-o"></i>
-            {{ __('Close editor') }}
+            {{ __('general.phrase.close-editor') }}
         </a>
     </li>
 
@@ -42,12 +42,12 @@
         </a>
         <ul class="dropdown-menu dropdown-user" role="menu" >
             <li>
-                <a href="{{ path('profile') }}" role="menuitem" tabindex="-1"><i class="fa fa-fw fa-gear"></i> {{ __('Profile') }}</a>
+                <a href="{{ path('profile') }}" role="menuitem" tabindex="-1"><i class="fa fa-fw fa-gear"></i> {{ __('general.phrase.profile') }}</a>
             </li>
             <li>
                 <form action="{{ path('logout') }}" method="POST">
                     <button class="btn btn-link btn-block" type="submit">
-                        <span class="pull-left"><i class="fa fa-fw fa-sign-out" style="margin-left: 4px;"></i> {{ __('Logout') }}</span>
+                        <span class="pull-left"><i class="fa fa-fw fa-sign-out" style="margin-left: 4px;"></i> {{ __('general.phrase.logout') }}</span>
                     </button>
                 </form>
             </li>

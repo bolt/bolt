@@ -100,7 +100,7 @@ abstract class BackendBase extends Base
         // Confirm the user is enabled or bounce them
         $sessionUser = $this->getUser();
         if ($sessionUser && !$sessionUser->getEnabled()) {
-            $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $app['logger.flash']->error(Trans::__('general.phrase.login-account-disabled'));
             $event->setReason(AccessControlEvents::FAILURE_DISABLED);
             $event->setUserName($sessionUser->getUsername());
             $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
@@ -116,13 +116,13 @@ abstract class BackendBase extends Base
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
         if ($authCookie === null || !$this->accessControl()->isValidSession($authCookie)) {
-            $app['logger.flash']->info(Trans::__('Please log on.'));
+            $app['logger.flash']->info(Trans::__('general.phrase.please-logon'));
 
             return $this->redirectToRoute('login');
         }
 
         if (!$this->isAllowed($roleRoute)) {
-            $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
+            $app['logger.flash']->error(Trans::__('general.phrase.access-denied-privilege-view-page'));
             $event->setReason(AccessControlEvents::FAILURE_DENIED);
             $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);
 
@@ -232,7 +232,7 @@ abstract class BackendBase extends Base
         // Repair the DB, and let's add a new user.
         if (!$tableExists || $userCount === 0) {
             $app['schema']->update();
-            $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
+            $app['logger.flash']->info(Trans::__('general.phrase.users-none-create-first'));
 
             return $this->redirectToRoute('userfirst');
         }

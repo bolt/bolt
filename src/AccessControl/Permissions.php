@@ -86,7 +86,7 @@ class Permissions
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = [
             'label'       => 'Root',
-            'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
+            'description' => Trans::__('permissions.roles.description.root'),
             'builtin'     => true,
         ];
 
@@ -110,22 +110,22 @@ class Permissions
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
                 return [
-                    'label'       => Trans::__('Anonymous'),
-                    'description' => Trans::__('Built-in role, automatically granted at all times, even if no user is logged in'),
+                    'label'       => Trans::__('permissions.roles.label.anonymous'),
+                    'description' => Trans::__('permissions.roles.description.anonymous'),
                     'builtin'     => true,
                 ];
 
             case self::ROLE_EVERYONE:
                 return [
                     'label'       => Trans::__('Everybody'),
-                    'description' => Trans::__('Built-in role, automatically granted to every registered user'),
+                    'description' => Trans::__('permissions.roles.description.everyone'),
                     'builtin'     => true,
                 ];
 
             case self::ROLE_OWNER:
                 return [
-                    'label'       => Trans::__('Owner'),
-                    'description' => Trans::__('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
+                    'label'       => Trans::__('permissions.roles.label.owner'),
+                    'description' => Trans::__('permissions.roles.description.owner'),
                     'builtin'     => true,
                 ];
 

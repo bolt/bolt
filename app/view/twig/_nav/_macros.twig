@@ -47,7 +47,7 @@
             {% if allowedamount == 1 and not force_submenu|default(false) %}
                 {% set item = allowedsingle %}
                 <a href="{{ item.link }}">
-                    {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
+                    {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __('general.phrase.no-content') ~ ")</em>")|raw }}
                 </a>
             {% else %}
                 <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
@@ -61,7 +61,7 @@
                         {% elseif isallowed(item.isallowed|default('dashboard')) %}
                             <li{% if divider %} class="subdivider"{% endif %}>
                                 <a href="{{ item.link }}">
-                                    {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
+                                    {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __('general.phrase.no-content') ~ ")</em>")|raw }}
                                 </a>
                             </li>
                             {% set divider = false %}
@@ -83,7 +83,7 @@
 
     <li class="nav-secondary-collapse">
         <a href="#">
-            {{ label('fa:compress', __('Collapse sidebar')) }}
+            {{ label('fa:compress', __('general.phrase.collapse-sidebar')) }}
         </a>
     </li>
     <li class="nav-secondary-expand">

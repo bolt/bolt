@@ -1,4 +1,4 @@
-# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2016-05-02 21:12:26 Europe/Paris
+# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2016-05-09 07:28:46 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,16 +9,13 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-# 125 untranslated messages
-#  78 untranslated keyword based messages
-# 266 translations
-# 137 keyword based translations
+#  41 untranslated messages
+# 161 untranslated keyword based messages
+#  49 translations
+# 351 keyword based translations
 
-#--- 125 untranslated messages ------------------------------------------------
+#--- 41 untranslated messages -------------------------------------------------
 
-"%name% № %id%": #
-"Add Selected": #
-"Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -28,126 +25,46 @@
 "Are you sure you want to remove this file?": #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
-"At least %NUM% characters required": #
-"Author": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Check/Uncheck all": #
-"Clear Change Log": #
-"Clear System Log": #
-"Cleared cache.": #
 "Client error: %errormessage%": #
-"Close editor": #
-"Create File": #
-"Delete": #
-"Delete Set": #
-"Depublish": #
-"Depublish date is in the past. Change the status if you want to depublish now": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
-"Duplicate Set": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Failed to clear cache. You should delete it manually.": #
-"Failed to send password request. Please check the email settings.": #
-"Field “%FIELD_NAME%”:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
-"Files could not be uploaded.": #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
 "Html": #
-"Id": #
-"Id (№)": #
-"Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Is required or needs to match a pattern!": #
-"Is required!": #
-"Keyword …": #
 "Link": #
-"Live Edit": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
-"Move Up": #
-"New Bolt site has been set up": #
-"No Preview": #
-"No content found.": #
-"No files in the list, yet.": #
-"No images in the list, yet.": #
-"No theme name found. Theme is not generated.": #
-"Not yet installed.": #
-"Only root can change file extensions.": #
-"Order": #
-"Other content": #
-"Others": #
-"Publish": #
-"Records": #
 "Repeater": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Search results for <b>%search%</b>.": #
-"Selection (#):": #
-"Show proposed alterations": #
 "Slug": #
-"Slug:": #
-"Something went wrong with logging in after first user creation!": #
-"Stack": #
-"System Configuration Checks": #
 "Testing connection to extension server failed: %errormessage%": #
-"The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"The value has to be at least “%MINVAL%”!": #
-"The value must not be greater than “%MAXVAL%”!": #
-"There are no saved changes, yet.": #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
-"There is no undo!": #
-"This record is related to the following %CTNAME%:": #
-"This template adds new fields. Save, then refresh to see these changes.": #
-"Thumbnail": #
-"Trim Change Log": #
-"Trim System Log": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload not allowed": #
-"Users & Permissions": #
-"Warning": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
-"Welcome to your new Bolt site, %USER%.": #
-"You cannot '%s' yourself.": #
-"You do not have the right privileges to edit that user.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 "filtered by <em>'%filter%'</em>": #
-"or": #
 
-#--- 78 untranslated keyword based messages -----------------------------------
+#--- 161 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
+"field.image.label.alt": # "Alt"
 "field.markdown.label.markedview": # "Markdown"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
@@ -155,9 +72,84 @@
 "field.slug.unique-alias": # "Unique alias"
 "field.video.height": # "Height"
 "field.video.width": # "Width"
+"general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.bolt-documentation": # "Bolt documentation"
+"general.bolt-new-site-set-up": # "New Bolt site has been set up"
+"general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
+"general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
+"general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
+"general.phrase.add-selected": # "Add Selected"
+"general.phrase.author": # "Author"
+"general.phrase.clear-cache-complete": # "Cleared cache."
+"general.phrase.clear-change-log": # "Clear Change Log"
+"general.phrase.clear-system-log": # "Clear System Log"
+"general.phrase.close-editor": # "Close editor"
+"general.phrase.delete": # "Delete"
+"general.phrase.delete-set": # "Delete Set"
+"general.phrase.depublish": # "Depublish"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.duplicate-set": # "Duplicate Set"
+"general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
+"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
+"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
+"general.phrase.file-not-exist": # "The file '%s' doesn't exist."
+"general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.id": # "Id"
+"general.phrase.keyword-ellipsis": # "Keyword …"
+"general.phrase.live-edit": # "Live Edit"
+"general.phrase.log-change-trim": # "Trim Change Log"
+"general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+"general.phrase.move-down": # "Move Down"
+"general.phrase.move-up": # "Move Up"
+"general.phrase.no-content-found": # "No content found."
+"general.phrase.no-files-in-list": # "No files in the list, yet."
+"general.phrase.no-images-in-list": # "No images in the list, yet."
+"general.phrase.no-preview": # "No Preview"
+"general.phrase.no-undo": # "There is no undo!"
+"general.phrase.not-installed-yet": # "Not yet installed."
+"general.phrase.not-saved": # "There are no saved changes, yet."
+"general.phrase.only-root-change-file-extensions": # "Only root can change file extensions."
+"general.phrase.or": # "or"
+"general.phrase.order": # "Order"
+"general.phrase.other-content": # "Other content"
+"general.phrase.others": # "Others"
+"general.phrase.publish": # "Publish"
+"general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
+"general.phrase.records": # "Records"
+"general.phrase.related-content": #
+"general.phrase.required-character-count": # "At least %NUM% characters required"
+"general.phrase.required-is-bang": # "Is required!"
+"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
+"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
+"general.phrase.selection": # "Selection"
+"general.phrase.show-proposed-alterations": # "Show proposed alterations"
+"general.phrase.slug-colon": # "Slug:"
+"general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.stack": # "Stack"
+"general.phrase.system-config-checks": # "System Configuration Checks"
+"general.phrase.thumbnail": # "Thumbnail"
+"general.phrase.toggle-all": # "Check/Uncheck all"
+"general.phrase.upload-not-allowed": # "Upload not allowed"
+"general.phrase.users-permissions": # "Users & Permissions"
+"general.phrase.value-maximum-variable": # "The value must not be greater than “%MAXVAL%”!"
+"general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
+"general.phrase.warning": # "Warning"
+"general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
+"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"general.phrase.warning-unfinished-changes-loss": # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "general.visit-bolt": # "Visit Bolt.cm"
 "menu.configuration.routing": # "Routing set up"
+"page.checks.run-all": # "Run all checks"
+"page.checks.run-directory-checks": # "Run directory checks"
+"page.checks.run-email-checks": # "Run email checks"
+"page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
 "page.edit-users.label.email": # "Email"
@@ -173,6 +165,8 @@
 "page.extend.button.uninstall": # "Uninstall"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -211,6 +205,7 @@
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
@@ -218,288 +213,68 @@
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.file-management.label.create-file": # "Create File"
+"page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "panel.latest-activity.change": # "Latest changes"
 "panel.latest-activity.created": # "Created"
 "panel.latest-activity.deleted": # "Deleted"
 "panel.latest-activity.system": # "Latest system activity"
 
-#--- 266 translations ---------------------------------------------------------
+#--- 49 translations ----------------------------------------------------------
 
 "(default template)": "(默認模板)"
 "(no category)": "(沒有分類)"
 "(no group)": "(沒有分組)"
 "(none)": "(無)"
-"A password reset link has been sent to '%user%'.": "密碼重置連結已發送到 '%user%'。"
-"Actions": "操作"
 "Add a brief, optional comment to describe what's changed.": "添加一個可選的簡短註釋描述變更。"
-"Add a comment:": "添加註釋："
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Alas, no about!": "沒有關於資訊"
-"All content types": "所有內容格式"
-"All users": "所有使用者"
-"Anonymous": "匿名"
 "Are you sure you want to delete %username%?": "確定要刪除 %username% 嗎？"
-"Author:": "作者："
-"Below are the third party libraries that are used by Bolt.": "以下是Bolt所用到的第三方庫。"
 "Body": "主體"
-"Bolt - Fatal error.": "Bolt - 致命錯誤。"
-"Browser / platform": "瀏覽器 / 平臺"
-"Built-in role, automatically granted at all times, even if no user is logged in": "內建角色，即使沒有使用者登入也會被自動授予。"
-"Built-in role, automatically granted to every registered user": "內建角色，自動授予給每位註冊用戶。"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "內建角色，只對某種資源生效，並且該資源的擁有者會被自動指定為該角色。"
-"Built-in superuser role, automatically grants all permissions": "內建Superuser角色，自動被授予所有權限。"
-"Cancel": "取消"
 "Categories": "類別"
 "Category": "類別"
-"Change Log": "變更紀錄"
-"Change status to 'draft'": "將狀態更改為 '草稿'"
-"Change status to 'held'": "將狀態更改為 '保留'"
-"Check again": "再次檢查"
-"Check database": "檢查資料庫"
 "Choose an entry": "選擇條目"
-"Class:": "分級:"
-"Clear cache again": "再次清理快取"
-"Clear filter": "清理過濾器"
-"Clear sort/filter": "清理排序/過濾器"
-"Clear the cache": "清理快取"
-"Click to change current status.": "點選改變當前狀態。"
-"Code:": "程式碼:"
-"Collapse sidebar": "摺疊側邊欄"
-"Configuration": "配置"
 "Content": "內容"
-"Content '%title%' could not be modified.": "不能修改內容 '%title%'。"
-"Content Type Permissions": "內容格式的許可權"
-"Contenttypes": "內容格式"
-"Create folder": "創建資料夾"
-"Create the first user": "創建第一個使用者"
-"Created on:": "創建於："
 "Current (saved) status:": "當前(儲存的)狀態:"
-"Current sessions": "當前會話"
-"Current status:": "當前狀態："
-"Dashboard": "操作檯"
-"Database check / update": "資料庫檢查 / 更新"
 "Date": "日期"
 "Datetime": "日期時間"
-"Default status": "默認狀態"
-"Delete %filename%": "刪除 %filename%"
-"Delete %foldername%": "刪除 %foldername%"
-"Delete %username%": "刪除 %username%"
-"Depublication date:": "撤除日期："
-"Deselect all": "取消全選"
-"Detail template": "詳情頁模板"
-"Details": "詳情"
-"Disable %username%": "禁用 %username%"
-"Done!": "完成!"
-"Draft": "草稿"
-"Duplicate %filename%": "複製 %filename%"
-"Edit": "編輯"
-"Edit Roles and Permissions": "編輯腳色與權限"
-"Edit file": "編輯檔案"
-"Enable %username%": "啟用 %username%"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
-"Extensions": "檢視/安裝擴展"
-"Extras": "附加功能"
 "File": "檔案"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
-"File '%file%' was uploaded successfully.": "檔案 '%file%' 上傳成功。"
-"File '%s' could not be saved, for some reason.": "由於某種原因，檔案 '%s' 不能儲存。"
-"File '%s' could not be saved:": "無法儲存檔案 '%s'："
-"File '%s' has been saved.": "已儲存檔案 '%s'。"
-"File Management": "檔案管理"
-"File is not readable!": "檔案不可讀取！"
 "Filelist": "檔案列表"
-"Files": "檔案"
-"Files in %s": "%s 中的檔案"
-"Files on the stack": "暫存區中的檔案"
-"Filesize": "檔案大小"
-"Fill the database with Dummy Content": "用示例內容填充資料庫"
-"Filter": "篩選"
-"Filtering": "篩選"
-"Find": "查找"
 "Floatfield": "Floatfield"
-"Folder '%s' could not be found, or is not readable.": "找不到 '%s' 資料夾，或者該資料夾不可讀。"
-"Folder permissions insufficient": "資料夾許可權不足"
-"Folders": "資料夾"
-"Full list …": "完整列表 …"
 "Geolocation": "地理位置"
-"Global Permissions": "全局許可權"
-"Hints:": "提示："
-"IP address": "IP 地址"
 "Image": "影象"
 "Imagelist": "影象列表"
-"Info": "資訊"
 "Integerfield": "整數欄位"
-"Last edited on:": "上一次編輯於:"
-"Last known IP": "上一次 IP"
-"Last seen": "上次登入"
-"Listing template": "列表頁模板"
-"Login": "登入"
-"Logout": "登出"
-"Long messages": "長資訊"
-"Main configuration": "主配置檔案"
-"Maintenance": "維護"
-"Menu setup": "設定選單"
-"Message:": "訊息:"
-"Messages": "訊息"
-"Meta": "元"
-"Meta information": "Meta資訊"
-"Modifications made to the database:": "對資料庫作出的變更："
-"Modifications needed:": "需要作出的修改："
-"Modified": "已修改"
 "Multiselect": "多選"
-"No relations found!": "沒有找到關聯！"
-"No results found for '%SEARCHTERM%'. Please try another search.": "沒有找到 '%SEARCHTERM%'，請嘗試其他關鍵詞。"
-"No such action for user '%s'.": "使用者 '%s' 無此項操作。"
-"None": "無"
-"Not published": "未釋出"
-"Note:": "注意："
-"Omnisearch": "全能搜索"
-"Options": "選項"
-"Order: %sort%": "排序：%sort%"
-"Overview": "概覽"
-"Overview for": "概覽"
-"Owner": "所有者"
-"Owner:": "所有者："
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "密碼重置失敗！可能是token不對，或者連結過期，或者嘗試從不同的IP地址重設密碼。"
-"Password reset successful! You can now log on with the password that was sent to you via email.": "密碼重置成功！你現在可以使用Email中的新密碼登入了。"
-"Path": "路徑"
-"Path to image file": "影象檔案路徑"
-"Path:": "路徑:"
-"Permalink": "永久連結"
-"Permissions": "許可權"
-"Place on stack": "放到暫存區"
-"Please choose the record you want to link to:": "請選擇要連結的記錄："
-"Please enter a new file name!": "請輸入新檔名"
-"Please enter a new folder name!": "請輸入新資料夾名"
-"Please log on.": "請登入。"
-"Please provide a username": "請提供一個使用者名"
-"Prefill database": "填充資料庫"
-"Preview": "預覽"
-"Profile": "個人資料"
-"Provided by:": "提供者："
-"Publication date:": "釋出日期："
-"Published": "已釋出"
-"Published on:": "發表於："
-"Read more": "閱讀更多"
-"Related content": "相關內容"
-"Relationships": "關係"
-"Rename %foldername%": "重新命名 %foldername%"
-"Roles": "角色"
-"Roles and Permissions": "角色和許可權"
-"Save & create new record": "儲存並創建新記錄"
-"Save & return to overview": "儲存並返回概覽"
-"Saved on:": "儲存在："
-"Saving …": "正在儲存 …"
-"Search": "搜索"
-"Search for …": "搜索 …"
-"Search …": "搜索 …"
-"Select": "選擇"
 "Select a page": "選擇一個頁面"
-"Select all": "全選"
-"Select file …": "選擇檔案 …"
-"Select none": "取消選擇"
 "Select zero or more pages": "選擇零或多個頁面"
 "Selectentry": "條目選擇"
 "Selectfield": "欄位選擇"
-"Session expires": "會話過期"
-"Session resumed.": "會話已恢復。"
-"Settings": "設定"
-"Showing": "正在展示"
-"Showing %pager_for% %from% - %to% of %count%": "顯示 %count% 條記錄中的 %from% 到 %to% 條%pager_for%記錄"
-"Size": "大小"
 "Skipped <tt>%key%</tt> (already has records)": "跳過 <tt>%key%</tt> (已有記錄)"
 "Skipped <tt>%key%</tt> (not checked)": "跳過 <tt>%key%</tt> (已檢查)"
-"Something went wrong": "有些不對勁"
-"Sophisticated, lightweight & simple CMS": "精緻、輕量、簡潔的 CMS"
-"Status:": "狀態："
 "Tag": "標籤"
 "Tags": "標籤"
-"Taxonomy": "分類"
 "Teaser": "摘要"
 "Template": "模板"
 "Textarea": "編輯區域"
-"That user does not exist.": "那個使用者不存在。"
-"The change log has been cleared.": "變更紀錄已被清除。"
-"The change log has been trimmed.": "變更紀錄已被縮減。"
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "檔案 '%s' 不可寫。你需要自行使用編輯器修改檔案。"
-"The folder '%s' could not be found, or is not readable.": "無法找到資料夾 '%s'，或者它不可讀。"
-"The following file could not be read:": "不能讀取以下檔案："
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
-"The requested changelog entry doesn't exist.": "所請求的 changelog 條目不存在。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
-"The system log has been cleared.": "系統紀錄已被清除。"
-"The system log has been trimmed.": "系統紀錄已被縮減。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "無法創建翻譯檔案 '%s'。你需要自行使用編輯器修改檔案。"
-"The translations file '%s' is not readable.": "翻譯檔案 '%s' 不可讀取。"
-"Theme successfully generated. You can now edit it directly from your theme folder.": "布景產生成功，你現在可以從存放布景的資料夾修改它。"
-"There are no items on the Stack, yet.": "暫存區中沒有東西。"
-"There are no users in the database. Please create the first user.": "資料庫中沒有使用者，請創建第一個使用者。"
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": "系統中沒有使用者。請創建第一個使用者，它將同時擁有管理員許可權。"
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
 "This is a checkbox": "這是個覈取方塊"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
-"Time in 24h/12h format": "24/12小時制"
-"Timed publish": "定時釋出"
-"Tip:": "小貼士："
 "Title": "標題"
-"Translations": "翻譯"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。"
-"Types": "類型"
-"Update the database": "更新資料庫"
-"Upload": "上傳"
-"Upload a file to this folder": "上傳檔案到此資料夾"
-"Upload file": "上傳檔案"
-"Upload image": "上傳影象"
-"Uploaded files": "已上傳的檔案"
-"Uploading to this folder is not allowed.": "不允許上傳到此資料夾。"
-"Used Libraries / Components": "使用的庫/元件"
-"User '%s' could not be deleted.": "不能刪除使用者 '%s'。"
-"User '%s' could not be disabled.": "不能禁用使用者 '%s' 。"
-"User '%s' could not be enabled.": "不能啟用使用者 '%s'。"
-"User '%s' is deleted.": "使用者 '%s' 已刪除。"
-"User '%s' is disabled.": "使用者 '%s' 已禁用。"
-"User '%s' is enabled.": "使用者 '%s' 已啟用。"
-"Username": "使用者名"
-"Username or password not correct. Please check your input.": "使用者名或密碼不正確，請檢查輸入。"
-"Users": "使用者"
 "Video": "視訊"
 "View (saved version) on site": "觀看站點中(儲存的版本)"
-"View Roles": "檢視腳色"
-"View on site": "在站點上觀看"
-"View related content": "檢視相關內容"
-"View site": "檢視站點"
-"View/edit Templates": "檢視/編輯模板"
-"Written by <em>%name%</em> on %date%": "由<em>%name%</em>在%date%書寫"
-"You do not have the right privileges to edit that record.": "你沒有許可權編輯那條記錄。"
-"You do not have the right privileges to view that page.": "你沒有許可權檢視那個頁面。"
-"You don't have correct permissions to edit the file '%s'.": "你沒有許可權編輯檔案 '%s'。"
-"You don't have the correct permissions to display the file or directory '%s'.": "你沒有許可權顯示檔案/目錄 '%s'。"
-"You have been logged out.": "你已成功退出登入。"
 "You've been logged on successfully.": "你已成功登入。"
-"Your account is disabled. Sorry about that.": "非常抱歉，你的賬戶已被禁用。"
-"Your database is already up to date.": "資料庫已經是最新的。"
-"Your database is now up to date.": "資料庫現在是最新的。"
-"and edited": "及編輯於"
-"back to editing": "返回編輯"
-"by": "由"
-"line": "行"
-"no content …": "無內容 …"
-"no title …": "無標題 …"
-"none": "無"
-"of": "中的"
-"show all": "顯示全部"
 
-#--- 137 keyword based translations -------------------------------------------
-
-component.changelog-detail.by: "由"
-component.changelog-detail.field: "欄位"
-component.changelog-detail.value-new: "新值"
-component.changelog-detail.value-old: "舊值"
-
-component.changelog-pager.page: "頁面"
+#--- 351 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "對%contenttypes%的操作"
 contenttypes.generic.actions-one: "對%contenttype%的操作"
@@ -535,6 +310,8 @@ contenttypes.generic.show-more: "更多%contenttypes%"
 contenttypes.generic.view: "檢視%contenttypes%"
 contenttypes.generic.wrong-use-field: "“%contenttype%”的內容格式配置中，欄位'%field%'所設定的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml檔案，修復此問題。"
 
+contenttypes.record.comment-add-colon: "添加註釋："
+
 field.general.allowed-filetypes: "允許的檔案類型為："
 field.general.select-from-server: "在伺服器上選擇"
 
@@ -561,14 +338,217 @@ general.about: "關於"
 
 general.about-bolt: "關於 Bolt"
 
+general.access-control.reset-failed: "密碼重置失敗！可能是token不對，或者連結過期，或者嘗試從不同的IP地址重設密碼。"
+general.access-control.reset-successful: "密碼重置成功！你現在可以使用Email中的新密碼登入了。"
+
+general.access-denied.content-not-modified: "不能修改內容 '%title%'。"
+
+general.bolt-fatal-error: "Bolt - 致命錯誤。"
+
 general.bolt-on-github: "Github 上的 Bolt"
+
+general.bolt-tagline: "精緻、輕量、簡潔的 CMS"
+
+general.bolt-third-party-libraries: "以下是Bolt所用到的第三方庫。"
+
+general.phrase.access-denied-logged-out: "你已成功退出登入。"
+general.phrase.access-denied-permissions-edit-file: "你沒有許可權編輯檔案 '%s'。"
+general.phrase.access-denied-permissions-view-file-directory: "你沒有許可權顯示檔案/目錄 '%s'。"
+general.phrase.access-denied-privilege-edit-record: "你沒有許可權編輯那條記錄。"
+general.phrase.access-denied-privilege-view-page: "你沒有許可權檢視那個頁面。"
+general.phrase.action-plural: "操作"
+general.phrase.author-colon: "作者："
+general.phrase.browswer-platform: "瀏覽器 / 平臺"
+general.phrase.by: "由"
+general.phrase.cancel: "取消"
+general.phrase.change-current-status: "點選改變當前狀態。"
+general.phrase.change-log: "變更紀錄"
+general.phrase.check-again: "再次檢查"
+general.phrase.check-database: "檢查資料庫"
+general.phrase.choose-record-link-to: "請選擇要連結的記錄："
+general.phrase.clear-cache: "清理快取"
+general.phrase.clear-cache-again: "再次清理快取"
+general.phrase.clear-filter: "清理過濾器"
+general.phrase.clear-filter-sort: "清理排序/過濾器"
+general.phrase.code-colon: "程式碼:"
+general.phrase.collapse-sidebar: "摺疊側邊欄"
+general.phrase.configuration: "配置"
+general.phrase.configuration-main: "主配置檔案"
+general.phrase.content-type-permissions: "內容格式的許可權"
+general.phrase.content-types: "內容格式"
+general.phrase.create-user-first: "創建第一個使用者"
+general.phrase.created-on-colon: "創建於："
+general.phrase.current-session-plural: "當前會話"
+general.phrase.dashboard: "操作檯"
+general.phrase.databaase-up-to-date: "資料庫現在是最新的。"
+general.phrase.database-check-update: "資料庫檢查 / 更新"
+general.phrase.database-prefill: "填充資料庫"
+general.phrase.database-prefill-dummy-content: "用示例內容填充資料庫"
+general.phrase.database-up-to-date-already: "資料庫已經是最新的。"
+general.phrase.delete-directory-name: "刪除 %foldername%"
+general.phrase.delete-file-name: "刪除 %filename%"
+general.phrase.delete-user-name: "刪除 %username%"
+general.phrase.depublication-date-colon: "撤除日期："
+general.phrase.deselect-all: "取消全選"
+general.phrase.details: "詳情"
+general.phrase.directory-not-found-writable: "無法找到資料夾 '%s'，或者它不可讀。"
+general.phrase.disable-user-name: "禁用 %username%"
+general.phrase.done-bang: "完成!"
+general.phrase.draft: "草稿"
+general.phrase.duplicate-file-name: "複製 %filename%"
+general.phrase.edit: "編輯"
+general.phrase.edit-file: "編輯檔案"
+general.phrase.edit-role-permissions: "編輯腳色與權限"
+general.phrase.edited: "及編輯於"
+general.phrase.enable-user-name: "啟用 %username%"
+general.phrase.error-translation-file-not-readable: "翻譯檔案 '%s' 不可讀取。"
+general.phrase.error-user-name-password-incorrect: "使用者名或密碼不正確，請檢查輸入。"
+general.phrase.extensions: "檢視/安裝擴展"
+general.phrase.extras: "附加功能"
+general.phrase.field: "欄位"
+general.phrase.file-management: "檔案管理"
+general.phrase.file-not-readable-following-colon: "不能讀取以下檔案："
+general.phrase.file-not-writable: "檔案 '%s' 不可寫。你需要自行使用編輯器修改檔案。"
+general.phrase.file-size: "檔案大小"
+general.phrase.filter: "篩選"
+general.phrase.filtering: "篩選"
+general.phrase.find: "查找"
+general.phrase.folders: "資料夾"
+general.phrase.full-list-ellipsis: "完整列表 …"
+general.phrase.general.phrase.uploaded-files: "已上傳的檔案"
+general.phrase.global-permissions: "全局許可權"
+general.phrase.hints-colon: "提示："
+general.phrase.info: "資訊"
+general.phrase.ip.address: "IP 地址"
+general.phrase.last-edited-on-colon: "上一次編輯於:"
+general.phrase.last-known-ip: "上一次 IP"
+general.phrase.last-seen: "上次登入"
+general.phrase.line: "行"
+general.phrase.listing-template: "列表頁模板"
+general.phrase.login: "登入"
+general.phrase.login-account-disabled: "非常抱歉，你的賬戶已被禁用。"
+general.phrase.logout: "登出"
+general.phrase.long-messages: "長資訊"
+general.phrase.maintenance: "維護"
+general.phrase.menu-setup: "設定選單"
+general.phrase.message-colon: "訊息:"
+general.phrase.messages: "訊息"
+general.phrase.meta: "元"
+general.phrase.meta-information: "Meta資訊"
+general.phrase.missing-about-page: "沒有關於資訊"
+general.phrase.missing-root-jackpot: "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
+general.phrase.modifications-database-colon: "對資料庫作出的變更："
+general.phrase.modifications-needed-colon: "需要作出的修改："
+general.phrase.modified: "已修改"
+general.phrase.no-content: "無內容 …"
+general.phrase.no-relations-found-bang: "沒有找到關聯！"
+general.phrase.no-result-for-search-term: "沒有找到 '%SEARCHTERM%'，請嘗試其他關鍵詞。"
+general.phrase.no-such-action-for-user: "使用者 '%s' 無此項操作。"
+general.phrase.no-title: "無標題 …"
+general.phrase.none: "無"
+general.phrase.not-published: "未釋出"
+general.phrase.note-colon: "注意："
+general.phrase.of: "中的"
+general.phrase.omnisearch: "全能搜索"
+general.phrase.options: "選項"
+general.phrase.order-colon-sort: "排序：%sort%"
+general.phrase.overview: "概覽"
+general.phrase.overview-for: "概覽"
+general.phrase.owner-colon: "所有者："
+general.phrase.page: "頁面"
+general.phrase.pager-showing-from-to-of: "顯示 %count% 條記錄中的 %from% 到 %to% 條%pager_for%記錄"
+general.phrase.path: "路徑"
+general.phrase.path-colon: "路徑:"
+general.phrase.path-image-file: "影象檔案路徑"
+general.phrase.permalink: "永久連結"
+general.phrase.permissions: "許可權"
+general.phrase.please-logon: "請登入。"
+general.phrase.please-provide-username: "請提供一個使用者名"
+general.phrase.preview: "預覽"
+general.phrase.profile: "個人資料"
+general.phrase.provided-by-colon: "提供者："
+general.phrase.publication-date-colon: "釋出日期："
+general.phrase.publish-timed: "定時釋出"
+general.phrase.published: "已釋出"
+general.phrase.published-on-colon: "發表於："
+general.phrase.read-more: "閱讀更多"
+general.phrase.relationships: "關係"
+general.phrase.rename-foldername: "重新命名 %foldername%"
+general.phrase.return-editing: "返回編輯"
+general.phrase.roles: "角色"
+general.phrase.roles-permissions: "角色和許可權"
+general.phrase.save-and-create-new-record: "儲存並創建新記錄"
+general.phrase.save-and-return-overview: "儲存並返回概覽"
+general.phrase.saved-on-colon: "儲存在："
+general.phrase.saving-ellipsis: "正在儲存 …"
+general.phrase.search: "搜索"
+general.phrase.search-ellipsis: "搜索 …"
+general.phrase.search-for-ellipsis: "搜索 …"
+general.phrase.select: "選擇"
+general.phrase.select-all: "全選"
+general.phrase.select-file: "選擇檔案 …"
+general.phrase.select-none: "取消選擇"
+general.phrase.session-expires: "會話過期"
+general.phrase.session-resumed-colon: "會話已恢復。"
+general.phrase.settings: "設定"
+general.phrase.show-all: "顯示全部"
+general.phrase.showing: "正在展示"
+general.phrase.size: "大小"
+general.phrase.something-went-wrong: "有些不對勁"
+general.phrase.stack-add: "放到暫存區"
+general.phrase.stack-empty: "暫存區中沒有東西。"
+general.phrase.stack-files: "暫存區中的檔案"
+general.phrase.status-change-draft: "將狀態更改為 '草稿'"
+general.phrase.status-change-held: "將狀態更改為 '保留'"
+general.phrase.status-colon: "狀態："
+general.phrase.status-current-colon: "當前狀態："
+general.phrase.status-default: "默認狀態"
+general.phrase.stay-classy-colon: "分級:"
+general.phrase.taxonomy: "分類"
+general.phrase.template-detail: "詳情頁模板"
+general.phrase.time-format-24-12: "24/12小時制"
+general.phrase.tip-colon: "小貼士："
+general.phrase.translations: "翻譯"
+general.phrase.types: "類型"
+general.phrase.update-database: "更新資料庫"
+general.phrase.upload: "上傳"
+general.phrase.upload-file: "上傳檔案"
+general.phrase.upload-file-to-directory: "上傳檔案到此資料夾"
+general.phrase.upload-image: "上傳影象"
+general.phrase.used-libraries: "使用的庫/元件"
+general.phrase.user-deleted: "使用者 '%s' 已刪除。"
+general.phrase.user-disabled: "使用者 '%s' 已禁用。"
+general.phrase.user-enabled: "使用者 '%s' 已啟用。"
+general.phrase.user-failed-delete: "不能刪除使用者 '%s'。"
+general.phrase.user-failed-disabled: "不能禁用使用者 '%s' 。"
+general.phrase.user-failed-enable: "不能啟用使用者 '%s'。"
+general.phrase.user-name: "使用者名"
+general.phrase.user-not-exist: "那個使用者不存在。"
+general.phrase.users: "使用者"
+general.phrase.users-none-create-first: "資料庫中沒有使用者，請創建第一個使用者。"
+general.phrase.users-none-create-first-extended: "系統中沒有使用者。請創建第一個使用者，它將同時擁有管理員許可權。"
+general.phrase.users.all: "所有使用者"
+general.phrase.value-new: "新值"
+general.phrase.value-old: "舊值"
+general.phrase.view-edit-templates: "檢視/編輯模板"
+general.phrase.view-on-site: "在站點上觀看"
+general.phrase.view-related: "檢視相關內容"
+general.phrase.view-roles: "檢視腳色"
+general.phrase.view-site: "檢視站點"
+general.phrase.written-by-on: "由<em>%name%</em>在%date%書寫"
 
 generic.noscript.headline: "JavaScript 已禁用"
 generic.noscript.message: "你的瀏覽器當前已禁用JavaScript。Bolt的大多數功能無需它的支援，但是為何獲得更好的體驗我們建議你啟用瀏覽器的JavaScript。"
 
 logs.change-log: "變更紀錄"
+logs.change-log.cleared: "變更紀錄已被清除。"
+logs.change-log.contenttypes.all: "所有內容格式"
+logs.change-log.not-found: "所請求的 changelog 條目不存在。"
+logs.change-log.trimmed: "變更紀錄已被縮減。"
 
 logs.system-log: "系統紀錄"
+logs.system-log.cleared: "系統紀錄已被清除。"
+logs.system-log.trimmed: "系統紀錄已被縮減。"
 
 page.ckeditor-browse-server.files: "檔案"
 page.ckeditor-browse-server.folders: "資料夾"
@@ -630,6 +610,21 @@ page.extend.button.update-all: "運行全部更新"
 page.extend.button.update-check: "運行更新檢查"
 page.extend.listheader.actions: "操作"
 page.extend.message.maintenance: "維護"
+page.extend.theme.generation.success: "布景產生成功，你現在可以從存放布景的資料夾修改它。"
+
+page.file-management.label.create-folder: "創建資料夾"
+page.file-management.message.access-denied: "不允許上傳到此資料夾。"
+page.file-management.message.create-file: "請輸入新檔名"
+page.file-management.message.create-folder: "請輸入新資料夾名"
+page.file-management.message.file-not-readable: "檔案不可讀取！"
+page.file-management.message.files-in: "%s 中的檔案"
+page.file-management.message.folder-access-denied: "資料夾許可權不足"
+page.file-management.message.folder-not-found: "找不到 '%s' 資料夾，或者該資料夾不可讀。"
+page.file-management.message.save-failed-colon: "無法儲存檔案 '%s'："
+page.file-management.message.save-failed-unknown: "由於某種原因，檔案 '%s' 不能儲存。"
+page.file-management.message.save-success: "已儲存檔案 '%s'。"
+page.file-management.message.upload-success: "檔案 '%file%' 上傳成功。"
+page.file-management.title: "檔案"
 
 page.login.button.back: "返回登入"
 page.login.button.forgot-password: "我忘記了自己的密碼"
@@ -639,6 +634,7 @@ page.login.cookies-required: "注意: 登入 Bolt 需要啟用 Cookies。請開�
 page.login.label.password: "密碼"
 page.login.label.username: "使用者名 / email"
 page.login.password-hide: "隱藏"
+page.login.password-reset-link-sent: "密碼重置連結已發送到 '%user%'。"
 page.login.password-show: "顯示"
 page.login.placeholder.password: "你的使用者名"
 page.login.title: "登入 Bolt"
@@ -651,6 +647,13 @@ panel.latest-activity.saved: "已儲存"
 panel.latest-activity.unknown: "未知"
 
 panel.user-actions.button.add: "添加新使用者"
+
+permissions.roles.description.anonymous: "內建角色，即使沒有使用者登入也會被自動授予。"
+permissions.roles.description.everyone: "內建角色，自動授予給每位註冊用戶。"
+permissions.roles.description.owner: "內建角色，只對某種資源生效，並且該資源的擁有者會被自動指定為該角色。"
+permissions.roles.description.root: "內建Superuser角色，自動被授予所有權限。"
+permissions.roles.label.anonymous: "匿名"
+permissions.roles.label.owner: "所有者"
 
 users.actions-for-users: "使用者操作"
 

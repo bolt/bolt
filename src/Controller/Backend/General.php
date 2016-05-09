@@ -84,9 +84,9 @@ class General extends BackendBase
         $result = $this->app['cache']->flushAll();
 
         if ($result) {
-            $this->flashes()->success(Trans::__('Cleared cache.'));
+            $this->flashes()->success(Trans::__('general.phrase.clear-cache-complete'));
         } else {
-            $this->flashes()->error(Trans::__('Failed to clear cache. You should delete it manually.'));
+            $this->flashes()->error(Trans::__('general.phrase.error-cache-clear'));
         }
 
         return $this->render('@bolt/clearcache/clearcache.twig');
@@ -316,7 +316,7 @@ class General extends BackendBase
         try {
             Yaml::parse($contents);
         } catch (ParseException $e) {
-            $msg = Trans::__("File '%s' could not be saved:", ['%s' => $tr['shortPath']]);
+            $msg = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg . ' ' . $e->getMessage());
 
             return false;
@@ -330,14 +330,14 @@ class General extends BackendBase
             $fs = new Filesystem();
             $fs->dumpFile($tr['path'], $contents);
         } catch (IOException $e) {
-            $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", ['%s' => $tr['shortPath']]);
+            $msg = Trans::__('general.phrase.file-not-writable', ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
 
             return false;
         }
 
-        $msg = Trans::__("File '%s' has been saved.", ['%s' => $tr['shortPath']]);
+        $msg = Trans::__('page.file-management.message.save-success', ['%s' => $tr['shortPath']]);
         $this->flashes()->info($msg);
 
         return $this->redirectToRoute('translation', ['domain' => $tr['domain'], 'tr_locale' => $tr['locale']]);

@@ -16,7 +16,7 @@
 
         {# Path #}
         <h4>
-            <span>{{ __('Path:') }}</span>
+            <span>{{ __('general.phrase.path-colon') }}</span>
             <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace}) }) }}>
                 {{ context.namespace|excerpt(40)|shy -}}
             </a> /
@@ -36,7 +36,7 @@
         {% if context.directories|length + context.files|length > 0 %}
             <div class="header">
                 <div>
-                    <button type="button" aria-pressed="true" class="toogle-folders" title="{{ __('Folders') }}"></button>
+                    <button type="button" aria-pressed="true" class="toogle-folders" title="{{ __('general.phrase.folders') }}"></button>
                 </div>
 
                 <div>
@@ -139,8 +139,8 @@
 
     {% if multiselect %}
         <footer>
-            <button type="button" class="btn btn-primary btn-sm disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
-            <button type="button" class="btn btn-primary btn-sm toggle-all">{{ __('Check/Uncheck all') }}</button>
+            <button type="button" class="btn btn-primary btn-sm disabled" data-fbrowser-add-checked="">{{ __('general.phrase.add-selected') }}</button>
+            <button type="button" class="btn btn-primary btn-sm toggle-all">{{ __('general.phrase.toggle-all') }}</button>
         </footer>
     {% endif %}
 </div>

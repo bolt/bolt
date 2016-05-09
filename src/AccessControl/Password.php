@@ -92,14 +92,14 @@ class Password
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.flash']->clear();
-            $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
+            $this->app['logger.flash']->success(Trans::__('general.access-control.reset-successful'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_SUCCESS, $event);
 
             return true;
         } else {
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
-            $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['logger.flash']->error(Trans::__('general.access-control.reset-failed'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;
@@ -125,7 +125,7 @@ class Password
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
             $this->app['logger.flash']->clear();
-            $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
+            $this->app['logger.flash']->info(Trans::__('page.login.password-reset-link-sent', ['%user%' => $username]));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;
@@ -148,7 +148,7 @@ class Password
 
         $mailoptions = $this->app['config']->get('general/mailoptions'); // PHP 5.4 compatibility
         if (empty($mailoptions)) {
-            $this->app['logger.flash']->danger(Trans::__("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
+            $this->app['logger.flash']->danger(Trans::__('general.phrase.error-mail-options-not-set'));
         }
 
         // Sent the password reset notification
@@ -220,7 +220,7 @@ class Password
 
         if ($failed) {
             $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
-            $this->app['logger.flash']->error(Trans::__('Failed to send password request. Please check the email settings.'));
+            $this->app['logger.flash']->error(Trans::__('general.phrase.error-send-password-request'));
         }
     }
 }

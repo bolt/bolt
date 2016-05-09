@@ -2,9 +2,9 @@
     <hr>
 
     <h3>
-        {{ __('Relationships') }}
-        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
-            data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
+        {{ __('general.phrase.relationships') }}
+        <span class="label info-pop" data-html="true" data-title="{{ __('general.phrase.relationships') }}"
+            data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('general.phrase.info') }}</span>
     </h3>
 {% endif %}
 
@@ -17,7 +17,7 @@
     {% for incoming_contenttype, incoming_records in context.incoming_not_inv %}
         {% set name = __(['contenttypes', incoming_contenttype, 'name', 'plural'], {DEFAULT: incoming_contenttype}) %}
 
-        <p>{{ __('This record is related to the following %CTNAME%:', {'%CTNAME%': name}) }}</p>
+        <p>{{ __('general.phrase.record-related-to-variable', {'%CTNAME%': name}) }}</p>
         <div class="buic-listing" data-bolt-widget="buicListing">
             <table class="table dashboardlisting listing">
             {% for record in incoming_records %}

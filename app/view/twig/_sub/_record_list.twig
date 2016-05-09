@@ -13,10 +13,10 @@
     {% endif %}
 
     {% set selection_toolbar %}
-        <button type="button" data-stb-cmd="record:delete" class="danger separator"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
-        <button type="button" data-stb-cmd="record:publish"><i class="fa fa-circle status-published"></i> {{ __('Publish') }}</button>
-        <button type="button" data-stb-cmd="record:depublish"><i class="fa fa-circle status-held"></i> {{ __('Depublish') }}</button>
-        <button type="button" data-stb-cmd="record:draft"><i class="fa fa-circle status-draft"></i> {{ __('Draft') }}</button>
+        <button type="button" data-stb-cmd="record:delete" class="danger separator"><i class="fa fa-trash"></i> {{ __('general.phrase.delete') }}</button>
+        <button type="button" data-stb-cmd="record:publish"><i class="fa fa-circle status-published"></i> {{ __('general.phrase.publish') }}</button>
+        <button type="button" data-stb-cmd="record:depublish"><i class="fa fa-circle status-held"></i> {{ __('general.phrase.depublish') }}</button>
+        <button type="button" data-stb-cmd="record:draft"><i class="fa fa-circle status-draft"></i> {{ __('general.phrase.draft') }}</button>
     {% endset %}
 
     {% if not async %}

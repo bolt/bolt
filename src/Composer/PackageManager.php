@@ -311,7 +311,7 @@ class PackageManager
             $package->setConfigLink(null);
             $package->setVersion($version);
             $package->setType('unknown');
-            $package->setDescription(Trans::__('Not yet installed.'));
+            $package->setDescription(Trans::__('general.phrase.not-installed-yet'));
 
             $collection->add($package);
         }

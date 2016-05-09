@@ -83,7 +83,7 @@ class FilesystemManager extends AsyncBase
         try {
             $filesystem->listContents($path);
         } catch (IOException $e) {
-            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
+            $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
             $this->logException($msg, $e);
             $this->flashes()->error($msg);
         }
@@ -102,7 +102,7 @@ class FilesystemManager extends AsyncBase
         return $this->render(
             '@bolt/async/browse.twig',
             ['context' => $context],
-            ['title', Trans::__('Files in %s', ['%s' => $path])]
+            ['title', Trans::__('page.file-management.message.files-in', ['%s' => $path])]
         );
     }
 
@@ -326,7 +326,7 @@ class FilesystemManager extends AsyncBase
         $newName = $request->request->get('newname');
 
         if (!$this->isMatchingExtension($oldName, $newName)) {
-            return $this->json(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
+            return $this->json(Trans::__('general.phrase.only-root-change-file-extensions'), Response::HTTP_FORBIDDEN);
         }
 
         try {

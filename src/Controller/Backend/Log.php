@@ -48,12 +48,12 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->manager()->clear('change');
-            $this->flashes()->success(Trans::__('The change log has been cleared.'));
+            $this->flashes()->success(Trans::__('logs.change-log.cleared'));
 
             return $this->redirectToRoute('changelog');
         } elseif ($action == 'trim') {
             $this->manager()->trim('change');
-            $this->flashes()->success(Trans::__('The change log has been trimmed.'));
+            $this->flashes()->success(Trans::__('logs.change-log.trimmed'));
 
             return $this->redirectToRoute('changelog');
         }
@@ -85,7 +85,7 @@ class Log extends BackendBase
     {
         $entry = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '=');
         if (empty($entry)) {
-            $error = Trans::__("The requested changelog entry doesn't exist.");
+            $error = Trans::__('logs.change-log.not-found');
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
@@ -125,7 +125,7 @@ class Log extends BackendBase
         if (empty($contenttype)) {
             // Case 1: No content type given, show from *all* items. This is easy:
             $data = [
-                'title'   => Trans::__('All content types'),
+                'title'   => Trans::__('logs.change-log.contenttypes.all'),
                 'entries' => $this->changeLogRepository()->getChangeLog($queryOptions),
                 'count'   => $this->changeLogRepository()->countChangeLog(),
             ];
@@ -159,12 +159,12 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->manager()->clear('system');
-            $this->flashes()->success(Trans::__('The system log has been cleared.'));
+            $this->flashes()->success(Trans::__('logs.system-log.cleared'));
 
             return $this->redirectToRoute('systemlog');
         } elseif ($action == 'trim') {
             $this->manager()->trim('system');
-            $this->flashes()->success(Trans::__('The system log has been trimmed.'));
+            $this->flashes()->success(Trans::__('logs.system-log.trimmed'));
 
             return $this->redirectToRoute('systemlog');
         }

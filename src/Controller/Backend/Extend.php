@@ -120,7 +120,7 @@ class Extend extends BackendBase
         $newName = $request->get('name');
 
         if (empty($theme)) {
-            return new Response(Trans::__('No theme name found. Theme is not generated.'));
+            return new Response(Trans::__('page.extend.theme.generation.missing.name'));
         }
 
         if (! $newName) {
@@ -139,9 +139,9 @@ class Extend extends BackendBase
                     $filesystem->copy($destination . '/config.yml.dist', $destination . '/config.yml');
                 }
 
-                return new Response(Trans::__('Theme successfully generated. You can now edit it directly from your theme folder.'));
+                return new Response(Trans::__('page.extend.theme.generation.success'));
             } catch (\Exception $e) {
-                return new Response(Trans::__('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
+                return new Response(Trans::__('page.extend.theme.generation.failure'));
             }
         }
 
@@ -275,7 +275,7 @@ class Extend extends BackendBase
                 'type'        => $response[$package]['package']->getType(),
             ]);
         } else {
-            throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
+            throw new PackageManagerException(Trans::__('page.extend.message.package-install-info-fail', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
         }
     }
 

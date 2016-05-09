@@ -16,12 +16,12 @@
             <ul class="dropdown-menu" role="menu">
                 <li>
                     <button type="submit" class="btn btn-link" id="savebutton">
-                        <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                        <i class="fa fa-flag"></i> {{ __('general.phrase.save-and-return-overview') }}
                     </button>
                 </li>
                 <li>
                     <button type="submit" class="btn btn-link" id="savenewbutton">
-                        <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                        <i class="fa fa-flag"></i> {{ __('general.phrase.save-and-create-new-record') }}
                     </button>
                 </li>
             </ul>
@@ -31,7 +31,7 @@
         {% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}
             <div class="btn-group">
                 <button type="button" class="btn btn-secondary" id="live-editor-button">
-                    <i class="fa fa-pencil"></i> {{ __('Live Edit') }}
+                    <i class="fa fa-pencil"></i> {{ __('general.phrase.live-edit') }}
                 </button>
             </div>
         {% endif %}
@@ -41,11 +41,11 @@
             <div class="btn-group">
                 {% if app.routes.get('preview') %}
                     <button type="button" class="btn btn-default" id="previewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
-                        <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                        <i class="fa fa-external-link-square"></i> {{ __('general.phrase.preview') }}
                     </button>
                 {% else %}
                     <button type="button" class="btn btn-disabled">
-                        <i class="fa fa-external-link-square"></i> {{ __('No Preview') }}
+                        <i class="fa fa-external-link-square"></i> {{ __('general.phrase.no-preview') }}
                     </button>
                 {% endif %}
 
@@ -69,7 +69,7 @@
         {# Last saved #}
         <p class="lastsaved form-control-static">
             {% if context.content.id != 0 %}
-                {{ __('Saved on:') }}
+                {{ __('general.phrase.saved-on-colon') }}
                 <strong>{{ context.content.datechanged|localdate("%c") }}</strong>
                 <small>({{ buic_moment(context.content.datechanged) }})</small>
             {% else %}

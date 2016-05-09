@@ -1,4 +1,4 @@
-# app/resources/translations/it/messages.it.yml – generated on 2016-05-02 21:01:45 Europe/Paris
+# app/resources/translations/it/messages.it.yml – generated on 2016-05-09 07:28:55 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,24 +8,26 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-# 239 untranslated messages
-# 140 untranslated keyword based messages
-# 152 translations
-#  75 keyword based translations
+#   4 unused messages
+#  70 untranslated messages
+# 306 untranslated keyword based messages
+#  20 translations
+# 206 keyword based translations
 
-#--- 239 untranslated messages ------------------------------------------------
+#--- 4 unused messages --------------------------------------------------------
 
-"%name% № %id%": #
+"component.changelog-detail.by": #
+"component.changelog-detail.field": #
+"component.changelog-detail.value-new": #
+"component.changelog-detail.value-old": #
+
+#--- 70 untranslated messages -------------------------------------------------
+
 "(default template)": #
 "(no category)": #
 "(none)": #
-"Add Selected": #
 "Add a brief, optional comment to describe what's changed.": #
-"Add a comment:": #
-"Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Anonymous": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
 "Are you sure you want to do this for 1 record?": #
@@ -34,45 +36,13 @@
 "Are you sure you want to remove this file?": #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
-"At least %NUM% characters required": #
-"Author": #
 "Body": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Built-in role, automatically granted at all times, even if no user is logged in": #
-"Built-in role, automatically granted to every registered user": #
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
-"Built-in superuser role, automatically grants all permissions": #
-"Change Log": #
-"Check/Uncheck all": #
-"Class:": #
-"Clear Change Log": #
-"Clear System Log": #
-"Cleared cache.": #
-"Click to change current status.": #
 "Client error: %errormessage%": #
-"Close editor": #
-"Code:": #
-"Collapse sidebar": #
-"Content Type Permissions": #
-"Create File": #
-"Create folder": #
 "Current (saved) status:": #
-"Dashboard": #
 "Date": #
 "Datetime": #
-"Default status": #
-"Delete": #
-"Delete %foldername%": #
-"Delete Set": #
-"Depublish": #
-"Depublish date is in the past. Change the status if you want to depublish now": #
-"Detail template": #
-"Details": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
-"Draft": #
-"Duplicate Set": #
-"Edit Roles and Permissions": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Expand sidebar": #
@@ -80,188 +50,52 @@
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Extras": #
-"Failed to clear cache. You should delete it manually.": #
-"Failed to send password request. Please check the email settings.": #
-"Field “%FIELD_NAME%”:": #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
 "Filelist": # "File list"
-"Files could not be uploaded.": #
-"Filtering": #
-"Find": #
 "Floatfield": # "Float field"
-"Folder permissions insufficient": #
-"Full list …": #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Geolocation": #
-"Global Permissions": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
-"Hints:": #
 "Html": #
-"Id": #
-"Id (№)": #
 "Image": #
 "Imagelist": # "Image list"
-"Info": #
 "Integerfield": # "Integer field"
-"Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Is required or needs to match a pattern!": #
-"Is required!": #
-"Keyword …": #
 "Link": #
-"Listing template": #
-"Live Edit": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
-"Login": #
-"Logout": #
-"Main configuration": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Message:": #
-"Meta": #
-"Move Down": #
-"Move Up": #
 "Multiselect": # "Multi-select"
-"New Bolt site has been set up": #
-"No Preview": #
-"No content found.": #
-"No files in the list, yet.": #
-"No images in the list, yet.": #
-"No relations found!": #
-"No theme name found. Theme is not generated.": #
-"None": #
-"Not published": #
-"Not yet installed.": #
-"Note:": #
-"Omnisearch": #
-"Only root can change file extensions.": #
-"Order": #
-"Other content": #
-"Others": #
-"Owner": #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
-"Password reset successful! You can now log on with the password that was sent to you via email.": #
-"Path to image file": #
-"Path:": #
-"Please enter a new file name!": #
-"Please enter a new folder name!": #
-"Profile": #
-"Publish": #
-"Published": #
-"Records": #
-"Rename %foldername%": #
 "Repeater": #
-"Roles": #
-"Roles and Permissions": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Save & create new record": #
-"Save & return to overview": #
-"Saved on:": #
-"Saving …": #
-"Search for …": #
-"Search results for <b>%search%</b>.": #
-"Search …": #
-"Select file …": #
-"Select none": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection (#):": #
-"Show proposed alterations": #
 "Slug": #
-"Slug:": #
-"Something went wrong": #
-"Something went wrong with logging in after first user creation!": #
-"Stack": #
-"System Configuration Checks": #
 "Tag": #
 "Tags": #
 "Teaser": #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #
 "Textarea": #
-"The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
-"The change log has been cleared.": #
-"The change log has been trimmed.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"The folder '%s' could not be found, or is not readable.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
-"The system log has been cleared.": #
-"The system log has been trimmed.": #
-"The value has to be at least “%MINVAL%”!": #
-"The value must not be greater than “%MAXVAL%”!": #
-"Theme successfully generated. You can now edit it directly from your theme folder.": #
-"There are no items on the Stack, yet.": #
-"There are no saved changes, yet.": #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
-"There is no undo!": #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
-"This record is related to the following %CTNAME%:": #
-"This template adds new fields. Save, then refresh to see these changes.": #
-"Thumbnail": #
-"Time in 24h/12h format": #
-"Timed publish": #
-"Tip:": #
-"Trim Change Log": #
-"Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
-"Types": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload": #
-"Upload a file to this folder": #
-"Upload file": #
-"Upload not allowed": #
-"Users & Permissions": #
 "Video": #
 "View (saved version) on site": #
-"View Roles": #
-"View related content": #
-"Warning": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
-"Welcome to your new Bolt site, %USER%.": #
-"You cannot '%s' yourself.": #
-"You do not have the right privileges to edit that user.": #
-"You don't have correct permissions to edit the file '%s'.": #
-"You don't have the correct permissions to display the file or directory '%s'.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
-"back to editing": #
-"by": #
 "filtered by <em>'%filter%'</em>": #
-"line": #
-"no content …": #
-"no title …": #
-"or": #
 
-#--- 140 untranslated keyword based messages ----------------------------------
+#--- 306 untranslated keyword based messages ----------------------------------
 
-"component.changelog-detail.by": # "by"
-"component.changelog-detail.field": # "Field"
-"component.changelog-detail.value-new": # "New value"
-"component.changelog-detail.value-old": # "Old value"
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.template": # "Template"
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
@@ -270,12 +104,14 @@
 "contenttypes.generic.not-saved-yet": # "This %contenttype% has not been saved yet."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "contenttypes.generic.saving-impossible": # "Could not save %contenttype%."
+"contenttypes.record.comment-add-colon": #
 "field.general.allowed-filetypes": # "Allowed file types are:"
 "field.general.stack": # "Stack"
 "field.geolocation.label.address-lookup": # "Address lookup"
 "field.geolocation.label.marker-placement": # "Marker placement"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.image.label.alt": # "Alt"
 "field.markdown.label.markedview": # "Markdown"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
@@ -289,10 +125,160 @@
 "field.video.width": # "Width"
 "general.about": # "About"
 "general.about-bolt": # "About Bolt"
+"general.access-control.reset-failed": # "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."
+"general.access-control.reset-successful": # "Password reset successful! You can now log on with the password that was sent to you via email."
+"general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.bolt-documentation": # "Bolt documentation"
+"general.bolt-new-site-set-up": # "New Bolt site has been set up"
+"general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
+"general.phrase.access-denied-permissions-edit-file": # "You don't have correct permissions to edit the file '%s'."
+"general.phrase.access-denied-permissions-view-file-directory": # "You don't have the correct permissions to display the file or directory '%s'."
+"general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
+"general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
+"general.phrase.add-selected": # "Add Selected"
+"general.phrase.author": # "Author"
+"general.phrase.by": # "by"
+"general.phrase.change-current-status": # "Click to change current status."
+"general.phrase.change-log": # "Change Log"
+"general.phrase.clear-cache-complete": # "Cleared cache."
+"general.phrase.clear-change-log": # "Clear Change Log"
+"general.phrase.clear-system-log": # "Clear System Log"
+"general.phrase.close-editor": # "Close editor"
+"general.phrase.code-colon": # "Code:"
+"general.phrase.collapse-sidebar": # "Collapse sidebar"
+"general.phrase.configuration-main": # "Main configuration"
+"general.phrase.content-type-permissions": # "Content Type Permissions"
+"general.phrase.dashboard": # "Dashboard"
+"general.phrase.delete": # "Delete"
+"general.phrase.delete-directory-name": # "Delete %foldername%"
+"general.phrase.delete-set": # "Delete Set"
+"general.phrase.depublish": # "Depublish"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.details": # "Details"
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.draft": # "Draft"
+"general.phrase.duplicate-set": # "Duplicate Set"
+"general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
+"general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
+"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
+"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extras": # "Extras"
+"general.phrase.field": # "Field"
+"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
+"general.phrase.file-not-exist": # "The file '%s' doesn't exist."
+"general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.filtering": # "Filtering"
+"general.phrase.find": # "Find"
+"general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.full-list-ellipsis": # "Full list …"
+"general.phrase.global-permissions": # "Global Permissions"
+"general.phrase.hints-colon": # "Hints:"
+"general.phrase.id": # "Id"
+"general.phrase.info": # "Info"
+"general.phrase.keyword-ellipsis": # "Keyword …"
+"general.phrase.line": # "line"
+"general.phrase.listing-template": # "Listing template"
+"general.phrase.live-edit": # "Live Edit"
+"general.phrase.log-change-trim": # "Trim Change Log"
+"general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.login": # "Login"
+"general.phrase.logout": # "Logout"
+"general.phrase.message-colon": # "Message:"
+"general.phrase.meta": # "Meta"
+"general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+"general.phrase.missing-root-jackpot": # "There should always be at least one 'root' user. You have just been promoted. Congratulations!"
+"general.phrase.move-down": # "Move Down"
+"general.phrase.move-up": # "Move Up"
+"general.phrase.no-content": # "no content …"
+"general.phrase.no-content-found": # "No content found."
+"general.phrase.no-files-in-list": # "No files in the list, yet."
+"general.phrase.no-images-in-list": # "No images in the list, yet."
+"general.phrase.no-preview": # "No Preview"
+"general.phrase.no-relations-found-bang": # "No relations found!"
+"general.phrase.no-title": # "no title …"
+"general.phrase.no-undo": # "There is no undo!"
+"general.phrase.not-installed-yet": # "Not yet installed."
+"general.phrase.not-published": # "Not published"
+"general.phrase.not-saved": # "There are no saved changes, yet."
+"general.phrase.note-colon": # "Note:"
+"general.phrase.omnisearch": # "Omnisearch"
+"general.phrase.only-root-change-file-extensions": # "Only root can change file extensions."
+"general.phrase.or": # "or"
+"general.phrase.order": # "Order"
+"general.phrase.other-content": # "Other content"
+"general.phrase.others": # "Others"
+"general.phrase.path-colon": # "Path:"
+"general.phrase.path-image-file": # "Path to image file"
+"general.phrase.profile": # "Profile"
+"general.phrase.publish": # "Publish"
+"general.phrase.publish-timed": # "Timed publish"
+"general.phrase.published": # "Published"
+"general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
+"general.phrase.records": # "Records"
+"general.phrase.related-content": #
+"general.phrase.rename-foldername": # "Rename %foldername%"
+"general.phrase.required-character-count": # "At least %NUM% characters required"
+"general.phrase.required-is-bang": # "Is required!"
+"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
+"general.phrase.return-editing": # "back to editing"
+"general.phrase.roles": # "Roles"
+"general.phrase.roles-permissions": # "Roles and Permissions"
+"general.phrase.save-and-create-new-record": # "Save & create new record"
+"general.phrase.save-and-return-overview": # "Save & return to overview"
+"general.phrase.saved-on-colon": # "Saved on:"
+"general.phrase.saving-ellipsis": # "Saving …"
+"general.phrase.search-ellipsis": # "Search …"
+"general.phrase.search-for-ellipsis": # "Search for …"
+"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
+"general.phrase.select-file": # "Select file …"
+"general.phrase.select-none": # "Select none"
+"general.phrase.selection": # "Selection"
+"general.phrase.show-proposed-alterations": # "Show proposed alterations"
+"general.phrase.slug-colon": # "Slug:"
+"general.phrase.something-went-wrong": # "Something went wrong"
+"general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.stack": # "Stack"
+"general.phrase.stack-empty": # "There are no items on the Stack, yet."
+"general.phrase.status-default": # "Default status"
+"general.phrase.stay-classy-colon": # "Class:"
+"general.phrase.system-config-checks": # "System Configuration Checks"
+"general.phrase.template-detail": # "Detail template"
+"general.phrase.thumbnail": # "Thumbnail"
+"general.phrase.time-format-24-12": # "Time in 24h/12h format"
+"general.phrase.tip-colon": # "Tip:"
+"general.phrase.toggle-all": # "Check/Uncheck all"
+"general.phrase.types": # "Types"
+"general.phrase.upload": # "Upload"
+"general.phrase.upload-file": # "Upload file"
+"general.phrase.upload-file-to-directory": # "Upload a file to this folder"
+"general.phrase.upload-not-allowed": # "Upload not allowed"
+"general.phrase.users-none-create-first-extended": # "There are no users present in the system. Please create the first user, which will be granted root privileges."
+"general.phrase.users-permissions": # "Users & Permissions"
+"general.phrase.value-maximum-variable": # "The value must not be greater than “%MAXVAL%”!"
+"general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
+"general.phrase.value-new": # "New value"
+"general.phrase.value-old": # "Old value"
+"general.phrase.view-related": # "View related content"
+"general.phrase.view-roles": # "View Roles"
+"general.phrase.warning": # "Warning"
+"general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
+"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"general.phrase.warning-unfinished-changes-loss": # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "general.visit-bolt": # "Visit Bolt.cm"
 "logs.change-log": # "Change Log"
+"logs.change-log.cleared": # "The change log has been cleared."
+"logs.change-log.trimmed": # "The change log has been trimmed."
 "logs.system-log": # "System Log"
+"logs.system-log.cleared": # "The system log has been cleared."
+"logs.system-log.trimmed": # "The system log has been trimmed."
+"page.checks.run-all": # "Run all checks"
+"page.checks.run-directory-checks": # "Run directory checks"
+"page.checks.run-email-checks": # "Run email checks"
+"page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.dashboard.button.add": # "Add …"
 "page.dashboard.title": # "Dashboard"
 "page.edit-file.note-related": # "Note, this file has related files:"
@@ -339,6 +325,8 @@
 "page.extend.button.update-check": # "Run update check"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -377,6 +365,7 @@
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
@@ -384,6 +373,15 @@
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-folder": # "Create folder"
+"page.file-management.message.create-file": # "Please enter a new file name!"
+"page.file-management.message.create-folder": # "Please enter a new folder name!"
+"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.login.button.log-on": # "Log on"
 "page.login.cookies-required": # "Note: Cookies are required to log on to Bolt. Please allow cookies."
 "page.login.label.password": # "Password"
@@ -398,165 +396,37 @@
 "panel.latest-activity.system": # "Latest system activity"
 "panel.latest-activity.unknown": # "unknown"
 "panel.user-actions.button.add": # "Add a new user"
+"permissions.roles.description.anonymous": # "Built-in role, automatically granted at all times, even if no user is logged in"
+"permissions.roles.description.everyone": # "Built-in role, automatically granted to every registered user"
+"permissions.roles.description.owner": # "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
+"permissions.roles.description.root": # "Built-in superuser role, automatically grants all permissions"
+"permissions.roles.label.anonymous": # "Anonymous"
+"permissions.roles.label.owner": # "Owner"
 
-#--- 152 translations ---------------------------------------------------------
+#--- 20 translations ----------------------------------------------------------
 
 "(no group)": "(nessun gruppo)"
-"A password reset link has been sent to '%user%'.": "Un link per il reset della password è stato inviato a '%user%'."
-"Actions": "Azioni"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
-"Alas, no about!": "Accipicchia, nessuna pagina about!"
-"All content types": "Tutti i tipi di contenuto"
-"All users": "Tutti gli usenti"
 "Are you sure you want to delete %username%?": "Sei sicuro di voler rimuovere %username%?"
-"Author:": "Autore"
-"Below are the third party libraries that are used by Bolt.": "Librerie di terze parti utilizzate da Bolt."
-"Bolt - Fatal error.": "Bolt - Errore fatale."
-"Browser / platform": "Browser / piattaforma"
-"Cancel": "Annulla"
 "Categories": "Categorie"
 "Category": "Categoria"
-"Change status to 'draft'": "Cambio lo stato in 'bozza'"
-"Change status to 'held'": "Cambio lo stato in 'in attesa'"
-"Check again": "Controlla ancora"
-"Check database": "Controllo database"
 "Choose an entry": "Scegli un inserimento"
-"Clear cache again": "Svuota ancora la cache"
-"Clear filter": "Svuota i filtri"
-"Clear sort/filter": "Svuota ordine/filtro"
-"Clear the cache": "Svuota la cache"
-"Configuration": "Configurazione"
 "Content": "Contenuto"
-"Content '%title%' could not be modified.": "Il contenuto '%title%' non può esser modificato."
-"Contenttypes": "Tipi di Contenuto"
-"Create the first user": "Crea il primo utente"
-"Created on:": "Creato il:"
-"Current sessions": "Sessione corrente"
-"Current status:": "Stato Corrente"
-"Database check / update": "Controllo database / aggiornamento"
-"Delete %filename%": "Elimina %filename%"
-"Delete %username%": "Elimina %username%"
-"Depublication date:": "Data di de-pubblicazione"
-"Deselect all": "Deseleziona tutto"
-"Disable %username%": "Disabilita %username%"
-"Done!": "Fatto!"
-"Duplicate %filename%": "Duplica %filename%"
-"Edit": "Modifica"
-"Edit file": "Modifica file"
-"Enable %username%": "Abilita %username%"
 "Excerpt": "Estratto"
-"Extensions": "Estensioni"
-"File '%file%' was uploaded successfully.": "Il File '%file%' è stato caricato con successo."
-"File '%s' could not be saved, for some reason.": "Per quealche motivo il file '%s' non può esser salvato."
-"File '%s' could not be saved:": "Il file '%s' non può esser salvato:"
-"File '%s' has been saved.": "Il file '%s' è stato salvato."
-"File Management": "Gestione File"
-"File is not readable!": "Il file non è leggibile"
-"Files": "File"
-"Files in %s": "File in %s"
-"Files on the stack": "File nello Stack"
-"Filesize": "Dimensione file"
-"Fill the database with Dummy Content": "Inserisci nel database del contenuto casuale"
-"Filter": "Filtri"
-"Folder '%s' could not be found, or is not readable.": "La directory '%s' non è stata trovata, o non è leggibile."
-"Folders": "Cartelle"
-"IP address": "Indirizzo IP"
-"Last edited on:": "Ultima modifica del:"
-"Last known IP": "Ultimo IP conosciuto"
-"Last seen": "Ultima visita"
-"Long messages": "Messaggi lunghi"
-"Maintenance": "Manutenzione"
-"Menu setup": "Menu impostazioni"
-"Messages": "Messagggi"
-"Meta information": "Meta informazioni"
-"Modifications made to the database:": "Modifiche eseguite al database:"
-"Modifications needed:": "Modifiche necessarie:"
-"Modified": "Modificato"
-"No results found for '%SEARCHTERM%'. Please try another search.": "Nessun risultato per '%SEARCHTERM%'. Prova una ricerca differente."
-"No such action for user '%s'.": "Azione non disponibile per l'utente '%s'"
-"Options": "Opzioni"
-"Order: %sort%": "Ordine: %sort%"
-"Overview": "Anteprima"
-"Overview for": "Anteprima"
-"Owner:": "Proprietario:"
-"Path": "Percorso"
-"Permalink": "Link permanente"
-"Permissions": "Permessi"
-"Place on stack": "Posiziona nello Stack"
-"Please choose the record you want to link to:": "Seleziona il contenuto che vuoi collegare"
-"Please log on.": "Prego, effettua l'accesso."
-"Please provide a username": "Si prega di fornire uno username"
-"Prefill database": "Pre-inserisci contenuti nel database"
-"Preview": "Anteprima"
-"Provided by:": "Fornito da"
-"Publication date:": "Data Pubblicazione:"
-"Published on:": "Pubblicato il:"
-"Read more": "Leggi ancora"
-"Related content": "Contenuto correlato"
-"Relationships": "Relazioni"
-"Search": "Cerca"
-"Select": "Seleziona"
 "Select a page": "Seleziona una pagina"
-"Select all": "Seleziona tutto"
 "Select zero or more pages": "Seleziona nessuna o qualche pagina"
-"Session expires": "Sessione scaduta"
-"Session resumed.": "Sessione ripristinata"
-"Settings": "Impostazioni"
-"Showing": "Visualizzo"
-"Showing %pager_for% %from% - %to% of %count%": "Visualizzo %pager_for% %from% - %to% di %count%"
-"Size": "Dimensione"
 "Skipped <tt>%key%</tt> (already has records)": "Saltato <tt>%key%</tt> (ha già contenuti)"
 "Skipped <tt>%key%</tt> (not checked)": "Saltato <tt>%key%</tt> (non selezionato)"
-"Sophisticated, lightweight & simple CMS": "Sofisticato, ultraleggero e semplice CMS"
-"Status:": "Stato:"
-"Taxonomy": "Tassonomia"
-"That user does not exist.": "L'utente non esiste"
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Il file '%s' non è scrivibile. Dovrai utilizzare un editor sul server per modificare il file."
-"The following file could not be read:": "Il seguente file non può essere letto:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "L'identificatore e lo slug per '%taxonomytype%' non sono lo stesso ('%slug%' vs. '%taxonomytype%'). Modifica taxonomy.yml, e rendili uguali per prevenire inconsistenze tra la memorizzazione nel database storage e i tuoi template."
-"The requested changelog entry doesn't exist.": "La voce di changelog richiesta non esiste"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Lo slug '%slug%' è utilizzato in più di un tipo di contenuto. Modifica contenttypes.yml e rendili differenti."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Il file di traduzione '%s' non può essere creato. Dovrai utilizzare un editor sul server per creare il file."
-"The translations file '%s' is not readable.": "Il file di traduzione '%s' non è leggibile."
-"There are no users in the database. Please create the first user.": "Non ci sono utenti nel database. Procedi con la creazione del primo utente."
 "This is a checkbox": "Questo è un checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Questo sito web è <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>realizzato con Bolt</a>."
 "Title": "Titolo"
-"Translations": "Traduzioni"
-"Update the database": "Aggiorna il database"
-"Upload image": "Upload immagine"
-"Uploaded files": "Files caricati"
-"Uploading to this folder is not allowed.": "L'upload in questa cartella non è permesso"
-"Used Libraries / Components": "Librerie / Componenti utilizzati"
-"User '%s' could not be deleted.": "L'utente '%s' non può essere eliminato."
-"User '%s' could not be disabled.": "L'utente '%s' non può essere disabilitato."
-"User '%s' could not be enabled.": "L'utente '%s' non può essere abilitato."
-"User '%s' is deleted.": "L'utente '%s' è stato eliminato."
-"User '%s' is disabled.": "L'utente '%s' è stato disabilitato."
-"User '%s' is enabled.": "L'utente '%s' è stato abilitato."
-"Username": "Nome utente"
-"Username or password not correct. Please check your input.": "Username o password non corretti. Verifica i dati inseriti"
-"Users": "Utenti"
-"View on site": "Mostra nel sito"
-"View site": "Mostra il sito"
-"View/edit Templates": "Mostra / modifica Templates"
-"Written by <em>%name%</em> on %date%": "Scritto da <em>%name%</em> il %date%"
-"You do not have the right privileges to edit that record.": "Non possiedi le autorizzazioni per modificare il contenuto"
-"You do not have the right privileges to view that page.": "Non possiedi le autorizzazioni per visualizzare la pagina."
-"You have been logged out.": "Sei stato disconnesso"
 "You've been logged on successfully.": "Accesso effettuato con successo."
-"Your account is disabled. Sorry about that.": "Spiacenti, il tuo account è disabilitato"
-"Your database is already up to date.": "Il tuo database è già aggiornato"
-"Your database is now up to date.": "Il tuo database ora è aggiornato"
-"and edited": "e modificato"
-"none": "nessuno"
-"of": "di"
-"show all": "mostra tutto"
 
-#--- 75 keyword based translations --------------------------------------------
-
-component.changelog-pager.page: "Pagina"
+#--- 206 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Azioni per contenuti %contenttypes%"
 contenttypes.generic.actions-one: "Azioni per questo contenuto %contenttype%"
@@ -600,10 +470,138 @@ field.slug.permalink: "Link permanente"
 field.video.label.preview: "Anteprima immagine"
 field.video.label.size: "Dimensione"
 
+general.access-denied.content-not-modified: "Il contenuto '%title%' non può esser modificato."
+
+general.bolt-fatal-error: "Bolt - Errore fatale."
+
 general.bolt-on-github: "Bolt su Github"
+
+general.bolt-tagline: "Sofisticato, ultraleggero e semplice CMS"
+
+general.bolt-third-party-libraries: "Librerie di terze parti utilizzate da Bolt."
+
+general.phrase.access-denied-logged-out: "Sei stato disconnesso"
+general.phrase.access-denied-privilege-edit-record: "Non possiedi le autorizzazioni per modificare il contenuto"
+general.phrase.access-denied-privilege-view-page: "Non possiedi le autorizzazioni per visualizzare la pagina."
+general.phrase.action-plural: "Azioni"
+general.phrase.author-colon: "Autore"
+general.phrase.browswer-platform: "Browser / piattaforma"
+general.phrase.cancel: "Annulla"
+general.phrase.check-again: "Controlla ancora"
+general.phrase.check-database: "Controllo database"
+general.phrase.choose-record-link-to: "Seleziona il contenuto che vuoi collegare"
+general.phrase.clear-cache: "Svuota la cache"
+general.phrase.clear-cache-again: "Svuota ancora la cache"
+general.phrase.clear-filter: "Svuota i filtri"
+general.phrase.clear-filter-sort: "Svuota ordine/filtro"
+general.phrase.configuration: "Configurazione"
+general.phrase.content-types: "Tipi di Contenuto"
+general.phrase.create-user-first: "Crea il primo utente"
+general.phrase.created-on-colon: "Creato il:"
+general.phrase.current-session-plural: "Sessione corrente"
+general.phrase.databaase-up-to-date: "Il tuo database ora è aggiornato"
+general.phrase.database-check-update: "Controllo database / aggiornamento"
+general.phrase.database-prefill: "Pre-inserisci contenuti nel database"
+general.phrase.database-prefill-dummy-content: "Inserisci nel database del contenuto casuale"
+general.phrase.database-up-to-date-already: "Il tuo database è già aggiornato"
+general.phrase.delete-file-name: "Elimina %filename%"
+general.phrase.delete-user-name: "Elimina %username%"
+general.phrase.depublication-date-colon: "Data di de-pubblicazione"
+general.phrase.deselect-all: "Deseleziona tutto"
+general.phrase.disable-user-name: "Disabilita %username%"
+general.phrase.done-bang: "Fatto!"
+general.phrase.duplicate-file-name: "Duplica %filename%"
+general.phrase.edit: "Modifica"
+general.phrase.edit-file: "Modifica file"
+general.phrase.edited: "e modificato"
+general.phrase.enable-user-name: "Abilita %username%"
+general.phrase.error-translation-file-not-readable: "Il file di traduzione '%s' non è leggibile."
+general.phrase.error-user-name-password-incorrect: "Username o password non corretti. Verifica i dati inseriti"
+general.phrase.extensions: "Estensioni"
+general.phrase.file-management: "Gestione File"
+general.phrase.file-not-readable-following-colon: "Il seguente file non può essere letto:"
+general.phrase.file-not-writable: "Il file '%s' non è scrivibile. Dovrai utilizzare un editor sul server per modificare il file."
+general.phrase.file-size: "Dimensione file"
+general.phrase.filter: "Filtri"
+general.phrase.folders: "Cartelle"
+general.phrase.general.phrase.uploaded-files: "Files caricati"
+general.phrase.ip.address: "Indirizzo IP"
+general.phrase.last-edited-on-colon: "Ultima modifica del:"
+general.phrase.last-known-ip: "Ultimo IP conosciuto"
+general.phrase.last-seen: "Ultima visita"
+general.phrase.login-account-disabled: "Spiacenti, il tuo account è disabilitato"
+general.phrase.long-messages: "Messaggi lunghi"
+general.phrase.maintenance: "Manutenzione"
+general.phrase.menu-setup: "Menu impostazioni"
+general.phrase.messages: "Messagggi"
+general.phrase.meta-information: "Meta informazioni"
+general.phrase.missing-about-page: "Accipicchia, nessuna pagina about!"
+general.phrase.modifications-database-colon: "Modifiche eseguite al database:"
+general.phrase.modifications-needed-colon: "Modifiche necessarie:"
+general.phrase.modified: "Modificato"
+general.phrase.no-result-for-search-term: "Nessun risultato per '%SEARCHTERM%'. Prova una ricerca differente."
+general.phrase.no-such-action-for-user: "Azione non disponibile per l'utente '%s'"
+general.phrase.none: "nessuno"
+general.phrase.of: "di"
+general.phrase.options: "Opzioni"
+general.phrase.order-colon-sort: "Ordine: %sort%"
+general.phrase.overview: "Anteprima"
+general.phrase.overview-for: "Anteprima"
+general.phrase.owner-colon: "Proprietario:"
+general.phrase.page: "Pagina"
+general.phrase.pager-showing-from-to-of: "Visualizzo %pager_for% %from% - %to% di %count%"
+general.phrase.path: "Percorso"
+general.phrase.permalink: "Link permanente"
+general.phrase.permissions: "Permessi"
+general.phrase.please-logon: "Prego, effettua l'accesso."
+general.phrase.please-provide-username: "Si prega di fornire uno username"
+general.phrase.preview: "Anteprima"
+general.phrase.provided-by-colon: "Fornito da"
+general.phrase.publication-date-colon: "Data Pubblicazione:"
+general.phrase.published-on-colon: "Pubblicato il:"
+general.phrase.read-more: "Leggi ancora"
+general.phrase.relationships: "Relazioni"
+general.phrase.search: "Cerca"
+general.phrase.select: "Seleziona"
+general.phrase.select-all: "Seleziona tutto"
+general.phrase.session-expires: "Sessione scaduta"
+general.phrase.session-resumed-colon: "Sessione ripristinata"
+general.phrase.settings: "Impostazioni"
+general.phrase.show-all: "mostra tutto"
+general.phrase.showing: "Visualizzo"
+general.phrase.size: "Dimensione"
+general.phrase.stack-add: "Posiziona nello Stack"
+general.phrase.stack-files: "File nello Stack"
+general.phrase.status-change-draft: "Cambio lo stato in 'bozza'"
+general.phrase.status-change-held: "Cambio lo stato in 'in attesa'"
+general.phrase.status-colon: "Stato:"
+general.phrase.status-current-colon: "Stato Corrente"
+general.phrase.taxonomy: "Tassonomia"
+general.phrase.translations: "Traduzioni"
+general.phrase.update-database: "Aggiorna il database"
+general.phrase.upload-image: "Upload immagine"
+general.phrase.used-libraries: "Librerie / Componenti utilizzati"
+general.phrase.user-deleted: "L'utente '%s' è stato eliminato."
+general.phrase.user-disabled: "L'utente '%s' è stato disabilitato."
+general.phrase.user-enabled: "L'utente '%s' è stato abilitato."
+general.phrase.user-failed-delete: "L'utente '%s' non può essere eliminato."
+general.phrase.user-failed-disabled: "L'utente '%s' non può essere disabilitato."
+general.phrase.user-failed-enable: "L'utente '%s' non può essere abilitato."
+general.phrase.user-name: "Nome utente"
+general.phrase.user-not-exist: "L'utente non esiste"
+general.phrase.users: "Utenti"
+general.phrase.users-none-create-first: "Non ci sono utenti nel database. Procedi con la creazione del primo utente."
+general.phrase.users.all: "Tutti gli usenti"
+general.phrase.view-edit-templates: "Mostra / modifica Templates"
+general.phrase.view-on-site: "Mostra nel sito"
+general.phrase.view-site: "Mostra il sito"
+general.phrase.written-by-on: "Scritto da <em>%name%</em> il %date%"
 
 generic.noscript.headline: "Javascript disabilitato"
 generic.noscript.message: "I Javascript sono attualmente disabilitati nel tuo browser. Molte funzioni in Bolt funzioneranno comunque, ma per un miglior utilizzo raccomandiamo di abiltare i Javascript nel tuo browser."
+
+logs.change-log.contenttypes.all: "Tutti i tipi di contenuto"
+logs.change-log.not-found: "La voce di changelog richiesta non esiste"
 
 menu.configuration.routing: "Routing setup"
 
@@ -637,11 +635,22 @@ page.edit-users.title.edit: "Modifica utente"
 page.extend.listheader.actions: "Azioni"
 page.extend.message.maintenance: "Manutenzione"
 
+page.file-management.message.access-denied: "L'upload in questa cartella non è permesso"
+page.file-management.message.file-not-readable: "Il file non è leggibile"
+page.file-management.message.files-in: "File in %s"
+page.file-management.message.folder-not-found: "La directory '%s' non è stata trovata, o non è leggibile."
+page.file-management.message.save-failed-colon: "Il file '%s' non può esser salvato:"
+page.file-management.message.save-failed-unknown: "Per quealche motivo il file '%s' non può esser salvato."
+page.file-management.message.save-success: "Il file '%s' è stato salvato."
+page.file-management.message.upload-success: "Il File '%file%' è stato caricato con successo."
+page.file-management.title: "File"
+
 page.login.button.back: "Torna alla login"
 page.login.button.forgot-password: "Ho dimenticato la mia password…"
 page.login.button.reset-password: "Resetta la mia password"
 page.login.label.username: "Nome utente / e-mail"
 page.login.password-hide: "Nascondi"
+page.login.password-reset-link-sent: "Un link per il reset della password è stato inviato a '%user%'."
 page.login.password-show: "Mostra"
 page.login.placeholder.password: "Il tuo nome utente"
 

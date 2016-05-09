@@ -1,4 +1,4 @@
-# app/resources/translations/el/messages.el.yml – generated on 2016-05-02 20:57:00 Europe/Paris
+# app/resources/translations/el/messages.el.yml – generated on 2016-05-09 07:28:31 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,20 +8,20 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-# 224 untranslated messages
-# 172 untranslated keyword based messages
-# 167 translations
-#  43 keyword based translations
+#   1 unused messages
+#  70 untranslated messages
+# 326 untranslated keyword based messages
+#  20 translations
+# 186 keyword based translations
 
-#--- 224 untranslated messages ------------------------------------------------
+#--- 1 unused messages --------------------------------------------------------
+
+"component.changelog-pager.page": #
+
+#--- 70 untranslated messages -------------------------------------------------
 
 "(none)": #
-"Add Selected": #
 "Add a brief, optional comment to describe what's changed.": #
-"Add a comment:": #
-"Alas, no about!": #
-"Alt": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -31,219 +31,68 @@
 "Are you sure you want to remove this file?": #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
-"At least %NUM% characters required": #
-"Author": #
-"Below are the third party libraries that are used by Bolt.": #
 "Body": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
-"Browser / platform": #
-"Built-in role, automatically granted at all times, even if no user is logged in": #
-"Built-in role, automatically granted to every registered user": #
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
-"Built-in superuser role, automatically grants all permissions": #
-"Check/Uncheck all": #
-"Clear Change Log": #
-"Clear System Log": #
-"Cleared cache.": #
 "Client error: %errormessage%": #
-"Close editor": #
-"Collapse sidebar": #
-"Content Type Permissions": #
-"Contenttypes": #
-"Create File": #
-"Create folder": #
-"Dashboard": #
 "Date": #
 "Datetime": #
-"Default status": #
-"Delete": #
-"Delete %foldername%": #
-"Delete Set": #
-"Depublish": #
-"Depublish date is in the past. Change the status if you want to depublish now": #
-"Detail template": #
-"Details": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
-"Duplicate Set": #
-"Edit Roles and Permissions": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
 "Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Extras": #
-"Failed to clear cache. You should delete it manually.": #
-"Failed to send password request. Please check the email settings.": #
-"Field “%FIELD_NAME%”:": #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"File '%s' could not be saved, because the form wasn't valid.": #
 "Filelist": # "File list"
-"Files could not be uploaded.": #
-"Filtering": #
-"Find": #
 "Floatfield": # "Float field"
-"Folder permissions insufficient": #
-"Full list …": #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Geolocation": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
-"Hints:": #
 "Html": #
-"Id": #
-"Id (№)": #
 "Imagelist": # "Image list"
 "Integerfield": # "Integer field"
-"Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Is required or needs to match a pattern!": #
-"Is required!": #
-"Keyword …": #
 "Link": #
-"Listing template": #
-"Live Edit": #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
-"Main configuration": #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Meta": #
-"Move Down": #
-"Move Up": #
 "Multiselect": # "Multi-select"
-"New Bolt site has been set up": #
-"No Preview": #
-"No content found.": #
-"No files in the list, yet.": #
-"No images in the list, yet.": #
-"No relations found!": #
-"No theme name found. Theme is not generated.": #
-"Not yet installed.": #
-"Note:": #
-"Omnisearch": #
-"Only root can change file extensions.": #
-"Order": #
-"Other content": #
-"Others": #
-"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
-"Path to image file": #
-"Please enter a new file name!": #
-"Please enter a new folder name!": #
-"Please log on.": #
-"Prefill database": # "Pre-fill database"
-"Publish": #
-"Records": #
-"Rename %foldername%": #
 "Repeater": #
-"Run PHP extension checks": #
-"Run all checks": #
-"Run directory checks": #
-"Run email checks": #
-"Save & create new record": #
-"Saving …": #
-"Search for …": #
-"Search results for <b>%search%</b>.": #
-"Search …": #
-"Select file …": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection (#):": #
-"Show proposed alterations": #
 "Slug": #
-"Slug:": #
-"Something went wrong with logging in after first user creation!": #
-"Sophisticated, lightweight & simple CMS": #
-"Stack": #
-"System Configuration Checks": #
 "Tag": #
 "Tags": #
-"Taxonomy": #
 "Teaser": #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #
 "Textarea": #
-"The Bolt extensions composer.json isn't readable.": #
-"The Bolt extensions composer.json isn't writable.": #
-"The change log has been cleared.": #
-"The change log has been trimmed.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The file '%s' doesn't exist.": #
-"The file '%s' is not readable.": #
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": #
-"The folder '%s' could not be found, or is not readable.": #
-"The following file could not be read:": #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
-"The requested changelog entry doesn't exist.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": #
-"The system log has been cleared.": #
-"The system log has been trimmed.": #
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
-"The translations file '%s' is not readable.": #
-"The value has to be at least “%MINVAL%”!": #
-"The value must not be greater than “%MAXVAL%”!": #
-"Theme successfully generated. You can now edit it directly from your theme folder.": #
-"There are no items on the Stack, yet.": #
-"There are no saved changes, yet.": #
-"There are no users in the database. Please create the first user.": #
-"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
-"There is no undo!": #
-"There should always be at least one 'root' user. You have just been promoted. Congratulations!": #
 "This is a checkbox": #
-"This record is related to the following %CTNAME%:": #
-"This template adds new fields. Save, then refresh to see these changes.": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Thumbnail": #
-"Time in 24h/12h format": #
-"Timed publish": #
-"Trim Change Log": #
-"Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload a file to this folder": #
-"Upload not allowed": #
-"Used Libraries / Components": #
-"Users & Permissions": #
 "Video": #
 "View (saved version) on site": #
-"View Roles": #
-"View related content": #
-"View/edit Templates": #
-"Warning": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
-"Welcome to your new Bolt site, %USER%.": #
-"You cannot '%s' yourself.": #
-"You do not have the right privileges to edit that user.": #
-"You don't have correct permissions to edit the file '%s'.": #
-"You don't have the correct permissions to display the file or directory '%s'.": #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
-"Your database is already up to date.": #
-"Your database is now up to date.": #
 "filtered by <em>'%filter%'</em>": #
-"no content …": #
-"no title …": #
-"or": #
 
-#--- 172 untranslated keyword based messages ----------------------------------
+#--- 326 untranslated keyword based messages ----------------------------------
 
-"component.changelog-pager.page": # "Page"
 "contenttypes.generic.created": # "This %contenttype% was created"
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.taxonomy": # "Taxonomy"
@@ -261,6 +110,7 @@
 "contenttypes.generic.saved-new": # "The new %contenttype% has been saved."
 "contenttypes.generic.show-more": # "More %contenttypes%"
 "contenttypes.generic.wrong-use-field": # "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.record.comment-add-colon": #
 "field.general.allowed-filetypes": # "Allowed file types are:"
 "field.general.select-from-server": # "Select from server"
 "field.general.stack": # "Stack"
@@ -271,6 +121,7 @@
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.geolocation.matched-address": # "Matched address"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.image.label.alt": # "Alt"
 "field.markdown.label.markedview": # "Markdown"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
@@ -283,12 +134,149 @@
 "field.video.pixel": # "pixel"
 "field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
 "field.video.width": # "Width"
+"general.access-control.reset-failed": # "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."
+"general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.bolt-documentation": # "Bolt documentation"
+"general.bolt-new-site-set-up": # "New Bolt site has been set up"
+"general.bolt-tagline": # "Sophisticated, lightweight & simple CMS"
+"general.bolt-third-party-libraries": # "Below are the third party libraries that are used by Bolt."
+"general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
+"general.phrase.access-denied-permissions-edit-file": # "You don't have correct permissions to edit the file '%s'."
+"general.phrase.access-denied-permissions-view-file-directory": # "You don't have the correct permissions to display the file or directory '%s'."
+"general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
+"general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
+"general.phrase.add-selected": # "Add Selected"
+"general.phrase.author": # "Author"
+"general.phrase.browswer-platform": # "Browser / platform"
+"general.phrase.clear-cache-complete": # "Cleared cache."
+"general.phrase.clear-change-log": # "Clear Change Log"
+"general.phrase.clear-system-log": # "Clear System Log"
+"general.phrase.close-editor": # "Close editor"
+"general.phrase.collapse-sidebar": # "Collapse sidebar"
+"general.phrase.configuration-main": # "Main configuration"
+"general.phrase.content-type-permissions": # "Content Type Permissions"
+"general.phrase.content-types": # "Contenttypes"
+"general.phrase.dashboard": # "Dashboard"
+"general.phrase.databaase-up-to-date": # "Your database is now up to date."
+"general.phrase.database-prefill": # "Pre-fill database"
+"general.phrase.database-up-to-date-already": # "Your database is already up to date."
+"general.phrase.delete": # "Delete"
+"general.phrase.delete-directory-name": # "Delete %foldername%"
+"general.phrase.delete-set": # "Delete Set"
+"general.phrase.depublish": # "Depublish"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.details": # "Details"
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.duplicate-set": # "Duplicate Set"
+"general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
+"general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
+"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
+"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.error-translation-file-not-readable": # "The translations file '%s' is not readable."
+"general.phrase.extras": # "Extras"
+"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
+"general.phrase.file-not-exist": # "The file '%s' doesn't exist."
+"general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.file-not-readable-following-colon": # "The following file could not be read:"
+"general.phrase.file-not-writable": # "The file '%s' is not writable. You will have to use your own editor to make modifications to this file."
+"general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.filtering": # "Filtering"
+"general.phrase.find": # "Find"
+"general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.full-list-ellipsis": # "Full list …"
+"general.phrase.hints-colon": # "Hints:"
+"general.phrase.id": # "Id"
+"general.phrase.keyword-ellipsis": # "Keyword …"
+"general.phrase.listing-template": # "Listing template"
+"general.phrase.live-edit": # "Live Edit"
+"general.phrase.log-change-trim": # "Trim Change Log"
+"general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.meta": # "Meta"
+"general.phrase.missing-about-page": # "Alas, no about!"
+"general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+"general.phrase.missing-root-jackpot": # "There should always be at least one 'root' user. You have just been promoted. Congratulations!"
+"general.phrase.move-down": # "Move Down"
+"general.phrase.move-up": # "Move Up"
+"general.phrase.no-content": # "no content …"
+"general.phrase.no-content-found": # "No content found."
+"general.phrase.no-files-in-list": # "No files in the list, yet."
+"general.phrase.no-images-in-list": # "No images in the list, yet."
+"general.phrase.no-preview": # "No Preview"
+"general.phrase.no-relations-found-bang": # "No relations found!"
+"general.phrase.no-title": # "no title …"
+"general.phrase.no-undo": # "There is no undo!"
+"general.phrase.not-installed-yet": # "Not yet installed."
+"general.phrase.not-saved": # "There are no saved changes, yet."
+"general.phrase.note-colon": # "Note:"
+"general.phrase.omnisearch": # "Omnisearch"
+"general.phrase.only-root-change-file-extensions": # "Only root can change file extensions."
+"general.phrase.or": # "or"
+"general.phrase.order": # "Order"
+"general.phrase.other-content": # "Other content"
+"general.phrase.others": # "Others"
+"general.phrase.page": # "Page"
+"general.phrase.path-image-file": # "Path to image file"
+"general.phrase.please-logon": # "Please log on."
+"general.phrase.publish": # "Publish"
+"general.phrase.publish-timed": # "Timed publish"
+"general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
+"general.phrase.records": # "Records"
+"general.phrase.related-content": #
+"general.phrase.rename-foldername": # "Rename %foldername%"
+"general.phrase.required-character-count": # "At least %NUM% characters required"
+"general.phrase.required-is-bang": # "Is required!"
+"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
+"general.phrase.save-and-create-new-record": # "Save & create new record"
+"general.phrase.saving-ellipsis": # "Saving …"
+"general.phrase.search-ellipsis": # "Search …"
+"general.phrase.search-for-ellipsis": # "Search for …"
+"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
+"general.phrase.select-file": # "Select file …"
+"general.phrase.selection": # "Selection"
+"general.phrase.show-proposed-alterations": # "Show proposed alterations"
+"general.phrase.slug-colon": # "Slug:"
+"general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.stack": # "Stack"
+"general.phrase.stack-empty": # "There are no items on the Stack, yet."
+"general.phrase.status-default": # "Default status"
+"general.phrase.system-config-checks": # "System Configuration Checks"
+"general.phrase.taxonomy": # "Taxonomy"
+"general.phrase.template-detail": # "Detail template"
+"general.phrase.thumbnail": # "Thumbnail"
+"general.phrase.time-format-24-12": # "Time in 24h/12h format"
+"general.phrase.toggle-all": # "Check/Uncheck all"
+"general.phrase.upload-file-to-directory": # "Upload a file to this folder"
+"general.phrase.upload-not-allowed": # "Upload not allowed"
+"general.phrase.used-libraries": # "Used Libraries / Components"
+"general.phrase.users-none-create-first": # "There are no users in the database. Please create the first user."
+"general.phrase.users-none-create-first-extended": # "There are no users present in the system. Please create the first user, which will be granted root privileges."
+"general.phrase.users-permissions": # "Users & Permissions"
+"general.phrase.value-maximum-variable": # "The value must not be greater than “%MAXVAL%”!"
+"general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
+"general.phrase.view-edit-templates": # "View/edit Templates"
+"general.phrase.view-related": # "View related content"
+"general.phrase.view-roles": # "View Roles"
+"general.phrase.warning": # "Warning"
+"general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
+"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"general.phrase.warning-unfinished-changes-loss": # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "general.visit-bolt": # "Visit Bolt.cm"
 "generic.noscript.headline": # "JavaScript disabled"
 "generic.noscript.message": # "JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data."
+"logs.change-log.cleared": # "The change log has been cleared."
+"logs.change-log.not-found": # "The requested changelog entry doesn't exist."
+"logs.change-log.trimmed": # "The change log has been trimmed."
 "logs.system-log": # "System Log"
+"logs.system-log.cleared": # "The system log has been cleared."
+"logs.system-log.trimmed": # "The system log has been trimmed."
 "menu.configuration.routing": # "Routing set up"
+"page.checks.run-all": # "Run all checks"
+"page.checks.run-directory-checks": # "Run directory checks"
+"page.checks.run-email-checks": # "Run email checks"
+"page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.ckeditor-browse-server.files": # "Files"
 "page.ckeditor-browse-server.size": # "Filesize"
 "page.ckeditor-browse-server.title": # "Files"
@@ -349,6 +337,8 @@
 "page.extend.button.update-check": # "Run update check"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -387,6 +377,7 @@
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
@@ -394,6 +385,15 @@
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-folder": # "Create folder"
+"page.file-management.message.create-file": # "Please enter a new file name!"
+"page.file-management.message.create-folder": # "Please enter a new folder name!"
+"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.login.button.back": # "Back to login"
 "page.login.button.forgot-password": # "I forgot my password …"
 "page.login.button.log-on": # "Log on"
@@ -415,183 +415,35 @@
 "panel.latest-activity.system": # "Latest system activity"
 "panel.latest-activity.unknown": # "unknown"
 "panel.user-actions.button.add": # "Add a new user"
+"permissions.roles.description.anonymous": # "Built-in role, automatically granted at all times, even if no user is logged in"
+"permissions.roles.description.everyone": # "Built-in role, automatically granted to every registered user"
+"permissions.roles.description.owner": # "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
+"permissions.roles.description.root": # "Built-in superuser role, automatically grants all permissions"
 
-#--- 167 translations ---------------------------------------------------------
+#--- 20 translations ----------------------------------------------------------
 
-"%name% № %id%": "%name% # %id%"
 "(default template)": "(standardní šablona)"
 "(no category)": "(χωρίς κατηγορία)"
 "(no group)": "(χωρίς ομάδα)"
-"A password reset link has been sent to '%user%'.": "Σύνδεσμος για καινούριο κωδικό πρόσβασης στάλθηκε στον '%user%'."
-"Actions": "Ενέργεις"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
-"All content types": "Ολοι οι τύποι"
-"All users": "Όλοι οι χρήστες"
-"Anonymous": "Ανώνυμος"
 "Are you sure you want to delete %username%?": "Είστε σίγουροι ότι θέλετε να διαγραφεί ο/η %username%?"
-"Author:": "Συγγραφέας:"
-"Bolt - Fatal error.": "Bolt - Μοιραίο λάθος."
-"Cancel": "Ακύρο"
 "Categories": "Κατηγορίες"
 "Category": "Κατηγορία"
-"Change Log": "Αρχείο αλλαγών"
-"Change status to 'draft'": "Αλλαγή κατάστασης σε 'draft'"
-"Change status to 'held'": "Αλλαγή κατάστασης σε 'held'"
-"Check again": "Έλεγχος ξανά"
-"Check database": "Έλεγχος βάσης δεδομένων"
 "Choose an entry": "Επιλογή Καταχώρησης"
-"Class:": "Κλάση:"
-"Clear cache again": "Καθαρισμός cache ξανα"
-"Clear filter": "Καθαρισμός φίλτρου"
-"Clear sort/filter": "Καθαρισμός ταξινόμησης/φίλτρου"
-"Clear the cache": "Καθαρισμός cache"
-"Click to change current status.": "Αλλαγή κατάστασης."
-"Code:": "Κώδικας:"
-"Configuration": "Παραμετροποίηση"
 "Content": "Περιεχόμενο"
-"Content '%title%' could not be modified.": "Το '%title%' δεν μπορει να αλλαχτεί."
-"Create the first user": "Δημιουργία του πρώτου χρήστη"
-"Created on:": "Δημιουργήθηκε στις:"
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
-"Current sessions": "Τρέχων sessions"
-"Current status:": "Τρέχουσα κατάσταση:"
-"Database check / update": "Έλεγχος / ανανέωση Βάσης Δεδομένων"
-"Delete %filename%": "Διαγραφή %filename%"
-"Delete %username%": "Διαγραφή %username%"
-"Depublication date:": "Ημερομηνία αντιγραφής:"
-"Deselect all": "Αποεπιλογή όλων"
-"Disable %username%": "Απενεργοποίηση %username%"
-"Done!": "Τέλος!"
-"Draft": "Προσχέδιο"
-"Duplicate %filename%": "Αντιγραφή %filename%"
-"Edit": "Επεξεργασία"
-"Edit file": "Επεξερφασία αρχείου"
-"Enable %username%": "Ενεργοποίηση %username%"
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
-"Extensions": "Επεκτάσεις"
-"File '%file%' was uploaded successfully.": "Το αρχείο '%file%' φορτώθηκε με επιτυχία."
-"File '%s' could not be saved, for some reason.": "Το αρχέιο '%s' δεν μπορεί να αποθηκευτεί για κάποιο λόγο."
-"File '%s' could not be saved:": "Το αρχείο '%s' δεν μπορεί να αποθηκευτεί:"
-"File '%s' has been saved.": "Το αρχείο '%s' αποθηκεύτηκε."
-"File Management": "Διαχείριση Αρχείων"
-"File is not readable!": "Το αρχείο δεν μπορεί να διαβαστεί!"
-"Files": "Αρχεία"
-"Files in %s": "Αρχεία στο %s"
-"Files on the stack": "Αρχεία στο stack"
-"Filesize": "Μέγεθος αρχείου"
-"Fill the database with Dummy Content": "Γέμισε την Βάση Δεδομένων με Χαζό Περιεχόμενο"
-"Filter": "Φίλτρο"
-"Folder '%s' could not be found, or is not readable.": "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."
-"Folders": "Κατάλογοι"
-"Global Permissions": "Καθολικά Δικαιώματα"
-"IP address": "Διεύθυνση IP"
 "Image": "Εικόνα"
-"Info": "Πληροφορίες"
-"Last edited on:": "Τελευταία τροποποίηση στις:"
-"Last known IP": "Τελευταία γνωστή IP"
-"Last seen": "Τελευταία προβλήθηκε"
-"Login": "Σύνδεση"
-"Logout": "Αποσύνδεση"
-"Long messages": "Μακρύ μηνύματα"
-"Maintenance": "Συντήρηση"
-"Menu setup": "Επεξεργασία Menu"
-"Message:": "Μήνυμα:"
-"Messages": "Μηνύματα"
-"Meta information": "Meta πληροφορίες"
-"Modifications made to the database:": "Αλλαγές στην Βάση Δεδομένων:"
-"Modifications needed:": "Αλλαγές που χρειάστηκαν:"
-"Modified": "Τροποποιήθηκε"
-"No results found for '%SEARCHTERM%'. Please try another search.": "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
-"No such action for user '%s'.": "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
-"None": "Κανένα"
-"Not published": "Μη δημοσιευμένο"
-"Options": "Επιλογές"
-"Order: %sort%": "Σειρά: %sort%"
-"Overview": "Σύνοψη"
-"Overview for": "Σύνοψη για"
-"Owner": "Ιδιοκτήτης"
-"Owner:": "Ιδιοκτήτης:"
-"Password reset successful! You can now log on with the password that was sent to you via email.": "Επιτυχής επαναφορά κωδικού. Μπορείτε τώρα να συνδεθείτε με τον κωδικό που απεστάλη στο email σας."
-"Path": "Διαδρομή"
-"Path:": "Διαδρομή:"
-"Permalink": "Μόνιμος Συνδεσμος"
-"Permissions": "Δικαιώματα"
-"Place on stack": "Καταχώρηση στο Stack"
-"Please choose the record you want to link to:": "Επιλέξτε την εγγραφή που θέλετε να συνδέσετε πρός:"
-"Please provide a username": "Παρακαλώ καταχωρήστε ένα όνομα χρήστη"
-"Preview": "Προεπισκόπηση"
-"Profile": "Προφίλ"
-"Provided by:": "Παρέχεται απο:"
-"Publication date:": "Ημερομηνία δημοσίευσης:"
-"Published": "Δημοσιεύτηκε"
-"Published on:": "Δημοσιεύτηκε στις:"
-"Read more": "Διαβάστε περισσότερα"
-"Related content": "Σχετικό περιεχόμενο"
-"Relationships": "Σχέσεις"
-"Roles": "Ρόλοι"
-"Roles and Permissions": "Ρόλοι και Δικαιώματα"
-"Save & return to overview": "Αποθήκευση κι Επιστροφή στην σύνοψη"
-"Saved on:": "Αποθήκευση στις:"
-"Search": "Αναζήτηση"
-"Select": "Επιλογή"
 "Select a page": "Επιλογή σελίδας"
-"Select all": "Επιλογή όλων"
-"Select none": "Επιλογή κανενός"
 "Select zero or more pages": "Επιλεξτε μηδέν ή περισσότερες σελίδες."
-"Session expires": "Η συνεδρία λήγει."
-"Session resumed.": "Η συνεδρία συνεχίστηκε."
-"Settings": "Ρυθμίσεις"
-"Showing": "Εμφάνιση"
-"Showing %pager_for% %from% - %to% of %count%": "Εμφάνιση %pager_for% %from% - %to% απο %count%"
-"Size": "Μέγεθος"
 "Skipped <tt>%key%</tt> (already has records)": "Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)"
 "Skipped <tt>%key%</tt> (not checked)": "Παράληψη <tt>%key%</tt> (δεν ελέγθηκε)"
-"Something went wrong": "Κάτι πήγε στραβά"
-"Status:": "Κατάσταση:"
-"That user does not exist.": "Ο χρήστης αυτός δεν υπάρχει."
-"Tip:": "Μυστικό:"
 "Title": "Τίτλος"
-"Translations": "Μεταφράσεις"
-"Types": "Τύποι"
-"Update the database": "Ανανέωση της Βασης Δεδομένων"
-"Upload": "Φόρτωση"
-"Upload file": "Φόρτωση αρχείου"
-"Upload image": "Φόρτωση εικόνας"
-"Uploaded files": "Φορτωμένο αρχείο"
-"Uploading to this folder is not allowed.": "Η φόρτωση αρχείου σε αυτον τον κατάλογο δεν επιτρέπετε."
-"User '%s' could not be deleted.": "Ο χρήστης %s δεν μπορεί να διαγραφεί."
-"User '%s' could not be disabled.": "Ο χρήστης %s δεν μπορεί να απενεργοποιηθεί."
-"User '%s' could not be enabled.": "Ο χρήστης %s δεν μπορεί να ενεργοποιηθεί."
-"User '%s' is deleted.": "Ο χρήστης '%s' διαγράφηκε."
-"User '%s' is disabled.": "Ο χρήστης '%s' απενεργοποιήθηκε."
-"User '%s' is enabled.": "Ο χρήστης '%s' ενεργοποιήθηκε."
-"Username": "Όνομα χρήστη"
-"Username or password not correct. Please check your input.": "Όνομα χρήστης ή κωδικός δεν είναι σωστός."
-"Users": "Χρήστες"
-"View on site": "Εμφάνιση στο site"
-"View site": "Εμφάνιση site"
-"Written by <em>%name%</em> on %date%": "Γράφτηκε απο τον <em>%name%</em> στις %date%"
-"You do not have the right privileges to edit that record.": "Δεν έχετε τα κατάλληλα δικαιώματα για να επεξεργαστείτε αυτην την εγγραφή."
-"You do not have the right privileges to view that page.": "Δεν έχετε τα κατάλληλα δικαιώματα για την εμφάνιση αυτής τις εγγραφής."
-"You have been logged out.": "Αποσυνδεθήκατα."
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
-"Your account is disabled. Sorry about that.": "Ο λογαριασμός σας απενεργοποιήθηκε."
-"and edited": "και επεξεργάστηκε"
-"back to editing": "πίσω στην επεξεργασία"
-"by": "απο"
-"line": "σειρά"
-"none": "κανένα"
-"of": "απο"
-"show all": "εμφάνιση όλων"
 
-#--- 43 keyword based translations --------------------------------------------
-
-component.changelog-detail.by: "απο"
-component.changelog-detail.field: "πεδίο"
-component.changelog-detail.value-new: "νέα τιμή"
-component.changelog-detail.value-old: "παλιά τιμή"
+#--- 186 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ενέργειες για %contenttypes%"
 contenttypes.generic.actions-one: "Ενέργεις για %contenttype%"
@@ -623,9 +475,148 @@ general.about: "Σχετικά"
 
 general.about-bolt: "Σχετικά με το Bolt"
 
+general.access-control.reset-successful: "Επιτυχής επαναφορά κωδικού. Μπορείτε τώρα να συνδεθείτε με τον κωδικό που απεστάλη στο email σας."
+
+general.access-denied.content-not-modified: "Το '%title%' δεν μπορει να αλλαχτεί."
+
+general.bolt-fatal-error: "Bolt - Μοιραίο λάθος."
+
 general.bolt-on-github: "Bolt στο Github"
 
+general.phrase.access-denied-logged-out: "Αποσυνδεθήκατα."
+general.phrase.access-denied-privilege-edit-record: "Δεν έχετε τα κατάλληλα δικαιώματα για να επεξεργαστείτε αυτην την εγγραφή."
+general.phrase.access-denied-privilege-view-page: "Δεν έχετε τα κατάλληλα δικαιώματα για την εμφάνιση αυτής τις εγγραφής."
+general.phrase.action-plural: "Ενέργεις"
+general.phrase.author-colon: "Συγγραφέας:"
+general.phrase.by: "απο"
+general.phrase.cancel: "Ακύρο"
+general.phrase.change-current-status: "Αλλαγή κατάστασης."
+general.phrase.change-log: "Αρχείο αλλαγών"
+general.phrase.check-again: "Έλεγχος ξανά"
+general.phrase.check-database: "Έλεγχος βάσης δεδομένων"
+general.phrase.choose-record-link-to: "Επιλέξτε την εγγραφή που θέλετε να συνδέσετε πρός:"
+general.phrase.clear-cache: "Καθαρισμός cache"
+general.phrase.clear-cache-again: "Καθαρισμός cache ξανα"
+general.phrase.clear-filter: "Καθαρισμός φίλτρου"
+general.phrase.clear-filter-sort: "Καθαρισμός ταξινόμησης/φίλτρου"
+general.phrase.code-colon: "Κώδικας:"
+general.phrase.configuration: "Παραμετροποίηση"
+general.phrase.create-user-first: "Δημιουργία του πρώτου χρήστη"
+general.phrase.created-on-colon: "Δημιουργήθηκε στις:"
+general.phrase.current-session-plural: "Τρέχων sessions"
+general.phrase.database-check-update: "Έλεγχος / ανανέωση Βάσης Δεδομένων"
+general.phrase.database-prefill-dummy-content: "Γέμισε την Βάση Δεδομένων με Χαζό Περιεχόμενο"
+general.phrase.delete-file-name: "Διαγραφή %filename%"
+general.phrase.delete-user-name: "Διαγραφή %username%"
+general.phrase.depublication-date-colon: "Ημερομηνία αντιγραφής:"
+general.phrase.deselect-all: "Αποεπιλογή όλων"
+general.phrase.disable-user-name: "Απενεργοποίηση %username%"
+general.phrase.done-bang: "Τέλος!"
+general.phrase.draft: "Προσχέδιο"
+general.phrase.duplicate-file-name: "Αντιγραφή %filename%"
+general.phrase.edit: "Επεξεργασία"
+general.phrase.edit-file: "Επεξερφασία αρχείου"
+general.phrase.edited: "και επεξεργάστηκε"
+general.phrase.enable-user-name: "Ενεργοποίηση %username%"
+general.phrase.error-user-name-password-incorrect: "Όνομα χρήστης ή κωδικός δεν είναι σωστός."
+general.phrase.extensions: "Επεκτάσεις"
+general.phrase.field: "πεδίο"
+general.phrase.file-management: "Διαχείριση Αρχείων"
+general.phrase.file-size: "Μέγεθος αρχείου"
+general.phrase.filter: "Φίλτρο"
+general.phrase.folders: "Κατάλογοι"
+general.phrase.general.phrase.uploaded-files: "Φορτωμένο αρχείο"
+general.phrase.global-permissions: "Καθολικά Δικαιώματα"
+general.phrase.info: "Πληροφορίες"
+general.phrase.ip.address: "Διεύθυνση IP"
+general.phrase.last-edited-on-colon: "Τελευταία τροποποίηση στις:"
+general.phrase.last-known-ip: "Τελευταία γνωστή IP"
+general.phrase.last-seen: "Τελευταία προβλήθηκε"
+general.phrase.line: "σειρά"
+general.phrase.login: "Σύνδεση"
+general.phrase.login-account-disabled: "Ο λογαριασμός σας απενεργοποιήθηκε."
+general.phrase.logout: "Αποσύνδεση"
+general.phrase.long-messages: "Μακρύ μηνύματα"
+general.phrase.maintenance: "Συντήρηση"
+general.phrase.menu-setup: "Επεξεργασία Menu"
+general.phrase.message-colon: "Μήνυμα:"
+general.phrase.messages: "Μηνύματα"
+general.phrase.meta-information: "Meta πληροφορίες"
+general.phrase.modifications-database-colon: "Αλλαγές στην Βάση Δεδομένων:"
+general.phrase.modifications-needed-colon: "Αλλαγές που χρειάστηκαν:"
+general.phrase.modified: "Τροποποιήθηκε"
+general.phrase.no-result-for-search-term: "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
+general.phrase.no-such-action-for-user: "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
+general.phrase.none: "Κανένα"
+general.phrase.not-published: "Μη δημοσιευμένο"
+general.phrase.of: "απο"
+general.phrase.options: "Επιλογές"
+general.phrase.order-colon-sort: "Σειρά: %sort%"
+general.phrase.overview: "Σύνοψη"
+general.phrase.overview-for: "Σύνοψη για"
+general.phrase.owner-colon: "Ιδιοκτήτης:"
+general.phrase.pager-showing-from-to-of: "Εμφάνιση %pager_for% %from% - %to% απο %count%"
+general.phrase.path: "Διαδρομή"
+general.phrase.path-colon: "Διαδρομή:"
+general.phrase.permalink: "Μόνιμος Συνδεσμος"
+general.phrase.permissions: "Δικαιώματα"
+general.phrase.please-provide-username: "Παρακαλώ καταχωρήστε ένα όνομα χρήστη"
+general.phrase.preview: "Προεπισκόπηση"
+general.phrase.profile: "Προφίλ"
+general.phrase.provided-by-colon: "Παρέχεται απο:"
+general.phrase.publication-date-colon: "Ημερομηνία δημοσίευσης:"
+general.phrase.published: "Δημοσιεύτηκε"
+general.phrase.published-on-colon: "Δημοσιεύτηκε στις:"
+general.phrase.read-more: "Διαβάστε περισσότερα"
+general.phrase.relationships: "Σχέσεις"
+general.phrase.return-editing: "πίσω στην επεξεργασία"
+general.phrase.roles: "Ρόλοι"
+general.phrase.roles-permissions: "Ρόλοι και Δικαιώματα"
+general.phrase.save-and-return-overview: "Αποθήκευση κι Επιστροφή στην σύνοψη"
+general.phrase.saved-on-colon: "Αποθήκευση στις:"
+general.phrase.search: "Αναζήτηση"
+general.phrase.select: "Επιλογή"
+general.phrase.select-all: "Επιλογή όλων"
+general.phrase.select-none: "Επιλογή κανενός"
+general.phrase.session-expires: "Η συνεδρία λήγει."
+general.phrase.session-resumed-colon: "Η συνεδρία συνεχίστηκε."
+general.phrase.settings: "Ρυθμίσεις"
+general.phrase.show-all: "εμφάνιση όλων"
+general.phrase.showing: "Εμφάνιση"
+general.phrase.size: "Μέγεθος"
+general.phrase.something-went-wrong: "Κάτι πήγε στραβά"
+general.phrase.stack-add: "Καταχώρηση στο Stack"
+general.phrase.stack-files: "Αρχεία στο stack"
+general.phrase.status-change-draft: "Αλλαγή κατάστασης σε 'draft'"
+general.phrase.status-change-held: "Αλλαγή κατάστασης σε 'held'"
+general.phrase.status-colon: "Κατάσταση:"
+general.phrase.status-current-colon: "Τρέχουσα κατάσταση:"
+general.phrase.stay-classy-colon: "Κλάση:"
+general.phrase.tip-colon: "Μυστικό:"
+general.phrase.translations: "Μεταφράσεις"
+general.phrase.types: "Τύποι"
+general.phrase.update-database: "Ανανέωση της Βασης Δεδομένων"
+general.phrase.upload: "Φόρτωση"
+general.phrase.upload-file: "Φόρτωση αρχείου"
+general.phrase.upload-image: "Φόρτωση εικόνας"
+general.phrase.user-deleted: "Ο χρήστης '%s' διαγράφηκε."
+general.phrase.user-disabled: "Ο χρήστης '%s' απενεργοποιήθηκε."
+general.phrase.user-enabled: "Ο χρήστης '%s' ενεργοποιήθηκε."
+general.phrase.user-failed-delete: "Ο χρήστης %s δεν μπορεί να διαγραφεί."
+general.phrase.user-failed-disabled: "Ο χρήστης %s δεν μπορεί να απενεργοποιηθεί."
+general.phrase.user-failed-enable: "Ο χρήστης %s δεν μπορεί να ενεργοποιηθεί."
+general.phrase.user-name: "Όνομα χρήστη"
+general.phrase.user-not-exist: "Ο χρήστης αυτός δεν υπάρχει."
+general.phrase.users: "Χρήστες"
+general.phrase.users.all: "Όλοι οι χρήστες"
+general.phrase.value-new: "νέα τιμή"
+general.phrase.value-old: "παλιά τιμή"
+general.phrase.view-on-site: "Εμφάνιση στο site"
+general.phrase.view-site: "Εμφάνιση site"
+general.phrase.written-by-on: "Γράφτηκε απο τον <em>%name%</em> στις %date%"
+
 logs.change-log: "Αρχείο αλλαγών"
+logs.change-log.contenttypes.all: "Ολοι οι τύποι"
 
 page.ckeditor-browse-server.folders: "Κατάλογοι"
 page.ckeditor-browse-server.modified: "Τροποποιήθηκε"
@@ -642,7 +633,22 @@ page.edit-users.title.profile: "Προφίλ"
 page.extend.listheader.actions: "Ενέργεις"
 page.extend.message.maintenance: "Συντήρηση"
 
+page.file-management.message.access-denied: "Η φόρτωση αρχείου σε αυτον τον κατάλογο δεν επιτρέπετε."
+page.file-management.message.file-not-readable: "Το αρχείο δεν μπορεί να διαβαστεί!"
+page.file-management.message.files-in: "Αρχεία στο %s"
+page.file-management.message.folder-not-found: "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."
+page.file-management.message.save-failed-colon: "Το αρχείο '%s' δεν μπορεί να αποθηκευτεί:"
+page.file-management.message.save-failed-unknown: "Το αρχέιο '%s' δεν μπορεί να αποθηκευτεί για κάποιο λόγο."
+page.file-management.message.save-success: "Το αρχείο '%s' αποθηκεύτηκε."
+page.file-management.message.upload-success: "Το αρχείο '%file%' φορτώθηκε με επιτυχία."
+page.file-management.title: "Αρχεία"
+
+page.login.password-reset-link-sent: "Σύνδεσμος για καινούριο κωδικό πρόσβασης στάλθηκε στον '%user%'."
+
 panel.latest-activity.by: "απο"
+
+permissions.roles.label.anonymous: "Ανώνυμος"
+permissions.roles.label.owner: "Ιδιοκτήτης"
 
 users.actions-for-users: "Ενέργεις για Χρήστες"
 

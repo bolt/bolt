@@ -23,16 +23,16 @@
 
 {% block page_main %}
     {% set status_names = {
-        'published': __('Published'),
-        'held':      __('Not published'),
-        'timed':     __('Timed publish'),
-        'draft':     __('Draft')
+        'published': __('general.phrase.published'),
+        'held':      __('general.phrase.not-published'),
+        'timed':     __('general.phrase.publish-timed'),
+        'draft':     __('general.phrase.draft')
     } %}
 
     {% set dateChanged %}{{ buic_moment(context.content.datechanged) }}{% endset %}
 
     {% set bind_data = {
-        savedon:        __('Saved on:') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
+        savedon:        __('general.phrase.saved-on-colon') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
         newRecord:      context.content.id != 0 ? false : true,
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
         hasGroups:      context.has.tabs,

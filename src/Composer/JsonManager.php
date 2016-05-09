@@ -61,7 +61,7 @@ class JsonManager
             try {
                 $this->init('extensions://composer.json');
             } catch (IOException $e) {
-                $this->messages[] = Trans::__("The Bolt extensions composer.json isn't readable.");
+                $this->messages[] = Trans::__('page.extend.error-composer-json-not-readable');
 
                 $this->app['extend.writeable'] = false;
                 $this->app['extend.online'] = false;
@@ -85,7 +85,7 @@ class JsonManager
             try {
                 $jsonFile->dump($json);
             } catch (IOException $e) {
-                $this->messages[] = Trans::__("The Bolt extensions composer.json isn't writable.");
+                $this->messages[] = Trans::__('page.extend.error-composer-json-not-writable');
             }
         }
 

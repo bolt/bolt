@@ -204,20 +204,20 @@ class Stack
 
             $thisitem['info'] = sprintf(
                 '%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>',
-                Trans::__('Path'),
+                Trans::__('general.phrase.path'),
                 $thisitem['filepath'],
-                Trans::__('Filesize'),
+                Trans::__('general.phrase.file-size'),
                 $thisitem['filesize'],
-                Trans::__('Modified'),
+                Trans::__('general.phrase.modified'),
                 $thisitem['modified'],
-                Trans::__('Permissions'),
+                Trans::__('general.phrase.permissions'),
                 $thisitem['permissions']
             );
 
             if ($type == 'image') {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf('%s × %s', $size[0], $size[1]);
-                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('Size'), $size[0], $size[1]);
+                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('general.phrase.size'), $size[0], $size[1]);
             }
 
             //add it to our list.

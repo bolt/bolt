@@ -209,7 +209,7 @@ class Users extends BackendBase
     public function modify($action, $id)
     {
         if (!$this->isCsrfTokenValid()) {
-            $this->flashes()->error(Trans::__('Something went wrong'));
+            $this->flashes()->error(Trans::__('general.phrase.something-went-wrong'));
 
             return $this->redirectToRoute('users');
         }
@@ -223,14 +223,14 @@ class Users extends BackendBase
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
         if ($currentuser->getId() == $user->getId()) {
-            $this->flashes()->error(Trans::__("You cannot '%s' yourself.", ['%s', $action]));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-self-action', ['%s', $action]));
 
             return $this->redirectToRoute('users');
         }
 
         // Verify the current user has access to edit this user
         if (!$this->app['permissions']->isAllowedToManipulate($user->toArray(), $currentuser->toArray())) {
-            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-edit-user'));
 
             return $this->redirectToRoute('users');
         }
@@ -240,32 +240,32 @@ class Users extends BackendBase
                 if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
 
-                    $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-disabled', ['%s' => $user->getDisplayname()]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be disabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-failed-disabled', ['%s' => $user->getDisplayname()]));
                 }
                 break;
 
             case 'enable':
                 if ($this->users()->setEnabled($id, true)) {
                     $this->app['logger.system']->info("Enabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
-                    $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-enabled', ['%s' => $user->getDisplayname()]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be enabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-failed-enable', ['%s' => $user->getDisplayname()]));
                 }
                 break;
 
             case 'delete':
                 if ($this->isCsrfTokenValid() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
-                    $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-deleted', ['%s' => $user->getDisplayname()]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be deleted.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-failed-delete', ['%s' => $user->getDisplayname()]));
                 }
                 break;
 
             default:
-                $this->flashes()->error(Trans::__("No such action for user '%s'.", ['%s' => $user->getDisplayname()]));
+                $this->flashes()->error(Trans::__('general.phrase.no-such-action-for-user', ['%s' => $user->getDisplayname()]));
 
         }
 
@@ -365,7 +365,7 @@ class Users extends BackendBase
         $token = $this->session()->get('authentication');
         if ($login && $token) {
             $this->flashes()->clear();
-            $this->flashes()->success(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
+            $this->flashes()->success(Trans::__('general.bolt-welcome-new-site', ['%USER%' => $userEntity->getDisplayname()]));
 
             $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
 
@@ -373,9 +373,9 @@ class Users extends BackendBase
         }
 
         if (!$token) {
-            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+            $this->flashes()->error(Trans::__('general.phrase.error-session-data-login'));
         } else {
-            $this->flashes()->error(Trans::__('Something went wrong with logging in after first user creation!'));
+            $this->flashes()->error(Trans::__('general.phrase.something-went-wrong-after-first-user'));
         }
 
         return false;
@@ -472,7 +472,7 @@ class Users extends BackendBase
         if (empty($id)) {
             return new Entity\Users();
         } elseif (!$userEntity = $this->getUser($id)) {
-            $this->flashes()->error(Trans::__('That user does not exist.'));
+            $this->flashes()->error(Trans::__('general.phrase.user-not-exist'));
 
             return false;
         }
@@ -480,7 +480,7 @@ class Users extends BackendBase
         $currentUser = $this->getUser();
         if (!$this->app['permissions']->isAllowedToManipulate($userEntity->toArray(), $currentUser->toArray())) {
             // Verify the current user has access to edit this user
-            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-edit-user'));
 
             return false;
         }
@@ -711,7 +711,7 @@ class Users extends BackendBase
             $email = $this->getOption('general/mailoptions/senderMail', $email);
             $message = $this->app['mailer']
                 ->createMessage('message')
-                ->setSubject(Trans::__('New Bolt site has been set up'))
+                ->setSubject(Trans::__('general.bolt-new-site-set-up'))
                 ->setFrom($from)
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])

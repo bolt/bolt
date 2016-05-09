@@ -104,7 +104,7 @@ class Modify
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
         if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
-            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
             return;
         }
@@ -144,7 +144,7 @@ class Modify
         $contentTypeName = (string) $entity->getContenttype();
         $canModify = $this->users->isAllowed("contenttype:$contentTypeName:edit:$recordId");
         if (!$canModify) {
-            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
             return;
         }
@@ -163,7 +163,7 @@ class Modify
         $contentTypeName = (string) $entity->getContenttype();
         $canTransition = $this->users->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
         if (!$canTransition) {
-            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
             return;
         }
@@ -183,7 +183,7 @@ class Modify
         $contentTypeName = (string) $entity->getContenttype();
         $canChangeOwner = $this->users->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
         if (!$canChangeOwner) {
-            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
             return;
         }

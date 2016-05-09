@@ -7,19 +7,19 @@
 
 {% block page_nav 'Settings/FileManagement' %}
 
-{% block page_title __('Files') %}
+{% block page_title __('page.file-management.title') %}
 {% block page_subtitle context.namespace ~ '/' ~ context.pathsegments|keys|last %}
 
 {% block page_main %}
 
-    {{ data('files.msg.create_folder', __('Please enter a new folder name!')) }}
-    {{ data('files.msg.create_file', __('Please enter a new file name!')) }}
+    {{ data('files.msg.create_folder', __('page.file-management.message.create-folder')) }}
+    {{ data('files.msg.create_file', __('page.file-management.message.create-file')) }}
     {% if context.directories|length > 0 %}
-        {{ data('files.msg.rename_folder', __('Please enter a new folder name!')) }}
+        {{ data('files.msg.rename_folder', __('page.file-management.message.create-folder')) }}
         {{ data('files.msg.delete_folder', __('Do you really want to delete %FOLDERNAME%?')) }}
     {% endif %}
     {% if context.files|length > 0 %}
-        {{ data('files.msg.rename_file', __('Please enter a new file name!')) }}
+        {{ data('files.msg.rename_file', __('page.file-management.message.create-file')) }}
         {{ data('files.msg.delete_file', __('Are you sure you want to delete %FILENAME%?')) }}
     {% endif %}
 
@@ -40,14 +40,14 @@
                                                     '{{ context.pathsegments|keys|last }}',
                                                     this);">
                     <i class="fa fa-fw fa-plus"></i>
-                    {{ __('Create File') }}
+                    {{ __('page.file-management.label.create-file') }}
                 </a>
                 <a href="#" class="btn btn-default"
                    data-action="Bolt.files.createFolder('{{ context.namespace }}',
                                                     '{{ context.pathsegments|keys|last }}',
                                                     this);">
                     <i class="fa fa-fw fa-plus"></i>
-                    {{ __('Create folder') }}
+                    {{ __('page.file-management.label.create-folder') }}
                 </a>
             </p>
 
@@ -59,7 +59,7 @@
             {% if context.form != false %}
                 {{ include('@bolt/files/_upload.twig') }}
             {% else %}
-                <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
+                <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('page.file-management.message.access-denied') }}</p>
             {% endif %}
 
             {{ widgets('files_bottom', 'backend') }}

@@ -99,7 +99,7 @@ class Login extends AccessChecker
         $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
         if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
             $this->systemLogger->alert("Attempt to login to an account with empty password field: '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
 
             return $this->loginFailed($userEntity);
@@ -107,7 +107,7 @@ class Login extends AccessChecker
 
         if ((bool) $userEntity->getEnabled() === false) {
             $this->systemLogger->alert("Attempt to login to a disabled account: '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
 
             return $this->loginFailed($userEntity);
@@ -146,7 +146,7 @@ class Login extends AccessChecker
     protected function loginCheckAuthtoken($authCookie, AccessControlEvent $event)
     {
         if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
-            $this->flashLogger->error(Trans::__('Invalid login parameters.'));
+            $this->flashLogger->error(Trans::__('general.phrase.error-login-invalid-parameters'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
             return false;
@@ -164,7 +164,7 @@ class Login extends AccessChecker
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
             $this->repositoryAuthtoken->save($userTokenEntity);
-            $this->flashLogger->success(Trans::__('Session resumed.'));
+            $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
             return $this->loginFinish($userEntity);
@@ -186,14 +186,14 @@ class Login extends AccessChecker
     protected function getUserEntity($userName)
     {
         if (!$userEntity = $this->repositoryUsers->getUser($userName)) {
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
 
             return null;
         }
 
         if (!$userEntity->getEnabled()) {
             $this->systemLogger->alert("Attempt to login with disabled account by '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
 
             return null;
         }
@@ -232,7 +232,7 @@ class Login extends AccessChecker
      */
     protected function loginFailed(Entity\Users $userEntity)
     {
-        $this->flashLogger->error(Trans::__('Username or password not correct. Please check your input.'));
+        $this->flashLogger->error(Trans::__('general.phrase.error-user-name-password-incorrect'));
         $this->systemLogger->info("Failed login attempt for '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
 
         // Update the failed login attempts, and perhaps throttle the logins.
