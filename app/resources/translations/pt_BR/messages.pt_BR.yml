@@ -48,7 +48,7 @@ general.phrase.edit-role-permissions: #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-"Extras": #
+general.phrase.extras: #
 "Failed to clear cache. You should delete it manually.": #
 "Failed to send password request. Please check the email settings.": #
 "Field “%FIELD_NAME%”:": #
