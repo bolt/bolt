@@ -1,6 +1,5 @@
 <?php
 
-use Codeception\Util\Fixtures;
 use Codeception\Util\Locator;
 
 /**
@@ -8,32 +7,8 @@ use Codeception\Util\Locator;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BackendEditorCest
+class BackendEditorCest extends AbstractAcceptanceTest
 {
-    /** @var array */
-    protected $user;
-    /** @var array */
-    protected $tokenNames;
-
-    /** @var array */
-    private $cookies = [];
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _before(\AcceptanceTester $I)
-    {
-        $this->user = Fixtures::get('users');
-        $this->tokenNames = Fixtures::get('tokenNames');
-    }
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _after(\AcceptanceTester $I)
-    {
-    }
-
     /**
      * Login as the editor user.
      *
@@ -44,8 +19,7 @@ class BackendEditorCest
         $I->wantTo("Login as 'editor' user");
 
         $I->loginAs($this->user['editor']);
-        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
-        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
+        $this->saveLogin($I);
 
         $I->see('Dashboard');
     }
@@ -60,8 +34,7 @@ class BackendEditorCest
         $I->wantTo('make sure the page editor user can only see certain menus');
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt');
 
         $I->see('View Pages');
@@ -94,8 +67,7 @@ class BackendEditorCest
         $I->wantTo("Create and edit Pages as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt');
 
         $I->see('New Page');
@@ -122,13 +94,12 @@ class BackendEditorCest
      *
      * @param \AcceptanceTester $I
      */
-    public function checkCreateRecordsEventTest(\AcceptanceTester $I, \Codeception\Scenario $scenario)
+    public function checkCreateRecordsEventTest(\AcceptanceTester $I)
     {
         $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create');
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A PAGE I MADE');
@@ -146,8 +117,7 @@ class BackendEditorCest
         $I->wantTo("be denied permission to publish Pages as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->see('Actions for this Page');
@@ -172,13 +142,12 @@ class BackendEditorCest
      *
      * @param \AcceptanceTester $I
      */
-    public function checkSaveRecordsEventTest(\AcceptanceTester $I, \Codeception\Scenario $scenario)
+    public function checkSaveRecordsEventTest(\AcceptanceTester $I)
     {
         $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save');
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A Page I Made');
@@ -196,8 +165,7 @@ class BackendEditorCest
         $I->wantTo("be denied permission to edit Entries as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt/editcontent/entries/');
 
         $I->see('You do not have the right privileges');
@@ -213,8 +181,7 @@ class BackendEditorCest
         $I->wantTo("Create an 'About' page as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt');
 
         $I->see('New Page');
@@ -242,13 +209,12 @@ class BackendEditorCest
      *
      * @param \AcceptanceTester $I
      */
-    public function checkTemplateFieldsTest(\AcceptanceTester $I, \Codeception\Scenario $scenario)
+    public function checkTemplateFieldsTest(\AcceptanceTester $I)
     {
         $I->wantTo('Create a contact page with templatefields');
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt');
 
         $I->see('New Page');

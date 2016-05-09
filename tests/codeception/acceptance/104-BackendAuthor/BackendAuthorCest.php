@@ -1,38 +1,13 @@
 <?php
 
-use Codeception\Util\Fixtures;
 
 /**
  * Backend 'author' tests
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BackendAuthorCest
+class BackendAuthorCest extends AbstractAcceptanceTest
 {
-    /** @var array */
-    protected $user;
-    /** @var array */
-    protected $tokenNames;
-
-    /** @var array */
-    private $cookies = [];
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _before(\AcceptanceTester $I)
-    {
-        $this->user = Fixtures::get('users');
-        $this->tokenNames = Fixtures::get('tokenNames');
-    }
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _after(\AcceptanceTester $I)
-    {
-    }
-
     /**
      * Login as the author user.
      *
@@ -43,8 +18,7 @@ class BackendAuthorCest
         $I->wantTo("Login as 'author' user");
 
         $I->loginAs($this->user['author']);
-        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
-        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
+        $this->saveLogin($I);
 
         $I->see('Dashboard');
     }
@@ -59,8 +33,7 @@ class BackendAuthorCest
         $I->wantTo("Edit the 'About' page as the 'author' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt');
 
         $I->see('Edit', 'a');
@@ -81,8 +54,7 @@ class BackendAuthorCest
         $I->wantTo("Search for the 'About' page as the 'author' user");
 
         // Set up the browser
-        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
-        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $this->setLoginCookies($I);
         $I->amOnPage('/bolt/omnisearch');
 
         $I->fillField('.col-md-8 .form-control', 'About');

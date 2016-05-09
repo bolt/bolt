@@ -83,7 +83,7 @@ class FrontendCest
      *
      * @param \AcceptanceTester $I
      */
-    public function checkContactPageTest(\AcceptanceTester $I, \Codeception\Scenario $scenario)
+    public function checkContactPageTest(\AcceptanceTester $I)
     {
         $I->wantTo('see that the contact page and templatefields works');
 

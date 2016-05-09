@@ -1,6 +1,5 @@
 <?php
 
-use Codeception\Util\Fixtures;
 use Codeception\Util\Locator;
 
 /**
@@ -8,32 +7,8 @@ use Codeception\Util\Locator;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BackendAdminLoginWithEmailCest
+class BackendAdminLoginWithEmailCest extends AbstractAcceptanceTest
 {
-    /** @var array */
-    protected $user;
-    /** @var array */
-    protected $tokenNames;
-
-    /** @var array */
-    private $cookies = [];
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _before(\AcceptanceTester $I)
-    {
-        $this->user = Fixtures::get('users');
-        $this->tokenNames = Fixtures::get('tokenNames');
-    }
-
-    /**
-     * @param \AcceptanceTester $I
-     */
-    public function _after(\AcceptanceTester $I)
-    {
-    }
-
     /**
      * Login the admin user using his email
      *
@@ -44,11 +19,10 @@ class BackendAdminLoginWithEmailCest
         $I->wantTo('log into the backend as Admin with email');
 
         $I->loginWithEmailAs($this->user['admin']);
-
-        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
-        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
+        $this->saveLogin($I);
 
         $I->see('Dashboard');
+
         $I->see('Configuration', Locator::href('/bolt/users'));
         $I->see("You've been logged on successfully.");
     }
