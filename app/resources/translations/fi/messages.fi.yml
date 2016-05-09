@@ -173,7 +173,7 @@ general.phrase.add-selected: #
 "(no category)": "(ei kategoriaa)"
 "(no group)": "(ei ryhmää)"
 "(none)": "(ei mitään)"
-"A password reset link has been sent to '%user%'.": "Salasanan palautuslinkki lähetettiin käyttäjälle '%user%'."
+page.login.password-reset-link-sent: "Salasanan palautuslinkki lähetettiin käyttäjälle '%user%'."
 general.phrase.action-plural: "Toiminnot"
 "Add a brief, optional comment to describe what's changed.": "Lisää lyhyt, valinnainen kuvaus muutoksista."
 contenttypes.record.comment-add-colon: "Lisää kommentti:"

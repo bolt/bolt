@@ -125,7 +125,7 @@ class Password
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
             $this->app['logger.flash']->clear();
-            $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
+            $this->app['logger.flash']->info(Trans::__('page.login.password-reset-link-sent', ['%user%' => $username]));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;

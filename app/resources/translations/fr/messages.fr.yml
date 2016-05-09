@@ -31,7 +31,7 @@
 "(no category)": "(aucune catégorie)"
 "(no group)": "(non groupé)"
 "(none)": "(néant)"
-"A password reset link has been sent to '%user%'.": "Un lien pour réinitialiser le mot de passe a été envoyé à '%user%'."
+page.login.password-reset-link-sent: "Un lien pour réinitialiser le mot de passe a été envoyé à '%user%'."
 general.phrase.action-plural: "Actions"
 general.phrase.add-selected: "Ajouter les éléments sélectionnés"
 "Add a brief, optional comment to describe what's changed.": "Facultatif : ajouter un commentaire décrivant la modification"

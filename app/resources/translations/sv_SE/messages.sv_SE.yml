@@ -61,7 +61,7 @@ general.phrase.add-selected: #
 "(no category)": "(ingen kategori)"
 "(no group)": "(ingen grupp)"
 "(none)": "(ingen)"
-"A password reset link has been sent to '%user%'.": "En återställningslänk för lösenord har skickats till '%user%'."
+page.login.password-reset-link-sent: "En återställningslänk för lösenord har skickats till '%user%'."
 general.phrase.action-plural: "Åtgärder"
 "Add a brief, optional comment to describe what's changed.": "Lägg till en kort, valfri kommentar om vad som ändrats."
 contenttypes.record.comment-add-colon: "Lägg till en kommentar:"

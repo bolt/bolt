@@ -88,7 +88,7 @@ general.phrase.add-selected: #
 "(no category)": "(keine Kategorie vergeben)"
 "(no group)": "(keine Gruppe)"
 "(none)": "(nichts)"
-"A password reset link has been sent to '%user%'.": "Ein Link zum Zurücksetzen des Passworts wurde an '%user%' versandt."
+page.login.password-reset-link-sent: "Ein Link zum Zurücksetzen des Passworts wurde an '%user%' versandt."
 general.phrase.action-plural: "Aktionen"
 "Add a brief, optional comment to describe what's changed.": "Optional: Kommentieren Sie kurz, was sich geändert hat."
 contenttypes.record.comment-add-colon: "Einen Kommentar hinzufügen:"

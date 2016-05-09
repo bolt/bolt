@@ -400,7 +400,7 @@ permissions.roles.label.anonymous: #
 #--- 152 translations ---------------------------------------------------------
 
 "(no group)": "(nessun gruppo)"
-"A password reset link has been sent to '%user%'.": "Un link per il reset della password è stato inviato a '%user%'."
+page.login.password-reset-link-sent: "Un link per il reset della password è stato inviato a '%user%'."
 general.phrase.action-plural: "Azioni"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"

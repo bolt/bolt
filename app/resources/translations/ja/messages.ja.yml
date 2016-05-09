@@ -314,7 +314,7 @@ field.image.label.alt: #
 "(default template)": "（デフォルトテンプレート）"
 "(no category)": "（カテゴリなし）"
 "(no group)": "（グループなし）"
-"A password reset link has been sent to '%user%'.": "パスワードリセット用のリンクが '%user%'に送信されました"
+page.login.password-reset-link-sent: "パスワードリセット用のリンクが '%user%'に送信されました"
 general.phrase.action-plural: "操作"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"

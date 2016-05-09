@@ -97,7 +97,7 @@ field.image.label.alt: #
 "(no category)": "(nincs kategória)"
 "(no group)": "(nincs csoport)"
 "(none)": "(nincs)"
-"A password reset link has been sent to '%user%'.": "Jelszó visszaállítási link elküldve a '%user%' felhasználónak."
+page.login.password-reset-link-sent: "Jelszó visszaállítási link elküldve a '%user%' felhasználónak."
 general.phrase.action-plural: "Műveletek"
 "Add a brief, optional comment to describe what's changed.": "Rövid, tetszőleges megjegyzés ami leírja, mi változott."
 contenttypes.record.comment-add-colon: "Megjegyzés hozzáadása:"

@@ -243,7 +243,7 @@ general.phrase.add-selected: #
 "(no category)": "(без категории)"
 "(no group)": "(нет группы)"
 "(none)": "(отсутствует)"
-"A password reset link has been sent to '%user%'.": "Ссылка для сброса пароля была выслана '%user%'."
+page.login.password-reset-link-sent: "Ссылка для сброса пароля была выслана '%user%'."
 general.phrase.action-plural: "Действия"
 "Add a brief, optional comment to describe what's changed.": "Кратко, необязательный комментарий, который описывает что изменилось."
 contenttypes.record.comment-add-colon: "Добавить комментарий:"

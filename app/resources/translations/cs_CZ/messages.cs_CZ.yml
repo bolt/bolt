@@ -105,7 +105,7 @@ permissions.roles.label.anonymous: #
 "(no category)": "(bez kategorie)"
 "(no group)": "(nezařazení do skupiny)"
 "(none)": "(nic)"
-"A password reset link has been sent to '%user%'.": "Odkaz na obnovení hesla byl odeslán '%user%'."
+page.login.password-reset-link-sent: "Odkaz na obnovení hesla byl odeslán '%user%'."
 general.phrase.action-plural: "Nástroje"
 general.phrase.add-selected: "Přidat vybrané"
 "Add a brief, optional comment to describe what's changed.": "Přidat stručný, volitelný komentář k provedeným změnám."

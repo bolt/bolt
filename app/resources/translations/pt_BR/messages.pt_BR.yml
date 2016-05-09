@@ -265,7 +265,7 @@ field.image.label.alt: #
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
-"A password reset link has been sent to '%user%'.": "Um link para redefinir a senha foi enviado para '%user%'."
+page.login.password-reset-link-sent: "Um link para redefinir a senha foi enviado para '%user%'."
 general.phrase.action-plural: "Ações"
 general.phrase.add-selected: "Adicionar selecionados"
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"

@@ -227,7 +227,7 @@ field.image.label.alt: #
 "(no category)": "(沒有分類)"
 "(no group)": "(沒有分組)"
 "(none)": "(無)"
-"A password reset link has been sent to '%user%'.": "密碼重置連結已發送到 '%user%'。"
+page.login.password-reset-link-sent: "密碼重置連結已發送到 '%user%'。"
 general.phrase.action-plural: "操作"
 "Add a brief, optional comment to describe what's changed.": "添加一個可選的簡短註釋描述變更。"
 contenttypes.record.comment-add-colon: "添加註釋："
