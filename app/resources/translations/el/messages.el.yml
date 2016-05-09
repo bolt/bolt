@@ -40,7 +40,7 @@ general.phrase.browswer-platform: #
 permissions.roles.description.anonymous: #
 permissions.roles.description.everyone: #
 permissions.roles.description.owner: #
-"Built-in superuser role, automatically grants all permissions": #
+permissions.roles.description.root: #
 "Check/Uncheck all": #
 "Clear Change Log": #
 "Clear System Log": #

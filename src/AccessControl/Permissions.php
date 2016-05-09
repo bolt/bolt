@@ -85,7 +85,7 @@ class Permissions
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = [
             'label'       => 'Root',
-            'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
+            'description' => Trans::__('permissions.roles.description.root'),
             'builtin'     => true,
         ];
 
