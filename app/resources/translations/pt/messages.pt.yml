@@ -25,7 +25,7 @@ general.phrase.error-mail-options-not-set: #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 page.extend.theme.generation.failure: #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+general.phrase.warning-templatefields-loss: #
 
 #--- 4 untranslated keyword based messages ------------------------------------
 

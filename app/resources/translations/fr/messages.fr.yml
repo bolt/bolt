@@ -391,7 +391,7 @@ general.phrase.access-denied-permissions-edit-file: "Vous n'avez pas les droits 
 general.phrase.access-denied-permissions-view-file-directory: "Vous n'avez pas les droits suffisant pour afficher le contenu de '%s'."
 general.phrase.access-denied-logged-out: "Vous êtes déconnecté."
 general.phrase.warning-unfinished-changes-loss: "Des modifications sont en attente sur cette page. Si vous continuez sans enregistrer, ces modifications seront perdues."
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Vous pourriez perdre les champs personnalisés de modèle suite à ce changement. Nous vous recommandons d'aller dans l'onglet 'Template' et de noter ces valeurs."
+general.phrase.warning-templatefields-loss: "Vous pourriez perdre les champs personnalisés de modèle suite à ce changement. Nous vous recommandons d'aller dans l'onglet 'Template' et de noter ces valeurs."
 "You've been logged on successfully.": "Connexion réussie."
 "Your account is disabled. Sorry about that.": "Votre compte est désactivé. Désolé."
 "Your database is already up to date.": "La base de données est déjà à jour."

@@ -255,7 +255,7 @@ general.phrase.access-denied-permissions-edit-file: #
 general.phrase.access-denied-permissions-view-file-directory: #
 general.phrase.access-denied-logged-out: #
 general.phrase.warning-unfinished-changes-loss: #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+general.phrase.warning-templatefields-loss: #
 "You've been logged on successfully.": #
 general.phrase.return-editing: #
 "filtered by <em>'%filter%'</em>": #

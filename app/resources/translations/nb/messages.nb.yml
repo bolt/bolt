@@ -211,7 +211,7 @@ general.phrase.access-denied-privilege-edit-user: #
 general.phrase.access-denied-permissions-edit-file: #
 general.phrase.access-denied-permissions-view-file-directory: #
 general.phrase.warning-unfinished-changes-loss: #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+general.phrase.warning-templatefields-loss: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #
 general.phrase.no-title: #

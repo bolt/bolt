@@ -466,7 +466,7 @@ general.phrase.access-denied-permissions-edit-file: "Sinulla ei ole tarvittavia 
 general.phrase.access-denied-permissions-view-file-directory: "Sinulla ei ole tarvittavia oikeuksia katsella tiedostoa tai kansiota '%s'."
 general.phrase.access-denied-logged-out: "Olet kirjautunut ulos."
 general.phrase.warning-unfinished-changes-loss: "Sinulla on keskeneräisiä muutoksia sivulla. Jos jatkat tallentamatta, menetä nämä muutokset."
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Voit menettää joitain sivupohjan kenttiä tällä muutoksella. Mene sivupohjaosioon ja kirjaa arvot muistiin ennen kuin teet tämän."
+general.phrase.warning-templatefields-loss: "Voit menettää joitain sivupohjan kenttiä tällä muutoksella. Mene sivupohjaosioon ja kirjaa arvot muistiin ennen kuin teet tämän."
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 "Your account is disabled. Sorry about that.": "Anteeksi, mutta käyttäjätilisi on suljettu."
 "Your database is already up to date.": "Tietokanta on ajantasalla."

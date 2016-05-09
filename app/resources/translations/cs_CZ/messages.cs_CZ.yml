@@ -448,7 +448,7 @@ general.phrase.access-denied-permissions-edit-file: "Nemáte dostatečné opráv
 general.phrase.access-denied-permissions-view-file-directory: "Nemáte dostatečné oprávnění pro zobrazení souboru či složky '%s'."
 general.phrase.access-denied-logged-out: "Byl jste odhlášen/a."
 general.phrase.warning-unfinished-changes-loss: "Strana obsahje neuložené změny. Pokud budete pokračovat bez uložení, přijdete o ně."
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Tato změna může způsobit ztrátu některých polí obsahu šablony. Doporučujeme si předem uložit jejich obsah."
+general.phrase.warning-templatefields-loss: "Tato změna může způsobit ztrátu některých polí obsahu šablony. Doporučujeme si předem uložit jejich obsah."
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "Your account is disabled. Sorry about that.": "Je nám líto, ale Váš účet byl zablokován."
 "Your database is already up to date.": "Vaše databáze je již aktualizována."

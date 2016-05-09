@@ -92,7 +92,7 @@ general.phrase.error-session-data-login: #
 general.phrase.warning: #
 general.bolt-welcome-new-site: #
 general.phrase.warning-unfinished-changes-loss: #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+general.phrase.warning-templatefields-loss: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.or: #
 

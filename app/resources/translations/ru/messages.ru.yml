@@ -146,7 +146,7 @@ general.bolt-welcome-new-site: #
 general.phrase.access-denied-self-action: #
 general.phrase.access-denied-privilege-edit-user: #
 general.phrase.warning-unfinished-changes-loss: #
-"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+general.phrase.warning-templatefields-loss: #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.or: #
