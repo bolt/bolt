@@ -32,7 +32,7 @@
 
                 <form action="{{ path('dbupdate') }}" method="post">
                     <p>
-                        <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('general.phrase.update-database') }}</button>
                         {% if app.debug %}
                             <a href="{{ path('dbcheck', {'debug': 1}) }}" class="btn btn-tertiary">
                                 {{ __('general.phrase.show-proposed-alterations') }}

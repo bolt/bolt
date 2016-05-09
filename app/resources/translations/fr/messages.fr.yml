@@ -353,7 +353,7 @@ page.extend.message.package-install-info-fail: "Impossible d'obtenir des informa
 "Unable to rename directory: %DIR%": "Création du répertoire %DIR% impossible"
 "Unable to rename file: %FILE%": "Impossible de renommer le fichier %FILE%"
 general.phrase.error-session-data-login: "Impossible de reprendre la session. Merci de vérifier la configuration des sessions au niveau du moteur PHP."
-"Update the database": "Mettre à jour la base de données"
+general.phrase.update-database: "Mettre à jour la base de données"
 "Upload": "Envoyer"
 "Upload a file to this folder": "Envoyer un fichier"
 "Upload file": "Envoyer"

@@ -566,7 +566,7 @@ general.phrase.missing-root-jackpot: "Det bør alltid være minst en «root»-br
 general.phrase.tip-colon: "Tips:"
 "Title": "Tittel"
 general.phrase.translations: "Oversettelser"
-"Update the database": "Oppdater databasen"
+general.phrase.update-database: "Oppdater databasen"
 "Upload": "Last opp"
 "Upload file": "Last opp fil"
 "Upload image": "Last opp bilde"

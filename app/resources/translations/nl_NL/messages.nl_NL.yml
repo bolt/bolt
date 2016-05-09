@@ -353,7 +353,7 @@ page.extend.message.package-install-info-fail: "Niet in staat om de installatieg
 "Unable to rename directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
 "Unable to rename file: %FILE%": "De naam van het bestand %FILE% kon niet worden gewijzigd"
 general.phrase.error-session-data-login: "Het ophalen van loginsessiegegevens is mislukt. Controleer de PHP sessie-instellingen van je systeem."
-"Update the database": "Werk de database bij"
+general.phrase.update-database: "Werk de database bij"
 "Upload": "Uploaden"
 "Upload a file to this folder": "Upload een bestand naar deze map"
 "Upload file": "Upload bestand"

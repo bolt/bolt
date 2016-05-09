@@ -412,7 +412,7 @@ page.extend.message.package-install-info-fail: "Nelze získat instalační infor
 "Unable to rename directory: %DIR%": "Nelze přejmenovat složku: %DIR%"
 "Unable to rename file: %FILE%": "Nelze přejmenovat soubor: %FILE%"
 general.phrase.error-session-data-login: "Nelze získat session informace o zalogování. Zkontrolujte prosím vaše nastavení PHP session."
-"Update the database": "Aktualizovat databázi"
+general.phrase.update-database: "Aktualizovat databázi"
 "Upload": "Nahrát"
 "Upload a file to this folder": "Nahrajte soubor do této složky"
 "Upload file": "Nahrát soubor"
