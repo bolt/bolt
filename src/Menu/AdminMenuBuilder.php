@@ -202,7 +202,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('translation', ['domain' => 'messages']);
         $translationEntry->add(
             (new MenuEntry('tr_messages', $path))
-                ->setLabel(Trans::__('Messages'))
+                ->setLabel(Trans::__('general.phrase.messages'))
                 ->setIcon('fa:flag')
                 ->setPermission('translation')
         );
