@@ -145,7 +145,7 @@ page.extend.theme.generation.success: #
 general.phrase.stack-empty: #
 general.phrase.not-saved: #
 general.phrase.users-none-create-first-extended: #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
+general.phrase.missing-about-page-block: #
 "There is no undo!": #
 "This record is related to the following %CTNAME%:": #
 "This template adds new fields. Save, then refresh to see these changes.": #

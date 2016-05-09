@@ -61,7 +61,7 @@ general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #
+general.phrase.missing-about-page-block: #
 "This record is related to the following %CTNAME%:": #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #
