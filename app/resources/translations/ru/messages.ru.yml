@@ -389,7 +389,7 @@ general.phrase.database-prefill: "Предзаполнение базы данн
 general.phrase.preview: "Предварительный просмотр"
 general.phrase.profile: "Профиль"
 general.phrase.provided-by-colon: "Предоставлено:"
-"Publication date:": "Дата публикации:"
+general.phrase.publication-date-colon: "Дата публикации:"
 "Published": "Опубликовано"
 "Published on:": "Опубликовано:"
 "Read more": "Далее"

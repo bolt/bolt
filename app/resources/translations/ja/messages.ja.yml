@@ -442,7 +442,7 @@ general.phrase.please-provide-username: "ユーザー名を入力してくださ
 general.phrase.database-prefill: "データベースに事前にデータを挿入"
 general.phrase.preview: "プレビュー"
 general.phrase.provided-by-colon: "提供："
-"Publication date:": "公開日時"
+general.phrase.publication-date-colon: "公開日時"
 "Published": "公開"
 "Published on:": "公開日時："
 "Read more": "続きを読む"
