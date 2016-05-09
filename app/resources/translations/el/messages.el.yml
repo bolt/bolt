@@ -515,7 +515,7 @@ general.access-control.reset-successful: "Επιτυχής επαναφορά κ
 general.phrase.path: "Διαδρομή"
 general.phrase.path-colon: "Διαδρομή:"
 general.phrase.permalink: "Μόνιμος Συνδεσμος"
-"Permissions": "Δικαιώματα"
+general.phrase.permissions: "Δικαιώματα"
 "Place on stack": "Καταχώρηση στο Stack"
 "Please choose the record you want to link to:": "Επιλέξτε την εγγραφή που θέλετε να συνδέσετε πρός:"
 "Please provide a username": "Παρακαλώ καταχωρήστε ένα όνομα χρήστη"

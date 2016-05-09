@@ -514,7 +514,7 @@ general.access-control.reset-successful: "Passord nullstilt. Du kan nå logge in
 general.phrase.path: "Sti"
 general.phrase.path-colon: "Sti:"
 general.phrase.permalink: "Permanent lenke"
-"Permissions": "Rettigheter"
+general.phrase.permissions: "Rettigheter"
 "Place on stack": "Putt i bunke"
 "Please choose the record you want to link to:": "Velg hvilken post to vil lenke til:"
 "Please log on.": "Logg på."

@@ -433,7 +433,7 @@ general.access-control.reset-successful: "パスワードを正常にリセッ�
 general.phrase.path: "パス"
 general.phrase.path-colon: "パス："
 general.phrase.permalink: "パーマリンク"
-"Permissions": "パーミッション"
+general.phrase.permissions: "パーミッション"
 "Place on stack": "スタックに追加"
 "Please choose the record you want to link to:": "リンクしたいレコードを選んでください："
 "Please enter a new folder name!": "新しいフォルダ名を入力してください"

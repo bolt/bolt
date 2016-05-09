@@ -210,7 +210,7 @@ class Stack
                 $thisitem['filesize'],
                 Trans::__('general.phrase.modified'),
                 $thisitem['modified'],
-                Trans::__('Permissions'),
+                Trans::__('general.phrase.permissions'),
                 $thisitem['permissions']
             );
 
