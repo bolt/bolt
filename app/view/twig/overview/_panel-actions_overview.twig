@@ -14,7 +14,7 @@
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.contenttype.slug}) }}
     </a>
 
-    <p style="margin-top: 15px;"><strong>{{ __("Filter") }}</strong></p>
+    <p style="margin-top: 15px;"><strong>{{ __('general.phrase.filter') }}</strong></p>
 
     <form class="form-inline">
 
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group" style="display: block; margin-top: 12px;">
-            <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('Filter') }}</button>
+            <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('general.phrase.filter') }}</button>
 
             {% if request('filter') or request('order') or taxonomyfilter %}
                 <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('general.phrase.clear-filter-sort') }}</a>
