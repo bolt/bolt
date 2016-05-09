@@ -445,7 +445,7 @@ general.phrase.access-denied-privilege-edit-record: "Nemáte oprávnění pro ed
 general.phrase.access-denied-privilege-edit-user: "Nemáte dostatečné oprávnění pro editování uživatele."
 general.phrase.access-denied-privilege-view-page: "Nemáte oprávnění pro zobrazení této stránky."
 general.phrase.access-denied-permissions-edit-file: "Nemáte dostatečné oprávnění k editaci souboru '%s'."
-"You don't have the correct permissions to display the file or directory '%s'.": "Nemáte dostatečné oprávnění pro zobrazení souboru či složky '%s'."
+general.phrase.access-denied-permissions-view-file-directory: "Nemáte dostatečné oprávnění pro zobrazení souboru či složky '%s'."
 "You have been logged out.": "Byl jste odhlášen/a."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Strana obsahje neuložené změny. Pokud budete pokračovat bez uložení, přijdete o ně."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Tato změna může způsobit ztrátu některých polí obsahu šablony. Doporučujeme si předem uložit jejich obsah."

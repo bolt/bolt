@@ -146,7 +146,7 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
-            $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", ['%s' => $path]);
+            $error = Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $path]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
