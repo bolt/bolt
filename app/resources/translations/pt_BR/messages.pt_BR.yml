@@ -32,7 +32,7 @@ general.phrase.clear-change-log: #
 general.phrase.clear-system-log: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
-"Close editor": #
+general.phrase.close-editor: #
 "Create File": #
 "Dashboard": #
 "Delete": #

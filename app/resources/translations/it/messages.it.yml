@@ -49,7 +49,7 @@ general.phrase.clear-system-log: #
 general.phrase.clear-cache-complete: #
 general.phrase.change-current-status: #
 "Client error: %errormessage%": #
-"Close editor": #
+general.phrase.close-editor: #
 "Code:": #
 "Collapse sidebar": #
 "Content Type Permissions": #
