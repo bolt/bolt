@@ -121,7 +121,7 @@ general.phrase.logout: #
 general.phrase.configuration-main: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Message:": #
+general.phrase.message-colon: #
 "Meta": #
 "Move Down": #
 "Move Up": #
