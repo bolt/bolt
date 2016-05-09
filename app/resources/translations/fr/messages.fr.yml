@@ -107,7 +107,7 @@ general.phrase.database-check-update: "Vérification & mise à jour de la base d
 general.phrase.status-default: "Statut par défaut"
 "Delete": "Supprimer"
 general.phrase.delete-file-name: "Supprimer %filename%"
-"Delete %foldername%": "Supprimer %foldername%"
+general.phrase.delete-directory-name: "Supprimer %foldername%"
 "Delete %username%": "Supprimer l'utilisateur %username%"
 "Delete Set": "Supprimer le lot"
 "Depublication date:": "Date de dépublication :"

@@ -49,7 +49,7 @@ page.file-management.label.create-folder: #
 "Datetime": #
 general.phrase.status-default: #
 "Delete": #
-"Delete %foldername%": #
+general.phrase.delete-directory-name: #
 "Delete Set": #
 "Depublish": #
 "Depublish date is in the past. Change the status if you want to depublish now": #

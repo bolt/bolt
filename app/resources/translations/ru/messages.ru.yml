@@ -297,7 +297,7 @@ general.phrase.database-check-update: "Проверить базу данных 
 "Datetime": "Дата и время"
 general.phrase.status-default: "Статус по умолчанию"
 general.phrase.delete-file-name: "Удалить %filename%"
-"Delete %foldername%": "Удалить %foldername%"
+general.phrase.delete-directory-name: "Удалить %foldername%"
 "Delete %username%": "Удалить %username%"
 "Depublication date:": "Дата скрытия:"
 "Deselect all": "Отменить выбор всех"

@@ -363,7 +363,7 @@ general.phrase.database-check-update: "データベースのチェック/アッ�
 "Date": "日付"
 "Datetime": "日時"
 general.phrase.delete-file-name: "%filename% を削除"
-"Delete %foldername%": "%foldername% を削除"
+general.phrase.delete-directory-name: "%foldername% を削除"
 "Delete %username%": "%username% を削除"
 "Depublication date:": "公開停止日時："
 "Deselect all": "全てを選択解除"
