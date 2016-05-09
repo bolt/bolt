@@ -91,7 +91,7 @@ general.phrase.file-upload-failed: #
 general.phrase.filtering: #
 general.phrase.find: #
 "Floatfield": # "Float field"
-"Folder permissions insufficient": #
+page.file-management.message.folder-access-denied: #
 "Full list …": #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Geolocation": #
