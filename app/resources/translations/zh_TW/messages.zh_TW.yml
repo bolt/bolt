@@ -51,7 +51,7 @@ general.phrase.duplicate-set: #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
 general.phrase.error-cache-clear: #
-"Failed to send password request. Please check the email settings.": #
+general.phrase.error-send-password-request: #
 "Field “%FIELD_NAME%”:": #
 "File '%s' could not be saved, because the form wasn't valid.": #
 "Files could not be uploaded.": #
