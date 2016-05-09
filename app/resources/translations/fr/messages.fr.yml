@@ -270,7 +270,7 @@ general.phrase.search-results-for-variable: "Résultats de recherche pour <b>%se
 general.phrase.search-ellipsis: "Recherche …"
 "Select": "Sélection"
 "Select a page": "Choisir une page"
-"Select all": "Tout sélectionner"
+general.phrase.select-all: "Tout sélectionner"
 "Select file …": "Choix du fichier …"
 "Select none": "Retirer la sélection"
 "Select zero or more pages": "Sélectionner une ou plusieurs pages"

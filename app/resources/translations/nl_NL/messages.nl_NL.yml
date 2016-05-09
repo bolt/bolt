@@ -275,7 +275,7 @@ general.phrase.search-results-for-variable: "Zoekresultaten voor <b>%search%</b>
 general.phrase.search-ellipsis: "Zoek…"
 "Select": "Kies"
 "Select a page": "Kies een pagina"
-"Select all": "Selecteer alles"
+general.phrase.select-all: "Selecteer alles"
 "Select file …": "Kies bestand …"
 "Select none": "Selecteer niets"
 "Select zero or more pages": "Kies nul of meer pagina's"

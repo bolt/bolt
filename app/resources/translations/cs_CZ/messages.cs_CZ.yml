@@ -334,7 +334,7 @@ general.phrase.search-results-for-variable: "Výsledky hledání pro <b>%search%
 general.phrase.search-ellipsis: "Hledat…"
 "Select": "Vybrat"
 "Select a page": "Vybrat stranu"
-"Select all": "Vybrat vše"
+general.phrase.select-all: "Vybrat vše"
 "Select file …": "Vybrat soubor …"
 "Select none": "Odznačit vše"
 "Select zero or more pages": "Vyberte žnádnou, jednu nebo více stran."
