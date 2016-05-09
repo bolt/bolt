@@ -321,7 +321,7 @@ page.file-management.message.upload-success: "Файл '%file%' успешно �
 "File '%s' could not be saved, for some reason.": "Файл '%s' по непонятным причинам, не может быть сохранён."
 "File '%s' could not be saved:": "Файл '%s' не может быть сохранён:"
 "File '%s' has been saved.": "Файл '%s' сохранён."
-"File Management": "Менеджер файлов"
+general.phrase.file-management: "Менеджер файлов"
 page.file-management.message.file-not-readable: "Файл недоступен для чтения!"
 "Filelist": "Лист файлов"
 "Files in %s": "Файлы в %s"

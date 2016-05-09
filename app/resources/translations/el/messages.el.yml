@@ -473,7 +473,7 @@ page.file-management.message.upload-success: "Το αρχείο '%file%' φορ�
 "File '%s' could not be saved, for some reason.": "Το αρχέιο '%s' δεν μπορεί να αποθηκευτεί για κάποιο λόγο."
 "File '%s' could not be saved:": "Το αρχείο '%s' δεν μπορεί να αποθηκευτεί:"
 "File '%s' has been saved.": "Το αρχείο '%s' αποθηκεύτηκε."
-"File Management": "Διαχείριση Αρχείων"
+general.phrase.file-management: "Διαχείριση Αρχείων"
 page.file-management.message.file-not-readable: "Το αρχείο δεν μπορεί να διαβαστεί!"
 "Files": "Αρχεία"
 "Files in %s": "Αρχεία στο %s"

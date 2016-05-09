@@ -193,7 +193,7 @@ page.file-management.message.upload-success: "Die Datei '%file%' wurde erfolgrei
 "File '%s' could not be saved, for some reason.": "Die Datei '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 "File '%s' could not be saved:": "Die Datei '%s' konnte nicht gespeichert werden:"
 "File '%s' has been saved.": "Die Datei '%s' wurde gespeichert."
-"File Management": "Dateiverwaltung"
+general.phrase.file-management: "Dateiverwaltung"
 page.file-management.message.file-not-readable: "Die Datei ist nicht lesbar!"
 "Filelist": "Dateiliste"
 "Files": "Dateien"
