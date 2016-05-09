@@ -133,7 +133,7 @@ general.phrase.path-image-file: #
 page.file-management.message.create-file: #
 page.file-management.message.create-folder: #
 general.phrase.please-logon: #
-"Prefill database": # "Pre-fill database"
+general.phrase.database-prefill: # "Pre-fill database"
 "Publish": #
 "Records": #
 "Rename %foldername%": #

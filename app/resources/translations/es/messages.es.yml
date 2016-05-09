@@ -344,7 +344,7 @@ page.file-management.message.create-file: "Por favor, ¡introduzca un nuevo nomb
 page.file-management.message.create-folder: "Por favor, ¡introduzca un nuevo nombre de carpeta!"
 general.phrase.please-logon: "Por favor inicia sesión."
 general.phrase.please-provide-username: "Por favor proporciona un nombre de usuario"
-"Prefill database": "Rellenar base de datos"
+general.phrase.database-prefill: "Rellenar base de datos"
 "Preview": "Previsualizar"
 "Profile": "Perfil"
 "Provided by:": "Proporcionado por"

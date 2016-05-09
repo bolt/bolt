@@ -283,7 +283,7 @@ page.file-management.message.create-file: "Bitte geben Sie einen neuen Dateiname
 page.file-management.message.create-folder: "Bitte geben Sie einen neuen Verzeichnisnamen ein!"
 general.phrase.please-logon: "Bitte anmelden."
 general.phrase.please-provide-username: "Bitte geben Sie einen Benutzernamen an"
-"Prefill database": "Datenbank füllen"
+general.phrase.database-prefill: "Datenbank füllen"
 "Preview": "Vorschau"
 "Profile": "Profil"
 "Provided by:": "Zur Verfügung gestellt von:"

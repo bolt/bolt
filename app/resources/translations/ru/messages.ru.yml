@@ -385,7 +385,7 @@ page.file-management.message.create-file: "Пожалуйста, введите 
 page.file-management.message.create-folder: "Пожалуйста, введите новое имя папки!"
 general.phrase.please-logon: "Пожалуйста входите."
 general.phrase.please-provide-username: "Пожалуйста, введите имя пользователя"
-"Prefill database": "Предзаполнение базы данных"
+general.phrase.database-prefill: "Предзаполнение базы данных"
 "Preview": "Предварительный просмотр"
 "Profile": "Профиль"
 "Provided by:": "Предоставлено:"

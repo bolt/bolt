@@ -355,7 +355,7 @@ page.file-management.message.create-file: "Proszę wprowadzić nazwę dla nowego
 page.file-management.message.create-folder: "Proszę wprowadzić nazwę dla nowego katalogu!"
 general.phrase.please-logon: "Proszę się zalogować"
 general.phrase.please-provide-username: "Prosze podać nazwę użytkownika"
-"Prefill database": "Wypełnij bazę danych"
+general.phrase.database-prefill: "Wypełnij bazę danych"
 "Preview": "Podgląd"
 "Profile": "Profil"
 "Provided by:": "Dostarczone przez:"

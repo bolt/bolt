@@ -415,7 +415,7 @@ page.file-management.message.create-file: "Por favor insira um novo nome de arqu
 page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
 general.phrase.please-logon: "Por favor, faça seu login"
 general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
-"Prefill database": "Pré-preenchimento do banco de dados"
+general.phrase.database-prefill: "Pré-preenchimento do banco de dados"
 "Preview": "Pré-visualizar"
 "Profile": "Perfil"
 "Provided by:": "Fornecido por:"

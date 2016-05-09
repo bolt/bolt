@@ -305,7 +305,7 @@ page.file-management.message.create-file: "Zadejte prosím nové jméno souboru!
 page.file-management.message.create-folder: "Zadejte prosím nové jméno složky!"
 general.phrase.please-logon: "Přihlašte se, prosím."
 general.phrase.please-provide-username: "Vyplňte uživatelské jméno, prosím"
-"Prefill database": "Naplnit databázi"
+general.phrase.database-prefill: "Naplnit databázi"
 "Preview": "Náhled"
 "Profile": "Profil"
 "Provided by:": "Administruje:"
