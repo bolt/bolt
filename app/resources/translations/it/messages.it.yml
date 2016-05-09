@@ -163,7 +163,7 @@ page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 "Save & return to overview": #
-"Saved on:": #
+general.phrase.saved-on-colon: #
 "Saving …": #
 "Search for …": #
 "Search results for <b>%search%</b>.": #

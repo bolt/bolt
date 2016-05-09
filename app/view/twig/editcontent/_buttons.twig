@@ -69,7 +69,7 @@
         {# Last saved #}
         <p class="lastsaved form-control-static">
             {% if context.content.id != 0 %}
-                {{ __('Saved on:') }}
+                {{ __('general.phrase.saved-on-colon') }}
                 <strong>{{ context.content.datechanged|localdate("%c") }}</strong>
                 <small>({{ buic_moment(context.content.datechanged) }})</small>
             {% else %}
