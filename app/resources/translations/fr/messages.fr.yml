@@ -354,7 +354,7 @@ page.extend.message.package-install-info-fail: "Impossible d'obtenir des informa
 "Unable to rename file: %FILE%": "Impossible de renommer le fichier %FILE%"
 general.phrase.error-session-data-login: "Impossible de reprendre la session. Merci de vérifier la configuration des sessions au niveau du moteur PHP."
 general.phrase.update-database: "Mettre à jour la base de données"
-"Upload": "Envoyer"
+general.phrase.upload: "Envoyer"
 general.phrase.upload-file-to-directory: "Envoyer un fichier"
 general.phrase.upload-file: "Envoyer"
 "Upload image": "Envoyer une image"

@@ -228,7 +228,7 @@ page.extend.message.package-install-info-fail: #
 "Unable to rename file: %FILE%": #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Upload": #
+general.phrase.upload: #
 general.phrase.upload-file-to-directory: #
 general.phrase.upload-file: #
 "Upload not allowed": #
