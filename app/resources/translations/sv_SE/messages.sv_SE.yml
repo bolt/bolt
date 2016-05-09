@@ -394,7 +394,7 @@ general.phrase.access-denied-privilege-edit-user: "Du har inte rättighet att re
 general.phrase.access-denied-privilege-view-page: "Du har inte rättighet att se den sidan."
 general.phrase.access-denied-permissions-edit-file: "Du har inte rättighet att redigera filen '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Du har inte rättighet att visa filen eller mappen '%s'."
-"You have been logged out.": "Du har blivit utloggad."
+general.phrase.access-denied-logged-out: "Du har blivit utloggad."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Du har osparade ändringarna på den här sidan. Om du fortsätta utan att spara, förlorar du ändringarna."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det."
 "You've been logged on successfully.": "Du är nu inloggad."

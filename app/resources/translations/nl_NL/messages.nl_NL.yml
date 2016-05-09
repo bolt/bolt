@@ -389,7 +389,7 @@ general.phrase.access-denied-privilege-edit-user: "Je beschikt niet over de juis
 general.phrase.access-denied-privilege-view-page: "Je bent niet gerechtigd om die pagina te bekijken."
 general.phrase.access-denied-permissions-edit-file: "Je hebt niet de juiste rechten om het bestand '%s' te bewerken."
 general.phrase.access-denied-permissions-view-file-directory: "Je hebt niet de juiste rechten om het bestand of directory '%s' weer te geven."
-"You have been logged out.": "Je bent uitgelogd."
+general.phrase.access-denied-logged-out: "Je bent uitgelogd."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Je hebt onvoltooide wijzigingen op deze pagina. Als je zonder op te slaan doorgaat, zal je deze veranderingen verliezen."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Sommige velden binnen je template zullen verloren gaan met deze aanpassing. Ga naar de template tab en neem de waarden over vóórdat je hieraan begint."
 "You've been logged on successfully.": "Je bent succesvol ingelogd."

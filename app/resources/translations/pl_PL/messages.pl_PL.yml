@@ -465,7 +465,7 @@ general.phrase.access-denied-privilege-edit-user: "Nie posiadasz odpowiednich up
 general.phrase.access-denied-privilege-view-page: "Nie posiadasz odpowiednich uprawnień aby wyświetlać tą stronę."
 general.phrase.access-denied-permissions-edit-file: "Nie posiadasz odpowiednich uprawnień aby edytować plik '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Nie posiadasz odpowiednich uprawnień aby wyświetlać plik lub katalog '%s'."
-"You have been logged out.": "Zostałeś wylogowany."
+general.phrase.access-denied-logged-out: "Zostałeś wylogowany."
 "You've been logged on successfully.": "Zostałeś zalogowany."
 "Your account is disabled. Sorry about that.": "Twoje konto zostało deaktywowane. Przykro nam z tego powodu."
 "Your database is already up to date.": "Twoja baza danych jest aktualna."

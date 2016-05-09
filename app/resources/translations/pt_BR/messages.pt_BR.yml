@@ -504,7 +504,7 @@ general.phrase.access-denied-privilege-edit-record: "Você não possui permissõ
 general.phrase.access-denied-privilege-view-page: "Você não possui privilégios para visualizar esta página."
 general.phrase.access-denied-permissions-edit-file: "Você não tem permissões corretas para editar o arquivo '%s'"
 general.phrase.access-denied-permissions-view-file-directory: "Você não tem as permissões corretas para mostrar o arquivo ou diretório '%s'."
-"You have been logged out.": "Você desconectou."
+general.phrase.access-denied-logged-out: "Você desconectou."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "Your account is disabled. Sorry about that.": "Sua conta está desabilitada."
 "Your database is already up to date.": "Seu banco de dados está atualizado."

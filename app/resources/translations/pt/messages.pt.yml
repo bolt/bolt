@@ -397,7 +397,7 @@ general.phrase.access-denied-privilege-edit-user: "Não possui permissões para 
 general.phrase.access-denied-privilege-view-page: "Não possui privilégios para visualizar esta página."
 general.phrase.access-denied-permissions-edit-file: "Não tem permissões adequadas para editar o ficheiro '%s' ."
 general.phrase.access-denied-permissions-view-file-directory: "Não tem as permissões corretas para mostrar o ficheiro ou pasta '%s'."
-"You have been logged out.": "A sua sessão foi terminada."
+general.phrase.access-denied-logged-out: "A sua sessão foi terminada."
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Tem alterações pendentes nesta página. Se continuar, sem guardar, perderá essas alterações."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "Your account is disabled. Sorry about that.": "A sua conta foi desativada. Lamentamos."

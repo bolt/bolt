@@ -480,7 +480,7 @@ general.phrase.access-denied-privilege-edit-record: "У вас недостат�
 general.phrase.access-denied-privilege-view-page: "У вас недостаточно прав на просмотр этой страницы."
 general.phrase.access-denied-permissions-edit-file: "У вас недостаточно прав на редактирование файла '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "У вас недостаточно прав на просмотр файла или папки '%s'."
-"You have been logged out.": "Вы успешно разлогинились."
+general.phrase.access-denied-logged-out: "Вы успешно разлогинились."
 "You've been logged on successfully.": "Вы успешно вошли."
 "Your account is disabled. Sorry about that.": "Ваш аккаунт был заблокирован. Мы сожалеем об этом."
 "Your database is already up to date.": "Ваша база данных актуальна."
