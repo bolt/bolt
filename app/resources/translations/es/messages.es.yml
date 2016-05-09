@@ -471,7 +471,7 @@ general.phrase.warning-unfinished-changes-loss: "Tiene cambios sin guardar en es
 general.phrase.warning-templatefields-loss: "Es posible que pierdas algunos de los campos de la plantilla con este cambio. Ve a la plantilla y anota sus valores antes de hacer esto."
 "You've been logged on successfully.": "Has cerrado sesión exitosamente"
 general.phrase.login-account-disabled: "Tu cuenta está deshabilitada. Lo sentimos."
-"Your database is already up to date.": "Tu base de datos ya está actualizada."
+general.phrase.database-up-to-date-already: "Tu base de datos ya está actualizada."
 "Your database is now up to date.": "Tu base de datos ahora está actualizada"
 general.phrase.edited: "y editado"
 general.phrase.return-editing: "regresar a editar"

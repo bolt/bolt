@@ -469,7 +469,7 @@ general.phrase.warning-unfinished-changes-loss: "Sinulla on keskeneräisiä muut
 general.phrase.warning-templatefields-loss: "Voit menettää joitain sivupohjan kenttiä tällä muutoksella. Mene sivupohjaosioon ja kirjaa arvot muistiin ennen kuin teet tämän."
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 general.phrase.login-account-disabled: "Anteeksi, mutta käyttäjätilisi on suljettu."
-"Your database is already up to date.": "Tietokanta on ajantasalla."
+general.phrase.database-up-to-date-already: "Tietokanta on ajantasalla."
 "Your database is now up to date.": "Tietokanta on päivitetty."
 general.phrase.edited: "ja muokattu"
 general.phrase.return-editing: "palaa muokkaamaan"

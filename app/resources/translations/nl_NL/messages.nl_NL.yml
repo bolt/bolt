@@ -394,7 +394,7 @@ general.phrase.warning-unfinished-changes-loss: "Je hebt onvoltooide wijzigingen
 general.phrase.warning-templatefields-loss: "Sommige velden binnen je template zullen verloren gaan met deze aanpassing. Ga naar de template tab en neem de waarden over vóórdat je hieraan begint."
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 general.phrase.login-account-disabled: "Je account is uitgeschakeld. Sorry daarvoor."
-"Your database is already up to date.": "Je database was al bijgewerkt."
+general.phrase.database-up-to-date-already: "Je database was al bijgewerkt."
 "Your database is now up to date.": "Je database is nu bijgewerkt."
 general.phrase.edited: "en bewerkt"
 general.phrase.return-editing: "terug naar bewerken"

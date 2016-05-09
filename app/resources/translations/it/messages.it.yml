@@ -544,7 +544,7 @@ general.phrase.access-denied-privilege-view-page: "Non possiedi le autorizzazion
 general.phrase.access-denied-logged-out: "Sei stato disconnesso"
 "You've been logged on successfully.": "Accesso effettuato con successo."
 general.phrase.login-account-disabled: "Spiacenti, il tuo account è disabilitato"
-"Your database is already up to date.": "Il tuo database è già aggiornato"
+general.phrase.database-up-to-date-already: "Il tuo database è già aggiornato"
 "Your database is now up to date.": "Il tuo database ora è aggiornato"
 general.phrase.edited: "e modificato"
 general.phrase.none: "nessuno"

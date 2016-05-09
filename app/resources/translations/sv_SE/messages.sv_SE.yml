@@ -399,7 +399,7 @@ general.phrase.warning-unfinished-changes-loss: "Du har osparade ändringarna p�
 general.phrase.warning-templatefields-loss: "Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det."
 "You've been logged on successfully.": "Du är nu inloggad."
 general.phrase.login-account-disabled: "Ditt konto är dekativerat. Ursäkta."
-"Your database is already up to date.": "Din databas är redan uppdaterad."
+general.phrase.database-up-to-date-already: "Din databas är redan uppdaterad."
 "Your database is now up to date.": "Din databas är nu uppdaterad."
 general.phrase.edited: "och redigerad"
 general.phrase.return-editing: "tillbaka till redigering"

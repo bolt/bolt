@@ -477,7 +477,7 @@ general.phrase.access-denied-permissions-view-file-directory: "你沒有許可�
 general.phrase.access-denied-logged-out: "你已成功退出登入。"
 "You've been logged on successfully.": "你已成功登入。"
 general.phrase.login-account-disabled: "非常抱歉，你的賬戶已被禁用。"
-"Your database is already up to date.": "資料庫已經是最新的。"
+general.phrase.database-up-to-date-already: "資料庫已經是最新的。"
 "Your database is now up to date.": "資料庫現在是最新的。"
 general.phrase.edited: "及編輯於"
 general.phrase.return-editing: "返回編輯"

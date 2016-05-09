@@ -483,7 +483,7 @@ general.phrase.access-denied-permissions-view-file-directory: "У вас нед�
 general.phrase.access-denied-logged-out: "Вы успешно разлогинились."
 "You've been logged on successfully.": "Вы успешно вошли."
 general.phrase.login-account-disabled: "Ваш аккаунт был заблокирован. Мы сожалеем об этом."
-"Your database is already up to date.": "Ваша база данных актуальна."
+general.phrase.database-up-to-date-already: "Ваша база данных актуальна."
 "Your database is now up to date.": "Ваша база данных теперь актуальна."
 general.phrase.edited: "и редактирован"
 general.phrase.return-editing: "назад к редактированию"

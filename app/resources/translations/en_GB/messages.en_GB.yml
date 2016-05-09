@@ -388,7 +388,7 @@ general.phrase.warning-unfinished-changes-loss: "You have unfinished changes on 
 general.phrase.warning-templatefields-loss: "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
 "You've been logged on successfully.": "You've been logged on successfully."
 general.phrase.login-account-disabled: "Your account is disabled. Sorry about that."
-"Your database is already up to date.": "Your database is already up to date."
+general.phrase.database-up-to-date-already: "Your database is already up to date."
 "Your database is now up to date.": "Your database is now up to date."
 general.phrase.edited: "and edited"
 general.phrase.return-editing: "back to editing"

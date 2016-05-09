@@ -468,7 +468,7 @@ general.phrase.access-denied-permissions-view-file-directory: "Nie posiadasz odp
 general.phrase.access-denied-logged-out: "Zostałeś wylogowany."
 "You've been logged on successfully.": "Zostałeś zalogowany."
 general.phrase.login-account-disabled: "Twoje konto zostało deaktywowane. Przykro nam z tego powodu."
-"Your database is already up to date.": "Twoja baza danych jest aktualna."
+general.phrase.database-up-to-date-already: "Twoja baza danych jest aktualna."
 "Your database is now up to date.": "Twoja baza jest teraz aktualna."
 general.phrase.edited: "oraz edytowany"
 general.phrase.return-editing: "powrót do edycji"

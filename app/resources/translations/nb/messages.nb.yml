@@ -591,7 +591,7 @@ general.phrase.access-denied-privilege-view-page: "Du har ikke rettigheter til Ã
 general.phrase.access-denied-logged-out: "Du er logget ut."
 "You've been logged on successfully.": "Du er vellykket logget ut."
 general.phrase.login-account-disabled: "Din konto er deaktivert. Beklager det."
-"Your database is already up to date.": "Databasen din er allerede oppdatert."
+general.phrase.database-up-to-date-already: "Databasen din er allerede oppdatert."
 "Your database is now up to date.": "Databasen din er nÃ¥ oppdatert."
 general.phrase.edited: "og redigert"
 general.phrase.return-editing: "tilbake til redigering"

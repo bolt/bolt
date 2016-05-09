@@ -394,7 +394,7 @@ general.phrase.warning-unfinished-changes-loss: "Des modifications sont en atten
 general.phrase.warning-templatefields-loss: "Vous pourriez perdre les champs personnalisés de modèle suite à ce changement. Nous vous recommandons d'aller dans l'onglet 'Template' et de noter ces valeurs."
 "You've been logged on successfully.": "Connexion réussie."
 general.phrase.login-account-disabled: "Votre compte est désactivé. Désolé."
-"Your database is already up to date.": "La base de données est déjà à jour."
+general.phrase.database-up-to-date-already: "La base de données est déjà à jour."
 "Your database is now up to date.": "La base de données est à jour."
 general.phrase.edited: "et modifié(e)"
 general.phrase.return-editing: "retour à l'édition"

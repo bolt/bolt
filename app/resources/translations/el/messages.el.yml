@@ -233,7 +233,7 @@ general.phrase.access-denied-permissions-edit-file: #
 general.phrase.access-denied-permissions-view-file-directory: #
 general.phrase.warning-unfinished-changes-loss: #
 general.phrase.warning-templatefields-loss: #
-"Your database is already up to date.": #
+general.phrase.database-up-to-date-already: #
 "Your database is now up to date.": #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #

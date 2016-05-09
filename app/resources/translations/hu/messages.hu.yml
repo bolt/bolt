@@ -416,7 +416,7 @@ general.phrase.warning-unfinished-changes-loss: "Nem mentetted a változásokat.
 general.phrase.warning-templatefields-loss: "Ezzel a változtatással némelyik mező elveszhet. Keresd ki a sablon szekciót és jegyezd fel az értékeket, miwlőtt ezt megtennéd."
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 general.phrase.login-account-disabled: "Az őn fiókja tiltott. Sajnáljuk."
-"Your database is already up to date.": "Az adatbázis már a legfrissebb."
+general.phrase.database-up-to-date-already: "Az adatbázis már a legfrissebb."
 "Your database is now up to date.": "Az adatbázis frissítve."
 general.phrase.edited: "és szerkesztve"
 general.phrase.return-editing: "vissza a szerkesztéshez"
