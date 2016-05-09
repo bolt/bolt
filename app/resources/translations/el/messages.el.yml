@@ -124,7 +124,7 @@ page.extend.theme.generation.missing.name: #
 general.phrase.not-installed-yet: #
 general.phrase.note-colon: #
 general.phrase.omnisearch: #
-"Only root can change file extensions.": #
+general.phrase.only-root-change-file-extensions: #
 "Order": #
 "Other content": #
 "Others": #

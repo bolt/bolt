@@ -85,7 +85,7 @@ general.phrase.no-files-in-list: #
 general.phrase.no-images-in-list: #
 page.extend.theme.generation.missing.name: #
 general.phrase.not-installed-yet: #
-"Only root can change file extensions.": #
+general.phrase.only-root-change-file-extensions: #
 "Order": #
 "Other content": #
 "Others": #

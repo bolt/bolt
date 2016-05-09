@@ -326,7 +326,7 @@ class FilesystemManager extends AsyncBase
         $newName = $request->request->get('newname');
 
         if (!$this->isMatchingExtension($oldName, $newName)) {
-            return $this->json(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
+            return $this->json(Trans::__('general.phrase.only-root-change-file-extensions'), Response::HTTP_FORBIDDEN);
         }
 
         try {
