@@ -141,7 +141,7 @@ class Extend extends BackendBase
 
                 return new Response(Trans::__('page.extend.theme.generation.success'));
             } catch (\Exception $e) {
-                return new Response(Trans::__('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
+                return new Response(Trans::__('page.extend.theme.generation.failure'));
             }
         }
 

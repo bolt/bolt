@@ -40,7 +40,7 @@ general.phrase.thumbnail: #
 general.phrase.tip-colon: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+page.extend.theme.generation.failure: #
 
 #--- 54 untranslated keyword based messages -----------------------------------
 

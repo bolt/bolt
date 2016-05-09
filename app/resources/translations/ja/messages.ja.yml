@@ -171,7 +171,7 @@ general.phrase.users-permissions: #
 general.phrase.view-roles: #
 general.phrase.view-related: #
 general.phrase.warning: #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 "You cannot '%s' yourself.": #
 "You do not have the right privileges to edit that user.": #

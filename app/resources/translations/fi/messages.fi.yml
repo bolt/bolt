@@ -89,7 +89,7 @@ page.extend.message.package-install-info-fail: #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 
 #--- 72 untranslated keyword based messages -----------------------------------
