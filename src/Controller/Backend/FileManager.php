@@ -287,7 +287,7 @@ class FileManager extends BackendBase
     {
         $form->submit($request);
         if (!$form->isValid()) {
-            $this->flashes()->error(Trans::__('Files could not be uploaded.'));
+            $this->flashes()->error(Trans::__('general.phrase.file-upload-failed'));
 
             return;
         }

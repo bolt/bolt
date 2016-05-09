@@ -39,7 +39,7 @@ general.phrase.duplicate-set: #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
 general.phrase.error-cache-clear: #
-"Files could not be uploaded.": #
+general.phrase.file-upload-failed: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #

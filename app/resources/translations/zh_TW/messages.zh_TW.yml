@@ -54,7 +54,7 @@ general.phrase.error-cache-clear: #
 general.phrase.error-send-password-request: #
 general.phrase.field-fieldname: #
 page.file-management.message.save-failed-invalid-form: #
-"Files could not be uploaded.": #
+general.phrase.file-upload-failed: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #

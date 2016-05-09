@@ -84,7 +84,7 @@ general.phrase.field-fieldname: #
 page.file-management.message.save-failed-invalid-form: #
 "Filelist": # "File list"
 "Files": #
-"Files could not be uploaded.": #
+general.phrase.file-upload-failed: #
 "Files on the stack": #
 "Filtering": #
 "Find": #

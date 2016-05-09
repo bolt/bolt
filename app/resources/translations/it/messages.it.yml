@@ -87,7 +87,7 @@ general.phrase.field-fieldname: #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
 page.file-management.message.save-failed-invalid-form: #
 "Filelist": # "File list"
-"Files could not be uploaded.": #
+general.phrase.file-upload-failed: #
 "Filtering": #
 "Find": #
 "Floatfield": # "Float field"
