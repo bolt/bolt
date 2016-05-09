@@ -68,6 +68,7 @@ class UsersRepository extends Repository
         }
 
         $query = $this->getUserQuery($userId);
+        /** @var Entity\Users $userEntity */
         if ($userEntity = $this->findOneWith($query)) {
             $this->unsetSensitiveFields($userEntity);
         }

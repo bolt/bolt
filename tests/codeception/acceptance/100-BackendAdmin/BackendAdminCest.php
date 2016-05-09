@@ -368,6 +368,29 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
+     * Check that admin user can create an empty showcase.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function canCreateEmptyShowcaseTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('check that admin user can create an empty showcase');
+
+        // Set up the browser
+        $this->setLoginCookies($I);
+        $I->amOnPage('/bolt');
+
+        $I->see('New Showcase');
+        $I->click('New Showcase');
+
+        $I->fillField('#title',  'Showcase');
+
+        $I->click('Save Showcase', '#savecontinuebutton');
+
+        $I->see('The new Showcase has been saved.');
+    }
+
+    /**
      * Edit site permissions
      *
      * @param \AcceptanceTester $I
