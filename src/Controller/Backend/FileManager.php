@@ -166,7 +166,7 @@ class FileManager extends BackendBase
             $validFolder = true;
             $uploadview = false;
         } else {
-            $this->flashes()->error(Trans::__("The folder '%s' could not be found, or is not readable.", ['%s' => $path]));
+            $this->flashes()->error(Trans::__('general.phrase.directory-not-found-writable', ['%s' => $path]));
             $formview = false;
             $validFolder = false;
         }

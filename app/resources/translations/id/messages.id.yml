@@ -195,7 +195,7 @@ general.phrase.error-mail-options-not-set: #
 general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
 general.phrase.file-not-writable: #
-"The folder '%s' could not be found, or is not readable.": #
+general.phrase.directory-not-found-writable: #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
 "The requested changelog entry doesn't exist.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #

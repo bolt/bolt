@@ -303,7 +303,7 @@ general.phrase.error-mail-options-not-set: "The email configuration setting 'mai
 general.phrase.file-not-exist: "The file '%s' doesn't exist."
 general.phrase.file-not-readable: "The file '%s' is not readable."
 general.phrase.file-not-writable: "The file '%s' is not writable. You will have to use your own editor to make modifications to this file."
-"The folder '%s' could not be found, or is not readable.": "The folder '%s' could not be found, or is not readable."
+general.phrase.directory-not-found-writable: "The folder '%s' could not be found, or is not readable."
 "The following file could not be read:": "The following file could not be read:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
 "The requested changelog entry doesn't exist.": "The requested changelog entry doesn't exist."

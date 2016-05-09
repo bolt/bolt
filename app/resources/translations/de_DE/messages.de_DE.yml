@@ -347,7 +347,7 @@ general.phrase.error-mail-options-not-set: "Die E-Mail Konfiguration 'mailoption
 general.phrase.file-not-exist: "Die Datei '%s' existiert nicht."
 general.phrase.file-not-readable: "Die Datei '%s' ist nicht lesbar."
 general.phrase.file-not-writable: "Keine Schreibrechte für '%s'. Änderungen bitte mit einem eigenen Editor vornehmen."
-"The folder '%s' could not be found, or is not readable.": "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
+general.phrase.directory-not-found-writable: "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
 "The following file could not be read:": "Die folgende Datei konnte nicht gelesen werden:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren Sie taxonomy.yml, um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
 "The requested changelog entry doesn't exist.": "Der angeforderte Änderungsverlauf existiert nicht."
