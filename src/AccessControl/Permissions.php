@@ -123,7 +123,7 @@ class Permissions
 
             case self::ROLE_OWNER:
                 return [
-                    'label'       => Trans::__('Owner'),
+                    'label'       => Trans::__('permissions.roles.label.owner'),
                     'description' => Trans::__('permissions.roles.description.owner'),
                     'builtin'     => true,
                 ];

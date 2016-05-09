@@ -142,7 +142,7 @@ general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
 general.phrase.other-content: #
 general.phrase.others: #
-"Owner": #
+permissions.roles.label.owner: #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
 "Password reset successful! You can now log on with the password that was sent to you via email.": #
 "Path to image file": #
