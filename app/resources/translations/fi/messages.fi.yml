@@ -27,7 +27,7 @@ general.bolt-configuration-issues-detected: #
 general.phrase.toggle-all: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
-"Create File": #
+page.file-management.label.create-file: #
 "Delete": #
 "Delete Set": #
 "Depublish": #

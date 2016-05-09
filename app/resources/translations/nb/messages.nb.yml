@@ -42,7 +42,7 @@ general.phrase.change-current-status: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
 general.phrase.collapse-sidebar: #
-"Create File": #
+page.file-management.label.create-file: #
 "Create folder": #
 "Current (saved) status:": #
 "Date": #

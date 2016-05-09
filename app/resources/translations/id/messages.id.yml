@@ -52,7 +52,7 @@ general.phrase.change-current-status: #
 general.phrase.close-editor: #
 general.phrase.collapse-sidebar: #
 general.phrase.content-type-permissions: #
-"Create File": #
+page.file-management.label.create-file: #
 "Create folder": #
 "Current (saved) status:": #
 "Date": #

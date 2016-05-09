@@ -33,7 +33,7 @@ general.phrase.clear-system-log: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
-"Create File": #
+page.file-management.label.create-file: #
 "Dashboard": #
 "Delete": #
 "Delete Set": #
