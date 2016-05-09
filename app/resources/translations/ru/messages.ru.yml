@@ -386,7 +386,7 @@ page.file-management.message.create-folder: "Пожалуйста, введит�
 general.phrase.please-logon: "Пожалуйста входите."
 general.phrase.please-provide-username: "Пожалуйста, введите имя пользователя"
 general.phrase.database-prefill: "Предзаполнение базы данных"
-"Preview": "Предварительный просмотр"
+general.phrase.preview: "Предварительный просмотр"
 "Profile": "Профиль"
 "Provided by:": "Предоставлено:"
 "Publication date:": "Дата публикации:"

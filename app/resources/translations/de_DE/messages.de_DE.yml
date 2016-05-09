@@ -284,7 +284,7 @@ page.file-management.message.create-folder: "Bitte geben Sie einen neuen Verzeic
 general.phrase.please-logon: "Bitte anmelden."
 general.phrase.please-provide-username: "Bitte geben Sie einen Benutzernamen an"
 general.phrase.database-prefill: "Datenbank füllen"
-"Preview": "Vorschau"
+general.phrase.preview: "Vorschau"
 "Profile": "Profil"
 "Provided by:": "Zur Verfügung gestellt von:"
 "Publication date:": "Datum der Veröffentlichung:"

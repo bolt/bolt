@@ -416,7 +416,7 @@ page.file-management.message.create-folder: "Por favor digite um novo nome para 
 general.phrase.please-logon: "Por favor, faça seu login"
 general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
 general.phrase.database-prefill: "Pré-preenchimento do banco de dados"
-"Preview": "Pré-visualizar"
+general.phrase.preview: "Pré-visualizar"
 "Profile": "Perfil"
 "Provided by:": "Fornecido por:"
 "Publication date:": "Data de publicação: "

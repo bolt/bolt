@@ -440,7 +440,7 @@ page.file-management.message.create-folder: "新しいフォルダ名を入力�
 general.phrase.please-logon: "ログオンしてください。"
 general.phrase.please-provide-username: "ユーザー名を入力してください"
 general.phrase.database-prefill: "データベースに事前にデータを挿入"
-"Preview": "プレビュー"
+general.phrase.preview: "プレビュー"
 "Provided by:": "提供："
 "Publication date:": "公開日時"
 "Published": "公開"
