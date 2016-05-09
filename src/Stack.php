@@ -204,7 +204,7 @@ class Stack
 
             $thisitem['info'] = sprintf(
                 '%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>',
-                Trans::__('Path'),
+                Trans::__('general.phrase.path'),
                 $thisitem['filepath'],
                 Trans::__('general.phrase.file-size'),
                 $thisitem['filesize'],
