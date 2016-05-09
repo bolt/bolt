@@ -102,7 +102,7 @@
                     <p class="form-control-static">
                         {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
                         {{ buic_moment(context.content.datecreated) }}
-                        {{ __('and edited') }}
+                        {{ __('general.phrase.edited') }}
                         {{ buic_moment(context.content.datechanged) }}.
                     </p>
                 {% endif %}
