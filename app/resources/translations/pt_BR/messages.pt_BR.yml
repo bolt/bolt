@@ -29,7 +29,7 @@ field.image.label.alt: #
 general.phrase.required-character-count: #
 general.phrase.author: #
 general.phrase.clear-change-log: #
-"Clear System Log": #
+general.phrase.clear-system-log: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 "Close editor": #
