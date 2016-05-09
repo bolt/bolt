@@ -124,7 +124,7 @@ general.phrase.configuration-main: #
 general.phrase.message-colon: #
 general.phrase.meta: #
 general.phrase.move-down: #
-"Move Up": #
+general.phrase.move-up: #
 "Multiselect": # "Multi-select"
 "New Bolt site has been set up": #
 "No Preview": #

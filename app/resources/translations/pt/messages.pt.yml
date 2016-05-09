@@ -214,7 +214,7 @@ general.phrase.modifications-database-colon: "Alterações efetuadas na base de 
 general.phrase.modifications-needed-colon: "Alterações necessárias"
 general.phrase.modified: "Modificado"
 general.phrase.move-down: "Mover para baixo"
-"Move Up": "Mover para cima"
+general.phrase.move-up: "Mover para cima"
 "Multiselect": "Seleção múltipla"
 "New Bolt site has been set up": "Foi configurado um novo sítio em Bolt"
 "No Preview": "Sem pré-visualização"

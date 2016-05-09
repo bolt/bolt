@@ -73,7 +73,7 @@ general.phrase.error-local-extension-set-up-incomplete: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.move-down: #
-"Move Up": #
+general.phrase.move-up: #
 "New Bolt site has been set up": #
 "No Preview": #
 "No content found.": #

@@ -207,7 +207,7 @@ general.phrase.modifications-database-colon: "Aanpassingen gedaan aan de databas
 general.phrase.modifications-needed-colon: "Vereiste aanpassingen:"
 general.phrase.modified: "Aangepast"
 general.phrase.move-down: "Omlaag Verplaatsen"
-"Move Up": "Omhoog Verplaatsen"
+general.phrase.move-up: "Omhoog Verplaatsen"
 "Multiselect": "Multiselect"
 "New Bolt site has been set up": "Nieuwe Bolt site is opgezet"
 "No Preview": "Geen Voorbeeld Beschikbaar"

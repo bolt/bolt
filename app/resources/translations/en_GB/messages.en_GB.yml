@@ -193,7 +193,7 @@ general.phrase.modifications-database-colon: "Modifications made to the database
 general.phrase.modifications-needed-colon: "Modifications needed:"
 general.phrase.modified: "Modified"
 general.phrase.move-down: "Move Down"
-"Move Up": "Move Up"
+general.phrase.move-up: "Move Up"
 "Multiselect": "Multi-select"
 "New Bolt site has been set up": "New Bolt site has been set up"
 "No Preview": "No Preview"
