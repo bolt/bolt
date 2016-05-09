@@ -446,7 +446,7 @@ general.phrase.clear-filter-sort: "Καθαρισμός ταξινόμησης/�
 general.phrase.clear-cache: "Καθαρισμός cache"
 general.phrase.change-current-status: "Αλλαγή κατάστασης."
 general.phrase.code-colon: "Κώδικας:"
-"Configuration": "Παραμετροποίηση"
+general.phrase.configuration: "Παραμετροποίηση"
 "Content": "Περιεχόμενο"
 "Content '%title%' could not be modified.": "Το '%title%' δεν μπορει να αλλαχτεί."
 "Create the first user": "Δημιουργία του πρώτου χρήστη"

@@ -141,7 +141,7 @@ general.phrase.change-current-status: "Anwählen, um momentanen Status zu änder
 general.phrase.close-editor: "Editor schließen"
 general.phrase.code-colon: "Quellcode:"
 general.phrase.collapse-sidebar: "Menü einklappen"
-"Configuration": "Konfiguration"
+general.phrase.configuration: "Konfiguration"
 "Content": "Inhalt"
 "Content '%title%' could not be modified.": "Inhalt '%title%' konnte nicht geändert werden."
 "Content Type Permissions": "Datentyp-Berechtigungen"

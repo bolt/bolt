@@ -56,7 +56,7 @@ final class AdminMenuBuilder
         // Main configuration
         $configEntry = $this->rootEntry->add(
             (new MenuEntry('config', 'config'))
-                ->setLabel(Trans::__('Configuration'))
+                ->setLabel(Trans::__('general.phrase.configuration'))
                 ->setIcon('fa:cogs')
                 ->setPermission('settings')
         );

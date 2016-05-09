@@ -148,7 +148,7 @@ general.phrase.change-current-status: "Kattints a státusz megváltoztatásához
 general.phrase.close-editor: "Editor bezárása"
 general.phrase.code-colon: "Kód:"
 general.phrase.collapse-sidebar: "Oldalsáv becsukása"
-"Configuration": "Beállítások"
+general.phrase.configuration: "Beállítások"
 "Content": "Tartalom"
 "Content '%title%' could not be modified.": "'%title%' tartalom nem módosítható."
 "Content Type Permissions": "Tartalomtípus Engedélyek"
