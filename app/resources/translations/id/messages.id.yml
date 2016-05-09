@@ -463,7 +463,7 @@ contenttypes.record.comment-add-colon: #
 "A password reset link has been sent to '%user%'.": "Taut reset kata sandi telah dikirim ke '%user%'."
 general.phrase.action-plural: "Aksi"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
-"Alas, no about!": "Waduh, tidak ada tentang kami!"
+general.phrase.missing-about-page: "Waduh, tidak ada tentang kami!"
 "All content types": "Semua tipe konten"
 "All users": "Semua Pengguna"
 "Are you sure you want to delete %username%?": "Anda yakin menghapus %username%?"

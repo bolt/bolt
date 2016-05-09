@@ -318,7 +318,7 @@ contenttypes.record.comment-add-colon: #
 general.phrase.action-plural: "操作"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
-"Alas, no about!": "ああ、aboutがありません！"
+general.phrase.missing-about-page: "ああ、aboutがありません！"
 "All content types": "すべてのコンテンツタイプ"
 "All users": "すべてのユーザー"
 "Anonymous": "匿名"

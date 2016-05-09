@@ -419,7 +419,7 @@ contenttypes.record.comment-add-colon: #
 general.phrase.action-plural: "Handlinger"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Alas, no about!": "Akk, ingen om!"
+general.phrase.missing-about-page: "Akk, ingen om!"
 "All content types": "Alle innholdstyper"
 "All users": "Alle brukere"
 "Anonymous": "Anonym"
