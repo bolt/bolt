@@ -101,7 +101,7 @@ general.phrase.global-permissions: #
 general.phrase.floating-point-required-bang: #
 general.phrase.hints-colon: #
 "Html": #
-"Id": #
+general.phrase.id: #
 "Image": #
 "Imagelist": # "Image list"
 "Info": #

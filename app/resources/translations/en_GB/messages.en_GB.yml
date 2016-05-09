@@ -159,7 +159,7 @@ general.phrase.floating-point-required-bang: "Has to be a floating point number!
 general.phrase.hints-colon: "Hints:"
 "Html": "Html"
 "IP address": "IP address"
-"Id": "Id"
+general.phrase.id: "Id"
 "Image": "Image"
 "Imagelist": "Image list"
 "Info": "Info"

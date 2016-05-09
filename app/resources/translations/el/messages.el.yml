@@ -94,7 +94,7 @@ general.phrase.full-list-ellipsis: #
 general.phrase.floating-point-required-bang: #
 general.phrase.hints-colon: #
 "Html": #
-"Id": #
+general.phrase.id: #
 "Imagelist": # "Image list"
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #

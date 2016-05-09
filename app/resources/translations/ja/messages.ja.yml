@@ -73,7 +73,7 @@ general.phrase.find: #
 "Groups": #
 general.phrase.floating-point-required-bang: #
 general.phrase.hints-colon: #
-"Id": #
+general.phrase.id: #
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #

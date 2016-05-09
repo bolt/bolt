@@ -31,7 +31,7 @@ general.phrase.error-cache-clear: #
 "Group": #
 "Groups": #
 "Html": #
-"Id": #
+general.phrase.id: #
 "Info": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Link": #

@@ -181,7 +181,7 @@ general.phrase.floating-point-required-bang: "Tem de ser um número de ponto flu
 general.phrase.hints-colon: "Dicas:"
 "Html": "HTML"
 "IP address": "Endereço IP"
-"Id": "ID"
+general.phrase.id: "ID"
 "Image": "Imagem"
 "Imagelist": "Lista de imagens"
 "Info": "Informações"

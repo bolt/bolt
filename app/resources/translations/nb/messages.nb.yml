@@ -87,7 +87,7 @@ page.file-management.message.folder-access-denied: #
 general.phrase.floating-point-required-bang: #
 general.phrase.hints-colon: #
 "Html": #
-"Id": #
+general.phrase.id: #
 "Imagelist": # "Image list"
 "Info": #
 "Integerfield": # "Integer field"

@@ -63,7 +63,7 @@ general.phrase.full-list-ellipsis: #
 general.phrase.floating-point-required-bang: #
 general.phrase.hints-colon: #
 "Html": #
-"Id": #
+general.phrase.id: #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #

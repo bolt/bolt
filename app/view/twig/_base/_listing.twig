@@ -109,7 +109,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {% endif %}
 
             {# COLUMN: ID #}
-            <th class="hidden-xs">{{ buic_listing_slink('id', __('Id'))}}</th>
+            <th class="hidden-xs">{{ buic_listing_slink('id', __('general.phrase.id'))}}</th>
 
             {# COLUMN: Content #}
             <th style="width:80%">{{ buic_listing_slink(content.TitleColumnName()|first, __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>

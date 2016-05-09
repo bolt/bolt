@@ -298,7 +298,7 @@ general.phrase.floating-point-required-bang: "Musi być liczbą zmiennoprzecinko
 general.phrase.hints-colon: "Wskazówki"
 "Html": "HTML"
 "IP address": "Adres IP"
-"Id": "ID"
+general.phrase.id: "ID"
 "Image": "Obraz"
 "Imagelist": "Lista obrazów"
 "Integerfield": "Liczba całkowita"
