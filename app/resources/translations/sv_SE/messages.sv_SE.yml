@@ -342,7 +342,7 @@ general.phrase.missing-root-jackpot: "Det måste alltid finnas en 'root' använd
 general.phrase.warning-template: "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
 general.phrase.thumbnail: "Miniatyrbild"
-"Time in 24h/12h format": "Tid i 24h/12h format"
+general.phrase.time-format-24-12: "Tid i 24h/12h format"
 general.phrase.publish-timed: "Tidsbaserad publicering"
 "Tip:": "Tips:"
 "Title": "Titel"

@@ -335,7 +335,7 @@ general.phrase.record-related-to-variable: "Cet enregistrement est lié à %CTNA
 general.phrase.warning-template: "Ce modèle ajoute de nouveaux champs. Veuillez enregistrer le contenu puis rafraichir la page pour les voir."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
 general.phrase.thumbnail: "Miniature"
-"Time in 24h/12h format": "Heure au format 12h/24h"
+general.phrase.time-format-24-12: "Heure au format 12h/24h"
 general.phrase.publish-timed: "Publication planifiée"
 "Tip:": "Astuce :"
 "Title": "Titre"

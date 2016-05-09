@@ -438,7 +438,7 @@ general.phrase.users-none-create-first-extended: "系統中沒有使用者。請
 general.phrase.missing-root-jackpot: "總會有一個 'root' 使用者存在，而你已經成為了這個使用者。祝賀你！"
 "This is a checkbox": "這是個覈取方塊"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
-"Time in 24h/12h format": "24/12小時制"
+general.phrase.time-format-24-12: "24/12小時制"
 general.phrase.publish-timed: "定時釋出"
 "Tip:": "小貼士："
 "Title": "標題"

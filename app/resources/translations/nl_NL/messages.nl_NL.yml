@@ -336,7 +336,7 @@ general.phrase.record-related-to-variable: "Deze record heeft betrekking op de v
 general.phrase.warning-template: "Deze sjabloon voegt nieuwe velden toe. Opslaan en vervolgens vernieuwen om deze wijzigingen te zien."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 general.phrase.thumbnail: "Thumbnail"
-"Time in 24h/12h format": "Tijd in 24h/12h notering"
+general.phrase.time-format-24-12: "Tijd in 24h/12h notering"
 general.phrase.publish-timed: "Publicatiedatum"
 "Tip:": "Tip:"
 "Title": "Titel"

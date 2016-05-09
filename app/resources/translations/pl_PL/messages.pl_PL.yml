@@ -422,7 +422,7 @@ general.phrase.users-none-create-first-extended: "Brak użytkowników w systemie
 general.phrase.missing-root-jackpot: "Zawsze powinien być co najmniej jeden użytkownik 'root'. Właśnie awansowałeś. Gratulacje!"
 "This is a checkbox": "To jest checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."
-"Time in 24h/12h format": "Czas w formacie 24h/12h"
+general.phrase.time-format-24-12: "Czas w formacie 24h/12h"
 general.phrase.publish-timed: "Planowana publikacja"
 "Tip:": "Wskazówka:"
 "Title": "Tytuł"

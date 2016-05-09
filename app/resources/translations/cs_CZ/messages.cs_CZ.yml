@@ -395,7 +395,7 @@ general.phrase.missing-root-jackpot: "Vždy musí být alespoň jeden uživatel 
 general.phrase.record-related-to-variable: "Tanto záznam souvisí s %CTNAME%:"
 general.phrase.warning-template: "Šablona obsahuje nová pole obsahu. Uložte a aktualizujte stránku v prohlížeči, abyste změny viděli."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tento web běží na <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Bolt</a>."
-"Time in 24h/12h format": "Formát času 24/12"
+general.phrase.time-format-24-12: "Formát času 24/12"
 general.phrase.publish-timed: "Naplánovat vydání"
 "Title": "Nadpis"
 "Translations": "Překlady"

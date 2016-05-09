@@ -328,7 +328,7 @@ general.phrase.record-related-to-variable: "This record is related to the follow
 general.phrase.warning-template: "This template adds new fields. Save, then refresh to see these changes."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 general.phrase.thumbnail: "Thumbnail"
-"Time in 24h/12h format": "Time in 24h/12h format"
+general.phrase.time-format-24-12: "Time in 24h/12h format"
 general.phrase.publish-timed: "Timed publish"
 "Tip:": "Tip:"
 "Title": "Title"
