@@ -209,7 +209,7 @@ class Users extends BackendBase
     public function modify($action, $id)
     {
         if (!$this->isCsrfTokenValid()) {
-            $this->flashes()->error(Trans::__('Something went wrong'));
+            $this->flashes()->error(Trans::__('general.phrase.something-went-wrong'));
 
             return $this->redirectToRoute('users');
         }

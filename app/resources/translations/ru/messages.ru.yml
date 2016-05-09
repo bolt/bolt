@@ -420,7 +420,7 @@ general.phrase.pager-showing-from-to-of: "Показ %pager_for% %from% - %to% �
 general.phrase.size: "Размер"
 "Skipped <tt>%key%</tt> (already has records)": "Пропущено <tt>%key%</tt> (уже имеется записи)"
 "Skipped <tt>%key%</tt> (not checked)": "Пропущено <tt>%key%</tt> (не проверено)"
-"Something went wrong": "Что то не так"
+general.phrase.something-went-wrong: "Что то не так"
 "Sophisticated, lightweight & simple CMS": "Мощная, лёгкая и простая CMS"
 "Stack": "Стек"
 "Status:": "Статус:"

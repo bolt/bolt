@@ -176,7 +176,7 @@ general.phrase.pager-showing-from-to-of: #
 "Skipped <tt>%key%</tt> (not checked)": #
 "Slug": #
 general.phrase.slug-colon: #
-"Something went wrong": #
+general.phrase.something-went-wrong: #
 "Something went wrong with logging in after first user creation!": #
 "Status:": #
 "System Configuration Checks": #

@@ -322,7 +322,7 @@ general.phrase.pager-showing-from-to-of: "%from% - %to% %pager_for% mutatása, �
 general.phrase.size: "Méret"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
 "Skipped <tt>%key%</tt> (not checked)": "<tt>%key%</tt> kihagyva (nincs vizsgálva)"
-"Something went wrong": "Valami hiba történt."
+general.phrase.something-went-wrong: "Valami hiba történt."
 "Sophisticated, lightweight & simple CMS": "Kifinomult, korszerű és egyszerű tartalomkezelő"
 "Stack": "Köteg"
 "Status:": "Állapot"

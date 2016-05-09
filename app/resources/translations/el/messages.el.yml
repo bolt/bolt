@@ -545,7 +545,7 @@ general.phrase.pager-showing-from-to-of: "Εμφάνιση %pager_for% %from% - 
 general.phrase.size: "Μέγεθος"
 "Skipped <tt>%key%</tt> (already has records)": "Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)"
 "Skipped <tt>%key%</tt> (not checked)": "Παράληψη <tt>%key%</tt> (δεν ελέγθηκε)"
-"Something went wrong": "Κάτι πήγε στραβά"
+general.phrase.something-went-wrong: "Κάτι πήγε στραβά"
 "Status:": "Κατάσταση:"
 "That user does not exist.": "Ο χρήστης αυτός δεν υπάρχει."
 "Tip:": "Μυστικό:"

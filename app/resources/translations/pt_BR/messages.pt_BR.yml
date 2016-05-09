@@ -449,7 +449,7 @@ general.phrase.pager-showing-from-to-of: "Mostrando página %pager_for% %from% -
 general.phrase.size: "Tamanho"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
-"Something went wrong": "Algo deu errado"
+general.phrase.something-went-wrong: "Algo deu errado"
 "Sophisticated, lightweight & simple CMS": "CMS sofisticado, leve & simples"
 "Stack": "Pilha"
 "Taxonomy": "Taxonomia"
