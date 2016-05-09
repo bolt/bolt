@@ -164,7 +164,7 @@ page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 general.phrase.save-and-return-overview: #
 general.phrase.saved-on-colon: #
-"Saving …": #
+general.phrase.saving-ellipsis: #
 "Search for …": #
 "Search results for <b>%search%</b>.": #
 "Search …": #
