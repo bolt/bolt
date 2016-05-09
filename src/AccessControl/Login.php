@@ -99,7 +99,7 @@ class Login extends AccessChecker
         $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
         if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
             $this->systemLogger->alert("Attempt to login to an account with empty password field: '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
 
             return $this->loginFailed($userEntity);
@@ -107,7 +107,7 @@ class Login extends AccessChecker
 
         if ((bool) $userEntity->getEnabled() === false) {
             $this->systemLogger->alert("Attempt to login to a disabled account: '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
 
             return $this->loginFailed($userEntity);
@@ -186,14 +186,14 @@ class Login extends AccessChecker
     protected function getUserEntity($userName)
     {
         if (!$userEntity = $this->repositoryUsers->getUser($userName)) {
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
 
             return null;
         }
 
         if (!$userEntity->getEnabled()) {
             $this->systemLogger->alert("Attempt to login with disabled account by '$userName'", ['event' => 'security']);
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
 
             return null;
         }

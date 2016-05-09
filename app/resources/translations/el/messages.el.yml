@@ -574,7 +574,7 @@ general.phrase.access-denied-privilege-edit-record: "Δεν έχετε τα κα
 general.phrase.access-denied-privilege-view-page: "Δεν έχετε τα κατάλληλα δικαιώματα για την εμφάνιση αυτής τις εγγραφής."
 general.phrase.access-denied-logged-out: "Αποσυνδεθήκατα."
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
-"Your account is disabled. Sorry about that.": "Ο λογαριασμός σας απενεργοποιήθηκε."
+general.phrase.login-account-disabled: "Ο λογαριασμός σας απενεργοποιήθηκε."
 general.phrase.edited: "και επεξεργάστηκε"
 general.phrase.return-editing: "πίσω στην επεξεργασία"
 general.phrase.by: "απο"

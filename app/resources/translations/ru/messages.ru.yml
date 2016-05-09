@@ -482,7 +482,7 @@ general.phrase.access-denied-permissions-edit-file: "У вас недостат�
 general.phrase.access-denied-permissions-view-file-directory: "У вас недостаточно прав на просмотр файла или папки '%s'."
 general.phrase.access-denied-logged-out: "Вы успешно разлогинились."
 "You've been logged on successfully.": "Вы успешно вошли."
-"Your account is disabled. Sorry about that.": "Ваш аккаунт был заблокирован. Мы сожалеем об этом."
+general.phrase.login-account-disabled: "Ваш аккаунт был заблокирован. Мы сожалеем об этом."
 "Your database is already up to date.": "Ваша база данных актуальна."
 "Your database is now up to date.": "Ваша база данных теперь актуальна."
 general.phrase.edited: "и редактирован"

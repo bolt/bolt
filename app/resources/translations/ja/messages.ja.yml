@@ -522,7 +522,7 @@ general.phrase.access-denied-privilege-edit-record: "そのレコードを編集
 general.phrase.access-denied-privilege-view-page: "そのページを閲覧する権限がありません。"
 general.phrase.access-denied-logged-out: "ログアウトしました。"
 "You've been logged on successfully.": "正常にログインしました。"
-"Your account is disabled. Sorry about that.": "申し訳ありません。あなたのアカウントは無効化されています。"
+general.phrase.login-account-disabled: "申し訳ありません。あなたのアカウントは無効化されています。"
 "Your database is already up to date.": "データベースはすでに最新です。"
 "Your database is now up to date.": "データベースは最新です。"
 general.phrase.edited: "更新日："

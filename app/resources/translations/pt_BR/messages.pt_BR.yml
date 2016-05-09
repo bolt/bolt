@@ -506,7 +506,7 @@ general.phrase.access-denied-permissions-edit-file: "Você não tem permissões 
 general.phrase.access-denied-permissions-view-file-directory: "Você não tem as permissões corretas para mostrar o arquivo ou diretório '%s'."
 general.phrase.access-denied-logged-out: "Você desconectou."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
-"Your account is disabled. Sorry about that.": "Sua conta está desabilitada."
+general.phrase.login-account-disabled: "Sua conta está desabilitada."
 "Your database is already up to date.": "Seu banco de dados está atualizado."
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
 general.phrase.edited: "e alterado"

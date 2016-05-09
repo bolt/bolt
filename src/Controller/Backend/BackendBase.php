@@ -100,7 +100,7 @@ abstract class BackendBase extends Base
         // Confirm the user is enabled or bounce them
         $sessionUser = $this->getUser();
         if ($sessionUser && !$sessionUser->getEnabled()) {
-            $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $app['logger.flash']->error(Trans::__('general.phrase.login-account-disabled'));
             $event->setReason(AccessControlEvents::FAILURE_DISABLED);
             $event->setUserName($sessionUser->getUsername());
             $app['dispatcher']->dispatch(AccessControlEvents::ACCESS_CHECK_FAILURE, $event);

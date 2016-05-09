@@ -543,7 +543,7 @@ general.phrase.access-denied-privilege-edit-record: "Non possiedi le autorizzazi
 general.phrase.access-denied-privilege-view-page: "Non possiedi le autorizzazioni per visualizzare la pagina."
 general.phrase.access-denied-logged-out: "Sei stato disconnesso"
 "You've been logged on successfully.": "Accesso effettuato con successo."
-"Your account is disabled. Sorry about that.": "Spiacenti, il tuo account è disabilitato"
+general.phrase.login-account-disabled: "Spiacenti, il tuo account è disabilitato"
 "Your database is already up to date.": "Il tuo database è già aggiornato"
 "Your database is now up to date.": "Il tuo database ora è aggiornato"
 general.phrase.edited: "e modificato"
