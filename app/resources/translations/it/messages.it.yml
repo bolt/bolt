@@ -217,7 +217,7 @@ general.phrase.tip-colon: #
 general.phrase.log-change-trim: #
 general.phrase.log-system-trim: #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
-"Types": #
+general.phrase.types: #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #

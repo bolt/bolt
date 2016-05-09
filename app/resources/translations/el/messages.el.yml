@@ -551,7 +551,7 @@ general.phrase.user-not-exist: "Ο χρήστης αυτός δεν υπάρχε
 general.phrase.tip-colon: "Μυστικό:"
 "Title": "Τίτλος"
 general.phrase.translations: "Μεταφράσεις"
-"Types": "Τύποι"
+general.phrase.types: "Τύποι"
 "Update the database": "Ανανέωση της Βασης Δεδομένων"
 "Upload": "Φόρτωση"
 "Upload file": "Φόρτωση αρχείου"
