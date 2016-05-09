@@ -306,7 +306,7 @@ general.phrase.file-not-writable: "The file '%s' is not writable. You will have 
 general.phrase.directory-not-found-writable: "The folder '%s' could not be found, or is not readable."
 general.phrase.file-not-readable-following-colon: "The following file could not be read:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
-"The requested changelog entry doesn't exist.": "The requested changelog entry doesn't exist."
+logs.change-log.not-found: "The requested changelog entry doesn't exist."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct."
 "The system log has been cleared.": "The system log has been cleared."

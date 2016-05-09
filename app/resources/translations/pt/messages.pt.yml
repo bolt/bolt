@@ -324,7 +324,7 @@ general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você preci
 general.phrase.directory-not-found-writable: "A pasta '%s' não pode ser encontrada, ou não é legível."
 general.phrase.file-not-readable-following-colon: "O ficheiro seguinte não pode ser lido:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
-"The requested changelog entry doesn't exist.": "O registo não existe no registo de alterações."
+logs.change-log.not-found: "O registo não existe no registo de alterações."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The system log has been cleared.": "O registo de sistema foi limpo."

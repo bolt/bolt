@@ -85,7 +85,7 @@ class Log extends BackendBase
     {
         $entry = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '=');
         if (empty($entry)) {
-            $error = Trans::__("The requested changelog entry doesn't exist.");
+            $error = Trans::__('logs.change-log.not-found');
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }

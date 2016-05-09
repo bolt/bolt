@@ -401,7 +401,7 @@ general.phrase.file-not-writable: "Tiedostoon '%s' ei voida kirjottaa. Sinun pit
 general.phrase.directory-not-found-writable: "Kansiota '%s' ei löydy tai sitä ei voida lukea."
 general.phrase.file-not-readable-following-colon: "Seuraavaa tiedostoa ei voida lukea:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Tyypin '%taxonomytype%' tunnus ja tunniste eivät ole samat ('%slug%' vs. '%taxonomytype%'). Muokkaa ne samoiksi tiedostossa taxonomy.yml estääksesi ristiriidat tietokannan ja sivupohjiesi välillä."
-"The requested changelog entry doesn't exist.": "Pyydetty muutoslogin merkintä ei ole olemassa."
+logs.change-log.not-found: "Pyydetty muutoslogin merkintä ei ole olemassa."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
 "The system log has been cleared.": "Järjestelmälogi tyhjennettiin."

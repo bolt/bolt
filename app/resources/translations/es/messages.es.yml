@@ -404,7 +404,7 @@ general.phrase.file-not-writable: "El archivo '%s' no es editable. Necesitas usa
 general.phrase.directory-not-found-writable: "Las carpeta '%s' no se pudo encontrar, o no es legible."
 general.phrase.file-not-readable-following-colon: "El siguiente archivo no puede ser leido:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "El identificador y el slug para '%taxonomytype%' no son el mismo ('%slug%' vs. '%taxonomytype%'). Por favor edita taxonomy.yml y haz que los dos sean el mismo para prevenir inconsistencias entre la base de datos y tus plantillas"
-"The requested changelog entry doesn't exist.": "La entrada solicitada del registro de cambios no existe"
+logs.change-log.not-found: "La entrada solicitada del registro de cambios no existe"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Los ajustes de los roles y permisos están almacenados en %permissions%"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "El slug '%slug%' se usa en más de un tipo de contenido. Modifica contenttypes.yml para que sean distintos."
 "The system log has been cleared.": "El registro del sistema se ha despejado"

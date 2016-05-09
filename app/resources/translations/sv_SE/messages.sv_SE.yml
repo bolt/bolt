@@ -324,7 +324,7 @@ general.phrase.file-not-writable: "Filen '%s' är inte skrivbar. Du måste anvä
 general.phrase.directory-not-found-writable: "Mappen '%s' kunde inte hittas eller är inte läsbar."
 general.phrase.file-not-readable-following-colon: "Följande fil kunde inte läsas:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
-"The requested changelog entry doesn't exist.": "Den begärda ändringsloggen finns inte."
+logs.change-log.not-found: "Den begärda ändringsloggen finns inte."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
 "The system log has been cleared.": "Systemloggen har blivit nollställd."

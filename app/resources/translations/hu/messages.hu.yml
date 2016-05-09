@@ -341,7 +341,7 @@ general.phrase.file-not-writable: "A '%s' fájl nem írható. Egy saját szerkes
 general.phrase.directory-not-found-writable: "A '%s' mappa nem található vagy nem olvasható."
 general.phrase.file-not-readable-following-colon: "A következő fájl nem olvasható:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkeszd úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
-"The requested changelog entry doesn't exist.": "A kért változásnapló bejegyzés nem létezik."
+logs.change-log.not-found: "A kért változásnapló bejegyzés nem létezik."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkeszd úgy a contenttypes.yml fájlt, hogy különbözzenek."
 "The system log has been cleared.": "A rendszernapló törölve."

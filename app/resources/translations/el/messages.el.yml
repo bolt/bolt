@@ -178,7 +178,7 @@ general.phrase.file-not-writable: #
 general.phrase.directory-not-found-writable: #
 general.phrase.file-not-readable-following-colon: #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
-"The requested changelog entry doesn't exist.": #
+logs.change-log.not-found: #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": #
 "The system log has been cleared.": #
