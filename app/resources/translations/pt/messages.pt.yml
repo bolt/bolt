@@ -19,7 +19,7 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #

@@ -109,7 +109,7 @@ page.extend.error-composer-json-not-writable: #
 logs.change-log.cleared: #
 logs.change-log.trimmed: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 "The file '%s' doesn't exist.": #
 "The file '%s' is not readable.": #
