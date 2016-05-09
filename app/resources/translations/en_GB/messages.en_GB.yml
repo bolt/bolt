@@ -329,7 +329,7 @@ general.phrase.warning-template: "This template adds new fields. Save, then refr
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 general.phrase.thumbnail: "Thumbnail"
 "Time in 24h/12h format": "Time in 24h/12h format"
-"Timed publish": "Timed publish"
+general.phrase.publish-timed: "Timed publish"
 "Tip:": "Tip:"
 "Title": "Title"
 "Translations": "Translations"

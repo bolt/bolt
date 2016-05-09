@@ -337,7 +337,7 @@ general.phrase.warning-template: "Deze sjabloon voegt nieuwe velden toe. Opslaan
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 general.phrase.thumbnail: "Thumbnail"
 "Time in 24h/12h format": "Tijd in 24h/12h notering"
-"Timed publish": "Publicatiedatum"
+general.phrase.publish-timed: "Publicatiedatum"
 "Tip:": "Tip:"
 "Title": "Titel"
 "Translations": "Vertalingen"

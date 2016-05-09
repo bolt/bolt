@@ -492,7 +492,7 @@ general.phrase.users-none-create-first: "データベースにユーザーが存
 general.phrase.missing-root-jackpot: "少なくとも１つの'root'ユーザーアカウントが存在する必要があります。あなたのアカウントが昇格されました。おめでとうございます！"
 "This is a checkbox": "これはチェックボックスです"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
-"Timed publish": "予約公開"
+general.phrase.publish-timed: "予約公開"
 "Tip:": "Tip："
 "Title": "タイトル"
 "Translations": "翻訳"

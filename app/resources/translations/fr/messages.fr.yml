@@ -336,7 +336,7 @@ general.phrase.warning-template: "Ce modèle ajoute de nouveaux champs. Veuillez
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
 general.phrase.thumbnail: "Miniature"
 "Time in 24h/12h format": "Heure au format 12h/24h"
-"Timed publish": "Publication planifiée"
+general.phrase.publish-timed: "Publication planifiée"
 "Tip:": "Astuce :"
 "Title": "Titre"
 "Translations": "Traductions"

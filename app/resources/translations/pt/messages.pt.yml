@@ -346,7 +346,7 @@ general.phrase.record-related-to-variable: "Este registo está relacionado com a
 general.phrase.warning-template: "Este modelo acrescenta novos campos. Guarde e, em seguida, atualize para ver essas mudanças."
 general.phrase.thumbnail: "Miniatura"
 "Time in 24h/12h format": "Horário no formato 24h / 12h"
-"Timed publish": "Publicação temporizada"
+general.phrase.publish-timed: "Publicação temporizada"
 "Tip:": "Dica:"
 "Title": "Título"
 "Translations": "Traduções"

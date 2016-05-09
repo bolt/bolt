@@ -421,7 +421,7 @@ general.phrase.missing-root-jackpot: "Siempre debe haber al menos un usuario 'su
 general.phrase.warning-template: "Esta plantilla añade nuevos campos. Guarda y continuación actualiza para ver los cambios."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este sitio web está hecho con <a href='%url%' target='_blank' title='CMS sofisticado, ligero y simple'>Bolt</a>."
 "Time in 24h/12h format": "Tiempo en formato 24h/12h"
-"Timed publish": "Publicación Programada"
+general.phrase.publish-timed: "Publicación Programada"
 "Title": "Título"
 "Translations": "Traducciones"
 "Trim Change Log": "Recortar Registro de Cambios"

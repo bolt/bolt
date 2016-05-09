@@ -343,7 +343,7 @@ general.phrase.warning-template: "Denna mallen lägger till fler fält. Spara, o
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
 general.phrase.thumbnail: "Miniatyrbild"
 "Time in 24h/12h format": "Tid i 24h/12h format"
-"Timed publish": "Tidsbaserad publicering"
+general.phrase.publish-timed: "Tidsbaserad publicering"
 "Tip:": "Tips:"
 "Title": "Titel"
 "Translations": "Översättningar"

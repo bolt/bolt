@@ -418,7 +418,7 @@ general.phrase.missing-root-jackpot: "Täytyy olla vähintään yksi pääkäytt
 general.phrase.warning-template: "Tämä sivupohja lisää kenttiä. Tallenna ja päivitä nähdäksesi muutokset."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
 "Time in 24h/12h format": "Aika 24h/12h muodossa"
-"Timed publish": "Ajoitettu julkaisu"
+general.phrase.publish-timed: "Ajoitettu julkaisu"
 "Tip:": "Vinkki:"
 "Title": "Otsikko"
 "Translations": "Käännökset"

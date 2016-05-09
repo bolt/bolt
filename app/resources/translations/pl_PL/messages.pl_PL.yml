@@ -423,7 +423,7 @@ general.phrase.missing-root-jackpot: "Zawsze powinien być co najmniej jeden uż
 "This is a checkbox": "To jest checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."
 "Time in 24h/12h format": "Czas w formacie 24h/12h"
-"Timed publish": "Planowana publikacja"
+general.phrase.publish-timed: "Planowana publikacja"
 "Tip:": "Wskazówka:"
 "Title": "Tytuł"
 "Translations": "Tłumaczenia"

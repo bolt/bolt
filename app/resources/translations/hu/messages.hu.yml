@@ -362,7 +362,7 @@ general.phrase.warning-template: "A sablon új mezőket tartalmaz. Mentsd, majd 
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, korszerű és egyszerű tartalomkezelő'>Boltra épül</a>."
 general.phrase.thumbnail: "Miniatűr"
 "Time in 24h/12h format": "Idő 24/12 fromátumban"
-"Timed publish": "Időzített publikálás"
+general.phrase.publish-timed: "Időzített publikálás"
 "Tip:": "Tipp:"
 "Title": "Cím"
 "Translations": "Fordítások"

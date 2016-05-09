@@ -219,7 +219,7 @@ general.phrase.warning-template: #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 general.phrase.thumbnail: #
 "Time in 24h/12h format": #
-"Timed publish": #
+general.phrase.publish-timed: #
 "Trim Change Log": #
 "Trim System Log": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #

@@ -369,7 +369,7 @@ general.phrase.warning-template: "Dieses Template fügt neue Felder hinzu. Speic
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 general.phrase.thumbnail: "Thumbnail"
 "Time in 24h/12h format": "Zeit im 24/12 Stunden Format"
-"Timed publish": "Zeitgesteuerte Veröffentlichung"
+general.phrase.publish-timed: "Zeitgesteuerte Veröffentlichung"
 "Tip:": "Tipp:"
 "Title": "Titel"
 "Translations": "Übersetzungen"

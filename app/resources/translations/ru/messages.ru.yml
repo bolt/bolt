@@ -446,7 +446,7 @@ general.phrase.users-none-create-first-extended: "В системе нет ни 
 general.phrase.missing-root-jackpot: "Всегда должен быть хотя бы один 'root' пользователь. Вы только что были повышены. Поздравляем!"
 "This is a checkbox": "Это чекбокс"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
-"Timed publish": "Отложенная публикация"
+general.phrase.publish-timed: "Отложенная публикация"
 "Tip:": "Подсказка:"
 "Title": "Заголовок"
 "Translations": "Переводы"
