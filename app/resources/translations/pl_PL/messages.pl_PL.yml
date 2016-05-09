@@ -54,7 +54,7 @@ general.phrase.publish: #
 general.phrase.records: #
 "Repeater": #
 "Run PHP extension checks": #
-"Run all checks": #
+page.checks.run-all: #
 "Run directory checks": #
 "Run email checks": #
 "Search results for <b>%search%</b>.": #

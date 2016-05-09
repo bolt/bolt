@@ -157,7 +157,7 @@ general.phrase.rename-foldername: #
 "Repeater": #
 general.phrase.roles-permissions: #
 "Run PHP extension checks": #
-"Run all checks": #
+page.checks.run-all: #
 "Run directory checks": #
 "Run email checks": #
 "Save & create new record": #
