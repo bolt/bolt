@@ -150,7 +150,7 @@ general.phrase.please-logon: #
 general.phrase.please-provide-username: #
 general.phrase.database-prefill: # "Pre-fill database"
 general.phrase.profile: #
-"Publish": #
+general.phrase.publish: #
 "Records": #
 "Relationships": #
 "Rename %foldername%": #

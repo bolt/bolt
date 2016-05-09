@@ -45,7 +45,7 @@ general.phrase.move-up: #
 general.phrase.no-preview: #
 general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
-"Publish": #
+general.phrase.publish: #
 "Repeater": #
 "Run PHP extension checks": #
 "Run all checks": #

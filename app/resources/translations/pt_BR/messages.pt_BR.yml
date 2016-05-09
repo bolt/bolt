@@ -81,7 +81,7 @@ general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
 general.phrase.other-content: #
 general.phrase.others: #
-"Publish": #
+general.phrase.publish: #
 "Records": #
 "Repeater": #
 "Run PHP extension checks": #
