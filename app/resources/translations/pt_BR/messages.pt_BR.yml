@@ -57,7 +57,7 @@ general.phrase.file-upload-failed: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
+general.phrase.floating-point-required-bang: #
 "Invalid login parameters.": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #

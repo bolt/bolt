@@ -64,7 +64,7 @@ general.phrase.file-upload-failed: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
+general.phrase.floating-point-required-bang: #
 "Hints:": #
 "Html": #
 "Id": #

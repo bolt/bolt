@@ -84,7 +84,7 @@ page.file-management.message.folder-access-denied: #
 "Geolocation": #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
+general.phrase.floating-point-required-bang: #
 "Hints:": #
 "Html": #
 "Id": #

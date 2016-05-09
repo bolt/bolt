@@ -98,7 +98,7 @@ general.phrase.full-list-ellipsis: #
 general.phrase.global-permissions: #
 "Group": #
 "Groups": #
-"Has to be a floating point number!": #
+general.phrase.floating-point-required-bang: #
 "Hints:": #
 "Html": #
 "Id": #

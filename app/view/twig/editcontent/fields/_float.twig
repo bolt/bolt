@@ -45,7 +45,7 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
-    {{ data('validation.float', __('Has to be a floating point number!')) }}
+    {{ data('validation.float', __('general.phrase.floating-point-required-bang')) }}
 
     {% if option.required %}
         {% set validation = validation|merge({required: true}) %}
