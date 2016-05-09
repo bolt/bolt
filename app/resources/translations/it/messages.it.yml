@@ -161,7 +161,7 @@ page.checks.run-php-ext-checks: #
 page.checks.run-all: #
 page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
-"Save & create new record": #
+general.phrase.save-and-create-new-record: #
 "Save & return to overview": #
 "Saved on:": #
 "Saving …": #
