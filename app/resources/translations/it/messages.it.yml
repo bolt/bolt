@@ -523,7 +523,7 @@ general.phrase.users-none-create-first: "Non ci sono utenti nel database. Proced
 general.phrase.translations: "Traduzioni"
 general.phrase.update-database: "Aggiorna il database"
 "Upload image": "Upload immagine"
-"Uploaded files": "Files caricati"
+general.phrase.general.phrase.uploaded-files: "Files caricati"
 "Uploading to this folder is not allowed.": "L'upload in questa cartella non è permesso"
 "Used Libraries / Components": "Librerie / Componenti utilizzati"
 "User '%s' could not be deleted.": "L'utente '%s' non può essere eliminato."

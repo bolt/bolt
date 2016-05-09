@@ -170,7 +170,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('files', ['namespace' => 'files', 'path' => '']);
         $fileEntry->add(
             (new MenuEntry('files_uploads', $path))
-                ->setLabel(Trans::__('Uploaded files'))
+                ->setLabel(Trans::__('general.phrase.general.phrase.uploaded-files'))
                 ->setIcon('fa:folder-open-o')
                 ->setPermission('files:uploads')
         );

@@ -556,7 +556,7 @@ general.phrase.update-database: "Ανανέωση της Βασης Δεδομέ
 "Upload": "Φόρτωση"
 "Upload file": "Φόρτωση αρχείου"
 "Upload image": "Φόρτωση εικόνας"
-"Uploaded files": "Φορτωμένο αρχείο"
+general.phrase.general.phrase.uploaded-files: "Φορτωμένο αρχείο"
 "Uploading to this folder is not allowed.": "Η φόρτωση αρχείου σε αυτον τον κατάλογο δεν επιτρέπετε."
 "User '%s' could not be deleted.": "Ο χρήστης %s δεν μπορεί να διαγραφεί."
 "User '%s' could not be disabled.": "Ο χρήστης %s δεν μπορεί να απενεργοποιηθεί."
