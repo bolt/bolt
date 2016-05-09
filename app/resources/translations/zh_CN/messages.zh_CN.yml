@@ -49,7 +49,7 @@ general.phrase.depublish-date-past: #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 general.phrase.duplicate-set: #
-"Edit Roles and Permissions": #
+general.phrase.edit-role-permissions: #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Extend": #
