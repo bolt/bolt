@@ -327,7 +327,7 @@ page.file-management.message.file-not-readable: "Файл недоступен �
 page.file-management.message.files-in: "Файлы в %s"
 general.phrase.stack-files: "Файлы в стеке"
 general.phrase.file-size: "Размер файла"
-"Fill the database with Dummy Content": "Наполнить базу данных демо-контентом"
+general.phrase.database-prefill-dummy-content: "Наполнить базу данных демо-контентом"
 "Filter": "Фильтр"
 "Filtering": "Фильтрация"
 "Find": "Найти"
