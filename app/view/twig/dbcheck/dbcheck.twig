@@ -16,7 +16,7 @@
         <div class="col-xs-12">
             {% if context.changes %}
 
-                {{ list(__('Modifications made to the database:'), context.changes) }}
+                {{ list(__('general.phrase.modifications-database-colon'), context.changes) }}
                 {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 <p class="alert alert-success" role="alert">{{ __('Your database is now up to date.') }}</p>

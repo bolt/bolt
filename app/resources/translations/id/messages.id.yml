@@ -117,7 +117,7 @@ general.phrase.configuration-main: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.meta: #
-"Modifications made to the database:": #
+general.phrase.modifications-database-colon: #
 "Modifications needed:": #
 "Move Down": #
 "Move Up": #
