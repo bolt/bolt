@@ -365,7 +365,7 @@ general.phrase.database-check-update: "データベースのチェック/アッ�
 general.phrase.delete-file-name: "%filename% を削除"
 general.phrase.delete-directory-name: "%foldername% を削除"
 general.phrase.delete-user-name: "%username% を削除"
-"Depublication date:": "公開停止日時："
+general.phrase.depublication-date-colon: "公開停止日時："
 "Deselect all": "全てを選択解除"
 "Disable %username%": "%username% を無効化"
 "Done!": "完了！"
