@@ -537,7 +537,7 @@ general.phrase.error-user-name-password-incorrect: "Username o password non corr
 general.phrase.users: "Utenti"
 "View on site": "Mostra nel sito"
 "View site": "Mostra il sito"
-"View/edit Templates": "Mostra / modifica Templates"
+general.phrase.view-edit-templates: "Mostra / modifica Templates"
 "Written by <em>%name%</em> on %date%": "Scritto da <em>%name%</em> il %date%"
 "You do not have the right privileges to edit that record.": "Non possiedi le autorizzazioni per modificare il contenuto"
 "You do not have the right privileges to view that page.": "Non possiedi le autorizzazioni per visualizzare la pagina."

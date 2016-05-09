@@ -584,7 +584,7 @@ general.phrase.error-user-name-password-incorrect: "Brukernavn eller passord er 
 general.phrase.users: "Brukere"
 "View on site": "Vis på nettsted"
 "View site": "Vis nettsted"
-"View/edit Templates": "Vis / rediger maler"
+general.phrase.view-edit-templates: "Vis / rediger maler"
 "Written by <em>%name%</em> on %date%": "Skrevet av <em>%name%</em> %date%"
 "You do not have the right privileges to edit that record.": "Du har ikke rettigheter til å redigere denne posten."
 "You do not have the right privileges to view that page.": "Du har ikke rettigheter til å se på denne siden."

@@ -179,7 +179,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('files', ['namespace' => 'themes', 'path' => '']);
         $fileEntry->add(
             (new MenuEntry('files_themes', $path))
-                ->setLabel(Trans::__('View/edit Templates'))
+                ->setLabel(Trans::__('general.phrase.view-edit-templates'))
                 ->setIcon('fa:desktop')
                 ->setPermission('files:theme')
         );
