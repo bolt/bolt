@@ -32,7 +32,7 @@ general.phrase.delete: #
 general.phrase.delete-set: #
 general.phrase.depublish: #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Duplicate Set": #
+general.phrase.duplicate-set: #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
