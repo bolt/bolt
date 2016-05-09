@@ -171,7 +171,7 @@ general.phrase.select-none: #
 "Selectfield": # "Select field"
 general.phrase.selection: #
 "Show proposed alterations": #
-"Showing %pager_for% %from% - %to% of %count%": #
+general.phrase.pager-showing-from-to-of: #
 "Skipped <tt>%key%</tt> (already has records)": #
 "Skipped <tt>%key%</tt> (not checked)": #
 "Slug": #
