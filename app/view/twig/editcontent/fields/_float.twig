@@ -54,7 +54,7 @@
 
     {% if option.min %}
         {% set validation = validation|merge({min: option.min}) %}
-        {{ data('validation.min', __('The value has to be at least “%MINVAL%”!')) }}
+        {{ data('validation.min', __('general.phrase.value-minimum-variable')) }}
     {% endif %}
 
     {% if option.max %}

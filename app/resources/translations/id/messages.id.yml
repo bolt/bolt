@@ -204,7 +204,7 @@ logs.system-log.cleared: #
 logs.system-log.trimmed: #
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
 general.phrase.error-translation-file-not-readable: #
-"The value has to be at least “%MINVAL%”!": #
+general.phrase.value-minimum-variable: #
 "The value must not be greater than “%MAXVAL%”!": #
 page.extend.theme.generation.success: #
 general.phrase.stack-empty: #

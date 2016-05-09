@@ -199,7 +199,7 @@ general.phrase.directory-not-found-writable: #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 logs.system-log.cleared: #
 logs.system-log.trimmed: #
-"The value has to be at least “%MINVAL%”!": #
+general.phrase.value-minimum-variable: #
 "The value must not be greater than “%MAXVAL%”!": #
 page.extend.theme.generation.success: #
 general.phrase.stack-empty: #

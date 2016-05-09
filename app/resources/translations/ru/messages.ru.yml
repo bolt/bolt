@@ -115,7 +115,7 @@ general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
 logs.system-log.cleared: #
 logs.system-log.trimmed: #
-"The value has to be at least “%MINVAL%”!": #
+general.phrase.value-minimum-variable: #
 "The value must not be greater than “%MAXVAL%”!": #
 page.extend.theme.generation.success: #
 general.phrase.not-saved: #

@@ -43,7 +43,7 @@ page.extend.error-composer-json-not-readable: #
 page.extend.error-composer-json-not-writable: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The value has to be at least “%MINVAL%”!": #
+general.phrase.value-minimum-variable: #
 "The value must not be greater than “%MAXVAL%”!": #
 general.phrase.missing-about-page-block: #
 "This record is related to the following %CTNAME%:": #
