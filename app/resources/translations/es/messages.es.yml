@@ -347,7 +347,7 @@ general.phrase.please-provide-username: "Por favor proporciona un nombre de usua
 general.phrase.database-prefill: "Rellenar base de datos"
 general.phrase.preview: "Previsualizar"
 general.phrase.profile: "Perfil"
-"Provided by:": "Proporcionado por"
+general.phrase.provided-by-colon: "Proporcionado por"
 "Publication date:": "Fecha de publicación:"
 "Publish": "Publicar"
 "Published": "Publicado"

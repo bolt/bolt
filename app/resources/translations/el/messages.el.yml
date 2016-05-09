@@ -521,7 +521,7 @@ general.phrase.choose-record-link-to: "Επιλέξτε την εγγραφή π
 general.phrase.please-provide-username: "Παρακαλώ καταχωρήστε ένα όνομα χρήστη"
 general.phrase.preview: "Προεπισκόπηση"
 general.phrase.profile: "Προφίλ"
-"Provided by:": "Παρέχεται απο:"
+general.phrase.provided-by-colon: "Παρέχεται απο:"
 "Publication date:": "Ημερομηνία δημοσίευσης:"
 "Published": "Δημοσιεύτηκε"
 "Published on:": "Δημοσιεύτηκε στις:"

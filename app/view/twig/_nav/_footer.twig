@@ -1,7 +1,7 @@
 {% if app.config.get('general/branding/provided_by/0') is not empty %}
 
     <footer id="bolt-footer" class="hidden-xs {% if app.request.cookies.get('sidebar') %}bolt-footer-hidden{% endif %}">
-        {{ __("Provided by:") }}
+        {{ __('general.phrase.provided-by-colon') }}
         <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
             {{ app.config.get('general/branding/provided_by/1') }}
         </a> &ndash;

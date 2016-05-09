@@ -418,7 +418,7 @@ general.phrase.please-provide-username: "Por favor, forneça um nome de usuário
 general.phrase.database-prefill: "Pré-preenchimento do banco de dados"
 general.phrase.preview: "Pré-visualizar"
 general.phrase.profile: "Perfil"
-"Provided by:": "Fornecido por:"
+general.phrase.provided-by-colon: "Fornecido por:"
 "Publication date:": "Data de publicação: "
 "Published": "Publicado"
 "Published on:": "publicado em:"

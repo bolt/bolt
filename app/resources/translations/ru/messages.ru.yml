@@ -388,7 +388,7 @@ general.phrase.please-provide-username: "Пожалуйста, введите и
 general.phrase.database-prefill: "Предзаполнение базы данных"
 general.phrase.preview: "Предварительный просмотр"
 general.phrase.profile: "Профиль"
-"Provided by:": "Предоставлено:"
+general.phrase.provided-by-colon: "Предоставлено:"
 "Publication date:": "Дата публикации:"
 "Published": "Опубликовано"
 "Published on:": "Опубликовано:"
