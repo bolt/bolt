@@ -17,7 +17,7 @@
             {% if context.changes %}
 
                 {{ list(__('Modifications made to the database:'), context.changes) }}
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 <p class="alert alert-success" role="alert">{{ __('Your database is now up to date.') }}</p>
 
@@ -28,7 +28,7 @@
             {% elseif context.check.responsestrings %}
 
                 {{ list(__('Modifications needed:'), context.check.responsestrings) }}
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
                     <p>
@@ -45,7 +45,7 @@
 
                 <p class="alert alert-success" role="alert">{{ __("Your database is already up to date.") }}</p>
 
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 {% if isallowed('prefill') %}
                 <br>

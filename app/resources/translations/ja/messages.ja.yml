@@ -72,7 +72,7 @@ general.phrase.find: #
 "Group": #
 "Groups": #
 general.phrase.floating-point-required-bang: #
-"Hints:": #
+general.phrase.hints-colon: #
 "Id": #
 "Integerfield": # "Integer field"
 "Invalid login parameters.": #
