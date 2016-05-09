@@ -194,7 +194,7 @@ general.phrase.types: #
 page.extend.message.package-install-info-fail: #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
+general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Upload a file to this folder": #
 "Upload not allowed": #

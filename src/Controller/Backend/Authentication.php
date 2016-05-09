@@ -156,7 +156,7 @@ class Authentication extends BackendBase
         // Authentication data is cached in the session and if we can't get it
         // now, everyone is going to have a bad day. Make that obvious.
         if (!$token = $this->session()->get('authentication')) {
-            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+            $this->flashes()->error(Trans::__('general.phrase.error-session-data-login'));
 
             return $this->getLogin($request);
         }

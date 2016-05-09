@@ -22,7 +22,7 @@
 general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Unable to retrieve login session data. Please check your system's PHP session settings.": #
+general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #

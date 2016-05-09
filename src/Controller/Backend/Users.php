@@ -373,7 +373,7 @@ class Users extends BackendBase
         }
 
         if (!$token) {
-            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+            $this->flashes()->error(Trans::__('general.phrase.error-session-data-login'));
         } else {
             $this->flashes()->error(Trans::__('general.phrase.something-went-wrong-after-first-user'));
         }
