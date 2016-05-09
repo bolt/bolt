@@ -70,7 +70,7 @@ general.phrase.error-local-extension-set-up-incomplete: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.meta: #
 general.bolt-new-site-set-up: #
-"No Preview": #
+general.phrase.no-preview: #
 general.phrase.no-content-found: #
 general.phrase.no-files-in-list: #
 general.phrase.no-images-in-list: #
