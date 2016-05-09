@@ -212,7 +212,7 @@ page.file-management.message.upload-success: "Soubor '%file%' byl úspěšně um
 page.file-management.message.save-failed-invalid-form: "Soubor '%s' nelze uložit, formulář je neplatný."
 page.file-management.message.save-failed-unknown: "Soubor '%s' nemůže být z neznámého důvodu uložen."
 page.file-management.message.save-failed-colon: "Soubor '%s' nelze uložit:"
-"File '%s' has been saved.": "Soubor '%s' byl uložen."
+page.file-management.message.save-success: "Soubor '%s' byl uložen."
 general.phrase.file-management: "Správa souborů"
 page.file-management.message.file-not-readable: "Soubor není čitelný!"
 "Filelist": "Více souborů"

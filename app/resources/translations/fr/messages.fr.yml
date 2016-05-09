@@ -144,7 +144,7 @@ page.file-management.message.upload-success: "Le fichier '%file%' a été envoy�
 page.file-management.message.save-failed-invalid-form: "Le fichier '%s' n'a pas été enregistré car les données du formulaire sont incorrectes."
 page.file-management.message.save-failed-unknown: "Le fichier '%s' n'a pu être enregistré pour une raison inconnue."
 page.file-management.message.save-failed-colon: "Le fichier '%s' n'a pu être enregistré :"
-"File '%s' has been saved.": "Enregistrement réussi du fichier '%s'."
+page.file-management.message.save-success: "Enregistrement réussi du fichier '%s'."
 general.phrase.file-management: "Fichiers"
 page.file-management.message.file-not-readable: "Le fichier n'est pas accessible en lecture !"
 "Filelist": "Liste de fichiers"

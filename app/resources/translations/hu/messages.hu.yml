@@ -197,7 +197,7 @@ page.file-management.message.upload-success: "A '%file%' fájl sikeresen feltöl
 page.file-management.message.save-failed-invalid-form: "A '%s' fájl nem menthető mert a form érvénytelen."
 page.file-management.message.save-failed-unknown: "A '%s' nevű fájl nem menthető valamilyen ok miatt."
 page.file-management.message.save-failed-colon: "A '%s' nevű fájl nem menthető:"
-"File '%s' has been saved.": "A '%s' nevű fájl mentve."
+page.file-management.message.save-success: "A '%s' nevű fájl mentve."
 general.phrase.file-management: "Fájlkezelő"
 page.file-management.message.file-not-readable: "A fájl nem olvasható!"
 "Filelist": "Fájl lista"

@@ -337,7 +337,7 @@ class General extends BackendBase
             return false;
         }
 
-        $msg = Trans::__("File '%s' has been saved.", ['%s' => $tr['shortPath']]);
+        $msg = Trans::__('page.file-management.message.save-success', ['%s' => $tr['shortPath']]);
         $this->flashes()->info($msg);
 
         return $this->redirectToRoute('translation', ['domain' => $tr['domain'], 'tr_locale' => $tr['locale']]);

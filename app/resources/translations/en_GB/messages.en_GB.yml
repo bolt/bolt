@@ -134,7 +134,7 @@ page.file-management.message.upload-success: "File '%file%' was uploaded success
 page.file-management.message.save-failed-invalid-form: "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.save-failed-unknown: "File '%s' could not be saved, for some reason."
 page.file-management.message.save-failed-colon: "File '%s' could not be saved:"
-"File '%s' has been saved.": "File '%s' has been saved."
+page.file-management.message.save-success: "File '%s' has been saved."
 general.phrase.file-management: "File Management"
 page.file-management.message.file-not-readable: "File is not readable!"
 "Filelist": "File list"

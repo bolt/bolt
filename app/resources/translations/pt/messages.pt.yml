@@ -154,7 +154,7 @@ page.file-management.message.upload-success: "O ficheiro '%file%' foi carregado 
 page.file-management.message.save-failed-invalid-form: "Não foi possível guardar o ficheiro '%s' , porque o formulário não está completo ou não é válido."
 page.file-management.message.save-failed-unknown: "O ficheiro '%s' não pode ser guardado por alguma razão."
 page.file-management.message.save-failed-colon: "Ficheiro '%s' não pode ser guardado:"
-"File '%s' has been saved.": "Ficheiro '%s' guardado."
+page.file-management.message.save-success: "Ficheiro '%s' guardado."
 general.phrase.file-management: "Gerir ficheiros"
 page.file-management.message.file-not-readable: "O ficheiro não pode ser lido!"
 "Filelist": "Lista de ficheiros"

@@ -192,7 +192,7 @@ page.file-management.message.upload-success: "Die Datei '%file%' wurde erfolgrei
 page.file-management.message.save-failed-invalid-form: "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
 page.file-management.message.save-failed-unknown: "Die Datei '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 page.file-management.message.save-failed-colon: "Die Datei '%s' konnte nicht gespeichert werden:"
-"File '%s' has been saved.": "Die Datei '%s' wurde gespeichert."
+page.file-management.message.save-success: "Die Datei '%s' wurde gespeichert."
 general.phrase.file-management: "Dateiverwaltung"
 page.file-management.message.file-not-readable: "Die Datei ist nicht lesbar!"
 "Filelist": "Dateiliste"

@@ -150,7 +150,7 @@ page.file-management.message.upload-success: "Bestand '%file%' is goed geüpload
 page.file-management.message.save-failed-invalid-form: "Het bestand %s kon niet worden opgeslagen omdat het formulier niet juist is ingevuld."
 page.file-management.message.save-failed-unknown: "Bestand '%s' kon niet worden opgeslagen, om een onduidelijke reden."
 page.file-management.message.save-failed-colon: "Bestand '%s' kon niet worden opgeslagen: "
-"File '%s' has been saved.": "Bestand '%s' is opgeslagen."
+page.file-management.message.save-success: "Bestand '%s' is opgeslagen."
 general.phrase.file-management: "Bestandsbeheer"
 page.file-management.message.file-not-readable: "Bestand is niet leesbaar!"
 "Filelist": "Bestandenlijst"
