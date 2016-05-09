@@ -248,7 +248,7 @@ general.phrase.modifications-database-colon: "Durchgeführte Änderungen an der 
 general.phrase.modifications-needed-colon: "Benötigte Änderungen:"
 general.phrase.modified: "Bearbeitet"
 "Multiselect": "Mehrfachauswahl"
-"New Bolt site has been set up": "Die neue Bolt Webseite wurde erstellt"
+general.bolt-new-site-set-up: "Die neue Bolt Webseite wurde erstellt"
 "No content found.": "Kein Inhalt gefunden."
 "No files in the list, yet.": "Zur Zeit befinden sich keine Dateien in der Liste."
 "No images in the list, yet.": "Zur Zeit befinden sich keine Bilder in der Liste."

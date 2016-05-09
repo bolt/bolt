@@ -69,7 +69,7 @@ general.phrase.live-edit: #
 general.phrase.error-local-extension-set-up-incomplete: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.meta: #
-"New Bolt site has been set up": #
+general.bolt-new-site-set-up: #
 "No Preview": #
 "No content found.": #
 "No files in the list, yet.": #

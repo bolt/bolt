@@ -711,7 +711,7 @@ class Users extends BackendBase
             $email = $this->getOption('general/mailoptions/senderMail', $email);
             $message = $this->app['mailer']
                 ->createMessage('message')
-                ->setSubject(Trans::__('New Bolt site has been set up'))
+                ->setSubject(Trans::__('general.bolt-new-site-set-up'))
                 ->setFrom($from)
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])

@@ -114,7 +114,7 @@ general.phrase.meta: #
 general.phrase.move-down: #
 general.phrase.move-up: #
 "Multiselect": # "Multi-select"
-"New Bolt site has been set up": #
+general.bolt-new-site-set-up: #
 "No Preview": #
 "No content found.": #
 "No files in the list, yet.": #
