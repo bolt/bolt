@@ -17,7 +17,7 @@
 #--- 33 untranslated messages -------------------------------------------------
 
 general.phrase.add-selected: #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+general.bolt-configuration-issues-detected: #
 "Check/Uncheck all": #
 "Cleared cache.": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #

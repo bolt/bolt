@@ -29,7 +29,7 @@ general.phrase.add-selected: #
 "Are you sure you wish to delete this record? There is no undo.": #
 general.phrase.required-character-count: #
 general.phrase.author: #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+general.bolt-configuration-issues-detected: #
 "Check/Uncheck all": #
 "Clear Change Log": #
 "Clear System Log": #

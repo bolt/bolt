@@ -35,7 +35,7 @@ general.phrase.required-character-count: #
 general.phrase.author: #
 general.bolt-third-party-libraries: #
 "Body": #
-"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+general.bolt-configuration-issues-detected: #
 "Browser / platform": #
 "Built-in role, automatically granted at all times, even if no user is logged in": #
 "Built-in role, automatically granted to every registered user": #
