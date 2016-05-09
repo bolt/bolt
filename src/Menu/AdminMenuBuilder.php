@@ -65,7 +65,7 @@ final class AdminMenuBuilder
         $path = $this->rootEntry->getUri() . '/users';
         $configEntry->add(
             (new MenuEntry('users', $path))
-                ->setLabel(Trans::__('Users & Permissions'))
+                ->setLabel(Trans::__('general.phrase.users-permissions'))
                 ->setIcon('fa:group')
                 ->setPermission('users')
         );
