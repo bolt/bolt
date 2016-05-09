@@ -117,7 +117,7 @@ general.phrase.record-related-to-variable: #
 general.phrase.warning-template: #
 general.phrase.thumbnail: #
 general.phrase.log-change-trim: #
-"Trim System Log": #
+general.phrase.log-system-trim: #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
