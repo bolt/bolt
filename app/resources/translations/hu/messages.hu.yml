@@ -258,7 +258,7 @@ general.phrase.no-result-for-search-term: "Nincs találat a '%SEARCHTERM%' keres
 general.phrase.no-such-action-for-user: "Nincs ilyen művelet a '%s' felhasználóhoz."
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 general.phrase.none: "Nincs"
-"Not published": "Visszavont"
+general.phrase.not-published: "Visszavont"
 "Not yet installed.": "Még nincs telepítve."
 general.phrase.note-colon: "Jegyzet"
 "Omnisearch": "Kereső"

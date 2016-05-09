@@ -226,7 +226,7 @@ general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para '%SE
 general.phrase.no-such-action-for-user: "Nenhuma ação para o utilizador '%s'."
 page.extend.theme.generation.missing.name: "Nenhum nome de tema encontrado. O tema não será criado."
 general.phrase.none: "Nunca"
-"Not published": "Não publicado"
+general.phrase.not-published: "Não publicado"
 "Not yet installed.": "Ainda não instalado."
 general.phrase.note-colon: "Nota:"
 "Omnisearch": "Omnisearch"

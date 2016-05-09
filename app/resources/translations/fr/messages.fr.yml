@@ -214,7 +214,7 @@ general.phrase.no-result-for-search-term: "Aucun résultat pour la recherche de 
 general.phrase.no-such-action-for-user: "Aucune action possible pour l'utilisateur '%s'."
 page.extend.theme.generation.missing.name: "Aucun nom de thème trouvé. Le thème n'est pas généré."
 general.phrase.none: "Aucun"
-"Not published": "Non publié"
+general.phrase.not-published: "Non publié"
 "Not yet installed.": "Non installé"
 general.phrase.note-colon: "Note :"
 "Omnisearch": "Recherche globale"

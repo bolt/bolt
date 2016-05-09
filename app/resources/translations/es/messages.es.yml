@@ -320,7 +320,7 @@ general.phrase.no-result-for-search-term: "No hay resultados para %SEARCHTERM%. 
 general.phrase.no-such-action-for-user: "No existe esa acción para el usuario '%s'."
 page.extend.theme.generation.missing.name: "Nombre del tema no encontrado, no se generó el tema"
 general.phrase.none: "Nada"
-"Not published": "No publicado"
+general.phrase.not-published: "No publicado"
 "Not yet installed.": "Todavía no se ha instalado"
 general.phrase.note-colon: "Nota"
 "Only root can change file extensions.": "Solo root puede cambiar las extensiones de archivo"

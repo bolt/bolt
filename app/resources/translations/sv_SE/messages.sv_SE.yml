@@ -231,7 +231,7 @@ general.phrase.no-result-for-search-term: "Vi kunde inte hitta något för sökn
 general.phrase.no-such-action-for-user: "Det finns ingen sådan åtgärd för användaren '%s'."
 page.extend.theme.generation.missing.name: "Inget temanamn hittat. Temat har inte genererats."
 general.phrase.none: "Ingen"
-"Not published": "Inte publicerad"
+general.phrase.not-published: "Inte publicerad"
 "Not yet installed.": "Inte installerat än."
 general.phrase.note-colon: "Notering:"
 "Omnisearch": "Multisök"

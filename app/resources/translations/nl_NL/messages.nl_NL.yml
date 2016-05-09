@@ -219,7 +219,7 @@ general.phrase.no-result-for-search-term: "Geen resultaat gevonden voor '%SEARCH
 general.phrase.no-such-action-for-user: "Die actie kun je niet uitvoeren op gebruiker '%s'."
 page.extend.theme.generation.missing.name: "Geen themanaam gevonden. Het thema is niet gegenereerd."
 general.phrase.none: "Geen"
-"Not published": "Niet gepubliceerd"
+general.phrase.not-published: "Niet gepubliceerd"
 "Not yet installed.": "Nog niet geïnstalleerd."
 general.phrase.note-colon: "Opmerking: "
 "Omnisearch": "Omnisearch"

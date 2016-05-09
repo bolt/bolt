@@ -279,7 +279,7 @@ general.phrase.no-result-for-search-term: "Pro '%SEARCHTERM%' nebyly nalezeny ž
 general.phrase.no-such-action-for-user: "Pro uživatele '%s' není tato akce dostupná"
 page.extend.theme.generation.missing.name: "Žádné jméno téma"
 general.phrase.none: "není"
-"Not published": "Nepublikováno"
+general.phrase.not-published: "Nepublikováno"
 "Not yet installed.": "Ještě nenainstalováno."
 general.phrase.note-colon: "není"
 "Omnisearch": "Vyhledávání"
