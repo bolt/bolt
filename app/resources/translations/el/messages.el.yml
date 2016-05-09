@@ -478,7 +478,7 @@ page.file-management.message.file-not-readable: "Το αρχείο δεν μπο
 "Files": "Αρχεία"
 page.file-management.message.files-in: "Αρχεία στο %s"
 "Files on the stack": "Αρχεία στο stack"
-"Filesize": "Μέγεθος αρχείου"
+general.phrase.file-size: "Μέγεθος αρχείου"
 "Fill the database with Dummy Content": "Γέμισε την Βάση Δεδομένων με Χαζό Περιεχόμενο"
 "Filter": "Φίλτρο"
 "Folder '%s' could not be found, or is not readable.": "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."

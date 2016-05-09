@@ -389,7 +389,7 @@ page.file-management.message.file-not-readable: "ファイルが読み取り可�
 "Files": "ファイル"
 page.file-management.message.files-in: "%s の中のファイル"
 "Files on the stack": "スタック上のファイル"
-"Filesize": "ファイルサイズ"
+general.phrase.file-size: "ファイルサイズ"
 "Fill the database with Dummy Content": "ダミーコンテンツをデータベースに挿入"
 "Filter": "フィルタ"
 "Folder '%s' could not be found, or is not readable.": "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"

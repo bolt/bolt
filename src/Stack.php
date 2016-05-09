@@ -206,7 +206,7 @@ class Stack
                 '%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>',
                 Trans::__('Path'),
                 $thisitem['filepath'],
-                Trans::__('Filesize'),
+                Trans::__('general.phrase.file-size'),
                 $thisitem['filesize'],
                 Trans::__('Modified'),
                 $thisitem['modified'],

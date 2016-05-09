@@ -326,7 +326,7 @@ page.file-management.message.file-not-readable: "Файл недоступен �
 "Filelist": "Лист файлов"
 page.file-management.message.files-in: "Файлы в %s"
 "Files on the stack": "Файлы в стеке"
-"Filesize": "Размер файла"
+general.phrase.file-size: "Размер файла"
 "Fill the database with Dummy Content": "Наполнить базу данных демо-контентом"
 "Filter": "Фильтр"
 "Filtering": "Фильтрация"
