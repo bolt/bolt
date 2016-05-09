@@ -208,7 +208,7 @@ class Stack
                 $thisitem['filepath'],
                 Trans::__('general.phrase.file-size'),
                 $thisitem['filesize'],
-                Trans::__('Modified'),
+                Trans::__('general.phrase.modified'),
                 $thisitem['modified'],
                 Trans::__('Permissions'),
                 $thisitem['permissions']
