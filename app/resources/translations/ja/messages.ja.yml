@@ -349,7 +349,7 @@ general.phrase.change-current-status: "クリックして現在のステータ�
 general.phrase.code-colon: "コード："
 general.phrase.configuration: "全般設定"
 "Content": "コンテンツ"
-"Content '%title%' could not be modified.": "コンテンツ '%title%' は更新できません。"
+general.access-denied.content-not-modified: "コンテンツ '%title%' は更新できません。"
 "Content Type Permissions": "コンテンツタイプのパーミッション"
 "Contenttypes": "コンテンツタイプ"
 "Create folder": "フォルダを作成"
