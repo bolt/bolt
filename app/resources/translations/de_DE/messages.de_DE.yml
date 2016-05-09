@@ -254,7 +254,7 @@ general.phrase.no-files-in-list: "Zur Zeit befinden sich keine Dateien in der Li
 general.phrase.no-images-in-list: "Zur Zeit befinden sich keine Bilder in der Liste."
 general.phrase.no-relations-found-bang: "Keine Verknüpfungen gefunden!"
 general.phrase.no-result-for-search-term: "Keine Ergebnisse für %SEARCHTERM% gefunden. Bitte einen anderen Suchbegriff probieren."
-"No such action for user '%s'.": "Aktion für Benutzer '%s' nicht gefunden."
+general.phrase.no-such-action-for-user: "Aktion für Benutzer '%s' nicht gefunden."
 "No theme name found. Theme is not generated.": "Kein Theme-Name gefunden. Das Theme wurde nicht erzeugt."
 general.phrase.none: "Keine/r"
 "Not published": "Nicht veröffentlicht"

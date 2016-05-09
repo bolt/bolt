@@ -502,7 +502,7 @@ general.phrase.modifications-database-colon: "Αλλαγές στην Βάση �
 general.phrase.modifications-needed-colon: "Αλλαγές που χρειάστηκαν:"
 general.phrase.modified: "Τροποποιήθηκε"
 general.phrase.no-result-for-search-term: "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
-"No such action for user '%s'.": "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
+general.phrase.no-such-action-for-user: "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
 general.phrase.none: "Κανένα"
 "Not published": "Μη δημοσιευμένο"
 "Options": "Επιλογές"

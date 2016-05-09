@@ -129,7 +129,7 @@ general.phrase.no-files-in-list: #
 general.phrase.no-images-in-list: #
 general.phrase.no-relations-found-bang: #
 general.phrase.no-result-for-search-term: #
-"No such action for user '%s'.": #
+general.phrase.no-such-action-for-user: #
 "No theme name found. Theme is not generated.": #
 general.phrase.none: #
 "Not yet installed.": #

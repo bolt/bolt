@@ -419,7 +419,7 @@ general.phrase.modifications-database-colon: "データベースを修正しま�
 general.phrase.modifications-needed-colon: "修正が必要です。"
 general.phrase.modified: "修正された"
 general.phrase.no-result-for-search-term: "'%SEARCHTERM%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
-"No such action for user '%s'.": "ユーザー '%s' に対してそのアクションはありません。"
+general.phrase.no-such-action-for-user: "ユーザー '%s' に対してそのアクションはありません。"
 general.phrase.none: "なし"
 "Not published": "非公開"
 "Options": "オプション"

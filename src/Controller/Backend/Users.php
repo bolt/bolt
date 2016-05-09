@@ -265,7 +265,7 @@ class Users extends BackendBase
                 break;
 
             default:
-                $this->flashes()->error(Trans::__("No such action for user '%s'.", ['%s' => $user->getDisplayname()]));
+                $this->flashes()->error(Trans::__('general.phrase.no-such-action-for-user', ['%s' => $user->getDisplayname()]));
 
         }
 
