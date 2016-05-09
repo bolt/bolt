@@ -95,7 +95,7 @@ page.file-management.message.folder-access-denied: #
 general.phrase.full-list-ellipsis: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Geolocation": #
-"Global Permissions": #
+general.phrase.global-permissions: #
 "Group": #
 "Groups": #
 "Has to be a floating point number!": #

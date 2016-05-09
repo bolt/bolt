@@ -483,7 +483,7 @@ general.phrase.database-prefill-dummy-content: "Γέμισε την Βάση Δ�
 general.phrase.filter: "Φίλτρο"
 page.file-management.message.folder-not-found: "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."
 general.phrase.folders: "Κατάλογοι"
-"Global Permissions": "Καθολικά Δικαιώματα"
+general.phrase.global-permissions: "Καθολικά Δικαιώματα"
 "IP address": "Διεύθυνση IP"
 "Image": "Εικόνα"
 "Info": "Πληροφορίες"

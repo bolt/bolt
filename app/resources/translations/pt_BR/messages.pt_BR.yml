@@ -361,7 +361,7 @@ page.file-management.message.folder-access-denied: "Permissões insuficientes na
 general.phrase.folders: "Pastas"
 general.phrase.full-list-ellipsis: "Lista completa…"
 "Geolocation": "Geolocalização"
-"Global Permissions": "Permissões Globais"
+general.phrase.global-permissions: "Permissões Globais"
 "Hints:": "Dicas:"
 "Html": "HTML"
 "IP address": "Endereço IP"

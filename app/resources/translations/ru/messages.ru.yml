@@ -336,7 +336,7 @@ page.file-management.message.folder-not-found: "Папка '%s' не может 
 page.file-management.message.folder-access-denied: "Недостаточно прав на чтение папки"
 general.phrase.folders: "Папки"
 "Geolocation": "Геолокация"
-"Global Permissions": "Глобальные права"
+general.phrase.global-permissions: "Глобальные права"
 "IP address": "IP адрес"
 "Image": "Изображение"
 "Imagelist": "Изображения"

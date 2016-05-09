@@ -283,7 +283,7 @@ page.file-management.message.folder-access-denied: "Puutteeliset kansion oikeude
 general.phrase.folders: "Hakemistot"
 general.phrase.full-list-ellipsis: "Koko lista …"
 "Geolocation": "Geolokaatio"
-"Global Permissions": "Globaalit oikeudet"
+general.phrase.global-permissions: "Globaalit oikeudet"
 "Has to be a floating point number!": "Vaaditaan liukulukunumero!"
 "Hints:": "Vihjeet:"
 "IP address": "IP-osoite"

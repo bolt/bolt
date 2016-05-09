@@ -293,7 +293,7 @@ page.file-management.message.folder-access-denied: "Niewystarczające uprawnieni
 general.phrase.folders: "Katalogi"
 general.phrase.full-list-ellipsis: "Pełna lista …"
 "Geolocation": "Geolokalizacja"
-"Global Permissions": "Globalne uprawnienia"
+general.phrase.global-permissions: "Globalne uprawnienia"
 "Has to be a floating point number!": "Musi być liczbą zmiennoprzecinkową!"
 "Hints:": "Wskazówki"
 "Html": "HTML"
