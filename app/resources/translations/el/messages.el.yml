@@ -52,7 +52,7 @@ general.phrase.content-type-permissions: #
 general.phrase.content-types: #
 page.file-management.label.create-file: #
 page.file-management.label.create-folder: #
-"Dashboard": #
+general.phrase.dashboard: #
 "Date": #
 "Datetime": #
 "Default status": #

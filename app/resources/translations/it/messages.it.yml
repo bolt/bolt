@@ -56,7 +56,7 @@ general.phrase.content-type-permissions: #
 page.file-management.label.create-file: #
 page.file-management.label.create-folder: #
 "Current (saved) status:": #
-"Dashboard": #
+general.phrase.dashboard: #
 "Date": #
 "Datetime": #
 "Default status": #

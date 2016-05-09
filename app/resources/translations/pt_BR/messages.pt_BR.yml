@@ -34,7 +34,7 @@ general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
 page.file-management.label.create-file: #
-"Dashboard": #
+general.phrase.dashboard: #
 "Delete": #
 "Delete Set": #
 "Depublish": #
