@@ -250,7 +250,7 @@ general.phrase.return-editing: #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.line: #
-"no content …": #
+general.phrase.no-content: #
 "no title …": #
 "or": #
 

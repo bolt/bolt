@@ -259,7 +259,7 @@ general.phrase.no-content-found: #
 "You've been logged on successfully.": #
 general.phrase.return-editing: #
 "filtered by <em>'%filter%'</em>": #
-"no content …": #
+general.phrase.no-content: #
 "no title …": #
 "or": #
 

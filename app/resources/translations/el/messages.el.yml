@@ -236,7 +236,7 @@ general.phrase.no-content-found: #
 "Your database is already up to date.": #
 "Your database is now up to date.": #
 "filtered by <em>'%filter%'</em>": #
-"no content …": #
+general.phrase.no-content: #
 "no title …": #
 "or": #
 

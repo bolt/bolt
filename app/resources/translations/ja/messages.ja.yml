@@ -181,7 +181,7 @@ general.phrase.no-content-found: #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
-"no content …": #
+general.phrase.no-content: #
 "no title …": #
 "or": #
 
