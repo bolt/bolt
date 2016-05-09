@@ -153,7 +153,7 @@ general.phrase.select-file: #
 general.phrase.selection: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
-"Slug:": #
+general.phrase.slug-colon: #
 "Something went wrong with logging in after first user creation!": #
 "Sophisticated, lightweight & simple CMS": #
 "Stack": #

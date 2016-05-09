@@ -93,7 +93,7 @@ general.phrase.search-results-for-variable: #
 general.phrase.selection: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
-"Slug:": #
+general.phrase.slug-colon: #
 "Something went wrong with logging in after first user creation!": #
 "Status:": #
 "System Configuration Checks": #

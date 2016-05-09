@@ -52,7 +52,7 @@ page.checks.run-all: #
 general.phrase.search-results-for-variable: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
-"Slug:": #
+general.phrase.slug-colon: #
 "Something went wrong with logging in after first user creation!": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #

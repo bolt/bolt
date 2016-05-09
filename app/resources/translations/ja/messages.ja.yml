@@ -468,7 +468,7 @@ general.phrase.pager-showing-from-to-of: "%page_for%を表示 %from%～%to%件�
 general.phrase.size: "サイズ"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt>をスキップしました (すでにレコードが存在します)"
 "Skipped <tt>%key%</tt> (not checked)": " <tt>%key%</tt> をスキップしました（チェックされません）"
-"Slug:": "スラッグ："
+general.phrase.slug-colon: "スラッグ："
 "Something went wrong": "不具合が発生しました。"
 "Sophisticated, lightweight & simple CMS": "洗練された、軽量でシンプルなCMS"
 "Stack": "スタック"
