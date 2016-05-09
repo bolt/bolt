@@ -294,7 +294,7 @@ general.phrase.error-login-invalid-parameters: "Parámetros de inicio de sesión
 general.phrase.required-is-or-match-pattern: "Es requerido o se necesita que coincida con un patrón"
 general.phrase.required-is-bang: "¡Es requerido!"
 general.phrase.keyword-ellipsis: "Palabra clave"
-"Last edited on:": "Editado por última vez el:"
+general.phrase.last-edited-on-colon: "Editado por última vez el:"
 "Last known IP": "Última dirección IP registrada"
 "Last seen": "Visto por última vez"
 "Listing template": "Plantilla del listado"

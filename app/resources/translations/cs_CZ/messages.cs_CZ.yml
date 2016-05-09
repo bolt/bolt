@@ -248,7 +248,7 @@ general.phrase.error-login-invalid-parameters: "Neplatné parametry přihlášen
 general.phrase.required-is-or-match-pattern: "Je vyžadováno nebu musí odpovídat vzoru!"
 general.phrase.required-is-bang: "Povinné!"
 general.phrase.keyword-ellipsis: "Klíčové slovo …"
-"Last edited on:": "Upraveno:"
+general.phrase.last-edited-on-colon: "Upraveno:"
 "Last known IP": "Poslední známá IP adresa"
 "Last seen": "Naposledy přihlášen"
 "Link": "Odkaz"

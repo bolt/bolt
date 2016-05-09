@@ -192,7 +192,7 @@ general.phrase.error-login-invalid-parameters: "Parâmetros de autenticação in
 general.phrase.required-is-or-match-pattern: "É necessário ou tem de corresponder a um padrão!"
 general.phrase.required-is-bang: "É obrigatório!"
 general.phrase.keyword-ellipsis: "Termo-chave..."
-"Last edited on:": "Última edição em:"
+general.phrase.last-edited-on-colon: "Última edição em:"
 "Last known IP": "Último IP conhecido"
 "Last seen": "Última visualização"
 "Link": "Hiperligação"

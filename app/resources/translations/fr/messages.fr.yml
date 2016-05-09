@@ -180,7 +180,7 @@ general.phrase.error-login-invalid-parameters: "Paramètres de connexion invalid
 general.phrase.required-is-or-match-pattern: "Obligatoire ou doit correspondre à un masque."
 general.phrase.required-is-bang: "Obligatoire"
 general.phrase.keyword-ellipsis: "Mot-clef …"
-"Last edited on:": "Dernière édition le"
+general.phrase.last-edited-on-colon: "Dernière édition le"
 "Last known IP": "Dernière adresse IP connue"
 "Last seen": "Vu pour la dernière fois"
 "Link": "Lier"

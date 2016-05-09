@@ -230,7 +230,7 @@ general.phrase.error-login-invalid-parameters: "Érvénytelen bejelentkezési pa
 general.phrase.required-is-or-match-pattern: "Kötelező vagy mintának megfelelő!"
 general.phrase.required-is-bang: "Kötelező!"
 general.phrase.keyword-ellipsis: "Kulcsszó _"
-"Last edited on:": "Utoljára szerkesztve:"
+general.phrase.last-edited-on-colon: "Utoljára szerkesztve:"
 "Last known IP": "Utolsó ismert IP"
 "Last seen": "Utoljára látva"
 "Listing template": "Sablon listázás"
