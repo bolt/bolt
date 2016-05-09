@@ -56,7 +56,7 @@ general.phrase.field-fieldname: #
 page.file-management.message.save-failed-invalid-form: #
 page.file-management.title: #
 general.phrase.file-upload-failed: #
-"Full list …": #
+general.phrase.full-list-ellipsis: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #

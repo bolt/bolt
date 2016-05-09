@@ -86,7 +86,7 @@ general.phrase.filtering: #
 general.phrase.find: #
 "Floatfield": # "Float field"
 page.file-management.message.folder-access-denied: #
-"Full list …": #
+general.phrase.full-list-ellipsis: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Geolocation": #
 "Group": #
