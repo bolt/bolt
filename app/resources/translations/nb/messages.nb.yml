@@ -429,7 +429,7 @@ general.bolt-third-party-libraries: "Nedenfor er tredjepartsbibliotekene som er 
 general.bolt-fatal-error: "Bolt - fatal feil."
 general.phrase.browswer-platform: "Nettleser / plattform"
 permissions.roles.description.anonymous: "Innebygd rolle, automatisk tildelt hele tiden, selv når ingen bruker er innlogget"
-"Built-in role, automatically granted to every registered user": "Innebygd rolle, automatisk tildelt alle registrerte brukere"
+permissions.roles.description.everyone: "Innebygd rolle, automatisk tildelt alle registrerte brukere"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Innebygd rolle, kun gyldig i sammenheng med en ressurs, og automatisk tildelt eieren av den ressursen."
 "Built-in superuser role, automatically grants all permissions": "Innebygd superbrukerrolle, automatisk tildelt alle rettigheter"
 "Cancel": "Avbryt"

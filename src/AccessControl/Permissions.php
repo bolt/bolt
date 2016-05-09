@@ -117,7 +117,7 @@ class Permissions
             case self::ROLE_EVERYONE:
                 return [
                     'label'       => Trans::__('Everybody'),
-                    'description' => Trans::__('Built-in role, automatically granted to every registered user'),
+                    'description' => Trans::__('permissions.roles.description.everyone'),
                     'builtin'     => true,
                 ];
 

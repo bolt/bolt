@@ -117,7 +117,7 @@ general.bolt-third-party-libraries: "Hier die Bibliotheken von Drittanbietern, w
 general.bolt-fatal-error: "Bolt - Schwerwiegender Fehler."
 general.phrase.browswer-platform: "Browser / Plattform"
 permissions.roles.description.anonymous: "Standard-Rolle, automatisch eingeräumt, selbst wenn kein Benutzer eingeloggt ist"
-"Built-in role, automatically granted to every registered user": "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
+permissions.roles.description.everyone: "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Standard-Rolle, nur kontextbezogen gültig und automatisch an den Besitzer einer Quelle zugewiesen."
 "Built-in superuser role, automatically grants all permissions": "Standard Superuser Rolle, vergibt automatisch alle Berechtigungen"
 "Cancel": "Abbrechen"

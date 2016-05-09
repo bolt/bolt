@@ -201,7 +201,7 @@ general.bolt-third-party-libraries: "Poniżej znajdują się biblioteki osób tr
 general.bolt-fatal-error: "Bolt - Błąd krytyczny."
 general.phrase.browswer-platform: "Przeglądarka / platforma"
 permissions.roles.description.anonymous: "Wbudowana rola, automatycznie przyznawana przez cały czas, nawet gdy użytkownik nie jest zalogowany"
-"Built-in role, automatically granted to every registered user": "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
+permissions.roles.description.everyone: "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Wbudowana rola, obowiązująca tylko w kontekście zasobów, i automatycznie przypisana do właściciela tego zasobu."
 "Built-in superuser role, automatically grants all permissions": "Wbudowana rola super użytkownika, automatycznie przyznająca wszystkie uprawnienia"
 "Cancel": "Anuluj"

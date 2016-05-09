@@ -124,7 +124,7 @@ general.bolt-third-party-libraries: "A Bolt által használt harmadik féltől s
 general.bolt-fatal-error: "Bolt - Végzetes hiba."
 general.phrase.browswer-platform: "Böngésző / platform"
 permissions.roles.description.anonymous: "Beépített szerepkör, automatikusan biztosítva minden alkalommal még ha nincs is bejelentkezett felhasználó"
-"Built-in role, automatically granted to every registered user": "Beépített szerepkör, automatikusan biztosítva minden regisztrált felhasználónak"
+permissions.roles.description.everyone: "Beépített szerepkör, automatikusan biztosítva minden regisztrált felhasználónak"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Beépített szerepkör, csak egy adott erőforrás esetén érvényes és automatikusan hozzárendelődik annak tulajdonosához."
 "Built-in superuser role, automatically grants all permissions": "Beépített superuser szerepkör, automatikusan megad minden jogot"
 "Cancel": "Mégse"

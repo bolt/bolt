@@ -40,7 +40,7 @@ general.bolt-third-party-libraries: #
 "Body": #
 general.bolt-configuration-issues-detected: #
 permissions.roles.description.anonymous: #
-"Built-in role, automatically granted to every registered user": #
+permissions.roles.description.everyone: #
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": #
 "Built-in superuser role, automatically grants all permissions": #
 "Check/Uncheck all": #
