@@ -221,7 +221,7 @@ general.phrase.used-libraries: #
 general.phrase.users-permissions: #
 "Video": #
 "View (saved version) on site": #
-"View Roles": #
+general.phrase.view-roles: #
 general.phrase.view-related: #
 general.phrase.view-edit-templates: #
 "Warning": #

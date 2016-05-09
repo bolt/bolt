@@ -451,7 +451,7 @@ general.phrase.error-user-name-password-incorrect: "Käyttäjätunnus tai salasa
 general.phrase.users: "Käyttäjät"
 general.phrase.users-permissions: "Käyttäjät   Oikeudet"
 "View (saved version) on site": "Näytä (tallennettu versio) sivustolla."
-"View Roles": "Näytä roolit"
+general.phrase.view-roles: "Näytä roolit"
 general.phrase.view-on-site: "Näytä sivustolla"
 general.phrase.view-related: "Näytä liittyvä sisältö"
 "View site": "Näytä sivusto"

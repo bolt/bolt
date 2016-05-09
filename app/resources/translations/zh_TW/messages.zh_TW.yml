@@ -464,7 +464,7 @@ general.phrase.error-user-name-password-incorrect: "使用者名或密碼不正�
 general.phrase.users: "使用者"
 "Video": "視訊"
 "View (saved version) on site": "觀看站點中(儲存的版本)"
-"View Roles": "檢視腳色"
+general.phrase.view-roles: "檢視腳色"
 general.phrase.view-on-site: "在站點上觀看"
 general.phrase.view-related: "檢視相關內容"
 "View site": "檢視站點"

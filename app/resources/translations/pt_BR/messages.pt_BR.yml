@@ -137,7 +137,7 @@ general.phrase.error-session-data-login: #
 general.phrase.upload: #
 general.phrase.upload-not-allowed: #
 general.phrase.users-permissions: #
-"View Roles": #
+general.phrase.view-roles: #
 "Warning": #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
 "Welcome to your new Bolt site, %USER%.": #

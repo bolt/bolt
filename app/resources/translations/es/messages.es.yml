@@ -453,7 +453,7 @@ general.phrase.error-user-name-password-incorrect: "El usuario o contraseña no 
 general.phrase.users: "Usuarios"
 general.phrase.users-permissions: "Usuarios y Permisos"
 "View (saved version) on site": "Ver (versión guardada) en el sitio"
-"View Roles": "Ver Roles"
+general.phrase.view-roles: "Ver Roles"
 general.phrase.view-on-site: "Ver en el sitio"
 general.phrase.view-related: "Ver contenido relacionado"
 "View site": "Ver sitio"

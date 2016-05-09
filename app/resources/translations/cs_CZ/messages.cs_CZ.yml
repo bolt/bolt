@@ -432,7 +432,7 @@ general.phrase.error-user-name-password-incorrect: "Uživatelské jméno nebo he
 general.phrase.users: "Uživatelé"
 general.phrase.users-permissions: "Uživatelé & Oprávnění"
 "View (saved version) on site": "Zobrazit uloženou verzi na webu"
-"View Roles": "Zobrazit uživatelské role"
+general.phrase.view-roles: "Zobrazit uživatelské role"
 general.phrase.view-on-site: "Zobrazit na webu"
 general.phrase.view-related: "Zobrazit související obsah"
 "View site": "Zobrazit web"
