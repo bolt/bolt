@@ -250,7 +250,7 @@ contenttypes.record.comment-add-colon: "Добавить комментарий:
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 general.phrase.missing-about-page: "Увы, раздел 'О нас' отсутсвует!"
 logs.change-log.contenttypes.all: "Все сущности"
-"All users": "Все пользователи"
+general.phrase.users.all: "Все пользователи"
 "Alt": "Другое"
 "Anonymous": "Аноним"
 "Are you sure you want to delete %username%?": "Вы действительно хотите удалить пользователя %username%?"
