@@ -60,7 +60,7 @@
         {% endif %}
     </div>
 
-    <p><strong>{{ __("Details") }}</strong></p>
+    <p><strong>{{ __('general.phrase.details') }}</strong></p>
     <ul>
         <li>{{ __('general.phrase.status-default') }}: {{ context.contenttype.default_status|default('published') }}</li>
         <li>{{ __("Listing template") }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
