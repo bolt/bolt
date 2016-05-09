@@ -97,7 +97,7 @@ page.checks.run-all: #
 page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.search-results-for-variable: #
-"Selection": #
+general.phrase.selection: #
 "Show proposed alterations": #
 "Slug": #
 "Slug:": #

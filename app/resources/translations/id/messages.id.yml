@@ -169,7 +169,7 @@ general.phrase.select-file: #
 "Select zero or more pages": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection": #
+general.phrase.selection: #
 "Show proposed alterations": #
 "Showing %pager_for% %from% - %to% of %count%": #
 "Skipped <tt>%key%</tt> (already has records)": #

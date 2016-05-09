@@ -150,7 +150,7 @@ general.phrase.search-ellipsis: #
 general.phrase.select-file: #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection": #
+general.phrase.selection: #
 "Show proposed alterations": #
 "Slug": #
 "Slug:": #

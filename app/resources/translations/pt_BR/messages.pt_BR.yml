@@ -90,7 +90,7 @@ page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.search-results-for-variable: #
 "Selectentry": # "Select entry"
-"Selection": #
+general.phrase.selection: #
 "Show proposed alterations": #
 "Slug": #
 "Slug:": #

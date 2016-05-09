@@ -145,7 +145,7 @@ general.phrase.select-file: #
 "Select none": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
-"Selection": #
+general.phrase.selection: #
 "Show proposed alterations": #
 "Slug": #
 "Slug:": #
