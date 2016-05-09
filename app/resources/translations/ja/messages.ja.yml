@@ -354,7 +354,7 @@ general.phrase.content-type-permissions: "コンテンツタイプのパーミ�
 general.phrase.content-types: "コンテンツタイプ"
 "Create folder": "フォルダを作成"
 "Create the first user": "最初のユーザを作成"
-"Created on:": "作成日時："
+general.phrase.created-on-colon: "作成日時："
 "Current (saved) status:": "現在の（保存された）ステータス："
 "Current sessions": "現在のセッション"
 "Current status:": "現在のステータス："

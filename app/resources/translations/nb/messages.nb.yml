@@ -453,7 +453,7 @@ general.access-denied.content-not-modified: "Klarte ikke endre innholdet «%titl
 general.phrase.content-type-permissions: "Rettigheter etter innholdstype"
 general.phrase.content-types: "Innholdstyper"
 "Create the first user": "Lag den første brukeren"
-"Created on:": "Opprettet:"
+general.phrase.created-on-colon: "Opprettet:"
 "Current sessions": "Gjeldende økter"
 "Current status:": "Gjeldende status:"
 "Dashboard": "Dashbord"
