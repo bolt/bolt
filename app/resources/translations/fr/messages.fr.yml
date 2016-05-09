@@ -412,7 +412,7 @@
 
 general.phrase.by: "par"
 general.phrase.field: "Champ"
-component.changelog-detail.value-new: "Nouvelle valeur"
+general.phrase.value-new: "Nouvelle valeur"
 component.changelog-detail.value-old: "Ancienne valeur"
 
 component.changelog-pager.page: "Page"

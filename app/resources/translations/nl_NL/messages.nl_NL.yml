@@ -412,7 +412,7 @@
 
 general.phrase.by: "door"
 general.phrase.field: "veld"
-component.changelog-detail.value-new: "nieuwe waarde"
+general.phrase.value-new: "nieuwe waarde"
 component.changelog-detail.value-old: "oude waarde"
 
 component.changelog-pager.page: "Pagina"

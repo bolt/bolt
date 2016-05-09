@@ -535,7 +535,7 @@
 #--- 94 keyword based translations --------------------------------------------
 
 general.phrase.field: "フィールド"
-component.changelog-detail.value-new: "新しい値"
+general.phrase.value-new: "新しい値"
 component.changelog-detail.value-old: "古い値"
 
 component.changelog-pager.page: "ページ"

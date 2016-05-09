@@ -587,7 +587,7 @@
 
 general.phrase.by: "απο"
 general.phrase.field: "πεδίο"
-component.changelog-detail.value-new: "νέα τιμή"
+general.phrase.value-new: "νέα τιμή"
 component.changelog-detail.value-old: "παλιά τιμή"
 
 contenttypes.generic.actions-all: "Ενέργειες για %contenttypes%"

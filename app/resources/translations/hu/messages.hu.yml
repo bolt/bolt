@@ -434,7 +434,7 @@
 
 general.phrase.by: "általa:"
 general.phrase.field: "mező"
-component.changelog-detail.value-new: "új érték"
+general.phrase.value-new: "új érték"
 component.changelog-detail.value-old: "régi érték"
 
 component.changelog-pager.page: "Oldal"

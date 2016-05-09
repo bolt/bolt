@@ -523,7 +523,7 @@
 
 general.phrase.by: "por"
 general.phrase.field: "campo"
-component.changelog-detail.value-new: "Novo valor"
+general.phrase.value-new: "Novo valor"
 component.changelog-detail.value-old: "valor antigo"
 
 component.changelog-pager.page: "Página"
