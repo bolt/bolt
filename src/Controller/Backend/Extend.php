@@ -275,7 +275,7 @@ class Extend extends BackendBase
                 'type'        => $response[$package]['package']->getType(),
             ]);
         } else {
-            throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
+            throw new PackageManagerException(Trans::__('page.extend.message.package-install-info-fail', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
         }
     }
 

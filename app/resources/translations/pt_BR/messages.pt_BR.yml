@@ -129,7 +129,7 @@ general.phrase.log-system-trim: #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
+page.extend.message.package-install-info-fail: #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #

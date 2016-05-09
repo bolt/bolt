@@ -48,7 +48,7 @@ general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
 general.phrase.record-related-to-variable: #
 "Unable to duplicate file: %FILE%": #
-"Unable to get installation information for %PACKAGE% %VERSION%.": #
+page.extend.message.package-install-info-fail: #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
