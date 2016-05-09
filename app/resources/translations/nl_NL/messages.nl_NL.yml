@@ -195,7 +195,7 @@ general.phrase.error-local-extension-set-up-incomplete: "Lokale installatie van 
 general.phrase.login: "Log in"
 general.phrase.logout: "Uitloggen"
 general.phrase.long-messages: "Lange meldingen"
-"Main configuration": "Algemene configuratie"
+general.phrase.configuration-main: "Algemene configuratie"
 "Maintenance": "Onderhoud"
 "Markdown": "Markdown"
 "Menu setup": "Menu instellingen"

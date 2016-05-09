@@ -257,7 +257,7 @@ general.phrase.error-local-extension-set-up-incomplete: "Lokální instalace roz
 general.phrase.login: "Přihlášení"
 general.phrase.logout: "Odhlásit"
 general.phrase.long-messages: "Nápověda"
-"Main configuration": "Hlavní nastavení"
+general.phrase.configuration-main: "Hlavní nastavení"
 "Maintenance": "Údržba"
 "Menu setup": "Editace menu"
 "Message:": "Zpráva:"

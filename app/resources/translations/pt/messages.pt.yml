@@ -202,7 +202,7 @@ general.phrase.error-local-extension-set-up-incomplete: "Configuração incomple
 general.phrase.login: "Iniciar sessão"
 general.phrase.logout: "Sair"
 general.phrase.long-messages: "Mensagens longas"
-"Main configuration": "Configurações principais"
+general.phrase.configuration-main: "Configurações principais"
 "Maintenance": "Manutenção"
 "Markdown": "Markdown"
 "Menu setup": "Configuração de menu"

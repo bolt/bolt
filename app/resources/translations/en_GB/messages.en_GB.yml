@@ -180,7 +180,7 @@ general.phrase.error-local-extension-set-up-incomplete: "Local extension set up 
 general.phrase.login: "Login"
 general.phrase.logout: "Logout"
 general.phrase.long-messages: "Long messages"
-"Main configuration": "Main configuration"
+general.phrase.configuration-main: "Main configuration"
 "Maintenance": "Maintenance"
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead."

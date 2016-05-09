@@ -190,7 +190,7 @@ general.phrase.error-local-extension-set-up-incomplete: "L'extension locale n'es
 general.phrase.login: "Identification"
 general.phrase.logout: "Déconnexion"
 general.phrase.long-messages: "Messages longs"
-"Main configuration": "Configuration principale"
+general.phrase.configuration-main: "Configuration principale"
 "Maintenance": "Maintenance"
 "Markdown": "Markdown"
 "Menu setup": "Configuration des menus"

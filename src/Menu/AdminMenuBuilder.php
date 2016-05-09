@@ -74,7 +74,7 @@ final class AdminMenuBuilder
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'config.yml']);
         $configEntry->add(
             (new MenuEntry('config_main', $path))
-                ->setLabel(Trans::__('Main configuration'))
+                ->setLabel(Trans::__('general.phrase.configuration-main'))
                 ->setIcon('fa:cog')
                 ->setPermission('files:config')
         );

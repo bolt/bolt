@@ -107,7 +107,7 @@ general.phrase.keyword-ellipsis: #
 general.phrase.listing-template: #
 general.phrase.live-edit: #
 general.phrase.error-local-extension-set-up-incomplete: #
-"Main configuration": #
+general.phrase.configuration-main: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Meta": #
