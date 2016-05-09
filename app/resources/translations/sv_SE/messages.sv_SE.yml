@@ -36,7 +36,7 @@ general.phrase.move-up: #
 general.phrase.no-preview: #
 general.phrase.other-content: #
 "Repeater": #
-"Search results for <b>%search%</b>.": #
+general.phrase.search-results-for-variable: #
 "Show proposed alterations": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #

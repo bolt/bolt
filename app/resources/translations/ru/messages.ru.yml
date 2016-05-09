@@ -96,7 +96,7 @@ page.checks.run-php-ext-checks: #
 page.checks.run-all: #
 page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
-"Search results for <b>%search%</b>.": #
+general.phrase.search-results-for-variable: #
 "Selection": #
 "Show proposed alterations": #
 "Slug": #

@@ -163,7 +163,7 @@ page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 general.phrase.save-and-return-overview: #
 general.phrase.search-for-ellipsis: #
-"Search results for <b>%search%</b>.": #
+general.phrase.search-results-for-variable: #
 "Select file …": #
 "Select none": #
 "Select zero or more pages": #

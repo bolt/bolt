@@ -166,7 +166,7 @@ general.phrase.save-and-return-overview: #
 general.phrase.saved-on-colon: #
 general.phrase.saving-ellipsis: #
 general.phrase.search-for-ellipsis: #
-"Search results for <b>%search%</b>.": #
+general.phrase.search-results-for-variable: #
 general.phrase.search-ellipsis: #
 "Select file …": #
 "Select none": #
