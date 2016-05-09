@@ -143,7 +143,7 @@ general.access-control.reset-failed: #
 general.access-control.reset-successful: #
 general.phrase.path-image-file: #
 general.phrase.stack-add: #
-"Please choose the record you want to link to:": #
+general.phrase.choose-record-link-to: #
 "Please enter a new file name!": #
 "Please enter a new folder name!": #
 "Please log on.": #
