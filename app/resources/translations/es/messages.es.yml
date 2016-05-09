@@ -322,7 +322,7 @@ general.phrase.no-such-action-for-user: "No existe esa acción para el usuario '
 general.phrase.none: "Nada"
 "Not published": "No publicado"
 "Not yet installed.": "Todavía no se ha instalado"
-"Note:": "Nota"
+general.phrase.note-colon: "Nota"
 "Only root can change file extensions.": "Solo root puede cambiar las extensiones de archivo"
 "Options": "Opciones"
 "Order: %sort%": "Ordenar: %sort%"

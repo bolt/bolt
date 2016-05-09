@@ -260,7 +260,7 @@ general.phrase.no-such-action-for-user: "Nincs ilyen művelet a '%s' felhasznál
 general.phrase.none: "Nincs"
 "Not published": "Visszavont"
 "Not yet installed.": "Még nincs telepítve."
-"Note:": "Jegyzet"
+general.phrase.note-colon: "Jegyzet"
 "Omnisearch": "Kereső"
 "Options": "Opciók"
 "Order: %sort%": "Rendezés: %sort%"

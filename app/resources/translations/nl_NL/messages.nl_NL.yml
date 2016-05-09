@@ -221,7 +221,7 @@ general.phrase.no-such-action-for-user: "Die actie kun je niet uitvoeren op gebr
 general.phrase.none: "Geen"
 "Not published": "Niet gepubliceerd"
 "Not yet installed.": "Nog niet geïnstalleerd."
-"Note:": "Opmerking: "
+general.phrase.note-colon: "Opmerking: "
 "Omnisearch": "Omnisearch"
 "Only root can change file extensions.": "Alleen root kan bestandsextensies wijzigen."
 "Options": "Opties"

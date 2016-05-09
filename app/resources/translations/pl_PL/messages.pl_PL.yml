@@ -334,7 +334,7 @@ general.phrase.no-such-action-for-user: "Nie ma takiej akcji dla użytkownika '%
 general.phrase.none: "Żaden"
 "Not published": "Nie opublikowane"
 "Not yet installed.": "Nie został jeszcze zainstalowany."
-"Note:": "Notatka:"
+general.phrase.note-colon: "Notatka:"
 "Omnisearch": "Wyszukiwarka"
 "Options": "Opcje"
 "Order: %sort%": "Kolejność: %sort%"

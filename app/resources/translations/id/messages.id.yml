@@ -133,7 +133,7 @@ general.phrase.no-such-action-for-user: #
 "No theme name found. Theme is not generated.": #
 general.phrase.none: #
 "Not yet installed.": #
-"Note:": #
+general.phrase.note-colon: #
 "Omnisearch": #
 "Only root can change file extensions.": #
 "Order": #

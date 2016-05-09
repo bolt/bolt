@@ -259,7 +259,7 @@ general.phrase.no-such-action-for-user: "Aktion für Benutzer '%s' nicht gefunde
 general.phrase.none: "Keine/r"
 "Not published": "Nicht veröffentlicht"
 "Not yet installed.": "Noch nicht installiert."
-"Note:": "Bemerkung:"
+general.phrase.note-colon: "Bemerkung:"
 "Omnisearch": "Suche"
 "Only root can change file extensions.": "Nur root kann Dateierweiterungen ändern."
 "Options": "Optionen"

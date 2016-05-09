@@ -361,7 +361,7 @@ general.phrase.no-result-for-search-term: "没有找到 '%SEARCHTERM%'，请尝�
 general.phrase.no-such-action-for-user: "用户 '%s' 无此项操作。"
 general.phrase.none: "无"
 "Not published": "未发布"
-"Note:": "注意："
+general.phrase.note-colon: "注意："
 "Omnisearch": "全能搜索"
 "Options": "选项"
 "Order: %sort%": "排序：%sort%"

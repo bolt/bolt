@@ -395,7 +395,7 @@ general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para %SEA
 general.phrase.no-such-action-for-user: "Nenhuma ação para o usuário '%s'."
 general.phrase.none: "Nenhum"
 "Not published": "Não publicado"
-"Note:": "Nota:"
+general.phrase.note-colon: "Nota:"
 "Options": "Opções"
 "Order: %sort%": "Ordenar: %sort%"
 "Overview": "Visualizar"

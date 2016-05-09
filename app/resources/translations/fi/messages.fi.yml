@@ -324,7 +324,7 @@ general.phrase.no-such-action-for-user: "Käyttäjälle '%s' ei ole tätä toimi
 general.phrase.none: "Ei mitään"
 "Not published": "Ei julkaistu"
 "Not yet installed.": "Ei vielä asennettu."
-"Note:": "Huomio:"
+general.phrase.note-colon: "Huomio:"
 "Omnisearch": "Monihaku"
 "Only root can change file extensions.": "Vain pääkäyttäjä voi vaihtaa tiedostopäätteen."
 "Options": "Valinnat"

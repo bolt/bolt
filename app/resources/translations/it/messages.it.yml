@@ -136,7 +136,7 @@ general.phrase.no-relations-found-bang: #
 general.phrase.none: #
 "Not published": #
 "Not yet installed.": #
-"Note:": #
+general.phrase.note-colon: #
 "Omnisearch": #
 "Only root can change file extensions.": #
 "Order": #

@@ -364,7 +364,7 @@ general.phrase.no-result-for-search-term: "Нет результатов для 
 general.phrase.no-such-action-for-user: "Неверное действие для пользователя '%s'."
 general.phrase.none: "Отсутствует"
 "Not published": "Неопубликованно"
-"Note:": "Заметка:"
+general.phrase.note-colon: "Заметка:"
 "Omnisearch": "Омнипоиск"
 "Options": "Настройки"
 "Order: %sort%": "Сортировка: %sort%"
