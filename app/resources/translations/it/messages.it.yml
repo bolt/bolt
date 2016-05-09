@@ -173,7 +173,7 @@ general.phrase.select-none: #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 general.phrase.selection: #
-"Show proposed alterations": #
+general.phrase.show-proposed-alterations: #
 "Slug": #
 "Slug:": #
 "Something went wrong": #

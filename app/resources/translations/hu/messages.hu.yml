@@ -50,7 +50,7 @@ general.phrase.publish: #
 page.checks.run-php-ext-checks: #
 page.checks.run-all: #
 general.phrase.search-results-for-variable: #
-"Show proposed alterations": #
+general.phrase.show-proposed-alterations: #
 "Slug": #
 "Slug:": #
 "Something went wrong with logging in after first user creation!": #

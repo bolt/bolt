@@ -98,7 +98,7 @@ page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.search-results-for-variable: #
 general.phrase.selection: #
-"Show proposed alterations": #
+general.phrase.show-proposed-alterations: #
 "Slug": #
 "Slug:": #
 "Something went wrong with logging in after first user creation!": #

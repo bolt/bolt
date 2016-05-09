@@ -170,7 +170,7 @@ general.phrase.select-none: #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 general.phrase.selection: #
-"Show proposed alterations": #
+general.phrase.show-proposed-alterations: #
 general.phrase.pager-showing-from-to-of: #
 "Skipped <tt>%key%</tt> (already has records)": #
 "Skipped <tt>%key%</tt> (not checked)": #
