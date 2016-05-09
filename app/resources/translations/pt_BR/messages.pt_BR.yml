@@ -345,7 +345,7 @@ page.file-management.message.upload-success: "O arquivo '%file%' foi carregado c
 "File '%s' could not be saved:": "Arquivo '%s' não pode ser salvo:"
 "File '%s' has been saved.": "Arquivo '%s' salvo."
 "File Management": "Gerenciar arquivos"
-"File is not readable!": "Arquivo não pode ser lido!"
+page.file-management.message.file-not-readable: "Arquivo não pode ser lido!"
 "Filelist": "Lista de ficheiros"
 "Files": "Arquivos"
 "Files in %s": "Arquivos em %s"

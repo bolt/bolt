@@ -267,7 +267,7 @@ page.file-management.message.upload-success: "Tiedosto '%file%' ladattiin onnist
 "File '%s' could not be saved:": "Tiedostoa '%s' ei voida tallentaa:"
 "File '%s' has been saved.": "Tiedosto '%s' tallennettu."
 "File Management": "Tiedostohallinta"
-"File is not readable!": "Tiedostoa ei voida lukea."
+page.file-management.message.file-not-readable: "Tiedostoa ei voida lukea."
 "Filelist": "Tiedostolistaus"
 "Files": "Tiedostot"
 "Files in %s": "Tiedostot sijainnissa %s"

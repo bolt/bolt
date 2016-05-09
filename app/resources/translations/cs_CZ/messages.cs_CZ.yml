@@ -214,7 +214,7 @@ page.file-management.message.upload-success: "Soubor '%file%' byl úspěšně um
 "File '%s' could not be saved:": "Soubor '%s' nelze uložit:"
 "File '%s' has been saved.": "Soubor '%s' byl uložen."
 "File Management": "Správa souborů"
-"File is not readable!": "Soubor není čitelný!"
+page.file-management.message.file-not-readable: "Soubor není čitelný!"
 "Filelist": "Více souborů"
 "Files": "Soubory"
 "Files could not be uploaded.": "Soubory nelze nahrát."

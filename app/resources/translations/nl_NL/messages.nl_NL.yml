@@ -152,7 +152,7 @@ page.file-management.message.upload-success: "Bestand '%file%' is goed geüpload
 "File '%s' could not be saved:": "Bestand '%s' kon niet worden opgeslagen: "
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
-"File is not readable!": "Bestand is niet leesbaar!"
+page.file-management.message.file-not-readable: "Bestand is niet leesbaar!"
 "Filelist": "Bestandenlijst"
 "Files": "Bestanden"
 "Files could not be uploaded.": "De bestanden konden niet worden geüpload."

@@ -384,7 +384,7 @@ page.file-management.message.upload-success: "ファイル '%file%' は正常に
 "File '%s' could not be saved:": "ファイル '%s' を保存できませんでした："
 "File '%s' has been saved.": "ファイル '%s' を保存しました。"
 "File Management": "ファイル管理"
-"File is not readable!": "ファイルが読み取り可能ではありません！"
+page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
 "Filelist": "ファイルリスト"
 "Files": "ファイル"
 "Files in %s": "%s の中のファイル"

@@ -1195,7 +1195,7 @@ class Config
                         '<pre>' . htmlspecialchars($configCache) . '</pre>' .
                         '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
-                    throw new LowlevelException(Translator::__('File is not readable!' . $message));
+                    throw new LowlevelException(Translator::__('page.file-management.message.file-not-readable' . $message));
                 }
             }
 

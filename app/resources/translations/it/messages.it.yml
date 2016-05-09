@@ -450,7 +450,7 @@ page.file-management.message.upload-success: "Il File '%file%' è stato caricato
 "File '%s' could not be saved:": "Il file '%s' non può esser salvato:"
 "File '%s' has been saved.": "Il file '%s' è stato salvato."
 "File Management": "Gestione File"
-"File is not readable!": "Il file non è leggibile"
+page.file-management.message.file-not-readable: "Il file non è leggibile"
 "Files": "File"
 "Files in %s": "File in %s"
 "Files on the stack": "File nello Stack"

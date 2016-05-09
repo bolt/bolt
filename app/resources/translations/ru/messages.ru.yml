@@ -322,7 +322,7 @@ page.file-management.message.upload-success: "Файл '%file%' успешно �
 "File '%s' could not be saved:": "Файл '%s' не может быть сохранён:"
 "File '%s' has been saved.": "Файл '%s' сохранён."
 "File Management": "Менеджер файлов"
-"File is not readable!": "Файл недоступен для чтения!"
+page.file-management.message.file-not-readable: "Файл недоступен для чтения!"
 "Filelist": "Лист файлов"
 "Files in %s": "Файлы в %s"
 "Files on the stack": "Файлы в стеке"
