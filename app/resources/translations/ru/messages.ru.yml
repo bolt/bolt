@@ -465,7 +465,7 @@ general.phrase.user-failed-disabled: "Пользователь '%s' не мож�
 general.phrase.user-failed-enable: "Пользователь '%s' не может быть включен."
 general.phrase.user-deleted: "Пользователь '%s' удалён."
 general.phrase.user-disabled: "Пользователь '%s' отключен."
-"User '%s' is enabled.": "Пользователь '%s' включен."
+general.phrase.user-enabled: "Пользователь '%s' включен."
 general.phrase.user-name: "Имя пользователя"
 general.phrase.error-user-name-password-incorrect: "Имя пользователя или пароль неверный. Попробуйте еще раз."
 general.phrase.users: "Пользователи"

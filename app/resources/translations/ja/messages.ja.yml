@@ -509,7 +509,7 @@ general.phrase.user-failed-disabled: "ユーザー '%s' は無効化できませ
 general.phrase.user-failed-enable: "ユーザー '%s' は有効化できません。"
 general.phrase.user-deleted: "ユーザー '%s' は削除されました。"
 general.phrase.user-disabled: "ユーザー '%s' は無効化されています。"
-"User '%s' is enabled.": "ユーザー '%s' は有効化されています。"
+general.phrase.user-enabled: "ユーザー '%s' は有効化されています。"
 general.phrase.user-name: "ユーザー名"
 general.phrase.error-user-name-password-incorrect: "ユーザー名もしくはパスワードが正しくありません。入力内容を確認してください。"
 general.phrase.users: "ユーザー"

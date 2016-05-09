@@ -367,7 +367,7 @@ general.phrase.user-failed-disabled: "L'utilisateur '%s' n'a pu être désactiv�
 general.phrase.user-failed-enable: "L'utilisateur '%s' n'a pu être activé."
 general.phrase.user-deleted: "L'utilisateur '%s' est supprimé."
 general.phrase.user-disabled: "L'utilisateur '%s' est désactivé."
-"User '%s' is enabled.": "L'utilisateur '%s' est activé."
+general.phrase.user-enabled: "L'utilisateur '%s' est activé."
 general.phrase.user-name: "Identifiant"
 general.phrase.error-user-name-password-incorrect: "Identifiant ou mot de passe incorrect. Merci de vérifier votre saisie."
 general.phrase.users: "Utilisateurs"
