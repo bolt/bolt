@@ -7,7 +7,7 @@
 
 {% block page_nav 'Content/*' %}
 
-{% block page_title __('Change Log') %}
+{% block page_title __('general.phrase.change-log') %}
 
 {% block page_subtitle context.title %}
 
@@ -28,7 +28,7 @@
             {% if context.contenttype.slug %}
                 <div>
                     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.content.id}) }}">
-                        &laquo; {{ __('back to editing') }}
+                        &laquo; {{ __('general.phrase.return-editing') }}
                     </a>
                 </div>
             {% endif %}

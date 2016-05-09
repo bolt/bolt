@@ -25,14 +25,14 @@
 
     {# TODO: add filtering
     {% if request('filter') or request('order') %}
-        <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+        <a class="btn" href="?">{{ __('general.phrase.clear-filter-sort') }}</a>
     {% endif %}
 
     <form class="form-inline" style="margin-top:15px;">
         <input type="hidden" value="{{ request('show', '', true) }}" name="show">
-        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering') }}">
-        <button type="submit" class="btn">{{ __('Filter') }}</button>
-        {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
+        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.filtering') }}">
+        <button type="submit" class="btn">{{ __('general.phrase.filter') }}</button>
+        {% if request('filter') %}<p><a href="?">{{ __('general.phrase.clear-filter') }}</a></p>{% endif %}
     </form>
     #}
 

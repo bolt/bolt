@@ -15,8 +15,8 @@
     {% from '@bolt/_macro/_files_path.twig' import files_path %}
 
     {{ data('editcontent.msg', {
-        'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),
-        'saving':      __('Saving …')
+        'change_quit': __('general.phrase.warning-unfinished-changes-loss'),
+        'saving':      __('general.phrase.saving-ellipsis')
     }) }}
 
     {% set attr_text = {
@@ -66,7 +66,7 @@
                 </div>
 
             <p class="lastsaved" style="padding-top: 12px;">
-                {{ __('Saved on:') }}
+                {{ __('general.phrase.saved-on-colon') }}
                 <strong>{{ context.datechanged|localdate("%c") }}</strong>
                 ({{ buic_moment(context.datechanged) }})
             </p>

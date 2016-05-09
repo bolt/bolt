@@ -95,7 +95,7 @@ trait ContentRouteTrait
      */
     public function isHome()
     {
-        $homepage = $this->app['config']->get('general/homepage');
+        $homepage = $this->app['config']->get('theme/homepage') ?: $this->app['config']->get('general/homepage');
         $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
         $uriSlug = $this->contenttype['singular_slug'] . '/' . $this->get('slug');
 

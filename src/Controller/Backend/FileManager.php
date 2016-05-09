@@ -73,7 +73,7 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
-            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", ['%s' => $file]);
+            $error = Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
@@ -83,10 +83,10 @@ class FileManager extends BackendBase
             $type = Lib::getExtension($file->getPath());
             $data = ['contents' => $file->read()];
         } catch (FileNotFoundException $e) {
-            $error = Trans::__("The file '%s' doesn't exist.", ['%s' => $file->getPath()]);
+            $error = Trans::__('general.phrase.file-not-exist', ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         } catch (IOException $e) {
-            $error = Trans::__("The file '%s' is not readable.", ['%s' => $file->getPath()]);
+            $error = Trans::__('general.phrase.file-not-readable', ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
@@ -146,7 +146,7 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
-            $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", ['%s' => $path]);
+            $error = Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $path]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
@@ -166,7 +166,7 @@ class FileManager extends BackendBase
             $validFolder = true;
             $uploadview = false;
         } else {
-            $this->flashes()->error(Trans::__("The folder '%s' could not be found, or is not readable.", ['%s' => $path]));
+            $this->flashes()->error(Trans::__('general.phrase.directory-not-found-writable', ['%s' => $path]));
             $formview = false;
             $validFolder = false;
         }
@@ -178,11 +178,11 @@ class FileManager extends BackendBase
                     'FileUpload',
                     FileType::class,
                     [
-                        'label'    => Trans::__('Upload a file to this folder'),
+                        'label'    => Trans::__('general.phrase.upload-file-to-directory'),
                         'multiple' => true,
                         'attr'     => [
                             'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('Select file …'),
+                            'title'                   => Trans::__('general.phrase.select-file'),
                         ],
                     ]
                 )
@@ -249,7 +249,7 @@ class FileManager extends BackendBase
                     $yamlparser->parse($contents);
                 } catch (ParseException $e) {
                     $result['ok'] = false;
-                    $result['msg'] = Trans::__("File '%s' could not be saved:", ['%s' => $file->getPath()]) . $e->getMessage();
+                    $result['msg'] = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $file->getPath()]) . $e->getMessage();
                 }
             }
 
@@ -259,16 +259,16 @@ class FileManager extends BackendBase
 
                 try {
                     $file->update($contents);
-                    $result['msg'] = Trans::__("File '%s' has been saved.", ['%s' => $file->getPath()]);
+                    $result['msg'] = Trans::__('page.file-management.message.save-success', ['%s' => $file->getPath()]);
                     $result['datechanged'] = $file->getCarbon()->toIso8601String();
                 } catch (ExceptionInterface $e) {
-                    $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
+                    $result['msg'] = Trans::__('page.file-management.message.save-failed-unknown', ['%s' => $file->getPath()]);
                 }
             }
         } else {
             $result = [
                 'ok'  => false,
-                'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()]),
+                'msg' => Trans::__('page.file-management.message.save-failed-invalid-form', ['%s' => $file->getPath()]),
             ];
         }
 
@@ -287,7 +287,7 @@ class FileManager extends BackendBase
     {
         $form->submit($request);
         if (!$form->isValid()) {
-            $this->flashes()->error(Trans::__('Files could not be uploaded.'));
+            $this->flashes()->error(Trans::__('general.phrase.file-upload-failed'));
 
             return;
         }
@@ -339,7 +339,7 @@ class FileManager extends BackendBase
 
         if ($result->isValid()) {
             $this->flashes()->info(
-                Trans::__("File '%file%' was uploaded successfully.", ['%file%' => $filename])
+                Trans::__('page.file-management.message.upload-success', ['%file%' => $filename])
             );
 
             // Add the file to our stack.

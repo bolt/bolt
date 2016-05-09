@@ -8,9 +8,9 @@
            code in the 'else' part of the for-loop is used. #}
         <h1>
             {% if search is not empty %}
-                {{ __('Search results for <b>%search%</b>.', { '%search%': search|escape }) }}
+                {{ __('general.phrase.search-results-for-variable', { '%search%': search|escape }) }}
             {% else %}
-                {{ __('Search') }}
+                {{ __('general.phrase.search') }}
             {% endif %}
         </h1>
 
@@ -23,8 +23,8 @@
         {% endif %}
 
         <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
-            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search …") }}" name="search" >
-            <button type="submit" class="button">{{ __("Search") }}</button>
+            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __('general.phrase.search-ellipsis') }}" name="search" >
+            <button type="submit" class="button">{{ __('general.phrase.search') }}</button>
         </form>
 
         {% for record in records %}
@@ -53,7 +53,7 @@
             <article>
 
                 <p>
-                    {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
+                    {{ __('general.phrase.no-result-for-search-term', { '%SEARCHTERM%': search|escape }) }}
                 </p>
 
             </article>

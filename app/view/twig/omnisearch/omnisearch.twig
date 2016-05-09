@@ -2,7 +2,7 @@
 
 {% extends '@bolt/_base/_page-nav.twig' %}
 
-{% block page_title __('Omnisearch') %}
+{% block page_title __('general.phrase.omnisearch') %}
 
 {% block page_main %}
 
@@ -11,9 +11,9 @@
             <form method="get">
                 <div class="form-group">
                     <div class="input-group">
-                    <input class="form-control" name="q" type="text" value="{{ context.query }}" pattern=".{3,}" required title="{{ __('At least %NUM% characters required', {'%NUM%': 3})}}">
+                    <input class="form-control" name="q" type="text" value="{{ context.query }}" pattern=".{3,}" required title="{{ __('general.phrase.required-character-count', {'%NUM%': 3})}}">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search "></i> {{ __('Search') }}</button>
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search "></i> {{ __('general.phrase.search') }}</button>
                         </span>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
                             {% if context.records %}
                                 <tr class="heading">
-                                    <th>{{ __('Others') }}</th>
+                                    <th>{{ __('general.phrase.others') }}</th>
                                 </tr>
                             {% endif %}
                             {% for item in context.others %}
@@ -69,7 +69,7 @@
 
             {# Nothing found #}
             {% if not context.records and not context.others %}
-                <p>{{ __("No results found for '%SEARCHTERM%'. Please try another search.", {'%SEARCHTERM%': context.query|escape}) }}</p>
+                <p>{{ __('general.phrase.no-result-for-search-term', {'%SEARCHTERM%': context.query|escape}) }}</p>
             {% endif %}
         </div>
 

@@ -2,11 +2,11 @@
 <div class="btn-group">
     {% if app.routes.get('preview') %}
         <button type="button" class="btn btn-default" id="sidebarpreviewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
-            <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+            <i class="fa fa-external-link-square"></i> {{ __('general.phrase.preview') }}
         </button>
     {% else %}
         <button type="button" class="btn btn-disabled">
-            <i class="fa fa-external-link-square"></i> {{ __('No Preview') }}
+            <i class="fa fa-external-link-square"></i> {{ __('general.phrase.no-preview') }}
         </button>
     {% endif %}
 

@@ -23,16 +23,16 @@
 
                 {% if link(block.contentlink) or block.editlink() %}
                     <p>
-                        {{ link(block.contentlink, __('Read more')) }} /
-                        <a href="{{ block.editlink() }}">{{ __('Edit') }}</a>
+                        {{ link(block.contentlink, __('general.phrase.read-more')) }} /
+                        <a href="{{ block.editlink() }}">{{ __('general.phrase.edit') }}</a>
                     </p>
                 {% endif %}
 
             {% else %}
 
-                <h5>{{ __('Alas, no about!') }}</h5>
+                <h5>{{ __('general.phrase.missing-about-page') }}</h5>
 
-                <p>{{ __("There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.") }}</p>
+                <p>{{ __('general.phrase.missing-about-page-block') }}</p>
 
             {% endif %}
 

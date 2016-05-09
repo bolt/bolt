@@ -8,7 +8,7 @@
 
 {% block panel_icon 'fa-paperclip' %}
 
-{% block panel_head __('Files on the stack') %}
+{% block panel_head __('general.phrase.stack-files') %}
 
 {% block panel_body %}
     <fieldset class="buic-stack" data-bolt-widget="buicStack">
@@ -16,14 +16,14 @@
             {% for idx, item in context.stack if idx < 7 %}
                 <div class="stackitem {{ item.type }} info-pop" data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
                     {% if item.type == 'image' %}
-                        <img src="{{ item.filepath|thumbnail(100, 100) }}" width="100" height="100" alt="{{ __('Thumbnail') }}">
+                        <img src="{{ item.filepath|thumbnail(100, 100) }}" width="100" height="100" alt="{{ __('general.phrase.thumbnail') }}">
                     {% else %}
                        <strong>{{ item.extension|upper }}</strong>
                        <small>{{ item.basename }}</small>
                     {% endif %}
                 </div>
             {% else %}
-                <div class="empty">{{ __('There are no items on the Stack, yet.') }}</div>
+                <div class="empty">{{ __('general.phrase.stack-empty') }}</div>
             {% endfor %}
         </div>
 
@@ -36,7 +36,7 @@
                 <div class="btn-group">
                     <span class="btn btn-tertiary fileinput-button">
                         <i class="fa fa-upload"></i>
-                        <span>{{ __('Upload') }}</span>
+                        <span>{{ __('general.phrase.upload') }}</span>
                         <input id="fileupload-stack"
                                type="file"
                                name="files[]"
@@ -56,13 +56,13 @@
                     },
                     'type': 'button',
                 } %}
-                <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('Select') }}</button>
+                <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('general.phrase.select') }}</button>
             </div>
         </div>
 
         <div class="templates">
             <div class="stackitem image">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" width="100" height="100" alt="{{ __('Thumbnail') }}">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" width="100" height="100" alt="{{ __('general.phrase.thumbnail') }}">
             </div>
 
             <div class="stackitem other">

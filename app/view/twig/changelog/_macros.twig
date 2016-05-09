@@ -8,7 +8,7 @@
                 <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-left"></i></span></li>
             {% endif %}
 
-            <li><span>{{ __('component.changelog-pager.page') }} {{ currentpage }} / {{ pagecount }}</span></li>
+            <li><span>{{ __('general.phrase.page') }} {{ currentpage }} / {{ pagecount }}</span></li>
 
             {% if currentpage < pagecount %}
                 <li><a href="?page={{ currentpage + 1 }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a></li>
@@ -31,7 +31,7 @@
     <h3>
         "<a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>"
         <em><span class="time">{{ _self.changelog_mutation(entry.mutation_type) }} {{ buic_moment(entry.date) }}</span>
-        {{ __('component.changelog-detail.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
+        {{ __('general.phrase.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
     </h3>
 
     <div class="changelog-details">
@@ -49,9 +49,9 @@
             <table class="table table-bordered table-condensed table-changelog-details">
                 <thead>
                     <tr>
-                        <th>{{ __('component.changelog-detail.field') }}</th>
-                        <th>{{ __('component.changelog-detail.value-old') }}</th>
-                        <th>{{ __('component.changelog-detail.value-new') }}</th>
+                        <th>{{ __('general.phrase.field') }}</th>
+                        <th>{{ __('general.phrase.value-old') }}</th>
+                        <th>{{ __('general.phrase.value-new') }}</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -2,6 +2,7 @@
 
 namespace Bolt\AccessControl;
 
+use Bolt\Exception\AccessControlException;
 use Bolt\Legacy\Content;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
@@ -85,7 +86,7 @@ class Permissions
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = [
             'label'       => 'Root',
-            'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
+            'description' => Trans::__('permissions.roles.description.root'),
             'builtin'     => true,
         ];
 
@@ -109,22 +110,22 @@ class Permissions
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
                 return [
-                    'label'       => Trans::__('Anonymous'),
-                    'description' => Trans::__('Built-in role, automatically granted at all times, even if no user is logged in'),
+                    'label'       => Trans::__('permissions.roles.label.anonymous'),
+                    'description' => Trans::__('permissions.roles.description.anonymous'),
                     'builtin'     => true,
                 ];
 
             case self::ROLE_EVERYONE:
                 return [
                     'label'       => Trans::__('Everybody'),
-                    'description' => Trans::__('Built-in role, automatically granted to every registered user'),
+                    'description' => Trans::__('permissions.roles.description.everyone'),
                     'builtin'     => true,
                 ];
 
             case self::ROLE_OWNER:
                 return [
-                    'label'       => Trans::__('Owner'),
-                    'description' => Trans::__('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
+                    'label'       => Trans::__('permissions.roles.label.owner'),
+                    'description' => Trans::__('permissions.roles.description.owner'),
                     'builtin'     => true,
                 ];
 
@@ -145,7 +146,7 @@ class Permissions
      * @param array   $user    An array as returned by Users::getUser()
      * @param Content $content An optional Content object to check ownership
      *
-     * @throws \Exception
+     * @throws AccessControlException
      *
      * @return array An associative array of roles for the given user
      */
@@ -153,7 +154,7 @@ class Permissions
     {
         $userRoleNames = $user['roles'];
         if (!is_array($userRoleNames)) {
-            throw new \Exception('Expected a user-like array, but the "roles" property is not an array');
+            throw new AccessControlException('Expected a user-like array, but the "roles" property is not an array');
         }
         $userRoleNames[] = self::ROLE_EVERYONE;
         if ($content && $content['user'] && $content['user']['id'] === $user['id']) {
@@ -569,7 +570,7 @@ class Permissions
      * @param string               $contenttypeSlug
      * @param integer              $contentid
      *
-     * @throws \Exception
+     * @throws AccessControlException
      *
      * @return boolean
      */
@@ -599,7 +600,7 @@ class Permissions
 
                 return true;
             default:
-                throw new \Exception('Invalid permission check rule of type ' . $rule['type'] . ', expected P_SIMPLE, P_AND or P_OR');
+                throw new AccessControlException('Invalid permission check rule of type ' . $rule['type'] . ', expected P_SIMPLE, P_AND or P_OR');
         }
     }
 
@@ -720,7 +721,7 @@ class Permissions
      * @param string $fromStatus
      * @param string $toStatus
      *
-     * @throws \Exception
+     * @throws AccessControlException
      *
      * @return string|null The name of the required permission suffix (e.g.
      *                     'publish'), or NULL if no permission is required.
@@ -742,7 +743,7 @@ class Permissions
                 return 'publish';
 
             default:
-                throw new \Exception("Invalid content status transition: '$fromStatus' -> '$toStatus'");
+                throw new AccessControlException("Invalid content status transition: '$fromStatus' -> '$toStatus'");
         }
     }
 

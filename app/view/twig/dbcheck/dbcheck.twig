@@ -6,7 +6,7 @@
 
 {% block page_nav 'Settings/Configuration' %}
 
-{% block page_title __("Database check / update") %}
+{% block page_title __('general.phrase.database-check-update') %}
 
 {% block page_main %}
 
@@ -16,26 +16,26 @@
         <div class="col-xs-12">
             {% if context.changes %}
 
-                {{ list(__('Modifications made to the database:'), context.changes) }}
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.modifications-database-colon'), context.changes) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
-                <p class="alert alert-success" role="alert">{{ __('Your database is now up to date.') }}</p>
+                <p class="alert alert-success" role="alert">{{ __('general.phrase.databaase-up-to-date') }}</p>
 
                 <form action="{{ path('dbcheck') }}" method="get">
-                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
+                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('general.phrase.check-again') }}</button></p>
                 </form>
 
             {% elseif context.check.responsestrings %}
 
-                {{ list(__('Modifications needed:'), context.check.responsestrings) }}
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.modifications-needed-colon'), context.check.responsestrings) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
                     <p>
-                        <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('general.phrase.update-database') }}</button>
                         {% if app.debug %}
                             <a href="{{ path('dbcheck', {'debug': 1}) }}" class="btn btn-tertiary">
-                                {{ __('Show proposed alterations') }}
+                                {{ __('general.phrase.show-proposed-alterations') }}
                             </a>
                         {% endif %}
                     </p>
@@ -43,16 +43,16 @@
 
             {% else %}
 
-                <p class="alert alert-success" role="alert">{{ __("Your database is already up to date.") }}</p>
+                <p class="alert alert-success" role="alert">{{ __('general.phrase.database-up-to-date-already') }}</p>
 
-                {{ list(__('Hints:'), hints) }}
+                {{ list(__('general.phrase.hints-colon'), hints) }}
 
                 {% if isallowed('prefill') %}
                 <br>
                 <hr>
 
                 <p class="alert alert-warning" role="alert">
-                    <b>{{ __('Tip:') }}</b>
+                    <b>{{ __('general.phrase.tip-colon') }}</b>
                     {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-default\'>Records with Loripsum text</a>', {'%url%': path('prefill')}) }}
                 </p>
                 {% endif %}

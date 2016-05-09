@@ -1,10 +1,21 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.0 RC 2
+---------------
+
+Released 2016-05-03. Notable changes:
+
+ - Fixed: Doing some minor cleanup for base-2016 sass files. [#5280](https://github.com/bolt/bolt/pull/5280)
+ - Fixed: Hotfixing Audit extension, for better logging. [#5275](https://github.com/bolt/bolt/pull/5275)
+ - Fixed: More selective logic for updating authtoken data. [#5278](https://github.com/bolt/bolt/pull/5278)
+ - Updated: Several updates to language files. [#5273](https://github.com/bolt/bolt/pull/5273) [#5276](https://github.com/bolt/bolt/pull/5276)
+ - Updated: Symfony components updated to Symfony 2.8.5
+
 Bolt 3.0.0 RC 1
 ---------------
 
-Released 2016-05-02. Notable changes: 
+Released 2016-05-02. Notable changes:
 
  - Added: ACL Events, for hunting down trouble with sessions. [#5265](https://github.com/bolt/bolt/pull/5265)
  - Added: Created `server:run` nut command [#5228](https://github.com/bolt/bolt/pull/5228)

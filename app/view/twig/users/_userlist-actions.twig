@@ -1,7 +1,7 @@
 {% if isallowed('useredit') %}
     <div class="btn-group">
     <a href="{{ path('useredit', {'id': user.id}) }}" class="btn btn-default btn-xs">
-            <i class="fa fa-edit"></i> {{ __('Edit') }}
+            <i class="fa fa-edit"></i> {{ __('general.phrase.edit') }}
     </a>
 
     <button type="button" class="btn dropdown-toggle btn-default btn-xs" data-toggle="dropdown">
@@ -16,7 +16,7 @@
                     <form action="{{ path('useraction', {'action': 'disable', 'id': user.id}) }}" method="post">
                         {{ include('@bolt/_sub/_csrf_token.twig') }}
                         <button type="submit" class="btn btn-block btn-link">
-                            <span class="pull-left">{{ __('Disable %username%',{'%username%':user.displayname}) }}</span>
+                            <span class="pull-left">{{ __('general.phrase.disable-user-name',{'%username%':user.displayname}) }}</span>
                         </button>
                     </form>
                 </li>
@@ -25,7 +25,7 @@
                     <form action="{{ path('useraction', {'action': 'enable', 'id': user.id}) }}" method="post">
                         {{ include('@bolt/_sub/_csrf_token.twig') }}
                         <button type="submit" class="btn btn-block btn-link">
-                            <span class="pull-left">{{ __('Enable %username%',{'%username%':user.displayname}) }}</span>
+                            <span class="pull-left">{{ __('general.phrase.enable-user-name',{'%username%':user.displayname}) }}</span>
                         </button>
                     </form>
                 </li>
@@ -35,7 +35,7 @@
                     {{ include('@bolt/_sub/_csrf_token.twig') }}
                     <button type="submit" class="btn btn-block btn-link confirm"
                     data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}" >
-                        <span class="pull-left">{{ __('Delete %username%',{'%username%':user.displayname}) }}</span>
+                        <span class="pull-left">{{ __('general.phrase.delete-user-name',{'%username%':user.displayname}) }}</span>
                     </button>
                 </form>
             </li>
@@ -46,19 +46,19 @@
 
         <li>
             <a class="nolink">
-                {{ __('Last seen') }}: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong>
+                {{ __('general.phrase.last-seen') }}: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong>
             </a>
         </li>
 
         <li>
             <a class="nolink">
-                {{ __('Last known IP') }}: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong>
+                {{ __('general.phrase.last-known-ip') }}: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong>
             </a>
         </li>
     </ul>
 </div>
 {% elseif context.currentuser.id == user.id %}
     <a href="{{ path('profile') }}" class="btn btn-default btn-xs">
-        <i class="fa fa-edit"></i> {{ __('Profile') }}
+        <i class="fa fa-edit"></i> {{ __('general.phrase.profile') }}
     </a>
 {% endif %}

@@ -16,7 +16,7 @@
 {% set page_nav = block('page_nav')|default('NO NAV') %}
 
 {% block page_plain %}
-    {{ data('omnisearch.placeholder', __('Find')) }}
+    {{ data('omnisearch.placeholder', __('general.phrase.find')) }}
 
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
@@ -47,8 +47,8 @@
                             {% set pager_ct = pager[context.contenttype.slug] %}
                             {% if pager_ct and pager_ct.totalpages > 1 %}
                                 <span>
-                                    {{ __('Showing') }} {{ pager_ct.showing_from }} -
-                                    {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}
+                                    {{ __('general.phrase.showing') }} {{ pager_ct.showing_from }} -
+                                    {{ pager_ct.showing_to }} {{ __('general.phrase.of') }} {{ pager_ct.count }}
                                 </span>
                             {% endif %}
                         {% endif %}

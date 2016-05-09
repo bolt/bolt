@@ -155,7 +155,7 @@ class AccessChecker
             // Only show this flash if there are users in the system.
             // Not when we're about to get redirected to the "first users" screen.
             if ($this->repositoryUsers->hasUsers()) {
-                $this->flashLogger->info(Trans::__('You have been logged out.'));
+                $this->flashLogger->info(Trans::__('general.phrase.access-denied-logged-out'));
             }
         } catch (TableNotFoundException $e) {
             // If we have no table, then we definitely have no users

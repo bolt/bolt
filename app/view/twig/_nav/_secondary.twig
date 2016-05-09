@@ -7,11 +7,11 @@
         {{ include('@bolt/_nav/_secondary-search.twig') }}
 
         {# Dashboard #}
-        {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+        {{ nav.link('fa:dashboard', __('general.phrase.dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
         {# View site #}
         <li class="visible-xs">
-            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('View site') }}</a>
+            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('general.phrase.view-site') }}</a>
         </li>
 
         {# Contenttypes #}
@@ -31,7 +31,7 @@
             {% endif %}
 
             {% if nav_config|trim or nav_files|trim or nav_trans|trim or nav_extend|trim %}
-                {{ nav.heading(__('Settings'), 'fa:wrench') }}
+                {{ nav.heading(__('general.phrase.settings'), 'fa:wrench') }}
 
                 {{ nav_config }}
                 {{ nav_files }}
@@ -48,12 +48,12 @@
 
         {# View site #}
         <li>
-            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('general.phrase.view-site') }}</a>
         </li>
 
         {# Login #}
         <li>
-            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
+            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('general.phrase.login') }}</a>
         </li>
     {% endif %}
 </ul>

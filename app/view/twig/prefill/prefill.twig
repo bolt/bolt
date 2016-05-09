@@ -4,7 +4,7 @@
 
 {% block page_nav 'Settings/Configuration' %}
 
-{% block page_title __('Fill the database with Dummy Content') %}
+{% block page_title __('general.phrase.database-prefill-dummy-content') %}
 
 {% block page_main %}
     {% import '@bolt/_macro/_macro.twig' as macro %}
@@ -36,11 +36,11 @@
                 {{ form_widget(context.form._token) }}
 
                 <div style="margin-top: 12px">
-                    <button type="button" class="btn btn-xs" id="check-all"><i class="fa fa-fw fa-check-square-o"></i> {{ __('Select all') }}</button>
-                    <button type="button" class="btn btn-xs" id="uncheck-all"><i class="fa fa-fw fa-square-o"></i> {{ __('Deselect all') }}</button>
+                    <button type="button" class="btn btn-xs" id="check-all"><i class="fa fa-fw fa-check-square-o"></i> {{ __('general.phrase.select-all') }}</button>
+                    <button type="button" class="btn btn-xs" id="uncheck-all"><i class="fa fa-fw fa-square-o"></i> {{ __('general.phrase.deselect-all') }}</button>
                 </div>
                 <div style="margin-top: 12px">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('general.phrase.database-prefill') }}</button>
                 </div>
 
             </form>

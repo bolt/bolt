@@ -1,35 +1,62 @@
-# app/resources/translations/zh_TW/contenttypes.zh_TW.yml – generated on 2016-03-15 17:36:21 Europe/Berlin
+# app/resources/translations/zh_TW/contenttypes.zh_TW.yml – generated on 2016-05-02 21:12:59 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
+#  no unused messages
 #  no untranslated messages
-#   8 untranslated keyword based messages
+#  41 untranslated keyword based messages
 #  no translations
 # 100 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 41 untranslated keyword based messages -----------------------------------
 
-"contenttypes.entries.text.error-saving": "儲存次條目時發生錯誤"
-"contenttypes.pages.text.error-saving": "儲存次頁面時發生錯誤"
-"contenttypes.showcases.text.error-saving": "儲存次展區時發生錯誤"
-
-#--- 8 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for '條目', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.entries.text.recent-changes-one": # "Recent changes to this 條目"
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for '頁面', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.recent-changes-one": # "Recent changes to this 頁面"
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for '展區', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this 展區"
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.group.block": # "Block"
+"contenttypes.blocks.name.plural": # "Blocks"
+"contenttypes.blocks.name.singular": # "Block"
+"contenttypes.blocks.text.actions-all": # "Actions for Blocks"
+"contenttypes.blocks.text.actions-one": # "Actions for this Block"
+"contenttypes.blocks.text.created": # "This Block was created"
+"contenttypes.blocks.text.delete": # "Delete Block"
+"contenttypes.blocks.text.duplicate": # "Duplicate Block"
+"contenttypes.blocks.text.duplicated-finalize": # "Content was duplicated. Click 'Save Block' to finalize."
+"contenttypes.blocks.text.edit": # "Edit Block"
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.new": # "New Block"
+"contenttypes.blocks.text.no-latest": # "No latest Block"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.none-available": # "No Blocks available."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.overview": # "Blocks overview"
+"contenttypes.blocks.text.publish": # "Publish Block"
+"contenttypes.blocks.text.recent": # "Recent Blocks"
+"contenttypes.blocks.text.recent-changes-one": # "Recent changes to this Block"
+"contenttypes.blocks.text.recently-edited": # "Recently edited Blocks"
+"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.save": # "Save Block"
+"contenttypes.blocks.text.saved-changes": # "The changes to the Block have been saved."
+"contenttypes.blocks.text.saved-new": # "The new Block has been saved."
+"contenttypes.blocks.text.saving-impossible": # "Could not save Block."
+"contenttypes.blocks.text.show-more": # "More Blocks"
+"contenttypes.blocks.text.view": # "View Blocks"
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.entries.text.recent-changes-one": # "Recent change to this Entry"
+"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.pages.text.recent-changes-one": # "Recent change to this Page"
+"contenttypes.showcases.group.repeater": # "Repeater"
+"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.showcases.text.recent-changes-one": # "Recent change to this Showcase"
 
 #--- 100 keyword based translations -------------------------------------------
 

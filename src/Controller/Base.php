@@ -1,8 +1,10 @@
 <?php
 namespace Bolt\Controller;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
@@ -212,7 +214,7 @@ abstract class Base implements ControllerProviderInterface
     {
         if (!$this->isCsrfTokenValid($value, $id)) {
             //$this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
-            $this->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+            $this->abort(Response::HTTP_BAD_REQUEST, Trans::__('general.phrase.something-went-wrong'));
         }
     }
 
@@ -220,13 +222,13 @@ abstract class Base implements ControllerProviderInterface
      * Check if csrf token is valid.
      *
      * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
-     * @param string      $id    The token ID. 
+     * @param string      $id    The token ID.
      *
      * @return bool
      */
     protected function isCsrfTokenValid($value = null, $id = 'bolt')
     {
-        $token = new CsrfToken($id, $value ?: $this->app['request']->get('bolt_csrf_token'));
+        $token = new CsrfToken($id, $value ?: $this->app['request_stack']->getCurrentRequest()->get('bolt_csrf_token'));
 
         return $this->app['csrf']->isTokenValid($token);
     }
@@ -285,17 +287,19 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param integer|string|null $userId
      *
-     * @return Entity\Users|null
+     * @return Entity\Users|false
      */
     protected function getUser($userId = null)
     {
         if ($userId === null) {
+            /** @var Token $sessionAuth */
             if ($this->session()->isStarted() && $sessionAuth = $this->session()->get('authentication')) {
                 return $sessionAuth->getUser();
             }
 
-            return;
+            return false;
         }
+        /** @var Repository\UsersRepository $repo */
         $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
 
         return $repo->getUser($userId);
@@ -313,8 +317,9 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function isAllowed($what, $user = null, $contenttype = null, $contentid = null)
     {
-        if ($user === null && $user = $this->session()->get('authentication')) {
-            $user = $user->getUser()->toArray();
+        /** @var Token $sessionAuth */
+        if ($user === null && $sessionAuth = $this->session()->get('authentication')) {
+            $user = $sessionAuth->getUser()->toArray();
         }
 
         return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);

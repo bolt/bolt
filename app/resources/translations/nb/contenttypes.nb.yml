@@ -1,23 +1,56 @@
-# app/resources/translations/nb/contenttypes.nb.yml – generated on 2016-03-15 17:32:57 Europe/Berlin
+# app/resources/translations/nb/contenttypes.nb.yml – generated on 2016-05-02 21:04:14 Europe/Paris
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
 #  no unused messages
 #  no untranslated messages
-# 108 untranslated keyword based messages
+# 139 untranslated keyword based messages
 #  no translations
-#  no keyword based translations
+#   2 keyword based translations
 
-#--- 108 untranslated keyword based messages ----------------------------------
+#--- 139 untranslated keyword based messages ----------------------------------
 
+"contenttypes.blocks.description": # "The **Blocks** contenttype is a so-called 'resource contenttype'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
+"contenttypes.blocks.group.block": # "Block"
+"contenttypes.blocks.name.plural": # "Blocks"
+"contenttypes.blocks.name.singular": # "Block"
+"contenttypes.blocks.text.actions-all": # "Actions for Blocks"
+"contenttypes.blocks.text.actions-one": # "Actions for this Block"
+"contenttypes.blocks.text.created": # "This Block was created"
+"contenttypes.blocks.text.delete": # "Delete Block"
+"contenttypes.blocks.text.duplicate": # "Duplicate Block"
+"contenttypes.blocks.text.duplicated-finalize": # "Content was duplicated. Click 'Save Block' to finalize."
+"contenttypes.blocks.text.edit": # "Edit Block"
+"contenttypes.blocks.text.invalid-field": # "Can't set %field% in Block: Not a valid field."
+"contenttypes.blocks.text.invalid-relation": # "In the contenttype for 'Block', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.last-modified": # "Last modified Blocks"
+"contenttypes.blocks.text.new": # "New Block"
+"contenttypes.blocks.text.no-latest": # "No latest Block"
+"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.no-recent": # "No recent Block."
+"contenttypes.blocks.text.none-available": # "No Blocks available."
+"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+"contenttypes.blocks.text.not-saved-yet": # "This Block has not been saved yet."
+"contenttypes.blocks.text.overview": # "Blocks overview"
+"contenttypes.blocks.text.publish": # "Publish Block"
+"contenttypes.blocks.text.recent": # "Recent Blocks"
+"contenttypes.blocks.text.recent-changes-one": # "Recent changes to this Block"
+"contenttypes.blocks.text.recently-edited": # "Recently edited Blocks"
+"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+"contenttypes.blocks.text.save": # "Save Block"
+"contenttypes.blocks.text.saved-changes": # "The changes to the Block have been saved."
+"contenttypes.blocks.text.saved-new": # "The new Block has been saved."
+"contenttypes.blocks.text.saving-impossible": # "Could not save Block."
+"contenttypes.blocks.text.show-more": # "More Blocks"
+"contenttypes.blocks.text.view": # "View Blocks"
+"contenttypes.blocks.text.wrong-use-field": # "In the contenttype for 'Block', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 "contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
-"contenttypes.entries.group.content": # "Content"
 "contenttypes.entries.group.media": # "Media"
 "contenttypes.entries.name.plural": # "Entries"
 "contenttypes.entries.name.singular": # "Entry"
@@ -41,7 +74,7 @@
 "contenttypes.entries.text.overview": # "Entries overview"
 "contenttypes.entries.text.publish": # "Publish Entry"
 "contenttypes.entries.text.recent": # "Recent Entries"
-"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
+"contenttypes.entries.text.recent-changes-one": # "Recent change to this Entry"
 "contenttypes.entries.text.recently-edited": # "Recently edited Entries"
 "contenttypes.entries.text.reserved-name": # "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.entries.text.save": # "Save Entry"
@@ -52,7 +85,6 @@
 "contenttypes.entries.text.view": # "View Entries"
 "contenttypes.entries.text.wrong-use-field": # "In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 "contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
-"contenttypes.pages.group.content": # "Content"
 "contenttypes.pages.name.plural": # "Pages"
 "contenttypes.pages.name.singular": # "Page"
 "contenttypes.pages.text.actions-all": # "Actions for Pages"
@@ -75,7 +107,7 @@
 "contenttypes.pages.text.overview": # "Pages overview"
 "contenttypes.pages.text.publish": # "Publish Page"
 "contenttypes.pages.text.recent": # "Recent Pages"
-"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
+"contenttypes.pages.text.recent-changes-one": # "Recent change to this Page"
 "contenttypes.pages.text.recently-edited": # "Recently edited Pages"
 "contenttypes.pages.text.reserved-name": # "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.pages.text.save": # "Save Page"
@@ -89,8 +121,7 @@
 "contenttypes.showcases.group.files": # "Files"
 "contenttypes.showcases.group.media": # "Media"
 "contenttypes.showcases.group.other": # "Other"
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
+"contenttypes.showcases.group.repeater": # "Repeater"
 "contenttypes.showcases.group.text": # "Text"
 "contenttypes.showcases.name.plural": # "Showcases"
 "contenttypes.showcases.name.singular": # "Showcase"
@@ -114,7 +145,7 @@
 "contenttypes.showcases.text.overview": # "Showcases overview"
 "contenttypes.showcases.text.publish": # "Publish Showcase"
 "contenttypes.showcases.text.recent": # "Recent Showcases"
-"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
+"contenttypes.showcases.text.recent-changes-one": # "Recent change to this Showcase"
 "contenttypes.showcases.text.recently-edited": # "Recently edited Showcases"
 "contenttypes.showcases.text.reserved-name": # "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 "contenttypes.showcases.text.save": # "Save Showcase"
@@ -124,3 +155,9 @@
 "contenttypes.showcases.text.show-more": # "More Showcases"
 "contenttypes.showcases.text.view": # "View Showcases"
 "contenttypes.showcases.text.wrong-use-field": # "In the contenttype for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
+
+#--- 2 keyword based translations ---------------------------------------------
+
+contenttypes.entries.group.content: "Innhold"
+
+contenttypes.pages.group.content: "Innhold"

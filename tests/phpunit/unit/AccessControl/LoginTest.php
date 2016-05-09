@@ -234,10 +234,10 @@ class LoginTest extends BoltUnitTest
         $this->addDefaultUser($app);
 
         $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
-        $logger->expects($this->at(1))
+        $logger->expects($this->at(0))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
-        $logger->expects($this->at(2))
+        $logger->expects($this->at(1))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Saving new login token#'));
         $app['logger.system'] = $logger;

@@ -18,7 +18,7 @@
 {% macro contentlink_by_id(contenttype, title, content_id) %}
     {% spaceless %}
         <a href="{{ path('editcontent', {'contenttypeslug': contenttype.slug, 'id': content_id}) }}">
-            {{- title|trimtext(70)|default("<em>(" ~ __("no title …") ~ ")</em>")|raw -}}
+            {{- title|trimtext(70)|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>")|raw -}}
         </a>
     {% endspaceless %}
 {% endmacro %}
@@ -77,7 +77,7 @@
 {% macro typepopover(types) %}
     {% set types = types|default(app.config.get('general/accept_file_types')) %}
     {% set text = __("field.general.allowed-filetypes") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
-    <span class="label info-pop" data-title="" data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
+    <span class="label info-pop" data-title="" data-html="true" data-content="{{ text }}">{{ __('general.phrase.types') }}</span>
 {% endmacro %}
 
 {##
@@ -123,7 +123,7 @@
             disabled:  opt.disabled|default(false),
             required:  opt.required|default(false),
             class:     (class ~ ' timepicker')|trim,
-            title:     __('Time in 24h/12h format'),
+            title:     __('general.phrase.time-format-24-12'),
             style:     'margin-right: 6px;'
         }
     } %}
@@ -174,12 +174,12 @@
         {% if canUpload %}
             <span class="btn btn-tertiary btn-sm fileinput-button">
                 <i class="fa fa-upload"></i>
-                <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
+                <span>{{ (type == 'image') ? __('general.phrase.upload-image') : __('general.phrase.upload-file') }}</span>
                 <input{{ attr(attr_upload) }}>
             </span>
         {% else %}
             <button type="button" class="btn btn-sm" disabled="disabled">
-                {{ __('Upload not allowed') }}
+                {{ __('general.phrase.upload-not-allowed') }}
                 {# creating a dummy stub, instead of the uploader. Needed (currently) to attach events to #}
                 {% set attr_upload = attr_upload|merge({'type' : 'hidden'}) %}
                 <input{{ attr(attr_upload) }}>

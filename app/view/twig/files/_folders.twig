@@ -3,8 +3,8 @@
 <table class="dashboardlisting">
     <thead>
         <tr>
-            <th>{{ __('Folders') }}</th>
-            <th colspan="2">{{ __('Modified') }}</th>
+            <th>{{ __('general.phrase.folders') }}</th>
+            <th colspan="2">{{ __('general.phrase.modified') }}</th>
         </tr>
     </thead>
 
@@ -27,7 +27,7 @@
 
                         <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
                             <i class="fa fa-info-circle"></i>
-                            {{ __('Options') }}
+                            {{ __('general.phrase.options') }}
                             <span class="caret"></span>
                         </a>
 
@@ -40,7 +40,7 @@
                                                                     this);">
 
                                     <i class="fa fa-keyboard-o"></i>
-                                    {{ __('Rename %foldername%', {'%foldername%': directory.filename}) }}
+                                    {{ __('general.phrase.rename-foldername', {'%foldername%': directory.filename}) }}
                                 </a>
                                 <a href="#"
                                    class="confirm"
@@ -50,14 +50,14 @@
                                                                     this);">
 
                                     <i class="fa fa-ban"></i>
-                                    {{ __('Delete %foldername%', {'%foldername%': directory.filename}) }}
+                                    {{ __('general.phrase.delete-directory-name', {'%foldername%': directory.filename}) }}
                                 </a>
                             </li>
                         </ul>
                     {% else %}
                         <a class="btn btn-default btn-sm">
                             <i class="fa fa-exclamation-circle"></i>
-                            {{ __('Folder permissions insufficient') }}
+                            {{ __('page.file-management.message.folder-access-denied') }}
                         </a>
                     {% endif %}
                     </div>

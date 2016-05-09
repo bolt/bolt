@@ -14,7 +14,7 @@
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.contenttype.slug}) }}
     </a>
 
-    <p style="margin-top: 15px;"><strong>{{ __("Filter") }}</strong></p>
+    <p style="margin-top: 15px;"><strong>{{ __('general.phrase.filter') }}</strong></p>
 
     <form class="form-inline">
 
@@ -36,17 +36,17 @@
                     </option>
                 {% endfor %}
                 </select>
-                {{ __("or") }}
+                {{ __('general.phrase.or') }}
             {% endif %}
         {% endfor %}
-            <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Keyword …') }}">
+            <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
         </div>
 
         <div class="form-group" style="display: block; margin-top: 12px;">
-            <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('Filter') }}</button>
+            <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('general.phrase.filter') }}</button>
 
             {% if request('filter') or request('order') or taxonomyfilter %}
-                <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('Clear sort/filter') }}</a>
+                <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('general.phrase.clear-filter-sort') }}</a>
             {% endif %}
         </div>
 
@@ -60,17 +60,17 @@
         {% endif %}
     </div>
 
-    <p><strong>{{ __("Details") }}</strong></p>
+    <p><strong>{{ __('general.phrase.details') }}</strong></p>
     <ul>
-        <li>{{ __("Default status") }}: {{ context.contenttype.default_status|default('published') }}</li>
-        <li>{{ __("Listing template") }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
-        <li>{{ __("Detail template") }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
+        <li>{{ __('general.phrase.status-default') }}: {{ context.contenttype.default_status|default('published') }}</li>
+        <li>{{ __('general.phrase.listing-template') }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
+        <li>{{ __('general.phrase.template-detail') }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
         {% if context.contenttype.taxonomy|default('') is iterable %}
-            <li>{{ __("Taxonomy") }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
+            <li>{{ __('general.phrase.taxonomy') }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
         {% endif %}
         {% if context.contenttype.relations|default('') is iterable %}
             <li>
-                {{ __("Relationships") }}:
+                {{ __('general.phrase.relationships') }}:
                 {% for rel, data in context.contenttype.relations %}
                     {{ rel }}{% if not loop.last %}, {% endif %}
                 {% endfor %}
