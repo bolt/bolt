@@ -290,7 +290,7 @@ general.phrase.create-user-first: "Создание первого пользо�
 general.phrase.created-on-colon: "Создан:"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
 general.phrase.current-session-plural: "Текущие сессии"
-"Current status:": "Текущий статус:"
+general.phrase.status-current-colon: "Текущий статус:"
 "Dashboard": "Панель управления"
 "Database check / update": "Проверить базу данных / обновить"
 "Date": "Дата"
