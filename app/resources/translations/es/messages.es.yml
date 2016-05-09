@@ -335,7 +335,7 @@ general.access-control.reset-failed: "¡El restablecimiento de la contraseña no
 general.access-control.reset-successful: "¡El restablecimiento de contraseña ha sido exitoso! Ahora puedes iniciar sesión con la contraseña que se te envió por correo electrónico."
 general.phrase.path: "Ruta"
 "Path to image file": "Ruta al archivo de imagen"
-"Path:": "Ruta"
+general.phrase.path-colon: "Ruta"
 "Permalink": "Enlace permanente"
 "Permissions": "Permisos"
 "Place on stack": "Poner en la pila"

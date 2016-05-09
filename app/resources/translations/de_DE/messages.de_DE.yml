@@ -274,7 +274,7 @@ general.access-control.reset-failed: "Passwort wurde nicht zurückgesetzt. Entwe
 general.access-control.reset-successful: "Passwort erfolgreich zurückgesetzt! Sie können sich nun mit dem an Sie per E-Mail versandten Passwort neu anmelden."
 general.phrase.path: "Pfad"
 "Path to image file": "Bildpfad"
-"Path:": "Pfad"
+general.phrase.path-colon: "Pfad"
 "Permalink": "Permanenter Link"
 "Permissions": "Berechtigungen"
 "Place on stack": "Auf dem Stapel platzieren"

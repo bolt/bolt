@@ -346,7 +346,7 @@ general.access-control.reset-failed: "Nie udało się\\_zresetować hasła. Albo
 general.access-control.reset-successful: "Udało się zresetować hasło. Teraz możesz zalogować się używając hasła wysłanego w wiadomości e-mail."
 general.phrase.path: "Ścieżka"
 "Path to image file": "Ścieżka do pliku obrazu"
-"Path:": "Ścieżka:"
+general.phrase.path-colon: "Ścieżka:"
 "Permalink": "Link permanentny"
 "Permissions": "Uprawnienia"
 "Place on stack": "Miejsce na stosie"

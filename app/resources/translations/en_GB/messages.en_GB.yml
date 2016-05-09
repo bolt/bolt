@@ -223,7 +223,7 @@ general.access-control.reset-failed: "Password reset not successful! Either the 
 general.access-control.reset-successful: "Password reset successful! You can now log on with the password that was sent to you via email."
 general.phrase.path: "Path"
 "Path to image file": "Path to image file"
-"Path:": "Path:"
+general.phrase.path-colon: "Path:"
 "Permalink": "Permalink"
 "Permissions": "Permissions"
 "Place on stack": "Place on stack"

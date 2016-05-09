@@ -364,7 +364,7 @@ general.access-control.reset-failed: "密碼重置失敗！可能是token不對�
 general.access-control.reset-successful: "密碼重置成功！你現在可以使用Email中的新密碼登入了。"
 general.phrase.path: "路徑"
 "Path to image file": "影象檔案路徑"
-"Path:": "路徑:"
+general.phrase.path-colon: "路徑:"
 "Permalink": "永久連結"
 "Permissions": "許可權"
 "Place on stack": "放到暫存區"

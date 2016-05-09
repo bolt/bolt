@@ -232,7 +232,7 @@ general.access-control.reset-failed: "Erreur lors de la demande de réinitialisa
 general.access-control.reset-successful: "Mot de passe réinitialisé. Vous pouvez maintenant vous connectez avec le mot de passe qui vous a été envoyé par mail."
 general.phrase.path: "Chemin"
 "Path to image file": "Chemin du fichier"
-"Path:": "Chemin :"
+general.phrase.path-colon: "Chemin :"
 "Permalink": "Permalien"
 "Permissions": "Permissions"
 "Place on stack": "Mettre dans la pile"

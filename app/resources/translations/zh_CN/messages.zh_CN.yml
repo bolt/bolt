@@ -373,7 +373,7 @@ general.access-control.reset-failed: "密码重置失败！可能是token不对�
 general.access-control.reset-successful: "密码重置成功！你现在可以使用Email中的新密码登录了。"
 general.phrase.path: "路径"
 "Path to image file": "图像文件路径"
-"Path:": "路径:"
+general.phrase.path-colon: "路径:"
 "Permalink": "永久链接"
 "Permissions": "权限"
 "Place on stack": "放到暂存区"

@@ -1,7 +1,7 @@
 {% macro files_path(pathsegments, namespace, pathoptions) %}
     {% set namespace_path = path('files', pathoptions) %}
     <p>
-        {{ __('Path:') }}
+        {{ __('general.phrase.path-colon') }}
         <a href="{{ namespace_path }}">{{ namespace }}</a>
 
         {% for path, segment in pathsegments %}

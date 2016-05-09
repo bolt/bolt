@@ -337,7 +337,7 @@ general.access-control.reset-failed: "Salasanan palautus ei onnistunut! Joko tun
 general.access-control.reset-successful: "Salasanan palautus onnistui! Voin nyt kirjautua sinulle sähköpostilla lähetetyllä salasanalla."
 general.phrase.path: "Polku"
 "Path to image file": "Kuvatiedoston polku"
-"Path:": "Polku"
+general.phrase.path-colon: "Polku"
 "Permalink": "Pysyvä linkki"
 "Permissions": "Oikeudet"
 "Place on stack": "Laita pinoon"

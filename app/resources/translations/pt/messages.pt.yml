@@ -244,7 +244,7 @@ general.access-control.reset-failed: "A redefinição de senha não foi bem suce
 general.access-control.reset-successful: "Senha redefinida com sucesso! Você pode iniciar sessão com a nova senha enviada para o seu email."
 general.phrase.path: "Caminho"
 "Path to image file": "Caminho para o ficheiro de imagem"
-"Path:": "Caminho:"
+general.phrase.path-colon: "Caminho:"
 "Permalink": "Endereço permanente"
 "Permissions": "Permissões"
 "Place on stack": "Colocar na pilha"

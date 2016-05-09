@@ -248,7 +248,7 @@ general.access-control.reset-failed: "Lösenordet återställdes ej! Antingen s�
 general.access-control.reset-successful: "Lösenordet återställdes! Du kan nu logga in med lösenordet som skickades till dig via mail."
 general.phrase.path: "Sökväg"
 "Path to image file": "Sökväg till bildfilen"
-"Path:": "Sökväg:"
+general.phrase.path-colon: "Sökväg:"
 "Permalink": "Permalänk"
 "Permissions": "Rättigheter"
 "Place on stack": "Lägg på filhögen"

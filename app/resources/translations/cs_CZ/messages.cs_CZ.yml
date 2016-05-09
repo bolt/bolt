@@ -296,7 +296,7 @@ general.access-control.reset-failed: "Reset hesla nebylo možné provés! Pokou�
 general.access-control.reset-successful: "Nové heslo vám bylo úspěšně zasláno emailem. Použijte ho pro příští přihlášení."
 general.phrase.path: "Cesta"
 "Path to image file": "Cesta k souboru obrázku"
-"Path:": "Cesta:"
+general.phrase.path-colon: "Cesta:"
 "Permalink": "Trvalý odkaz"
 "Permissions": "Oprávnění"
 "Place on stack": "Dát do zásobníku"

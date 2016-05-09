@@ -274,7 +274,7 @@ general.access-control.reset-failed: "Jelszó helyreállítás sikertelen! Lehet
 general.access-control.reset-successful: "Jelszó helyreállítás sikeres! Most már bejelentkezhetsz az email címedre küldött jelszóval."
 general.phrase.path: "Útvonal"
 "Path to image file": "Képfájl útvonala"
-"Path:": "Útvonal"
+general.phrase.path-colon: "Útvonal"
 "Permalink": "Permalink"
 "Permissions": "Engedélyek"
 "Place on stack": "Elhelyezés kötegben"

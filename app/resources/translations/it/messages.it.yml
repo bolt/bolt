@@ -146,7 +146,7 @@ permissions.roles.label.owner: #
 general.access-control.reset-failed: #
 general.access-control.reset-successful: #
 "Path to image file": #
-"Path:": #
+general.phrase.path-colon: #
 "Please enter a new file name!": #
 "Please enter a new folder name!": #
 "Profile": #

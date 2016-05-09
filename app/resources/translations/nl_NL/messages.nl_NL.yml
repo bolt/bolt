@@ -237,7 +237,7 @@ general.access-control.reset-failed: "Resetten van het wachtwoord is mislukt! Is
 general.access-control.reset-successful: "Gelukt! Je kunt nu inloggen met het wachtwoord dat per e-mail is verzonden."
 general.phrase.path: "Pad"
 "Path to image file": "Pad naar afbeelding"
-"Path:": "Pad:"
+general.phrase.path-colon: "Pad:"
 "Permalink": "Permalink"
 "Permissions": "Permissies"
 "Place on stack": "Plaats op stack"
