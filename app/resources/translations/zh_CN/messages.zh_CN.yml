@@ -42,7 +42,7 @@ general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
 page.file-management.label.create-file: #
-"Delete": #
+general.phrase.delete: #
 "Delete Set": #
 "Depublish": #
 "Depublish date is in the past. Change the status if you want to depublish now": #

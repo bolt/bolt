@@ -35,7 +35,7 @@ general.phrase.clear-cache-complete: #
 general.phrase.close-editor: #
 page.file-management.label.create-file: #
 general.phrase.dashboard: #
-"Delete": #
+general.phrase.delete: #
 "Delete Set": #
 "Depublish": #
 "Depublish date is in the past. Change the status if you want to depublish now": #

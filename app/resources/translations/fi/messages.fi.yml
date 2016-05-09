@@ -28,7 +28,7 @@ general.phrase.toggle-all: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 page.file-management.label.create-file: #
-"Delete": #
+general.phrase.delete: #
 "Delete Set": #
 "Depublish": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #

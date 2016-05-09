@@ -43,7 +43,7 @@ general.phrase.close-editor: #
 general.phrase.collapse-sidebar: #
 page.file-management.label.create-file: #
 general.phrase.status-default: #
-"Delete": #
+general.phrase.delete: #
 "Delete Set": #
 "Depublish": #
 "Depublish date is in the past. Change the status if you want to depublish now": #
