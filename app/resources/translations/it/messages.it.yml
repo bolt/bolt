@@ -553,7 +553,7 @@
 
 #--- 75 keyword based translations --------------------------------------------
 
-component.changelog-pager.page: "Pagina"
+general.phrase.page: "Pagina"
 
 contenttypes.generic.actions-all: "Azioni per contenuti %contenttypes%"
 contenttypes.generic.actions-one: "Azioni per questo contenuto %contenttype%"

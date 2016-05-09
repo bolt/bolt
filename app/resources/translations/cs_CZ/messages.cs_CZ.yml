@@ -472,7 +472,7 @@ general.phrase.field: "pole"
 general.phrase.value-new: "nová hodnota"
 general.phrase.value-old: "původní hodnota"
 
-component.changelog-pager.page: "Strana"
+general.phrase.page: "Strana"
 
 contenttypes.generic.actions-all: "Akce pro %contenttypes%"
 contenttypes.generic.actions-one: "Akce pro %contenttype%"

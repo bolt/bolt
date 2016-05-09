@@ -444,7 +444,7 @@ general.phrase.field: "Feld"
 general.phrase.value-new: "Neuer Wert"
 general.phrase.value-old: "Alter Wert"
 
-component.changelog-pager.page: "Seite"
+general.phrase.page: "Seite"
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"

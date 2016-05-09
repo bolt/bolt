@@ -415,7 +415,7 @@ general.phrase.field: "Champ"
 general.phrase.value-new: "Nouvelle valeur"
 general.phrase.value-old: "Ancienne valeur"
 
-component.changelog-pager.page: "Page"
+general.phrase.page: "Page"
 
 contenttypes.generic.actions-all: "Actions pour les %contenttypes%"
 contenttypes.generic.actions-one: "Actions pour ce(tte) %contenttype%"

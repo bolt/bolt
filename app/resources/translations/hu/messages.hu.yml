@@ -437,7 +437,7 @@ general.phrase.field: "mező"
 general.phrase.value-new: "új érték"
 general.phrase.value-old: "régi érték"
 
-component.changelog-pager.page: "Oldal"
+general.phrase.page: "Oldal"
 
 contenttypes.generic.actions-all: "Műveletek a(z) %contenttypes% tartalomtípusokhoz"
 contenttypes.generic.actions-one: "Műveletek a(z) %contenttype% tartalomtípushoz"

@@ -496,7 +496,7 @@ general.phrase.field: "欄位"
 general.phrase.value-new: "新值"
 general.phrase.value-old: "舊值"
 
-component.changelog-pager.page: "頁面"
+general.phrase.page: "頁面"
 
 contenttypes.generic.actions-all: "對%contenttypes%的操作"
 contenttypes.generic.actions-one: "對%contenttype%的操作"

@@ -415,7 +415,7 @@ general.phrase.field: "veld"
 general.phrase.value-new: "nieuwe waarde"
 general.phrase.value-old: "oude waarde"
 
-component.changelog-pager.page: "Pagina"
+general.phrase.page: "Pagina"
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"

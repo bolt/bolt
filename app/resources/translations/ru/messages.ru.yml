@@ -500,7 +500,7 @@ general.phrase.field: "поле"
 general.phrase.value-new: "Новое значение"
 general.phrase.value-old: "Старое значение"
 
-component.changelog-pager.page: "Страница"
+general.phrase.page: "Страница"
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"

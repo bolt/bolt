@@ -490,7 +490,7 @@ general.phrase.field: "Kenttä"
 general.phrase.value-new: "Uusi arvo"
 general.phrase.value-old: "Vanha arvo"
 
-component.changelog-pager.page: "Sivu"
+general.phrase.page: "Sivu"
 
 contenttypes.generic.actions-all: "Sisältötyyppien toiminnot"
 contenttypes.generic.actions-one: "Tämän sisältötyypin toiminnot"

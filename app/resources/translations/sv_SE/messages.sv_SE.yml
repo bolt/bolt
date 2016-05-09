@@ -420,7 +420,7 @@ general.phrase.field: "Fält"
 general.phrase.value-new: "Nytt värde"
 general.phrase.value-old: "Gammalt värde"
 
-component.changelog-pager.page: "Sida"
+general.phrase.page: "Sida"
 
 contenttypes.generic.actions-all: "Åtgärder för %contenttypes%"
 contenttypes.generic.actions-one: "Åtgärder för denna %contenttype%"

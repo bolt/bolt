@@ -487,7 +487,7 @@ general.phrase.field: "Pole"
 general.phrase.value-new: "Nowa wartość"
 general.phrase.value-old: "Stara wartość"
 
-component.changelog-pager.page: "Strona"
+general.phrase.page: "Strona"
 
 contenttypes.generic.actions-all: "Akcje dla %contenttypes%"
 contenttypes.generic.actions-one: "Akcje dla tego %contenttype%"

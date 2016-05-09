@@ -538,7 +538,7 @@ general.phrase.field: "フィールド"
 general.phrase.value-new: "新しい値"
 general.phrase.value-old: "古い値"
 
-component.changelog-pager.page: "ページ"
+general.phrase.page: "ページ"
 
 contenttypes.generic.actions-all: "%contenttypes%の操作"
 contenttypes.generic.actions-one: "この%contenttype%の操作"
