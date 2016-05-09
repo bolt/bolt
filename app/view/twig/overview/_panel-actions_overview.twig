@@ -64,7 +64,7 @@
     <ul>
         <li>{{ __('general.phrase.status-default') }}: {{ context.contenttype.default_status|default('published') }}</li>
         <li>{{ __("Listing template") }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
-        <li>{{ __("Detail template") }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
+        <li>{{ __('general.phrase.template-detail') }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
         {% if context.contenttype.taxonomy|default('') is iterable %}
             <li>{{ __("Taxonomy") }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
         {% endif %}
