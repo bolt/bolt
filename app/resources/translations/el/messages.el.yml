@@ -130,7 +130,7 @@ general.phrase.other-content: #
 general.phrase.others: #
 general.access-control.reset-failed: #
 general.phrase.path-image-file: #
-"Please enter a new file name!": #
+page.file-management.message.create-file: #
 "Please enter a new folder name!": #
 "Please log on.": #
 "Prefill database": # "Pre-fill database"
