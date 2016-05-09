@@ -203,7 +203,7 @@ general.phrase.users-permissions: #
 "View (saved version) on site": #
 general.phrase.view-roles: #
 general.phrase.view-related: #
-"Warning": #
+general.phrase.warning: #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
 "Welcome to your new Bolt site, %USER%.": #
 "You cannot '%s' yourself.": #

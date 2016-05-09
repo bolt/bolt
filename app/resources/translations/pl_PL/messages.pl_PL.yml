@@ -89,7 +89,7 @@ page.extend.message.package-install-info-fail: #
 "Unable to rename file: %FILE%": #
 general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Warning": #
+general.phrase.warning: #
 "Welcome to your new Bolt site, %USER%.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
