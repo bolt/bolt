@@ -92,7 +92,7 @@ class Password
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.flash']->clear();
-            $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
+            $this->app['logger.flash']->success(Trans::__('general.access-control.reset-successful'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_SUCCESS, $event);
 
             return true;

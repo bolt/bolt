@@ -140,7 +140,7 @@ general.phrase.order: #
 general.phrase.other-content: #
 general.phrase.others: #
 general.access-control.reset-failed: #
-"Password reset successful! You can now log on with the password that was sent to you via email.": #
+general.access-control.reset-successful: #
 "Path to image file": #
 "Place on stack": #
 "Please choose the record you want to link to:": #
