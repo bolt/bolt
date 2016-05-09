@@ -505,7 +505,7 @@ general.phrase.general.phrase.uploaded-files: "アップロードされたファ
 page.file-management.message.access-denied: "このフォルダへのアップロードは許可されていません。"
 general.phrase.used-libraries: "利用したライブラリ/コンポーネント"
 general.phrase.user-failed-delete: "ユーザー '%s' は削除できません。"
-"User '%s' could not be disabled.": "ユーザー '%s' は無効化できません。"
+general.phrase.user-failed-disabled: "ユーザー '%s' は無効化できません。"
 "User '%s' could not be enabled.": "ユーザー '%s' は有効化できません。"
 "User '%s' is deleted.": "ユーザー '%s' は削除されました。"
 "User '%s' is disabled.": "ユーザー '%s' は無効化されています。"

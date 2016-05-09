@@ -242,7 +242,7 @@ class Users extends BackendBase
 
                     $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user->getDisplayname()]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be disabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-failed-disabled', ['%s' => $user->getDisplayname()]));
                 }
                 break;
 
