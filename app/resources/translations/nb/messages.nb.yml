@@ -599,7 +599,7 @@ general.phrase.by: "av"
 general.phrase.line: "linje"
 general.phrase.none: "ingen"
 general.phrase.of: "av"
-"show all": "vis alle"
+general.phrase.show-all: "vis alle"
 
 #--- 25 keyword based translations --------------------------------------------
 

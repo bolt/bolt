@@ -406,7 +406,7 @@ general.phrase.no-title: "geen titel …"
 general.phrase.none: "geen"
 general.phrase.of: "van"
 general.phrase.or: "of"
-"show all": "Toon alle"
+general.phrase.show-all: "Toon alle"
 
 #--- 215 keyword based translations -------------------------------------------
 

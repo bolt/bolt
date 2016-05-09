@@ -581,7 +581,7 @@ general.phrase.by: "απο"
 general.phrase.line: "σειρά"
 general.phrase.none: "κανένα"
 general.phrase.of: "απο"
-"show all": "εμφάνιση όλων"
+general.phrase.show-all: "εμφάνιση όλων"
 
 #--- 43 keyword based translations --------------------------------------------
 

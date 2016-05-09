@@ -428,7 +428,7 @@ general.phrase.no-title: "nincs cím…"
 general.phrase.none: "nincs"
 general.phrase.of: "/"
 general.phrase.or: "vagy"
-"show all": "összes mutatása"
+general.phrase.show-all: "összes mutatása"
 
 #--- 196 keyword based translations -------------------------------------------
 

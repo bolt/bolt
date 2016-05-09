@@ -435,7 +435,7 @@ general.phrase.no-title: "kein Titel …"
 general.phrase.none: "nichts"
 general.phrase.of: "von"
 general.phrase.or: "oder"
-"show all": "alle anzeigen"
+general.phrase.show-all: "alle anzeigen"
 
 #--- 189 keyword based translations -------------------------------------------
 

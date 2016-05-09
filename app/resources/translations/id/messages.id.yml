@@ -600,7 +600,7 @@ general.phrase.by: "oleh"
 general.phrase.line: "baris"
 general.phrase.none: "Tidak ada"
 general.phrase.of: "dari"
-"show all": "tampilkan semua"
+general.phrase.show-all: "tampilkan semua"
 
 #--- 24 keyword based translations --------------------------------------------
 

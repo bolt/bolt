@@ -400,7 +400,7 @@ general.phrase.no-title: "no title …"
 general.phrase.none: "none"
 general.phrase.of: "of"
 general.phrase.or: "or"
-"show all": "show all"
+general.phrase.show-all: "show all"
 
 #--- 215 keyword based translations -------------------------------------------
 

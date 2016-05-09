@@ -530,7 +530,7 @@ general.phrase.return-editing: "編集に戻る"
 general.phrase.line: "行"
 general.phrase.none: "なし"
 general.phrase.of: "の"
-"show all": "全てを表示"
+general.phrase.show-all: "全てを表示"
 
 #--- 94 keyword based translations --------------------------------------------
 

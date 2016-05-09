@@ -463,7 +463,7 @@ general.phrase.no-title: "žádný nadpis …"
 general.phrase.none: "žádný"
 general.phrase.of: "z"
 general.phrase.or: "nebo"
-"show all": "zobrazit vše"
+general.phrase.show-all: "zobrazit vše"
 
 #--- 161 keyword based translations -------------------------------------------
 

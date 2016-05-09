@@ -481,7 +481,7 @@ general.phrase.no-title: "ei otsikkoa …"
 general.phrase.none: "ei mitään"
 general.phrase.of: "/"
 general.phrase.or: "tai"
-"show all": "näytä kaikki"
+general.phrase.show-all: "näytä kaikki"
 
 #--- 143 keyword based translations -------------------------------------------
 

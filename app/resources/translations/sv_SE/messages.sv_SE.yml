@@ -411,7 +411,7 @@ general.phrase.no-title: "ingen titel …"
 general.phrase.none: "ingen"
 general.phrase.of: "av"
 general.phrase.or: "eller"
-"show all": "visa alla"
+general.phrase.show-all: "visa alla"
 
 #--- 213 keyword based translations -------------------------------------------
 

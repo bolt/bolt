@@ -478,7 +478,7 @@ general.phrase.no-content: "brak treści …"
 general.phrase.no-title: "brak tytułu …"
 general.phrase.none: "nic"
 general.phrase.of: "z"
-"show all": "pokaż wszystko"
+general.phrase.show-all: "pokaż wszystko"
 
 #--- 146 keyword based translations -------------------------------------------
 

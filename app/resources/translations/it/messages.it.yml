@@ -549,7 +549,7 @@ general.phrase.settings: "Impostazioni"
 general.phrase.edited: "e modificato"
 general.phrase.none: "nessuno"
 general.phrase.of: "di"
-"show all": "mostra tutto"
+general.phrase.show-all: "mostra tutto"
 
 #--- 75 keyword based translations --------------------------------------------
 
