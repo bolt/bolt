@@ -566,7 +566,7 @@ general.phrase.user-failed-enable: "Ο χρήστης %s δεν μπορεί ν�
 "User '%s' is enabled.": "Ο χρήστης '%s' ενεργοποιήθηκε."
 general.phrase.user-name: "Όνομα χρήστη"
 general.phrase.error-user-name-password-incorrect: "Όνομα χρήστης ή κωδικός δεν είναι σωστός."
-"Users": "Χρήστες"
+general.phrase.users: "Χρήστες"
 "View on site": "Εμφάνιση στο site"
 "View site": "Εμφάνιση site"
 "Written by <em>%name%</em> on %date%": "Γράφτηκε απο τον <em>%name%</em> στις %date%"

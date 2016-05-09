@@ -512,7 +512,7 @@ general.phrase.user-failed-enable: "ユーザー '%s' は有効化できませ�
 "User '%s' is enabled.": "ユーザー '%s' は有効化されています。"
 general.phrase.user-name: "ユーザー名"
 general.phrase.error-user-name-password-incorrect: "ユーザー名もしくはパスワードが正しくありません。入力内容を確認してください。"
-"Users": "ユーザー"
+general.phrase.users: "ユーザー"
 "Video": "動画"
 "View on site": "サイト上で表示"
 "View site": "サイトを表示"

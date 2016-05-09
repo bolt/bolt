@@ -448,7 +448,7 @@ general.phrase.user-failed-enable: "Konto użytkownika '%s' nie może zostać ak
 "User '%s' is enabled.": "Konto użytkownika '%s' jest aktywne."
 general.phrase.user-name: "Nazwa użytkownika"
 general.phrase.error-user-name-password-incorrect: "Nazwa użytkownika lub hasło jest niepoprawne. Proszę sprawdzić wprowadzane dane."
-"Users": "Użytkownicy"
+general.phrase.users: "Użytkownicy"
 "Users & Permissions": "Użytkownicy i uprawnienia"
 "Video": "Wideo"
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"

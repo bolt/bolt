@@ -400,7 +400,7 @@ general.phrase.user-failed-enable: "Benutzer '%s' konnte nicht aktiviert werden.
 "User '%s' is enabled.": "Benutzer '%s' wurde aktiviert."
 general.phrase.user-name: "Benutzername"
 general.phrase.error-user-name-password-incorrect: "Benutzername oder Passwort falsch. Bitte Eingabe überprüfen."
-"Users": "Benutzer"
+general.phrase.users: "Benutzer"
 "Users & Permissions": "Benutzer & Benutzerrechte"
 "Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"

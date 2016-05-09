@@ -120,7 +120,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Users', 'Configuration'],
-                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('Users'),
+                    'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('general.phrase.users'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 1,
                     'path'        => $this->generatePath('users'),

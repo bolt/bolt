@@ -370,7 +370,7 @@ general.phrase.user-failed-enable: "Gebruiker '%s' kon niet worden ingeschakeld.
 "User '%s' is enabled.": "Gebruiker '%s' is ingeschakeld."
 general.phrase.user-name: "Gebruikersnaam"
 general.phrase.error-user-name-password-incorrect: "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
-"Users": "Gebruikers"
+general.phrase.users: "Gebruikers"
 "Users & Permissions": "Gebruikers en machtigingen"
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
