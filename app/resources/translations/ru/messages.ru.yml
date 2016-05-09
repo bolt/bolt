@@ -298,7 +298,7 @@ general.phrase.database-check-update: "Проверить базу данных 
 general.phrase.status-default: "Статус по умолчанию"
 general.phrase.delete-file-name: "Удалить %filename%"
 general.phrase.delete-directory-name: "Удалить %foldername%"
-"Delete %username%": "Удалить %username%"
+general.phrase.delete-user-name: "Удалить %username%"
 "Depublication date:": "Дата скрытия:"
 "Deselect all": "Отменить выбор всех"
 "Detail template": "Сведения о шаблоне"
