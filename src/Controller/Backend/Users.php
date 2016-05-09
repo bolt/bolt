@@ -260,7 +260,7 @@ class Users extends BackendBase
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be deleted.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-failed-delete', ['%s' => $user->getDisplayname()]));
                 }
                 break;
 
