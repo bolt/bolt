@@ -136,7 +136,7 @@ general.phrase.please-logon: #
 general.phrase.database-prefill: # "Pre-fill database"
 general.phrase.publish: #
 general.phrase.records: #
-"Rename %foldername%": #
+general.phrase.rename-foldername: #
 "Repeater": #
 "Run PHP extension checks": #
 "Run all checks": #

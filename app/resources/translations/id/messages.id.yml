@@ -153,7 +153,7 @@ general.phrase.profile: #
 general.phrase.publish: #
 general.phrase.records: #
 general.phrase.relationships: #
-"Rename %foldername%": #
+general.phrase.rename-foldername: #
 "Repeater": #
 "Roles and Permissions": #
 "Run PHP extension checks": #
