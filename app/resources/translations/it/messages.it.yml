@@ -547,7 +547,7 @@ general.phrase.modified: "Modificato"
 "Your database is already up to date.": "Il tuo database è già aggiornato"
 "Your database is now up to date.": "Il tuo database ora è aggiornato"
 general.phrase.edited: "e modificato"
-"none": "nessuno"
+general.phrase.none: "nessuno"
 "of": "di"
 "show all": "mostra tutto"
 

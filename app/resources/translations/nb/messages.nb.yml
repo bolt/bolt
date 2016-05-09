@@ -597,7 +597,7 @@ general.phrase.edited: "og redigert"
 general.phrase.return-editing: "tilbake til redigering"
 general.phrase.by: "av"
 general.phrase.line: "linje"
-"none": "ingen"
+general.phrase.none: "ingen"
 "of": "av"
 "show all": "vis alle"
 

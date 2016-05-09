@@ -528,7 +528,7 @@ general.phrase.modified: "修正された"
 general.phrase.edited: "更新日："
 general.phrase.return-editing: "編集に戻る"
 general.phrase.line: "行"
-"none": "なし"
+general.phrase.none: "なし"
 "of": "の"
 "show all": "全てを表示"
 

@@ -579,7 +579,7 @@ general.phrase.edited: "και επεξεργάστηκε"
 general.phrase.return-editing: "πίσω στην επεξεργασία"
 general.phrase.by: "απο"
 general.phrase.line: "σειρά"
-"none": "κανένα"
+general.phrase.none: "κανένα"
 "of": "απο"
 "show all": "εμφάνιση όλων"
 

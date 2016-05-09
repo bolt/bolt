@@ -515,7 +515,7 @@ general.phrase.by: "por"
 general.phrase.line: "linha"
 general.phrase.no-content: "sem conteúdo …"
 "no title …": "sem título …"
-"none": "nenhum"
+general.phrase.none: "nenhum"
 "of": "de"
 "show all": "mostrar todos"
 

@@ -598,7 +598,7 @@ general.phrase.modified: "Dimodifikasi"
 general.phrase.edited: "dan diedit"
 general.phrase.by: "oleh"
 general.phrase.line: "baris"
-"none": "Tidak ada"
+general.phrase.none: "Tidak ada"
 "of": "dari"
 "show all": "tampilkan semua"
 

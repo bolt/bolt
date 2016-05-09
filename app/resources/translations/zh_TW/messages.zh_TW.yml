@@ -485,7 +485,7 @@ general.phrase.by: "由"
 general.phrase.line: "行"
 general.phrase.no-content: "無內容 …"
 "no title …": "無標題 …"
-"none": "無"
+general.phrase.none: "無"
 "of": "中的"
 "show all": "顯示全部"
 

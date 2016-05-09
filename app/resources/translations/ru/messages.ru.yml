@@ -490,7 +490,7 @@ general.phrase.return-editing: "назад к редактированию"
 general.phrase.line: "строка"
 general.phrase.no-content: "нет контента …"
 "no title …": "нет заголовка …"
-"none": "отсутствует"
+general.phrase.none: "отсутствует"
 "of": "из"
 "show all": "показать все"
 

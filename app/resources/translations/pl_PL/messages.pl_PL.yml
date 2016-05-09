@@ -476,7 +476,7 @@ general.phrase.by: "przez"
 general.phrase.line: "linia"
 general.phrase.no-content: "brak treści …"
 "no title …": "brak tytułu …"
-"none": "nic"
+general.phrase.none: "nic"
 "of": "z"
 "show all": "pokaż wszystko"
 
