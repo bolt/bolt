@@ -411,7 +411,7 @@ general.phrase.file-not-readable-following-colon: "El siguiente archivo no puede
 "The system log has been trimmed.": "El registro del sistema se ha recortado"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "El archivo de traducciones '%s' no puede ser creado. Necesitas usar tu propio editor para hacer modificaciones al archivo."
 "The translations file '%s' is not readable.": "El archivo de traducción '%s' no se puede leer."
-"Theme successfully generated. You can now edit it directly from your theme folder.": "Tema generado exitosamente. Puedes editarlo directamente desde la carpeta de temas"
+page.extend.theme.generation.success: "Tema generado exitosamente. Puedes editarlo directamente desde la carpeta de temas"
 "There are no items on the Stack, yet.": "Todavía no hay elementos en la Pila"
 "There are no saved changes, yet.": "Todavía no has guardado los cambios"
 "There are no users in the database. Please create the first user.": "No hay usuarios en la base de datos. Por favor crea el primer usuario."

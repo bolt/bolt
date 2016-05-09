@@ -171,7 +171,7 @@ general.phrase.directory-not-found-writable: #
 "The system log has been trimmed.": #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
-"Theme successfully generated. You can now edit it directly from your theme folder.": #
+page.extend.theme.generation.success: #
 "There are no items on the Stack, yet.": #
 "There are no saved changes, yet.": #
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": #

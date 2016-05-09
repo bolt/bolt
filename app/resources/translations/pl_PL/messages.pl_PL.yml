@@ -414,7 +414,7 @@ general.phrase.file-not-readable-following-colon: "Nie można odczytać następu
 "The system log has been trimmed.": "Dziennik systemowy został skrócony."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Plik tłumaczeń '%s' nie może zostać utworzony. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "The translations file '%s' is not readable.": "Plik tłumaczeń '%s' nie posiada praw do odczytu."
-"Theme successfully generated. You can now edit it directly from your theme folder.": "Skórka wygenerowana z powodzeniem. Teraz można edytować ją bezpośrednio z katalogu skórek."
+page.extend.theme.generation.success: "Skórka wygenerowana z powodzeniem. Teraz można edytować ją bezpośrednio z katalogu skórek."
 "There are no items on the Stack, yet.": "Nie ma jeszcze żadnych rzeczy na stosie."
 "There are no saved changes, yet.": "Nie zapisano jeszcze żadnych zmian."
 "There are no users in the database. Please create the first user.": "Nie ma żadnych użytkowników w bazie danych. Proszę utworzyć pierwszego użytkownika."

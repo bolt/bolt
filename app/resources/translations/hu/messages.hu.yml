@@ -350,7 +350,7 @@ general.phrase.file-not-readable-following-colon: "A következő fájl nem olvas
 "The translations file '%s' is not readable.": "A '%s' nyelvi fájl nem olvasható."
 "The value has to be at least “%MINVAL%”!": "Az érték legalább “%MINVAL%” legyen!"
 "The value must not be greater than “%MAXVAL%”!": "Az érték legfeljebb “%MAXVAL%” lehet!"
-"Theme successfully generated. You can now edit it directly from your theme folder.": "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
+page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
 "There are no items on the Stack, yet.": "Nincsenek képek a kupacban."
 "There are no saved changes, yet.": "A változásokat még nem mentetted."
 "There are no users in the database. Please create the first user.": "Nincsenek felhasználók az adatbázisban. Hozd létre az első felhasználót."

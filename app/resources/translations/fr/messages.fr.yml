@@ -322,7 +322,7 @@ general.phrase.file-not-readable-following-colon: "Le fichier suivant n'est pas 
 "The translations file '%s' is not readable.": "Le fichier de traductions '%s' n'est pas accessible en lecture."
 "The value has to be at least “%MINVAL%”!": "La valeur doit être supérieure ou égale à '%MINVAL%' !"
 "The value must not be greater than “%MAXVAL%”!": "La valeur ne doit pas être supérieure à '%MAXVAL%' !"
-"Theme successfully generated. You can now edit it directly from your theme folder.": "Le thème a été généré. Vous pouvez dorénavant le modifier directement à partir du répertoire des thèmes."
+page.extend.theme.generation.success: "Le thème a été généré. Vous pouvez dorénavant le modifier directement à partir du répertoire des thèmes."
 "There are no items on the Stack, yet.": "Aucun fichier n'est présent dans la pile."
 "There are no saved changes, yet.": "Aucune modification enregistrée."
 "There are no users in the database. Please create the first user.": "Aucun utilisateur n'est présent dans la base. Veuillez créer l'utilisateur initial."

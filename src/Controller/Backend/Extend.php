@@ -139,7 +139,7 @@ class Extend extends BackendBase
                     $filesystem->copy($destination . '/config.yml.dist', $destination . '/config.yml');
                 }
 
-                return new Response(Trans::__('Theme successfully generated. You can now edit it directly from your theme folder.'));
+                return new Response(Trans::__('page.extend.theme.generation.success'));
             } catch (\Exception $e) {
                 return new Response(Trans::__('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
             }
