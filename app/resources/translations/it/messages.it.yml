@@ -51,7 +51,7 @@ general.phrase.change-current-status: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
 general.phrase.code-colon: #
-"Collapse sidebar": #
+general.phrase.collapse-sidebar: #
 "Content Type Permissions": #
 "Create File": #
 "Create folder": #

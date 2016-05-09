@@ -279,7 +279,7 @@ general.phrase.clear-filter-sort: "Сбросить сортировку/фил�
 general.phrase.clear-cache: "Очистить кэш"
 general.phrase.change-current-status: "Нажмите для смены статуса."
 general.phrase.code-colon: "Код:"
-"Collapse sidebar": "Свернуть боковую панель"
+general.phrase.collapse-sidebar: "Свернуть боковую панель"
 "Configuration": "Настройки"
 "Content": "Контент"
 "Content '%title%' could not be modified.": "Не удалось изменить запись '%title%'."

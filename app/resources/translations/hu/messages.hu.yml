@@ -147,7 +147,7 @@ general.phrase.change-current-status: "Kattints a státusz megváltoztatásához
 "Client error: %errormessage%": "Ügyfél hiba: %errormessage%"
 general.phrase.close-editor: "Editor bezárása"
 general.phrase.code-colon: "Kód:"
-"Collapse sidebar": "Oldalsáv becsukása"
+general.phrase.collapse-sidebar: "Oldalsáv becsukása"
 "Configuration": "Beállítások"
 "Content": "Tartalom"
 "Content '%title%' could not be modified.": "'%title%' tartalom nem módosítható."

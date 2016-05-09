@@ -140,7 +140,7 @@ general.phrase.change-current-status: "Anwählen, um momentanen Status zu änder
 "Client error: %errormessage%": "Client-Fehler: %errormessage%"
 general.phrase.close-editor: "Editor schließen"
 general.phrase.code-colon: "Quellcode:"
-"Collapse sidebar": "Menü einklappen"
+general.phrase.collapse-sidebar: "Menü einklappen"
 "Configuration": "Konfiguration"
 "Content": "Inhalt"
 "Content '%title%' could not be modified.": "Inhalt '%title%' konnte nicht geändert werden."

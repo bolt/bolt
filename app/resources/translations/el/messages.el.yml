@@ -47,7 +47,7 @@ general.phrase.clear-system-log: #
 general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
-"Collapse sidebar": #
+general.phrase.collapse-sidebar: #
 "Content Type Permissions": #
 "Contenttypes": #
 "Create File": #

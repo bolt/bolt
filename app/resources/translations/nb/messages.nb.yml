@@ -41,7 +41,7 @@ general.phrase.clear-cache-complete: #
 general.phrase.change-current-status: #
 "Client error: %errormessage%": #
 general.phrase.close-editor: #
-"Collapse sidebar": #
+general.phrase.collapse-sidebar: #
 "Create File": #
 "Create folder": #
 "Current (saved) status:": #
