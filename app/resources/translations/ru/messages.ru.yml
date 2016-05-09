@@ -102,7 +102,7 @@ general.phrase.show-proposed-alterations: #
 "Slug": #
 general.phrase.slug-colon: #
 general.phrase.something-went-wrong-after-first-user: #
-"System Configuration Checks": #
+general.phrase.system-config-checks: #
 "Testing connection to extension server failed: %errormessage%": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #

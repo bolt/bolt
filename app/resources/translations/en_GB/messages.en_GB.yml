@@ -284,7 +284,7 @@ general.phrase.something-went-wrong-after-first-user: "Something went wrong with
 general.bolt-tagline: "Sophisticated, lightweight & simple CMS"
 general.phrase.stack: "Stack"
 general.phrase.status-colon: "Status:"
-"System Configuration Checks": "System Configuration Checks"
+general.phrase.system-config-checks: "System Configuration Checks"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomy"

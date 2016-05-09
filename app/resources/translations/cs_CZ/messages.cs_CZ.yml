@@ -357,7 +357,7 @@ general.phrase.something-went-wrong-after-first-user: "Něco se nezdařilo s př
 general.bolt-tagline: "Sofistikovaný, rychlý a jednoduchý redakční systém"
 general.phrase.stack: "Zásobník"
 general.phrase.status-colon: "Stav:"
-"System Configuration Checks": "Ověření konfigurace systému"
+general.phrase.system-config-checks: "Ověření konfigurace systému"
 "Tag": "Štítek"
 "Tags": "Štítky"
 "Taxonomy": "Taxonomie"

@@ -298,7 +298,7 @@ general.phrase.something-went-wrong-after-first-user: "Er ging iets mis met het 
 general.bolt-tagline: "Weldoordacht, lichtgewicht en eenvoudig CMS"
 general.phrase.stack: "Stapel"
 general.phrase.status-colon: "Status:"
-"System Configuration Checks": "Systeem Configuratie Controles"
+general.phrase.system-config-checks: "Systeem Configuratie Controles"
 "Tag": "Label"
 "Tags": "Labels"
 "Taxonomy": "Taxonomie"

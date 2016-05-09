@@ -293,7 +293,7 @@ general.phrase.something-went-wrong-after-first-user: "Une erreur est survenue �
 general.bolt-tagline: "Un CMS simple, léger et sophistiqué"
 general.phrase.stack: "Pile"
 general.phrase.status-colon: "Statut :"
-"System Configuration Checks": "Tests de configuration système"
+general.phrase.system-config-checks: "Tests de configuration système"
 "Tag": "Mot-clef"
 "Tags": "Mots-clef"
 "Taxonomy": "Taxonomies"

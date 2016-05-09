@@ -332,7 +332,7 @@ general.phrase.something-went-wrong-after-first-user: "Etwas ist schief gelaufen
 general.bolt-tagline: "Anspruchsvolles, leichtgewichtiges & simples CMS"
 general.phrase.stack: "Stapel"
 general.phrase.status-colon: "Status:"
-"System Configuration Checks": "System-Konfiguration Überprüfungen"
+general.phrase.system-config-checks: "System-Konfiguration Überprüfungen"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"

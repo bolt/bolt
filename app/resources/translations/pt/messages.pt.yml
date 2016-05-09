@@ -305,7 +305,7 @@ general.phrase.something-went-wrong-after-first-user: "Ocorreu um erro com a aut
 general.bolt-tagline: "CMS sofisticado, leve e simples"
 general.phrase.stack: "Pilha"
 general.phrase.status-colon: "Estado:"
-"System Configuration Checks": "Verificações de configuração do sistema"
+general.phrase.system-config-checks: "Verificações de configuração do sistema"
 "Tag": "Etiqueta"
 "Tags": "Etiquetas"
 "Taxonomy": "Taxonomia"

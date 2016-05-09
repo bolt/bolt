@@ -63,7 +63,7 @@ general.phrase.show-proposed-alterations: #
 general.phrase.slug-colon: #
 general.phrase.something-went-wrong-after-first-user: #
 general.phrase.status-colon: #
-"System Configuration Checks": #
+general.phrase.system-config-checks: #
 "Tag": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #
