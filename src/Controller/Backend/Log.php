@@ -48,7 +48,7 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->manager()->clear('change');
-            $this->flashes()->success(Trans::__('The change log has been cleared.'));
+            $this->flashes()->success(Trans::__('logs.change-log.cleared'));
 
             return $this->redirectToRoute('changelog');
         } elseif ($action == 'trim') {
