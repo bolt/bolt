@@ -262,7 +262,7 @@ class FileManager extends BackendBase
                     $result['msg'] = Trans::__("File '%s' has been saved.", ['%s' => $file->getPath()]);
                     $result['datechanged'] = $file->getCarbon()->toIso8601String();
                 } catch (ExceptionInterface $e) {
-                    $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
+                    $result['msg'] = Trans::__('page.file-management.message.save-failed-unknown', ['%s' => $file->getPath()]);
                 }
             }
         } else {
