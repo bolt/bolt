@@ -144,7 +144,7 @@ page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 general.phrase.saving-ellipsis: #
-"Search for …": #
+general.phrase.search-for-ellipsis: #
 "Search results for <b>%search%</b>.": #
 "Search …": #
 "Select file …": #

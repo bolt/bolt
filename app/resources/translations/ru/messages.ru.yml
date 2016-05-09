@@ -402,7 +402,7 @@ general.phrase.save-and-return-overview: "Сохранить и показать
 general.phrase.saved-on-colon: "Сохранено:"
 general.phrase.saving-ellipsis: "Сохранение …"
 "Search": "Поиск"
-"Search for …": "Поиск для …"
+general.phrase.search-for-ellipsis: "Поиск для …"
 "Search …": "Поиск …"
 "Select": "Выбор"
 "Select a page": "Выбрать страницу"

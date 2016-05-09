@@ -162,7 +162,7 @@ page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
 general.phrase.save-and-return-overview: #
-"Search for …": #
+general.phrase.search-for-ellipsis: #
 "Search results for <b>%search%</b>.": #
 "Select file …": #
 "Select none": #

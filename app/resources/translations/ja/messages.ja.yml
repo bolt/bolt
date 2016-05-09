@@ -116,7 +116,7 @@ page.checks.run-all: #
 page.checks.run-directory-checks: #
 page.checks.run-email-checks: #
 general.phrase.save-and-create-new-record: #
-"Search for …": #
+general.phrase.search-for-ellipsis: #
 "Search results for <b>%search%</b>.": #
 "Select file …": #
 "Selectentry": # "Select entry"

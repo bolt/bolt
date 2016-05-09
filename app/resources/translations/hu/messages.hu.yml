@@ -303,7 +303,7 @@ general.phrase.save-and-return-overview: "Mentés és visszatérés az áttekint
 general.phrase.saved-on-colon: "Mentve ekkor:"
 general.phrase.saving-ellipsis: "Mentés…"
 "Search": "Keresés"
-"Search for …": "Keresd…"
+general.phrase.search-for-ellipsis: "Keresd…"
 "Search …": "Keresés…"
 "Select": "Kiválasztás"
 "Select a page": "Oldal kiválasztása"

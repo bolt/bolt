@@ -165,7 +165,7 @@ general.phrase.save-and-create-new-record: #
 general.phrase.save-and-return-overview: #
 general.phrase.saved-on-colon: #
 general.phrase.saving-ellipsis: #
-"Search for …": #
+general.phrase.search-for-ellipsis: #
 "Search results for <b>%search%</b>.": #
 "Search …": #
 "Select file …": #
