@@ -587,7 +587,7 @@ page.file-management.message.access-denied: "Pengunggahan ke map ini tidak diiji
 "User '%s' is deleted.": "Pengguna '%s' dihapus."
 "User '%s' is disabled.": "Pengguna '%s' dinonaktifkan."
 "User '%s' is enabled.": "Pengguna '%s' diaktifkan."
-"Username": "Nama Pengguna"
+general.phrase.user-name: "Nama Pengguna"
 "Users": "Pengguna-pengguna"
 "View on site": "Lihat di site"
 "View site": "Lihat site"

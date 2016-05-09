@@ -564,7 +564,7 @@ page.file-management.message.access-denied: "Η φόρτωση αρχείου σ
 "User '%s' is deleted.": "Ο χρήστης '%s' διαγράφηκε."
 "User '%s' is disabled.": "Ο χρήστης '%s' απενεργοποιήθηκε."
 "User '%s' is enabled.": "Ο χρήστης '%s' ενεργοποιήθηκε."
-"Username": "Όνομα χρήστη"
+general.phrase.user-name: "Όνομα χρήστη"
 "Username or password not correct. Please check your input.": "Όνομα χρήστης ή κωδικός δεν είναι σωστός."
 "Users": "Χρήστες"
 "View on site": "Εμφάνιση στο site"
