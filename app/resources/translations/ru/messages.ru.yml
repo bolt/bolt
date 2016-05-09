@@ -440,7 +440,7 @@ general.phrase.file-not-readable-following-colon: "Следующие файлы
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Файл перевода '%s' не может быть создан. Вам необходимо используя свой редактор чтобы сделать изменения для этого файла."
 "The translations file '%s' is not readable.": "Перевод '%s' недоступен для чтения."
-"There are no items on the Stack, yet.": "В стеке пока файлов нет."
+general.phrase.stack-empty: "В стеке пока файлов нет."
 "There are no users in the database. Please create the first user.": "В базе данных нет пользователей. Пожалуйста, создайте одного."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "В системе нет ни одного пользователя. Пожалуйста создайте одного, которому будут доступны root привилегии."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Всегда должен быть хотя бы один 'root' пользователь. Вы только что были повышены. Поздравляем!"

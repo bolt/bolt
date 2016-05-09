@@ -325,7 +325,7 @@ general.phrase.file-not-readable-following-colon: "Het volgende bestand kon niet
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
 page.extend.theme.generation.success: "Thema aangemaakt! Je kunt de bestanden bewerken in de thema-map."
-"There are no items on the Stack, yet.": "Nog geen bestanden op de Stack."
+general.phrase.stack-empty: "Nog geen bestanden op de Stack."
 "There are no saved changes, yet.": "Er zijn nog geen opgeslagen wijzigingen om te tonen."
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."

@@ -323,7 +323,7 @@ general.phrase.file-not-readable-following-colon: "Le fichier suivant n'est pas 
 "The value has to be at least “%MINVAL%”!": "La valeur doit être supérieure ou égale à '%MINVAL%' !"
 "The value must not be greater than “%MAXVAL%”!": "La valeur ne doit pas être supérieure à '%MAXVAL%' !"
 page.extend.theme.generation.success: "Le thème a été généré. Vous pouvez dorénavant le modifier directement à partir du répertoire des thèmes."
-"There are no items on the Stack, yet.": "Aucun fichier n'est présent dans la pile."
+general.phrase.stack-empty: "Aucun fichier n'est présent dans la pile."
 "There are no saved changes, yet.": "Aucune modification enregistrée."
 "There are no users in the database. Please create the first user.": "Aucun utilisateur n'est présent dans la base. Veuillez créer l'utilisateur initial."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Aucun utilisateur n'est présent dans la base. Veuillez créer l'utilisateur initial qui possédera les droits 'root' sur le site."

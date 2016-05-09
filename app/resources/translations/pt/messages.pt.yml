@@ -334,7 +334,7 @@ general.phrase.file-not-readable-following-colon: "O ficheiro seguinte não pode
 "The value has to be at least “%MINVAL%”!": "O valor tem de ser pelo menos '%MINVAL%'!"
 "The value must not be greater than “%MAXVAL%”!": "O valor não pode ser maior que '%MAXVAL%'!"
 page.extend.theme.generation.success: "Tema gerado com sucesso. Agora pode editá-lo diretamente na pasta do tema."
-"There are no items on the Stack, yet.": "Ainda não existem itens na pilha."
+general.phrase.stack-empty: "Ainda não existem itens na pilha."
 "There are no saved changes, yet.": "Não existem alterações por guardar."
 "There are no users in the database. Please create the first user.": "Não existem utilizadores na base de dados. Por favor, crie o primeiro utilizador."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Não existem utilizadores no sistema. Po favor, crie o primeiro utilizador ao qual será concedido privilégios de ROOT."

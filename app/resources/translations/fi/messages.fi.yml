@@ -409,7 +409,7 @@ general.phrase.file-not-readable-following-colon: "Seuraavaa tiedostoa ei voida 
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 "The translations file '%s' is not readable.": "Käännöstiedostoa '%s' ei voida lukea."
 page.extend.theme.generation.success: "Teema luotiin onnistuneesti. Voit nyt muokata sitä suoraan teemakansiostasi."
-"There are no items on the Stack, yet.": "Ei kohteita pinossa, vielä."
+general.phrase.stack-empty: "Ei kohteita pinossa, vielä."
 "There are no saved changes, yet.": "Ei tallennettuja muutoksia, vielä."
 "There are no users in the database. Please create the first user.": "Tietokannassa ei ole käyttäjiä. Ole hyvä ja luo ensimmäinen käyttäjä."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Järjestelmässä ei ole käyttäjiä. Luo ensimmäinen käyttäjä, joka saa pääkäyttäjän oikeudet."
