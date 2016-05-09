@@ -349,7 +349,7 @@ general.phrase.error-session-data-login: "Unable to retrieve login session data.
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>."
 general.phrase.update-database: "Update the database"
 "Upload": "Upload"
-"Upload a file to this folder": "Upload a file to this folder"
+general.phrase.upload-file-to-directory: "Upload a file to this folder"
 "Upload file": "Upload file"
 "Upload image": "Upload image"
 "Upload not allowed": "Upload not allowed"

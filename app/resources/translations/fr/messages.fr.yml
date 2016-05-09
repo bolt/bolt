@@ -355,7 +355,7 @@ page.extend.message.package-install-info-fail: "Impossible d'obtenir des informa
 general.phrase.error-session-data-login: "Impossible de reprendre la session. Merci de vérifier la configuration des sessions au niveau du moteur PHP."
 general.phrase.update-database: "Mettre à jour la base de données"
 "Upload": "Envoyer"
-"Upload a file to this folder": "Envoyer un fichier"
+general.phrase.upload-file-to-directory: "Envoyer un fichier"
 "Upload file": "Envoyer"
 "Upload image": "Envoyer une image"
 "Upload not allowed": "Envoi interdit."

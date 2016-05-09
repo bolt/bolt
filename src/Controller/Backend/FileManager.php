@@ -178,7 +178,7 @@ class FileManager extends BackendBase
                     'FileUpload',
                     FileType::class,
                     [
-                        'label'    => Trans::__('Upload a file to this folder'),
+                        'label'    => Trans::__('general.phrase.upload-file-to-directory'),
                         'multiple' => true,
                         'attr'     => [
                             'data-filename-placement' => 'inside',

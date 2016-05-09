@@ -364,7 +364,7 @@ page.extend.message.package-install-info-fail: "Não foi possível obter dados d
 "Unable to rename file: %FILE%": "Não foi possível renomear o ficheiro: %FILE%"
 general.phrase.update-database: "Atualizar a base de dados"
 "Upload": "Carregar"
-"Upload a file to this folder": "Carregar um ficheiro para esta pasta"
+general.phrase.upload-file-to-directory: "Carregar um ficheiro para esta pasta"
 "Upload file": "Carregar ficheiro"
 "Upload image": "Carregar imagem"
 "Upload not allowed": "Carregamento não permitido"

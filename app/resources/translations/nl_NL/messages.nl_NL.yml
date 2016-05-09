@@ -355,7 +355,7 @@ page.extend.message.package-install-info-fail: "Niet in staat om de installatieg
 general.phrase.error-session-data-login: "Het ophalen van loginsessiegegevens is mislukt. Controleer de PHP sessie-instellingen van je systeem."
 general.phrase.update-database: "Werk de database bij"
 "Upload": "Uploaden"
-"Upload a file to this folder": "Upload een bestand naar deze map"
+general.phrase.upload-file-to-directory: "Upload een bestand naar deze map"
 "Upload file": "Upload bestand"
 "Upload image": "Upload afbeelding"
 "Upload not allowed": "Deze upload is niet toegestaan"
