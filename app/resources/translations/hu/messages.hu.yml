@@ -40,7 +40,7 @@ general.phrase.info: #
 general.phrase.live-edit: #
 general.phrase.error-local-extension-set-up-incomplete: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
+general.phrase.move-down: #
 "Move Up": #
 "No Preview": #
 "Only root can change file extensions.": #

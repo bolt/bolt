@@ -119,7 +119,7 @@ general.phrase.configuration-main: #
 general.phrase.meta: #
 general.phrase.modifications-database-colon: #
 general.phrase.modifications-needed-colon: #
-"Move Down": #
+general.phrase.move-down: #
 "Move Up": #
 "Multiselect": # "Multi-select"
 "New Bolt site has been set up": #

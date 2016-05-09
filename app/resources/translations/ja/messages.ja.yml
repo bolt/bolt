@@ -88,7 +88,7 @@ general.phrase.error-local-extension-set-up-incomplete: #
 general.phrase.logout: #
 general.phrase.configuration-main: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Move Down": #
+general.phrase.move-down: #
 "Move Up": #
 "Multiselect": # "Multi-select"
 "New Bolt site has been set up": #

@@ -123,7 +123,7 @@ general.phrase.configuration-main: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 general.phrase.message-colon: #
 general.phrase.meta: #
-"Move Down": #
+general.phrase.move-down: #
 "Move Up": #
 "Multiselect": # "Multi-select"
 "New Bolt site has been set up": #
