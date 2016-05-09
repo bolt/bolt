@@ -187,7 +187,7 @@ class Omnisearch
             $this->register(
                 [
                     'keywords'    => ['Clear the cache', 'Maintenance'],
-                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('Clear the cache'),
+                    'label'       => Trans::__('Maintenance') . ' » ' . Trans::__('general.phrase.clear-cache'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 8,
                     'path'        => $this->generatePath('clearcache'),

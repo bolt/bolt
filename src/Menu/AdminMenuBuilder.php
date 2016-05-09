@@ -128,7 +128,7 @@ final class AdminMenuBuilder
         $path = $this->rootEntry->getUri() . '/clearcache';
         $configEntry->add(
             (new MenuEntry('clearcache', $path))
-                ->setLabel(Trans::__('Clear the cache'))
+                ->setLabel(Trans::__('general.phrase.clear-cache'))
                 ->setIcon('fa:eraser')
                 ->setPermission('clearcache')
         );
