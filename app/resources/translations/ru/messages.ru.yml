@@ -104,7 +104,7 @@ general.phrase.slug-colon: #
 general.phrase.something-went-wrong-after-first-user: #
 general.phrase.system-config-checks: #
 "Testing connection to extension server failed: %errormessage%": #
-"The Bolt extensions composer.json isn't readable.": #
+page.extend.error-composer-json-not-readable: #
 "The Bolt extensions composer.json isn't writable.": #
 "The change log has been cleared.": #
 "The change log has been trimmed.": #

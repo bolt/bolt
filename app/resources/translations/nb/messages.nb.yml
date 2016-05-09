@@ -157,7 +157,7 @@ general.phrase.system-config-checks: #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #
 "Textarea": #
-"The Bolt extensions composer.json isn't readable.": #
+page.extend.error-composer-json-not-readable: #
 "The Bolt extensions composer.json isn't writable.": #
 "The change log has been cleared.": #
 "The change log has been trimmed.": #
