@@ -148,7 +148,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
     {% block listing_content %}
         {# COLUMN: Content #}
         <td class="excerpt {% if prop.extended %}large{% endif %}">
-            {% set title = content.getTitle(true)|default("<em>(" ~ __("no title …") ~ ")</em>") %}
+            {% set title = content.getTitle(true)|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>") %}
             <span>
                 <strong class="visible-xs">№ {{ content.id }}. </strong>
                 <strong>

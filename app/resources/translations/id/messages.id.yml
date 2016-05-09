@@ -260,7 +260,7 @@ general.phrase.note-colon: #
 general.phrase.return-editing: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #
-"no title …": #
+general.phrase.no-title: #
 "or": #
 
 #--- 191 untranslated keyword based messages ----------------------------------

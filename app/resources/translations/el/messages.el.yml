@@ -237,7 +237,7 @@ general.phrase.note-colon: #
 "Your database is now up to date.": #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #
-"no title …": #
+general.phrase.no-title: #
 "or": #
 
 #--- 172 untranslated keyword based messages ----------------------------------

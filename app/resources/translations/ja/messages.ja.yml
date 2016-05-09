@@ -182,7 +182,7 @@ general.phrase.note-colon: #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #
-"no title …": #
+general.phrase.no-title: #
 "or": #
 
 #--- 121 untranslated keyword based messages ----------------------------------

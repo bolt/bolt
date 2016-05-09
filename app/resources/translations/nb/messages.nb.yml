@@ -214,7 +214,7 @@ general.phrase.note-colon: #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.no-content: #
-"no title …": #
+general.phrase.no-title: #
 "or": #
 
 #--- 190 untranslated keyword based messages ----------------------------------
