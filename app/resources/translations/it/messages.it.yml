@@ -241,7 +241,7 @@ general.phrase.warning: #
 page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 general.phrase.access-denied-self-action: #
-"You do not have the right privileges to edit that user.": #
+general.phrase.access-denied-privilege-edit-user: #
 "You don't have correct permissions to edit the file '%s'.": #
 "You don't have the correct permissions to display the file or directory '%s'.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #

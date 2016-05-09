@@ -148,7 +148,7 @@ general.phrase.warning: #
 page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 general.phrase.access-denied-self-action: #
-"You do not have the right privileges to edit that user.": #
+general.phrase.access-denied-privilege-edit-user: #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 "filtered by <em>'%filter%'</em>": #

@@ -230,7 +230,7 @@ class Users extends BackendBase
 
         // Verify the current user has access to edit this user
         if (!$this->app['permissions']->isAllowedToManipulate($user->toArray(), $currentuser->toArray())) {
-            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-edit-user'));
 
             return $this->redirectToRoute('users');
         }
@@ -480,7 +480,7 @@ class Users extends BackendBase
         $currentUser = $this->getUser();
         if (!$this->app['permissions']->isAllowedToManipulate($userEntity->toArray(), $currentUser->toArray())) {
             // Verify the current user has access to edit this user
-            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-edit-user'));
 
             return false;
         }
