@@ -171,7 +171,7 @@ general.phrase.required-is-or-match-pattern: "Is required or needs to match a pa
 general.phrase.required-is-bang: "Is required!"
 general.phrase.keyword-ellipsis: "Keyword …"
 general.phrase.last-edited-on-colon: "Last edited on:"
-"Last known IP": "Last known IP"
+general.phrase.last-known-ip: "Last known IP"
 "Last seen": "Last seen"
 "Link": "Link"
 "Listing template": "Listing template"

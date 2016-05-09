@@ -181,7 +181,7 @@ general.phrase.required-is-or-match-pattern: "Obligatoire ou doit correspondre �
 general.phrase.required-is-bang: "Obligatoire"
 general.phrase.keyword-ellipsis: "Mot-clef …"
 general.phrase.last-edited-on-colon: "Dernière édition le"
-"Last known IP": "Dernière adresse IP connue"
+general.phrase.last-known-ip: "Dernière adresse IP connue"
 "Last seen": "Vu pour la dernière fois"
 "Link": "Lier"
 "Listing template": "Modèle des listes"

@@ -187,7 +187,7 @@ general.phrase.required-is-or-match-pattern: "Is vereist of heeft een onjuiste o
 general.phrase.required-is-bang: "Is vereist!"
 general.phrase.keyword-ellipsis: "Trefwoord …"
 general.phrase.last-edited-on-colon: "Laatst aangepast op:"
-"Last known IP": "Laatst bekende IP"
+general.phrase.last-known-ip: "Laatst bekende IP"
 "Last seen": "Laatst gezien"
 "Listing template": "Lijst template"
 "Live Edit": "Live bewerken"

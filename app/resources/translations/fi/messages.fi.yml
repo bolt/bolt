@@ -297,7 +297,7 @@ general.phrase.required-is-or-match-pattern: "Vaadittu, tai täytyy noudattaa ka
 general.phrase.required-is-bang: "Vaadittu!"
 general.phrase.keyword-ellipsis: "Avainsana …"
 general.phrase.last-edited-on-colon: "Viimeksi muokattu:"
-"Last known IP": "Edellinen IP-osoite"
+general.phrase.last-known-ip: "Edellinen IP-osoite"
 "Last seen": "Viimeksi nähty"
 "Listing template": "Listauksen sivupohja"
 "Live Edit": "Live-muokkaus"

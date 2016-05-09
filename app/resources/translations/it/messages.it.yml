@@ -461,7 +461,7 @@ page.file-management.message.folder-not-found: "La directory '%s' non è stata t
 general.phrase.folders: "Cartelle"
 general.phrase.ip.address: "Indirizzo IP"
 general.phrase.last-edited-on-colon: "Ultima modifica del:"
-"Last known IP": "Ultimo IP conosciuto"
+general.phrase.last-known-ip: "Ultimo IP conosciuto"
 "Last seen": "Ultima visita"
 "Long messages": "Messaggi lunghi"
 "Maintenance": "Manutenzione"

@@ -193,7 +193,7 @@ general.phrase.required-is-or-match-pattern: "É necessário ou tem de correspon
 general.phrase.required-is-bang: "É obrigatório!"
 general.phrase.keyword-ellipsis: "Termo-chave..."
 general.phrase.last-edited-on-colon: "Última edição em:"
-"Last known IP": "Último IP conhecido"
+general.phrase.last-known-ip: "Último IP conhecido"
 "Last seen": "Última visualização"
 "Link": "Hiperligação"
 "Listing template": "A listar modelo"

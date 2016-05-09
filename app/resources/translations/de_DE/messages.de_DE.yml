@@ -229,7 +229,7 @@ general.phrase.required-is-or-match-pattern: "Muss ausgefüllt werden oder muss 
 general.phrase.required-is-bang: "Muss ausgefüllt werden!"
 general.phrase.keyword-ellipsis: "Schlagwort …"
 general.phrase.last-edited-on-colon: "Zuletzt bearbeitet am:"
-"Last known IP": "Letzte IP-Adresse"
+general.phrase.last-known-ip: "Letzte IP-Adresse"
 "Last seen": "Zuletzt gesehen"
 "Listing template": "Listenvorlage"
 "Live Edit": "Live-Bearbeitung"

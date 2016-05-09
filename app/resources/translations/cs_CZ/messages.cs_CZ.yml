@@ -249,7 +249,7 @@ general.phrase.required-is-or-match-pattern: "Je vyžadováno nebu musí odpoví
 general.phrase.required-is-bang: "Povinné!"
 general.phrase.keyword-ellipsis: "Klíčové slovo …"
 general.phrase.last-edited-on-colon: "Upraveno:"
-"Last known IP": "Poslední známá IP adresa"
+general.phrase.last-known-ip: "Poslední známá IP adresa"
 "Last seen": "Naposledy přihlášen"
 "Link": "Odkaz"
 "Listing template": "Šablona výpisu"

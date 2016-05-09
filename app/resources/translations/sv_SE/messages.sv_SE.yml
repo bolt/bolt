@@ -203,7 +203,7 @@ general.phrase.required-is-or-match-pattern: "Krävs eller måste matcha ett mö
 general.phrase.required-is-bang: "Krävs!"
 general.phrase.keyword-ellipsis: "Sökord…"
 general.phrase.last-edited-on-colon: "Senast redigerad:"
-"Last known IP": "Senast kända IP"
+general.phrase.last-known-ip: "Senast kända IP"
 "Last seen": "Senast sedd"
 "Listing template": "Listmall"
 "Live Edit": "Liveredigering"

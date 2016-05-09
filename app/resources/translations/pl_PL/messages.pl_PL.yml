@@ -308,7 +308,7 @@ general.phrase.required-is-or-match-pattern: "Jest wymagane lub musi pasować do
 general.phrase.required-is-bang: "Jest wymagane!"
 general.phrase.keyword-ellipsis: "Słowo kluczowe…"
 general.phrase.last-edited-on-colon: "Ostatnio edytowany:"
-"Last known IP": "Ostatnie znane IP"
+general.phrase.last-known-ip: "Ostatnie znane IP"
 "Last seen": "Ostatnio widziany"
 "Listing template": "Lista szablonów"
 "Login": "Zaloguj"
