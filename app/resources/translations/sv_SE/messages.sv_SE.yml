@@ -120,7 +120,7 @@ general.access-denied.content-not-modified: "Dokumentet '%title%' kunde inte mod
 general.phrase.content-type-permissions: "Innehållsrättigheter"
 general.phrase.content-types: "Innehållstyper"
 page.file-management.label.create-file: "Skapa fil"
-"Create folder": "Skapa mapp"
+page.file-management.label.create-folder: "Skapa mapp"
 "Create the first user": "Skapa första användaren"
 general.phrase.created-on-colon: "Skapad:"
 "Current (saved) status:": "Nuvarande (sparad) status:"

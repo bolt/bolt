@@ -147,7 +147,7 @@ general.access-denied.content-not-modified: "Inhalt '%title%' konnte nicht geän
 general.phrase.content-type-permissions: "Datentyp-Berechtigungen"
 general.phrase.content-types: "Datentypen"
 page.file-management.label.create-file: "Datei erstellen"
-"Create folder": "Verzeichnis erstellen"
+page.file-management.label.create-folder: "Verzeichnis erstellen"
 "Create the first user": "Den ersten Benutzer erstellen"
 general.phrase.created-on-colon: "Erstellt am:"
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"

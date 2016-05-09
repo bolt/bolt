@@ -83,7 +83,7 @@ general.access-denied.content-not-modified: "Content '%title%' could not be modi
 general.phrase.content-type-permissions: "Content Type Permissions"
 general.phrase.content-types: "Contenttypes"
 page.file-management.label.create-file: "Create File"
-"Create folder": "Create folder"
+page.file-management.label.create-folder: "Create folder"
 "Create the first user": "Create the first user"
 general.phrase.created-on-colon: "Created on:"
 "Current (saved) status:": "Current (saved) status:"

@@ -231,7 +231,7 @@ general.access-denied.content-not-modified: "Zawartość '%title%' nie może zos
 general.phrase.content-type-permissions: "Uprawnienia do Typu zawartości"
 general.phrase.content-types: "Typy zawartości"
 page.file-management.label.create-file: "Utwórz plik"
-"Create folder": "Utwórz katalog"
+page.file-management.label.create-folder: "Utwórz katalog"
 "Create the first user": "Utwórz pierwszego użytkownika"
 general.phrase.created-on-colon: "Utworzono:"
 "Current (saved) status:": "Aktualny (zapisany) status:"

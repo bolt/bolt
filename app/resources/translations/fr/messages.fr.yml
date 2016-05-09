@@ -94,7 +94,7 @@ general.access-denied.content-not-modified: "Le contenu '%title%' n'a pu être m
 general.phrase.content-type-permissions: "Droits par types de contenu"
 general.phrase.content-types: "Types de contenu"
 page.file-management.label.create-file: "Nouveau fichier"
-"Create folder": "Nouveau répertoire"
+page.file-management.label.create-folder: "Nouveau répertoire"
 "Create the first user": "Créer l'utilisateur initial"
 general.phrase.created-on-colon: "Création le"
 "Current (saved) status:": "Statut courant"

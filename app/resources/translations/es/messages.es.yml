@@ -217,7 +217,7 @@ general.access-denied.content-not-modified: "El contenido %title% no puede ser m
 general.phrase.content-type-permissions: "Permisos por tipo de contenido"
 general.phrase.content-types: "Tipos de contenido"
 page.file-management.label.create-file: "Crear archivo"
-"Create folder": "Crear carpeta"
+page.file-management.label.create-folder: "Crear carpeta"
 "Create the first user": "Crear el primer usuario"
 general.phrase.created-on-colon: "Creado el:"
 "Current (saved) status:": "Estado actual (guardado):"
