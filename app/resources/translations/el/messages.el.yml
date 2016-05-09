@@ -569,7 +569,7 @@ general.phrase.error-user-name-password-incorrect: "Όνομα χρήστης ή
 general.phrase.users: "Χρήστες"
 general.phrase.view-on-site: "Εμφάνιση στο site"
 general.phrase.view-site: "Εμφάνιση site"
-"Written by <em>%name%</em> on %date%": "Γράφτηκε απο τον <em>%name%</em> στις %date%"
+general.phrase.written-by-on: "Γράφτηκε απο τον <em>%name%</em> στις %date%"
 "You do not have the right privileges to edit that record.": "Δεν έχετε τα κατάλληλα δικαιώματα για να επεξεργαστείτε αυτην την εγγραφή."
 "You do not have the right privileges to view that page.": "Δεν έχετε τα κατάλληλα δικαιώματα για την εμφάνιση αυτής τις εγγραφής."
 "You have been logged out.": "Αποσυνδεθήκατα."

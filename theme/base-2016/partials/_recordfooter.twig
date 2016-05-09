@@ -3,7 +3,7 @@
     {% if record.editlink() %}
         <span class="edit-link"><a href="{{ record.editlink() }}"><strong>Edit</strong></a></span> -
     {% endif %}
-    {{ __('Written by <em>%name%</em> on %date%', {
+    {{ __('general.phrase.written-by-on', {
         '%name%': record.user.displayname|default(__('Unknown')),
         '%date%': record.datepublish|localdate("%A %B %e, %Y")
     }) }}
