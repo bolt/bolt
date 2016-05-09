@@ -76,7 +76,7 @@ page.extend.error-composer-json-not-writable: #
 general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.file-not-exist: #
-"The file '%s' is not readable.": #
+general.phrase.file-not-readable: #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": #

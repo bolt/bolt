@@ -194,7 +194,7 @@ logs.change-log.trimmed: #
 general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.file-not-exist: #
-"The file '%s' is not readable.": #
+general.phrase.file-not-readable: #
 "The folder '%s' could not be found, or is not readable.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The system log has been cleared.": #

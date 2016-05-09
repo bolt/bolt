@@ -107,7 +107,7 @@ page.extend.error-composer-json-not-writable: #
 general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.file-not-exist: #
-"The file '%s' is not readable.": #
+general.phrase.file-not-readable: #
 "The value has to be at least “%MINVAL%”!": #
 "The value must not be greater than “%MAXVAL%”!": #
 "There are no saved changes, yet.": #

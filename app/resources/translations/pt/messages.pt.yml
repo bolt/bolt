@@ -319,7 +319,7 @@ page.extend.error-composer-json-not-writable: "O ficheiro composer.json das exte
 logs.change-log.cleared: "O registo de alterações foi limpo."
 logs.change-log.trimmed: "O registo de alterações foi reduzido."
 general.phrase.file-not-exist: "O ficheiro '%s' não existe."
-"The file '%s' is not readable.": "O ficheiro '%s' não é editável."
+general.phrase.file-not-readable: "O ficheiro '%s' não é editável."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
 "The folder '%s' could not be found, or is not readable.": "A pasta '%s' não pode ser encontrada, ou não é legível."
 "The following file could not be read:": "O ficheiro seguinte não pode ser lido:"
