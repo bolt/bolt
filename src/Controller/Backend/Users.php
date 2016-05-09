@@ -375,7 +375,7 @@ class Users extends BackendBase
         if (!$token) {
             $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
         } else {
-            $this->flashes()->error(Trans::__('Something went wrong with logging in after first user creation!'));
+            $this->flashes()->error(Trans::__('general.phrase.something-went-wrong-after-first-user'));
         }
 
         return false;

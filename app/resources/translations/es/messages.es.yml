@@ -51,7 +51,7 @@ general.phrase.roles: #
 general.phrase.search-results-for-variable: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
-"Something went wrong with logging in after first user creation!": #
+general.phrase.something-went-wrong-after-first-user: #
 "System Configuration Checks": #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #

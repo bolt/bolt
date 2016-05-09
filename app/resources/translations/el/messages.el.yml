@@ -154,7 +154,7 @@ general.phrase.selection: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
 general.phrase.slug-colon: #
-"Something went wrong with logging in after first user creation!": #
+general.phrase.something-went-wrong-after-first-user: #
 "Sophisticated, lightweight & simple CMS": #
 "Stack": #
 "System Configuration Checks": #

@@ -53,7 +53,7 @@ general.phrase.search-results-for-variable: #
 general.phrase.show-proposed-alterations: #
 "Slug": #
 general.phrase.slug-colon: #
-"Something went wrong with logging in after first user creation!": #
+general.phrase.something-went-wrong-after-first-user: #
 "The Bolt extensions composer.json isn't readable.": #
 "The Bolt extensions composer.json isn't writable.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #

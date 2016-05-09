@@ -177,7 +177,7 @@ general.phrase.pager-showing-from-to-of: #
 "Slug": #
 general.phrase.slug-colon: #
 general.phrase.something-went-wrong: #
-"Something went wrong with logging in after first user creation!": #
+general.phrase.something-went-wrong-after-first-user: #
 "Status:": #
 "System Configuration Checks": #
 "Tag": #
