@@ -73,7 +73,7 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
-            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", ['%s' => $file]);
+            $error = Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 

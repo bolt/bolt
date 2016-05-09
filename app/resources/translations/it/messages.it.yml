@@ -242,7 +242,7 @@ page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 general.phrase.access-denied-self-action: #
 general.phrase.access-denied-privilege-edit-user: #
-"You don't have correct permissions to edit the file '%s'.": #
+general.phrase.access-denied-permissions-edit-file: #
 "You don't have the correct permissions to display the file or directory '%s'.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
