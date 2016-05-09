@@ -91,7 +91,7 @@ general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 general.phrase.warning: #
 general.bolt-welcome-new-site: #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
+general.phrase.warning-unfinished-changes-loss: #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 "filtered by <em>'%filter%'</em>": #
 general.phrase.or: #

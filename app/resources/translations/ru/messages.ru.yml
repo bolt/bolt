@@ -145,7 +145,7 @@ page.extend.theme.generation.failure: #
 general.bolt-welcome-new-site: #
 general.phrase.access-denied-self-action: #
 general.phrase.access-denied-privilege-edit-user: #
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
+general.phrase.warning-unfinished-changes-loss: #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
 general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #

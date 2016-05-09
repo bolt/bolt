@@ -412,7 +412,7 @@ general.phrase.access-denied-privilege-view-page: "Nincs megfelelő jogosultság
 general.phrase.access-denied-permissions-edit-file: "Nincs megfelelő jogosultságod a '%s' fájl szerkesztéséhez."
 general.phrase.access-denied-permissions-view-file-directory: "Nincs megfelelő jogosultságod a '%s' fájl vagy mappa megtekintéséhez."
 general.phrase.access-denied-logged-out: "Kijelentkeztél."
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "Nem mentetted a változásokat. Ha mentés nélkül folytatod, ezek el fognak veszni."
+general.phrase.warning-unfinished-changes-loss: "Nem mentetted a változásokat. Ha mentés nélkül folytatod, ezek el fognak veszni."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Ezzel a változtatással némelyik mező elveszhet. Keresd ki a sablon szekciót és jegyezd fel az értékeket, miwlőtt ezt megtennéd."
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 "Your account is disabled. Sorry about that.": "Az őn fiókja tiltott. Sajnáljuk."

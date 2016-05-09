@@ -384,7 +384,7 @@ general.phrase.access-denied-privilege-view-page: "You do not have the right pri
 general.phrase.access-denied-permissions-edit-file: "You don't have correct permissions to edit the file '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "You don't have the correct permissions to display the file or directory '%s'."
 general.phrase.access-denied-logged-out: "You have been logged out."
-"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
+general.phrase.warning-unfinished-changes-loss: "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
 "You've been logged on successfully.": "You've been logged on successfully."
 "Your account is disabled. Sorry about that.": "Your account is disabled. Sorry about that."
