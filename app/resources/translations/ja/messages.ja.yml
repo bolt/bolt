@@ -394,7 +394,7 @@ general.phrase.database-prefill-dummy-content: "ダミーコンテンツをデ�
 general.phrase.filter: "フィルタ"
 page.file-management.message.folder-not-found: "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
 page.file-management.message.folder-access-denied: "フォルダのパーミッションが不適切です"
-"Folders": "フォルダ"
+general.phrase.folders: "フォルダ"
 "Full list …": "全てのリスト…"
 "Geolocation": "位置情報"
 "Global Permissions": "グローバル パーミッション"
