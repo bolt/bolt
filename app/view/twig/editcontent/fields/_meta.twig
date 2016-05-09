@@ -52,7 +52,7 @@
 {% block fieldset_type 'meta' %}
 {% block fieldset_widget 'fieldMeta' %}
 
-{% block fieldset_label_text  __('Meta information') %}
+{% block fieldset_label_text  __('general.phrase.meta-information') %}
 {% block fieldset_label_class 'col-xs-12' ~ (context.has.tabs ? '' : ' hidden') %}
 
 {% block fieldset_controls %}
@@ -61,7 +61,7 @@
     <div class="col-xs-12">
         {% if not context.has.tabs %}
             <h3>
-                {{ __('Meta information') }}
+                {{ __('general.phrase.meta-information') }}
             </h3>
         {% endif %}
 
