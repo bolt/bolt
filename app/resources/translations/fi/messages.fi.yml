@@ -330,7 +330,7 @@ general.phrase.only-root-change-file-extensions: "Vain pääkäyttäjä voi vaih
 general.phrase.options: "Valinnat"
 general.phrase.order-colon-sort: "Järjestys: %sort%"
 "Overview": "Yleiskatsaus"
-"Overview for": "Yleiskatsaus:"
+general.phrase.overview-for: "Yleiskatsaus:"
 "Owner": "Omistaja"
 "Owner:": "Omistaja"
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Salasanan palautus ei onnistunut! Joko tunniste oli virheellinen, olit myöhässä tai käytit eri IP-osoitetta."

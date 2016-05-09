@@ -11,7 +11,7 @@
         {# If used for listing a taxonomy, we add a heading.: #}
         {% if taxonomytype is defined %}
             <h1>
-                {{ __('Overview for') }}
+                {{ __('general.phrase.overview-for') }}
                 {% if taxonomy.options[slug] is defined %}
                     {{ taxonomy.options[slug] }}
                 {% else %}

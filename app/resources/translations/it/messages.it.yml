@@ -476,7 +476,7 @@ general.phrase.no-such-action-for-user: "Azione non disponibile per l'utente '%s
 general.phrase.options: "Opzioni"
 general.phrase.order-colon-sort: "Ordine: %sort%"
 "Overview": "Anteprima"
-"Overview for": "Anteprima"
+general.phrase.overview-for: "Anteprima"
 "Owner:": "Proprietario:"
 "Path": "Percorso"
 "Permalink": "Link permanente"
