@@ -316,7 +316,7 @@ class General extends BackendBase
         try {
             Yaml::parse($contents);
         } catch (ParseException $e) {
-            $msg = Trans::__("File '%s' could not be saved:", ['%s' => $tr['shortPath']]);
+            $msg = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg . ' ' . $e->getMessage());
 
             return false;

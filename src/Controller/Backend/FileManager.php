@@ -249,7 +249,7 @@ class FileManager extends BackendBase
                     $yamlparser->parse($contents);
                 } catch (ParseException $e) {
                     $result['ok'] = false;
-                    $result['msg'] = Trans::__("File '%s' could not be saved:", ['%s' => $file->getPath()]) . $e->getMessage();
+                    $result['msg'] = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $file->getPath()]) . $e->getMessage();
                 }
             }
 
