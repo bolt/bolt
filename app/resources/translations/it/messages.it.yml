@@ -59,7 +59,7 @@ page.file-management.label.create-folder: #
 general.phrase.dashboard: #
 "Date": #
 "Datetime": #
-"Default status": #
+general.phrase.status-default: #
 "Delete": #
 "Delete %foldername%": #
 "Delete Set": #
