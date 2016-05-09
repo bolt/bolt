@@ -131,7 +131,7 @@ page.file-management.message.create-folder: #
 general.phrase.profile: #
 general.phrase.publish: #
 general.phrase.published: #
-"Records": #
+general.phrase.records: #
 "Rename %foldername%": #
 "Repeater": #
 "Run PHP extension checks": #
