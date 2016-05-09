@@ -377,7 +377,7 @@ general.access-control.reset-successful: "Пароль сброшен успеш
 general.phrase.path: "Путь"
 general.phrase.path-image-file: "Путь до изображения"
 general.phrase.path-colon: "Путь:"
-"Permalink": "Постоянная ссылка"
+general.phrase.permalink: "Постоянная ссылка"
 "Permissions": "Разрешения"
 "Place on stack": "Поместить в стек"
 "Please choose the record you want to link to:": "Пожалуйста выберите запись, с которой вы хотите сделать связь:"

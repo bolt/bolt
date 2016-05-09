@@ -224,7 +224,7 @@ general.access-control.reset-successful: "Password reset successful! You can now
 general.phrase.path: "Path"
 general.phrase.path-image-file: "Path to image file"
 general.phrase.path-colon: "Path:"
-"Permalink": "Permalink"
+general.phrase.permalink: "Permalink"
 "Permissions": "Permissions"
 "Place on stack": "Place on stack"
 "Please choose the record you want to link to:": "Please choose the record you want to link to:"

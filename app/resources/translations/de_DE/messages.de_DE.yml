@@ -275,7 +275,7 @@ general.access-control.reset-successful: "Passwort erfolgreich zurückgesetzt! S
 general.phrase.path: "Pfad"
 general.phrase.path-image-file: "Bildpfad"
 general.phrase.path-colon: "Pfad"
-"Permalink": "Permanenter Link"
+general.phrase.permalink: "Permanenter Link"
 "Permissions": "Berechtigungen"
 "Place on stack": "Auf dem Stapel platzieren"
 "Please choose the record you want to link to:": "Bitte den zu verlinkenden Eintrag wählen:"

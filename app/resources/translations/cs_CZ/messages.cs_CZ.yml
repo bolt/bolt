@@ -297,7 +297,7 @@ general.access-control.reset-successful: "Nové heslo vám bylo úspěšně zasl
 general.phrase.path: "Cesta"
 general.phrase.path-image-file: "Cesta k souboru obrázku"
 general.phrase.path-colon: "Cesta:"
-"Permalink": "Trvalý odkaz"
+general.phrase.permalink: "Trvalý odkaz"
 "Permissions": "Oprávnění"
 "Place on stack": "Dát do zásobníku"
 "Please choose the record you want to link to:": "Zvolte prosím záznam pro vytvoření vazby:"

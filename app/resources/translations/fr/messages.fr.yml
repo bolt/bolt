@@ -233,7 +233,7 @@ general.access-control.reset-successful: "Mot de passe réinitialisé. Vous pouv
 general.phrase.path: "Chemin"
 general.phrase.path-image-file: "Chemin du fichier"
 general.phrase.path-colon: "Chemin :"
-"Permalink": "Permalien"
+general.phrase.permalink: "Permalien"
 "Permissions": "Permissions"
 "Place on stack": "Mettre dans la pile"
 "Please choose the record you want to link to:": "Veuillez choisir l'enregistrement à associer :"

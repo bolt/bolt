@@ -365,7 +365,7 @@ general.access-control.reset-successful: "密碼重置成功！你現在可以�
 general.phrase.path: "路徑"
 general.phrase.path-image-file: "影象檔案路徑"
 general.phrase.path-colon: "路徑:"
-"Permalink": "永久連結"
+general.phrase.permalink: "永久連結"
 "Permissions": "許可權"
 "Place on stack": "放到暫存區"
 "Please choose the record you want to link to:": "請選擇要連結的記錄："

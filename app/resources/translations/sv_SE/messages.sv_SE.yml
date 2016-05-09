@@ -249,7 +249,7 @@ general.access-control.reset-successful: "Lösenordet återställdes! Du kan nu 
 general.phrase.path: "Sökväg"
 general.phrase.path-image-file: "Sökväg till bildfilen"
 general.phrase.path-colon: "Sökväg:"
-"Permalink": "Permalänk"
+general.phrase.permalink: "Permalänk"
 "Permissions": "Rättigheter"
 "Place on stack": "Lägg på filhögen"
 "Please choose the record you want to link to:": "Välj dokumentet du vill länka till:"

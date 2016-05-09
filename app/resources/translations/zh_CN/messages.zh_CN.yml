@@ -374,7 +374,7 @@ general.access-control.reset-successful: "密码重置成功！你现在可以�
 general.phrase.path: "路径"
 general.phrase.path-image-file: "图像文件路径"
 general.phrase.path-colon: "路径:"
-"Permalink": "永久链接"
+general.phrase.permalink: "永久链接"
 "Permissions": "权限"
 "Place on stack": "放到暂存区"
 "Please choose the record you want to link to:": "请选择要链接的记录："

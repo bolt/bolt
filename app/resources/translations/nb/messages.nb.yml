@@ -513,7 +513,7 @@ general.access-control.reset-failed: "Nullstilling av passord feilet. Enten var 
 general.access-control.reset-successful: "Passord nullstilt. Du kan nå logge inn med passordet som ble sendt til deg på epost."
 general.phrase.path: "Sti"
 general.phrase.path-colon: "Sti:"
-"Permalink": "Permanent lenke"
+general.phrase.permalink: "Permanent lenke"
 "Permissions": "Rettigheter"
 "Place on stack": "Putt i bunke"
 "Please choose the record you want to link to:": "Velg hvilken post to vil lenke til:"

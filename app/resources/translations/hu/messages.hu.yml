@@ -275,7 +275,7 @@ general.access-control.reset-successful: "Jelszó helyreállítás sikeres! Most
 general.phrase.path: "Útvonal"
 general.phrase.path-image-file: "Képfájl útvonala"
 general.phrase.path-colon: "Útvonal"
-"Permalink": "Permalink"
+general.phrase.permalink: "Permalink"
 "Permissions": "Engedélyek"
 "Place on stack": "Elhelyezés kötegben"
 "Please choose the record you want to link to:": "Kérem válassza ki a bejegyzést, amelyre a link mutasson:"

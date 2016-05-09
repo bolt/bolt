@@ -245,7 +245,7 @@ general.access-control.reset-successful: "Senha redefinida com sucesso! Você po
 general.phrase.path: "Caminho"
 general.phrase.path-image-file: "Caminho para o ficheiro de imagem"
 general.phrase.path-colon: "Caminho:"
-"Permalink": "Endereço permanente"
+general.phrase.permalink: "Endereço permanente"
 "Permissions": "Permissões"
 "Place on stack": "Colocar na pilha"
 "Please choose the record you want to link to:": "Por favor, escolha o registo a que deseja ligar"

@@ -338,7 +338,7 @@ general.access-control.reset-successful: "Salasanan palautus onnistui! Voin nyt 
 general.phrase.path: "Polku"
 general.phrase.path-image-file: "Kuvatiedoston polku"
 general.phrase.path-colon: "Polku"
-"Permalink": "Pysyvä linkki"
+general.phrase.permalink: "Pysyvä linkki"
 "Permissions": "Oikeudet"
 "Place on stack": "Laita pinoon"
 "Please choose the record you want to link to:": "Valitse tietue johon haluat linkittää:"

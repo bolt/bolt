@@ -432,7 +432,7 @@ general.access-control.reset-failed: "パスワードのリセットに失敗し
 general.access-control.reset-successful: "パスワードを正常にリセットしました！メールで送信されたパスワードを用いてすぐにログオン可能です。"
 general.phrase.path: "パス"
 general.phrase.path-colon: "パス："
-"Permalink": "パーマリンク"
+general.phrase.permalink: "パーマリンク"
 "Permissions": "パーミッション"
 "Place on stack": "スタックに追加"
 "Please choose the record you want to link to:": "リンクしたいレコードを選んでください："

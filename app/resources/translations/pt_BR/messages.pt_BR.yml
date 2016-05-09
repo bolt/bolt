@@ -407,7 +407,7 @@ general.access-control.reset-successful: "Senha redefinida com sucesso! Você po
 general.phrase.path: "Caminho"
 general.phrase.path-image-file: "Caminho para o arquivo de imagem"
 general.phrase.path-colon: "Caminho"
-"Permalink": "Link permanente"
+general.phrase.permalink: "Link permanente"
 "Permissions": "Permissões"
 "Place on stack": "Coloque na pilha"
 "Please choose the record you want to link to:": "Por favor, escolha o registro que deseja vincular"
