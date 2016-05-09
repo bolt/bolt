@@ -461,7 +461,7 @@ general.phrase.depublication-date-colon: "Ημερομηνία αντιγραφ�
 general.phrase.deselect-all: "Αποεπιλογή όλων"
 general.phrase.disable-user-name: "Απενεργοποίηση %username%"
 general.phrase.done-bang: "Τέλος!"
-"Draft": "Προσχέδιο"
+general.phrase.draft: "Προσχέδιο"
 "Duplicate %filename%": "Αντιγραφή %filename%"
 "Edit": "Επεξεργασία"
 "Edit file": "Επεξερφασία αρχείου"
