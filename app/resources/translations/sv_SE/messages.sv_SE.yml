@@ -89,7 +89,7 @@ general.bolt-third-party-libraries: "Nedan är tredjepartsbiblioteken som använ
 "Body": "Innehåll"
 general.bolt-fatal-error: "Bolt - Allvarligt fel."
 general.phrase.browswer-platform: "Webbläsare / plattform"
-"Built-in role, automatically granted at all times, even if no user is logged in": "Inbyggd roll, automatiskt tilldelad konstant, även när ingen användare är inloggad."
+permissions.roles.description.anonymous: "Inbyggd roll, automatiskt tilldelad konstant, även när ingen användare är inloggad."
 "Built-in role, automatically granted to every registered user": "Inbyggd roll, automatiskt tilldelad till alla inloggade användare"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Inbyggd roll, endast giltig i en resurskontext och automatiskt tilldelad till ägaren av resursen."
 "Built-in superuser role, automatically grants all permissions": "Inbyggd superanvändarroll, tilldelas automatiskt alla tillåtelser"

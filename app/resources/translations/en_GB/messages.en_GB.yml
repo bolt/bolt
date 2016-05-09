@@ -50,7 +50,7 @@ general.bolt-third-party-libraries: "Below are the third party libraries that ar
 general.bolt-fatal-error: "Bolt - Fatal error."
 general.bolt-configuration-issues-detected: "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 general.phrase.browswer-platform: "Browser / platform"
-"Built-in role, automatically granted at all times, even if no user is logged in": "Built-in role, automatically granted at all times, even if no user is logged in"
+permissions.roles.description.anonymous: "Built-in role, automatically granted at all times, even if no user is logged in"
 "Built-in role, automatically granted to every registered user": "Built-in role, automatically granted to every registered user"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
 "Built-in superuser role, automatically grants all permissions": "Built-in superuser role, automatically grants all permissions"

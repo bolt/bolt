@@ -69,7 +69,7 @@ general.bolt-third-party-libraries: "Hieronder staan de externe libraries waar B
 general.bolt-fatal-error: "Bolt - Kritieke fout."
 general.bolt-configuration-issues-detected: "Bolt heeft één of meer configuratieproblemen gedetecteerd. Voor optimale prestatie zou je deze eerst moeten oplossen:"
 general.phrase.browswer-platform: "Browser / platform"
-"Built-in role, automatically granted at all times, even if no user is logged in": "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
+permissions.roles.description.anonymous: "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
 "Built-in role, automatically granted to every registered user": "Ingebouwde rol die aan iedere ingelogde gebruiker wordt toegekend"
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Ingebouwde rol, alleen geldig in specifieke context, en word automatisch toegekend aan de eigenaar van deze data."
 "Built-in superuser role, automatically grants all permissions": "Ingebouwde super-user rol, krijgt automatisch alle permissies"
