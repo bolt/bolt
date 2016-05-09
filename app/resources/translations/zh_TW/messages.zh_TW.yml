@@ -30,7 +30,7 @@ field.image.label.alt: #
 general.phrase.required-character-count: #
 general.phrase.author: #
 general.bolt-configuration-issues-detected: #
-"Check/Uncheck all": #
+general.phrase.toggle-all: #
 "Clear Change Log": #
 "Clear System Log": #
 "Cleared cache.": #

@@ -41,7 +41,7 @@ permissions.roles.description.anonymous: #
 permissions.roles.description.everyone: #
 permissions.roles.description.owner: #
 permissions.roles.description.root: #
-"Check/Uncheck all": #
+general.phrase.toggle-all: #
 "Clear Change Log": #
 "Clear System Log": #
 "Cleared cache.": #

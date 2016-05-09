@@ -20,7 +20,7 @@ general.phrase.add-selected: #
 field.image.label.alt: #
 "Body": #
 general.bolt-configuration-issues-detected: #
-"Check/Uncheck all": #
+general.phrase.toggle-all: #
 "Cleared cache.": #
 "Delete Set": #
 "Depublish": #

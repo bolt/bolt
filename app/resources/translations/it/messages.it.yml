@@ -42,7 +42,7 @@ permissions.roles.description.everyone: #
 permissions.roles.description.owner: #
 permissions.roles.description.root: #
 general.phrase.change-log: #
-"Check/Uncheck all": #
+general.phrase.toggle-all: #
 "Class:": #
 "Clear Change Log": #
 "Clear System Log": #
