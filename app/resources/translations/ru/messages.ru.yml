@@ -449,7 +449,7 @@ general.phrase.missing-root-jackpot: "Всегда должен быть хот�
 general.phrase.publish-timed: "Отложенная публикация"
 general.phrase.tip-colon: "Подсказка:"
 "Title": "Заголовок"
-"Translations": "Переводы"
+general.phrase.translations: "Переводы"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Попробуйте зайти при помощи ftp-клиента и сделать эти файл доступными для чтения. Или пройдите <a>назад</a> на последнюю страницу."
 "Types": "Типы"
 "Update the database": "Обновить базу данных"

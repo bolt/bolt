@@ -574,7 +574,7 @@ general.phrase.file-not-readable-following-colon: "Berkas berikut ini tidak terb
 "This is a checkbox": "Ini kotak centang"
 general.phrase.tip-colon: "Saran"
 "Title": "Judul"
-"Translations": "Terjemahan"
+general.phrase.translations: "Terjemahan"
 "Update the database": "Perbarui basis data"
 "Upload": "Unggah\""
 "Upload file": "Unggah berkas"

@@ -398,7 +398,7 @@ general.phrase.warning-template: "Šablona obsahuje nová pole obsahu. Uložte a
 general.phrase.time-format-24-12: "Formát času 24/12"
 general.phrase.publish-timed: "Naplánovat vydání"
 "Title": "Nadpis"
-"Translations": "Překlady"
+general.phrase.translations: "Překlady"
 "Trim Change Log": "Zmenšit záznam změn"
 "Trim System Log": "Zmenšit záznamy aktivit systému"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Zkuste se přihlásit pomocí ftp klienta a nastavte atributy souboru pro zápis. Nebo zkuste jít <a>zpět</a> na poslední stranu."

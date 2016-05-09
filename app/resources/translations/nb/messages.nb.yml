@@ -565,7 +565,7 @@ general.phrase.missing-root-jackpot: "Det bør alltid være minst en «root»-br
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
 general.phrase.tip-colon: "Tips:"
 "Title": "Tittel"
-"Translations": "Oversettelser"
+general.phrase.translations: "Oversettelser"
 "Update the database": "Oppdater databasen"
 "Upload": "Last opp"
 "Upload file": "Last opp fil"

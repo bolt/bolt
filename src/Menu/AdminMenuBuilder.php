@@ -194,7 +194,7 @@ final class AdminMenuBuilder
     {
         $translationEntry = $this->rootEntry->add(
             (new MenuEntry('translations', 'tr'))
-                ->setLabel(Trans::__('Translations'))
+                ->setLabel(Trans::__('general.phrase.translations'))
                 ->setPermission('translation')
         );
 

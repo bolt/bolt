@@ -495,7 +495,7 @@ general.phrase.missing-root-jackpot: "少なくとも１つの'root'ユーザー
 general.phrase.publish-timed: "予約公開"
 general.phrase.tip-colon: "Tip："
 "Title": "タイトル"
-"Translations": "翻訳"
+general.phrase.translations: "翻訳"
 "Types": "種類"
 "Update the database": "データベースをアップデート"
 "Upload": "アップロード"
