@@ -110,7 +110,7 @@ general.phrase.error-local-extension-set-up-incomplete: #
 general.phrase.configuration-main: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Meta": #
+general.phrase.meta: #
 "Move Down": #
 "Move Up": #
 "Multiselect": # "Multi-select"

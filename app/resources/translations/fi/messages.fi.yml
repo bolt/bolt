@@ -50,7 +50,7 @@ general.phrase.error-login-invalid-parameters: #
 general.phrase.error-local-extension-set-up-incomplete: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Meta": #
+general.phrase.meta: #
 "Move Down": #
 "Move Up": #
 "No Preview": #
