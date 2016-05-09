@@ -603,7 +603,7 @@
 
 #--- 25 keyword based translations --------------------------------------------
 
-component.changelog-detail.by: "av"
+general.phrase.by: "av"
 
 contenttypes.generic.group.relations: "Relasjoner"
 contenttypes.generic.group.taxonomy: "Taksonomi"

@@ -31,7 +31,7 @@
     <h3>
         "<a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>"
         <em><span class="time">{{ _self.changelog_mutation(entry.mutation_type) }} {{ buic_moment(entry.date) }}</span>
-        {{ __('component.changelog-detail.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
+        {{ __('general.phrase.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
     </h3>
 
     <div class="changelog-details">

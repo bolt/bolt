@@ -493,7 +493,7 @@
 
 #--- 135 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "由"
+general.phrase.by: "由"
 component.changelog-detail.field: "字段"
 component.changelog-detail.value-new: "新值"
 component.changelog-detail.value-old: "旧值"

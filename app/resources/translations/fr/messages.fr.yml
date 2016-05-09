@@ -410,7 +410,7 @@
 
 #--- 215 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "par"
+general.phrase.by: "par"
 component.changelog-detail.field: "Champ"
 component.changelog-detail.value-new: "Nouvelle valeur"
 component.changelog-detail.value-old: "Ancienne valeur"

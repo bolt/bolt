@@ -432,7 +432,7 @@
 
 #--- 196 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "általa:"
+general.phrase.by: "általa:"
 component.changelog-detail.field: "mező"
 component.changelog-detail.value-new: "új érték"
 component.changelog-detail.value-old: "régi érték"

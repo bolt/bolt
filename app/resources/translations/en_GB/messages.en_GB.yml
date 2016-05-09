@@ -404,7 +404,7 @@
 
 #--- 215 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "by"
+general.phrase.by: "by"
 component.changelog-detail.field: "Field"
 component.changelog-detail.value-new: "New value"
 component.changelog-detail.value-old: "Old value"

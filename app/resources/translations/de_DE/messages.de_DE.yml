@@ -439,7 +439,7 @@
 
 #--- 189 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "von"
+general.phrase.by: "von"
 component.changelog-detail.field: "Feld"
 component.changelog-detail.value-new: "Neuer Wert"
 component.changelog-detail.value-old: "Alter Wert"

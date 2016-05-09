@@ -467,7 +467,7 @@
 
 #--- 161 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "od"
+general.phrase.by: "od"
 component.changelog-detail.field: "pole"
 component.changelog-detail.value-new: "nová hodnota"
 component.changelog-detail.value-old: "původní hodnota"

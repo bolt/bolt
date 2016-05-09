@@ -410,7 +410,7 @@
 
 #--- 215 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "door"
+general.phrase.by: "door"
 component.changelog-detail.field: "veld"
 component.changelog-detail.value-new: "nieuwe waarde"
 component.changelog-detail.value-old: "oude waarde"

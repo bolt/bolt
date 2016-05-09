@@ -521,7 +521,7 @@
 
 #--- 107 keyword based translations -------------------------------------------
 
-component.changelog-detail.by: "por"
+general.phrase.by: "por"
 component.changelog-detail.field: "campo"
 component.changelog-detail.value-new: "Novo valor"
 component.changelog-detail.value-old: "valor antigo"
