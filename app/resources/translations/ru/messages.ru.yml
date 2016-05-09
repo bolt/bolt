@@ -244,7 +244,7 @@
 "(no group)": "(нет группы)"
 "(none)": "(отсутствует)"
 "A password reset link has been sent to '%user%'.": "Ссылка для сброса пароля была выслана '%user%'."
-"Actions": "Действия"
+general.phrase.action-plural: "Действия"
 "Add a brief, optional comment to describe what's changed.": "Кратко, необязательный комментарий, который описывает что изменилось."
 "Add a comment:": "Добавить комментарий:"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"

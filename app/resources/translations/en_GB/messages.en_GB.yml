@@ -21,7 +21,7 @@
 "(no group)": "(no group)"
 "(none)": "(none)"
 "A password reset link has been sent to '%user%'.": "A password reset link has been sent to '%user%'."
-"Actions": "Actions"
+general.phrase.action-plural: "Actions"
 "Add Selected": "Add Selected"
 "Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add a comment:": "Add a comment:"

@@ -416,7 +416,7 @@
 "(no category)": "(ingen kategori)"
 "(no group)": "(ingen gruppe)"
 "A password reset link has been sent to '%user%'.": "En lenke for nullstilling av passord er sendt til «%user%»."
-"Actions": "Handlinger"
+general.phrase.action-plural: "Handlinger"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
 "Alas, no about!": "Akk, ingen om!"

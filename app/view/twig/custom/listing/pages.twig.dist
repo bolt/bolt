@@ -26,7 +26,7 @@
 
     <th class="username hidden-xs"><a href="{{ link }}datecreated {% if request('order') == "datecreated ASC" %}DESC{% else %}ASC{% endif %}">{{ __('Meta') }}</a></th>
 
-    <th><a href="?">{{ __('Actions') }}</a></th>
+    <th><a href="?">{{ __('general.phrase.action-plural') }}</a></th>
 {% endblock %}
 
 

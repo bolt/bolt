@@ -228,7 +228,7 @@
 "(no group)": "(沒有分組)"
 "(none)": "(無)"
 "A password reset link has been sent to '%user%'.": "密碼重置連結已發送到 '%user%'。"
-"Actions": "操作"
+general.phrase.action-plural: "操作"
 "Add a brief, optional comment to describe what's changed.": "添加一個可選的簡短註釋描述變更。"
 "Add a comment:": "添加註釋："
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"

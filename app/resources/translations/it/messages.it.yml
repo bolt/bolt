@@ -401,7 +401,7 @@
 
 "(no group)": "(nessun gruppo)"
 "A password reset link has been sent to '%user%'.": "Un link per il reset della password è stato inviato a '%user%'."
-"Actions": "Azioni"
+general.phrase.action-plural: "Azioni"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
 "Alas, no about!": "Accipicchia, nessuna pagina about!"

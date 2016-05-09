@@ -40,7 +40,7 @@
 "(no group)": "(geen groep)"
 "(none)": "(geen)"
 "A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
-"Actions": "Acties"
+general.phrase.action-plural: "Acties"
 "Add Selected": "Selectie toevoegen"
 "Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
 "Add a comment:": "Voeg een opmerking toe:"

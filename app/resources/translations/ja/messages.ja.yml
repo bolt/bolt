@@ -315,7 +315,7 @@
 "(no category)": "（カテゴリなし）"
 "(no group)": "（グループなし）"
 "A password reset link has been sent to '%user%'.": "パスワードリセット用のリンクが '%user%'に送信されました"
-"Actions": "操作"
+general.phrase.action-plural: "操作"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
 "Alas, no about!": "ああ、aboutがありません！"

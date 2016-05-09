@@ -266,7 +266,7 @@
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
 "A password reset link has been sent to '%user%'.": "Um link para redefinir a senha foi enviado para '%user%'."
-"Actions": "Ações"
+general.phrase.action-plural: "Ações"
 "Add Selected": "Adicionar selecionados"
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 "Add a comment:": "Adicione um comentário"

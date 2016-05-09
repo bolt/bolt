@@ -106,7 +106,7 @@
 "(no group)": "(nezařazení do skupiny)"
 "(none)": "(nic)"
 "A password reset link has been sent to '%user%'.": "Odkaz na obnovení hesla byl odeslán '%user%'."
-"Actions": "Nástroje"
+general.phrase.action-plural: "Nástroje"
 "Add Selected": "Přidat vybrané"
 "Add a brief, optional comment to describe what's changed.": "Přidat stručný, volitelný komentář k provedeným změnám."
 "Add a comment:": "Přidat komentář"

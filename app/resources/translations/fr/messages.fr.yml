@@ -32,7 +32,7 @@
 "(no group)": "(non groupé)"
 "(none)": "(néant)"
 "A password reset link has been sent to '%user%'.": "Un lien pour réinitialiser le mot de passe a été envoyé à '%user%'."
-"Actions": "Actions"
+general.phrase.action-plural: "Actions"
 "Add Selected": "Ajouter les éléments sélectionnés"
 "Add a brief, optional comment to describe what's changed.": "Facultatif : ajouter un commentaire décrivant la modification"
 "Add a comment:": "Ajouter un commentaire"
