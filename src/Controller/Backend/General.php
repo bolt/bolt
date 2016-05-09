@@ -330,7 +330,7 @@ class General extends BackendBase
             $fs = new Filesystem();
             $fs->dumpFile($tr['path'], $contents);
         } catch (IOException $e) {
-            $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", ['%s' => $tr['shortPath']]);
+            $msg = Trans::__('general.phrase.file-not-writable', ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
 

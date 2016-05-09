@@ -174,7 +174,7 @@ general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": #
+general.phrase.file-not-writable: #
 "The folder '%s' could not be found, or is not readable.": #
 "The following file could not be read:": #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
