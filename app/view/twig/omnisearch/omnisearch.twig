@@ -11,7 +11,7 @@
             <form method="get">
                 <div class="form-group">
                     <div class="input-group">
-                    <input class="form-control" name="q" type="text" value="{{ context.query }}" pattern=".{3,}" required title="{{ __('At least %NUM% characters required', {'%NUM%': 3})}}">
+                    <input class="form-control" name="q" type="text" value="{{ context.query }}" pattern=".{3,}" required title="{{ __('general.phrase.required-character-count', {'%NUM%': 3})}}">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit"><i class="fa fa-search "></i> {{ __('Search') }}</button>
                         </span>
