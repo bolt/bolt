@@ -22,7 +22,7 @@ general.phrase.add-selected: #
 "Are you sure you want to do this for 1 record?": #
 "Are you sure you want to remove these files?": #
 general.phrase.required-character-count: #
-"Author": #
+general.phrase.author: #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
 "Check/Uncheck all": #
 "Cleared cache.": #

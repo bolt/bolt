@@ -35,7 +35,7 @@ permissions.roles.label.anonymous: #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
 general.phrase.required-character-count: #
-"Author": #
+general.phrase.author: #
 "Below are the third party libraries that are used by Bolt.": #
 "Body": #
 "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
