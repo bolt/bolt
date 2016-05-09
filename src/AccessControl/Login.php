@@ -164,7 +164,7 @@ class Login extends AccessChecker
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
             $this->repositoryAuthtoken->save($userTokenEntity);
-            $this->flashLogger->success(Trans::__('Session resumed.'));
+            $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
             return $this->loginFinish($userEntity);
