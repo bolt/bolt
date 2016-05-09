@@ -261,7 +261,7 @@ general.phrase.error-send-password-request: "Salasananpyynnön lähetys ei onnis
 general.phrase.field-fieldname: "Kenttä “%FIELD_NAME%”:"
 "File": "Tiedosto"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Tiedostoa '%file%' ei voitu ladata (väärä/kielletty tiedostomuoto). Varmista että tiedostomuoto on jokin seuraavista:"
-"File '%file%' was uploaded successfully.": "Tiedosto '%file%' ladattiin onnistuneesti."
+page.file-management.message.upload-success: "Tiedosto '%file%' ladattiin onnistuneesti."
 "File '%s' could not be saved, because the form wasn't valid.": "Tiedostoa '%s' ei voitu tallentaa, koska lomake oli virheellinen."
 "File '%s' could not be saved, for some reason.": "Jostain syystä tiedostoa '%s' ei voida tallentaa."
 "File '%s' could not be saved:": "Tiedostoa '%s' ei voida tallentaa:"

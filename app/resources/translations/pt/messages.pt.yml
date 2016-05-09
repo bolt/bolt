@@ -150,7 +150,7 @@ general.phrase.error-send-password-request: "Falha ao enviar o pedido de senha. 
 general.phrase.field-fieldname: "Campo “%FIELD_NAME%”:"
 "File": "Ficheiro"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"File '%file%' was uploaded successfully.": "O ficheiro '%file%' foi carregado com sucesso."
+page.file-management.message.upload-success: "O ficheiro '%file%' foi carregado com sucesso."
 "File '%s' could not be saved, because the form wasn't valid.": "Não foi possível guardar o ficheiro '%s' , porque o formulário não está completo ou não é válido."
 "File '%s' could not be saved, for some reason.": "O ficheiro '%s' não pode ser guardado por alguma razão."
 "File '%s' could not be saved:": "Ficheiro '%s' não pode ser guardado:"

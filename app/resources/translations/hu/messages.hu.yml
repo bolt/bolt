@@ -193,7 +193,7 @@ general.phrase.error-send-password-request: "A jelszó kérelem küldése meghi�
 general.phrase.field-fieldname: "%FIELD_NAME% mező:"
 "File": "Fájl"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "A '%file%' fájl nem tölthető fel (rossz/tiltott fájl típus). Bizonyosodjon meg róla, hogy a fájl kiterjesztése egy a következőkből:"
-"File '%file%' was uploaded successfully.": "A '%file%' fájl sikeresen feltöltve."
+page.file-management.message.upload-success: "A '%file%' fájl sikeresen feltöltve."
 "File '%s' could not be saved, because the form wasn't valid.": "A '%s' fájl nem menthető mert a form érvénytelen."
 "File '%s' could not be saved, for some reason.": "A '%s' nevű fájl nem menthető valamilyen ok miatt."
 "File '%s' could not be saved:": "A '%s' nevű fájl nem menthető:"

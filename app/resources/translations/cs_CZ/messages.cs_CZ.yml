@@ -208,7 +208,7 @@ general.phrase.error-send-password-request: "Nepodařilo se odeslat heslo. Zkont
 general.phrase.field-fieldname: "Pole “%FIELD_NAME%”:"
 "File": "Soubor"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Soubor '%file%' nemohl být nahrán (špatný či nepovolený typo souboru). Zkontrolujte, zda se jedná jeden z povolených typů souboru:"
-"File '%file%' was uploaded successfully.": "Soubor '%file%' byl úspěšně umístěn na server."
+page.file-management.message.upload-success: "Soubor '%file%' byl úspěšně umístěn na server."
 "File '%s' could not be saved, because the form wasn't valid.": "Soubor '%s' nelze uložit, formulář je neplatný."
 "File '%s' could not be saved, for some reason.": "Soubor '%s' nemůže být z neznámého důvodu uložen."
 "File '%s' could not be saved:": "Soubor '%s' nelze uložit:"

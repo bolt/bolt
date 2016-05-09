@@ -270,7 +270,7 @@ general.phrase.error-send-password-request: "Nie udało się wysłać żądania 
 general.phrase.field-fieldname: "Pole “%FIELD_NAME%”:"
 "File": "Plik"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Plik '%file%' nie może zostać przesłany (niewłaściwy/niedozwolony typ pliku). Upewnij się, że rozszerzenie pliku jest jednym z następujących:"
-"File '%file%' was uploaded successfully.": "Plik '%file%' został przesłany."
+page.file-management.message.upload-success: "Plik '%file%' został przesłany."
 "File '%s' could not be saved, because the form wasn't valid.": "Nie można zapisać pliku '%s', ponieważ formularz nie jest wypełniony poprawnie."
 "File '%s' could not be saved, for some reason.": "Plik '%s' nie może zostać zapisany, z jakiegoś powodu."
 "File '%s' could not be saved:": "Plik '%s' nie może zostać zapisany:"

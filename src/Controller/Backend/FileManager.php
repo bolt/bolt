@@ -339,7 +339,7 @@ class FileManager extends BackendBase
 
         if ($result->isValid()) {
             $this->flashes()->info(
-                Trans::__("File '%file%' was uploaded successfully.", ['%file%' => $filename])
+                Trans::__('page.file-management.message.upload-success', ['%file%' => $filename])
             );
 
             // Add the file to our stack.

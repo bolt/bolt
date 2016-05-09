@@ -188,7 +188,7 @@ general.phrase.error-send-password-request: "Das Senden der Passwort-Anfrage ist
 general.phrase.field-fieldname: "Feld „%FIELD_NAME%”:"
 "File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
-"File '%file%' was uploaded successfully.": "Die Datei '%file%' wurde erfolgreich hochgeladen."
+page.file-management.message.upload-success: "Die Datei '%file%' wurde erfolgreich hochgeladen."
 "File '%s' could not be saved, because the form wasn't valid.": "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
 "File '%s' could not be saved, for some reason.": "Die Datei '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 "File '%s' could not be saved:": "Die Datei '%s' konnte nicht gespeichert werden:"
