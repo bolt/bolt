@@ -24,17 +24,12 @@ trait TranslationTrait
         $app = $this->getContainer();
 
         $translationDirectory = $this->getBaseDirectory()->getDir('translations');
-        if ($translationDirectory->exists())
-        {
+        if ($translationDirectory->exists()) {
             foreach ($translationDirectory->getContents(true) as $fileInfo) {
                 $filename = explode('.', $fileInfo->getFilename());
-                if ($fileInfo->isFile())
-                {
-                    if (isset($filename[0])) {
-                        $translation = $filename[0];
-                    } else {
-                        $translation = '';
-                    }
+                if ($fileInfo->isFile()) {
+                    $translation = isset($filename[0]) ? $filename[0] : '';
+
                     $app['translator']->addResource('yml', $app['paths']['extensionspath'] . DIRECTORY_SEPARATOR . $fileInfo->getPath(), $translation);
                 }
             }
