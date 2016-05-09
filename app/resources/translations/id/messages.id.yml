@@ -137,7 +137,7 @@ general.phrase.note-colon: #
 general.phrase.omnisearch: #
 general.phrase.only-root-change-file-extensions: #
 general.phrase.order: #
-"Other content": #
+general.phrase.other-content: #
 "Others": #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": #
 "Password reset successful! You can now log on with the password that was sent to you via email.": #

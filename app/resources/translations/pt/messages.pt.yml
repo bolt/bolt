@@ -234,7 +234,7 @@ general.phrase.only-root-change-file-extensions: "Apenas o ROOT pode alterar fic
 general.phrase.options: "Opções"
 general.phrase.order: "Ordem"
 general.phrase.order-colon-sort: "Ordenar: %sort%"
-"Other content": "Outros conteúdos"
+general.phrase.other-content: "Outros conteúdos"
 "Others": "Outros"
 "Overview": "Visão geral"
 "Overview for": "Visão geral sobre"

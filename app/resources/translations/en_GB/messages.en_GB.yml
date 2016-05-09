@@ -213,7 +213,7 @@ general.phrase.only-root-change-file-extensions: "Only root can change file exte
 general.phrase.options: "Options"
 general.phrase.order: "Order"
 general.phrase.order-colon-sort: "Order: %sort%"
-"Other content": "Other content"
+general.phrase.other-content: "Other content"
 "Others": "Others"
 "Overview": "Overview"
 "Overview for": "Overview for"

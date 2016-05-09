@@ -222,7 +222,7 @@ general.phrase.only-root-change-file-extensions: "Seul l'utilisateur root peut c
 general.phrase.options: "Options"
 general.phrase.order: "Position"
 general.phrase.order-colon-sort: "Position : %sort%"
-"Other content": "Autres contenus"
+general.phrase.other-content: "Autres contenus"
 "Others": "Autres"
 "Overview": "Vue d'ensemble"
 "Overview for": "Aperçu pour"

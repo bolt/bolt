@@ -227,7 +227,7 @@ general.phrase.only-root-change-file-extensions: "Alleen root kan bestandsextens
 general.phrase.options: "Opties"
 general.phrase.order: "Volgorde"
 general.phrase.order-colon-sort: "Volgorde: %sort%"
-"Other content": "Andere content"
+general.phrase.other-content: "Andere content"
 "Others": "Anderen"
 "Overview": "Overzicht"
 "Overview for": "Overzicht van"
