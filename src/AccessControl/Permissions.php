@@ -109,7 +109,7 @@ class Permissions
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
                 return [
-                    'label'       => Trans::__('Anonymous'),
+                    'label'       => Trans::__('permissions.roles.label.anonymous'),
                     'description' => Trans::__('Built-in role, automatically granted at all times, even if no user is logged in'),
                     'builtin'     => true,
                 ];

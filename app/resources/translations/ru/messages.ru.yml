@@ -252,7 +252,7 @@ general.phrase.missing-about-page: "Увы, раздел 'О нас' отсут�
 logs.change-log.contenttypes.all: "Все сущности"
 general.phrase.users.all: "Все пользователи"
 field.image.label.alt: "Другое"
-"Anonymous": "Аноним"
+permissions.roles.label.anonymous: "Аноним"
 "Are you sure you want to delete %username%?": "Вы действительно хотите удалить пользователя %username%?"
 "Author:": "Автор:"
 "Below are the third party libraries that are used by Bolt.": "Ниже приведен перечень библиотек, используемых Bolt."
