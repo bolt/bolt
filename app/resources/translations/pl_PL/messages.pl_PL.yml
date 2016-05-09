@@ -472,7 +472,7 @@ permissions.roles.description.root: "Wbudowana rola super użytkownika, automaty
 "Your database is now up to date.": "Twoja baza jest teraz aktualna."
 general.phrase.edited: "oraz edytowany"
 general.phrase.return-editing: "powrót do edycji"
-"by": "przez"
+general.phrase.by: "przez"
 "line": "linia"
 "no content …": "brak treści …"
 "no title …": "brak tytułu …"

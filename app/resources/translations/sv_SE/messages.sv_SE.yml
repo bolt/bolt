@@ -403,7 +403,7 @@ permissions.roles.description.root: "Inbyggd superanvändarroll, tilldelas autom
 "Your database is now up to date.": "Din databas är nu uppdaterad."
 general.phrase.edited: "och redigerad"
 general.phrase.return-editing: "tillbaka till redigering"
-"by": "av"
+general.phrase.by: "av"
 "filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 "line": "linje"
 "no content …": "inget innehåll …"

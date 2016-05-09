@@ -427,7 +427,7 @@ permissions.roles.description.root: "Standard Superuser Rolle, vergibt automatis
 "Your database is now up to date.": "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
 general.phrase.edited: "und bearbeitet"
 general.phrase.return-editing: "zurück zum Bearbeiten"
-"by": "von"
+general.phrase.by: "von"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 "line": "Zeile"
 "no content …": "kein Inhalt"

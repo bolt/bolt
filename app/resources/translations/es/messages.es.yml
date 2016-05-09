@@ -475,7 +475,7 @@ permissions.roles.description.root: "Rol incorporado de superadministrador, auto
 "Your database is now up to date.": "Tu base de datos ahora está actualizada"
 general.phrase.edited: "y editado"
 general.phrase.return-editing: "regresar a editar"
-"by": "por"
+general.phrase.by: "por"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 "line": "línea:"
 "no content …": "sin contenido"

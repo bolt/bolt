@@ -481,7 +481,7 @@ permissions.roles.description.root: "內建Superuser角色，自動被授予所�
 "Your database is now up to date.": "資料庫現在是最新的。"
 general.phrase.edited: "及編輯於"
 general.phrase.return-editing: "返回編輯"
-"by": "由"
+general.phrase.by: "由"
 "line": "行"
 "no content …": "無內容 …"
 "no title …": "無標題 …"

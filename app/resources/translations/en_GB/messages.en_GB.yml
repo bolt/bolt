@@ -392,7 +392,7 @@ permissions.roles.description.root: "Built-in superuser role, automatically gran
 "Your database is now up to date.": "Your database is now up to date."
 general.phrase.edited: "and edited"
 general.phrase.return-editing: "back to editing"
-"by": "by"
+general.phrase.by: "by"
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 "line": "line"
 "no content …": "no content …"

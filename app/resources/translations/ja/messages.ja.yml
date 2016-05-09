@@ -179,7 +179,7 @@ general.bolt-configuration-issues-detected: #
 "You don't have the correct permissions to display the file or directory '%s'.": #
 "You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
 "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
-"by": #
+general.phrase.by: #
 "filtered by <em>'%filter%'</em>": #
 "no content …": #
 "no title …": #

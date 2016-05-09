@@ -595,7 +595,7 @@ permissions.roles.description.root: "Innebygd superbrukerrolle, automatisk tilde
 "Your database is now up to date.": "Databasen din er nå oppdatert."
 general.phrase.edited: "og redigert"
 general.phrase.return-editing: "tilbake til redigering"
-"by": "av"
+general.phrase.by: "av"
 "line": "linje"
 "none": "ingen"
 "of": "av"

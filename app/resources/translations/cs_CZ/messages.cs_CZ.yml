@@ -455,7 +455,7 @@ permissions.roles.description.root: "Vestvěné oprávnění superuživatele –
 "Your database is now up to date.": "Vaše databáze je nyní aktuální."
 general.phrase.edited: "a upraveno"
 general.phrase.return-editing: "zpět do editace"
-"by": "od"
+general.phrase.by: "od"
 "filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
 "line": "řádek"
 "no content …": "žádný obsah …"

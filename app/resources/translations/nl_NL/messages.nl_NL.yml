@@ -398,7 +398,7 @@ permissions.roles.description.root: "Ingebouwde super-user rol, krijgt automatis
 "Your database is now up to date.": "Je database is nu bijgewerkt."
 general.phrase.edited: "en bewerkt"
 general.phrase.return-editing: "terug naar bewerken"
-"by": "door"
+general.phrase.by: "door"
 "filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 "line": "regel"
 "no content …": "geen content …"

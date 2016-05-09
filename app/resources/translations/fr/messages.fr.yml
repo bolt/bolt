@@ -398,7 +398,7 @@ permissions.roles.description.root: "Rôle super-utilisateur natif, donne tous l
 "Your database is now up to date.": "La base de données est à jour."
 general.phrase.edited: "et modifié(e)"
 general.phrase.return-editing: "retour à l'édition"
-"by": "par"
+general.phrase.by: "par"
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 "line": "ligne"
 "no content …": "sans contenu …"

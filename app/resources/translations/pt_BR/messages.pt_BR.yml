@@ -511,7 +511,7 @@ permissions.roles.description.root: "Criar papel de super-usuário, concede auto
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
 general.phrase.edited: "e alterado"
 general.phrase.return-editing: "voltar para edição"
-"by": "por"
+general.phrase.by: "por"
 "line": "linha"
 "no content …": "sem conteúdo …"
 "no title …": "sem título …"

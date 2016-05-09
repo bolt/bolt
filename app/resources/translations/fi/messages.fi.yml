@@ -473,7 +473,7 @@ permissions.roles.description.root: "Sisäänrakennettu pääkäyttäjän rooli,
 "Your database is now up to date.": "Tietokanta on päivitetty."
 general.phrase.edited: "ja muokattu"
 general.phrase.return-editing: "palaa muokkaamaan"
-"by": "@"
+general.phrase.by: "@"
 "filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 "line": "rivi"
 "no content …": "ei sisältöä …"

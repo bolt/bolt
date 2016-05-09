@@ -405,7 +405,7 @@ permissions.roles.description.root: "Função integrada de super-tilizador, conc
 "Your database is now up to date.": "A sua base de dados está agora atualizada!"
 general.phrase.edited: "e alterado"
 general.phrase.return-editing: "voltar à edição"
-"by": "por"
+general.phrase.by: "por"
 "filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 "line": "linha"
 "no content …": "sem conteúdo..."
