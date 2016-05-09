@@ -132,7 +132,7 @@ general.access-control.reset-failed: #
 general.phrase.path-image-file: #
 page.file-management.message.create-file: #
 page.file-management.message.create-folder: #
-"Please log on.": #
+general.phrase.please-logon: #
 "Prefill database": # "Pre-fill database"
 "Publish": #
 "Records": #
