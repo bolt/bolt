@@ -170,7 +170,7 @@ general.phrase.directory-not-found-writable: #
 logs.system-log.cleared: #
 logs.system-log.trimmed: #
 general.phrase.value-minimum-variable: #
-"The value must not be greater than “%MAXVAL%”!": #
+general.phrase.value-maximum-variable: #
 page.extend.theme.generation.success: #
 general.phrase.stack-empty: #
 general.phrase.not-saved: #

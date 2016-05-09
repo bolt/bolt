@@ -59,7 +59,7 @@
 
     {% if option.max %}
         {% set validation = validation|merge({max: option.max}) %}
-        {{ data('validation.max', __('The value must not be greater than “%MAXVAL%”!')) }}
+        {{ data('validation.max', __('general.phrase.value-maximum-variable')) }}
     {% endif %}
 
     <div class="col-sm-9">

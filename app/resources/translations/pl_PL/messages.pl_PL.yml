@@ -73,7 +73,7 @@ general.phrase.error-mail-options-not-set: #
 general.phrase.file-not-exist: #
 general.phrase.file-not-readable: #
 general.phrase.value-minimum-variable: #
-"The value must not be greater than “%MAXVAL%”!": #
+general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 "This record is related to the following %CTNAME%:": #

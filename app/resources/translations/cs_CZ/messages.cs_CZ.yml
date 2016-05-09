@@ -35,7 +35,7 @@ page.extend.error-composer-json-not-writable: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.value-minimum-variable: #
-"The value must not be greater than “%MAXVAL%”!": #
+general.phrase.value-maximum-variable: #
 "Thumbnail": #
 "Tip:": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
