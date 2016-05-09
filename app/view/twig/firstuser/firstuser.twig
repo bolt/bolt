@@ -2,7 +2,7 @@
 
 {% extends '@bolt/_base/_page-no_nav.twig' %}
 
-{% block page_title __('Create the first user') %}
+{% block page_title __('general.phrase.create-user-first') %}
 
 {% block page_main %}
 
@@ -21,7 +21,7 @@
         {{ form_widget(context.form) }}
 
         <button type="submit" class="btn btn-primary" name="submit" value="login">
-            <i class="fa fa-sign-in fa-fw"></i> {{ __('Create the first user') }}
+            <i class="fa fa-sign-in fa-fw"></i> {{ __('general.phrase.create-user-first') }}
         </button>
     </form>
 

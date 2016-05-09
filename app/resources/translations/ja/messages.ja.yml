@@ -353,7 +353,7 @@ general.access-denied.content-not-modified: "コンテンツ '%title%' は更新
 general.phrase.content-type-permissions: "コンテンツタイプのパーミッション"
 general.phrase.content-types: "コンテンツタイプ"
 page.file-management.label.create-folder: "フォルダを作成"
-"Create the first user": "最初のユーザを作成"
+general.phrase.create-user-first: "最初のユーザを作成"
 general.phrase.created-on-colon: "作成日時："
 "Current (saved) status:": "現在の（保存された）ステータス："
 "Current sessions": "現在のセッション"

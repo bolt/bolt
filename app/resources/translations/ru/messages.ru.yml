@@ -286,7 +286,7 @@ general.access-denied.content-not-modified: "Не удалось изменит�
 general.phrase.content-type-permissions: "Разрешения для сущности"
 general.phrase.content-types: "Сущности"
 page.file-management.label.create-folder: "Создать папку"
-"Create the first user": "Создание первого пользователя"
+general.phrase.create-user-first: "Создание первого пользователя"
 general.phrase.created-on-colon: "Создан:"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
 "Current sessions": "Текущие сессии"

@@ -311,7 +311,7 @@ general.access-denied.content-not-modified: "O conteúdo %title% não pode ser m
 general.phrase.content-type-permissions: "Permissões de Tipos de Conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 page.file-management.label.create-folder: "Criar diretório"
-"Create the first user": "Criar o primeiro usuário"
+general.phrase.create-user-first: "Criar o primeiro usuário"
 general.phrase.created-on-colon: "Criado em:"
 "Current (saved) status:": "Status atual (salvo):"
 "Current sessions": "Sessões atuais"

@@ -225,7 +225,7 @@ general.access-denied.content-not-modified: "Sisältöä %title% ei voi muokata.
 general.phrase.content-type-permissions: "Sisätötyyppien oikeudet"
 general.phrase.content-types: "Sisältötyypit"
 page.file-management.label.create-folder: "Luo kansio"
-"Create the first user": "Luo ensimmäinen käyttäjä"
+general.phrase.create-user-first: "Luo ensimmäinen käyttäjä"
 general.phrase.created-on-colon: "Luotu:"
 "Current (saved) status:": "Nykyinen (tallennettu) tila:"
 "Current sessions": "Nykyiset istunnot:"
