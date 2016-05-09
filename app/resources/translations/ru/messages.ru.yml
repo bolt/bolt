@@ -72,7 +72,7 @@ general.phrase.required-is-bang: #
 general.phrase.keyword-ellipsis: #
 "Link": #
 general.phrase.live-edit: #
-"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+general.phrase.error-local-extension-set-up-incomplete: #
 "Markdown": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Move Down": #
