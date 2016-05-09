@@ -506,7 +506,7 @@ general.phrase.no-such-action-for-user: "Δεν υπάρχει τέτοια επ
 general.phrase.none: "Κανένα"
 general.phrase.not-published: "Μη δημοσιευμένο"
 general.phrase.options: "Επιλογές"
-"Order: %sort%": "Σειρά: %sort%"
+general.phrase.order-colon-sort: "Σειρά: %sort%"
 "Overview": "Σύνοψη"
 "Overview for": "Σύνοψη για"
 "Owner": "Ιδιοκτήτης"

@@ -423,7 +423,7 @@ general.phrase.no-such-action-for-user: "ユーザー '%s' に対してそのア
 general.phrase.none: "なし"
 general.phrase.not-published: "非公開"
 general.phrase.options: "オプション"
-"Order: %sort%": "並び順： %sort%"
+general.phrase.order-colon-sort: "並び順： %sort%"
 "Overview": "一覧"
 "Overview for": "一覧"
 "Owner": "所有者"
