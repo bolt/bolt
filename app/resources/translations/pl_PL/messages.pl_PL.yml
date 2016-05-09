@@ -444,7 +444,7 @@ general.phrase.user-failed-delete: "Konto użytkownika '%s' nie może zostać us
 general.phrase.user-failed-disabled: "Konto użytkownika '%s' nie może zostać deaktywowane."
 general.phrase.user-failed-enable: "Konto użytkownika '%s' nie może zostać aktywowane."
 general.phrase.user-deleted: "Konto użytkownika '%s' zostało usunięte."
-"User '%s' is disabled.": "Konto użytkownika '%s' jest nieaktywne."
+general.phrase.user-disabled: "Konto użytkownika '%s' jest nieaktywne."
 "User '%s' is enabled.": "Konto użytkownika '%s' jest aktywne."
 general.phrase.user-name: "Nazwa użytkownika"
 general.phrase.error-user-name-password-incorrect: "Nazwa użytkownika lub hasło jest niepoprawne. Proszę sprawdzić wprowadzane dane."

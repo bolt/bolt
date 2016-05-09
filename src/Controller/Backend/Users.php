@@ -240,7 +240,7 @@ class Users extends BackendBase
                 if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
 
-                    $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user->getDisplayname()]));
+                    $this->flashes()->info(Trans::__('general.phrase.user-disabled', ['%s' => $user->getDisplayname()]));
                 } else {
                     $this->flashes()->info(Trans::__('general.phrase.user-failed-disabled', ['%s' => $user->getDisplayname()]));
                 }
