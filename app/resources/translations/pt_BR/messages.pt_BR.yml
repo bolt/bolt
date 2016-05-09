@@ -1,4 +1,4 @@
-# app/resources/translations/pt_BR/messages.pt_BR.yml – generated on 2016-05-02 21:09:07 Europe/Paris
+# app/resources/translations/pt_BR/messages.pt_BR.yml – generated on 2016-05-09 07:28:49 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,14 +9,13 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-# 133 untranslated messages
-# 108 untranslated keyword based messages
-# 258 translations
-# 107 keyword based translations
+#  43 untranslated messages
+# 197 untranslated keyword based messages
+#  47 translations
+# 315 keyword based translations
 
-#--- 133 untranslated messages ------------------------------------------------
+#--- 43 untranslated messages -------------------------------------------------
 
-field.image.label.alt: #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -26,129 +25,42 @@ field.image.label.alt: #
 "Are you sure you want to remove this file?": #
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
-general.phrase.required-character-count: #
-general.phrase.author: #
-general.phrase.clear-change-log: #
-general.phrase.clear-system-log: #
-general.phrase.clear-cache-complete: #
 "Client error: %errormessage%": #
-general.phrase.close-editor: #
-page.file-management.label.create-file: #
-general.phrase.dashboard: #
-general.phrase.delete: #
-general.phrase.delete-set: #
-general.phrase.depublish: #
-general.phrase.depublish-date-past: #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
-general.phrase.duplicate-set: #
-general.phrase.edit-role-permissions: #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
-general.phrase.extras: #
-general.phrase.error-cache-clear: #
-general.phrase.error-send-password-request: #
-general.phrase.field-fieldname: #
-page.file-management.message.save-failed-invalid-form: #
-general.phrase.file-upload-failed: #
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Group": #
 "Groups": #
-general.phrase.floating-point-required-bang: #
-general.phrase.error-login-invalid-parameters: #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-general.phrase.required-is-or-match-pattern: #
-general.phrase.required-is-bang: #
-general.phrase.keyword-ellipsis: #
 "Link": #
-general.phrase.live-edit: #
-general.phrase.error-local-extension-set-up-incomplete: #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-general.phrase.meta: #
-general.bolt-new-site-set-up: #
-general.phrase.no-preview: #
-general.phrase.no-content-found: #
-general.phrase.no-files-in-list: #
-general.phrase.no-images-in-list: #
-page.extend.theme.generation.missing.name: #
-general.phrase.not-installed-yet: #
-general.phrase.omnisearch: #
-general.phrase.only-root-change-file-extensions: #
-general.phrase.order: #
-general.phrase.other-content: #
-general.phrase.others: #
-general.phrase.publish: #
-general.phrase.records: #
 "Repeater": #
-page.checks.run-php-ext-checks: #
-page.checks.run-all: #
-page.checks.run-directory-checks: #
-page.checks.run-email-checks: #
-general.phrase.search-results-for-variable: #
 "Selectentry": # "Select entry"
-general.phrase.selection: #
-general.phrase.show-proposed-alterations: #
 "Slug": #
-general.phrase.slug-colon: #
-general.phrase.something-went-wrong-after-first-user: #
-general.phrase.status-colon: #
-general.phrase.system-config-checks: #
 "Tag": #
 "Tags": #
 "Teaser": #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #
-page.extend.error-composer-json-not-readable: #
-page.extend.error-composer-json-not-writable: #
-logs.change-log.cleared: #
-logs.change-log.trimmed: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-general.phrase.error-mail-options-not-set: #
 "The field %field% has been changed to \"%newValue%\"": #
-general.phrase.file-not-exist: #
-general.phrase.file-not-readable: #
-logs.system-log.cleared: #
-logs.system-log.trimmed: #
-general.phrase.value-minimum-variable: #
-general.phrase.value-maximum-variable: #
-page.extend.theme.generation.success: #
-general.phrase.not-saved: #
-general.phrase.missing-about-page-block: #
-general.phrase.no-undo: #
-general.phrase.record-related-to-variable: #
-general.phrase.warning-template: #
-general.phrase.thumbnail: #
-general.phrase.log-change-trim: #
-general.phrase.log-system-trim: #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
 "Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-page.extend.message.package-install-info-fail: #
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
-general.phrase.error-session-data-login: #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-general.phrase.upload: #
-general.phrase.upload-not-allowed: #
-general.phrase.users-permissions: #
-general.phrase.view-roles: #
-general.phrase.warning: #
-page.extend.theme.generation.failure: #
-general.bolt-welcome-new-site: #
-general.phrase.access-denied-self-action: #
-general.phrase.access-denied-privilege-edit-user: #
-general.phrase.warning-unfinished-changes-loss: #
-general.phrase.warning-templatefields-loss: #
 "filtered by <em>'%filter%'</em>": #
-general.phrase.or: #
 
-#--- 108 untranslated keyword based messages ----------------------------------
+#--- 197 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.template": # "Template"
@@ -159,6 +71,7 @@ general.phrase.or: #
 "field.geolocation.label.longitude": # "Longitude"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.image.label.alt": # "Alt"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -166,9 +79,89 @@ general.phrase.or: #
 "field.video.pixel": # "pixel"
 "field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
 "general.bolt-documentation": # "Bolt documentation"
+"general.bolt-new-site-set-up": # "New Bolt site has been set up"
+"general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
+"general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
+"general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
+"general.phrase.author": # "Author"
+"general.phrase.clear-cache-complete": # "Cleared cache."
+"general.phrase.clear-change-log": # "Clear Change Log"
+"general.phrase.clear-system-log": # "Clear System Log"
+"general.phrase.close-editor": # "Close editor"
+"general.phrase.dashboard": # "Dashboard"
+"general.phrase.delete": # "Delete"
+"general.phrase.delete-set": # "Delete Set"
+"general.phrase.depublish": # "Depublish"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.duplicate-set": # "Duplicate Set"
+"general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
+"general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
+"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+"general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
+"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extras": # "Extras"
+"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
+"general.phrase.file-not-exist": # "The file '%s' doesn't exist."
+"general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.keyword-ellipsis": # "Keyword …"
+"general.phrase.live-edit": # "Live Edit"
+"general.phrase.log-change-trim": # "Trim Change Log"
+"general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.meta": # "Meta"
+"general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+"general.phrase.no-content-found": # "No content found."
+"general.phrase.no-files-in-list": # "No files in the list, yet."
+"general.phrase.no-images-in-list": # "No images in the list, yet."
+"general.phrase.no-preview": # "No Preview"
+"general.phrase.no-undo": # "There is no undo!"
+"general.phrase.not-installed-yet": # "Not yet installed."
+"general.phrase.not-saved": # "There are no saved changes, yet."
+"general.phrase.omnisearch": # "Omnisearch"
+"general.phrase.only-root-change-file-extensions": # "Only root can change file extensions."
+"general.phrase.or": # "or"
+"general.phrase.order": # "Order"
+"general.phrase.other-content": # "Other content"
+"general.phrase.others": # "Others"
+"general.phrase.publish": # "Publish"
+"general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
+"general.phrase.records": # "Records"
+"general.phrase.related-content": #
+"general.phrase.required-character-count": # "At least %NUM% characters required"
+"general.phrase.required-is-bang": # "Is required!"
+"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
+"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
+"general.phrase.selection": # "Selection"
+"general.phrase.show-proposed-alterations": # "Show proposed alterations"
+"general.phrase.slug-colon": # "Slug:"
+"general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.status-colon": # "Status:"
+"general.phrase.system-config-checks": # "System Configuration Checks"
+"general.phrase.thumbnail": # "Thumbnail"
+"general.phrase.upload": # "Upload"
+"general.phrase.upload-not-allowed": # "Upload not allowed"
+"general.phrase.users-permissions": # "Users & Permissions"
+"general.phrase.value-maximum-variable": # "The value must not be greater than “%MAXVAL%”!"
+"general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
+"general.phrase.view-roles": # "View Roles"
+"general.phrase.warning": # "Warning"
+"general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
+"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"general.phrase.warning-unfinished-changes-loss": # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 "general.visit-bolt": # "Visit Bolt.cm"
+"logs.change-log.cleared": # "The change log has been cleared."
+"logs.change-log.trimmed": # "The change log has been trimmed."
 "logs.system-log": # "System Log"
+"logs.system-log.cleared": # "The system log has been cleared."
+"logs.system-log.trimmed": # "The system log has been trimmed."
 "menu.configuration.routing": # "Routing set up"
+"page.checks.run-all": # "Run all checks"
+"page.checks.run-directory-checks": # "Run directory checks"
+"page.checks.run-email-checks": # "Run email checks"
+"page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.dashboard.title": # "Dashboard"
 "page.edit-users.activated.no": # "no"
 "page.edit-users.activated.yes": # "yes"
@@ -208,6 +201,8 @@ general.phrase.or: #
 "page.extend.button.uninstall": # "Uninstall"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.button.versions": # "Versions"
+"page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -246,6 +241,7 @@ general.phrase.or: #
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
@@ -253,280 +249,68 @@ general.phrase.or: #
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.file-management.label.create-file": # "Create File"
+"page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.login.label.password": # "Password"
 "panel.latest-activity.change": # "Latest changes"
 "panel.latest-activity.created": # "Created"
 "panel.latest-activity.deleted": # "Deleted"
 "panel.latest-activity.system": # "Latest system activity"
 
-#--- 258 translations ---------------------------------------------------------
+#--- 47 translations ----------------------------------------------------------
 
 "(default template)": "(template padrão)"
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
-page.login.password-reset-link-sent: "Um link para redefinir a senha foi enviado para '%user%'."
-general.phrase.action-plural: "Ações"
-general.phrase.add-selected: "Adicionar selecionados"
 "Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
-contenttypes.record.comment-add-colon: "Adicione um comentário"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
-general.phrase.missing-about-page: "Ooops. nada sobre :( "
-logs.change-log.contenttypes.all: "Todos tipos de conteúdo"
-general.phrase.users.all: "Todos usuários"
-permissions.roles.label.anonymous: "Anônimo"
 "Are you sure you want to delete %username%?": "Tem certeza que deseja excluir %username%?"
-general.phrase.author-colon: "Autor:"
-general.bolt-third-party-libraries: "Abaixo as bibliotecas de terceiros usadas pelo Bolt"
 "Body": "Corpo"
-general.bolt-fatal-error: "Bolt - Erro fatal"
-general.bolt-configuration-issues-detected: "Bolt detetou um ou mais problemas de configuração. Deve resolver os problemas para um melhor desempenho:"
-general.phrase.browswer-platform: "Navegador / plataforma"
-permissions.roles.description.anonymous: "Criar papel, concedido automaticamente em todos os momentos, mesmo que nenhum usuário esteja logado"
-permissions.roles.description.everyone: "Criar papel, concedido automaticamente para todos os usuários registrados"
-permissions.roles.description.owner: "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
-permissions.roles.description.root: "Criar papel de super-usuário, concede automaticamente todas as permissões"
-general.phrase.cancel: "Cancelar"
 "Categories": "Categorias"
 "Category": "Categoria"
-general.phrase.change-log: "Registro de alterações"
-general.phrase.status-change-draft: "Mudar status para 'rascunho'"
-general.phrase.status-change-held: "Mudar status para 'Mantido'"
-general.phrase.check-again: "Verificar novamente"
-general.phrase.check-database: "Verificar banco de dados"
-general.phrase.toggle-all: "Marcar/Desmarcar tudo"
 "Choose an entry": "Escolha uma entrada"
-general.phrase.stay-classy-colon: "Classe:"
-general.phrase.clear-cache-again: "Limpar o cache novamente"
-general.phrase.clear-filter: "Limpar filtro"
-general.phrase.clear-filter-sort: "Limpar ordenação/filtro"
-general.phrase.clear-cache: "Limpar o cache"
-general.phrase.change-current-status: "Clique para alterar o status atual."
-general.phrase.code-colon: "Código"
-general.phrase.collapse-sidebar: "Minimizar barra lateral"
-general.phrase.configuration: "Configurações"
 "Content": "Conteúdo"
-general.access-denied.content-not-modified: "O conteúdo %title% não pode ser modificado."
-general.phrase.content-type-permissions: "Permissões de Tipos de Conteúdo"
-general.phrase.content-types: "Tipos de conteúdo"
-page.file-management.label.create-folder: "Criar diretório"
-general.phrase.create-user-first: "Criar o primeiro usuário"
-general.phrase.created-on-colon: "Criado em:"
 "Current (saved) status:": "Status atual (salvo):"
-general.phrase.current-session-plural: "Sessões atuais"
-general.phrase.status-current-colon: "Status atual:"
-general.phrase.database-check-update: "Verificar/atualizar banco de dados"
 "Date": "Data"
 "Datetime": "Data e hora"
-general.phrase.status-default: "Status padrão"
-general.phrase.delete-file-name: "Excluir %filename%"
-general.phrase.delete-directory-name: "Excluir %foldername%"
-general.phrase.delete-user-name: "Excluir %username%"
-general.phrase.depublication-date-colon: "Date de Despublicação"
-general.phrase.deselect-all: "Deselecionar todos"
-general.phrase.template-detail: "Template detalhe"
-general.phrase.details: "Detalhes"
-general.phrase.disable-user-name: "Desabilitar %username%"
-general.phrase.done-bang: "Pronto!"
-general.phrase.draft: "Rascunho"
-general.phrase.duplicate-file-name: "Duplicar %filename%"
-general.phrase.edit: "Alterar"
-general.phrase.edit-file: "Editar arquivo"
-general.phrase.enable-user-name: "Habilitar %username%"
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-general.phrase.extensions: "Visualizar/instalar Extensões"
 "File": "Arquivo"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O arquivo '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-page.file-management.message.upload-success: "O arquivo '%file%' foi carregado com sucesso."
-page.file-management.message.save-failed-unknown: "Arquivo '%s' não pode ser salvo por alguma razão."
-page.file-management.message.save-failed-colon: "Arquivo '%s' não pode ser salvo:"
-page.file-management.message.save-success: "Arquivo '%s' salvo."
-general.phrase.file-management: "Gerenciar arquivos"
-page.file-management.message.file-not-readable: "Arquivo não pode ser lido!"
 "Filelist": "Lista de ficheiros"
-page.file-management.title: "Arquivos"
-page.file-management.message.files-in: "Arquivos em %s"
-general.phrase.stack-files: "Arquivos na pilha"
-general.phrase.file-size: "Tamanho do arquivo"
-general.phrase.database-prefill-dummy-content: "Preencher com conteúdo aleatório"
-general.phrase.filter: "Filtro"
-general.phrase.filtering: "Filtrando"
-general.phrase.find: "Procurar"
 "Floatfield": "Campo flutuante"
-page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
-page.file-management.message.folder-access-denied: "Permissões insuficientes na pasta"
-general.phrase.folders: "Pastas"
-general.phrase.full-list-ellipsis: "Lista completa…"
 "Geolocation": "Geolocalização"
-general.phrase.global-permissions: "Permissões Globais"
-general.phrase.hints-colon: "Dicas:"
 "Html": "HTML"
-general.phrase.ip.address: "Endereço IP"
-general.phrase.id: "ID"
 "Image": "Imagem"
 "Imagelist": "Lista de imagens"
-general.phrase.info: "Informações"
 "Integerfield": "Campo inteiro"
-general.phrase.last-edited-on-colon: "Última edição em:"
-general.phrase.last-known-ip: "Último IP conhecido"
-general.phrase.last-seen: "Última visualização"
-general.phrase.listing-template: "Listando template"
-general.phrase.login: "Entrar"
-general.phrase.logout: "Sair"
-general.phrase.long-messages: "Mensagens longas"
-general.phrase.configuration-main: "Principais Configurações"
-general.phrase.maintenance: "Manutenção"
 "Markdown": "Markdown"
-general.phrase.menu-setup: "Configuração de Menu"
-general.phrase.message-colon: "Mensagem"
-general.phrase.messages: "Mensagens"
-general.phrase.meta-information: "Meta Informação"
-general.phrase.modifications-database-colon: "Modificações a fazer no banco de dados:"
-general.phrase.modifications-needed-colon: "Modificações necessárias"
-general.phrase.modified: "Modificado"
-general.phrase.move-down: "Mover para baixo"
-general.phrase.move-up: "Mover para cima"
 "Multiselect": "Selecionar vários"
-general.phrase.no-relations-found-bang: "Não há relações encontradas!"
-general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para %SEARCHTERM%. Tente outros termos."
-general.phrase.no-such-action-for-user: "Nenhuma ação para o usuário '%s'."
-general.phrase.none: "Nenhum"
-general.phrase.not-published: "Não publicado"
-general.phrase.note-colon: "Nota:"
-general.phrase.options: "Opções"
-general.phrase.order-colon-sort: "Ordenar: %sort%"
-general.phrase.overview: "Visualizar"
-general.phrase.overview-for: "Visualização para"
-permissions.roles.label.owner: "Proprietário"
-general.phrase.owner-colon: "Criador"
-general.access-control.reset-failed: "Redefinição de senha não foi bem sucedida! Ou o token está incorreto, ou você demorou muito tempo, ou você tentou redefinir a senha de um endereço IP diferente."
-general.access-control.reset-successful: "Senha redefinida com sucesso! Você pode se conectar com sua nova senha enviada ao seu e-mail."
-general.phrase.path: "Caminho"
-general.phrase.path-image-file: "Caminho para o arquivo de imagem"
-general.phrase.path-colon: "Caminho"
-general.phrase.permalink: "Link permanente"
-general.phrase.permissions: "Permissões"
-general.phrase.stack-add: "Coloque na pilha"
-general.phrase.choose-record-link-to: "Por favor, escolha o registro que deseja vincular"
-page.file-management.message.create-file: "Por favor insira um novo nome de arquivo!"
-page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
-general.phrase.please-logon: "Por favor, faça seu login"
-general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
-general.phrase.database-prefill: "Pré-preenchimento do banco de dados"
-general.phrase.preview: "Pré-visualizar"
-general.phrase.profile: "Perfil"
-general.phrase.provided-by-colon: "Fornecido por:"
-general.phrase.publication-date-colon: "Data de publicação: "
-general.phrase.published: "Publicado"
-general.phrase.published-on-colon: "publicado em:"
-general.phrase.read-more: "Veja mais…"
-general.phrase.relationships: "Relacionamentos"
-general.phrase.rename-foldername: "Renomear %foldername%"
-general.phrase.roles: "Papéis"
-general.phrase.roles-permissions: "Papéis e permissões"
-general.phrase.save-and-create-new-record: "Salvar e criar um novo registro"
-general.phrase.save-and-return-overview: "Salvar & retornar para visualização"
-general.phrase.saved-on-colon: "Salvo em"
-general.phrase.saving-ellipsis: "Salvando…"
-general.phrase.search: "Busca"
-general.phrase.search-for-ellipsis: "Procurar por …"
-general.phrase.search-ellipsis: "Procurar…"
-general.phrase.select: "Selecione"
 "Select a page": "Selecione uma página"
-general.phrase.select-all: "Selecionar todos"
-general.phrase.select-file: "Selecione um arquivo …"
-general.phrase.select-none: "Selecionar nenhum"
 "Select zero or more pages": "Selecione zero ou mais páginas"
 "Selectfield": "Selecionar campo"
-general.phrase.session-expires: "Sessão expira"
-general.phrase.session-resumed-colon: "Sessão resumida."
-general.phrase.settings: "Configurações"
-general.phrase.showing: "Mostrando"
-general.phrase.pager-showing-from-to-of: "Mostrando página %pager_for% %from% - %to% de %count%"
-general.phrase.size: "Tamanho"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
-general.phrase.something-went-wrong: "Algo deu errado"
-general.bolt-tagline: "CMS sofisticado, leve & simples"
-general.phrase.stack: "Pilha"
-general.phrase.taxonomy: "Taxonomia"
 "Textarea": "Área de texto"
-general.phrase.user-not-exist: "Este usuário não existe."
-general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
-general.phrase.directory-not-found-writable: "A pasta '%s' não pode ser encontrada, ou não é legível."
-general.phrase.file-not-readable-following-colon: "O seguinte arquivo não pode ser lido:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
-logs.change-log.not-found: "O registro não existe no registro de alterações."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
-general.phrase.error-translation-file-not-readable: "As traduções em '%s' não são legíveis."
-general.phrase.stack-empty: "Ainda não há itens na pilha."
-general.phrase.users-none-create-first: "Não há usuários no banco de dados. Por favor, crie o primeiro usuário."
-general.phrase.users-none-create-first-extended: "Não há usuários presentes no sistema. Po favor, crie o primeiro usuário, que será concedido privilégios de root."
-general.phrase.missing-root-jackpot: "Sempre deve haver pelo menos um usuário 'root'. Você acaba de ser promovido. Parabéns!"
 "This is a checkbox": "Este é um checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este site é <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>Bolt</a>."
-general.phrase.time-format-24-12: "Horário no formato 24h/12h"
-general.phrase.publish-timed: "Publicação temporária"
-general.phrase.tip-colon: "Dica:"
 "Title": "Título"
-general.phrase.translations: "Traduções"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente fazer o login com o seu ftp-client e tornar o arquivo legível. Caso contrário, tente <a>voltar</a> para a última página."
-general.phrase.types: "Tipos"
-general.phrase.update-database: "Atualizar o banco de dados"
-general.phrase.upload-file-to-directory: "Fazer upload de um arquivo para esta pasta"
-general.phrase.upload-file: "Upload de arquivo"
-general.phrase.upload-image: "Enviar imagem"
-general.phrase.general.phrase.uploaded-files: "Enviar arquivos"
-page.file-management.message.access-denied: "Uploading para esta pasta não é permitido."
-general.phrase.used-libraries: "Bibliotecas/Componentes utilizados"
-general.phrase.user-failed-delete: "Usuário '%s' não pdoe ser excluído."
-general.phrase.user-failed-disabled: "Usuário '%s' não pode ser desabilitado."
-general.phrase.user-failed-enable: "Usuário '%s' não pode ser habilitado"
-general.phrase.user-deleted: "Usuário '%s' excluído."
-general.phrase.user-disabled: "Usuário '%s' desabilitado."
-general.phrase.user-enabled: "Usuário '%s' habilitado."
-general.phrase.user-name: "Login"
-general.phrase.error-user-name-password-incorrect: "Login/Senha incorretos. Verifique e tente novamente."
-general.phrase.users: "Usuários"
 "Video": "Video"
 "View (saved version) on site": "Visualizar (versão salva) no site"
-general.phrase.view-on-site: "Visualizar no site"
-general.phrase.view-related: "Visualizar conteúdo relacionado"
-general.phrase.view-site: "Visualizar site"
-general.phrase.view-edit-templates: "Visualizar / alterar Templates"
-general.phrase.written-by-on: "Escrito por <em>%name%</em> em %date%"
-general.phrase.access-denied-privilege-edit-record: "Você não possui permissões para alterar este registro."
-general.phrase.access-denied-privilege-view-page: "Você não possui privilégios para visualizar esta página."
-general.phrase.access-denied-permissions-edit-file: "Você não tem permissões corretas para editar o arquivo '%s'"
-general.phrase.access-denied-permissions-view-file-directory: "Você não tem as permissões corretas para mostrar o arquivo ou diretório '%s'."
-general.phrase.access-denied-logged-out: "Você desconectou."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
-general.phrase.login-account-disabled: "Sua conta está desabilitada."
-general.phrase.database-up-to-date-already: "Seu banco de dados está atualizado."
-general.phrase.databaase-up-to-date: "Seu banco de dados agora está atualizado!"
-general.phrase.edited: "e alterado"
-general.phrase.return-editing: "voltar para edição"
-general.phrase.by: "por"
-general.phrase.line: "linha"
-general.phrase.no-content: "sem conteúdo …"
-general.phrase.no-title: "sem título …"
-general.phrase.none: "nenhum"
-general.phrase.of: "de"
-general.phrase.show-all: "mostrar todos"
 
-#--- 107 keyword based translations -------------------------------------------
-
-general.phrase.by: "por"
-general.phrase.field: "campo"
-general.phrase.value-new: "Novo valor"
-general.phrase.value-old: "valor antigo"
-
-general.phrase.page: "Página"
+#--- 315 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -559,6 +343,8 @@ contenttypes.generic.show-more: "Mais %contenttypes%"
 contenttypes.generic.view: "Visualizar %contenttypes%"
 contenttypes.generic.wrong-use-field: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'uses: %uses%', mas o campo '%uses%' não existe. Por favor, edite o contenttypes.yml, e corrija isso."
 
+contenttypes.record.comment-add-colon: "Adicione um comentário"
+
 field.general.allowed-filetypes: "Tipos de arquivos permitidos são:"
 field.general.select-from-server: "Selecionar a partir do servidor"
 field.general.stack: "Pilha"
@@ -584,12 +370,211 @@ general.about: "Sobre"
 
 general.about-bolt: "Sobre o Bolt"
 
+general.access-control.reset-failed: "Redefinição de senha não foi bem sucedida! Ou o token está incorreto, ou você demorou muito tempo, ou você tentou redefinir a senha de um endereço IP diferente."
+general.access-control.reset-successful: "Senha redefinida com sucesso! Você pode se conectar com sua nova senha enviada ao seu e-mail."
+
+general.access-denied.content-not-modified: "O conteúdo %title% não pode ser modificado."
+
+general.bolt-configuration-issues-detected: "Bolt detetou um ou mais problemas de configuração. Deve resolver os problemas para um melhor desempenho:"
+
+general.bolt-fatal-error: "Bolt - Erro fatal"
+
 general.bolt-on-github: "Bolt no Github"
+
+general.bolt-tagline: "CMS sofisticado, leve & simples"
+
+general.bolt-third-party-libraries: "Abaixo as bibliotecas de terceiros usadas pelo Bolt"
+
+general.phrase.access-denied-logged-out: "Você desconectou."
+general.phrase.access-denied-permissions-edit-file: "Você não tem permissões corretas para editar o arquivo '%s'"
+general.phrase.access-denied-permissions-view-file-directory: "Você não tem as permissões corretas para mostrar o arquivo ou diretório '%s'."
+general.phrase.access-denied-privilege-edit-record: "Você não possui permissões para alterar este registro."
+general.phrase.access-denied-privilege-view-page: "Você não possui privilégios para visualizar esta página."
+general.phrase.action-plural: "Ações"
+general.phrase.add-selected: "Adicionar selecionados"
+general.phrase.author-colon: "Autor:"
+general.phrase.browswer-platform: "Navegador / plataforma"
+general.phrase.by: "por"
+general.phrase.cancel: "Cancelar"
+general.phrase.change-current-status: "Clique para alterar o status atual."
+general.phrase.change-log: "Registro de alterações"
+general.phrase.check-again: "Verificar novamente"
+general.phrase.check-database: "Verificar banco de dados"
+general.phrase.choose-record-link-to: "Por favor, escolha o registro que deseja vincular"
+general.phrase.clear-cache: "Limpar o cache"
+general.phrase.clear-cache-again: "Limpar o cache novamente"
+general.phrase.clear-filter: "Limpar filtro"
+general.phrase.clear-filter-sort: "Limpar ordenação/filtro"
+general.phrase.code-colon: "Código"
+general.phrase.collapse-sidebar: "Minimizar barra lateral"
+general.phrase.configuration: "Configurações"
+general.phrase.configuration-main: "Principais Configurações"
+general.phrase.content-type-permissions: "Permissões de Tipos de Conteúdo"
+general.phrase.content-types: "Tipos de conteúdo"
+general.phrase.create-user-first: "Criar o primeiro usuário"
+general.phrase.created-on-colon: "Criado em:"
+general.phrase.current-session-plural: "Sessões atuais"
+general.phrase.databaase-up-to-date: "Seu banco de dados agora está atualizado!"
+general.phrase.database-check-update: "Verificar/atualizar banco de dados"
+general.phrase.database-prefill: "Pré-preenchimento do banco de dados"
+general.phrase.database-prefill-dummy-content: "Preencher com conteúdo aleatório"
+general.phrase.database-up-to-date-already: "Seu banco de dados está atualizado."
+general.phrase.delete-directory-name: "Excluir %foldername%"
+general.phrase.delete-file-name: "Excluir %filename%"
+general.phrase.delete-user-name: "Excluir %username%"
+general.phrase.depublication-date-colon: "Date de Despublicação"
+general.phrase.deselect-all: "Deselecionar todos"
+general.phrase.details: "Detalhes"
+general.phrase.directory-not-found-writable: "A pasta '%s' não pode ser encontrada, ou não é legível."
+general.phrase.disable-user-name: "Desabilitar %username%"
+general.phrase.done-bang: "Pronto!"
+general.phrase.draft: "Rascunho"
+general.phrase.duplicate-file-name: "Duplicar %filename%"
+general.phrase.edit: "Alterar"
+general.phrase.edit-file: "Editar arquivo"
+general.phrase.edited: "e alterado"
+general.phrase.enable-user-name: "Habilitar %username%"
+general.phrase.error-translation-file-not-readable: "As traduções em '%s' não são legíveis."
+general.phrase.error-user-name-password-incorrect: "Login/Senha incorretos. Verifique e tente novamente."
+general.phrase.extensions: "Visualizar/instalar Extensões"
+general.phrase.field: "campo"
+general.phrase.file-management: "Gerenciar arquivos"
+general.phrase.file-not-readable-following-colon: "O seguinte arquivo não pode ser lido:"
+general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você precisa fazer suas modificações em seu editor de texto."
+general.phrase.file-size: "Tamanho do arquivo"
+general.phrase.filter: "Filtro"
+general.phrase.filtering: "Filtrando"
+general.phrase.find: "Procurar"
+general.phrase.folders: "Pastas"
+general.phrase.full-list-ellipsis: "Lista completa…"
+general.phrase.general.phrase.uploaded-files: "Enviar arquivos"
+general.phrase.global-permissions: "Permissões Globais"
+general.phrase.hints-colon: "Dicas:"
+general.phrase.id: "ID"
+general.phrase.info: "Informações"
+general.phrase.ip.address: "Endereço IP"
+general.phrase.last-edited-on-colon: "Última edição em:"
+general.phrase.last-known-ip: "Último IP conhecido"
+general.phrase.last-seen: "Última visualização"
+general.phrase.line: "linha"
+general.phrase.listing-template: "Listando template"
+general.phrase.login: "Entrar"
+general.phrase.login-account-disabled: "Sua conta está desabilitada."
+general.phrase.logout: "Sair"
+general.phrase.long-messages: "Mensagens longas"
+general.phrase.maintenance: "Manutenção"
+general.phrase.menu-setup: "Configuração de Menu"
+general.phrase.message-colon: "Mensagem"
+general.phrase.messages: "Mensagens"
+general.phrase.meta-information: "Meta Informação"
+general.phrase.missing-about-page: "Ooops. nada sobre :( "
+general.phrase.missing-root-jackpot: "Sempre deve haver pelo menos um usuário 'root'. Você acaba de ser promovido. Parabéns!"
+general.phrase.modifications-database-colon: "Modificações a fazer no banco de dados:"
+general.phrase.modifications-needed-colon: "Modificações necessárias"
+general.phrase.modified: "Modificado"
+general.phrase.move-down: "Mover para baixo"
+general.phrase.move-up: "Mover para cima"
+general.phrase.no-content: "sem conteúdo …"
+general.phrase.no-relations-found-bang: "Não há relações encontradas!"
+general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para %SEARCHTERM%. Tente outros termos."
+general.phrase.no-such-action-for-user: "Nenhuma ação para o usuário '%s'."
+general.phrase.no-title: "sem título …"
+general.phrase.none: "Nenhum"
+general.phrase.not-published: "Não publicado"
+general.phrase.note-colon: "Nota:"
+general.phrase.of: "de"
+general.phrase.options: "Opções"
+general.phrase.order-colon-sort: "Ordenar: %sort%"
+general.phrase.overview: "Visualizar"
+general.phrase.overview-for: "Visualização para"
+general.phrase.owner-colon: "Criador"
+general.phrase.page: "Página"
+general.phrase.pager-showing-from-to-of: "Mostrando página %pager_for% %from% - %to% de %count%"
+general.phrase.path: "Caminho"
+general.phrase.path-colon: "Caminho"
+general.phrase.path-image-file: "Caminho para o arquivo de imagem"
+general.phrase.permalink: "Link permanente"
+general.phrase.permissions: "Permissões"
+general.phrase.please-logon: "Por favor, faça seu login"
+general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
+general.phrase.preview: "Pré-visualizar"
+general.phrase.profile: "Perfil"
+general.phrase.provided-by-colon: "Fornecido por:"
+general.phrase.publication-date-colon: "Data de publicação: "
+general.phrase.publish-timed: "Publicação temporária"
+general.phrase.published: "Publicado"
+general.phrase.published-on-colon: "publicado em:"
+general.phrase.read-more: "Veja mais…"
+general.phrase.relationships: "Relacionamentos"
+general.phrase.rename-foldername: "Renomear %foldername%"
+general.phrase.return-editing: "voltar para edição"
+general.phrase.roles: "Papéis"
+general.phrase.roles-permissions: "Papéis e permissões"
+general.phrase.save-and-create-new-record: "Salvar e criar um novo registro"
+general.phrase.save-and-return-overview: "Salvar & retornar para visualização"
+general.phrase.saved-on-colon: "Salvo em"
+general.phrase.saving-ellipsis: "Salvando…"
+general.phrase.search: "Busca"
+general.phrase.search-ellipsis: "Procurar…"
+general.phrase.search-for-ellipsis: "Procurar por …"
+general.phrase.select: "Selecione"
+general.phrase.select-all: "Selecionar todos"
+general.phrase.select-file: "Selecione um arquivo …"
+general.phrase.select-none: "Selecionar nenhum"
+general.phrase.session-expires: "Sessão expira"
+general.phrase.session-resumed-colon: "Sessão resumida."
+general.phrase.settings: "Configurações"
+general.phrase.show-all: "mostrar todos"
+general.phrase.showing: "Mostrando"
+general.phrase.size: "Tamanho"
+general.phrase.something-went-wrong: "Algo deu errado"
+general.phrase.stack: "Pilha"
+general.phrase.stack-add: "Coloque na pilha"
+general.phrase.stack-empty: "Ainda não há itens na pilha."
+general.phrase.stack-files: "Arquivos na pilha"
+general.phrase.status-change-draft: "Mudar status para 'rascunho'"
+general.phrase.status-change-held: "Mudar status para 'Mantido'"
+general.phrase.status-current-colon: "Status atual:"
+general.phrase.status-default: "Status padrão"
+general.phrase.stay-classy-colon: "Classe:"
+general.phrase.taxonomy: "Taxonomia"
+general.phrase.template-detail: "Template detalhe"
+general.phrase.time-format-24-12: "Horário no formato 24h/12h"
+general.phrase.tip-colon: "Dica:"
+general.phrase.toggle-all: "Marcar/Desmarcar tudo"
+general.phrase.translations: "Traduções"
+general.phrase.types: "Tipos"
+general.phrase.update-database: "Atualizar o banco de dados"
+general.phrase.upload-file: "Upload de arquivo"
+general.phrase.upload-file-to-directory: "Fazer upload de um arquivo para esta pasta"
+general.phrase.upload-image: "Enviar imagem"
+general.phrase.used-libraries: "Bibliotecas/Componentes utilizados"
+general.phrase.user-deleted: "Usuário '%s' excluído."
+general.phrase.user-disabled: "Usuário '%s' desabilitado."
+general.phrase.user-enabled: "Usuário '%s' habilitado."
+general.phrase.user-failed-delete: "Usuário '%s' não pdoe ser excluído."
+general.phrase.user-failed-disabled: "Usuário '%s' não pode ser desabilitado."
+general.phrase.user-failed-enable: "Usuário '%s' não pode ser habilitado"
+general.phrase.user-name: "Login"
+general.phrase.user-not-exist: "Este usuário não existe."
+general.phrase.users: "Usuários"
+general.phrase.users-none-create-first: "Não há usuários no banco de dados. Por favor, crie o primeiro usuário."
+general.phrase.users-none-create-first-extended: "Não há usuários presentes no sistema. Po favor, crie o primeiro usuário, que será concedido privilégios de root."
+general.phrase.users.all: "Todos usuários"
+general.phrase.value-new: "Novo valor"
+general.phrase.value-old: "valor antigo"
+general.phrase.view-edit-templates: "Visualizar / alterar Templates"
+general.phrase.view-on-site: "Visualizar no site"
+general.phrase.view-related: "Visualizar conteúdo relacionado"
+general.phrase.view-site: "Visualizar site"
+general.phrase.written-by-on: "Escrito por <em>%name%</em> em %date%"
 
 generic.noscript.headline: "Javascript desabilitado"
 generic.noscript.message: "Javascript está desativado em seu navegador. A maioria das funcionalidades no Bolt não funcionarão sem ele, mas para maior facilidade de uso, nós recomendamos que você ative o Javascript em seu navegador."
 
 logs.change-log: "Registro de alterações"
+logs.change-log.contenttypes.all: "Todos tipos de conteúdo"
+logs.change-log.not-found: "O registro não existe no registro de alterações."
 
 page.ckeditor-browse-server.files: "Arquivos"
 page.ckeditor-browse-server.folders: "Pastas"
@@ -628,6 +613,20 @@ page.extend.button.update-check: "Executar verificador de atualizações"
 page.extend.listheader.actions: "Ações"
 page.extend.message.maintenance: "Manutenção"
 
+page.file-management.label.create-folder: "Criar diretório"
+page.file-management.message.access-denied: "Uploading para esta pasta não é permitido."
+page.file-management.message.create-file: "Por favor insira um novo nome de arquivo!"
+page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
+page.file-management.message.file-not-readable: "Arquivo não pode ser lido!"
+page.file-management.message.files-in: "Arquivos em %s"
+page.file-management.message.folder-access-denied: "Permissões insuficientes na pasta"
+page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
+page.file-management.message.save-failed-colon: "Arquivo '%s' não pode ser salvo:"
+page.file-management.message.save-failed-unknown: "Arquivo '%s' não pode ser salvo por alguma razão."
+page.file-management.message.save-success: "Arquivo '%s' salvo."
+page.file-management.message.upload-success: "O arquivo '%file%' foi carregado com sucesso."
+page.file-management.title: "Arquivos"
+
 page.login.button.back: "Voltar ao login"
 page.login.button.forgot-password: "Esqueci minha senha…"
 page.login.button.log-on: "Cadastrar"
@@ -635,6 +634,7 @@ page.login.button.reset-password: "Redefinir minha senha"
 page.login.cookies-required: "Nota: Cookies são necessários para entrar no Bolt. Por favor habilite os cookies"
 page.login.label.username: "Login / e-mail"
 page.login.password-hide: "Esconder"
+page.login.password-reset-link-sent: "Um link para redefinir a senha foi enviado para '%user%'."
 page.login.password-show: "Mostar"
 page.login.placeholder.password: "Seu nome de usuário"
 page.login.title: "Registrar no Bolt"
@@ -647,6 +647,13 @@ panel.latest-activity.saved: "Salvo"
 panel.latest-activity.unknown: "desconhecido"
 
 panel.user-actions.button.add: "Adicionar novo usuário"
+
+permissions.roles.description.anonymous: "Criar papel, concedido automaticamente em todos os momentos, mesmo que nenhum usuário esteja logado"
+permissions.roles.description.everyone: "Criar papel, concedido automaticamente para todos os usuários registrados"
+permissions.roles.description.owner: "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
+permissions.roles.description.root: "Criar papel de super-usuário, concede automaticamente todas as permissões"
+permissions.roles.label.anonymous: "Anônimo"
+permissions.roles.label.owner: "Proprietário"
 
 users.actions-for-users: "Ações para usuários"
 
