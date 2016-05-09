@@ -169,7 +169,7 @@ general.phrase.depublish-date-past: "Das Veröffentlichungsdatum liegt in der Ve
 general.phrase.deselect-all: "Alle abwählen"
 general.phrase.template-detail: "Anzeigevorlage"
 general.phrase.details: "Details"
-"Disable %username%": "%username% deaktivieren"
+general.phrase.disable-user-name: "%username% deaktivieren"
 "Do you really want to delete %FOLDERNAME%?": "Sind Sie sicher, dass Sie %FOLDERNAME% löschen möchten?"
 "Done!": "Fertig!"
 "Draft": "Entwurf"

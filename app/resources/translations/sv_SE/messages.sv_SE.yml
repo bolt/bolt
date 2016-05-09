@@ -142,7 +142,7 @@ general.phrase.depublish-date-past: "Avpubliceringsdatumet har passerat. Ändra 
 general.phrase.deselect-all: "Avmarkera alla"
 general.phrase.template-detail: "Tema"
 general.phrase.details: "Information"
-"Disable %username%": "Deaktivera %username%"
+general.phrase.disable-user-name: "Deaktivera %username%"
 "Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
 "Done!": "klart!"
 "Draft": "Utkast"

@@ -252,7 +252,7 @@ general.phrase.depublish-date-past: "Data cofnięcia publikacji jest przeszła. 
 general.phrase.deselect-all: "Odznacz wszystko"
 general.phrase.template-detail: "Szczegóły szablonu"
 general.phrase.details: "Szczegóły"
-"Disable %username%": "Deaktywuj %username%"
+general.phrase.disable-user-name: "Deaktywuj %username%"
 "Do you really want to delete %FOLDERNAME%?": "Czy naprawdę chcesz usunąć %FOLDERNAME%?"
 "Done!": "Gotowe!"
 "Draft": "Szkic"

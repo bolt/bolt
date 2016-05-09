@@ -123,7 +123,7 @@ general.phrase.depublish-date-past: "De datum van het opheffen van de publicatie
 general.phrase.deselect-all: "Deselecteer alles"
 general.phrase.template-detail: "Detail sjabloon"
 general.phrase.details: "Details"
-"Disable %username%": "Schakel %username% uit"
+general.phrase.disable-user-name: "Schakel %username% uit"
 "Do you really want to delete %FOLDERNAME%?": "Weet u zeker dat u %FOLDERNAME% wil verwijderen?"
 "Done!": "Klaar!"
 "Draft": "Klad"

@@ -185,7 +185,7 @@ general.phrase.depublish-date-past: "Datum expirace je v minulosti. Pokud chcete
 general.phrase.deselect-all: "Odznačit vše"
 general.phrase.template-detail: "Detail šablony"
 general.phrase.details: "Podrobnosti"
-"Disable %username%": "Zablokovat %username%"
+general.phrase.disable-user-name: "Zablokovat %username%"
 "Do you really want to delete %FOLDERNAME%?": "Opravdu smazat %FOLDERNAME%?"
 "Done!": "Hotovo!"
 "Draft": "Koncept"

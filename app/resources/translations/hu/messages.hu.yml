@@ -174,7 +174,7 @@ general.phrase.depublish-date-past: "A lejárati dátum már elmúlt. Inaktivál
 general.phrase.deselect-all: "Összes kiválasztás törlése"
 general.phrase.template-detail: "Részletek sablon"
 general.phrase.details: "Részletek"
-"Disable %username%": "%username% érvénytelenítése"
+general.phrase.disable-user-name: "%username% érvénytelenítése"
 "Do you really want to delete %FOLDERNAME%?": "Valóban törölni szeretnéd a %FOLDERNAME% mappát?"
 "Done!": "Kész!"
 "Draft": "Vázlat"

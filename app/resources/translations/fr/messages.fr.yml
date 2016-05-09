@@ -116,7 +116,7 @@ general.phrase.depublish-date-past: "La date de dépublication est dépassée. V
 general.phrase.deselect-all: "Déselectionner tout"
 general.phrase.template-detail: "Modèle du détail"
 general.phrase.details: "Détails"
-"Disable %username%": "Désactiver l'utilisateur %username%"
+general.phrase.disable-user-name: "Désactiver l'utilisateur %username%"
 "Do you really want to delete %FOLDERNAME%?": "Etes-vous certain de vouloir supprimer le répertoire %FOLDERNAME% ?"
 "Done!": "Fait !"
 "Draft": "Brouillon"
