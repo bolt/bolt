@@ -452,7 +452,7 @@ general.access-denied.content-not-modified: "Το '%title%' δεν μπορει 
 general.phrase.create-user-first: "Δημιουργία του πρώτου χρήστη"
 general.phrase.created-on-colon: "Δημιουργήθηκε στις:"
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
-"Current sessions": "Τρέχων sessions"
+general.phrase.current-session-plural: "Τρέχων sessions"
 "Current status:": "Τρέχουσα κατάσταση:"
 "Database check / update": "Έλεγχος / ανανέωση Βάσης Δεδομένων"
 "Delete %filename%": "Διαγραφή %filename%"

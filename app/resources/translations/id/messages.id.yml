@@ -491,7 +491,7 @@ general.access-denied.content-not-modified: "Konten '%title%' tidak dapat dimodi
 general.phrase.content-types: "Tipe Konten"
 general.phrase.create-user-first: "Buat pengguna pertama"
 general.phrase.created-on-colon: "Dibuat pada:"
-"Current sessions": "Sesi sekarang"
+general.phrase.current-session-plural: "Sesi sekarang"
 "Current status:": "Status sekarang"
 "Dashboard": "Dasbor"
 "Database check / update": "Cek/Perbarui basis data"
