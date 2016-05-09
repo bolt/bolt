@@ -336,7 +336,7 @@ class Omnisearch
 
             $this->register(
                 [
-                    'label'       => sprintf('%s » <span>%s</span>', Trans::__('Edit file'), $dirPrefix . $filename),
+                    'label'       => sprintf('%s » <span>%s</span>', Trans::__('general.phrase.edit-file'), $dirPrefix . $filename),
                     'path'        => $this->generatePath('fileedit', ['namespace' => 'theme', 'file' => $dirPrefix . $relativePathname]),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_FILE + $priority,
