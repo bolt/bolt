@@ -69,7 +69,7 @@ general.phrase.edit-role-permissions: #
 general.phrase.extras: #
 general.phrase.error-cache-clear: #
 general.phrase.error-send-password-request: #
-"Field “%FIELD_NAME%”:": #
+general.phrase.field-fieldname: #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
 "File '%s' could not be saved, because the form wasn't valid.": #
