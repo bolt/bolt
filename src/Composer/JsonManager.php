@@ -85,7 +85,7 @@ class JsonManager
             try {
                 $jsonFile->dump($json);
             } catch (IOException $e) {
-                $this->messages[] = Trans::__("The Bolt extensions composer.json isn't writable.");
+                $this->messages[] = Trans::__('page.extend.error-composer-json-not-writable');
             }
         }
 

@@ -39,7 +39,7 @@ general.phrase.other-content: #
 general.phrase.search-results-for-variable: #
 general.phrase.show-proposed-alterations: #
 page.extend.error-composer-json-not-readable: #
-"The Bolt extensions composer.json isn't writable.": #
+page.extend.error-composer-json-not-writable: #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The value has to be at least “%MINVAL%”!": #
