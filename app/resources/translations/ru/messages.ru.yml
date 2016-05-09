@@ -360,7 +360,7 @@ general.phrase.modifications-database-colon: "Изменения выполне�
 general.phrase.modifications-needed-colon: "Изменения необходимы:"
 general.phrase.modified: "Изменено"
 general.phrase.no-relations-found-bang: "Не найдено связей!"
-"No results found for '%SEARCHTERM%'. Please try another search.": "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
+general.phrase.no-result-for-search-term: "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
 "No such action for user '%s'.": "Неверное действие для пользователя '%s'."
 general.phrase.none: "Отсутствует"
 "Not published": "Неопубликованно"

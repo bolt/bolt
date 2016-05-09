@@ -69,7 +69,7 @@
 
             {# Nothing found #}
             {% if not context.records and not context.others %}
-                <p>{{ __("No results found for '%SEARCHTERM%'. Please try another search.", {'%SEARCHTERM%': context.query|escape}) }}</p>
+                <p>{{ __('general.phrase.no-result-for-search-term', {'%SEARCHTERM%': context.query|escape}) }}</p>
             {% endif %}
         </div>
 
