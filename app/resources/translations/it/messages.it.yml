@@ -528,7 +528,7 @@ page.file-management.message.access-denied: "L'upload in questa cartella non è 
 general.phrase.used-libraries: "Librerie / Componenti utilizzati"
 general.phrase.user-failed-delete: "L'utente '%s' non può essere eliminato."
 general.phrase.user-failed-disabled: "L'utente '%s' non può essere disabilitato."
-"User '%s' could not be enabled.": "L'utente '%s' non può essere abilitato."
+general.phrase.user-failed-enable: "L'utente '%s' non può essere abilitato."
 "User '%s' is deleted.": "L'utente '%s' è stato eliminato."
 "User '%s' is disabled.": "L'utente '%s' è stato disabilitato."
 "User '%s' is enabled.": "L'utente '%s' è stato abilitato."

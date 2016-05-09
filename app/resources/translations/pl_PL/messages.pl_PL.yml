@@ -442,7 +442,7 @@ page.file-management.message.access-denied: "Przesyłanie plików do tego katalo
 general.phrase.used-libraries: "Użyte biblioteki / komponenty"
 general.phrase.user-failed-delete: "Konto użytkownika '%s' nie może zostać usunięte."
 general.phrase.user-failed-disabled: "Konto użytkownika '%s' nie może zostać deaktywowane."
-"User '%s' could not be enabled.": "Konto użytkownika '%s' nie może zostać aktywowane."
+general.phrase.user-failed-enable: "Konto użytkownika '%s' nie może zostać aktywowane."
 "User '%s' is deleted.": "Konto użytkownika '%s' zostało usunięte."
 "User '%s' is disabled.": "Konto użytkownika '%s' jest nieaktywne."
 "User '%s' is enabled.": "Konto użytkownika '%s' jest aktywne."

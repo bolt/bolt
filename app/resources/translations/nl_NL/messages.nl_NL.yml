@@ -364,7 +364,7 @@ page.file-management.message.access-denied: "Uploaden naar deze map is niet toeg
 general.phrase.used-libraries: "Gebruikte Libraries / Componenten"
 general.phrase.user-failed-delete: "Gebruiker '%s' kon niet worden verwijderd."
 general.phrase.user-failed-disabled: "Gebruiker '%s' kon niet worden uitgeschakeld."
-"User '%s' could not be enabled.": "Gebruiker '%s' kon niet worden ingeschakeld."
+general.phrase.user-failed-enable: "Gebruiker '%s' kon niet worden ingeschakeld."
 "User '%s' is deleted.": "Gebruiker '%s' is verwijderd."
 "User '%s' is disabled.": "Gebruiker '%s' is uitgeschakeld."
 "User '%s' is enabled.": "Gebruiker '%s' is ingeschakeld."

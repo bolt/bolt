@@ -373,7 +373,7 @@ page.file-management.message.access-denied: "Não é permitido carregar para est
 general.phrase.used-libraries: "Bibliotecas/Componentes utilizados"
 general.phrase.user-failed-delete: "Utilizador '%s' não pode ser eliminado."
 general.phrase.user-failed-disabled: "Utilizador '%s' não pode ser desativado."
-"User '%s' could not be enabled.": "Utilizador '%s' não pode ser ativado"
+general.phrase.user-failed-enable: "Utilizador '%s' não pode ser ativado"
 "User '%s' is deleted.": "Utilizador '%s' eliminado."
 "User '%s' is disabled.": "Utilizador '%s' desativado."
 "User '%s' is enabled.": "Utilizador '%s' ativado."

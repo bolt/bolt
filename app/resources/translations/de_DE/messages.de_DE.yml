@@ -394,7 +394,7 @@ page.file-management.message.access-denied: "Das Hochladen in dieses Verzeichnis
 general.phrase.used-libraries: "Verwendete Bibliotheken/Komponenten"
 general.phrase.user-failed-delete: "Benutzer '%s' konnte nicht gelöscht werden."
 general.phrase.user-failed-disabled: "Benutzer '%s' konnte nicht deaktiviert werden."
-"User '%s' could not be enabled.": "Benutzer '%s' konnte nicht aktiviert werden."
+general.phrase.user-failed-enable: "Benutzer '%s' konnte nicht aktiviert werden."
 "User '%s' is deleted.": "Benutzer '%s' wurde gelöscht."
 "User '%s' is disabled.": "Benutzer '%s' wurde deaktiviert."
 "User '%s' is enabled.": "Benutzer '%s' wurde aktiviert."

@@ -486,7 +486,7 @@ page.file-management.message.access-denied: "Uploading para esta pasta não é p
 general.phrase.used-libraries: "Bibliotecas/Componentes utilizados"
 general.phrase.user-failed-delete: "Usuário '%s' não pdoe ser excluído."
 general.phrase.user-failed-disabled: "Usuário '%s' não pode ser desabilitado."
-"User '%s' could not be enabled.": "Usuário '%s' não pode ser habilitado"
+general.phrase.user-failed-enable: "Usuário '%s' não pode ser habilitado"
 "User '%s' is deleted.": "Usuário '%s' excluído."
 "User '%s' is disabled.": "Usuário '%s' desabilitado."
 "User '%s' is enabled.": "Usuário '%s' habilitado."

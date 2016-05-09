@@ -442,7 +442,7 @@ page.file-management.message.access-denied: "Lataus tähän kansioon ei ole sall
 general.phrase.used-libraries: "Käytetyt ohjelmistokirjastot"
 general.phrase.user-failed-delete: "Käyttäjää '%s' ei voitu poistaa."
 general.phrase.user-failed-disabled: "Käyttäjää '%s' ei voitu sulkea."
-"User '%s' could not be enabled.": "Käyttäjää '%s' ei voitu aktivoida."
+general.phrase.user-failed-enable: "Käyttäjää '%s' ei voitu aktivoida."
 "User '%s' is deleted.": "Käyttäjä '%s' poistettu."
 "User '%s' is disabled.": "Käyttäjä '%s' suljettu."
 "User '%s' is enabled.": "Käyttäjä '%s' aktivoitu."

@@ -444,7 +444,7 @@ page.file-management.message.access-denied: "Subir a esta carpeta no está permi
 general.phrase.used-libraries: "Librerías / Componentes usados"
 general.phrase.user-failed-delete: "El usuario '%s' no puede ser eliminado."
 general.phrase.user-failed-disabled: "El usuario '%s' no puede ser deshabilitado."
-"User '%s' could not be enabled.": "El usuario '%s' no puede ser habilitado."
+general.phrase.user-failed-enable: "El usuario '%s' no puede ser habilitado."
 "User '%s' is deleted.": "El usuario '%s' está eliminado."
 "User '%s' is disabled.": "El usuario '%s' está desactivado."
 "User '%s' is enabled.": "El usuario '%s' está activado."

@@ -387,7 +387,7 @@ page.file-management.message.access-denied: "Ebbe a könyvtárba nem lehet felt�
 general.phrase.used-libraries: "Használt Könyvtárak / Komponensek"
 general.phrase.user-failed-delete: "'%s' felhasználó nem törölhető."
 general.phrase.user-failed-disabled: "'%s' felhasználó nem tiltható."
-"User '%s' could not be enabled.": "'%s' felhasználó nem engedélyezhető."
+general.phrase.user-failed-enable: "'%s' felhasználó nem engedélyezhető."
 "User '%s' is deleted.": "'%s' felhasználó törölve."
 "User '%s' is disabled.": "'%s' felhasználó tiltva."
 "User '%s' is enabled.": "'%s' felhasználó engedélyezve."

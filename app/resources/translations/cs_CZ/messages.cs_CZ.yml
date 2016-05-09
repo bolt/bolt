@@ -423,7 +423,7 @@ page.file-management.message.access-denied: "Ukládání do této složky není 
 general.phrase.used-libraries: "Použité knihovny / komponenty"
 general.phrase.user-failed-delete: "Uživatele '%s' nelze odstranit."
 general.phrase.user-failed-disabled: "Uživatele '%s' nelze zablokovat."
-"User '%s' could not be enabled.": "Uživatele '%s' nelze povolit."
+general.phrase.user-failed-enable: "Uživatele '%s' nelze povolit."
 "User '%s' is deleted.": "Uživatel '%s' byl odstraněn."
 "User '%s' is disabled.": "Uživatel '%s' byl zablokován."
 "User '%s' is enabled.": "Uživatel '%s' byl povolen."

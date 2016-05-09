@@ -364,7 +364,7 @@ page.file-management.message.access-denied: "L'envoi de fichiers est interdit da
 general.phrase.used-libraries: "Librairies / composants utilisés"
 general.phrase.user-failed-delete: "L'utilisateur '%s' n'a pu être supprimé."
 general.phrase.user-failed-disabled: "L'utilisateur '%s' n'a pu être désactivé."
-"User '%s' could not be enabled.": "L'utilisateur '%s' n'a pu être activé."
+general.phrase.user-failed-enable: "L'utilisateur '%s' n'a pu être activé."
 "User '%s' is deleted.": "L'utilisateur '%s' est supprimé."
 "User '%s' is disabled.": "L'utilisateur '%s' est désactivé."
 "User '%s' is enabled.": "L'utilisateur '%s' est activé."

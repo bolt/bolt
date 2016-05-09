@@ -369,7 +369,7 @@ page.file-management.message.access-denied: "Uppladdning till denna mappen är i
 general.phrase.used-libraries: "Använda Bibliotek / Komponenter"
 general.phrase.user-failed-delete: "Användaren '%s' kunde inte raderas."
 general.phrase.user-failed-disabled: "Användaren '%s' kunde inte deaktiveras."
-"User '%s' could not be enabled.": "Användaren '%s' kunde inte aktiveras."
+general.phrase.user-failed-enable: "Användaren '%s' kunde inte aktiveras."
 "User '%s' is deleted.": "Användaren '%s' är raderad."
 "User '%s' is disabled.": "Användaren '%s' är deaktiverad."
 "User '%s' is enabled.": "Användaren '%s' är aktiverad."
