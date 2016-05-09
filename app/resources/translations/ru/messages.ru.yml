@@ -496,7 +496,7 @@
 
 #--- 132 keyword based translations -------------------------------------------
 
-component.changelog-detail.field: "поле"
+general.phrase.field: "поле"
 component.changelog-detail.value-new: "Новое значение"
 component.changelog-detail.value-old: "Старое значение"
 

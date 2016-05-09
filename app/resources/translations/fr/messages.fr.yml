@@ -411,7 +411,7 @@
 #--- 215 keyword based translations -------------------------------------------
 
 general.phrase.by: "par"
-component.changelog-detail.field: "Champ"
+general.phrase.field: "Champ"
 component.changelog-detail.value-new: "Nouvelle valeur"
 component.changelog-detail.value-old: "Ancienne valeur"
 

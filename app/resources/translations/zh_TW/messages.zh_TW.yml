@@ -492,7 +492,7 @@
 #--- 137 keyword based translations -------------------------------------------
 
 general.phrase.by: "由"
-component.changelog-detail.field: "欄位"
+general.phrase.field: "欄位"
 component.changelog-detail.value-new: "新值"
 component.changelog-detail.value-old: "舊值"
 

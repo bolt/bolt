@@ -586,7 +586,7 @@
 #--- 43 keyword based translations --------------------------------------------
 
 general.phrase.by: "απο"
-component.changelog-detail.field: "πεδίο"
+general.phrase.field: "πεδίο"
 component.changelog-detail.value-new: "νέα τιμή"
 component.changelog-detail.value-old: "παλιά τιμή"
 

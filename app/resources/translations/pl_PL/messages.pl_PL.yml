@@ -483,7 +483,7 @@
 #--- 146 keyword based translations -------------------------------------------
 
 general.phrase.by: "przez"
-component.changelog-detail.field: "Pole"
+general.phrase.field: "Pole"
 component.changelog-detail.value-new: "Nowa wartość"
 component.changelog-detail.value-old: "Stara wartość"
 

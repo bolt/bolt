@@ -416,7 +416,7 @@
 #--- 213 keyword based translations -------------------------------------------
 
 general.phrase.by: "av"
-component.changelog-detail.field: "Fält"
+general.phrase.field: "Fält"
 component.changelog-detail.value-new: "Nytt värde"
 component.changelog-detail.value-old: "Gammalt värde"
 

@@ -486,7 +486,7 @@
 #--- 143 keyword based translations -------------------------------------------
 
 general.phrase.by: "@"
-component.changelog-detail.field: "Kenttä"
+general.phrase.field: "Kenttä"
 component.changelog-detail.value-new: "Uusi arvo"
 component.changelog-detail.value-old: "Vanha arvo"
 
