@@ -341,7 +341,7 @@ general.phrase.missing-root-jackpot: "Det måste alltid finnas en 'root' använd
 "This is a checkbox": "Detta är en Kryssruta"
 general.phrase.warning-template: "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
-"Thumbnail": "Miniatyrbild"
+general.phrase.thumbnail: "Miniatyrbild"
 "Time in 24h/12h format": "Tid i 24h/12h format"
 "Timed publish": "Tidsbaserad publicering"
 "Tip:": "Tips:"

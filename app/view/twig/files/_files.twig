@@ -71,7 +71,7 @@
                 {# Column: Thumbnail #}
                 <td class="listthumb">
                     {% if file.image %}
-                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('Thumbnail')|e('html_attr') ~ '"'})|raw }}
+                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
                     {% endif %}
                 </td>
                 {# Column: Actions #}

@@ -82,7 +82,7 @@ general.phrase.value-maximum-variable: #
 general.phrase.missing-about-page-block: #
 general.phrase.no-undo: #
 general.phrase.record-related-to-variable: #
-"Thumbnail": #
+general.phrase.thumbnail: #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unable to get installation information for %PACKAGE% %VERSION%.": #

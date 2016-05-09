@@ -335,7 +335,7 @@ general.phrase.missing-root-jackpot: "Er moet altijd minstens één 'root'-gebru
 general.phrase.record-related-to-variable: "Deze record heeft betrekking op de volgende %CTNAME%:"
 general.phrase.warning-template: "Deze sjabloon voegt nieuwe velden toe. Opslaan en vervolgens vernieuwen om deze wijzigingen te zien."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
-"Thumbnail": "Thumbnail"
+general.phrase.thumbnail: "Thumbnail"
 "Time in 24h/12h format": "Tijd in 24h/12h notering"
 "Timed publish": "Publicatiedatum"
 "Tip:": "Tip:"

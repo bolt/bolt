@@ -327,7 +327,7 @@ general.phrase.missing-root-jackpot: "There should always be at least one 'root'
 general.phrase.record-related-to-variable: "This record is related to the following %CTNAME%:"
 general.phrase.warning-template: "This template adds new fields. Save, then refresh to see these changes."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
-"Thumbnail": "Thumbnail"
+general.phrase.thumbnail: "Thumbnail"
 "Time in 24h/12h format": "Time in 24h/12h format"
 "Timed publish": "Timed publish"
 "Tip:": "Tip:"

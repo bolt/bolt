@@ -36,7 +36,7 @@ page.extend.error-composer-json-not-writable: #
 "The field %field% has been changed to \"%newValue%\"": #
 general.phrase.value-minimum-variable: #
 general.phrase.value-maximum-variable: #
-"Thumbnail": #
+general.phrase.thumbnail: #
 "Tip:": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #

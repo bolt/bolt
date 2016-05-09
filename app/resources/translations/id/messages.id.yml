@@ -217,7 +217,7 @@ general.phrase.missing-root-jackpot: #
 general.phrase.record-related-to-variable: #
 general.phrase.warning-template: #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Thumbnail": #
+general.phrase.thumbnail: #
 "Time in 24h/12h format": #
 "Timed publish": #
 "Trim Change Log": #

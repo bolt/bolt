@@ -344,7 +344,7 @@ general.phrase.missing-root-jackpot: "Sempre deve haver pelo menos um utilizador
 "This is a checkbox": "Esta é uma caixa de verificação"
 general.phrase.record-related-to-variable: "Este registo está relacionado com a seguinte %CTNAME%:"
 general.phrase.warning-template: "Este modelo acrescenta novos campos. Guarde e, em seguida, atualize para ver essas mudanças."
-"Thumbnail": "Miniatura"
+general.phrase.thumbnail: "Miniatura"
 "Time in 24h/12h format": "Horário no formato 24h / 12h"
 "Timed publish": "Publicação temporizada"
 "Tip:": "Dica:"

@@ -174,7 +174,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 {% set thumb_large = content.getImage|thumbnail(1000, 800, 'r') %}
                 {% set thumb_title = __('Image') ~ ': ' ~ content.getImage %}
                 <a href="{{ thumb_large }}" class="magnific" title="{{ thumb_title }}">
-                    <img src="{{ thumb_small }}" width="{{ thumbsize }}" height="{{ thumb_height }}" alt="{{ __('Thumbnail') }}">
+                    <img src="{{ thumb_small }}" width="{{ thumbsize }}" height="{{ thumb_height }}" alt="{{ __('general.phrase.thumbnail') }}">
                 </a>
             {% endif %}
         </td>
