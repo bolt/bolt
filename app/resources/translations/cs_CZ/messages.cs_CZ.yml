@@ -134,7 +134,7 @@ general.bolt-configuration-issues-detected: "Bolt zaznamenal problémy s konfigu
 general.phrase.browswer-platform: "Prohlížeč / Operační systém"
 permissions.roles.description.anonymous: "Implicitní oprávnění, přidělená automaticky i v případě, že není uživatel zalogován."
 permissions.roles.description.everyone: "Implicitní oprávnění, automaticky přidělené každému registrovanému uživateli."
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Implicitné oprávnění. Platné pouze v kontextu – autoamticky přiřazeno vlastníkovi zdroje."
+permissions.roles.description.owner: "Implicitné oprávnění. Platné pouze v kontextu – autoamticky přiřazeno vlastníkovi zdroje."
 "Built-in superuser role, automatically grants all permissions": "Vestvěné oprávnění superuživatele – jsou přidělena veškerá práva."
 "Cancel": "Zrušit"
 "Categories": "Kategorie"

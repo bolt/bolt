@@ -72,7 +72,7 @@ general.bolt-configuration-issues-detected: "Bolt detetou um ou mais problemas d
 general.phrase.browswer-platform: "Navegador / plataforma"
 permissions.roles.description.anonymous: "Função integrada, concedida automaticamente em todos os momentos, mesmo que nenhum utilizador esteja autenticado"
 permissions.roles.description.everyone: "Função integrada, concedida automaticamente a todos os utilizadores registados"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Função integrada, válida apenas no contexto de um recurso, e atribuído automaticamente ao proprietário deste recurso."
+permissions.roles.description.owner: "Função integrada, válida apenas no contexto de um recurso, e atribuído automaticamente ao proprietário deste recurso."
 "Built-in superuser role, automatically grants all permissions": "Função integrada de super-tilizador, concede automaticamente todas as permissões"
 "Cancel": "Cancelar"
 "Categories": "Categorias"

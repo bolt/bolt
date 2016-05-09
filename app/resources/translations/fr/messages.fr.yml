@@ -63,7 +63,7 @@ general.bolt-configuration-issues-detected: "Bolt a détecté un ou plusieurs pr
 general.phrase.browswer-platform: "Navigateur / plate-forme"
 permissions.roles.description.anonymous: "Rôle natif, assigné à tous les visiteurs même si non connectés"
 permissions.roles.description.everyone: "Rôle natif, assigné à tous les utilisateurs enregistrés"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Rôle natif, valable uniquement dans le contexte d'une ressource et assigné au propriétaire de cette ressource."
+permissions.roles.description.owner: "Rôle natif, valable uniquement dans le contexte d'une ressource et assigné au propriétaire de cette ressource."
 "Built-in superuser role, automatically grants all permissions": "Rôle super-utilisateur natif, donne tous les droits"
 "Cancel": "Annuler"
 "Categories": "Catégories"

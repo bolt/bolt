@@ -285,7 +285,7 @@ general.bolt-configuration-issues-detected: "Bolt detetou um ou mais problemas d
 general.phrase.browswer-platform: "Navegador / plataforma"
 permissions.roles.description.anonymous: "Criar papel, concedido automaticamente em todos os momentos, mesmo que nenhum usuário esteja logado"
 permissions.roles.description.everyone: "Criar papel, concedido automaticamente para todos os usuários registrados"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
+permissions.roles.description.owner: "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
 "Built-in superuser role, automatically grants all permissions": "Criar papel de super-usuário, concede automaticamente todas as permissões"
 "Cancel": "Cancelar"
 "Categories": "Categorias"

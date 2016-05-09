@@ -124,7 +124,7 @@ class Permissions
             case self::ROLE_OWNER:
                 return [
                     'label'       => Trans::__('Owner'),
-                    'description' => Trans::__('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
+                    'description' => Trans::__('permissions.roles.description.owner'),
                     'builtin'     => true,
                 ];
 
