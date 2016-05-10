@@ -293,7 +293,7 @@ class Injector
     {
         $matches = null;
         $matchRemainder = $matchRemainder ? '(.*)' : '';
-        $regex = sprintf("~([ \t]*)%s%s~mi", $htmlTag, $matchRemainder);
+        $regex = sprintf("~^([ \t]*)%s%s~mi", $htmlTag, $matchRemainder);
 
         if ($matchAll && preg_match_all($regex, $rawHtml, $matches)) {
             return $matches;
