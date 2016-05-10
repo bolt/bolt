@@ -101,11 +101,16 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     add: function (filename, title) {
+        this.list.sort();
+        var nextid = 0;
+        if (this.list.models.length) {
+            nextid = this.list.models[this.list.models.length-1].get('id') + 1;
+        }
         this.list.add(
             new FileModel({
                 filename: filename,
                 title: title,
-                id: this.list.length
+                id: nextid
             })
         );
         this.render();
