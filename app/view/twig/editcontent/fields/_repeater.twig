@@ -23,11 +23,11 @@
     <div class="repeater-slot">
         <script type="text/template">
             {% set index = '#' %}
-            {{ include('@bolt/editcontent/fields/_repeater-group.twig', { 'content': repeatfieldvals.getEmptySet , 'index': index}) }}
+            {{ include('@bolt/editcontent/fields/_repeater-group.twig', {'content': repeatfieldvals.getEmptySet, 'index': index}) }}
         </script>
 
         {% for index, repeatfieldset in repeatfieldvals %}
-            {{ include('@bolt/editcontent/fields/_repeater-group.twig', { 'content': repeatfieldset, 'index': index}) }}
+            {{ include('@bolt/editcontent/fields/_repeater-group.twig', {'content': repeatfieldset, 'index': index}) }}
         {% endfor %}
     </div>
 
