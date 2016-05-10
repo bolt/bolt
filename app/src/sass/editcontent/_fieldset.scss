@@ -12,16 +12,19 @@ div[data-bolt-fieldset] {
 
     .prefix {
         padding-bottom: $prefix-postfix-padding;
+    }
+
+    .postfix {
+        padding-top: $prefix-postfix-padding;
+    }
+
+    .prefix,
+    .postfix {
         color: $prefix-postfix-color;
 
         p:last-of-type {
             margin-bottom: 0;
         }
-    }
-
-    .postfix {
-        padding-top: $prefix-postfix-padding;
-        color: $prefix-postfix-color;
     }
 }
 
