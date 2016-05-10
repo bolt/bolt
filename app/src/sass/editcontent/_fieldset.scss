@@ -2,11 +2,16 @@
 
 div[data-bolt-fieldset] {
     border-bottom: 1px solid transparent; // Transparent line, to keep spacing intact.
-    margin-bottom: 10px;
 
     .prefix {
         color: #666;
         padding-bottom: 4px;
+    }
+
+    .postfix {
+        color: #666;
+        padding-top: 5px;
+        padding-bottom: 0;
     }
 }
 
