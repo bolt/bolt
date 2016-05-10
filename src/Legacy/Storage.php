@@ -2321,10 +2321,10 @@ class Storage
             return false;
         }
 
+        $contenttype = $this->app['config']->get('contenttypes/' . $contenttypeslug);
+
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
-        if ($this->app['config']->get('contenttypes/' . $contenttypeslug)) {
-            $contenttype = $this->app['config']->get('contenttypes/' . $contenttypeslug);
-        } else {
+        if (!$contenttype) {
             foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
                 if (isset($ct['slug']) && ($contenttypeslug === $ct['slug'])) {
                     $contenttype = $ct;
