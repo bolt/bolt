@@ -2326,15 +2326,12 @@ class Storage
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (!$contenttype) {
             foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
-                if (isset($ct['slug']) && ($contenttypeslug === $ct['slug'])) {
-                    $contenttype = $ct;
-                    break;
-                }
-                if (isset($ct['singular_slug']) && ($contenttypeslug === $ct['singular_slug'])) {
-                    $contenttype = $ct;
-                    break;
-                }
-                if ($contenttypeslug === $this->app['slugify']->slugify($ct['singular_name']) || $contenttypeslug == $this->app['slugify']->slugify($ct['name'])) {
+                if (
+                    (isset($ct['slug']) && ($contenttypeslug === $ct['slug'])) ||
+                    (isset($ct['singular_slug']) && ($contenttypeslug === $ct['singular_slug'])) ||
+                    $contenttypeslug === $this->app['slugify']->slugify($ct['name']) ||
+                    $contenttypeslug === $this->app['slugify']->slugify($ct['singular_name'])
+                ) {
                     $contenttype = $ct;
                     break;
                 }
