@@ -22,6 +22,8 @@ fieldset.bolt-field-repeater {
     }
 
     .repeater-field {
+        @include make-xs-column(12);
+
         margin-top: 24px;
 
         &:first-of-type {
