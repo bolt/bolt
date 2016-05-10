@@ -7,10 +7,12 @@ div[data-bolt-fieldset] {
     margin-bottom: 12px;
 
     .prefix {
+        padding-bottom: 2px;
         color: #666;
     }
 
     .postfix {
+        padding-top: 2px;
         color: #666;
     }
 }
