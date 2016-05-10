@@ -2314,8 +2314,6 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-        $contenttypeslug = $this->app['slugify']->slugify($contenttypeslug);
-
         // Return false if empty, can't find it.
         if (empty($contenttypeslug)) {
             return false;
@@ -2325,15 +2323,25 @@ class Storage
 
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (!$contenttype) {
-            foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
-                if (
-                    (isset($ct['slug']) && ($contenttypeslug === $ct['slug'])) ||
-                    (isset($ct['singular_slug']) && ($contenttypeslug === $ct['singular_slug'])) ||
-                    $contenttypeslug === $this->app['slugify']->slugify($ct['name']) ||
-                    $contenttypeslug === $this->app['slugify']->slugify($ct['singular_name'])
-                ) {
-                    $contenttype = $ct;
-                    break;
+            // Also check for the slugified version of the content type
+            $slugifiedContentType = $this->app['slugify']->slugify($contenttypeslug);
+            $contenttype = $this->app['config']->get('contenttypes/' . $slugifiedContentType);
+
+            if (!$contenttype) {
+                foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
+                    if (
+                        (isset($ct['slug']) &&
+                            (($contenttypeslug === $ct['slug']) || ($slugifiedContentType === $ct['slug']))
+                        ) ||
+                        (isset($ct['singular_slug']) &&
+                            (($contenttypeslug === $ct['singular_slug']) || ($slugifiedContentType === $ct['singular_slug']))
+                        ) ||
+                        $slugifiedContentType === $this->app['slugify']->slugify($ct['name']) ||
+                        $slugifiedContentType === $this->app['slugify']->slugify($ct['singular_name'])
+                    ) {
+                        $contenttype = $ct;
+                        break;
+                    }
                 }
             }
         }
