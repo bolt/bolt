@@ -20,4 +20,12 @@ fieldset.bolt-field-repeater {
         border: 1px solid #ddd;
         margin: 15px;
     }
+
+    .repeater-field {
+        margin-top: 24px;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
 }
