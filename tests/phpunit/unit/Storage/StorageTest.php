@@ -245,8 +245,24 @@ class StorageTest extends BoltUnitTest
     {
     }
 
-    public function testGetContentType()
+    /**
+     * The legacy getContentType method should be able to find contenttypes by key, slugified key, slug, slugified slug,
+     * singular slug, slugified singular slug, singular name and name.
+
+     * @dataProvider contentTypeProvider
+     */
+    public function testGetContentType($contentType)
     {
+        /** @var \Bolt\Application */
+        $app = $this->getApp();
+
+        $app['config']->set('contenttypes/' . $contentType['key'], $contentType);
+
+        // We should be able to retrieve $contentType when querying getContentType() for its key, slug, singular
+        // slug, name and singular name
+        foreach ($contentType as $key => $value) {
+            $this->assertSame($contentType, $app['storage']->getContentType($value));
+        }
     }
 
     public function testGetTaxonomyType()
@@ -287,6 +303,33 @@ class StorageTest extends BoltUnitTest
 
     public function testGetPager()
     {
+    }
+
+    /**
+     * Seed some dummy content types for testing the contenttype query methods
+     */
+    public function contentTypeProvider()
+    {
+        return [
+            [
+                [
+                    'key'           => 'foo_bars',
+                    'slug'          => 'foo_bars',
+                    'singular_slug' => 'foo_bar',
+                    'name'          => 'FooBars',
+                    'singular_name' => 'Foo Bar'
+                ]
+            ],
+            [
+                [
+                    'key'           => 'somethingelse',
+                    'slug'          => 'things',
+                    'singular_slug' => 'thing',
+                    'name'          => 'Somethings',
+                    'singular_name' => 'Something'
+                ]
+            ]
+        ];
     }
 
     private function getDbMockBuilder(Connection $db)
