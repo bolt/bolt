@@ -2,6 +2,7 @@
 
 div[data-bolt-fieldset] {
     $prefix-postfix-padding: 2px;
+    $prefix-postfix-color: #666;
 
     border-bottom: 1px solid transparent; // Transparent line, to keep spacing intact.
 
@@ -10,7 +11,7 @@ div[data-bolt-fieldset] {
 
     .prefix {
         padding-bottom: $prefix-postfix-padding;
-        color: #666;
+        color: $prefix-postfix-color;
 
         p:last-of-type {
             margin-bottom: 0;
@@ -19,7 +20,7 @@ div[data-bolt-fieldset] {
 
     .postfix {
         padding-top: $prefix-postfix-padding;
-        color: #666;
+        color: $prefix-postfix-color;
     }
 }
 
