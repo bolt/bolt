@@ -9,6 +9,10 @@ div[data-bolt-fieldset] {
     .prefix {
         padding-bottom: 2px;
         color: #666;
+
+        p:last-of-type {
+            margin-bottom: 0;
+        }
     }
 
     .postfix {
