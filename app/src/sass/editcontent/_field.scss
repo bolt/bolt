@@ -1,6 +1,10 @@
 /*** Styles for all Fieldsets ***/
 
 fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
+    // Move standard boostrap form-group margins from here to data-bolt-fieldset to position prefix/postfix
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
     /*** Label ***/
 
     label, .control-label {
