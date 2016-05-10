@@ -8,18 +8,38 @@ class FieldValue extends Entity
 {
     /** @var int */
     protected $id;
-    /** @var mixed */
-    protected $value;
+    /** @var string */
+    protected $contenttype;
+    /** @var int */
+    protected $content_id;
     /** @var string */
     protected $name;
+    /** @var int */
     protected $grouping;
     /** @var string */
     protected $fieldname;
     /** @var string */
     protected $fieldtype;
-    protected $contenttype;
-    /** @var int */
-    protected $content_id;
+
+    /** @var mixed */
+    protected $value;
+
+    /** @var string @internal Use $value instead */
+    protected $value_string;
+    /** @var string @internal Use $value instead */
+    protected $value_text;
+    /** @var integer @internal Use $value instead */
+    protected $value_integer;
+    /** @var double @internal Use $value instead */
+    protected $value_float;
+    /** @var integer @internal Use $value instead */
+    protected $value_decimal;
+    /** @var \DateTime @internal Use $value instead */
+    protected $value_date;
+    /** @var \DateTime @internal Use $value instead */
+    protected $value_datetime;
+    /** @var array @internal Use $value instead */
+    protected $value_json_array = [];
 
     /**
      * @return mixed

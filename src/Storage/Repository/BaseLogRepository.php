@@ -53,7 +53,7 @@ abstract class BaseLogRepository extends Repository
         $qb = $this->createQueryBuilder();
         $query = $qb->getConnection()
             ->getDatabasePlatform()
-            ->getTruncateTableSql($this->getTableName());
+            ->getTruncateTableSQL($this->getTableName());
 
         return $qb->getConnection()->executeQuery($query)->execute();
     }

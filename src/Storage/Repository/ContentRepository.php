@@ -7,6 +7,7 @@ use Bolt\Events\StorageEvents;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Bolt\Storage\Repository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * A Repository class that handles dynamically created content tables.

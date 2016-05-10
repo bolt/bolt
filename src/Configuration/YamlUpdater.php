@@ -87,7 +87,7 @@ class YamlUpdater
         }
 
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', '$1: ' . $this->prepareValue($value), $this->yaml[$line]);
+        $this->yaml[$line] = preg_replace('/^(.*?):(.*)/', '$1: ' . $this->prepareValue($value), $this->yaml[$line]);
 
         return $this->save($makebackup);
     }
