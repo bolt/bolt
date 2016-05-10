@@ -34,7 +34,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendMenuService();
         $this->extendAssetServices();
         $this->extendNutService();
-        $this->addTranslations();
+        $this->extendTranslatorService();
 
         $this->registerServices($app);
     }
