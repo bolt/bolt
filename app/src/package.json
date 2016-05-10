@@ -40,7 +40,7 @@
         "modernizr": "~3.3.1",
         "moment": "~2.12.0",
         "napa": "~2.3.0",
-        "node-sass": "~3.4.2",
+        "node-sass": "~3.7.0",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.69.0",
         "select2": "~4.0.2"
@@ -49,9 +49,9 @@
         "install": "napa"
     },
     "napa": {
+        "complexify": "https://github.com/danpalmer/jquery.complexify.js",
         "jquery-ui": "git+https://github.com/jquery/jquery-ui.git#1.11.4",
         "jquery.tagcloud.js": "git+https://github.com/addywaddy/jquery.tagcloud.js.git",
-        "source-sans-pro": "git+https://github.com/adobe-fonts/source-sans-pro.git#2.020R-ro/1.075R-it",
-        "complexify": "https://github.com/danpalmer/jquery.complexify.js"
+        "source-sans-pro": "git+https://github.com/adobe-fonts/source-sans-pro.git#2.020R-ro/1.075R-it"
     }
 }
