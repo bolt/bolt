@@ -8,8 +8,8 @@ div[data-bolt-fieldset] {
     /*** Prefix / Postfix ***/
 
     $prefix-postfix-color: #666;
-    $prefix-padding: 2px;
-    $postfix-padding: 4px;
+    $prefix-margin: 2px;
+    $postfix-margin: 4px;
 
     .prefix,
     .postfix {
@@ -21,11 +21,11 @@ div[data-bolt-fieldset] {
     }
 
     .prefix {
-        padding-bottom: $prefix-padding;
+        margin-bottom: $prefix-margin;
     }
 
     .postfix {
-        padding-top: $postfix-padding;
+        margin-top: $postfix-margin;
     }
 }
 
