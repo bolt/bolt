@@ -54,7 +54,7 @@ before_install:
 before_script:
   # Set up Composer
   - composer self-update || true
-  - composer global require hirak/prestissimo:0.1.10
+  - composer global require hirak/prestissimo:^0.2
   - composer install --prefer-dist
   # Set up permissions
   - chmod -R 777 app/database/ app/cache/ app/config/ extensions/ files/ theme/
