@@ -53,9 +53,14 @@
 {% macro commonfields(key, value, fieldtype, contenttype) %}
         {% import _self as macro %}
 
-        {# HTML, Markdown, Textarea, Text fields #}
-        {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
+        {# HTML, Textarea, Text fields #}
+        {% if fieldtype in ['html', 'textarea', 'text'] %}
             {{ macro.parsetextfield(key, value, contenttype) }}
+        {% endif %}
+
+        {# Markdown fields #}
+        {% if fieldtype == "markdown" %}
+            {{ macro.parsetextfield(key, value|markdown, contenttype) }}
         {% endif %}
 
         {# Image fields #}
@@ -65,12 +70,9 @@
 
         {# Video fields #}
         {% if fieldtype == "video" and value.responsive is defined %}
-            {{ value.responsive }}
-        {% endif %}
-
-        {# Imagelist fields #}
-        {% if fieldtype == "imagelist" and value is not empty %}
-            {{ macro.imagelistfield(value) }}
+            <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
+                {{ value.responsive }}
+            </div>
         {% endif %}
 
 {% endmacro %}
@@ -93,6 +95,11 @@
         {# Checkbox fields #}
         {% if fieldtype == "checkbox" %}
                 <p>Checkbox {{ key }}: {{value ? "checked" : "not checked"}}</p>
+        {% endif %}
+
+        {# Imagelist fields #}
+        {% if fieldtype == "imagelist" and value is not empty %}
+            {{ macro.imagelistfield(value) }}
         {% endif %}
 
         {# No special case defined for this type of field. We just output them, if it's
