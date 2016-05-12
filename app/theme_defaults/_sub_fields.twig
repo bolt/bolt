@@ -53,9 +53,14 @@
 {% macro commonfields(key, value, fieldtype, contenttype) %}
         {% import _self as macro %}
 
-        {# HTML, Markdown, Textarea, Text fields #}
-        {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
+        {# HTML, Textarea, Text fields #}
+        {% if fieldtype in ['html', 'textarea', 'text'] %}
             {{ macro.parsetextfield(key, value, contenttype) }}
+        {% endif %}
+
+        {# Markdown fields #}
+        {% if fieldtype == "markdown" %}
+            {{ macro.parsetextfield(key, value|markdown, contenttype) }}
         {% endif %}
 
         {# Image fields #}
@@ -65,7 +70,9 @@
 
         {# Video fields #}
         {% if fieldtype == "video" and value.responsive is defined %}
-            {{ value.responsive }}
+            <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
+                {{ value.responsive }}
+            </div>
         {% endif %}
 
         {# Imagelist fields #}
