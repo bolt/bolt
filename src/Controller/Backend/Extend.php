@@ -5,7 +5,8 @@ namespace Bolt\Controller\Backend;
 use Bolt;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Translation\Translator as Trans;
-use Silex;
+use Composer\Package\PackageInterface;
+use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,17 +63,18 @@ class Extend extends BackendBase
     /**
      * Middleware function to check whether a user is logged on.
      *
-     * @param Request            $request
-     * @param \Silex\Application $app
+     * @param Request     $request
+     * @param Application $app
+     * @param string      $roleRoute
      *
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function before(Request $request, Silex\Application $app, $roleRoute = null)
+    public function before(Request $request, Application $app, $roleRoute = null)
     {
         return parent::before($request, $app, 'extensions');
     }
 
-    public function boot(Silex\Application $app)
+    public function boot(Application $app)
     {
     }
 
@@ -264,18 +266,21 @@ class Extend extends BackendBase
      */
     public function packageInfo(Request $request)
     {
-        $package = $request->get('package');
-        $version = $request->get('version');
-        $response = $this->manager()->showPackage('installed', $package, $version);
+        $packageName = $request->get('package');
+        $reqVersion = $request->get('version');
+        $response = $this->manager()->showPackage('installed', $packageName, $reqVersion);
 
-        if (isset($response[$package]['package'])) {
+        if (isset($response[$packageName]['package'])) {
+            /** @var PackageInterface $package */
+            $package = $response[$packageName]['package'];
+            
             return $this->json([
-                'name'        => $package,
-                'version'     => $response[$package]['package']->getPrettyVersion(),
-                'type'        => $response[$package]['package']->getType(),
+                'name'        => $packageName,
+                'version'     => $package->getPrettyVersion(),
+                'type'        => $package->getType(),
             ]);
         } else {
-            throw new PackageManagerException(Trans::__('page.extend.message.package-install-info-fail', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
+            throw new PackageManagerException(Trans::__('page.extend.message.package-install-info-fail', ['%PACKAGE%' => $packageName, '%VERSION%' => $reqVersion]));
         }
     }
 
