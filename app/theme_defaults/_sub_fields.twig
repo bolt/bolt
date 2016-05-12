@@ -75,11 +75,6 @@
             </div>
         {% endif %}
 
-        {# Imagelist fields #}
-        {% if fieldtype == "imagelist" and value is not empty %}
-            {{ macro.imagelistfield(value) }}
-        {% endif %}
-
 {% endmacro %}
 
 {# Macro for other field types, like Geo, Select, Checkbox and others. #}
@@ -100,6 +95,11 @@
         {# Checkbox fields #}
         {% if fieldtype == "checkbox" %}
                 <p>Checkbox {{ key }}: {{value ? "checked" : "not checked"}}</p>
+        {% endif %}
+
+        {# Imagelist fields #}
+        {% if fieldtype == "imagelist" and value is not empty %}
+            {{ macro.imagelistfield(value) }}
         {% endif %}
 
         {# No special case defined for this type of field. We just output them, if it's
