@@ -38,7 +38,8 @@
 
             // Set maxSize, if not set on creation.
             if (this.options.maxSize === null) {
-                this.options.maxSize = bolt.utils.filterInt(bolt.conf('uploadConfig.maxSize'), 2000000);
+                var tempSize = Math.floor(bolt.conf('uploadConfig.maxSize'));
+                this.options.maxSize = bolt.utils.filterInt(tempSize, 2000000);
             }
 
             /**
