@@ -1,15 +1,20 @@
 /*** Styles for all Fieldsets ***/
 
-fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
-    /*** Label ***/
+fieldset[class*=' bolt-field-'],
+fieldset[class^='bolt-field-'] {
+    // Move standard boostrap form-group margins from here to data-bolt-fieldset to position prefix/postfix
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 
-    label, .control-label {
+    /// Label
+    label,
+    .control-label {
         font-weight: normal;
         font-size: 13px;
         color: #808080;
     }
 
-    // Main label.
+    // Main label
     label.main {
         color: #282828;
         font-weight: normal;
@@ -17,8 +22,7 @@ fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
         margin-bottom: 6px;
     }
 
-    /*** Info popup ***/
-
+    // Info popup
     .info-pop {
         cursor: help;
         color: #bbb;
@@ -28,7 +32,8 @@ fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
 
 /*** Styles for all filelists/imagelists ***/
 
-fieldset.bolt-field-filelist, fieldset.bolt-field-imagelist {
+fieldset.bolt-field-filelist,
+fieldset.bolt-field-imagelist {
     // Empty placeholder
     p {
         padding: 8px;

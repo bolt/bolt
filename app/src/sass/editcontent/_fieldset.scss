@@ -1,8 +1,32 @@
 /*** Fieldset container ***/
 
 div[data-bolt-fieldset] {
+    margin-top: 24px;
+    margin-bottom: 12px;
     border-bottom: 1px solid transparent; // Transparent line, to keep spacing intact.
-    margin-bottom: 10px;
+
+    /*** Prefix / Postfix ***/
+
+    $prefix-postfix-color: #666;
+    $prefix-margin: 2px;
+    $postfix-margin: 4px;
+
+    .prefix,
+    .postfix {
+        color: $prefix-postfix-color;
+
+        p:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    .prefix {
+        margin-bottom: $prefix-margin;
+    }
+
+    .postfix {
+        margin-top: $postfix-margin;
+    }
 }
 
 // The last container, just before save buttons.
@@ -16,6 +40,6 @@ div[data-bolt-fieldset="meta"] {
 // Repeater group.
 div[data-bolt-fieldset="repeater"] {
     >.prefix {
-        display:none;
+        display: none;
     }
 }

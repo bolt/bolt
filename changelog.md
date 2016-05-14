@@ -1,6 +1,15 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.0
+----------
+
+Released 2016-05-10. Notable changes:
+
+ - Fixed: Field prefix and suffix visual tweak. [#5296](https://github.com/bolt/bolt/pull/5296)
+ - Ficed: Only regex match from beginning of multi-line for inserting assets. [#5294](https://github.com/bolt/bolt/pull/5294)
+ - Update: Bump node-sass to 3.7.0 [#5293](https://github.com/bolt/bolt/pull/5291)
+
 Bolt 3.0.0 RC 3
 ---------------
 

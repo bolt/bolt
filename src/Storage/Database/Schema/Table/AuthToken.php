@@ -19,7 +19,7 @@ class AuthToken extends BaseTable
         $this->table->addColumn('token',     'string',   ['length' => 128]);
         $this->table->addColumn('salt',      'string',   ['length' => 128]);
         $this->table->addColumn('lastseen',  'datetime', ['notnull' => false, 'default' => null]);
-        $this->table->addColumn('ip',        'string',   ['length' => 32, 'default' => '']);
+        $this->table->addColumn('ip',        'string',   ['length' => 45, 'default' => '']);
         $this->table->addColumn('useragent', 'string',   ['length' => 128, 'default' => '']);
         $this->table->addColumn('validity',  'datetime', ['notnull' => false, 'default' => null]);
         // @codingStandardsIgnoreEnd

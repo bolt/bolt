@@ -7,8 +7,7 @@ fieldset.bolt-field-slug {
     .input-group-addon {
         background: $background-readonly;
         color: $color-readonly;
-        padding-right: 1px;
-        padding-left: 10px;
+        padding: 1px 0 1px 10px;
         border-right: none;
 
         // State display.
@@ -29,8 +28,8 @@ fieldset.bolt-field-slug {
         text-overflow: ellipsis;
         color: $color-readonly;
         // Correct something (probably) wrong in Bootstrap customizing:
-        line-height: 18px;
-        height: 32px;
+        height: 33px !important;
+        border-radius: 0 !important;
 
         &[readonly] {
             background: $background-readonly;
@@ -42,6 +41,7 @@ fieldset.bolt-field-slug {
         // Make the dropdown button more narrow.
         padding-left: 8px;
         padding-right: 8px;
+        height: 33px !important;
     }
 
     li.link {
