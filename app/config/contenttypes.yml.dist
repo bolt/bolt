@@ -11,6 +11,8 @@
 # list the different types of services a company provides, you can group these
 # together.
 
+# BEGIN PAGES
+
 pages:
     name: Pages
     singular_name: Page
@@ -36,6 +38,7 @@ pages:
     taxonomy: [ groups ]
     recordsperpage: 100
 
+# END PAGES
 
 # Entries can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
 # which can be used for a short blurb on listing-pages, allowing visitors to
@@ -47,6 +50,8 @@ pages:
 # editor to use both to categorize a specific entry.
 # The 'sort' is set to '-datepublish', which means that newer entries will be
 # shown above older entries.
+
+# BEGIN ENTRIES
 
 entries:
     name: Entries
@@ -83,12 +88,15 @@ entries:
     sort: -datepublish
     recordsperpage: 10
 
+# END ENTRIES
 
 # The 'Showcases' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
 # copy some fields to your own contenttypes.
 # Since no templates are defined for this contenttype, the default record_template,
 # listing_template, and related settings are used from config.yml
+
+# BEGIN SHOWCASES
 
 showcases:
     name: Showcases
@@ -192,12 +200,15 @@ showcases:
     searchable: false
     icon_many: "fa:gift"
     icon_one: "fa:gift"
-
+    
+# END SHOWCASES
 
 # The 'Blocks' contenttype is a so-called 'resource contenttype'. This means
 # that it can be used to manage smaller pieces of content, like the 'about us'
 # text, an 'our address' in the footer, or similar short blurbs of text.
 # For more info, see: https://docs.bolt.cm/howto/resource-contenttype
+
+# BEGIN BLOCKS
 
 blocks:
     name: Blocks
@@ -228,6 +239,8 @@ blocks:
     searchable: false
     icon_many: "fa:cubes"
     icon_one: "fa:cube"
+    
+# END BLOCKS
 
 # Possible field types:
 #
