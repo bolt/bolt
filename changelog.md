@@ -1,6 +1,25 @@
 Changelog for Bolt
 ==================
 
+
+Bolt 3.0.1
+----------
+
+Released 2016-05-15. Notable changes:
+
+- Change: Clarify the location of the source files for `.css` and `.js` in the compiled files. [#5321](https://github.com/bolt/bolt/pull/5321)
+- Change: Don't emit autoloader warnings from `class_exists()`. [#5319](https://github.com/bolt/bolt/pull/5319)
+- Change: Remove `web.config` for IIS from Git repo (should be in docs). [#5304](https://github.com/bolt/bolt/pull/5304)
+- Fixed: [theme] Fix view height for header photo in base-2016. [#5314](https://github.com/bolt/bolt/pull/5314)
+- Fixed: [Travis] Update hirak/prestissimo constraint [#5303](https://github.com/bolt/bolt/pull/5303)
+- Fixed: Better display of exceptions on Extend Page. [#5305](https://github.com/bolt/bolt/pull/5305)
+- Fixed: Fix small CSS misalignment in slug input. [#5312](https://github.com/bolt/bolt/pull/5312)
+- Fixed: Fixing links in code/comments to the docs site.  [#5302](https://github.com/bolt/bolt/pull/5302)
+- Fixed: Markdown output by `{{ fields() }}` is parsed correctly. [#5310](https://github.com/bolt/bolt/pull/5310)
+- Fixed: Set TCP/IP address columns to a max length of 45 characters [#5317](https://github.com/bolt/bolt/pull/5317)
+- Fixed: Upload limit (2mb max) calculation, due to rounding errors. [#5318](https://github.com/bolt/bolt/pull/5318)
+
+
 Bolt 3.0.0
 ----------
 
