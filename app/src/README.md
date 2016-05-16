@@ -41,10 +41,11 @@ Local options
 Add JS options files to the folder `app/src/grunt-local/`, in which you can put the options you
 want to overwrite. The content of these files look like:
 
+```javascript
     module.exports = {
         value: "The value"
     };
-
+```
 These files will automatically be ignored by git.
 
 
@@ -53,20 +54,23 @@ These files will automatically be ignored by git.
 If it doesn't yet exist, create the file `app/src/grunt-local/sourcemap.js`. A sample file to
 enable generation of sourcemaps looks like this:
 
+```javascript
     module.exports = {
         css: true,
         js: true
     };
+```
 
 ### Pages
 
 For the linting tasks you have to define a list of pages to download to the `tmp/pages` folder. If it doesn't yet exist, create the file `app/src/grunt-local/pages.js`. A sample file to
 enable this task looks like this:
-
+```javascript
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: { … }
     };
+```
 
 The key of the `requests` part is the filename and the value defines the page to download.
 
@@ -81,7 +85,7 @@ The key of the `requests` part is the filename and the value defines the page to
 #### Example: Key handling
 
 Three requests save the same page to file `login.html`.
-
+```javascript
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: {
@@ -91,11 +95,12 @@ Three requests save the same page to file `login.html`.
             }
         }
     };
-
+```
 #### Example: POST request
 
 Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
 
+```javascript
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: {
@@ -110,9 +115,10 @@ Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
             }
         }
     };
-
+```
 #### Example: "Full" interface check
 
+```javascript
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: {
@@ -176,31 +182,33 @@ Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
             "@logout": {},
         }
     };
-
+```
 ### Bootlint
 
 If it doesn't yet exist, create the file `app/src/grunt-local/bootlint.js`. You can override
 Bootlint options, e.g.:
-
+```javascript
     module.exports = {
         relaxerror: ["W012"],
         showallerrors: false,
         stoponerror: true,
         stoponwarning: false
     };
+```
 
 ### Htmllint
 
 If it doesn't yet exist, create the file `app/src/grunt-local/htmllint.js`. You can override
 Htmllint options, e.g.:
 
+```javascript
     module.exports = {
         ignore: [
             "Element “link” is missing required attribute “property”.",
             /^Duplicate ID/
         ]
     };
-
+```
 
 Range Specifiers
 ----------------
