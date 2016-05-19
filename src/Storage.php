@@ -2514,6 +2514,7 @@ class Storage
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
                 if (!in_array($slug, $newSlugsNormalised)
+                    && !in_array($this->app['slugify']->slugify($slug), $newSlugsNormalised)
                     && !in_array($valuewithorder, $newSlugsNormalised)
                     && !array_key_exists($slugkey, $newSlugsNormalised)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
