@@ -219,7 +219,7 @@ class RelationType extends FieldTypeBase
             case 'sqlite':
                 return "GROUP_CONCAT($column) as $alias";
             case 'postgresql':
-                return "string_agg($column, ',') as $alias";
+                return "string_agg($column"."::character varying, ',') as $alias";
         }
     }
 }
