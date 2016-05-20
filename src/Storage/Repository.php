@@ -107,7 +107,7 @@ class Repository implements ObjectRepository
                     'string_agg(incomingrelation.from_id, \',\') as _incomingrelation_fromid' => 'string_agg(incomingrelation.from_id::character varying, \',\') as _incomingrelation_fromid',
                 ];
                 
-                $sql = str_replace(array_keys($replace), array_values($replace),$qb->getSQL());
+                $sql = str_replace(array_keys($replace), array_values($replace), $qb->getSQL());
                 
                 $stmt = $this->em->getConnection()->prepare($sql);
                 $stmt->bindParam('id', $id);
