@@ -1,3 +1,17 @@
+Bolt 2.2.21
+-----------
+
+Released 2016-05-22. Notable changes:
+
+ - Fixed: Before removing existing taxonomies, check the slugified value too. Fixes "Taxonomy lost after saving". [#5337](https://github.com/bolt/bolt/pull/5337)
+ - Fixed: Fix/jquery load order in base-2014 theme. [#5261](https://github.com/bolt/bolt/pull/5261)
+ - Fixed: Invalid translation (Finnish) [#5263](https://github.com/bolt/bolt/pull/5263)
+ - Fixed: Set list id to last id + 1 instead of list.length in file/imagelists. Fixes "Unable to update imagelist captions after update from 2.2.17 to 2.2.20" [#5295](https://github.com/bolt/bolt/pull/5295)
+ - Fixed: Trim `<a>`'s text content and remove redundant `<strong>` [#5264](https://github.com/bolt/bolt/pull/5264)
+ - Update: Rebuilt `.css` and `.js` files [#5300](https://github.com/bolt/bolt/pull/5300)
+
+
+
 Bolt 2.2.20
 -----------
 
