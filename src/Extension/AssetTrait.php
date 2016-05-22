@@ -161,6 +161,11 @@ trait AssetTrait
         if ($path === null) {
             throw new \RuntimeException('Extension file assets must have a path set.');
         }
+        
+        // An asset like '//fonts.googleapis.com/css?family=Roboto:400'
+        if (substr($path, 0, 2) === '//') {
+            return;
+        }
 
         $file = $this->getWebDirectory()->getFile($asset->getPath());
         if ($file->exists()) {
