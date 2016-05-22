@@ -45,7 +45,11 @@ class QuerySet extends \ArrayIterator
                 if ($result === null) {
                     $result = $query->execute();
                     if ($query->getType() === 3) {
-                        $this->lastInsertId = $query->getConnection()->lastInsertId();
+                        $seq = null;
+                        if ($query->getConnection()->getDatabasePlatform()->getName() === 'postgresql') {
+                            $seq = $query->getQueryPart('from')['table']."_id_seq";
+                        }
+                        $this->lastInsertId = $query->getConnection()->lastInsertId($seq);
                     }
                     foreach ($this->resultCallbacks as $callback) {
                         $callback($query, $result, $this->getParentId());
