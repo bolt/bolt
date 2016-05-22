@@ -168,12 +168,21 @@
                             ctype = $('#contenttype').val(),
                             id = $('#id').val(),
                             token = form.find('input[name="bolt_csrf_token"]').val(),
-                            url = pathBolt + 'content/deletecontent/' + ctype + '/' + id + '?bolt_csrf_token=' + token;
+                            url = bolt.conf('paths.async') + 'content/action',
+                            modifications = {};
+
+                        modifications[ctype] = {};
+                        modifications[ctype][id] = {'delete': null};
 
                         // Fire delete request.
                         $.ajax({
                             url: url,
-                            type: 'GET',
+                            type: 'POST',
+                            data: {
+                                    'bolt_csrf_token': token,
+                                    'contenttype': ctype,
+                                    'actions': modifications
+                            },
                             success: function () {
                                 window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
                             }
