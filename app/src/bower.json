@@ -1,27 +1,28 @@
 {
-    "name": "bolt_bower_dependencies",
-    "version": "0.0.1",
-    "homepage": "https://github.com/bolt/bolt",
-    "license": "MIT",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "jquery": "1.12.1"
-    },
-    "devDependencies": {
-        "backbone": "~1.3.1",
-        "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.4.0",
-        "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
-        "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
-        "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
-        "magnific-popup": "~1.1.0",
-        "moment": "~2.12.0",
-        "underscore": "~1.8.3"
-    }
+  "name": "bolt_bower_dependencies",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bolt/bolt",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.12.4",
+    "bootstrap": "3.2.0"
+  },
+  "devDependencies": {
+    "backbone": "~1.3.3",
+    "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.4.0",
+    "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
+    "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
+    "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
+    "magnific-popup": "~1.1.0",
+    "moment": "~2.13.0",
+    "underscore": "~1.8.3"
+  }
 }
