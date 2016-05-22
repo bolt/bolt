@@ -162,8 +162,8 @@ trait AssetTrait
             throw new \RuntimeException('Extension file assets must have a path set.');
         }
         
-        // An asset like '//fonts.googleapis.com/css?family=Roboto:400'
-        if (substr($path, 0, 2) === '//') {
+        // Any external resource bound to start with '//', 'http://' or 'https://'
+        if (substr($path, 0, 2) === '//' || substr($path, 0, 7) === 'http://' || substr($path, 0, 8) === 'https://' ) {
             return;
         }
 
