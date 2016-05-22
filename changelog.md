@@ -4,7 +4,7 @@ Changelog for Bolt
 Bolt 3.0.2
 ----------
 
-Released 2016-05-15. Notable changes:
+Not yet released. Notable changes:
 
 - Fixed: Add last insert id support for Postgres. [#5355](https://github.com/bolt/bolt/pull/5355)
 - Fixed: Bind correct name, fixes 'select from server' in CKeditor. [#5354](https://github.com/bolt/bolt/pull/5354)
@@ -14,6 +14,7 @@ Released 2016-05-15. Notable changes:
 - Fixed: Postgres string aggregation to force cast. [#5345](https://github.com/bolt/bolt/pull/5345)
 - Fixed: Set Z-index for "full screen" CKeditor. [#5351](https://github.com/bolt/bolt/pull/5351)
 - Fixed: Updating `app/src/README.md` to use code highlighting. [#5330](https://github.com/bolt/bolt/pull/5330)
+
 Bolt 3.0.1
 ----------
 
