@@ -91,6 +91,10 @@
             config.fillEmptyBlocks = false;
             config.extraPlugins = 'codemirror';
 
+            // baseFloatZIndex needs to be this high, otherwise it'll fall below the sidebar.
+            // @see https://github.com/bolt/bolt/issues/5331
+            config.baseFloatZIndex = 200002;
+
             config.toolbar = list(
                 [                 { name: 'styles',      items: list( [                 'Format'        ],
                                                                       [set.styles,      'Styles'        ] )}],
