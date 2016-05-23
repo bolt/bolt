@@ -1,6 +1,19 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.2
+----------
+
+Not yet released. Notable changes:
+
+- Fixed: Add last insert id support for Postgres. [#5355](https://github.com/bolt/bolt/pull/5355)
+- Fixed: Bind correct name, fixes 'select from server' in CKeditor. [#5354](https://github.com/bolt/bolt/pull/5354)
+- Fixed: Contenttype slugs with underscores now work correctly. [#5299](https://github.com/bolt/bolt/pull/5299)
+- Fixed: Delete button in sidebar, when editing a record. [#5353](https://github.com/bolt/bolt/pull/5353)
+- Fixed: Link to Taxonomy and Routing pages in documentation. [#5328](https://github.com/bolt/bolt/pull/5328), [#5327](https://github.com/bolt/bolt/pull/5327)
+- Fixed: Postgres string aggregation to force cast. [#5345](https://github.com/bolt/bolt/pull/5345)
+- Fixed: Set Z-index for "full screen" CKeditor. [#5351](https://github.com/bolt/bolt/pull/5351)
+- Fixed: Updating `app/src/README.md` to use code highlighting. [#5330](https://github.com/bolt/bolt/pull/5330)
 
 Bolt 3.0.1
 ----------

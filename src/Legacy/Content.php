@@ -148,10 +148,8 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
-                    $value = $this->preParse($this->values[$name], $allowtwig);
-
                     // Parse the field as Markdown, return HTML
-                    $value = $this->app['markdown']->text($value);
+                    $value = $this->app['markdown']->text($this->values[$name]);
 
                     $config = $this->app['config']->get('general/htmlcleaner');
                     $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
@@ -168,6 +166,10 @@ class Content implements \ArrayAccess
                         ]
                     );
                     $value = $maid->clean($value);
+
+                    // If we allow Twig in content, we parse the field as a Twig template.
+                    $value = $this->preParse($value, $allowtwig);
+
                     $value = new \Twig_Markup($value, 'UTF-8');
                     break;
 

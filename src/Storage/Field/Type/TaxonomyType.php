@@ -185,7 +185,7 @@ class TaxonomyType extends FieldTypeBase
             case 'sqlite':
                 return "GROUP_CONCAT($column) as $alias";
             case 'postgresql':
-                return "string_agg($column, ',' ORDER BY $order) as $alias";
+                return "string_agg($column"."::character varying, ',' ORDER BY $order) as $alias";
         }
     }
 
