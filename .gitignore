@@ -27,7 +27,7 @@ tests/codeception/unit/UnitTester.php
 *.codeception-backup
 tests/phpunit/web-root/
 
-# Grunt stuff
+# NPM, Gulp and Grunt stuff
 node_modules
 bower_components
 npm-debug.log
