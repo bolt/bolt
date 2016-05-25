@@ -1,6 +1,15 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.3
+----------
+
+Released 2016-05-25. Notable changes:
+
+ - Fixed: Stupid translation error in Dutch: The name of this project is Bolt, not "Bout". [#5367](https://github.com/bolt/bolt/pull/5367)
+ - Fixed: `bolt_log_system` collecting redundant entries for remote assets. [#5357](https://github.com/bolt/bolt/pull/5357)
+ - Fixed: Handle `json_array` for Sqlite separately [#5362](https://github.com/bolt/bolt/pull/5362)
+
 Bolt 3.0.2
 ----------
 
