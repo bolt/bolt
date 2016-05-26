@@ -366,7 +366,8 @@ cookies_domain:
 hash_strength: 10
 
 # Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by
-# default, to prevent.
+# default, to prevent the web browser from rendering an iframe if origin
+# mismatch (i.e. iframe source refers to a different domain). 
 #
 # Setting this to 'false', will prevent the setting of these headers.
 # headers:
