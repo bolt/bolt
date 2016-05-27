@@ -228,15 +228,14 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key
 # variables here, that determine the name of the backend, and adds a primary
-# support/contact link to the footer.
+# support/contact link to the footer.  Add a scheme, like `mailto:` or
+# `https://` to the email or URL.
 #
-# Additionally you can change the mount
-# point for the backend, either for convenience or to obscure it from prying
-# eyes.
+# Additionally you can change the mount point for the backend, either for
+# convenience or to obscure it from prying eyes.
 #
-# The Bolt backend is accessible as /bolt/ by default, if you change it here,
+# The Bolt backend is accessible as `/bolt/` by default. If you change it here,
 # it will only be accessible through the value set in 'path'.
-#
 # Keep the path simple: lowercase only, no extra slashes or other special
 # characters.
 # branding:
@@ -367,7 +366,7 @@ hash_strength: 10
 
 # Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by
 # default, to prevent the web browser from rendering an iframe if origin
-# mismatch (i.e. iframe source refers to a different domain). 
+# mismatch (i.e. iframe source refers to a different domain).
 #
 # Setting this to 'false', will prevent the setting of these headers.
 # headers:
