@@ -676,6 +676,7 @@ class Storage
             'valid' => count($words) > 0,
             'in_q'  => $q,
             'use_q' => implode(' ', $words),
+            'sanitized_q' => strip_tags($q),
             'words' => $words,
         ];
     }

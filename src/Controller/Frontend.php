@@ -432,7 +432,7 @@ class Frontend extends ConfigurableBase
 
         $globals = [
             'records'      => $result['results'],
-            $context       => $result['query']['use_q'],
+            $context       => $result['query']['sanitized_q'],
             'searchresult' => $result,
         ];
 
