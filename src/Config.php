@@ -355,7 +355,7 @@ class Config
 
         // Set the link in branding, if provided_by is set.
         $general['branding']['provided_link'] = Html::providerLink(
-                $general['branding']['provided_by']
+            $general['branding']['provided_by']
         );
 
         $general['database'] = $this->parseDatabase($general['database']);
