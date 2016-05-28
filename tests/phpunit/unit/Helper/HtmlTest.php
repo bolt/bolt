@@ -104,7 +104,14 @@ class HtmlTest extends BoltUnitTest
             '<a href="http://example.org" target="_blank">http://example.org</a>',
             Html::providerLink(['http://example.org'])
         );
-
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">no html, please!</a>',
+            Html::providerLink(['http://example.org', '<blink>no html, please!</blink>'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">http://example.org</a>',
+            Html::providerLink(['http://example.org', '<b malformed HTML'])
+        );
     }
 
 }

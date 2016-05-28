@@ -100,7 +100,7 @@ class Html
         }
 
         // If we forgot the second element in the array, substitute the first for it.
-        if (empty($providedby[1])) {
+        if (empty(strip_tags($providedby[1]))) {
             $providedby[1] = $providedby[0];
         }
 
@@ -121,7 +121,7 @@ class Html
         }
 
         // Add the label and closing tag.
-        $link .= $providedby[1] . '</a>';
+        $link .= strip_tags($providedby[1]) . '</a>';
 
         return $link;
     }
