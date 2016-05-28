@@ -212,7 +212,7 @@ class Thumbnail
     public function setScale($scale)
     {
         $valid = ['b', 'c', 'f', 'r'];
-        $scale = substr($scale, 0, 1);
+        $scale = substr((string) $scale, 0, 1);
         $scale = in_array($scale, $valid)
             ? $scale
             : (!empty($this->thumbConf['cropping']) ? substr($this->thumbConf['cropping'], 0, 1) : 'c');
