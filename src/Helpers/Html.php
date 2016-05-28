@@ -95,8 +95,13 @@ class Html
     public static function providerLink($providedby)
     {
         // If nothing is provided, we don't make a link.
-        if (empty($providedby)) {
+        if (empty($providedby) || !is_array($providedby)) {
             return "";
+        }
+
+        // If we forgot the second element in the array, substitute the first for it.
+        if (empty($providedby[1])) {
+            $providedby[1] = $providedby[0];
         }
 
         $scheme = parse_url($providedby[0], PHP_URL_SCHEME);
@@ -107,6 +112,9 @@ class Html
         } elseif ($scheme === 'mailto') {
             // Already a `mailto:` include.
             $link = sprintf('<a href="%s">', $providedby[0]);
+        } elseif (self::isURL($providedby[0])) {
+            // An URL, without a scheme
+            $link = sprintf('<a href="http://%s" target="_blank">', $providedby[0]);
         } else {
             // Fall back to old behaviour, assume an e-mail address
             $link = sprintf('<a href="mailto:%s">', $providedby[0]);
