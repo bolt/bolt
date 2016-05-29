@@ -9,9 +9,9 @@
   "license": "MIT",
   "homepage": "http://foundation.zurb.com",
   "dependencies": {
-    "foundation-sites": "~6.2.1",
+    "foundation-sites": "~6.2.3",
     "motion-ui": "~1.2.2",
-    "what-input": "~2.0.1",
+    "what-input": "~2.1.0",
     "magnific-popup": "^1.1.0"
   },
   "ignore": [
@@ -23,6 +23,6 @@
   ],
   "private": true,
   "resolutions": {
-    "what-input": "~2.0.1"
+    "what-input": "~2.1.0"
   }
 }

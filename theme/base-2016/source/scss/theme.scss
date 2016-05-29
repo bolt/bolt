@@ -28,17 +28,30 @@
     box-shadow: none;
 }
 
-.pagination .active a {
-    color: $light-gray;
-    background: $black;
-}
+ul.pagination {
 
-.pagination a {
-    text-decoration: none;
+    background: #DDD;
+    display: inline-block;
+
+    a {
+        padding: 0.6em 1em;
+        text-decoration: none;
+    }
+
+    .active a {
+        color: $light-gray;
+        background: $black;
+    }
+
 }
 
 h1 a, h2 a, h3 a {
     text-decoration: none;
+}
+
+p.meta {
+    font-size: 90%;
+    color: #666;
 }
 
 @include breakpoint(medium) {
@@ -78,5 +91,13 @@ h1 a, h2 a, h3 a {
         color: $primary-color;
         background-color: inherit;
         border-bottom: 1px solid;
+    }
+}
+
+// Style widgets using the classes for .widgetholder and .widget
+.widgetholder {
+
+    .widget {
+        margin: 1.5em 0;
     }
 }
