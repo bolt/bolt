@@ -21,6 +21,6 @@
     {{ dump(record) }}
     #}
 
-    {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+    {{ include('partials/_recordfooter.twig', { 'record': record, 'extended': true }) }}
 
 {% endblock main %}

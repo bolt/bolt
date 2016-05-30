@@ -16,15 +16,22 @@
 [type='search'] {
   box-shadow: none; }
 
-.pagination .active a {
-  color: #e6e6e6;
-  background: #0a0a0a; }
-
-.pagination a {
-  text-decoration: none; }
+ul.pagination {
+  background: #DDD;
+  display: inline-block; }
+  ul.pagination a {
+    padding: 0.6em 1em;
+    text-decoration: none; }
+  ul.pagination .active a {
+    color: #e6e6e6;
+    background: #0a0a0a; }
 
 h1 a, h2 a, h3 a {
   text-decoration: none; }
+
+p.meta {
+  font-size: 90%;
+  color: #666; }
 
 @media screen and (min-width: 40em) {
   h1, h2 {
@@ -51,3 +58,6 @@ h1 a, h2 a, h3 a {
     color: #2B2B2B;
     background-color: inherit;
     border-bottom: 1px solid; }
+
+.widgetholder .widget {
+  margin: 1.5em 0; }
