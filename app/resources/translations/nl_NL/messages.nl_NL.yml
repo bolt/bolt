@@ -221,7 +221,7 @@ general.bolt-tagline: "Weldoordacht, lichtgewicht en eenvoudig CMS"
 
 general.bolt-third-party-libraries: "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
 
-general.bolt-welcome-new-site: "Welkom bij je nieuwe bout site, %USER%."
+general.bolt-welcome-new-site: "Welkom bij je nieuwe Bolt site, %USER%."
 
 general.phrase.access-denied-logged-out: "Je bent uitgelogd."
 general.phrase.access-denied-permissions-edit-file: "Je hebt niet de juiste rechten om het bestand '%s' te bewerken."

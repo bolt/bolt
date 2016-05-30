@@ -162,6 +162,11 @@ trait AssetTrait
             throw new \RuntimeException('Extension file assets must have a path set.');
         }
 
+        // Any external resource does not need further normalisation
+        if (parse_url($path, PHP_URL_HOST) !== null) {
+            return;
+        }
+
         $file = $this->getWebDirectory()->getFile($asset->getPath());
         if ($file->exists()) {
             $asset->setPackageName('extensions')->setPath($file->getPath());

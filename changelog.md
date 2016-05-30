@@ -1,15 +1,26 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.3
+----------
+
+Released 2016-05-25. Notable changes:
+
+ - Fixed: Stupid translation error in Dutch: The name of this project is Bolt, not "Bout". [#5367](https://github.com/bolt/bolt/pull/5367)
+ - Fixed: `bolt_log_system` collecting redundant entries for remote assets. [#5357](https://github.com/bolt/bolt/pull/5357)
+ - Fixed: Handle `json_array` for Sqlite separately [#5362](https://github.com/bolt/bolt/pull/5362)
+
 Bolt 3.0.2
 ----------
 
-Not yet released. Notable changes:
+Released 2016-05-23. Notable changes:
 
+- Added: Function to allow comparitor to add ignored change when extending Database Schema. [#5360](https://github.com/bolt/bolt/pull/5360)
 - Fixed: Add last insert id support for Postgres. [#5355](https://github.com/bolt/bolt/pull/5355)
 - Fixed: Bind correct name, fixes 'select from server' in CKeditor. [#5354](https://github.com/bolt/bolt/pull/5354)
 - Fixed: Contenttype slugs with underscores now work correctly. [#5299](https://github.com/bolt/bolt/pull/5299)
 - Fixed: Delete button in sidebar, when editing a record. [#5353](https://github.com/bolt/bolt/pull/5353)
+- Fixed: Don't log external assets in `bolt_log_system`. [#5357](https://github.com/bolt/bolt/pull/5357)
 - Fixed: Link to Taxonomy and Routing pages in documentation. [#5328](https://github.com/bolt/bolt/pull/5328), [#5327](https://github.com/bolt/bolt/pull/5327)
 - Fixed: Postgres string aggregation to force cast. [#5345](https://github.com/bolt/bolt/pull/5345)
 - Fixed: Set Z-index for "full screen" CKeditor. [#5351](https://github.com/bolt/bolt/pull/5351)
