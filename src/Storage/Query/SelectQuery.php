@@ -49,7 +49,7 @@ class SelectQuery implements QueryInterface
      *
      * @param array $params
      */
-    public function setParameters($params)
+    public function setParameters(array $params)
     {
         $this->params = array_filter($params);
         $this->processFilters();
