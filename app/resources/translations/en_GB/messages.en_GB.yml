@@ -1,4 +1,4 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-05-12 09:35:59 Europe/Amsterdam
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-05-29 15:05:42 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -9,22 +9,12 @@
 #          in order to prevent merge conflicts.
 
 #  no unused messages
-#   3 untranslated messages
-#   1 untranslated keyword based messages
-#  87 translations
-# 512 keyword based translations
+#  no untranslated messages
+#  no untranslated keyword based messages
+# 104 translations
+# 513 keyword based translations
 
-#--- 3 untranslated messages --------------------------------------------------
-
-"Extend": #
-"Group": #
-"Groups": #
-
-#--- 1 untranslated keyword based messages ------------------------------------
-
-"general.phrase.related-content": #
-
-#--- 87 translations ----------------------------------------------------------
+#--- 104 translations ---------------------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
@@ -33,6 +23,7 @@
 "Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
+"Alas, no about!": "Alas, no about!"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
 "Are you sure you want to delete %FILENAME%?": "Are you sure you want to delete %FILENAME%?"
 "Are you sure you want to delete %username%?": "Are you sure you want to delete %username%?"
@@ -46,6 +37,8 @@
 "Body": "Body"
 "Categories": "Categories"
 "Category": "Category"
+"Chapter": "Chapter"
+"Chapters": "Chapters"
 "Choose an entry": "Choose an entry"
 "Client error: %errormessage%": "Client error: %errormessage%"
 "Content": "Content"
@@ -54,10 +47,12 @@
 "Datetime": "Datetime"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
 "Do you really want to delete %FOLDERNAME%?": "Do you really want to delete %FOLDERNAME%?"
+"Edit": "Edit"
 "Error reading extensions/composer.json file: %ERROR%": "Error reading extensions/composer.json file: %ERROR%"
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
+"Extend": "Extend"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
 "Extension server returned an error: %errormessage%": "Extension server returned an error: %errormessage%"
@@ -77,7 +72,16 @@
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead."
 "Multiselect": "Multi-select"
+"No content found.": "No content found."
+"No results found for '%SEARCHTERM%'. Please try another search.": "No results found for '%SEARCHTERM%'. Please try another search."
+"Overview for": "Overview for"
+"Permalink": "Permalink"
+"Read more": "Read more"
+"Related content": "Related content"
 "Repeater": "Repeater"
+"Search": "Search"
+"Search results for <b>%search%</b>.": "Search results for <b>%search%</b>."
+"Search …": "Search …"
 "Select a page": "Select a page"
 "Select zero or more pages": "Select zero or more pages"
 "Selectentry": "Select entry"
@@ -97,6 +101,7 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Database' and select 'Add sample Records' to automatically generate this Block.\""
 "This is a checkbox": "This is a checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "Title": "Title"
@@ -111,10 +116,11 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>."
 "Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
+"Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 512 keyword based translations -------------------------------------------
+#--- 513 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -380,6 +386,7 @@ general.phrase.published-on-colon: "Published on:"
 general.phrase.read-more: "Read more"
 general.phrase.record-related-to-variable: "This record is related to the following %CTNAME%:"
 general.phrase.records: "Records"
+general.phrase.related-content: "Related content"
 general.phrase.relationships: "Relationships"
 general.phrase.rename-foldername: "Rename %foldername%"
 general.phrase.required-character-count: "At least %NUM% characters required"
