@@ -13,6 +13,6 @@
     {{ dump(record) }}
     #}
 
-    {% include 'partials/_recordfooter.twig' with { 'record': record } %}
+    {% include 'partials/_recordfooter.twig' with { 'record': record, 'extended': true } %}
 
 {% endblock main %}

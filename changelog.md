@@ -1,6 +1,20 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.4
+----------
+
+Released 2016-06-01. Notable changes:
+
+ - Deprecation: Replace deprecated trimtext with excerpt. [#5381](https://github.com/bolt/bolt/pull/5381)
+ - Fixed: Adding style for widget(holders), pagination and record footers. Also updated `bower`/`npm` dependencies. [#5387](https://github.com/bolt/bolt/pull/5387)
+ - Fixed: Cast to string in thumbnail handling, prevent `substr() expects parameter 1 to be string` [#5329](https://github.com/bolt/bolt/pull/5329)
+ - Fixed: Missing PHP icon in webdev Toolbar. [#5376](https://github.com/bolt/bolt/pull/5376)
+ - Fixed: Tweak search input. No lowercasing search input, handle html and entities better. [#5374](https://github.com/bolt/bolt/pull/5374)
+ - Fixed: Update `_taxonomies.twig`, correctly add fields with `group: taxonomy` in contenttypes. [#5369](https://github.com/bolt/bolt/pull/5369)
+ - Fixed: Use path that includes subdirectories, to prevent breakage on Extend page. [#5389](https://github.com/bolt/bolt/pull/5389)
+ - Typo: Fixed Unfinished sentence in `config.yml` [#5370](https://github.com/bolt/bolt/pull/5370)
+
 Bolt 3.0.3
 ----------
 
