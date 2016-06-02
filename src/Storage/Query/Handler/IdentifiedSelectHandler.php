@@ -22,7 +22,7 @@ class IdentifiedSelectHandler
         } else {
             $contentQuery->setParameter('slug', $contentQuery->getIdentifier());
         }
-        if(count($contentQuery->getContentTypes()) === 1) {
+        if (count($contentQuery->getContentTypes()) === 1) {
             $contentQuery->setDirective('returnsingle', true);
         }
 
