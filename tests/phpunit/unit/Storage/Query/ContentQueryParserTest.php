@@ -27,7 +27,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('page/about');
         $qb->parse();
         $this->assertEquals(['page'], $qb->getContentTypes());
-        $this->assertEquals('select', $qb->getOperation());
+        $this->assertEquals('namedselect', $qb->getOperation());
         $this->assertEquals('about', $qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage']);
@@ -48,7 +48,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('pages,entries/about');
         $qb->parse();
         $this->assertEquals(['pages', 'entries'], $qb->getContentTypes());
-        $this->assertEquals('select', $qb->getOperation());
+        $this->assertEquals('namedselect', $qb->getOperation());
         $this->assertEquals('about', $qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage']);
@@ -70,7 +70,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('page/5');
         $qb->parse();
         $this->assertEquals(['page'], $qb->getContentTypes());
-        $this->assertEquals('select', $qb->getOperation());
+        $this->assertEquals('namedselect', $qb->getOperation());
         $this->assertEquals('5', $qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage']);
@@ -247,5 +247,22 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['filter' => 'lorem ipsum']);
         $res = $qb->fetch();
         $this->assertEquals(4, $res->count());
+    }
+
+    public function testSingleItemMode()
+    {
+        $app = $this->getApp();
+
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('pages/5');
+        $qb->setParameter('printquery', true);
+        $qb->parse();
+        $this->assertEquals(['pages'], $qb->getContentTypes());
+        $this->assertEquals('namedselect', $qb->getOperation());
+        $this->assertEquals('5', $qb->getIdentifier());
+
+        $this->expectOutputString('SELECT pages.* FROM bolt_pages pages WHERE pages.id = :id_1');
+        $res = $qb->fetch();
+        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $res);
     }
 }

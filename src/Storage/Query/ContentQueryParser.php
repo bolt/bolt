@@ -6,6 +6,7 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Handler\FirstQueryHandler;
 use Bolt\Storage\Query\Handler\GetQueryHandler;
 use Bolt\Storage\Query\Handler\HydrateHandler;
+use Bolt\Storage\Query\Handler\IdentifiedSelectHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
 use Bolt\Storage\Query\Handler\LimitHandler;
 use Bolt\Storage\Query\Handler\NativeSearchHandler;
@@ -29,7 +30,7 @@ class ContentQueryParser
 
     protected $query;
 
-    protected $params;
+    protected $params = [];
 
     protected $contentTypes = [];
 
@@ -75,6 +76,7 @@ class ContentQueryParser
         $this->addHandler('first', new FirstQueryHandler());
         $this->addHandler('latest', new LatestQueryHandler());
         $this->addHandler('nativesearch', new NativeSearchHandler());
+        $this->addHandler('namedselect', new IdentifiedSelectHandler());
 
         $this->addDirectiveHandler('getquery', new GetQueryHandler());
         $this->addDirectiveHandler('hydrate', new HydrateHandler());
@@ -171,6 +173,10 @@ class ContentQueryParser
             $this->identifier = implode(',', $queryParts);
         } else {
             $this->identifier = implode(',', $queryParts);
+        }
+
+        if (!empty($this->identifier)) {
+            $operation = 'namedselect';
         }
 
         $this->operation = $operation;

@@ -47,7 +47,7 @@ class SearchQuery extends SelectQuery
      *
      * @param array $params
      */
-    public function setParameters($params)
+    public function setParameters(array $params)
     {
         $this->params = $params;
     }
