@@ -359,6 +359,9 @@ class MetadataDriver implements MappingDriver
         if (!$this->initialized) {
             $this->initialize();
         }
+
+        $className = $this->normalizeClassName($className);
+
         if (array_key_exists($className, $this->metadata)) {
             $data = $this->metadata[$className];
             $metadata->setTableName($data['table']);
@@ -469,6 +472,20 @@ class MetadataDriver implements MappingDriver
         }
 
         return false;
+    }
+
+    /**
+     * Performs basic normalisation on a searched for class name to make sure it
+     * conforms to lookup format.
+     *
+     * @param $className
+     * @return string
+     */
+    protected function normalizeClassName($className)
+    {
+        $className = str_replace('-','_', $className);
+
+        return $className;
     }
 
     /**
