@@ -18,6 +18,7 @@ class PagerListener implements EventSubscriberInterface
 
     /**
      * PagerListener constructor.
+     *
      * @param PagerManager $manager
      */
     public function __construct(PagerManager $manager)

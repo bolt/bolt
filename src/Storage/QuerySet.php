@@ -47,7 +47,7 @@ class QuerySet extends \ArrayIterator
                     if ($query->getType() === 3) {
                         $seq = null;
                         if ($query->getConnection()->getDatabasePlatform()->getName() === 'postgresql') {
-                            $seq = $query->getQueryPart('from')['table']."_id_seq";
+                            $seq = $query->getQueryPart('from')['table'] . '_id_seq';
                         }
                         $this->lastInsertId = $query->getConnection()->lastInsertId($seq);
                     }

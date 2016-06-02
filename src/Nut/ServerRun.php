@@ -125,7 +125,7 @@ class ServerRun extends BaseCommand
             return true;
         }
 
-        list ($hostname, $port) = explode(':', $address);
+        list($hostname, $port) = explode(':', $address);
 
         $fp = @fsockopen($hostname, $port, $errno, $errstr, 5);
 
