@@ -479,11 +479,12 @@ class MetadataDriver implements MappingDriver
      * conforms to lookup format.
      *
      * @param $className
+     *
      * @return string
      */
     protected function normalizeClassName($className)
     {
-        $className = str_replace('-','_', $className);
+        $className = str_replace('-', '_', $className);
 
         return $className;
     }

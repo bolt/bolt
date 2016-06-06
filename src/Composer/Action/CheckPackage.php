@@ -45,7 +45,6 @@ final class CheckPackage extends BaseAction
                         throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
                     }
 
-
                     // If a 'best' version is found, and there is a version mismatch then
                     // propose as an update. Making the assumption that Composer isn't
                     // going to offer us an older version.
