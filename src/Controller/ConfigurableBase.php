@@ -89,11 +89,11 @@ abstract class ConfigurableBase extends Base
         }
 
         if ($host = $config['host']) {
-            $route->setHost($host);
+            $route->getRoute()->setHost($host);
         }
 
         if ($methods = $config['methods']) {
-            $route->setMethods($methods);
+            $route->getRoute()->setMethods($methods);
         }
 
         $route->bind($name);
