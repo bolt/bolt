@@ -96,7 +96,7 @@ class Html
     {
         // If nothing is provided, we don't make a link.
         if (empty($providedby) || !is_array($providedby)) {
-            return "";
+            return '';
         }
 
         // If we forgot the second element in the array, substitute the first for it.
