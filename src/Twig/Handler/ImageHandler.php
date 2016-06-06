@@ -46,7 +46,7 @@ class ImageHandler
 
         // After v1.5.1 we store image data as an array
         if (is_array($fileName)) {
-            $fileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : 'bar');
+            $fileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : '');
         }
 
         $image = sprintf(
