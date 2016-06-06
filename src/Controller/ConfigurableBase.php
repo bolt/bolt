@@ -96,6 +96,10 @@ abstract class ConfigurableBase extends Base
             $route->getRoute()->setMethods($methods);
         }
 
+        if ($schemes = $config['schemes']) {
+            $route->getRoute()->setSchemes($schemes);
+        }
+
         $route->bind($name);
     }
 
