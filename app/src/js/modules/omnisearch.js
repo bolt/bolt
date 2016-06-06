@@ -30,11 +30,11 @@
 
         $('.omnisearch select').select2({
             width: '100%',
-            delay: 250,
             placeholder: bolt.data('omnisearch.placeholder'),
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
+                delay: 600,
                 url: bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
                 data: function (params) {
