@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
+use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
@@ -351,6 +352,11 @@ class Config
 
         // Make sure Bolt's mount point is OK:
         $general['branding']['path'] = '/' . Str::makeSafe($general['branding']['path']);
+
+        // Set the link in branding, if provided_by is set.
+        $general['branding']['provided_link'] = Html::providerLink(
+            $general['branding']['provided_by']
+        );
 
         $general['database'] = $this->parseDatabase($general['database']);
 

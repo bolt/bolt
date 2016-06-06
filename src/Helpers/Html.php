@@ -83,4 +83,46 @@ class Html
 
         return $url;
     }
+
+    /**
+     * Create 'provider' link, as used in the footer, to link to either an
+     * email address or website URL.
+     *
+     * @param array $providedby
+     *
+     * @return string
+     */
+    public static function providerLink($providedby)
+    {
+        // If nothing is provided, we don't make a link.
+        if (empty($providedby) || !is_array($providedby)) {
+            return '';
+        }
+
+        // If we forgot the second element in the array, substitute the first for it.
+        if (empty(strip_tags($providedby[1]))) {
+            $providedby[1] = $providedby[0];
+        }
+
+        $scheme = parse_url($providedby[0], PHP_URL_SCHEME);
+
+        if ($scheme === 'http' || $scheme === 'https') {
+            // Link is OK, just add a target
+            $link = sprintf('<a href="%s" target="_blank">', $providedby[0]);
+        } elseif ($scheme === 'mailto') {
+            // Already a `mailto:` include.
+            $link = sprintf('<a href="%s">', $providedby[0]);
+        } elseif (self::isURL($providedby[0])) {
+            // An URL, without a scheme
+            $link = sprintf('<a href="http://%s" target="_blank">', $providedby[0]);
+        } else {
+            // Fall back to old behaviour, assume an e-mail address
+            $link = sprintf('<a href="mailto:%s">', $providedby[0]);
+        }
+
+        // Add the label and closing tag.
+        $link .= strip_tags($providedby[1]) . '</a>';
+
+        return $link;
+    }
 }

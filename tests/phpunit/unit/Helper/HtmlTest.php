@@ -65,4 +65,53 @@ class HtmlTest extends BoltUnitTest
         $this->assertEquals('https://example.org', Html::addScheme('https://example.org'));
         $this->assertEquals('mailto:bob@bolt.cm', Html::addScheme('mailto:bob@bolt.cm'));
     }
+
+    public function testProviderLink()
+    {
+        $this->assertEquals(
+            '',
+            Html::providerLink([])
+        );
+        $this->assertEquals(
+            '',
+            Html::providerLink(false)
+        );
+        $this->assertEquals(
+            '',
+            Html::providerLink("foo")
+        );
+        $this->assertEquals(
+            '<a href="mailto:supercool@example.org">Supercool Webdesign Co.</a>',
+            Html::providerLink(['supercool@example.org', 'Supercool Webdesign Co.'])
+        );
+        $this->assertEquals(
+            '<a href="mailto:supercool@example.org">Supercool Webdesign Co.</a>',
+            Html::providerLink(['mailto:supercool@example.org', 'Supercool Webdesign Co.'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">Supercool Webdesign Co.</a>',
+            Html::providerLink(['example.org', 'Supercool Webdesign Co.'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">Supercool Webdesign Co.</a>',
+            Html::providerLink(['http://example.org', 'Supercool Webdesign Co.'])
+        );
+        $this->assertEquals(
+            '<a href="https://www.example.org" target="_blank">Supercool Webdesign Co.</a>',
+            Html::providerLink(['https://www.example.org', 'Supercool Webdesign Co.'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">http://example.org</a>',
+            Html::providerLink(['http://example.org'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">no html, please!</a>',
+            Html::providerLink(['http://example.org', '<blink>no html, please!</blink>'])
+        );
+        $this->assertEquals(
+            '<a href="http://example.org" target="_blank">http://example.org</a>',
+            Html::providerLink(['http://example.org', '<b malformed HTML'])
+        );
+    }
+
 }
