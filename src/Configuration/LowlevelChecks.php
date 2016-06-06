@@ -232,8 +232,22 @@ class LowlevelChecks
         // exists and is writable so the file can be created
         $dir = dirname($file);
         if (!file_exists($dir)) {
-            throw LowLevelDatabaseException::nonexistantFolder($dir);
+            // At this point, it is possible that the site has been moved and
+            // the configured Sqlite database file path is no longer relevant
+            // to the site's root path
+            $cacheJson = $this->config->getPath('cache/config-cache.json');
+            if (file_exists($cacheJson)) {
+                unlink($cacheJson);
+                $this->config->app['config']->initialize();
+                $config = $this->config->app['config']->get('general/database');
+                if (!file_exists(dirname($config['path']))) {
+                    throw LowLevelDatabaseException::nonexistantFolder($dir);
+                }
+            } else {
+                throw LowLevelDatabaseException::nonexistantFolder($dir);
+            }
         }
+
         if (!is_writable($dir)) {
             throw LowLevelDatabaseException::unwritableFolder($dir);
         }
