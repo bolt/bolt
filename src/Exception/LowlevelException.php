@@ -38,7 +38,7 @@ class LowlevelException extends \Exception
     %info%
 
     <ul>
-        <li><a href="https://docs.bolt.cm/3.0/installation/installation"><span class="hide"> * https://docs.bolt.cm/3.0/installation/installation - </span>Bolt documentation - Setup</a></li>
+        <li><a href="https://docs.bolt.cm/installation/installation"><span class="hide"> * https://docs.bolt.cm/installation/installation - </span>Bolt documentation - Setup</a></li>
         <li><a href="https://discuss.bolt.cm/"><span class="hide"> * https://discuss.bolt.cm/ - </span>The Bolt discussion forum</a></li>
         <li><a href="https://bolt.cm/community"><span class="hide"> * https://bolt.cm/community - </span>IRC, Slack or Twitter - Bolt Community</a></li>
     </ul>
