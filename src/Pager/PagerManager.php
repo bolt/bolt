@@ -122,7 +122,7 @@ class PagerManager implements \ArrayAccess
         if ($pagerid) {
             $chunks[] = "{$pagerid}=";
         }
-        $link = '?'.implode('&', $chunks);
+        $link = '?' . implode('&', $chunks);
 
         if ($saved) {
             $this->pagers[$pagerid] = $saved;
@@ -142,9 +142,9 @@ class PagerManager implements \ArrayAccess
      */
     public function makeParameterId($contextId = null)
     {
-        $contextId = ($contextId) ? '_'.$contextId : '';
+        $contextId = ($contextId) ? '_' . $contextId : '';
 
-        return self::PAGE.$contextId;
+        return self::PAGE . $contextId;
     }
 
     /**
@@ -188,7 +188,7 @@ class PagerManager implements \ArrayAccess
      */
     public function __toString()
     {
-        return '?'.$this->encodeHttpQuery();
+        return '?' . $this->encodeHttpQuery();
     }
 
     /**

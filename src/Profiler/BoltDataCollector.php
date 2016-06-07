@@ -46,10 +46,9 @@ class BoltDataCollector extends DataCollector
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
             $this->data['branding'] = sprintf(
-                '%s <a href="mailto:%s">%s</a>',
+                '%s %s',
                 Trans::__('general.phrase.provided-by-colon'),
-                $this->app['config']->get('general/branding/provided_by/0'),
-                $this->app['config']->get('general/branding/provided_by/1')
+                $this->app['config']->get('general/branding/provided_link')
             );
         }
 

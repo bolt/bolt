@@ -74,9 +74,9 @@ class Save
      * Do the save for a POSTed record.
      *
      * @param array   $formValues
-     * @param array   $contenttype The contenttype data
-     * @param integer $id          The record ID
-     * @param boolean $new         If TRUE this is a new record
+     * @param array   $contenttype  The contenttype data
+     * @param integer $id           The record ID
+     * @param boolean $new          If TRUE this is a new record
      * @param string  $returnTo
      * @param string  $editReferrer
      *

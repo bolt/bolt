@@ -5,7 +5,6 @@ namespace Bolt\Provider;
 use Bolt\Pager\PagerManager;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class PagerServiceProvider implements ServiceProviderInterface
 {
