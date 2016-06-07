@@ -22,7 +22,7 @@ use utilphp\util;
  * This file acts as a grouping for the default front-end controllers.
  *
  * For overriding the default behavior here, please reference
- * https://docs.bolt.cm/3.0/templates/templates-routes#routing or the routing.yml
+ * https://docs.bolt.cm/templates/templates-routes#routing or the routing.yml
  * file in your configuration.
  */
 class Frontend extends ConfigurableBase

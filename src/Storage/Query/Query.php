@@ -15,7 +15,7 @@ class Query
      * getContent based on a 'human readable query'.
      *
      * Used by the twig command {% setcontent %} but also directly.
-     * For reference refer to @link https://docs.bolt.cm/3.0/templates/content-fetching
+     * For reference refer to @link https://docs.bolt.cm/templates/content-fetching
      *
      * @param string $textquery
      * @param string $parameters
