@@ -112,14 +112,23 @@ class Queue implements QueueInterface
      */
     protected function processAsset(FileAssetInterface $asset, Request $request, Response $response)
     {
+        $hasLocationProp = method_exists($asset, 'getLocation');
         if ($asset->getZone() !== Zone::get($request)) {
             return;
         } elseif ($asset->isLate()) {
-            $this->injector->inject($asset, Target::END_OF_BODY, $response);
-        } elseif ($asset->getType() === 'stylesheet') {
-            $this->injector->inject($asset, Target::BEFORE_CSS, $response);
-        } elseif ($asset->getType() === 'javascript') {
-            $this->injector->inject($asset, Target::AFTER_JS, $response);
+            if (!$hasLocationProp) {
+                $location = Target::END_OF_BODY;
+            } elseif ($asset->getLocation() === null) {
+                $location = Target::END_OF_BODY;
+            } else {
+                $location = $asset->getLocation();
+            }
+        } elseif ($hasLocationProp && $asset->getLocation() !== null) {
+            $location = $asset->getLocation();
+        } else {
+            $location = Target::END_OF_HEAD;
         }
+
+        $this->injector->inject($asset, $location, $response);
     }
 }
