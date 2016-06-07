@@ -1,5 +1,5 @@
 # This file defines the different types of taxonomies in Bolt. See the
-# documentation for details: https://docs.bolt.cm/3.0/content/taxonomies
+# documentation for details: https://docs.bolt.cm/content/taxonomies
 
 tags:
     slug: tags
