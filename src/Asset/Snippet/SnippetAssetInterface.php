@@ -11,22 +11,6 @@ use Bolt\Asset\AssetInterface;
 interface SnippetAssetInterface extends AssetInterface
 {
     /**
-     * Get location.
-     *
-     * @return string
-     */
-    public function getLocation();
-
-    /**
-     * Set location.
-     *
-     * @param string $location
-     *
-     * @return Snippet
-     */
-    public function setLocation($location);
-
-    /**
      * Get callback or HTML string.
      *
      * @return callable|string
