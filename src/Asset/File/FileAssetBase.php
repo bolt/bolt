@@ -22,6 +22,8 @@ abstract class FileAssetBase implements FileAssetInterface
     protected $late;
     /** @var integer */
     protected $priority;
+    /** @var string */
+    protected $location;
     /** @var array */
     protected $attributes;
     /** @var string */
@@ -157,6 +159,24 @@ abstract class FileAssetBase implements FileAssetInterface
     public function setPriority($priority)
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
 
         return $this;
     }
