@@ -1,6 +1,29 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.5
+----------
+
+Released 2016-06-08. Notable changes:
+
+ - Added: Optionally copy in Bolt's .gitignore file on `composer create-project` [#5420](https://github.com/bolt/bolt/pull/5420)
+ - Added: Refinements for content fetching [#5401](https://github.com/bolt/bolt/pull/5401)
+ - Added: Setting 'provided_link', allowing for more flexibility in "branding" [#5377](https://github.com/bolt/bolt/pull/5377)
+ - Changed: Remove version numbers from doc links to be more future-proof [#5416](https://github.com/bolt/bolt/pull/5416)
+ - Fixed: Don't trigger an exception on PostgreSQL if no table sequence is defined [#5412](https://github.com/bolt/bolt/pull/5412)
+ - Fixed: File asset priority & location [#5415](https://github.com/bolt/bolt/pull/5415)
+ - Fixed: Fix for lookup failures on hyphenated data names [#5399](https://github.com/bolt/bolt/pull/5399)
+ - Fixed: Fix for remaining doc links pointing to the incorrect version [#5414](https://github.com/bolt/bolt/pull/5414)
+ - Fixed: Handle site root directory moves on Sqlite [#5393](https://github.com/bolt/bolt/pull/5393)
+ - Fixed: MySQL error in select fields populated from content types [#5407](https://github.com/bolt/bolt/pull/5407)
+ - Fixed: Placing the delay parameter for Omnisearch to reduce the amount of cancelled XHRs. [#5408](https://github.com/bolt/bolt/pull/5408)
+ - Fixed: Set configured schemes from routing.yml [#5409](https://github.com/bolt/bolt/pull/5409)
+ - Fixed: Use the correct version for link to the docs [#5413](https://github.com/bolt/bolt/pull/5413)
+ - Travis: Remove dependency on Postfix [#5421](https://github.com/bolt/bolt/pull/5421)
+ - Updated: Update messages.en_GB.yml [#5386](https://github.com/bolt/bolt/pull/5386)
+ - Updated: Updating NPM dependencies, rebuild CSS and JS [#5410](https://github.com/bolt/bolt/pull/5410)
+
+
 Bolt 3.0.4
 ----------
 
