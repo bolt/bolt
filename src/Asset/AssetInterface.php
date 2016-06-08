@@ -47,4 +47,20 @@ interface AssetInterface
      * @return AssetInterface
      */
     public function setZone($zone);
+
+    /**
+     * Get the assets's target location.
+     *
+     * @return string|null
+     */
+    public function getLocation();
+
+    /**
+     * Target locational element.
+     *
+     * @param string $location
+     *
+     * @return AssetInterface
+     */
+    public function setLocation($location);
 }
