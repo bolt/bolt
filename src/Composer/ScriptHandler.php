@@ -97,6 +97,8 @@ class ScriptHandler
         $database = static::configureDir($event, 'database', 'app/database');
         $cache = static::configureDir($event, 'cache', 'app/cache');
 
+        static::configureGitIgnore($event);
+
         $config = [
             'paths' => [
                 'cache'     => $cache,
@@ -189,6 +191,25 @@ class ScriptHandler
         }
 
         return static::$dirMode;
+    }
+
+    /**
+     * Optionally copy in Bolt's .gitignore file.
+     *
+     * @param Event $event
+     */
+    protected static function configureGitIgnore(Event $event)
+    {
+        $boltDir = sprintf('%s/bolt/bolt/', $event->getComposer()->getConfig()->get('vendor-dir'));
+        $question = sprintf(
+            '<info>Do you want to import the <comment>.gitignore</comment> file from <comment>%s</comment>] </info>',
+            $boltDir
+        );
+        $confirm = $event->getIO()->askConfirmation($question, true);
+        if ($confirm) {
+            $fs = new Filesystem();
+            $fs->copy($boltDir . '.gitignore', getcwd() . '/.gitignore', true);
+        }
     }
 
     /**
