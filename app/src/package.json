@@ -9,7 +9,7 @@
     },
     "devDependencies": {
         "autoprefixer": "~6.3.6",
-        "blueimp-file-upload": "9.12.1",
+        "blueimp-file-upload": "9.12.4",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.6",
         "css-mqpacker": "~5.0.1",
@@ -27,7 +27,7 @@
         "grunt-endline": "~0.5.0",
         "grunt-eol": "~0.2.0",
         "grunt-html": "~7.0.0",
-        "grunt-jsdoc": "~2.0.0",
+        "grunt-jsdoc": "~2.1.0",
         "grunt-phpdocumentor": "~0.4.1",
         "grunt-postcss": "~0.8.0",
         "grunt-remove": "~0.1.0",
