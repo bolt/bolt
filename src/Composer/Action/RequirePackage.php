@@ -22,7 +22,7 @@ final class RequirePackage extends BaseAction
     /**
      * Require (install) a package.
      *
-     * @param  $package       array Package names and version to require
+     * @param  array $package Package names and version to require
      *                        - Format: ['name' => '', 'version' => '']
      *
      * @throws \Bolt\Exception\PackageManagerException

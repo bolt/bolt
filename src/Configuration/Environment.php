@@ -3,6 +3,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Cache;
+use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Exception\PackageManagerException;
 use Pimple;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -136,7 +137,9 @@ class Environment
         $cwd = getcwd();
 
         try {
-            $this->actions['autoload']->execute();
+            /** @var DumpAutoload $autoload */
+            $autoload = $this->actions['autoload'];
+            $autoload->execute();
         } catch (PackageManagerException $e) {
             // Write access is potentially disabled
         }

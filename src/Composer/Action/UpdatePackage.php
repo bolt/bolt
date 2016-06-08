@@ -29,7 +29,7 @@ final class UpdatePackage extends BaseAction
             $this->getOptions()->set($key, $value);
         }
 
-        /** @var $composer \Composer\Composer */
+        /** @var \Composer\Composer $composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
         $install = Installer::create($io, $composer);

@@ -15,6 +15,8 @@ final class CheckPackage extends BaseAction
     /**
      * Run a check for package(s).
      *
+     * @throws PackageManagerException
+     *
      * @return array
      */
     public function execute()

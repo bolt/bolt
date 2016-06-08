@@ -36,9 +36,6 @@ class PackageManager
     {
         $this->app = $app;
 
-        // Set composer environment variables
-        putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache/composer'));
-
         $this->setup();
     }
 
