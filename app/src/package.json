@@ -15,9 +15,9 @@
         "css-mqpacker": "~5.0.1",
         "csswring": "~5.0.0",
         "deep-extend": "~0.4.1",
-        "font-awesome": "~4.6.1",
+        "font-awesome": "~4.6.3",
         "grunt": "~1.0.1",
-        "grunt-bom-removal": "~1.0.0",
+        "grunt-bom-removal": "~1.0.1",
         "grunt-bootlint": "~0.10.1",
         "grunt-contrib-concat": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
@@ -31,7 +31,7 @@
         "grunt-phpdocumentor": "~0.4.1",
         "grunt-postcss": "~0.8.0",
         "grunt-remove": "~0.1.0",
-        "jquery": "~2.2.3",
+        "jquery": "~2.2.4",
         "jquery-formatdatetime": "~1.1.6",
         "jquery.cookie": "~1.4.1",
         "load-grunt-config": "~0.19.2",
@@ -43,7 +43,7 @@
         "node-sass": "~3.7.0",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.72.0",
-        "select2": "~4.0.2"
+        "select2": "~4.0.3"
     },
     "scripts": {
         "install": "napa"
