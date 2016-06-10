@@ -20,48 +20,48 @@
 
 #--- 42 untranslated messages -------------------------------------------------
 
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
-"Client error: %errormessage%": #
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Do you really want to delete %FOLDERNAME%?": #
-"Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
-"Extension server returned an error: %errormessage%": #
-"Generic failure while testing connection to extension server: %errormessage%": #
-"Group": #
-"Groups": #
-"Html": #
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Multiselect": # "Multi-select"
-"Repeater": #
-"Slug": #
-"Testing connection to extension server failed: %errormessage%": #
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
-"The field %field% has been changed to \"%newValue%\"": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
-"Unable to duplicate file: %FILE%": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>":
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
+"Are you sure you want to delete %FILENAME%?": "Вы действительно хотите удалить файл %FILENAME%?"
+"Are you sure you want to do this for %NUMBER% records?": "Вы действительно хотите выполнить эту операцию над %NUMBER% записями?"
+"Are you sure you want to do this for 1 record?": "Вы действительно хотите выполнить эту операцию над 1 записью?"
+"Are you sure you want to remove these files?": "Вы действительно хотите удалить эти файлы?"
+"Are you sure you want to remove these images?": "Вы действительно хотите удалить эти изображения?"
+"Are you sure you want to remove this file?": "Вы действительно хотите удалить этот файл?"
+"Are you sure you want to remove this image?": "Вы действительно хотите удалить это изображение?"
+"Are you sure you wish to delete this record? There is no undo.": "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
+"Client error: %errormessage%": "Ошибка клиента: %errormessage%"
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
+"Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
+"Error reading extensions/composer.json file: %ERROR%": "Ошибка при чтении файла extensions/composer.json: %ERROR%"
+"Extend": "Дополнения"
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.":
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.":
+"Extension server returned an error: %errormessage%":
+"Generic failure while testing connection to extension server: %errormessage%":
+"Group": "Группа"
+"Groups": "Группы"
+"Html": "Html"
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
+"Link": "Ссылка"
+"Markdown": "Markdown"
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Свойство объекта меню \"add\" устарело. Используйте вместо него \"#\" под \"param\"."
+"Multiselect": "Мультивыбор"
+"Repeater":
+"Slug":
+"Testing connection to extension server failed: %errormessage%":
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "База данных должна быть обновлена/восстановлена. Пройдите по 'Конфигурация' > '<a href=\"%link%\">Проверить Базу Данных</a>' чтобы сделать это сейчас."
+"The field %field% has been changed to %newValue%": "Значение поля %field% было изменено на %newValue%"
+"Unable to create directory: %DIR%": "Невозможно создать директорию: %DIR%"
+"Unable to create file: %FILE%": "Невозможно создать файл: %FILE%"
+"Unable to delete directory: %DIR%": "Невозможно удалить директорию: %DIR%"
+"Unable to delete file: %FILE%": "Невозможно удалить файл: %FILE%"
+"Unable to duplicate file: %FILE%": "Невозможно скопировать файл: %FILE%"
+"Unable to rename directory: %DIR%": "Невозможно переименовать директорию: %DIR%"
+"Unable to rename file: %FILE%": "Невозможно переименовать файл: %FILE%"
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "К сожалению, не найдено никакого контента. Попробуйте другую страницу, или пройдите к <a href=\"%paths_root%\">домашней странице</a>."
+"filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
 #--- 175 untranslated keyword based messages ----------------------------------
 
