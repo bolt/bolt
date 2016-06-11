@@ -95,8 +95,8 @@
                     formElements.push($(this));
                     var name = $(this).attr('name');
                     var val = $(this).val();
-                    if (val) {
-                        $(newSet).find('name=["'+name+'"]').val(val);
+                    if (val && name) {
+                        $(newSet).find('[name="'+name+'"]').val(val);
                     }
                 });
 
