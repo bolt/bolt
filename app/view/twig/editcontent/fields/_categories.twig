@@ -12,10 +12,10 @@
 
 {# BUIC options #}
 {% set buic_opt_select = {
-    'all':       true,
+    'all':       taxonomy.multiple|default(false),
     'clear':     true,
     'id':        'taxonomy-' ~ taxonomy.slug,
-    'multiple':  taxonomy.multiple is defined and taxonomy.multiple == 1,
+    'multiple':  taxonomy.multiple|default(false),
     'name':      'taxonomy[' ~ taxonomy.slug ~ '][]',
     'options':   options,
 } %}
