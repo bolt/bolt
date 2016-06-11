@@ -93,8 +93,12 @@
                 var formElements = [];
                 $(setToDuplicate).find(":input").each(function(){
                     formElements.push($(this));
+                    var name = $(this).attr('name');
+                    var val = $(this).val();
+                    if (val) {
+                        $(newSet).find('name=["'+name+'"]').val(val);
+                    }
                 });
-                console.log(formElements);
 
                 setToDuplicate.after(newSet);
                 self._setCount(1);
