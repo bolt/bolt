@@ -89,7 +89,7 @@
                     //duplicatedSet = self._clone(setToDuplicate),
                     newSet = self._clone(self._template);
 
-                // TODO: Copy values from source to destination sets.
+                // Copy values from source to new set.
                 $(setToDuplicate).find(":input").each(function(index){
                     var val = $(this).val();
                     if (val) {
