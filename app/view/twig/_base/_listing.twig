@@ -211,7 +211,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
         <td class="actions">
             <div class="btn-group">
                 {% if modifiable %}
-                    <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
+                    <a class="btn btn-default btn-xs hidden-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
                         <i class="fa fa-edit"></i> {{ __('general.phrase.edit') }}
                     </a>
                 {% endif %}
