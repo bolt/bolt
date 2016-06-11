@@ -90,13 +90,10 @@
                     newSet = self._clone(self._template);
 
                 // TODO: Copy values from source to destination sets.
-                var formElements = [];
-                $(setToDuplicate).find(":input").each(function(){
-                    formElements.push($(this));
-                    var name = $(this).attr('name');
+                $(setToDuplicate).find(":input").each(function(index){
                     var val = $(this).val();
-                    if (val && name) {
-                        $(newSet).find('[name="'+name+'"]').val(val);
+                    if (val) {
+                        $(newSet).find(':input').eq(index).val(val);
                     }
                 });
 
