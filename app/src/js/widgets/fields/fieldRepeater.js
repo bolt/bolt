@@ -87,9 +87,14 @@
             self.element.on('click', '.duplicate-button', function () {
                 var setToDuplicate = $(this).closest('.repeater-group'),
                     //duplicatedSet = self._clone(setToDuplicate),
-                    newSet = self._clone(this._template);
+                    newSet = self._clone(self._template);
 
                 // TODO: Copy values from source to destination sets.
+                var formElements = [];
+                $(setToDuplicate).find(":input").each(function(){
+                    formElements.push($(this));
+                });
+                console.log(formElements);
 
                 setToDuplicate.after(newSet);
                 self._setCount(1);
