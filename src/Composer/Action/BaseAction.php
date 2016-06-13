@@ -66,6 +66,9 @@ abstract class BaseAction
     protected function getComposer()
     {
         if (!$this->composer) {
+            // Set composer environment variables
+            putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache/composer'));
+
             // Set working directory
             chdir($this->getOptions()->baseDir());
 

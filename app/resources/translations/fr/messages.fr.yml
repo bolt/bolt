@@ -1,10 +1,10 @@
 # app/resources/translations/fr/messages.fr.yml – generated on 2016-05-09 07:28:36 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -140,7 +140,7 @@ contenttypes.generic.new: "Nouveau %contenttype%"
 contenttypes.generic.no-latest: "Pas de %contenttype% récent"
 contenttypes.generic.no-proper-type: "Dans le type de contenu '%contenttype%', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 contenttypes.generic.no-recent: "Aucun %contenttype% récent."
-contenttypes.generic.none-available: "Aucun(e) %contenttype% disponible"
+contenttypes.generic.none-available: "Aucun(e) %contenttypes% disponible"
 contenttypes.generic.not-existing: "Le/la %contenttype% que vous recherchez n'existe pas. Il/elle a été soit supprimé(e) soit n'a jamais existé."
 contenttypes.generic.not-saved-yet: "Ce(tte) %contenttype% n'a pas encore été enregistré(e)."
 contenttypes.generic.overview: "Vue d'ensemble des %contenttypes%"

@@ -14,16 +14,17 @@
 {% if option.values is iterable %}
     {% set values = option.values %}
 {% else %}
-    {% set lookuptype = option.values|split('/')|first %}
-    {% set lookupfield = option.values|split('/')|last %}
+    {% set lookuptype = option.values|split('/')|slice(0,1)|first %}
+    {% set lookupfield = option.values|split('/')|slice(1,1)|first %}
     {% if ',' in lookupfield %}
-        {% set lookupfield = lookupfield|split(',') %}
+        {% set lookupfieldlist = lookupfield|split(',') %}
     {% endif %}
-    {% set sortingorder = field.sort|default(lookupfield|first) %}
+    {% set sortingorder = field.sort|default(lookupfieldlist|first)|default(lookupfield)|default('id') %}
     {% set querylimit = field.limit|default(500) %}
     {% set wherefilter = field.filter|default({}) %}
     {% setcontent lookups = lookuptype where wherefilter order sortingorder nohydrate limit querylimit %}
-    {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
+    {% set valuefield = lookupfieldlist|first|default(lookupfield)|default('id') %}
+    {% set values = lookups|selectfield(valuefield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
 {# Get the current selection. Either a single value, or an array. #}

@@ -93,7 +93,7 @@
 
                             tagcloud.find('button').on('click', function () {
                                 var text = $(this).text(),
-                                    option = taxonomy.find('option[value=' + text + ']');
+                                    option = taxonomy.find('option[value="' + text + '"]');
 
                                 if (option.length > 0) {
                                     // Just select if tag exists…

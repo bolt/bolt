@@ -3,9 +3,9 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
-use Composer\Factory;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
+use Composer\Repository\RepositoryFactory;
 use Composer\Repository\RepositoryInterface;
 
 /**
@@ -27,7 +27,7 @@ final class SearchPackage extends BaseAction
      */
     public function execute($packages, $onlyname = true)
     {
-        /** @var $composer \Composer\Composer */
+        /** @var \Composer\Composer $composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
 
@@ -38,7 +38,7 @@ final class SearchPackage extends BaseAction
             $installedRepo = new CompositeRepository([$localRepo, $platformRepo]);
             $repos = new CompositeRepository(array_merge([$installedRepo], $composer->getRepositoryManager()->getRepositories()));
         } else {
-            $defaultRepos = Factory::createDefaultRepositories($io);
+            $defaultRepos = RepositoryFactory::defaultRepos($io);
 
             //No composer.json found in the current directory, showing packages from local repo
             $installedRepo = $platformRepo;
