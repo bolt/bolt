@@ -22,9 +22,9 @@ class ControllerResolver extends Silex\ControllerResolver
     protected function instantiateController($class)
     {
         $refCls = new \ReflectionClass($class);
-        if ($refCls->implementsInterface('\Bolt\Extensions\ExtensionInterface')) {
-            /** @var \Bolt\Extensions\ExtensionInterface[] $extensions */
-            $extensions = $this->app['extensions']->getEnabled();
+        if ($refCls->implementsInterface('\Bolt\Extension\ExtensionInterface')) {
+            /** @var \Bolt\Extension\ResolvedExtension[] $extensions */
+            $extensions = $this->app['extensions']->all();
 
             foreach ($extensions as $extension) {
                 if ($class === get_class($extension)) {
