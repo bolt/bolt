@@ -23,8 +23,8 @@ class ControllerResolver extends Silex\ControllerResolver
     {
         $refCls = new \ReflectionClass($class);
         if ($refCls->implementsInterface('\Bolt\Extension\ExtensionInterface')) {
-            /** @var \Bolt\Extensions\ExtensionInterface[] $extensions */
-            $extensions = $this->app['extensions']->getEnabled();
+            /** @var \Bolt\Extension\ResolvedExtension[] $extensions */
+            $extensions = $this->app['extensions']->all();
 
             foreach ($extensions as $extension) {
                 if ($class === get_class($extension)) {
