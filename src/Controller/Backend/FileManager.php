@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -73,8 +74,9 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
-            $error = Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file]);
-            $this->abort(Response::HTTP_FORBIDDEN, $error);
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file]));
+
+            return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
         try {
@@ -83,11 +85,13 @@ class FileManager extends BackendBase
             $type = Lib::getExtension($file->getPath());
             $data = ['contents' => $file->read()];
         } catch (FileNotFoundException $e) {
-            $error = Trans::__('general.phrase.file-not-exist', ['%s' => $file->getPath()]);
-            $this->abort(Response::HTTP_NOT_FOUND, $error);
+            $this->flashes()->error(Trans::__('general.phrase.file-not-exist', ['%s' => $file]));
+
+            return new RedirectResponse($this->generateUrl('dashboard'));
         } catch (IOException $e) {
-            $error = Trans::__('general.phrase.file-not-readable', ['%s' => $file->getPath()]);
-            $this->abort(Response::HTTP_NOT_FOUND, $error);
+            $this->flashes()->error(Trans::__('general.phrase.file-not-readable', ['%s' => $file->getPath()]));
+
+            return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
         /** @var Form $form */
@@ -102,9 +106,9 @@ class FileManager extends BackendBase
 
         // For 'related' files we might need to keep track of the current dirname on top of the namespace.
         if (dirname($file->getPath()) !== '') {
-            $additionalpath = dirname($file->getPath()) . '/';
+            $additionalPath = dirname($file->getPath()) . '/';
         } else {
-            $additionalpath = '';
+            $additionalPath = '';
         }
 
         $context = [
@@ -113,7 +117,7 @@ class FileManager extends BackendBase
             'file'           => $file->getPath(),
             'basename'       => basename($file->getPath()),
             'pathsegments'   => $this->getPathSegments(dirname($file->getPath())),
-            'additionalpath' => $additionalpath,
+            'additionalpath' => $additionalPath,
             'namespace'      => $namespace,
             'write_allowed'  => true,
             'filegroup'      => $this->getFileGroup($filesystem, $file),
