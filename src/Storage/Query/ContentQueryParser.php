@@ -320,7 +320,7 @@ class ContentQueryParser
     }
 
     /**
-     * Adds a handler for the named operation.
+     * Adds a handler AND operation for the named operation.
      *
      * @param string   $operation
      * @param callable $callback
@@ -328,6 +328,7 @@ class ContentQueryParser
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
+        $this->addOperation($operation);
     }
 
     /**
