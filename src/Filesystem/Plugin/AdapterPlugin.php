@@ -5,6 +5,7 @@ namespace Bolt\Filesystem\Plugin;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\PluginInterface;
+use Bolt\Filesystem\MountPointAwareInterface;
 use Silex\Application;
 
 abstract class AdapterPlugin implements PluginInterface
@@ -25,6 +26,10 @@ abstract class AdapterPlugin implements PluginInterface
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
+        
+        if ($this->filesystem instanceof MountPointAwareInterface) {
+            $this->namespace = $this->filesystem->getMountPoint();
+        }
     }
 
     public function getDefault()
