@@ -29,5 +29,4 @@ class AuthorizedTest extends BoltUnitTest
         $this->assertFalse($fs2->authorized(''));
         $this->assertFalse($fs3->authorized(''));
     }
-
 }
