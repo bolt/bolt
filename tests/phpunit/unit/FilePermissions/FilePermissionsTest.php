@@ -16,6 +16,7 @@ class FilePermissionsTest extends BoltUnitTest
         $app = $this->getApp();
         $fp = new FilePermissions($app['config']);
         $this->assertTrue($fp->authorized('config', 'test.yml'));
+        $this->assertFalse($fp->authorized('cache', ''));
         $this->assertFalse($fp->authorized('something', '/path/to/.htaccess'));
     }
 
