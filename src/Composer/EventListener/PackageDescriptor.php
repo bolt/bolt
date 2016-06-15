@@ -208,6 +208,10 @@ final class PackageDescriptor implements JsonSerializable
      */
     private static function parseValid(Composer $composer, $class, $constraint)
     {
+        if ($constraint === null) {
+            return false;
+        }
+
         $provides = $composer->getPackage()->getProvides();
         $boltVersion = isset($provides['bolt/bolt']) ? $provides['bolt/bolt'] : new Link('__root__', 'bolt/bolt', new Constraint('=', '0.0.0'));
 
