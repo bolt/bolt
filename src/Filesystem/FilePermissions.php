@@ -36,6 +36,7 @@ class FilePermissions
             'config',
             'files',
             'theme',
+            'themes',
         ];
 
         $this->blocked = [
