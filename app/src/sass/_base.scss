@@ -112,6 +112,14 @@ $sidebarbackgroundhover: lighten(desaturate($boltblue, 30), 6);
 $fonts-family-monospace: Menlo, Consolas, Monaco, "Courier New", monospace;
 
 /**
+ * Z-index kerfluffle
+ */
+$zindex-veryhigh: 100000;
+$zindex-modal-background: $zindex-veryhigh + 2;
+$zindex-modal: $zindex-veryhigh + 3;
+
+
+/**
  * New media query approach.
  *
  * Breakpoints
