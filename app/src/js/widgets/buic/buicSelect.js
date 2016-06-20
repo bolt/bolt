@@ -30,7 +30,6 @@
             this._on(this.buttonAll, {
                 'click': function () {
                     this.all();
-                    this.blur();
                 }
             });
 
@@ -39,7 +38,6 @@
             this._on(this.buttonNone, {
                 'click': function () {
                     this.none();
-                    this.blur();
                 }
             });
 

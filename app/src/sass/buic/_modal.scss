@@ -42,5 +42,5 @@
 }
 
 .bootbox {
-    z-index: 100002; // One higher than #navpage-secondary
+    z-index: $zindex-modal; // One higher than #navpage-secondary
 }

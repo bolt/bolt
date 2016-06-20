@@ -1,6 +1,35 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.7
+----------
+
+Released 2016-06-17. Notable changes:
+
+ - Fixed: Mea culpa! Use `$zindex-modal` for the `.bootbox` z-index. (Prevents Modal dialogs from being not dismissable.) [#5459](https://github.com/bolt/bolt/pull/5459)
+ - Fixed: Set correct mount point / namespace in AdapterPlugin before plugin methods executes. [#5449](https://github.com/bolt/bolt/pull/5449) / [#5450](https://github.com/bolt/bolt/pull/5450)
+
+Bolt 3.0.6
+----------
+
+Released 2016-06-15. Notable changes:
+
+ - Added: Add an ability to delete a record from the 'mobile' version of the Bolt backend [#5444](https://github.com/bolt/bolt/pull/5444)
+ - Change: Move the assignment of COMPOSER_HOME to BaseAction::getComposer() [#5424](https://github.com/bolt/bolt/pull/5424)
+ - Fix: "Select all" button was visible when taxonomy `multiple: false` was set for category behaviour [#5443](https://github.com/bolt/bolt/pull/5443)
+ - Fix: Be more user friendly with file manager edit failures [#5447](https://github.com/bolt/bolt/pull/5447)
+ - Fix: BUG Select all button visible when taxanomy multiple set to false for category behaviour [#5437](https://github.com/bolt/bolt/pull/5437)
+ - Fix: Clicking on 'tags with spaces' wouldn't work. [#5431](https://github.com/bolt/bolt/pull/5431)
+ - Fix: Extensions: Don't evaluate an empty constraint [#5457](https://github.com/bolt/bolt/pull/5457)
+ - Fix: Fix the path for files, when found in Omnisearch. [#5422](https://github.com/bolt/bolt/pull/5422)
+ - Fix: Fixed `blur` in 'select all' and 'select none' in taxonomies. [#5452](https://github.com/bolt/bolt/pull/5452)
+ - Fix: Fixed invalid ExtensionInterface namespace in Controller Resolver [#5434](https://github.com/bolt/bolt/pull/5434)
+ - Fix: Fixing z-index for modals. [#5455](https://github.com/bolt/bolt/pull/5455)
+ - Fix: Repeaters: Fix duplicate button functionality in repeater groups [#5442](https://github.com/bolt/bolt/pull/5442)
+ - Fix: Repeaters: Fix hyphenated field names for repeating fields [#5436](https://github.com/bolt/bolt/pull/5436)
+ - Fix: Theme: fix wrong link to edit template in base-2016 theme [#5445](https://github.com/bolt/bolt/pull/5445)
+ - Update: French and Russion translations updated.
+
 Bolt 3.0.5
 ----------
 
@@ -203,7 +232,7 @@ Bolt 3.0.0 beta 1
 
 Released 2016-03-26. Notable changes:
 
- - So much new things, first release of majow new version. See: https://bolt.cm/newsitem/bolt-3-beta-1
+ - So much new things, first release of major new version. See: https://bolt.cm/newsitem/bolt-3-beta-1
 
 Bolt 2.2.20
 -----------
