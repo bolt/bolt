@@ -72,6 +72,8 @@ final class RequirePackage extends BaseAction
             ->setPreferSource($this->getOptions()->preferSource())
             ->setPreferDist($this->getOptions()->preferDist())
             ->setDevMode(!$this->getOptions()->updateNoDev())
+            ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
+            ->setClassMapAuthoritative($this->getOptions()->classmapAuthoritative())
             ->setUpdate($this->getOptions()->update())
             ->setUpdateWhitelist(array_keys($package))
             ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
