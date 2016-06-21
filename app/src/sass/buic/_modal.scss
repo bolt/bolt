@@ -41,6 +41,10 @@
     }
 }
 
+.modal-backdrop {
+  z-index: $zindex-backdrop; // a few higher than #navpage-secondary
+}
+
 .bootbox {
-    z-index: $zindex-modal; // One higher than #navpage-secondary
+  z-index: $zindex-modal; // One higher than #navpage-secondary
 }

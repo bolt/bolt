@@ -115,8 +115,11 @@ $fonts-family-monospace: Menlo, Consolas, Monaco, "Courier New", monospace;
  * Z-index kerfluffle
  */
 $zindex-veryhigh: 100000;
-$zindex-modal-background: $zindex-veryhigh + 2;
-$zindex-modal: $zindex-veryhigh + 3;
+$zindex-secondary-nav: $zindex-veryhigh + 2;
+$zindex-backdrop: $zindex-veryhigh + 8;
+$zindex-modal-background: $zindex-veryhigh + 22;
+$zindex-modal: $zindex-veryhigh + 23;
+$zindex-fullscreen-editor: $zindex-veryhigh + 15;
 
 
 /**

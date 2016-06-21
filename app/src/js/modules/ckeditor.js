@@ -93,7 +93,8 @@
 
             // baseFloatZIndex needs to be this high, otherwise it'll fall below the sidebar.
             // @see https://github.com/bolt/bolt/issues/5331
-            config.baseFloatZIndex = 200002;
+            // $zindex-veryhigh + 15
+            config.baseFloatZIndex = 100015;
 
             config.toolbar = list(
                 [                 { name: 'styles',      items: list( [                 'Format'        ],
