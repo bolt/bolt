@@ -7,7 +7,6 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Composer\Installer;
 use Composer\Json\JsonManipulator;
 use Composer\Package\Version\VersionParser;
-use Composer\Package\Version\VersionSelector;
 
 /**
  * Composer require package class.
@@ -187,35 +186,5 @@ final class RequirePackage extends BaseAction
         $parser = new VersionParser();
 
         return $parser->parseNameVersionPairs($packages);
-    }
-
-    /**
-     * Given a package name, this determines the best version to use in the require key.
-     *
-     * This returns a version with the ^ operator prefixed when possible.
-     *
-     * @param string $packageName
-     * @param string $targetPackageVersion
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    protected function findBestVersionForPackage($packageName, $targetPackageVersion)
-    {
-        $versionSelector = new VersionSelector($this->getPool());
-        $package = $versionSelector->findBestCandidate($packageName, $targetPackageVersion, PHP_VERSION, $this->getComposer()->getConfig()->get('stability'));
-
-        if (!$package) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
-                    $packageName,
-                    $this->getMinimumStability()
-                )
-            );
-        }
-
-        return $versionSelector->findRecommendedRequireVersion($package);
     }
 }

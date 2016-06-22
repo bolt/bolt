@@ -36,10 +36,10 @@ final class CheckPackage extends BaseAction
         // Find the packages that are NOT part of the root install yet and mark
         // them as pending installs
         if (!empty($jsonpack)) {
-            foreach ($jsonpack as $packageName => $packageInfo) {
+            foreach ($jsonpack as $packageName => $targetPackageVersion) {
                 if (!array_key_exists($packageName, $rootPackage)) {
                     try {
-                        $remote = $this->findBestVersionForPackage($packageName);
+                        $remote = $this->findBestVersionForPackage($packageName, $targetPackageVersion, true);
                     } catch (\Exception $e) {
                         $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
                         $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
@@ -58,9 +58,9 @@ final class CheckPackage extends BaseAction
         }
 
         // For installed packages, see if there is a valid update
-        foreach ($rootPackage as $packageName => $data) {
+        foreach ($rootPackage as $packageName => $targetPackageVersion) {
             try {
-                $remote = $this->findBestVersionForPackage($packageName);
+                $remote = $this->findBestVersionForPackage($packageName, $targetPackageVersion, true);
             } catch (\Exception $e) {
                 $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
                 $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
