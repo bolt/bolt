@@ -194,23 +194,23 @@ final class RequirePackage extends BaseAction
      *
      * This returns a version with the ^ operator prefixed when possible.
      *
-     * @param string $name
+     * @param string $packageName
      * @param string $targetPackageVersion
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    protected function findBestVersionForPackage($name, $targetPackageVersion)
+    protected function findBestVersionForPackage($packageName, $targetPackageVersion)
     {
         $versionSelector = new VersionSelector($this->getPool());
-        $package = $versionSelector->findBestCandidate($name, $targetPackageVersion);
+        $package = $versionSelector->findBestCandidate($packageName, $targetPackageVersion, PHP_VERSION, $this->getComposer()->getConfig()->get('stability'));
 
         if (!$package) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
-                    $name,
+                    $packageName,
                     $this->getMinimumStability()
                 )
             );
