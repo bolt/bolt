@@ -146,7 +146,7 @@ final class RequirePackage extends BaseAction
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
-            $constraint = $this->findBestVersionForPackage($package);
+            $constraint = $this->findBestVersionForPackage($package, $constraint);
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }
@@ -192,18 +192,19 @@ final class RequirePackage extends BaseAction
     /**
      * Given a package name, this determines the best version to use in the require key.
      *
-     * This returns a version with the ~ operator prefixed when possible.
+     * This returns a version with the ^ operator prefixed when possible.
      *
      * @param string $name
+     * @param string $targetPackageVersion
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    protected function findBestVersionForPackage($name)
+    protected function findBestVersionForPackage($name, $targetPackageVersion)
     {
         $versionSelector = new VersionSelector($this->getPool());
-        $package = $versionSelector->findBestCandidate($name);
+        $package = $versionSelector->findBestCandidate($name, $targetPackageVersion);
 
         if (!$package) {
             throw new \InvalidArgumentException(
