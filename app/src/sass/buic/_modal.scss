@@ -45,6 +45,6 @@
   z-index: $zindex-backdrop; // a few higher than #navpage-secondary
 }
 
-.bootbox {
+.bootbox, .modal {
   z-index: $zindex-modal; // One higher than #navpage-secondary
 }
