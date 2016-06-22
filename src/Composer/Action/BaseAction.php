@@ -5,6 +5,7 @@ namespace Bolt\Composer\Action;
 use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
+use Composer\Package\PackageInterface;
 use Composer\Package\Version\VersionSelector;
 use Composer\Repository\ComposerRepository;
 use Composer\Repository\ConfigurableRepositoryInterface;
@@ -177,24 +178,41 @@ abstract class BaseAction
     /**
      * Given a package name, this determines the best version to use in the require key.
      *
-     * This returns a version with the ~ operator prefixed when possible.
+     * This returns a version with the ^ operator prefixed when possible.
      *
-     * @param string $name
+     * @param string $packageName
+     * @param string $targetPackageVersion
+     * @param bool   $returnArray
      *
-     * @return array
+     * @throws \InvalidArgumentException
+     *
+     * @return PackageInterface|array
      */
-    protected function findBestVersionForPackage($name)
+    protected function findBestVersionForPackage($packageName, $targetPackageVersion = null, $returnArray = false)
     {
-        // find the latest version allowed in this pool
         $versionSelector = new VersionSelector($this->getPool());
-        $package = $versionSelector->findBestCandidate($name);
+        $package = $versionSelector->findBestCandidate($packageName, $targetPackageVersion, PHP_VERSION, $this->getComposer()->getConfig()->get('stability'));
 
         if (!$package) {
+            if ($returnArray === false) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
+                        $packageName,
+                        $this->getMinimumStability()
+                    )
+                );
+            }
+
             return null;
         }
 
+        if ($returnArray === false) {
+            return $versionSelector->findRecommendedRequireVersion($package);
+        }
+
         return [
-            'name'          => $name,
+            'name'          => $packageName,
             'version'       => $package->getVersion(),
             'prettyversion' => $package->getPrettyVersion(),
             'package'       => $package,

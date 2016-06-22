@@ -7,7 +7,6 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Composer\Installer;
 use Composer\Json\JsonManipulator;
 use Composer\Package\Version\VersionParser;
-use Composer\Package\Version\VersionSelector;
 
 /**
  * Composer require package class.
@@ -16,14 +15,11 @@ use Composer\Package\Version\VersionSelector;
  */
 final class RequirePackage extends BaseAction
 {
-    /** @var \Composer\Package\Version\VersionSelector */
-    private $versionSelector;
-
     /**
      * Require (install) a package.
      *
-     * @param  array $package Package names and version to require
-     *                        - Format: ['name' => '', 'version' => '']
+     * @param array $package Package names and version to require
+     *                       - Format: ['name' => '', 'version' => '']
      *
      * @throws \Bolt\Exception\PackageManagerException
      *
@@ -31,7 +27,6 @@ final class RequirePackage extends BaseAction
      */
     public function execute(array $package)
     {
-        $this->versionSelector = new VersionSelector($this->getPool());
         $this->getComposer();
         $io = $this->getIO();
 
@@ -55,7 +50,7 @@ final class RequirePackage extends BaseAction
         // Get a back up of the file contents
         $composerBackup = $jsonFile->parse();
 
-        // Update our JSON file now with a contraint
+        // Update our JSON file now with a constraint
         $this->updateComposerJson($jsonFile, $package);
 
         // JSON file has been created/updated, if we're not installing, exit
@@ -72,6 +67,8 @@ final class RequirePackage extends BaseAction
             ->setPreferSource($this->getOptions()->preferSource())
             ->setPreferDist($this->getOptions()->preferDist())
             ->setDevMode(!$this->getOptions()->updateNoDev())
+            ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
+            ->setClassMapAuthoritative($this->getOptions()->classmapAuthoritative())
             ->setUpdate($this->getOptions()->update())
             ->setUpdateWhitelist(array_keys($package))
             ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
@@ -148,6 +145,7 @@ final class RequirePackage extends BaseAction
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
+            $constraint = $this->findBestVersionForPackage($package, $constraint);
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }
@@ -188,33 +186,5 @@ final class RequirePackage extends BaseAction
         $parser = new VersionParser();
 
         return $parser->parseNameVersionPairs($packages);
-    }
-
-    /**
-     * Given a package name, this determines the best version to use in the require key.
-     *
-     * This returns a version with the ~ operator prefixed when possible.
-     *
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    protected function findBestVersionForPackage($name)
-    {
-        $package = $this->versionSelector->findBestCandidate($name);
-
-        if (!$package) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
-                    $name,
-                    $this->getMinimumStability()
-                )
-            );
-        }
-
-        return $this->versionSelector->findRecommendedRequireVersion($package);
     }
 }

@@ -368,6 +368,7 @@ class Options
         $this->noDev = true;
         $this->onlyName = true;
         $this->optimizeAutoloader = true;
+        $this->classmapAuthoritative = true;
         $this->preferDist = true;
         $this->preferSource = false;
         $this->sortPackages = true;
