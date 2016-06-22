@@ -16,14 +16,11 @@ use Composer\Package\Version\VersionSelector;
  */
 final class RequirePackage extends BaseAction
 {
-    /** @var \Composer\Package\Version\VersionSelector */
-    private $versionSelector;
-
     /**
      * Require (install) a package.
      *
-     * @param  array $package Package names and version to require
-     *                        - Format: ['name' => '', 'version' => '']
+     * @param array $package Package names and version to require
+     *                       - Format: ['name' => '', 'version' => '']
      *
      * @throws \Bolt\Exception\PackageManagerException
      *
@@ -31,7 +28,6 @@ final class RequirePackage extends BaseAction
      */
     public function execute(array $package)
     {
-        $this->versionSelector = new VersionSelector($this->getPool());
         $this->getComposer();
         $io = $this->getIO();
 
@@ -55,7 +51,7 @@ final class RequirePackage extends BaseAction
         // Get a back up of the file contents
         $composerBackup = $jsonFile->parse();
 
-        // Update our JSON file now with a contraint
+        // Update our JSON file now with a constraint
         $this->updateComposerJson($jsonFile, $package);
 
         // JSON file has been created/updated, if we're not installing, exit
@@ -150,6 +146,7 @@ final class RequirePackage extends BaseAction
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
+            $constraint = $this->findBestVersionForPackage($package);
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }
@@ -205,7 +202,8 @@ final class RequirePackage extends BaseAction
      */
     protected function findBestVersionForPackage($name)
     {
-        $package = $this->versionSelector->findBestCandidate($name);
+        $versionSelector = new VersionSelector($this->getPool());
+        $package = $versionSelector->findBestCandidate($name);
 
         if (!$package) {
             throw new \InvalidArgumentException(
@@ -217,6 +215,6 @@ final class RequirePackage extends BaseAction
             );
         }
 
-        return $this->versionSelector->findRecommendedRequireVersion($package);
+        return $versionSelector->findRecommendedRequireVersion($package);
     }
 }
