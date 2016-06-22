@@ -1,3 +1,14 @@
+Changelog for Bolt 2.x
+======================
+
+Bolt 2.2.22
+-----------
+
+Released 2016-06-22. Notable changes:
+
+ - Fix: Composer - Find best version candidate based on requested `version/constraint` [#5473](https://github.com/bolt/bolt/pull/5473)
+
+
 Bolt 2.2.21
 -----------
 
