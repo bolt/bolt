@@ -1,6 +1,16 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.8
+----------
+
+Released 2016-06-22. Notable changes:
+
+ - Fix: Postgres Fix: add missing second parameter to string_agg call [#5467](https://github.com/bolt/bolt/pull/5467)
+ - Fix: Various fixes for z-index positioning of modals. [#5459](https://github.com/bolt/bolt/pull/5459), [#5461](https://github.com/bolt/bolt/pull/5461), [#5475](https://github.com/bolt/bolt/pull/5475)
+ - Fix: Hotfix filesystem plugins. [#5450](https://github.com/bolt/bolt/pull/5450)
+ - Fix: Some Composer fixes. [#5472](https://github.com/bolt/bolt/pull/5472)
+
 Bolt 3.0.7
 ----------
 
