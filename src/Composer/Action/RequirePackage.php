@@ -205,7 +205,7 @@ final class RequirePackage
 
         foreach ($new as $package => $constraint) {
             if ($postreset) {
-                $constraint = $this->findBestVersionForPackage($package);
+                $constraint = $this->findBestVersionForPackage($package, $constraint);
             }
 
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
@@ -254,17 +254,18 @@ final class RequirePackage
     /**
      * Given a package name, this determines the best version to use in the require key.
      *
-     * This returns a version with the ~ operator prefixed when possible.
+     * This returns a version with the ^ operator prefixed when possible.
      *
      * @param string $name
+     * @param string $targetPackageVersion
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    private function findBestVersionForPackage($name)
+    private function findBestVersionForPackage($name, $targetPackageVersion)
     {
-        $package = $this->versionSelector->findBestCandidate($name);
+        $package = $this->versionSelector->findBestCandidate($name, $targetPackageVersion);
 
         if (!$package) {
             throw new \InvalidArgumentException(
