@@ -61,23 +61,4 @@ class UserAddTest extends BoltUnitTest
         $this->assertRegExp("#    \* User name 'test' already exists#", trim($result));
         $this->assertRegExp("#    \* Email address 'test@example.com' already exists#", trim($result));
     }
-
-    public function testFailure()
-    {
-        $app = $this->getApp();
-        $command = new UserAdd($app);
-        $tester = new CommandTester($command);
-
-        $tester->execute(
-            [
-                'username'    => 'koala',
-                'displayname' => '',
-                'email'       => '',
-                'password'    => '',
-                'role'        => '',
-            ]
-        );
-        $result = $tester->getDisplay();
-        $this->assertEquals('Error creating user: koala', trim($result));
-    }
 }
