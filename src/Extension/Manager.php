@@ -232,7 +232,7 @@ class Manager
     private function addManagedExtension(PackageDescriptor $descriptor)
     {
         $className = $descriptor->getClass();
-        if (@class_exists($className) === false) {
+        if (class_exists($className) === false) {
             if ($descriptor->getType() === 'local' && @class_exists('Wikimedia\Composer\MergePlugin') === false) {
                 $this->flashLogger->error(Trans::__('general.phrase.error-local-extension-set-up-incomplete', ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
             } else {
