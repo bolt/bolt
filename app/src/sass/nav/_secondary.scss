@@ -14,7 +14,7 @@
 #navpage-secondary {
     visibility: visible;
     display: block;
-    z-index: 100001; // We must use a ridiculous value like this, because Symfony's dumper uses 100000.
+    z-index: $zindex-secondary-nav; // We must use a ridiculous value like this, because Symfony's dumper uses 100000.
     position: absolute;
     width: $nav-secondary-small-width;
     padding-top: $nav-secondary-top-padding;

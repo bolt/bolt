@@ -34,7 +34,7 @@ trait TwigTrait
      * <pre>
      *  return [
      *      'foo' => 'fooFunction',
-     *      'bar' => ['barFunction', ['is_safe' => 'html']]
+     *      'bar' => ['barFunction', ['is_safe' => ['html']]]
      *  ];
      * </pre>
      *
@@ -52,7 +52,7 @@ trait TwigTrait
      * <pre>
      *  return [
      *      'foo' => 'fooFilter',
-     *      'bar' => ['barFilter', ['is_safe' => 'html']]
+     *      'bar' => ['barFilter', ['is_safe' => ['html']]]]
      *  ];
      * </pre>
      *

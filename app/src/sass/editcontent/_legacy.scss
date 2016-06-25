@@ -160,6 +160,6 @@
         margin-bottom: 24px;
         // Z-index has to be a ridiculous value, because the sidebar is 1000001,
         // which in turn has to be higher than Symfony's vardumper, which is 100000.
-        z-index: 100010;
+        z-index: $zindex-fullscreen-editor;
     }
 }

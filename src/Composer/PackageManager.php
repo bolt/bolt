@@ -389,7 +389,7 @@ class PackageManager
         }
 
         try {
-            $this->app['guzzle.client']->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 5, 'timeout' => 10]);
+            $this->app['guzzle.client']->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 10, 'timeout' => 30]);
 
             $this->app['extend.online'] = true;
         } catch (ClientException $e) {
