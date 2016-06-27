@@ -1,6 +1,11 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.x
+----------
+
+ - Fix: Don't hide exceptions when adding user with Nut [#5481](https://github.com/bolt/bolt/pull/5481)
+
 Bolt 3.0.8
 ----------
 
