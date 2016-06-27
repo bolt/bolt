@@ -1,0 +1,117 @@
+{# Page: NavPrimary > Username ^ Profile || NavSecondary > Configuration > Users > Edit #}
+
+{% extends '@bolt/_base/_page-nav.twig' %}
+
+{% import '@bolt/_macro/_macro.twig' as macro %}
+
+{% set attributes = {
+    expiration: {
+    id:       'expiration',
+    value:    "now"|date('Y-m-d H:i:s'),
+    }
+}
+%}
+
+{% block page_nav 'Settings/Configuration' %}
+
+{% block page_title %}
+        {{ __('page.invitation.title.link') }}
+{% endblock page_title %}
+
+{% block page_main %}
+
+    {% form_theme context.form 'form_bolt_layout.twig' %}
+
+    <div class="row">
+        <div class="col-md-9">
+
+            {{ widgets('edituser_below_header', 'backend') }}
+
+                <p style="max-width: 500px;">
+                    {{ __('page.invitation.generate-link') }}
+                </p>
+
+            <form method="post" class="form-horizontal" autocomplete="off" id="editcontent">
+                {# Google Chrome, Firefox, MS Edge all require this trick to prevent password fields from auto-filling.
+                   @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
+                <input type="text" style="display:none;" />
+                <input type="password" style="display:none;" />
+
+                {{ form_widget(context.form) }}
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ __('page.invitation.expiration-date') }}</label>
+                    <div class="col-sm-10 col-md-6 col-lg-4">
+                        {{ macro.input_datetime(attributes.expiration) }}
+                    </div>
+                </div>
+
+                <input type="submit" value="{{ __('page.invitation.button.generate') }}" name="submit" class="btn btn-primary">
+
+
+                <p style="max-width: 500px;margin-top:30px;">{{ __('page.invitation.share-options.text') }}</p>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.copy') }}</label>
+                    <div class="col-sm-10 col-md-6 col-lg-4">
+
+                        <div class="input-group">
+                            <input type="link" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">{{ __('page.invitation.button.copy') }}</button>
+                            </span>
+                        </div>
+
+                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.email') }}</label>
+                    <div class="col-sm-10 col-md-6 col-lg-4">
+                            <textarea style="min-width: 100%">Hello,
+
+To activate your account, please click the link below or copy and paste the link into your browser location bar.
+
+If you believe you have received this message in error, you do not need to take any action to cancel the account.
+The account will not be activated, and you will not receive any further messages from us.
+
+Thank you.
+                            </textarea>
+                    </div>
+                </div>
+
+
+
+            </form>
+
+
+        </div>
+
+        <aside class="col-md-3">
+            {{ include('@bolt/edituser/_aside.twig') }}
+        </aside>
+
+    </div>
+
+    <div class="progress" id="progress-wrapper">
+        <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0;"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            // Attach and detach the progressbar.
+            var el = $('#progress-wrapper').detach()
+            $('#form_password').parent().append(el);
+
+            // Initialize complexify, to indicate password strength.
+            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+                var progressBar = $('#complexity-bar');
+                progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
+                progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
+                progressBar.toggleClass('progress-bar-success', (complexity > 60 ));
+                progressBar.css({'width': complexity + '%'});
+            });
+        });
+    </script>
+
+{% endblock page_main %}

@@ -39,6 +39,9 @@ class Users extends BackendBase
             ->assert('id', '\d*')
             ->bind('useredit');
 
+        $c->match('/users/invitationlink', 'invitationLink')
+            ->bind('invitationlink');
+
         $c->match('/userfirst', 'first')
             ->bind('userfirst');
 
@@ -140,6 +143,32 @@ class Users extends BackendBase
         ];
 
         return $this->render('@bolt/edituser/edituser.twig', $context);
+    }
+
+
+    /**
+     * Invitation link route.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function invitationLink()
+    {
+        // Get the base form
+        $form = $this->getGenerateInvitationForm($this->getUser());
+
+        // Generate the form
+        $form = $form->getForm();
+
+        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
+        $formView = $form->createView();
+
+        $context = [
+            'form'        => $formView,
+        ];
+
+        return $this->render('@bolt/invitation/generate.twig', $context);
     }
 
     /**
@@ -456,6 +485,42 @@ class Users extends BackendBase
                 ]
             )
         ;
+
+        return $form;
+    }
+
+    /**
+     * Create a invitation generation form with the form builder.
+     *
+     * @param Entity\Users $user
+     *
+     * @return \Symfony\Component\Form\FormBuilder
+     */
+    private function getGenerateInvitationForm(Entity\Users $user)
+    {
+        // Start building the form
+        $form = $this->createFormBuilder(FormType::class);
+
+        $roles = array_map(
+            function ($role) {
+                return $role['label'];
+            },
+            $this->app['permissions']->getDefinedRoles()
+        );
+
+        $form
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices'  => $roles,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'label'    => Trans::__('page.invitation.label.assigned-roles'),
+                ]
+            );
+
+
 
         return $form;
     }
