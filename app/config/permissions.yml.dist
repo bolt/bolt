@@ -80,6 +80,10 @@ global:
     translation: [ developer ]
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
+    invitationlink: [ admin, developer ] # show form to generate invitation link
+    sendlink: [ admin, developer ] # generates invitation link
+    generatelink: [ admin, developer ] # generates invitation link
+    invitation: [ everyone ] # generates invitation link
     users: [ admin, developer ] # view user overview
     roles: [ admin, developer ] # view the roles overview
     maintenance-mode: [ everyone ] # view the frontend when in maintenance mode
