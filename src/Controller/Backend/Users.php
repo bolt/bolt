@@ -41,6 +41,9 @@ class Users extends BackendBase
 
         $c->get('/roles', 'viewRoles')
             ->bind('roles');
+
+        $c->match('/invitation/{code}', 'invitation')
+            ->bind('invitation');
     }
 
     /**
@@ -205,6 +208,58 @@ class Users extends BackendBase
         ];
 
         return $this->render('@bolt/firstuser/firstuser.twig', $context);
+    }
+
+    /**
+     * Create user using invitation code.
+     *
+     * @param Request $request
+     * @param String $code The invitation code provided
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function invitation(Request $request, $code)
+    {
+        // Get Repository of available invitations
+        $invitationsRepository = $this->getRepository('Bolt\Storage\Entity\Invitations');
+
+        // Check if the invitation code exists and it is still available
+        $invitation = $invitationsRepository->findOneBy(array('token' => $code));
+
+        if ((!$invitation) || (new \DateTime() > new \DateTime($invitation[0]->expiration))) {
+            return $this->render('@bolt/invitation/invitationfail.twig');
+        }
+
+        $tokenEntity = new Entity\Invitations($invitation[0]);
+
+        // Get an empty user
+        $userEntity = new Entity\Users();
+
+        // Set the roles of the invitation code
+        $userEntity->setRoles($tokenEntity->getRoles());
+
+        // Get the form
+        $form = Users::getUserForm($userEntity, true);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($form, true);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form, true)) {
+            $invitationsRepository->delete($invitation);
+            return $response;
+        }
+
+        $context = [
+            'kind' => 'create',
+            'form' => $form->createView(),
+            'sitename' => $this->getOption('general/sitename'),
+        ];
+
+        return $this->render('@bolt/invitation/invitation.twig', $context);
     }
 
     /**
