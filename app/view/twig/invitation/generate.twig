@@ -1,0 +1,156 @@
+{# Page: NavSecondary > Configuration > Users > Invite #}
+
+{% extends '@bolt/_base/_page-nav.twig' %}
+
+{% block page_nav 'Settings/Configuration' %}
+
+{% block page_title %}
+    {{ __('page.invitation.title.link') }}
+{% endblock page_title %}
+
+{% block page_main %}
+
+{% form_theme context.form 'form_bolt_layout.twig' %}
+
+<div class="row">
+    <div class="col-md-9">
+
+        <p style="max-width: 500px;">
+            {{ __('page.invitation.generate-link') }}
+        </p>
+
+        <form method="post" class="form-horizontal">
+
+            {{ form_widget(context.form) }}
+
+            <input type="submit" id="generateLink" value="{{ __('page.invitation.button.generate') }}" name="submit" class="btn btn-primary">
+
+        </form>
+
+    </div>
+
+    <aside class="col-md-3">
+        {{ include('@bolt/edituser/_aside.twig') }}
+    </aside>
+
+</div>
+
+
+<!--<script type="text/javascript">
+    //Copy url invitation code to clipboard
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+        var origSelectionStart, origSelectionEnd;
+
+        // can just use the original source element for the selection and copy
+        target = elem;
+        origSelectionStart = elem.selectionStart;
+        origSelectionEnd = elem.selectionEnd;
+
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+
+        // copy the selection
+        var succeed;
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            // restore prior selection
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
+    }
+
+    $( document ).ready(function() {
+
+        //Generate a new invitation code
+        $('#generateLink').click(function (event) {
+            event.preventDefault();
+
+            var roles = $("[name='form[roles][]']:checked").map(function(){
+                return $(this).val();
+            }).get();
+
+            var posting =  $.post('{{ path('generatelink') }}', { roles: roles, expiration_date : $('#form_expiration_date').val(), expiration_time : $('#form_expiration_time').val()});
+
+            //The code was generate successfully
+            posting.success(function( data ) {
+                //removing previous errors
+                $('#expire-invitation').removeClass('has-error');
+                $('#error-generating').hide();
+
+                //showing the new generated invitation code
+                var link = '{{ url('homepage') }}bolt/invitation/' + data;
+                $('#form_invitationLink').val(link);
+                $('#sharecontent').show();
+            });
+
+            //The code had an error
+            posting.fail(function(xhr, status, text) {
+                if (xhr.status == 500) {
+                    $('#error-generating').text("{{ __('page.invitation.share-options.error-generating') }}");
+                    $('#error-generating').show();
+                }
+                if (xhr.status == 400) {
+                    $('#expire-invitation').addClass('has-error');
+                    $('#error-generating').text(xhr.responseText.substring(1, xhr.responseText.length - 1));
+                    $('#error-generating').show();
+                }
+            })
+        })
+
+        //Send the generated code by email
+        $('#sharecontent').submit(function (event) {
+            event.preventDefault();
+            var posting =  $.post('{{ path('sendlink') }}', { to: $('#form_to').val(), subject : $('#form_subject').val(), message : $('#form_message').val(), link : $('#form_invitationLink').val()});
+
+            //remove previous errors
+            $("#sharecontent .has-error").removeClass("has-error");
+            $("#sharecontent .help-block").remove();
+            $('#error-mail').hide();
+
+            //The email was sent
+            posting.success(function( data ) {
+                $('#SendEmail').attr('disabled', true);
+                $('#SendEmail').val('Email Sent');
+            });
+
+            //The email was not send, it had some errors
+            posting.fail(function(xhr, status, text) {
+                if (xhr.status == 400) {
+                    $.each(xhr.responseJSON, function(key, value){
+                        $("#form_"+key).parent().parent().addClass("has-error");
+                        $("#form_"+key).parent().append('<span class="help-block">' + value + '</span>');
+                    });
+                }
+                if (xhr.status == 500) {
+                    $('#error-mail').text("{{ __('page.invitation.share-options.error-email') }}");
+                    $('#error-mail').show();
+                }
+            })
+        })
+
+        //Copy button: invitation code to clipboard
+        document.getElementById("form_copy").addEventListener("click", function() {
+            copyToClipboard(document.getElementById("form_invitationLink"), "msg");
+        });
+    });
+
+</script>-->
+
+{% endblock page_main %}

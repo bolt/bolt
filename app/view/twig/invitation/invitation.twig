@@ -1,0 +1,49 @@
+{# Page: Form to create new user via invitation code #}
+
+{% extends '@bolt/_base/_page-no_nav.twig' %}
+
+{% block page_title __('page.invitation.title') %}
+
+{% block page_main %}
+
+    {% form_theme context.form 'form_bolt_layout.twig' %}
+
+    <h1 style="text-align: center;">
+        {{ __('page.invitation.title') }}
+    </h1>
+
+    <form method="post" class="form-horizontal submitspinner" autocomplete="off">
+        {# Google Chrome, Firefox, MS edge all require this trick to prevent password fields from auto-filling.
+           @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
+        <input type="text" style="display:none;" />
+        <input type="password" style="display:none;" />
+
+        {{ form_widget(context.form) }}
+
+        <button type="submit" class="btn btn-primary" name="submit" value="login">
+            <i class="fa fa-sign-in fa-fw"></i> {{ __('page.invitation.create-button') }}
+        </button>
+    </form>
+
+    <div class="progress" id="progress-wrapper">
+        <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0;"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            // Attach and detach the progressbar.
+            var el = $('#progress-wrapper').detach()
+            $('#form_password').parent().append(el);
+
+            // Initialize complexify, to indicate password strength.
+            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+                var progressBar = $('#complexity-bar');
+                progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
+                progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
+                progressBar.toggleClass('progress-bar-success', (complexity > 60 ));
+                progressBar.css({'width': complexity + '%'});
+            });
+        });
+    </script>
+
+{% endblock page_main %}
