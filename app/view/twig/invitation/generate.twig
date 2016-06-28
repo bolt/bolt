@@ -46,45 +46,59 @@
                     </div>
                 </div>
 
-                <input type="submit" value="{{ __('page.invitation.button.generate') }}" name="submit" class="btn btn-primary">
-
-
-                <p style="max-width: 500px;margin-top:30px;">{{ __('page.invitation.share-options.text') }}</p>
-
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.copy') }}</label>
+                    <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10 col-md-6 col-lg-4">
-
-                        <div class="input-group">
-                            <input type="link" class="form-control" readonly>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">{{ __('page.invitation.button.copy') }}</button>
-                            </span>
-                        </div>
-
-                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.email') }}</label>
-                    <div class="col-sm-10 col-md-6 col-lg-4">
-                            <textarea style="min-width: 100%">Hello,
-
-To activate your account, please click the link below or copy and paste the link into your browser location bar.
-
-If you believe you have received this message in error, you do not need to take any action to cancel the account.
-The account will not be activated, and you will not receive any further messages from us.
-
-Thank you.
-                            </textarea>
+                        <input type="submit" id="generateLink" value="{{ __('page.invitation.button.generate') }}" name="submit" class="btn btn-primary">
                     </div>
                 </div>
 
+                <div id="shareOptions" style="display: none;">
+                    <p style="max-width: 500px;margin-top:30px;">{{ __('page.invitation.share-options.text') }}</p>
+                    <p style="max-width: 500px;margin-top:30px;font-weight:bold;">{{ __('page.invitation.share-options.option-copy') }}</p>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.copy') }}</label>
+                        <div class="col-sm-10 col-md-6 col-lg-4">
 
+                            <div class="input-group">
+                                <input type="link" class="form-control" readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">{{ __('page.invitation.button.copy') }}</button>
+                                </span>
+                            </div>
 
+                         </div>
+                    </div>
+                    <p style="max-width: 500px;margin-top:30px;font-weight:bold;">{{ __('page.invitation.share-options.option-email') }}</p>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.to-email') }}</label>
+                        <div class="col-sm-10 col-md-6 col-lg-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.subject-email') }}</label>
+                        <div class="col-sm-10 col-md-6 col-lg-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.message-email') }}</label>
+                        <div class="col-sm-10 col-md-6 col-lg-4">
+                                <textarea style="min-width: 100%">{{ __('page.invitation.share-options.text-email') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10 col-md-6 col-lg-4">
+                            <input type="submit" value="{{ __('page.invitation.share-options.send-email') }}" name="submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
             </form>
-
-
         </div>
 
         <aside class="col-md-3">
@@ -93,25 +107,28 @@ Thank you.
 
     </div>
 
-    <div class="progress" id="progress-wrapper">
-        <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0;"></div>
-    </div>
-
     <script type="text/javascript">
-        $(function() {
-            // Attach and detach the progressbar.
-            var el = $('#progress-wrapper').detach()
-            $('#form_password').parent().append(el);
+        $( document ).ready(function() {
 
-            // Initialize complexify, to indicate password strength.
-            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
-                var progressBar = $('#complexity-bar');
-                progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
-                progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
-                progressBar.toggleClass('progress-bar-success', (complexity > 60 ));
-                progressBar.css({'width': complexity + '%'});
-            });
-        });
+            $('#generateLink').click(function (event) {
+                event.preventDefault();
+
+            var roles = $("[name='form[roles][]']:checked").map(function(){
+                return $(this).val();
+            }).get();
+
+
+            $.post('{{ app.request.basepath }}/bolt/users/generatelink', { roles: roles, expiration_date : $('.datepicker').val(), expiration_time : $('.timepicker').val()},
+                function(returnedData){
+                    console.log(returnedData);
+                }, 'json');
+
+            $('#shareOptions').show();
+
+
+
+
+            })});
     </script>
 
 {% endblock page_main %}

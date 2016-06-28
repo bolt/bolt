@@ -42,6 +42,9 @@ class Users extends BackendBase
         $c->match('/users/invitationlink', 'invitationLink')
             ->bind('invitationlink');
 
+        $c->match('/users/generatelink', 'generateLink')
+            ->bind('generatelink');
+
         $c->match('/userfirst', 'first')
             ->bind('userfirst');
 
@@ -169,6 +172,41 @@ class Users extends BackendBase
         ];
 
         return $this->render('@bolt/invitation/generate.twig', $context);
+    }
+
+    /**
+     * Invitation link route.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function generateLink(Request $request)
+    {
+        $roles = $request->request->get('roles');
+        $expiration_date = $request->request->get('expiration_date');
+        $expiration_time = $request->request->get('expiration_time');
+        $token = bin2hex(openssl_random_pseudo_bytes(16));
+        $expiration = date_format(date_create(str_replace("/","-",$expiration_date." ".$expiration_time)), 'Y-m-d H:i:s');
+
+        //$roles = json_encode($roles);
+
+        $userEntity = new Entity\Tokens();
+        $userEntity->setToken($token);
+        $userEntity->setRoles($roles);
+        $userEntity->setExpiration($expiration);
+
+        $saved = $this->getRepository('Bolt\Storage\Entity\Tokens')->save($userEntity);
+
+
+        if ($saved) {
+            $this->flashes()->success(Trans::__('page.edit-users.message.user-saved'));
+            $this->notifyUserSave($request, $userEntity->getToken(), $userEntity->getExpiration());
+        } else {
+            $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', $userEntity->getToken()));
+        }
+
+        return $expiration;
     }
 
     /**
