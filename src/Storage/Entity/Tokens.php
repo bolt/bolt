@@ -2,7 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 /**
- * Entity for User.
+ * Entity for Token.
  */
 class Tokens extends Entity
 {

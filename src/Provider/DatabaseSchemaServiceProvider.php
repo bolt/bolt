@@ -76,6 +76,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                     'relations'   => $app->share(function () use ($platform, $prefix) { return new Table\Relations($platform, $prefix); }),
                     'taxonomy'    => $app->share(function () use ($platform, $prefix) { return new Table\Taxonomy($platform, $prefix); }),
                     'users'       => $app->share(function () use ($platform, $prefix) { return new Table\Users($platform, $prefix); }),
+                    'tokens'       => $app->share(function () use ($platform, $prefix) { return new Table\Tokens($platform, $prefix); }),
                 ]);
                 // @codingStandardsIgnoreEnd
             }

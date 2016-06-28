@@ -58,12 +58,12 @@
                     <p style="max-width: 500px;margin-top:30px;font-weight:bold;">{{ __('page.invitation.share-options.option-copy') }}</p>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">{{ __('page.invitation.share-options.copy') }}</label>
-                        <div class="col-sm-10 col-md-6 col-lg-4">
+                        <div class="col-sm-10 col-md-10 col-lg-10">
 
                             <div class="input-group">
-                                <input type="link" class="form-control" readonly>
+                                <input type="link" class="form-control" id="invitationLink" readonly>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">{{ __('page.invitation.button.copy') }}</button>
+                                    <button class="btn btn-default" type="button" id="copy">{{ __('page.invitation.button.copy') }}</button>
                                 </span>
                             </div>
 
@@ -117,18 +117,18 @@
                 return $(this).val();
             }).get();
 
+            var posting =  $.post('{{ app.request.basepath }}/bolt/users/generatelink', { roles: roles, expiration_date : $('.datepicker').val(), expiration_time : $('.timepicker').val()});
 
-            $.post('{{ app.request.basepath }}/bolt/users/generatelink', { roles: roles, expiration_date : $('.datepicker').val(), expiration_time : $('.timepicker').val()},
-                function(returnedData){
-                    console.log(returnedData);
-                }, 'json');
-
-            $('#shareOptions').show();
-
+            posting.done(function( data ) {
+                var link = '{{ url('homepage') }}' + data;
+                $('#invitationLink').val(link);
+                $('#shareOptions').show();
+            });
 
 
 
             })});
+
     </script>
 
 {% endblock page_main %}

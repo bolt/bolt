@@ -20,6 +20,23 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
+use Symfony\Component\HttpKernel\Debug\ErrorHandler;
+use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
+
+// set the error handling
+ini_set('display_errors', 1);
+error_reporting(-1);
+ErrorHandler::register();
+if ('cli' !== php_sapi_name()) {
+    ExceptionHandler::register();
+}
+
+
+// set debug mode
+$app['debug'] = true;
+
+
 /**
  * Backend controller for user maintenance routes.
  *
@@ -192,21 +209,26 @@ class Users extends BackendBase
         //$roles = json_encode($roles);
 
         $userEntity = new Entity\Tokens();
+
+        $expiration = new \DateTime(str_replace("/","-",$expiration_date." ".$expiration_time));
+        $expiration->format('Y-m-d H:i:s');
+
+
         $userEntity->setToken($token);
         $userEntity->setRoles($roles);
         $userEntity->setExpiration($expiration);
 
-        $saved = $this->getRepository('Bolt\Storage\Entity\Tokens')->save($userEntity);
+        $this->getRepository('Bolt\Storage\Entity\Tokens')->save($userEntity);
 
-
+        /*
         if ($saved) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved'));
             $this->notifyUserSave($request, $userEntity->getToken(), $userEntity->getExpiration());
         } else {
             $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', $userEntity->getToken()));
         }
-
-        return $expiration;
+*/
+        return $token;
     }
 
     /**
