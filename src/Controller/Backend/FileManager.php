@@ -155,6 +155,7 @@ class FileManager extends BackendBase
             }
             
             $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $path]));
+
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 

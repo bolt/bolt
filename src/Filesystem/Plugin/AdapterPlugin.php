@@ -4,8 +4,8 @@ namespace Bolt\Filesystem\Plugin;
 
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
-use Bolt\Filesystem\PluginInterface;
 use Bolt\Filesystem\MountPointAwareInterface;
+use Bolt\Filesystem\PluginInterface;
 use Silex\Application;
 
 abstract class AdapterPlugin implements PluginInterface
