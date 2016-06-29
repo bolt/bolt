@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 
 
 use Symfony\Component\HttpKernel\Debug\ErrorHandler;
@@ -61,6 +63,13 @@ class Users extends BackendBase
 
         $c->match('/users/generatelink', 'generateLink')
             ->bind('generatelink');
+
+        $c->match('/users/sendlink', 'sendLink')
+            ->bind('sendlink');
+
+        $c->match('/invitation/{code}', 'invitation')
+            ->assert('code', '.*')
+            ->bind('invitation');
 
         $c->match('/userfirst', 'first')
             ->bind('userfirst');
@@ -184,8 +193,18 @@ class Users extends BackendBase
         /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
         $formView = $form->createView();
 
+        // Get the base form
+        $form = $this->getInvitationEmailForm($this->getUser());
+
+        // Generate the form
+        $form = $form->getForm();
+
+        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
+        $formEmailView = $form->createView();
+
         $context = [
             'form'        => $formView,
+            'emailform'        => $formEmailView,
         ];
 
         return $this->render('@bolt/invitation/generate.twig', $context);
@@ -200,35 +219,90 @@ class Users extends BackendBase
      */
     public function generateLink(Request $request)
     {
-        $roles = $request->request->get('roles');
+        $roles = array();
+
+        if(null !== ($request->request->get('roles'))) {
+            $roles = $request->request->get('roles');
+        }
+
         $expiration_date = $request->request->get('expiration_date');
         $expiration_time = $request->request->get('expiration_time');
         $token = bin2hex(openssl_random_pseudo_bytes(16));
-        $expiration = date_format(date_create(str_replace("/","-",$expiration_date." ".$expiration_time)), 'Y-m-d H:i:s');
 
-        //$roles = json_encode($roles);
-
-        $userEntity = new Entity\Tokens();
+        $tokenEntity = new Entity\Tokens();
 
         $expiration = new \DateTime(str_replace("/","-",$expiration_date." ".$expiration_time));
         $expiration->format('Y-m-d H:i:s');
 
+        $tokenEntity->setToken($token);
+        $tokenEntity->setRoles($roles);
+        $tokenEntity->setExpiration($expiration);
 
-        $userEntity->setToken($token);
-        $userEntity->setRoles($roles);
-        $userEntity->setExpiration($expiration);
+        $this->getRepository('Bolt\Storage\Entity\Tokens')->save($tokenEntity);
 
-        $this->getRepository('Bolt\Storage\Entity\Tokens')->save($userEntity);
-
-        /*
-        if ($saved) {
-            $this->flashes()->success(Trans::__('page.edit-users.message.user-saved'));
-            $this->notifyUserSave($request, $userEntity->getToken(), $userEntity->getExpiration());
-        } else {
-            $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', $userEntity->getToken()));
-        }
-*/
         return $token;
+    }
+
+    /**
+     * Invitation link route.
+     *
+     * @param Request $request The Symfony Request
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function sendLink(Request $request)
+    {
+        $to = $request->request->get('to');
+        $subject = $request->request->get('subject');
+        $text = $request->request->get('message');
+        $link = $request->request->get('link');
+
+        $userEntity = new Entity\Users($this->getUser());
+        $from = $this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail());
+
+        // Compile the email with the invitation link.
+        $mailhtml = $this->app['render']->render(
+            '@bolt/mail/invitation.twig',
+            [
+                'message'           => $text,
+                'link'              => $link,
+            ]
+        );
+
+        $message = $this->app['mailer']
+            ->createMessage('message')
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setReplyTo($from)
+            ->setTo($to)
+            ->setBody(strip_tags($mailhtml))
+            ->addPart($mailhtml, 'text/html')
+        ;
+
+        $failed = true;
+        $failedRecipients = [];
+
+        try {
+            $recipients = $this->app['mailer']->send($message, $failedRecipients);
+
+            // Try and send immediately
+            $this->app['swiftmailer.spooltransport']->getSpool()->flushQueue($this->app['swiftmailer.transport']);
+
+            if ($recipients) {
+                $this->app['logger.system']->info("Invitation request sent to '" . $to . "'.", ['event' => 'authentication']);
+                $failed = false;
+            }
+        } catch (\Exception $e) {
+            // Notify below
+        }
+
+        if ($failed) {
+            $this->app['logger.system']->error("Failed to send invitation request sent to '" . $to . "'.", ['event' => 'authentication']);
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -240,6 +314,7 @@ class Users extends BackendBase
      */
     public function first(Request $request)
     {
+
         // We should only be here for creating the first user
         if ($this->app['schema']->hasUserTable() && $this->users()->hasUsers()) {
             return $this->redirectToRoute('dashboard');
@@ -285,6 +360,54 @@ class Users extends BackendBase
         ];
 
         return $this->render('@bolt/firstuser/firstuser.twig', $context);
+    }
+
+    /**
+     * Create a user from invitation link.
+     *
+     * @param Request $request  The Symfony Request
+     * @param String $code      The invitation code provided
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function invitation(Request $request, $code)
+    {
+        // Check if the invitation code exists and it is still available
+        $token = $this->getRepository('Bolt\Storage\Entity\Tokens')->findBy(array('token' => $code));
+
+        if((!$token) || (new \DateTime() > new \DateTime($token[0]->expiration))){
+            return $this->render('@bolt/invitation/invitationfail.twig');
+        }
+
+        $tokenEntity = new Entity\Tokens($token[0]);
+
+        // Get and empty user
+        $userEntity = new Entity\Users();
+
+        // Set the roles of the invitation code
+        $userEntity->setRoles($tokenEntity->getRoles());
+
+        // Get the form
+        $form = $this->getUserForm($userEntity, true);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($form, true);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form)) {
+            return $response;
+        }
+
+        $context = [
+            'kind'        => 'create',
+            'form'        => $form->createView(),
+            'sitename'    => $this->getOption('general/sitename'),
+        ];
+
+        return $this->render('@bolt/invitation/invitation.twig', $context);
     }
 
     /**
@@ -552,11 +675,9 @@ class Users extends BackendBase
     /**
      * Create a invitation generation form with the form builder.
      *
-     * @param Entity\Users $user
-     *
      * @return \Symfony\Component\Form\FormBuilder
      */
-    private function getGenerateInvitationForm(Entity\Users $user)
+    private function getGenerateInvitationForm()
     {
         // Start building the form
         $form = $this->createFormBuilder(FormType::class);
@@ -581,6 +702,61 @@ class Users extends BackendBase
             );
 
 
+
+        return $form;
+    }
+
+    /**
+     * Create a email invitation form with the form builder.
+     *
+     *
+     * @return \Symfony\Component\Form\FormBuilder
+     */
+    private function getInvitationEmailForm()
+    {
+        // Start building the form
+        $form = $this->createFormBuilder(FormType::class);
+
+        // Add the other fields. Regarding the autocomplete on the passwords,
+        // see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c150
+        $form
+            ->add(
+                'to',
+                TextType::class,
+                [
+                    'constraints' => new Assert\Email(),
+                    'label'       => Trans::__('page.invitation.share-options.to-email'),
+                    'attr'        => [
+                        'placeholder' => Trans::__('page.invitation.share-options.to-placeholder'),
+                        'class' => 'to',
+                    ],
+                ]
+            )
+            ->add(
+                'subject',
+                TextType::class,
+                [
+                    'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
+                    'label'       => Trans::__('page.invitation.share-options.subject-email'),
+                    'attr'        => [
+                        'placeholder' => Trans::__('page.invitation.share-options.subject-placeholder'),
+                        'class' => 'subject',
+                    ],
+                ]
+            )
+            ->add(
+                'message',
+                TextareaType::class,
+                [
+                    'constraints' => [new Assert\NotBlank()],
+                    'label'       => Trans::__('page.invitation.share-options.message-email'),
+                    'attr'        => [
+                        'placeholder' => Trans::__('page.invitation.share-options.message-placeholder'),
+                        'class' => 'message',
+                    ],
+                ]
+            )
+        ;
 
         return $form;
     }
