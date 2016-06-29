@@ -60,14 +60,10 @@ class UserAdd extends BaseCommand
             return;
         }
 
-        try {
-            // Boot all service providers manually as, we're not handling a request
-            $this->app->boot();
-            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($user);
-            $this->auditLog(__CLASS__, "User created: {$user->getUsername()}");
-            $output->writeln("<info>Successfully created user: {$user->getUsername()}</info>");
-        } catch (\Exception $e) {
-            $output->writeln("<error>Error creating user: {$user->getUsername()}</error>");
-        }
+        // Boot all service providers manually as, we're not handling a request
+        $this->app->boot();
+        $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($user);
+        $this->auditLog(__CLASS__, "User created: {$user->getUsername()}");
+        $output->writeln("<info>Successfully created user: {$user->getUsername()}</info>");
     }
 }
