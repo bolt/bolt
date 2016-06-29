@@ -186,7 +186,13 @@
             if (gMapsApiLoaded === undefined) {
                 // Request loading Google Maps API.
                 gMapsApiLoaded = false;
-                $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
+                var gMapsApiUrl = 'https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady';
+
+                // See if we have an apikey to append to the request
+                if(Bolt.conf.get('google_api_key')){
+                    gMapsApiUrl = gMapsApiUrl + '&key=' + Bolt.conf.get('google_api_key');
+                }
+                $.getScript(gMapsApiUrl)
                     .fail(function () {
                         gMapsApiLoaded = undefined;
                         bolt.events.fire('Bolt.GoogleMapsAPI.Load.Fail');

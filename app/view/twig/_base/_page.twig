@@ -128,6 +128,7 @@
         filebrowser: (config.get('general/wysiwyg/filebrowser') is iterable)
                         ? config.get('general/wysiwyg/filebrowser') : false,
     },
+    google_api_key: config.get('general/google_api_key'),
 } %}
 <script src="{{ asset('js/bolt.js', 'bolt') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
 
