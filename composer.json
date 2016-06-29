@@ -65,7 +65,7 @@
     "require-dev" : {
         "bolt/codingstyle" : "~1.0",
         "codeception/codeception" : "^2.1",
-        "lstrojny/phpunit-function-mocker" : "dev-master@dev",
+        "lstrojny/phpunit-function-mocker" : "0.3.0",
         "phpmd/phpmd" : "~2.2",
         "phpunit/dbunit" : "~1.3",
         "phpunit/php-code-coverage" : "~2.0",
