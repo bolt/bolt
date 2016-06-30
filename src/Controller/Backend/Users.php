@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Silex\Application;
 use Bolt\AccessControl\Permissions;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Storage\Entity;
@@ -178,12 +179,12 @@ class Users extends BackendBase
     /**
      * Invitation link route.
      *
-     * @param Request $request The Symfony Request
-     *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function invitationLink()
     {
+        $currentUser = $this->getUser();
+
         // Get the base form
         $form = $this->getGenerateInvitationForm($this->getUser());
 
@@ -202,6 +203,13 @@ class Users extends BackendBase
         /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
         $formEmailView = $form->createView();
 
+        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($currentUser->toArray());
+        foreach ($formView['roles'] as $role) {
+            if (!in_array($role->vars['value'], $manipulatableRoles)) {
+                $role->vars['attr']['disabled'] = 'disabled';
+            }
+        }
+
         $context = [
             'form'        => $formView,
             'emailform'        => $formEmailView,
@@ -217,7 +225,7 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function generateLink(Request $request)
+    public function generateLink(Request $request, Application $app)
     {
         $roles = array();
 
@@ -227,12 +235,35 @@ class Users extends BackendBase
 
         $expiration_date = $request->request->get('expiration_date');
         $expiration_time = $request->request->get('expiration_time');
+
+        //validate expiration date (not empty, not in the past)
+        $expiration = new \DateTime(str_replace("/","-",$expiration_date." ".$expiration_time));
+        $expiration->format('Y-m-d H:i:s');
+
+        $book = array(
+            'empty' => $expiration_date,
+            'expire' => $expiration,
+        );
+
+        $constraint = new Assert\Collection(array(
+            'empty' => new Assert\NotBlank(),
+            'expire' => new Assert\Range(array(
+                'min' => 'now',
+                )),
+            )
+        );
+
+        $errors = $app['validator']->validate($book, $constraint);
+
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                return $app->json($error->getMessage(), 400);
+            }
+        }
+
         $token = bin2hex(openssl_random_pseudo_bytes(16));
 
         $tokenEntity = new Entity\Tokens();
-
-        $expiration = new \DateTime(str_replace("/","-",$expiration_date." ".$expiration_time));
-        $expiration->format('Y-m-d H:i:s');
 
         $tokenEntity->setToken($token);
         $tokenEntity->setRoles($roles);
@@ -250,12 +281,37 @@ class Users extends BackendBase
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function sendLink(Request $request)
+    public function sendLink(Request $request, Application $app)
     {
         $to = $request->request->get('to');
         $subject = $request->request->get('subject');
         $text = $request->request->get('message');
         $link = $request->request->get('link');
+
+        //validate send email form
+        $book = array(
+            'to' => $to,
+            'subject' => $subject,
+            'text' => $text,
+        );
+
+        $constraint = new Assert\Collection(array(
+                'to' => new Assert\Email(),
+                'subject' => new Assert\NotBlank(),
+                'text' => new Assert\NotBlank(),
+            )
+        );
+
+        $violationList = $app['validator']->validate($book, $constraint);
+
+        if (count($violationList) > 0) {
+            foreach ($violationList as $violation){
+                $field = preg_replace('/\[|\]/', "", $violation->getPropertyPath());
+                $error = $violation->getMessage();
+                $errors[$field] = $error;
+            }
+            return $app->json($errors, 400);
+        }
 
         $userEntity = new Entity\Users($this->getUser());
         $from = $this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail());
@@ -717,8 +773,6 @@ class Users extends BackendBase
         // Start building the form
         $form = $this->createFormBuilder(FormType::class);
 
-        // Add the other fields. Regarding the autocomplete on the passwords,
-        // see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c150
         $form
             ->add(
                 'to',
@@ -756,6 +810,7 @@ class Users extends BackendBase
                     ],
                 ]
             )
+
         ;
 
         return $form;
