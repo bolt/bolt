@@ -106,8 +106,7 @@ class Invitation extends BackendBase
                 'expire' => new Assert\Range(array(
                     'min' => 'now',
                 )),
-            )
-        );
+            ));
 
         $errors = $this->app['validator']->validate($book, $constraint);
 
@@ -157,8 +156,7 @@ class Invitation extends BackendBase
                 'to' => new Assert\Email(),
                 'subject' => new Assert\NotBlank(),
                 'text' => new Assert\NotBlank(),
-            )
-        );
+            ));
 
         $violationList = $this->app['validator']->validate($book, $constraint);
 
@@ -305,4 +303,3 @@ class Invitation extends BackendBase
         return $form;
     }
 }
-

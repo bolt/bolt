@@ -746,9 +746,9 @@ class Users extends BackendBase
         // Check if the invitation code exists and it is still available
         $token = $this->getRepository('Bolt\Storage\Entity\Tokens')->findBy(array('token' => $code));
 
-        if ((!$token) || (new \DateTime() > new \DateTime($token[0]->expiration))){
-        return $this->render('@bolt/invitation/invitationfail.twig');
-    }
+        if ((!$token) || (new \DateTime() > new \DateTime($token[0]->expiration))) {
+            return $this->render('@bolt/invitation/invitationfail.twig');
+        }
 
         $tokenEntity = new Entity\Tokens($token[0]);
 
