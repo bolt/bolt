@@ -15,8 +15,8 @@ class Tokens extends BaseTable
     {
         // @codingStandardsIgnoreStart
         $this->table->addColumn('id',             'integer',    ['autoincrement' => true]);
-        $this->table->addColumn('token',          'string',     ['notnull' => true, 'length' => 128]);
-        $this->table->addColumn('expiration',     'datetime',   ['default' => null]);
+        $this->table->addColumn('token',          'string',     ['length' => 128]);
+        $this->table->addColumn('expiration',     'datetime',   ['notnull' => false, 'default' => null]);
         $this->table->addColumn('roles',          'json_array', []);
         // @codingStandardsIgnoreEnd
     }
