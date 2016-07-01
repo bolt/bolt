@@ -82,7 +82,7 @@ class Invitation extends BackendBase
     public function generateLink(Request $request)
     {
         // Get the Roles for the invitation code
-        $roles = array();
+        $roles = [];
 
         if (null !== ($request->request->get('roles'))) {
             $roles = $request->request->get('roles');
@@ -102,11 +102,11 @@ class Invitation extends BackendBase
         );
 
         $constraint = new Assert\Collection(array(
-                'empty' => new Assert\NotBlank(),
-                'expire' => new Assert\Range(array(
-                    'min' => 'now',
-                )),
-            ));
+            'empty' => new Assert\NotBlank(),
+            'expire' => new Assert\Range(array(
+                'min' => 'now',
+            )),
+        ));
 
         $errors = $this->app['validator']->validate($book, $constraint);
 
@@ -153,10 +153,10 @@ class Invitation extends BackendBase
         );
 
         $constraint = new Assert\Collection(array(
-                'to' => new Assert\Email(),
-                'subject' => new Assert\NotBlank(),
-                'text' => new Assert\NotBlank(),
-            ));
+            'to' => new Assert\Email(),
+            'subject' => new Assert\NotBlank(),
+            'text' => new Assert\NotBlank(),
+        ));
 
         $violationList = $this->app['validator']->validate($book, $constraint);
 
