@@ -27,8 +27,9 @@ class ContentTables extends BaseBuilder
     {
         /** @var $fieldManager FieldManager */
         $fieldManager = $config->getFields();
-        $contentTypes = $config->get('contenttypes');
+        $contentTypes = $this->getNormalisedContentTypes($config);
         $tables = [];
+
         foreach ($this->tables->keys() as $name) {
             $contentType = $contentTypes[$name];
             /** @var ContentType $table */
@@ -40,6 +41,24 @@ class ContentTables extends BaseBuilder
         }
 
         return $tables;
+    }
+
+    /**
+     * Return an array of ContentTypes with the table name is the key.
+     *
+     * @param Config $config
+     *
+     * @return array
+     */
+    private function getNormalisedContentTypes(Config $config)
+    {
+        $normalised = [];
+        $contentTypes = $config->get('contenttypes');
+        foreach ($contentTypes as $contentType) {
+            $normalised[$contentType['tablename']] = $contentType;
+        }
+
+        return $normalised;
     }
 
     /**
