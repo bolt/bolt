@@ -88,6 +88,7 @@ trait ContentSearchTrait
         $searchableTypes = ['text', 'textarea', 'html', 'markdown'];
 
         $fields = [];
+        $slugFields = [];
 
         // The field(s) that are used by the slug need to be bumped, unless configured explicitly
         foreach ($this->contenttype['fields'] as $config) {
