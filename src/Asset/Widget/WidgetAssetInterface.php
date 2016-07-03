@@ -28,22 +28,6 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
     public function setKey();
 
     /**
-     * Get the widget's target location.
-     *
-     * @return string|null
-     */
-    public function getLocation();
-
-    /**
-     * Target locational element.
-     *
-     * @param string $location
-     *
-     * @return WidgetAssetInterface
-     */
-    public function setLocation($location);
-
-    /**
      * Get the optional content provider callback function.
      *
      * callable|null

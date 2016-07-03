@@ -107,4 +107,23 @@ class ArrayHandler
 
         return $array;
     }
+
+    /**
+     * Takes two arrays and returns a compiled array of unique, sorted values
+     * @param $arr1
+     * @param $arr2
+     * @return array
+     */
+    public function unique($arr1, $arr2)
+    {
+        $merged = array_unique(array_merge($arr1, $arr2), SORT_REGULAR);
+        $compiled = [];
+
+        foreach ($merged as $val) {
+            $compiled[$val[0]] = $val;
+        }
+
+        return $compiled;
+    }
+
 }

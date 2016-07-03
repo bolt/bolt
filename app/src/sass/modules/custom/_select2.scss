@@ -40,3 +40,58 @@
         border-radius: 2px;
     }
 }
+
+/**
+ * Styles for Sortable Select2 Fields
+ */
+.sortable-select2-container {
+
+    .select2-container {
+        display: block;
+        width: 100%;
+    }
+
+    .select2-container-multi .select2-choices .select2-search-choice {
+        cursor: move;
+    }
+
+    .select2-selection__choice {
+        border-color: #d0d0d0;
+        padding: 0px;
+        display: block;
+        width:100%;
+        border-radius: 0px;
+        border-color: #d0d0d0;
+    }
+    .select2-selection__choice.ui-sortable-helper {
+        cursor:move;
+    }
+    .select2-drop {
+        border-radius: 0px;
+    }
+    .select2-container-multi.select2-container-active {
+        border-color: #646464;
+    }
+    .select2-container-multi.select2-container-active .select2-choices {
+        border-color: #646464;
+    }
+
+    .select2-container-multi .select2-choices .select2-search-choice {
+        width: 98%;
+        padding: 10px 10px 10px 30px;
+    }
+
+    .select2-container-multi .select2-search-choice-close {
+        left: 10px;
+        top: 10px;
+    }
+
+    .select2-results .select2-highlighted {
+        background: #2f73b6;
+    }
+
+    .select2-drop-active {
+        border-color: #646464;
+    }
+
+}
