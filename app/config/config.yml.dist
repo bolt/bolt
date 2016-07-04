@@ -297,6 +297,12 @@ wysiwyg:
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
         # viewSourceRoles: [ 'admin', 'developer' ] # The roles which are allowed to use the [Source]-button.
 
+# Bolt uses the Google maps API for it's geolocation field and Google now
+# requires that it be loaded with an API key on new domains. You can generate
+# a key at https://console.developers.google.com and enter it here to make sure
+# that the geolocation field work.
+# google_api_key:
+
 # Global option to enable/disable the live editor
 liveeditor: true
 
