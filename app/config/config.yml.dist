@@ -299,6 +299,12 @@ wysiwyg:
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
 
+# Bolt uses the Google maps API for it's geolocation field and Google now
+# requires that it be loaded with an API key on new domains. You can generate
+# a key at https://console.developers.google.com and enter it here to make sure
+# that the geolocation field work.
+# google_api_key:
+
 # Global option to enable/disable the live editor
 liveeditor: false
 
