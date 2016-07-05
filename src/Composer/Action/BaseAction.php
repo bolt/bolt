@@ -191,8 +191,7 @@ abstract class BaseAction
     protected function findBestVersionForPackage($packageName, $targetPackageVersion = null, $returnArray = false)
     {
         $versionSelector = new VersionSelector($this->getPool());
-        $package = $versionSelector->findBestCandidate($packageName, $targetPackageVersion, PHP_VERSION, $this->getComposer()->getConfig()->get('stability'));
-
+        $package = $versionSelector->findBestCandidate($packageName, $targetPackageVersion, PHP_VERSION, $this->getComposer()->getPackage()->getStability());
         if (!$package) {
             if ($returnArray === false) {
                 throw new \InvalidArgumentException(
