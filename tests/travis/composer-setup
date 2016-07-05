@@ -81,7 +81,9 @@ check_return
 update_repos
 
 # Add development requires
-require_package codeception/codeception:^2.1
+# require_package codeception/codeception:^2.1
+# Temporary until issue with Codeception fixed
+require_package codeception/codeception:2.2.1
 
 # Require the Bolt version under test
 require_package bolt/bolt:dev-travis-install@dev
