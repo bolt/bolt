@@ -30,7 +30,7 @@
 {% set attr_upload = {
     accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
     data_upload:  {type: 'Image', key: key, width: preview_w, height: preview_h}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
+    data_url:     url('upload', {'handler': option.upload}, true),
     id:           'fileupload-' ~ key,
     name:         'files[]',
     type:         'file',
