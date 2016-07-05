@@ -26,7 +26,7 @@ class DatabaseRepairTest extends BoltUnitTest
 
     public function testRunChanged()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
         $app['config']->set('contenttypes/newcontent', [
             'tablename' => 'newcontent',
             'fields'    => ['title' => ['type' => 'text']],
@@ -40,6 +40,7 @@ class DatabaseRepairTest extends BoltUnitTest
             }
         );
 
+        $app->boot();
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);
 
