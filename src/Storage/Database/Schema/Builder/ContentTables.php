@@ -15,6 +15,9 @@ use Doctrine\DBAL\Schema\Table;
  */
 class ContentTables extends BaseBuilder
 {
+    /** @var array */
+    protected $tableSchemas;
+
     /**
      * Build the schema for Bolt ContentType tables.
      *
@@ -25,10 +28,15 @@ class ContentTables extends BaseBuilder
      */
     public function getSchemaTables(Schema $schema, Config $config)
     {
+        if ($this->tableSchemas !== null) {
+            return $this->tableSchemas;
+        }
+
         /** @var $fieldManager FieldManager */
         $fieldManager = $config->getFields();
-        $contentTypes = $config->get('contenttypes');
+        $contentTypes = $this->getNormalisedContentTypes($config);
         $tables = [];
+
         foreach ($this->tables->keys() as $name) {
             $contentType = $contentTypes[$name];
             /** @var ContentType $table */
@@ -39,7 +47,25 @@ class ContentTables extends BaseBuilder
             }
         }
 
-        return $tables;
+        return $this->tableSchemas = $tables;
+    }
+
+    /**
+     * Return an array of ContentTypes with the table name is the key.
+     *
+     * @param Config $config
+     *
+     * @return array
+     */
+    private function getNormalisedContentTypes(Config $config)
+    {
+        $normalised = [];
+        $contentTypes = $config->get('contenttypes');
+        foreach ($contentTypes as $contentType) {
+            $normalised[$contentType['tablename']] = $contentType;
+        }
+
+        return $normalised;
     }
 
     /**
