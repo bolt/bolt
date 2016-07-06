@@ -1,10 +1,19 @@
 Changelog for Bolt
 ==================
 
-Bolt 3.0.x
+Bolt 3.0.9
 ----------
 
- - Fix: Don't hide exceptions when adding user with Nut [#5481](https://github.com/bolt/bolt/pull/5481)
+Released 2016-07-06. Notable changes:
+
+ - Added: Add option for google maps api key [#5492](https://github.com/bolt/bolt/pull/5492)
+ - Added: Allow pre-hydration data to be modified in event [#5510](https://github.com/bolt/bolt/pull/5510)
+ - Change: [Travis] Disable Composer install test [#5514](https://github.com/bolt/bolt/pull/5514)
+ - Change: [Travis] Drop installation of language packs & Codeception failures [#5498](https://github.com/bolt/bolt/pull/5498)
+ - Fixed: Contenttype vs. Table name "_" and "-" [#5363](https://github.com/bolt/bolt/pull/5363)
+ - Fixed: Initialize `slugFields` variable [#5503](https://github.com/bolt/bolt/pull/5503)
+ - Fixed: Lock lstrojny/phpunit-function-mocker to 0.3.0 for PHP 5.5 support [#5493](https://github.com/bolt/bolt/pull/5493)
+ - Fixed: Don't hide exceptions when adding user with Nut [#5481](https://github.com/bolt/bolt/pull/5481)
 
 Bolt 3.0.8
 ----------
