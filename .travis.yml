@@ -26,7 +26,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
   - sudo apt-get install nginx postfix
-  # Set up HHVM 
+  # Set up HHVM
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'hhvm.jit = false' >> /etc/hhvm/php.ini ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo sh -c 'echo RUN_AS_USER=\"travis\"  >> /etc/default/hhvm' ; fi
@@ -49,9 +49,9 @@ before_install:
   - sudo service postfix restart
   # Increase PHP memory limit. Required for Composer & PHPUnit.
   - echo "memory_limit = 2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  
+
 before_script:
-  # Set up Composer 
+  # Set up Composer
   - composer self-update || true
   - composer install --prefer-dist
   # Set up permissions
@@ -66,16 +66,16 @@ before_script:
   - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
   # Get the composer.json from our bolt/composer-install repo
-  - git clone https://github.com/bolt/composer-install.git .tmp
-  - cd .tmp git && git checkout release/2.2 && cd ..
+  # - git clone https://github.com/bolt/composer-install.git .tmp
+  # - cd .tmp git && git checkout release/2.2 && cd ..
   # Add requires
-  - composer require --working-dir=.tmp/ --no-update "bolt/bolt:2.2.*@dev" "phpunit/phpunit:^4.5" "codeception/codeception:<=2.1.2" lstrojny/phpunit-function-mocker:0.3.0
+  # - composer require --working-dir=.tmp/ --no-update "bolt/bolt:2.2.*@dev" "phpunit/phpunit:^4.5" "codeception/codeception:<=2.1.2" lstrojny/phpunit-function-mocker:0.3.0
   # Create the project
-  - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
+  # - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
   # Update the Composer Bolt install with the PR files
-  - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
-  - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
-  - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
+  # - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
+  # - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
+  # - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
 
 script:
   ## Default install tests
@@ -95,33 +95,33 @@ script:
   # To enable Composer tests, set RUN_COMPOSER_TEST=true in the web UI at https://travis-ci.org/bolt/bolt/settings/env_vars
   # - if [[ $RUN_COMPOSER_TEST != true ]] ; then echo "Composer tests disabled. " ; exit 0 ; fi
   # Remove git installed stuff
-  - rm ./* -rf ; rm .git* -rf
-  - mv .tmp/* .
+  # - rm ./* -rf ; rm .git* -rf
+  # - mv .tmp/* .
   # Set up Nginx
-  - find . -name '*nginx*'
-  - cat vendor/bolt/bolt/tests/travis/nginx.conf > nginx.conf
-  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}\/public/g' nginx.conf
-  - sudo rm -f /etc/nginx/nginx.conf && sudo mv nginx.conf /etc/nginx/nginx.conf
-  - sudo service nginx restart
+  # - find . -name '*nginx*'
+  # - cat vendor/bolt/bolt/tests/travis/nginx.conf > nginx.conf
+  # - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}\/public/g' nginx.conf
+  # - sudo rm -f /etc/nginx/nginx.conf && sudo mv nginx.conf /etc/nginx/nginx.conf
+  # - sudo service nginx restart
   # Set up MySQL
-  - mysql -e "DROP DATABASE bolt_travis;" -u root
-  - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
-  - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
-  - mysql -e "FLUSH PRIVILEGES;" -u root
+  # - mysql -e "DROP DATABASE bolt_travis;" -u root
+  # - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
+  # - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
+  # - mysql -e "FLUSH PRIVILEGES;" -u root
   # Set up PostgreSQL
-  - psql -c "DROP DATABASE bolt_travis;" -U postgres
-  - psql -c "CREATE DATABASE bolt_travis;" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
+  # - psql -c "DROP DATABASE bolt_travis;" -U postgres
+  # - psql -c "CREATE DATABASE bolt_travis;" -U postgres
+  # - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
   # Codeception set up (PHP >5.3)
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build  --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build  --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception Sqlite run (PHP >5.3)
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
 
 after_script:
 
