@@ -3,6 +3,7 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
+use Composer\Package\CompletePackage;
 use Composer\Package\PackageInterface;
 
 /**
@@ -69,10 +70,14 @@ final class CheckPackage extends BaseAction
          * @var array  $targetPackageVersion
          */
         foreach ($rootPackage as $packageName => $packageVersion) {
+
+            /** @var CompletePackage $package */
+            $package = $packageVersion['package'];
+
             try {
-                $remote = $this->findBestVersionForPackage($packageName, $targetPackageVersion, true);
+                $remote = $this->findBestVersionForPackage($packageName, $package->getPrettyVersion(), true);
             } catch (\Exception $e) {
-                $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
+                $msg = sprintf('%s received an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
                 $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
 
                 throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
