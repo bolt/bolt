@@ -6,6 +6,7 @@ use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\Package\PackageInterface;
+use Composer\Package\Version\VersionParser;
 use Composer\Package\Version\VersionSelector;
 use Composer\Repository\ComposerRepository;
 use Composer\Repository\ConfigurableRepositoryInterface;
@@ -266,5 +267,35 @@ abstract class BaseAction
         }
 
         return $this->repos;
+    }
+
+    /**
+     * @param array $packages
+     *
+     * @return array
+     */
+    protected function formatRequirements(array $packages)
+    {
+        $requires = [];
+        $packages = $this->normalizeRequirements($packages);
+        foreach ($packages as $package) {
+            $requires[$package['name']] = $package['version'];
+        }
+
+        return $requires;
+    }
+
+    /**
+     * Parses a name/version pairs and returns an array of pairs.
+     *
+     * @param array $packages a set of package/version pairs separated by ":", "=" or " "
+     *
+     * @return array[] An array of arrays containing a name and (if provided) a version
+     */
+    protected function normalizeRequirements(array $packages)
+    {
+        $parser = new VersionParser();
+
+        return $parser->parseNameVersionPairs($packages);
     }
 }
