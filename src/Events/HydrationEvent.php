@@ -15,15 +15,4 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class HydrationEvent extends GenericEvent
 {
-    /**
-     * Encapsulate an event with $subject and $args.
-     *
-     * @param mixed $subject   The subject of the event, where an array this will be passed by reference.
-     * @param array $arguments Arguments to store in the event.
-     */
-    public function __construct(&$subject = null, array $arguments = [])
-    {
-        $this->subject = $subject;
-        $this->arguments = $arguments;
-    }
 }

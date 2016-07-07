@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage;
 
+use ArrayObject;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
@@ -419,6 +420,7 @@ class Repository implements ObjectRepository
     {
         $entity = $this->getEntityBuilder()->getEntity();
 
+        $data = new ArrayObject($data);
         $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
 
