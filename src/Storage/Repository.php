@@ -50,10 +50,12 @@ class Repository implements ObjectRepository
      */
     public function create($params = [], ClassMetadata $metadata = null)
     {
-        $entity = $this->getEntityBuilder()->create($params, $metadata);
-        $preEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
+        $params = new ArrayObject($params);
+        $preEventArgs = new HydrationEvent($params, ['repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
-        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $preEventArgs);
+        $entity = $this->getEntityBuilder()->create($params, $metadata);
+        $postEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postEventArgs);
 
         return $entity;
     }
@@ -325,7 +327,7 @@ class Repository implements ObjectRepository
     /**
      * Saves a single object.
      *
-     * @param object $entity The entity to delete.
+     * @param object $entity The entity to save.
      * @param bool   $silent Suppress events
      *
      * @return bool
