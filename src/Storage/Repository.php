@@ -51,9 +51,11 @@ class Repository implements ObjectRepository
     public function create($params = [], ClassMetadata $metadata = null)
     {
         $params = new ArrayObject($params);
-        $preEventArgs = new HydrationEvent($params, ['repository' => $this]);
+        $builder = $this->getEntityBuilder();
+        $entity = $builder->getEntity();
+        $preEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
-        $entity = $this->getEntityBuilder()->create($params, $metadata);
+        $builder->create($params, $entity);
         $postEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postEventArgs);
 
