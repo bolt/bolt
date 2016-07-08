@@ -349,6 +349,7 @@
                 var invalid = ' — [INVALID] ';
                 var disabled = ' — [DISABLED] ';
                 var constraint = '<i class="fa fa-cog fa-fw"></i>';
+                var repositoryLink = conf.repo_button.subst({'%REPOSITORY_URL%': ext.repositoryLink});
 
                 // Generate the HTML for a package item.
                 html += conf.item.subst({
@@ -362,6 +363,7 @@
                     '%CONFIG%':      ext.configLink ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
+                    '%REPOSITORY%':  repositoryLink,
                     '%UNINSTALL%':   uninstall,
                     '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
                     '%KEYWORDS%':    keywords,

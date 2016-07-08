@@ -19,7 +19,7 @@
         <div class="panel-footer">
             %README% %CONFIG% %THEME%
             <div>
-                %AVAILABLE%  %UNINSTALL%
+                %REPOSITORY% %AVAILABLE% %UNINSTALL%
             </div>
         </div>
     </div>
@@ -54,6 +54,12 @@
 {% set package_config_button %}
     <a href="%CONFIG%" class="btn btn-sm btn-tertiary">
         <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.config') }}
+    </a>
+{% endset %}
+
+{% set package_repo_button %}
+    <a href="%REPOSITORY_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
+        <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.repository') }}
     </a>
 {% endset %}
 
@@ -119,8 +125,12 @@
 {{ data('extend.packages.authors',          package_authors|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.keyword',          package_keyword|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.keywords',         package_keywords|trim|preg_replace('/>\\s+</', '><')) }}
+
 {{ data('extend.packages.readme_button',    package_readme_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.repo_button',      package_repo_button|trim|preg_replace('/>\\s+</', '><')) }}
+
 {{ data('extend.packages.config_button',    package_config_button|trim|preg_replace('/>\\s+</', '><')) }}
+
 {{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.avail_button',     package_available_button|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.install_new',      package_install_new|trim|preg_replace('/>\\s+</', '><')) }}
