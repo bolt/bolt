@@ -16,12 +16,21 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $app->register(
                 new Silex\Provider\TranslationServiceProvider(),
                 [
-                    'translator.cache_dir' => $app['resources']->getPath('cache/trans'),
                     'locale_fallbacks'     => ['en_GB', 'en'],
                 ]
             );
         }
+        
+        $app['translator.caching'] = $app['config']->get('general/caching/translations');
+        
+        $app['translator.cache_dir'] = $app->share(function ($app) {
+            if ($app['translator.caching'] === false) {
+                return null;
+            }
 
+            return $app['resources']->getPath('cache/trans');
+        });
+        
         $app['translator'] = $app->share(
             $app->extend(
                 'translator',
