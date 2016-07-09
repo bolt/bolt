@@ -17,9 +17,9 @@
         </div>
 
         <div class="panel-footer">
-            %README% %CONFIG% %THEME%
+            %DETAILS% %THEME%
             <div>
-                %REPOSITORY% %AVAILABLE% %UNINSTALL%
+                %AVAILABLE% %UNINSTALL%
             </div>
         </div>
     </div>
@@ -45,22 +45,43 @@
     <div class="tags">%KEYWORDS%</div>
 {% endset %}
 
-{% set package_readme_button %}
-    <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-tertiary">
-        <i class='fa fa-quote-right fa-fw'></i> {{ __('page.extend.button.readme') }}
-    </a>
-{% endset %}
+{#
+ # Contains the README, Configuration, Marketplace & repository link buttons
+ #}
+{% set package_details_dropdown %}
+    <div class="btn-group pull-left">
+        <button type="button" class="btn btn-sm btn-tertiary dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-flag"></i> {{ __('page.extend.button.details') }}
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
 
-{% set package_config_button %}
-    <a href="%CONFIG%" class="btn btn-sm btn-tertiary">
-        <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.config') }}
-    </a>
-{% endset %}
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-silent-danger">
+                    <i class="fa fa-quote-right fa-fw"></i> {{ __('page.extend.button.link-readme') }}
+                </a>
+            </li>
 
-{% set package_repo_button %}
-    <a href="%REPOSITORY_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
-        <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.repository') }}
-    </a>
+            <li>
+                <a href="%CONFIG%" class="btn btn-sm btn-silent-danger">
+                    <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.link-config') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="%MARKETPLACE_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
+                    <i class="fa fa-cart-plus fa-fw"></i> {{ __('page.extend.button.link-marketplace') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="%REPOSITORY_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
+                    <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.link-repository') }}
+                </a>
+            </li>
+        </ul>
+    </div>
 {% endset %}
 
 {% set package_theme_button %}
@@ -126,12 +147,9 @@
 {{ data('extend.packages.keyword',          package_keyword|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.keywords',         package_keywords|trim|preg_replace('/>\\s+</', '><')) }}
 
-{{ data('extend.packages.readme_button',    package_readme_button|trim|preg_replace('/>\\s+</', '><')) }}
-{{ data('extend.packages.repo_button',      package_repo_button|trim|preg_replace('/>\\s+</', '><')) }}
-
-{{ data('extend.packages.config_button',    package_config_button|trim|preg_replace('/>\\s+</', '><')) }}
-
+{{ data('extend.packages.details_dropdown', package_details_dropdown|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}
+
 {{ data('extend.packages.avail_button',     package_available_button|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.install_new',      package_install_new|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.install_update',   package_install_update|trim|preg_replace('/>\\s+</', '><')) }}

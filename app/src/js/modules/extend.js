@@ -349,7 +349,12 @@
                 var invalid = ' — [INVALID] ';
                 var disabled = ' — [DISABLED] ';
                 var constraint = '<i class="fa fa-cog fa-fw"></i>';
-                var repositoryLink = conf.repo_button.subst({'%REPOSITORY_URL%': ext.repositoryLink});
+                var detailsDropdown = conf.details_dropdown.subst({
+                    '%README%': ext.readmeLink,
+                    '%CONFIG%': ext.configLink,
+                    '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
+                    '%REPOSITORY_URL%': ext.repositoryLink
+                });
 
                 // Generate the HTML for a package item.
                 html += conf.item.subst({
@@ -359,11 +364,9 @@
                     '%AUTHORS%':     authors,
                     '%TYPE%':        ext.type,
                     '%AVAILABLE%':   available,
-                    '%README%':      ext.readmeLink ? conf.readme_button.subst({'%README%': ext.readmeLink}) : '',
-                    '%CONFIG%':      ext.configLink ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
+                    '%DETAILS%':     detailsDropdown,
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
-                    '%REPOSITORY%':  repositoryLink,
                     '%UNINSTALL%':   uninstall,
                     '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
                     '%KEYWORDS%':    keywords,
