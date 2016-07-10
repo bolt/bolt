@@ -115,10 +115,24 @@
     }
 
     function updateCheck() {
-        var target;
+        var target,
+            notice;
 
+        // Set up container and wipe existing/previous
         find('.update-container').show();
+
+        notice = find('.update-output-data').html();
+        find('.update-output-notice').html(notice);
+        find('.update-output-notice')
+            .find('.update-output-element')
+            .removeClass('update-output-element')
+            .addClass('update-output')
+            .show();
+
+        find('.update-list').hide();
         target = find('.update-list-items');
+        target.html('');
+
         activeConsole = find('.update-output');
         activeConsole.html(bolt.data('extend.text.updating'));
 
@@ -133,7 +147,7 @@
 
                         // Add an install button.
                         target.append(
-                            Bolt.data(
+                            bolt.data(
                                 'extend.packages.install_new',
                                 {
                                     '%PACKAGE%': ext.name,

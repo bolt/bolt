@@ -78,11 +78,15 @@
 
             <div class="update-container hide-block">
                 <h3>{{ __('page.extend.headline.updates') }}</h3>
-                {% if context.writeable %}
-                <pre class="update-output console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
-                {% else %}
-                <pre class="update-output">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
-                {% endif %}
+                <div class="update-output-data hide-block">
+                    {% if context.writeable %}
+                        <pre class="update-output-element console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
+                    {% else %}
+                        <pre class="update-output-element">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
+                    {% endif %}
+                </div>
+                <div class="update-output-notice">
+                </div>
                 <div class="update-list hide-block">
                     <table class="dashboardlisting table">
                         <thead>

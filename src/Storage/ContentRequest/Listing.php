@@ -35,25 +35,27 @@ class Listing
      *
      * @param string         $contentTypeSlug
      * @param ListingOptions $options
+     *
+     * @return Content|false
      */
     public function action($contentTypeSlug, ListingOptions $options)
     {
         // Order has to be set carefully. Either set it explicitly when the user
-        // sorts, or fall back to what's defined in the contenttype. Except for
+        // sorts, or fall back to what's defined in the ContentType. Except for
         // a ContentType that has a "grouping taxonomy", as that should override
         // it. That exception state is handled by the query OrderHandler.
-        $contenttype = $this->em->getContentType($contentTypeSlug);
+        $contentType = $this->em->getContentType($contentTypeSlug);
         $contentParameters = [
             'paging'  => true,
             'hydrate' => true,
-            'order'   => $options->getOrder() ?: $contenttype['sort'],
+            'order'   => $options->getOrder() ?: $contentType['sort'],
             'page'    => $options->getPage(),
             'filter'  => $options->getFilter(),
         ];
 
         // Set the amount of items to show per page
-        if (!empty($contenttype['recordsperpage'])) {
-            $contentParameters['limit'] = $contenttype['recordsperpage'];
+        if (!empty($contentType['recordsperpage'])) {
+            $contentParameters['limit'] = $contentType['recordsperpage'];
         } else {
             $contentParameters['limit'] = $this->config->get('general/recordsperpage');
         }
