@@ -74,7 +74,7 @@ class TranslationServiceProviderTest extends BoltUnitTest
      * @param Application $app
      */
     protected function registerTranslationServiceWithCachingDisabled(Application $app)
-    {    
+    {
         $app['config']->set('general/caching/translations', false);
     }
 
