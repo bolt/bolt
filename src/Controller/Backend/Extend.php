@@ -314,9 +314,9 @@ class Extend extends BackendBase
             $package = $response[$packageName]['package'];
 
             return $this->json([
-                'name'        => $packageName,
-                'version'     => $package->getPrettyVersion(),
-                'type'        => $package->getType(),
+                'name'    => $packageName,
+                'version' => $package->getPrettyVersion(),
+                'type'    => $package->getType(),
             ]);
         }
 
