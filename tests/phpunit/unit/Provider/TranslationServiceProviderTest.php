@@ -74,14 +74,8 @@ class TranslationServiceProviderTest extends BoltUnitTest
      * @param Application $app
      */
     protected function registerTranslationServiceWithCachingDisabled(Application $app)
-    {
-        $app->register(
-            new \Silex\Provider\TranslationServiceProvider(),
-            [
-                'translator.cache_dir' => null,
-                'locale_fallbacks'     => ['en_GB', 'en'],
-            ]
-        );
+    {    
+        $app['config']->set('general/caching/translations', false);
     }
 
     /**
