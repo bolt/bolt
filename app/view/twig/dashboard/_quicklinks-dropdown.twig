@@ -1,18 +1,26 @@
-<div class="btn-group">
-    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-        {{ __('page.dashboard.button.add') }}
-        <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-    {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
-        {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
-            <li>
-                <a href="{{ path('editcontent', {'contenttypeslug': contenttypeslug}) }}">
-                    <i class="fa fa-plus"></i>
-                    {{ __('contenttypes.generic.new', {'%contenttype%': contenttypeslug}) }}
-                </a>
-            </li>
-        {% endif %}
-    {% endfor %}
-    </ul>
-</div>
+{% set allowedany = false %}
+{% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
+    {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
+        {% set allowedany = true %}
+    {% endif %}
+{% endfor %}
+{% if allowedany %}
+    <div class="btn-group">
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+            {{ __('page.dashboard.button.add') }}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+        {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
+            {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
+                <li>
+                    <a href="{{ path('editcontent', {'contenttypeslug': contenttypeslug}) }}">
+                        <i class="fa fa-plus"></i>
+                        {{ __('contenttypes.generic.new', {'%contenttype%': contenttypeslug}) }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
