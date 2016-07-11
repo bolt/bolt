@@ -344,25 +344,22 @@
                 }
                 keywords = keywords.length ? conf.keywords.subst({'%KEYWORDS%': keywords.join(' ')}) : '';
 
-                // Available versions & uninstall buttons.
-                var available = '',
-                    uninstall = '';
-
                 if (ext.name === 'wikimedia/composer-merge-plugin') {
                     ext.title = 'Local Extension Helper';
                 }
+
+                // Available versions & uninstall buttons.
+                var manage = '';
                 if (ext.status === 'installed') {
-                    available = conf.avail_button.subst({
-                        '%NAME%': ext.name
-                    });
-                    uninstall = conf.uninstall_button.subst({
-                        '%BASEURL%': bolt.data('extend.baseurl'),
-                        '%NAME%': ext.name
+                    manage = conf.manage_dropdown.subst({
+                        '%NAME%': ext.name,
+                        '%BASEURL%': bolt.data('extend.baseurl')
                     });
                 }
                 var invalid = ' — [INVALID] ';
                 var disabled = ' — [DISABLED] ';
                 var constraint = '<i class="fa fa-cog fa-fw"></i>';
+
                 var detailsDropdown = conf.details_dropdown.subst({
                     '%README%': ext.readmeLink,
                     '%CONFIG%': ext.configLink,
@@ -377,11 +374,10 @@
                     '%VERSION%':     ext.version,
                     '%AUTHORS%':     authors,
                     '%TYPE%':        ext.type,
-                    '%AVAILABLE%':   available,
+                    '%MANAGE%':      manage,
                     '%DETAILS%':     detailsDropdown,
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
-                    '%UNINSTALL%':   uninstall,
                     '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
                     '%KEYWORDS%':    keywords,
                     '%STATUS%':      ext.valid === false ? invalid : '',
