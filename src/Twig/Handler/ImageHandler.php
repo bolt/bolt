@@ -136,7 +136,7 @@ class ImageHandler
      * Helper function to show an image on a rendered page.
      *
      * Set width or height parameter to '0' for proportional scaling.
-     * Set them both to '0' to get original width and height.
+     * Set them both to null (or not at all) to get the default size from config.yml.
      *
      * Example: {{ content.image|showimage(320, 240) }}
      * Example: {{ showimage(content.image, 320, 240) }}
