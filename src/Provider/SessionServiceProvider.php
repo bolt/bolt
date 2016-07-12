@@ -19,6 +19,8 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
@@ -33,7 +35,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     {
         $storageConfigOption = $app['config']->get('general/session/handler', 'filesystem');
 
-        if ($app['session.test'] === true) {
+        if ($app['session.test'] === true or $storageConfigOption === 'null') {
             $handler = new NullSessionHandler();
 
         } else if ($storageConfigOption === 'filesystem') {
@@ -44,15 +46,9 @@ class SessionServiceProvider implements ServiceProviderInterface
             );
 
         } else if ($storageConfigOption === 'memcached') {
-            $memcache = new \Memcache();
-            $memcache->setServerParams(
-                $app['config']->get('general/session/memecache_host', 'localhost'),
-                $app['config']->get('general/session/memecache_port', 11211),
-                $app['config']->get('general/session/memecache_timeout', 1),
-                $app['config']->get('general/session/memecache_retry_interval', 15),
-                $app['config']->get('general/session/memecache_status', true)
-            );
-            $handler = new MemcachedSessionHandler($memcache, [
+            $memcached = new \Memcached();
+            $memcached->setOptions($app['config']->get('general/session/memcached_options'));
+            $handler = new MemcachedSessionHandler($memcached, [
                 'prefix' => 'bolt_session_'
             ]);
 
@@ -65,15 +61,53 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $app['config']->get('general/session/memecache_retry_interval', 15),
                 $app['config']->get('general/session/memecache_status', true)
             );
+            $handler = new MemcacheSessionHandler($memcache, []);
 
         } else if ($storageConfigOption === 'native_file') {
-            $handler = new NullSessionHandler();
+            $handler = new NativeFileSessionHandler(
+                $app['config']->get('general/session/native_file_dir', '/tmp')
+            );
 
         } else if ($storageConfigOption === 'native') {
-            $handler = new NullSessionHandler();
+            $handler = new NativeSessionHandler();
 
-        } else if ($storageConfigOption === 'null') {
-            $handler = new NullSessionHandler();
+        } else if ($storageConfigOption === 'redis') {
+            if (class_exists('Redis')) {
+                $redis = new \Redis();
+
+                $connMethod = $app['config']->get('general/session/redis_persistent', false) ? 'pconnect' : 'connect';
+                $redis->$connMethod(
+                    $app['config']->get('general/session/redis_host', '127.0.0.1'),
+                    $app['config']->get('general/session/redis_port', 6379),
+                    $app['config']->get('general/session/redis_timeout', 0)
+                );
+
+                if ($redisPassword = $app['config']->get('general/session/redis_password', false)) {
+                    $redis->auth($redisPassword);
+                }
+
+                if ($redisDatabase = $app['config']->get('general/session/redis_database', false)) {
+                    $redis->select($redisDatabase);
+                }
+
+                if (!empty($redisConnection['prefix'])) {
+                    $redis->setOption(\Redis::OPT_PREFIX, $redisConnection['prefix']);
+                }
+
+                $handler = new RedisHandler($redis, $app['config']->get('general/session/redis_maxlifetime', 1440));
+            } else if (class_exists('Predis\Client')) {
+                $params = [];
+                $options = [];
+                foreach ($connections as $conn) {
+                    $params[] = $conn;
+                    if (!empty($conn['prefix'])) {
+                        $options['prefix'] = $conn['prefix'];
+                    }
+                }
+                $redis = new \Predis\Client($params, $options);
+            } else {
+                throw new \RuntimeException('Neither Redis nor Predis\Client exist');
+            }
 
         } else {
             throw new \RuntimeException("Unsupported session storage handler '$storageConfigOption' specified");
@@ -182,14 +216,14 @@ class SessionServiceProvider implements ServiceProviderInterface
     public function configure(Application $app)
     {
         $app['session.options'] = [
-            'name'            => 'bolt_session_',
-            'restrict_realm'  => true,
-            'save_handler'    => 'filesystem',
-            'save_path'       => 'cache://.sessions',
+            'name' => 'bolt_session_',
+            'restrict_realm' => true,
+            'save_handler' => 'filesystem',
+            'save_path' => 'cache://.sessions',
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
-            'cookie_path'     => $app['resources']->getUrl('root'),
-            'cookie_domain'   => $app['config']->get('general/cookies_domain'),
-            'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
+            'cookie_path' => $app['resources']->getUrl('root'),
+            'cookie_domain' => $app['config']->get('general/cookies_domain'),
+            'cookie_secure' => $app['config']->get('general/enforce_ssl'),
             'cookie_httponly' => true,
         ];
     }
@@ -210,27 +244,27 @@ class SessionServiceProvider implements ServiceProviderInterface
                  * 2) Converts options to an OptionsBag instance
                  */
                 $defaults = [
-                    'save_handler'    => 'files',
-                    'save_path'       => '/tmp',
-                    'name'            => 'PHPSESSID',
-                    'lazy_write'      => true,
+                    'save_handler' => 'files',
+                    'save_path' => '/tmp',
+                    'name' => 'PHPSESSID',
+                    'lazy_write' => true,
                     //'auto_start' => false,
                     //'serialize_handler' => null,
-                    'gc_probability'  => 1,
-                    'gc_divisor'      => 1000,
-                    'gc_maxlifetime'  => 1440,
+                    'gc_probability' => 1,
+                    'gc_divisor' => 1000,
+                    'gc_maxlifetime' => 1440,
                     //'referer_check' => '',
                     //'use_strict_mode' => false,
                     'cookie_lifetime' => 0,
-                    'cookie_path'     => '/',
-                    'cookie_domain'   => null,
-                    'cookie_secure'   => false,
+                    'cookie_path' => '/',
+                    'cookie_domain' => null,
+                    'cookie_secure' => false,
                     'cookie_httponly' => false,
                     // TODO Do started native sessions force "nocache" header in response?
                     // We don't have a way to force that, should we?
                     //'cache_limiter' => 'nocache',
                     //'cache_expire'  => 180,
-                    'restrict_realm'  => false,
+                    'restrict_realm' => false,
                 ];
 
                 $options = new OptionsBag($defaults);
@@ -396,14 +430,14 @@ class SessionServiceProvider implements ServiceProviderInterface
         /** @var ParameterBag[] $toParse */
         $toParse = [];
         if (isset($options['connections'])) {
-            foreach ((array) $options['connections'] as $alias => $conn) {
+            foreach ((array)$options['connections'] as $alias => $conn) {
                 if (is_string($conn)) {
                     $conn = ['host' => $conn];
                 }
                 $conn += [
                     'scheme' => 'tcp',
-                    'host'   => $defaultHost,
-                    'port'   => $defaultPort,
+                    'host' => $defaultHost,
+                    'port' => $defaultPort,
                 ];
                 $conn = new ParameterBag($conn);
 
@@ -432,17 +466,17 @@ class SessionServiceProvider implements ServiceProviderInterface
             $password = isset($parts[1]) ? $parts[1] : null;
 
             $connections[] = [
-                'scheme'     => $uri->getScheme(),
-                'host'       => $uri->getHost(),
-                'port'       => $uri->getPort(),
-                'path'       => $uri->getPath(),
-                'alias'      => $conn->get('alias'),
-                'prefix'     => $conn->get('prefix'),
-                'password'   => $password,
-                'database'   => $conn->get('database'),
+                'scheme' => $uri->getScheme(),
+                'host' => $uri->getHost(),
+                'port' => $uri->getPort(),
+                'path' => $uri->getPath(),
+                'alias' => $conn->get('alias'),
+                'prefix' => $conn->get('prefix'),
+                'password' => $password,
+                'database' => $conn->get('database'),
                 'persistent' => $conn->get('persistent'),
-                'weight'     => $conn->get('weight'),
-                'timeout'    => $conn->get('timeout'),
+                'weight' => $conn->get('weight'),
+                'timeout' => $conn->get('timeout'),
             ];
         }
 
