@@ -27,7 +27,7 @@
         {% for rkey, rfield in field.fields %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {
-                'key':        rkey,
+                'key':        name ~ '_' ~ index ~ '_' ~ rkey,
                 'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
                 'contentkey': rkey,
                 'field':      rfield,
