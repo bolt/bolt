@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -29,6 +30,81 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 class SessionServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
+    {
+        $storageConfigOption = $app['config']->get('general/session/handler', 'filesystem');
+
+        if ($app['session.test'] === true) {
+            $handler = new NullSessionHandler();
+
+        } else if ($storageConfigOption === 'filesystem') {
+            $handler = new FilesystemHandler(
+                $app['filesystem']->getDir(
+                    $app['config']->get('general/session/filesystem_dir', 'cache://.sessions')
+                )
+            );
+
+        } else if ($storageConfigOption === 'memcached') {
+            $memcache = new \Memcache();
+            $memcache->setServerParams(
+                $app['config']->get('general/session/memecache_host', 'localhost'),
+                $app['config']->get('general/session/memecache_port', 11211),
+                $app['config']->get('general/session/memecache_timeout', 1),
+                $app['config']->get('general/session/memecache_retry_interval', 15),
+                $app['config']->get('general/session/memecache_status', true)
+            );
+            $handler = new MemcachedSessionHandler($memcache, [
+                'prefix' => 'bolt_session_'
+            ]);
+
+        } else if ($storageConfigOption === 'memcache') {
+            $memcache = new \Memcache();
+            $memcache->setServerParams(
+                $app['config']->get('general/session/memecache_host', 'localhost'),
+                $app['config']->get('general/session/memecache_port', 11211),
+                $app['config']->get('general/session/memecache_timeout', 1),
+                $app['config']->get('general/session/memecache_retry_interval', 15),
+                $app['config']->get('general/session/memecache_status', true)
+            );
+
+        } else if ($storageConfigOption === 'native_file') {
+            $handler = new NullSessionHandler();
+
+        } else if ($storageConfigOption === 'native') {
+            $handler = new NullSessionHandler();
+
+        } else if ($storageConfigOption === 'null') {
+            $handler = new NullSessionHandler();
+
+        } else {
+            throw new \RuntimeException("Unsupported session storage handler '$storageConfigOption' specified");
+        }
+
+        $app['session'] = $app->share(
+            function (Application $app) {
+                return new Session(
+                    $app['session.storage'],
+                    new AttributeBag(),
+                    new FlashBag()
+                );
+            }
+        );
+
+        $app['session.storage'] = $app->share(function (Application $app) use ($handler) {
+            return new SessionStorage(
+                new OptionsBag(),
+                $handler,
+                new RandomGenerator(
+                    $app['randomgenerator'],
+                    $app['session.generator.bytes_length']
+                ),
+                new NativeSerializer(),
+                $app['monolog'],
+                new MetadataBag()
+            );
+        });
+    }
+
+    public function register_bu(Application $app)
     {
         $app['session'] = $app->share(
             function ($app) {
@@ -67,7 +143,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.generator'] = $app->share(
             function () use ($app) {
-                return new RandomGenerator($app['randomgenerator'], $app['session.generator.bytes_length']);
+
             }
         );
         $app['session.generator.bytes_length'] = 32;
