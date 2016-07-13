@@ -165,11 +165,11 @@ class SessionServiceProvider implements ServiceProviderInterface
                     }
                 }
 
-                $options->add($app['session.options']);
-
                 if (isset($app['session.storage.options'])) {
                     $options->add($app['session.storage.options']);
                 }
+
+                $options->add($app['session.options']);
 
                 return $options;
             }
