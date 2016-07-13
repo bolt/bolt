@@ -33,12 +33,6 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
-        $app['session.listener'] = $app->share(
-            function ($app) {
-                return new SessionListener($app['session'], $app['session.options_bag']);
-            }
-        );
-
         $app['session'] = $app->share(function (Application $app) {
             return new Session(
                 $app['session.storage'],
@@ -46,6 +40,12 @@ class SessionServiceProvider implements ServiceProviderInterface
                 new FlashBag()
             );
         });
+
+        $app['session.listener'] = $app->share(
+            function ($app) {
+                return new SessionListener($app['session'], $app['session.options_bag']);
+            }
+        );
 
         $app['session.storage'] = $app->share(function (Application $app) {
             return new SessionStorage(
