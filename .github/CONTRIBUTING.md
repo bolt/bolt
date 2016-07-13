@@ -93,26 +93,60 @@ but we can't make any promises as to when/if it'll be realised.
 ----------------------------
 
 Your contributions to the project are very welcome. If you would like to fix a
-bug or implement a proposed feature, you can submit a Pull Request. To help us
-merge your Pull Request, please make sure you follow these points:
-
- 1. Describe the problem clearly in the Pull Request description.
- 2. Please refer to a bug report on the issue list. An example of a good title
-    is "Fixes problem [x] by doing [y]. Fixes #1555"
- 3. If you're doing a PR for a non-trivial new feature, _please_ make an `RFC`
-    issue first, as described above.
- 4. Do not edit compiled asset files such as `bolt.js` or `bolt.css`.
-    Instead, edit the source JavaScript and Sass files inside the `/app/src/`
-    directory. We'll handle the updated compiled files.
- 5. For any change that you make, **please try to also add a test case(s)** in
-    the `tests` directory.
+bug or implement a proposed feature, you can submit a Pull Request. 
 
 Make sure you read our guide on [Contributing to
 Bolt](https://docs.bolt.cm/internals/contributing), the page on [Code
 Quality](https://docs.bolt.cm/internals/code-quality) and the page describing
 our [Release process](https://docs.bolt.cm/internals/release-process).
 
-Further reading:
+### Bug fixes & "mini" features
+
+To help us merge your Pull Request, please make sure you follow these points:
+
+ 1. Describe the problem clearly in the Pull Request description.
+ 2. Please refer to a bug report on the issue list. An example of a good title
+    is "Fixes problem [x] by doing [y]. Fixes #1555"
+ 4. Do not edit compiled asset files such as `bolt.js` or `bolt.css`.
+    Instead, edit the source JavaScript and Sass files inside the `/app/src/`
+    directory. We'll handle the updated compiled files.
+ 5. For any change that you make, **please try to also add a test case(s)** in
+    the `tests` directory.
+ 3. If you're doing a PR for a non-trivial new feature, see the [Features](#features)
+    section below.
+
+### Features
+
+Bolt has a warm, welcoming, and helpful team of core developers who can, collectively,
+help you to get a new feature into Bolt.
+
+New features should have a "sponsor" on the core-team. You are welcome to, ask a
+specific team member to sponsor your work (ask around on Slack or IRC), or we'll try
+to match someone to your feature based on their area of expertise.
+
+We have some simple processes to assist in getting new features from the concept stage, 
+right though to a released and maintained Bolt.
+
+ 1. Open an RFC [issue](https://github.com/bolt/bolt/issues/new) following these criteria:
+     * Prefix the title with "[RFC]"
+     * Breifely describe the use case
+     * If requireing new libraries, a brief justification of why that one was chosen
+ 3. Be assigned a "sponsor" from the core team
+ 4. Submit the PR
+ 5. Celebrate with your new friends in the Bolt community!
+ 
+New features should also be accompanied with:
+   * Unit and/or acceptance tests
+   * Documentation
+
+Your sponsor is there to help you, as is a large and helpful community of people
+on both Slack and IRC, should you have troubles with any of this.
+
+**NOTE:** Sponsors help out in their own personal time, so please be patient and respectful 
+of their available time. We will do our best to do the same with you.
+
+### Further reading
+
  - [Creating a pull request](https://help.github.com/articles/creating-a-pull-request/)
  - [Pull Request Tutorial](http://yangsu.github.io/pull-request-tutorial/)
 
