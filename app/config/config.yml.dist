@@ -368,6 +368,55 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
+# Session Storage
+# Bolt uses the powerful Symfony sessions library, allowing you to easily customize
+# the way your sessions are stored without having to mess with your php.ini file.
+# Set the handler option to one of these and change the settings for that handler to your liking:
+# files, filesystem, memcache, memcached, native_file, native, predis, or redis
+#
+# session:
+#     handler: filesystem
+#     files:
+#         dir: cache://.sessions
+#     filesystem:
+#         dir: cache://.sessions
+#     memcache:
+#         prefix: bolt_session_
+#         expire_time: 86400
+#         servers:
+#             - host: 127.0.0.1
+#               port: 11211
+#               persistent: true
+#               weight: 0
+#     memcached:
+#         prefix: bolt_session_
+#         expire_time: bolt_session_
+#         servers:
+#             - host: 127.0.0.1
+#               port: 11211
+#               weight: 0
+#     native_file:
+#         dir: /tmp
+#     predis:
+#         prefix: "bolt_session:"
+#         max_lifetime: 1440
+#         cluster: redis
+#         parameters:
+#             password: ""
+#             database: 0
+#         connections:
+#             - tcp://10.0.0.1
+#             - tcp://10.0.0.2
+#     redis:
+#         persistent: false
+#         prefix: "bolt_session:"
+#         max_lifetime: 1440
+#         host: 127.0.0.1
+#         port: 6379
+#         password: ""
+#         database: 0
+
+
 # The hash_strength determines the amount of iterations for encrypting
 # passwords.
 #
