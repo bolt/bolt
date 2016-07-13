@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Session\Generator\RandomGenerator;
+use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
@@ -29,10 +30,21 @@ use Predis\Client as Predis;
 class SessionServiceProvider implements ServiceProviderInterface
 {
     /**
+     * @var Application
+     */
+    protected $app;
+
+    /**
      * @param Application $app
+     * @return void
      */
     public function register(Application $app)
     {
+        $this->app = $app;
+
+        $this->registerOptions();
+        $this->registerHandlers();
+
         $app['session'] = $app->share(function (Application $app) {
             return new Session(
                 $app['session.storage'],
@@ -49,141 +61,35 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage'] = $app->share(function (Application $app) {
             return new SessionStorage(
-                new OptionsBag(),
+                $app['session.storage.options'],
                 $app['session.storage.handler'],
-                new RandomGenerator(
-                    $app['randomgenerator'],
-                    $app['session.generator.bytes_length']
-                ),
-                new NativeSerializer(),
+                $app['session.storage.random_generator'],
+                $app['session.serializer'],
                 $app['monolog'],
                 new MetadataBag()
             );
         });
 
-        if ($app->offsetExists('session.storage.handler') === false) {
-            $app['session.storage.handler'] = $app->share(function (Application $app) {
-                $storageConfigOption = $app['config']->get('general/session/handler', 'filesystem');
+        $app['session.storage.handler'] = $app->share(function (Application $app) {
+            $handler = $app['session.storage.options']->get('dir');
 
-                if ($app['session.test'] === true or $storageConfigOption === 'null') {
-                    $handler = new NullSessionHandler();
+            if (!isset($app['session.storage.handler.' . $handler])) {
+                throw new \RuntimeException("Invalid storage handler '$handler' specified.")
+            }
 
-                } else if ($storageConfigOption === 'filesystem') {
-                    $handler = new FilesystemHandler(
-                        $app['filesystem']->getDir(
-                            $app['config']->get('general/session/filesystem/dir', 'cache://.sessions')
-                        )
-                    );
+            return $app['session.storage.handler.' . $handler];
+        });
 
-                } else if ($storageConfigOption === 'files') {
-                    $handler = new FilesystemHandler(
-                        $app['filesystem']->getDir(
-                            $app['config']->get('general/session/files/dir', 'cache://.sessions')
-                        )
-                    );
+        $app['session.random_generator'] = $app->share(function (Application $app) {
+            return new RandomGenerator(
+                $app['randomgenerator'],
+                $app['session.generator.bytes_length']
+            );
+        });
 
-                } else if ($storageConfigOption === 'memcached') {
-                    $memcached = new \Memcached();
-                    $memcached->addServers(
-                        $app['config']->get('general/session/memcached/servers', [
-                            [
-                                'host' => '127.0.0.1',
-                                'port' => '11211'
-                            ]
-                        ])
-                    );
-                    $handler = new MemcachedSessionHandler($memcached, [
-                        'prefix' => $app['config']->get('general/session/memcached/prefix', 'bolt_session_'),
-                        'expiretime' => $app['config']->get('general/session/memcached/expire_time', 86400),
-                    ]);
-
-                } else if ($storageConfigOption === 'memcache') {
-                    $memcache = new \Memcache();
-
-                    $memcacheServers = $app['config']->get('general/session/memcached/servers', [
-                        [
-                            'host' => '127.0.0.1',
-                            'port' => '11211',
-                            'persistent' => false,
-                            'weight' => 0
-                        ]
-                    ]);
-                    foreach ($memcacheServers as $memcacheServer) {
-                        $memcache->addserver(
-                            $memcacheServer['host'],
-                            $memcacheServer['port'],
-                            $memcacheServer['persistent'],
-                            $memcacheServer['weight']
-                        );
-                    }
-
-                    $handler = new MemcacheSessionHandler($memcache, [
-                        'prefix' => $app['config']->get('general/session/memcached/prefix', 'bolt_session_'),
-                        'expiretime' => $app['config']->get('general/session/memcached/expire_time', 86400),
-                    ]);
-
-                } else if ($storageConfigOption === 'native_file') {
-                    $handler = new NativeFileSessionHandler(
-                        $app['config']->get('general/session/native_file/dir', '/tmp')
-                    );
-
-                } else if ($storageConfigOption === 'native') {
-                    $handler = new NativeSessionHandler();
-
-                } else if ($storageConfigOption === 'predis') {
-                    if (!class_exists('\Predis\Client')) {
-                        throw new \RuntimeException('predis/predis composer package not installed');
-                    }
-
-                    $predisConnections = $app['config']->get('general/session/predis/connections', ['tcp://127.0.0.1']);
-                    $predisOptions = [
-                        'prefix' => $app['config']->get('general/session/predis/prefix', 'bolt_session:'),
-                        'parameters' => $app['config']->get('general/session/predis/parameters', []),
-                        'cluster' => $app['config']->get('general/session/predis/cluster', 'redis'),
-                    ];
-                    $predis = new Predis($predisConnections, $predisOptions);
-
-                    $handler = new RedisHandler(
-                        $predis,
-                        $app['config']->get('general/session/predis/max_lifetime', 1440)
-                    );
-
-                } else if ($storageConfigOption === 'redis') {
-                    if (!class_exists('\Redis')) {
-                        throw new \RuntimeException('Redis extension not installed');
-                    }
-
-                    $redis = new \Redis();
-
-                    $method = $app['config']->get('general/session/redis/persistent', false) ? 'pconnect' : 'connect';
-                    $redis->$method(
-                        $app['config']->get('general/session/redis/host', '127.0.0.1'),
-                        $app['config']->get('general/session/redis/port', 6379)
-                    );
-
-                    if ($redisPassword = $app['config']->get('general/session/redis/password', false)) {
-                        $redis->auth($redisPassword);
-                    }
-
-                    if ($redisDatabase = $app['config']->get('general/session/redis/database', false)) {
-                        $redis->select($redisDatabase);
-                    }
-
-                    $redis->setOption(
-                        \Redis::OPT_PREFIX,
-                        $app['config']->get('general/session/redis/prefix', 'bolt_session:')
-                    );
-
-                    $handler = new RedisHandler($redis, $app['config']->get('general/session/redis/max_lifetime', 1440));
-
-                } else {
-                    throw new \RuntimeException("Unsupported session storage handler '$storageConfigOption' specified");
-                }
-
-                return $handler;
-            });
-        }
-
+        $app['session.serializer'] = $app->share(function () {
+            return new NativeSerializer();
+        });
     }
 
     /**
@@ -191,5 +97,142 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerHandlers()
+    {
+        $this->app['session.storage.handler.filesystem'] = $this->app->share(function (Application $app) {
+            // todo decouple the filesystem class from this provider?
+            return new FilesystemHandler(
+                $app['filesystem']->getDir(
+                    $app['session.storage.options']->get('dir')
+                )
+            );
+        });
+
+        $this->app['session.storage.handler.file'] = $this->app->share(function (Application $app) {
+            $logger = isset($app['monolog']) ? $app['monolog'] : null;
+            $fileSystem = null;
+            if (isset($app['filesystem'])) {
+                $fileSystem = $app['filesystem']->getDir(
+                    $app['session.storage.options']->get('dir')
+                );
+            }
+
+            return new FileHandler($app['session.storage.options']->get('files/dir'), $logger, $fileSystem);
+        });
+
+        $this->app['session.storage.handler.memcached'] = $this->app->share(function (Application $app) {
+            $memcached = new \Memcached();
+            $memcached->addServers($app['session.storage.options']->get('connections'));
+
+            return new MemcachedSessionHandler($memcached, [
+                'prefix' => $app['session.storage.options']->get('prefix'),
+                'expiretime' => $app['session.storage.options']->get('lifetime'),
+            ]);
+        });
+
+        $this->app['session.storage.handler.memcache'] = $this->app->share(function (Application $app) {
+            $memcache = new \Memcache();
+
+            $memcacheServers = $app['session.storage.options']->get('connections');
+            foreach ($memcacheServers as $memcacheServer) {
+                $memcache->addserver(
+                    $memcacheServer['host'],
+                    $memcacheServer['port'],
+                    $memcacheServer['persistent'],
+                    $memcacheServer['weight']
+                );
+            }
+
+            return new MemcacheSessionHandler($memcache, [
+                'prefix' => $app['session.storage.options']->get('prefix'),
+                'expiretime' => $app['session.storage.options']->get('lifetime'),
+            ]);
+
+        });
+
+        $this->app['session.storage.handler.native_file'] = $this->app->share(function (Application $app) {
+            return new NativeFileSessionHandler($app['session.storage.options']->get('dir'));
+        });
+
+        $this->app['session.storage.handler.native'] = $this->app->share(function (Application $app) {
+            return new NativeSessionHandler();
+        });
+
+        $this->app['session.storage.handler.predis'] = $this->app->share(function (Application $app) {
+            if (!class_exists('\Predis\Client')) {
+                throw new \RuntimeException('predis/predis composer package not installed');
+            }
+
+            $predisConnections = $app['session.storage.options']->get('connections');
+            $predisOptions = [
+                'prefix' => $app['session.storage.options']->get('prefix'),
+                'parameters' => $app['session.storage.options']->get('parameters'),
+                'cluster' => $app['session.storage.options']->get('cluster'),
+            ];
+            $predis = new Predis($predisConnections, $predisOptions);
+
+            $handler = new RedisHandler($predis, $app['session.storage.options']->get('lifetime'));
+        });
+
+        $this->app['session.storage.handler.redis'] = $this->app->share(function (Application $app) {
+            if (!class_exists('\Redis')) {
+                throw new \RuntimeException('Redis extension not installed');
+            }
+
+            $redis = new \Redis();
+
+            $method = $app['session.storage.options']->get('persistent') ? 'pconnect' : 'connect';
+            $redis->$method(
+                $app['session.storage.options']->get('connections')[0]['host'],
+                $app['session.storage.options']->get('connections')[0]['port']
+            );
+
+            if ($redisPassword = $app['session.storage.options']->get('password')) {
+                $redis->auth($redisPassword);
+            }
+
+            if ($redisDatabase = $app['session.storage.options']->get('database')) {
+                $redis->select($redisDatabase);
+            }
+
+            $redis->setOption(\Redis::OPT_PREFIX, $app['session.storage.options']->get('prefix'));
+
+            $handler = new RedisHandler($redis, $app['session.storage.options']->get('lifetime'));
+        });
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerOptions()
+    {
+        $this->app['session.storage.options'] = $this->app->share(function (Application $app) {
+            $optionsBag = new OptionsBag();
+
+            // defaults
+            $optionsBag->add([
+                'dir' => 'cache://.sessions',
+                'prefix' => 'bolt_session_',
+                'lifetime' => 86400,
+                'connections' => [
+                    [
+                        'host' => '127.0.0.1',
+                        'port' => '11211'
+                    ]
+                ],
+                'parameters' => [],
+                'cluster' => 'redis',
+                'persistent' => false,
+                'password' => false,
+                'database' => 0,
+            ]);
+
+            return $optionsBag;
+        });
     }
 }
