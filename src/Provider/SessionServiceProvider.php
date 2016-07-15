@@ -12,6 +12,7 @@ use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -71,10 +72,10 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $app['session.storage.handler'] = $app->share(function (Application $app) {
-            $handler = $app['session.storage.options']->get('dir');
+            $handler = $app['session.storage.options']->get('handler');
 
             if (!isset($app['session.storage.handler.' . $handler])) {
-                throw new \RuntimeException("Invalid storage handler '$handler' specified.")
+                throw new \RuntimeException("Invalid storage handler '$handler' specified.");
             }
 
             return $app['session.storage.handler.' . $handler];
@@ -104,30 +105,37 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     protected function registerHandlers()
     {
+        $this->app['session.storage.handler.null'] = $this->app->share(function () {
+            return new NullSessionHandler();
+        });
+
         $this->app['session.storage.handler.filesystem'] = $this->app->share(function (Application $app) {
             // todo decouple the filesystem class from this provider?
             return new FilesystemHandler(
                 $app['filesystem']->getDir(
-                    $app['session.storage.options']->get('dir')
+                    $app['session.storage.options']->get('dir') ?: 'cache://.sessions'
                 )
             );
         });
 
         $this->app['session.storage.handler.file'] = $this->app->share(function (Application $app) {
             $logger = isset($app['monolog']) ? $app['monolog'] : null;
-            $fileSystem = null;
-            if (isset($app['filesystem'])) {
-                $fileSystem = $app['filesystem']->getDir(
-                    $app['session.storage.options']->get('dir')
-                );
-            }
+            $fileSystem = isset($app['filesystem']) ? $app['filesystem'] : new Filesystem();
 
-            return new FileHandler($app['session.storage.options']->get('files/dir'), $logger, $fileSystem);
+            return new FileHandler($app['session.storage.options']->get('dir') ?: '/tmp', $logger, $fileSystem);
         });
 
         $this->app['session.storage.handler.memcached'] = $this->app->share(function (Application $app) {
             $memcached = new \Memcached();
-            $memcached->addServers($app['session.storage.options']->get('connections'));
+
+            $memcachedConnections = $app['session.storage.options']->get('connections');
+            foreach ($memcachedConnections as $memcachedConnection) {
+                $memcached->addServer(
+                    $memcachedConnection['host'],
+                    $memcachedConnection['port'] ?: 6379,
+                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 0
+                );
+            }
 
             return new MemcachedSessionHandler($memcached, [
                 'prefix' => $app['session.storage.options']->get('prefix'),
@@ -138,21 +146,20 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->app['session.storage.handler.memcache'] = $this->app->share(function (Application $app) {
             $memcache = new \Memcache();
 
-            $memcacheServers = $app['session.storage.options']->get('connections');
-            foreach ($memcacheServers as $memcacheServer) {
+            $memcacheConnections = $app['session.storage.options']->get('connections');
+            foreach ($memcacheConnections as $memcacheConnection) {
                 $memcache->addserver(
-                    $memcacheServer['host'],
-                    $memcacheServer['port'],
-                    $memcacheServer['persistent'],
-                    $memcacheServer['weight']
+                    $memcacheConnection['host'],
+                    $memcacheConnection['port'] ?: 6379,
+                    $app['session.storage.options']->getBoolean('persistent'),
+                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 0
                 );
             }
 
             return new MemcacheSessionHandler($memcache, [
                 'prefix' => $app['session.storage.options']->get('prefix'),
-                'expiretime' => $app['session.storage.options']->get('lifetime'),
+                'expiretime' => $app['session.storage.options']->getInt('lifetime'),
             ]);
-
         });
 
         $this->app['session.storage.handler.native_file'] = $this->app->share(function (Application $app) {
@@ -176,7 +183,7 @@ class SessionServiceProvider implements ServiceProviderInterface
             ];
             $predis = new Predis($predisConnections, $predisOptions);
 
-            $handler = new RedisHandler($predis, $app['session.storage.options']->get('lifetime'));
+            return new RedisHandler($predis, $app['session.storage.options']->getInt('lifetime'));
         });
 
         $this->app['session.storage.handler.redis'] = $this->app->share(function (Application $app) {
@@ -187,22 +194,23 @@ class SessionServiceProvider implements ServiceProviderInterface
             $redis = new \Redis();
 
             $method = $app['session.storage.options']->get('persistent') ? 'pconnect' : 'connect';
+            $connection = $app['session.storage.options']->get('connections')[0];
             $redis->$method(
-                $app['session.storage.options']->get('connections')[0]['host'],
-                $app['session.storage.options']->get('connections')[0]['port']
+                $connection['host'],
+                $connection['port'] ?: 6379
             );
 
             if ($redisPassword = $app['session.storage.options']->get('password')) {
                 $redis->auth($redisPassword);
             }
 
-            if ($redisDatabase = $app['session.storage.options']->get('database')) {
+            if ($redisDatabase = $app['session.storage.options']->getInt('database')) {
                 $redis->select($redisDatabase);
             }
 
             $redis->setOption(\Redis::OPT_PREFIX, $app['session.storage.options']->get('prefix'));
 
-            $handler = new RedisHandler($redis, $app['session.storage.options']->get('lifetime'));
+            return new RedisHandler($redis, $app['session.storage.options']->getInt('lifetime'));
         });
     }
 
@@ -212,27 +220,29 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerOptions()
     {
         $this->app['session.storage.options'] = $this->app->share(function (Application $app) {
-            $optionsBag = new OptionsBag();
-
-            // defaults
-            $optionsBag->add([
-                'dir' => 'cache://.sessions',
-                'prefix' => 'bolt_session_',
-                'lifetime' => 86400,
+            return new OptionsBag([
+                'handler' => 'filesystem',
+                'cluster' => 'redis',
                 'connections' => [
                     [
                         'host' => '127.0.0.1',
-                        'port' => '11211'
+                        'port' => false
                     ]
                 ],
-                'parameters' => [],
-                'cluster' => 'redis',
-                'persistent' => false,
-                'password' => false,
                 'database' => 0,
+                'dir' => false,
+                'gc_divisor' => 100,
+                'gc_propability' => 1,
+                'gc_maxlifetime' => 1440,
+                'lazy_write' => false,
+                'lifetime' => 86400,
+                'name' => 'PHPSESSID',
+                'parameters' => [],
+                'password' => false,
+                'persistent' => false,
+                'prefix' => 'bolt_session_',
             ]);
-
-            return $optionsBag;
         });
     }
+
 }
