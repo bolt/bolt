@@ -234,6 +234,7 @@ class SessionServiceProvider implements ServiceProviderInterface
             return new OptionsBag([
                 'handler' => 'filesystem',
                 'cluster' => 'redis',
+                'cookie_lifetime' => 0,
                 'connections' => [
                     [
                         'host' => '127.0.0.1',
