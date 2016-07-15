@@ -88,6 +88,8 @@ class SessionServiceProvider implements ServiceProviderInterface
             );
         });
 
+        $app['session.generator.bytes_length'] = 32;
+
         $app['session.serializer'] = $app->share(function () {
             return new NativeSerializer();
         });
