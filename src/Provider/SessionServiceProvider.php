@@ -246,7 +246,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                 'dir' => false,
                 'gc_divisor' => 100,
                 'gc_maxlifetime' => 1440,
-                'gc_propability' => 1,
+                'gc_probability' => 1,
                 'handler' => 'filesystem',
                 'lazy_write' => false,
                 'lifetime' => 86400,
