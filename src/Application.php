@@ -85,7 +85,7 @@ class Application extends Silex\Application
         $this->register(new Provider\SessionServiceProvider());
 
         $this->extend('session.bag.options', function (OptionsBag $optionsBag, Silex\Application $app) {
-            $optionsBag->set('filesystem', $app['config']->get('general/session/handler', 'filesystem'));
+            $optionsBag->set('handler', $app['config']->get('general/session/handler', 'filesystem'));
 
             return $optionsBag;
         });
