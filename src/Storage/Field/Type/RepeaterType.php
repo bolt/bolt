@@ -86,7 +86,7 @@ class RepeaterType extends FieldTypeBase
         if ($this->isJson($data[$key])) {
             $originalMapping[$key]['fields'] = $this->mapping['fields'];
             $originalMapping[$key]['type'] = 'repeater';
-            $mapping['data'] = $this->em->getMapper()->getRepeaterMapping($originalMapping);
+            $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
 
             $decoded = json_decode($data[$key], true);
             $collection = new RepeatingFieldCollection($this->em, $mapping);
