@@ -54,11 +54,9 @@ class SessionServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['session.listener'] = $app->share(
-            function ($app) {
-                return new SessionListener($app['session'], $app['session.bag.options']);
-            }
-        );
+        $app['session.listener'] = $app->share(function ($app) {
+            return new SessionListener($app['session'], $app['session.bag.options']);
+        });
 
         $app['session.storage'] = $app->share(function (Application $app) {
             return new SessionStorage(
@@ -73,6 +71,10 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage.handler'] = $app->share(function (Application $app) {
             $handler = $app['session.bag.options']->get('handler');
+
+            if (isset($app['session.test']) and $app['session.test']) {
+                return $app['session.storage.handler.null'];
+            }
 
             if (!isset($app['session.storage.handler.' . $handler])) {
                 throw new \RuntimeException("Invalid storage handler '$handler' specified.");
@@ -112,6 +114,7 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
+        $app['dispatcher']->addSubscriber($app['session.listener']);
     }
 
     /**
