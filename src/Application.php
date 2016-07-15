@@ -85,10 +85,22 @@ class Application extends Silex\Application
         $this->register(new Provider\SessionServiceProvider());
 
         $this->extend('session.bag.options', function (OptionsBag $optionsBag, Silex\Application $app) {
-            $optionsBag->set('handler', $app['config']->get('general/session/handler', 'filesystem'));
+            // Backwards compatibility
+            // @todo remove?
+            if ($app['config']->get('general/session_use_storage_handler', false)) {
+                $optionsBag->set('handler', 'null');
+
+                return $optionsBag;
+            }
+
+            // Plug in settings from config
+            foreach ($app['config']->get('general/session', []) as $key => $value) {
+                $optionsBag->set($key, $value);
+            }
 
             return $optionsBag;
         });
+
     }
 
     public function initialize()

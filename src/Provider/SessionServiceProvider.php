@@ -135,10 +135,10 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $this->app['session.storage.handler.file'] = $this->app->share(function (Application $app) {
+            $dir = $app['session.bag.options']->get('dir') ?: '/tmp';
             $logger = isset($app['monolog']) ? $app['monolog'] : null;
-            $fileSystem = isset($app['filesystem']) ? $app['filesystem'] : new Filesystem();
 
-            return new FileHandler($app['session.bag.options']->get('dir') ?: '/tmp', $logger, $fileSystem);
+            return new FileHandler($dir, $logger);
         });
 
         $this->app['session.storage.handler.memcached'] = $this->app->share(function (Application $app) {
@@ -148,7 +148,7 @@ class SessionServiceProvider implements ServiceProviderInterface
             foreach ($memcachedConnections as $memcachedConnection) {
                 $memcached->addServer(
                     $memcachedConnection['host'],
-                    $memcachedConnection['port'] ?: 6379,
+                    $memcachedConnection['port'] ?: 11211,
                     !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 0
                 );
             }
@@ -166,9 +166,9 @@ class SessionServiceProvider implements ServiceProviderInterface
             foreach ($memcacheConnections as $memcacheConnection) {
                 $memcache->addserver(
                     $memcacheConnection['host'],
-                    $memcacheConnection['port'] ?: 6379,
+                    $memcacheConnection['port'] ?: 11211,
                     $app['session.bag.options']->getBoolean('persistent'),
-                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 0
+                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 1
                 );
             }
 
@@ -179,7 +179,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $this->app['session.storage.handler.native_file'] = $this->app->share(function (Application $app) {
-            return new NativeFileSessionHandler($app['session.bag.options']->get('dir'));
+            return new NativeFileSessionHandler($app['session.bag.options']->get('dir') ?: '/tmp');
         });
 
         $this->app['session.storage.handler.native'] = $this->app->share(function (Application $app) {
