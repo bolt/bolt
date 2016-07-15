@@ -2,6 +2,6 @@
  # Sidebar-Panel: Displays the latest news on Bolt
  # (Usage Example: Dashboards sidebar)
  #}
-{% for news in context %}
+{% for news in context if not context.disable %}
     {{ include('@bolt/components/panel-news-item.twig') }}
 {% endfor %}
