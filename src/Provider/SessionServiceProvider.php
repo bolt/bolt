@@ -234,7 +234,6 @@ class SessionServiceProvider implements ServiceProviderInterface
     {
         $this->app['session.bag.options'] = $this->app->share(function () {
             return new OptionsBag([
-                'handler' => 'filesystem',
                 'cluster' => 'redis',
                 'cookie_lifetime' => 0,
                 'connections' => [
@@ -246,8 +245,9 @@ class SessionServiceProvider implements ServiceProviderInterface
                 'database' => 0,
                 'dir' => false,
                 'gc_divisor' => 100,
-                'gc_propability' => 1,
                 'gc_maxlifetime' => 1440,
+                'gc_propability' => 1,
+                'handler' => 'filesystem',
                 'lazy_write' => false,
                 'lifetime' => 86400,
                 'name' => 'PHPSESSID',
