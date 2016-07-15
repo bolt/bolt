@@ -64,7 +64,7 @@ class SessionServiceProvider implements ServiceProviderInterface
             return new SessionStorage(
                 $app['session.bag.options'],
                 $app['session.storage.handler'],
-                $app['session.storage.random_generator'],
+                $app['session.random_generator'],
                 $app['session.serializer'],
                 isset($app['monolog']) ? $app['monolog'] : null,
                 $app['session.bag.metadata']
