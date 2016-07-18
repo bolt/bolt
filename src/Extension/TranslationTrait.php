@@ -61,7 +61,8 @@ trait TranslationTrait
                 if ($fileInfo->isFile()) {
                     list($domain, $extension) = explode('.', $fileInfo->getFilename());
 
-                    $path = $app['resources']->getPath('extensions' . DIRECTORY_SEPARATOR . $fileInfo->getPath());
+                    $path = $app['filesystem']->getFileSystem('extensions')->getAdapter()->getPathPrefix();
+                    $path .= $fileInfo->getPath();
 
                     $this->translations[] = [$extension, $path, $domain];
                 }
