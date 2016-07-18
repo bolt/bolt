@@ -192,6 +192,8 @@ class ResourceManager
      */
     public function getPathObject($name)
     {
+        $name = str_replace('\\', '/', $name);
+         
         $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);

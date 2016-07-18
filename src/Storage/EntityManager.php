@@ -258,7 +258,9 @@ class EntityManager
 
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
-
+            if (is_callable($repoClass)) {
+                return call_user_func_array($repoClass, [$this, $classMetadata]);
+            }
             return new $repoClass($this, $classMetadata);
         }
 

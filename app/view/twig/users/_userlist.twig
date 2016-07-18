@@ -27,7 +27,7 @@
                 </td>
 
                 <td class="hidden-xs">
-                    {{ user.lastseen|date('Y') > '1901' ? buic_moment(user.lastseen) : '-' }}
+                    {{ user.lastseen ? buic_moment(user.lastseen) : '-' }}
                 </td>
 
                 <td class="contenttypes">

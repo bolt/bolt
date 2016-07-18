@@ -1,6 +1,21 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.0.10
+-----------
+
+Released 2016-07-14. Notable changes:
+
+ - Added: Allow callables to be registered as repository classes [#5523](https://github.com/bolt/bolt/pull/5523)
+ - Change: Improve logic of hydration events on create [#5521](https://github.com/bolt/bolt/pull/5521)
+ - Change: Refactor the hydration event to use an ArrayObject [#5518](https://github.com/bolt/bolt/pull/5518)
+ - Fixed: Cant open readme from extension on WINDOWS [#5501](https://github.com/bolt/bolt/pull/5501)
+ - Fixed: Check isallowed on new page buttons [#5529](https://github.com/bolt/bolt/pull/5529)
+ - Fixed: Ensure the id is unique in repeater fields [#5526](https://github.com/bolt/bolt/pull/5526)
+ - Fixed: Fix comment on default image sizing [#5528](https://github.com/bolt/bolt/pull/5528)
+ - Fixed: Tokenise PHP version string to remove `-extra` on Debian [#5524](https://github.com/bolt/bolt/pull/5524)
+ - Update: Updating dependencies for base-2016. [#5520](https://github.com/bolt/bolt/pull/5520)
+
 Bolt 3.0.9
 ----------
 
