@@ -59,7 +59,7 @@ class Pager extends \ArrayObject
             }
         );
         $parameters[] = $pageid . '=';
-        $link = '?' . implode('&', $parameters);
+        $link = $this->app['paths']['current'] . '?' . implode('&', $parameters);
 
         return $link;
     }
