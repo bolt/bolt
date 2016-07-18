@@ -22,6 +22,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     use MenuTrait;
     use NutTrait;
     use TwigTrait;
+    use TranslationTrait;
 
     /**
      * {@inheritdoc}
@@ -33,6 +34,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendMenuService();
         $this->extendAssetServices();
         $this->extendNutService();
+        $this->extendTranslatorService();
 
         $this->registerServices($app);
     }
