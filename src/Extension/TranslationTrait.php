@@ -16,7 +16,7 @@ trait TranslationTrait
 {
 
     /** @var array $translations */
-    private $translations = [];
+    private $translations;
 
     /**
      * Call this in register method.
@@ -32,11 +32,11 @@ trait TranslationTrait
                 'translator',
                 function ($translator) {
                     $this->loadTranslationsFromDefaultPath();
-
-                    if ($this->translations) {
-                        foreach ($this->translations as $translation) {
-                            $translator->addResource($translation[0], $translation[1], $translation[2]);
-                        }
+                    if ($this->translations === null) {
+                        return $translator;
+                    }
+                    foreach ($this->translations as $translation) {
+                        $translator->addResource($translation[0], $translation[1], $translation[2]);
                     }
 
                     return $translator;
