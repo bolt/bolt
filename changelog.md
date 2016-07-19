@@ -1,6 +1,14 @@
 Changelog for Bolt
 ==================
 
+Bolt 3.1-dev
+-----------
+
+- Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
+- Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
+- Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
+- Added: Allow extra plugin for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
+
 Bolt 3.0.10
 -----------
 
