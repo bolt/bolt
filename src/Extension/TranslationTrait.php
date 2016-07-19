@@ -58,14 +58,15 @@ trait TranslationTrait
         $translationDirectory = $this->getBaseDirectory()->getDir('translations');
         if ($translationDirectory->exists()) {
             foreach ($translationDirectory->getContents(true) as $fileInfo) {
-                if ($fileInfo->isFile()) {
-                    list($domain, $extension) = explode('.', $fileInfo->getFilename());
-
-                    $path = $app['filesystem']->getFileSystem('extensions')->getAdapter()->getPathPrefix();
-                    $path .= $fileInfo->getPath();
-
-                    $this->translations[] = [$extension, $path, $domain];
+                if ($fileInfo->isFile() === false) {
+                    continue;
                 }
+
+                list($domain, $extension) = explode('.', $fileInfo->getFilename());
+                $path = $app['filesystem']->getFileSystem('extensions')->getAdapter()->getPathPrefix();
+                $path .= $fileInfo->getPath();
+
+                $this->translations[] = [$extension, $path, $domain];
             }
         }
 
