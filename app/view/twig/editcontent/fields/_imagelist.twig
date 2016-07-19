@@ -13,7 +13,7 @@
 {% set attributes = {
     fileupload: {
         accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        data_url:     url('upload', {'handler': option.upload}),
+        data_url:     url('upload', {' handler': option.upload }, true),
         id:           'fileupload-' ~ key,
         multiple:     true,
         name:         'files[]',

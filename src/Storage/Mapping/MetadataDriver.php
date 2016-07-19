@@ -185,7 +185,7 @@ class MetadataDriver implements MappingDriver
             $this->setIncomingRelations($contentKey, $className);
             $this->setTaxonomies($contentKey, $className, $table);
             $this->setTemplatefields($contentKey, $className, $table);
-            $this->setRepeaters($contentKey, $className, $table);
+            $this->setRepeaters($contentKey, $className);
         }
 
         foreach ($this->getAliases() as $alias => $table) {
@@ -195,13 +195,21 @@ class MetadataDriver implements MappingDriver
         }
     }
 
-    public function setRepeaters($contentKey, $className, $table)
+    public function setRepeaters($contentKey, $className, $inputData = null)
     {
-        if (!isset($this->contenttypes[$contentKey])) {
+        $standalone = false;
+
+        if ($inputData === null && !isset($this->contenttypes[$contentKey])) {
             return;
         }
 
-        foreach ($this->contenttypes[$contentKey]['fields'] as $key => $data) {
+        if ($inputData === null) {
+            $inputData = $this->contenttypes[$contentKey]['fields'];
+        } else {
+            $standalone = true;
+        }
+
+        foreach ($inputData as $key => $data) {
             $mapping = [
                 'fieldname'        => $key,
                 'type'             => 'null',
@@ -227,10 +235,29 @@ class MetadataDriver implements MappingDriver
                     }
                 }
 
+                if ($standalone) {
+                    return $data;
+                }
+
                 $this->metadata[$className]['fields'][$key] = $mapping;
                 $this->metadata[$className]['fields'][$key]['data'] = $data;
             }
         }
+    }
+
+
+    /**
+     * This is a helper method to get a correct mapping from an array config. It's designed to take raw array config
+     * to generate a correct format mapping for repeaters.
+     * @param array $config
+     * @return array
+     */
+    public function getRepeaterMapping(array $config)
+    {
+        $mapping = ['data' => null];
+        $mapping['data'] = $this->setRepeaters(null, null, $config);
+
+        return $mapping;
     }
 
     /**

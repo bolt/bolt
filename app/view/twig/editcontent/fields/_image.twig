@@ -37,7 +37,7 @@
 
     upload: {
         'accept':       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        'data-url':     url('upload', {'handler': option.upload}),
+        'data-url':     url('upload', { 'handler': option.upload }, true),
         'id':           'fileupload-' ~ key,
         'name':         'files[]',
         'type':         'file',

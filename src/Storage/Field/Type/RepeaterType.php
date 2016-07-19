@@ -6,6 +6,7 @@ use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -81,6 +82,25 @@ class RepeaterType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
+        if ($this->isJson($data[$key])) {
+            $originalMapping[$key]['fields'] = $this->mapping['fields'];
+            $originalMapping[$key]['type'] = 'repeater';
+            $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
+
+            $decoded = json_decode($data[$key], true);
+            $collection = new RepeatingFieldCollection($this->em, $mapping);
+            $collection->setName($key);
+
+            if (isset($decoded) && count($decoded)) {
+                foreach ($decoded as $group => $repdata) {
+                    $collection->addFromArray($repdata, $group);
+                }
+            }
+
+            $this->set($entity, $collection);
+            return;
+        }
+
         $vals = array_filter(explode(',', $data[$key]));
         $values = [];
         foreach ($vals as $fieldKey) {
@@ -167,7 +187,7 @@ class RepeaterType extends FieldTypeBase
     protected function getPlatformGroupConcat($alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
-        
+
         $field = $this->mapping['fieldname'];
         $dummy = 'f_' . $field;
 
@@ -298,5 +318,13 @@ class RepeaterType extends FieldTypeBase
         $mapping = $this->mapping['data']['fields'][$field];
 
         return $mapping['type'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('json_array');
     }
 }
