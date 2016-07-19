@@ -92,7 +92,7 @@
     ],
     "extra" : {
         "branch-alias" : {
-            "dev-master" : "2.2.x-dev"
+            "dev-release/2.2" : "2.2.x-dev"
         }
     }
 }
