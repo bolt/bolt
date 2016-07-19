@@ -1,6 +1,15 @@
 Changelog for Bolt 2.x
 ======================
 
+Bolt 2.2.23
+-----------
+
+Released 2016-07-19. Notable changes:
+
+ - Update: [SECURITY] Updated bundled Guzzle to 5.3.1 that mitigates Httpoxy (CVE-2016-5385)
+ - Added: Add google maps api key option [#5505](https://github.com/bolt/bolt/pull/5505)
+ - Fixed: Enforce relative schema on Twig {{ url() }} calls [#5497](https://github.com/bolt/bolt/pull/5497)
+
 Bolt 2.2.22
 -----------
 
