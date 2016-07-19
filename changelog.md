@@ -1,5 +1,16 @@
-Changelog for Bolt
-==================
+Changelog for Bolt 3.x
+======================
+
+Bolt 3.0.11
+-----------
+
+Released 2016-07-19. Notable changes:
+
+ - Update: [SECURITY] Updated bundled Guzzle to 5.3.1 that mitigates Httpoxy (CVE-2016-5385)
+ - Added: Add google maps api key option [#5505](https://github.com/bolt/bolt/pull/5505)
+ - Fixed: Enforce relative schema on Twig {{ url() }} calls [#5497](https://github.com/bolt/bolt/pull/5497)
+ - Fixed: Ability to disable the news feed [#5544](https://github.com/bolt/bolt/pull/5544)
+ - Fixed: Enable use of repeaters inside Templatefields [#5542](https://github.com/bolt/bolt/pull/5542)
 
 Bolt 3.0.10
 -----------
