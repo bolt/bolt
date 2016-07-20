@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Legacy\Content;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TwigExtensionTest extends BoltUnitTest
+class TwigExtensionTest extends BoltFunctionalTestCase
 {
     public function testTwigInterface()
     {

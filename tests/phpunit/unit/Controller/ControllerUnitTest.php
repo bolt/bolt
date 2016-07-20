@@ -1,10 +1,10 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class ControllerUnitTest extends BoltUnitTest
+abstract class ControllerUnitTest extends BoltFunctionalTestCase
 {
     private $app;
 

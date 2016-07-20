@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Extension;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\ControllerMountExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
@@ -11,7 +11,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ControllerMountTraitTest extends BoltUnitTest
+class ControllerMountTraitTest extends BoltFunctionalTestCase
 {
     public function testControllerMountDefault()
     {

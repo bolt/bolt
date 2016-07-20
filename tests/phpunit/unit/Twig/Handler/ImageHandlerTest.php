@@ -4,7 +4,7 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\ImageInterface;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\ImageHandler;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ImageHandlerTest extends BoltUnitTest
+class ImageHandlerTest extends BoltFunctionalTestCase
 {
     protected function setUp()
     {

@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\OmnisearchServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/OmnisearchServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class OmnisearchServiceProviderTest extends BoltUnitTest
+class OmnisearchServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

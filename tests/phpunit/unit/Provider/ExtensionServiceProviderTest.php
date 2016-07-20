@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\ExtensionServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/ExtensionServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionServiceProviderTest extends BoltUnitTest
+class ExtensionServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

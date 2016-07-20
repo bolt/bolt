@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Session;
 
 use Bolt\Session\Generator\RandomGenerator;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Session/Generator/RandomGenerator.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RandomGeneratorTest extends BoltUnitTest
+class RandomGeneratorTest extends BoltFunctionalTestCase
 {
     public function testConstructor()
     {

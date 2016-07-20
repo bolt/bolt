@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Events;
 
 use Bolt\Events\MountEvent;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -14,7 +14,7 @@ use Silex\Route;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class MountEventTest extends BoltUnitTest
+class MountEventTest extends BoltFunctionalTestCase
 {
     public function testConstructor()
     {

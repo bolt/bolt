@@ -3,14 +3,14 @@
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\ContentQueryParser;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/ContentQueryParser.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ContentQueryParserTest extends BoltUnitTest
+class ContentQueryParserTest extends BoltFunctionalTestCase
 {
     public function testQueryParse()
     {

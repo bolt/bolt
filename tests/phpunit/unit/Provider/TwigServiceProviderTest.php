@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\TwigServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/TwigServiceProvider.
@@ -12,7 +12,7 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @covers \Bolt\Provider\TwigServiceProvider
  */
-class TwigServiceProviderTest extends BoltUnitTest
+class TwigServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @runTestsInSeparateProcesses
  */
-abstract class AbstractExtensionsUnitTest extends BoltUnitTest
+abstract class AbstractExtensionsUnitTest extends BoltFunctionalTestCase
 {
     public function setup()
     {

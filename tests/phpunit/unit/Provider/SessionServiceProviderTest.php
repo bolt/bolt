@@ -4,7 +4,7 @@ namespace Bolt\Tests\Provider;
 use Bolt\Provider\SessionServiceProvider;
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionServiceProviderTest extends BoltUnitTest
+class SessionServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

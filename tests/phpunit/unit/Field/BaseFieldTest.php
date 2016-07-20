@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Field;
 
 use Bolt\Storage\Field\Base;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Field/Base.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BaseFieldTest extends BoltUnitTest
+class BaseFieldTest extends BoltFunctionalTestCase
 {
     public function testFieldSetup()
     {

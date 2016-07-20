@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Str;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Helper/Str.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StrTest extends BoltUnitTest
+class StrTest extends BoltFunctionalTestCase
 {
     public function testBasicMakeSafe()
     {

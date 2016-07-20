@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Composer\Action;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
-abstract class ActionUnitTest extends BoltUnitTest
+abstract class ActionUnitTest extends BoltFunctionalTestCase
 {
     public function setUp()
     {

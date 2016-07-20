@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\ConfigServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/ConfigServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ConfigServiceProviderTest extends BoltUnitTest
+class ConfigServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

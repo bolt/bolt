@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\QueryParameterParser;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/QueryParameterParser.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class QueryParameterParserTest extends BoltUnitTest
+class QueryParameterParserTest extends BoltFunctionalTestCase
 {
     public function testValueParse()
     {

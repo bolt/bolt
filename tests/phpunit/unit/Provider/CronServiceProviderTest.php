@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\CronServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/CronServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class CronServiceProviderTest extends BoltUnitTest
+class CronServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

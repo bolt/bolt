@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\AdminHandler;
 use Silex\Translator;
 
@@ -11,7 +11,7 @@ use Silex\Translator;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AdminHandlerTest extends BoltUnitTest
+class AdminHandlerTest extends BoltFunctionalTestCase
 {
     public function testBuic()
     {

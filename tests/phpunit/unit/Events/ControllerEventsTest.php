@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Events;
 
 use Bolt\Events\ControllerEvents;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test Bolt\Events\ControllerEvents
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ControllerEventsTest extends BoltUnitTest
+class ControllerEventsTest extends BoltFunctionalTestCase
 {
     public function testConstant()
     {

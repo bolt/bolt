@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Stack;
 
 use Bolt\Stack;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Users;
 
 /**
@@ -10,7 +10,7 @@ use Bolt\Users;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StackTest extends BoltUnitTest
+class StackTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

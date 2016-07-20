@@ -2,14 +2,14 @@
 namespace Bolt\Tests\FilePermissions;
 
 use Bolt\Filesystem\FilePermissions;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/FilePermissions.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FilePermissionsTest extends BoltUnitTest
+class FilePermissionsTest extends BoltFunctionalTestCase
 {
     public function testBasicAuth()
     {

@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Extension;
 
 use Bolt\Filesystem\Handler\Directory;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\BasicExtension;
 use Bolt\Tests\Extension\Mock\Extension;
 
@@ -12,7 +12,7 @@ use Bolt\Tests\Extension\Mock\Extension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AbstractExtensionTest extends BoltUnitTest
+class AbstractExtensionTest extends BoltFunctionalTestCase
 {
     public function testClassProperties()
     {

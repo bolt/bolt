@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Session;
 
 use Bolt\Session\Handler\FileHandler;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Session/Handler/FileHandler.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FileHandlerTest extends BoltUnitTest
+class FileHandlerTest extends BoltFunctionalTestCase
 {
     /** @var string */
     protected $savePath;

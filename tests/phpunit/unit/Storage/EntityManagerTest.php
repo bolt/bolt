@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Storage\EntityManager;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/EntityManager.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class EntityManagerTest extends BoltUnitTest
+class EntityManagerTest extends BoltFunctionalTestCase
 {
     public function testConnect()
     {

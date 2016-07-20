@@ -3,14 +3,14 @@
 namespace Bolt\Tests\Menu;
 
 use Bolt\Menu\MenuEntry;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Menu/MenuEntry.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class MenuEntryTest extends BoltUnitTest
+class MenuEntryTest extends BoltFunctionalTestCase
 {
     public function testCreateRoot()
     {

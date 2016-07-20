@@ -4,7 +4,7 @@ namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Query\ContentQueryParser;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class QueryFieldDelegationTest extends BoltUnitTest
+class QueryFieldDelegationTest extends BoltFunctionalTestCase
 {
     public function testTaxonomyFilter()
     {

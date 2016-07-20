@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\FilePermissionsServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/FilePermissionsServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FilePermissionsServiceProviderTest extends BoltUnitTest
+class FilePermissionsServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

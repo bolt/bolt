@@ -2,14 +2,14 @@
 
 namespace Bolt\Tests\Users;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Test creating new users
  *
  * @author Chris Hilsdon <chris@koolserve.uk>
  **/
-class CreateUsersTest extends BoltUnitTest
+class CreateUsersTest extends BoltFunctionalTestCase
 {
     /**
      * @see \PHPUnit_Framework_TestCase::setUp

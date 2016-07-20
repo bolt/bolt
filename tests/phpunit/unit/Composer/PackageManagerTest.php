@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Composer;
 
 use Bolt\Composer\PackageManager;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Composer/CommandRunner.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class PackageManagerTest extends BoltUnitTest
+class PackageManagerTest extends BoltFunctionalTestCase
 {
     public function testConstruct()
     {

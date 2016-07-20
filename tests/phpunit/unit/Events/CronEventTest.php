@@ -4,7 +4,7 @@ namespace Bolt\Tests\Events;
 use Bolt\Cache;
 use Bolt\Events\CronEvent;
 use Bolt\Events\CronEvents;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class CronEventTest extends BoltUnitTest
+class CronEventTest extends BoltFunctionalTestCase
 {
     public function testCronCalls()
     {

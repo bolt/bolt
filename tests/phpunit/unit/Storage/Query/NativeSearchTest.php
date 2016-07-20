@@ -3,14 +3,14 @@
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\Adapter\PostgresSearch;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/QueryTest.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class NativeSearchTest extends BoltUnitTest
+class NativeSearchTest extends BoltFunctionalTestCase
 {
     public function testPostgresQueryBuild()
     {

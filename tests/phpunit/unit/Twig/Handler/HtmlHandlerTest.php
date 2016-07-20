@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Legacy\Content;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\HtmlHandler;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class HtmlHandlerTest extends BoltUnitTest
+class HtmlHandlerTest extends BoltFunctionalTestCase
 {
     public function testDecorateTT()
     {

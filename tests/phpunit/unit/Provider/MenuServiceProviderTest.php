@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\MenuServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/MenuServiceProvider
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class MenuServiceProviderTest extends BoltUnitTest
+class MenuServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

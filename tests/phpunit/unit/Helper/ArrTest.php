@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Arr;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Helper/Arr.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ArrTest extends BoltUnitTest
+class ArrTest extends BoltFunctionalTestCase
 {
     public function testMakeValuePairs()
     {

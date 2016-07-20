@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository and field transforms for load and hydrate
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class EntityBuilderTest extends BoltUnitTest
+class EntityBuilderTest extends BoltFunctionalTestCase
 {
     public function testBuilderCreate()
     {
