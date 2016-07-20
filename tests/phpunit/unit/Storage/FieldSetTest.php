@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository and field transforms for load and hydrate
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FieldSetTest extends BoltUnitTest
+class FieldSetTest extends BoltFunctionalTestCase
 {
     public function testSetWithNormalValues()
     {

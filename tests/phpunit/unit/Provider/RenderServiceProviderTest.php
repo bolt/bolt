@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\RenderServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/RenderServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class RenderServiceProviderTest extends BoltUnitTest
+class RenderServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

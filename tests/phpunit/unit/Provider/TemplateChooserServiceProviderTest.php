@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\TemplateChooserServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/TemplateChooserServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TemplateChooserServiceProviderTest extends BoltUnitTest
+class TemplateChooserServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

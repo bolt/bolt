@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\CacheClear;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class CacheClearTest extends BoltUnitTest
+class CacheClearTest extends BoltFunctionalTestCase
 {
     public function testSuccessfulClear()
     {

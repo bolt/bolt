@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\LogTrim;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class LogTrimTest extends BoltUnitTest
+class LogTrimTest extends BoltFunctionalTestCase
 {
     public function testRun()
     {

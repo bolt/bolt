@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserRoleRemove;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class UserRoleRemoveTest extends BoltUnitTest
+class UserRoleRemoveTest extends BoltFunctionalTestCase
 {
     public function testRemove()
     {

@@ -4,7 +4,7 @@ namespace Bolt\Tests\Extension;
 
 use Bolt\Filesystem\Handler\Directory;
 use Bolt\Filesystem\Handler\YamlFile;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\ConfigExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
@@ -13,7 +13,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ConfigTraitTest extends BoltUnitTest
+class ConfigTraitTest extends BoltFunctionalTestCase
 {
     protected function setUp()
     {

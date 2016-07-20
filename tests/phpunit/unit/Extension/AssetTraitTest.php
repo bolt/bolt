@@ -9,7 +9,7 @@ use Bolt\Asset\Widget\Widget;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\AssetExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
@@ -18,7 +18,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AssetTraitTest extends BoltUnitTest
+class AssetTraitTest extends BoltFunctionalTestCase
 {
     public function testRegisterAssetsNoOverride()
     {

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AccessCheckerTest extends BoltUnitTest
+class AccessCheckerTest extends BoltFunctionalTestCase
 {
     public function tearDown()
     {

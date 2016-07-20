@@ -6,9 +6,9 @@ use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Plugin;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
-class AuthorizedTest extends BoltUnitTest
+class AuthorizedTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

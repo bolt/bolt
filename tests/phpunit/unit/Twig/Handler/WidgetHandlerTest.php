@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Asset\Widget\Widget;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\WidgetHandler;
 
 /**
@@ -11,7 +11,7 @@ use Bolt\Twig\Handler\WidgetHandler;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class WidgetHandlerTest extends BoltUnitTest
+class WidgetHandlerTest extends BoltFunctionalTestCase
 {
     public function testCountWidgets()
     {

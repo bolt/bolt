@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Storage\Repository;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository/LogChangeRepository
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class LogChangeRepositoryTest extends BoltUnitTest
+class LogChangeRepositoryTest extends BoltFunctionalTestCase
 {
     public function testRepositoryQueries()
     {

@@ -2,14 +2,14 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/SelectQuery.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SearchWeighterTest extends BoltUnitTest
+class SearchWeighterTest extends BoltFunctionalTestCase
 {
     public function testSimpleWeight()
     {

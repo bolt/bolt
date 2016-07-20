@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Html;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Helper/Html.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class HtmlTest extends BoltUnitTest
+class HtmlTest extends BoltFunctionalTestCase
 {
     public function testTrimText()
     {

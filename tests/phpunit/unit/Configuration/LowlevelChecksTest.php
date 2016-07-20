@@ -5,7 +5,7 @@ use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 use Bolt\Exception\LowlevelException;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Configuration/LowlevelChecks.php.
@@ -14,7 +14,7 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @runTestsInSeparateProcesses
  */
-class LowlevelChecksTest extends BoltUnitTest
+class LowlevelChecksTest extends BoltFunctionalTestCase
 {
     protected $errorResponses = [];
 

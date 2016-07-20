@@ -3,14 +3,14 @@
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\SelectQuery;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/SelectQuery.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SelectQueryTest extends BoltUnitTest
+class SelectQueryTest extends BoltFunctionalTestCase
 {
     public function testQuery()
     {

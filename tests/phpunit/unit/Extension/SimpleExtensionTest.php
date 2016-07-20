@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Extension;
 
 use Bolt\Events\ControllerEvents;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
@@ -11,7 +11,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SimpleExtensionTest extends BoltUnitTest
+class SimpleExtensionTest extends BoltFunctionalTestCase
 {
     public function testRegister()
     {

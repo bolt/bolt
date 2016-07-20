@@ -9,7 +9,7 @@ use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FilesystemProviderTest extends BoltUnitTest
+class FilesystemProviderTest extends BoltFunctionalTestCase
 {
     public function testAppRegistries()
     {

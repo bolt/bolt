@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Content;
 
 use Bolt\Legacy\Content;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage.
@@ -10,7 +10,7 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ContentTest extends BoltUnitTest
+class ContentTest extends BoltFunctionalTestCase
 {
     public function testgetValues()
     {

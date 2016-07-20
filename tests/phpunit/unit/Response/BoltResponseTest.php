@@ -3,9 +3,9 @@
 namespace Bolt\Tests\Response;
 
 use Bolt\Response\BoltResponse;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
-class BoltResponseTest extends BoltUnitTest
+class BoltResponseTest extends BoltFunctionalTestCase
 {
     public function testCreate()
     {

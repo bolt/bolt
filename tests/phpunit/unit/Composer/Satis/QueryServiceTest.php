@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Composer\Satis;
 
 use Bolt\Composer\Satis\QueryService;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Composer/Satis/QueryService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class QueryServiceTest extends BoltUnitTest
+class QueryServiceTest extends BoltFunctionalTestCase
 {
     public function testPackageInfoValid()
     {

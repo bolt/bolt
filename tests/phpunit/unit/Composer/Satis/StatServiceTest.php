@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Composer/Satis/StatService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StatServiceTest extends BoltUnitTest
+class StatServiceTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

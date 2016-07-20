@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\UtilsHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
@@ -12,7 +12,7 @@ use Symfony\Component\VarDumper\VarDumper;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UtilsHandlerTest extends BoltUnitTest
+class UtilsHandlerTest extends BoltFunctionalTestCase
 {
     protected function tearDown()
     {

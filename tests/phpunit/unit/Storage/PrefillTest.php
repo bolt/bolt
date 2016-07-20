@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use GuzzleHttp\Message\MessageFactory;
 use GuzzleHttp\Psr7\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class PrefillTest extends BoltUnitTest
+class PrefillTest extends BoltFunctionalTestCase
 {
     public function testUrl()
     {

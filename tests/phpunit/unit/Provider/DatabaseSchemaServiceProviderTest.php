@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\DatabaseSchemaServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/DatabaseSchemaServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class DatabaseSchemaServiceProviderTest extends BoltUnitTest
+class DatabaseSchemaServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

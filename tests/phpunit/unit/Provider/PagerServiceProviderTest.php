@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\PagerServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Rix Beck <rix@neologik.hu>
  */
-class PagerServiceProviderTest extends BoltUnitTest
+class PagerServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

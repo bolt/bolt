@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Manager;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class LogManagerTest extends BoltUnitTest
+class LogManagerTest extends BoltFunctionalTestCase
 {
     public function setUp()
     {

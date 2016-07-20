@@ -3,14 +3,14 @@
 namespace Bolt\Tests\Asset\Widget;
 
 use Bolt\Asset\Widget\Widget;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Bolt\Asset\Widget\Widget tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class WidgetTest extends BoltUnitTest
+class WidgetTest extends BoltFunctionalTestCase
 {
     public function testWidgetBasicSetup()
     {

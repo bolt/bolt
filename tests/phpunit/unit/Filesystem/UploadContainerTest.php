@@ -4,7 +4,7 @@ namespace Bolt\Tests\Filesystem;
 
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\UploadContainer;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use League\Flysystem\Adapter\NullAdapter;
 
 /**
@@ -12,7 +12,7 @@ use League\Flysystem\Adapter\NullAdapter;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class UploadContainerTest extends BoltUnitTest
+class UploadContainerTest extends BoltFunctionalTestCase
 {
     /** @var UploadContainer */
     private $container;

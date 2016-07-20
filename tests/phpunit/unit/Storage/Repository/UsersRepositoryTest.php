@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Storage\Repository;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository/UsersRepository
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UsersRepositoryTest extends BoltUnitTest
+class UsersRepositoryTest extends BoltFunctionalTestCase
 {
     public function testRepositoryQueries()
     {

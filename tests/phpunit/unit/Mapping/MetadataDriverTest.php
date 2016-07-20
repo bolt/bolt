@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Mapping;
 
 use Bolt\Storage\Mapping\MetadataDriver;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Mapping/MetadataDriver.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class MetadataDriverTest extends BoltUnitTest
+class MetadataDriverTest extends BoltFunctionalTestCase
 {
     public function testConstruct()
     {

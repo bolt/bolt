@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\CacheServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/CacheServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class CacheServiceProviderTest extends BoltUnitTest
+class CacheServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

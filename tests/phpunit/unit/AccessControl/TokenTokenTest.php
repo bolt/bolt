@@ -9,7 +9,7 @@ use Bolt\Storage\Entity;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TokenTokenTest extends BoltUnitTest
+class TokenTokenTest extends BoltFunctionalTestCase
 {
     public function testConstructor()
     {

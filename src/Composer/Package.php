@@ -22,6 +22,7 @@ final class Package implements JsonSerializable
     protected $keywords = [];
     protected $readmeLink;
     protected $configLink;
+    protected $repositoryLink;
     protected $constraint;
     protected $valid = false;
     protected $enabled = false;
@@ -183,6 +184,16 @@ final class Package implements JsonSerializable
     public function setConfigLink($configLink)
     {
         $this->configLink = $configLink;
+    }
+
+    /**
+     * Set the remote source code repository URL.
+     *
+     * @param string $repositoryLink
+     */
+    public function setRepositoryLink($repositoryLink)
+    {
+        $this->repositoryLink = $repositoryLink;
     }
 
     /**

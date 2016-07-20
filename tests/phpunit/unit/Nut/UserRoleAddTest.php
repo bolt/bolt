@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserRoleAdd;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class UserRoleAddTest extends BoltUnitTest
+class UserRoleAddTest extends BoltFunctionalTestCase
 {
     public function testAdd()
     {

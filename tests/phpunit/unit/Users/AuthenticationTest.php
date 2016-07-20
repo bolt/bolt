@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Users;
 
 use Bolt\Events\AccessControlEvent;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Steven de Vries <info@stevendevries.nl>
  **/
-class AuthenticationTest extends BoltUnitTest
+class AuthenticationTest extends BoltFunctionalTestCase
 {
     /**
      * @var array

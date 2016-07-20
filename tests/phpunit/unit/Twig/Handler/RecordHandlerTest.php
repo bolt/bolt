@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Asset\Snippet\Snippet;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\RecordHandler;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RecordHandlerTest extends BoltUnitTest
+class RecordHandlerTest extends BoltFunctionalTestCase
 {
     protected $original = <<<GRINGALET
 But Gawain chose the lower road, and passed

@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Input;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Helper/Input.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class InputTest extends BoltUnitTest
+class InputTest extends BoltFunctionalTestCase
 {
     public function testCleanPostedData()
     {
