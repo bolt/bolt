@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use GuzzleHttp\Psr7\parse_query;
 
 /**
  * Because screw PHP core.
@@ -363,9 +364,13 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         } elseif (isset($options['save_path'])) {
             foreach (explode(',', $options['save_path']) as $conn) {
-                $conn = new ParameterBag($conn);
-                $conn->set('uri', new Uri($conn));
-                $toParse[] = $conn;
+                $uri = new Uri($conn);
+
+                $connBag = new ParameterBag();
+                $connBag->set('uri', $uri);
+                $connBag->add(parse_query($uri->getQuery()));
+
+                $toParse[] = $connBag;
             }
         }
 
