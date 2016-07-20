@@ -54,7 +54,8 @@ class Pager extends \ArrayObject
         }
 
         $parameters[$pageid] = '';
-        $link = $this->app['paths']['current'] . '?' . http_build_query($parameters);
+        $currentUrl = $this->app['resources']->getUrl('current');
+        $link = $currentUrl . '?' . http_build_query($parameters);
 
         return $link;
     }
