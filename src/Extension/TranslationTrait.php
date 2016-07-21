@@ -2,6 +2,8 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Pimple as Container;
 
@@ -16,7 +18,7 @@ trait TranslationTrait
 {
 
     /** @var array $translations */
-    private $translations = [];
+    private $translations;
 
     /**
      * Call this in register method.
@@ -32,11 +34,11 @@ trait TranslationTrait
                 'translator',
                 function ($translator) {
                     $this->loadTranslationsFromDefaultPath();
-
-                    if ($this->translations) {
-                        foreach ($this->translations as $translation) {
-                            $translator->addResource($translation[0], $translation[1], $translation[2]);
-                        }
+                    if ($this->translations === null) {
+                        return $translator;
+                    }
+                    foreach ($this->translations as $translation) {
+                        $translator->addResource($translation[0], $translation[1], $translation[2]);
                     }
 
                     return $translator;
@@ -48,27 +50,37 @@ trait TranslationTrait
 
     /**
      * Load translations from every extensions translations directory.
-     * Filenames must follow common naming conventions - en.yml, en_GB.yml, otherwise
-     *  function will need to be modified.
+     *
+     * File names must follow common naming conventions, e.g.:
+     *   - en.yml
+     *   - en_GB.yml
      */
     private function loadTranslationsFromDefaultPath()
     {
         $app = $this->getContainer();
-
-        $translationDirectory = $this->getBaseDirectory()->getDir('translations');
-        if ($translationDirectory->exists()) {
-            foreach ($translationDirectory->getContents(true) as $fileInfo) {
-                if ($fileInfo->isFile()) {
-                    list($domain, $extension) = explode('.', $fileInfo->getFilename());
-
-                    $path = $app['filesystem']->getFileSystem('extensions')->getAdapter()->getPathPrefix();
-                    $path .= $fileInfo->getPath();
-
-                    $this->translations[] = [$extension, $path, $domain];
-                }
-            }
+        /** @var DirectoryInterface $baseDir */
+        $baseDir = $this->getBaseDirectory();
+        /** @var Filesystem $filesystem */
+        $filesystem = $this->getBaseDirectory()->getFilesystem();
+        if ($filesystem->has($baseDir->getFullPath() . '/translations') === false) {
+            return;
         }
+        /** @var Local $local */
+        $local = $filesystem->getAdapter();
+        $basePath = $local->getPathPrefix();
+        /** @var DirectoryInterface $translationDirectory */
+        $translationDirectory = $filesystem->get($baseDir->getFullPath() . '/translations');
+        foreach ($translationDirectory->getContents(true) as $fileInfo) {
+            if ($fileInfo->isFile() === false) {
+                continue;
+            }
 
+            $extension = $fileInfo->getExtension();
+            $path = $basePath . $fileInfo->getPath();
+            $domain = $fileInfo->getFilename('.' . $extension);
+
+            $this->translations[] = [$extension, $path, $domain];
+        }
     }
 
     /** @return Container */
