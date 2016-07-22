@@ -1,10 +1,10 @@
 # app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-05-29 15:05:42 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -555,7 +555,6 @@ page.edit-users.user-edit: "Edit an existing user account, using the form below.
 page.extend.button.autoload-dump: "Rebuild Autoloader"
 page.extend.button.browse-versions: "Browse Versions"
 page.extend.button.copy-to-theme-folder: "Copy to theme folder"
-page.extend.button.details: "Details"
 page.extend.button.info-help: "More info/help"
 page.extend.button.install-all: "Install all Packages"
 page.extend.button.install-package: "Install Package"

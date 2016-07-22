@@ -17,10 +17,7 @@
         </div>
 
         <div class="panel-footer">
-            %DETAILS% %THEME%
-            <div>
-                %MANAGE%
-            </div>
+            %DETAILS% <div>%MANAGE%</div>
         </div>
     </div>
 {% endset %}
@@ -57,6 +54,13 @@
         </button>
 
         <ul class="dropdown-menu" role="menu">
+
+            <li>
+                <a href="%CONFIG%" class="btn btn-sm btn-silent-danger">
+                    <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.link-config') }}
+                </a>
+            </li>
+
             <li>
                 <a data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal" class="btn btn-sm btn-default">
                     <i class='fa fa-list fa-fw'></i> {{ __('page.extend.button.link-versions') }}
@@ -66,33 +70,6 @@
             <li>
                 <a data-request="uninstall-package" class="btn btn-sm btn-silent-danger clickspinner" href="%BASEURL%uninstall?package=%NAME%">
                     <i class="fa fa-trash-o fa-fw"></i> {{ __('page.extend.button.link-uninstall') }}
-                </a>
-            </li>
-        </ul>
-    </div>
-{% endset %}
-
-{#
- # Contains the README, Configuration, Marketplace & repository link buttons
- #}
-{% set package_details_dropdown %}
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-sm btn-tertiary dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-flag"></i> {{ __('page.extend.button.details') }}
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-
-        <ul class="dropdown-menu" role="menu">
-            <li>
-                <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-silent-danger">
-                    <i class="fa fa-quote-right fa-fw"></i> {{ __('page.extend.button.link-readme') }}
-                </a>
-            </li>
-
-            <li>
-                <a href="%CONFIG%" class="btn btn-sm btn-silent-danger">
-                    <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.link-config') }}
                 </a>
             </li>
 
@@ -107,7 +84,21 @@
                     <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.link-repository') }}
                 </a>
             </li>
+
         </ul>
+    </div>
+{% endset %}
+
+{#
+ # Contains the README
+ #}
+{% set package_left_buttons %}
+    <div class="btn-group pull-left">
+        <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-silent-danger">
+            <i class="fa fa-quote-right fa-fw"></i> {{ __('page.extend.button.link-readme') }}
+        </a>
+
+        %THEME%
     </div>
 {% endset %}
 
@@ -163,7 +154,7 @@
 {{ data('extend.packages.keywords',         package_keywords|trim|preg_replace('/>\\s+</', '><')) }}
 
 {{ data('extend.packages.manage_dropdown',  package_manage_dropdown|trim|preg_replace('/>\\s+</', '><')) }}
-{{ data('extend.packages.details_dropdown', package_details_dropdown|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.left_buttons',     package_left_buttons|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}
 
 {{ data('extend.packages.install_new',      package_install_new|trim|preg_replace('/>\\s+</', '><')) }}

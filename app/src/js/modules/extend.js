@@ -360,7 +360,7 @@
                 var disabled = ' — [DISABLED] ';
                 var constraint = '<i class="fa fa-cog fa-fw"></i>';
 
-                var detailsDropdown = conf.details_dropdown.subst({
+                var detailsDropdown = conf.left_buttons.subst({
                     '%README%': ext.readmeLink,
                     '%CONFIG%': ext.configLink,
                     '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
