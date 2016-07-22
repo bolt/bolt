@@ -45,7 +45,6 @@ trait TranslationTrait
                 }
             )
         );
-
     }
 
     /**
@@ -75,11 +74,11 @@ trait TranslationTrait
                 continue;
             }
 
-            $extension = $fileInfo->getExtension();
-            $path = $basePath . $fileInfo->getPath();
-            $domain = $fileInfo->getFilename('.' . $extension);
+            $format = $fileInfo->getExtension();
+            $resource = $basePath . $fileInfo->getPath();
+            $locale = $fileInfo->getFilename('.' . $format);
 
-            $this->translations[] = [$extension, $path, $domain];
+            $this->translations[] = [$format, $resource, $locale];
         }
     }
 
