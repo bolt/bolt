@@ -136,6 +136,19 @@ class PackageManager
     }
 
     /**
+     * Find which packages cause the given package to be installed.
+     *
+     * @param string $packageName
+     * @param string $constraint
+     *
+     * @return
+     */
+    public function dependsPackage($packageName, $constraint)
+    {
+        return $this->app['extend.action']['depends']->execute($packageName, $constraint);
+    }
+
+    /**
      * Dump fresh autoloader.
      */
     public function dumpAutoload()
@@ -151,6 +164,19 @@ class PackageManager
     public function installPackages()
     {
         return $this->app['extend.action']['install']->execute();
+    }
+
+    /**
+     * Find which packages prevent the given package from being installed.
+     *
+     * @param string $packageName
+     * @param string $constraint
+     *
+     * @return
+     */
+    public function prohibitsPackage($packageName, $constraint)
+    {
+        return $this->app['extend.action']['prohibits']->execute($packageName, $constraint);
     }
 
     /**
