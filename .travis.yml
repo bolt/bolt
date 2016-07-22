@@ -80,7 +80,7 @@ before_script:
 script:
   ## Default install tests
   # PHPUnit
-  - phpunit -c phpunit.xml.dist
+  - ./vendor/bin/phpunit
   # Codeception set up (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build ; fi
   # Codeception Sqlite run (PHP >5.3)
