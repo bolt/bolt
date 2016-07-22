@@ -56,7 +56,6 @@ trait TranslationTrait
      */
     private function loadTranslationsFromDefaultPath()
     {
-        $app = $this->getContainer();
         /** @var DirectoryInterface $baseDir */
         $baseDir = $this->getBaseDirectory();
         /** @var Filesystem $filesystem */
