@@ -16,10 +16,6 @@ use Pimple as Container;
  */
 trait TranslationTrait
 {
-
-    /** @var array $translations */
-    private $translations;
-
     /**
      * Call this in register method.
      *
@@ -33,11 +29,11 @@ trait TranslationTrait
             $app->extend(
                 'translator',
                 function ($translator) {
-                    $this->loadTranslationsFromDefaultPath();
-                    if ($this->translations === null) {
+                    $translations = $this->loadTranslationsFromDefaultPath();
+                    if ($translations === null) {
                         return $translator;
                     }
-                    foreach ($this->translations as $translation) {
+                    foreach ($translations as $translation) {
                         $translator->addResource($translation[0], $translation[1], $translation[2]);
                     }
 
@@ -61,11 +57,13 @@ trait TranslationTrait
         /** @var Filesystem $filesystem */
         $filesystem = $this->getBaseDirectory()->getFilesystem();
         if ($filesystem->has($baseDir->getFullPath() . '/translations') === false) {
-            return;
+            return null;
         }
+        $translations = [];
         /** @var Local $local */
         $local = $filesystem->getAdapter();
         $basePath = $local->getPathPrefix();
+
         /** @var DirectoryInterface $translationDirectory */
         $translationDirectory = $filesystem->get($baseDir->getFullPath() . '/translations');
         foreach ($translationDirectory->getContents(true) as $fileInfo) {
@@ -77,8 +75,10 @@ trait TranslationTrait
             $resource = $basePath . $fileInfo->getPath();
             $locale = $fileInfo->getFilename('.' . $format);
 
-            $this->translations[] = [$format, $resource, $locale];
+            $translations[] = [$format, $resource, $locale];
         }
+
+        return $translations;
     }
 
     /** @return Container */
