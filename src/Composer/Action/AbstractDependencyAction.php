@@ -2,10 +2,11 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Composer\Package\Dependency;
 use Composer\DependencyResolver\Pool;
+use Composer\Package\BasePackage;
 use Composer\Package\Link;
 use Composer\Package\PackageInterface;
-use Composer\Package\RootPackage;
 use Composer\Repository\ArrayRepository;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\InstalledFilesystemRepository;
@@ -23,8 +24,6 @@ abstract class AbstractDependencyAction extends BaseAction
     /** @var bool Whether to invert matching process (why-not vs why behaviour) */
     protected $inverted = false;
     /** @var bool */
-    protected $renderTree = false;
-    /** @var bool */
     protected $recursive = false;
 
     /**
@@ -34,7 +33,7 @@ abstract class AbstractDependencyAction extends BaseAction
      * @param string $textConstraint Optional version constraint
      * @param bool   $onlyLocal
      *
-     * @return array
+     * @return Dependency[]|null
      */
     public function execute($packageName, $textConstraint = '*', $onlyLocal = true)
     {
@@ -42,10 +41,8 @@ abstract class AbstractDependencyAction extends BaseAction
         $pool = $this->getRequiredPool($packageName, $textConstraint, $onlyLocal);
         $packages = $pool->whatProvides($packageName);
         if (empty($packages)) {
-            return [
-                'message' => sprintf('Could not find package "%s" in your project', $packageName),
-                'output'  => null,
-            ];
+            // sprintf('Could not find package "%s" in your project', $packageName),
+            return null;
         }
 
         // Get the needle stack
@@ -57,42 +54,27 @@ abstract class AbstractDependencyAction extends BaseAction
             $versionParser = new VersionParser();
             $constraint = $versionParser->parseConstraints($textConstraint);
         }
-
-        // Parse rendering options
-        $recursive = $this->renderTree || $this->recursive;
+        $extra = $constraint !== null ? sprintf(' in versions %s "%s"', $this->inverted ? 'not matching' : 'matching', $textConstraint) : '';
 
         // Resolve dependencies
         /** @var InstalledFilesystemRepository $repository */
         $repository = $this->getComposer()->getRepositoryManager()->getLocalRepository();
-        $results = $repository->getDependents($needles, $constraint, $this->inverted, $recursive);
+        $results = $repository->getDependents($needles, $constraint, $this->inverted, $this->recursive);
         if (empty($results)) {
-            $extra = (null !== $constraint) ? sprintf(' in versions %smatching %s', $this->inverted ? 'not ' : '', $textConstraint) : '';
-            $feedback = [
-                'message' => sprintf('There is no installed package depending on "%s"%s', $packageName, $extra),
-                'output'  => null,
-            ];
-        } elseif ($this->renderTree) {
-            /** @var RootPackage $root */
-            $root = $packages[0];
-            $feedback = [
-                'message' => sprintf('%s %s %s', $root->getPrettyName(), $root->getPrettyVersion(), $root->getDescription()),
-                'output'  => $this->printTree($results),
-            ];
-        } else {
-            $feedback = [
-                'message' => null,
-                'output'  => $this->printTable($results),
-            ];
+            // sprintf('There is no installed package depending on "%s"%s', $packageName, $extra),
+            return null;
         }
 
-        return $feedback;
+        // sprintf('The following packages are involved in the dependency on "%s"%s', $packageName, $extra),
+        return $this->getDependencies($results);
     }
 
     /**
      * If the version we ask for is not installed then we need to locate it in
      * remote repos and add it.
      *
-     * This is needed for why-not to resolve conflicts from an uninstalled version against installed packages.
+     * This is needed for why-not to resolve conflicts from an uninstalled
+     * version against installed packages.
      *
      * @param string $packageName    Package to inspect.
      * @param string $textConstraint Optional version constraint
@@ -106,22 +88,26 @@ abstract class AbstractDependencyAction extends BaseAction
             return $this->getPool();
         }
         $composer = $this->getComposer();
+        $pool = new Pool();
 
         // Prepare repositories and set up a pool
         $platformOverrides = $composer->getConfig()->get('platform') ?: [];
+        /** @var BasePackage $rootPackage */
+        $rootPackage = $composer->getPackage();
+        if ($rootPackage->getRepository() === null) {
+            $packageRepo = new ArrayRepository([$composer->getPackage()]);
 
-        $packageRepo = new ArrayRepository([$composer->getPackage()]);
-        $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-        $platformRepo = new PlatformRepository([], $platformOverrides);
-        $compositeRepository = new CompositeRepository([$packageRepo, $localRepo, $platformRepo]);
+            $localRepo = $composer->getRepositoryManager()->getLocalRepository();
+            $platformRepo = new PlatformRepository([], $platformOverrides);
+            $compositeRepository = new CompositeRepository([$packageRepo, $localRepo, $platformRepo]);
 
-        $pool = new Pool();
-        $pool->addRepository($compositeRepository);
+            $pool->addRepository($compositeRepository);
 
-        $defaultRepos = new CompositeRepository(RepositoryFactory::defaultRepos($this->getIO()));
-        $match = $defaultRepos->findPackage($packageName, $textConstraint);
-        if ($match) {
-            $compositeRepository->addRepository(new ArrayRepository([clone $match]));
+            $defaultRepos = new CompositeRepository(RepositoryFactory::defaultRepos($this->getIO()));
+            $match = $defaultRepos->findPackage($packageName, $textConstraint);
+            if ($match) {
+                $compositeRepository->addRepository(new ArrayRepository([clone $match]));
+            }
         }
 
         return $pool;
@@ -164,81 +150,22 @@ abstract class AbstractDependencyAction extends BaseAction
      *
      * @return array
      */
-    private function printTable($results)
+    private function getDependencies(array $results)
     {
-        $table = [];
+        $dependencies = [];
         $doubles = [];
-        do {
-            $queue = [];
-            $rows = [];
-            foreach ($results as $result) {
-                /**
-                 * @var PackageInterface $package
-                 * @var Link             $link
-                 */
-                list($package, $link, $children) = $result;
-                $unique = (string) $link;
-                if (isset($doubles[$unique])) {
-                    continue;
-                }
-                $doubles[$unique] = true;
-                $rows[] = [
-                    'source_name'    => $package->getPrettyName(),
-                    'source_version' => $package->getPrettyVersion(),
-                    'reason'         => $link->getDescription(),
-                    'target_name'    => $link->getTarget(),
-                    'target_version' => $link->getPrettyConstraint(),
-                ];
-                if ($children) {
-                    $queue = array_merge($queue, $children);
-                }
+
+        foreach ($results as $name => $result) {
+            $type = $this->recursive ? Dependency::PROHIBITS : Dependency::DEPENDS;
+            $dependency = Dependency::create($name, $type, $result);
+            $unique = (string) $dependency->getLink();
+            if (isset($doubles[$unique])) {
+                continue;
             }
-            $results = $queue;
-            $table = array_merge($rows, $table);
-        } while (!empty($results));
-
-        return $table;
-    }
-
-    /**
-     * Recursively prints a tree of the selected results.
-     *
-     * @param array  $results Results to be printed at this level.
-     * @param string $prefix  Prefix of the current tree level.
-     * @param int    $level   Current level of recursion.
-     */
-    private function printTree($results, $prefix = '', $level = 1)
-    {
-        $count = count($results);
-        $idx = 0;
-        foreach ($results as $result) {
-            /**
-             * @var PackageInterface $package
-             * @var Link             $link
-             * @var array|bool       $children
-             */
-            list($package, $link, $children) = $result;
-
-            $isLast = (++$idx == $count);
-            $versionText = (strpos($package->getPrettyVersion(), 'No version set') === 0) ? '' : $package->getPrettyVersion();
-            $packageText = rtrim(sprintf('%s %s', $package->getPrettyName(), $versionText));
-
-            $linkText = sprintf('%s <%s>%s</%2$s> %s', $link->getDescription(), $link->getTarget(), $link->getPrettyConstraint());
-            $circularWarn = $children === false ? '(circular dependency aborted here)' : '';
-            $this->writeTreeLine(rtrim(sprintf('%s%s%s (%s) %s', $prefix, $isLast ? '└──' : '├──', $packageText, $linkText, $circularWarn)));
-            if ($children) {
-                $this->printTree($children, $prefix . ($isLast ? '   ' : '│  '), $level + 1);
-            }
-        }
-    }
-
-    private function writeTreeLine($line)
-    {
-        $io = $this->getIO();
-        if (!$io->isDecorated()) {
-            $line = str_replace(['└', '├', '──', '│'], ['`-', '|-', '-', '|'], $line);
+            $doubles[$unique] = true;
+            $dependencies[] = $dependency;
         }
 
-        $io->write($line);
+        return $dependencies;
     }
 }
