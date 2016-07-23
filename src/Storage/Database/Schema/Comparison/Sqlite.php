@@ -30,5 +30,15 @@ class Sqlite extends BaseComparator
      */
     protected function removeIgnoredChanges(TableDiff $diff)
     {
+        /**
+         * @see https://github.com/doctrine/dbal/pull/242
+         *      \Doctrine\DBAL\Platforms\SqlitePlatform::supportsForeignKeyConstraints
+         *      https://www.sqlite.org/foreignkeys.html
+         */
+        if ($this->connection->getDatabasePlatform()->supportsForeignKeyConstraints() === false) {
+            $diff->addedForeignKeys = [];
+            $diff->changedForeignKeys = [];
+            $diff->removedForeignKeys = [];
+        }
     }
 }
