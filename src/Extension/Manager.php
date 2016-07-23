@@ -232,8 +232,8 @@ class Manager
     private function addManagedExtension(PackageDescriptor $descriptor)
     {
         $className = $descriptor->getClass();
-        if (@class_exists($className) === false) {
-            if ($descriptor->getType() === 'local' && @class_exists('Wikimedia\Composer\MergePlugin') === false) {
+        if ($this->isClassLoadable($className) === false) {
+            if ($descriptor->getType() === 'local' && $this->isClassLoadable('Wikimedia\Composer\MergePlugin') === false) {
                 $this->flashLogger->error(Trans::__('general.phrase.error-local-extension-set-up-incomplete', ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
             } else {
                 $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
@@ -253,6 +253,30 @@ class Manager
         } else {
             $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
         }
+    }
+
+    /**
+     * Check if a class is loadable.
+     *
+     * This comes about as local extensions that are moved or removed will over
+     * emmit warnings while trying to validly rebuild autoloaders.
+     *
+     * @param string $className
+     *
+     * @return bool
+     */
+    private function isClassLoadable($className)
+    {
+        set_error_handler(
+            function ($errNo, $errStr, $errFile) {
+                return $errNo === 2 && basename($errFile) === 'ClassLoader.php' ?: false;
+            },
+            E_WARNING
+        );
+        $exists = class_exists($className);
+        restore_error_handler();
+
+        return $exists;
     }
 
     /**
