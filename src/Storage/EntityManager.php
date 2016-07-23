@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Exception\InvalidRepositoryException;
+use Bolt\Exception\StorageException;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -251,9 +253,13 @@ class EntityManager
     {
         $className = (string) $className;
         if (array_key_exists($className, $this->aliases)) {
-            $classMetadata = $this->getMapper()->loadMetadataForClass($this->aliases[$className]);
-        } else {
+            $className = $this->aliases[$className];
+        }
+
+        try {
             $classMetadata = $this->getMapper()->loadMetadataForClass($className);
+        } catch (StorageException $e) {
+            throw new InvalidRepositoryException("Attempted to load repository for invalid class or alias: $className. Check that the class, alias or contenttype definition is correct.");
         }
 
         if (array_key_exists($className, $this->repositories)) {
