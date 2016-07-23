@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage;
 
 use Bolt\Exception\InvalidRepositoryException;
@@ -246,8 +247,10 @@ class EntityManager
      * Gets the repository for a class.
      *
      * @param string $className
-     * @return Repository
+     *
      * @throws InvalidRepositoryException
+     *
+     * @return Repository
      */
     public function getRepository($className)
     {
@@ -267,6 +270,7 @@ class EntityManager
             if (is_callable($repoClass)) {
                 return call_user_func_array($repoClass, [$this, $classMetadata]);
             }
+
             return new $repoClass($this, $classMetadata);
         }
 

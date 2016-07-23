@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Storage\ContentRequest\Listing;
 use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Translation\Translator as Trans;
@@ -70,8 +71,15 @@ class Records extends BackendBase
             return $this->recordSave()->action($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
-        // Get the record
-        $repo = $this->getRepository($contenttypeslug);
+        try {
+            // Get the record
+            $repo = $this->getRepository($contenttypeslug);
+        } catch (InvalidRepositoryException $e) {
+            $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
         if ($new) {
             $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
         } else {
