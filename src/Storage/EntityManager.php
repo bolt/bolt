@@ -246,8 +246,8 @@ class EntityManager
      * Gets the repository for a class.
      *
      * @param string $className
-     *
      * @return Repository
+     * @throws InvalidRepositoryException
      */
     public function getRepository($className)
     {
