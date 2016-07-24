@@ -155,10 +155,10 @@ recordsperpage: 10
 #                  cases you should *NOT* enable this, because it will cause
 #                  side-effects if the website shows different content to
 #                  authenticated users.
-# - thumbnails:    Caches thumbnail generation.  
-# - translations:  Caches translation files. It is recommend to leave this 
-#                  enabled. Only if you develop extensions and work with 
-#                  translation files you should turn this off.   
+# - thumbnails:    Caches thumbnail generation.
+# - translations:  Caches translation files. It is recommend to leave this
+#                  enabled. Only if you develop extensions and work with
+#                  translation files you should turn this off.
 caching:
     config: true
     templates: true
@@ -389,13 +389,16 @@ hash_strength: 10
 # Do not change this, unless you know what you're doing, and understand the
 # associated risks. If you use 'http://extensions.bolt.cm', Bolt will not use
 # SSL, increasing the risk for a MITM attacks.
-#
-# For the stability option, you can choose either 'dev' or 'stable'. Setting
-# this to 'dev' will allow you to install dev-master versions of extensions.
-extensions:
-    site: 'https://extensions.bolt.cm/'
-    stability: stable
-    enabled: true
+# extensions:
+#     site: 'https://extensions.bolt.cm/'
+#     enabled: true
+#     composer:
+#         minimum-stability: stable      # Either 'stable', 'beta', or 'dev'. Setting 'dev' will allow you to install dev-master versions of extensions.
+#         prefer-stable: true            # Prefer stable releases over development ones
+#         prefer-dist: true              # Forces installation from package dist even for dev versions.
+#         prefer-source: false           # Forces installation from package sources when possible, including VCS information.
+#         optimize-autoloader: false     # Optimize autoloader during autoloader dump.
+#         classmap-authoritative: false  # Autoload classes from the classmap only. Implicitly enables `optimize-autoloader`.
 
 # Enforcing the use of SSL. If set, all but the front-end pages will enforce an
 # SSL connection (and redirect to HTTPS if you attempt to visit the backend over
