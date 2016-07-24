@@ -562,7 +562,10 @@ class Application extends Silex\Application
 
         // true if we need to consider adding html snippets
         // note we exclude cached requests where no additions should be made to the HTML
-        if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true) && ($response->headers->get('Cache-Control') === "no-cache")) {
+        if (isset($this['htmlsnippets'])
+            && ($this['htmlsnippets'] === true)
+            && (in_array($response->headers->get('Cache-Control'), array('no-cache','private, must-revalidate')))
+        ) {
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
                 // Add our meta generator tag.
