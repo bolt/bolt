@@ -16,6 +16,7 @@ class ExtensionsDumpAutoloadTest extends BoltUnitTest
     public function testRun()
     {
         $app = $this->getApp();
+        $app['extend.action.options']->set('optimize-autoloader', true);
 
         $runner = $this->getMock('Bolt\Composer\PackageManager', ['dumpAuoloader'], [$app]);
         $runner->expects($this->any())

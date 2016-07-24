@@ -107,7 +107,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.action.options'] = $app->share(
             function ($app) {
-                return new Action\Options($app['filesystem']->get('extensions://composer.json', new JsonFile()));
+                $composerJson = $app['filesystem']->get('extensions://composer.json', new JsonFile());
+                $composerOverrides = $app['config']->get('general/extensions/composer', []);
+
+                return new Action\Options($composerJson, $composerOverrides, true);
             }
         );
     }

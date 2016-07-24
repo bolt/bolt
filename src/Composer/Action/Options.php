@@ -2,87 +2,34 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\JsonFile;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Composer action options class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Options
+class Options extends ParameterBag
 {
-    /** @var  string */
-    protected $baseDir;
-    /** @var  JsonFile */
-    protected $composerJson;
-    /** @var  bool */
-    protected $dryRun;
-    /** @var  bool */
-    protected $verbose;
-    /** @var  bool */
-    protected $noDev;
-    /** @var  bool */
-    protected $noAutoloader;
-    /** @var  bool */
-    protected $noScripts;
-    /** @var  bool */
-    protected $withDependencies;
-    /** @var  bool */
-    protected $ignorePlatformReqs;
-    /** @var  bool */
-    protected $preferStable;
-    /** @var  bool */
-    protected $preferLowest;
-    /** @var  bool */
-    protected $sortPackages;
-    /** @var  bool */
-    protected $preferSource;
-    /** @var  bool */
-    protected $preferDist;
-    /** @var  bool */
-    protected $update;
-    /** @var  bool */
-    protected $noUpdate;
-    /** @var  bool */
-    protected $updateNoDev;
-    /** @var  bool */
-    protected $updateWithDependencies;
-    /** @var  bool */
-    protected $dev;
-    /** @var  bool */
-    protected $onlyName;
-    /** @var  bool */
-    protected $optimize;
-    /** @var  bool */
-    protected $optimizeAutoloader;
-    /** @var  bool */
-    protected $classmapAuthoritative;
-
     /**
      * Constructor.
      *
      * @param JsonFile $composerJson
+     * @param array    $composerOverrides
      * @param bool     $setDefaults
      */
-    public function __construct(JsonFile $composerJson, $setDefaults = true)
+    public function __construct(JsonFile $composerJson, array $composerOverrides, $setDefaults = true)
     {
-        $this->composerJson = $composerJson;
-        $this->baseDir = $composerJson->getFilesystem()->getAdapter()->getPathPrefix();
-
-        if ($setDefaults) {
-            $this->setDefaults();
-        }
-    }
-
-    /**
-     * Set a value.
-     *
-     * @param string $name
-     * @param bool   $value
-     */
-    public function set($name, $value)
-    {
-        $this->$name = $value;
+        parent::__construct($composerOverrides);
+        /** @var Filesystem $extensionFs */
+        $extensionFs = $composerJson->getFilesystem();
+        /** @var Local $adapter */
+        $adapter = $extensionFs->getAdapter();
+        $this->set('baseDir', $adapter->getPathPrefix());
+        $this->set('composerJson', $composerJson);
     }
 
     /**
@@ -92,7 +39,7 @@ class Options
      */
     public function baseDir()
     {
-        return $this->baseDir;
+        return $this->get('baseDir');
     }
 
     /**
@@ -102,7 +49,7 @@ class Options
      */
     public function composerJson()
     {
-        return $this->composerJson;
+        return $this->get('composerJson');
     }
 
     /**
@@ -110,11 +57,11 @@ class Options
      *
      * Composer parameter: --dry-run
      *
-     * @return bool|null
+     * @return bool
      */
     public function dryRun()
     {
-        return $this->dryRun;
+        return $this->getBoolean('dry-run');
     }
 
     /**
@@ -122,11 +69,11 @@ class Options
      *
      * Composer parameter: --verbose
      *
-     * @return bool|null
+     * @return bool
      */
     public function verbose()
     {
-        return $this->verbose;
+        return $this->getBoolean('verbose');
     }
 
     /**
@@ -134,11 +81,11 @@ class Options
      *
      * Composer parameter: --no-dev
      *
-     * @return bool|null
+     * @return bool
      */
     public function noDev()
     {
-        return $this->noDev;
+        return $this->getBoolean('no-dev', true);
     }
 
     /**
@@ -146,11 +93,11 @@ class Options
      *
      * Composer parameter: --no-autoloader
      *
-     * @return bool|null
+     * @return bool
      */
     public function noAutoloader()
     {
-        return $this->noAutoloader;
+        return $this->getBoolean('no-autoloader');
     }
 
     /**
@@ -158,11 +105,11 @@ class Options
      *
      * Composer parameter: --no-scripts
      *
-     * @return bool|null
+     * @return bool
      */
     public function noScripts()
     {
-        return $this->noScripts;
+        return $this->getBoolean('no-scripts');
     }
 
     /**
@@ -170,11 +117,11 @@ class Options
      *
      * Composer parameter: --with-dependencies
      *
-     * @return bool|null
+     * @return bool
      */
     public function withDependencies()
     {
-        return $this->withDependencies;
+        return $this->getBoolean('with-dependencies', true);
     }
 
     /**
@@ -182,11 +129,11 @@ class Options
      *
      * Composer parameter: --ignore-platform-reqs
      *
-     * @return bool|null
+     * @return bool
      */
     public function ignorePlatformReqs()
     {
-        return $this->ignorePlatformReqs;
+        return $this->getBoolean('ignore-platform-reqs');
     }
 
     /**
@@ -194,11 +141,11 @@ class Options
      *
      * Composer parameter: --prefer-stable
      *
-     * @return bool|null
+     * @return bool
      */
     public function preferStable()
     {
-        return $this->preferStable;
+        return $this->getBoolean('prefer-stable', true);
     }
 
     /**
@@ -206,11 +153,11 @@ class Options
      *
      * Composer parameter: --prefer-lowest
      *
-     * @return bool|null
+     * @return bool
      */
     public function preferLowest()
     {
-        return $this->preferLowest;
+        return $this->getBoolean('prefer-lowest');
     }
 
     /**
@@ -218,11 +165,11 @@ class Options
      *
      * Composer parameter: --sort-packages
      *
-     * @return bool|null
+     * @return bool
      */
     public function sortPackages()
     {
-        return $this->sortPackages;
+        return $this->getBoolean('sort-packages', true);
     }
 
     /**
@@ -230,11 +177,11 @@ class Options
      *
      * Composer parameter: --prefer-source
      *
-     * @return bool|null
+     * @return bool
      */
     public function preferSource()
     {
-        return $this->preferSource;
+        return $this->getBoolean('prefer-source', false);
     }
 
     /**
@@ -242,11 +189,11 @@ class Options
      *
      * Composer parameter: --prefer-dist
      *
-     * @return bool|null
+     * @return bool
      */
     public function preferDist()
     {
-        return $this->preferDist;
+        return $this->getBoolean('prefer-dist', true);
     }
 
     /**
@@ -254,11 +201,11 @@ class Options
      *
      * Composer parameter: --None: Bolt customisation
      *
-     * @return bool|null
+     * @return bool
      */
     public function update()
     {
-        return $this->update;
+        return $this->getBoolean('update', true);
     }
 
     /**
@@ -266,11 +213,11 @@ class Options
      *
      * Composer parameter: --no-update
      *
-     * @return bool|null
+     * @return bool
      */
     public function noUpdate()
     {
-        return $this->noUpdate;
+        return $this->getBoolean('no-update');
     }
 
     /**
@@ -278,11 +225,11 @@ class Options
      *
      * Composer parameter: --update-no-dev
      *
-     * @return bool|null
+     * @return bool
      */
     public function updateNoDev()
     {
-        return $this->updateNoDev;
+        return $this->getBoolean('update-no-dev', true);
     }
 
     /**
@@ -290,11 +237,11 @@ class Options
      *
      * Composer parameter: --update-with-dependencies
      *
-     * @return bool|null
+     * @return bool
      */
     public function updateWithDependencies()
     {
-        return $this->updateWithDependencies;
+        return $this->getBoolean('update-with-dependencies', true);
     }
 
     /**
@@ -305,11 +252,11 @@ class Options
      *
      * Composer parameter: --dev
      *
-     * @return bool|null
+     * @return bool
      */
     public function dev()
     {
-        return $this->dev;
+        return $this->getBoolean('dev');
     }
 
     /**
@@ -317,11 +264,11 @@ class Options
      *
      * Composer parameter: --only-name
      *
-     * @return bool|null
+     * @return bool
      */
     public function onlyName()
     {
-        return $this->onlyName;
+        return $this->getBoolean('only-name', true);
     }
 
     /**
@@ -329,11 +276,11 @@ class Options
      *
      * Composer parameter: --optimize
      *
-     * @return bool|null
+     * @return bool
      */
     public function optimize()
     {
-        return $this->optimize;
+        return $this->getBoolean('optimize', false);
     }
 
     /**
@@ -341,11 +288,11 @@ class Options
      *
      * Composer parameter: --optimize-autoloader
      *
-     * @return bool|null
+     * @return bool
      */
     public function optimizeAutoloader()
     {
-        return $this->optimizeAutoloader;
+        return $this->getBoolean('optimize-autoloader', false);
     }
 
     /**
@@ -353,28 +300,10 @@ class Options
      *
      * Composer parameter: --classmap-authoritative
      *
-     * @return bool|null
+     * @return bool
      */
     public function classmapAuthoritative()
     {
-        return $this->classmapAuthoritative;
-    }
-
-    /**
-     * Set default parameter options.
-     */
-    private function setDefaults()
-    {
-        $this->noDev = true;
-        $this->onlyName = true;
-        $this->optimizeAutoloader = true;
-        $this->classmapAuthoritative = true;
-        $this->preferDist = true;
-        $this->preferSource = false;
-        $this->sortPackages = true;
-        $this->updateNoDev = true;
-        $this->update = true;
-        $this->updateWithDependencies = true;
-        $this->withDependencies = true;
+        return $this->getBoolean('classmap-authoritative', false);
     }
 }
