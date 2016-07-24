@@ -121,7 +121,7 @@
         // Set up container and wipe existing/previous
         find('.update-container').show();
 
-        notice = find('.update-output-data').html();
+        notice = find('.update-output-console').html();
         find('.update-output-notice').html(notice);
         find('.update-output-notice')
             .find('.update-output-element')
@@ -187,17 +187,17 @@
     }
 
     function updateRun() {
-        find('.update-container').show();
-        var target = find('.update-output');
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.running-update'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.running-update-all'),
+            bolt.data('extend.text.running-update'),
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'update', function(data) {
-            target.html(data);
             setTimeout(function(){
                 find('.update-container').hide();
             }, 7000);
-
+            feedbackDialogueSetMessage(data);
             checkInstalled();
         })
         .fail(function(data) {
@@ -230,18 +230,18 @@
     }
 
     function installRun(e) {
-        var target = find('.update-output');
-
-        find('.update-container').show();
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.install-all'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.install-running'),
+            bolt.data('extend.text.install-all'),
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'installAll', function (data) {
-            target.html(data);
             delay(function () {
                 find('.update-container').hide();
             }, 7000);
 
+            feedbackDialogueSetMessage(data);
             checkInstalled();
         })
         .fail(function(data) {
@@ -252,21 +252,26 @@
         e.preventDefault();
     }
 
+    /**
+     * Callback for requesting "dump autoloader".
+     *
+     * @param e
+     */
     function autoloadDump(e) {
-        var target = find('.update-output');
 
-        find('.update-container').show();
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.install-all'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.autoloader-update'),
+            bolt.data('extend.text.autoloader-start') + ' …',
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'dumpAutoload', function (data) {
-                target.html(data);
-                delay(function () {
-                    find('.update-container').hide();
-                }, 7000);
+            delay(function () {
+                find('.update-container').hide();
+            }, 7000);
 
-                checkInstalled();
-            })
+            feedbackDialogueSetMessage(data);
+        })
             .fail(function(data) {
                 formatErrorLog(data);
             });
@@ -728,6 +733,46 @@
 
         $('.modal').modal('hide');
         bootbox.alert(html);
+    }
+
+    /**
+     * Load the initial feedback dialogue.
+     *
+     * @param titleMsg
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueLoad(titleMsg, consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (titleMsg) {
+            container.find('.update-output-title').html(titleMsg);
+        }
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg);
+            container.find('.update-output-console').show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
+        container.show();
+    }
+
+    /**
+     * Update the message console.
+     *
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueSetMessage(consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg).show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
     }
 
     // Apply mixin container.

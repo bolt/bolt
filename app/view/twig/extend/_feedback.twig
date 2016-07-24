@@ -1,6 +1,6 @@
 <div class="update-container hide-block">
-    <h3>{{ __('page.extend.headline.updates') }}</h3>
-    <div class="update-output-header hide-block">
+    <h3 class="update-output-title">{{ __('page.extend.headline.updates') }}</h3>
+    <div class="update-output-console hide-block">
         {% if context.writeable %}
             <pre class="update-output-element console">{{ __('page.extend.message.checking-for-updates') }}</pre>
         {% else %}
