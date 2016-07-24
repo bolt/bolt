@@ -76,32 +76,9 @@
 
             <hr>
 
-            <div class="update-container hide-block">
-                <h3>{{ __('page.extend.headline.updates') }}</h3>
-                <div class="update-output-data hide-block">
-                    {% if context.writeable %}
-                        <pre class="update-output-element console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
-                    {% else %}
-                        <pre class="update-output-element">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
-                    {% endif %}
-                </div>
-                <div class="update-output-notice">
-                </div>
-                <div class="update-list hide-block">
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('page.extend.listheader.extension') }}</th>
-                                <th>{{ __('page.extend.listheader.version') }}</th>
-                                <th>{{ __('page.extend.listheader.actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="update-list-items">
+            {# Console for UI feedback #}
+            {{ include('@bolt/extend/_feedback.twig') }}
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <section class="installed-container">
                 <h2>{{ __('page.extend.headline.currently-installed') }}</h2>
                 {% if context.writeable %}
