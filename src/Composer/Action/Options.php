@@ -62,9 +62,10 @@ class Options
      * Constructor.
      *
      * @param JsonFile $composerJson
+     * @param array    $composerOverrides
      * @param bool     $setDefaults
      */
-    public function __construct(JsonFile $composerJson, $setDefaults = true)
+    public function __construct(JsonFile $composerJson, array $composerOverrides, $setDefaults = true)
     {
         $this->composerJson = $composerJson;
         $this->baseDir = $composerJson->getFilesystem()->getAdapter()->getPathPrefix();
