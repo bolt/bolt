@@ -585,7 +585,7 @@ page.extend.message.bad-json: "JSON svar med fel format. Kontrollera att debug �
 page.extend.message.before-theme-start: "Innan du kan börja använda temat på din webbplats måste vi kopiera det till din temamapp. Om du vill ge temat ett annat namn kan du lägga till det här."
 page.extend.message.check-for-updates: "Sök efter uppdateringar"
 page.extend.message.checking-installed-packages: "Kontrollera installerade paket"
-page.extend.message.checkung-for-updates: "Söker efter tillgängliga uppdateringar (detta kan ta upp till 60 sekunder)"
+page.extend.message.checking-for-updates: "Söker efter tillgängliga uppdateringar (detta kan ta upp till 60 sekunder)"
 page.extend.message.compatible-unstable-versions: "De versioner som visas nedan är kompatibla med versionen av bolt du använder. Eftersom de är instabila versioner, rekommenderar vi att du <strong>inte</strong> använder dessa på produktionssystem."
 page.extend.message.confirm-remove: "Är du säker på att du vill ta bort detta tillägg?"
 page.extend.message.copying: "Kopierar temafiler…"

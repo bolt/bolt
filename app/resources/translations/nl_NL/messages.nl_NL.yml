@@ -585,7 +585,7 @@ page.extend.message.bad-json: "Misvormde JSON respons. Zorg ervoor dat er geen d
 page.extend.message.before-theme-start: "Voordat je deze theme kunt gebruiken, moeten we een kopie maken naar je theme map. Als je een alternatieve naam wilt opgeven voor het theme, dan kan dat hier."
 page.extend.message.check-for-updates: "Controleer op updates"
 page.extend.message.checking-installed-packages: "Controleer geïnstalleerde packages"
-page.extend.message.checkung-for-updates: "Updates aan het controleren (dit kan tot 60 seconden duren)"
+page.extend.message.checking-for-updates: "Updates aan het controleren (dit kan tot 60 seconden duren)"
 page.extend.message.compatible-unstable-versions: "De hieronder opgesomde versies zijn compatibel met de Bolt-versie die je gebruikt. Aangezien het onstabiele versies zijn, raden we aan deze <strond>niet</strong> te gebruiken op productiesystemen."
 page.extend.message.confirm-remove: "Bevestig dat je deze extensie wilt verwijderen?"
 page.extend.message.copying: "Thema-bestanden kopiëren …"

@@ -585,7 +585,7 @@ page.extend.message.bad-json: "Réponse JSON malformée. Assurez-vous qu'aucun c
 page.extend.message.before-theme-start: "Avant de pouvoir utiliser ce thème, celui-ci doit être copié dans le répertoire des thèmes. Vous pouvez, si vous le désirez, changer le nom de celui-ci."
 page.extend.message.check-for-updates: "Rechercher les mises à jour"
 page.extend.message.checking-installed-packages: "Vérification des paquets installés"
-page.extend.message.checkung-for-updates: "Recherche des mises à jour disponibles (cela peut prendre jusqu'à 60 secondes)"
+page.extend.message.checking-for-updates: "Recherche des mises à jour disponibles (cela peut prendre jusqu'à 60 secondes)"
 page.extend.message.compatible-unstable-versions: "Les versions listées ci-dessous sont compatible avec la version de Bolt que vous utilisez. Cependant, comme elles ne sont pas marquées comme stable par le développeur, nous vous recommandons de <strong>ne pas</strong> les utiliser en production."
 page.extend.message.confirm-remove: "Veuillez confirmer que vous souhaitez supprimer cette extension"
 page.extend.message.copying: "Copie des éléments du thème…"
