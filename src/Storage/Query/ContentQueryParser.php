@@ -207,13 +207,16 @@ class ContentQueryParser
      * This runs the callbacks attached to each directive command.
      *
      * @param QueryInterface $query
+     * @param array $skipDirective
      */
-    public function runDirectives(QueryInterface $query)
+    public function runDirectives(QueryInterface $query, array $skipDirective = [])
     {
         foreach ($this->directives as $key => $value) {
-            if ($this->hasDirectiveHandler($key)) {
-                if (is_callable($this->getDirectiveHandler($key))) {
-                    call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
+            if (! in_array($key, $skipDirective)) {
+                if ($this->hasDirectiveHandler($key)) {
+                    if (is_callable($this->getDirectiveHandler($key))) {
+                        call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
+                    }
                 }
             }
         }
