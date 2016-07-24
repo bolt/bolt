@@ -8,6 +8,7 @@ Bolt 3.1-dev
 - Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
 - Added: Allow extra plugin for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
+- Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
 
 Bolt 3.0.11
 -----------
