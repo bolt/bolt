@@ -364,7 +364,8 @@
                     '%README%': ext.readmeLink,
                     '%CONFIG%': ext.configLink,
                     '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
-                    '%REPOSITORY_URL%': ext.repositoryLink
+                    '%REPOSITORY_URL%': ext.repositoryLink,
+                    '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : ''
                 });
 
                 // Generate the HTML for a package item.
@@ -376,7 +377,6 @@
                     '%TYPE%':        ext.type,
                     '%MANAGE%':      manage,
                     '%DETAILS%':     detailsDropdown,
-                    '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
                     '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
                     '%KEYWORDS%':    keywords,
