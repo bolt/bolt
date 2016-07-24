@@ -56,31 +56,25 @@
         <ul class="dropdown-menu" role="menu">
 
             <li>
-                <a href="%CONFIG%" class="btn btn-sm btn-silent-danger">
-                    <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.link-config') }}
-                </a>
-            </li>
-
-            <li>
-                <a data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal" class="btn btn-sm btn-default">
+                <a href="#" data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal">
                     <i class='fa fa-list fa-fw'></i> {{ __('page.extend.button.link-versions') }}
                 </a>
             </li>
 
             <li>
-                <a data-request="uninstall-package" class="btn btn-sm btn-silent-danger clickspinner" href="%BASEURL%uninstall?package=%NAME%">
+                <a data-request="uninstall-package" class="clickspinner" href="%BASEURL%uninstall?package=%NAME%">
                     <i class="fa fa-trash-o fa-fw"></i> {{ __('page.extend.button.link-uninstall') }}
                 </a>
             </li>
 
             <li>
-                <a href="%MARKETPLACE_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
+                <a href="%MARKETPLACE_URL%" target="_blank">
                     <i class="fa fa-cart-plus fa-fw"></i> {{ __('page.extend.button.link-marketplace') }}
                 </a>
             </li>
 
             <li>
-                <a href="%REPOSITORY_URL%" class="btn btn-sm btn-silent-danger" target="_blank">
+                <a href="%REPOSITORY_URL%" target="_blank">
                     <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.link-repository') }}
                 </a>
             </li>
@@ -94,17 +88,27 @@
  #}
 {% set package_left_buttons %}
     <div class="btn-group pull-left">
-        <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-silent-danger">
-            <i class="fa fa-quote-right fa-fw"></i> {{ __('page.extend.button.link-readme') }}
-        </a>
-
+        %README%
         %THEME%
+        %CONFIG%
     </div>
 {% endset %}
 
+{% set package_readme_button %}
+    <a data-request="package-readme" data-readme="%README%" class="btn btn-sm btn-default">
+        <i class="fa fa-quote-right fa-fw"></i> {{ __('page.extend.button.link-readme') }}
+    </a>
+{% endset %}
+
 {% set package_theme_button %}
-    <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-tertiary">
+    <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-silent-danger">
         <i class="fa fa-copy fa-fw"></i> {{ __('page.extend.button.copy-to-theme-folder') }}
+    </a>
+{% endset %}
+
+{% set package_config_button %}
+    <a href="%CONFIG%" class="btn btn-sm btn-default">
+        <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.link-config') }}
     </a>
 {% endset %}
 
@@ -156,6 +160,8 @@
 {{ data('extend.packages.manage_dropdown',  package_manage_dropdown|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.left_buttons',     package_left_buttons|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.config_button',    package_config_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.readme_button',    package_readme_button|trim|preg_replace('/>\\s+</', '><')) }}
 
 {{ data('extend.packages.install_new',      package_install_new|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.install_update',   package_install_update|trim|preg_replace('/>\\s+</', '><')) }}
