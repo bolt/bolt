@@ -9,6 +9,8 @@ Bolt 3.1-dev
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
 - Added: Allow extra plugin for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
 - Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
+- Added: Nut command to enable, disable, and list details for a user [#5483](https://github.com/bolt/bolt/pull/5483)
+- Added: Add --enable option to Nut user:create [#5483](https://github.com/bolt/bolt/pull/5483)
 
 Bolt 3.0.x
 -----------
