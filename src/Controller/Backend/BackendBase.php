@@ -79,7 +79,7 @@ abstract class BackendBase extends Base
                 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
                 [
                     '%VERSION%' => Version::VERSION,
-                    '%URI%'     => $app['resources']->getUrl('bolt') . 'dbcheck',
+                    '%URI%'     => $app['url_generator']->generate('dbcheck'),
                 ]
             );
             $app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
