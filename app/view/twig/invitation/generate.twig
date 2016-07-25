@@ -146,7 +146,8 @@
                     return $(this).val();
                 }).get();
 
-                var posting =  $.post('{{ app.request.basepath }}/bolt/generatelink', { roles: roles, expiration_date : $('.datepicker').val(), expiration_time : $('.timepicker').val()});
+
+                var posting =  $.post('{{ path('generatelink') }}', { roles: roles, expiration_date : $('.datepicker').val(), expiration_time : $('.timepicker').val()});
 
                 //The code was generate successfully
                 posting.success(function( data ) {
@@ -177,7 +178,7 @@
             //Send the generated code by email
             $('#sharecontent').submit(function (event) {
                 event.preventDefault();
-                var posting =  $.post('{{ app.request.basepath }}/bolt/sendlink', { to: $('#form_to').val(), subject : $('#form_subject').val(), message : $('#form_message').val(), link : $('#invitationLink').val()});
+                var posting =  $.post('{{ path('sendlink') }}', { to: $('#form_to').val(), subject : $('#form_subject').val(), message : $('#form_message').val(), link : $('#invitationLink').val()});
 
                 //remove previous errors
                 $("#sharecontent .has-error").removeClass("has-error");

@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Bolt\Session\Generator\RandomGenerator;
 
 /**
  * Backend controller for invitation code generation.
@@ -21,13 +22,13 @@ class Invitation extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/invitationlink', 'invitationLink')
+        $c->match('/users/invite', 'invitationLink')
             ->bind('invitationlink');
 
-        $c->match('/generatelink', 'generateLink')
+        $c->match('/users/invite/generate', 'generateLink')
             ->bind('generatelink');
 
-        $c->match('/sendlink', 'sendLink')
+        $c->match('/users/invite/email', 'sendLink')
             ->bind('sendlink');
 
     }
@@ -117,7 +118,8 @@ class Invitation extends BackendBase
         }
 
         //Generate token for invitation code
-        $token = bin2hex(openssl_random_pseudo_bytes(16));
+        $random = new RandomGenerator($this->app['randomgenerator'], $this->app['session.generator.bytes_length']);
+        $token = $random->generateId();
 
         $tokenEntity = new Entity\Tokens();
 

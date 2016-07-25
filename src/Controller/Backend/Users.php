@@ -52,7 +52,6 @@ class Users extends BackendBase
             ->bind('roles');
 
         $c->match('/invitation/{code}', 'invitation')
-            ->assert('code', '.*')
             ->bind('invitation');
     }
 
