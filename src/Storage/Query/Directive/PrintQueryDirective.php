@@ -1,13 +1,13 @@
 <?php
 
-namespace Bolt\Storage\Query\Handler;
+namespace Bolt\Storage\Query\Directive;
 
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Handler a raw output of the generated query.
+ *  Directive a raw output of the generated query.
  */
-class PrintQueryHandler
+class PrintQueryDirective
 {
     /**
      * @param QueryInterface $query

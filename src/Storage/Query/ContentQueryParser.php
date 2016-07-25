@@ -3,18 +3,18 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Query\Directive\HydrateDirective;
+use Bolt\Storage\Query\Directive\OrderDirective;
+use Bolt\Storage\Query\Directive\PagingDirective;
+use Bolt\Storage\Query\Directive\PrintQueryDirective;
+use Bolt\Storage\Query\Directive\ReturnSingleDirective;
 use Bolt\Storage\Query\Handler\FirstQueryHandler;
-use Bolt\Storage\Query\Handler\GetQueryHandler;
-use Bolt\Storage\Query\Handler\HydrateHandler;
+use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Handler\IdentifiedSelectHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
-use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Directive\LimitDirective;
 use Bolt\Storage\Query\Handler\NativeSearchHandler;
-use Bolt\Storage\Query\Handler\OrderHandler;
-use Bolt\Storage\Query\Handler\PagingHandler;
-use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
-use Bolt\Storage\Query\Handler\ReturnSingleHandler;
 use Bolt\Storage\Query\Handler\SearchQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
@@ -78,13 +78,13 @@ class ContentQueryParser
         $this->addHandler('nativesearch', new NativeSearchHandler());
         $this->addHandler('namedselect', new IdentifiedSelectHandler());
 
-        $this->addDirectiveHandler('getquery', new GetQueryHandler());
-        $this->addDirectiveHandler('hydrate', new HydrateHandler());
-        $this->addDirectiveHandler('limit', new LimitHandler());
-        $this->addDirectiveHandler('order', new OrderHandler());
-        $this->addDirectiveHandler('paging', new PagingHandler());
-        $this->addDirectiveHandler('printquery', new PrintQueryHandler());
-        $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
+        $this->addDirectiveHandler('getquery', new GetQueryDirective());
+        $this->addDirectiveHandler('hydrate', new HydrateDirective());
+        $this->addDirectiveHandler('limit', new LimitDirective());
+        $this->addDirectiveHandler('order', new OrderDirective());
+        $this->addDirectiveHandler('paging', new PagingDirective());
+        $this->addDirectiveHandler('printquery', new PrintQueryDirective());
+        $this->addDirectiveHandler('returnsingle', new ReturnSingleDirective());
     }
     /**
      * Sets the input query.

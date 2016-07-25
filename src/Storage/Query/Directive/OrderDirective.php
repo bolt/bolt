@@ -1,15 +1,15 @@
 <?php
 
-namespace Bolt\Storage\Query\Handler;
+namespace Bolt\Storage\Query\Directive;
 
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Handler to alter query based on 'order' parameter.
+ *  Directive to alter query based on 'order' parameter.
  *
  *  eg: 'pages', ['order'=>'-datepublish']
  */
-class OrderHandler
+class OrderDirective
 {
     /**
      * @param QueryInterface $query
