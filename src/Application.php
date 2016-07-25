@@ -62,6 +62,9 @@ class Application extends Silex\Application
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
+        if (!isset($this['environment'])) {
+            $this['environment'] = $this['debug'] ? 'development' : 'production';
+        }
 
         $locales = (array) $this['config']->get('general/locale');
         $this['locale'] = reset($locales);
@@ -162,7 +165,7 @@ class Application extends Silex\Application
             ->register(new Provider\TwigServiceProvider())
             ->register(new Provider\RenderServiceProvider())
             ->register(new Silex\Provider\HttpCacheServiceProvider(),
-                ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http')]
             );
     }
 
