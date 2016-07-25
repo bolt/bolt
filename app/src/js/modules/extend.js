@@ -42,6 +42,7 @@
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
                 case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'package-depends':   packageDepends(e.originalEvent); break;
                 case 'show-all':          showAllVersions(e.originalEvent); break;
             }
         }
@@ -358,6 +359,7 @@
                 if (ext.status === 'installed' && ext.type !== "composer-plugin") {
                     manage = conf.manage_dropdown.subst({
                         '%NAME%': ext.name,
+                        '%VERSION%': ext.version,
                         '%BASEURL%': bolt.data('extend.baseurl'),
                         '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
                         '%REPOSITORY_URL%': ext.repositoryLink
@@ -593,6 +595,44 @@
             bootbox.dialog({
                 message: data ? data : 'Readme is empty.'
             });
+        })
+        .fail(function(data) {
+            formatErrorLog(data);
+        });
+
+        e.preventDefault();
+    }
+
+    function packageDepends(e) {
+        var needle = $(e.target).data('needle');
+        var constraint = $(e.target).data('constraint');
+
+        find('.dependency-response-container').show();
+
+        find('.install-latest-container').hide();
+        find('.install-version-container').hide();
+
+        activeConsole = find('.dependency-response-container .console');
+        activeConsole.html('');
+
+        $.get(bolt.data('extend.baseurl') + 'depends',
+            {'needle': needle, 'constraint': constraint}
+        )
+        .done(function(data) {
+            find('.loader').hide();
+            find('.dependency-response-container').hide();
+            find('.check-package').show();
+            find('input[name="check-package"]').val('');
+
+            var depList = find('#installModal .extension-dependencies-list');
+            depList.html('');
+            data.forEach(function(entry) {
+                depList.append('<li>' + entry.link + '</li>');
+            });
+            depList.show();
+
+            find('.extension-dependencies').show();
+            find('.postinstall-footer').show();
         })
         .fail(function(data) {
             formatErrorLog(data);
