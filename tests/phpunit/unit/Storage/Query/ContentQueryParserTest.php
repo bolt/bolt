@@ -173,6 +173,23 @@ class ContentQueryParserTest extends BoltUnitTest
         }
     }
 
+    public function testMultipleSearchQuery()
+    {
+        $this->resetDb();
+        $app = $this->getApp();
+        $this->addSomeContent($app);
+
+        $qb = new ContentQueryParser($app['storage']);
+        $qb->setQuery('(pages,entries)/search');
+        $qb->addService('search', $app['query.search']);
+        $qb->addService('search_weighter', $app['query.search_weighter']);
+        $qb->parse();
+        $qb->setParameters(['filter' => 'test']);
+
+        $res = $qb->fetch();
+        $this->assertEquals(5, $res->count(), "Search is not finding all of the items in pages and entries!");
+    }
+
     public function testLatestHandler()
     {
         $this->resetDb();
