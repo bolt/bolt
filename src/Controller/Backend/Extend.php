@@ -108,7 +108,7 @@ class Extend extends BackendBase
      */
     public function dependsPackage(Request $request)
     {
-        $package = $request->get('package');
+        $package = $request->get('needle');
         $constraint = $request->get('constraint', '*');
 
         try {
@@ -296,7 +296,7 @@ class Extend extends BackendBase
     public function installPackage()
     {
         try {
-            return $this->render('@bolt/extend/install-package.twig', $this->getRenderContext());
+            return $this->render('@bolt/extend/_action-modal.twig', $this->getRenderContext());
         } catch (\Exception $e) {
             return $this->getJsonException($e);
         }
