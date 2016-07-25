@@ -136,7 +136,7 @@ class StorageEventListener implements EventSubscriberInterface
         // Don't show the check if we're in the dbcheck already.
         $notInCheck = !in_array(
             $event->getRequest()->get('_route'),
-            ['dbcheck', 'dbupdate_result', 'dbupdate']
+            ['dbupdate', '_wdt']
         );
 
         if ($validSession && $expired && $this->schemaManager->isUpdateRequired() && $notInCheck) {
