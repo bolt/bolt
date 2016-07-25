@@ -78,6 +78,13 @@ class DoctrineListener implements EventSubscriber
             // see: http://stackoverflow.com/questions/1566602/is-set-character-set-utf8-necessary
             $db->executeQuery('SET NAMES utf8');
             $db->executeQuery('SET CHARACTER_SET_CONNECTION = utf8');
+
+            // Increase group_concat_max_len to 100000. By default, MySQL
+            // sets this to a low value – 1024 – which causes issues with
+            // certain Bolt content types – particularly repeaters – where
+            // the outcome of a GROUP_CONCAT() query will be more than 1024 bytes.
+            // See also: http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_group_concat_max_len
+            $db->executeQuery('SET SESSION group_concat_max_len = 100000');
         } elseif ($platform === 'postgresql') {
             /**
              * @link https://github.com/doctrine/dbal/pull/828
