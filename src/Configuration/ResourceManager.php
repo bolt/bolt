@@ -193,7 +193,7 @@ class ResourceManager
     public function getPathObject($name)
     {
         $name = str_replace('\\', '/', $name);
-         
+
         $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
@@ -391,7 +391,6 @@ class ResourceManager
     public function initialize()
     {
         $this->initializeRequest($this->app, $this->requestObject);
-        $this->postInitialize();
     }
 
     public function postInitialize()
