@@ -36,9 +36,11 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
     /**
      * ExceptionListener constructor.
      *
-     * @param string          $rootPath
-     * @param Render          $render
-     * @param LoggerInterface $logger
+     * @param string           $rootPath
+     * @param Render           $render
+     * @param LoggerInterface  $logger
+     * @param SessionInterface $session
+     * @param boolean          $isDebug
      */
     public function __construct($rootPath, Render $render, LoggerInterface $logger, SessionInterface $session, $isDebug)
     {
