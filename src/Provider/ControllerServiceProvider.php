@@ -109,6 +109,12 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             }
         );
 
+        $app['controller.exception'] = $app->share(
+            function ($app) {
+                return new Controller\Exception($app['profiler'], $app['twig'], $app['debug']);
+            }
+        );
+
         $app['controller.frontend'] = $app->share(
             function () {
                 return new Controller\Frontend();
@@ -144,6 +150,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
     public function onMountFrontend(MountEvent $event)
     {
         $app = $event->getApp();
+        $event->mount('', $app['controller.exception']);
         $event->mount('', $app['controller.frontend']);
     }
 
