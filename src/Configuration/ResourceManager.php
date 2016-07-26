@@ -391,6 +391,7 @@ class ResourceManager
     public function initialize()
     {
         $this->initializeRequest($this->app, $this->requestObject);
+        $this->postInitialize();
     }
 
     public function postInitialize()
@@ -407,7 +408,6 @@ class ResourceManager
         $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
         $this->setUrl('bolt', $this->getUrl('root') . $branding);
         $this->app['config']->setCkPath();
-        $this->verifyDb();
     }
 
     /**
@@ -446,7 +446,7 @@ class ResourceManager
      */
     public function verifyDb()
     {
-        $this->getVerifier()->doDatabaseCheck();
+        return $this->getVerifier()->doDatabaseCheck();
     }
 
     /**

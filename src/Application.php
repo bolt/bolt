@@ -70,7 +70,7 @@ class Application extends Silex\Application
         // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
 
-        $this->before([$this['resources'], 'postInitialize'], static::EARLY_EVENT);
+        $this->before([$this['resources'], 'verifyDb'], static::EARLY_EVENT);
     }
 
     protected function initConfig()
