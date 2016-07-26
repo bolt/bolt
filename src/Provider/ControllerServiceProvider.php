@@ -111,7 +111,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         $app['controller.exception'] = $app->share(
             function ($app) {
-                return new Controller\Exception($app['profiler'], $app['twig'], $app['debug']);
+                return new Controller\Exception($app['twig'], $app['debug']);
             }
         );
 

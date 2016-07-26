@@ -3,26 +3,89 @@
 namespace Bolt\Controller;
 
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Exception controller.
  *
+ * @internal Do not extend this class! (yet)
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Exception extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function addRoutes(ControllerCollection $c)
     {
         $c->value(Zone::KEY, Zone::FRONTEND);
-
-        $c->get('/exception/{key}', 'exception')
-            ->bind('exceptionRoute');
     }
 
-    public function exception(Request $request, $key)
+    public function databaseConnect($platform, \Exception $previous)
     {
-        return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+        $context = [
+            'debug'     => $this->app['debug'],
+            'type'      => 'connect',
+            'platform'  => $platform,
+            'exception' => $previous,
+        ];
+        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+
+        return new Response($html, Response::HTTP_OK);
+    }
+
+    /**
+     * @param string $subtype
+     * @param string $name
+     * @param string $driver
+     * @param string $parameter
+     *
+     * @return Response
+     */
+    public function databaseDriver($subtype, $name, $driver, $parameter = null)
+    {
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+        $context = [
+            'debug'     => $this->app['debug'],
+            'type'      => 'driver',
+            'subtype'   => $subtype,
+            'name'      => $name,
+            'driver'    => $driver,
+            'parameter' => $parameter,
+        ];
+        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+
+        return new Response($html, Response::HTTP_OK);
+    }
+
+    /**
+     * @param string $subtype
+     * @param string $path
+     * @param string $error
+     *
+     * @return Response
+     */
+    public function databasePath($subtype, $path, $error)
+    {
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+
+        $context = [
+            'debug'     => $this->app['debug'],
+            'type'      => 'path',
+            'subtype'   => $subtype,
+            'path'      => $path,
+            'error'     => $error,
+        ];
+        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+
+        return new Response($html, Response::HTTP_OK);
     }
 }

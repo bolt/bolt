@@ -1,8 +1,9 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Exception\LowLevelDatabaseException;
+use Bolt\Controller;
 use Bolt\Exception\LowlevelException;
+use Symfony\Component\HttpFoundation\Response;
 
 class LowlevelChecks
 {
@@ -169,63 +170,73 @@ class LowlevelChecks
     }
 
     /**
+     * @return Controller\Exception
+     */
+    private function getExceptionController()
+    {
+        return $this->config->app['controller.exception'];
+    }
+
+    /**
      * Perform the check for the database folder. We do this seperately, because it can only
      * be done _after_ the other checks, since we need to have the $config, to see if we even
      * _need_ to do this check.
+     *
+     * @return Response|null
      */
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
         $driver = $cfg['driver'];
 
-        if ($driver == 'pdo_sqlite') {
-            $this->doDatabaseSqliteCheck($cfg);
-
-            return;
+        if ($driver === 'pdo_sqlite') {
+            return $this->doDatabaseSqliteCheck($cfg);
         }
 
         if (!in_array($driver, ['pdo_mysql', 'pdo_pgsql'])) {
-            throw LowLevelDatabaseException::unsupportedDriver($driver);
+            return $this->getExceptionController()->databaseDriver('unsupported', null, $driver);
         }
 
         if ($driver == 'pdo_mysql' && !$this->mysqlLoaded) {
-            throw LowLevelDatabaseException::missingDriver('MySQL', 'pdo_mysql');
+            return $this->getExceptionController()->databaseDriver('missing', 'MySQL', 'pdo_mysql');
         }
 
         if ($driver == 'pdo_pgsql' && !$this->postgresLoaded) {
-            throw LowLevelDatabaseException::missingDriver('PostgreSQL', 'pdo_pgsql');
+            return $this->getExceptionController()->databaseDriver('missing', 'PostgreSQL', 'pdo_pgsql');
         }
 
         if (empty($cfg['dbname'])) {
-            throw LowLevelDatabaseException::missingParameter('databasename');
+            return $this->getExceptionController()->databaseDriver('parameter', null, $driver, 'databasename');
         }
         if (empty($cfg['user'])) {
-            throw LowLevelDatabaseException::missingParameter('username');
+            return $this->getExceptionController()->databaseDriver('parameter', null, $driver, 'username');
         }
         if (empty($cfg['password']) && ($cfg['user'] === 'root')) {
-            throw LowLevelDatabaseException::unsecure();
+            return $this->getExceptionController()->databaseDriver('insecure', null, $driver);
         }
+
+        return null;
     }
 
     protected function doDatabaseSqliteCheck($config)
     {
         if (!$this->sqliteLoaded) {
-            throw LowLevelDatabaseException::missingDriver('SQLite', 'pdo_sqlite');
+            return $this->getExceptionController()->databaseDriver('missing', 'SQLite', 'pdo_sqlite');
         }
 
         // If in-memory connection, skip path checks
         if (isset($config['memory']) && $config['memory'] === true) {
-            return;
+            return null;
         }
 
         // If the file is present, make sure it is writable
         $file = $config['path'];
         if (file_exists($file)) {
             if (!is_writable($file)) {
-                throw LowLevelDatabaseException::unwritableFile($file);
+                return $this->getExceptionController()->databasePath('file', $file, 'is not writable');
             }
 
-            return;
+            return null;
         }
 
         // If the file isn't present, make sure the directory
@@ -241,15 +252,15 @@ class LowlevelChecks
                 $this->config->app['config']->initialize();
                 $config = $this->config->app['config']->get('general/database');
                 if (!file_exists(dirname($config['path']))) {
-                    throw LowLevelDatabaseException::nonexistantFolder($dir);
+                    return $this->getExceptionController()->databasePath('folder', $dir, 'does not exist');
                 }
             } else {
-                throw LowLevelDatabaseException::nonexistantFolder($dir);
+                return $this->getExceptionController()->databasePath('folder', $dir, 'does not exist');
             }
         }
 
         if (!is_writable($dir)) {
-            throw LowLevelDatabaseException::unwritableFolder($dir);
+            return $this->getExceptionController()->databasePath('folder', $dir, 'is not writable');
         }
     }
 
