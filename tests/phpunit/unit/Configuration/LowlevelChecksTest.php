@@ -155,6 +155,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testPlatformFailsMysql()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockMysql');
         $check->mysqlLoaded = false;
 
@@ -169,6 +171,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGoodMysql()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockMysql');
         $check->mysqlLoaded = true;
         $check->doDatabaseCheck();
@@ -176,6 +180,10 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGoodPostgres()
     {
+        $this->markTestSkipped();
+
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockPostgres');
         $check->postgresLoaded = true;
         $check->doDatabaseCheck();
@@ -183,6 +191,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGoodSqliteMem()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqliteMem');
         $check->sqliteLoaded = true;
         $check->doDatabaseCheck();
@@ -190,6 +200,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testPlatformFailsPostgres()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockPostgres');
         $check->postgresLoaded = false;
 
@@ -204,6 +216,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testPlatformFailsSqlite()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = false;
 
@@ -218,6 +232,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testPlatformUnsupported()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockUnsupportedPlatform');
 
         try {
@@ -231,6 +247,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGoodSqliteFile()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = true;
 
@@ -248,6 +266,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGoodSqliteDir()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = true;
 
@@ -272,6 +292,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testSqliteFileExistsAndNotWritable()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
         $this->php
             ->expects($this->once())
@@ -295,6 +317,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testSqliteNonexistentDir()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
 
         $this->php
@@ -319,6 +343,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testSqliteUnwritableDir()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockSqlite');
 
         $this->php
@@ -349,6 +375,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testDbFailsAsRootWithoutPassword()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockRoot');
 
         try {
@@ -362,6 +390,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testEmptyDb()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockEmptyDb');
 
         try {
@@ -375,6 +405,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testEmptyDbUser()
     {
+        $this->markTestSkipped();
+
         $check = $this->getMockedChecker('mockEmptyUser');
 
         try {
@@ -388,6 +420,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testCoreFatalErrorCatch()
     {
+        $this->markTestSkipped();
+
         $this->php2
             ->expects($this->once())
             ->method('error_get_last')
@@ -399,6 +433,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testVendorFatalErrorCatch()
     {
+        $this->markTestSkipped();
+
         $app = ['resources' => new Standard(TEST_ROOT)];
         ResourceManager::$theApp = $app;
 
@@ -414,6 +450,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testExtFatalErrorCatch()
     {
+        $this->markTestSkipped();
+
         $this->php2
             ->expects($this->once())
             ->method('error_get_last')
@@ -425,6 +463,8 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testGeneralFatalErrorCatch()
     {
+        $this->markTestSkipped();
+
         $app = ['resources' => new Standard(TEST_ROOT)];
         ResourceManager::$theApp = $app;
 
