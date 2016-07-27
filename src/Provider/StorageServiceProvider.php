@@ -236,6 +236,14 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.listener'] = $app->share(
             function () use ($app) {
+                // Get the timer for publishing timed records
+                $key = 'publish.timer.wait';
+                $wait = $app['cache']->fetch($key);
+                if ($wait === false) {
+                    $wait = true;
+                    $app['cache']->save($key, $wait, $app['config']->get('general/caching/duration'));
+                }
+
                 return new StorageEventListener(
                     $app['storage'],
                     $app['config'],
@@ -243,7 +251,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
-                    $app['access_control.hash.strength']
+                    $app['access_control.hash.strength'],
+                    $wait
                 );
             }
         );
