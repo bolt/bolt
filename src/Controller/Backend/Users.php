@@ -50,6 +50,9 @@ class Users extends BackendBase
 
         $c->get('/roles', 'viewRoles')
             ->bind('roles');
+
+        $c->match('/invitation/{code}', 'invitation')
+            ->bind('invitation');
     }
 
     /**
@@ -333,7 +336,7 @@ class Users extends BackendBase
         foreach ($contenttypes as $contenttype) {
             foreach (array_keys($permissions) as $permission) {
                 $effectivePermissions[$contenttype['slug']][$permission] =
-                $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
+                    $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
             }
         }
         $globalPermissions = $this->app['permissions']->getGlobalRoles();
@@ -729,4 +732,56 @@ class Users extends BackendBase
             $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
         }
     }
+
+    /**
+     * Create user using invitation code.
+     *
+     * @param String $code The invitation code provided
+     *
+     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function invitation(Request $request, $code)
+    {
+        // Get Repository of available tokens
+        $tokensRepository = $this->getRepository('Bolt\Storage\Entity\Tokens');
+
+        // Check if the invitation code exists and it is still available
+        $token = $tokensRepository->findOneBy(array('token' => $code));
+
+        if ((!$token) || (new \DateTime() > new \DateTime($token[0]->expiration))) {
+            return $this->render('@bolt/invitation/invitationfail.twig');
+        }
+
+        $tokenEntity = new Entity\Tokens($token[0]);
+
+        // Get an empty user
+        $userEntity = new Entity\Users();
+
+        // Set the roles of the invitation code
+        $userEntity->setRoles($tokenEntity->getRoles());
+
+        // Get the form
+        $form = Users::getUserForm($userEntity, true);
+
+        // Set the validation
+        $form = $this->setUserFormValidation($form, true);
+
+        /** @var \Symfony\Component\Form\Form */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form)) {
+            $tokensRepository->delete($token);
+            return $response;
+        }
+
+        $context = [
+            'kind' => 'create',
+            'form' => $form->createView(),
+            'sitename' => $this->getOption('general/sitename'),
+        ];
+
+        return $this->render('@bolt/invitation/invitation.twig', $context);
+    }
+
 }

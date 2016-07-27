@@ -10,10 +10,17 @@
 {% block panel_head __('users.actions-for-users') %}
 
 {% block panel_body %}
-<div>
+<div class="form-group">
     <a class="btn btn-primary" href="{{ path('useredit', {'id': ''}) }}">
         <i class="fa fa-fw fa-user"></i>
         {{ __('panel.user-actions.button.add') }}
+    </a>
+</div>
+
+<div class="form-group">
+    <a class="btn btn-primary" href="{{ path('invitationlink') }}">
+        <i class="fa fa-fw fa-envelope"></i>
+        {{ __('panel.user-actions.button.invitation') }}
     </a>
 </div>
 {% endblock panel_body %}
