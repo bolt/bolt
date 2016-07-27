@@ -35,6 +35,8 @@ class StorageEventListener implements EventSubscriberInterface
     protected $passwordFactory;
     /** @var integer */
     protected $hashStrength;
+    /** @var boolean */
+    private $waitOnTimed;
 
     /**
      * Constructor.
@@ -46,6 +48,7 @@ class StorageEventListener implements EventSubscriberInterface
      * @param FlashLoggerInterface  $loggerFlash
      * @param PasswordFactory       $passwordFactory
      * @param integer               $hashStrength
+     * @param boolean               $waitOnTimed
      */
     public function __construct(
         EntityManager $em,
@@ -54,7 +57,8 @@ class StorageEventListener implements EventSubscriberInterface
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
         PasswordFactory $passwordFactory,
-        $hashStrength
+        $hashStrength,
+        $waitOnTimed
     ) {
         $this->em = $em;
         $this->config = $config;
@@ -63,6 +67,7 @@ class StorageEventListener implements EventSubscriberInterface
         $this->loggerFlash = $loggerFlash;
         $this->passwordFactory = $passwordFactory;
         $this->hashStrength = $hashStrength;
+        $this->waitOnTimed = $waitOnTimed;
     }
 
     /**
@@ -112,13 +117,16 @@ class StorageEventListener implements EventSubscriberInterface
         }
         $this->schemaCheck($event);
 
-        $contenttypes = $this->config->get('contenttypes', []);
-        foreach ($contenttypes as $contenttype) {
-            $contenttype = $this->em->getContentType($contenttype['slug']);
+        if ($this->waitOnTimed) {
+            return;
+        }
+        $contentTypes = $this->config->get('contenttypes', []);
+        foreach ($contentTypes as $contentType) {
+            $contentType = $this->em->getContentType($contentType['slug']);
 
             // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-            $this->em->publishTimedRecords($contenttype);
-            $this->em->depublishExpiredRecords($contenttype);
+            $this->em->publishTimedRecords($contentType);
+            $this->em->depublishExpiredRecords($contentType);
         }
     }
 
