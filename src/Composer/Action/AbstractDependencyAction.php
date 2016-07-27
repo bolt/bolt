@@ -127,7 +127,7 @@ abstract class AbstractDependencyAction extends BaseAction
     private function getNeedles($packageName, $packages, $inverted)
     {
         $needles = [$packageName];
-        if ($inverted == false) {
+        if ($inverted === false) {
             return $needles;
         }
 
