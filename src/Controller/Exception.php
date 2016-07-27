@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller;
 
+use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,6 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 class Exception extends Base
 {
     /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function addRoutes(ControllerCollection $c)
@@ -24,6 +35,7 @@ class Exception extends Base
 
     public function databaseConnect($platform, \Exception $previous)
     {
+
         if ($this->app === null) {
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
