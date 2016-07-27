@@ -10,6 +10,7 @@ use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
+use Bolt\Storage\LazyEntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Silex\Application;
@@ -28,6 +29,16 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.legacy_service'] = $app->share(
             function ($app) {
                 return new ContentLegacyService($app);
+            }
+        );
+
+        $app['storage.lazy'] = $app->share(
+            function ($app) {
+                return new LazyEntityManager(
+                    function () use ($app) {
+                        return $app['storage'];
+                    }
+                );
             }
         );
 
@@ -245,7 +256,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 }
 
                 return new StorageEventListener(
-                    $app['storage'],
+                    $app['storage.lazy'],
                     $app['config'],
                     $app['schema'],
                     $app['url_generator.lazy'],
