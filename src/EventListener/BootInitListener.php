@@ -3,6 +3,7 @@
 namespace Bolt\EventListener;
 
 use Bolt;
+use Bolt\Configuration\Validation\Validator;
 use Bolt\Controller\Zone;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BootInitCheckListener implements EventSubscriberInterface
+class BootInitListener implements EventSubscriberInterface
 {
     /** @var Application */
     private $app;
@@ -40,14 +41,26 @@ class BootInitCheckListener implements EventSubscriberInterface
      *
      * @return Response|null
      */
-    public function onBoot(GetResponseEvent $event)
+    public function onBootEarly(GetResponseEvent $event)
     {
-        // Checks
-        $response = $this->app['resources']->getVerifier()->doDatabaseCheck();
+        $verifier = new Validator($this->app['controller.exception'], $this->app['config'], $this->app['resources']);
+        $response = $verifier->checks();
         if ($response instanceof Response) {
             return $response;
         }
 
+        return null;
+    }
+
+    /**
+     * Normal boot functions.
+     *
+     * @param GetResponseEvent $event
+     *
+     * @return Response|null
+     */
+    public function onBoot(GetResponseEvent $event)
+    {
         // Twig globals
         $this->setGlobals(false);
         $this->setGlobals(true);
@@ -59,13 +72,18 @@ class BootInitCheckListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onBoot', Application::EARLY_EVENT],
+            KernelEvents::REQUEST => [
+                ['onBootEarly', Application::EARLY_EVENT],
+                ['onBoot', 0],
+            ],
         ];
     }
 
     /**
      * Get the parameters that will be used to update Bolt's registered Twig
      * globals.
+     *
+     * This is here as a transitory measure.
      *
      * @param bool $safe
      *

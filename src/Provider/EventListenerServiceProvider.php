@@ -13,7 +13,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
     {
         $app['listener.boot.checks'] = $app->share(
             function ($app) {
-                return new Listener\BootInitCheckListener($app);
+                return new Listener\BootInitListener($app);
             }
         );
 
@@ -114,12 +114,10 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher = $app['dispatcher'];
 
         $dispatcher->addSubscriber($app['listener.boot.checks']);
-        $dispatcher->addSubscriber($app['listener.access_control']);
         $dispatcher->addSubscriber($app['listener.general']);
         $dispatcher->addSubscriber($app['listener.exception']);
         $dispatcher->addSubscriber($app['listener.not_found']);
         $dispatcher->addSubscriber($app['listener.snippet']);
-        $dispatcher->addSubscriber($app['listener.redirect']);
         $dispatcher->addSubscriber($app['listener.flash_logger']);
         $dispatcher->addSubscriber($app['listener.zone_guesser']);
         $dispatcher->addSubscriber($app['listener.pager']);

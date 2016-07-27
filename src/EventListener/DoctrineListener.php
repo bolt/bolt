@@ -54,7 +54,6 @@ class DoctrineListener implements EventSubscriber
         $platform = Str::replaceFirst('pdo_', '', $platform);
 
         return $this->exceptionController->databaseConnect($platform, $e);
-
     }
 
     /**
