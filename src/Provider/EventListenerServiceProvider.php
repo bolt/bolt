@@ -13,7 +13,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
     {
         $app['listener.boot.checks'] = $app->share(
             function ($app) {
-                return new Listener\BootInitCheckListener($app['resources']);
+                return new Listener\BootInitCheckListener($app);
             }
         );
 
