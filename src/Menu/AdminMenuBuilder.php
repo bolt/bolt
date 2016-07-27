@@ -61,8 +61,8 @@ final class AdminMenuBuilder
                 ->setPermission('settings')
         );
 
-        // Users & Permssions
-        $path = $this->rootEntry->getUri() . '/users';
+        // Users & Permissions
+        $path = $app['url_generator']->generate('users');
         $configEntry->add(
             (new MenuEntry('users', $path))
                 ->setLabel(Trans::__('general.phrase.users-permissions'))
@@ -116,7 +116,7 @@ final class AdminMenuBuilder
         );
 
         // Database checks
-        $path = $this->rootEntry->getUri() . '/dbcheck';
+        $path = $app['url_generator']->generate('dbcheck');
         $configEntry->add(
             (new MenuEntry('dbcheck', $path))
                 ->setLabel(Trans::__('general.phrase.check-database'))
@@ -125,7 +125,7 @@ final class AdminMenuBuilder
         );
 
         // Cache flush
-        $path = $this->rootEntry->getUri() . '/clearcache';
+        $path = $app['url_generator']->generate('clearcache');
         $configEntry->add(
             (new MenuEntry('clearcache', $path))
                 ->setLabel(Trans::__('general.phrase.clear-cache'))
@@ -134,7 +134,7 @@ final class AdminMenuBuilder
         );
 
         // Change log
-        $path = $this->rootEntry->getUri() . '/changelog';
+        $path = $app['url_generator']->generate('changelog');
         $configEntry->add(
             (new MenuEntry('log_change', $path))
                 ->setLabel(Trans::__('logs.change-log'))
@@ -143,7 +143,7 @@ final class AdminMenuBuilder
         );
 
         // System log
-        $path = $this->rootEntry->getUri() . '/systemlog';
+        $path = $app['url_generator']->generate('systemlog');
         $configEntry->add(
             (new MenuEntry('log_system', $path))
             ->setLabel(Trans::__('logs.system-log'))
