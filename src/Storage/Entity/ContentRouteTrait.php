@@ -141,16 +141,9 @@ trait ContentRouteTrait
             foreach ($route['requirements'] as $fieldName => $requirement) {
                 if ('\d{4}-\d{2}-\d{2}' === $requirement) {
                     // Special case, if we need to have a date
-                    $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
-                } elseif (isset($this->taxonomy[$fieldName])) {
-                    // Turn something like '/groups/meta' to 'meta'. Note: we use
-                    // two temp vars here, to prevent "Only variables should be passed
-                    // by reference"-notices.
-                    $tempKeys = array_keys($this->taxonomy[$fieldName]);
-                    $tempValues = explode('/', array_shift($tempKeys));
-                    $params[$fieldName] = array_pop($tempValues);
-                } elseif (isset($this->values[$fieldName])) {
-                    $params[$fieldName] = $this->values[$fieldName];
+                    $params[$fieldName] = substr($this->get($fieldName), 0, 10);
+                } elseif ($this->get($fieldName)) {
+                    $params[$fieldName] = $this->get($fieldName);
                 } else {
                     // unkown
                     $params[$fieldName] = null;
