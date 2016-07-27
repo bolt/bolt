@@ -32,6 +32,7 @@ class Taxonomy extends BaseTable
         $this->table->addIndex(['content_id']);
         $this->table->addIndex(['contenttype']);
         $this->table->addIndex(['taxonomytype']);
+        $this->table->addIndex(['slug']);
         $this->table->addIndex(['sortorder']);
     }
 
