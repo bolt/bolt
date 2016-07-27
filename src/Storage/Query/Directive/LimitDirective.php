@@ -1,13 +1,13 @@
 <?php
 
-namespace Bolt\Storage\Query\Handler;
+namespace Bolt\Storage\Query\Directive;
 
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Handler to add a limit modifier to the query.
+ *  Directive to add a limit modifier to the query.
  */
-class PagingHandler
+class LimitDirective
 {
     /**
      * @param QueryInterface $query
@@ -15,6 +15,6 @@ class PagingHandler
      */
     public function __invoke(QueryInterface $query, $limit)
     {
-        // Not implemented yet
+        $query->getQueryBuilder()->setMaxResults($limit);
     }
 }
