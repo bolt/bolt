@@ -42,6 +42,7 @@
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
                 case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'package-depends':   packageDepends(e.originalEvent); break;
                 case 'show-all':          showAllVersions(e.originalEvent); break;
             }
         }
@@ -121,7 +122,7 @@
         // Set up container and wipe existing/previous
         find('.update-container').show();
 
-        notice = find('.update-output-data').html();
+        notice = find('.update-output-console').html();
         find('.update-output-notice').html(notice);
         find('.update-output-notice')
             .find('.update-output-element')
@@ -187,17 +188,17 @@
     }
 
     function updateRun() {
-        find('.update-container').show();
-        var target = find('.update-output');
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.running-update'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.running-update-all'),
+            bolt.data('extend.text.running-update'),
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'update', function(data) {
-            target.html(data);
             setTimeout(function(){
                 find('.update-container').hide();
             }, 7000);
-
+            feedbackDialogueSetMessage(data);
             checkInstalled();
         })
         .fail(function(data) {
@@ -230,18 +231,18 @@
     }
 
     function installRun(e) {
-        var target = find('.update-output');
-
-        find('.update-container').show();
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.install-all'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.install-running'),
+            bolt.data('extend.text.install-all'),
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'installAll', function (data) {
-            target.html(data);
             delay(function () {
                 find('.update-container').hide();
             }, 7000);
 
+            feedbackDialogueSetMessage(data);
             checkInstalled();
         })
         .fail(function(data) {
@@ -252,21 +253,26 @@
         e.preventDefault();
     }
 
+    /**
+     * Callback for requesting "dump autoloader".
+     *
+     * @param e
+     */
     function autoloadDump(e) {
-        var target = find('.update-output');
 
-        find('.update-container').show();
-        activeConsole = target;
-        activeConsole.html(bolt.data('extend.text.install-all'));
+        feedbackDialogueLoad(
+            bolt.data('extend.text.autoloader-update'),
+            bolt.data('extend.text.autoloader-start') + ' …',
+            false
+        );
 
         $.get(bolt.data('extend.baseurl') + 'dumpAutoload', function (data) {
-                target.html(data);
-                delay(function () {
-                    find('.update-container').hide();
-                }, 7000);
+            delay(function () {
+                find('.update-container').hide();
+            }, 7000);
 
-                checkInstalled();
-            })
+            feedbackDialogueSetMessage(data);
+        })
             .fail(function(data) {
                 formatErrorLog(data);
             });
@@ -353,6 +359,7 @@
                 if (ext.status === 'installed' && ext.type !== "composer-plugin") {
                     manage = conf.manage_dropdown.subst({
                         '%NAME%': ext.name,
+                        '%VERSION%': ext.version,
                         '%BASEURL%': bolt.data('extend.baseurl'),
                         '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
                         '%REPOSITORY_URL%': ext.repositoryLink
@@ -596,6 +603,44 @@
         e.preventDefault();
     }
 
+    function packageDepends(e) {
+        var needle = $(e.target).data('needle');
+        var constraint = $(e.target).data('constraint');
+
+        find('.dependency-response-container').show();
+
+        find('.install-latest-container').hide();
+        find('.install-version-container').hide();
+
+        activeConsole = find('.dependency-response-container .console');
+        activeConsole.html('');
+
+        $.get(bolt.data('extend.baseurl') + 'depends',
+            {'needle': needle, 'constraint': constraint}
+        )
+        .done(function(data) {
+            find('.loader').hide();
+            find('.dependency-response-container').hide();
+            find('.check-package').show();
+            find('input[name="check-package"]').val('');
+
+            var depList = find('#installModal .extension-dependencies-list');
+            depList.html('');
+            data.forEach(function(entry) {
+                depList.append('<li>' + entry.link + '</li>');
+            });
+            depList.show();
+
+            find('.extension-dependencies').show();
+            find('.postinstall-footer').show();
+        })
+        .fail(function(data) {
+            formatErrorLog(data);
+        });
+
+        e.preventDefault();
+    }
+
     function packageAvailable(e) {
         installInfo($(e.target).data('available'));
     }
@@ -728,6 +773,46 @@
 
         $('.modal').modal('hide');
         bootbox.alert(html);
+    }
+
+    /**
+     * Load the initial feedback dialogue.
+     *
+     * @param titleMsg
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueLoad(titleMsg, consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (titleMsg) {
+            container.find('.update-output-title').html(titleMsg);
+        }
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg);
+            container.find('.update-output-console').show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
+        container.show();
+    }
+
+    /**
+     * Update the message console.
+     *
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueSetMessage(consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg).show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
     }
 
     // Apply mixin container.

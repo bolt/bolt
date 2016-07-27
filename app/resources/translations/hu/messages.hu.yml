@@ -590,7 +590,7 @@ page.extend.message.bad-json: "Hibás JSON válasz. Győződj meg róla, hogy de
 page.extend.message.before-theme-start: "Mielőtt a témát használni kezdenéd, készítenünk kell róla egy másolatot a témák mappájában."
 page.extend.message.check-for-updates: "Frissítések ellenőrzése"
 page.extend.message.checking-installed-packages: "A telepített csomagok ellenőrzése"
-page.extend.message.checkung-for-updates: "A frissítések ellenőrzése (akár 1 percig is tarthat)"
+page.extend.message.checking-for-updates: "A frissítések ellenőrzése (akár 1 percig is tarthat)"
 page.extend.message.compatible-unstable-versions: "Az alábbi bővítmények kompatibilisek a jelenlegi Bolt jelenleg használt verzióval, bár azok nem stabil verziók. Javasoljuk, hogy <strong>ne használd</strong> azokat éles környezetben."
 page.extend.message.confirm-remove: "Kérlek, hagyd jóvá ha ezt a bővítmény el akarod távolítani!"
 page.extend.message.copying: "Téma elemek másolása…"

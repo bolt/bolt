@@ -10,7 +10,7 @@
         <div class="col-md-12">
 
             <div class="loader">
-                <i class="fa fa-spin fa-spinner"></i> <span class="message">Checking available versions...</span>
+                <i class="fa fa-spin fa-spinner"></i> <span class="message">Checking available versions…</span>
             </div>
 
             <div class="install-response-container hide-block">
@@ -18,6 +18,10 @@
                 <pre class="install-response console">{{ __('page.extend.message.installing-selected-package') }}</pre>
             </div>
 
+            <div class="dependency-response-container hide-block">
+                <h3>{{ __('Dependencies') }}</h3>
+                <pre class="dependency-response console">{{ __('Finding packages that require this one…') }}</pre>
+            </div>
 
             <div class="install-latest-container hide-block">
 
@@ -102,6 +106,12 @@
                     </fieldset>
                 </div>
                 <div class="theme-generate-response alert alert-info hide-block"></div>
+            </div>
+
+            <div class="extension-dependencies hide-block">
+                <h3>{{ __('page.extend.message.package-dependencies') }}:</h3>
+                <ul class="extension-dependencies-list">
+                </ul>
             </div>
 
             <div class="extension-postinstall hide-block">

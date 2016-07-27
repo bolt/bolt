@@ -588,7 +588,7 @@ page.extend.message.autoload-dump: "Isto irá reconstruir os ficheiros de carreg
 page.extend.message.before-theme-start: "Antes de poder começar a usar o tema no seu sítio é preciso fazer uma cópia da sua pasta de temas. Se quiser dar um nome alternativo ao modelo pode escrevê-lo aqui."
 page.extend.message.check-for-updates: "Procurar por atualizações"
 page.extend.message.checking-installed-packages: "A verificar pacotes instalados"
-page.extend.message.checkung-for-updates: "A verificar atualizações disponíveis (pode levar alguns segundos)"
+page.extend.message.checking-for-updates: "A verificar atualizações disponíveis (pode levar alguns segundos)"
 page.extend.message.compatible-unstable-versions: "As versões listadas abaixo são compatíveis com a versão do Bolt que está a usar. Como são versões instáveis recomendamos que as <strong>não</strong> use em sistemas de produção."
 page.extend.message.confirm-remove: "Por favor, confirme que pretende remover esta extensão."
 page.extend.message.copying: "Copiar recursos do tema..."
