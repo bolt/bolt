@@ -45,5 +45,8 @@ trait ContentTypeTitleTrait
                 return $name;
             }
         }
+
+        // If this is a contenttype without any textfields
+        return reset(array_keys($fields));
     }
 }
