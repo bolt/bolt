@@ -33,7 +33,7 @@ class Exception extends Base
             'platform'  => $platform,
             'exception' => $previous,
         ];
-        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+        $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
     }
@@ -59,7 +59,7 @@ class Exception extends Base
             'driver'    => $driver,
             'parameter' => $parameter,
         ];
-        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+        $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
     }
@@ -84,7 +84,7 @@ class Exception extends Base
             'path'      => $path,
             'error'     => $error,
         ];
-        $html = $this->render('@bolt/exception/database/exception.twig', $context);
+        $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
     }
