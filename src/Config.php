@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Controller\Zone;
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\BootException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
@@ -13,13 +13,14 @@ use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
+use InvalidArgumentException;
+use RuntimeException;
 use Silex;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -33,13 +34,10 @@ class Config
 {
     /** @var Silex\Application */
     protected $app;
-
     /** @var array */
     protected $data;
-
     /** @var array */
     protected $defaultConfig = [];
-
     /** @var array */
     protected $reservedFieldNames = [
         'datechanged',
@@ -72,6 +70,9 @@ class Config
     /** @var \Symfony\Component\Yaml\Parser */
     protected $yamlParser = false;
 
+    /** @var array */
+    private $exceptions;
+
     /**
      * @param Silex\Application $app
      */
@@ -80,12 +81,26 @@ class Config
         $this->app = $app;
     }
 
+    /**
+     * @return array|null
+     */
+    public function getExceptions()
+    {
+        return $this->exceptions;
+    }
+
     public function initialize()
     {
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        if (!$this->loadCache()) {
+        try {
+            $loadCache = $this->loadCache();
+        } catch (RuntimeException $e) {
+            return;
+        }
+
+        if (!$loadCache) {
             $this->data = $this->getConfig();
             $this->parseTemplatefields();
             $this->saveCache();
@@ -431,9 +446,13 @@ class Config
         $contentTypes = [];
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
-            $contentType = $this->parseContentType($key, $contentType, $generalConfig);
-            $key = $contentType['slug'];
-            $contentTypes[$key] = $contentType;
+            try {
+                $contentType = $this->parseContentType($key, $contentType, $generalConfig);
+                $key = $contentType['slug'];
+                $contentTypes[$key] = $contentType;
+            } catch (InvalidArgumentException $e) {
+                $this->exceptions[] = $e->getMessage();
+            }
         }
 
         return $contentTypes;
@@ -465,7 +484,15 @@ class Config
                     'singular_name' => 'Template Fields ' . $template,
                 ];
 
-                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
+                try {
+                    $templateContentTypes[$template] = $this->parseContentType(
+                        $template,
+                        $fieldsContenttype,
+                        $generalConfig
+                    );
+                } catch (InvalidArgumentException $e) {
+                    $this->exceptions[] = $e->getMessage();
+                }
             }
 
             $themeConfig['templatefields'] = $templateContentTypes;
@@ -500,7 +527,7 @@ class Config
      * @param array  $contentType
      * @param array  $generalConfig
      *
-     * @throws LowlevelException
+     * @throws InvalidArgumentException
      *
      * @return array
      */
@@ -515,17 +542,17 @@ class Config
         // neither 'singular_name' nor 'singular_slug' is set.
         if (!isset($contentType['name']) && !isset($contentType['slug'])) {
             $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
         if (!isset($contentType['singular_name']) && !isset($contentType['singular_slug'])) {
             $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
 
         // Contenttypes without fields make no sense.
         if (!isset($contentType['fields'])) {
             $error = sprintf("In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
 
         if (!isset($contentType['slug'])) {
@@ -1158,7 +1185,7 @@ class Config
     /**
      * Attempt to load cached configuration files.
      *
-     * @throws LowlevelException
+     * @throws RuntimeException
      *
      * @return bool
      */
@@ -1192,7 +1219,7 @@ class Config
             foreach ($finder as $file) {
                 try {
                     $this->data = json_decode($file->getContents(), true);
-                } catch (\RuntimeException $e) {
+                } catch (RuntimeException $e) {
                     $part = Translator::__(
                         'Try logging in with your ftp-client and make the file readable. ' .
                         'Else try to go <a>back</a> to the last page.'
@@ -1201,7 +1228,7 @@ class Config
                         '<pre>' . htmlspecialchars($configCache) . '</pre>' .
                         '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
-                    throw new LowlevelException(Translator::__('page.file-management.message.file-not-readable' . $message));
+                    throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
                 }
             }
 
@@ -1250,7 +1277,7 @@ class Config
                     'Try logging in with your FTP client and check to see if it is chmodded to be readable by ' .
                     'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                     'Current path: ' . getcwd() . '.';
-                throw new LowlevelException($message);
+                throw new BootException($message);
             }
         }
 
