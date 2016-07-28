@@ -60,7 +60,8 @@
         "symfony/yaml" : "^2.8",
         "tdammers/htmlmaid" : "~0.7",
         "twig/twig" : "^1.18",
-        "ua-parser/uap-php" : "~3.4"
+        "ua-parser/uap-php" : "~3.4",
+        "jdorn/sql-formatter": "^1.2"
     },
     "require-dev" : {
         "bolt/codingstyle" : "~1.0",
