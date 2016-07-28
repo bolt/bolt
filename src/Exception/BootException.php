@@ -23,7 +23,7 @@ class BootException extends RuntimeException
      * @param \Exception $previous
      * @param Response   $response
      */
-    public function __construct($message, $code, \Exception $previous, Response $response = null)
+    public function __construct($message, $code = 0, \Exception $previous = null, Response $response = null)
     {
         parent::__construct($message, $code, $previous);
         $this->response = $response;
