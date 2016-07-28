@@ -2,12 +2,14 @@
 
 namespace Bolt\Storage\EventProcessor;
 
+use Bolt\Config;
 use Bolt\Events\StorageEvent;
 use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository\ContentRepository;
 use Carbon\Carbon;
+use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
@@ -21,10 +23,17 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class TimedRecord
 {
+    const CACHE_KEY_PUBLISH = 'publish.timer.publish';
+    const CACHE_KEY_HOLD = 'publish.timer.hold';
+
     /** @var array */
     protected $contentTypeNames;
     /** @var  EntityManagerInterface */
     protected $em;
+    /** @var Config */
+    protected $config;
+    /** @var CacheProvider */
+    protected $cache;
     /** @var EventDispatcherInterface */
     protected $dispatcher;
     /** @var LoggerInterface */
@@ -35,19 +44,41 @@ class TimedRecord
      *
      * @param array                    $contentTypeNames
      * @param EntityManagerInterface   $em
+     * @param Config                   $config
+     * @param CacheProvider            $cache
      * @param EventDispatcherInterface $dispatcher
      * @param LoggerInterface          $systemLogger
      */
     public function __construct(
         array $contentTypeNames,
         EntityManagerInterface $em,
+        Config $config,
+        CacheProvider $cache,
         EventDispatcherInterface $dispatcher,
         LoggerInterface $systemLogger
     ) {
         $this->contentTypeNames = $contentTypeNames;
         $this->em = $em;
+        $this->config = $config;
+        $this->cache = $cache;
         $this->dispatcher = $dispatcher;
         $this->systemLogger = $systemLogger;
+    }
+
+    /**
+     * Get the timer for publishing timed records
+     */
+    public function isDuePublish()
+    {
+        return $this->cache->fetch(self::CACHE_KEY_PUBLISH);
+    }
+
+    /**
+     * Get the timer for publishing timed records
+     */
+    public function isDueHold()
+    {
+        return $this->cache->fetch(self::CACHE_KEY_HOLD);
     }
 
     /**
@@ -58,6 +89,7 @@ class TimedRecord
         foreach ($this->contentTypeNames as $contentTypeName) {
             $this->timedHandleRecords($contentTypeName, 'publish');
         }
+        $this->cache->save(self::CACHE_KEY_PUBLISH, true, $this->config->get('general/caching/duration', 10));
     }
 
     /**
@@ -68,6 +100,7 @@ class TimedRecord
         foreach ($this->contentTypeNames as $contentTypeName) {
             $this->timedHandleRecords($contentTypeName, 'hold');
         }
+        $this->cache->save(self::CACHE_KEY_HOLD, true, $this->config->get('general/caching/duration', 10));
     }
 
     /**

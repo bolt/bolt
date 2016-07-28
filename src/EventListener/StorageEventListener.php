@@ -2,7 +2,6 @@
 namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Permissions;
-use Bolt\Config;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
@@ -23,8 +22,6 @@ class StorageEventListener implements EventSubscriberInterface
 {
     /** @var EventProcessor\TimedRecord */
     protected $timedRecord;
-    /** @var \Bolt\Config */
-    protected $config;
     /** @var Schema\SchemaManagerInterface */
     protected $schemaManager;
     /** @var UrlGeneratorInterface */
@@ -35,39 +32,31 @@ class StorageEventListener implements EventSubscriberInterface
     protected $passwordFactory;
     /** @var integer */
     protected $hashStrength;
-    /** @var boolean */
-    private $waitOnTimed;
 
     /**
      * Constructor.
      *
      * @param EventProcessor\TimedRecord    $timedRecord
-     * @param Config                        $config
      * @param Schema\SchemaManagerInterface $schemaManager
      * @param UrlGeneratorInterface         $urlGenerator
      * @param FlashLoggerInterface          $loggerFlash
      * @param PasswordFactory               $passwordFactory
      * @param integer                       $hashStrength
-     * @param boolean                       $waitOnTimed
      */
     public function __construct(
         EventProcessor\TimedRecord $timedRecord,
-        Config $config,
         Schema\SchemaManagerInterface $schemaManager,
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
         PasswordFactory $passwordFactory,
-        $hashStrength,
-        $waitOnTimed
+        $hashStrength
     ) {
         $this->timedRecord = $timedRecord;
-        $this->config = $config;
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
         $this->loggerFlash = $loggerFlash;
         $this->passwordFactory = $passwordFactory;
         $this->hashStrength = $hashStrength;
-        $this->waitOnTimed = $waitOnTimed;
     }
 
     /**
@@ -117,13 +106,13 @@ class StorageEventListener implements EventSubscriberInterface
         }
         $this->schemaCheck($event);
 
-        if ($this->waitOnTimed) {
-            return;
+        // Check if we need to 'publish' any 'timed' records, or 'hold' any expired records.
+        if ($this->timedRecord->isDuePublish()) {
+            $this->timedRecord->publishTimedRecords();
         }
-
-        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-        $this->timedRecord->publishTimedRecords();
-        $this->timedRecord->holdExpiredRecords();
+        if ($this->timedRecord->isDueHold()) {
+            $this->timedRecord->holdExpiredRecords();
+        }
     }
 
     /**

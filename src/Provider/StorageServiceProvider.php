@@ -248,23 +248,14 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.listener'] = $app->share(
             function () use ($app) {
-                // Get the timer for publishing timed records
-                $key = 'publish.timer.wait';
-                $wait = $app['cache']->fetch($key);
-                if ($wait === false) {
-                    $wait = true;
-                    $app['cache']->save($key, $wait, $app['config']->get('general/caching/duration'));
-                }
 
                 return new StorageEventListener(
                     $app['storage.event_processor.timed'],
-                    $app['config'],
                     $app['schema.lazy'],
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
-                    $app['access_control.hash.strength'],
-                    $wait
+                    $app['access_control.hash.strength']
                 );
             }
         );
@@ -276,6 +267,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new EventProcessor\TimedRecord(
                     $contentTypes,
                     $app['storage.lazy'],
+                    $app['config'],
+                    $app['cache'],
                     $app['dispatcher'],
                     $app['logger.system']
                 );
