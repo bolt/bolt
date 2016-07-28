@@ -99,23 +99,28 @@ class Config
         } catch (RuntimeException $e) {
             return;
         }
+        $this->setCKPath();
 
-        if (!$loadCache) {
-            $this->data = $this->getConfig();
-            $this->parseTemplatefields();
-            $this->saveCache();
-
-            // If we have to reload the config, we will also want to make sure
-            // the DB integrity is checked.
-            $this->app['schema.timer']->setCheckRequired();
-        } else {
+        if ($loadCache) {
             // In this case the cache is loaded, but because the path of the theme
             // folder is defined in the config file itself, we still need to check
             // retrospectively if we need to invalidate it.
             $this->checkValidCache();
+
+            return;
         }
 
-        $this->setCKPath();
+        $this->data = $this->getConfig();
+        $this->parseTemplatefields();
+        try {
+            $this->saveCache();
+        } catch (BootException $e) {
+            return;
+        }
+
+        // If we have to reload the config, we will also want to make sure
+        // the DB integrity is checked.
+        $this->app['schema.timer']->setCheckRequired();
     }
 
     /**
@@ -635,6 +640,10 @@ class Config
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
             $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
+            if (!isset($field['type']) || empty($field['type'])) {
+                $error = sprintf('Field %s has no "type" set.', $key);
+                throw new InvalidArgumentException($error);
+            }
 
             // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
             if ($field['type'] == 'file' || $field['type'] == 'filelist') {
