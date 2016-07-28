@@ -71,7 +71,7 @@ class TimedRecord
      */
     public function isDuePublish()
     {
-        return $this->cache->fetch(self::CACHE_KEY_PUBLISH);
+        return !$this->cache->fetch(self::CACHE_KEY_PUBLISH);
     }
 
     /**
@@ -79,7 +79,7 @@ class TimedRecord
      */
     public function isDueHold()
     {
-        return $this->cache->fetch(self::CACHE_KEY_HOLD);
+        return !$this->cache->fetch(self::CACHE_KEY_HOLD);
     }
 
     /**
