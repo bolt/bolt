@@ -259,7 +259,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new StorageEventListener(
                     $app['storage.event_processor.timed'],
                     $app['config'],
-                    $app['schema'],
+                    $app['schema.lazy'],
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
