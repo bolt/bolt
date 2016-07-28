@@ -9,6 +9,8 @@ use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
+use Symfony\Component\Debug\ErrorHandler;
+use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -35,6 +37,10 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
+        // Register PHP shutdown functions to catch fatal errors & exceptions
+        ExceptionHandler::register();
+        ErrorHandler::register();
+
         parent::__construct($values);
 
         $this->register(new PathServiceProvider());
@@ -49,9 +55,6 @@ class Application extends Silex\Application
         } else {
             $this['classloader'] = $this['resources']->getClassLoader();
         }
-
-        // Register a PHP shutdown function to catch fatal errors with the application object
-        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $this);
 
         $this['resources']->setApp($this);
         $this->initConfig();
@@ -141,7 +144,6 @@ class Application extends Silex\Application
     public function initDatabase()
     {
         $this->register(new Provider\DatabaseServiceProvider());
-        $this->checkDatabaseConnection();
     }
 
     /**

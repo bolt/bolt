@@ -52,4 +52,19 @@ class BootException extends RuntimeException
     {
         $this->response = $response;
     }
+
+    /**
+     * Output an exception *very* early in the load-chain.
+     *
+     * @param string $message
+     *
+     * @throws BootException
+     */
+    public static function earlyException($message)
+    {
+        echo $message;
+
+        throw self::__construct(strip_tags($message));
+    }
+
 }
