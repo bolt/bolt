@@ -35,8 +35,7 @@ class Login extends AccessChecker
         $repoUsers = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
         parent::__construct(
-            $repoAuth,
-            $repoUsers,
+            $app['storage.lazy'],
             $app['request_stack'],
             $app['session'],
             $app['dispatcher'],
@@ -67,7 +66,7 @@ class Login extends AccessChecker
         $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->app['token.authentication.name']);
 
         // Remove expired tokens
-        $this->repositoryAuthtoken->deleteExpiredTokens();
+        $this->getRepositoryAuthtoken()->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
             return $this->loginCheckPassword($userName, $password, $event);
@@ -96,7 +95,7 @@ class Login extends AccessChecker
             return false;
         }
 
-        $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
+        $userAuth = $this->getRepositoryUsers()->getUserAuthData($userEntity->getId());
         if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
             $this->systemLogger->alert("Attempt to login to an account with empty password field: '$userName'", ['event' => 'security']);
             $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
@@ -124,7 +123,7 @@ class Login extends AccessChecker
         if (!Blowfish::detect($userAuth->getPassword())) {
             $userEntity->setPassword($this->app['password_factory']->createHash($password, '$2y$'));
             try {
-                $this->repositoryUsers->update($userEntity);
+                $this->getRepositoryUsers()->update($userEntity);
             } catch (NotNullConstraintViolationException $e) {
                 // Database needs updating
             }
@@ -145,7 +144,7 @@ class Login extends AccessChecker
      */
     protected function loginCheckAuthtoken($authCookie, AccessControlEvent $event)
     {
-        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
+        if (!$userTokenEntity = $this->getRepositoryAuthtoken()->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
             $this->flashLogger->error(Trans::__('general.phrase.error-login-invalid-parameters'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
@@ -163,7 +162,7 @@ class Login extends AccessChecker
             $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
-            $this->repositoryAuthtoken->save($userTokenEntity);
+            $this->getRepositoryAuthtoken()->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
             $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
@@ -185,7 +184,7 @@ class Login extends AccessChecker
      */
     protected function getUserEntity($userName)
     {
-        if (!$userEntity = $this->repositoryUsers->getUser($userName)) {
+        if (!$userEntity = $this->getRepositoryUsers()->getUser($userName)) {
             $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
 
             return null;
@@ -239,7 +238,7 @@ class Login extends AccessChecker
         $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
         $userEntity->setPassword(null);
-        $this->repositoryUsers->save($userEntity);
+        $this->getRepositoryUsers()->save($userEntity);
 
         return false;
     }
@@ -262,7 +261,7 @@ class Login extends AccessChecker
         // Don't try to save the password on login
         $userEntity->setPassword(null);
         try {
-            $saved = $this->repositoryUsers->save($userEntity);
+            $saved = $this->getRepositoryUsers()->save($userEntity);
         } catch (NotNullConstraintViolationException $e) {
             // Database needs updating
             $saved = true;
@@ -305,7 +304,7 @@ class Login extends AccessChecker
     {
         $username = $userEntity->getUsername();
         $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
-        $tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent());
+        $tokenEntity = $this->getRepositoryAuthtoken()->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent());
 
         if ($tokenEntity) {
             $token = $tokenEntity->getToken();
@@ -324,7 +323,7 @@ class Login extends AccessChecker
         $tokenEntity->setLastseen(Carbon::now());
         $tokenEntity->setUseragent($this->getClientUserAgent());
 
-        $this->repositoryAuthtoken->save($tokenEntity);
+        $this->getRepositoryAuthtoken()->save($tokenEntity);
 
         $this->systemLogger->debug("Saving new login token '$token' for user ID '$username'", ['event' => 'authentication']);
 
