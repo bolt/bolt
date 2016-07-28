@@ -7,7 +7,7 @@ namespace Bolt\Storage;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class LazyEntityManager
+class LazyEntityManager implements EntityManagerInterface
 {
     /** @var \Closure $factory */
     private $factory;
@@ -37,5 +37,13 @@ class LazyEntityManager
         }
 
         return $this->em;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRepository($className)
+    {
+        return $this->getEntityManager()->getRepository($className);
     }
 }
