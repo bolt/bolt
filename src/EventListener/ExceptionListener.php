@@ -2,12 +2,14 @@
 namespace Bolt\EventListener;
 
 use Bolt\Controller\Zone;
+use Bolt\Exception\BootException;
 use Bolt\Render;
 use Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -49,6 +51,20 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
         $this->setLogger($logger);
         $this->session = $session;
         $this->isDebug = $isDebug;
+    }
+
+    /**
+     * Handle boot initialisation exceptions.
+     *
+     * @param GetResponseForExceptionEvent $event
+     */
+    public function onBootException(GetResponseForExceptionEvent $event)
+    {
+        $exception = $event->getException();
+        if ($exception instanceof BootException) {
+            $event->setResponse($exception->getResponse());
+            $event->stopPropagation();
+        }
     }
 
     /**
@@ -120,7 +136,10 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::EXCEPTION => ['onKernelException', -8],
+            KernelEvents::EXCEPTION => [
+                ['onBootException', Application::EARLY_EVENT],
+                ['onKernelException', -8]
+            ],
         ];
     }
 }

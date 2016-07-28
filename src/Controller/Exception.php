@@ -46,8 +46,9 @@ class Exception extends Base
             'exception' => $previous,
         ];
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
+        $response = new Response($html);
 
-        return new Response($html, Response::HTTP_OK);
+        return new Response($response, Response::HTTP_OK);
     }
 
     /**
