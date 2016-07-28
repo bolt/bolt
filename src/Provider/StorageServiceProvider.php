@@ -8,6 +8,7 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\EventProcessor;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\LazyEntityManager;
@@ -256,7 +257,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 }
 
                 return new StorageEventListener(
-                    $app['storage.lazy'],
+                    $app['storage.event_processor.timed'],
                     $app['config'],
                     $app['schema'],
                     $app['url_generator.lazy'],
@@ -264,6 +265,19 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['password_factory'],
                     $app['access_control.hash.strength'],
                     $wait
+                );
+            }
+        );
+
+        $app['storage.event_processor.timed'] = $app->share(
+            function ($app) {
+                $contentTypes = array_keys($app['config']->get('contenttypes', []));
+
+                return new EventProcessor\TimedRecord(
+                    $contentTypes,
+                    $app['storage.lazy'],
+                    $app['dispatcher'],
+                    $app['logger.system']
                 );
             }
         );

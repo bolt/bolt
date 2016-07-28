@@ -1,0 +1,213 @@
+<?php
+
+namespace Bolt\Storage\EventProcessor;
+
+use Bolt\Events\StorageEvent;
+use Bolt\Exception\InvalidRepositoryException;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\EntityManagerInterface;
+use Bolt\Storage\Repository\ContentRepository;
+use Carbon\Carbon;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+/**
+ * Timed record (de)publishing handler.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
+class TimedRecord
+{
+    /** @var array */
+    protected $contentTypeNames;
+    /** @var  EntityManagerInterface */
+    protected $em;
+    /** @var EventDispatcherInterface */
+    protected $dispatcher;
+    /** @var LoggerInterface */
+    protected $systemLogger;
+
+    /**
+     * Constructor.
+     *
+     * @param array                    $contentTypeNames
+     * @param EntityManagerInterface   $em
+     * @param EventDispatcherInterface $dispatcher
+     * @param LoggerInterface          $systemLogger
+     */
+    public function __construct(
+        array $contentTypeNames,
+        EntityManagerInterface $em,
+        EventDispatcherInterface $dispatcher,
+        LoggerInterface $systemLogger
+    ) {
+        $this->contentTypeNames = $contentTypeNames;
+        $this->em = $em;
+        $this->dispatcher = $dispatcher;
+        $this->systemLogger = $systemLogger;
+    }
+
+    /**
+     * Check (and update) any records that need to be updated from "timed" to "published".
+     */
+    public function publishTimedRecords()
+    {
+        foreach ($this->contentTypeNames as $contentTypeName) {
+            $this->timedHandleRecords($contentTypeName, 'publish');
+        }
+    }
+
+    /**
+     * Check (and update) any records that need to be updated from "published" to "held".
+     */
+    public function holdExpiredRecords()
+    {
+        foreach ($this->contentTypeNames as $contentTypeName) {
+            $this->timedHandleRecords($contentTypeName, 'hold');
+        }
+    }
+
+    /**
+     * Handle any pending timed publish/hold transitions.
+     *
+     * @param string $contentTypeName
+     * @param string $type
+     */
+    private function timedHandleRecords($contentTypeName, $type)
+    {
+        /** @var ContentRepository $contentRepo */
+        try {
+            $contentRepo = $this->em->getRepository($contentTypeName);
+        } catch (InvalidRepositoryException $e) {
+            // ContentType doesn't have a repository
+            return;
+        }
+
+        $types = [
+            'timed' => [
+                'target' => 'published',
+                'legacy' => 'publish',
+            ],
+            'hold' => [
+                'target' => 'held',
+                'legacy' => 'depublish',
+            ],
+        ];
+
+        $records = $this-> getTimedRecords($contentRepo, $type);
+        /** @var Content $content */
+        foreach ($records as $content) {
+            $content->set('status', $types[$type]['target']);
+            $this->save($contentRepo, $content, $type, $types[$type]['legacy']);
+        }
+    }
+
+    /**
+     * Save a modified entity.
+     *
+     * @param ContentRepository $contentRepo
+     * @param Content           $content
+     * @param string            $type
+     * @param string            $legacyType
+     */
+    private function save(ContentRepository $contentRepo, Content $content, $type, $legacyType)
+    {
+        try {
+            $contentRepo->save($content);
+            $this->dispatch($content, $type, $legacyType);
+        } catch (DBALException $e) {
+            $contentTypeName = $contentRepo->getClassMetadata()->getBoltName();
+            $message = "Timed update of records for $contentTypeName failed: " . $e->getMessage();
+
+            $this->systemLogger->critical($message, ['event' => 'exception', 'exception' => $e]);
+        }
+    }
+
+    /**
+     * Dispatch the update event.
+     *
+     * @param Content $content
+     * @param string  $type
+     * @param string  $legacyType
+     */
+    private function dispatch(Content $content, $type, $legacyType)
+    {
+        $event = new StorageEvent($content, ['contenttype' => $content->getContenttype(), 'create' => false]);
+        try {
+            $this->dispatcher->dispatch("timed.$type", $event);
+        } catch (\Exception $e) {
+            $this->systemLogger->critical(sprintf('Dispatch handling failed for %s.', $content->getContenttype()), ['event' => 'exception', 'exception' => $e]);
+        }
+        try {
+            /** @deprecated Deprecated since 3.1, to be removed in 4.0. */
+            $this->dispatcher->dispatch("timed.$legacyType", $event);
+        } catch (\Exception $e) {
+            $this->systemLogger->critical(sprintf('Dispatch handling failed for %s.', $content->getContenttype()), ['event' => 'exception', 'exception' => $e]);
+        }
+    }
+
+    /**
+     * Set the QueryBuilder where parameters.
+     *
+     * @param ContentRepository $contentRepo
+     * @param string            $type
+     *
+     * @throws \Exception
+     *
+     * @return Content[]|false
+     */
+    private function getTimedRecords(ContentRepository $contentRepo, $type)
+    {
+        /** @var QueryBuilder $query */
+        $query = $contentRepo->createQueryBuilder()
+            ->select('id')
+            ->andWhere('status = :status')
+            ->setParameter('currenttime', Carbon::now(), Type::DATETIME)
+        ;
+
+
+        if ($type === 'publish') {
+            $this->getTimedQuery($query);
+        } elseif ($type === 'hold') {
+            $this->getPublishedQuery($query);
+        } else {
+// use proper exception
+            throw new \Exception('fix me');
+        }
+
+        return $contentRepo->findWith($query) ?: [];
+    }
+
+    /**
+     * Set the QueryBuilder where parameters.
+     *
+     * @param QueryBuilder $query
+     */
+    private function getTimedQuery(QueryBuilder $query)
+    {
+        $query
+            ->where('status = :status')
+            ->andWhere('datepublish < :currenttime')
+            ->setParameter('status', 'timed')
+        ;
+    }
+
+    /**
+     * Set the QueryBuilder where parameters.
+     *
+     * @param QueryBuilder $query
+     */
+    private function getPublishedQuery(QueryBuilder $query)
+    {
+        $query
+            ->where('datedepublish <= :currenttime')
+            ->andWhere('datedepublish > :zeroday')
+            ->andWhere('datechanged < datedepublish')
+            ->setParameter('status', 'published')
+            ->setParameter('zeroday', '1900-01-01 00:00:01')
+        ;
+    }
+}

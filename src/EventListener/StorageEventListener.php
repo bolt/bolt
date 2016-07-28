@@ -10,7 +10,7 @@ use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
-use Bolt\Storage\EntityManager;
+use Bolt\Storage\EventProcessor;
 use Bolt\Translation\Translator as Trans;
 use PasswordLib\Password\Factory as PasswordFactory;
 use PasswordLib\Password\Implementation as Password;
@@ -21,8 +21,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StorageEventListener implements EventSubscriberInterface
 {
-    /** @var \Bolt\Storage\EntityManager */
-    protected $em;
+    /** @var EventProcessor\TimedRecord */
+    protected $timedRecord;
     /** @var \Bolt\Config */
     protected $config;
     /** @var \Bolt\Storage\Database\Schema\Manager */
@@ -41,17 +41,17 @@ class StorageEventListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param EntityManager         $em
-     * @param Config                $config
-     * @param Manager               $schemaManager
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param FlashLoggerInterface  $loggerFlash
-     * @param PasswordFactory       $passwordFactory
-     * @param integer               $hashStrength
-     * @param boolean               $waitOnTimed
+     * @param EventProcessor\TimedRecord $timedRecord
+     * @param Config                     $config
+     * @param Manager                    $schemaManager
+     * @param UrlGeneratorInterface      $urlGenerator
+     * @param FlashLoggerInterface       $loggerFlash
+     * @param PasswordFactory            $passwordFactory
+     * @param integer                    $hashStrength
+     * @param boolean                    $waitOnTimed
      */
     public function __construct(
-        EntityManager $em,
+        EventProcessor\TimedRecord $timedRecord,
         Config $config,
         Manager $schemaManager,
         UrlGeneratorInterface $urlGenerator,
@@ -60,7 +60,7 @@ class StorageEventListener implements EventSubscriberInterface
         $hashStrength,
         $waitOnTimed
     ) {
-        $this->em = $em;
+        $this->timedRecord = $timedRecord;
         $this->config = $config;
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
@@ -120,14 +120,10 @@ class StorageEventListener implements EventSubscriberInterface
         if ($this->waitOnTimed) {
             return;
         }
-        $contentTypes = $this->config->get('contenttypes', []);
-        foreach ($contentTypes as $contentType) {
-            $contentType = $this->em->getContentType($contentType['slug']);
 
-            // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-            $this->em->publishTimedRecords($contentType);
-            $this->em->depublishExpiredRecords($contentType);
-        }
+        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
+        $this->timedRecord->publishTimedRecords();
+        $this->timedRecord->holdExpiredRecords();
     }
 
     /**
