@@ -56,7 +56,7 @@ class DatabaseCheck extends BaseCommand
     protected function showDiffs(OutputInterface $output)
     {
         $this->showCreates($output);
-        $this->showAlterations($output);        
+        $this->showAlterations($output);
     }
 
     /**
@@ -96,7 +96,7 @@ class DatabaseCheck extends BaseCommand
                         \SqlFormatter::highlight($query)
                     ]);
                 }
-                
+
                 if (--$tableCount) {
                     $table->addRow(new TableSeparator());
                 }
