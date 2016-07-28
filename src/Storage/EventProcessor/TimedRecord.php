@@ -196,9 +196,9 @@ class TimedRecord
     private function getTimedRecords(ContentRepository $contentRepo, $type)
     {
         /** @var QueryBuilder $query */
-        $query = $contentRepo->createQueryBuilder()
-            ->select('id')
-            ->andWhere('status = :status')
+        $query = $contentRepo->createQueryBuilder('t')
+            ->select('t.id')
+            ->andWhere('t.status = :status')
             ->setParameter('currenttime', Carbon::now(), Type::DATETIME)
         ;
 
