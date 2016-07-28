@@ -5,6 +5,7 @@ namespace Bolt\Storage\EventProcessor;
 use Bolt\Config;
 use Bolt\Events\StorageEvent;
 use Bolt\Exception\InvalidRepositoryException;
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository\ContentRepository;
@@ -207,8 +208,7 @@ class TimedRecord
         } elseif ($type === 'hold') {
             $this->getPublishedQuery($query);
         } else {
-// use proper exception
-            throw new \Exception('fix me');
+            throw new StorageException(sprintf('Invalid type "%s" for timed record processing.', $type));
         }
 
         return $contentRepo->findWith($query) ?: [];
