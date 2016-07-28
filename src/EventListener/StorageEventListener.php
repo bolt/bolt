@@ -8,7 +8,7 @@ use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
-use Bolt\Storage\Database\Schema\Manager;
+use Bolt\Storage\Database\Schema;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EventProcessor;
 use Bolt\Translation\Translator as Trans;
@@ -25,7 +25,7 @@ class StorageEventListener implements EventSubscriberInterface
     protected $timedRecord;
     /** @var \Bolt\Config */
     protected $config;
-    /** @var \Bolt\Storage\Database\Schema\Manager */
+    /** @var Schema\SchemaManagerInterface */
     protected $schemaManager;
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
@@ -41,19 +41,19 @@ class StorageEventListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param EventProcessor\TimedRecord $timedRecord
-     * @param Config                     $config
-     * @param Manager                    $schemaManager
-     * @param UrlGeneratorInterface      $urlGenerator
-     * @param FlashLoggerInterface       $loggerFlash
-     * @param PasswordFactory            $passwordFactory
-     * @param integer                    $hashStrength
-     * @param boolean                    $waitOnTimed
+     * @param EventProcessor\TimedRecord    $timedRecord
+     * @param Config                        $config
+     * @param Schema\SchemaManagerInterface $schemaManager
+     * @param UrlGeneratorInterface         $urlGenerator
+     * @param FlashLoggerInterface          $loggerFlash
+     * @param PasswordFactory               $passwordFactory
+     * @param integer                       $hashStrength
+     * @param boolean                       $waitOnTimed
      */
     public function __construct(
         EventProcessor\TimedRecord $timedRecord,
         Config $config,
-        Manager $schemaManager,
+        Schema\SchemaManagerInterface $schemaManager,
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
         PasswordFactory $passwordFactory,
