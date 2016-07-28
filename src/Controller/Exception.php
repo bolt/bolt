@@ -35,11 +35,12 @@ class Exception extends Base
 
     public function databaseConnect($platform, \Exception $previous)
     {
-
         if ($this->app === null) {
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
         $context = [
+            'config'    => $this->app['config'],
+            'paths'     => $this->app['resources']->getPaths(),
             'debug'     => $this->app['debug'],
             'type'      => 'connect',
             'platform'  => $platform,
@@ -65,6 +66,8 @@ class Exception extends Base
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
         $context = [
+            'config'    => $this->app['config'],
+            'paths'     => $this->app['resources']->getPaths(),
             'debug'     => $this->app['debug'],
             'type'      => 'driver',
             'subtype'   => $subtype,
@@ -91,6 +94,8 @@ class Exception extends Base
         }
 
         $context = [
+            'config'    => $this->app['config'],
+            'paths'     => $this->app['resources']->getPaths(),
             'debug'     => $this->app['debug'],
             'type'      => 'path',
             'subtype'   => $subtype,
