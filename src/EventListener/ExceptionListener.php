@@ -4,6 +4,7 @@ namespace Bolt\EventListener;
 use Bolt\Controller\Zone;
 use Bolt\Exception\BootException;
 use Bolt\Render;
+use Bolt\Request\ProfilerAwareTrait;
 use Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -25,6 +26,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
+    use ProfilerAwareTrait;
 
     /** @var string */
     protected $rootPath;
@@ -60,6 +62,10 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
      */
     public function onBootException(GetResponseForExceptionEvent $event)
     {
+        if($this->isProfilerRequest($event->getRequest())) {
+            return;
+        }
+
         $exception = $event->getException();
         if ($exception instanceof BootException) {
             $event->setResponse($exception->getResponse());
@@ -74,6 +80,10 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        if($this->isProfilerRequest($event->getRequest())) {
+            return;
+        }
+
         $exception = $event->getException();
 
         // Log the error message

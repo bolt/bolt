@@ -7,6 +7,7 @@ use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Request\ProfilerAwareTrait;
 use Bolt\Storage\Database\Schema;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EventProcessor;
@@ -20,6 +21,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StorageEventListener implements EventSubscriberInterface
 {
+    use ProfilerAwareTrait;
+
     /** @var EventProcessor\TimedRecord */
     protected $timedRecord;
     /** @var Schema\SchemaManagerInterface */
@@ -104,6 +107,10 @@ class StorageEventListener implements EventSubscriberInterface
         if (!$event->isMasterRequest()) {
             return;
         }
+        if($this->isProfilerRequest($event->getRequest())) {
+            return;
+        }
+
         $this->schemaCheck($event);
 
         // Check if we need to 'publish' any 'timed' records, or 'hold' any expired records.
