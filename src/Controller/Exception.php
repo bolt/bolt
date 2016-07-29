@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Exception extends Base
+class Exception extends Base implements ExceptionControllerInterface
 {
     /**
      * Constructor.
@@ -103,6 +103,32 @@ class Exception extends Base
             'error'     => $error,
         ];
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
+
+        return new Response($html, Response::HTTP_OK);
+    }
+
+    /**
+     * System check exceptions.
+     *
+     * @param string $type
+     * @param array  $messages
+     * @param array  $context
+     *
+     * @return Response
+     */
+    public function systemCheck($type, $messages = [], $context = [])
+    {
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+
+        $context['config'] = $this->app['config'];
+        $context['paths'] = $this->app['resources']->getPaths();
+        $context['debug'] = $this->app['debug'];
+        $context['type'] = $type;
+        $context['messages'] = $messages;
+
+        $html = $this->app['twig']->render('@bolt/exception/system/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
     }
