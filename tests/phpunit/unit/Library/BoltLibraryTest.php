@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Library;
 
-use Bolt\Exception\LowlevelException;
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +15,6 @@ class BoltLibraryTest extends BoltUnitTest
     protected function tearDown()
     {
         parent::tearDown();
-        // Clear the queue of LowlevelExceptions or they get needlessly reported at the end of the test run.
-        // @deprcated remove with new error handling.
-        LowlevelException::$screen = null;
     }
 
     public function testFormatFilesize()
