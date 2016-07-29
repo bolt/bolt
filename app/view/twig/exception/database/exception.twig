@@ -1,15 +1,6 @@
-{# Page: NavSecondary > Dashboard #}
+{% extends '@bolt/exception/exception.twig' %}
 
-{% extends '@bolt/_base/_page-no_nav.twig' %}
-
-{% block page_nav 'Exception' %}
-
-{% block page_title __('Exception') %}
-
-{# clear default messages, because we use them in a different spot, in this template #}
-{% block messages "" %}
-
-{% block page_main %}
+{% block exception %}
     {% if type == 'connect' %}
         {{ include('@bolt/exception/database/_failed-connect.twig') }}
     {% elseif type == 'driver' %}
@@ -17,4 +8,4 @@
     {% elseif type == 'path' %}
         {{ include('@bolt/exception/database/_invalid-path.twig') }}
     {% endif %}
-{% endblock page_main %}
+{% endblock exception %}

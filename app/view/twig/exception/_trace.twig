@@ -1,6 +1,8 @@
 {%- if debug and exception is defined %}
-    <code style="display:block; white-space: pre-wrap; word-break: break-all;">{{ exception.message|nl2br }}</code>
-    <p></p>
-    <code style="display:block; white-space: pre-wrap; word-break: break-all;">{{ exception.traceasstring|nl2br }}</code>
+    <div class="row">
+        <code style="display:block; white-space: pre-wrap; word-break: break-all;">{{ exception.message|nl2br }}</code>
+        <p></p>
+        <code style="display:block; white-space: pre-wrap; word-break: break-all;">{{ exception.traceasstring|nl2br }}</code>
+    </div>
 {% endif -%}
 
