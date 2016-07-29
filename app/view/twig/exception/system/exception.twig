@@ -1,0 +1,26 @@
+{# Page: NavSecondary > Dashboard #}
+
+{% extends '@bolt/_base/_page-no_nav.twig' %}
+
+{% block page_nav 'Exception' %}
+
+{% block page_title __('Exception') %}
+
+{# clear default messages, because we use them in a different spot, in this template #}
+{% block messages "" %}
+
+{% block page_main %}
+    {% if type == 'magic-quotes' %}
+        {{ include('@bolt/exception/system/_magic-quotes.twig') }}
+    {% elseif type == 'safe-mode' %}
+        {{ include('@bolt/exception/system/_safe-mode.twig') }}
+    {% elseif type == 'htaccess' %}
+        {{ include('@bolt/exception/system/_htaccess.twig') }}
+    {% elseif type == 'cache-dir' %}
+        {{ include('@bolt/exception/system/_cache-dir.twig') }}
+    {% elseif type == 'config-read' %}
+        {{ include('@bolt/exception/system/_config-read.twig') }}
+    {% elseif type == 'config-write' %}
+        {{ include('@bolt/exception/system/_config-write.twig') }}
+    {% endif %}
+{% endblock page_main %}
