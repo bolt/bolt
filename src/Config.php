@@ -112,8 +112,11 @@ class Config
 
         $this->data = $this->getConfig();
         $this->parseTemplatefields();
+
         try {
-            $this->saveCache();
+            if ($this->exceptions === null) {
+                $this->saveCache();
+            }
         } catch (BootException $e) {
             return;
         }
@@ -641,7 +644,8 @@ class Config
             unset($fields[$key]);
             $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
             if (!isset($field['type']) || empty($field['type'])) {
-                $error = sprintf('Field %s has no "type" set.', $key);
+                $error = sprintf('Field "%s" has no "type" set.', $key);
+
                 throw new InvalidArgumentException($error);
             }
 
