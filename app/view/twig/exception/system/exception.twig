@@ -22,5 +22,7 @@
         {{ include('@bolt/exception/system/_config-read.twig') }}
     {% elseif type == 'config-write' %}
         {{ include('@bolt/exception/system/_config-write.twig') }}
+    {% elseif type == 'config-parameters' %}
+        {{ include('@bolt/exception/system/_config-parameters.twig') }}
     {% endif %}
 {% endblock page_main %}
