@@ -10,366 +10,255 @@ use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
-use GuzzleHttp\Psr7\Uri;
+use Predis\Client as Predis;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
- * Because screw PHP core.
- *
  * @author Carson Full <carsonfull@gmail.com>
+ * @author Daniel Wolf <danielrwolf5@gmail.com>
  */
 class SessionServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * @var Application
+     */
+    protected $app;
+
+    /**
+     * @param Application $app
+     * @return void
+     */
     public function register(Application $app)
     {
-        $app['session'] = $app->share(
-            function ($app) {
-                return new Session(
-                    $app['session.storage'],
-                    $app['session.bag.attribute'],
-                    $app['session.bag.flash']
-                );
+        $this->app = $app;
+
+        $this->registerOptions();
+        $this->registerHandlers();
+
+        $app['session'] = $app->share(function (Application $app) {
+            return new Session(
+                $app['session.storage'],
+                $app['session.bag.attribute'],
+                $app['session.bag.flash']
+            );
+        });
+
+        $app['session.listener'] = $app->share(function ($app) {
+            return new SessionListener($app['session'], $app['session.bag.options']);
+        });
+
+        $app['session.storage'] = $app->share(function (Application $app) {
+            return new SessionStorage(
+                $app['session.bag.options'],
+                $app['session.storage.handler'],
+                $app['session.random_generator'],
+                $app['session.serializer'],
+                isset($app['monolog']) ? $app['monolog'] : null,
+                $app['session.bag.metadata']
+            );
+        });
+
+        $app['session.storage.handler'] = $app->share(function (Application $app) {
+            $handler = $app['session.bag.options']->get('handler');
+
+            if (isset($app['session.test']) and $app['session.test']) {
+                return $app['session.storage.handler.null'];
             }
-        );
 
-        $app['session.storage'] = $app->share(
-            function ($app) {
-                $options = $app['session.options_bag'];
-
-                $handler = $app['session.handler_factory']($options['save_handler'], $options);
-
-                return new SessionStorage(
-                    $options,
-                    $handler,
-                    $app['session.generator'],
-                    $app['session.serializer']
-                );
+            if (!isset($app['session.storage.handler.' . $handler])) {
+                throw new \RuntimeException("Invalid storage handler '$handler' specified.");
             }
-        );
 
-        $app['session.listener'] = $app->share(
-            function ($app) {
-                return new SessionListener($app['session'], $app['session.options_bag']);
-            }
-        );
+            return $app['session.storage.handler.' . $handler];
+        });
 
-        $this->registerOptions($app);
+        $app['session.random_generator'] = $app->share(function (Application $app) {
+            return new RandomGenerator(
+                $app['randomgenerator'],
+                $app['session.generator.bytes_length']
+            );
+        });
 
-        $this->registerHandlers($app);
-
-        $app['session.generator'] = $app->share(
-            function () use ($app) {
-                return new RandomGenerator($app['randomgenerator'], $app['session.generator.bytes_length']);
-            }
-        );
         $app['session.generator.bytes_length'] = 32;
 
-        $app['session.serializer'] = $app->share(
-            function () {
-                return new NativeSerializer();
-            }
-        );
+        $app['session.serializer'] = $app->share(function () {
+            return new NativeSerializer();
+        });
 
-        $app['session.bag.attribute'] = function () {
-            return new AttributeBag();
-        };
-
-        $app['session.bag.flash'] = function () {
+        $app['session.bag.flash'] = $app->share(function () {
             return new FlashBag();
-        };
+        });
 
-        $app['session.bag.metadata'] = function () {
+        $app['session.bag.attribute'] = $app->share(function () {
+            return new AttributeBag();
+        });
+
+        $app['session.bag.metadata'] = $app->share(function () {
             return new MetadataBag();
-        };
-
-        $this->configure($app);
+        });
     }
 
+    /**
+     * @param Application $app
+     */
     public function boot(Application $app)
     {
         $app['dispatcher']->addSubscriber($app['session.listener']);
     }
 
     /**
-     * This should be the only place in this class that is specific to bolt.
-     *
-     * @param Application $app
+     * @return void
      */
-    public function configure(Application $app)
+    protected function registerHandlers()
     {
-        $app['session.options'] = [
-            'name'            => 'bolt_session_',
-            'restrict_realm'  => true,
-            'save_handler'    => 'filesystem',
-            'save_path'       => 'cache://.sessions',
-            'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
-            'cookie_path'     => $app['resources']->getUrl('root'),
-            'cookie_domain'   => $app['config']->get('general/cookies_domain'),
-            'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
-            'cookie_httponly' => true,
-        ];
-    }
+        $this->app['session.storage.handler.null'] = $this->app->share(function () {
+            return new NullSessionHandler();
+        });
 
-    protected function registerOptions(Application $app)
-    {
-        $app['session.options'] = [];
-        $app['session.options.import_from_ini'] = true;
+        $this->app['session.storage.handler.filesystem'] = $this->app->share(function (Application $app) {
+            return new FilesystemHandler(
+                $app['filesystem']->getDir(
+                    $app['session.bag.options']->get('dir') ?: 'cache://.sessions'
+                )
+            );
+        });
 
-        $app['session.options_bag'] = $app->share(
-            function () use ($app) {
-                /*
-                 * This does two things.
-                 * 1) Merges options together. Precedence is as follows:
-                 *    - Options from session.options
-                 *    - Options from ini (if enabled with "session.options.import_from_ini")
-                 *    - Options hardcoded below
-                 * 2) Converts options to an OptionsBag instance
-                 */
-                $defaults = [
-                    'save_handler'    => 'files',
-                    'save_path'       => '/tmp',
-                    'name'            => 'PHPSESSID',
-                    'lazy_write'      => true,
-                    //'auto_start' => false,
-                    //'serialize_handler' => null,
-                    'gc_probability'  => 1,
-                    'gc_divisor'      => 1000,
-                    'gc_maxlifetime'  => 1440,
-                    //'referer_check' => '',
-                    //'use_strict_mode' => false,
-                    'cookie_lifetime' => 0,
-                    'cookie_path'     => '/',
-                    'cookie_domain'   => null,
-                    'cookie_secure'   => false,
-                    'cookie_httponly' => false,
-                    // TODO Do started native sessions force "nocache" header in response?
-                    // We don't have a way to force that, should we?
-                    //'cache_limiter' => 'nocache',
-                    //'cache_expire'  => 180,
-                    'restrict_realm'  => false,
-                ];
+        $this->app['session.storage.handler.file'] = $this->app->share(function (Application $app) {
+            $dir = $app['session.bag.options']->get('dir') ?: '/tmp';
+            $logger = isset($app['monolog']) ? $app['monolog'] : null;
 
-                $options = new OptionsBag($defaults);
+            return new FileHandler($dir, $logger);
+        });
 
-                if ($app['session.options.import_from_ini']) {
-                    foreach ($options as $key => $value) {
-                        $options[$key] = ini_get('session.' . $key);
-                    }
-                }
+        $this->app['session.storage.handler.memcached'] = $this->app->share(function (Application $app) {
+            $memcached = new \Memcached();
 
-                if (isset($app['session.storage.options'])) {
-                    $options->add($app['session.storage.options']);
-                }
-
-                $options->add($app['session.options']);
-
-                return $options;
+            $memcachedConnections = $app['session.bag.options']->get('connections');
+            foreach ($memcachedConnections as $memcachedConnection) {
+                $memcached->addServer(
+                    $memcachedConnection['host'],
+                    $memcachedConnection['port'] ?: 11211,
+                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 0
+                );
             }
-        );
-    }
 
-    protected function registerHandlers(Application $app)
-    {
-        $app['session.handler_factory'] = $app->protect(
-            function ($handler, $options) use ($app) {
-                $key = 'session.handler_factory.' . $handler;
-                if (isset($app[$key])) {
-                    return $app[$key]($options);
-                }
-                throw new \RuntimeException("Unsupported handler type '$handler' specified");
+            return new MemcachedSessionHandler($memcached, [
+                'prefix' => $app['session.bag.options']->get('prefix'),
+                'expiretime' => $app['session.bag.options']->get('lifetime'),
+            ]);
+        });
+
+        $this->app['session.storage.handler.memcache'] = $this->app->share(function (Application $app) {
+            $memcache = new \Memcache();
+
+            $memcacheConnections = $app['session.bag.options']->get('connections');
+            foreach ($memcacheConnections as $memcacheConnection) {
+                $memcache->addserver(
+                    $memcacheConnection['host'],
+                    $memcacheConnection['port'] ?: 11211,
+                    $app['session.bag.options']->getBoolean('persistent'),
+                    !empty($memcachedConnection['weight']) ? $memcachedConnection['weight'] : 1
+                );
             }
-        );
 
-        $this->registerFilesHandler($app);
-        $this->registerFilesystemHandler($app);
-        $this->registerMemcacheHandler($app);
-        $this->registerRedisHandler($app);
-    }
+            return new MemcacheSessionHandler($memcache, [
+                'prefix' => $app['session.bag.options']->get('prefix'),
+                'expiretime' => $app['session.bag.options']->getInt('lifetime'),
+            ]);
+        });
 
-    protected function registerFilesHandler(Application $app)
-    {
-        $app['session.handler_factory.files'] = $app->protect(
-            function ($options) use ($app) {
-                return new FileHandler($options['save_path'], $app['logger.system']);
+        $this->app['session.storage.handler.native_file'] = $this->app->share(function (Application $app) {
+            return new NativeFileSessionHandler($app['session.bag.options']->get('dir') ?: '/tmp');
+        });
+
+        $this->app['session.storage.handler.native'] = $this->app->share(function (Application $app) {
+            return new NativeSessionHandler();
+        });
+
+        $this->app['session.storage.handler.predis'] = $this->app->share(function (Application $app) {
+            if (!class_exists('\Predis\Client')) {
+                throw new \RuntimeException('predis/predis composer package not installed');
             }
-        );
-    }
 
-    protected function registerFilesystemHandler(Application $app)
-    {
-        $app['session.handler_factory.filesystem'] = $app->protect(
-            function ($options) use ($app) {
-                $dir = $app['filesystem']->getDir($options['save_path']);
-
-                return new FilesystemHandler($dir);
-            }
-        );
-    }
-
-    protected function registerMemcacheHandler(Application $app)
-    {
-        $app['session.handler_factory.backing_memcache'] = $app->protect(
-            function ($connections) {
-                $memcache = new \Memcache();
-
-                foreach ($connections as $conn) {
-                    $memcache->addServer(
-                        $conn['host'] ?: 'localhost',
-                        $conn['port'] ?: 11211,
-                        $conn['persistent'] ?: false,
-                        $conn['weight'] ?: 0,
-                        $conn['timeout'] ?: 1
-                    );
-                }
-
-                return $memcache;
-            }
-        );
-
-        $app['session.handler_factory.memcache'] = $app->protect(
-            function ($options, $key = 'memcache') use ($app) {
-                $connections = $this->parseConnections($options, 'localhost', 11211);
-                $memcache = $app['session.handler_factory.backing_' . $key]($connections);
-
-                $handlerOptions = [];
-                if (isset($options['expiretime'])) {
-                    $handlerOptions['expiretime'] = $options['expiretime'];
-                }
-                if (isset($options['prefix'])) {
-                    $handlerOptions['prefix'] = $options['prefix'];
-                }
-
-                if ($key === 'memcache') {
-                    return new MemcacheSessionHandler($memcache, $handlerOptions);
-                } else {
-                    return new MemcachedSessionHandler($memcache, $handlerOptions);
-                }
-            }
-        );
-
-        $app['session.handler_factory.memcached'] = $app->protect(
-            function ($options) use ($app) {
-                return $app['session.handler_factory.memcache']($options, 'memcached');
-            }
-        );
-    }
-
-    protected function registerRedisHandler(Application $app)
-    {
-        $app['session.handler_factory.backing_redis'] = $app->protect(
-            function ($connections) {
-                if (class_exists('Redis')) {
-                    $redis = new \Redis();
-                    foreach ($connections as $conn) {
-                        $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
-                        call_user_func_array([$redis, $conn['persistant'] ? 'pconnect' : 'connect'], $params);
-                        if (!empty($conn['password'])) {
-                            $redis->auth($conn['password']);
-                        }
-                        if ($conn['database'] > 0) {
-                            $redis->select($conn['database']);
-                        }
-                        if (!empty($conn['prefix'])) {
-                            $redis->setOption(\Redis::OPT_PREFIX, $conn['prefix']);
-                        }
-                    }
-                } elseif (class_exists('Predis\Client')) {
-                    $params = [];
-                    $options = [];
-                    foreach ($connections as $conn) {
-                        $params[] = $conn;
-                        if (!empty($conn['prefix'])) {
-                            $options['prefix'] = $conn['prefix'];
-                        }
-                    }
-                    $redis = new \Predis\Client($params, $options);
-                } else {
-                    throw new \RuntimeException('Neither Redis nor Predis\Client exist');
-                }
-
-                return $redis;
-            }
-        );
-
-        $app['session.handler_factory.redis'] = $app->protect(
-            function ($options) use ($app) {
-                $connections = $this->parseConnections($options, 'localhost', 6379);
-                $redis = $app['session.handler_factory.backing_redis']($connections);
-
-                return new RedisHandler($redis, $options['gc_maxlifetime']);
-            }
-        );
-    }
-
-    protected function parseConnections($options, $defaultHost, $defaultPort)
-    {
-        if (isset($options['host']) || isset($options['port'])) {
-            $options['connections'][] = $options;
-        } elseif ($options['connection']) {
-            $options['connections'][] = $options['connection'];
-        }
-
-        /** @var ParameterBag[] $toParse */
-        $toParse = [];
-        if (isset($options['connections'])) {
-            foreach ((array) $options['connections'] as $alias => $conn) {
-                if (is_string($conn)) {
-                    $conn = ['host' => $conn];
-                }
-                $conn += [
-                    'scheme' => 'tcp',
-                    'host'   => $defaultHost,
-                    'port'   => $defaultPort,
-                ];
-                $conn = new ParameterBag($conn);
-
-                if ($conn->has('password')) {
-                    $conn->set('pass', $conn->get('password'));
-                    $conn->remove('password');
-                }
-                $conn->set('uri', Uri::fromParts($conn->all()));
-
-                $toParse[] = $conn;
-            }
-        } elseif (isset($options['save_path'])) {
-            foreach (explode(',', $options['save_path']) as $conn) {
-                $conn = new ParameterBag($conn);
-                $conn->set('uri', new Uri($conn));
-                $toParse[] = $conn;
-            }
-        }
-
-        $connections = [];
-        foreach ($toParse as $conn) {
-            /** @var Uri $uri */
-            $uri = $conn->get('uri');
-
-            $parts = explode(':', $uri->getUserInfo(), 2);
-            $password = isset($parts[1]) ? $parts[1] : null;
-
-            $connections[] = [
-                'scheme'     => $uri->getScheme(),
-                'host'       => $uri->getHost(),
-                'port'       => $uri->getPort(),
-                'path'       => $uri->getPath(),
-                'alias'      => $conn->get('alias'),
-                'prefix'     => $conn->get('prefix'),
-                'password'   => $password,
-                'database'   => $conn->get('database'),
-                'persistent' => $conn->get('persistent'),
-                'weight'     => $conn->get('weight'),
-                'timeout'    => $conn->get('timeout'),
+            $predisConnections = $app['session.bag.options']->get('connections');
+            $predisOptions = [
+                'prefix' => $app['session.bag.options']->get('prefix'),
+                'parameters' => $app['session.bag.options']->get('parameters'),
+                'cluster' => $app['session.bag.options']->get('cluster'),
             ];
-        }
+            $predis = new Predis($predisConnections, $predisOptions);
 
-        return $connections;
+            return new RedisHandler($predis, $app['session.bag.options']->getInt('lifetime'));
+        });
+
+        $this->app['session.storage.handler.redis'] = $this->app->share(function (Application $app) {
+            if (!class_exists('\Redis')) {
+                throw new \RuntimeException('Redis extension not installed');
+            }
+
+            $redis = new \Redis();
+
+            $method = $app['session.bag.options']->get('persistent') ? 'pconnect' : 'connect';
+            $connection = $app['session.bag.options']->get('connections')[0];
+            $redis->$method(
+                $connection['host'],
+                $connection['port'] ?: 6379
+            );
+
+            if ($redisPassword = $app['session.bag.options']->get('password')) {
+                $redis->auth($redisPassword);
+            }
+
+            if ($redisDatabase = $app['session.bag.options']->getInt('database')) {
+                $redis->select($redisDatabase);
+            }
+
+            $redis->setOption(\Redis::OPT_PREFIX, $app['session.bag.options']->get('prefix'));
+
+            return new RedisHandler($redis, $app['session.bag.options']->getInt('lifetime'));
+        });
     }
+
+    /**
+     * @return void
+     */
+    protected function registerOptions()
+    {
+        $this->app['session.bag.options'] = $this->app->share(function () {
+            return new OptionsBag([
+                'cluster' => 'redis',
+                'cookie_lifetime' => 0,
+                'connections' => [
+                    [
+                        'host' => '127.0.0.1',
+                        'port' => false
+                    ]
+                ],
+                'database' => 0,
+                'dir' => false,
+                'gc_divisor' => 100,
+                'gc_maxlifetime' => 1440,
+                'gc_probability' => 1,
+                'handler' => 'filesystem',
+                'lazy_write' => false,
+                'lifetime' => 86400,
+                'name' => 'PHPSESSID',
+                'parameters' => [],
+                'password' => false,
+                'persistent' => false,
+                'prefix' => 'bolt_session_',
+            ]);
+        });
+    }
+
 }

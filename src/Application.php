@@ -7,6 +7,7 @@ use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
+use Bolt\Session\OptionsBag;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\Stopwatch;
@@ -81,9 +82,25 @@ class Application extends Silex\Application
 
     protected function initSession()
     {
-        $this
-            ->register(new Provider\SessionServiceProvider())
-        ;
+        $this->register(new Provider\SessionServiceProvider());
+
+        $this->extend('session.bag.options', function (OptionsBag $optionsBag, Silex\Application $app) {
+            // Backwards compatibility
+            // @todo remove?
+            if ($app['config']->get('general/session_use_storage_handler', false)) {
+                $optionsBag->set('handler', 'null');
+
+                return $optionsBag;
+            }
+
+            // Plug in settings from config
+            foreach ($app['config']->get('general/session', []) as $key => $value) {
+                $optionsBag->set($key, $value);
+            }
+
+            return $optionsBag;
+        });
+
     }
 
     public function initialize()
