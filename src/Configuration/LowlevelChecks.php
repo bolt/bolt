@@ -1,11 +1,15 @@
 <?php
 namespace Bolt\Configuration;
 
+use Bolt\Configuration\Validation\ValidatorInterface;
 use Bolt\Controller;
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\BootException;
 use Symfony\Component\HttpFoundation\Response;
 
-class LowlevelChecks
+/**
+ * @deprecated Deprecated since 3.1, to be removed in 4.0.
+ */
+class LowlevelChecks implements ValidatorInterface
 {
     public $config;
     public $disableApacheChecks = false;
@@ -45,6 +49,34 @@ class LowlevelChecks
         $this->postgresLoaded = extension_loaded('pdo_pgsql');
         $this->sqliteLoaded = extension_loaded('pdo_sqlite');
         $this->mysqlLoaded = extension_loaded('pdo_mysql');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function check($checkName)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checks()
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($checkName, $className, $prepend = false)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($checkName)
+    {
     }
 
     /**
@@ -95,7 +127,7 @@ class LowlevelChecks
     public function checkMagicQuotes()
     {
         if ($this->magicQuotes) {
-            throw new LowlevelException(
+            throw new BootException(
                 "Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
@@ -112,7 +144,7 @@ class LowlevelChecks
         }
 
         if ($this->safeMode) {
-            throw new LowlevelException(
+            throw new BootException(
                 "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
@@ -123,13 +155,13 @@ class LowlevelChecks
     public function assertWritableDir($path)
     {
         if (!is_dir($path)) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
                 'present and writable to the user that the webserver is using.'
             );
         }
         if (!is_writable($path)) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
                 'present and writable to the user that the webserver is using.'
             );
@@ -157,7 +189,7 @@ class LowlevelChecks
             return;
         }
         if ($this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .
                 'webserver is using. ' .
@@ -275,7 +307,7 @@ class LowlevelChecks
      *
      * @param string $name Filename stem; .yml extension will be added automatically.
      *
-     * @throws \Bolt\Exception\LowlevelException
+     * @throws \Bolt\Exception\BootException
      */
     protected function lowlevelConfigFix($name)
     {
@@ -288,7 +320,7 @@ class LowlevelChecks
                 htmlspecialchars($name . '.yml', ENT_QUOTES),
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
-            throw new LowlevelException($error);
+            throw new BootException($error);
         }
 
         if (!file_exists($ymlname)) {
@@ -304,7 +336,7 @@ class LowlevelChecks
                     htmlspecialchars($name . '.yml.dist', ENT_QUOTES)
                 );
 
-                throw new LowlevelException($message);
+                throw new BootException($message);
             }
         }
     }
