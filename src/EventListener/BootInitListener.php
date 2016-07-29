@@ -46,7 +46,7 @@ class BootInitListener implements EventSubscriberInterface
         $verifier = new Validator($this->app['controller.exception'], $this->app['config'], $this->app['resources']);
         $response = $verifier->checks();
         if ($response instanceof Response) {
-            return $response;
+            return $event->setResponse($response);
         }
 
         return null;
