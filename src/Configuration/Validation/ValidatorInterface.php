@@ -14,23 +14,23 @@ interface ValidatorInterface
     /**
      * Add a check.
      *
-     * @param string  $checkName
-     * @param string  $className
-     * @param boolean $prepend
+     * @param string                     $checkName Name for the check
+     * @param string|ValidationInterface $className Class name, or instance of a ValidationInterface class
+     * @param boolean                    $prepend   Prepend to the execution list
      */
     public function add($checkName, $className, $prepend = false);
 
     /**
      * Remove a check from the list causing it to be skipped.
      *
-     * @param string $checkName
+     * @param string $checkName Name of the check to remove
      */
     public function remove($checkName);
 
     /**
      * Perform a named check.
      *
-     * @param string $checkName
+     * @param string $checkName Name of the check to run
      *
      * @return Response|null
      */
