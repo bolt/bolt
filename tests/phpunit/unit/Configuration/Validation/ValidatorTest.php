@@ -8,13 +8,14 @@ use Bolt\Exception\BootException;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Configuration/LowlevelChecks.php.
+ * Class to test src/Configuration/Validation/Validator.php.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  *
  * @runTestsInSeparateProcesses
  */
-class LowlevelChecksTest extends BoltUnitTest
+class ValidatorTest extends BoltUnitTest
 {
     protected $errorResponses = [];
 
