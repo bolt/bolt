@@ -64,6 +64,10 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getStatementMock()));
 
         $mock->expects($this->any())
+            ->method('executeQuery')
+            ->will($this->returnValue($this->getStatementMock()));
+
+        $mock->expects($this->any())
             ->method('createQueryBuilder')
             ->will($this->returnValue($this->getQueryBuilderMock($mock)));
 
