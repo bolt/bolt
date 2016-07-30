@@ -12,6 +12,7 @@ use Bolt\Storage\Repository\ContentRepository;
 use Carbon\Carbon;
 use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 use Psr\Log\LoggerInterface;
@@ -131,7 +132,11 @@ class TimedRecord
             ],
         ];
 
-        $records = $this-> getTimedRecords($contentRepo, $type);
+        try {
+            $records = $this->getTimedRecords($contentRepo, $type);
+        } catch (TableNotFoundException $e) {
+            return;
+        }
         /** @var Content $content */
         foreach ($records as $content) {
             $content->set('status', $types[$type]['target']);
