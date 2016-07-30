@@ -24,6 +24,7 @@
         "filp/whoops" : "~2.0",
         "guzzlehttp/guzzle": "^5.3.1 || ^6.2.1",
         "ircmaxell/random-lib" : "~1.1",
+        "jdorn/sql-formatter": "^1.2",
         "monolog/monolog" : "~1.12",
         "nesbot/carbon" : "^1.20",
         "paragonie/random_compat": "^1.4",
@@ -60,8 +61,7 @@
         "symfony/yaml" : "^2.8",
         "tdammers/htmlmaid" : "~0.7",
         "twig/twig" : "^1.18",
-        "ua-parser/uap-php" : "~3.4",
-        "jdorn/sql-formatter": "^1.2"
+        "ua-parser/uap-php" : "~3.4"
     },
     "require-dev" : {
         "bolt/codingstyle" : "~1.0",
