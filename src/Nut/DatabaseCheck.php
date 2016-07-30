@@ -2,11 +2,12 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use SqlFormatter;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Nut command to perform a database consistency check command
@@ -30,7 +31,7 @@ class DatabaseCheck extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var $response \Bolt\Storage\Database\Schema\SchemaCheck */
+        /** @var \Bolt\Storage\Database\Schema\SchemaCheck $response */
         $response = $this->app['schema']->check();
 
         if (!$response->hasResponses()) {
@@ -93,7 +94,7 @@ class DatabaseCheck extends BaseCommand
                 foreach ($sql as $query) {
                     $table->addRow([
                         $tableName,
-                        \SqlFormatter::highlight($query)
+                        SqlFormatter::highlight($query),
                     ]);
                 }
 
