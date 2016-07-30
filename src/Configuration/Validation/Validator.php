@@ -83,7 +83,7 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         $className = $this->check[$checkName];
 
         return $this
-            ->getValidator($className)
+            ->getValidator($className, $checkName)
             ->check($this->exceptionController)
         ;
     }
@@ -114,16 +114,16 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * Get a validator object from a given class name.
      *
      * @param string $className
-     * @param mixed  $args
+     * @param mixed  $constructorArgs
      *
      * @return ValidationInterface
      */
-    private function getValidator($className, $args = null)
+    private function getValidator($className, $constructorArgs)
     {
         /** @var ValidationInterface $validator */
-        $validator = new $className($args);
+        $validator = new $className($constructorArgs);
         if (!$validator instanceof ValidationInterface) {
-            throw new BootException(sprintf('System validator was given a validaton class %s that does not implement %s', $className, ValidationInterface::class));
+            throw new BootException(sprintf('System validator was given a validation class %s that does not implement %s', $className, ValidationInterface::class));
         }
         if ($validator instanceof ResourceManagerAwareInterface) {
             $validator->setResourceManager($this->resourceManager);
