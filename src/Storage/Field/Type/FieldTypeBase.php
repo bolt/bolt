@@ -71,7 +71,12 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function persist(QuerySet $queries, $entity)
     {
-        $key = $this->mapping['fieldname'];
+        if (isset($this->mapping['attribute'])) {
+            $key = $this->mapping['attribute'];
+        } else {
+            $key = $this->mapping['fieldname'];
+        }
+
         $qb = &$queries[0];
         $valueMethod = 'serialize' . ucfirst($key);
         $value = $entity->$valueMethod();
