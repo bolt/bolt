@@ -66,7 +66,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         foreach ($configs as $name => $file) {
             if (empty($file)) {
-                $configs[$name] = $this->getPath($name, $this->config[$name]);
+                $configs[$name] = $this->getPath($name, $this->configs[$name]);
             } else {
                 $configs[$name] = $this->getPath($name, $file);
             }
@@ -230,6 +230,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
+        /** @var \PHPUnit_Framework_TestCase $test */
         $name = $test->getName();
         $this->tracker[$this->currentSuite . '::' . $name] = $time;
     }
