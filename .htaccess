@@ -50,6 +50,8 @@ Options -Indexes
 
   # If the requested filename exists, simply serve it.
   # We only want to let Apache serve files and not directories.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
