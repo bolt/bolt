@@ -18,8 +18,13 @@ class TextAreaType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
-        $value = parent::sanitize($entity->get($key));
-        $entity->set($key, $value);
+        $value = $entity->get($key);
+
+        // We skip this if the value is empty-ish, e.g. '' or `null`.
+        if (!empty($value)) {
+            $value = parent::sanitize($value);
+            $entity->set($key, $value);
+        }
 
         parent::persist($queries, $entity);
     }
