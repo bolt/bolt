@@ -3,7 +3,6 @@
 namespace Bolt\EventListener;
 
 use Bolt;
-use Bolt\Configuration\Validation\Validator;
 use Bolt\Controller\Zone;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,7 +42,7 @@ class BootInitListener implements EventSubscriberInterface
      */
     public function onBootEarly(GetResponseEvent $event)
     {
-        $verifier = new Validator($this->app['controller.exception'], $this->app['config'], $this->app['resources']);
+        $verifier = $this->app['boot.validator'];
         $response = $verifier->checks();
         if ($response instanceof Response) {
             return $event->setResponse($response);

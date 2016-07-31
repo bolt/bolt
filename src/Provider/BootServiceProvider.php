@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Configuration\Validation;
 use Bolt\EventListener as Listener;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -19,6 +20,14 @@ class BootServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
+        $app['boot.validator'] = $app->share(
+            function ($app) {
+                $verifier = new Validation\Validator($app['controller.exception'], $app['config'], $app['resources']);
+
+                return $verifier;
+            }
+        );
+
         $app['boot.listener.checks'] = $app->share(
             function ($app) {
                 return new Listener\BootInitListener($app);
