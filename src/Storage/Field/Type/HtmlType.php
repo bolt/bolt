@@ -55,7 +55,7 @@ class HtmlType extends FieldTypeBase
             $allowed_because_wysiwyg[] = 'blockquote';
         }
         if ($config['wysiwyg']['codesnippet'] === true) {
-            $allowed_because_wysiwyg = array_merge($allowed_because_wysiwyg, ['code', 'pre', 'tt']);;
+            $allowed_because_wysiwyg = array_merge($allowed_because_wysiwyg, ['code', 'pre', 'tt']);
         }
 
         $allowed_tags = array_unique(array_merge($config['htmlcleaner']['allowed_tags'], $allowed_because_wysiwyg));
