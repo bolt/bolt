@@ -9,6 +9,7 @@ use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
+use Maid\Maid;
 
 /**
  * This is an abstract class for a field type that handles
@@ -209,5 +210,29 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $compiled = array_unique($compiled, SORT_REGULAR);
 
         return $compiled;
+    }
+
+    /**
+     * Sanitize HTML, by allowing only whitelisted tags and attributes.
+     *
+     * @param string $value
+     * @param array  $allowed_tags
+     * @param array  $allowed_attributes
+     *
+     * @return string
+     */
+    protected function sanitize($value, $allowed_tags, $allowed_attributes)
+    {
+        // Sanitize/clean the HTML.
+        $maid = new Maid(
+            [
+                'output-format'   => 'html',
+                'allowed-tags'    => $allowed_tags,
+                'allowed-attribs' => $allowed_attributes,
+            ]
+        );
+        $value = $maid->clean($value);
+
+        return $value;
     }
 }
