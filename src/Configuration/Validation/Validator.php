@@ -80,6 +80,10 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      */
     public function check($checkName)
     {
+        if ($this->disableApacheChecks && $checkName === 'apache') {
+            return null;
+        }
+
         $className = $this->check[$checkName];
 
         return $this
