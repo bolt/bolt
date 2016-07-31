@@ -121,7 +121,7 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
                 $fs->remove($cacheJson);
                 $this->config->initialize();
 
-                if (!$fs->exists(dirname($file))) {
+                if (!$fs->exists($dir)) {
                     return $exceptionController->databasePath('folder', $dir, 'does not exist');
                 }
             } else {
