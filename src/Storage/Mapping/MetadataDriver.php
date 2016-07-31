@@ -286,7 +286,6 @@ class MetadataDriver implements MappingDriver
 
             $mapping = [
                 'fieldname' => $relationKey,
-                'attribute' => $this->camelize($relationKey),
                 'type' => 'null',
                 'fieldtype' => $this->typemap['relation'],
                 'entity' => $this->resolveClassName($relationKey),
