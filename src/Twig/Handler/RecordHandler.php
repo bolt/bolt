@@ -118,7 +118,7 @@ class RecordHandler
      *
      * @return string
      */
-    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null)
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null, $skip_uses = true)
     {
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
@@ -142,6 +142,7 @@ class RecordHandler
             'repeaters'      => $repeaters,
             'templatefields' => $templatefields,
             'exclude'        => $exclude,
+            'skip_uses'      => $skip_uses,
         ];
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');

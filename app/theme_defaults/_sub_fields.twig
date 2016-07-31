@@ -17,7 +17,9 @@
    over _all_ the fields, and skipping those in the 'omittedkeys' array. #}
 {% set omittedkeys = ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
 
-{% if record.contenttype.fields.slug.uses|default(null) is iterable %}
+{# Skip over the fields that are used in the slug, unless explicitly told not to,
+   using the `skip_uses` parameter. #}
+{% if (record.contenttype.fields.slug.uses|default(null) is iterable) and (skip_uses == true) %}
     {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
 {% endif %}
 
