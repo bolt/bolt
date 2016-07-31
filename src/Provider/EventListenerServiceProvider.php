@@ -11,12 +11,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['listener.boot.checks'] = $app->share(
-            function ($app) {
-                return new Listener\BootInitListener($app);
-            }
-        );
-
         $app['listener.access_control'] = $app->share(
             function ($app) {
                 return new Listener\AccessControlListener(
@@ -113,7 +107,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
 
-        $dispatcher->addSubscriber($app['listener.boot.checks']);
         $dispatcher->addSubscriber($app['listener.access_control']);
         $dispatcher->addSubscriber($app['listener.general']);
         $dispatcher->addSubscriber($app['listener.exception']);

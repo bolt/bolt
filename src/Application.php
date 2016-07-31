@@ -213,6 +213,7 @@ class Application extends Silex\Application
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
             ->register(new Provider\RandomGeneratorServiceProvider())
+            ->register(new Provider\BootServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\QueryServiceProvider())
