@@ -76,7 +76,9 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\DatabaseSchemaServiceProvider())
+        $this
+            ->register(new Provider\BootServiceProvider($this))
+            ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
         $this['config']->initialize();
@@ -211,7 +213,6 @@ class Application extends Silex\Application
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
             ->register(new Provider\RandomGeneratorServiceProvider())
-            ->register(new Provider\BootServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\QueryServiceProvider())
