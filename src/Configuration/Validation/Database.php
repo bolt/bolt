@@ -96,9 +96,9 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
         }
 
         $fs = new Filesystem();
+        $file = $dbConfig['path'];
 
         // If the file is present, make sure it is writable
-        $file = $dbConfig['path'];
         if ($fs->exists($file)) {
             try {
                 $fs->touch($file);
