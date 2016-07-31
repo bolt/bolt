@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Configuration\ResourceManager;
 use Bolt\Storage\QuerySet;
 
 /**
@@ -23,10 +22,7 @@ class TextType extends FieldTypeBase
         // Only sanitize when type is string, and not when the name is one of the Bolt-system ones.
         // Finally, we skip this if the value is empty-ish, e.g. '' or `null`.
         if ($this->mapping['type'] == "string" && !in_array($key, ['username', 'status']) && !empty($value)) {
-            $app = ResourceManager::getApp();
-            $config = $app['config']->get('general/htmlcleaner');
-
-            $value = parent::sanitize($value, $config['allowed_tags'], $config['allowed_attributes']);
+            $value = parent::sanitize($value);
             $entity->set($key, $value);
         }
 

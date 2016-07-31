@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Configuration\ResourceManager;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -221,8 +222,17 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      *
      * @return string
      */
-    protected function sanitize($value, $allowed_tags, $allowed_attributes)
+    protected function sanitize($value, $allowed_tags = null, $allowed_attributes = null)
     {
+        // If $allowed_tags is not passed in, we get the defaults. And also for $allowed_attributes, because it
+        // never happens that one is empty, while the other isn't
+        if ($allowed_tags === null) {
+            $app = ResourceManager::getApp();
+            $config = $app['config']->get('general/htmlcleaner');
+            $allowed_tags = $config['allowed_tags'];
+            $allowed_attributes = $config['allowed_attributes'];
+        }
+
         // Sanitize/clean the HTML.
         $maid = new Maid(
             [
