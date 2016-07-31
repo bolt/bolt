@@ -33,12 +33,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         'safeMode'      => SafeMode::class,
         'cache'         => Cache::class,
         'apache'        => Apache::class,
-        'config'        => ConfigurationFile::class,
-        'contenttypes'  => ConfigurationFile::class,
-        'menu'          => ConfigurationFile::class,
-        'permissions'   => ConfigurationFile::class,
-        'routing'       => ConfigurationFile::class,
-        'taxonomy'      => ConfigurationFile::class,
     ];
 
     /**

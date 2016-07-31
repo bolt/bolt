@@ -2,6 +2,8 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Configuration\PreBoot;
+use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Validation;
 use Bolt\EventListener as Listener;
 use Silex\Application;
@@ -15,6 +17,22 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class BootServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * Constructor.
+     *
+     * NOTE: Please do NOT under any circumstance assign $app as a class
+     * variable, or do anything with the contain
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        if (!isset($app['boot.pre'])) {
+            $this->preBoot($app['resources']);
+            $app['boot.pre'] = true;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +50,20 @@ class BootServiceProvider implements ServiceProviderInterface
             function ($app) {
                 return new Listener\BootInitListener($app);
             }
+        );
+    }
+
+    /**
+     * Internal pre-boot checks.
+     *
+     * @param ResourceManager $resourceManager
+     */
+    private function preBoot(ResourceManager $resourceManager)
+    {
+        PreBoot\ConfigurationFile::checkConfigFiles(
+            ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
+            $resourceManager->getPath('src/../app/config'),
+            $resourceManager->getPath('config')
         );
     }
 
