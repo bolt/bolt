@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Configuration\ResourceManager;
+use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -11,6 +13,22 @@ use Doctrine\DBAL\Types\Type;
  */
 class TextAreaType extends FieldTypeBase
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function persist(QuerySet $queries, $entity)
+    {
+        $value = $entity->get($key);
+
+        $app = ResourceManager::getApp();
+        $config = $app['config']->get('general/htmlcleaner');
+
+        $value = parent::sanitize($value, $config['allowed_tags'], $config['allowed_attributes']);
+        $entity->set($key, $value);
+
+        parent::persist($queries, $entity);
+    }
+
     /**
      * {@inheritdoc}
      */
