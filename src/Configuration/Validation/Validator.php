@@ -45,6 +45,7 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * Constructor.
      *
      * @param Controller\Exception $exceptionController
+     * @param Config               $config
      * @param ResourceManager      $resourceManager
      */
     public function __construct(Controller\Exception $exceptionController, Config $config, ResourceManager $resourceManager)
