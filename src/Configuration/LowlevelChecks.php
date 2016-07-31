@@ -75,6 +75,13 @@ class LowlevelChecks implements ValidatorInterface
     /**
      * {@inheritdoc}
      */
+    public function has($checkName)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($checkName)
     {
     }

@@ -71,6 +71,14 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     /**
      * {@inheritdoc}
      */
+    public function has($checkName)
+    {
+        return isset($this->check[$checkName]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($checkName)
     {
         unset($this->check[$checkName]);

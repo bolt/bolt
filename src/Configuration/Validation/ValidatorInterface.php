@@ -21,6 +21,13 @@ interface ValidatorInterface
     public function add($checkName, $className, $prepend = false);
 
     /**
+     * @param string $checkName
+     *
+     * @return bool
+     */
+    public function has($checkName);
+
+    /**
      * Remove a check from the list causing it to be skipped.
      *
      * @param string $checkName Name of the check to remove
