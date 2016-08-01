@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Mapping;
 
 use Bolt\Exception\StorageException;
+use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Bolt\Storage\NamingStrategy;
@@ -19,6 +20,8 @@ use Doctrine\DBAL\Schema\Table;
  */
 class MetadataDriver implements MappingDriver
 {
+    use CaseTransformTrait;
+
     /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $schemaManager;
     /** @var array */
@@ -160,6 +163,7 @@ class MetadataDriver implements MappingDriver
         foreach ($table->getColumns() as $colName => $column) {
             $mapping = [
                 'fieldname'        => $column->getName(),
+                'attribute'        => $this->camelize($column->getName()),
                 'type'             => $column->getType()->getName(),
                 'fieldtype'        => $this->getFieldTypeFor($table->getOption('alias'), $column),
                 'length'           => $column->getLength(),
@@ -212,6 +216,7 @@ class MetadataDriver implements MappingDriver
         foreach ($inputData as $key => $data) {
             $mapping = [
                 'fieldname'        => $key,
+                'attribute'        => $this->camelize($key),
                 'type'             => 'null',
                 'fieldtype'        => $this->typemap['repeater'],
                 'tables'           => [
@@ -281,10 +286,10 @@ class MetadataDriver implements MappingDriver
 
             $mapping = [
                 'fieldname' => $relationKey,
-                'type'      => 'null',
+                'type' => 'null',
                 'fieldtype' => $this->typemap['relation'],
-                'entity'    => $this->resolveClassName($relationKey),
-                'target'    => $this->schemaManager->getTableName('relations'),
+                'entity' => $this->resolveClassName($relationKey),
+                'target' => $this->schemaManager->getTableName('relations'),
             ];
 
             $this->metadata[$className]['fields'][$relationKey] = $mapping;

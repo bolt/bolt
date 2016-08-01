@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use GuzzleHttp\Psr7\parse_query;
 
 /**
  * Because screw PHP core.
@@ -105,11 +106,9 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function configure(Application $app)
     {
-        $app['session.options'] = [
+        $app['session.options'] = $app['config']->get('general/session', []) + [
             'name'            => 'bolt_session_',
             'restrict_realm'  => true,
-            'save_handler'    => 'filesystem',
-            'save_path'       => 'cache://.sessions',
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
             'cookie_path'     => $app['resources']->getUrl('root'),
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
@@ -165,8 +164,16 @@ class SessionServiceProvider implements ServiceProviderInterface
                     }
                 }
 
+                // @deprecated backwards compatibility:
                 if (isset($app['session.storage.options'])) {
                     $options->add($app['session.storage.options']);
+                }
+
+                // PHP's native C code accesses filesystem with different permissions than userland code.
+                // If php.ini is using the default (files) handler, use ours instead to prevent this problem.
+                if ($options->get('save_handler') === 'files') {
+                    $options->set('save_handler', 'filesystem');
+                    $options->set('save_path', 'cache://.sessions');
                 }
 
                 $options->add($app['session.options']);
@@ -341,9 +348,13 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         } elseif (isset($options['save_path'])) {
             foreach (explode(',', $options['save_path']) as $conn) {
-                $conn = new ParameterBag($conn);
-                $conn->set('uri', new Uri($conn));
-                $toParse[] = $conn;
+                $uri = new Uri($conn);
+
+                $connBag = new ParameterBag();
+                $connBag->set('uri', $uri);
+                $connBag->add(parse_query($uri->getQuery()));
+
+                $toParse[] = $connBag;
             }
         }
 

@@ -71,9 +71,11 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $attribute = $this->getMappingAttribute();
         $key = $this->mapping['fieldname'];
+
         $qb = &$queries[0];
-        $valueMethod = 'serialize' . ucfirst($key);
+        $valueMethod = 'serialize' . ucfirst($attribute);
         $value = $entity->$valueMethod();
 
         $type = $this->getStorageType();
@@ -154,6 +156,20 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     public function getStorageOptions()
     {
         return [];
+    }
+
+    /**
+     * Gets the entity attribute name to be used for reading / persisting
+     *
+     * @return string
+     */
+    public function getMappingAttribute()
+    {
+        if (isset($this->mapping['attribute'])) {
+            return $this->mapping['attribute'];
+        }
+
+        return $this->mapping['fieldname'];
     }
 
     /**

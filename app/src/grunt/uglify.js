@@ -31,7 +31,8 @@ module.exports = {
                 '<%= path.src.npm %>/jquery.tagcloud.js/jquery.tagcloud.js',
                 '<%= path.src.npm %>/bootbox/bootbox.js',
                 '<%= path.src.npm %>/magnific-popup/dist/jquery.magnific-popup.js',
-                '<%= path.src.npm %>/moment/moment.js'
+                '<%= path.src.npm %>/moment/moment.js',
+                '<%= path.src.lib %>/select2-ext/select2.sortable.js'
             ],
             dest: '<%= path.tmp %>'
         }]

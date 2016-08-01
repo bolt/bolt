@@ -66,7 +66,7 @@
                         <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {{ include('@bolt/extend/install-package.twig') }}
+                                    {{ include('@bolt/extend/_action-modal.twig') }}
                                 </div>
                             </div>
                         </div>
@@ -76,32 +76,9 @@
 
             <hr>
 
-            <div class="update-container hide-block">
-                <h3>{{ __('page.extend.headline.updates') }}</h3>
-                <div class="update-output-data hide-block">
-                    {% if context.writeable %}
-                        <pre class="update-output-element console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
-                    {% else %}
-                        <pre class="update-output-element">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
-                    {% endif %}
-                </div>
-                <div class="update-output-notice">
-                </div>
-                <div class="update-list hide-block">
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('page.extend.listheader.extension') }}</th>
-                                <th>{{ __('page.extend.listheader.version') }}</th>
-                                <th>{{ __('page.extend.listheader.actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="update-list-items">
+            {# Console for UI feedback #}
+            {{ include('@bolt/extend/_feedback.twig') }}
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <section class="installed-container">
                 <h2>{{ __('page.extend.headline.currently-installed') }}</h2>
                 {% if context.writeable %}
@@ -116,22 +93,8 @@
                 </div>
             </section>
 
-            <!-- Modal for readmes -->
-            <div class="modal fade" id="readmeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                  </div>
-                  <div class="modal-body">
-                    ...
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
+            {# Modal for readmes  #}
+            {{ include('@bolt/extend/_readme.twig') }}
 
         </div>
 
@@ -141,7 +104,7 @@
                 <div class="panel-body">
                         <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-secondary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-check">
+                            <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
@@ -149,21 +112,21 @@
                         <hr>
                         <p><strong>{{ __('page.extend.message.maintenance') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-run">
+                            <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="install-run">
+                                    <a href="#" class="{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="install-run">
                                         <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="autoload-dump">
+                                    <a href="#" class="{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="autoload-dump">
                                         <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.autoload-dump') }}
                                     </a>
                                 </li>
@@ -187,18 +150,22 @@
 
     </div>
 
-    {{ data('extend.text.bad-json',       __('page.extend.message.bad-json')) }}
-    {{ data('extend.text.confirm-remove', __('page.extend.message.confirm-remove')) }}
-    {{ data('extend.text.copying',        __('page.extend.message.copying')) }}
-    {{ data('extend.text.install-all',    __('page.extend.message.install-all')) }}
-    {{ data('extend.text.installing',     __('page.extend.message.installing')) }}
-    {{ data('extend.text.no-stable',      __('page.extend.message.no-stable-versions-available')) }}
-    {{ data('extend.text.no-test',        __('page.extend.message.no-test-versions-available')) }}
-    {{ data('extend.text.overwrite',      __('page.extend.message.overwrite')) }}
-    {{ data('extend.text.removing',       __('page.extend.message.removing')) }}
-    {{ data('extend.text.running-update', __('page.extend.message.running-update')) }}
-    {{ data('extend.text.updating',       __('page.extend.message.updating')) }}
-    {{ data('extend.text.updated',        __('page.extend.message.updated')) }}
+    {{ data('extend.text.autoloader-start',   __('page.extend.message.autoloader-start')) }}
+    {{ data('extend.text.autoloader-update',  __('page.extend.message.autoloader-update')) }}
+    {{ data('extend.text.bad-json',           __('page.extend.message.bad-json')) }}
+    {{ data('extend.text.confirm-remove',     __('page.extend.message.confirm-remove')) }}
+    {{ data('extend.text.copying',            __('page.extend.message.copying')) }}
+    {{ data('extend.text.install-all',        __('page.extend.message.install-all')) }}
+    {{ data('extend.text.install-running',    __('page.extend.message.installation-running')) }}
+    {{ data('extend.text.installing',         __('page.extend.message.installing')) }}
+    {{ data('extend.text.no-stable',          __('page.extend.message.no-stable-versions-available')) }}
+    {{ data('extend.text.no-test',            __('page.extend.message.no-test-versions-available')) }}
+    {{ data('extend.text.overwrite',          __('page.extend.message.overwrite')) }}
+    {{ data('extend.text.removing',           __('page.extend.message.removing')) }}
+    {{ data('extend.text.running-update',     __('page.extend.message.running-update')) }}
+    {{ data('extend.text.running-update-all', __('page.extend.message.running-update-all')) }}
+    {{ data('extend.text.updating',           __('page.extend.message.updating')) }}
+    {{ data('extend.text.updated',            __('page.extend.message.updated')) }}
 
     {{ data('extend.siteurl',             context.site) }}
     {{ data('extend.baseurl',             app['resources'].url('bolt') ~ 'extend'|trim('/') ~ '/') }}

@@ -1,13 +1,13 @@
 <?php
 
-namespace Bolt\Storage\Query\Handler;
+namespace Bolt\Storage\Query\Directive;
 
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Handler to specify that a single object, rather than an array should be returned
+ *  Directive to specify that a single object, rather than an array should be returned
  */
-class ReturnSingleHandler
+class ReturnSingleDirective
 {
     /**
      * @param QueryInterface $query

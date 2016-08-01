@@ -89,6 +89,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
+            new \Twig_SimpleFunction('unique',             [$this, 'unique'],      $safe),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
         ];
@@ -622,6 +623,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function twig($snippet, $extravars = [])
     {
         return $this->handlers['html']->twig($snippet, $extravars);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\ArrayHandler::unique()
+     */
+    public function unique($array1, $array2)
+    {
+        return $this->handlers['array']->unique($array1, $array2);
     }
 
     /**

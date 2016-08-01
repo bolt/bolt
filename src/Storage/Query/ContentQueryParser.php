@@ -3,18 +3,18 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Query\Directive\HydrateDirective;
+use Bolt\Storage\Query\Directive\OrderDirective;
+use Bolt\Storage\Query\Directive\PagingDirective;
+use Bolt\Storage\Query\Directive\PrintQueryDirective;
+use Bolt\Storage\Query\Directive\ReturnSingleDirective;
 use Bolt\Storage\Query\Handler\FirstQueryHandler;
-use Bolt\Storage\Query\Handler\GetQueryHandler;
-use Bolt\Storage\Query\Handler\HydrateHandler;
+use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Handler\IdentifiedSelectHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
-use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Directive\LimitDirective;
 use Bolt\Storage\Query\Handler\NativeSearchHandler;
-use Bolt\Storage\Query\Handler\OrderHandler;
-use Bolt\Storage\Query\Handler\PagingHandler;
-use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
-use Bolt\Storage\Query\Handler\ReturnSingleHandler;
 use Bolt\Storage\Query\Handler\SearchQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
@@ -78,13 +78,13 @@ class ContentQueryParser
         $this->addHandler('nativesearch', new NativeSearchHandler());
         $this->addHandler('namedselect', new IdentifiedSelectHandler());
 
-        $this->addDirectiveHandler('getquery', new GetQueryHandler());
-        $this->addDirectiveHandler('hydrate', new HydrateHandler());
-        $this->addDirectiveHandler('limit', new LimitHandler());
-        $this->addDirectiveHandler('order', new OrderHandler());
-        $this->addDirectiveHandler('paging', new PagingHandler());
-        $this->addDirectiveHandler('printquery', new PrintQueryHandler());
-        $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
+        $this->addDirectiveHandler('getquery', new GetQueryDirective());
+        $this->addDirectiveHandler('hydrate', new HydrateDirective());
+        $this->addDirectiveHandler('limit', new LimitDirective());
+        $this->addDirectiveHandler('order', new OrderDirective());
+        $this->addDirectiveHandler('paging', new PagingDirective());
+        $this->addDirectiveHandler('printquery', new PrintQueryDirective());
+        $this->addDirectiveHandler('returnsingle', new ReturnSingleDirective());
     }
     /**
      * Sets the input query.
@@ -207,13 +207,16 @@ class ContentQueryParser
      * This runs the callbacks attached to each directive command.
      *
      * @param QueryInterface $query
+     * @param array $skipDirective
      */
-    public function runDirectives(QueryInterface $query)
+    public function runDirectives(QueryInterface $query, array $skipDirective = [])
     {
         foreach ($this->directives as $key => $value) {
-            if ($this->hasDirectiveHandler($key)) {
-                if (is_callable($this->getDirectiveHandler($key))) {
-                    call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
+            if (! in_array($key, $skipDirective)) {
+                if ($this->hasDirectiveHandler($key)) {
+                    if (is_callable($this->getDirectiveHandler($key))) {
+                        call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
+                    }
                 }
             }
         }
@@ -320,7 +323,7 @@ class ContentQueryParser
     }
 
     /**
-     * Adds a handler for the named operation.
+     * Adds a handler AND operation for the named operation.
      *
      * @param string   $operation
      * @param callable $callback
@@ -328,6 +331,7 @@ class ContentQueryParser
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
+        $this->addOperation($operation);
     }
 
     /**

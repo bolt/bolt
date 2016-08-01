@@ -30,6 +30,12 @@ class Extend extends BackendBase
         $c->get('/check', 'check')
             ->bind('check');
 
+        $c->get('/depends', 'dependsPackage')
+            ->bind('dependsPackage');
+
+        $c->get('/prohibits', 'prohibitsPackage')
+            ->bind('prohibitsPackage');
+
         $c->get('/dumpAutoload', 'dumpAutoload')
             ->bind('dumpAutoload');
 
@@ -91,6 +97,27 @@ class Extend extends BackendBase
         } catch (PackageManagerException $e) {
             return $this->getJsonException($e);
         }
+    }
+
+    /**
+     * Find "depends" package dependencies.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function dependsPackage(Request $request)
+    {
+        $package = $request->get('needle');
+        $constraint = $request->get('constraint', '*');
+
+        try {
+            $response = $this->manager()->dependsPackage($package, $constraint);
+        } catch (\Exception $e) {
+            return $this->getJsonException($e);
+        }
+
+        return $this->json($response);
     }
 
     /**
@@ -269,7 +296,7 @@ class Extend extends BackendBase
     public function installPackage()
     {
         try {
-            return $this->render('@bolt/extend/install-package.twig', $this->getRenderContext());
+            return $this->render('@bolt/extend/_action-modal.twig', $this->getRenderContext());
         } catch (\Exception $e) {
             return $this->getJsonException($e);
         }
@@ -314,13 +341,34 @@ class Extend extends BackendBase
             $package = $response[$packageName]['package'];
 
             return $this->json([
-                'name'        => $packageName,
-                'version'     => $package->getPrettyVersion(),
-                'type'        => $package->getType(),
+                'name'    => $packageName,
+                'version' => $package->getPrettyVersion(),
+                'type'    => $package->getType(),
             ]);
         }
 
         return $this->getJsonException(new PackageManagerException(Trans::__('page.extend.message.package-install-info-fail', ['%PACKAGE%' => $packageName, '%VERSION%' => $reqVersion])));
+    }
+
+    /**
+     * Find "prohibits" dependencies.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function prohibitsPackage(Request $request)
+    {
+        $package = $request->get('package');
+        $constraint = $request->get('constraint', '*');
+
+        try {
+            $response = $this->manager()->prohibitsPackage($package, $constraint);
+        } catch (\Exception $e) {
+            return $this->getJsonException($e);
+        }
+
+        return $this->json($response);
     }
 
     /**

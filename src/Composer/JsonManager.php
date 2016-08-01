@@ -108,6 +108,8 @@ class JsonManager
         $pathToRoot = Path::makeRelative($rootPath, $extensionsPath);
         $pathToWeb = Path::makeRelative($webPath, $extensionsPath);
         $eventPath = Path::makeRelative($srcPath . '/Composer/EventListener', $extensionsPath);
+        /** @deprecated Handle BC on 'stability' key until 4.0 */
+        $minimumStability = $this->app['config']->get('general/extensions/stability') ?: $this->app['config']->get('general/extensions/composer/minimum-stability', 'stable');
 
         // Enforce standard settings
         $defaults = [
@@ -121,7 +123,7 @@ class JsonManager
                     'url'  => $this->app['extend.site'] . 'satis/',
                 ],
             ],
-            'minimum-stability' => $this->app['config']->get('general/extensions/stability', 'stable'),
+            'minimum-stability' => $minimumStability,
             'prefer-stable'     => true,
             'config'            => [
                 'discard-changes'   => true,

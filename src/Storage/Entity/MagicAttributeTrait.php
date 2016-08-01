@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\CaseTransformTrait;
+
 /**
  * Provides access to entity attributes and the schema-less _fields
  * attribute via __get and __set magic methods.
@@ -9,6 +11,8 @@ namespace Bolt\Storage\Entity;
  */
 trait MagicAttributeTrait
 {
+    use CaseTransformTrait;
+
     public $_fields = [];
 
     public function __get($key)
@@ -49,10 +53,13 @@ trait MagicAttributeTrait
     {
         $var = lcfirst(substr($method, 3));
         $underscored = $this->underscore($var);
+        $camelized = $this->camelize($var);
 
         if (strncasecmp($method, 'get', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 return $this->$var;
+            } elseif ($this->has($camelized) && property_exists($this, $camelized)) {
+                return $this->$camelized;
             } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
                 return $this->$underscored;
             } elseif ($this->has($var)) {
@@ -111,27 +118,5 @@ trait MagicAttributeTrait
         return in_array($field, $this->getFields());
     }
 
-    /**
-     * Converts a string from underscored to Camel Case.
-     *
-     * @param string $id A string to camelize
-     *
-     * @return string The camelized string
-     */
-    public function camelize($id)
-    {
-        return strtr(ucwords(strtr($id, ['_' => ' ', '.' => '_ ', '\\' => '_ '])), [' ' => '']);
-    }
 
-    /**
-     * Converts a string from camel case to underscored.
-     *
-     * @param string $id The string to underscore
-     *
-     * @return string The underscored string
-     */
-    public function underscore($id)
-    {
-        return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['\\1_\\2', '\\1_\\2'], str_replace('_', '.', $id)));
-    }
 }

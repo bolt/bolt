@@ -1,13 +1,13 @@
 <?php
 
-namespace Bolt\Storage\Query\Handler;
+namespace Bolt\Storage\Query\Directive;
 
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Handler that allows running of a callback on query.
+ *  Directive that allows running of a callback on query.
  */
-class GetQueryHandler
+class GetQueryDirective
 {
     /**
      * @param QueryInterface $query

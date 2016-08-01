@@ -43,7 +43,8 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
             $this->urlGenerator->reveal(),
             $this->flashLogger->reveal(),
             $this->passwordFactory->reveal(),
-            5
+            5,
+            true
         );
 
         $this->storageEvent = $this->prophesize(StorageEvent::class);
@@ -52,7 +53,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * It should throw an exception if the password is shorter than 6 characters.
      *
-     * @expectedException Bolt\Exception\AccessControlException
+     * @expectedException \Bolt\Exception\AccessControlException
      * @expectedExceptionMessage Can not save a password with a length shorter than 6 characters!
      */
     public function testOnPreSavePasswordTooShort()
@@ -66,7 +67,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * It should hash the users password.
      */
-    public function testOnPreSaveSetPasswordHash() 
+    public function testOnPreSaveSetPasswordHash()
     {
         $this->storageEvent->getContent()->willReturn($this->user->reveal());
         $this->user->getPassword()->willReturn('password');

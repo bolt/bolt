@@ -33,6 +33,18 @@
     {% set selection = [ selection ] %}
 {% endif %}
 
+
+{% if field.sortable|default(false) %}
+    {% set oldclass = option.class %}
+    {% set option = option|merge({ class: oldclass~' select2-sortable wide'}) %}
+
+    {% set newvals = [] %}
+    {% for key, sel in selection %}
+        {% set newvals = newvals|merge({ (key):values[sel]})%}
+    {% endfor %}
+    {% set values = unique(newvals, values)%}
+{% endif %}
+
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
 {% set onlyids = selection|first in values|keys %}
 
@@ -75,9 +87,18 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
+    {% if field.sortable|default(false) %}
+        <script>
+            $(function() {
+                $(function(){
+                    $('#{{ key }}').select2('destroy').select2Sortable({});
+                });
+            });
+        </script>
+    {% endif %}
     {% from '@bolt/_buic/_select.twig' import buic_select %}
 
-    <div class="col-sm-9">
+    <div class="col-sm-9{{ (field.sortable|default(false)) ? ' sortable-select2-container' }}">
         {{ buic_select(buic_opt_select) }}
     </div>
 {% endblock fieldset_controls %}

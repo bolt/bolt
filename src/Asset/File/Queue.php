@@ -112,18 +112,15 @@ class Queue implements QueueInterface
      */
     protected function processAsset(FileAssetInterface $asset, Request $request, Response $response)
     {
-        $hasLocationProp = method_exists($asset, 'getLocation');
         if ($asset->getZone() !== Zone::get($request)) {
             return;
         } elseif ($asset->isLate()) {
-            if (!$hasLocationProp) {
-                $location = Target::END_OF_BODY;
-            } elseif ($asset->getLocation() === null) {
+            if ($asset->getLocation() === null) {
                 $location = Target::END_OF_BODY;
             } else {
                 $location = $asset->getLocation();
             }
-        } elseif ($hasLocationProp && $asset->getLocation() !== null) {
+        } elseif ($asset->getLocation() !== null) {
             $location = $asset->getLocation();
         } else {
             $location = Target::END_OF_HEAD;

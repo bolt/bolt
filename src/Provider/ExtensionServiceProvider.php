@@ -85,14 +85,16 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                 return new \Pimple(
                     [
                         // @codingStandardsIgnoreStart
-                        'autoload' => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
-                        'check'    => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
-                        'install'  => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
-                        'remove'   => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
-                        'require'  => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
-                        'search'   => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
-                        'show'     => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
-                        'update'   => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
+                        'autoload'  => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
+                        'check'     => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
+                        'depends'   => $app->share(function () use ($app) { return new Action\DependsPackage($app); }),
+                        'install'   => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
+                        'prohibits' => $app->share(function () use ($app) { return new Action\ProhibitsPackage($app); }),
+                        'remove'    => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
+                        'require'   => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
+                        'search'    => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
+                        'show'      => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
+                        'update'    => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
                         // @codingStandardsIgnoreEnd
                     ]
                 );
@@ -107,7 +109,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.action.options'] = $app->share(
             function ($app) {
-                return new Action\Options($app['filesystem']->get('extensions://composer.json', new JsonFile()));
+                $composerJson = $app['filesystem']->get('extensions://composer.json', new JsonFile());
+                $composerOverrides = $app['config']->get('general/extensions/composer', []);
+
+                return new Action\Options($composerJson, $composerOverrides, true);
             }
         );
     }

@@ -144,7 +144,7 @@
 "page.extend.message.before-theme-start": # "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
 "page.extend.message.check-for-updates": # "Check for updates"
 "page.extend.message.checking-installed-packages": # "Checking installed packages"
-"page.extend.message.checkung-for-updates": # "Checking for available updates (this may take up to 60 seconds)"
+"page.extend.message.checking-for-updates": # "Checking for available updates (this may take up to 60 seconds)"
 "page.extend.message.compatible-unstable-versions": # "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 "page.extend.message.confirm-remove": # "Please confirm that you want to remove this extension?"
 "page.extend.message.copying": # "Copying theme assets …"
