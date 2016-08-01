@@ -22,7 +22,7 @@ class SafeMode implements ValidationInterface
         }
 
         if ($safeMode) {
-            return $exceptionController->systemCheck('safe-mode');
+            return $exceptionController->systemCheck(Validator::CHECK_SAFE_MODE);
         }
 
         return null;

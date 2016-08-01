@@ -17,7 +17,7 @@ class MagicQuotes implements ValidationInterface
     public function check(ExceptionControllerInterface $exceptionController)
     {
         if (get_magic_quotes_gpc()) {
-            return $exceptionController->systemCheck('magic-quotes');
+            return $exceptionController->systemCheck(Validator::CHECK_MAGIC_QUOTES);
         }
 
         return null;

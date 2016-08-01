@@ -22,10 +22,10 @@ class Cache implements ValidationInterface, ResourceManagerAwareInterface
     {
         $path = $this->resourceManager->getPath('cache');
         if (!is_dir($path)) {
-            return $exceptionController->systemCheck('cache-dir', [], ['path' => $path]);
+            return $exceptionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => $path]);
         }
         if (!is_writable($path)) {
-            return $exceptionController->systemCheck('cache-dir', [], ['path' => $path]);
+            return $exceptionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => $path]);
         }
 
         return null;

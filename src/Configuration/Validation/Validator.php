@@ -19,6 +19,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Validator extends LowlevelChecks implements ValidatorInterface
 {
+    const CHECK_APACHE = 'apache';
+    const CHECK_CACHE = 'cache';
+    const CHECK_CONFIG = 'configuration';
+    const CHECK_DATABASE = 'database';
+    const CHECK_MAGIC_QUOTES = 'magic-quotes';
+    const CHECK_SAFE_MODE = 'safe-mode';
+
     /** @var Controller\Exception */
     private $exceptionController;
     /** @var Config */
@@ -27,12 +34,12 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     private $resourceManager;
     /** @var array */
     private $check = [
-        'configuration' => Configuration::class,
-        'database'      => Database::class,
-        'magicQuotes'   => MagicQuotes::class,
-        'safeMode'      => SafeMode::class,
-        'cache'         => Cache::class,
-        'apache'        => Apache::class,
+        self::CHECK_CONFIG       => Configuration::class,
+        self::CHECK_DATABASE     => Database::class,
+        self::CHECK_MAGIC_QUOTES => MagicQuotes::class,
+        self::CHECK_SAFE_MODE    => SafeMode::class,
+        self::CHECK_CACHE        => Cache::class,
+        self::CHECK_APACHE       => Apache::class,
     ];
 
     /**

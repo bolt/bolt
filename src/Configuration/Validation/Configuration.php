@@ -35,7 +35,7 @@ class Configuration implements ValidationInterface, ConfigAwareInterface
             return null;
         }
 
-        return $exceptionController->systemCheck('config-parameters', $exceptions);
+        return $exceptionController->systemCheck(Validator::CHECK_CONFIG, $exceptions);
     }
 
     /**

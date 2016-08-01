@@ -39,7 +39,7 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
             return null;
         }
 
-        return $exceptionController->systemCheck('htaccess');
+        return $exceptionController->systemCheck(Validator::CHECK_APACHE);
     }
 
     /**
