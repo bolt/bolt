@@ -1,11 +1,28 @@
+<div class="row">
+    <p>
+    <code class="exception">{{ exception.class }} in {{ exception.file }} line {{ exception.object.line }}</code>
+    </p>
+    <p>
+    <code class="exception">{{ exception.object.message|nl2br }}</code>
+    </p>
+</div>
+
 {%- if debug and exception is defined %}
+    <style>
+        .exception {
+            display:block;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+
     {% set i = 0 %}
     <div class="row">
-        <code style="display:block; white-space: pre-wrap; word-break: break-all;">{{ exception.message|nl2br }}</code>
-        <p></p>
-        <code style="display:block; white-space: pre-wrap; word-break: break-all; text-align: left">
+        <h4>Trace</h4>
+
+        <code class="exception">
             {% spaceless %}
-                {% for t in trace %}
+                {% for t in exception.trace %}
                     <p>#{{ i }} {{ t.class|default() }}::{{ t.function|default() }}</p>
                     <p>  {{ t.file|default() }} # {{ t.line|default() }}</p>
                     {% set i = i + 1 %}

@@ -194,9 +194,12 @@ class Exception extends Base implements ExceptionControllerInterface
             'config'    => $this->app['config'],
             'paths'     => $this->app['resources']->getPaths(),
             'debug'     => $this->app['debug'],
-            'exception' => $exception,
-            'class'     => $exception ? get_class($exception) : null,
-            'trace'     => $exception ? $this->getSafeTrace($exception) : null,
+            'exception' => [
+                'object' => $exception,
+                'class'  => $exception ? get_class($exception) : null,
+                'file'   => $exception ? basename($exception->getFile()) : null,
+                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
+            ],
         ];
     }
 }
