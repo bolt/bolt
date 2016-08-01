@@ -191,8 +191,6 @@ class Exception extends Base implements ExceptionControllerInterface
     protected function getContextArray(\Exception $exception = null)
     {
         return [
-            'config'    => $this->app['config'],
-            'paths'     => $this->app['resources']->getPaths(),
             'debug'     => $this->app['debug'],
             'exception' => [
                 'object' => $exception,
