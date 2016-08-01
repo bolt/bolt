@@ -4,6 +4,9 @@ namespace Bolt\Exception;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @deprecated Deprecated since 3.2, to be removed in 4.0. @see \Bolt\Exception\BootException
+ */
 class LowlevelException extends \Exception
 {
     public static $html = <<<HTML
