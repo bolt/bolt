@@ -1,19 +1,15 @@
 {% extends '@bolt/exception/exception.twig' %}
 
 {% block exception %}
-    {% if type == 'magic-quotes' %}
+    {% if type == 'apache' %}
+        {{ include('@bolt/exception/system/_apache.twig') }}
+    {% elseif type == 'cache' %}
+        {{ include('@bolt/exception/system/_cache.twig') }}
+    {% elseif type == 'configuration' %}
+        {{ include('@bolt/exception/system/_configuration.twig') }}
+    {% elseif type == 'magic-quotes' %}
         {{ include('@bolt/exception/system/_magic-quotes.twig') }}
     {% elseif type == 'safe-mode' %}
         {{ include('@bolt/exception/system/_safe-mode.twig') }}
-    {% elseif type == 'htaccess' %}
-        {{ include('@bolt/exception/system/_htaccess.twig') }}
-    {% elseif type == 'cache-dir' %}
-        {{ include('@bolt/exception/system/_cache-dir.twig') }}
-    {% elseif type == 'config-read' %}
-        {{ include('@bolt/exception/system/_config-read.twig') }}
-    {% elseif type == 'config-write' %}
-        {{ include('@bolt/exception/system/_config-write.twig') }}
-    {% elseif type == 'config-parameters' %}
-        {{ include('@bolt/exception/system/_config-parameters.twig') }}
     {% endif %}
 {% endblock exception %}
