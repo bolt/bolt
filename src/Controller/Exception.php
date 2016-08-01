@@ -4,9 +4,12 @@ namespace Bolt\Controller;
 
 use Silex\Application;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Exception controller.
@@ -27,6 +30,7 @@ class Exception extends Base implements ExceptionControllerInterface
     public function connect(Application $app)
     {
         $this->app = $app;
+        $this->app->after([$this, 'afterKernelException'], Application::LATE_EVENT);
 
         return $app['controllers_factory'];
     }
@@ -66,6 +70,32 @@ class Exception extends Base implements ExceptionControllerInterface
         $response = new Response($html, Response::HTTP_OK);
 
         return $response;
+    }
+
+    /**
+     * Pre-send response handling middleware callback.
+     *
+     * @param Request  $request
+     * @param Response $response
+     *
+     * @return RedirectResponse|null
+     */
+    public function afterKernelException(Request $request, Response $response)
+    {
+        $hasToken = $response->headers->has('X-Debug-Token');
+        $redirectProfiler = $this->app['config']->get('general/debug_error_use_profiler');
+        if (!$hasToken || !$redirectProfiler) {
+            return null;
+        }
+
+        $token = $response->headers->get('X-Debug-Token');
+        $link = $this->app['url_generator']->generate(
+            '_profiler',
+            ['token' => $token, 'panel' => 'exception'],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        return new RedirectResponse($link);
     }
 
     /**
