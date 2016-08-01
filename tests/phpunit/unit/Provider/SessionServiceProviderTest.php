@@ -37,8 +37,6 @@ class SessionServiceProviderTest extends BoltUnitTest
 
         $this->assertArrayHasKey('name', $app['session.options']);
         $this->assertArrayHasKey('restrict_realm', $app['session.options']);
-        $this->assertArrayHasKey('save_handler', $app['session.options']);
-        $this->assertArrayHasKey('save_path', $app['session.options']);
         $this->assertArrayHasKey('cookie_lifetime', $app['session.options']);
         $this->assertArrayHasKey('cookie_path', $app['session.options']);
         $this->assertArrayHasKey('cookie_domain', $app['session.options']);
