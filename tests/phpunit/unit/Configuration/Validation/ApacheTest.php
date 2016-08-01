@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests\Configuration\Validation;
 
+use Bolt\Configuration\Validation\Validator;
+
 /**
  * Apache validation tests.
  *
@@ -13,7 +15,7 @@ class ApacheTest extends AbstractValidationTest
 {
     public function testApacheChecksValid()
     {
-        $this->extensionController->systemCheck('htaccess')->shouldNotBeCalled();
+        $this->extensionController->systemCheck(Validator::CHECK_APACHE)->shouldNotBeCalled();
 
         $_SERVER['SERVER_SOFTWARE'] = 'Apache 1.0';
 
@@ -23,12 +25,12 @@ class ApacheTest extends AbstractValidationTest
             ->will($this->returnValue(true))
         ;
 
-        $this->validator->check('apache');
+        $this->validator->check(Validator::CHECK_APACHE);
     }
 
     public function testApacheChecksInvalid()
     {
-        $this->extensionController->systemCheck('htaccess')->shouldBeCalled();
+        $this->extensionController->systemCheck(Validator::CHECK_APACHE)->shouldBeCalled();
 
         $_SERVER['SERVER_SOFTWARE'] = 'Apache 1.0';
 
@@ -37,12 +39,12 @@ class ApacheTest extends AbstractValidationTest
             ->method('is_readable')
             ->will($this->returnValue(false));
 
-        $this->validator->check('apache');
+        $this->validator->check(Validator::CHECK_APACHE);
     }
 
     public function testApacheCheckCanBeDisabled()
     {
-        $this->extensionController->systemCheck('htaccess')->shouldNotBeCalled();
+        $this->extensionController->systemCheck(Validator::CHECK_APACHE)->shouldNotBeCalled();
 
         $_SERVER['SERVER_SOFTWARE'] = 'Apache 1.0';
 
@@ -52,6 +54,6 @@ class ApacheTest extends AbstractValidationTest
 
         $this->validator->disableApacheChecks = true;
 
-        $this->validator->check('apache');
+        $this->validator->check(Validator::CHECK_APACHE);
     }
 }

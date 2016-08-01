@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests\Configuration\Validation;
 
+use Bolt\Configuration\Validation\Validator;
+
 /**
  * Safe mode validation tests.
  *
@@ -13,25 +15,25 @@ class SafeModeTest extends AbstractValidationTest
 {
     public function testSafeModeEnabled()
     {
-        $this->extensionController->systemCheck('safe-mode')->shouldBeCalled();
+        $this->extensionController->systemCheck(Validator::CHECK_SAFE_MODE)->shouldBeCalled();
 
         $this->_validation
             ->expects($this->once())
             ->method('ini_get')
             ->will($this->returnValue(true));
 
-        $this->validator->check('safeMode');
+        $this->validator->check(Validator::CHECK_SAFE_MODE);
     }
 
     public function testSafeModeDisabled()
     {
-        $this->extensionController->systemCheck('safe-mode')->shouldNotBeCalled();
+        $this->extensionController->systemCheck(Validator::CHECK_SAFE_MODE)->shouldNotBeCalled();
 
         $this->_validation
             ->expects($this->once())
             ->method('ini_get')
             ->will($this->returnValue(false));
 
-        $this->validator->check('safeMode');
+        $this->validator->check(Validator::CHECK_SAFE_MODE);
     }
 }
