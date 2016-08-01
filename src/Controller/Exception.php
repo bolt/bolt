@@ -5,6 +5,8 @@ namespace Bolt\Controller;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 /**
  * Exception controller.
@@ -16,13 +18,17 @@ use Symfony\Component\HttpFoundation\Response;
 class Exception extends Base implements ExceptionControllerInterface
 {
     /**
-     * Constructor.
+     * Connect to the application.
      *
      * @param Application $app
+     *
+     * @return ControllerCollection
      */
-    public function __construct(Application $app)
+    public function connect(Application $app)
     {
         $this->app = $app;
+
+        return $app['controllers_factory'];
     }
 
     /**
@@ -34,15 +40,22 @@ class Exception extends Base implements ExceptionControllerInterface
     }
 
     /**
-     * @param \Exception $exception
-     * @param string     $message
+     * Route for kernel exception handling.
+     *
+     * @param GetResponseForExceptionEvent $event
      *
      * @return Response
      */
-    public function generalException(\Exception $exception, $message = null)
+    public function kernelException(GetResponseForExceptionEvent $event)
     {
         if ($this->app === null) {
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+
+        $exception = $event->getException();
+        $message = $exception->getMessage();
+        if ($exception instanceof HttpExceptionInterface && !Zone::isBackend($event->getRequest())) {
+            $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
         $context = $this->getContextArray($exception);
@@ -50,9 +63,9 @@ class Exception extends Base implements ExceptionControllerInterface
         $context['message'] = $message;
 
         $html = $this->app['twig']->render('@bolt/exception/general.twig', $context);
-        $response = new Response($html);
+        $response = new Response($html, Response::HTTP_OK);
 
-        return new Response($response, Response::HTTP_OK);
+        return $response;
     }
 
     /**
