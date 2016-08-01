@@ -17,7 +17,8 @@
         </div>
 
         <div class="panel-footer">
-            %DETAILS% <div>%MANAGE%</div>
+            %DETAILS%
+            %MANAGE%
         </div>
     </div>
 {% endset %}
@@ -46,45 +47,40 @@
  # Contains the version and uninstall buttons
  #}
 {% set package_manage_dropdown %}
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-sm btn-tertiary dropdown-toggle" data-toggle="dropdown">
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-flag"></i> {{ __('page.extend.button.manage') }}
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
 
         <ul class="dropdown-menu" role="menu">
-
             <li>
                 <a href="#" data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal">
                     <i class='fa fa-list fa-fw'></i> {{ __('page.extend.button.link-versions') }}
                 </a>
             </li>
-
-            <li>
-                <a data-request="uninstall-package" class="clickspinner" href="%BASEURL%uninstall?package=%NAME%">
-                    <i class="fa fa-trash-o fa-fw"></i> {{ __('page.extend.button.link-uninstall') }}
-                </a>
-            </li>
-
             <li>
                 <a href="%MARKETPLACE_URL%" target="_blank">
                     <i class="fa fa-cart-plus fa-fw"></i> {{ __('page.extend.button.link-marketplace') }}
                 </a>
             </li>
-
             <li>
                 <a href="%REPOSITORY_URL%" target="_blank">
                     <i class="fa fa-file-code-o fa-fw"></i> {{ __('page.extend.button.link-repository') }}
                 </a>
             </li>
-
             <li>
                 <a href="#" data-request="package-depends" data-toggle="modal" data-target="#installModal" data-needle="%NAME%" data-constraint="%VERSION%">
                     <i class="fa fa-group fa-fw"></i> {{ __('page.extend.button.package-dependencies') }}
                 </a>
             </li>
-
+            <li class="divider"></li>
+            <li>
+                <a data-request="uninstall-package" class="clickspinner" href="%BASEURL%uninstall?package=%NAME%">
+                    <i class="fa fa-trash-o fa-fw"></i> {{ __('page.extend.button.link-uninstall') }}
+                </a>
+            </li>
         </ul>
     </div>
 {% endset %}
@@ -93,7 +89,7 @@
  # Contains the README
  #}
 {% set package_left_buttons %}
-    <div class="btn-group pull-left">
+    <div class="pull-left">
         %README%
         %THEME%
         %CONFIG%
