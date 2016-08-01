@@ -105,11 +105,9 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function configure(Application $app)
     {
-        $app['session.options'] = [
+        $app['session.options'] = $app['config']->get('general/session', []) + [
             'name'            => 'bolt_session_',
             'restrict_realm'  => true,
-            'save_handler'    => 'filesystem',
-            'save_path'       => 'cache://.sessions',
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
             'cookie_path'     => $app['resources']->getUrl('root'),
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
@@ -165,8 +163,16 @@ class SessionServiceProvider implements ServiceProviderInterface
                     }
                 }
 
+                // @deprecated backwards compatibility:
                 if (isset($app['session.storage.options'])) {
                     $options->add($app['session.storage.options']);
+                }
+
+                // PHP's native C code accesses filesystem with different permissions than userland code.
+                // If php.ini is using the default (files) handler, use ours instead to prevent this problem.
+                if ($options->get('save_handler') === 'files') {
+                    $options->set('save_handler', 'filesystem');
+                    $options->set('save_path', 'cache://.sessions');
                 }
 
                 $options->add($app['session.options']);
