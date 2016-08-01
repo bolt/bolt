@@ -29,14 +29,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.exception'] = $app->share(
             function ($app) {
-                $rootPath = $app['resources']->getPath('root');
-
                 return new Listener\ExceptionListener(
-                    $rootPath,
-                    $app['render'],
-                    $app['logger.system'],
-                    $app['session'],
-                    $app['config']->get('general/debug', false)
+                    $app['controller.exception'],
+                    $app['logger.system']
                 );
             }
         );

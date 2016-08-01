@@ -33,19 +33,45 @@ class Exception extends Base implements ExceptionControllerInterface
         $c->value(Zone::KEY, Zone::FRONTEND);
     }
 
+    /**
+     * @param \Exception $exception
+     * @param string     $message
+     *
+     * @return Response
+     */
+    public function generalException(\Exception $exception, $message = null)
+    {
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+
+        $context = $this->getContextArray($exception);
+        $context['type'] = 'general';
+        $context['message'] = $message;
+
+        $html = $this->app['twig']->render('@bolt/exception/general.twig', $context);
+        $response = new Response($html);
+
+        return new Response($response, Response::HTTP_OK);
+    }
+
+    /**
+     * @param string     $platform
+     * @param \Exception $previous
+     *
+     * @return Response
+     */
     public function databaseConnect($platform, \Exception $previous)
     {
         if ($this->app === null) {
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
-        $context = [
-            'config'    => $this->app['config'],
-            'paths'     => $this->app['resources']->getPaths(),
-            'debug'     => $this->app['debug'],
-            'type'      => 'connect',
-            'platform'  => $platform,
-            'exception' => $previous,
-        ];
+
+        $context = $this->getContextArray($previous);
+        $context['type'] = 'connect';
+        $context['platform'] = $platform;
+        $context['exception'] = $previous;
+
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
         $response = new Response($html);
 
@@ -65,16 +91,14 @@ class Exception extends Base implements ExceptionControllerInterface
         if ($this->app === null) {
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
-        $context = [
-            'config'    => $this->app['config'],
-            'paths'     => $this->app['resources']->getPaths(),
-            'debug'     => $this->app['debug'],
-            'type'      => 'driver',
-            'subtype'   => $subtype,
-            'name'      => $name,
-            'driver'    => $driver,
-            'parameter' => $parameter,
-        ];
+
+        $context = $this->getContextArray();
+        $context['type'] = 'driver';
+        $context['subtype'] = $subtype;
+        $context['name'] = $name;
+        $context['driver'] = $driver;
+        $context['parameter'] = $parameter;
+
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
@@ -93,15 +117,12 @@ class Exception extends Base implements ExceptionControllerInterface
             throw new \RuntimeException('Exception controller being used outside of request cycle.');
         }
 
-        $context = [
-            'config'    => $this->app['config'],
-            'paths'     => $this->app['resources']->getPaths(),
-            'debug'     => $this->app['debug'],
-            'type'      => 'path',
-            'subtype'   => $subtype,
-            'path'      => $path,
-            'error'     => $error,
-        ];
+        $context = $this->getContextArray();
+        $context['type'] = 'path';
+        $context['subtype'] = $subtype;
+        $context['path'] = $path;
+        $context['error'] = $error;
+
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
@@ -131,5 +152,51 @@ class Exception extends Base implements ExceptionControllerInterface
         $html = $this->app['twig']->render('@bolt/exception/system/exception.twig', $context);
 
         return new Response($html, Response::HTTP_OK);
+    }
+
+    /**
+     * Get the exception trace that is safe to display publicly.
+     *
+     * @param \Exception  $exception
+     *
+     * @return array
+     */
+    protected function getSafeTrace(\Exception $exception)
+    {
+        if (!$this->app['debug'] && !($this->app['session']->isStarted() && $this->app['session']->has('authentication'))) {
+            return [];
+        }
+
+        $rootPath = $this->app['resources']->getPath('root');
+        $trace = $exception->getTrace();
+        foreach ($trace as $key => $value) {
+            unset($trace[$key]['args']);
+
+            // Don't display the full path.
+            if (isset($trace[$key]['file'])) {
+                $trace[$key]['file'] = str_replace($rootPath, '[root]', $trace[$key]['file']);
+            }
+        }
+
+        return $trace;
+    }
+
+    /**
+     * Get a pre-packaged Twig context array.
+     *
+     * @param \Exception $exception
+     *
+     * @return array
+     */
+    protected function getContextArray(\Exception $exception = null)
+    {
+        return [
+            'config'    => $this->app['config'],
+            'paths'     => $this->app['resources']->getPaths(),
+            'debug'     => $this->app['debug'],
+            'exception' => $exception,
+            'class'     => $exception ? get_class($exception) : null,
+            'trace'     => $exception ? $this->getSafeTrace($exception) : null,
+        ];
     }
 }
