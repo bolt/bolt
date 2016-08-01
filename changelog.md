@@ -1,6 +1,11 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2-dev
+-----------
+
+- Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
+
 Bolt 3.1-dev
 -----------
 

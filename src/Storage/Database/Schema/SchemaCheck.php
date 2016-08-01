@@ -88,7 +88,7 @@ class SchemaCheck
     /**
      * Get the response messages as a string.
      *
-     * @return string
+     * @return string[]
      */
     public function getResponseStrings()
     {
