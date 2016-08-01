@@ -17,7 +17,8 @@ Bolt 3.0.x
 
  - Fixed: Remove the Foreign Key Constraint properties from diffs when supportsForeignKeyConstraints() is false [#5550](https://github.com/bolt/bolt/pull/5550)
  - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
- - Create custom exception for invalid repo, and throw this when accessed [#5568](https://github.com/bolt/bolt/pull/5568)
+ - Added: Create custom exception for invalid repo, and throw this when accessed [#5568](https://github.com/bolt/bolt/pull/5568)
+ - Fixed: Add support for missing `skip_uses` parameter [#5609](https://github.com/bolt/bolt/pull/56095609)
 
 Bolt 3.0.11
 -----------
