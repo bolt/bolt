@@ -254,9 +254,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\RecordHandler::fields()
      */
-    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null)
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null, $skip_uses = true)
     {
-        return $this->handlers['record']->fields($env, $record, $common, $extended, $repeaters, $templatefields, $template, $exclude);
+        return $this->handlers['record']->fields($env, $record, $common, $extended, $repeaters, $templatefields, $template, $exclude, $skip_uses);
     }
 
     /**
@@ -470,7 +470,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
     /**
      * Just for safe_twig. Main twig overrides this function.
-     * 
+     *
      * @see \Bolt\Provider\TwigServiceProvider
      */
     public function printDump()
