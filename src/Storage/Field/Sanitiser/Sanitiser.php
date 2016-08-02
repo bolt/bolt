@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Field\Sanitiser;
 
-use Bolt\Config;
 use Maid\Maid;
 
 /**
