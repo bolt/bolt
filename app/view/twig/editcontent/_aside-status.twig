@@ -12,7 +12,7 @@
 
 <p class="lastsaved">
     {% if context.content.id is not empty %}
-    {{ __('general.phrase.saved-on-colon') }} <strong>{{ context.content.datechanged|localdate("%c") }}</strong>
+    {{ __('general.phrase.saved-on-colon') }} <strong>{{ context.content.datechanged|localedatetime("%c") }}</strong>
     <small>({{ buic_moment(context.content.datechanged) }})</small>
 {% else %}
     {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
