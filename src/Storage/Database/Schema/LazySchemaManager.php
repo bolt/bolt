@@ -4,7 +4,7 @@ namespace Bolt\Storage\Database\Schema;
 
 class LazySchemaManager implements SchemaManagerInterface
 {
-    /** @var \Closure */
+    /** @var callable */
     private $factory;
     /** @var Manager */
     private $manager;
@@ -12,9 +12,9 @@ class LazySchemaManager implements SchemaManagerInterface
     /**
      * Constructor.
      *
-     * @param \Closure $factory Should return EntityManager when invoked
+     * @param callable $factory Should return SchemaManagerInterface when invoked
      */
-    public function __construct(\Closure $factory)
+    public function __construct(callable $factory)
     {
         $this->factory = $factory;
     }

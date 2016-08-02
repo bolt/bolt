@@ -9,7 +9,7 @@ namespace Bolt\Storage;
  */
 class LazyEntityManager implements EntityManagerInterface
 {
-    /** @var \Closure $factory */
+    /** @var callable $factory */
     private $factory;
     /** @var EntityManager $urlGenerator */
     private $em;
@@ -17,9 +17,9 @@ class LazyEntityManager implements EntityManagerInterface
     /**
      * Constructor.
      *
-     * @param \Closure $factory Should return EntityManager when invoked
+     * @param callable $factory Should return EntityManager when invoked
      */
-    public function __construct(\Closure $factory)
+    public function __construct(callable $factory)
     {
         $this->factory = $factory;
     }
