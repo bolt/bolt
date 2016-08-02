@@ -1,11 +1,6 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.2-dev
------------
-
-- Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
-
 Bolt 3.1-dev
 -----------
 
@@ -16,6 +11,7 @@ Bolt 3.1-dev
 - Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
 - Added: Nut command to enable, disable, and list details for a user [#5483](https://github.com/bolt/bolt/pull/5483)
 - Added: Add --enable option to Nut user:create [#5483](https://github.com/bolt/bolt/pull/5483)
+- Added: Better sanitization of content on save. [#5611](https://github.com/bolt/bolt/pull/5611)
 
 Bolt 3.0.x
 -----------
