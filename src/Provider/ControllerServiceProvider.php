@@ -2,7 +2,6 @@
 namespace Bolt\Provider;
 
 use Bolt\Controller;
-use Bolt\Controllers;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Silex\Application;
@@ -127,7 +126,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         );
         $app['controller.requirement.deprecated'] = $app->share(
             function ($app) {
-                return new Controllers\Routing($app['config']);
+                return new Controller\Routing($app['config']);
             }
         );
 
