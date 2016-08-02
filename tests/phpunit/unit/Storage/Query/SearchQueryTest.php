@@ -69,7 +69,7 @@ class SearchQueryTest extends BoltUnitTest
         $app = $this->getApp();
         $filter = 'main other';
         $query = $app['query.search'];
-        $query->setContentType('showcases');
+        $query->setContentType('blocks');
         $this->setExpectedException('Bolt\Exception\QueryParseException');
         $query->setSearch($filter);
     }
