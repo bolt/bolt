@@ -5,6 +5,8 @@ namespace Bolt;
 use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Exception\BootException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
@@ -112,14 +114,6 @@ class Config
 
         $this->data = $this->getConfig();
         $this->parseTemplatefields();
-
-        try {
-            if ($this->exceptions === null) {
-                $this->saveCache();
-            }
-        } catch (BootException $e) {
-            return;
-        }
 
         // If we have to reload the config, we will also want to make sure
         // the DB integrity is checked.
@@ -1267,6 +1261,18 @@ class Config
         }
 
         return false;
+    }
+
+    /**
+     * @internal Do not use
+     *
+     * @param FilesystemInterface $cacheFs
+     * @param string              $environment
+     */
+    public function cacheConfig(FilesystemInterface $cacheFs, $environment)
+    {
+        $cacheFile = new JsonFile($cacheFs, $environment . '/config-cache.json');
+        $cacheFile->dump($this->data);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Bolt\EventListener;
 
 use Bolt;
 use Bolt\Controller\Zone;
+use Bolt\Filesystem\Exception\IOException;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -45,7 +46,7 @@ class BootInitListener implements EventSubscriberInterface
         $verifier = $this->app['boot.validator'];
         $response = $verifier->checks();
         if ($response instanceof Response) {
-            return $event->setResponse($response);
+            $event->setResponse($response);
         }
 
         return null;
@@ -63,6 +64,20 @@ class BootInitListener implements EventSubscriberInterface
         // Twig globals
         $this->setGlobals(false);
         $this->setGlobals(true);
+
+        // Final thing we do, if we're still standing, is to save our
+        // configuration to cache
+        if (!$this->app['config']->get('general/caching/config')) {
+            return null;
+        }
+
+        $cacheFs = $this->app['filesystem']->getFilesystem('cache');
+        try {
+            $this->app['config']->cacheConfig($cacheFs, $this->app['environment']);
+        } catch (IOException $e) {
+            $response = $this->app['controller.exception']->genericException($e);
+            $event->setResponse($response);
+        }
     }
 
     /**
