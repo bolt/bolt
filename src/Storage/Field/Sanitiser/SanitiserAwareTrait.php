@@ -10,7 +10,7 @@ namespace Bolt\Storage\Field\Sanitiser;
 trait SanitiserAwareTrait
 {
     /** @var SanitiserInterface */
-    protected $santiser;
+    protected $sanitiser;
 
     /**
      * Return the sanitiser object.
@@ -19,7 +19,7 @@ trait SanitiserAwareTrait
      */
     public function getSanitiser()
     {
-        return $this->santiser;
+        return $this->sanitiser;
     }
 
     /**
@@ -29,6 +29,6 @@ trait SanitiserAwareTrait
      */
     public function setSanitiser(SanitiserInterface $sanitiser)
     {
-        $this->santiser = $sanitiser;
+        $this->sanitiser = $sanitiser;
     }
 }
