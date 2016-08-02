@@ -1224,7 +1224,7 @@ class Config
         if ($this->cachetimestamp > max($timestamps)) {
             $finder = new Finder();
             $finder->files()
-                ->in($this->app['resources']->getPath('cache'))
+                ->in(dirname($configCache))
                 ->name('config-cache.json')
                 ->depth('== 0')
             ;
