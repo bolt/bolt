@@ -45,11 +45,11 @@ class BootInitListener implements EventSubscriberInterface
     {
         $verifier = $this->app['boot.validator'];
         $response = $verifier->checks();
-        if ($response instanceof Response) {
-            $event->setResponse($response);
+        if (!$response instanceof Response) {
+            return null;
         }
 
-        return null;
+        $event->setResponse($response);
     }
 
     /**
