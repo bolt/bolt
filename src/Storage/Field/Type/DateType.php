@@ -53,7 +53,7 @@ class DateType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
         $value = $entity->get($key);
@@ -64,7 +64,7 @@ class DateType extends FieldTypeBase
             $entity->set($key, $value);
         }
 
-        parent::persist($queries, $entity, $em);
+        parent::persist($queries, $entity);
     }
 
     /**
