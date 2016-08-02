@@ -5,7 +5,7 @@
     {% endif %}
     {{ __('general.phrase.written-by-on', {
         '%name%': record.user.displayname|default(__('Unknown')),
-        '%date%': record.datepublish|localdate("%A %B %e, %Y")
+        '%date%': record.datepublish|localedatetime("%A %B %e, %Y")
     }) }}
 </p>
 
