@@ -44,6 +44,28 @@ class Exception extends Base implements ExceptionControllerInterface
     }
 
     /**
+     * @param \Exception $exception
+     *
+     * @return Response
+     */
+    public function genericException(\Exception $exception)
+    {
+        if ($this->app === null) {
+            throw new \RuntimeException('Exception controller being used outside of request cycle.');
+        }
+
+        $message = $exception->getMessage();
+        $context = $this->getContextArray($exception);
+        $context['message'] = $message;
+
+        $html = $this->app['twig']->render('@bolt/exception/general.twig', $context);
+        $response = new Response($html, Response::HTTP_OK);
+        $response->headers->set('X-Debug-Exception-Handled', time());
+
+        return $response;
+    }
+
+    /**
      * Route for kernel exception handling.
      *
      * @param GetResponseForExceptionEvent $event
