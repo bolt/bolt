@@ -77,7 +77,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.field_manager'] = $app->share(
             function ($app) {
-                $manager = new FieldManager($app['storage.typemap'], $app['config']);
+                $manager = new FieldManager($app['storage.typemap'], $app['config'], $app['storage.field_sanitiser']);
 
                 foreach ($app['storage.typemap'] as $field) {
                     if (isset($app[$field])) {
