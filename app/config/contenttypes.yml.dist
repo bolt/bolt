@@ -189,7 +189,7 @@ showcases:
     taxonomy: [ categories, tags ]
     show_on_dashboard: true
     default_status: publish
-    searchable: false
+    searchable: true
     icon_many: "fa:gift"
     icon_one: "fa:gift"
 
