@@ -4,7 +4,15 @@ Changelog for Bolt 3.x
 Bolt 3.2-dev
 -----------
 
+- Fixed: Database is no longer initialised prior to boot
+- Fixed: System checks now run at start of request cycle
+- Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
+- Removed: Internal use of LowlevelChecks (See Validator)
 - Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
+- Added: Exception controller to display error pages rendered from Twig templates
+- Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page
+- Added: Lazy loading service provider for EntityManager
+- Added: Lazy loading service provider for SchemaManager
 
 Bolt 3.1-dev
 -----------
