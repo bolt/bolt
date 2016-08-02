@@ -68,6 +68,7 @@ class Exception extends Base implements ExceptionControllerInterface
 
         $html = $this->app['twig']->render('@bolt/exception/general.twig', $context);
         $response = new Response($html, Response::HTTP_OK);
+        $response->headers->set('X-Debug-Exception-Handled', time());
 
         return $response;
     }
@@ -82,6 +83,12 @@ class Exception extends Base implements ExceptionControllerInterface
      */
     public function afterKernelException(Request $request, Response $response)
     {
+        if (!$response->headers->has('X-Debug-Exception-Handled')) {
+            $response->headers->remove('X-Debug-Exception-Handled');
+
+            return null;
+        }
+
         $hasToken = $response->headers->has('X-Debug-Token');
         $redirectProfiler = $this->app['config']->get('general/debug_error_use_profiler');
         if (!$hasToken || !$redirectProfiler) {
