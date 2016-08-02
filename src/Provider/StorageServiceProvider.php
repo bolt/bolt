@@ -8,6 +8,7 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Field\Sanitiser;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -61,6 +62,16 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repo->setLegacyService($app['storage.legacy_service']);
 
                 return $repo;
+            }
+        );
+
+        $app['storage.field_sanitiser'] = $app->share(
+            function ($app) {
+                $allowedTags = $app['config']->get('general/htmlcleaner/allowed_tags', []);
+                $allowedAttributes = $app['config']->get('general/htmlcleaner/allowed_attributes', []);
+                $allowedWyswig = $app['config']->get('general/wysiwyg', []);
+
+                return new Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
             }
         );
 

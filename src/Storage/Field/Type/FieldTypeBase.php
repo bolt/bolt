@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Configuration\ResourceManager;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -10,7 +9,6 @@ use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
-use Maid\Maid;
 
 /**
  * This is an abstract class for a field type that handles
@@ -211,38 +209,5 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $compiled = array_unique($compiled, SORT_REGULAR);
 
         return $compiled;
-    }
-
-    /**
-     * Sanitize HTML, by allowing only whitelisted tags and attributes.
-     *
-     * @param string $value
-     * @param array  $allowed_tags
-     * @param array  $allowed_attributes
-     *
-     * @return string
-     */
-    protected function sanitize($value, $allowed_tags = null, $allowed_attributes = null)
-    {
-        // If $allowed_tags is not passed in, we get the defaults. And also for $allowed_attributes, because it
-        // never happens that one is empty, while the other isn't
-        if ($allowed_tags === null) {
-            $app = ResourceManager::getApp();
-            $config = $app['config']->get('general/htmlcleaner');
-            $allowed_tags = $config['allowed_tags'];
-            $allowed_attributes = $config['allowed_attributes'];
-        }
-
-        // Sanitize/clean the HTML.
-        $maid = new Maid(
-            [
-                'output-format'   => 'html',
-                'allowed-tags'    => $allowed_tags,
-                'allowed-attribs' => $allowed_attributes,
-            ]
-        );
-        $value = $maid->clean($value);
-
-        return $value;
     }
 }
