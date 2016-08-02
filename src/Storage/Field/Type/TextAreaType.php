@@ -1,7 +1,9 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\QuerySet;
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareTrait;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -10,24 +12,9 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TextAreaType extends FieldTypeBase
+class TextAreaType extends FieldTypeBase implements SanitiserAwareInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function persist(QuerySet $queries, $entity)
-    {
-        $key = $this->mapping['fieldname'];
-        $value = $entity->get($key);
-
-        // We skip this if the value is empty-ish, e.g. '' or `null`.
-        if (!empty($value)) {
-            $value = parent::sanitize($value);
-            $entity->set($key, $value);
-        }
-
-        parent::persist($queries, $entity);
-    }
+    use SanitiserAwareTrait;
 
     /**
      * {@inheritdoc}

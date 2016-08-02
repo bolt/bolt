@@ -1,8 +1,11 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
+use Bolt\Storage\Field\Sanitiser\WysiwygAwareInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
@@ -75,6 +78,11 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $qb = &$queries[0];
         $valueMethod = 'serialize' . ucfirst($key);
         $value = $entity->$valueMethod();
+
+        if ($this instanceof SanitiserAwareInterface && is_string($value)) {
+            $isWysiwyg = $this instanceof WysiwygAwareInterface;
+            $value = $this->getSanitiser()->sanitise($value, $isWysiwyg);
+        }
 
         $type = $this->getStorageType();
 
