@@ -14,6 +14,7 @@ use Bolt\Storage\FieldManager;
 use Bolt\Storage\LazyEntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
+use Bolt\Storage\Repository;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -69,6 +70,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.content_repository'] = $app->protect(
             function ($classMetadata) use ($app) {
                 $repoClass = $app['storage.repository.default'];
+                /** @var Repository\ContentRepository $repo */
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
 
