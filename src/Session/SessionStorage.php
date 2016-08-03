@@ -353,10 +353,9 @@ class SessionStorage implements SessionStorageInterface
             return;
         }
         $divisor = $this->options->getInt('gc_divisor');
-        $probabilityPercentage = 100 * $probability / $divisor;
-        $chance = mt_rand(1, 100);
 
-        if ($chance <= $probabilityPercentage) {
+        $rand = mt_rand(0, $divisor);
+        if ($rand < $probability) {
             $this->handler->gc($this->options->getInt('gc_maxlifetime'));
         }
     }
