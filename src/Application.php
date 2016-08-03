@@ -11,6 +11,7 @@ use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -75,6 +76,18 @@ class Application extends Silex\Application
 
         // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(Request $request = null)
+    {
+        if ($this['config']->get('general/caching/request')) {
+            $this['http_cache']->run($request);
+        } else {
+            parent::run($request);
+        }
     }
 
     protected function initConfig()
