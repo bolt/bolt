@@ -31,13 +31,13 @@
         /**
          * Execute commands on triggered button.
          *
-         * @param {string} action - Triggered action (Allowed: 'delete').
+         * @param {string} action - Triggered action.
          * @param {array} ids - Array of ids to perform the action on.
          * @param {string} buttonText - Button text to be displayed on ok button.
          */
         modifyRecords: function (action, ids, buttonText) {
             var self = this,
-                safeQuery = true,
+                modifications = {},
                 actions = {
                     'delete': {
                         'safe': false,
@@ -63,13 +63,9 @@
                 msg;
 
             // Build POST data.
-            self.modifications = {};
-            self.modifications[self.contentType] = {};
+            modifications[self.contentType] = {};
             $(ids).each(function () {
-                if(!actions[action].safe){
-                    safeQuery = false;
-                }
-                self.modifications[self.contentType][this] = actions[action].cmd;
+                modifications[self.contentType][this] = actions[action].cmd;
             });
 
             // Build message:
@@ -79,8 +75,7 @@
                 msg = bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + ids.length + '</b>'});
             }
             msg = msg + '<br><br><b>' + bolt.data('recordlisting.confirm.no-undo') + '</b>';
-
-            if(!safeQuery){
+            if (!actions[action].safe) {
                 bootbox.dialog({
                     message: msg,
                     title: actions[action].name,
@@ -92,27 +87,31 @@
                         ok: {
                             label: buttonText,
                             className: 'btn-primary',
-                            callback: function(){
-                                self.sendQuery();
+                            callback: function() {
+                                self._sendModifyRecordsQuery(modifications);
                             }
                         }
                     }
                 });
-            }else{
-                self.sendQuery();
+            } else {
+                self._sendModifyRecordsQuery(modifications);
             }
         },
-        sendQuery: function () {
+        /**
+         * Send commands to modify records.
+         *
+         * @param {object} modifications - The modifications to be sent.
+         */
+        _sendModifyRecordsQuery: function (modifications) {
             var self = this,
                 url = bolt.conf('paths.async') + 'content/action' + window.location.search;
-
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: {
                     'bolt_csrf_token': self.csrfToken,
                     'contenttype': self.contentType,
-                    'actions': self.modifications
+                    'actions': modifications
                 },
                 success: function (data) {
                     self.element.html(data);
