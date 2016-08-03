@@ -6,7 +6,6 @@ use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\Debug\ErrorHandler;
@@ -199,11 +198,6 @@ class Application extends Silex\Application
 
         // Set the error_reporting to the level specified in config.yml
         error_reporting($this['config']->get('general/debug_error_level'));
-
-        // Register Whoops, to handle errors for logged in users only.
-        if ($this['config']->get('general/debug_enable_whoops')) {
-            $this->register(new WhoopsServiceProvider());
-        }
 
         $this->register(new Provider\DumperServiceProvider());
 
