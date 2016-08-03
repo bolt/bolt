@@ -5,10 +5,9 @@ namespace Bolt;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
+use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
 use Silex;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -66,8 +65,7 @@ return call_user_func(function () {
     }
 
     // Register handlers early
-    ExceptionHandler::register();
-    ErrorHandler::register();
+    ShutdownHandler::register();
 
     /*
      * Load initialization config needed to bootstrap application.

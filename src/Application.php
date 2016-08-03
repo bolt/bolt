@@ -2,14 +2,13 @@
 
 namespace Bolt;
 
+use Bolt\Debug\ShutdownHandler;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Stopwatch;
 
@@ -38,8 +37,7 @@ class Application extends Silex\Application
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
         // Register PHP shutdown functions to catch fatal errors & exceptions
-        ExceptionHandler::register();
-        ErrorHandler::register();
+        ShutdownHandler::register();
 
         parent::__construct($values);
 
@@ -62,6 +60,8 @@ class Application extends Silex\Application
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
+        // Re-register the shutdown functions now that we know our debug setting
+        ShutdownHandler::register($this['debug']);
         if (!isset($this['environment'])) {
             $this['environment'] = $this['debug'] ? 'development' : 'production';
         }
