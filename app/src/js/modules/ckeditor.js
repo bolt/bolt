@@ -64,7 +64,9 @@
      * @memberof Bolt.ckeditor
      */
     ckeditor.add = function (element) {
-        cke.replace(element);
+        if (cke) {
+            cke.replace(element);
+        }
     };
 
     /**
