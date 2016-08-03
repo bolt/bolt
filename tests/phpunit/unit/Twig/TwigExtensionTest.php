@@ -322,16 +322,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->jsonDecode(null);
     }
 
-    public function testListContent()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['record'] = $this->getMockHandler('RecordHandler', 'listContent');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->listContent(null, null, null);
-    }
-
     public function testListTemplates()
     {
         $app = $this->getApp();
