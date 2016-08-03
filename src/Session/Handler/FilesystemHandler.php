@@ -64,6 +64,7 @@ class FilesystemHandler implements \SessionHandlerInterface
     {
         $files = $this->directory->find()
             ->files()
+            ->ignoreDotFiles(false)
             ->date("< now - $maxlifetime seconds")
         ;
         foreach ($files as $file) {
