@@ -9,10 +9,12 @@ Bolt 3.2-dev
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
-- Added: Exception controller to display error pages rendered from Twig templates
-- Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page
-- Added: Lazy loading service provider for EntityManager
-- Added: Lazy loading service provider for SchemaManager
+- Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Lazy loading service provider for EntityManager [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Lazy loading service provider for SchemaManager [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Symfony HTTP Cache for request caching (replaces Doctrine file cache use) [#5615](https://github.com/bolt/bolt/pull/5615)
 
 Bolt 3.1-dev
 -----------
