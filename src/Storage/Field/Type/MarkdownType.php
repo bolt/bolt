@@ -1,6 +1,9 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareTrait;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -9,8 +12,10 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class MarkdownType extends FieldTypeBase
+class MarkdownType extends FieldTypeBase implements SanitiserAwareInterface
 {
+    use SanitiserAwareTrait;
+
     /**
      * {@inheritdoc}
      */

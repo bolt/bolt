@@ -50,8 +50,10 @@ final class RequirePackage extends BaseAction
         // Get a back up of the file contents
         $composerBackup = $jsonFile->parse();
 
-        // Update our JSON file now with a constraint
-        $this->updateComposerJson($jsonFile, $package);
+        // Update our JSON file now with a specific version.
+        // This is what Composer will read, and use, internally during the process.
+        // After that is complete, we'll re-save with a constraint
+        $this->updateComposerJson($jsonFile, $package, false);
 
         // JSON file has been created/updated, if we're not installing, exit
         if ($this->getOptions()->noUpdate()) {
@@ -87,6 +89,8 @@ final class RequirePackage extends BaseAction
                     $jsonFile->dump($composerBackup);
                 }
             }
+            // Update our JSON file now with a constraint
+            $this->updateComposerJson($jsonFile, $package, true);
 
             return $status;
         } catch (\Exception $e) {
@@ -104,8 +108,9 @@ final class RequirePackage extends BaseAction
      *
      * @param JsonFile $jsonFile
      * @param array    $package
+     * @param boolean  $isPostInstall
      */
-    private function updateComposerJson(JsonFile $jsonFile, array $package)
+    private function updateComposerJson(JsonFile $jsonFile, array $package, $isPostInstall)
     {
         $composerJson = $jsonFile->parse();
 
@@ -114,7 +119,7 @@ final class RequirePackage extends BaseAction
         $removeKey = $this->getOptions()->dev() ? 'require' : 'require-dev';
         $baseRequirements = array_key_exists($requireKey, $composerJson) ? $composerJson[$requireKey] : [];
 
-        if (!$this->updateFileCleanly($jsonFile, $package, $requireKey, $removeKey, $sortPackages)) {
+        if (!$this->updateFileCleanly($jsonFile, $package, $requireKey, $removeKey, $sortPackages, $isPostInstall)) {
             foreach ($package as $name => $version) {
                 $baseRequirements[$name] = $version;
 
@@ -136,16 +141,17 @@ final class RequirePackage extends BaseAction
      * @param string   $requireKey
      * @param string   $removeKey
      * @param boolean  $sortPackages
+     * @param boolean  $isPostInstall
      *
-     * @return boolean
+     * @return bool
      */
-    private function updateFileCleanly(JsonFile $jsonFile, array $new, $requireKey, $removeKey, $sortPackages)
+    private function updateFileCleanly(JsonFile $jsonFile, array $new, $requireKey, $removeKey, $sortPackages, $isPostInstall)
     {
         $composerJson = $jsonFile->read();
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
-            $constraint = $this->findBestVersionForPackage($package, $constraint);
+            $constraint = $isPostInstall ? $this->findBestVersionForPackage($package, $constraint) : $constraint;
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }

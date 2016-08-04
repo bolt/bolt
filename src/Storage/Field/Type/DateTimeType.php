@@ -26,7 +26,7 @@ class DateTimeType extends DateType
     /**
      * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
         $value = $entity->get($key);
@@ -36,7 +36,7 @@ class DateTimeType extends DateType
             $entity->set($key, $value);
         }
 
-        parent::persist($queries, $entity, $em);
+        parent::persist($queries, $entity);
     }
 
     /**

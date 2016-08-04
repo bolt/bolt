@@ -2,17 +2,22 @@
 namespace Bolt\Storage;
 
 use Bolt\Config;
+use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
+use Bolt\Storage\Field\Sanitiser\SanitiserInterface;
 
 /**
  * Uses a typemap to construct an instance of a Field
  */
 class FieldManager
 {
-    /** @var array */
+    /** @var EntityManager */
     protected $em;
     protected $handlers = [];
     protected $typemap;
+    /** @var Config */
     protected $boltConfig;
+    /** @var SanitiserInterface */
+    protected $sanitiser;
     protected $customHandlers = [];
 
     /**
@@ -20,13 +25,15 @@ class FieldManager
      * Requires access to legacy Config class so that it can add fields to the old-style manager
      * This can be removed once the templating has migrated to the new system.
      *
-     * @param array  $typemap
-     * @param Config $config
+     * @param array              $typemap
+     * @param Config             $config
+     * @param SanitiserInterface $sanitiser
      */
-    public function __construct(array $typemap, Config $config)
+    public function __construct(array $typemap, Config $config, SanitiserInterface $sanitiser)
     {
         $this->typemap = $typemap;
         $this->boltConfig = $config;
+        $this->sanitiser = $sanitiser;
     }
 
     /**
@@ -55,10 +62,16 @@ class FieldManager
         if (array_key_exists($class, $this->handlers)) {
             $handler = $this->handlers[$class];
 
-            return call_user_func_array($handler, [$mapping, $this->em]);
+            $field = call_user_func_array($handler, [$mapping, $this->em]);
+        } else {
+            $field = new $class($mapping, $this->em);
         }
 
-        return new $class($mapping, $this->em);
+        if ($field instanceof SanitiserAwareInterface) {
+            $field->setSanitiser($this->sanitiser);
+        }
+
+        return $field;
     }
 
     /**

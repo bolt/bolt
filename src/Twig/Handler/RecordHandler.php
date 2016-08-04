@@ -40,7 +40,7 @@ class RecordHandler
     {
         /** @var Request $request */
         $request = $this->app['request'];
-        $requestUri = $request->getPathInfo();
+        $requestUri = $request->getRequestUri();
         $routeParams = $request->get('_route_params');
 
         // If passed a string, and it is in the route.

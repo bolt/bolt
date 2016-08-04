@@ -148,31 +148,6 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
-                    // Parse the field as Markdown, return HTML
-                    $value = $this->app['markdown']->text($this->values[$name]);
-
-                    $config = $this->app['config']->get('general/htmlcleaner');
-                    $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
-                        ['div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dt', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'];
-                    $allowed_attributes = !empty($config['allowed_attributes']) ? $config['allowed_attributes'] :
-                        ['id', 'class', 'name', 'value', 'href', 'src'];
-
-                    // Sanitize/clean the HTML.
-                    $maid = new Maid(
-                        [
-                            'output-format'   => 'html',
-                            'allowed-tags'    => $allowed_tags,
-                            'allowed-attribs' => $allowed_attributes,
-                        ]
-                    );
-                    $value = $maid->clean($value);
-
-                    // If we allow Twig in content, we parse the field as a Twig template.
-                    $value = $this->preParse($value, $allowtwig);
-
-                    $value = new \Twig_Markup($value, 'UTF-8');
-                    break;
-
                 case 'html':
                 case 'text':
                 case 'textarea':

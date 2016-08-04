@@ -9,6 +9,7 @@ use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EventProcessor;
+use Bolt\Storage\Field\Sanitiser;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\LazyEntityManager;
@@ -78,9 +79,19 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['storage.field_sanitiser'] = $app->share(
+            function ($app) {
+                $allowedTags = $app['config']->get('general/htmlcleaner/allowed_tags', []);
+                $allowedAttributes = $app['config']->get('general/htmlcleaner/allowed_attributes', []);
+                $allowedWyswig = $app['config']->get('general/wysiwyg', []);
+
+                return new Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
+            }
+        );
+
         $app['storage.field_manager'] = $app->share(
             function ($app) {
-                $manager = new FieldManager($app['storage.typemap'], $app['config']);
+                $manager = new FieldManager($app['storage.typemap'], $app['config'], $app['storage.field_sanitiser']);
 
                 foreach ($app['storage.typemap'] as $field) {
                     if (isset($app[$field])) {

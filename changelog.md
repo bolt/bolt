@@ -17,6 +17,7 @@ Bolt 3.2-dev
 Bolt 3.1-dev
 -----------
 
+- Fixed: Installation of specific extension version [#5635](https://github.com/bolt/bolt/pull/5635)
 - Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
 - Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
@@ -24,6 +25,7 @@ Bolt 3.1-dev
 - Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
 - Added: Nut command to enable, disable, and list details for a user [#5483](https://github.com/bolt/bolt/pull/5483)
 - Added: Add --enable option to Nut user:create [#5483](https://github.com/bolt/bolt/pull/5483)
+- Added: Better sanitization of content on save. [#5611](https://github.com/bolt/bolt/pull/5611)
 
 Bolt 3.0.x
 -----------

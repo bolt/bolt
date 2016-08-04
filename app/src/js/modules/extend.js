@@ -334,7 +334,7 @@
                 keywords = [],
                 i = 0;
 
-                // Authorsv.
+                // Authors.
                 if (ext.authors && ext.authors.length > 0) {
                     for (i = 0; i < ext.authors.length; i++) {
                         authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
