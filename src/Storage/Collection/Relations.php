@@ -190,7 +190,7 @@ class Relations extends ArrayCollection
     public function incoming($entity)
     {
         return $this->filter(function ($el) use ($entity) {
-            return $el->getTo_contenttype() == (string) $entity->getContenttype();
+            return $el->getTo_contenttype() == (string) $entity->getContenttype() && $el->getTo_id() === $entity->getId();
         });
     }
 
