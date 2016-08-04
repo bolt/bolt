@@ -82,10 +82,6 @@ class Application extends Silex\Application
      */
     public function run(Request $request = null)
     {
-        if ($request === null) {
-            $request = Request::createFromGlobals();
-        }
-
         if ($this['config']->get('general/caching/request')) {
             $this['http_cache']->run($request);
         } else {
