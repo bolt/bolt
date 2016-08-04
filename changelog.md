@@ -4,6 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.1-dev
 -----------
 
+- Fixed: Installation of specific extension version [#5635](https://github.com/bolt/bolt/pull/5635)
 - Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
 - Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
