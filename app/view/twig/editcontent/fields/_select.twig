@@ -23,7 +23,7 @@
     {% set querylimit = field.limit|default(500) %}
     {% set wherefilter = field.filter|default({}) %}
     {% setcontent lookups = lookuptype where wherefilter order sortingorder nohydrate limit querylimit %}
-    {% set valuefield = lookupfieldlist|default([])|last|default(lookupfield)|default('id') %}
+    {% set valuefield = lookupfieldlist|default(lookupfield)|default('id') %}
     {% set values = lookups|selectfield(valuefield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 

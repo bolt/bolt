@@ -1402,8 +1402,8 @@ class Storage
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
         $request = $this->app['request_stack']->getCurrentRequest();
-        $isBackend = $request ? Zone::isBackend($request) : false;
-        if (!$isBackend && empty($ctypeParameters['status'])) {
+        $isFrontend = $request ? Zone::isFrontend($request) : true;
+        if ($isFrontend && empty($ctypeParameters['status'])) {
             $ctypeParameters['status'] = 'published';
         }
 

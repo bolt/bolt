@@ -67,7 +67,7 @@
 
             <p class="lastsaved" style="padding-top: 12px;">
                 {{ __('general.phrase.saved-on-colon') }}
-                <strong>{{ context.datechanged|localdate("%c") }}</strong>
+                <strong>{{ context.datechanged|localedatetime("%c") }}</strong>
                 ({{ buic_moment(context.datechanged) }})
             </p>
 

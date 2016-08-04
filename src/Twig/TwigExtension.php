@@ -73,7 +73,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
-            new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
             new \Twig_SimpleFunction('menu',               [$this, 'menu'],        $env + $safe),
@@ -378,14 +377,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function link($location, $label = '[link]')
     {
         return $this->handlers['html']->link($location, $label);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\RecordHandler::listContent()
-     */
-    public function listContent($contenttype, $relationoptions, $content)
-    {
-        return $this->handlers['record']->listContent($contenttype, $relationoptions, $content);
     }
 
     /**
