@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FieldSaveTest extends BoltUnitTest
+class FieldSaveTest extends BoltFunctionalTestCase
 {
     public function testRelationsSave()
     {

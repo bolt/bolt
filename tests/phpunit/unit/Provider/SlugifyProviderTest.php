@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 
 /**
@@ -9,7 +9,7 @@ use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SlugifyProviderTest extends BoltUnitTest
+class SlugifyProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

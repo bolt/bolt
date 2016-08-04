@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Translation;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Translation\Translator;
 
 /**
@@ -9,7 +9,7 @@ use Bolt\Translation\Translator;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TranslatorTest extends BoltUnitTest
+class TranslatorTest extends BoltFunctionalTestCase
 {
     public function testSimpleTranslate()
     {

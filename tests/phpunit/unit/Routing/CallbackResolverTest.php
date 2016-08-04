@@ -3,9 +3,9 @@
 namespace Bolt\Tests\Routing;
 
 use Bolt\Routing\CallbackResolver;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
-class CallbackResolverTest extends BoltUnitTest
+class CallbackResolverTest extends BoltFunctionalTestCase
 {
     public function testService()
     {

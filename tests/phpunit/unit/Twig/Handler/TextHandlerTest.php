@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\TextHandler;
 
 /**
@@ -10,7 +10,7 @@ use Bolt\Twig\Handler\TextHandler;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TextHandlerTest extends BoltUnitTest
+class TextHandlerTest extends BoltFunctionalTestCase
 {
     public function setUp()
     {

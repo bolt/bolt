@@ -3,7 +3,7 @@ namespace Bolt\Tests\Profiler;
 
 use Bolt\Helpers\Html;
 use Bolt\Profiler\BoltDataCollector;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BoltDataCollectorTest extends BoltUnitTest
+class BoltDataCollectorTest extends BoltFunctionalTestCase
 {
     public function testBasicData()
     {

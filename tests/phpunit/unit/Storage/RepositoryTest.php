@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Storage\Repository;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class RepositoryTest extends BoltUnitTest
+class RepositoryTest extends BoltFunctionalTestCase
 {
     public $eventCount = [];
 

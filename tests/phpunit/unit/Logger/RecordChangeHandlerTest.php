@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Handler\RecordChangeHandler;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Monolog\Logger;
 
@@ -11,7 +11,7 @@ use Monolog\Logger;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class RecordChangeHandlerTest extends BoltUnitTest
+class RecordChangeHandlerTest extends BoltFunctionalTestCase
 {
     public function testSetupInitialize()
     {

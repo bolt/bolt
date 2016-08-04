@@ -2,14 +2,14 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Query/QueryTest.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class QueryTest extends BoltUnitTest
+class QueryTest extends BoltFunctionalTestCase
 {
     public function testgetContent()
     {

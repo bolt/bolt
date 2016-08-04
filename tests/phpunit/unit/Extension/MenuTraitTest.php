@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Extension;
 
 use Bolt\Menu\MenuEntry;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Extension\Mock\MenuExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
@@ -12,7 +12,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class MenuTraitTest extends BoltUnitTest
+class MenuTraitTest extends BoltFunctionalTestCase
 {
     public function testEmptyMenus()
     {

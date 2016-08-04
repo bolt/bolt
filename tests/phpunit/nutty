@@ -3,9 +3,11 @@
 
 namespace Bolt\Tests;
 
+use Bolt\Tests\BoltFunctionalTestCase;
+
 require_once __DIR__ . '/bootstrap.php';
 
-class Nutty extends BoltUnitTest
+class Nutty extends BoltFunctionalTestCase
 {
     public function getApp($boot = true)
     {

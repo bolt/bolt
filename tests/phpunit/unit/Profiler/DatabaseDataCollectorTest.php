@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Profiler;
 
 use Bolt\Profiler\DatabaseDataCollector;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class DatabaseDataCollectorTest extends BoltUnitTest
+class DatabaseDataCollectorTest extends BoltFunctionalTestCase
 {
     public function testBasicData()
     {

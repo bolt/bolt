@@ -4,7 +4,7 @@ namespace Bolt\Tests\Routing;
 
 use Bolt\Routing\LazyUrlGenerator;
 use Bolt\Routing\UrlGeneratorFragmentWrapper;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Silex\Route;
 use Symfony\Component\Routing\Generator\ConfigurableRequirementsInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\RouteCollection;
 /**
  * @author Carson Full <carsonfull@gmail.com>
  */
-class UrlGeneratorFragmentWrapperTest extends BoltUnitTest
+class UrlGeneratorFragmentWrapperTest extends BoltFunctionalTestCase
 {
     public function testUrlGeneratorInterface()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\SetcontentTokenParser;
 use Twig_Compiler;
 use Twig_Environment;
@@ -15,7 +15,7 @@ use Twig_TokenStream;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SetcontentTest extends BoltUnitTest
+class SetcontentTest extends BoltFunctionalTestCase
 {
     public function testClass()
     {

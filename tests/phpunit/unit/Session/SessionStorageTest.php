@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Session;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Session/SessionStorage.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SessionStorageTest extends BoltUnitTest
+class SessionStorageTest extends BoltFunctionalTestCase
 {
     public function test()
     {

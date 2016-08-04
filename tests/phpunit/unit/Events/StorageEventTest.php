@@ -3,14 +3,14 @@ namespace Bolt\Tests\Events;
 
 use Bolt\Events\StorageEvent;
 use Bolt\Legacy\Content;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Events/StorageEvent.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StorageEventTest extends BoltUnitTest
+class StorageEventTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

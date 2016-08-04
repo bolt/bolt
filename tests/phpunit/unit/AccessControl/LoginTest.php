@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class LoginTest extends BoltUnitTest
+class LoginTest extends BoltFunctionalTestCase
 {
     public function tearDown()
     {

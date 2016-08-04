@@ -3,10 +3,10 @@
 namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
-class CacheTest extends BoltUnitTest
+class CacheTest extends BoltFunctionalTestCase
 {
     /**
      * @var \Bolt\Cache

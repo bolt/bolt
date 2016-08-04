@@ -1,14 +1,14 @@
 <?php
 namespace Bolt\Tests\Users;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test correct operation of src/Users.
  *
  * @author Steven de Vries <info@stevendevries.nl>
  **/
-class UsersTest extends BoltUnitTest
+class UsersTest extends BoltFunctionalTestCase
 {
     /**
      * @var array

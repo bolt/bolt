@@ -3,7 +3,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserResetPassword;
 use Bolt\Storage\Entity;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UserResetPasswordTest extends BoltUnitTest
+class UserResetPasswordTest extends BoltFunctionalTestCase
 {
     public function testRun()
     {

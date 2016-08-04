@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\UserHandler;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UserHandlerTest extends BoltUnitTest
+class UserHandlerTest extends BoltFunctionalTestCase
 {
     protected function setUp()
     {

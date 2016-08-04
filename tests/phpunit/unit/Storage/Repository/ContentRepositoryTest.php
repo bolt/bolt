@@ -3,14 +3,14 @@ namespace Bolt\Tests\Storage\Repository;
 
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Repository;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Storage/Repository/Content
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ContentRepositoryTest extends BoltUnitTest
+class ContentRepositoryTest extends BoltFunctionalTestCase
 {
     public function testConstruct()
     {

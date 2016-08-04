@@ -8,7 +8,7 @@ use Bolt\AccessControl\Token\Generator;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TokenGeneratorTest extends BoltUnitTest
+class TokenGeneratorTest extends BoltFunctionalTestCase
 {
     public function testGenerateEverything()
     {

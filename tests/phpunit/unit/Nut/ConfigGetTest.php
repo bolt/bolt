@@ -4,7 +4,7 @@ namespace Bolt\Tests\Nut;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Nut\ConfigGet;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ConfigGetTest extends BoltUnitTest
+class ConfigGetTest extends BoltFunctionalTestCase
 {
     public function testGet()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Translation;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Translation\TranslationFile;
 use Symfony\Component\Yaml\Yaml;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TranslationFileTest extends BoltUnitTest
+class TranslationFileTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

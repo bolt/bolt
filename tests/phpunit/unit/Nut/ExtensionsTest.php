@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\Extensions;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Composer\Package\CompletePackage;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\TableHelper;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionsTest extends BoltUnitTest
+class ExtensionsTest extends BoltFunctionalTestCase
 {
     public function testRun()
     {

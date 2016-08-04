@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Storage;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ChangeLogTest extends BoltUnitTest
+class ChangeLogTest extends BoltFunctionalTestCase
 {
     public function setUp()
     {

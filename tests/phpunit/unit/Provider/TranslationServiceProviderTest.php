@@ -4,7 +4,7 @@ namespace Bolt\Tests\Provider;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Provider\TranslationServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TranslationServiceProviderTest extends BoltUnitTest
+class TranslationServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

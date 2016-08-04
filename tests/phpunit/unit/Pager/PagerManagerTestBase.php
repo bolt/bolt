@@ -4,10 +4,10 @@ namespace Bolt\Tests\Pager;
 
 use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-abstract class PagerManagerTestBase extends BoltUnitTest
+abstract class PagerManagerTestBase extends BoltFunctionalTestCase
 {
     protected function createPagerManager()
     {

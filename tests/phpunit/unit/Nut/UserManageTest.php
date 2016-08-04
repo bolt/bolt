@@ -3,7 +3,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserManage;
 use Bolt\Storage\Repository\UsersRepository;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UserManageTest extends BoltUnitTest
+class UserManageTest extends BoltFunctionalTestCase
 {
     public function testListing()
     {

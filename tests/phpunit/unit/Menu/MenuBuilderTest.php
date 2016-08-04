@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Menu;
 
 use Bolt\Menu\MenuBuilder;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Sufijen Bani <bolt@sbani.net>
  */
-class MenuBuilderTest extends BoltUnitTest
+class MenuBuilderTest extends BoltFunctionalTestCase
 {
     /**
      * @return array

@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\NutServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console;
 use Symfony\Component\Console\Command\Command;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Command\Command;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class NutServiceProviderTest extends BoltUnitTest
+class NutServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

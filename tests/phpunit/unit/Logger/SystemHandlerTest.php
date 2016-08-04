@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Handler\SystemHandler;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SystemHandlerTest extends BoltUnitTest
+class SystemHandlerTest extends BoltFunctionalTestCase
 {
     public function testSetupInitialize()
     {

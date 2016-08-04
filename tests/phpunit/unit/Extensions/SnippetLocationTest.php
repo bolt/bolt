@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Extensions\Snippets\Location;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Extensions/StatService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SnippetLocationTest extends BoltUnitTest
+class SnippetLocationTest extends BoltFunctionalTestCase
 {
     public function testSetup()
     {

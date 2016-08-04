@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\ExtensionsInstall;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ExtensionsInstallTest extends BoltUnitTest
+class ExtensionsInstallTest extends BoltFunctionalTestCase
 {
     public function testRun()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Storage\Repository;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Psr\Log\LogLevel;
 
 /**
@@ -9,7 +9,7 @@ use Psr\Log\LogLevel;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class LogSystemRepositoryTest extends BoltUnitTest
+class LogSystemRepositoryTest extends BoltFunctionalTestCase
 {
     public function testRepositoryQueries()
     {

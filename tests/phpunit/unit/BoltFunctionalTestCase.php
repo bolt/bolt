@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
+abstract class BoltFunctionalTestCase extends \PHPUnit_Framework_TestCase
 {
     private $app;
 

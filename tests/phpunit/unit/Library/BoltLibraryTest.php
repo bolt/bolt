@@ -3,7 +3,7 @@ namespace Bolt\Tests\Library;
 
 use Bolt\Exception\LowlevelException;
 use Bolt\Library;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BoltLibraryTest extends BoltUnitTest
+class BoltLibraryTest extends BoltFunctionalTestCase
 {
     protected function tearDown()
     {

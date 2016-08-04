@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 use Bolt\Twig\Handler\ArrayHandler;
 
 /**
@@ -10,7 +10,7 @@ use Bolt\Twig\Handler\ArrayHandler;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ArrayHandlerTest extends BoltUnitTest
+class ArrayHandlerTest extends BoltFunctionalTestCase
 {
     public function setUp()
     {

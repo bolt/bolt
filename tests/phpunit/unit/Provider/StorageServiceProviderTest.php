@@ -2,14 +2,14 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\StorageServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/StorageServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StorageServiceProviderTest extends BoltUnitTest
+class StorageServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {

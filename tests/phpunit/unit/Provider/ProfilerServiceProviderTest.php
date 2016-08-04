@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\ProfilerServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\BoltFunctionalTestCase;
 
 /**
  * Class to test src/Provider/DatabaseProfilerServiceProvider.
@@ -10,7 +10,7 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ProfilerServiceProviderTest extends BoltUnitTest
+class ProfilerServiceProviderTest extends BoltFunctionalTestCase
 {
     public function testProvider()
     {
