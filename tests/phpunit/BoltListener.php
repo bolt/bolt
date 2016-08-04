@@ -39,16 +39,16 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      * @see PHPUnit_Util_Configuration
      *
      * @param array   $configs Location of configuration files
-     * @param string  $theme   Location of the theme
-     * @param string  $boltdb  Location of Sqlite database
+     * @param bool    $theme   Location of the theme
+     * @param bool    $boltDb  Location of Sqlite database
      * @param boolean $reset   Reset test environment after run
      * @param boolean $timer   Create test execution timer output
      */
-    public function __construct($configs = [], $theme = false, $boltdb = false, $reset = true, $timer = true)
+    public function __construct($configs = [], $theme = false, $boltDb = false, $reset = true, $timer = true)
     {
         $this->configs = $this->getConfigs($configs);
         $this->theme = $this->getTheme($theme);
-        $this->boltdb = $this->getBoltDb($boltdb);
+        $this->boltdb = $this->getBoltDb($boltDb);
         $this->reset = $reset;
         $this->timer = $timer;
 
@@ -66,7 +66,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         foreach ($configs as $name => $file) {
             if (empty($file)) {
-                $configs[$name] = $this->getPath($name, $this->config[$name]);
+                $configs[$name] = $this->getPath($name, $this->configs[$name]);
             } else {
                 $configs[$name] = $this->getPath($name, $file);
             }
@@ -230,6 +230,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
+        /** @var \PHPUnit_Framework_TestCase $test */
         $name = $test->getName();
         $this->tracker[$this->currentSuite . '::' . $name] = $time;
     }

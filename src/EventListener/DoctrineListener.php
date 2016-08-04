@@ -2,8 +2,9 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Controller;
 use Bolt\Events\FailedConnectionEvent;
-use Bolt\Exception\LowLevelDatabaseException;
+use Bolt\Exception\BootException;
 use Bolt\Helpers\Str;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
@@ -21,9 +22,13 @@ class DoctrineListener implements EventSubscriber
 {
     use LoggerAwareTrait;
 
-    public function __construct(LoggerInterface $logger)
+    /** @var Controller\Exception */
+    private $exceptionController;
+
+    public function __construct(LoggerInterface $logger, Controller\Exception $exceptionController)
     {
         $this->setLogger($logger);
+        $this->exceptionController = $exceptionController;
     }
 
     /**
@@ -31,7 +36,7 @@ class DoctrineListener implements EventSubscriber
      *
      * @param FailedConnectionEvent $args
      *
-     * @throws LowLevelDatabaseException
+     * @throws BootException
      */
     public function failConnect(FailedConnectionEvent $args)
     {
@@ -47,8 +52,9 @@ class DoctrineListener implements EventSubscriber
          */
         $platform = $args->getDriver()->getName();
         $platform = Str::replaceFirst('pdo_', '', $platform);
+        $response = $this->exceptionController->databaseConnect($platform, $e);
 
-        throw LowLevelDatabaseException::failedConnect($platform, $e);
+        throw new BootException($e->getMessage(), $e->getCode(), $e, $response);
     }
 
     /**

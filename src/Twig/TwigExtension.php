@@ -3,9 +3,7 @@
 namespace Bolt\Twig;
 
 use Bolt;
-use Bolt\Controller\Zone;
 use Silex;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
@@ -141,46 +139,27 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * As of Twig 2.x, the ability to register a global variable after runtime
+     * or the extensions have been initialized will not be possible any longer,
+     * but changing the value of an already registered global is possible.
+     */
     public function getGlobals()
     {
-        /** @var \Bolt\Config $config */
-        $config = $this->app['config'];
-        $configVal = $this->safe ? null : $config;
-        /** @var \Bolt\Users $users */
-        $users = $this->app['users'];
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-        $resources = $this->app['resources'];
-
-        $zone = null;
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->app['request_stack'];
-        if ($request = $requestStack->getCurrentRequest()) {
-            $zone = Zone::get($request);
-        }
-
-        // User calls can cause exceptions that block the exception handler
-        try {
-            /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-            $usersVal = $this->safe ? null : $users->getUsers();
-            $usersCur = $users->getCurrentUser();
-        } catch (\Exception $e) {
-            $usersVal = null;
-            $usersCur = null;
-        }
-
-        // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return [
-            'bolt_name'    => Bolt\Version::name(),
-            'bolt_version' => Bolt\Version::VERSION,
-            'bolt_stable'  => Bolt\Version::isStable(),
-            'frontend'     => $zone === Zone::FRONTEND,
-            'backend'      => $zone === Zone::BACKEND,
-            'async'        => $zone === Zone::ASYNC,
-            'paths'        => $resources->getPaths(),
-            'theme'        => $config->get('theme'),
-            'user'         => $usersCur,
-            'users'        => $usersVal,
-            'config'       => $configVal,
+            'bolt_name'    => null,
+            'bolt_version' => null,
+            'bolt_stable'  => null,
+            'frontend'     => null,
+            'backend'      => null,
+            'async'        => null,
+            'paths'        => null,
+            'theme'        => null,
+            'user'         => null,
+            'users'        => null,
+            'config'       => null,
         ];
     }
 

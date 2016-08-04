@@ -4,7 +4,9 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Controller\Zone;
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\BootException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
@@ -13,13 +15,14 @@ use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
+use InvalidArgumentException;
+use RuntimeException;
 use Silex;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -33,13 +36,10 @@ class Config
 {
     /** @var Silex\Application */
     protected $app;
-
     /** @var array */
     protected $data;
-
     /** @var array */
     protected $defaultConfig = [];
-
     /** @var array */
     protected $reservedFieldNames = [
         'datechanged',
@@ -72,6 +72,9 @@ class Config
     /** @var \Symfony\Component\Yaml\Parser */
     protected $yamlParser = false;
 
+    /** @var array */
+    private $exceptions;
+
     /**
      * @param Silex\Application $app
      */
@@ -80,27 +83,41 @@ class Config
         $this->app = $app;
     }
 
+    /**
+     * @return array|null
+     */
+    public function getExceptions()
+    {
+        return $this->exceptions;
+    }
+
     public function initialize()
     {
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        if (!$this->loadCache()) {
-            $this->data = $this->getConfig();
-            $this->parseTemplatefields();
-            $this->saveCache();
+        try {
+            $loadCache = $this->loadCache();
+        } catch (RuntimeException $e) {
+            return;
+        }
+        $this->setCKPath();
 
-            // If we have to reload the config, we will also want to make sure
-            // the DB integrity is checked.
-            $this->app['schema.timer']->setCheckRequired();
-        } else {
+        if ($loadCache) {
             // In this case the cache is loaded, but because the path of the theme
             // folder is defined in the config file itself, we still need to check
             // retrospectively if we need to invalidate it.
             $this->checkValidCache();
+
+            return;
         }
 
-        $this->setCKPath();
+        $this->data = $this->getConfig();
+        $this->parseTemplatefields();
+
+        // If we have to reload the config, we will also want to make sure
+        // the DB integrity is checked.
+        $this->app['schema.timer']->setCheckRequired();
     }
 
     /**
@@ -431,9 +448,13 @@ class Config
         $contentTypes = [];
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
-            $contentType = $this->parseContentType($key, $contentType, $generalConfig);
-            $key = $contentType['slug'];
-            $contentTypes[$key] = $contentType;
+            try {
+                $contentType = $this->parseContentType($key, $contentType, $generalConfig);
+                $key = $contentType['slug'];
+                $contentTypes[$key] = $contentType;
+            } catch (InvalidArgumentException $e) {
+                $this->exceptions[] = $e->getMessage();
+            }
         }
 
         return $contentTypes;
@@ -465,7 +486,15 @@ class Config
                     'singular_name' => 'Template Fields ' . $template,
                 ];
 
-                $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
+                try {
+                    $templateContentTypes[$template] = $this->parseContentType(
+                        $template,
+                        $fieldsContenttype,
+                        $generalConfig
+                    );
+                } catch (InvalidArgumentException $e) {
+                    $this->exceptions[] = $e->getMessage();
+                }
             }
 
             $themeConfig['templatefields'] = $templateContentTypes;
@@ -500,7 +529,7 @@ class Config
      * @param array  $contentType
      * @param array  $generalConfig
      *
-     * @throws LowlevelException
+     * @throws InvalidArgumentException
      *
      * @return array
      */
@@ -515,17 +544,17 @@ class Config
         // neither 'singular_name' nor 'singular_slug' is set.
         if (!isset($contentType['name']) && !isset($contentType['slug'])) {
             $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
         if (!isset($contentType['singular_name']) && !isset($contentType['singular_slug'])) {
             $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
 
         // Contenttypes without fields make no sense.
         if (!isset($contentType['fields'])) {
             $error = sprintf("In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-            throw new LowlevelException($error);
+            throw new InvalidArgumentException($error);
         }
 
         if (!isset($contentType['slug'])) {
@@ -608,6 +637,11 @@ class Config
         foreach ($fields as $key => $field) {
             unset($fields[$key]);
             $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
+            if (!isset($field['type']) || empty($field['type'])) {
+                $error = sprintf('Field "%s" has no "type" set.', $key);
+
+                throw new InvalidArgumentException($error);
+            }
 
             // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
             if ($field['type'] == 'file' || $field['type'] == 'filelist') {
@@ -1028,9 +1062,9 @@ class Config
             ],
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
-            'debug_error_level'           => 6135,
-            // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
-            'debug_enable_whoops'         => true,
+            'debug_error_level'           => 8181,  // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
+            'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
+            'debug_error_use_profiler'    => true,
             'debug_permission_audit_mode' => false,
             'strict_variables'            => false,
             'theme'                       => 'base-2016',
@@ -1158,7 +1192,7 @@ class Config
     /**
      * Attempt to load cached configuration files.
      *
-     * @throws LowlevelException
+     * @throws RuntimeException
      *
      * @return bool
      */
@@ -1184,7 +1218,7 @@ class Config
         if ($this->cachetimestamp > max($timestamps)) {
             $finder = new Finder();
             $finder->files()
-                ->in($this->app['resources']->getPath('cache'))
+                ->in(dirname($configCache))
                 ->name('config-cache.json')
                 ->depth('== 0')
             ;
@@ -1192,7 +1226,7 @@ class Config
             foreach ($finder as $file) {
                 try {
                     $this->data = json_decode($file->getContents(), true);
-                } catch (\RuntimeException $e) {
+                } catch (RuntimeException $e) {
                     $part = Translator::__(
                         'Try logging in with your ftp-client and make the file readable. ' .
                         'Else try to go <a>back</a> to the last page.'
@@ -1201,7 +1235,7 @@ class Config
                         '<pre>' . htmlspecialchars($configCache) . '</pre>' .
                         '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
-                    throw new LowlevelException(Translator::__('page.file-management.message.file-not-readable' . $message));
+                    throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
                 }
             }
 
@@ -1230,6 +1264,18 @@ class Config
     }
 
     /**
+     * @internal Do not use
+     *
+     * @param FilesystemInterface $cacheFs
+     * @param string              $environment
+     */
+    public function cacheConfig(FilesystemInterface $cacheFs, $environment)
+    {
+        $cacheFile = new JsonFile($cacheFs, $environment . '/config-cache.json');
+        $cacheFile->dump($this->data);
+    }
+
+    /**
      * Cache built configuration parameters.
      */
     protected function saveCache()
@@ -1250,7 +1296,7 @@ class Config
                     'Try logging in with your FTP client and check to see if it is chmodded to be readable by ' .
                     'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
                     'Current path: ' . getcwd() . '.';
-                throw new LowlevelException($message);
+                throw new BootException($message);
             }
         }
 

@@ -40,7 +40,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 
         $app['db.doctrine_listener'] = $app->share(
             function ($app) {
-                return new DoctrineListener($app['logger.system']);
+                return new DoctrineListener($app['logger.system'], $app['controller.exception']);
             }
         );
 

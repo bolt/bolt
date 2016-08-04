@@ -113,14 +113,14 @@ class Environment
      */
     protected function checkCacheVersion()
     {
-        $file = $this->cache->getDirectory() . '/.version';
+        $fileName = $this->getVersionFileName();
 
-        if (!file_exists($file)) {
+        if (!file_exists($fileName)) {
             return false;
         }
 
         $version = md5($this->boltVersion);
-        $cached  = file_get_contents($file);
+        $cached  = file_get_contents($fileName);
 
         if ($version === $cached) {
             return true;
@@ -153,6 +153,11 @@ class Environment
     protected function updateCacheVersion()
     {
         $version = md5($this->boltVersion);
-        file_put_contents($this->cache->getDirectory() . '/.version', $version);
+        file_put_contents($this->getVersionFileName(), $version);
+    }
+
+    private function getVersionFileName()
+    {
+        return dirname(dirname($this->cache->getDirectory())) . '/.version';
     }
 }

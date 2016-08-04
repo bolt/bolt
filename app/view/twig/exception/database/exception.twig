@@ -1,0 +1,11 @@
+{% extends '@bolt/exception/exception.twig' %}
+
+{% block exception %}
+    {% if type == 'connect' %}
+        {{ include('@bolt/exception/database/_failed-connect.twig') }}
+    {% elseif type == 'driver' %}
+        {{ include('@bolt/exception/database/_driver.twig') }}
+    {% elseif type == 'path' %}
+        {{ include('@bolt/exception/database/_invalid-path.twig') }}
+    {% endif %}
+{% endblock exception %}

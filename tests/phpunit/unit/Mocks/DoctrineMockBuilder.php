@@ -16,12 +16,17 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
             'Doctrine\DBAL\Platforms\AbstractPlatform',
             [
                 'getName',
+                'getReservedKeywordsClass',
             ]
         );
 
         $mock->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('mysql'));
+
+        $mock->expects($this->any())
+            ->method('getReservedKeywordsClass')
+            ->will($this->returnValue('Doctrine\DBAL\Platforms\Keywords\MySQLKeywords'));
 
         return $mock;
     }
@@ -59,6 +64,10 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getStatementMock()));
 
         $mock->expects($this->any())
+            ->method('executeQuery')
+            ->will($this->returnValue($this->getStatementMock()));
+
+        $mock->expects($this->any())
             ->method('createQueryBuilder')
             ->will($this->returnValue($this->getQueryBuilderMock($mock)));
 
@@ -70,12 +79,12 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Doctrine\DBAL\Query\QueryBuilder
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function getQueryBuilderMock($connection)
     {
         $exprmock = $this->getMock('Doctrine\DBAL\Query\Expression\ExpressionBuilder', null, [$connection]);
-        $mock = $this->getMock("Doctrine\DBAL\Query\QueryBuilder", ['expr'], [$connection]);
+        $mock = $this->getMock("Doctrine\\DBAL\\Query\\QueryBuilder", ['expr'], [$connection]);
         $mock->expects($this->any())
             ->method('expr')
             ->will($this->returnValue($exprmock));
