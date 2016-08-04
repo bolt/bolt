@@ -45,6 +45,7 @@
                     </div>
                 {% endif %}
 
+                {{ include('@bolt/editcontent/fielddata/_' ~ rfield.type ~ '.twig', ignore_missing = true) }}
                 {{ include(context.fields[rfield.type].template, rcontext) }}
 
                 {# Postfix #}
