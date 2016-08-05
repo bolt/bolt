@@ -11,6 +11,7 @@
 {# Currently selected relationship values #}
 {% set relselect = [] %}
 {% for item in values %}
+    {# We use item.toid instead of item.to_id here to make sure that inversed relations are picked up correctly #}
     {% set relselect =  relselect|merge([item.toid]) %}
 {% endfor %}
 
