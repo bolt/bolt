@@ -11,7 +11,7 @@
 {# Currently selected relationship values #}
 {% set relselect = [] %}
 {% for item in values %}
-    {% set relselect =  relselect|merge([item.getToId()]) %}
+    {% set relselect =  relselect|merge([item.toid]) %}
 {% endfor %}
 
 {# Build the select options array #}
