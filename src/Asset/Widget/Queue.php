@@ -165,7 +165,7 @@ class Queue implements QueueInterface
         foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getZone() === $zone && $widget->getLocation() === $location) {
                 if ($widget->isDeferred()) {
-                    $html = '';
+                    $html = null;
                 } else {
                     $html = $this->getHtml($widget);
                 }
