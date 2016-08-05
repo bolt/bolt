@@ -152,8 +152,9 @@ class Queue implements QueueInterface
     /**
      * Render a location's widget.
      *
-     * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
+     * @param string $location        Location (e.g. 'dashboard_aside_top')
+     * @param string $zone            Either Zone::FRONTEND or Zone::BACKEND
+     * @param string $wrapperTemplate Template file for wrapper
      *
      * @return string|null
      */
@@ -163,24 +164,18 @@ class Queue implements QueueInterface
 
         /** @var WidgetAssetInterface $widget */
         foreach ($this->sort($this->queue) as $widget) {
-            if ($widget->getZone() === $zone && $widget->getLocation() === $location) {
-                if ($widget->isDeferred()) {
-                    $html = null;
-                } else {
-                    $html = $this->getHtml($widget);
-                }
-                $widgets[] = [ 'object' => $widget, 'html' => $html ];
+            if ($widget->getZone() !== $zone || $widget->getLocation() !== $location) {
+                continue;
             }
+            $html = $widget->isDeferred() ? null : $this->getHtml($widget);
+            $widgets[] = ['object' => $widget, 'html' => $html];
         }
 
-        if (!empty($widgets)) {
-            $twigvars = [ 'location' => $location, 'widgets' => $widgets ];
-            $html = $this->render->render($wrapperTemplate, $twigvars);
-        } else {
-            $html = null;
+        if (empty($widgets)) {
+            return null;
         }
 
-        return $html;
+        return $this->render->render($wrapperTemplate, ['location' => $location, 'widgets' => $widgets]);
     }
 
     /**
