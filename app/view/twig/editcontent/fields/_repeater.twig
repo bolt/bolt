@@ -13,7 +13,7 @@
     <legend class="sr-only">{{ labelkey }}</legend>
     <label class="main col-xs-12">{{ labelkey }}</label>
     {% if 'html' not in context.fieldtypes %}
-        {{ include('@bolt/editcontent/fielddata/_html.twig', ignore_missing = true) }}
+        {{ include('@bolt/editcontent/fielddata/_html.twig') }}
     {% endif %}
 
     {# Prefix #}
