@@ -117,7 +117,7 @@ class Relations extends ArrayCollection
         foreach ($inverse as $inverseItem) {
             foreach ($this as $collectionItem) {
                 if (
-                    $collectionItem->to_contenttype == $inverseItem['from_contenttype'] &&
+                    $collectionItem->to_contenttype === $inverseItem['from_contenttype'] &&
                     $collectionItem->to_id == $inverseItem['from_id']
                 ) {
                     $this->removeElement($collectionItem);
@@ -141,8 +141,8 @@ class Relations extends ArrayCollection
         foreach ($this as $k => $existing) {
             if (
                 $existing->getFromId() == $entity->getFromId() &&
-                $existing->getFromContenttype() == $entity->getFromContenttype() &&
-                $existing->getToContenttype() == $entity->getToContenttype() &&
+                $existing->getFromContenttype() === $entity->getFromContenttype() &&
+                $existing->getToContenttype() === $entity->getToContenttype() &&
                 $existing->getTo_id() == $entity->getToId()
             ) {
                 return $existing;
