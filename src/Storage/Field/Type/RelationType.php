@@ -128,7 +128,6 @@ class RelationType extends FieldTypeBase
         $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($relations);
-        $collection->filterInverseValues($existingInverse);
         $repo = $this->em->getRepository('Bolt\Storage\Entity\Relations');
         
         $inverseCollection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
