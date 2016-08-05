@@ -116,7 +116,9 @@ class ImageHandler
 
         try {
             // Get the EXIF data of the image
-            $exif = $reader->read($fullpath);
+            if (false === $exif = $reader->read($fullpath)) {
+                throw new \RuntimeException();
+            }
         } catch (\RuntimeException $e) {
             // No EXIF data… create an empty object.
             $exif = new Exif();
