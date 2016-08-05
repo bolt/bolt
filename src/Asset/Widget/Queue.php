@@ -99,7 +99,7 @@ class Queue implements QueueInterface
     {
         /** @var WidgetAssetInterface $widget */
         foreach ($this->queue as $widget) {
-            if ($widget->getZone() === Zone::FRONTEND && $widget->isDeferred()) {
+            if ($widget->isDeferred()) {
                 $this->addDeferredJavaScript($widget, $response);
             }
         }
@@ -164,7 +164,12 @@ class Queue implements QueueInterface
         /** @var WidgetAssetInterface $widget */
         foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getZone() === $zone && $widget->getLocation() === $location) {
-                $widgets[] = [ 'object' => $widget, 'html' => $this->getHtml($widget) ];
+                if ($widget->isDeferred()) {
+                    $html = '';
+                } else {
+                    $html = $this->getHtml($widget);
+                }
+                $widgets[] = [ 'object' => $widget, 'html' => $html ];
             }
         }
 
