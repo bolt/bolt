@@ -10,6 +10,7 @@ use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Uri;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -20,7 +21,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
-use GuzzleHttp\Psr7\parse_query;
 
 /**
  * Because screw PHP core.
@@ -352,7 +352,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 $connBag = new ParameterBag();
                 $connBag->set('uri', $uri);
-                $connBag->add(parse_query($uri->getQuery()));
+                $connBag->add(Psr7\parse_query($uri->getQuery()));
 
                 $toParse[] = $connBag;
             }
