@@ -157,17 +157,24 @@ class Relations extends ArrayCollection
      *
      * @param $fieldname
      * @param bool $biDirectional
+     * @param string $contenttypeSlug
+     * @param int $contenttypeId
      *
      * @return Relations
      */
-    public function getField($fieldname, $biDirectional = false)
+    public function getField($fieldname, $biDirectional = false, $contenttypeSlug = null, $contenttypeId = null)
     {
         if ($biDirectional) {
-            return $this->filter(function ($el) use ($fieldname) {
-                if ($el->getTo_contenttype() == $fieldname) {
+            return $this->filter(function ($el) use ($fieldname, $contenttypeSlug, $contenttypeId) {
+                if ($el->getFrom_contenttype() === $fieldname && $el->getFrom_contenttype() === $el->getTo_contenttype() && $el->getTo_id() == $contenttypeId) {
+                    $el->actAsInverse();
+
                     return true;
                 }
-                if ($el->getFrom_contenttype() == $fieldname) {
+                if ($el->getTo_contenttype() === $fieldname && $el->getFrom_contenttype() === $contenttypeSlug) {
+                    return true;
+                }
+                if ($el->getFrom_contenttype() === $fieldname && $el->getTo_contenttype() === $contenttypeSlug) {
                     $el->actAsInverse();
 
                     return true;
@@ -176,7 +183,7 @@ class Relations extends ArrayCollection
         }
 
         return $this->filter(function ($el) use ($fieldname) {
-            return $el->getTo_contenttype() == $fieldname;
+            return $el->getTo_contenttype() === $fieldname;
         });
     }
 

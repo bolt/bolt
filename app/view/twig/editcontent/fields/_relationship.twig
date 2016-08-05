@@ -6,10 +6,12 @@
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
 
+{% set values = context.content.relation.getField(relcontenttype, true, context.contenttype.slug, context.content.id)|default([]) %}
+
 {# Currently selected relationship values #}
 {% set relselect = [] %}
-{% for item in context.content.relation.getField(relcontenttype, true)|default([]) %}
-    {% set relselect =  relselect|merge([item.to_id]) %}
+{% for item in values %}
+    {% set relselect =  relselect|merge([item.getToId()]) %}
 {% endfor %}
 
 {# Build the select options array #}
