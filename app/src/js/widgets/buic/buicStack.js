@@ -53,11 +53,11 @@
              * @property {Object} template.other - Template for stackitems of type 'other'
              */
             this._ui = {
-                holder:     fieldset.find('.stackholder'),
-                template:   {
-                                image: fieldset.find('.templates .image'),
-                                other: fieldset.find('.templates .other')
-                            }
+                holder: fieldset.find('.stackholder'),
+                template: {
+                    image: fieldset.find('.templates .image'),
+                    other: fieldset.find('.templates .other')
+                }
             };
 
             // Listen to external events.

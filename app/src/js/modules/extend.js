@@ -329,10 +329,10 @@
         for (var e in data) {
             if (data.hasOwnProperty(e)) {
                 var ext = data[e],
-                conf = bolt.data('extend.packages'),
-                authors = [],
-                keywords = [],
-                i = 0;
+                    conf = bolt.data('extend.packages'),
+                    authors = [],
+                    keywords = [],
+                    i = 0;
 
                 // Authors.
                 if (ext.authors && ext.authors.length > 0) {
@@ -704,7 +704,7 @@
                             }
                         }
                         livesearch.on('blur', function(){
-                           cont.fadeOut();
+                            cont.fadeOut();
                         });
                     }
                 });

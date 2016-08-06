@@ -34,7 +34,7 @@
      * @param {string} key - The key of the value to fetch.
      * @returns {string|number|Object|undefined}conf.get =
      */
-     var conf = function (key) {
+    var conf = function (key) {
         var keys = key.split('.'),
             result = configData,
             i;
@@ -47,7 +47,7 @@
             }
         }
 
-         return result;
+        return result;
     };
     // Set alias function
     conf.get = conf;

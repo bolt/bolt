@@ -244,11 +244,11 @@ var init = {
                 // Prevent breakage on old IE.
                 if (typeof mouseEvt !== "undefined" && mouseEvt !== null) {
                     var self = $(this).find('[data-toggle="dropdown"]'),
-                    menu = self.next('.dropdown-menu'),
-                    mousey = mouseEvt.pageY + 20,
-                    menuHeight = menu.height(),
-                    menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
-                    profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
+                        menu = self.next('.dropdown-menu'),
+                        mousey = mouseEvt.pageY + 20,
+                        menuHeight = menu.height(),
+                        menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
+                        profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
                     if (mousey - menuHeight > 20 && menuVisY < profilerHeight) {
@@ -258,8 +258,6 @@ var init = {
                         });
                     }
                 }
-
-
             });
         });
     },
@@ -327,7 +325,7 @@ var init = {
             $('a[href="#tab-meta"]').click();
             $('#statusselect').focus();
         });
-     },
+    },
 
     /*
      * Toggle options for showing / hiding the password input on the logon screen.

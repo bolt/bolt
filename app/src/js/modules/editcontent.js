@@ -179,9 +179,9 @@
                             url: url,
                             type: 'POST',
                             data: {
-                                    'bolt_csrf_token': token,
-                                    'contenttype': ctype,
-                                    'actions': modifications
+                                'bolt_csrf_token': token,
+                                'contenttype': ctype,
+                                'actions': modifications
                             },
                             success: function () {
                                 window.location.href = pathBolt + 'overview/' + $('#contenttype').val();

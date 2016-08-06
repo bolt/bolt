@@ -202,7 +202,7 @@
             // Parse override settings from config.yml
             for (key in set.ck) {
                 if (set.ck.hasOwnProperty(key)) {
-                     config[key] = set.ck[key];
+                    config[key] = set.ck[key];
                 }
             }
 
