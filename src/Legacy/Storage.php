@@ -690,8 +690,9 @@ class Storage
      * @param       $contenttype
      * @param       $fields
      * @param array $filter
+     * @param bool  $implode
      *
-     * @return \Bolt\Legacy\Content
+     * @return Content
      */
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null, $implode = false)
     {
@@ -1220,8 +1221,8 @@ class Storage
     /**
      * Set the QueryBuilder where parameters.
      *
-     * @param QueryBuilder $query
-     * @param string       $type
+     * @param string $contenttypeSlug
+     * @param string $type
      *
      * @return array|false
      */

@@ -132,6 +132,7 @@ abstract class BaseLogRepository extends Repository
      * Add required WHERE parameters.
      *
      * @param QueryBuilder $qb
+     * @param array        $options
      */
     protected function addWhereActivity(QueryBuilder $qb, $options)
     {
