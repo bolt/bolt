@@ -104,29 +104,6 @@ class Relations extends ArrayCollection
     }
 
     /**
-     * This takes an array resultset of existing inverse relations, that is incoming relations that already exist in
-     * the database but pointing towards this entity. For historic reasons Bolt has treated these as interchangeable
-     * so for backwards compatibility we allow an incoming relation to behave as an outgoing one, but we don't want
-     * to overwrite it in the database. This method takes any affected entity out of the collection before the write
-     * to the database.
-     *
-     * @param $inverse
-     */
-    public function filterInverseValues($inverse)
-    {
-        foreach ($inverse as $inverseItem) {
-            foreach ($this as $collectionItem) {
-                if (
-                    $collectionItem->to_contenttype === $inverseItem['from_contenttype'] &&
-                    $collectionItem->to_id == $inverseItem['from_id']
-                ) {
-                    $this->removeElement($collectionItem);
-                }
-            }
-        }
-    }
-
-    /**
      * This loops over the existing collection to see if the properties in the incoming
      * are already available on a saved record. To do this it checks the four key properties
      * if there's a match it returns the original, otherwise

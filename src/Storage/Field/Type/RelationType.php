@@ -132,7 +132,6 @@ class RelationType extends FieldTypeBase
         
         $inverseCollection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         $inverseCollection->setFromDatabaseValues($existingInverse);
-        $inverseCollection->filterInverseValues($existingDB);
 
         // Add a listener to the main query save that sets the from ID on save and then saves the relations
         $queries->onResult(
