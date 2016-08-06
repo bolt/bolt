@@ -298,9 +298,9 @@ class ImageHandler
      * @param string  $filename Target filename
      * @param integer $width    Target width
      * @param integer $height   Target height
-     * @param string  $zoomcrop Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
-     *                             Set width or height parameter to '0' for proportional scaling
-     *                             Setting them to '' uses default values.
+     * @param string  $crop     Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     *                          Set width or height parameter to '0' for proportional scaling
+     *                          Setting them to '' uses default values.
      *
      * @return string Thumbnail path
      */

@@ -15,6 +15,7 @@ class Prefill
      * Constructor function.
      *
      * @param \GuzzleHttp\Client|\Guzzle\Service\Client $client
+     * @param bool                                      $deprecated
      */
     public function __construct($client, $deprecated = false)
     {

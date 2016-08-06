@@ -141,7 +141,7 @@ class TextHandler
     /**
      * UCfirsts the given string.
      *
-     * @param string $str;
+     * @param string $str
      *
      * @return string Same string where first character is in upper case
      */

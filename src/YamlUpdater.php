@@ -76,8 +76,9 @@ class YamlUpdater
     /**
      * Updates a single value with replacement for given key in yml file.
      *
-     * @param string $key
-     * @param string $value
+     * @param string  $key
+     * @param string  $value
+     * @param boolean $makebackup
      *
      * @return boolean
      */

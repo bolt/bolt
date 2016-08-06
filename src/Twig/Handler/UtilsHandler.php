@@ -118,6 +118,7 @@ class UtilsHandler
     /**
      * Redirect the browser to another page.
      *
+     * @param string  $path
      * @param boolean $safe
      *
      * @return string
