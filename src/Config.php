@@ -66,7 +66,7 @@ class Config
      */
     public $fields;
 
-    /** @var boolean */
+    /** @var boolean  @deprecated Deprecated since 3.2, to be removed in 4.0 */
     public $notify_update;
 
     /** @var \Symfony\Component\Yaml\Parser */
@@ -1245,15 +1245,6 @@ class Config
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
-                return false;
-            }
-
-            // Check to make sure the version is still the same. If not, effectively invalidate the
-            // cached config to force a reload.
-            if (!isset($this->data['version']) || Bolt\Version::compare($this->data['version'], '!=')) {
-                // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
-                $this->notify_update = true;
-
                 return false;
             }
 
