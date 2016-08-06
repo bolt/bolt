@@ -112,14 +112,24 @@ class RecordHandler
      * @param bool                 $common
      * @param bool                 $extended
      * @param bool                 $repeaters
-     * @param bool                 $templatefields
+     * @param bool                 $templateFields
      * @param string               $template
      * @param string|array         $exclude
+     * @param bool                 $skip_uses
      *
      * @return string
      */
-    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null, $skip_uses = true)
-    {
+    public function fields(
+        \Twig_Environment $env,
+        $record = null,
+        $common = true,
+        $extended = false,
+        $repeaters = true,
+        $templateFields = true,
+        $template = '_sub_fields.twig',
+        $exclude = null,
+        $skip_uses = true
+    ) {
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
             $globals = $env->getGlobals();
@@ -128,7 +138,7 @@ class RecordHandler
 
         // Still no record? Nothing to do here, then.
         if (!$record instanceof \Bolt\Legacy\Content) {
-            return;
+            return null;
         }
 
         if (!is_array($exclude)) {
@@ -140,7 +150,7 @@ class RecordHandler
             'common'         => $common,
             'extended'       => $extended,
             'repeaters'      => $repeaters,
-            'templatefields' => $templatefields,
+            'templatefields' => $templateFields,
             'exclude'        => $exclude,
             'skip_uses'      => $skip_uses,
         ];
@@ -185,7 +195,7 @@ class RecordHandler
         $finder = new Finder();
         $finder->files()
             ->in($this->app['resources']->getPath('templatespath'))
-            ->notname('/^_/')
+            ->notName('/^_/')
             ->notPath('node_modules')
             ->notPath('bower_components')
             ->notPath('.sass-cache')

@@ -193,7 +193,7 @@ class ResourceManager
     public function getPathObject($name)
     {
         $name = str_replace('\\', '/', $name);
-         
+
         $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
@@ -313,7 +313,8 @@ class ResourceManager
      * Takes a Request object and uses it to initialize settings that depend on
      * the request.
      *
-     * @param Request $request
+     * @param Application $app
+     * @param Request     $request
      */
     public function initializeRequest(Application $app, Request $request = null)
     {
