@@ -24,6 +24,7 @@ class ContentRepository extends Repository
      *
      * @param array  $contentType
      * @param string $order
+     * @param array  $neededFields
      *
      * @return array|false
      */
@@ -39,6 +40,7 @@ class ContentRepository extends Repository
      *
      * @param array  $contentType
      * @param string $order
+     * @param array  $neededFields
      *
      * @return QueryBuilder
      */

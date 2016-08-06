@@ -4,17 +4,17 @@ Changelog for Bolt 3.x
 Bolt 3.2-dev
 -----------
 
-- Fixed: Database is no longer initialised prior to boot
-- Fixed: System checks now run at start of request cycle
-- Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
-- Removed: Internal use of LowlevelChecks (See Validator)
 - Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
-- Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
 - Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
 - Added: Lazy loading service provider for EntityManager [#5615](https://github.com/bolt/bolt/pull/5615)
 - Added: Lazy loading service provider for SchemaManager [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
 - Added: Symfony HTTP Cache for request caching (replaces Doctrine file cache use) [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
+- Fixed: Database is no longer initialised prior to boot
+- Fixed: System checks now run at start of request cycle
+- Removed: Internal use of LowlevelChecks (See Validator)
+- Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 
 Bolt 3.1-dev
 -----------
@@ -32,10 +32,11 @@ Bolt 3.1-dev
 Bolt 3.0.x
 -----------
 
- - Fixed: Remove the Foreign Key Constraint properties from diffs when supportsForeignKeyConstraints() is false [#5550](https://github.com/bolt/bolt/pull/5550)
- - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
  - Added: Create custom exception for invalid repo, and throw this when accessed [#5568](https://github.com/bolt/bolt/pull/5568)
- - Fixed: Add support for missing `skip_uses` parameter [#5609](https://github.com/bolt/bolt/pull/56095609)
+ - Fixed: Add support for missing `skip_uses` parameter [#5609](https://github.com/bolt/bolt/pull/5609)
+ - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
+ - Fixed: Relationship handling [#5641](https://github.com/bolt/bolt/pull/5641)
+ - Fixed: Remove the Foreign Key Constraint properties from diffs when supportsForeignKeyConstraints() is false [#5550](https://github.com/bolt/bolt/pull/5550)
 
 Bolt 3.0.11
 -----------

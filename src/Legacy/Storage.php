@@ -2902,10 +2902,12 @@ class Storage
     /**
      * Setter for pager storage element.
      *
-     * @param array|Pager $pager
-     * @return $this
-     *
      * @deprecated Just for keep BC
+     *
+     * @param string      $name
+     * @param array|Pager $pager
+     *
+     * @return Storage
      */
     public function setPager($name, $pager)
     {
@@ -2921,10 +2923,11 @@ class Storage
     /**
      * Getter of a pager element. Pager can hold a paging snapshot map.
      *
-     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
-     * @return array
-     *
      * @deprecated Just for keep BC
+     *
+     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     *
+     * @return array
      */
     public function &getPager($name = null)
     {
@@ -2933,6 +2936,9 @@ class Storage
             ->asArray();
     }
 
+    /**
+     * @return bool
+     */
     public function isEmptyPager()
     {
         return $this->app['pager']->isEmptyPager();

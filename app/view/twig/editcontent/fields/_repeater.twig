@@ -12,6 +12,9 @@
 <fieldset class="bolt-field-repeater" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
     <legend class="sr-only">{{ labelkey }}</legend>
     <label class="main col-xs-12">{{ labelkey }}</label>
+    {% if 'html' not in context.fieldtypes %}
+        {{ include('@bolt/editcontent/fielddata/_html.twig') }}
+    {% endif %}
 
     {# Prefix #}
     {% if field.prefix is defined and field.prefix is not empty %}

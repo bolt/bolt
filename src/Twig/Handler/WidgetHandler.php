@@ -72,8 +72,9 @@ class WidgetHandler
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
      * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
+     * @param string $wrapper
      *
-     * @return \Twig_Markup|string
+     * @return string|\Twig_Markup
      */
     public function widgets($location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
     {

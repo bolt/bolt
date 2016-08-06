@@ -7,9 +7,11 @@
 {% set groupby = relation.groupby|default(false) %}
 
 {# Currently selected relationship values #}
+{% set values = context.content.relation.getField(relcontenttype, true, context.contenttype.slug, context.content.id)|default([]) %}
 {% set relselect = [] %}
-{% for item in context.content.relation.getField(relcontenttype, true)|default([]) %}
-    {% set relselect =  relselect|merge([item.to_id]) %}
+{% for item in values %}
+    {# We use item.toid instead of item.to_id here to make sure that inversed relations are picked up correctly #}
+    {% set relselect =  relselect|merge([item.toid]) %}
 {% endfor %}
 
 {# Build the select options array #}

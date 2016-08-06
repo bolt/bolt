@@ -84,6 +84,7 @@ class UtilsHandler
     /**
      * Redirect the browser to another page.
      *
+     * @param string  $path
      * @param boolean $safe
      *
      * @return string
@@ -105,12 +106,12 @@ class UtilsHandler
      *
      * @param string  $parameter    The parameter to get
      * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
-     * @param boolean $stripslashes Apply stripslashes. Defaults to false.
+     * @param boolean $stripSlashes Apply stripslashes. Defaults to false.
      * @param boolean $safe
      *
      * @return mixed
      */
-    public function request($parameter, $from, $stripslashes, $safe)
+    public function request($parameter, $from, $stripSlashes, $safe)
     {
         // Don't expose request in safe context
         if ($safe) {
@@ -127,7 +128,7 @@ class UtilsHandler
             $request = $this->app['request']->get($parameter, false);
         }
 
-        if ($stripslashes) {
+        if ($stripSlashes) {
             $request = stripslashes($request);
         }
 

@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -26,7 +27,10 @@ class SelectQuery implements QueryInterface
     protected $singleFetchMode = false;
 
     /**
-     * @param QueryBuilder $qb
+     * Constructor.
+     *
+     * @param QueryBuilder         $qb
+     * @param QueryParameterParser $parser
      */
     public function __construct(QueryBuilder $qb, QueryParameterParser $parser)
     {
@@ -37,11 +41,11 @@ class SelectQuery implements QueryInterface
     /**
      * Sets the contenttype that this query will run against.
      *
-     * @param string $contenttype
+     * @param string $contentType
      */
-    public function setContentType($contenttype)
+    public function setContentType($contentType)
     {
-        $this->contenttype = $contenttype;
+        $this->contenttype = $contentType;
     }
 
     /**
@@ -93,15 +97,15 @@ class SelectQuery implements QueryInterface
     /**
      * Gets all the parameters for a specific field name.
      *
-     * @param string $fieldname
+     * @param string $fieldName
      *
      * @return array array of key=>value parameters
      */
-    public function getWhereParametersFor($fieldname)
+    public function getWhereParametersFor($fieldName)
     {
         return array_intersect_key(
             $this->getWhereParameters(),
-            array_flip(preg_grep('/^' . $fieldname . '_/', array_keys($this->getWhereParameters())))
+            array_flip(preg_grep('/^' . $fieldName . '_/', array_keys($this->getWhereParameters())))
         );
     }
 
