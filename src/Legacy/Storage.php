@@ -688,8 +688,9 @@ class Storage
      * @param       $contenttype
      * @param       $fields
      * @param array $filter
+     * @param bool  $implode
      *
-     * @return \Bolt\Legacy\Content
+     * @return Content
      */
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null, $implode = false)
     {
@@ -1153,6 +1154,8 @@ class Storage
      * @param array|string|null $inParameters
      *
      * @see $this->decodeContentQuery()
+     *
+     * @return array
      */
     private function organizeQueryParameters($inParameters = null)
     {
