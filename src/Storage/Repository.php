@@ -44,7 +44,8 @@ class Repository implements ObjectRepository
     /**
      * Creates a new empty entity and passes the supplied data to the constructor.
      *
-     * @param array $params
+     * @param array         $params
+     * @param ClassMetadata $metadata
      *
      * @return Entity
      */
@@ -52,6 +53,7 @@ class Repository implements ObjectRepository
     {
         $params = new ArrayObject($params);
         $builder = $this->getEntityBuilder();
+        /** @var Entity $entity */
         $entity = $builder->getEntity();
         $preEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);

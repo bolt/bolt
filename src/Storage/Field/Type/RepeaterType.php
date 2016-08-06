@@ -98,6 +98,7 @@ class RepeaterType extends FieldTypeBase
             }
 
             $this->set($entity, $collection);
+
             return;
         }
 

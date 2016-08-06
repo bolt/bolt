@@ -67,10 +67,11 @@ class MetadataDriver implements MappingDriver
     /**
      * Constructor.
      *
-     * @param Manager $schemaManager
-     * @param array   $contenttypes
-     * @param array   $taxonomies
-     * @param array   $typemap
+     * @param Manager        $schemaManager
+     * @param array          $contenttypes
+     * @param array          $taxonomies
+     * @param array          $typemap
+     * @param NamingStrategy $namingStrategy
      */
     public function __construct(Manager $schemaManager, array $contenttypes, array $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
     {
@@ -199,12 +200,19 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * @param string $contentKey
+     * @param string $className
+     * @param array  $inputData
+     *
+     * @return array|null
+     */
     public function setRepeaters($contentKey, $className, $inputData = null)
     {
         $standalone = false;
 
         if ($inputData === null && !isset($this->contenttypes[$contentKey])) {
-            return;
+            return null;
         }
 
         if ($inputData === null) {
@@ -250,11 +258,12 @@ class MetadataDriver implements MappingDriver
         }
     }
 
-
     /**
      * This is a helper method to get a correct mapping from an array config. It's designed to take raw array config
      * to generate a correct format mapping for repeaters.
+     *
      * @param array $config
+     *
      * @return array
      */
     public function getRepeaterMapping(array $config)

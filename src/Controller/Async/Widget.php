@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Controller\Async;
 
 use Silex\ControllerCollection;
@@ -24,6 +25,8 @@ class Widget extends AsyncBase
      *
      * NOTE: Routes on this controller *MUST* check their own authentication
      * where it is applicable.
+     *
+     * @param Request $request
      */
     public function before(Request $request)
     {
@@ -32,9 +35,10 @@ class Widget extends AsyncBase
     /**
      * Render a widget, and return the HTML, so it can be inserted in the page.
      *
-     * @param string $key
+     * @param Request $request
+     * @param string  $key
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function widget(Request $request, $key)
     {

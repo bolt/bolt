@@ -24,7 +24,8 @@ class BufferIOListener implements EventSubscriberInterface
     /**
      * Constructor function.
      *
-     * @param PackageManager $manager
+     * @param PackageManager  $manager
+     * @param LoggerInterface $logger
      */
     public function __construct(PackageManager $manager, LoggerInterface $logger)
     {
