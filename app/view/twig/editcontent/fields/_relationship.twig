@@ -6,9 +6,8 @@
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
 
-{% set values = context.content.relation.getField(relcontenttype, true, context.contenttype.slug, context.content.id)|default([]) %}
-
 {# Currently selected relationship values #}
+{% set values = context.content.relation.getField(relcontenttype, true, context.contenttype.slug, context.content.id)|default([]) %}
 {% set relselect = [] %}
 {% for item in values %}
     {# We use item.toid instead of item.to_id here to make sure that inversed relations are picked up correctly #}
