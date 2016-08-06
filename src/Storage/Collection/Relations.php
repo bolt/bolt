@@ -120,7 +120,7 @@ class Relations extends ArrayCollection
                 $existing->getFromId() == $entity->getFromId() &&
                 $existing->getFromContenttype() === $entity->getFromContenttype() &&
                 $existing->getToContenttype() === $entity->getToContenttype() &&
-                $existing->getTo_id() == $entity->getToId()
+                $existing->getToId() == $entity->getToId()
             ) {
                 return $existing;
             }
@@ -132,49 +132,56 @@ class Relations extends ArrayCollection
     /**
      * Gets a specific relation type name from the overall collection
      *
-     * @param $fieldname
-     * @param bool $biDirectional
-     * @param string $contenttypeSlug
-     * @param int $contenttypeId
+     * @param string $fieldName
+     * @param bool   $biDirectional
+     * @param string $contentTypeName
+     * @param int    $contentTypeId
      *
      * @return Relations
      */
-    public function getField($fieldname, $biDirectional = false, $contenttypeSlug = null, $contenttypeId = null)
+    public function getField($fieldName, $biDirectional = false, $contentTypeName = null, $contentTypeId = null)
     {
         if ($biDirectional) {
-            return $this->filter(function ($el) use ($fieldname, $contenttypeSlug, $contenttypeId) {
-                if ($el->getFrom_contenttype() === $fieldname && $el->getFrom_contenttype() === $el->getTo_contenttype() && $el->getTo_id() == $contenttypeId) {
+            $filter = function ($el) use ($fieldName, $contentTypeName, $contentTypeId) {
+                /** @var Entity\Relations $el */
+                if ($el->getFromContenttype() === $fieldName && $el->getFromContenttype() === $el->getToContenttype() && $el->getToId() == $contentTypeId) {
                     $el->actAsInverse();
 
                     return true;
                 }
-                if ($el->getTo_contenttype() === $fieldname && $el->getFrom_contenttype() === $contenttypeSlug) {
+                if ($el->getToContenttype() === $fieldName && $el->getFromContenttype() === $contentTypeName) {
                     return true;
                 }
-                if ($el->getFrom_contenttype() === $fieldname && $el->getTo_contenttype() === $contenttypeSlug) {
+                if ($el->getFromContenttype() === $fieldName && $el->getToContenttype() === $contentTypeName) {
                     $el->actAsInverse();
 
                     return true;
                 }
-            });
+
+                return false;
+            };
+
+            return $this->filter($filter);
         }
 
-        return $this->filter(function ($el) use ($fieldname) {
-            return $el->getTo_contenttype() === $fieldname;
+        return $this->filter(function ($el) use ($fieldName) {
+            /** @var Entity\Relations $el */
+            return $el->getToContenttype() === $fieldName;
         });
     }
 
     /**
      * Identifies which relations are incoming to the given entity
      *
-     * @param $entity
+     * @param Entity\Content $entity
      *
      * @return mixed
      */
-    public function incoming($entity)
+    public function incoming(Entity\Content $entity)
     {
         return $this->filter(function ($el) use ($entity) {
-            return $el->getTo_contenttype() == (string) $entity->getContenttype() && $el->getTo_id() === $entity->getId();
+            /** @var Entity\Relations $el */
+            return $el->getToContenttype() == (string) $entity->getContenttype() && $el->getToId() === $entity->getId();
         });
     }
 
