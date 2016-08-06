@@ -11,8 +11,6 @@
 (function (bolt, $, cke) {
     'use strict';
 
-    /*jshint latedef: nofunc */
-
     /**
      * Bolt.ckeditor mixin container.
      *
@@ -20,6 +18,34 @@
      * @type {Object}
      */
     var ckeditor = {};
+
+    /**
+     * Helper function to create conditional lists for toolbars
+     *
+     * @private
+     *
+     * @static
+     * @function list
+     * @memberof Bolt.ckeditor
+     *
+     * @param {...Array} items - Either an array with one element or two, first a boolean tells if to add
+     */
+    function list() {
+        var ret = [];
+
+        for (var n in arguments) {
+            if (arguments[n].length === 1 || arguments[n][0]) {
+                var val = arguments[n][arguments[n].length - 1];
+                if (typeof val === 'string' && val.substr(0, 1) === '|') {
+                    val = val.substr(1);
+                    ret = ret.concat('-');
+                }
+                ret = ret.concat(val);
+            }
+        }
+
+        return ret;
+    }
 
     /**
      * Initialise all CKEditor instances, if available.
@@ -238,34 +264,6 @@
 
         return cke;
     };
-
-    /**
-     * Helper function to create conditional lists for toolbars
-     *
-     * @private
-     *
-     * @static
-     * @function list
-     * @memberof Bolt.ckeditor
-     *
-     * @param {...Array} items - Either an array with one element or two, first a boolean tells if to add
-     */
-    function list() {
-        var ret = [];
-
-        for (var n in arguments) {
-            if (arguments[n].length === 1 || arguments[n][0]) {
-                var val = arguments[n][arguments[n].length - 1];
-                if (typeof val === 'string' && val.substr(0, 1) === '|') {
-                    val = val.substr(1);
-                    ret = ret.concat('-');
-                }
-                ret = ret.concat(val);
-            }
-        }
-
-        return ret;
-    }
 
     // Apply mixin container
     bolt.ckeditor = ckeditor;
