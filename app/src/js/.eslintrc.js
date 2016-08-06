@@ -30,6 +30,6 @@ module.exports = {
         "no-new": "error",
         "no-extra-parens": "off",
         "no-undef": "error",
-        "no-unused-vars": "error"
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^(Bolt|init)$" }]
     }
 };
