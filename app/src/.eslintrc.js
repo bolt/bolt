@@ -1,10 +1,6 @@
 module.exports = {
     "env": {
-    },
-    "globals": {
-        "module": true,
-        "process": true,
-        "require": true
+        "node": true
     },
     "rules": {
         "curly": "error",
