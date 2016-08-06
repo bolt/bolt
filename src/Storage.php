@@ -1134,8 +1134,8 @@ class Storage
     /**
      * Set the QueryBuilder where parameters.
      *
-     * @param QueryBuilder $query
-     * @param string       $type
+     * @param string $contenttypeSlug
+     * @param string $type
      *
      * @return array|false
      */

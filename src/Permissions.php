@@ -375,8 +375,8 @@ class Permissions
     /**
      * Return a list of ContentType permissions that a user has for the ContentType.
      *
-     * @param string             $contentTypeSlug
-     * @param array|Entity\Users $user
+     * @param string      $contentTypeSlug
+     * @param array|Users $user
      *
      * @return boolean[]
      */
@@ -551,7 +551,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentid
      *
      * @throws \Exception
@@ -595,7 +595,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentId
      *
      * @return boolean
