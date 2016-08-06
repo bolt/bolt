@@ -72,10 +72,11 @@ class YamlUpdater
      *
      * @param string $key
      * @param string $value
+     * @param bool   $makeBackup
      *
-     * @return boolean
+     * @return bool
      */
-    public function change($key, $value, $makebackup = true)
+    public function change($key, $value, $makeBackup = true)
     {
         $pattern = str_replace('/', ':.*', $key);
         preg_match_all('/^' . $pattern . '(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
@@ -89,7 +90,7 @@ class YamlUpdater
         $line = substr_count($this->file->read(), "\n", 0, $index);
         $this->yaml[$line] = preg_replace('/^(.*?):(.*)/', '$1: ' . $this->prepareValue($value), $this->yaml[$line]);
 
-        return $this->save($makebackup);
+        return $this->save($makeBackup);
     }
 
     /**

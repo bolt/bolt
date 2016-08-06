@@ -22,6 +22,7 @@ class RepeatingFieldCollection extends ArrayCollection
      * RepeatingFieldCollection constructor.
      *
      * @param EntityManager $em
+     * @param array         $mapping
      * @param array         $elements
      */
     public function __construct(EntityManager $em, array $mapping, $elements = [])
@@ -42,9 +43,9 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param array $fields
-     * @param int   $grouping
-     * @param $entity
+     * @param array  $fields
+     * @param int    $grouping
+     * @param object $entity
      *
      * @throws FieldConfigurationException
      */
@@ -95,7 +96,7 @@ class RepeatingFieldCollection extends ArrayCollection
      * This loops over the existing collection to see if the properties in the incoming
      * are already available on a saved record.
      *
-     * @param $entity
+     * @param object $entity
      *
      * @return mixed|null
      */
@@ -115,7 +116,12 @@ class RepeatingFieldCollection extends ArrayCollection
         return $entity;
     }
 
-    public function update($collection)
+    /**
+     * @param RepeatingFieldCollection $collection
+     *
+     * @return RepeatingFieldCollection[]
+     */
+    public function update(RepeatingFieldCollection $collection)
     {
         $updated = [];
         // First give priority to already existing entities

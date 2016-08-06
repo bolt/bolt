@@ -29,12 +29,19 @@ class Relations extends ArrayCollection
         $this->em = $em;
     }
 
+    /**
+     * @param EntityManager $em
+     */
     public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
     }
 
-    public function setFromPost($formValues, $entity)
+    /**
+     * @param array          $formValues
+     * @param Entity\Content $entity
+     */
+    public function setFromPost(array $formValues, Entity\Content $entity)
     {
         if (isset($formValues['relation'])) {
             $flatVals = $formValues['relation'];
@@ -49,18 +56,21 @@ class Relations extends ArrayCollection
                 if (!$val) {
                     continue;
                 }
-                $newentity = new Entity\Relations([
+                $newEntity = new Entity\Relations([
                     'from_contenttype' => (string) $entity->getContenttype(),
                     'from_id'          => $entity->getId(),
                     'to_contenttype'   => $field,
                     'to_id'            => $val,
                 ]);
-                $this->add($newentity);
+                $this->add($newEntity);
             }
         }
     }
 
-    public function setFromDatabaseValues($result)
+    /**
+     * @param array $result
+     */
+    public function setFromDatabaseValues(array $result)
     {
         foreach ($result as $item) {
             $this->add(new Entity\Relations($item));
@@ -109,11 +119,11 @@ class Relations extends ArrayCollection
      * if there's a match it returns the original, otherwise
      * it returns the new and adds the new one to the collection.
      *
-     * @param $entity
+     * @param Entity\Relations $entity
      *
      * @return mixed|null
      */
-    public function getOriginal($entity)
+    public function getOriginal(Entity\Relations $entity)
     {
         foreach ($this as $k => $existing) {
             if (
