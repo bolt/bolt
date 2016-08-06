@@ -2,6 +2,7 @@
  * Form validation
  */
 Bolt.validation = (function () {
+    "use strict";
 
     /**
      * Basic legacy validation checking

@@ -6,8 +6,12 @@ try {
 } catch(e) {
     /* jshint -W020 */
     console = {
-        log: function () {},
-        assert: function () {}
+        log: function () {
+            "use strict";
+        },
+        assert: function () {
+            "use strict";
+        }
     };
     /* jshint +W020 */
 }
