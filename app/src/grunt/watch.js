@@ -44,6 +44,9 @@ module.exports = {
         ],
         options: {
             reload: true
-        }
+        },
+        tasks: [
+            'eslint:grunt'
+        ]
     }
 };
