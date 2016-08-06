@@ -10,8 +10,6 @@
 (function (bolt, $) {
     'use strict';
 
-    /*jshint latedef: nofunc */
-
     /**
      * Bolt.extend mixin container.
      *
@@ -24,61 +22,180 @@
 
     var activeInterval;
 
-    var events = {
-        click: function (e) {
-            var request = $(e.target).data('request');
+    function find(selector) {
+        return $('.extend-bolt-container').find(selector);
+    }
 
-            switch (request) {
-                case 'update-check':      updateCheck(); break;
-                case 'update-run':        updateRun(); break;
-                case 'update-package':    updatePackage(e.originalEvent); break;
-                case 'check-package':     checkPackage(e.originalEvent); break;
-                case 'uninstall-package': uninstall(e.originalEvent); break;
-                case 'install-package':   install(e.originalEvent); break;
-                case 'prefill-package':   prefill(e.originalEvent); break;
-                case 'install-run':       installRun(e.originalEvent); break;
-                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
-                case 'generate-theme':    generateTheme(e.originalEvent); break;
-                case 'package-available': packageAvailable(e.originalEvent); break;
-                case 'package-copy':      copyTheme(e.originalEvent); break;
-                case 'package-readme':    packageReadme(e.originalEvent); break;
-                case 'package-depends':   packageDepends(e.originalEvent); break;
-                case 'show-all':          showAllVersions(e.originalEvent); break;
+    function formatErrorLog(data) {
+        var errObj = '',
+            html = '',
+            msg = '';
+
+        try {
+            errObj = $.parseJSON(data.responseText);
+        } catch(err) {
+            $('.modal').modal('hide');
+            bootbox.alert('<p>An unknown error occurred. This was the error message:</p>\n\n' +
+                '<pre>' + err.message + '</pre>');
+        }
+
+        if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
+            // Clean up Composer messages.
+            msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
+
+            html = bolt.data(
+                'extend.packages.error',
+                {
+                    '%ERROR_TYPE%': 'Composer Error',
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
+                }
+            );
+        } else if (errObj.error.type === 'Bolt\\Exception\\ExtensionsInfoServiceException') {
+            // Get the exception details
+            msg = errObj.error.message;
+
+            html = bolt.data(
+                'extend.packages.error',
+                {
+                    '%ERROR_TYPE%': 'Extension Site Error',
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
+                }
+            );
+        } else {
+            // Sanitize PHP error file paths.
+            var file = errObj.error.file.replace(new RegExp(bolt.data('extend.rootpath'), 'g'), '');
+
+            html = bolt.data(
+                'extend.packages.error',
+                {
+                    '%ERROR_TYPE%': 'PHP Error',
+                    '%ERROR_MESSAGE%': errObj.error.message,
+                    '%ERROR_LOCATION%': 'File: ' + file + '::' + errObj.error.line
+                }
+            );
+        }
+
+        $('.modal').modal('hide');
+        bootbox.alert(html);
+    }
+
+    function renderPackage(data) {
+        var html = '';
+
+        for (var e in data) {
+            if (data.hasOwnProperty(e)) {
+                var ext = data[e],
+                    conf = bolt.data('extend.packages'),
+                    authors = [],
+                    keywords = [],
+                    i = 0;
+
+                // Authors.
+                if (ext.authors && ext.authors.length > 0) {
+                    for (i = 0; i < ext.authors.length; i++) {
+                        authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
+                    }
+                }
+                authors = authors.length ? conf.authors.subst({'%AUTHORS%': authors.join(', ')}) : '';
+
+                // Keywords list.
+                if (ext.keywords && ext.keywords.length > 0) {
+                    for (i = 0; i < ext.keywords.length; i++) {
+                        keywords.push(conf.keyword.subst({'%KEYWORD%': ext.keywords[i]}));
+                    }
+                }
+                keywords = keywords.length ? conf.keywords.subst({'%KEYWORDS%': keywords.join(' ')}) : '';
+
+                if (ext.name === 'wikimedia/composer-merge-plugin') {
+                    ext.title = 'Local Extension Helper';
+                }
+
+                // Manage dropdown
+                var manage = '';
+                if (ext.status === 'installed' && ext.type !== "composer-plugin") {
+                    manage = conf.manage_dropdown.subst({
+                        '%NAME%': ext.name,
+                        '%VERSION%': ext.version,
+                        '%BASEURL%': bolt.data('extend.baseurl'),
+                        '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
+                        '%REPOSITORY_URL%': ext.repositoryLink
+                    });
+                }
+                var invalid = ' — [INVALID] ';
+                var disabled = ' — [DISABLED] ';
+                var constraint = '<i class="fa fa-cog fa-fw"></i>';
+
+                var buttonGroup = conf.left_buttons.subst({
+                    '%README%': ext.readmeLink !== null ? conf.readme_button.subst({'%README%': ext.readmeLink}) : '',
+                    '%CONFIG%': ext.configLink !== null ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
+                    '%THEME%':  ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : ''
+                });
+
+                // Generate the HTML for a package item.
+                html += conf.item.subst({
+                    '%TITLE%':       ext.title ? ext.title : ext.name,
+                    '%NAME%':        ext.name,
+                    '%VERSION%':     ext.version,
+                    '%AUTHORS%':     authors,
+                    '%TYPE%':        ext.type,
+                    '%MANAGE%':      manage,
+                    '%DETAILS%':     buttonGroup,
+                    '%BASEURL%':     bolt.data('extend.baseurl'),
+                    '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
+                    '%KEYWORDS%':    keywords,
+                    '%STATUS%':      ext.valid === false ? invalid : '',
+                    '%ENABLED%':     ext.enabled === false ? disabled : '',
+                    '%CONSTRAINT%':  ext.constraint !== null ? constraint + ' Requires Bolt ' + ext.constraint : ''
+                });
             }
         }
-    };
 
-    /**
-     * Initializes the mixin.
-     *
-     * @static
-     * @function init
-     * @memberof Bolt.extend
-     */
-    extend.init = function () {
-        var extend = $('.extend-bolt-container');
+        return html;
+    }
 
-        if (extend.length) {
-            extend.on('click', events.click);
+    function checkInstalled() {
+        find('.installed-container').each(function(){
+            var target = $(this).find('.installed-list');
 
-            $(document).ajaxStart(function () {
-                // Show loader on start.
-                activeInterval = setInterval(function () {
-                    if (activeConsole) {
-                        activeConsole.append('.');
-                    }
-                }, 1000);
-            }).ajaxSuccess(function () {
-                clearInterval(activeInterval);
-            }).ajaxError(function() {
-                clearInterval(activeInterval);
+            activeConsole = find('.installed-container .console');
+
+            $.get(bolt.data('extend.baseurl') + 'installed', function (data) {
+                var html = '';
+
+                if (typeof data !== 'object') {
+                    activeConsole.html(bolt.data('extend.text.bad-json'));
+
+                    return;
+                }
+
+                target.show();
+                target.find('.installed-list-items').html('');
+                find('.installed-container .console').hide();
+
+                var nadda = true;
+
+                // Render packages
+                if (typeof data === 'object') {
+                    html += renderPackage(data);
+                    nadda = false;
+                }
+
+                // Nothing is installed.
+                if (nadda) {
+                    html = bolt.data('extend.packages.empty');
+                    activeConsole.hide();
+                }
+
+                target.find('.installed-list-items').append(html);
+
+            })
+            .fail(function(data) {
+                formatErrorLog(data);
             });
-
-            checkInstalled();
-            liveSearch();
-            installReset();
-        }
-    };
+        });
+    }
 
     /* jshint -W126 */
     var delay = (function () {
@@ -90,10 +207,6 @@
         };
     })();
     /* jshint +W126 */
-
-    function find(selector) {
-        return $('.extend-bolt-container').find(selector);
-    }
 
     function installReset() {
         $('#installModal').on('hide.bs.modal', function () {
@@ -185,6 +298,46 @@
         .fail(function(data) {
             formatErrorLog(data);
         });
+    }
+
+    /**
+     * Load the initial feedback dialogue.
+     *
+     * @param titleMsg
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueLoad(titleMsg, consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (titleMsg) {
+            container.find('.update-output-title').html(titleMsg);
+        }
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg);
+            container.find('.update-output-console').show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
+        container.show();
+    }
+
+    /**
+     * Update the message console.
+     *
+     * @param consoleMsg
+     * @param noticeMsg
+     */
+    function feedbackDialogueSetMessage(consoleMsg, noticeMsg) {
+        var container = find('.update-container');
+
+        if (consoleMsg) {
+            container.find('.update-output-console').find('.console').html(consoleMsg).show();
+        }
+        if (noticeMsg) {
+            container.find('.update-output-notice').html(noticeMsg).show();
+        }
     }
 
     function updateRun() {
@@ -281,135 +434,32 @@
         e.preventDefault();
     }
 
-    function checkInstalled() {
-        find('.installed-container').each(function(){
-            var target = $(this).find('.installed-list');
+    function buildVersionTable(packages) {
+        var tpl = '',
+            version,
+            aclass;
 
-            activeConsole = find('.installed-container .console');
+        for (var v in packages) {
+            if (packages.hasOwnProperty(v)) {
+                version = packages[v];
+                if (typeof version !== 'undefined') {
+                    aclass = version.buildStatus === 'approved' ? ' label-success' : '';
 
-            $.get(bolt.data('extend.baseurl') + 'installed', function (data) {
-                var html = '';
-
-                if (typeof data !== 'object') {
-                    activeConsole.html(bolt.data('extend.text.bad-json'));
-
-                    return;
+                    // Add a row and replace macro values.
+                    tpl += bolt.data(
+                        'extend.packages.versions',
+                        {
+                            '%NAME%': version.name,
+                            '%VERSION%': version.version,
+                            '%CLASS%%': aclass,
+                            '%BUILDSTATUS%': version.buildStatus
+                        }
+                    );
                 }
-
-                target.show();
-                target.find('.installed-list-items').html('');
-                find('.installed-container .console').hide();
-
-                var nadda = true;
-
-                // Render packages
-                if (typeof data === 'object') {
-                    html += renderPackage(data);
-                    nadda = false;
-                }
-
-                // Nothing is installed.
-                if (nadda) {
-                    html = bolt.data('extend.packages.empty');
-                    activeConsole.hide();
-                }
-
-                target.find('.installed-list-items').append(html);
-
-            })
-            .fail(function(data) {
-                formatErrorLog(data);
-            });
-        });
-    }
-
-    function renderPackage(data) {
-        var html = '';
-
-        for (var e in data) {
-            if (data.hasOwnProperty(e)) {
-                var ext = data[e],
-                    conf = bolt.data('extend.packages'),
-                    authors = [],
-                    keywords = [],
-                    i = 0;
-
-                // Authors.
-                if (ext.authors && ext.authors.length > 0) {
-                    for (i = 0; i < ext.authors.length; i++) {
-                        authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
-                    }
-                }
-                authors = authors.length ? conf.authors.subst({'%AUTHORS%': authors.join(', ')}) : '';
-
-                // Keywords list.
-                if (ext.keywords && ext.keywords.length > 0) {
-                    for (i = 0; i < ext.keywords.length; i++) {
-                        keywords.push(conf.keyword.subst({'%KEYWORD%': ext.keywords[i]}));
-                    }
-                }
-                keywords = keywords.length ? conf.keywords.subst({'%KEYWORDS%': keywords.join(' ')}) : '';
-
-                if (ext.name === 'wikimedia/composer-merge-plugin') {
-                    ext.title = 'Local Extension Helper';
-                }
-
-                // Manage dropdown
-                var manage = '';
-                if (ext.status === 'installed' && ext.type !== "composer-plugin") {
-                    manage = conf.manage_dropdown.subst({
-                        '%NAME%': ext.name,
-                        '%VERSION%': ext.version,
-                        '%BASEURL%': bolt.data('extend.baseurl'),
-                        '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
-                        '%REPOSITORY_URL%': ext.repositoryLink
-                    });
-                }
-                var invalid = ' — [INVALID] ';
-                var disabled = ' — [DISABLED] ';
-                var constraint = '<i class="fa fa-cog fa-fw"></i>';
-
-                var buttonGroup = conf.left_buttons.subst({
-                    '%README%': ext.readmeLink !== null ? conf.readme_button.subst({'%README%': ext.readmeLink}) : '',
-                    '%CONFIG%': ext.configLink !== null ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
-                    '%THEME%':  ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : ''
-                });
-
-                // Generate the HTML for a package item.
-                html += conf.item.subst({
-                    '%TITLE%':       ext.title ? ext.title : ext.name,
-                    '%NAME%':        ext.name,
-                    '%VERSION%':     ext.version,
-                    '%AUTHORS%':     authors,
-                    '%TYPE%':        ext.type,
-                    '%MANAGE%':      manage,
-                    '%DETAILS%':     buttonGroup,
-                    '%BASEURL%':     bolt.data('extend.baseurl'),
-                    '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
-                    '%KEYWORDS%':    keywords,
-                    '%STATUS%':      ext.valid === false ? invalid : '',
-                    '%ENABLED%':     ext.enabled === false ? disabled : '',
-                    '%CONSTRAINT%':  ext.constraint !== null ? constraint + ' Requires Bolt ' + ext.constraint : ''
-                });
             }
         }
 
-        return html;
-    }
-
-    function checkPackage(e) {
-        // Depending on whether we 'autocompleted' an extension name or not, either
-        // pick the value from the input itself, or from the data attribute.
-        var ext = find('input[name="check-package"]').val(),
-            packagename = find('input[name="check-package"]').data('packagename');
-
-        if (packagename) {
-            ext = packagename;
-        }
-
-        installInfo(ext);
-
-        e.preventDefault();
+        return tpl;
     }
 
     function installInfo(ext) {
@@ -447,37 +497,60 @@
         });
     }
 
+    function checkPackage(e) {
+        // Depending on whether we 'autocompleted' an extension name or not, either
+        // pick the value from the input itself, or from the data attribute.
+        var ext = find('input[name="check-package"]').val(),
+            packagename = find('input[name="check-package"]').data('packagename');
+
+        if (packagename) {
+            ext = packagename;
+        }
+
+        installInfo(ext);
+
+        e.preventDefault();
+    }
+
     function showAllVersions() {
         find('.install-latest-container').hide();
         find('.install-version-container').show();
     }
 
-    function buildVersionTable(packages) {
-        var tpl = '',
-            version,
-            aclass;
+    function extensionPostInstall(extension) {
+        find('.extension-postinstall').show();
+        find('.extension-postinstall .modal-success').show();
+        find('.postinstall-footer .ext-link').attr('href', extension.source);
+        find('.postinstall-footer').show();
+    }
 
-        for (var v in packages) {
-            if (packages.hasOwnProperty(v)) {
-                version = packages[v];
-                if (typeof version !== 'undefined') {
-                    aclass = version.buildStatus === 'approved' ? ' label-success' : '';
+    function themePostInstall(extension) {
+        var name = extension.name.split(/\/+/).pop();
 
-                    // Add a row and replace macro values.
-                    tpl += bolt.data(
-                        'extend.packages.versions',
-                        {
-                            '%NAME%': version.name,
-                            '%VERSION%': version.version,
-                            '%CLASS%%': aclass,
-                            '%BUILDSTATUS%': version.buildStatus
-                        }
-                    );
-                }
+        find('.install-response-container').hide();
+        find('.theme-postinstall').show();
+        find('.theme-generation-container').show();
+        find('.theme-postinstall .theme-generator').data('theme', extension.name);
+        find('.theme-postinstall #theme-name').val(name);
+        find('.postinstall-footer').show();
+    }
+
+    function postInstall(packageName, packageVersion) {
+        $.get(
+            bolt.data('extend.baseurl') + 'packageInfo',
+            {'package': packageName, 'version': packageVersion}
+        )
+        .done(function(data) {
+            if (data.type === 'bolt-extension') {
+                extensionPostInstall(data);
             }
-        }
-
-        return tpl;
+            if (data.type === 'bolt-theme') {
+                themePostInstall(data);
+            }
+        })
+        .fail(function(data) {
+            formatErrorLog(data);
+        });
     }
 
     function install(e) {
@@ -505,42 +578,6 @@
             formatErrorLog(data);
         });
         e.preventDefault();
-    }
-
-    function postInstall(packageName, packageVersion) {
-        $.get(
-            bolt.data('extend.baseurl') + 'packageInfo',
-            {'package': packageName, 'version': packageVersion}
-        )
-        .done(function(data) {
-            if (data.type === 'bolt-extension') {
-                extensionPostInstall(data);
-            }
-            if (data.type === 'bolt-theme') {
-                themePostInstall(data);
-            }
-        })
-        .fail(function(data) {
-            formatErrorLog(data);
-        });
-    }
-
-    function extensionPostInstall(extension) {
-        find('.extension-postinstall').show();
-        find('.extension-postinstall .modal-success').show();
-        find('.postinstall-footer .ext-link').attr('href', extension.source);
-        find('.postinstall-footer').show();
-    }
-
-    function themePostInstall(extension) {
-        var name = extension.name.split(/\/+/).pop();
-
-        find('.install-response-container').hide();
-        find('.theme-postinstall').show();
-        find('.theme-generation-container').show();
-        find('.theme-postinstall .theme-generator').data('theme', extension.name);
-        find('.theme-postinstall #theme-name').val(name);
-        find('.postinstall-footer').show();
     }
 
     function generateTheme(e) {
@@ -720,100 +757,61 @@
         find('.auto-search').hide();
     }
 
-    function formatErrorLog(data) {
-        var errObj = '',
-            html = '',
-            msg = '';
+    var events = {
+        click: function (e) {
+            var request = $(e.target).data('request');
 
-        try {
-            errObj = $.parseJSON(data.responseText);
-        } catch(err) {
-            $('.modal').modal('hide');
-            bootbox.alert('<p>An unknown error occurred. This was the error message:</p>\n\n' +
-                '<pre>' + err.message + '</pre>');
+            switch (request) {
+                case 'update-check':      updateCheck(); break;
+                case 'update-run':        updateRun(); break;
+                case 'update-package':    updatePackage(e.originalEvent); break;
+                case 'check-package':     checkPackage(e.originalEvent); break;
+                case 'uninstall-package': uninstall(e.originalEvent); break;
+                case 'install-package':   install(e.originalEvent); break;
+                case 'prefill-package':   prefill(e.originalEvent); break;
+                case 'install-run':       installRun(e.originalEvent); break;
+                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
+                case 'generate-theme':    generateTheme(e.originalEvent); break;
+                case 'package-available': packageAvailable(e.originalEvent); break;
+                case 'package-copy':      copyTheme(e.originalEvent); break;
+                case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'package-depends':   packageDepends(e.originalEvent); break;
+                case 'show-all':          showAllVersions(e.originalEvent); break;
+            }
         }
-
-        if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
-            // Clean up Composer messages.
-            msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
-
-            html = bolt.data(
-                'extend.packages.error',
-                {
-                    '%ERROR_TYPE%': 'Composer Error',
-                    '%ERROR_MESSAGE%': msg,
-                    '%ERROR_LOCATION%': ''
-                }
-            );
-        } else if (errObj.error.type === 'Bolt\\Exception\\ExtensionsInfoServiceException') {
-            // Get the exception details
-            msg = errObj.error.message;
-
-            html = bolt.data(
-                'extend.packages.error',
-                {
-                    '%ERROR_TYPE%': 'Extension Site Error',
-                    '%ERROR_MESSAGE%': msg,
-                    '%ERROR_LOCATION%': ''
-                }
-            );
-        } else {
-            // Sanitize PHP error file paths.
-            var file = errObj.error.file.replace(new RegExp(bolt.data('extend.rootpath'), 'g'), '');
-
-            html = bolt.data(
-                'extend.packages.error',
-                {
-                    '%ERROR_TYPE%': 'PHP Error',
-                    '%ERROR_MESSAGE%': errObj.error.message,
-                    '%ERROR_LOCATION%': 'File: ' + file + '::' + errObj.error.line
-                }
-            );
-        }
-
-        $('.modal').modal('hide');
-        bootbox.alert(html);
-    }
+    };
 
     /**
-     * Load the initial feedback dialogue.
+     * Initializes the mixin.
      *
-     * @param titleMsg
-     * @param consoleMsg
-     * @param noticeMsg
+     * @static
+     * @function init
+     * @memberof Bolt.extend
      */
-    function feedbackDialogueLoad(titleMsg, consoleMsg, noticeMsg) {
-        var container = find('.update-container');
+    extend.init = function () {
+        var extend = $('.extend-bolt-container');
 
-        if (titleMsg) {
-            container.find('.update-output-title').html(titleMsg);
-        }
-        if (consoleMsg) {
-            container.find('.update-output-console').find('.console').html(consoleMsg);
-            container.find('.update-output-console').show();
-        }
-        if (noticeMsg) {
-            container.find('.update-output-notice').html(noticeMsg).show();
-        }
-        container.show();
-    }
+        if (extend.length) {
+            extend.on('click', events.click);
 
-    /**
-     * Update the message console.
-     *
-     * @param consoleMsg
-     * @param noticeMsg
-     */
-    function feedbackDialogueSetMessage(consoleMsg, noticeMsg) {
-        var container = find('.update-container');
+            $(document).ajaxStart(function () {
+                // Show loader on start.
+                activeInterval = setInterval(function () {
+                    if (activeConsole) {
+                        activeConsole.append('.');
+                    }
+                }, 1000);
+            }).ajaxSuccess(function () {
+                clearInterval(activeInterval);
+            }).ajaxError(function() {
+                clearInterval(activeInterval);
+            });
 
-        if (consoleMsg) {
-            container.find('.update-output-console').find('.console').html(consoleMsg).show();
+            checkInstalled();
+            liveSearch();
+            installReset();
         }
-        if (noticeMsg) {
-            container.find('.update-output-notice').html(noticeMsg).show();
-        }
-    }
+    };
 
     // Apply mixin container.
     bolt.extend = extend;
