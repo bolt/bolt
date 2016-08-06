@@ -104,29 +104,6 @@ class Relations extends ArrayCollection
     }
 
     /**
-     * This takes an array resultset of existing inverse relations, that is incoming relations that already exist in
-     * the database but pointing towards this entity. For historic reasons Bolt has treated these as interchangeable
-     * so for backwards compatibility we allow an incoming relation to behave as an outgoing one, but we don't want
-     * to overwrite it in the database. This method takes any affected entity out of the collection before the write
-     * to the database.
-     *
-     * @param $inverse
-     */
-    public function filterInverseValues($inverse)
-    {
-        foreach ($inverse as $inverseItem) {
-            foreach ($this as $collectionItem) {
-                if (
-                    $collectionItem->to_contenttype == $inverseItem['from_contenttype'] &&
-                    $collectionItem->to_id == $inverseItem['from_id']
-                ) {
-                    $this->removeElement($collectionItem);
-                }
-            }
-        }
-    }
-
-    /**
      * This loops over the existing collection to see if the properties in the incoming
      * are already available on a saved record. To do this it checks the four key properties
      * if there's a match it returns the original, otherwise
@@ -141,8 +118,8 @@ class Relations extends ArrayCollection
         foreach ($this as $k => $existing) {
             if (
                 $existing->getFromId() == $entity->getFromId() &&
-                $existing->getFromContenttype() == $entity->getFromContenttype() &&
-                $existing->getToContenttype() == $entity->getToContenttype() &&
+                $existing->getFromContenttype() === $entity->getFromContenttype() &&
+                $existing->getToContenttype() === $entity->getToContenttype() &&
                 $existing->getTo_id() == $entity->getToId()
             ) {
                 return $existing;
@@ -157,17 +134,24 @@ class Relations extends ArrayCollection
      *
      * @param $fieldname
      * @param bool $biDirectional
+     * @param string $contenttypeSlug
+     * @param int $contenttypeId
      *
      * @return Relations
      */
-    public function getField($fieldname, $biDirectional = false)
+    public function getField($fieldname, $biDirectional = false, $contenttypeSlug = null, $contenttypeId = null)
     {
         if ($biDirectional) {
-            return $this->filter(function ($el) use ($fieldname) {
-                if ($el->getTo_contenttype() == $fieldname) {
+            return $this->filter(function ($el) use ($fieldname, $contenttypeSlug, $contenttypeId) {
+                if ($el->getFrom_contenttype() === $fieldname && $el->getFrom_contenttype() === $el->getTo_contenttype() && $el->getTo_id() == $contenttypeId) {
+                    $el->actAsInverse();
+
                     return true;
                 }
-                if ($el->getFrom_contenttype() == $fieldname) {
+                if ($el->getTo_contenttype() === $fieldname && $el->getFrom_contenttype() === $contenttypeSlug) {
+                    return true;
+                }
+                if ($el->getFrom_contenttype() === $fieldname && $el->getTo_contenttype() === $contenttypeSlug) {
                     $el->actAsInverse();
 
                     return true;
@@ -176,7 +160,7 @@ class Relations extends ArrayCollection
         }
 
         return $this->filter(function ($el) use ($fieldname) {
-            return $el->getTo_contenttype() == $fieldname;
+            return $el->getTo_contenttype() === $fieldname;
         });
     }
 
