@@ -21,6 +21,8 @@ module.exports = {
             src: 'WOFF?(2)/OTF/SourceSansPro-@(It|Regular|Semibold).otf.woff?(2)',
             dest: '<%= path.dest.fonts %>',
             rename: function(dest, src) {
+                "use strict";
+
                 return dest + '/' + src.replace(/\.otf(\.woff2?)$/, '$1');
             }
         }]
