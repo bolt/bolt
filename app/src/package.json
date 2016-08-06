@@ -21,7 +21,6 @@
         "grunt-bootlint": "~0.10.1",
         "grunt-contrib-concat": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
-        "grunt-contrib-jshint": "~1.0.0",
         "grunt-contrib-uglify": "~1.0.1",
         "grunt-contrib-watch": "~1.0.0",
         "grunt-endline": "~0.5.0",
