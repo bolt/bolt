@@ -12,8 +12,6 @@
 (function (bolt, $, moment) {
     'use strict';
 
-    /*jshint latedef: nofunc */
-
     /**
      * Collection of input elements.
      *
@@ -54,42 +52,84 @@
     var fields = [];
 
     /**
-     * Initialize the datetime and date input combos.
+     * Collects all inputs belonging to a DateTime/Date input combo.
      *
-     * @static
-     * @function init
+     * @private
+     * @function elements
      * @memberof Bolt.datetime
+     *
+     * @param {Object} item - Data element.
+     * @returns {InputElements}
      */
-    datetime.init = function () {
-        // Find out if locale uses 24h format
-        is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
+    function elements(item) {
+        var container = item.closest('.datetime-container'),
+            field = {};
 
-        // Initialize each available date/datetime field
-        $('input.datetime').each(function () {
-            var field = elements($(this));
+        field.data = item;
+        field.date = container.find('input.datepicker');
+        field.time = container.find('input.timepicker');
+        field.show = container.find('button.btn-tertiary');
+        field.clear = container.find('button.btn-default');
 
-            // Remember field data
-            fields.push(field);
+        field.time.exists = field.time.length > 0;
 
-            // Uncomment for debug purpose to make hidden datafields visible
-            // field.data.attr('type', 'text');
+        return field;
+    }
 
-            // Bind datepicker to date field and set options from field in contenttypes.yml
-            bindDatepicker(field);
+    /**
+     * Displays the value read from the data field inside combos input field(s).
+     *
+     * @private
+     * @function display
+     * @memberof Bolt.datetime
+     *
+     * @param {InputElements} field
+     */
+    function display(field) {
+        var date = '',
+            time = '',
+            hour,
+            match,
+            setDate,
+            postfix;
 
-            display(field);
+        // Correct no depublish date
+        if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
+            field.data.val('');
+        }
 
-            // Bind change action to date and time field
-            field.date.change(function () {
-                evaluate(field);
-                display(field);
-            });
-            field.time.change(function () {
-                evaluate(field);
-                display(field);
-            });
-        });
-    };
+        // If data field has a valid datetime or date
+        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2})(?: (\d{2}:\d{2}:\d{2}))?$/);
+        if (match) {
+            date = match[1];
+            time = match[2] || '';
+        }
+
+        // Set date field
+        setDate = date === '' || date === '0000-00-00' ? '' : $.datepicker.parseDate('yy-mm-dd', date);
+        field.date.datepicker('setDate', setDate);
+
+        // Set time field, but only if the date isn't '0000-00-00'
+        if (field.time.exists && date !== '0000-00-00') {
+            if (time === '') {
+                // if date is set, and time field exists, always set time #2288
+                if (date !== '') {
+                    time = '00:00';
+                } else {
+                    time = '';
+                }
+            } else if (is24h) {
+                time = field.data.val().slice(11, 16);
+            } else {
+                hour = parseInt(time.slice(0, 2));
+                postfix = hour < 12 ? ' AM' : ' PM';
+                time = (hour % 12 || 12) + time.slice(2, 5) + postfix;
+            }
+            field.time.val(time);
+        }
+        // trigger 'change' on the 'real' field for listeners
+        field.data.trigger('change');
+    }
 
     /**
      * Updates display of datetime and date inputs from their data fields.
@@ -154,61 +194,6 @@
     }
 
     /**
-     * Displays the value read from the data field inside combos input field(s).
-     *
-     * @private
-     * @function display
-     * @memberof Bolt.datetime
-     *
-     * @param {InputElements} field
-     */
-    function display(field) {
-        var date = '',
-            time = '',
-            hour,
-            match,
-            setDate,
-            postfix;
-
-        // Correct no depublish date
-        if (field.data.attr('id') === 'datedepublish' && field.data.val() === '1900-01-01 00:00:00') {
-            field.data.val('');
-        }
-
-        // If data field has a valid datetime or date
-        match = field.data.val().match(/^(\d{4}-\d{2}-\d{2})(?: (\d{2}:\d{2}:\d{2}))?$/);
-        if (match) {
-            date = match[1];
-            time = match[2] || '';
-        }
-
-        // Set date field
-        setDate = date === '' || date === '0000-00-00' ? '' : $.datepicker.parseDate('yy-mm-dd', date);
-        field.date.datepicker('setDate', setDate);
-
-        // Set time field, but only if the date isn't '0000-00-00'
-        if (field.time.exists && date !== '0000-00-00') {
-            if (time === '') {
-                // if date is set, and time field exists, always set time #2288
-                if (date !== '') {
-                    time = '00:00';
-                } else {
-                    time = '';
-                }
-            } else if (is24h) {
-                time = field.data.val().slice(11, 16);
-            } else {
-                hour = parseInt(time.slice(0, 2));
-                postfix = hour < 12 ? ' AM' : ' PM';
-                time = (hour % 12 || 12) + time.slice(2, 5) + postfix;
-            }
-            field.time.val(time);
-        }
-        // trigger 'change' on the 'real' field for listeners
-        field.data.trigger('change');
-    }
-
-    /**
      * Binds the datepicker to the date input and initializes it.
      *
      * @private
@@ -242,29 +227,42 @@
     }
 
     /**
-     * Collects all inputs belonging to a DateTime/Date input combo.
+     * Initialize the datetime and date input combos.
      *
-     * @private
-     * @function elements
+     * @static
+     * @function init
      * @memberof Bolt.datetime
-     *
-     * @param {Object} item - Data element.
-     * @returns {InputElements}
      */
-    function elements(item) {
-        var container = item.closest('.datetime-container'),
-            field = {};
+    datetime.init = function () {
+        // Find out if locale uses 24h format
+        is24h = moment.localeData()._longDateFormat.LT.replace(/\[.+?\]/gi, '').match(/A/) ? false : true;
 
-        field.data = item;
-        field.date = container.find('input.datepicker');
-        field.time = container.find('input.timepicker');
-        field.show = container.find('button.btn-tertiary');
-        field.clear = container.find('button.btn-default');
+        // Initialize each available date/datetime field
+        $('input.datetime').each(function () {
+            var field = elements($(this));
 
-        field.time.exists = field.time.length > 0;
+            // Remember field data
+            fields.push(field);
 
-        return field;
-    }
+            // Uncomment for debug purpose to make hidden datafields visible
+            // field.data.attr('type', 'text');
+
+            // Bind datepicker to date field and set options from field in contenttypes.yml
+            bindDatepicker(field);
+
+            display(field);
+
+            // Bind change action to date and time field
+            field.date.change(function () {
+                evaluate(field);
+                display(field);
+            });
+            field.time.change(function () {
+                evaluate(field);
+                display(field);
+            });
+        });
+    };
 
     // Apply mixin container
     bolt.datetime = datetime;
