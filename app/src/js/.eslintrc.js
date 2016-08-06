@@ -23,7 +23,7 @@ module.exports = {
         "wrap-iife": ["error","any"],
         "indent": ["error", 4, {"SwitchCase": 1}],
         "no-use-before-define": "error",
-        "max-len": ["error", {"code": 120, "ignoreComments": true}],
+        "max-len": ["warn", {"code": 120, "ignoreComments": true}],
         "no-caller": "error",
         "no-sequences": "error",
         "no-irregular-whitespace": "error",
