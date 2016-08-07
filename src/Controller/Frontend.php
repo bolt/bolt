@@ -7,7 +7,6 @@ use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
-use Bolt\Pager;
 use Bolt\Response\BoltResponse;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -84,6 +83,18 @@ class Frontend extends ConfigurableBase
         $this->app['stopwatch']->stop('bolt.frontend.before');
 
         return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function after(Request $request, Response $response)
+    {
+        $sharedMaxAge = $this->getOption('general/caching/duration', 10) * 3600;
+        $response
+            ->setPublic()
+            ->setSharedMaxAge($sharedMaxAge)
+        ;
     }
 
     /**
