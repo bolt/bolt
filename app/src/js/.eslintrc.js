@@ -8,7 +8,6 @@ module.exports = {
         "CKEDITOR":   true, // CKeditor
         "CodeMirror": true, // CodeMirror
         "init":       true, // Legacy bolt internal global variable
-        "JSON":       true,
         "Modernizr":  true, // Modernizr
         "bootbox":    true, // Bootbox.js
         "google":     true, // Google (Geolocation)
