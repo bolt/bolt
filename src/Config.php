@@ -66,7 +66,7 @@ class Config
      */
     public $fields;
 
-    /** @var boolean */
+    /** @var boolean  @deprecated Deprecated since 3.2, to be removed in 4.0 */
     public $notify_update;
 
     /** @var \Symfony\Component\Yaml\Parser */
@@ -1219,52 +1219,45 @@ class Config
         $configCache = $this->app['resources']->getPath('cache/config-cache.json');
         $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
 
-        if ($this->cachetimestamp > max($timestamps)) {
-            $finder = new Finder();
-            $finder->files()
-                ->in(dirname($configCache))
-                ->name('config-cache.json')
-                ->depth('== 0')
-            ;
-            /** @var SplFileInfo $file */
-            foreach ($finder as $file) {
-                try {
-                    $this->data = json_decode($file->getContents(), true);
-                } catch (RuntimeException $e) {
-                    $part = Translator::__(
-                        'Try logging in with your ftp-client and make the file readable. ' .
-                        'Else try to go <a>back</a> to the last page.'
-                    );
-                    $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
-                        '<pre>' . htmlspecialchars($configCache) . '</pre>' .
-                        '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
-
-                    throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
-                }
-            }
-
-            // Check if we loaded actual data.
-            if (count($this->data) < 4 || empty($this->data['general'])) {
-                return false;
-            }
-
-            // Check to make sure the version is still the same. If not, effectively invalidate the
-            // cached config to force a reload.
-            if (!isset($this->data['version']) || Bolt\Version::compare($this->data['version'], '!=')) {
-                // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
-                $this->notify_update = true;
-
-                return false;
-            }
-
-            // Trigger the config loaded event on the resource manager
-            $this->app['resources']->initializeConfig($this->data);
-
-            // Yup, all seems to be right.
-            return true;
+        if ($this->cachetimestamp < max($timestamps)) {
+            return false;
+        } else {
+            unlink($configCache);
         }
 
-        return false;
+        $finder = new Finder();
+        $finder->files()
+            ->in(dirname($configCache))
+            ->name('config-cache.json')
+            ->depth('== 0')
+        ;
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            try {
+                $this->data = json_decode($file->getContents(), true);
+            } catch (RuntimeException $e) {
+                $part = Translator::__(
+                    'Try logging in with your ftp-client and make the file readable. ' .
+                    'Else try to go <a>back</a> to the last page.'
+                );
+                $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
+                    '<pre>' . htmlspecialchars($configCache) . '</pre>' .
+                    '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+                throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
+            }
+        }
+
+        // Check if we loaded actual data.
+        if (count($this->data) < 4 || empty($this->data['general'])) {
+            return false;
+        }
+
+        // Trigger the config loaded event on the resource manager
+        $this->app['resources']->initializeConfig($this->data);
+
+        // Yup, all seems to be right.
+        return true;
     }
 
     /**
@@ -1272,10 +1265,15 @@ class Config
      *
      * @param FilesystemInterface $cacheFs
      * @param string              $environment
+     * @param bool                $force
      */
-    public function cacheConfig(FilesystemInterface $cacheFs, $environment)
+    public function cacheConfig(FilesystemInterface $cacheFs, $environment, $force = false)
     {
-        $cacheFile = new JsonFile($cacheFs, $environment . '/config-cache.json');
+        $cacheFileName = $environment . '/config-cache.json';
+        if ($cacheFs->has($cacheFileName) && $force === false) {
+            return;
+        }
+        $cacheFile = new JsonFile($cacheFs, $cacheFileName);
         $cacheFile->dump($this->data);
     }
 

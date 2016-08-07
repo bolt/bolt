@@ -5,6 +5,8 @@ namespace Bolt\EventListener;
 use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\IOException;
+use Bolt\Translation\Translator as Trans;
+use Bolt\Version;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -61,6 +63,10 @@ class BootInitListener implements EventSubscriberInterface
      */
     public function onBoot(GetResponseEvent $event)
     {
+        if (Zone::isBackend($event->getRequest())) {
+            $this->setVersionChangeNotice();
+        }
+
         // Twig globals
         $this->setGlobals(false);
         $this->setGlobals(true);
@@ -73,7 +79,7 @@ class BootInitListener implements EventSubscriberInterface
 
         $cacheFs = $this->app['filesystem']->getFilesystem('cache');
         try {
-            $this->app['config']->cacheConfig($cacheFs, $this->app['environment']);
+            $this->app['config']->cacheConfig($cacheFs, '', false);
         } catch (IOException $e) {
             $response = $this->app['controller.exception']->genericException($e);
             $event->setResponse($response);
@@ -91,6 +97,26 @@ class BootInitListener implements EventSubscriberInterface
                 ['onBoot', 0],
             ],
         ];
+    }
+
+    /**
+     * If required set a notification of version change, for admin users.
+     */
+    private function setVersionChangeNotice()
+    {
+        if (!$this->app['config.environment']->hasVersionChange()) {
+            return;
+        }
+
+        $notice = Trans::__(
+            "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
+            [
+                '%VERSION%' => Version::VERSION,
+                '%URI%'     => $this->app['url_generator']->generate('dbcheck'),
+            ]
+        );
+        $this->app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
+        $this->app['logger.flash']->warning($notice);
     }
 
     /**
