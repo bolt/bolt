@@ -176,8 +176,8 @@
 
             res = field.time.val().trim().toUpperCase().match(reTime);
             if (res) {
-                hours = parseInt(res[1] ? res[1] :res[3]);
-                minutes = parseInt(res[2] ? res[2] :res[4]);
+                hours = parseInt(res[1] ? res[1] : res[3]);
+                minutes = parseInt(res[2] ? res[2] : res[4]);
                 if (res[5] === 'P' && hours !== 12) {
                     hours += 12;
                 } else if (res[5] === 'A' && hours === 12) {
