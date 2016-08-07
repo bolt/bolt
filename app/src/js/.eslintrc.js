@@ -4,16 +4,16 @@ module.exports = {
         "jquery":  true     // Define jQuery global variables
     },
     "globals": {
-        "Bolt": true,
-        "CKEDITOR": true,
-        "CodeMirror": true,
-        "init": true,
-        "JSON": true,
-        "Modernizr": true,
-        "bootbox": true,
-        "google": true,
-        "moment": true,
-        "UIkit": true
+        "Bolt":       true, // Global Bolt object
+        "CKEDITOR":   true, // CKeditor
+        "CodeMirror": true, // CodeMirror
+        "init":       true, // Legacy bolt internal global variable
+        "JSON":       true,
+        "Modernizr":  true, // Modernizr
+        "bootbox":    true, // Bootbox.js
+        "google":     true, // Google (Geolocation)
+        "moment":     true, // Moment.js (deprecated)
+        "UIkit":      true  // UIkit
     },
     "rules": {
         "curly": "error",
