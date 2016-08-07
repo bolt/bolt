@@ -1218,44 +1218,43 @@ class Config
         ];
         $configCache = $this->app['resources']->getPath('cache/config-cache.json');
         $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
-
-        if ($this->cachetimestamp > max($timestamps)) {
-            $finder = new Finder();
-            $finder->files()
-                ->in(dirname($configCache))
-                ->name('config-cache.json')
-                ->depth('== 0')
-            ;
-            /** @var SplFileInfo $file */
-            foreach ($finder as $file) {
-                try {
-                    $this->data = json_decode($file->getContents(), true);
-                } catch (RuntimeException $e) {
-                    $part = Translator::__(
-                        'Try logging in with your ftp-client and make the file readable. ' .
-                        'Else try to go <a>back</a> to the last page.'
-                    );
-                    $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
-                        '<pre>' . htmlspecialchars($configCache) . '</pre>' .
-                        '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
-
-                    throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
-                }
-            }
-
-            // Check if we loaded actual data.
-            if (count($this->data) < 4 || empty($this->data['general'])) {
-                return false;
-            }
-
-            // Trigger the config loaded event on the resource manager
-            $this->app['resources']->initializeConfig($this->data);
-
-            // Yup, all seems to be right.
-            return true;
+        if ($this->cachetimestamp < max($timestamps)) {
+            return false;
         }
 
-        return false;
+        $finder = new Finder();
+        $finder->files()
+            ->in(dirname($configCache))
+            ->name('config-cache.json')
+            ->depth('== 0')
+        ;
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            try {
+                $this->data = json_decode($file->getContents(), true);
+            } catch (RuntimeException $e) {
+                $part = Translator::__(
+                    'Try logging in with your ftp-client and make the file readable. ' .
+                    'Else try to go <a>back</a> to the last page.'
+                );
+                $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
+                    '<pre>' . htmlspecialchars($configCache) . '</pre>' .
+                    '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+                throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
+            }
+        }
+
+        // Check if we loaded actual data.
+        if (count($this->data) < 4 || empty($this->data['general'])) {
+            return false;
+        }
+
+        // Trigger the config loaded event on the resource manager
+        $this->app['resources']->initializeConfig($this->data);
+
+        // Yup, all seems to be right.
+        return true;
     }
 
     /**
