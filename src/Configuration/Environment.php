@@ -31,6 +31,9 @@ class Environment
     /** @var string */
     protected $boltVersion;
 
+    /** @var bool */
+    private $versionChange;
+
     /**
      * Constructor.
      *
@@ -48,6 +51,16 @@ class Environment
         $this->cache = $cache;
         $this->actions = $actions;
         $this->boltVersion = $boltVersion;
+    }
+
+    /**
+     * Has a Bolt version change been detected.
+     *
+     * @return boolean
+     */
+    public function hasVersionChange()
+    {
+        return (bool) $this->versionChange;
     }
 
     /**
@@ -125,6 +138,7 @@ class Environment
         if ($version === $cached) {
             return true;
         }
+        $this->versionChange = true;
 
         return false;
     }
