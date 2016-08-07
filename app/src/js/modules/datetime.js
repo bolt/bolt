@@ -191,6 +191,7 @@
         // Set data field
         if (date.isValid()) {
             var timeString = field.time.exists ? ' ' + time.format('HH:mm:00') : '';
+
             field.data.val(date.format('YYYY-MM-DD') + timeString);
         } else if (foundTime) {
             field.data.val(moment().format('YYYY-MM-DD') + ' ' + time.format('HH:mm:00'));
