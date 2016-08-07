@@ -14,6 +14,7 @@ module.exports = {
         "moment":     true, // Moment.js (deprecated)
         "UIkit":      true  // UIkit
     },
+    "extends": "eslint:recommended",
     "rules": {
         "curly": "error",
         "eqeqeq": "error",
@@ -24,7 +25,6 @@ module.exports = {
         "max-len": ["warn", {"code": 120, "ignoreComments": true}],
         "no-caller": "error",
         "no-sequences": "error",
-        "no-irregular-whitespace": "error",
         "no-new": "error",
         "no-extra-parens": "off",
         "no-undef": "error",

@@ -2,6 +2,7 @@ module.exports = {
     "env": {
         "node": true    // Define Node.js global variables and Node.js scoping
     },
+    "extends": "eslint:recommended",
     "rules": {
         "curly": "error",
         "eqeqeq": "error",
