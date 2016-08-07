@@ -165,15 +165,22 @@
 
         // Process time field
         if (field.time.exists) {
-            /* jshint -W101 */
-            res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
-            /* jshint +W101 */
+            var re24h = '(?:([01]?[0-9]|2[0-3]))',
+                re12h = '(1[012]|0?[1-9])',
+                reDiv = '[:,.]',
+                reMin = '([0-5]?[0-9])',
+                reAmPm = '(?:\\s*([AP])[. ]?M\\.?)',
+                reTime24h = re24h + reDiv + reMin,
+                reTime12h = re12h + reDiv + reMin + reAmPm,
+                reTime = new RegExp('^(?:' + reTime24h + '|' + reTime12h + ')$');
+
+            res = field.time.val().trim().toUpperCase().match(reTime);
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);
-                if ((res[5] === 'p' || res[5] === 'P') && hours !== 12) {
+                if (res[5] === 'P' && hours !== 12) {
                     hours += 12;
-                } else if ((res[5] === 'a' || res[5] === 'A') && hours === 12) {
+                } else if (res[5] === 'A' && hours === 12) {
                     hours -= 12;
                 }
                 time = moment([2001, 11, 24, hours, minutes]);
