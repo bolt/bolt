@@ -1,7 +1,7 @@
 module.exports = {
     "env": {
-        "browser": true,
-        "jquery": true
+        "browser": true,    // Define browser global variables
+        "jquery":  true     // Define jQuery global variables
     },
     "globals": {
         "Bolt": true,

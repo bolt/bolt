@@ -1,6 +1,6 @@
 module.exports = {
     "env": {
-        "node": true
+        "node": true    // Define Node.js global variables and Node.js scoping
     },
     "rules": {
         "curly": "error",
