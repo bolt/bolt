@@ -73,7 +73,7 @@ class BootInitListener implements EventSubscriberInterface
 
         $cacheFs = $this->app['filesystem']->getFilesystem('cache');
         try {
-            $this->app['config']->cacheConfig($cacheFs, '');
+            $this->app['config']->cacheConfig($cacheFs, '', false);
         } catch (IOException $e) {
             $response = $this->app['controller.exception']->genericException($e);
             $event->setResponse($response);

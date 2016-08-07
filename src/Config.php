@@ -1218,8 +1218,11 @@ class Config
         ];
         $configCache = $this->app['resources']->getPath('cache/config-cache.json');
         $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
+
         if ($this->cachetimestamp < max($timestamps)) {
             return false;
+        } else {
+            unlink($configCache);
         }
 
         $finder = new Finder();
@@ -1262,10 +1265,15 @@ class Config
      *
      * @param FilesystemInterface $cacheFs
      * @param string              $environment
+     * @param bool                $force
      */
-    public function cacheConfig(FilesystemInterface $cacheFs, $environment)
+    public function cacheConfig(FilesystemInterface $cacheFs, $environment, $force = false)
     {
-        $cacheFile = new JsonFile($cacheFs, $environment . '/config-cache.json');
+        $cacheFileName = $environment . '/config-cache.json';
+        if ($cacheFs->has($cacheFileName) && $force === false) {
+            return;
+        }
+        $cacheFile = new JsonFile($cacheFs, $cacheFileName);
         $cacheFile->dump($this->data);
     }
 
