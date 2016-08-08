@@ -160,6 +160,12 @@ recordsperpage: 10
 #                  cases you should *NOT* enable this, because it will cause
 #                  side-effects if the website shows different content to
 #                  authenticated users.
+#
+# - thumbnails:    Caches thumbnail generation.
+#
+# - translations:  Caches translation files. It is recommend to leave this
+#                  enabled. Only if you develop extensions and work with
+#                  translation files you should turn this off.
 caching:
     config: true
     templates: true
