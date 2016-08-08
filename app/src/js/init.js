@@ -17,7 +17,7 @@ var init = {
                 depublish = $('#datedepublish').val();
 
             // remove old notice
-            $('.'+noticeID).remove();
+            $('.' + noticeID).remove();
 
             if (depublish === '') {
                 return;
