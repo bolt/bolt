@@ -6,10 +6,10 @@ module.exports = {
     "rules": {
         /*** Possible Errors ***/
 
-        // Disallow unnecessary parentheses
-        "no-extra-parens": "off",
         // Disallow the use of console
         "no-console": "warn",
+        // Disallow unnecessary parentheses
+        "no-extra-parens": "off",
 
         /*** Best Practices ***/
 
@@ -19,14 +19,14 @@ module.exports = {
         "eqeqeq": "error",
         //equire for-in loops to include an if statement
         "guard-for-in": "error",
-        // Require parentheses around immediate function invocations
-        "wrap-iife": ["error", "any"],
         // Disallow the use of arguments.caller or arguments.callee
         "no-caller": "error",
-        // Disallow comma operators
-        "no-sequences": "error",
         // Disallow new operators outside of assignments or comparisons
         "no-new": "error",
+        // Disallow comma operators
+        "no-sequences": "error",
+        // Require parentheses around immediate function invocations
+        "wrap-iife": ["error", "any"],
 
         /*** Strict Mode ***/
 
@@ -35,12 +35,12 @@ module.exports = {
 
         /*** Variables ***/
 
-        // Disallow the use of variables before they are defined
-        "no-use-before-define": "error",
         // Disallow the use of undeclared variables unless mentioned in /*global */ comments
         "no-undef": "error",
         // Disallow unused variables
         "no-unused-vars": "error",
+        // Disallow the use of variables before they are defined
+        "no-use-before-define": "error",
 
         /*** Node.js and CommonJS ***/
 
