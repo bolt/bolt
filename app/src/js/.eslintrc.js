@@ -35,6 +35,8 @@ module.exports = {
         "wrap-iife": ["error", "any"],
         // Disallow the use of arguments.caller or arguments.callee
         "no-caller": "error",
+        // Disallow assignments to native objects or read-only global variables
+        "no-native-reassign": ["error", {"exceptions": ["console"]}],
         // Disallow comma operators
         "no-sequences": "error",
         // Disallow new operators outside of assignments or comparisons

@@ -2,7 +2,6 @@
  * Don't break on browsers without console.log()
  */
 if (typeof console === "undefined") {
-    /* jshint -W020 */
     console = {
         log: function () {
             "use strict";
@@ -11,5 +10,4 @@ if (typeof console === "undefined") {
             "use strict";
         }
     };
-    /* jshint +W020 */
 }
