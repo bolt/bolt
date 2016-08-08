@@ -46,6 +46,9 @@ module.exports = {
 
         /*** Strict Mode ***/
 
+        // Require or disallow strict mode directives
+        "strict": ["error", "function"],
+
         /*** Variables ***/
 
         // Disallow the use of undeclared variables unless mentioned in /*global */ comments
