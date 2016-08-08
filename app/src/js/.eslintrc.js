@@ -69,6 +69,8 @@ module.exports = {
         // Require or disallow semicolons instead of ASI
         "semi": ["error", "always"],
         // Enforce consistent spacing before function definition opening parenthesis
-        "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}]
+        "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
+        // Require spacing around operators
+        "space-infix-ops": "error"
     }
 };
