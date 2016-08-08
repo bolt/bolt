@@ -134,7 +134,6 @@
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
                                 allChecked = false;
-                                console.log(files.length);
                                 if (files.length === 0) {
                                     addSelectedBtn.addClass('disabled');
                                 }
