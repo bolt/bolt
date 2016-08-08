@@ -29,6 +29,8 @@ module.exports = {
         "no-sequences": "error",
         // Require parentheses around immediate function invocations
         "wrap-iife": ["error", "any"],
+        // Disallow "Yoda" conditions
+        "yoda": "error",
 
         /*** Strict Mode ***/
 
