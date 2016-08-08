@@ -54,6 +54,8 @@ module.exports = {
         'indent': ['error', 4, {'SwitchCase': 1}],
         // Enforce a maximum line length
         'max-len': ['warn', {'code': 120, 'ignoreComments': true}],
+        // Enforce consistent spacing inside braces
+        'object-curly-spacing': ['error', 'never'],
         // Enforce consistent spacing before and after semicolons
         'semi-spacing': 'error',
         // Require or disallow semicolons instead of ASI
