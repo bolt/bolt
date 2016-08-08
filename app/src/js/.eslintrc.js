@@ -18,8 +18,6 @@ module.exports = {
     "rules": {
         /*** Possible Errors ***/
 
-        // Disallow irregular whitespace outside of strings and comments
-        "no-irregular-whitespace": "error",
         // Disallow unnecessary parentheses
         "no-extra-parens": "off",
         // Disallow the use of console
