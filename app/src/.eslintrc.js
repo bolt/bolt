@@ -21,6 +21,8 @@ module.exports = {
         "guard-for-in": "error",
         // Disallow the use of arguments.caller or arguments.callee
         "no-caller": "error",
+        // Disallow the use of eval()
+        "no-eval": "error",
         // Disallow new operators outside of assignments or comparisons
         "no-new": "error",
         // Disallow comma operators

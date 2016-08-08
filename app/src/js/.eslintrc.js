@@ -33,6 +33,8 @@ module.exports = {
         "guard-for-in": "error",
         // Disallow the use of arguments.caller or arguments.callee
         "no-caller": "error",
+        // Disallow the use of eval()
+        "no-eval": "error",
         // Disallow assignments to native objects or read-only global variables
         "no-native-reassign": ["error", {"exceptions": ["console"]}],
         // Disallow new operators outside of assignments or comparisons
