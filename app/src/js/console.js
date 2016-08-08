@@ -1,9 +1,7 @@
 /**
  * Don't break on browsers without console.log()
  */
-try {
-    console.assert(1);
-} catch(e) {
+if (typeof console === "undefined") {
     /* jshint -W020 */
     console = {
         log: function () {
