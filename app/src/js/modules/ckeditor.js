@@ -106,7 +106,7 @@
      *
      * @param {Object} cke - Global CKEditor object
      */
-    ckeditor.initcke = function(cke) {
+    ckeditor.initcke = function (cke) {
         cke.editorConfig = function (config) {
             var key,
                 param = $(this.element.$).data('param') || {},

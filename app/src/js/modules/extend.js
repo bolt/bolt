@@ -156,7 +156,7 @@
     }
 
     function checkInstalled() {
-        find('.installed-container').each(function(){
+        find('.installed-container').each(function () {
             var target = $(this).find('.installed-list');
 
             activeConsole = find('.installed-container .console');
@@ -191,7 +191,7 @@
                 target.find('.installed-list-items').append(html);
 
             })
-            .fail(function(data) {
+            .fail(function (data) {
                 formatErrorLog(data);
             });
         });
@@ -248,7 +248,7 @@
         activeConsole = find('.update-output');
         activeConsole.html(bolt.data('extend.text.updating'));
 
-        $.get(bolt.data('extend.baseurl') + 'check', function(data) {
+        $.get(bolt.data('extend.baseurl') + 'check', function (data) {
             if (data.updates.length > 0 || data.installs.length > 0) {
                 var e,
                     ext;
@@ -293,7 +293,7 @@
                 activeConsole.html(bolt.data('extend.text.updated'));
             }
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
     }
@@ -345,14 +345,14 @@
             false
         );
 
-        $.get(bolt.data('extend.baseurl') + 'update', function(data) {
-            setTimeout(function(){
+        $.get(bolt.data('extend.baseurl') + 'update', function (data) {
+            setTimeout(function () {
                 find('.update-container').hide();
             }, 7000);
             feedbackDialogueSetMessage(data);
             checkInstalled();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
     }
@@ -374,7 +374,7 @@
             }
             checkInstalled();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -396,7 +396,7 @@
             feedbackDialogueSetMessage(data);
             checkInstalled();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -424,7 +424,7 @@
 
             feedbackDialogueSetMessage(data);
         })
-            .fail(function(data) {
+            .fail(function (data) {
                 formatErrorLog(data);
             });
 
@@ -463,7 +463,7 @@
     function installInfo(ext) {
         activeConsole = find('.update-output');
 
-        $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + ext, function(data) {
+        $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + ext, function (data) {
 
             var devpacks = data.dev;
             var stablepacks = data.stable;
@@ -490,7 +490,7 @@
 
             find('#installModal .loader').hide();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
     }
@@ -538,7 +538,7 @@
             bolt.data('extend.baseurl') + 'packageInfo',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function(data) {
+        .done(function (data) {
             if (data.type === 'bolt-extension') {
                 extensionPostInstall(data);
             }
@@ -546,7 +546,7 @@
                 themePostInstall(data);
             }
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
     }
@@ -565,14 +565,14 @@
             bolt.data('extend.baseurl') + 'install',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function() {
+        .done(function () {
             postInstall(packageName, packageVersion);
             find('.install-response-container').hide();
             find('.check-package').show();
             find('input[name="check-package"]').val('');
             checkInstalled();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
         e.preventDefault();
@@ -587,11 +587,11 @@
             bolt.data('extend.baseurl') + 'generateTheme',
             {'theme': theme, 'name': themename}
         )
-        .done(function(data) {
+        .done(function (data) {
             find('.theme-generate-response').html('<p>' + data + '</p>').show();
             find('.theme-generation-container').hide();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -626,12 +626,12 @@
 
     function packageReadme(e) {
         $.get($(e.target).data('readme') )
-        .done(function(data) {
+        .done(function (data) {
             bootbox.dialog({
                 message: data ? data : 'Readme is empty.'
             });
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -653,7 +653,7 @@
         $.get(bolt.data('extend.baseurl') + 'depends',
             {'needle': needle, 'constraint': constraint}
         )
-        .done(function(data) {
+        .done(function (data) {
             find('.loader').hide();
             find('.dependency-response-container').hide();
             find('.check-package').show();
@@ -661,7 +661,7 @@
 
             var depList = find('#installModal .extension-dependencies-list');
             depList.html('');
-            data.forEach(function(entry) {
+            data.forEach(function (entry) {
                 depList.append('<li>' + entry.link + '</li>');
             });
             depList.show();
@@ -669,7 +669,7 @@
             find('.extension-dependencies').show();
             find('.postinstall-footer').show();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -698,11 +698,11 @@
         .done(function (data) {
             find('.installed-container .console').html(data);
             checkInstalled();
-            delay(function(){
+            delay(function () {
                 activeConsole.hide();
             }, 2000);
         })
-        .fail(function(data) {
+        .fail(function (data) {
             formatErrorLog(data);
         });
 
@@ -738,7 +738,7 @@
                                     ' <small ' + dataattr + '>(' + t.authors + ' - ' + t.name + ')</small></a>');
                             }
                         }
-                        livesearch.on('blur', function(){
+                        livesearch.on('blur', function () {
                             cont.fadeOut();
                         });
                     }
@@ -801,7 +801,7 @@
                 }, 1000);
             }).ajaxSuccess(function () {
                 clearInterval(activeInterval);
-            }).ajaxError(function() {
+            }).ajaxError(function () {
                 clearInterval(activeInterval);
             });
 

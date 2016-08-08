@@ -8,7 +8,7 @@
  *
  * @returns {String}
  */
-String.prototype.subst = function(replacements) {
+String.prototype.subst = function (replacements) {
     "use strict";
 
     return this.replace(/%[A-Z][A-Z0-9_]+%/g, function (placeholder) {

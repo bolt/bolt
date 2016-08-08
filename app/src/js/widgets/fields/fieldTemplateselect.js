@@ -73,7 +73,7 @@
                             // We're conveniently forgetting <select> elements here, because we
                             // can't 'guess' if the first option also means "nothing selected".
                             var templatefieldsEmpty = true;
-                            $('[name^="templatefields"]').each(function(){
+                            $('[name^="templatefields"]').each(function () {
                                 if ($(this).attr('type') !== 'checkbox' && $(this).prop('tagName') !== "SELECT" &&
                                     $(this).val() !== '') {
                                     templatefieldsEmpty = false;

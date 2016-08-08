@@ -386,7 +386,7 @@
                                         ckeditor.instances[index].setData(
                                             item,
                                             {
-                                                callback: function() {
+                                                callback: function () {
                                                     this.resetDirty();
                                                 }
                                             }
@@ -400,16 +400,16 @@
 
                         watchChanges();
                     })
-                    .fail(function(){
+                    .fail(function () {
                         bolt.events.fire('Bolt.Content.Save.Fail');
 
                         $('p.lastsaved').text(msgNotSaved);
                     })
-                    .always(function(){
+                    .always(function () {
                         bolt.events.fire('Bolt.Content.Save.Always');
 
                         // Re-enable buttons
-                        window.setTimeout(function(){
+                        window.setTimeout(function () {
                             $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
                             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
                         }, 300);
@@ -427,7 +427,7 @@
      * @function initKeyboardShortcuts
      * @memberof Bolt.editcontent
      */
-    function initKeyboardShortcuts () {
+    function initKeyboardShortcuts() {
         // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
         // If we're on an 'edit file' screen,  we have a #saveeditfile
         if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {

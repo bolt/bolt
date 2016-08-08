@@ -182,7 +182,7 @@
      * @memberof Bolt.secmenu
      */
     function initMobileSubmenu() {
-        $('#navpage-secondary a.menu-pop').on('click', function(e) {
+        $('#navpage-secondary a.menu-pop').on('click', function (e) {
             var submenu = $(this).nextAll('.submenu');
 
             e.preventDefault();

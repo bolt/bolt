@@ -95,15 +95,15 @@ var init = {
                     }
                     $('p.lastsaved').html(data.msg);
                 })
-                .fail(function(){
+                .fail(function () {
                     Bolt.events.fire('Bolt.File.Save.Fail');
                     alert(msgNotSaved);
                 })
-                .always(function(){
+                .always(function () {
                     Bolt.events.fire('Bolt.File.Save.Always');
 
                     // Re-enable buttons
-                    window.setTimeout(function(){
+                    window.setTimeout(function () {
                         $('#saveeditfile').removeClass('disabled').blur();
                         $('#saveeditfile i').removeClass('fa-spin fa-spinner');
                     }, 300);
@@ -143,7 +143,7 @@ var init = {
             $(this).tab('show');
         });
 
-        var getUrlParam = function(paramName) {
+        var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
                 match = window.location.search.match(reParam);
 
@@ -188,12 +188,12 @@ var init = {
     bindPrefill: function () {
         "use strict";
 
-        $('#check-all').on('click', function() {
+        $('#check-all').on('click', function () {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
             $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
         });
-        $('#uncheck-all').on('click', function() {
+        $('#uncheck-all').on('click', function () {
             $("#form_contenttypes :checkbox").removeAttr('checked');
         });
     },
