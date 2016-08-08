@@ -28,8 +28,6 @@ Bolt.validation = (function () {
             return valid;
         }
 
-        /* jshint -W126 */
-
         // value required?
         valid = valid && (!required ||
             (chkbox && field.checked) ||
@@ -41,8 +39,6 @@ Bolt.validation = (function () {
             (!minlength || val.length >= minlength) &&
             (!maxlength || val.length <= maxlength)
         ));
-
-        /* jshint +W126 */
 
         // Test pattern
         if (valid && pattern) {

@@ -197,7 +197,6 @@
         });
     }
 
-    /* jshint -W126 */
     var delay = (function () {
         var timer = 0;
 
@@ -206,7 +205,6 @@
             timer = setTimeout(callback, ms);
         };
     })();
-    /* jshint +W126 */
 
     function installReset() {
         $('#installModal').on('hide.bs.modal', function () {
