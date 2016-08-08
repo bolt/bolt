@@ -53,6 +53,8 @@ module.exports = {
         // Enforce consistent indentation
         "indent": ["error", 4, {"SwitchCase": 1}],
         // Enforce a maximum line length
-        "max-len": ["warn", {"code": 120, "ignoreComments": true}]
+        "max-len": ["warn", {"code": 120, "ignoreComments": true}],
+        // Enforce consistent spacing before function definition opening parenthesis
+        "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}]
     }
 };
