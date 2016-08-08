@@ -35,8 +35,6 @@ module.exports = {
         "no-caller": "error",
         // Disallow the use of eval()
         "no-eval": "error",
-        // Disallow assignments to native objects or read-only global variables
-        "no-native-reassign": ["error", {"exceptions": ["console"]}],
         // Disallow new operators outside of assignments or comparisons
         "no-new": "error",
         // Disallow comma operators
