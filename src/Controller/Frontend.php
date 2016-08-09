@@ -90,11 +90,15 @@ class Frontend extends ConfigurableBase
      */
     public function after(Request $request, Response $response)
     {
-        $sharedMaxAge = $this->getOption('general/caching/duration', 10) * 3600;
-        $response
-            ->setPublic()
-            ->setSharedMaxAge($sharedMaxAge)
-        ;
+        if ($this->session()->isStarted()) {
+            $response->setPrivate();
+        } else {
+            $sharedMaxAge = $this->getOption('general/caching/duration', 10) * 3600;
+            $response
+                ->setPublic()
+                ->setSharedMaxAge($sharedMaxAge)
+            ;
+        }
     }
 
     /**
