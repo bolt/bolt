@@ -25,7 +25,7 @@ class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterfac
      */
     public function __construct($redis, $maxlifetime)
     {
-        if (!$redis instanceof Redis || !$redis instanceof Predis) {
+        if (!$redis instanceof Redis && !$redis instanceof Predis) {
             throw new \InvalidArgumentException('Argument must be an instance of Redis or Predis\ClientInterface');
         }
         $this->redis = $redis;
