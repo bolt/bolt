@@ -1,8 +1,20 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.1-dev
------------
+Bolt 3.1.0 beta 2
+-----------------
+
+Not yet released.
+
+ - Changed: Modify `checkFirstUser` to check for a valid logged in user, to prevent expensive test. [#5649](https://github.com/bolt/bolt/pull/5649)
+ - Fixed: Function names can't be used in import prior to PHP 5.6 [#5642](https://github.com/bolt/bolt/pull/5642)
+ - Updated: Updating JS and CSS dependencies. [#5653](https://github.com/bolt/bolt/pull/5653)
+ - … Plus all changes listed under 3.0.12
+
+Bolt 3.1.0 beta 1
+-----------------
+
+Released 2016-08-04. Notable changes:
 
 - Fixed: Installation of specific extension version [#5635](https://github.com/bolt/bolt/pull/5635)
 - Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
