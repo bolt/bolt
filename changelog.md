@@ -20,10 +20,10 @@ Released 2016-08-04. Notable changes:
 - Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
 - Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
-- Added: Allow extra plugin for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
+- Added: Allow extra plugins for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
 - Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
 - Added: Nut command to enable, disable, and list details for a user [#5483](https://github.com/bolt/bolt/pull/5483)
-- Added: Add --enable option to Nut user:create [#5483](https://github.com/bolt/bolt/pull/5483)
+- Added: Add `--enable` option to Nut `user:create` [#5483](https://github.com/bolt/bolt/pull/5483)
 - Added: Better sanitization of content on save. [#5611](https://github.com/bolt/bolt/pull/5611)
 
 Bolt 3.0.x
@@ -33,7 +33,7 @@ Bolt 3.0.x
  - Fixed: Add support for missing `skip_uses` parameter [#5609](https://github.com/bolt/bolt/pull/5609)
  - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
  - Fixed: Relationship handling [#5641](https://github.com/bolt/bolt/pull/5641)
- - Fixed: Remove the Foreign Key Constraint properties from diffs when supportsForeignKeyConstraints() is false [#5550](https://github.com/bolt/bolt/pull/5550)
+ - Fixed: Remove the Foreign Key Constraint properties from diffs when `supportsForeignKeyConstraints()` is `false` [#5550](https://github.com/bolt/bolt/pull/5550)
 
 Bolt 3.0.11
 -----------
