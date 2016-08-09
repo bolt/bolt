@@ -140,7 +140,7 @@ class Queue implements QueueInterface
         $html = $response->getContent();
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
         if (!preg_match($regex, $html)) {
-            $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.2.1.min.js');
+            $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.2.4.min.js');
             $asset = (new Snippet())
                 ->setLocation(Target::BEFORE_JS)
                 ->setCallback('<script src="' . $jqueryfile . '"></script>')
