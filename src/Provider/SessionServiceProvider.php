@@ -106,7 +106,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     public function configure(Application $app)
     {
         $app['session.options'] = [
-            'name'            => 'bolt_session_',
+            'name'            => 'bolt_session',
             'restrict_realm'  => true,
             'save_handler'    => 'filesystem',
             'save_path'       => 'cache://.sessions',
