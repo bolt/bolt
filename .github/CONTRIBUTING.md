@@ -60,7 +60,7 @@ When posting your bug, please include the following:
 
 Further reading: [10 tips for better Pull Requests](http://blog.ploeh.dk/2015/01/15/10-tips-for-better-pull-requests/)
 
-#### Reporting security issues
+### Reporting security issues
 
 If you wish to contact us privately about any possible security issues in Bolt,
 please contact us at [security@bolt.cm](mailto:security@bolt.cm). Your email
@@ -93,7 +93,7 @@ but we can't make any promises as to when/if it'll be realised.
 ----------------------------
 
 Your contributions to the project are very welcome. If you would like to fix a
-bug or implement a proposed feature, you can submit a Pull Request. 
+bug or implement a proposed feature, you can submit a Pull Request.
 
 Make sure you read our guide on [Contributing to
 Bolt](https://docs.bolt.cm/internals/contributing), the page on [Code
@@ -124,7 +124,7 @@ New features should have a "sponsor" on the core-team. You are welcome to, ask a
 specific team member to sponsor your work (ask around on Slack or IRC), or we'll try
 to match someone to your feature based on their area of expertise.
 
-We have some simple processes to assist in getting new features from the concept stage, 
+We have some simple processes to assist in getting new features from the concept stage,
 right though to a released and maintained Bolt.
 
  1. Open an RFC [issue](https://github.com/bolt/bolt/issues/new) following these criteria:
@@ -134,7 +134,7 @@ right though to a released and maintained Bolt.
  3. Be assigned a "sponsor" from the core team
  4. Submit the PR
  5. Celebrate with your new friends in the Bolt community!
- 
+
 New features should also be accompanied with:
    * Unit and/or acceptance tests
    * Documentation
@@ -142,7 +142,7 @@ New features should also be accompanied with:
 Your sponsor is there to help you, as is a large and helpful community of people
 on both Slack and IRC, should you have troubles with any of this.
 
-**NOTE:** Sponsors help out in their own personal time, so please be patient and respectful 
+**NOTE:** Sponsors help out in their own personal time, so please be patient and respectful
 of their available time. We will do our best to do the same with you.
 
 ### Further reading
