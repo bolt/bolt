@@ -4,6 +4,7 @@ namespace Bolt\Session;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -47,12 +48,9 @@ class SessionListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $request->setSession($this->session);
 
-        $name = $this->session->getName();
-        if ($this->options->getBoolean('restrict_realm')) {
-            $name .= md5($request->getHttpHost() . $request->getBaseUrl());
-            $this->session->setName($name);
-        }
+        $this->appendRealmToName($request);
 
+        $name = $this->session->getName();
         if ($request->cookies->has($name)) {
             $this->session->setId($request->cookies->get($name));
             $this->session->start();
@@ -72,6 +70,23 @@ class SessionListener implements EventSubscriberInterface
         $this->session->save();
         $cookie = $this->generateCookie();
         $event->getResponse()->headers->setCookie($cookie);
+    }
+
+    protected function appendRealmToName(Request $request)
+    {
+        if (!$this->options->getBoolean('restrict_realm')) {
+            return;
+        }
+
+        $name = $this->session->getName();
+
+        $realm = '_' . md5($request->getHttpHost() . $request->getBaseUrl());
+
+        if (substr($name, -strlen($realm)) === $realm) { // name ends with realm
+            return;
+        }
+
+        $this->session->setName($name . $realm);
     }
 
     protected function generateCookie()
