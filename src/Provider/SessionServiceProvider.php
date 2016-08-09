@@ -234,6 +234,22 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['session.handler_factory.backing_memcached'] = $app->protect(
+            function ($connections) {
+                $memcache = new \Memcached();
+
+                foreach ($connections as $conn) {
+                    $memcache->addServer(
+                        $conn['host'] ?: 'localhost',
+                        $conn['port'] ?: 11211,
+                        $conn['weight'] ?: 0
+                    );
+                }
+
+                return $memcache;
+            }
+        );
+
         $app['session.handler_factory.memcache'] = $app->protect(
             function ($options, $key = 'memcache') use ($app) {
                 $connections = $this->parseConnections($options, 'localhost', 11211);
