@@ -463,7 +463,7 @@ class MetadataDriver implements MappingDriver
             $type = 'slug';
         }
 
-        if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$name]['fields'][$column->getName()]['multiple'] === true) {
+        if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column]['multiple']) && $this->contenttypes[$name]['fields'][$column]['multiple'] === true) {
             $type = 'selectmultiple';
         }
 
