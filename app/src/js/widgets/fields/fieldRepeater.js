@@ -90,7 +90,7 @@
                     newSet = self._clone(self._template);
 
                 // Copy values from source to new set.
-                $(setToDuplicate).find(":input").each(function(index){
+                $(setToDuplicate).find(":input").each(function (index) {
                     var val = $(this).val();
                     if (val) {
                         $(newSet).find(':input').eq(index).val(val);

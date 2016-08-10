@@ -52,7 +52,7 @@
                             (this.options.path ? '/' + this.options.path : '');
 
             this._on({
-                'click': function() {
+                'click': function () {
                     this._browse();
                 }
             });
@@ -134,7 +134,6 @@
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
                                 allChecked = false;
-                                console.log(files.length);
                                 if (files.length === 0) {
                                     addSelectedBtn.addClass('disabled');
                                 }
@@ -147,14 +146,14 @@
                         .on('click.bolt', '.toggle-all', function (evt) {
                             evt.preventDefault();
                             if (!allChecked) {
-                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                modal.body.find('[data-fbrowser-check]').each(function () {
                                     $(this).prop('checked', true);
                                     files.push($(this).data('fbrowser-check'));
                                 });
                                 allChecked = true;
                                 addSelectedBtn.removeClass('disabled');
                             } else {
-                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                modal.body.find('[data-fbrowser-check]').each(function () {
                                     $(this).prop('checked', false);
                                 });
                                 files.length = 0;
@@ -164,7 +163,7 @@
                         })
                         .on('click.bolt', '[data-fbrowser-add-checked]:not(.disabled)', function (evt) {
                             evt.preventDefault();
-                            files.forEach(function(filePath) {
+                            files.forEach(function (filePath) {
                                 self._trigger('selected', null, {path: filePath});
                             });
                             modal.close();

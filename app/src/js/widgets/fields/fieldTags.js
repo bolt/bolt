@@ -41,7 +41,7 @@
 
             // Initialize the tag selector.
             if (!this.options.allowSpaces) {
-              separators.push(' ');
+                separators.push(' ');
             }
             taxonomy.select2({
                 width: '100%',

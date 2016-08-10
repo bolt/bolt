@@ -4,7 +4,7 @@
 module.exports = function (grunt, option) {
     'use strict';
 
-    var extractUrls = function(css) {
+    var extractUrls = function (css) {
         var reUrls = /url\((['"]?)(.+?)\1\)/g,
             urls = [],
             url;
@@ -21,7 +21,7 @@ module.exports = function (grunt, option) {
         return urls;
     };
 
-    var processLibCss = function(css, filepath) {
+    var processLibCss = function (css, filepath) {
         var path = require('path'),
             reDir = /(jquery[-.]\w+)/,
             urls = [],

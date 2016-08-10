@@ -33,7 +33,7 @@
             value /= 1000;
         }
 
-        if (!!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function')) {
+        if (typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function') {
             value = value.toLocaleString(
                 bolt.conf('locale.long').replace(/_/g, '-'),
                 {maximumSignificantDigits: 3}

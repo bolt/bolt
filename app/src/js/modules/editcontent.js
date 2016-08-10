@@ -14,8 +14,6 @@
 (function (bolt, $, window, moment, bootbox, ckeditor) {
     'use strict';
 
-    /*jshint latedef: nofunc */
-
     /**
      * Bind data.
      *
@@ -39,28 +37,86 @@
     var editcontent = {};
 
     /**
-     * Initializes the mixin.
+     * Gets the current value of an input element processed to be comparable
      *
      * @static
-     * @function init
+     * @function getComparable
      * @memberof Bolt.editcontent
      *
-     * @param {BindData} data - Editcontent configuration data
+     * @param {Object} item - Input element
+     *
+     * @returns {string|undefined}
      */
-    editcontent.init = function (data) {
-        initValidation();
-        initSave();
-        initSaveNew();
-        initSaveContinue(data);
-        initPreview();
-        initLiveEditor();
-        initDelete();
-        initTabGroups();
-        bolt.liveEditor.init(data);
-        window.setTimeout(function () {
-            initKeyboardShortcuts();
-        }, 1000);
-    };
+    function getComparable(item) {
+        var val;
+
+        if (item.name) {
+            val = $(item).val();
+            if (item.type === 'select-multiple') {
+                val = JSON.stringify(val);
+            }
+        }
+
+        return val;
+    }
+
+    /**
+     * Detect if changes were made to the content.
+     *
+     * @static
+     * @function hasChanged
+     * @memberof Bolt.editcontent
+     *
+     * @returns {boolean}
+     */
+    function hasChanged() {
+        var changes = 0;
+
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    changes++;
+                }
+            } else {
+                var val = getComparable(this);
+                if (val !== undefined && $(this).data('watch') !== val) {
+                    changes++;
+                }
+            }
+        });
+
+        return changes > 0;
+    }
+
+    /**
+     * Remember current state of content for change detection.
+     *
+     * @static
+     * @function watchChanges
+     * @memberof Bolt.editcontent
+     */
+    function watchChanges() {
+        $('form#editcontent').find('input, textarea, select').each(function () {
+            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                if (ckeditor.instances[this.id].checkDirty()) {
+                    ckeditor.instances[this.id].updateElement();
+                    ckeditor.instances[this.id].resetDirty();
+                }
+            }else{
+                var val = getComparable(this);
+                if (val !== undefined) {
+                    $(this).data('watch', val);
+                }
+            }
+        });
+
+        // Initialize handler for 'closing window'
+        window.onbeforeunload = function () {
+            if (hasChanged() || bolt.liveEditor.active) {
+                return bolt.data('editcontent.msg.change_quit');
+            }
+        };
+    }
 
     /**
      * Set validation handlers.
@@ -179,9 +235,9 @@
                             url: url,
                             type: 'POST',
                             data: {
-                                    'bolt_csrf_token': token,
-                                    'contenttype': ctype,
-                                    'actions': modifications
+                                'bolt_csrf_token': token,
+                                'contenttype': ctype,
+                                'actions': modifications
                             },
                             success: function () {
                                 window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
@@ -330,7 +386,7 @@
                                         ckeditor.instances[index].setData(
                                             item,
                                             {
-                                                callback: function() {
+                                                callback: function () {
                                                     this.resetDirty();
                                                 }
                                             }
@@ -344,16 +400,16 @@
 
                         watchChanges();
                     })
-                    .fail(function(){
+                    .fail(function () {
                         bolt.events.fire('Bolt.Content.Save.Fail');
 
                         $('p.lastsaved').text(msgNotSaved);
                     })
-                    .always(function(){
+                    .always(function () {
                         bolt.events.fire('Bolt.Content.Save.Always');
 
                         // Re-enable buttons
-                        window.setTimeout(function(){
+                        window.setTimeout(function () {
                             $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
                             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
                         }, 300);
@@ -371,7 +427,7 @@
      * @function initKeyboardShortcuts
      * @memberof Bolt.editcontent
      */
-    function initKeyboardShortcuts () {
+    function initKeyboardShortcuts() {
         // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
         // If we're on an 'edit file' screen,  we have a #saveeditfile
         if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
@@ -394,86 +450,28 @@
     }
 
     /**
-     * Remember current state of content for change detection.
+     * Initializes the mixin.
      *
      * @static
-     * @function watchChanges
-     * @memberof Bolt.editcontent
-     */
-    function watchChanges() {
-        $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
-                if (ckeditor.instances[this.id].checkDirty()) {
-                    ckeditor.instances[this.id].updateElement();
-                    ckeditor.instances[this.id].resetDirty();
-                }
-            }else{
-                var val = getComparable(this);
-                if (val !== undefined) {
-                    $(this).data('watch', val);
-                }
-            }
-        });
-
-        // Initialize handler for 'closing window'
-        window.onbeforeunload = function () {
-            if (hasChanged() || bolt.liveEditor.active) {
-                return bolt.data('editcontent.msg.change_quit');
-            }
-        };
-    }
-
-    /**
-     * Detect if changes were made to the content.
-     *
-     * @static
-     * @function hasChanged
+     * @function init
      * @memberof Bolt.editcontent
      *
-     * @returns {boolean}
+     * @param {BindData} data - Editcontent configuration data
      */
-    function hasChanged() {
-        var changes = 0;
-
-        $('form#editcontent').find('input, textarea, select').each(function () {
-            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
-                if (ckeditor.instances[this.id].checkDirty()) {
-                    changes++;
-                }
-            } else {
-                var val = getComparable(this);
-                if (val !== undefined && $(this).data('watch') !== val) {
-                    changes++;
-                }
-            }
-        });
-
-        return changes > 0;
-    }
-
-    /**
-     * Gets the current value of an input element processed to be comparable
-     *
-     * @static
-     * @function getComparable
-     * @memberof Bolt.editcontent
-     *
-     * @param {Object} item - Input element
-     *
-     * @returns {string|undefined}
-     */
-    function getComparable(item) {
-        var val;
-
-        if (item.name) {
-            val = $(item).val();
-            if (item.type === 'select-multiple') {
-                val = JSON.stringify(val);
-            }
-        }
-
-        return val;
-    }
+    editcontent.init = function (data) {
+        initValidation();
+        initSave();
+        initSaveNew();
+        initSaveContinue(data);
+        initPreview();
+        initLiveEditor();
+        initDelete();
+        initTabGroups();
+        bolt.liveEditor.init(data);
+        window.setTimeout(function () {
+            initKeyboardShortcuts();
+        }, 1000);
+    };
 
     // Apply mixin container.
     bolt.editcontent = editcontent;
