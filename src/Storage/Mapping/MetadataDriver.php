@@ -435,13 +435,19 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string                       $name
+     * @param string $name
      * @param \Doctrine\DBAL\Schema\Column $column
+     * @param null $field Optional field value for repeaters/array based columns
      *
      * @return string
      */
-    protected function getFieldTypeFor($name, $column)
+    public function getFieldTypeFor($name, $column, $field = null)
     {
+        if ($field !== null) {
+            if (isset($this->contenttypes[$name]['fields'][$column->getName()]['fields'][$field])) {
+                $type = $this->contenttypes[$name]['fields'][$column->getName()]['fields'][$field]['type'];
+            }
+        }
         if (isset($this->contenttypes[$name]['fields'][$column->getName()])) {
             $type = $this->contenttypes[$name]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
