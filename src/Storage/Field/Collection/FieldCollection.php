@@ -113,7 +113,7 @@ class FieldCollection extends AbstractLazyCollection
 
             foreach ((array) $instances as $val) {
                 $boltType = $this->em->getMapper()->getFieldTypeFor($val->getContenttype(), $val->getName(), $val->getFieldname());
-                $fieldInstance = $this->em->getFieldManager()->getFieldFor($boltType);
+                $fieldInstance = $this->em->getFieldManager()->get($boltType, ['fieldname' => $val->getFieldname() ]);
 
 
                 $fieldtype = $val->getFieldtype();
