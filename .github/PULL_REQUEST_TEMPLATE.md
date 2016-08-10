@@ -1,8 +1,10 @@
-[Prefix your PR title with [WIP], if it's a 'work in progress', or if you're looking for feedback before merging.]
+[Prefix your PR title with [WIP], if it's a 'work in progress', 
+or if you're looking for feedback before merging.]
 
 A brief description of the Pull Request goes here. If you haven't yet done so,
-please read the 'contributing guidelines' thoroughly. See:
-https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
+please read the 'contributing guidelines' thoroughly. 
+
+See: https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
 
 Fixes: #1555 (please refer to an existing issue number, that this PR fixes)
 

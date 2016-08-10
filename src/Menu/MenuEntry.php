@@ -167,7 +167,7 @@ class MenuEntry
     /**
      * Return the menu entry's children.
      *
-     * @return MenuEntry
+     * @return MenuEntry[]
      */
     public function children()
     {

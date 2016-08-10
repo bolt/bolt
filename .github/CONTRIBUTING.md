@@ -41,21 +41,28 @@ if you don't have one yet.
 
 When posting your bug, please include the following:
 
- 1. **Bug summary**: Write a short summary of the bug. Try to pinpoint it as
-    much a possible. Try to state the _actual problem_, and not just what you
-    _think_ the solution might be.
- 2. **Specifics**: Mention the URL where this bug occurs, if applicable. What
-    version of Bolt are you using (down to the very last digit!), and what
-    method  did you use to install it? What browser and version are you using?
-    Please mention if you've checked it in other browsers as well. Please
-    include *full error messages* and *screenshots* if possible.
- 3. **Steps to reproduce**: Clearly mention the steps to reproduce the bug.
- 4. **Expected result**: What did you _expect_ that would happen on your Bolt
-    site? Describe the intended outcome after you did the steps mentioned
-    before.
- 5. **Actual result**: What is the actual result of the above steps? So,
-    describe the behaviour of the bug. Please, please include **Error messages**
-    and screenshots. They might mean nothing to you, but they are _very_ helpful
+ 1. **Bug summary**: 
+    * Write a short summary of the bug​​
+    * Try to pinpoint it as muc​​h a possible
+    * Try to state the _actual problem_, and not just what you _think_ the 
+      solution might be.
+ 2. **Specifics**:
+    * Mention the URL where this bug occurs, if applicable
+    * What version of Bolt are you using (down to the very last digit!)
+    * What method did you use to install Bolt
+    * What browser and version you are using
+    * Please mention if you've checked it in other browsers as well 
+    * Please include *full error messages* and *screenshots* if possible
+ 3. **Steps to reproduce**:
+    * Clearly mention the steps to reproduce the bug
+ 4. **Expected result**: 
+    * What did you _expect_ that would happen on your Bolt site?
+    * Describe the intended outcome after you did the steps mentioned before
+ 5. **Actual result**: 
+    * What is the actual result of the above steps? 
+    * Describe the behaviour of the bug 
+    * Please, please include **error messages** and screenshots. They might mean 
+      nothing to you, but they are _very_ helpful to us.
     to us.
 
 Further reading: [10 tips for better Pull Requests](http://blog.ploeh.dk/2015/01/15/10-tips-for-better-pull-requests/)
