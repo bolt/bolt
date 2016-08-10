@@ -19,6 +19,7 @@ Released 2016-08-10. Notable changes:
  - Fixed: Address init failures in repeaters [#5631](https://github.com/bolt/bolt/pull/5631)
  - Fixed: Always return something in getTitleColumnName [#5598](https://github.com/bolt/bolt/pull/5598)
  - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
+ - Fixed: Bug in Imagefield with attrib would break repeater fields. [#5665](https://github.com/bolt/bolt/pull/5665)
  - Fixed: Bugfix for HTML fields inside repeaters [#5639](https://github.com/bolt/bolt/pull/5639)
  - Fixed: Change link to taxonomies documentation [#5618](https://github.com/bolt/bolt/pull/5618)
  - Fixed: Filesystem session handler's garbage collection [#5633](https://github.com/bolt/bolt/pull/5633)
