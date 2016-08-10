@@ -8,6 +8,7 @@ use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Bolt\Storage\NamingStrategy;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 
 /**
@@ -443,18 +444,22 @@ class MetadataDriver implements MappingDriver
      */
     public function getFieldTypeFor($name, $column, $field = null)
     {
-        if ($field !== null) {
-            if (isset($this->contenttypes[$name]['fields'][$column->getName()]['fields'][$field])) {
-                $type = $this->contenttypes[$name]['fields'][$column->getName()]['fields'][$field]['type'];
+        if ($column instanceof Column) {
+            $column = $column->getName();
+            if ($column->getType()) {
+                $type = $column->getType();
             }
         }
-        if (isset($this->contenttypes[$name]['fields'][$column->getName()])) {
-            $type = $this->contenttypes[$name]['fields'][$column->getName()]['type'];
-        } elseif ($column->getType()) {
-            $type = get_class($column->getType());
+        if ($field !== null) {
+            if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
+                $type = $this->contenttypes[$name]['fields'][$column]['fields'][$field]['type'];
+            }
+        }
+        if (isset($this->contenttypes[$name]['fields'][$column])) {
+            $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
 
-        if ($column->getName() === 'slug') {
+        if ($column === 'slug') {
             $type = 'slug';
         }
 
