@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.0.12
 -----------
 
-Not yet released.
+Released 2016-08-10. Notable changes:
 
  - Added: Add scripts to run grunt without global [#5552](https://github.com/bolt/bolt/pull/5552)
  - Added: Add support for missing `skip_uses` parameter in `{{ fields() }}` [#5609](https://github.com/bolt/bolt/pull/5609)
