@@ -454,10 +454,11 @@ class MetadataDriver implements MappingDriver
             if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
                 $type = $this->contenttypes[$name]['fields'][$column]['fields'][$field]['type'];
             }
-        }
-        if (isset($this->contenttypes[$name]['fields'][$column])) {
+        } elseif (isset($this->contenttypes[$name]['fields'][$column])) {
             $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
+
+
 
         if ($column === 'slug') {
             $type = 'slug';
