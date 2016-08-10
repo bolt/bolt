@@ -445,10 +445,10 @@ class MetadataDriver implements MappingDriver
     public function getFieldTypeFor($name, $column, $field = null)
     {
         if ($column instanceof Column) {
-            $column = $column->getName();
             if ($column->getType()) {
                 $type = $column->getType();
             }
+            $column = $column->getName();
         }
         if ($field !== null) {
             if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
