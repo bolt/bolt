@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Collection;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -111,10 +112,18 @@ class FieldCollection extends AbstractLazyCollection
             $instances = $repo->findBy(['id' => $this->references]);
 
             foreach ((array) $instances as $val) {
+                $boltType = $this->em->getMapper()->getFieldTypeFor($val->getContenttype(), $val->getName(), $val->getFieldname());
+                $fieldInstance = $this->em->getFieldManager()->getFieldFor($boltType);
+
+
                 $fieldtype = $val->getFieldtype();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
+
+                $tmpentity = new Content();
+                $fieldInstance->hydrate($tmpentity, $val->$typeCol);
+
                 $val->setValue($val->$typeCol);
                 $objects[$val->getFieldname()] = $val;
             }
