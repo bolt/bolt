@@ -6,6 +6,7 @@ use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Render;
 use Bolt\TemplateChooser;
+use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig_Environment as TwigEnvironment;
 use Twig_Error_Loader as TwigErrorLoader;
+use Twig_Error_Runtime as TwigErrorRuntime;
 
 /**
  * Renders the not found page in the event of an HTTP exception
@@ -68,11 +70,7 @@ class NotFoundListener implements EventSubscriberInterface
         // If $notFoundPage is referencing a template, render it and be done.
         if ($this->render->hasTemplate($this->notFoundPage)) {
             try {
-                $html = $this->twig->render($this->notFoundPage);
-                $response = new Response($html, Response::HTTP_NOT_FOUND);
-                $event->setResponse($response);
-
-                return;
+                $this->renderNotFound($event, $this->notFoundPage, []);
             } catch (TwigErrorLoader $e) {
                 // Template not found, fall though to see if we can render a
                 // record, failing that let the exception handler take over
@@ -86,16 +84,36 @@ class NotFoundListener implements EventSubscriberInterface
         }
 
         $template = $this->templateChooser->record($content);
-        $html = $this->twig->render($template, $content->getTemplateContext());
-        $response = new Response($html);
-
-        $event->setResponse($response);
+        $this->renderNotFound($event, $template, $content->getTemplateContext());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [
             KernelEvents::EXCEPTION => ['onKernelException', 512],
         ];
+    }
+
+    /**
+     * Render a not found template.
+     *
+     * @param GetResponseForExceptionEvent $event
+     * @param string                       $template
+     * @param array                        $context
+     *
+     * @throws RuntimeException
+     */
+    private function renderNotFound(GetResponseForExceptionEvent $event, $template, array $context)
+    {
+        try {
+            $html = $this->twig->render($template, $context);
+            $response = new Response($html, Response::HTTP_NOT_FOUND);
+            $event->setResponse($response);
+        } catch (TwigErrorRuntime $e) {
+            throw new RuntimeException('Unable to render 404 page!', null, $e);
+        }
     }
 }

@@ -94,7 +94,7 @@ class BootInitListener implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => [
                 ['onBootEarly', Application::EARLY_EVENT],
-                ['onBoot', 0],
+                ['onBoot', 33], // After routes determined. @see RouterListener::getSubscribedEvents
             ],
         ];
     }
