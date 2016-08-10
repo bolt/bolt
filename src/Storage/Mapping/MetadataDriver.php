@@ -446,7 +446,7 @@ class MetadataDriver implements MappingDriver
     {
         if ($column instanceof Column) {
             if ($column->getType()) {
-                $type = $column->getType();
+                $type = get_class($column->getType());
             }
             $column = $column->getName();
         }
