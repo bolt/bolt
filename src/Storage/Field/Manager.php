@@ -3,6 +3,7 @@ namespace Bolt\Storage\Field;
 
 /**
  * Class to manage instances of fields and instantiate the defaults.
+ * @deprecated Deprecated since 3.0, to be removed in 4.0 see src/Storage/FieldManager
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
