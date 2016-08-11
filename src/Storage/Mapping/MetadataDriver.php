@@ -480,11 +480,11 @@ class MetadataDriver implements MappingDriver
     public function getFieldMetadata($contenttype, $column, $field = null)
     {
         if ($field !== null) {
-            if (isset($this->contenttypes[$contenttype]['fields'][$column]['fields'][$field])) {
-                $metadata = $this->contenttypes[$contenttype]['fields'][$column]['fields'][$field];
+            if (isset($this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field])) {
+                $metadata = $this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field];
             }
-        } elseif (isset($this->contenttypes[$contenttype]['fields'][$column])) {
-            $metadata = $this->contenttypes[$name]['fields'][$column];
+        } elseif (isset($this->metadata[$contenttype]['fields'][$column])) {
+            $metadata = $this->metadata[$contenttype]['fields'][$column];
         }
 
         return $metadata;
