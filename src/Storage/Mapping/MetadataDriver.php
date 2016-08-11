@@ -477,6 +477,19 @@ class MetadataDriver implements MappingDriver
         return $type;
     }
 
+    public function getFieldMetadata($contenttype, $column, $field = null)
+    {
+        if ($field !== null) {
+            if (isset($this->contenttypes[$contenttype]['fields'][$column]['fields'][$field])) {
+                $metadata = $this->contenttypes[$contenttype]['fields'][$column]['fields'][$field];
+            }
+        } elseif (isset($this->contenttypes[$contenttype]['fields'][$column])) {
+            $metadata = $this->contenttypes[$name]['fields'][$column];
+        }
+
+        return $metadata;
+    }
+
     /**
      * {@inheritdoc}
      */
