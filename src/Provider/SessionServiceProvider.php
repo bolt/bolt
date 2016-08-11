@@ -107,7 +107,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     public function configure(Application $app)
     {
         $app['session.options'] = $app['config']->get('general/session', []) + [
-            'name'            => 'bolt_session_',
+            'name'            => 'bolt_session',
             'restrict_realm'  => true,
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
             'cookie_path'     => $app['resources']->getUrl('root'),
@@ -234,6 +234,22 @@ class SessionServiceProvider implements ServiceProviderInterface
                         $conn['persistent'] ?: false,
                         $conn['weight'] ?: 0,
                         $conn['timeout'] ?: 1
+                    );
+                }
+
+                return $memcache;
+            }
+        );
+
+        $app['session.handler_factory.backing_memcached'] = $app->protect(
+            function ($connections) {
+                $memcache = new \Memcached();
+
+                foreach ($connections as $conn) {
+                    $memcache->addServer(
+                        $conn['host'] ?: 'localhost',
+                        $conn['port'] ?: 11211,
+                        $conn['weight'] ?: 0
                     );
                 }
 
