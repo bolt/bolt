@@ -112,19 +112,14 @@ class FieldCollection extends AbstractLazyCollection
             $instances = $repo->findBy(['id' => $this->references]);
 
             foreach ((array) $instances as $val) {
-                $fieldMapping = $this->em->getMapper()->getFieldMetadata($val->getContenttype(), $val->getName(), $val->getFieldname());
-                $fieldInstance = $this->em->getFieldManager()->get($fieldMapping['type'], $fieldMapping);
-
-
                 $fieldtype = $val->getFieldtype();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
 
-                $tmpentity = new Content();
-                $fieldInstance->hydrate($tmpentity, $val->$typeCol);
+                $newVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
 
-                $val->setValue($val->$typeCol);
+                $val->setValue($newVal);
                 $objects[$val->getFieldname()] = $val;
             }
         }
