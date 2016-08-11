@@ -4,6 +4,7 @@ namespace Bolt\Storage\Entity;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 
 /**
  * Trait class for ContentType relations.
@@ -349,6 +350,7 @@ trait ContentValuesTrait
             'select',
             'templateselect',
             'checkbox',
+            'repeater',
         ];
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
@@ -393,6 +395,22 @@ trait ContentValuesTrait
                 $video['responsive'] = new \Twig_Markup($video['responsive'], 'UTF-8');
 
                 $this->values[$key] = $video;
+            }
+
+            if ($this->fieldtype($key) == 'repeater' && is_array($this->values[$key]) && !$this->isRootType) {
+                $originalMapping = null;
+                $originalMapping[$key]['fields'] = $this->contenttype['fields'][$key]['fields'];
+                $originalMapping[$key]['type'] = 'repeater';
+
+                $mapping = $this->app['storage.metadata']->getRepeaterMapping($originalMapping);
+                $repeater = new RepeatingFieldCollection($this->app['storage'], $mapping);
+                $repeater->setName($key);
+
+                foreach ($this->values[$key] as $subValue) {
+                    $repeater->addFromArray($subValue);
+                }
+
+                $this->values[$key] = $repeater;
             }
 
             if ($this->fieldtype($key) == 'date' || $this->fieldtype($key) == 'datetime') {
