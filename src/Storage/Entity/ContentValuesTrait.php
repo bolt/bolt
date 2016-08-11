@@ -297,10 +297,8 @@ trait ContentValuesTrait
                 }
 
                 if (is_array($unserdata)) {
-                    $templateContent = new \Bolt\Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
-                    $value = $templateContent;
-                    $this->populateTemplateFieldsContenttype($value);
-                    $templateContent->setValues($unserdata);
+                    $value = new \Bolt\Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    $value->setValues($unserdata);
                 } else {
                     $value = null;
                 }
