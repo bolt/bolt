@@ -191,6 +191,7 @@ class Builder
      * @param $value
      * @param $field
      * @param null $subField
+     * @return FieldValue|bool
      */
     public function getHydratedValue($value, $field, $subField = null)
     {
@@ -208,12 +209,12 @@ class Builder
                 $field = $subField;
             }
 
-            $tmpentity = new Content();
-            $fieldType->hydrate($tmpentity, $value);
+            $tmpentity = new FieldValue();
+            $fieldType->hydrate([$field => $value], $tmpentity);
 
             return $tmpentity[$field];
         }
 
-        return;
+        return false;
     }
 }
