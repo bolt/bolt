@@ -197,6 +197,11 @@ abstract class BackendBase extends Base
      */
     private function checkFirstUser(Application $app, $route)
     {
+        // If we have a valid, logged in user, we're going to assume we can skip this (expensive) test.
+        if ($app['users']->getCurrentUser() !== null) {
+            return true;
+        }
+
         // Check the database users table exists
         $tableExists = $app['schema']->hasUserTable();
 

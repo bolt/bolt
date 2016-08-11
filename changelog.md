@@ -16,27 +16,72 @@ Bolt 3.2-dev
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 
-Bolt 3.1-dev
------------
+Bolt 3.1.0 beta 2
+-----------------
+
+Released 2016-08-11. Notable changes:
+
+ - Changed: Modify `checkFirstUser` to check for a valid logged in user, to prevent expensive test. [#5649](https://github.com/bolt/bolt/pull/5649)
+ - Fixed: Function names can't be used in import prior to PHP 5.6 [#5642](https://github.com/bolt/bolt/pull/5642)
+ - Updated: Updating JS and CSS dependencies. [#5653](https://github.com/bolt/bolt/pull/5653)
+ - … Plus all changes listed under 3.0.12
+
+Bolt 3.1.0 beta 1
+-----------------
+
+Released 2016-08-04. Notable changes:
 
 - Fixed: Installation of specific extension version [#5635](https://github.com/bolt/bolt/pull/5635)
 - Fixed: Disabling news feed in backend [#5544](https://github.com/bolt/bolt/pull/5544)
 - Fixed: Display of "last seen" user date/time [#5547](https://github.com/bolt/bolt/pull/5547)
 - Added: Automatic Translation Inclusion for Extensions [#5292](https://github.com/bolt/bolt/pull/5292)
-- Added: Allow extra plugin for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
+- Added: Allow extra plugins for Ckeditor [#5342](https://github.com/bolt/bolt/pull/5342)
 - Added: Setting Extensions Composer options [#5571](https://github.com/bolt/bolt/pull/5571)
 - Added: Nut command to enable, disable, and list details for a user [#5483](https://github.com/bolt/bolt/pull/5483)
-- Added: Add --enable option to Nut user:create [#5483](https://github.com/bolt/bolt/pull/5483)
+- Added: Add `--enable` option to Nut `user:create` [#5483](https://github.com/bolt/bolt/pull/5483)
 - Added: Better sanitization of content on save. [#5611](https://github.com/bolt/bolt/pull/5611)
 
-Bolt 3.0.x
+Bolt 3.0.12
 -----------
 
+Released 2016-08-10. Notable changes:
+
+ - Added: Add scripts to run grunt without global [#5552](https://github.com/bolt/bolt/pull/5552)
+ - Added: Add support for missing `skip_uses` parameter in `{{ fields() }}` [#5609](https://github.com/bolt/bolt/pull/5609)
  - Added: Create custom exception for invalid repo, and throw this when accessed [#5568](https://github.com/bolt/bolt/pull/5568)
- - Fixed: Add support for missing `skip_uses` parameter [#5609](https://github.com/bolt/bolt/pull/5609)
+ - Added: Session can now be configured via config.yml and custom handler/path in ini is not overridden [#5563](https://github.com/bolt/bolt/pull/5563)
+ - Change: Remove the Foreign Key Constraint properties from diffs when `supportsForeignKeyConstraints()` is `false` [#5550](https://github.com/bolt/bolt/pull/5550)
+ - Change: Set `searchable: true` for Showcases. No reason why they shouldn't be. [#5617](https://github.com/bolt/bolt/pull/5617)
+ - Change: Set a flash and redirect to to dashboard if ContentType doesn't exist fetching repository [#5569](https://github.com/bolt/bolt/pull/5569)
+ - Change: Use URL generator where appropriate [#5577](https://github.com/bolt/bolt/pull/5577)
+ - Docs: PHPDoc fixes [#5645](https://github.com/bolt/bolt/pull/5645), [#5647](https://github.com/bolt/bolt/pull/5647), [#5660](https://github.com/bolt/bolt/pull/5660)
+ - Fixed: Add index on slug in taxonomy table [#5597](https://github.com/bolt/bolt/pull/5597)
+ - Fixed: Address init failures in repeaters [#5631](https://github.com/bolt/bolt/pull/5631)
+ - Fixed: Always return something in getTitleColumnName [#5598](https://github.com/bolt/bolt/pull/5598)
  - Fixed: Be very select about extension autoloader error/exception emitting [#5565](https://github.com/bolt/bolt/pull/5565)
- - Fixed: Relationship handling [#5641](https://github.com/bolt/bolt/pull/5641)
- - Fixed: Remove the Foreign Key Constraint properties from diffs when supportsForeignKeyConstraints() is false [#5550](https://github.com/bolt/bolt/pull/5550)
+ - Fixed: Bug in Imagefield with attrib would break repeater fields. [#5665](https://github.com/bolt/bolt/pull/5665)
+ - Fixed: Bugfix for HTML fields inside repeaters [#5639](https://github.com/bolt/bolt/pull/5639)
+ - Fixed: Change link to taxonomies documentation [#5618](https://github.com/bolt/bolt/pull/5618)
+ - Fixed: Filesystem session handler's garbage collection [#5633](https://github.com/bolt/bolt/pull/5633)
+ - Fixed: Fix attempts to access values via $this->values in storage [#5593](https://github.com/bolt/bolt/pull/5593)
+ - Fixed: Fix backend publish process quirks ([#5085](https://github.com/bolt/bolt/pull/5085)) [#5610](https://github.com/bolt/bolt/pull/5610)
+ - Fixed: Fix bidirectional relations and relations affecting each other [#5641](https://github.com/bolt/bolt/pull/5641)
+ - Fixed: Fix issue with multi-value value selects [#5632](https://github.com/bolt/bolt/pull/5632)
+ - Fixed: Fix two issues with deferred widgets. [#5643](https://github.com/bolt/bolt/pull/5643)
+ - Fixed: Fixing a link in the base-2016 theme [#5627](https://github.com/bolt/bolt/pull/5627)
+ - Fixed: Get correct path to compare in 'current' filter, when Bolt is in a subfolder/ [#5620](https://github.com/bolt/bolt/pull/5620)
+ - Fixed: Incoming relations must be checked with both `contenttype` and `id`. [#5637](https://github.com/bolt/bolt/pull/5637)
+ - Fixed: Memcached and Redis session handler and realm getting appended multiple times [#5662](https://github.com/bolt/bolt/pull/5662)
+ - Fixed: Redis session handler [#5664](https://github.com/bolt/bolt/pull/5664)
+ - Fixed: Remove the last references to `listcontent` [#5634](https://github.com/bolt/bolt/pull/5634)
+ - Fixed: Replacing deprecated `localdate` with `localedatetime`. [#5621](https://github.com/bolt/bolt/pull/5621)
+ - Fixed: Set relations indexes to be multi column indexes [#5602](https://github.com/bolt/bolt/pull/5602)
+ - Fixed: Skip schema check only on `_wdt` (profiler) & `dbupdate` routes [#5570](https://github.com/bolt/bolt/pull/5570)
+ - Fixed: Tweak changelog notes about session and port redis handler fix [#5664](https://github.com/bolt/bolt/pull/5664)
+ - Folder Handling doesn't need parent value concatenated [#5582](https://github.com/bolt/bolt/pull/5582)
+ - Updated: GitHub hints in `.github/` [#5661](https://github.com/bolt/bolt/pull/5661)
+ - Updated: Update features section in CONTRIBUTING.md [#5536](https://github.com/bolt/bolt/pull/5536)
+ - Updated: Updating the version of Jquery that's used with `add_jquery` in the frontend. [#5663](https://github.com/bolt/bolt/pull/5663)
 
 Bolt 3.0.11
 -----------
