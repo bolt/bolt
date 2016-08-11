@@ -112,8 +112,8 @@ class FieldCollection extends AbstractLazyCollection
             $instances = $repo->findBy(['id' => $this->references]);
 
             foreach ((array) $instances as $val) {
-                $boltType = $this->em->getMapper()->getFieldTypeFor($val->getContenttype(), $val->getName(), $val->getFieldname());
-                $fieldInstance = $this->em->getFieldManager()->get($boltType, ['fieldname' => $val->getFieldname() ]);
+                $fieldMapping = $this->em->getMapper()->getFieldMetadata($val->getContenttype(), $val->getName(), $val->getFieldname());
+                $fieldInstance = $this->em->getFieldManager()->get($fieldMapping['type'], $fieldMapping);
 
 
                 $fieldtype = $val->getFieldtype();
