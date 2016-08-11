@@ -64,7 +64,7 @@ class BootException extends RuntimeException
     {
         echo $message;
 
-        throw self::__construct(strip_tags($message));
+        throw new static(strip_tags($message));
     }
 
 }
