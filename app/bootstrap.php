@@ -57,12 +57,8 @@ return call_user_func(function () {
     // None of the mappings matched, error
     if ($error) {
         include $boltRootPath . '/src/Exception/BootException.php';
-        $message = "<h1>Installation Incomplete</h1>\n" .
-            "<p>Configuration autodetection failed because The file " .
-            "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
-            "you've installed the required components with Composer.</p>";
 
-        BootException::earlyException($message);
+        BootException::earlyExceptionComposer();
     }
 
     // Register handlers early
