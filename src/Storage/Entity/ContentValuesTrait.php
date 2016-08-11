@@ -4,6 +4,7 @@ namespace Bolt\Storage\Entity;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 
 /**
  * Trait class for ContentType relations.
@@ -240,7 +241,7 @@ trait ContentValuesTrait
             }
         }
 
-        if ($key == 'id') {
+        if ($key === 'id') {
             $this->id = $value;
         }
 
@@ -276,7 +277,7 @@ trait ContentValuesTrait
             if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
                 // @todo Try better date-parsing, instead of just setting it to
                 // 'now' (or 'the past' for datedepublish)
-                if ($key == 'datedepublish') {
+                if ($key === 'datedepublish') {
                     $value = null;
                 } else {
                     $value = date('Y-m-d H:i:s');
@@ -297,10 +298,8 @@ trait ContentValuesTrait
                 }
 
                 if (is_array($unserdata)) {
-                    $templateContent = new \Bolt\Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
-                    $value = $templateContent;
-                    $this->populateTemplateFieldsContenttype($value);
-                    $templateContent->setValues($unserdata);
+                    $value = new \Bolt\Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    $value->setValues($unserdata);
                 } else {
                     $value = null;
                 }
@@ -351,11 +350,12 @@ trait ContentValuesTrait
             'select',
             'templateselect',
             'checkbox',
+            'repeater',
         ];
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key == 'templatefields')) {
-                if (!empty($value) && is_string($value) && (substr($value, 0, 2) == 'a:' || $value[0] === '[' || $value[0] === '{')) {
+            if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key === 'templatefields')) {
+                if (!empty($value) && is_string($value) && (substr($value, 0, 2) === 'a:' || $value[0] === '[' || $value[0] === '{')) {
                     try {
                         $unserdata = Lib::smartUnserialize($value);
                     } catch (\Exception $e) {
@@ -368,7 +368,7 @@ trait ContentValuesTrait
                 }
             }
 
-            if ($this->fieldtype($key) == 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
+            if ($this->fieldtype($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
                 $video = $this->values[$key];
 
                 // update the HTML, according to given width and height
@@ -397,7 +397,23 @@ trait ContentValuesTrait
                 $this->values[$key] = $video;
             }
 
-            if ($this->fieldtype($key) == 'date' || $this->fieldtype($key) == 'datetime') {
+            if ($this->fieldtype($key) === 'repeater' && is_array($this->values[$key]) && !$this->isRootType) {
+                $originalMapping = null;
+                $originalMapping[$key]['fields'] = $this->contenttype['fields'][$key]['fields'];
+                $originalMapping[$key]['type'] = 'repeater';
+
+                $mapping = $this->app['storage.metadata']->getRepeaterMapping($originalMapping);
+                $repeater = new RepeatingFieldCollection($this->app['storage'], $mapping);
+                $repeater->setName($key);
+
+                foreach ($this->values[$key] as $subValue) {
+                    $repeater->addFromArray($subValue);
+                }
+
+                $this->values[$key] = $repeater;
+            }
+
+            if ($this->fieldtype($key) === 'date' || $this->fieldtype($key) === 'datetime') {
                 if ($this->values[$key] === '') {
                     $this->values[$key] = null;
                 }
@@ -502,7 +518,7 @@ trait ContentValuesTrait
 
         // Grab the first field of type 'image', and return that.
         foreach ($this->contenttype['fields'] as $key => $field) {
-            if ($field['type'] == 'image') {
+            if ($field['type'] === 'image') {
                 // After v1.5.1 we store image data as an array
                 if (is_array($this->values[$key]) && isset($this->values[$key]['file'])) {
                     return $this->values[$key]['file'];
@@ -580,7 +596,7 @@ trait ContentValuesTrait
         // Otherwise, grab the first field of type 'text', and assume that's the title.
         if (!empty($this->contenttype['fields'])) {
             foreach ($this->contenttype['fields'] as $key => $field) {
-                if ($field['type'] == 'text') {
+                if ($field['type'] === 'text') {
                     return [$key];
                 }
             }
