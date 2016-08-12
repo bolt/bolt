@@ -226,6 +226,26 @@ class Exception extends Base implements ExceptionControllerInterface
     }
 
     /**
+     * Get a pre-packaged Twig context array.
+     *
+     * @param \Exception $exception
+     *
+     * @return array
+     */
+    protected function getContextArray(\Exception $exception = null)
+    {
+        return [
+            'debug'     => $this->app['debug'],
+            'exception' => [
+                'object' => $exception,
+                'class'  => $exception ? get_class($exception) : null,
+                'file'   => $exception ? basename($exception->getFile()) : null,
+                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
+            ],
+        ];
+    }
+
+    /**
      * Get the exception trace that is safe to display publicly.
      *
      * @param \Exception  $exception
@@ -250,25 +270,5 @@ class Exception extends Base implements ExceptionControllerInterface
         }
 
         return $trace;
-    }
-
-    /**
-     * Get a pre-packaged Twig context array.
-     *
-     * @param \Exception $exception
-     *
-     * @return array
-     */
-    protected function getContextArray(\Exception $exception = null)
-    {
-        return [
-            'debug'     => $this->app['debug'],
-            'exception' => [
-                'object' => $exception,
-                'class'  => $exception ? get_class($exception) : null,
-                'file'   => $exception ? basename($exception->getFile()) : null,
-                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
-            ],
-        ];
     }
 }
