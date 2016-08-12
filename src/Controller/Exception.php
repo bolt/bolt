@@ -142,7 +142,6 @@ class Exception extends Base implements ExceptionControllerInterface
         $context = $this->getContextArray($previous);
         $context['type'] = 'connect';
         $context['platform'] = $platform;
-        $context['exception'] = $previous;
 
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
         $response = new Response($html);
