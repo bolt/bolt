@@ -2,8 +2,13 @@
 
 namespace Bolt\Controller;
 
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Handler\File;
+use Carbon\Carbon;
+use Cocur\Slugify\Slugify;
 use Silex\Application;
 use Silex\ControllerCollection;
+use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -234,6 +239,14 @@ class Exception extends Base implements ExceptionControllerInterface
      */
     protected function getContextArray(\Exception $exception = null)
     {
+        if ($exception) {
+            try {
+                $this->saveException($exception);
+            } catch (IOException $e) {
+                //
+            }
+        }
+
         return [
             'debug'     => $this->app['debug'],
             'exception' => [
@@ -270,5 +283,28 @@ class Exception extends Base implements ExceptionControllerInterface
         }
 
         return $trace;
+    }
+
+    /**
+     * Attempt to save the serialised exception if in debug mode.
+     *
+     * @param \Exception $exception
+     */
+    protected function saveException(\Exception $exception)
+    {
+        if ($this->app['debug'] !== true) {
+            return;
+        }
+
+        $environment = $this->app['environment'];
+        $serialised = serialize(FlattenException::create($exception));
+
+        $sourceFile = Slugify::create()->slugify($exception->getFile());
+        $fileName = sprintf('%s-%s.exception', Carbon::now()->format('Ymd-Hmi'), substr($sourceFile, -102));
+        $fullPath = sprintf('%s/exception/%s', $environment, $fileName);
+
+        $cacheFilesystem = $this->app['filesystem']->getFilesystem('cache');
+        $file = new File($cacheFilesystem, $fullPath);
+        $file->write($serialised);
     }
 }
