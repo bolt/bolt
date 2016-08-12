@@ -864,20 +864,23 @@ class Config
     public function checkTaxonomy()
     {
         foreach ($this->data['taxonomy'] as $key => $taxonomy) {
-            if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
-                foreach ($taxonomy['options'] as $optionkey => $optionvalue) {
-                    if (strpos($optionkey, '/') !== false) {
-                        $error = Trans::__(
-                            'general.phrase.invalid-taxonomy-slug',
-                            ['%taxonomy%' => $key, '%option%' => $optionvalue]
-                        );
-                        $this->app['logger.flash']->error($error);
-                    }
+            if (empty($taxonomy['options']) || !is_array($taxonomy['options'])) {
+                continue;
+            }
+
+            foreach ($taxonomy['options'] as $optionKey => $optionValue) {
+                if (strpos($optionKey, '/') === false) {
+                    continue;
                 }
+
+                $error = Trans::__(
+                    'general.phrase.invalid-taxonomy-slug',
+                    ['%taxonomy%' => $key, '%option%' => $optionValue]
+                );
+                $this->app['logger.flash']->error($error);
             }
         }
     }
-
     /**
      * Sanity checks for doubles in in contenttypes.
      */
