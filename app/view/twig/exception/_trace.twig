@@ -1,21 +1,22 @@
+<style>
+    .exception {
+        display:block;
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+</style>
+
 <div class="row">
+    <h4>Details</h4>
     <p>
-    <code class="exception">{{ exception.class }} in {{ exception.file }} line {{ exception.object.line }}</code>
+    <code class="exception">{{ exception.class|default('unknown') }} in {{ exception.file|default('unknown') }} line {{ exception.object.line|default('unknown') }}</code>
     </p>
     <p>
-    <code class="exception">{{ exception.object.message|nl2br }}</code>
+    <code class="exception">{{ exception.object.message|default('unknown')|nl2br }}</code>
     </p>
 </div>
 
-{%- if debug and exception is defined %}
-    <style>
-        .exception {
-            display:block;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-    </style>
-
+{%- if debug %}
     {% set i = 0 %}
     <div class="row">
         <h4>Trace</h4>
