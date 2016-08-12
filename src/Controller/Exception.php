@@ -111,8 +111,6 @@ class Exception extends Base implements ExceptionControllerInterface
     public function afterKernelException(Request $request, Response $response)
     {
         if (!$response->headers->has('X-Debug-Exception-Handled')) {
-            $response->headers->remove('X-Debug-Exception-Handled');
-
             return null;
         }
 
