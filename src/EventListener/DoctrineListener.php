@@ -43,9 +43,6 @@ class DoctrineListener implements EventSubscriber
         $e = $args->getException();
         $this->logger->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
 
-        // Trap double exceptions
-        set_exception_handler(function () {});
-
         /*
          * Using Driver here since Platform may try to connect
          * to the database, which has failed since we are here.

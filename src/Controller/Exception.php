@@ -2,8 +2,13 @@
 
 namespace Bolt\Controller;
 
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Handler\File;
+use Carbon\Carbon;
+use Cocur\Slugify\Slugify;
 use Silex\Application;
 use Silex\ControllerCollection;
+use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,8 +111,6 @@ class Exception extends Base implements ExceptionControllerInterface
     public function afterKernelException(Request $request, Response $response)
     {
         if (!$response->headers->has('X-Debug-Exception-Handled')) {
-            $response->headers->remove('X-Debug-Exception-Handled');
-
             return null;
         }
 
@@ -142,7 +145,6 @@ class Exception extends Base implements ExceptionControllerInterface
         $context = $this->getContextArray($previous);
         $context['type'] = 'connect';
         $context['platform'] = $platform;
-        $context['exception'] = $previous;
 
         $html = $this->app['twig']->render('@bolt/exception/database/exception.twig', $context);
         $response = new Response($html);
@@ -227,6 +229,34 @@ class Exception extends Base implements ExceptionControllerInterface
     }
 
     /**
+     * Get a pre-packaged Twig context array.
+     *
+     * @param \Exception $exception
+     *
+     * @return array
+     */
+    protected function getContextArray(\Exception $exception = null)
+    {
+        if ($exception) {
+            try {
+                $this->saveException($exception);
+            } catch (IOException $e) {
+                //
+            }
+        }
+
+        return [
+            'debug'     => $this->app['debug'],
+            'exception' => [
+                'object' => $exception,
+                'class'  => $exception ? get_class($exception) : null,
+                'file'   => $exception ? basename($exception->getFile()) : null,
+                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
+            ],
+        ];
+    }
+
+    /**
      * Get the exception trace that is safe to display publicly.
      *
      * @param \Exception  $exception
@@ -254,22 +284,25 @@ class Exception extends Base implements ExceptionControllerInterface
     }
 
     /**
-     * Get a pre-packaged Twig context array.
+     * Attempt to save the serialised exception if in debug mode.
      *
      * @param \Exception $exception
-     *
-     * @return array
      */
-    protected function getContextArray(\Exception $exception = null)
+    protected function saveException(\Exception $exception)
     {
-        return [
-            'debug'     => $this->app['debug'],
-            'exception' => [
-                'object' => $exception,
-                'class'  => $exception ? get_class($exception) : null,
-                'file'   => $exception ? basename($exception->getFile()) : null,
-                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
-            ],
-        ];
+        if ($this->app['debug'] !== true) {
+            return;
+        }
+
+        $environment = $this->app['environment'];
+        $serialised = serialize(FlattenException::create($exception));
+
+        $sourceFile = Slugify::create()->slugify($exception->getFile());
+        $fileName = sprintf('%s-%s.exception', Carbon::now()->format('Ymd-Hmi'), substr($sourceFile, -102));
+        $fullPath = sprintf('%s/exception/%s', $environment, $fileName);
+
+        $cacheFilesystem = $this->app['filesystem']->getFilesystem('cache');
+        $file = new File($cacheFilesystem, $fullPath);
+        $file->write($serialised);
     }
 }
