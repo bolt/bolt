@@ -325,13 +325,15 @@ class BoltListener implements \PHPUnit_Framework_TestListener
                 unlink($file);
             }
 
+            // Sort the array by value, in reverse order
             arsort($this->tracker);
+
             foreach ($this->tracker as $test => $time) {
-                $time = substr($time, 0, 6);
+                $time = number_format($time, 6);
                 file_put_contents($file, "$time\t\t$test\n", FILE_APPEND);
             }
-        }
 
-        echo "\n\033[32mTest timings written out to: " . TEST_ROOT . "/app/cache/phpunit-test-timer.txt\033[0m\n\n";
+            echo "\n\033[32mTest timings written out to: " . $file . "\033[0m\n\n";
+        }
     }
 }
