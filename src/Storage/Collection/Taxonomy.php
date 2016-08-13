@@ -83,6 +83,7 @@ class Taxonomy extends ArrayCollection
         $updated = [];
         // First give priority to already existing entities
         foreach ($collection as $entity) {
+            $entity->setSlug(str_replace('/', '', $entity->getSlug()));
             $master = $this->getOriginal($entity);
             $master->setSortorder($entity->getSortorder());
             $updated[] = $master;

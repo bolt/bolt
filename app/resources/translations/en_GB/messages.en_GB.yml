@@ -219,6 +219,7 @@ general.bolt-third-party-libraries: "Below are the third party libraries that ar
 general.bolt-welcome-new-site: "Welcome to your new Bolt site, %USER%."
 
 general.phrase.access-denied-logged-out: "You have been logged out."
+general.phrase.invalid-taxonomy-slug: "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.access-denied-permissions-edit-file: "You don't have correct permissions to edit the file '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "You don't have the correct permissions to display the file or directory '%s'."
 general.phrase.access-denied-privilege-edit-record: "You do not have the right privileges to edit that record."

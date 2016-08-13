@@ -893,6 +893,29 @@ class Config
     }
 
     /**
+     * Sanity check for slashes in in taxonomy slugs.
+     */
+    private function checkTaxonomy()
+    {
+        foreach ($this->data['taxonomy'] as $key => $taxonomy) {
+            if (empty($taxonomy['options']) || !is_array($taxonomy['options'])) {
+                continue;
+            }
+
+            foreach ($taxonomy['options'] as $optionKey => $optionValue) {
+                if (strpos($optionKey, '/') === false) {
+                    continue;
+                }
+
+                $error = Trans::__(
+                    'general.phrase.invalid-taxonomy-slug',
+                    ['%taxonomy%' => $key, '%option%' => $optionValue]
+                );
+                $this->app['logger.flash']->error($error);
+            }
+        }
+    }
+    /**
      * Sanity checks for doubles in in contenttypes.
      */
     public function checkConfig()
@@ -1016,6 +1039,7 @@ class Config
                 }
             }
         }
+        $this->checkTaxonomy();
     }
 
     /**

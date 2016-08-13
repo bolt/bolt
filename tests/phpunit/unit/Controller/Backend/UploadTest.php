@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +24,7 @@ class UploadTest extends ControllerUnitTest
     public function tearDown()
     {
         @unlink(TEST_ROOT . '/app/cache/config-cache.json');
+        $this->getService('filesystem')->getDir('files://')->setVisibility('public');
     }
 
     public function testResponses()
@@ -89,7 +89,8 @@ class UploadTest extends ControllerUnitTest
     public function testBadDefaultLocation()
     {
         $this->getApp()->flush();
-        $this->getService('resources')->setPath('files', '/path/to/nowhere');
+        $this->getService('filesystem')->getDir('files://')->setVisibility('private');
+
         $this->getFileRequest();
 
         $this->setExpectedException('RuntimeException', 'Unable to write to upload destination');
