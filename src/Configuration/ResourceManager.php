@@ -97,7 +97,6 @@ class ResourceManager
         $this->setPath('src', dirname(__DIR__));
         $this->setPath('database', 'app/database');
         $this->setPath('themebase', 'theme');
-        $this->setPath('themes', 'theme'); // Alias needed for uploading to themes folder.
         $this->setPath('view', 'app/view');
         $this->setUrl('view', '/app/view/');
     }
