@@ -71,7 +71,6 @@ abstract class BackendBase extends Base
         // Sanity checks for doubles in in contenttypes. This has to be done
         // here, because the 'translator' classes need to be initialised.
         $app['config']->checkConfig();
-        $app['config']->checkTaxonomy();
 
         // If we had to reload the config earlier on because we detected a
         // version change, display a notice.

@@ -861,7 +861,7 @@ class Config
     /**
      * Sanity check for slashes in in taxonomy slugs.
      */
-    public function checkTaxonomy()
+    private function checkTaxonomy()
     {
         foreach ($this->data['taxonomy'] as $key => $taxonomy) {
             if (empty($taxonomy['options']) || !is_array($taxonomy['options'])) {
@@ -1005,6 +1005,7 @@ class Config
                 }
             }
         }
+        $this->checkTaxonomy();
     }
 
     /**
