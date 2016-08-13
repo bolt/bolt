@@ -1,12 +1,13 @@
+<br>
 <form method="post" id="filescreenuploader" {{ form_enctype(context.form) }}>
     <fieldset>
+        <p><strong>{{ __('general.phrase.upload-file-to-directory') }}</strong> {{ macro.typepopover() }}</p>
         {{ form_widget(context.form) }}
         <div>
-        <button type="submit" class="btn btn-primary" disabled>
-            <i class="fa fa-fw fa-upload"></i>
-            <span>{{ __('general.phrase.upload-file') }}</span>
-        </button>
-        {{ macro.typepopover() }}
+            <button type="submit" class="btn btn-primary" disabled>
+                <i class="fa fa-fw fa-upload"></i>
+                <span>{{ __('general.phrase.upload-file') }}</span>
+            </button>
         </div>
     </fieldset>
 </form>
