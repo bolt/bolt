@@ -26,6 +26,11 @@ Released 2016-08-04. Notable changes:
 - Added: Add `--enable` option to Nut `user:create` [#5483](https://github.com/bolt/bolt/pull/5483)
 - Added: Better sanitization of content on save. [#5611](https://github.com/bolt/bolt/pull/5611)
 
+Bolt 3.0.x
+-----------
+
+ - Fixed: Uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+
 Bolt 3.0.12
 -----------
 

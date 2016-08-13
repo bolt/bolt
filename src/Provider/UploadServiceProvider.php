@@ -2,6 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Handler;
 use Bolt\Filesystem\UploadContainer;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -20,11 +23,11 @@ class UploadServiceProvider implements ServiceProviderInterface
         // This exposes the main upload object as a service
         $app['upload'] = $app->share(
             function () use ($app) {
-                $allowedExensions = $app['config']->get('general/accept_file_types');
+                $allowedExtensions = $app['config']->get('general/accept_file_types');
                 $uploadHandler = new UploadHandler($app['upload.container']);
                 $uploadHandler->setPrefix($app['upload.prefix']);
                 $uploadHandler->setOverwrite($app['upload.overwrite']);
-                $uploadHandler->addRule('extension', ['allowed' => $allowedExensions]);
+                $uploadHandler->addRule('extension', ['allowed' => $allowedExtensions]);
 
                 $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
                 $replacement = $app['config']->get('general/upload/replacement', '-');
@@ -49,11 +52,21 @@ class UploadServiceProvider implements ServiceProviderInterface
         // Any compatible file handler can be used.
         $app['upload.container'] = $app->share(
             function () use ($app) {
-                $base = $app['resources']->getPath($app['upload.namespace']);
-                if (!is_writable($base)) {
-                    throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
+                /** @var Filesystem $filesystem */
+                $filesystem = $app['filesystem']->getFilesystem($app['upload.namespace']);
+                /** @var Handler\Directory $uploadDir */
+                $uploadDir = $filesystem->getDir('/');
+                /** @var Local $adapter */
+                $adapter = $filesystem->getAdapter();
+
+                if ($uploadDir->isPrivate()) {
+                    if ($adapter instanceof Local) {
+                        throw new \RuntimeException(sprintf('Unable to write to upload destination. Check permissions on %s', $adapter->getPathPrefix()));
+                    }
+                    throw new \RuntimeException(sprintf('Unable to write to upload destination. Check permissions on %s://', $app['upload.namespace']));
                 }
-                $container = new UploadContainer($app['filesystem']->getFilesystem($app['upload.namespace']));
+
+                $container = new UploadContainer($filesystem);
 
                 return $container;
             }
