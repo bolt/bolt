@@ -1194,6 +1194,12 @@ class Config
                 'allowed_tags'       => explode(',', 'div,span,p,br,hr,s,u,strong,em,i,b,li,ul,ol,mark,blockquote,pre,code,tt,h1,h2,h3,h4,h5,h6,dd,dl,dh,table,tbody,thead,tfoot,th,td,tr,a,img,address,abbr,iframe'),
                 'allowed_attributes' => explode(',', 'id,class,style,name,value,href,src,alt,title,width,height,frameborder,allowfullscreen,scrolling'),
             ],
+            'performance'                 => [
+                'timed_records' => [
+                    'interval' => 3660,
+                    'use_cron' => false,
+                ],
+            ],
         ];
     }
 
