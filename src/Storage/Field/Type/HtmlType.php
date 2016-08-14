@@ -17,6 +17,14 @@ class HtmlType extends FieldTypeBase implements SanitiserAwareInterface, Wysiwyg
 {
     use SanitiserAwareTrait;
 
+
+    public function hydrate($data, $entity)
+    {
+        parent::hydrate($data, $entity);
+
+        $this->set($entity, new Twig_Markup($this->get($entity), 'UTF-8'));
+    }
+
     /**
      * {@inheritdoc}
      */
