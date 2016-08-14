@@ -117,9 +117,16 @@ class FieldCollection extends AbstractLazyCollection
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
 
-                $newVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                // Because there's a potential for custom fields that use json storage to 'double hydrate' this causes
+                // json_decode to throw a warning. Here we prevent that by replacing the error handler.
+                set_error_handler(
+                    function ($errNo, $errStr, $errFile) {},
+                    E_WARNING
+                );
+                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                restore_error_handler();
 
-                $val->setValue($newVal);
+                $val->setValue($hydratedVal);
                 $objects[$val->getFieldname()] = $val;
             }
         }
