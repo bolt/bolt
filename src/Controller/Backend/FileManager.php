@@ -153,7 +153,7 @@ class FileManager extends BackendBase
             if (empty($path)) {
                 $path = $namespace;
             }
-            
+
             $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $path]));
 
             return new RedirectResponse($this->generateUrl('dashboard'));
@@ -344,7 +344,14 @@ class FileManager extends BackendBase
         $this->app['upload.namespace'] = $namespace;
         $handler = $this->app['upload'];
         $handler->setPrefix($path . '/');
-        $result = $handler->process($fileToProcess);
+        try {
+            $result = $handler->process($fileToProcess);
+        } catch (IOException $e) {
+            $message = Trans::__('page.file-management.message.upload-not-writable', ['%TARGET%' => $namespace . '://']);
+            $this->flashes()->error($message);
+
+            return ;
+        }
 
         if ($result->isValid()) {
             $this->flashes()->info(

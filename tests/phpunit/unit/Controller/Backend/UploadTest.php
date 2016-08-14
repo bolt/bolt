@@ -86,18 +86,6 @@ class UploadTest extends ControllerUnitTest
         $this->assertRegExp('/extension/i', $file->error);
     }
 
-    public function testBadDefaultLocation()
-    {
-        $this->getApp()->flush();
-        $this->getService('filesystem')->getDir('files://')->setVisibility('private');
-
-        $this->getFileRequest();
-
-        $this->setExpectedException('RuntimeException', 'Unable to write to upload destination');
-
-        $this->controller()->uploadNamespace($this->getRequest(), 'files');
-    }
-
     public function testHandlerParsing()
     {
         $this->getApp()->flush();

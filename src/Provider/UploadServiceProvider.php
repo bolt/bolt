@@ -2,9 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
-use Bolt\Filesystem\Handler;
 use Bolt\Filesystem\UploadContainer;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -54,18 +52,6 @@ class UploadServiceProvider implements ServiceProviderInterface
             function () use ($app) {
                 /** @var Filesystem $filesystem */
                 $filesystem = $app['filesystem']->getFilesystem($app['upload.namespace']);
-                /** @var Handler\Directory $uploadDir */
-                $uploadDir = $filesystem->getDir('/');
-                /** @var Local $adapter */
-                $adapter = $filesystem->getAdapter();
-
-                if ($uploadDir->isPrivate()) {
-                    if ($adapter instanceof Local) {
-                        throw new \RuntimeException(sprintf('Unable to write to upload destination. Check permissions on %s', $adapter->getPathPrefix()));
-                    }
-                    throw new \RuntimeException(sprintf('Unable to write to upload destination. Check permissions on %s://', $app['upload.namespace']));
-                }
-
                 $container = new UploadContainer($filesystem);
 
                 return $container;
