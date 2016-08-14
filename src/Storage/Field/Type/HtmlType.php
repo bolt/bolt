@@ -6,6 +6,7 @@ use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
 use Bolt\Storage\Field\Sanitiser\SanitiserAwareTrait;
 use Bolt\Storage\Field\Sanitiser\WysiwygAwareInterface;
 use Doctrine\DBAL\Types\Type;
+use Twig_Markup;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
