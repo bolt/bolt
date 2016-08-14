@@ -126,7 +126,13 @@ class FieldCollection extends AbstractLazyCollection
                 $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
                 restore_error_handler();
 
-                $val->setValue($hydratedVal);
+                // If we do not have a hydrated value returned then we fall back to the one passed in
+                if ($hydratedVal) {
+                    $val->setValue($hydratedVal);
+                } else {
+                    $val->setValue($val->$typeCol);
+                }
+
                 $objects[$val->getFieldname()] = $val;
             }
         }
