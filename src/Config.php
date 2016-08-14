@@ -894,9 +894,12 @@ class Config
 
     /**
      * Sanity check for slashes in in taxonomy slugs.
+     *
+     * @return bool
      */
     private function checkTaxonomy()
     {
+        $passed = true;
         foreach ($this->data['taxonomy'] as $key => $taxonomy) {
             if (empty($taxonomy['options']) || !is_array($taxonomy['options'])) {
                 continue;
@@ -907,6 +910,7 @@ class Config
                     continue;
                 }
 
+                $passed = false;
                 $error = Trans::__(
                     'general.phrase.invalid-taxonomy-slug',
                     ['%taxonomy%' => $key, '%option%' => $optionValue]
@@ -914,13 +918,18 @@ class Config
                 $this->app['logger.flash']->error($error);
             }
         }
+
+        return $passed;
     }
     /**
      * Sanity checks for doubles in in contenttypes.
+     *
+     * @return bool
      */
     public function checkConfig()
     {
         $slugs = [];
+        $passed = true;
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
             /**
@@ -947,7 +956,7 @@ class Config
                     );
                     $this->app['logger.flash']->danger($error);
 
-                    return;
+                    $passed = false;
                 }
 
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
@@ -961,7 +970,7 @@ class Config
                             );
                             $this->app['logger.flash']->warning($error);
 
-                            return;
+                            $passed = false;
                         }
                     }
                 }
@@ -977,7 +986,9 @@ class Config
                         ]
                     );
                     $this->app['logger.flash']->warning($error);
+
                     unset($ct['fields'][$fieldname]);
+                    $passed = false;
                 }
             }
 
@@ -994,6 +1005,7 @@ class Config
                         $this->app['logger.flash']->error($error);
 
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
+                        $passed = false;
                     }
                 }
             }
@@ -1021,7 +1033,7 @@ class Config
                 );
                 $this->app['logger.flash']->warning($error);
 
-                return;
+                $passed = false;
             }
         }
 
@@ -1035,11 +1047,12 @@ class Config
                     );
                     $this->app['logger.flash']->warning($error);
 
-                    return;
+                    $passed = false;
                 }
             }
         }
-        $this->checkTaxonomy();
+
+        return $passed && $this->checkTaxonomy();
     }
 
     /**

@@ -67,10 +67,6 @@ abstract class BackendBase extends Base
             $roleRoute = $this->getRoutePermission($roleRoute);
         }
 
-        // Sanity checks for doubles in in contenttypes. This has to be done
-        // here, because the 'translator' classes need to be initialised.
-        $app['config']->checkConfig();
-
         // Check for first user set up
         $response = $this->checkFirstUser($app, $route);
         if ($response !== true) {

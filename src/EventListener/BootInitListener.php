@@ -71,6 +71,11 @@ class BootInitListener implements EventSubscriberInterface
         $this->setGlobals(false);
         $this->setGlobals(true);
 
+        // Only cache if the config passes checks
+        if ($this->app['config']->checkConfig() === false) {
+            return null;
+        }
+
         // Final thing we do, if we're still standing, is to save our
         // configuration to cache
         if (!$this->app['config']->get('general/caching/config')) {
