@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Collection;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -115,7 +116,23 @@ class FieldCollection extends AbstractLazyCollection
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
-                $val->setValue($val->$typeCol);
+
+                // Because there's a potential for custom fields that use json storage to 'double hydrate' this causes
+                // json_decode to throw a warning. Here we prevent that by replacing the error handler.
+                set_error_handler(
+                    function ($errNo, $errStr, $errFile) {},
+                    E_WARNING
+                );
+                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                restore_error_handler();
+
+                // If we do not have a hydrated value returned then we fall back to the one passed in
+                if ($hydratedVal) {
+                    $val->setValue($hydratedVal);
+                } else {
+                    $val->setValue($val->$typeCol);
+                }
+
                 $objects[$val->getFieldname()] = $val;
             }
         }

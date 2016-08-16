@@ -133,6 +133,21 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
+     * Reads the current value of the field from an entity and returns value
+     *
+     * @param $entity
+     * @return mixed
+     */
+    public function get($entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $valueMethod = 'get' . ucfirst($key);
+        $value = $entity->$valueMethod();
+
+        return $value;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function present($entity)
