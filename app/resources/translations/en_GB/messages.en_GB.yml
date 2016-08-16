@@ -645,6 +645,7 @@ page.file-management.message.save-failed-colon: "File '%s' could not be saved:"
 page.file-management.message.save-failed-invalid-form: "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.save-failed-unknown: "File '%s' could not be saved, for some reason."
 page.file-management.message.save-success: "File '%s' has been saved."
+page.file-management.message.upload-not-writable: "Unable to write to upload destination. Check permissions on %TARGET%"
 page.file-management.message.upload-success: "File '%file%' was uploaded successfully."
 page.file-management.title: "Files"
 

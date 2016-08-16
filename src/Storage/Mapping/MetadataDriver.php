@@ -8,6 +8,7 @@ use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Bolt\Storage\NamingStrategy;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 
 /**
@@ -435,34 +436,58 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string                       $name
+     * @param string $name
      * @param \Doctrine\DBAL\Schema\Column $column
+     * @param null $field Optional field value for repeaters/array based columns
      *
      * @return string
      */
-    protected function getFieldTypeFor($name, $column)
+    public function getFieldTypeFor($name, $column, $field = null)
     {
-        if (isset($this->contenttypes[$name]['fields'][$column->getName()])) {
-            $type = $this->contenttypes[$name]['fields'][$column->getName()]['type'];
-        } elseif ($column->getType()) {
-            $type = get_class($column->getType());
+        if ($column instanceof Column) {
+            if ($column->getType()) {
+                $type = get_class($column->getType());
+            }
+            $column = $column->getName();
+        }
+        if ($field !== null) {
+            if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
+                $type = $this->contenttypes[$name]['fields'][$column]['fields'][$field]['type'];
+            }
+        } elseif (isset($this->contenttypes[$name]['fields'][$column])) {
+            $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
 
-        if ($column->getName() === 'slug') {
+
+
+        if ($column === 'slug') {
             $type = 'slug';
         }
 
-        if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$name]['fields'][$column->getName()]['multiple'] === true) {
+        if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column]['multiple']) && $this->contenttypes[$name]['fields'][$column]['multiple'] === true) {
             $type = 'selectmultiple';
         }
 
-        if (isset($this->typemap[$type])) {
+        if ($type && isset($this->typemap[$type])) {
             $type = $this->typemap[$type];
         } else {
             $type = $this->typemap['text'];
         }
 
         return $type;
+    }
+
+    public function getFieldMetadata($contenttype, $column, $field = null)
+    {
+        if ($field !== null) {
+            if (isset($this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field])) {
+                $metadata = $this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field];
+            }
+        } elseif (isset($this->metadata[$contenttype]['fields'][$column])) {
+            $metadata = $this->metadata[$contenttype]['fields'][$column];
+        }
+
+        return $metadata;
     }
 
     /**

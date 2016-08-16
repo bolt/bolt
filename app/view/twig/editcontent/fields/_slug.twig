@@ -63,7 +63,7 @@
     <div class="col-sm-12">
         <div class="input-group {{ mode }}">
                                             {#- https://github.com/bolt/bolt/pull/4766 #}
-            <span class="input-group-addon">{{ field.route_prefix|default('/' ~ context.contenttype.slug ~ '/') }}</span>
+            <span class="input-group-addon">{{ field.route_prefix|default('/' ~ context.contenttype.singular_slug ~ '/') }}</span>
 
             <input{{ macro.attr(attributes.slug) }}>
 

@@ -36,7 +36,7 @@ Support
 
 Have a question? Want to chat? Run into a problem?  
 
- - There’s always some people willing to chat in our <strong>IRC channel</strong> on Freenode at <strong>#boltcms</strong>. No IRC client? Use <a href="/irc">our web-based client</a>.
+ - There’s always some people willing to chat in our <strong>IRC channel</strong> on Freenode at <strong>#boltcms</strong>. No IRC client? Use <a href="https://bolt.cm/irc">our web-based client</a>.
  - We also have a <strong>Slack channel</strong> at <a href="https://boltcms.slack.com">boltcms.slack.com</a>. To get in, get yourself an invite at <a href="https://slack.bolt.cm">slack.bolt.cm</a>.
  - There's a <strong>Forum</strong> at <a href="https://discuss.bolt.cm">discuss.bolt.cm</a>, where we'll gladly help you sort out problems, or discuss other Bolt-related things.
  - We’re pretty active on <strong>Twitter</strong>. Follow us, or say hello at <a href="https://twitter.com/boltcm">@BoltCM</a>.

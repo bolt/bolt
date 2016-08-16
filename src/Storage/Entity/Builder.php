@@ -186,4 +186,35 @@ class Builder
             }
         }
     }
+
+    /**
+     * @param $value
+     * @param $field
+     * @param null $subField
+     * @return FieldValue|bool
+     */
+    public function getHydratedValue($value, $field, $subField = null)
+    {
+        $fields = $this->getFields();
+
+        foreach ($fields as $key => $mapping) {
+            if ($key !== $field) {
+                continue;
+            }
+            $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
+
+            if ($subField !== null) {
+                $subMapping = $mapping['data']['fields'][$subField];
+                $fieldType = $this->fieldManager->get($subMapping['fieldtype'], $subMapping);
+                $field = $subField;
+            }
+
+            $tmpentity = new FieldValue();
+            $fieldType->hydrate([$field => $value], $tmpentity);
+
+            return $tmpentity[$field];
+        }
+
+        return false;
+    }
 }
