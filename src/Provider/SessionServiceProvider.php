@@ -369,8 +369,12 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 $toParse[] = $conn;
             }
-        } elseif (isset($options['save_path'])) {
-            foreach (explode(',', $options['save_path']) as $conn) {
+        } else {
+            $connections = isset($options['save_path']) ? (array) explode(',', $options['save_path']) : [];
+            if (empty($connections)) {
+                $connections[] = $defaultHost . ':' . $defaultPort;
+            }
+            foreach ($connections as $conn) {
                 // Default scheme if not given so parse_url works correctly.
                 if (!preg_match('~^\w+://.+~', $conn)) {
                     $conn = $defaultScheme . '://' . $conn;
