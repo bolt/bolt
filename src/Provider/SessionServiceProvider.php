@@ -176,7 +176,14 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $options->set('save_path', 'cache://.sessions');
                 }
 
-                $options->add($app['session.options']);
+                $overrides = $app['session.options'];
+
+                // Don't let save_path for different save_handler bleed in.
+                if (isset($overrides['save_handler']) && $overrides['save_handler'] !== $options['save_handler']) {
+                    $options->remove('save_path');
+                }
+
+                $options->add($overrides);
 
                 return $options;
             }
