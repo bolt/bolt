@@ -332,7 +332,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
-    protected function parseConnections($options, $defaultHost, $defaultPort)
+    protected function parseConnections($options, $defaultHost, $defaultPort, $defaultScheme = 'tcp')
     {
         if (isset($options['host']) || isset($options['port'])) {
             $options['connections'][] = $options;
@@ -348,7 +348,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $conn = ['host' => $conn];
                 }
                 $conn += [
-                    'scheme' => 'tcp',
+                    'scheme' => $defaultScheme,
                     'host'   => $defaultHost,
                     'port'   => $defaultPort,
                 ];
@@ -364,6 +364,11 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         } elseif (isset($options['save_path'])) {
             foreach (explode(',', $options['save_path']) as $conn) {
+                // Default scheme if not given so parse_url works correctly.
+                if (!preg_match('~^\w+://.+~', $conn)) {
+                    $conn = $defaultScheme . '://' . $conn;
+                }
+
                 $uri = new Uri($conn);
 
                 $connBag = new ParameterBag();
