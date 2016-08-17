@@ -176,7 +176,14 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $options->set('save_path', 'cache://.sessions');
                 }
 
-                $options->add($app['session.options']);
+                $overrides = $app['session.options'];
+
+                // Don't let save_path for different save_handler bleed in.
+                if (isset($overrides['save_handler']) && $overrides['save_handler'] !== $options['save_handler']) {
+                    $options->remove('save_path');
+                }
+
+                $options->add($overrides);
 
                 return $options;
             }
@@ -332,7 +339,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
-    protected function parseConnections($options, $defaultHost, $defaultPort)
+    protected function parseConnections($options, $defaultHost, $defaultPort, $defaultScheme = 'tcp')
     {
         if (isset($options['host']) || isset($options['port'])) {
             $options['connections'][] = $options;
@@ -348,7 +355,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $conn = ['host' => $conn];
                 }
                 $conn += [
-                    'scheme' => 'tcp',
+                    'scheme' => $defaultScheme,
                     'host'   => $defaultHost,
                     'port'   => $defaultPort,
                 ];
@@ -362,8 +369,17 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 $toParse[] = $conn;
             }
-        } elseif (isset($options['save_path'])) {
-            foreach (explode(',', $options['save_path']) as $conn) {
+        } else {
+            $connections = isset($options['save_path']) ? (array) explode(',', $options['save_path']) : [];
+            if (empty($connections)) {
+                $connections[] = $defaultHost . ':' . $defaultPort;
+            }
+            foreach ($connections as $conn) {
+                // Default scheme if not given so parse_url works correctly.
+                if (!preg_match('~^\w+://.+~', $conn)) {
+                    $conn = $defaultScheme . '://' . $conn;
+                }
+
                 $uri = new Uri($conn);
 
                 $connBag = new ParameterBag();
