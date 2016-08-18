@@ -22,23 +22,23 @@ class ShutdownHandler
      */
     public static function register($debug = true)
     {
-        Debug\ErrorHandler::register();
-
+        $errorLevels = error_reporting();
         if ($debug) {
+            $errorLevels |=  E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
             Debug\DebugClassLoader::enable();
         }
+        Debug\ErrorHandler::register()->throwAt($errorLevels, true);
 
         if (PHP_SAPI !== 'cli') {
             Debug\ExceptionHandler::register($debug);
         } else {
-            $exceptionHandler = Debug\ExceptionHandler::register($debug);
-            $exceptionHandler->setHandler(
-                function(\Exception $e) {
-                    $app = new Application('Bolt CLI', Version::VERSION);
-                    $output = new ConsoleOutput(OutputInterface::VERBOSITY_DEBUG);
-                    $app->renderException($e, $output);
-                    ob_clean();
-            });
+            $consoleHandler = function (\Exception $e) {
+                $app = new Application('Bolt CLI', Version::VERSION);
+                $output = new ConsoleOutput(OutputInterface::VERBOSITY_DEBUG);
+                $app->renderException($e, $output);
+                ob_clean();
+            };
+            Debug\ExceptionHandler::register($debug)->setHandler($consoleHandler);
         }
     }
 }
