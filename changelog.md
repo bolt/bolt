@@ -4,7 +4,13 @@ Changelog for Bolt 3.x
 Bolt 3.0.x
 -----------
 
- - Fixed: Uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+- Fixed: Hydrate repeater in templatefields [#5670](https://github.com/bolt/bolt/pull/5670)
+- Fixed: Adding a tag with a slash crashes the content [#5675](https://github.com/bolt/bolt/pull/5675)
+- Fixed: Uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+- Fixed: Exclude 'bower_components', 'node_modules' in translation search [#5689](https://github.com/bolt/bolt/pull/5689)
+- Fixed: Session save_path bugfixes [#5691](https://github.com/bolt/bolt/pull/5691)
+- Fixed: Login seems to be case-sensitive [#5696](https://github.com/bolt/bolt/pull/5696)
+- Fixed: Show correct error message at login [#5697](https://github.com/bolt/bolt/pull/5697)
 
 Bolt 3.0.12
 -----------
