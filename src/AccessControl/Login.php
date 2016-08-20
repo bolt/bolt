@@ -186,7 +186,7 @@ class Login extends AccessChecker
     protected function getUserEntity($userName)
     {
         if (!$userEntity = $this->repositoryUsers->getUser($userName)) {
-            $this->flashLogger->error(Trans::__('general.phrase.login-account-disabled'));
+            $this->flashLogger->error(Trans::__('general.phrase.error-user-name-password-incorrect'));
 
             return null;
         }
