@@ -47,7 +47,7 @@ class LoginTest extends BoltUnitTest
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
             ->method('error')
-            ->with($this->equalTo('Your account is disabled. Sorry about that.'));
+            ->with($this->equalTo('Username or password not correct. Please check your input.'));
         $app['logger.flash'] = $logger;
 
         $login = new Login($app);
@@ -55,6 +55,7 @@ class LoginTest extends BoltUnitTest
         $response = $login->login('koala', 'sneaky', new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
+
 
     public function testLoginDisabledUsername()
     {
@@ -83,6 +84,25 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
 
         $response = $login->login('admin', 'sneaky', new AccessControlEvent(new Request()));
+        $this->assertFalse($response);
+    }
+
+    public function testLoginDisabledUsernameWithCorrectPassword()
+    {
+        $app = $this->getApp();
+        $app['request_stack']->push(new Request());
+        $this->addDefaultUser($app);
+        $this->addNewUser($app, 'koala', 'Koala', 'editor', false);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($this->equalTo('Your account is disabled. Sorry about that.'));
+        $app['logger.flash'] = $logger;
+
+        $login = new Login($app);
+
+        $response = $login->login('koala', 'password', new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
