@@ -1,6 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
+ - Fix for uploading to `themes/` folder in backend. #5679
+ - Fix slash in taxonomies #5675
+ - Fix: Handle Upload exceptions better #5683
+ - Fix: Change `slug` to `singular_slug` in Edit Record screen. #5688
+ - Fix: Improve Hydration Process in Repeaters #5670, #5684
+ - Fix: Exclude 'bower_components', 'node_modules' in `.gitignore`. #5689
+
+
 Bolt 3.1.0 beta 2
 -----------------
 
