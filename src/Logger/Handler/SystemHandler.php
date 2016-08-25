@@ -96,7 +96,7 @@ class SystemHandler extends AbstractProcessingHandler
                     'level'      => $record['level'],
                     'date'       => $record['datetime']->format('Y-m-d H:i:s'),
                     'message'    => $record['message'],
-                    'ownerid'    => isset($user['id']) ? $user['id'] : '',
+                    'ownerid'    => isset($user['id']) ? $user['id'] : null,
                     'requesturi' => $this->app['request']->getRequestUri(),
                     'route'      => $this->app['request']->get('_route', ''),
                     'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
