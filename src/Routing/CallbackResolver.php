@@ -58,7 +58,7 @@ class CallbackResolver extends \Silex\CallbackResolver
         if (isset($this->classmap[$cls])) {
             return true; // Will use service definition
         }
-        if (!class_exists($cls)) {
+        if (!class_exists($cls) || !method_exists($cls, $method)) {
             return false; // Can't handle this
         }
         $refMethod = new \ReflectionMethod($cls, $method);
