@@ -16,6 +16,22 @@ Bolt 3.2-dev
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 
+Bolt 3.1.0
+----------
+
+Released 2016-08-23. Notable changes:
+
+ - Fix: Allow taxonomies in contentlinks again. [#5698](https://github.com/bolt/bolt/pull/5698)
+ - Fix: Case-insensitive username lookup at login. [#5696](https://github.com/bolt/bolt/pull/5696)
+ - Fix: Change `slug` to `singular_slug` in Edit Record screen. [#5688](https://github.com/bolt/bolt/pull/5688)
+ - Fix: Exclude 'bower_components', 'node_modules' in `.gitignore`. [#5689](https://github.com/bolt/bolt/pull/5689)
+ - Fix: Fix for uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+ - Fix: Fix slash in taxonomies [#5675](https://github.com/bolt/bolt/pull/5675)
+ - Fix: Handle Upload exceptions better [#5683](https://github.com/bolt/bolt/pull/5683)
+ - Fix: Improve Hydration Process in Repeaters [#5670](https://github.com/bolt/bolt/pull/5670), [#5684](https://github.com/bolt/bolt/pull/5684)
+ - Fix: More session `save_path` bugfixes. [#5691](https://github.com/bolt/bolt/pull/5691)
+ - Fix: Show correct error message on incorrect login attempt. [#5697](https://github.com/bolt/bolt/pull/5697)
+
 Bolt 3.1.0 beta 2
 -----------------
 
@@ -44,7 +60,13 @@ Released 2016-08-04. Notable changes:
 Bolt 3.0.x
 -----------
 
- - Fixed: Uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+- Fixed: Hydrate repeater in templatefields [#5670](https://github.com/bolt/bolt/pull/5670)
+- Fixed: Adding a tag with a slash crashes the content [#5675](https://github.com/bolt/bolt/pull/5675)
+- Fixed: Uploading to `themes/` folder in backend. [#5679](https://github.com/bolt/bolt/pull/5679)
+- Fixed: Exclude 'bower_components', 'node_modules' in translation search [#5689](https://github.com/bolt/bolt/pull/5689)
+- Fixed: Session save_path bugfixes [#5691](https://github.com/bolt/bolt/pull/5691)
+- Fixed: Login seems to be case-sensitive [#5696](https://github.com/bolt/bolt/pull/5696)
+- Fixed: Show correct error message at login [#5697](https://github.com/bolt/bolt/pull/5697)
 
 Bolt 3.0.12
 -----------
