@@ -24,7 +24,7 @@ trait ContentTaxonomyTrait
      *
      * @param string $taxonomyType
      */
-    public function getTaxonomy($taxonomyType)
+    public function getTaxonomy($taxonomyType = null)
     {
     }
 

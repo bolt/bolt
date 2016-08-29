@@ -142,10 +142,21 @@ trait ContentRouteTrait
                 if ('\d{4}-\d{2}-\d{2}' === $requirement) {
                     // Special case, if we need to have a date
                     $params[$fieldName] = substr($this->get($fieldName), 0, 10);
+                } elseif ($this->getTaxonomy() !== null && !$this->getTaxonomy()->getField($fieldName)->isEmpty()) {
+                    // This is for new storage handling of taxonomies in
+                    // contentroutes. If in legacy it will fall back to the one
+                    // below.
+                    $params[$fieldName] = $this->getTaxonomy()->getField($fieldName)->first()->getSlug();
+                } elseif (isset($this->taxonomy[$fieldName])) {
+                    // Turn something like '/groups/meta' to 'meta'. This is
+                    // only for legacy storage.
+                    $tempKeys = array_keys($this->taxonomy[$fieldName]);
+                    $tempValues = explode('/', array_shift($tempKeys));
+                    $params[$fieldName] = array_pop($tempValues);
                 } elseif ($this->get($fieldName)) {
                     $params[$fieldName] = $this->get($fieldName);
                 } else {
-                    // unkown
+                    // unknown
                     $params[$fieldName] = null;
                 }
             }

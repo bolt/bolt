@@ -102,7 +102,7 @@ class TranslationFile
             ->ignoreVCS(true)
             ->name('*.twig')
             ->notName('*~')
-            ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
+            ->exclude(['cache', 'config', 'database', 'resources', 'tests', 'bower_components', 'node_modules'])
             ->in(dirname($this->app['resources']->getPath('themepath')))
             ->in($this->app['resources']->getPath('apppath'));
 

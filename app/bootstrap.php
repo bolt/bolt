@@ -118,7 +118,7 @@ return call_user_func(function () {
 
     // Create the 'Bolt application'
     $appClass = Application::class;
-    if ($config['application'] !== null && is_a($config['application'], Silex\Application::class)) {
+    if ($config['application'] !== null && is_a($config['application'], Silex\Application::class, true)) {
         $appClass = $config['application'];
     }
     $app = new $appClass(['resources' => $resources]);

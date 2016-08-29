@@ -267,7 +267,7 @@ debug_show_loggedoff: false
 debug_permission_audit_mode: false
 debug_error_level: 8181 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
 # debug_error_level: -1 # equivalent to E_ALL
-debug_error_use_profiler: true # When set to true, Symfony Profiler will be used for exception display when possible
+debug_error_use_profiler: false # When set to true, Symfony Profiler will be used for exception display when possible
 
 # System debug logging
 # This will enable intensive logging of Silex functions and will be very hard on

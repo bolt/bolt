@@ -94,7 +94,10 @@ class UsersRepository extends Repository
         if (is_numeric($userId)) {
             $qb->where('id = :userId');
         } else {
-            $qb->where('username = :userId')->orWhere('email = :userId');
+            $qb
+                ->where($qb->expr()->like('username', ':userId'))
+                ->orWhere('email = :userId')
+            ;
         }
         $qb->setParameter('userId', $userId);
 
