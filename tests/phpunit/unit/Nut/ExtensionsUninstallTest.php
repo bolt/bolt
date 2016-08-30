@@ -29,7 +29,7 @@ class ExtensionsUninstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test']);
         $result = $tester->getDisplay();
-        $this->assertEquals('Starting uninstall of test… [DONE]', trim($result));
+        $this->assertRegExp('/Starting uninstall of test… \[DONE\]/', trim($result));
     }
 
     public function testFailed()
@@ -48,6 +48,6 @@ class ExtensionsUninstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test']);
         $result = $tester->getDisplay();
-        $this->assertEquals('Starting uninstall of test… [FAILED]', trim($result));
+        $this->assertRegExp('/Starting uninstall of test… \[FAILED\]/', trim($result));
     }
 }

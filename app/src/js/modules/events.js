@@ -94,7 +94,7 @@
      * @private
      * @type {Object}
      */
-     var eventTypeRegex = /^([a-zA-Z0-9_-]+)(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?$/;
+    var eventTypeRegex = /^([a-zA-Z0-9_-]+)(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?$/;
 
     /**
      * Fires an event.

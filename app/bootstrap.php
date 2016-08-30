@@ -5,7 +5,8 @@ namespace Bolt;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
-use Bolt\Exception\LowlevelException;
+use Bolt\Debug\ShutdownHandler;
+use Bolt\Exception\BootException;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 
@@ -21,7 +22,7 @@ use Symfony\Component\Yaml\Yaml;
  * - Load and verify configuration
  * - Initialize the application
  *
- * @throws LowlevelException
+ * @throws BootException
  *
  * @return \Silex\Application
  */
@@ -55,13 +56,13 @@ return call_user_func(function () {
 
     // None of the mappings matched, error
     if ($error) {
-        include $boltRootPath . '/src/Exception/LowlevelException.php';
-        throw new LowlevelException(
-            'Configuration autodetection failed because The file ' .
-            "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
-            "you've installed the required components with Composer."
-        );
+        include $boltRootPath . '/src/Exception/BootException.php';
+
+        BootException::earlyExceptionComposer();
     }
+
+    // Register handlers early
+    ShutdownHandler::register();
 
     /*
      * Load initialization config needed to bootstrap application.

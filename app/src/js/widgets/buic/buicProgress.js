@@ -49,7 +49,7 @@
          * @param {integer} id - The id of the progress bar to set
          * @param {float} value - A value between 0 and 1.0
          */
-        _set: function(id, value) {
+        _set: function (id, value) {
             value = parseFloat(value);
             value = isNaN(value) ? 0 : Math.min(100, Math.max(0, Math.round(value * 100)));
 

@@ -2,13 +2,14 @@
 
 namespace Bolt;
 
+use Bolt\Debug\ShutdownHandler;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -35,6 +36,9 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
+        // Register PHP shutdown functions to catch fatal errors & exceptions
+        ShutdownHandler::register();
+
         parent::__construct($values);
 
         $this->register(new PathServiceProvider());
@@ -50,15 +54,17 @@ class Application extends Silex\Application
             $this['classloader'] = $this['resources']->getClassLoader();
         }
 
-        // Register a PHP shutdown function to catch fatal errors with the application object
-        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $this);
-
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
+        // Re-register the shutdown functions now that we know our debug setting
+        ShutdownHandler::register($this['debug']);
+        if (!isset($this['environment'])) {
+            $this['environment'] = $this['debug'] ? 'development' : 'production';
+        }
 
         $locales = (array) $this['config']->get('general/locale');
         $this['locale'] = reset($locales);
@@ -71,9 +77,23 @@ class Application extends Silex\Application
         $this['jsdata'] = [];
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function run(Request $request = null)
+    {
+        if ($this['config']->get('general/caching/request')) {
+            $this['http_cache']->run($request);
+        } else {
+            parent::run($request);
+        }
+    }
+
     protected function initConfig()
     {
-        $this->register(new Provider\DatabaseSchemaServiceProvider())
+        $this
+            ->register(new Provider\BootServiceProvider($this))
+            ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
         $this['config']->initialize();
@@ -139,7 +159,6 @@ class Application extends Silex\Application
     public function initDatabase()
     {
         $this->register(new Provider\DatabaseServiceProvider());
-        $this->checkDatabaseConnection();
     }
 
     /**
@@ -158,7 +177,7 @@ class Application extends Silex\Application
             ->register(new Provider\TwigServiceProvider())
             ->register(new Provider\RenderServiceProvider())
             ->register(new Silex\Provider\HttpCacheServiceProvider(),
-                ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http')]
             );
     }
 
@@ -175,11 +194,6 @@ class Application extends Silex\Application
 
         // Set the error_reporting to the level specified in config.yml
         error_reporting($this['config']->get('general/debug_error_level'));
-
-        // Register Whoops, to handle errors for logged in users only.
-        if ($this['config']->get('general/debug_enable_whoops')) {
-            $this->register(new WhoopsServiceProvider());
-        }
 
         $this->register(new Provider\DumperServiceProvider());
 

@@ -87,7 +87,7 @@ class LogTest extends ControllerUnitTest
 
         $context = $response->getContext();
 
-        $this->assertFalse($context['context']['entries']);
+        $this->assertEmpty($context['context']['entries']);
         $this->assertNull($context['context']['content']);
         $this->assertEquals('Pages', $context['context']['title']);
         $this->assertEquals('pages', $context['context']['contenttype']['slug']);

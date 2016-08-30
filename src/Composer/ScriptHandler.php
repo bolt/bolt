@@ -2,7 +2,7 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\BootException;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -251,7 +251,7 @@ class ScriptHandler
 
             $dir = $app['resources']->getPath($name);
             $dir = Path::makeRelative($dir, getcwd());
-        } catch (LowlevelException $e) {
+        } catch (BootException $e) {
             $dir = static::getOption($event, $name . '-dir', $default);
         }
 

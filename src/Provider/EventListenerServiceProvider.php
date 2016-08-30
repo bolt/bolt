@@ -16,7 +16,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 return new Listener\AccessControlListener(
                     $app['filesystem'],
                     $app['session.storage'],
-                    $app['storage']
+                    $app['storage.lazy']
                 );
             }
         );
@@ -29,14 +29,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.exception'] = $app->share(
             function ($app) {
-                $rootPath = $app['resources']->getPath('root');
-
                 return new Listener\ExceptionListener(
-                    $rootPath,
-                    $app['render'],
-                    $app['logger.system'],
-                    $app['session'],
-                    $app['config']->get('general/debug', false)
+                    $app['controller.exception'],
+                    $app['logger.system']
                 );
             }
         );
@@ -47,6 +42,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
                     $app['storage.legacy'],
                     $app['templatechooser'],
+                    $app['twig'],
                     $app['render']
                 );
             }

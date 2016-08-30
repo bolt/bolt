@@ -35,6 +35,9 @@ class ConfigSetTest extends BoltUnitTest
     public function testDefaultFile()
     {
         $app = $this->getApp();
+        $filesystem = new Filesystem(new Local(PHPUNIT_ROOT . '/resources/'));
+        $app['filesystem']->mountFilesystem('config', $filesystem);
+
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);
         $app['resources']->setPath('config', PHPUNIT_ROOT . '/resources');
