@@ -1101,7 +1101,7 @@ class Config
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 8181,  // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
             'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
-            'debug_error_use_profiler'    => true,
+            'debug_error_use_profiler'    => false,
             'debug_permission_audit_mode' => false,
             'strict_variables'            => false,
             'theme'                       => 'base-2016',
