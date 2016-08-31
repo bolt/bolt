@@ -40,8 +40,6 @@ class BoltDataCollector extends DataCollector
             'payoff'        => 'Sophisticated, lightweight & simple CMS',
             'dashboardlink' => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('dashboard'), 'Dashboard'),
             'branding'      => null,
-            'editlink'      => null,
-            'edittitle'     => null,
         ];
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
@@ -50,11 +48,6 @@ class BoltDataCollector extends DataCollector
                 Trans::__('general.phrase.provided-by-colon'),
                 $this->app['config']->get('general/branding/provided_link')
             );
-        }
-
-        if (!empty($this->app['editlink'])) {
-            $this->data['editlink'] = $this->app['editlink'];
-            $this->data['edittitle'] = $this->app['edittitle'];
         }
     }
 
@@ -96,25 +89,5 @@ class BoltDataCollector extends DataCollector
     public function getDashboardlink()
     {
         return $this->data['dashboardlink'];
-    }
-
-    /**
-     * Getter for editlink.
-     *
-     * @return string
-     */
-    public function getEditlink()
-    {
-        return $this->data['editlink'];
-    }
-
-    /**
-     * Getter for edittitle.
-     *
-     * @return string
-     */
-    public function getEdittitle()
-    {
-        return $this->data['edittitle'];
     }
 }

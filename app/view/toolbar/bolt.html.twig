@@ -57,14 +57,6 @@
         </div>
         {% endif %}
 
-        {% if collector.editlink %}
-        <div class="sf-toolbar-info-piece">
-            <hr style="margin: 8px 0 12px; padding: 0; border: 0; border-bottom: 1px solid #777;">
-            <span> Edit: <a href="{{ collector.editlink }}">{{ collector.edittitle|excerpt(40)|default("(no title)") }}</a> </span>
-        </div>
-        {% endif %}
-
-
     {% endset %}
     {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
 {% endblock %}
