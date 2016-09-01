@@ -41,18 +41,12 @@ class Invitation extends BackendBase
     public function invitationLink()
     {
         // Get and generate the base form to generate the invitation code
-        $form = $this->getGenerateInvitationForm($this->getUser());
-        $form = $form->getForm();
-
-        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
-        $formCodeView = $form->createView();
+        $formCodeView = $this->getGenerateInvitationForm($this->getUser());
+        $formCodeView = $formCodeView->getForm();
 
         // Get and generate the base form to share the invitation code by email
-        $form = $this->getInvitationEmailForm($this->getUser());
-        $form = $form->getForm();
-
-        /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
-        $formEmailView = $form->createView();
+        $formEmailView = $this->getInvitationEmailForm($this->getUser());
+        $formEmailView = $formEmailView->getForm();
 
         // Get the current user to know what user role they can invite
         $currentUser = $this->getUser();
@@ -66,8 +60,8 @@ class Invitation extends BackendBase
 
         // Preparing the forms for the view
         $context = [
-            'form' => $formCodeView,
-            'emailform' => $formEmailView,
+            'form' => $formCodeView->createView(),
+            'emailform' => $formEmailView->createView(),
         ];
 
         return $this->render('@bolt/invitation/generate.twig', $context);

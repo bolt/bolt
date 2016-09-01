@@ -27,9 +27,7 @@
 
             {{ widgets('edituser_below_header', 'backend') }}
 
-                <p style="max-width: 500px;">
-                    {{ __('page.invitation.generate-link') }}
-                </p>
+            <p>{{ __('page.invitation.generate-link') }}</p>
 
             <form method="post" class="form-horizontal" autocomplete="off" id="editcontent">
                 {# Google Chrome, Firefox, MS Edge all require this trick to prevent password fields from auto-filling.
