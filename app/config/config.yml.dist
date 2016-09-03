@@ -22,7 +22,8 @@ theme: base-2016
 
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en_GB'. For available options, see:
-# https://docs.bolt.cm/other/locales#version-changer
+# https://docs.bolt.cm/other/locales
+
 #
 # In some cases it may be needed to specify (non-standard) variations of the
 # locale to get everything to work as desired.
