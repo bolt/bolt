@@ -30,7 +30,7 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
         $request = Request::createFromGlobals();
         $serverSoftware = $request->server->get('SERVER_SOFTWARE', '');
         $isApache = strpos($serverSoftware, 'Apache') !== false;
-        if (!$isApache) {
+        if ($this->resourceManager->getVerifier()->disableApacheChecks === true || !$isApache) {
             return null;
         }
 
