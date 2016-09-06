@@ -251,7 +251,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $key = 'publish.timer.wait';
                 $wait = $app['cache']->fetch($key);
                 if ($wait === false) {
-                    $wait = true;
                     $app['cache']->save($key, $wait, $app['config']->get('general/caching/duration'));
                 }
 
