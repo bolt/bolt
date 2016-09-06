@@ -111,7 +111,7 @@ class LogTest extends ControllerUnitTest
         $response = $this->controller()->changeRecordListing($this->getRequest(), null, null);
 
         $context = $response->getContext();
-        $this->assertEquals('All content types', $context['context']['title']);
+        $this->assertEquals('All ContentTypes', $context['context']['title']);
         $this->assertEquals(1, count($context['context']['entries']));
         $this->assertEquals(1, $context['context']['pagecount']);
 
