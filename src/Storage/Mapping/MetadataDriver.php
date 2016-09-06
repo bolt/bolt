@@ -113,8 +113,8 @@ class MetadataDriver implements MappingDriver
      */
     public function initializeDefaultAliases()
     {
-        foreach ($this->aliases as $short => $prefixed) {
-            $entity = $this->defaultAliases[$short];
+        foreach ($this->aliases as $prefixed) {
+            $entity = isset($this->defaultAliases[$prefixed]) ? $this->defaultAliases[$prefixed] : null;
             if ($entity !== null) {
                 $this->setDefaultAlias($prefixed, $entity);
             }
