@@ -11,7 +11,6 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use Silex\Application;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
  * Class to manage loading of extensions.
@@ -264,20 +263,18 @@ class Manager
      *
      * @param string $className
      *
-     * @throws ContextErrorException
-     *
      * @return bool
      */
     private function isClassLoadable($className)
     {
-        try {
-            $exists = class_exists($className);
-        } catch (ContextErrorException $e) {
-            if ($e->getSeverity() === E_WARNING && basename($e->getFile()) === 'ClassLoader.php') {
-                return false;
-            }
-            throw $e;
-        }
+        set_error_handler(
+            function ($errNo, $errStr, $errFile) {
+                return $errNo === 2 && basename($errFile) === 'ClassLoader.php' ?: false;
+            },
+            E_WARNING
+        );
+        $exists = class_exists($className);
+        restore_error_handler();
 
         return $exists;
     }

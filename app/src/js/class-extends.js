@@ -5,12 +5,10 @@
  * uppercase characters, numbers or _
  *
  * @param {Array} replacements
- *
+ * 
  * @returns {String}
  */
-String.prototype.subst = function (replacements) {
-    "use strict";
-
+String.prototype.subst = function(replacements) {
     return this.replace(/%[A-Z][A-Z0-9_]+%/g, function (placeholder) {
         return placeholder in replacements ? replacements[placeholder] : placeholder;
     });

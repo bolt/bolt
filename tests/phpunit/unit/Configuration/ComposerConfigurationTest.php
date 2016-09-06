@@ -4,7 +4,7 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Exception\BootException;
+use Bolt\Exception\LowlevelException;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -61,12 +61,11 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir('/non/existent/path');
-            $this->fail('Bolt\Exception\BootException not thrown');
-        } catch (BootException $e) {
-            $message = strip_tags($e->getMessage());
-            $this->assertRegExp("/The default folder \/non\/existent\/path doesn't exist/", $message);
-            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $message);
-            //$this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The default folder \/non\/existent\/path doesn't exist/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
     }
 
@@ -78,12 +77,11 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir('/path/to/nowhere');
-            $this->fail('Bolt\Exception\BootException not thrown');
-        } catch (BootException $e) {
-            $message = strip_tags($e->getMessage());
-            $this->assertRegExp("/The default folder \/path\/to\/nowhere doesn't exist/", $message);
-            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $message);
-            //$this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The default folder \/path\/to\/nowhere doesn't exist/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
     }
 
@@ -114,12 +112,11 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir($fakeLocation);
-            $this->fail('Bolt\Exception\BootException not thrown');
-        } catch (BootException $e) {
-            $message = strip_tags($e->getMessage());
-            $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the webserver is using/", $message);
-            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $message);
-            //$this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the webserver is using/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
     }
 }

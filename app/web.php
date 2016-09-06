@@ -2,12 +2,10 @@
 /*
  * This could be loaded on a very old version of PHP so no syntax/methods over 5.2 in this file.
  */
-use Bolt\Exception\BootException;
 
 if (version_compare(PHP_VERSION, '5.5.9', '<')) {
-    require dirname(dirname(__FILE__)) . '/src/Exception/BootException.php';
-
-    BootException::earlyExceptionVersion();
+    require dirname(__FILE__) . '/legacy.php';
+    exit(1);
 }
 
 if (PHP_SAPI === 'cli-server') {

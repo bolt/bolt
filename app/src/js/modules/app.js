@@ -12,6 +12,8 @@
 (function (bolt, $, moment, init) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.app mixin container.
      *
@@ -37,6 +39,97 @@
      * @type {boolean|undefined}
      */
     var gMapsApiLoaded;
+
+    /**
+     * Callback that signals that Google Maps API is fully loaded.
+     *
+     * See: https://developers.google.com/maps/documentation/javascript/tutorial#asynch
+     *
+     * @function gMapsApiReady
+     * @memberof Bolt.app
+     *
+     * @fires "Bolt.GoogleMapsAPI.Load.Done"
+     */
+    app.gMapsApiReady = function () {
+        gMapsApiLoaded = true;
+        bolt.events.fire('Bolt.GoogleMapsAPI.Load.Done');
+    };
+
+    /**
+     * Initializes and then starts the Bolt module.
+     * Is automatically executed on jQueries ``$(document).ready()``.
+     *
+     * @function run
+     * @memberof Bolt.app
+     */
+    app.run = function () {
+        bolt.conf.init();
+        bolt.data.init();
+
+        buid = bolt.conf('buid').match(/(\d+)$/)[1];
+
+        initGlobal();
+        initHandler();
+
+        bolt.actions.init();
+        bolt.secmenu.init();
+        bolt.stack.init();
+        bolt.omnisearch.init();
+        bolt.extend.init();
+
+        bolt.ckeditor.init();
+        bolt.datetime.init();
+
+        legacyInit();
+        bolt.app.initWidgets();
+    };
+
+    /**
+     * Returns an unique Bolt ID.
+     *
+     * @function buid
+     * @memberof Bolt.app
+     */
+    app.buid = function () {
+        return 'buid-' + buid++;
+    };
+
+    /**
+     * Initializes all bolt widgets in the given context or global.
+     *
+     * @function initWidgets
+     * @memberof Bolt.app
+     * @param {Object} context -
+     */
+    app.initWidgets = function (context) {
+        if (typeof context === 'undefined') {
+            context = $(document.documentElement);
+        }
+
+        // Initialize all uninitialized widgets.
+        $('[data-bolt-widget]', context).each(function () {
+            var element = $(this),
+                data = element.data('bolt-widget'),
+                widgets = {};
+
+            if (typeof data === 'string') {
+                widgets[data] = {};
+            } else {
+                widgets = data;
+            }
+
+            $.each(widgets, function (type, options) {
+                element[type](options)
+                    .removeAttr('data-bolt-widget')
+                    .removeData('bolt-widget');
+            });
+        });
+    };
+
+    /*
+     * Start when ready.
+     */
+    $(document).ready(app.run);
 
     /**
      * Legacy stuff from start.js.
@@ -129,96 +222,6 @@
         $.datepicker.setDefaults($.datepicker.regional[localeLong]);
     }
 
-    /**
-     * Callback that signals that Google Maps API is fully loaded.
-     *
-     * See: https://developers.google.com/maps/documentation/javascript/tutorial#asynch
-     *
-     * @function gMapsApiReady
-     * @memberof Bolt.app
-     *
-     * @fires "Bolt.GoogleMapsAPI.Load.Done"
-     */
-    app.gMapsApiReady = function () {
-        gMapsApiLoaded = true;
-        bolt.events.fire('Bolt.GoogleMapsAPI.Load.Done');
-    };
-
-    /**
-     * Initializes and then starts the Bolt module.
-     * Is automatically executed on jQueries ``$(document).ready()``.
-     *
-     * @function run
-     * @memberof Bolt.app
-     */
-    app.run = function () {
-        bolt.conf.init();
-        bolt.data.init();
-
-        buid = bolt.conf('buid').match(/(\d+)$/)[1];
-
-        initGlobal();
-        initHandler();
-
-        bolt.actions.init();
-        bolt.secmenu.init();
-        bolt.stack.init();
-        bolt.omnisearch.init();
-        bolt.extend.init();
-
-        bolt.ckeditor.init();
-        bolt.datetime.init();
-
-        legacyInit();
-        bolt.app.initWidgets();
-    };
-
-    /**
-     * Returns an unique Bolt ID.
-     *
-     * @function buid
-     * @memberof Bolt.app
-     */
-    app.buid = function () {
-        return 'buid-' + buid++;
-    };
-
-    /**
-     * Initializes all bolt widgets in the given context or global.
-     *
-     * @function initWidgets
-     * @memberof Bolt.app
-     * @param {Object} context -
-     */
-    app.initWidgets = function (context) {
-        if (typeof context === 'undefined') {
-            context = $(document.documentElement);
-        }
-
-        // Initialize all uninitialized widgets.
-        $('[data-bolt-widget]', context).each(function () {
-            var element = $(this),
-                data = element.data('bolt-widget'),
-                widgets = {};
-
-            if (typeof data === 'string') {
-                widgets[data] = {};
-            } else {
-                widgets = data;
-            }
-
-            $.each(widgets, function (type, options) {
-                element[type](options)
-                    .removeAttr('data-bolt-widget')
-                    .removeData('bolt-widget');
-            });
-        });
-    };
-
-    /*
-     * Start when ready.
-     */
-    $(document).ready(app.run);
 
     // Apply mixin container
     bolt.app = app;

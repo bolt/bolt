@@ -3,7 +3,6 @@
 namespace Bolt\Provider;
 
 use Bolt\Storage\Database\Schema\Builder;
-use Bolt\Storage\Database\Schema\LazySchemaManager;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\Table;
 use Bolt\Storage\Database\Schema\Timer;
@@ -22,15 +21,6 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
         $app['schema'] = $app->share(
             function ($app) {
                 return new Manager($app);
-            }
-        );
-        $app['schema.lazy'] = $app->share(
-            function ($app) {
-                return new LazySchemaManager(
-                    function () use ($app) {
-                        return $app['schema'];
-                    }
-                );
             }
         );
 

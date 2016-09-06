@@ -30,7 +30,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testCountWidgetsNoLocationDefault()
     {
-        $app = $this->getStrictVariablesApp(false);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', false);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -45,7 +47,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testCountWidgetsNoLocationStrict()
     {
-        $app = $this->getStrictVariablesApp(true);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', true);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -95,7 +99,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testHasWidgetsNoLocationDefault()
     {
-        $app = $this->getStrictVariablesApp(false);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', false);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -109,7 +115,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testHasWidgetsNoLocationStrict()
     {
-        $app = $this->getStrictVariablesApp(true);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', true);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -141,7 +149,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testWidgetNoLocationDefault()
     {
-        $app = $this->getStrictVariablesApp(false);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', false);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -156,7 +166,9 @@ class WidgetHandlerTest extends BoltUnitTest
 
     public function testWidgetNoLocationStrict()
     {
-        $app = $this->getStrictVariablesApp(true);
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', true);
+
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
             ->setZone('frontend')
@@ -167,19 +179,5 @@ class WidgetHandlerTest extends BoltUnitTest
         $this->setExpectedException('InvalidArgumentException', 'widgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
         $handler->widgets();
-    }
-
-    /**
-     * @param bool $strict
-     *
-     * @return \Bolt\Application
-     */
-    protected function getStrictVariablesApp($strict)
-    {
-        $app = $this->getApp(false);
-        $app['config']->set('general/strict_variables', $strict);
-        $app->boot();
-
-        return $app;
     }
 }

@@ -43,9 +43,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $this->app = $this->makeApp();
             $this->app->initialize();
 
-            $verifier = new Config\Validation\Validator($this->app['controller.exception'], $this->app['config'], $this->app['resources']);
-            $verifier->checks();
-
             if ($boot) {
                 $this->app->boot();
             }
@@ -58,6 +55,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Standard(TEST_ROOT);
         $this->setAppPaths($config);
+        $config->verify();
 
         $bolt = new Application(['resources' => $config]);
         $bolt['session.test'] = true;
@@ -81,9 +79,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $bolt;
     }
 
-    /**
-     * @param Config\ResourceManager $config
-     */
     protected function setAppPaths($config)
     {
         $config->setPath('app', PHPUNIT_WEBROOT . '/app');
@@ -209,7 +204,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'Bolt\AccessControl\AccessChecker',
             $functions,
             [
-                $app['storage.lazy'],
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
                 $app['request_stack'],
                 $app['session'],
                 $app['dispatcher'],

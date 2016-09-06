@@ -6,7 +6,7 @@ default:
 updateBolt:
     - sass:boltCss
     - postcss:boltCss
-    - eslint:boltJs
+    - jshint:boltJs
     - uglify:boltJs
 
 # UPDATE LIB TASK:  Builds library css/js. Run after one of the externals is updated

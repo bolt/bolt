@@ -89,7 +89,6 @@ class MetadataDriver implements MappingDriver
     public function initialize()
     {
         $this->initializeShortAliases();
-        $this->initializeDefaultAliases();
         foreach ($this->schemaManager->getSchemaTables() as $table) {
             $this->loadMetadataForTable($table);
         }
@@ -104,19 +103,6 @@ class MetadataDriver implements MappingDriver
         foreach ($this->schemaManager->getSchemaTables() as $table) {
             if ($tableName = $table->getName()) {
                 $this->aliases[$table->getOption('alias')] = $tableName;
-            }
-        }
-    }
-
-    /**
-     *  This seeds the defaultAliases array with the correctly prefixed mappings
-     */
-    public function initializeDefaultAliases()
-    {
-        foreach ($this->aliases as $short => $prefixed) {
-            $entity = $this->defaultAliases[$short];
-            if ($entity !== null) {
-                $this->setDefaultAlias($prefixed, $entity);
             }
         }
     }

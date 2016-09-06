@@ -26,7 +26,7 @@ module.exports = {
     boltJs: {
         files: '<%= path.src.js %>/**/*.js',
         tasks: [
-            'eslint:boltJs',
+            'jshint:boltJs',
             'uglify:boltJs'
         ]
     },
@@ -43,9 +43,6 @@ module.exports = {
         ],
         options: {
             reload: true
-        },
-        tasks: [
-            'eslint:grunt'
-        ]
+        }
     }
 };

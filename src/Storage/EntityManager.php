@@ -26,7 +26,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @method void  publishTimedRecords($contenttype)
  * @method void  depublishExpiredRecords($contenttype)
  */
-class EntityManager implements EntityManagerInterface
+class EntityManager
 {
     /** @var Connection */
     protected $conn;
@@ -244,7 +244,13 @@ class EntityManager implements EntityManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the repository for a class.
+     *
+     * @param string $className
+     *
+     * @throws InvalidRepositoryException
+     *
+     * @return Repository
      */
     public function getRepository($className)
     {

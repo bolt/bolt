@@ -2,6 +2,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Controller;
+use Bolt\Controllers;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Silex\Application;
@@ -108,12 +109,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             }
         );
 
-        $app['controller.exception'] = $app->share(
-            function ($app) {
-                return new Controller\Exception();
-            }
-        );
-
         $app['controller.frontend'] = $app->share(
             function () {
                 return new Controller\Frontend();
@@ -126,7 +121,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         );
         $app['controller.requirement.deprecated'] = $app->share(
             function ($app) {
-                return new Controller\Routing($app['config']);
+                return new Controllers\Routing($app['config']);
             }
         );
 
@@ -149,7 +144,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
     public function onMountFrontend(MountEvent $event)
     {
         $app = $event->getApp();
-        $event->mount('', $app['controller.exception']);
         $event->mount('', $app['controller.frontend']);
     }
 

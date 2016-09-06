@@ -2,15 +2,15 @@
 namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Config;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
-use Bolt\Request\ProfilerAwareTrait;
-use Bolt\Storage\Database\Schema;
+use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
-use Bolt\Storage\EventProcessor;
+use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
 use PasswordLib\Password\Factory as PasswordFactory;
 use PasswordLib\Password\Implementation as Password;
@@ -21,11 +21,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StorageEventListener implements EventSubscriberInterface
 {
-    use ProfilerAwareTrait;
-
-    /** @var EventProcessor\TimedRecord */
-    protected $timedRecord;
-    /** @var Schema\SchemaManagerInterface */
+    /** @var \Bolt\Storage\EntityManager */
+    protected $em;
+    /** @var \Bolt\Config */
+    protected $config;
+    /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $schemaManager;
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
@@ -35,31 +35,39 @@ class StorageEventListener implements EventSubscriberInterface
     protected $passwordFactory;
     /** @var integer */
     protected $hashStrength;
+    /** @var boolean */
+    private $waitOnTimed;
 
     /**
      * Constructor.
      *
-     * @param EventProcessor\TimedRecord    $timedRecord
-     * @param Schema\SchemaManagerInterface $schemaManager
-     * @param UrlGeneratorInterface         $urlGenerator
-     * @param FlashLoggerInterface          $loggerFlash
-     * @param PasswordFactory               $passwordFactory
-     * @param integer                       $hashStrength
+     * @param EntityManager         $em
+     * @param Config                $config
+     * @param Manager               $schemaManager
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param FlashLoggerInterface  $loggerFlash
+     * @param PasswordFactory       $passwordFactory
+     * @param integer               $hashStrength
+     * @param boolean               $waitOnTimed
      */
     public function __construct(
-        EventProcessor\TimedRecord $timedRecord,
-        Schema\SchemaManagerInterface $schemaManager,
+        EntityManager $em,
+        Config $config,
+        Manager $schemaManager,
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
         PasswordFactory $passwordFactory,
-        $hashStrength
+        $hashStrength,
+        $waitOnTimed
     ) {
-        $this->timedRecord = $timedRecord;
+        $this->em = $em;
+        $this->config = $config;
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
         $this->loggerFlash = $loggerFlash;
         $this->passwordFactory = $passwordFactory;
         $this->hashStrength = $hashStrength;
+        $this->waitOnTimed = $waitOnTimed;
     }
 
     /**
@@ -107,18 +115,18 @@ class StorageEventListener implements EventSubscriberInterface
         if (!$event->isMasterRequest()) {
             return;
         }
-        if($this->isProfilerRequest($event->getRequest())) {
-            return;
-        }
-
         $this->schemaCheck($event);
 
-        // Check if we need to 'publish' any 'timed' records, or 'hold' any expired records.
-        if ($this->timedRecord->isDuePublish()) {
-            $this->timedRecord->publishTimedRecords();
+        if ($this->waitOnTimed) {
+            return;
         }
-        if ($this->timedRecord->isDueHold()) {
-            $this->timedRecord->holdExpiredRecords();
+        $contentTypes = $this->config->get('contenttypes', []);
+        foreach ($contentTypes as $contentType) {
+            $contentType = $this->em->getContentType($contentType['slug']);
+
+            // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
+            $this->em->publishTimedRecords($contentType);
+            $this->em->depublishExpiredRecords($contentType);
         }
     }
 

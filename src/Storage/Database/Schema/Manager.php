@@ -15,7 +15,7 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Manager implements SchemaManagerInterface
+class Manager
 {
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
@@ -88,7 +88,9 @@ class Manager implements SchemaManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check to see if we have past the time to re-check our schema.
+     *
+     * @return boolean
      */
     public function isCheckRequired()
     {
@@ -96,7 +98,10 @@ class Manager implements SchemaManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check to see if there is a mismatch in installed versus configured
+     * schemas.
+     *
+     * @return boolean
      */
     public function isUpdateRequired()
     {

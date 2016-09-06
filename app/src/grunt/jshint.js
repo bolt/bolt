@@ -1,5 +1,5 @@
 /*
- * ESLINT: Validates files with ESLint
+ * JSHINT: Validates files with JSHint
  */
 module.exports = {
     /*
@@ -7,7 +7,7 @@ module.exports = {
      */
     boltJs: {
         options: {
-            configFile: 'js/.eslintrc.js'
+            jshintrc: true
         },
         nonull: true,
         src: '<%= files.boltJs %>'
@@ -18,7 +18,7 @@ module.exports = {
      */
     grunt: {
         options: {
-            configFile: '.eslintrc.js'
+            jshintrc: true
         },
         src: [
             'Gruntfile.js',

@@ -8,14 +8,11 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
-use Bolt\Storage\EventProcessor;
 use Bolt\Storage\Field\Sanitiser;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
-use Bolt\Storage\LazyEntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
-use Bolt\Storage\Repository;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -32,16 +29,6 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.legacy_service'] = $app->share(
             function ($app) {
                 return new ContentLegacyService($app);
-            }
-        );
-
-        $app['storage.lazy'] = $app->share(
-            function ($app) {
-                return new LazyEntityManager(
-                    function () use ($app) {
-                        return $app['storage'];
-                    }
-                );
             }
         );
 
@@ -71,7 +58,6 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.content_repository'] = $app->protect(
             function ($classMetadata) use ($app) {
                 $repoClass = $app['storage.repository.default'];
-                /** @var Repository\ContentRepository $repo */
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
 
@@ -261,29 +247,23 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.listener'] = $app->share(
             function () use ($app) {
+                // Get the timer for publishing timed records
+                $key = 'publish.timer.wait';
+                $wait = $app['cache']->fetch($key);
+                if ($wait === false) {
+                    $wait = true;
+                    $app['cache']->save($key, $wait, $app['config']->get('general/caching/duration'));
+                }
 
                 return new StorageEventListener(
-                    $app['storage.event_processor.timed'],
-                    $app['schema.lazy'],
+                    $app['storage'],
+                    $app['config'],
+                    $app['schema'],
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
-                    $app['access_control.hash.strength']
-                );
-            }
-        );
-
-        $app['storage.event_processor.timed'] = $app->share(
-            function ($app) {
-                $contentTypes = array_keys($app['config']->get('contenttypes', []));
-
-                return new EventProcessor\TimedRecord(
-                    $contentTypes,
-                    $app['storage.lazy'],
-                    $app['config'],
-                    $app['cache'],
-                    $app['dispatcher'],
-                    $app['logger.system']
+                    $app['access_control.hash.strength'],
+                    $wait
                 );
             }
         );

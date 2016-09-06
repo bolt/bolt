@@ -11,6 +11,8 @@
 (function (bolt, $, cke) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.ckeditor mixin container.
      *
@@ -18,34 +20,6 @@
      * @type {Object}
      */
     var ckeditor = {};
-
-    /**
-     * Helper function to create conditional lists for toolbars
-     *
-     * @private
-     *
-     * @static
-     * @function list
-     * @memberof Bolt.ckeditor
-     *
-     * @param {...Array} items - Either an array with one element or two, first a boolean tells if to add
-     */
-    function list() {
-        var ret = [];
-
-        for (var n in arguments) {
-            if (arguments[n].length === 1 || arguments[n][0]) {
-                var val = arguments[n][arguments[n].length - 1];
-                if (typeof val === 'string' && val.substr(0, 1) === '|') {
-                    val = val.substr(1);
-                    ret = ret.concat('-');
-                }
-                ret = ret.concat(val);
-            }
-        }
-
-        return ret;
-    }
 
     /**
      * Initialise all CKEditor instances, if available.
@@ -106,7 +80,7 @@
      *
      * @param {Object} cke - Global CKEditor object
      */
-    ckeditor.initcke = function (cke) {
+    ckeditor.initcke = function(cke) {
         cke.editorConfig = function (config) {
             var key,
                 param = $(this.element.$).data('param') || {},
@@ -118,7 +92,7 @@
             config.entities = false;
             config.fillEmptyBlocks = false;
             // Allow to add extra plugin from default CKEDITOR.config.
-            config.extraPlugins += (config.extraPlugins ? ',' : '') + 'codemirror';
+            config.extraPlugins += (config.extraPlugins?',':'')+'codemirror';
 
             // baseFloatZIndex needs to be this high, otherwise it'll fall below the sidebar.
             // @see https://github.com/bolt/bolt/issues/5331
@@ -126,49 +100,49 @@
             config.baseFloatZIndex = 100015;
 
             config.toolbar = list(
-                [                 {name: 'styles',      items: list( [                 'Format'        ],
-                                                                     [set.styles,      'Styles'        ] )}],
+                [                 { name: 'styles',      items: list( [                 'Format'        ],
+                                                                      [set.styles,      'Styles'        ] )}],
 
-                [                 {name: 'basicstyles', items: list( [                 'Bold'          ],
-                                                                     [                 'Italic'        ],
-                                                                     [set.underline,   'Underline'     ],
-                                                                     [set.strike,      'Strike'        ] )}],
+                [                 { name: 'basicstyles', items: list( [                 'Bold'          ],
+                                                                      [                 'Italic'        ],
+                                                                      [set.underline,   'Underline'     ],
+                                                                      [set.strike,      'Strike'        ] )}],
 
-                [                 {name: 'paragraph',   items: list( [                 'NumberedList'  ],
-                                                                     [                 'BulletedList'  ],
-                                                                     [                 'Indent'        ],
-                                                                     [                 'Outdent'       ],
-                                                                     [set.blockquote,  '|Blockquote'   ] )}],
+                [                 { name: 'paragraph',   items: list( [                 'NumberedList'  ],
+                                                                      [                 'BulletedList'  ],
+                                                                      [                 'Indent'        ],
+                                                                      [                 'Outdent'       ],
+                                                                      [set.blockquote,  '|Blockquote'   ] )}],
 
-                [                 {name: 'links',       items: list( [                 'Link'          ],
-                                                                     [                 'Unlink'        ],
-                                                                     [set.anchor,      '|Anchor'       ] )}],
+                [                 { name: 'links',       items: list( [                 'Link'          ],
+                                                                      [                 'Unlink'        ],
+                                                                      [set.anchor,      '|Anchor'       ] )}],
 
-                [set.subsuper,    {name: 'subsuper',    items: list( [                 'Subscript'     ],
-                                                                     [                 'Superscript'   ] )}],
+                [set.subsuper,    { name: 'subsuper',    items: list( [                 'Subscript'     ],
+                                                                      [                 'Superscript'   ] )}],
 
-                [set.images,      {name: 'image',       items: list( [                 'Image'         ] )}],
+                [set.images,      { name: 'image',       items: list( [                 'Image'         ] )}],
 
-                [set.embed,       {name: 'embed',       items: list( [                 'oembed'        ] )}],
+                [set.embed,       { name: 'embed',       items: list( [                 'oembed'        ] )}],
 
-                [set.tables,      {name: 'table',       items: list( [                 'Table'         ] )}],
+                [set.tables,      { name: 'table',       items: list( [                 'Table'         ] )}],
 
-                [set.ruler,       {name: 'ruler',       items: list( [                 'HorizontalRule'] )}],
+                [set.ruler,       { name: 'ruler',       items: list( [                 'HorizontalRule'] )}],
 
-                [set.align,       {name: 'align',       items: list( [                 'JustifyLeft'   ],
-                                                                     [                 'JustifyCenter' ],
-                                                                     [                 'JustifyRight'  ],
-                                                                     [                 'JustifyBlock'  ] )}],
+                [set.align,       { name: 'align',       items: list( [                 'JustifyLeft'   ],
+                                                                      [                 'JustifyCenter' ],
+                                                                      [                 'JustifyRight'  ],
+                                                                      [                 'JustifyBlock'  ] )}],
 
-                [set.fontcolor,   {name: 'colors',      items: list( [                 'TextColor'     ],
-                                                                     [                 'BGColor'       ] )}],
+                [set.fontcolor,   { name: 'colors',      items: list( [                 'TextColor'     ],
+                                                                      [                 'BGColor'       ] )}],
 
-                [set.codesnippet, {name: 'code',        items: list( [                 '|CodeSnippet'  ] )}],
+                [set.codesnippet, { name: 'code',        items: list( [                 '|CodeSnippet'  ] )}],
 
-                [                 {name: 'tools',       items: list( [                 'RemoveFormat'  ],
-                                                                     [                 'Maximize'      ],
-                                                                     [                 '|Source'       ],
-                                                                     [set.specialchar, '|SpecialChar'  ] )}]
+                [                 { name: 'tools',       items: list( [                 'RemoveFormat'  ],
+                                                                      [                 'Maximize'      ],
+                                                                      [                 '|Source'       ],
+                                                                      [set.specialchar, '|SpecialChar'  ] )}]
             );
 
             if (set.embed) {
@@ -228,7 +202,7 @@
             // Parse override settings from config.yml
             for (key in set.ck) {
                 if (set.ck.hasOwnProperty(key)) {
-                    config[key] = set.ck[key];
+                     config[key] = set.ck[key];
                 }
             }
 
@@ -264,6 +238,34 @@
 
         return cke;
     };
+
+    /**
+     * Helper function to create conditional lists for toolbars
+     *
+     * @private
+     *
+     * @static
+     * @function list
+     * @memberof Bolt.ckeditor
+     *
+     * @param {...Array} items - Either an array with one element or two, first a boolean tells if to add
+     */
+    function list() {
+        var ret = [];
+
+        for (var n in arguments) {
+            if (arguments[n].length === 1 || arguments[n][0]) {
+                var val = arguments[n][arguments[n].length - 1];
+                if (typeof val === 'string' && val.substr(0, 1) === '|') {
+                    val = val.substr(1);
+                    ret = ret.concat('-');
+                }
+                ret = ret.concat(val);
+            }
+        }
+
+        return ret;
+    }
 
     // Apply mixin container
     bolt.ckeditor = ckeditor;

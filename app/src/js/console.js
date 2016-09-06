@@ -1,14 +1,13 @@
 /**
  * Don't break on browsers without console.log()
  */
-if (typeof console === "undefined") {
-    // eslint-disable-next-line no-native-reassign
+try {
+    console.assert(1);
+} catch(e) {
+    /* jshint -W020 */
     console = {
-        log: function () {
-            "use strict";
-        },
-        assert: function () {
-            "use strict";
-        }
+        log: function () {},
+        assert: function () {}
     };
+    /* jshint +W020 */
 }

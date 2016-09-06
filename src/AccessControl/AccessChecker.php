@@ -5,9 +5,8 @@ use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
-use Bolt\Storage\Entity;
-use Bolt\Storage\EntityManagerInterface;
-use Bolt\Storage\Repository;
+use Bolt\Storage\Repository\AuthtokenRepository;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
@@ -24,8 +23,10 @@ use UAParser;
  */
 class AccessChecker
 {
-    /** @var EntityManagerInterface */
-    private $em;
+    /** @var \Bolt\Storage\Repository\AuthtokenRepository */
+    protected $repositoryAuthtoken;
+    /** @var \Bolt\Storage\Repository\UsersRepository */
+    protected $repositoryUsers;
     /** @var \Symfony\Component\HttpFoundation\RequestStack */
     protected $requestStack;
     /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
@@ -48,7 +49,8 @@ class AccessChecker
     /**
      * Constructor.
      *
-     * @param EntityManagerInterface   $em
+     * @param AuthtokenRepository      $repositoryAuthtoken
+     * @param UsersRepository          $repositoryUsers
      * @param RequestStack             $requestStack
      * @param SessionInterface         $session
      * @param EventDispatcherInterface $dispatcher
@@ -59,7 +61,8 @@ class AccessChecker
      * @param array                    $cookieOptions
      */
     public function __construct(
-        EntityManagerInterface $em,
+        AuthtokenRepository $repositoryAuthtoken,
+        UsersRepository $repositoryUsers,
         RequestStack $requestStack,
         SessionInterface $session,
         EventDispatcherInterface $dispatcher,
@@ -69,7 +72,8 @@ class AccessChecker
         Generator $randomGenerator,
         array $cookieOptions
     ) {
-        $this->em = $em;
+        $this->repositoryAuthtoken = $repositoryAuthtoken;
+        $this->repositoryUsers = $repositoryUsers;
         $this->requestStack = $requestStack;
         $this->session = $session;
         $this->dispatcher = $dispatcher;
@@ -150,7 +154,7 @@ class AccessChecker
         try {
             // Only show this flash if there are users in the system.
             // Not when we're about to get redirected to the "first users" screen.
-            if ($this->getRepositoryUsers()->hasUsers()) {
+            if ($this->repositoryUsers->hasUsers()) {
                 $this->flashLogger->info(Trans::__('general.phrase.access-denied-logged-out'));
             }
         } catch (TableNotFoundException $e) {
@@ -160,7 +164,7 @@ class AccessChecker
         // Remove all auth tokens when logging off a user
         if ($sessionAuth = $this->session->get('authentication')) {
             try {
-                $this->getRepositoryAuthtoken()->deleteTokens($sessionAuth->getUser()->getUsername());
+                $this->repositoryAuthtoken->deleteTokens($sessionAuth->getUser()->getUsername());
             } catch (TableNotFoundException $e) {
                 // Database tables have been dropped
             }
@@ -203,11 +207,11 @@ class AccessChecker
         $userAgent = $this->cookieOptions['browseragent'] ? $this->getClientUserAgent() : null;
 
         try {
-            if (!$authTokenEntity = $this->getRepositoryAuthtoken()->getToken($authCookie, $this->getClientIp(), $userAgent)) {
+            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $userAgent)) {
                 return false;
             }
 
-            if (!$databaseUser = $this->getRepositoryUsers()->getUser($authTokenEntity->getUsername())) {
+            if (!$databaseUser = $this->repositoryUsers->getUser($authTokenEntity->getUsername())) {
                 return false;
             }
         } catch (TableNotFoundException $e) {
@@ -272,8 +276,8 @@ class AccessChecker
     {
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
-        $this->getRepositoryAuthtoken()->deleteExpiredTokens();
-        $sessions = $this->getRepositoryAuthtoken()->getActiveSessions() ?: [];
+        $this->repositoryAuthtoken->deleteExpiredTokens();
+        $sessions = $this->repositoryAuthtoken->getActiveSessions() ?: [];
 
         foreach ($sessions as &$session) {
             $ua = $parser->parse($session->getUseragent());
@@ -346,21 +350,5 @@ class AccessChecker
         }
 
         return $this->requestStack->getCurrentRequest()->server->get('HTTP_USER_AGENT');
-    }
-
-    /**
-     * @return Repository\UsersRepository
-     */
-    protected function getRepositoryUsers()
-    {
-        return $this->em->getRepository(Entity\Users::class);
-    }
-
-    /**
-     * @return Repository\AuthtokenRepository
-     */
-    protected function getRepositoryAuthtoken()
-    {
-        return $this->em->getRepository(Entity\Authtoken::class);
     }
 }

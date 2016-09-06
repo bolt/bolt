@@ -8,7 +8,7 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Session\SessionStorage;
 use Bolt\Storage\Entity;
-use Bolt\Storage\EntityManagerInterface;
+use Bolt\Storage\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -22,21 +22,18 @@ class AccessControlListener implements EventSubscriberInterface
     protected $filesystem;
     /** @var SessionStorage*/
     protected $sessionStorage;
-    /** @var EntityManagerInterface */
+    /** @var \Bolt\Storage\EntityManager */
     protected $em;
 
     /**
      * Constructor.
      *
-     * @param FilesystemInterface    $filesystem
-     * @param SessionStorage         $sessionStorage
-     * @param EntityManagerInterface $em
+     * @param FilesystemInterface $filesystem
+     * @param SessionStorage      $sessionStorage
+     * @param EntityManager       $em
      */
-    public function __construct(
-        FilesystemInterface $filesystem,
-        SessionStorage $sessionStorage,
-        EntityManagerInterface $em
-    ) {
+    public function __construct(FilesystemInterface $filesystem, SessionStorage $sessionStorage, EntityManager $em)
+    {
         $this->filesystem = $filesystem;
         $this->sessionStorage = $sessionStorage;
         $this->em = $em;

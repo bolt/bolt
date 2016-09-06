@@ -20,7 +20,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 ]
             );
         }
-
+ 
         $app['translator.caching'] = true;
         if ($app['config']->get('general/caching/translations') === false) {
             $app['translator.caching'] = false;
@@ -31,8 +31,9 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 return null;
             }
 
+            return $app['resources']->getPath('cache/trans');
         });
-
+        
         $app['translator'] = $app->share(
             $app->extend(
                 'translator',

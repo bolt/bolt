@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Exception\BootException;
+use Bolt\Exception\LowlevelException;
 
 /**
  * Inherits from default and adds some specific checks for composer installs.
@@ -90,13 +90,13 @@ HTML;
         }
 
         if (!is_dir($location)) {
-            throw new BootException(
+            throw new LowlevelException(
                 'The default folder <code>' . $location .
                 "</code> doesn't exist. Make sure it's " .
                 'present and writable to the user that the webserver is using.' . $this->checkSummary()
             );
         } elseif (!is_writable($location)) {
-            throw new BootException(
+            throw new LowlevelException(
                 'The default folder <code>' . $location .
                 "</code> isn't writable. Make sure it's writable to the user that the webserver is using." . $this->checkSummary()
             );

@@ -1,0 +1,39 @@
+{
+    "browser": true,
+    "curly": true,
+    "devel": true,
+    "eqeqeq": true,
+    "esversion": 3,
+    "forin": true,
+    "futurehostile": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "maxlen": 120,
+    "noarg": true,
+    "nocomma": true,
+    "nonbsp": true,
+    "nonew": true,
+    "singleGroups": true,
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "$": true,
+        "Bolt": true,
+        "CKEDITOR": true,
+        "CodeMirror": true,
+        "init": true,
+        "JSON": true,
+        "Modernizr": true,
+        "bootbox": true,
+        "google": true,
+        "jQuery": true,
+        "moment": true,
+        "UIkit": true
+    },
+    "exported": {
+        "Bolt": true,
+        "init": true
+    },
+    "-W065": true
+}

@@ -4,7 +4,6 @@ namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex;
@@ -22,7 +21,11 @@ class Users
     public $users = [];
     public $currentuser;
 
-    /** @var Repository\UsersRepository */
+    /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+    public $usertable;
+    public $authtokentable;
+
+    /** @var \Bolt\Storage\Repository\UsersRepository */
     protected $repository;
 
     /** @var \Silex\Application $app */
@@ -34,18 +37,11 @@ class Users
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
-    }
+        $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
-    /**
-     * @return Repository\UsersRepository
-     */
-    private function getRepository()
-    {
-        if ($this->repository === null) {
-            $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
-        }
-
-        return $this->repository;
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+        $this->usertable = $this->app['storage']->getTablename('users');
+        $this->authtokentable = $this->app['storage']->getTablename('authtoken');
     }
 
     /**
@@ -65,7 +61,7 @@ class Users
         $user->setUsername($this->app['slugify']->slugify($user->getUsername()));
 
         // Save the entity
-        return $this->getRepository()->save($user);
+        return $this->repository->save($user);
     }
 
     /**
@@ -140,7 +136,7 @@ class Users
      */
     public function deleteUser($id)
     {
-        $user = $this->getRepository()->find($id);
+        $user = $this->repository->find($id);
 
         if (!$user) {
             $this->app['logger.flash']->warning(Trans::__('general.phrase.user-not-exist'));
@@ -149,8 +145,7 @@ class Users
         }
 
         $userName = $user->getUsername();
-        if ($result = $this->getRepository()->delete($user)) {
-            /** @var Repository\AuthtokenRepository $authtokenRepository */
+        if ($result = $this->repository->delete($user)) {
             $authtokenRepository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
             $authtokenRepository->deleteTokens($userName);
         }
@@ -182,7 +177,7 @@ class Users
         }
 
         try {
-            if (!$tempusers = $this->getRepository()->getUsers()) {
+            if (!$tempusers = $this->repository->getUsers()) {
                 return [];
             }
 
@@ -205,7 +200,7 @@ class Users
      */
     public function hasUsers()
     {
-        $rows = $this->getRepository()->hasUsers();
+        $rows = $this->repository->hasUsers();
 
         return $rows ? (integer) $rows['count'] : 0;
     }
@@ -229,7 +224,7 @@ class Users
 
         // Fallback: See if we can get it by username or email address.
         try {
-            if ($userEntity = $this->getRepository()->getUser($userId)) {
+            if ($userEntity = $this->repository->getUser($userId)) {
                 return $userEntity->toArray();
             }
         } catch (TableNotFoundException $e) {

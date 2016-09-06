@@ -188,7 +188,7 @@ class Repository implements ObjectRepository
     /**
      * Method to hydrate and return a QueryBuilder query.
      *
-     * @return array Entity
+     * @return array Entity | false
      **/
     public function findWith(QueryBuilder $query)
     {
@@ -198,7 +198,7 @@ class Repository implements ObjectRepository
         if ($result) {
             return $this->hydrateAll($result, $query);
         } else {
-            return [];
+            return false;
         }
     }
 

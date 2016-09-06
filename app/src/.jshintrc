@@ -1,0 +1,23 @@
+{
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "futurehostile": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "maxlen": 120,
+    "noarg": true,
+    "nocomma": true,
+    "nonbsp": true,
+    "nonew": true,
+    "singleGroups": true,
+    "strict": true,
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "module": true,
+        "process": true,
+        "require": true
+    }
+}

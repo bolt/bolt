@@ -187,7 +187,7 @@ HTML;
 
     protected function getApp($boot = true)
     {
-        $app = parent::getApp(false);
+        $app = parent::getApp();
         $mock = $this->getMock('\Bolt\Asset\BoltVersionStrategy', ['getVersion'], [$app['filesystem']->getFilesystem('extensions'), $app['asset.salt']]);
         $mock->expects($this->any())
             ->method('getVersion')
@@ -200,7 +200,6 @@ HTML;
         $app['asset.version_strategy'] = $app->protect(function () use ($mock) {
             return $mock;
         });
-        $app->boot();
 
         return $app;
     }
