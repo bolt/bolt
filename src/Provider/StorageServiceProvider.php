@@ -261,7 +261,6 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.listener'] = $app->share(
             function () use ($app) {
-
                 return new StorageEventListener(
                     $app['storage.event_processor.timed'],
                     $app['schema.lazy'],

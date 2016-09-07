@@ -150,14 +150,12 @@ table.dataTable thead .sorting:after {
     padding: 3px 12px;
 }
 
-form#filescreenuploader {
-    div {
-        float: left;
-        margin-right: 6px;
-        margin-top: 6px;
-        display: inline;
-        width: 100%;
-    }
+form#filescreenuploader fieldset > div {
+    float: left;
+    margin-right: 6px;
+    margin-top: 6px;
+    display: inline;
+    width: 100%;
 }
 
 .relatedfiles {
