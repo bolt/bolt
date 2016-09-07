@@ -1,6 +1,24 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.1.1
+----------
+
+Released 2016-09-07. Notable changes:
+
+ - Updated: Javascript and CSS. [#5737](https://github.com/bolt/bolt/pull/5737)
+ - Updated: Symfony and components updated to 2.8.11.
+ - Updated: Minor updates to Base-2016 theme. [#5738](https://github.com/bolt/bolt/pull/5738)
+ - Fixed: File types arrow's position is messed up. [#5715](https://github.com/bolt/bolt/pull/5715)
+ - Fixed: Timed publishing & MetadataDriver fixes. [#5735](https://github.com/bolt/bolt/pull/5735)
+ - Fixed: Allow use of string class names in app bootstrap. [#5726](https://github.com/bolt/bolt/pull/5726)
+ - Fixed: Use correct link to available locales. [#5722](https://github.com/bolt/bolt/pull/5722)
+ - Fixed: Ensure entity is always named as a parameter in storage events. [#5717](https://github.com/bolt/bolt/pull/5717)
+ - Fixed: Correctly initialize aliases to support prefixed database tables. [#5716](https://github.com/bolt/bolt/pull/5716)
+ - Translations: `contenttype` -> `ContentType` (uppercasing the `C` and the `T` in `contenttype`). [#5712](https://github.com/bolt/bolt/pull/5712)
+ - Fixed: `.bolt.*` being allowed to specify application as string. [#5710](https://github.com/bolt/bolt/pull/5710)
+ - Fixed: Loading of controllers without before/after middlewares. [#5711](https://github.com/bolt/bolt/pull/5711)
+
 Bolt 3.1.0
 ----------
 
