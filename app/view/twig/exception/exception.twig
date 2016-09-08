@@ -1,23 +1,45 @@
-{# Page: NavSecondary > Dashboard #}
+{% extends '@bolt/_base/_page.twig' %}
 
-{% extends '@bolt/_base/_page-no_nav.twig' %}
+{% set page_bodyclass = 'login exception' %}
+
+{% set page_hasnav = false %}
 
 {% block page_nav 'Exception' %}
 
 {% block page_title __('Exception') %}
 
-{# clear default messages, because we use them in a different spot, in this template #}
-{% block messages "" %}
+{% block page_plain %}
 
-{% block page_main %}
-    {% block title %}
-        <h3 class="text-center">Uncaught Fatal Error</h3>
-    {% endblock title %}
+    <div class="container">
 
-    {% block exception %}
-    {% endblock exception %}
+        <div class="row">
+            <div class="{{ form_class|default('col-md-8 col-md-offset-2 col-sm-12') }}">
 
-    {% block trace %}
-        {{ include('@bolt/exception/_trace.twig') }}
-    {% endblock trace %}
-{% endblock page_main %}
+                <img src="{{ asset('img/bolt-logo.png', 'bolt') }}" width="100" height="41" alt="Bolt" class="logo">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% block page_main %}
+                            <div class="row">
+                                {# Note: Do not translate / localise this, because people _will_ google for this. #}
+                                <p class="chapeau">Uncaught Fatal Error:</p>
+
+                                {% block title %}
+                                {% endblock title %}
+
+                                {% block exception %}
+                                {% endblock exception %}
+
+                                {% block trace %}
+                                    {{ include('@bolt/exception/_trace.twig') }}
+                                {% endblock trace %}
+                            </div>
+                        {% endblock page_main %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock page_plain %}
