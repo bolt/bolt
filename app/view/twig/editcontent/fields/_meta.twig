@@ -69,20 +69,14 @@
             <label class="col-sm-4 control-label">{{ __('general.phrase.id') }} (№)</label>
             <div class="col-sm-8">
                 <input{{ macro.attr(attributes.id) }}>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{ __('general.phrase.publication-date-colon') }}</label>
-            <div class="col-sm-8">
-                {{ macro.input_datetime(attributes.publish) }}
-            </div>
-        </div>
-
-        <div class="form-group depublish-group">
-            <label class="col-sm-4 control-label">{{ __('general.phrase.depublication-date-colon') }}</label>
-            <div class="col-sm-8">
-                {{ macro.input_datetime(attributes.depublish) }}
+                {% if context.content.datecreated > '1970-01-01 01:01:01' %}
+                    <p class="form-control-static">
+                        {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
+                        {{ buic_moment(context.content.datecreated) }}
+                        {{ __('general.phrase.edited') }}
+                        {{ buic_moment(context.content.datechanged) }}.
+                    </p>
+                {% endif %}
             </div>
         </div>
 
@@ -98,14 +92,26 @@
                         <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
                     {% endfor %}
                 </select>
-                {% if context.content.datecreated > '1970-01-01 01:01:01' %}
-                    <p class="form-control-static">
-                        {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
-                        {{ buic_moment(context.content.datecreated) }}
-                        {{ __('general.phrase.edited') }}
-                        {{ buic_moment(context.content.datechanged) }}.
-                    </p>
-                {% endif %}
+                <p class="form-control-static">
+                    {{ __('general.phrase.status-explanation') }}
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{ __('general.phrase.publication-date-colon') }}</label>
+            <div class="col-sm-8">
+                {{ macro.input_datetime(attributes.publish) }}
+            </div>
+        </div>
+
+        <div class="form-group depublish-group">
+            <label class="col-sm-4 control-label">{{ __('general.phrase.depublication-date-colon') }}</label>
+            <div class="col-sm-8">
+                {{ macro.input_datetime(attributes.depublish) }}
+                <p class="form-control-static">
+                    {{ __('general.phrase.depublish-explanation') }}
+                </p>
             </div>
         </div>
 
