@@ -1,23 +1,28 @@
-    <h2>Details</h2>
-    <p>
-    <code class="exception">{{ exception.class|default('unknown') }} in {{ exception.file|default('unknown') }} line {{ exception.object.line|default('unknown') }}</code>
-    </p>
-    <p>
-    <code class="exception">{{ exception.object.message|default('unknown')|nl2br }}</code>
-    </p>
+<h2>
+    Details
+</h2>
 
-{%- if debug %}
+<p>
+    <code class="exception">{{ exception.class|default('unknown') }} in {{ exception.file|default('unknown') }} line {{ exception.object.line|default('unknown') }}</code>
+</p>
+
+<p>
+    <code class="exception">{{ exception.object.message|default('unknown')|nl2br }}</code>
+</p>
+
+{% if debug %}
     <h2>Stack trace</h2>
 
-
-            <ol class='stack-trace'>
-            {% for t in exception.trace %}
-                <li><span># {{ loop.index }}. </span>
-                    {% if t.class is not empty %}
-                        {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last -}}</strong>::
-                    {% endif %}
-                    {{ t.function|default() }}()<br>
-                <em class='dim'>{{ t.file|default() }} # {{ t.line|default() }}</em></li>
-            {% endfor %}
-            </ol>
-{% endif -%}
+    <ol class='stack-trace'>
+    {% for t in exception.trace %}
+        <li>
+            <span># {{ loop.index }}. </span>
+            {% if t.class is not empty %}
+                {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last -}}</strong>::
+            {% endif %}
+            {{ t.function|default() }}()<br>
+            <em class='dim'>{{ t.file|default() }} # {{ t.line|default() }}</em>
+        </li>
+    {% endfor %}
+    </ol>
+{% endif %}
