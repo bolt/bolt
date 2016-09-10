@@ -92,3 +92,32 @@ h1 span {
 .status-draft {
     color: #0569E2; // #99F;
 }
+
+.chapeau {
+    font-size: 120%;
+    text-style: italic;
+}
+
+ol.stack-trace {
+
+    padding-left: 24px;
+
+    li {
+        margin: 10px 0;
+    }
+
+    li span {
+        // We hide the numbers, but we keep them so they show up if you copy/paste them.
+        color: #FFF;
+        display: inline-block;
+        overflow: hidden;
+        width: 0;
+        height: 0;
+    }
+
+    em.dim {
+        color: #666;
+        margin-left: 3px;
+    }
+
+}
