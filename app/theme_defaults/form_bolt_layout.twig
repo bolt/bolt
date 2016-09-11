@@ -37,3 +37,24 @@
         </div>
     {% endspaceless %}
 {% endblock choice_widget_expanded %}
+
+{% block datetime_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}
+            {{ block('field_widget') }}
+        {% else %}
+                {{ form_errors(form.date) }}
+                {{ form_errors(form.time) }}
+           <div class="datetime-container">
+                <div>
+                    <div>
+                        {{ form_widget(form.date, { 'attr': {'class': 'form-control datepicker','style': 'width:160px;margin-right:10px;'} }) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_widget(form.time, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock datetime_widget %}
