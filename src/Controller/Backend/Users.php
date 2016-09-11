@@ -352,14 +352,15 @@ class Users extends BackendBase
     /**
      * Handle a first user creation POST.
      *
-     * @param Request $request
-     * @param Form    $form
+     * @param Request    $request
+     * @param Form       $form
+     * @param Boolean    $invitation
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|false
      */
-    private function firstPost(Request $request, Form $form)
+    private function firstPost(Request $request, Form $form, $invitation = false)
     {
-        if (!$userEntity = $this->validateUserForm($request, $form, true)) {
+        if (!$userEntity = $this->validateUserForm($request, $form, true, $invitation)) {
             return false;
         }
 
@@ -636,12 +637,13 @@ class Users extends BackendBase
      * Handle a POST from user edit or first user creation.
      *
      * @param Request $request
-     * @param Form    $form      A Symfony form
-     * @param boolean $firstUser If this is a first user set up
+     * @param Form    $form       A Symfony form
+     * @param boolean $firstUser  If this is a first user set up
+     * @param boolean $invitation If this is a user with invitation code
      *
      * @return Entity\Users|false
      */
-    private function validateUserForm(Request $request, Form $form, $firstUser = false)
+    private function validateUserForm(Request $request, Form $form, $firstUser = false, $invitation = false)
     {
         $form->submit($request->get($form->getName()));
         if (!$form->isValid()) {
@@ -660,7 +662,7 @@ class Users extends BackendBase
         $saved = $this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
         if ($saved) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
-            $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstUser);
+            $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstUser, $invitation);
         } else {
             $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));
         }
@@ -675,8 +677,9 @@ class Users extends BackendBase
      * @param string  $displayName
      * @param string  $email
      * @param boolean $firstuser
+     * @param boolean $invitation
      */
-    private function notifyUserSave(Request $request, $displayName, $email, $firstuser)
+    private function notifyUserSave(Request $request, $displayName, $email, $firstuser, $invitation = false)
     {
         if (!$firstuser) {
             $this->app['logger.system']->info(
@@ -688,7 +691,11 @@ class Users extends BackendBase
                 Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
                 ['event' => 'security']
             );
-            $this->notifyUserSetupEmail($request, $displayName, $email);
+
+            if (!$invitation) {
+                $this->notifyUserSetupEmail($request, $displayName, $email);
+            }
+
         }
     }
 
@@ -736,6 +743,7 @@ class Users extends BackendBase
     /**
      * Create user using invitation code.
      *
+     * @param Request $request
      * @param String $code The invitation code provided
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -770,7 +778,7 @@ class Users extends BackendBase
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form)) {
+        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form, true)) {
             $tokensRepository->delete($token);
             return $response;
         }

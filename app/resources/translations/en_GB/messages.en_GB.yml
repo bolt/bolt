@@ -556,7 +556,7 @@ page.edit-users.user-edit: "Edit an existing user account, using the form below.
 page.invitation.title.link: "Create an invitation link"
 page.invitation.generate-link: "Create an invitation link, using the form below. It generates a link to be sent."
 page.invitation.label.assigned-roles: "Assigned roles"
-page.invitation.expiration-date: "Expiration date:"
+page.invitation.expiration-date: "Expiry date"
 page.invitation.button.generate: "Generate Link"
 page.invitation.share-options.text: "Now you can share the invitation link by copying it or sending it by email."
 page.invitation.share-options.copy: "Share this link:"
