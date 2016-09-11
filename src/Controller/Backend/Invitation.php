@@ -66,11 +66,9 @@ class Invitation extends BackendBase
 
         // Check if the form was POST-ed, and valid. If so, store the invitation.
         if ($request->isMethod('POST') && $send) {
-
             $formEmailView->submit($request->get($formEmailView->getName()));
 
             if ($formEmailView->isValid()) {
-
                 $to = $formEmailView['to']->getData();
                 $subject = $formEmailView['subject']->getData();
                 $message = $formEmailView['message']->getData();
