@@ -2,11 +2,11 @@
 namespace Bolt\Storage\Database\Schema\Table;
 
 /**
- * Table for tokens data.
+ * Table for invitation codes.
  *
  * @author Carlos Pérez <mrcarlosdev@gmail.com>
  */
-class Tokens extends BaseTable
+class Invitations extends BaseTable
 {
     /**
      * {@inheritdoc}
