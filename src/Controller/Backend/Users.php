@@ -750,17 +750,17 @@ class Users extends BackendBase
      */
     public function invitation(Request $request, $code)
     {
-        // Get Repository of available tokens
-        $tokensRepository = $this->getRepository('Bolt\Storage\Entity\Tokens');
+        // Get Repository of available invitations
+        $invitationsRepository = $this->getRepository('Bolt\Storage\Entity\Invitations');
 
         // Check if the invitation code exists and it is still available
-        $token = $tokensRepository->findOneBy(array('token' => $code));
+        $invitation = $invitationsRepository->findOneBy(array('token' => $code));
 
-        if ((!$token) || (new \DateTime() > new \DateTime($token[0]->expiration))) {
+        if ((!$invitation) || (new \DateTime() > new \DateTime($invitation[0]->expiration))) {
             return $this->render('@bolt/invitation/invitationfail.twig');
         }
 
-        $tokenEntity = new Entity\Tokens($token[0]);
+        $tokenEntity = new Entity\Invitations($invitation[0]);
 
         // Get an empty user
         $userEntity = new Entity\Users();
@@ -779,7 +779,7 @@ class Users extends BackendBase
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST') && $response = $this->firstPost($request, $form, true)) {
-            $tokensRepository->delete($token);
+            $invitationsRepository->delete($invitation);
             return $response;
         }
 

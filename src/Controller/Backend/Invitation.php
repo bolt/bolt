@@ -1,9 +1,8 @@
 <?php
 namespace Bolt\Controller\Backend;
 
-use Silex\Application;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Entity\Tokens;
+use Bolt\Storage\Entity\Invitations;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -19,10 +18,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Bolt\Session\Generator\RandomGenerator;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Silex\Application\UrlGeneratorTrait;
-use Silex\Provider\UrlGeneratorServiceProvider;
-
 
 /**
  * Backend controller for invitation code generation.
@@ -156,7 +151,7 @@ class Invitation extends BackendBase
      */
     public function invitationLink(Request $request)
     {
-        $invitation = new Entity\Tokens();
+        $invitation = new Entity\Invitations();
 
         // Get and generate the base form to generate the invitation code
         $formCodeView = $this->getGenerateInvitationForm($invitation);
@@ -175,18 +170,18 @@ class Invitation extends BackendBase
                 $random = new RandomGenerator($this->app['randomgenerator'], $this->app['session.generator.bytes_length']);
                 $code = $random->generateId();
 
-                $tokenEntity = new Entity\Tokens();
+                $invitationEntity = new Entity\Invitations();
 
                 $expiration = $formCodeView['expiration']->getData();
                 $roles = $formCodeView['roles']->getData();
 
-                $tokenEntity->setToken($code);
-                $tokenEntity->setRoles($roles);
-                $tokenEntity->setExpiration($expiration);
+                $invitationEntity->setToken($code);
+                $invitationEntity->setRoles($roles);
+                $invitationEntity->setExpiration($expiration);
 
-                $this->getRepository('Bolt\Storage\Entity\Tokens')->save($tokenEntity);
+                $this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity);
 
-                if ($this->getRepository('Bolt\Storage\Entity\Tokens')->save($tokenEntity)) {
+                if ($this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity)) {
                     $this->flashes()->success(Trans::__('page.invitation.message.code-saved', ['%code%' => $code]));
                 } else {
                     $this->flashes()->error(Trans::__('page.invitation.message.saving-code', ['%code%' => $code]));
@@ -298,11 +293,11 @@ class Invitation extends BackendBase
     /**
      * Create a form to generate an invitation code with the form builder.
      *
-     * @param Entity\Tokens $invitation
+     * @param Entity\Invitations $invitation
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
-    private function getGenerateInvitationForm(Entity\Tokens $invitation)
+    private function getGenerateInvitationForm(Entity\Invitations $invitation)
     {
 
         // Start building the form

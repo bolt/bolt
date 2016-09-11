@@ -2,9 +2,9 @@
 namespace Bolt\Storage\Entity;
 
 /**
- * Entity for Token.
+ * Entity for Invitations.
  */
-class Tokens extends Entity
+class Invitations extends Entity
 {
     /** @var int */
     protected $id;
