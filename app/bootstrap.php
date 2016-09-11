@@ -95,9 +95,9 @@ return call_user_func(function () {
 
     // An extra handler if a PHP bootstrap is provided, allow the bootstrap file to return
     // a pre-initialized Bolt Application rather than the config array.
-    if ($php !== null && is_array($php)) {
+    if (isset($php) && is_array($php)) {
         $config = array_replace_recursive($config, $php);
-    } elseif ($php !== null && $php instanceof Silex\Application) {
+    } elseif (isset($php) && $php instanceof Silex\Application) {
         return $php;
     }
 
