@@ -138,9 +138,17 @@ table.dataTable thead .sorting:after {
     margin: 15px 0;
 }
 
+// Todo: move this.
 .login .logo {
-    margin-top:100px;
+    margin-top: 100px;
     width: 179px;
+    height: auto;
+}
+
+// Todo: move this.
+body.exception .logo {
+    margin-top: 30px;
+    width: 120px;
     height: auto;
 }
 
