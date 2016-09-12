@@ -1052,8 +1052,8 @@ class Config
             ],
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
-            'debug_error_level'           => 6135,
-            // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
+            'debug_error_level'           => 8181,
+            // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
             'debug_enable_whoops'         => true,
             'debug_permission_audit_mode' => false,
             'strict_variables'            => false,
