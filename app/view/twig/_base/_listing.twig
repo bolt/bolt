@@ -220,7 +220,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 </button>
 
                 <ul class="dropdown-menu pull-right">
-                    {% if content.status == "published" and content.link is defined %}
+                    {% if content.status == "published" and content.link is not empty %}
                         <li>
                             <a href="{{ content.link }}" target="_blank">
                                 <i class="fa fa-external-link-square"></i> {{ __('general.phrase.view-on-site') }}
