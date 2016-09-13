@@ -219,7 +219,7 @@ class General extends AsyncBase
             ->select('name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
-            ->groupBy('name', 'slug')
+            ->groupBy('name')
             ->orderBy('count', 'DESC')
             ->setMaxResults($request->query->getInt('limit', 20))
             ->setParameters([
