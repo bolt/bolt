@@ -33,7 +33,6 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
                     ],
                     [
-                        new Plugin\PublicUrl($app),
                         new Plugin\HasUrl($app),
                         new Plugin\Parents($app),
                         new Plugin\Authorized($app),
@@ -44,9 +43,15 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                 return $manager;
             }
         );
+
+        $app['filesystem.plugin.url'] = function () use ($app) {
+            return new Plugin\AssetUrl($app['asset.packages']);
+        };
     }
 
     public function boot(Application $app)
     {
+        // Add url plugin here to prevent circular dependency.
+        $app['filesystem']->addPlugin($app['filesystem.plugin.url']);
     }
 }
