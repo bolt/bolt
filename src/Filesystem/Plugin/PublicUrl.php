@@ -13,8 +13,7 @@ class PublicUrl extends AdapterPlugin
 
     public function getLocalUrl($path)
     {
-        $filesystem = $this->app['filesystem']->getFilesystem($this->namespace);
-        $prefix = '' // <- I guess something like $filesystem->getPath();
+        $prefix = $this->app['resources']->getUrl($this->namespace);
 
         return $prefix . Lib::safeFilename($path);
     }

@@ -90,6 +90,7 @@ class ResourceManager
         $this->setUrl('upload', '/upload/');
         $this->setUrl('bolt', '/bolt/');
         $this->setUrl('theme', '/theme/');
+        $this->setUrl('themes', '/theme/'); // Deprecated, here for BC. See #5759
 
         $this->setPath('web', '');
         $this->setPath('cache', 'app/cache');
