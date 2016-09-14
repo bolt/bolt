@@ -148,6 +148,14 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
+                    // Deprecated: This should be moved to a render function in
+                    // Bolt\Storage\Field\Type\MarkdownType eventually.
+                    $value = $this->app['markdown']->text($this->values[$name]);
+                    $value = $this->preParse($value, $allowtwig);
+                    $value = new \Twig_Markup($value, 'UTF-8');
+
+                    break;
+
                 case 'html':
                 case 'text':
                 case 'textarea':
