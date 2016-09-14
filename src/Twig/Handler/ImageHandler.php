@@ -39,6 +39,11 @@ class ImageHandler
      */
     public function image($filename = null, $width = null, $height = null, $crop = null)
     {
+        //Check if it's an alias as the only parameter after $filename
+        if($width && !$height && !$crop && $this->isAlias($width)) {
+            return $this->getAliasedUri($filename, $width);
+        }
+
         if ($width || $height) {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
@@ -199,6 +204,11 @@ class ImageHandler
      */
     public function thumbnail($fileName = null, $width = null, $height = null, $crop = null)
     {
+        //Check if it's an alias as the only parameter after $filename
+        if($width && !$height && !$crop && $this->isAlias($width)) {
+            return $this->getAliasedUri($fileName, $width);
+        }
+
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
         return $this->getThumbnailUri($thumb);
@@ -249,5 +259,26 @@ class ImageHandler
                 'file'   => $thumb->getFileName(),
             ]
         );
+    }
+
+    private function getAliasedUri($filename, $alias)
+    {
+
+        if (!$this->isAlias($alias)) {
+            return false;
+        }
+
+        return $this->app['url_generator']->generate(
+            'alias',
+            [
+                'alias'  => $alias,
+                'file'   => $filename,
+            ]
+        );
+    }
+
+    private function isAlias($alias)
+    {
+        return (bool)$this->app["config"]->get("theme/image_aliases/".$alias, false);
     }
 }
