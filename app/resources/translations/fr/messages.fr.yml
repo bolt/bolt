@@ -8,31 +8,17 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   1 unused messages
-#   8 untranslated messages
-#   2 untranslated keyword based messages
+#  no unused messages
+#   3 untranslated messages
+#  no untranslated keyword based messages
 #  82 translations
 # 510 keyword based translations
 
-#--- 1 unused messages --------------------------------------------------------
+#--- 3 untranslated messages --------------------------------------------------
 
-"Selection:": "Sélection:"
-
-#--- 8 untranslated messages --------------------------------------------------
-
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Extend": #
-"Group": #
-"Groups": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-
-#--- 2 untranslated keyword based messages ------------------------------------
-
-"general.phrase.related-content": #
-"general.phrase.selection": # "Selection"
 
 #--- 82 translations ----------------------------------------------------------
 
@@ -62,11 +48,13 @@
 "Current (saved) status:": "Statut courant"
 "Date": "Date"
 "Datetime": "Date et heure"
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "La version détectée de Bolt est modifiée en <b>%VERSION%</b>, et le cache a été effacé. Veuillez <a href=\"%URI%\">vérifier la base de données</a>, si vous ne l'avez déjà fait."
 "Do you really want to delete %FOLDERNAME%?": "Etes-vous certain de vouloir supprimer le répertoire %FOLDERNAME% ?"
 "Error reading extensions/composer.json file: %ERROR%": "Erreur de lecture du fichier extensions/composer.json : %ERROR%"
 "Everybody": "Tout le monde"
 "Excerpt": "Extrait"
 "Expand sidebar": "Etendre"
+"Extend": "Etendre"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "La classe principale '%CLASS%' de l'extension %NAME% n'implémente pas \\\\\\\\Bolt\\\\\\\\Extension\\\\\\\\ExtensionInterface et a été ignorée."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "L'extension %NAME% possède une classe invalide '%CLASS%' et a été ignorée."
 "Extension server returned an error: %errormessage%": "Le serveur des extension a renvoyé une erruer : %errormessage%"
@@ -84,6 +72,7 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Une entrée de menu invalide (%PATH%) est présente dans le fichier `menu.yml` : cela devrait certainement être un lien de type link"
 "Link": "Lier"
 "Markdown": "Markdown"
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propriété \"add\" pour les entrées de menu est dépréciée. Utilisez plutôt \"#\" sous \"param\"."
 "Multiselect": "Sélection multiple"
 "Repeater": "Collection"
 "Select a page": "Choisir une page"
@@ -386,6 +375,7 @@ general.phrase.published-on-colon: "Publication le"
 general.phrase.read-more: "Lire la suite"
 general.phrase.record-related-to-variable: "Cet enregistrement est lié à %CTNAME% :"
 general.phrase.records: "Enregistrements"
+general.phrase.related-content: "Contenus liés"
 general.phrase.relationships: "Relations"
 general.phrase.rename-foldername: "Renommer %foldername%"
 general.phrase.required-character-count: "Au moins %NUM% caractères requis"
@@ -406,6 +396,7 @@ general.phrase.select: "Sélection"
 general.phrase.select-all: "Tout sélectionner"
 general.phrase.select-file: "Choix du fichier …"
 general.phrase.select-none: "Retirer la sélection"
+general.phrase.selection: "Sélection"
 general.phrase.session-expires: "Fin de la session"
 general.phrase.session-resumed-colon: "Relance de la session existante."
 general.phrase.settings: "Paramètres"
