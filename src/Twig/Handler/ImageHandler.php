@@ -269,7 +269,7 @@ class ImageHandler
         }
 
         return $this->app['url_generator']->generate(
-            'alias',
+            'thumb_alias',
             [
                 'alias'  => $alias,
                 'file'   => $filename,
