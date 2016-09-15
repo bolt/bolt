@@ -71,7 +71,8 @@ templateselect:
 
 # Aliases can be set to restrict images to a specific set of available
 # resolutions or to decouple image sizes from template files.
-image_aliases:
-    myimageformat:
-        size: [400,300]
-        cropping: crop
+thumbnails:
+    aliases:
+        myimageformat:
+            size: [400,300]
+            cropping: crop
