@@ -188,13 +188,13 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.config.contenttypes'] = $app->share(
             function ($app) {
-                return new ConfigurationProxy('contenttypes');
+                return new ConfigurationProxy($app['config'], 'contenttypes');
             }
         );
 
         $app['storage.config.taxonomy'] = $app->share(
             function ($app) {
-                return new ConfigurationProxy('taxonomy');
+                return new ConfigurationProxy($app['config'], 'taxonomy');
             }
         );
 

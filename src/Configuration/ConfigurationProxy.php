@@ -9,22 +9,26 @@
 namespace Bolt\Configuration;
 
 
+use Bolt\Config;
+
 class ConfigurationProxy implements \ArrayAccess
 {
 
     protected $data;
+    protected $config;
     protected $path;
     protected $default;
 
-    public function __construct($path, $default = null)
+    public function __construct(Config $config, $path, $default = null)
     {
+        $this->config = $config;
         $this->path = $path;
         $this->default = $default;
     }
 
     public function initialize()
     {
-        $this->data = parent::get($this->path, $this->default);
+        $this->data = $this->config->get($this->path, $this->default);
     }
 
     /**
