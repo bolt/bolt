@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Configuration\ConfigurationProxy;
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection;
@@ -187,13 +188,13 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.config.contenttypes'] = $app->share(
             function ($app) {
-                return $app['config']->get('contenttypes');
+                return new ConfigurationProxy('contenttypes');
             }
         );
 
         $app['storage.config.taxonomy'] = $app->share(
             function ($app) {
-                return $app['config']->get('taxonomy');
+                return new ConfigurationProxy('taxonomy');
             }
         );
 
