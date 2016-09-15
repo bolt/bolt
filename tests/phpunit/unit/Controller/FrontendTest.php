@@ -59,9 +59,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('index.twig', $response->getTemplateName());
     }
 
-
     public function testConfiguredThemeHomepageTemplate()
     {
+        $this->getService('filesystem')->put('theme://custom-home.twig', '');
         $this->getService('config')->set('theme/homepage_template', 'custom-home.twig');
         $this->setRequest(Request::create('/'));
 
@@ -370,24 +370,13 @@ class FrontendTest extends ControllerUnitTest
         $this->assertNotEmpty($response->getGlobalContext());
     }
 
+    /**
+     * @expectedException \Twig_Error_Loader
+     * @expectedExceptionMessage Template "nonexistent.twig" is not defined.
+     */
     public function testFailingTemplateRender()
     {
-        $this->setRequest(Request::create('/example'));
-
-        // Test that the failure gets logged too.
-//         $logger = $this->getMock('Bolt\DataCollector\TwigDataCollector', ['setTrackedValue'], [$this->getApp()]);
-//         $logger->expects($this->once())
-//             ->method('setTrackedValue')
-//             ->with('templateerror');
-//         $this->setService('twig.logger', $logger);
-
-//         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'failed');
-
-        $response = $this->controller()->template('nonexistent');
-
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('nonexistent.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->controller()->template('nonexistent');
     }
 
     public function testSearchListing()
