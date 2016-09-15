@@ -175,13 +175,25 @@ class StorageServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $meta = new MetadataDriver(
                     $app['schema'],
-                    $app['config']->get('contenttypes'),
-                    $app['config']->get('taxonomy'),
+                    $app['storage.config.contenttypes'],
+                    $app['storage.config.taxonomy'],
                     $app['storage.typemap'],
                     $app['storage.namingstrategy']
                 );
 
                 return $meta;
+            }
+        );
+
+        $app['storage.config.contenttypes'] = $app->share(
+            function ($app) {
+                return $app['config']->get('contenttypes');
+            }
+        );
+
+        $app['storage.config.taxonomy'] = $app->share(
+            function ($app) {
+                return $app['config']->get('taxonomy');
             }
         );
 
