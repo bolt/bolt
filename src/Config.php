@@ -1014,6 +1014,12 @@ class Config
              */
             if (isset($ct['relations'])) {
                 foreach ($ct['relations'] as $relKey => $relData) {
+                    // For BC we check if relation uses hyphen and re-map to underscores
+                    if (strpos($relKey, '-') !== false) {
+                        $newRelKey = str_replace('-', '_', strtolower(Str::makeSafe($relKey, true)));
+                        unset($this->data['contenttypes'][$key]['relations'][$relKey]);
+                        $this->data['contenttypes'][$key]['relations'][$newRelKey] = $relData;
+                    }
                     if (!isset($this->data['contenttypes'][$relKey])) {
                         $error = Trans::__(
                             'contenttypes.generic.invalid-relation',
