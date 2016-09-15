@@ -932,6 +932,20 @@ class Config
         $passed = true;
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
+
+            // Make sure that there are no hyphens in the contenttype name, advise to change to underscores
+            if (strpos(key, '-') !== false) {
+                $error = Trans::__(
+                    'contenttypes.generic.invalid-hyphen',
+                    [
+                        '%contenttype%' => $key
+                    ]
+                );
+                $this->app['logger.flash']->warning($error);
+
+                $passed = false;
+            }
+
             /**
              * Make sure any field that has a 'uses' parameter actually points to a field that exists.
              *
