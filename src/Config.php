@@ -934,7 +934,7 @@ class Config
         foreach ($this->data['contenttypes'] as $key => $ct) {
 
             // Make sure that there are no hyphens in the contenttype name, advise to change to underscores
-            if (strpos(key, '-') !== false) {
+            if (strpos($key, '-') !== false) {
                 $error = Trans::__(
                     'contenttypes.generic.invalid-hyphen',
                     [
