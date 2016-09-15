@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-#  88 translations
+# 104 translations
 # 510 keyword based translations
 
-#--- 88 translations ----------------------------------------------------------
+#--- 104 translations ----------------------------------------------------------
 
 "(default template)": "(modèle par défaut)"
 "(no category)": "(aucune catégorie)"
@@ -23,6 +23,7 @@
 "Add a brief, optional comment to describe what's changed.": "Facultatif : ajouter un commentaire décrivant la modification"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Ajouter des enregistrements de démonstration</a>"
 "Added to <tt>%key%</tt> '%title%'": "Contenu '%title%' ajouté à <tt>%key%</tt>"
+"Alas, no about!": "Hélas, aucun à propos !"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Une erreur s'est produite lors de la mise à jour de `%TABLE%`. L'erreur est %ERROR%"
 "Are you sure you want to delete %FILENAME%?": "Etes-vous certain de vouloir supprimer le fichier %FILENAME% ?"
 "Are you sure you want to delete %username%?": "Etes-vous certain de vouloir supprimer l'utilisateur %username% ?"
@@ -36,6 +37,8 @@
 "Body": "Corps"
 "Categories": "Catégories"
 "Category": "Catégorie"
+"Chapter": "Chapitre"
+"Chapters": "Chapitres"
 "Choose an entry": "Choisissez un billet"
 "Client error: %errormessage%": "Erreur client : %errormessage%"
 "Content": "Contenu"
@@ -44,6 +47,7 @@
 "Datetime": "Date et heure"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "La version détectée de Bolt est modifiée en <b>%VERSION%</b>, et le cache a été effacé. Veuillez <a href=\"%URI%\">vérifier la base de données</a>, si vous ne l'avez déjà fait."
 "Do you really want to delete %FOLDERNAME%?": "Etes-vous certain de vouloir supprimer le répertoire %FOLDERNAME% ?"
+"Edit": "Editer"
 "Error reading extensions/composer.json file: %ERROR%": "Erreur de lecture du fichier extensions/composer.json : %ERROR%"
 "Everybody": "Tout le monde"
 "Excerpt": "Extrait"
@@ -68,7 +72,16 @@
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propriété \"add\" pour les entrées de menu est dépréciée. Utilisez plutôt \"#\" sous \"param\"."
 "Multiselect": "Sélection multiple"
+"No content found.": "Aucun contenu trouvé."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat trouvé pour '%SEARCHTERM%'. Veuillez essayer une nouvelle recherche."
+"Overview for": "Vue d'ensemble pour"
+"Permalink": "Lien permanent"
+"Read more": "En lire plus"
+"Related content": "Contenu lié"
 "Repeater": "Collection"
+"Search": "Recherche"
+"Search results for <b>%search%</b>.": "Chercher des resultats pour <b>%search%</b>."
+"Search …": "Rechercher…"
 "Select a page": "Choisir une page"
 "Select zero or more pages": "Sélectionner une ou plusieurs pages"
 "Selectentry": "Choisir un billet"
@@ -88,6 +101,7 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "La configuration des rôles et des droits est stockée dans le fichier <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Le même type de slug '%slug%' est défini dans plusieurs types de contenu. Merci de modifier le fichier contenttypes.yml pour distinguer les usages."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Le fichier de traduction '%s' n'a pu être créé. Vous devrez utiliser votre propre éditeur de texte pour le modifier."
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a actuellement aucun bloc avec le slug 'about-us'. Si vous créez un, il sera affiché ici. Aller dans 'Configuration' > 'Vérifier la base de données' et sélectionnez 'Ajouter des exemples' pour générer automatiquement ce bloc."
 "This is a checkbox": "Ceci est une case à cocher"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
 "Title": "Titre"
@@ -102,6 +116,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Malheureusement, aucun contenu n'a pu être trouvé. Essayez une autre page, ou retourner sur la <a href=\"%paths_root%\">page d'accueil</a>."
 "Video": "Vidéo"
 "View (saved version) on site": "Afficher la version enregistrée"
+"Written by <em>%name%</em> on %date%": "Ecrit par <em>%name%</em> le %date%"
 "You've been logged on successfully.": "Connexion réussie."
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
