@@ -941,7 +941,7 @@ class Config
                         '%contenttype%' => $key
                     ]
                 );
-                $this->app['logger.flash']->warning($error);
+                $this->app['logger.flash']->error($error);
 
                 $passed = false;
             }
