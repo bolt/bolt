@@ -6,6 +6,7 @@ use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
 use Bolt\Legacy\Storage;
+use Bolt\Render;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
@@ -152,26 +153,26 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['users']->users = [];
     }
 
-    protected function getMockTwig()
+    protected function getRenderMock(Application $app)
     {
-        $twig = $this->getMock('Twig_Environment', ['render', 'fetchCachedRequest']);
-        $twig->expects($this->any())
+        $render = $this->getMock(Render::class, ['render', 'fetchCachedRequest'], [$app]);
+        $render->expects($this->any())
             ->method('fetchCachedRequest')
             ->will($this->returnValue(false));
 
-        return $twig;
+        return $render;
     }
 
-    protected function checkTwigForTemplate($app, $testTemplate)
+    protected function checkTwigForTemplate(Application $app, $testTemplate)
     {
-        $twig = $this->getMockTwig();
+        $render = $this->getRenderMock($app);
 
-        $twig->expects($this->any())
+        $render->expects($this->atLeastOnce())
             ->method('render')
             ->with($this->equalTo($testTemplate))
             ->will($this->returnValue(new Response()));
 
-        $app['render'] = $twig;
+        $app['render'] = $render;
     }
 
     protected function allowLogin($app)

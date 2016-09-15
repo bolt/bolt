@@ -74,7 +74,7 @@ class GeneralTest extends ControllerUnitTest
 
     public function testDashboard()
     {
-        $twig = $this->getMockTwig();
+        $render = $this->getRenderMock($this->getApp());
         $phpunit = $this;
         $testHandler = function ($template, $context) use ($phpunit) {
             $phpunit->assertEquals('@bolt/dashboard/dashboard.twig', $template);
@@ -85,12 +85,12 @@ class GeneralTest extends ControllerUnitTest
             return new Response();
         };
 
-        $twig->expects($this->any())
+        $render->expects($this->atLeastOnce())
             ->method('render')
             ->will($this->returnCallback($testHandler));
         $this->allowLogin($this->getApp());
 
-        $this->setService('render', $twig);
+        $this->setService('render', $render);
 
         $this->setRequest(Request::create('/bolt'));
         $this->controller()->dashboard();
