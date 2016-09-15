@@ -17,7 +17,7 @@
     {% for t in exception.trace %}
         <li>
             <span># {{ loop.index }}. </span>
-            {% if t.class is not empty %}
+            {% if t.class is defined and t.class is not empty %}
                 {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last -}}</strong>::
             {% endif %}
             {{ t.function|default() }}()<br>
