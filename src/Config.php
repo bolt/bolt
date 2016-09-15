@@ -976,6 +976,19 @@ class Config
                 }
 
                 // Make sure the 'type' is in the list of allowed types
+                if (strpos($fieldname, '-') !== false) {
+                    $error = Trans::__(
+                        'contenttypes.generic.invalid-hyphen',
+                        [
+                            '%contenttype%' => $key,
+                            '%field%'       => $fieldname
+                        ]
+                    );
+                    $this->app['logger.flash']->warning($error);
+                    $passed = false;
+                }
+
+                // Make sure that there are no hyphens in the field names, advise to change to underscores
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = Trans::__(
                         'contenttypes.generic.no-proper-type',
