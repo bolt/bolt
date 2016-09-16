@@ -4,8 +4,9 @@
     <thead>
         <tr>
             <th>{{ __('page.ckeditor-browse-server.files') }}</th>
+            <th></th>
             <th class="hidden-xs hidden-sm">{{ __('page.ckeditor-browse-server.size') }} / {{ __('page.ckeditor-browse-server.modified') }}</th>
-            <th colspan="2"></th>
+            <th></th>
         </tr>
     </thead>
 
@@ -13,7 +14,7 @@
         {% for file in context.files %}
             <tr>
                 {# Column: Filename #}
-                <td>
+                <td class="filename" colspan="{{ file.image ? 1 : 2 }}">
                     {% if file.image %}
 
                         <i class="fa fa-fw fa-file-image-o"></i>
@@ -41,23 +42,23 @@
                         </a>
                     {% endif %}
                 </td>
+                {# Column: Thumbnail #}
+                {% if file.image %}
+                    <td class="listthumb">
+                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
+                    </td>
+                {% endif %}
                 {# Column: Filesize / Modified #}
-                <td style="min-width: 120px;" class="hidden-xs hidden-sm">
-                    <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
-                        <b>{{ file.sizeformatted(true, true) }}</b></span>,
+                <td class="file-meta hidden-xs hidden-sm">
+                    <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeFormatted(true) }})">
+                        <b>{{ file.sizeFormatted(true) }}</b></span>,
                     {{ buic_moment(file.timestamp) }}
                     {% if file.image %}
                         <div class="image-dimensions">{{ file.width }}<span class="times">×</span>{{ file.height }} px</div>
                     {% endif %}
                 </td>
-                {# Column: Thumbnail #}
-                <td class="listthumb">
-                    {% if file.image %}
-                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
-                    {% endif %}
-                </td>
                 {# Column: Actions #}
-                <td class="actions" style="min-width: 16px;">
+                <td class="actions">
 
                     <div class="btn-group">
 
@@ -70,7 +71,7 @@
                         {% endif %}
 
                         {% if context.form != false %}
-                            <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
+                            <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" style="padding-left: 9px; padding-right: 9px;" data-toggle="dropdown">
                                 <i class="fa fa-info-circle"></i>
                                 {{ __('general.phrase.options') }}
                                 <span class="caret"></span>

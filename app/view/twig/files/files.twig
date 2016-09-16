@@ -8,7 +8,6 @@
 {% block page_nav 'Settings/FileManagement' %}
 
 {% block page_title __('page.file-management.title') %}
-{% block page_subtitle context.namespace ~ '/' ~ context.pathsegments|keys|last %}
 
 {% block page_main %}
 
@@ -23,7 +22,7 @@
         {{ data('files.msg.delete_file', __('Are you sure you want to delete %FILENAME%?')) }}
     {% endif %}
 
-    <div class="row">
+    <div class="row file-manager">
         <div class="col-xs-12">
 
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
@@ -34,29 +33,27 @@
                 {{ include('@bolt/files/_folders.twig') }}
             {% endif %}
 
-            <p>
-                <a href="#" class="btn btn-default"
-                   data-action="Bolt.files.createFile('{{ context.namespace }}',
-                                                    '{{ context.pathsegments|keys|last }}',
-                                                    this);">
-                    <i class="fa fa-fw fa-plus"></i>
-                    {{ __('page.file-management.label.create-file') }}
-                </a>
-                <a href="#" class="btn btn-default"
-                   data-action="Bolt.files.createFolder('{{ context.namespace }}',
-                                                    '{{ context.pathsegments|keys|last }}',
-                                                    this);">
-                    <i class="fa fa-fw fa-plus"></i>
-                    {{ __('page.file-management.label.create-folder') }}
-                </a>
-            </p>
-
             {% if context.files|length > 0 %}
                 {{ include('@bolt/files/_files.twig') }}
             {% endif %}
 
-            {# Only show the "Upload here" form, if the folder is writable. #}
             {% if context.form != false %}
+                <p>
+                    <a href="#" class="btn btn-default"
+                       data-action="Bolt.files.createFolder('{{ context.namespace }}',
+                                                                '{{ context.pathsegments|keys|last }}',
+                                                                this);">
+                        <i class="fa fa-fw fa-plus"></i>
+                        {{ __('page.file-management.label.create-folder') }}
+                    </a>
+                    <a href="#" class="btn btn-default"
+                       data-action="Bolt.files.createFile('{{ context.namespace }}',
+                                                            '{{ context.pathsegments|keys|last }}',
+                                                            this);">
+                        <i class="fa fa-fw fa-plus"></i>
+                        {{ __('page.file-management.label.create-file') }}
+                    </a>
+                </p>
                 {{ include('@bolt/files/_upload.twig') }}
             {% else %}
                 <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('page.file-management.message.access-denied') }}</p>

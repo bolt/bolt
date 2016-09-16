@@ -15,7 +15,7 @@
         {{ render(path("stack/show", {'items': 7, 'options': 'minimal'})) }}
     {% endif %}
 
-    <h1{{ macro.attr({_bind: ['ckfileselect']}) }}>{{ block('page_title') }}</h1>
+    <h1{{ macro.attr({_bind: ['ckfileselect']}) }} style="display: none;"></h1>
 
     {% set pathoptions = {
         'path': '',
@@ -32,7 +32,7 @@
     {% endif %}
 
     {% if context.files|length > 0 %}
-            {{ include('@bolt/files_ck/_files.twig') }}
+        {{ include('@bolt/files_ck/_files.twig') }}
     {% endif %}
 
 {% endblock page_main %}

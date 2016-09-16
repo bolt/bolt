@@ -104,6 +104,7 @@
     table {
         td {
             padding: 2px 8px;
+            vertical-align: middle;
         }
 
         // Name column
@@ -113,11 +114,11 @@
             white-space: nowrap;
             width: 100%;
             max-width: 0;
+            line-height: 2rem;
         }
 
         // Info column
         td.info {
-            vertical-align: middle;
             width: 110px;
             min-width: 110px;
 
@@ -163,21 +164,6 @@
 
         tr.directory td {
             background: #fdfdfd;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        tr.locked {
-            opacity: 0.4;
-
-            span:after {
-                display: inline-block;
-                vertical-align: middle;
-                font-family: FontAwesome;
-                font-weight: normal;
-                color: #000;
-                content: "\f023"; // fa-lock
-            }
         }
 
         mark {

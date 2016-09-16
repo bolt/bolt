@@ -11,13 +11,13 @@
     <tbody>
         {% for directory in context.directories %}
             <tr>
-                <td>
+                <td class="filename">
                     <i class="fa fa-fw fa-folder-open-o"></i>
                     <a href="{{ path('files', {'path': directory.path, 'namespace': context.namespace}) }}">
-                        <b>{{ directory.filename|excerpt(60)|shy }}/</b>
+                        <b>{{ directory.filename|excerpt(60)|shy }}</b>
                     </a>
                 </td>
-                <td>
+                <td class="folder-meta">
                     {{ buic_moment(directory.timestamp) }}
                 </td>
                 <td class="actions">

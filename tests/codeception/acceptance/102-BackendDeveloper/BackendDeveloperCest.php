@@ -72,16 +72,16 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->see("Delete $dir",   Locator::find('a', ['href' => '#']));
 
         // Navigate into the theme and check the results
-        $I->click("$dir/",     Locator::href("/bolt/files/themes/$dir"));
-        $I->see('css/',        Locator::href("/bolt/files/themes/$dir/css"));
-        $I->see('images/',     Locator::href("/bolt/files/themes/$dir/images"));
-        $I->see('js/',         Locator::href("/bolt/files/themes/$dir/js"));
+        $I->click("$dir",      Locator::href("/bolt/files/themes/$dir"));
+        $I->see('css',         Locator::href("/bolt/files/themes/$dir/css"));
+        $I->see('images',      Locator::href("/bolt/files/themes/$dir/images"));
+        $I->see('js',          Locator::href("/bolt/files/themes/$dir/js"));
         $I->see('theme.yml',   Locator::href("/bolt/file/edit/themes/$dir/theme.yml"));
         $I->see('record.twig', Locator::href("/bolt/file/edit/themes/$dir/record.twig"));
         $I->see('index.twig',  Locator::href("/bolt/file/edit/themes/$dir/index.twig"));
 
         // Navigate into a subdirectory
-        $I->click('css/',     Locator::href("/bolt/files/themes/$dir/css"));
+        $I->click('css',     Locator::href("/bolt/files/themes/$dir/css"));
         $I->see('theme.css', Locator::href("/bolt/file/edit/themes/$dir/css/theme.css"));
     }
 

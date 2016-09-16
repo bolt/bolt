@@ -31,7 +31,7 @@
     <div class="row">
         <div class="col-xs-12">
 
-            {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
+            {{ files_path(context.pathsegments, context.namespace, {'path': context.path, 'namespace': context.namespace}) }}
 
             {{ widgets('editfile_below_header', 'backend') }}
 

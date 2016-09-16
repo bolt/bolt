@@ -1,13 +1,15 @@
 {% macro files_path(pathsegments, namespace, pathoptions) %}
-    {% set namespace_path = path('files', pathoptions) %}
-    <p>
-        {{ __('general.phrase.path-colon') }}
-        <a href="{{ namespace_path }}">{{ namespace }}</a>
+    <h3>
+        <a href="{{ path('files', pathoptions) }}" style="font-weight: inherit">{{ namespace }}</a>://
 
-        {% for path, segment in pathsegments %}
-            /
-            {% set pathoptions = pathoptions|merge({'path': path, 'namespace': namespace}) %}
-            <a href="{{ path('files', pathoptions) }}">{{ segment }}</a>
-        {% endfor %}
-    </p>
+        {%- for path, segment in pathsegments -%}
+            {{- loop.first ? '' : '/' -}}
+            {%- set pathoptions = pathoptions|merge({'path': path, 'namespace': namespace}) -%}
+            {%- if loop.last -%}
+                {{- segment -}}
+            {%- else -%}
+                <a href="{{ path('files', pathoptions) }}" style="font-weight: inherit">{{ segment }}</a>
+            {%- endif -%}
+        {%- endfor -%}
+    </h3>
 {% endmacro %}
