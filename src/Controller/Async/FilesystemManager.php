@@ -5,6 +5,7 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,15 +82,16 @@ class FilesystemManager extends AsyncBase
         }
 
         try {
-            $filesystem->listContents($path);
+            $it = $filesystem->listContents($path);
         } catch (IOException $e) {
             $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
             $this->logException($msg, $e);
             $this->flashes()->error($msg);
+            $it = [];
         }
 
-        $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
-        $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
+        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
+        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
 
         $context = [
             'namespace'    => $namespace,

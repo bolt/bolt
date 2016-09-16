@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -188,8 +189,9 @@ class FileManager extends BackendBase
             $formview = $form->createView();
         }
 
-        $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
-        $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
+        $it = $filesystem->listContents($path);
+        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
+        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.
