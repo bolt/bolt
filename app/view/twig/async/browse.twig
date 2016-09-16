@@ -98,7 +98,7 @@
                                 {% set type = 'type-file' %}
                             {% endif %}
 
-                            <tr{{ hattr({'class': file.public ? '' : 'locked'}) }}>
+                            <tr>
                                 {% if multiselect %}
                                     <td class="select">
                                         <input type="checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
@@ -106,13 +106,9 @@
                                 {% endif %}
 
                                 <td class="name">
-                                    {% if file.public %}
-                                        <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.path}) }}>
-                                            {{ file.filename }}
-                                        </a>
-                                    {% else %}
-                                        <span class="entry {{ type }}">{{ file.filename }}</span>
-                                    {% endif %}
+                                    <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.path}) }}>
+                                        {{ file.filename }}
+                                    </a>
                                 </td>
 
                                 <td class="info">

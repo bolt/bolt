@@ -142,8 +142,6 @@ class FileManager extends BackendBase
         $path = rtrim($path, '/');
 
         // Defaults
-        $files       = [];
-        $directories = [];
         $formview    = false;
         $uploadview  = true;
 
@@ -163,54 +161,35 @@ class FileManager extends BackendBase
             $uploadview = false;
         }
 
-        try {
-            $visibility = $filesystem->getVisibility($path);
-        } catch (FileNotFoundException $fnfe) {
-            $visibility = false;
+        // Define the "Upload here" form.
+        $form = $this->createFormBuilder(FormType::class)
+            ->add(
+                'FileUpload',
+                FileType::class,
+                [
+                    'label'    => false,
+                    'multiple' => true,
+                    'attr'     => [
+                        'data-filename-placement' => 'inside',
+                        'title'                   => Trans::__('general.phrase.select-file'),
+                    ],
+                ]
+            )
+            ->getForm();
+
+        // Handle the upload.
+        if ($request->isMethod('POST')) {
+            $this->handleUpload($request, $form, $namespace, $path);
+
+            return $this->redirectToRoute('files', ['path' => $path, 'namespace' => $namespace]);
         }
 
-        if ($visibility === 'public') {
-            $validFolder = true;
-        } elseif ($visibility === 'readonly') {
-            $validFolder = true;
-            $uploadview = false;
-        } else {
-            $this->flashes()->error(Trans::__('general.phrase.directory-not-found-writable', ['%s' => $path]));
-            $formview = false;
-            $validFolder = false;
+        if ($uploadview !== false) {
+            $formview = $form->createView();
         }
 
-        if ($validFolder) {
-            // Define the "Upload here" form.
-            $form = $this->createFormBuilder(FormType::class)
-                ->add(
-                    'FileUpload',
-                    FileType::class,
-                    [
-                        'label'    => false,
-                        'multiple' => true,
-                        'attr'     => [
-                            'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('general.phrase.select-file'),
-                        ],
-                    ]
-                )
-                ->getForm();
-
-            // Handle the upload.
-            if ($request->isMethod('POST')) {
-                $this->handleUpload($request, $form, $namespace, $path);
-
-                return $this->redirectToRoute('files', ['path' => $path, 'namespace' => $namespace]);
-            }
-
-            if ($uploadview !== false) {
-                $formview = $form->createView();
-            }
-
-            $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
-            $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
-        }
+        $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
+        $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.

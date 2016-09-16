@@ -16,13 +16,9 @@
 
                         <i class="fa fa-fw fa-file-image-o"></i>
 
-                        {% if file.public %}
-                            <a class="filebrowserCallbackLink" href="{{ file.url }}">
-                                <b>{{ file.filename|excerpt(60)|shy }}</b>
-                            </a>
-                        {% else %}
-                            <b>{{ file.filename|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
-                        {% endif %}
+                        <a class="filebrowserCallbackLink" href="{{ file.url }}">
+                            <b>{{ file.filename|excerpt(60)|shy }}</b>
+                        </a>
                     </td>
                     <td>
                         <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">

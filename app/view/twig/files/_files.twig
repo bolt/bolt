@@ -18,45 +18,27 @@
 
                         <i class="fa fa-fw fa-file-image-o"></i>
 
-                        {% if file.public %}
-                            <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
-                               class="magnific"
-                               title="Image: {{ file.filename }}">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
-                            </a>
-                        {% else %}
-                            <b>{{ file.filename|excerpt(80)|shy }} </b>
-                            <i class="fa fa-lock"></i>
-                        {% endif %}
+                        <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
+                           class="magnific"
+                           title="Image: {{ file.filename }}">
+                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                        </a>
 
                     {% elseif file.extension in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
 
                         <i class="fa fa-fw fa-file-code-o"></i>
 
-                        {% if file.public %}
-                            <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.path}) }}">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
-                            </a>
-                        {% else %}
+                        <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.path}) }}">
                             <b>{{ file.filename|excerpt(80)|shy }}</b>
-                        {% endif %}
-
-                        {% if file.private %}
-                            <i class="fa fa-lock"></i>
-                        {% endif %}
+                        </a>
 
                     {% else %}
 
                         <i class="fa fa-fw fa-link"></i>
 
-                        {% if file.public %}
-                            <a href="{{ file.url }}" target="_blank">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
-                            </a>
-                        {% else %}
-                            <b>{{ file.filename|excerpt(80)|shy }} </b>
-                            <i class="fa fa-lock"></i>
-                        {% endif %}
+                        <a href="{{ file.url }}" target="_blank">
+                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                        </a>
                     {% endif %}
                 </td>
                 {# Column: Filesize / Modified #}
@@ -113,13 +95,6 @@
                                     <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.path }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('general.phrase.duplicate-file-name', {'%filename%': file.filename }) }}
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a class="nolink">
-                                        {{ __('general.phrase.permissions') }}:
-                                        <strong><code>{{ file.visibility }}</code></strong>
                                     </a>
                                 </li>
                             </ul>

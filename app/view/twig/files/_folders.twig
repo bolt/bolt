@@ -23,8 +23,6 @@
                 <td class="actions">
                 {% if context.form != false %}
                     <div class="btn-group">
-                    {% if directory.public %}
-
                         <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
                             <i class="fa fa-info-circle"></i>
                             {{ __('general.phrase.options') }}
@@ -54,12 +52,6 @@
                                 </a>
                             </li>
                         </ul>
-                    {% else %}
-                        <a class="btn btn-default btn-sm">
-                            <i class="fa fa-exclamation-circle"></i>
-                            {{ __('page.file-management.message.folder-access-denied') }}
-                        </a>
-                    {% endif %}
                     </div>
                 {% endif %}
                 </td>
