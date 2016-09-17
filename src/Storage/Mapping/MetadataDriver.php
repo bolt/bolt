@@ -89,8 +89,6 @@ class MetadataDriver implements MappingDriver
      */
     public function initialize()
     {
-        $this->contenttypes->initialize();
-        $this->taxonomies->initialize();
         $this->initializeShortAliases();
         $this->initializeDefaultAliases();
         foreach ($this->schemaManager->getSchemaTables() as $table) {
