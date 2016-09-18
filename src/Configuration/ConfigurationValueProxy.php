@@ -11,7 +11,7 @@ namespace Bolt\Configuration;
 
 use Bolt\Config;
 
-class ConfigurationProxy implements \ArrayAccess
+class ConfigurationValueProxy implements \ArrayAccess
 {
 
     protected $data;
