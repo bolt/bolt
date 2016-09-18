@@ -9,9 +9,12 @@
 namespace Bolt\Configuration;
 
 
+use ArrayAccess;
 use Bolt\Config;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class ConfigurationValueProxy implements \ArrayAccess
+class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
 {
 
     protected $data;
@@ -32,8 +35,8 @@ class ConfigurationValueProxy implements \ArrayAccess
         if (!$this->checked) {
             $this->config->checkConfig();
             $this->checked = true;
+            $this->data = $this->config->get($this->path, $this->default);
         }
-        $this->data = $this->config->get($this->path, $this->default);
     }
 
     /**
@@ -95,5 +98,18 @@ class ConfigurationValueProxy implements \ArrayAccess
     {
         $this->initialize();
         unset($this->data[$offset]);
+    }
+
+    public function onKernelRequest()
+    {
+        $this->checked = false;
+        $this->initialize();
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::REQUEST       => ['onKernelRequest', 34]
+        ];
     }
 }
