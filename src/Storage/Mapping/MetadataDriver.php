@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
-use Bolt\Configuration\ConfigurationProxy;
+use Bolt\Configuration\ConfigurationValueProxy;
 use Bolt\Exception\StorageException;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
@@ -70,12 +70,12 @@ class MetadataDriver implements MappingDriver
      * Constructor.
      *
      * @param Manager $schemaManager
-     * @param ConfigurationProxy $contenttypes
-     * @param ConfigurationProxy $taxonomies
+     * @param ConfigurationValueProxy $contenttypes
+     * @param ConfigurationValueProxy $taxonomies
      * @param array $typemap
      * @param NamingStrategy $namingStrategy
      */
-    public function __construct(Manager $schemaManager, ConfigurationProxy $contenttypes, ConfigurationProxy $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
+    public function __construct(Manager $schemaManager, ConfigurationValueProxy $contenttypes, ConfigurationValueProxy $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
     {
         $this->schemaManager = $schemaManager;
         $this->contenttypes = $contenttypes;
