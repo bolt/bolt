@@ -37,9 +37,13 @@
 
                         <i class="fa fa-fw fa-link"></i>
 
-                        <a href="{{ file.url }}" target="_blank">
+                        {% if file.hasUrl %}
+                            <a href="{{ file.url }}" target="_blank">
+                                <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            </a>
+                        {% else %}
                             <b>{{ file.filename|excerpt(80)|shy }}</b>
-                        </a>
+                        {% endif %}
                     {% endif %}
                 </td>
                 {# Column: Thumbnail #}
