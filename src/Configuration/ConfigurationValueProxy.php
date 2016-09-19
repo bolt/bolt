@@ -8,7 +8,6 @@
 
 namespace Bolt\Configuration;
 
-
 use ArrayAccess;
 use Bolt\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
