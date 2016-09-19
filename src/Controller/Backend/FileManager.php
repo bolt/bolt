@@ -66,12 +66,6 @@ class FileManager extends BackendBase
      */
     public function edit(Request $request, $namespace, $file)
     {
-        if ($namespace === 'app' && dirname($file) === 'config') {
-            // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
-            // correct dir, which might be 'app/config', but it might be something else.
-            $namespace = 'config';
-        }
-
         /** @var FilesystemInterface $filesystem */
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
