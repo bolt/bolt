@@ -92,7 +92,7 @@ class Sanitiser implements SanitiserInterface
      * Return a list of allowed tags needed for WYSIWYG field types.
      *
      * For HTML fields we want to override a few tags, e.g, it makes
-     * no sense to disallow `<embed>` if we have `embed: true` in
+     * no sense to disallow `<iframe>` if we have `embed: true` in
      * config.yml.
      *
      * @return array
@@ -130,6 +130,11 @@ class Sanitiser implements SanitiserInterface
         if ($this->isWysiwygEnabled('embed')) {
             // Note: Only <iframe>. Not <script>, <embed> or <object>.
             $allowedBecauseWysiwyg[] = 'iframe';
+            // We also need to add a few attributes as well.
+            $this->setAllowedAttributes(array_unique(array_merge(
+                    $this->getAllowedAttributes(),
+                    ['src', 'width', 'height', 'frameborder', 'allowfullscreen', 'scrolling']))
+            );
         }
         if ($this->isWysiwygEnabled('ruler')) {
             $allowedBecauseWysiwyg[] = 'hr';

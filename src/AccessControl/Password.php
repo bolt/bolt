@@ -184,7 +184,7 @@ class Password
                 'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
                 'shadowlink'     => $shadowlink,
             ]
-        );
+        )->getContent();
 
         $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
         $name = $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'));

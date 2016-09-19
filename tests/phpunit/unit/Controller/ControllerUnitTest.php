@@ -43,7 +43,6 @@ abstract class ControllerUnitTest extends BoltUnitTest
     {
         $app = parent::makeApp();
         $app->initialize();
-        $app['twig.loader'] = new \Twig_Loader_Chain([new \Twig_Loader_String()]);
 
         $verifier = new Validator($app['controller.exception'], $app['config'], $app['resources']);
         $verifier->checks();

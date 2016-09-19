@@ -49,7 +49,8 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/changelog'));
-        $this->checkTwigForTemplate($this->getApp(), 'activity/changelog.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/activity/changelog.twig');
+        $this->controller()->changeOverview($this->getRequest());
     }
 
     public function testChangeRecord()
@@ -182,7 +183,8 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals('/bolt/systemlog', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/systemlog'));
-        $this->checkTwigForTemplate($this->getApp(), 'activity/systemlog.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/activity/systemlog.twig');
+        $this->controller()->systemOverview($this->getRequest());
     }
 
     /**
