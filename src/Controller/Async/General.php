@@ -2,7 +2,6 @@
 namespace Bolt\Controller\Async;
 
 use Bolt;
-use Bolt\Pager;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -219,7 +218,7 @@ class General extends AsyncBase
             ->select('name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
-            ->groupBy('slug')
+            ->groupBy('name')
             ->orderBy('count', 'DESC')
             ->setMaxResults($request->query->getInt('limit', 20))
             ->setParameters([
@@ -298,108 +297,119 @@ class General extends AsyncBase
     }
 
     /**
-     * Get the news from either cache or Bolt HQ.
+     * Get the news from Bolt HQ (with caching).
      *
      * @param string $hostname
      *
-     * @return array|string
+     * @return array
      */
     private function getNews($hostname)
     {
-        /** @var \Bolt\Cache $cache */
-        $cache = $this->app['cache'];
-
         // Cached for two hours.
-        $news = $cache->fetch('dashboardnews');
-
-        // If not cached, get fresh news.
+        $news = $this->app['cache']->fetch('dashboardnews');
         if ($news !== false) {
             $this->app['logger.system']->info('Using cached data', ['event' => 'news']);
 
             return $news;
-        } else {
-            $source = $this->getOption('general/branding/news_source', 'http://news.bolt.cm/');
-            $curl = $this->getDashboardCurlOptions($hostname, $source);
-
-            $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
-
-            try {
-                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], ['config' => ['curl' => $curl['options']]])->getBody(true);
-                if ($this->getOption('general/branding/news_variable')) {
-                    $newsVariable = $this->getOption('general/branding/news_variable');
-                    $fetchedNewsItems = json_decode($fetchedNewsData)->$newsVariable;
-                } else {
-                    $fetchedNewsItems = json_decode($fetchedNewsData);
-                }
-                if ($fetchedNewsItems) {
-                    $news = [];
-
-                    // Iterate over the items, pick the first news-item that
-                    // applies and the first alert we need to show
-                    foreach ($fetchedNewsItems as $item) {
-                        $type = ($item->type === 'alert') ? 'alert' : 'information';
-                        if (!isset($news[$type])
-                            && (empty($item->target_version) || Bolt\Version::compare($item->target_version, '>'))
-                        ) {
-                            $news[$type] = $item;
-                        }
-                    }
-
-                    $cache->save('dashboardnews', $news, 7200);
-                } else {
-                    $this->app['logger.system']->error('Invalid JSON feed returned', ['event' => 'news']);
-                }
-
-                return $news;
-            } catch (RequestException $e) {
-                $this->app['logger.system']->critical(
-                    'Error occurred during newsfeed fetch',
-                    ['event' => 'exception', 'exception' => $e]
-                );
-
-                return ['error' => ['type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"]];
-            }
         }
+
+        // If not cached, get fresh news.
+        $news = $this->fetchNews($hostname);
+
+        $this->app['cache']->save('dashboardnews', $news, 7200);
+
+        return $news;
     }
 
     /**
-     * Get the cURL options.
+     * Get the news from Bolt HQ.
      *
      * @param string $hostname
-     * @param string $source
      *
      * @return array
      */
-    private function getDashboardCurlOptions($hostname, $source)
+    private function fetchNews($hostname)
     {
-        $driver = $this->app['db']->getDatabasePlatform()->getName();
+        $source = $this->getOption('general/branding/news_source', 'http://news.bolt.cm/');
+        $options = $this->fetchNewsOptions($hostname);
 
-        $url = sprintf(
-            '%s?v=%s&p=%s&db=%s&name=%s',
-            $source,
-            rawurlencode(Bolt\Version::VERSION),
-            phpversion(),
-            $driver,
-            base64_encode($hostname)
-        );
+        $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
-        // Standard option(s)
-        $options = [CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 10];
+        try {
+            $fetchedNewsData = (string) $this->app['guzzle.client']->get($source, $options)->getBody(true);
+        } catch (RequestException $e) {
+            $this->app['logger.system']->error(
+                'Error occurred during newsfeed fetch',
+                ['event' => 'exception', 'exception' => $e]
+            );
 
-        // Options valid if using a proxy
-        if ($this->getOption('general/httpProxy')) {
-            $proxies = [
-                CURLOPT_PROXY        => $this->getOption('general/httpProxy/host'),
-                CURLOPT_PROXYTYPE    => CURLPROXY_HTTP,
-                CURLOPT_PROXYUSERPWD => $this->getOption('general/httpProxy/user') . ':' .
-                $this->getOption('general/httpProxy/password'),
+            return [
+                'error' => [
+                    'type'   => 'error',
+                    'title'  => 'Unable to fetch news!',
+                    'teaser' => "<p>Unable to connect to $source</p>",
+                ],
             ];
         }
 
-        return [
-            'url'     => $url,
-            'options' => !empty($proxies) ? array_merge($options, $proxies) : $options,
+        $fetchedNewsItems = json_decode($fetchedNewsData);
+        if ($newsVariable = $this->getOption('general/branding/news_variable')) {
+            $fetchedNewsItems = $fetchedNewsItems->$newsVariable;
+        }
+
+        $news = [];
+        if (!$fetchedNewsItems) {
+            $this->app['logger.system']->error('Invalid JSON feed returned', ['event' => 'news']);
+
+            return $news;
+        }
+
+        // Iterate over the items, pick the first news-item that
+        // applies and the first alert we need to show
+        foreach ($fetchedNewsItems as $item) {
+            $type = ($item->type === 'alert') ? 'alert' : 'information';
+            if (!isset($news[$type])
+                && (empty($item->target_version) || Bolt\Version::compare($item->target_version, '>'))
+            ) {
+                $news[$type] = $item;
+            }
+        }
+
+        return $news;
+    }
+
+    /**
+     * Get the guzzle options.
+     *
+     * @param string $hostname
+     *
+     * @return array
+     */
+    private function fetchNewsOptions($hostname)
+    {
+        $driver = $this->app['db']->getDatabasePlatform()->getName();
+
+        $options = [
+            'query' => [
+                'v'    => Bolt\Version::VERSION,
+                'p'    => phpversion(),
+                'db'   => $driver,
+                'name' => $hostname,
+            ],
+            'connect_timeout' => 5,
+            'timeout'         => 10,
         ];
+
+        if ($this->getOption('general/httpProxy')) {
+            $options['proxy'] = sprintf(
+                '%s:%s@%s',
+                $this->getOption('general/httpProxy/user'),
+                $this->getOption('general/httpProxy/password'),
+                $this->getOption('general/httpProxy/host')
+            );
+        }
+
+        return $options;
     }
 
     /**

@@ -1,5 +1,5 @@
 # This file defines the menus on the website. See the documentation for
-# details: https://docs.bolt.cm/content/menus
+# details: https://docs.bolt.cm/configuration/menus
 
 main:
     - label: Home

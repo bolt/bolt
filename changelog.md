@@ -16,6 +16,21 @@ Bolt 3.2-dev
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 
+Bolt 3.1.2
+----------
+
+Released 2016-09-14. Notable changes:
+
+ - Change: Updating default `debug_error_level` from `6135` to `8181`. [#5751](https://github.com/bolt/bolt/pull/5751)
+ - Change: We shouldn't assume 'page/1' is the homepage. [#5750](https://github.com/bolt/bolt/pull/5750)
+ - Fixed: Add `'name'` to query to fetch popular tags, to prevent SQL error. [#5758](https://github.com/bolt/bolt/pull/5758)
+ - Fixed: Files without recognised extensions don't break the file browser. [#5760](https://github.com/bolt/bolt/pull/5760)
+ - Fixed: Markdown parsing in frontend works as expected again. (regression in 3.1.0) [#5755](https://github.com/bolt/bolt/pull/5755)
+ - Fixed: The 'allowed tags' in the HTML sanitizer should include `iframe` by default. For Youtube/Vimeo embeds, etc. [#5756](https://github.com/bolt/bolt/pull/5756)
+ - Fixed: Viewless contenttypes no longer have a 'view on site' button. [#5757](https://github.com/bolt/bolt/pull/5757)
+ - Updated: Add FR translations for 'meta' tab [#5744](https://github.com/bolt/bolt/pull/5744)
+
+
 Bolt 3.1.1
 ----------
 
