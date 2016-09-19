@@ -1,10 +1,4 @@
 <?php
-/**
- * Class ConfigurationProxy a simple wrapper that allows passing a pointer to the eventual
- * compiled and validated configuration.
- * @package Bolt\Configuration
- * @author Ross Riley <riley.ross@gmail.com>
- */
 
 namespace Bolt\Configuration;
 
@@ -13,6 +7,12 @@ use Bolt\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Class ConfigurationProxy a simple wrapper that allows passing a pointer to the eventual
+ * compiled and validated configuration.
+ * @internal
+ * @author Ross Riley <riley.ross@gmail.com>
+ */
 class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
 {
 
@@ -29,13 +29,11 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         $this->default = $default;
     }
 
-    public function initialize()
+    public static function getSubscribedEvents()
     {
-        if (!$this->checked) {
-            $this->config->checkConfig();
-            $this->checked = true;
-            $this->data = $this->config->get($this->path, $this->default);
-        }
+        return [
+            KernelEvents::REQUEST => ['onKernelRequest', 34],
+        ];
     }
 
     /**
@@ -51,7 +49,17 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     public function offsetExists($offset)
     {
         $this->initialize();
+
         return array_key_exists($offset, $this->data);
+    }
+
+    public function initialize()
+    {
+        if (!$this->checked) {
+            $this->config->checkConfig();
+            $this->checked = true;
+            $this->data = $this->config->get($this->path, $this->default);
+        }
     }
 
     /**
@@ -65,6 +73,7 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     public function offsetGet($offset)
     {
         $this->initialize();
+
         return $this->data[$offset];
     }
 
@@ -103,12 +112,5 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     {
         $this->checked = false;
         $this->initialize();
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::REQUEST       => ['onKernelRequest', 34]
-        ];
     }
 }
