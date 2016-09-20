@@ -146,10 +146,15 @@ table.dataTable thead .sorting:after {
 }
 
 // Todo: move this.
-body.exception .logo {
-    margin-top: 30px;
-    width: 120px;
-    height: auto;
+body.exception {
+    .logo {
+        margin-top: 30px;
+        width: 120px;
+        height: auto;
+    }
+    code {
+        white-space: normal;
+    }
 }
 
 .dropdown-menu .nav-header {
