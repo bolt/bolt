@@ -13,15 +13,14 @@
         {% for file in context.files if file.image %}
             <tr>
                 <td class="filename">
-
-                    <i class="fa fa-fw fa-file-image-o"></i>
-
                     {% if file.hasUrl %}
+                        <i class="fa fa-fw fa-file-image-o"></i>
                         <a class="filebrowserCallbackLink" href="{{ file.url }}">
                             <b>{{ file.filename|excerpt(60)|shy }}</b>
                         </a>
                     {% else %}
-                        <b>{{ file.filename|excerpt(60)|shy }}</b>
+                        <i class="fa fa-fw fa-file-image-o disabled"></i>
+                        <b class="disabled">{{ file.filename|excerpt(60)|shy }}</b>
                     {% endif %}
                 </td>
                 <td class="listthumb">

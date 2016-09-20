@@ -34,15 +34,14 @@
                         </a>
 
                     {% else %}
-
-                        <i class="fa fa-fw fa-link"></i>
-
                         {% if file.hasUrl %}
+                            <i class="fa fa-fw fa-link"></i>
                             <a href="{{ file.url }}" target="_blank">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            <i class="fa fa-fw fa-file-o disabled"></i>
+                            <b class="disabled">{{ file.filename|excerpt(80)|shy }}</b>
                         {% endif %}
                     {% endif %}
                 </td>

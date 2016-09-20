@@ -102,14 +102,18 @@
                             <tr>
                                 {% if multiselect %}
                                     <td class="select">
-                                        <input type="checkbox" data-fbrowser-check="{{ file.path }}" />
+                                        <input type="checkbox" {% if file.hasUrl %}data-fbrowser-check="{{ file.path }}"{% else %}disabled{% endif %} />
                                     </td>
                                 {% endif %}
 
                                 <td class="name">
-                                    <a class="entry {{ type }}" href="#" data-fbrowser-select="{{ file.path }}">
-                                        {{- file.filename -}}
-                                    </a>
+                                    {% if file.hasUrl %}
+                                        <a class="entry {{ type }}" href="#" data-fbrowser-select="{{ file.path }}">
+                                            {{- file.filename -}}
+                                        </a>
+                                    {% else %}
+                                        <span class="entry disabled">{{ file.filename }}</span>
+                                    {% endif %}
                                 </td>
 
                                 <td class="thumb">

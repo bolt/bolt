@@ -115,6 +115,10 @@
             width: 100%;
             max-width: 0;
             line-height: 2rem;
+
+            .disabled {
+                color: #999;
+            }
         }
 
         // Info column

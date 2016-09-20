@@ -9,6 +9,10 @@
 
         &.filename {
             width: 100%;
+
+            .disabled {
+                color: #999;
+            }
         }
 
         &.listthumb {
