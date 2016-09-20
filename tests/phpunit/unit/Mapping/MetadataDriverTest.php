@@ -14,14 +14,14 @@ class MetadataDriverTest extends BoltUnitTest
     public function testConstruct()
     {
         $app = $this->getApp();
-        $map = new MetadataDriver($app['schema'], $app['config']->get('contenttypes'), $app['config']->get('taxonomy'), $app['storage.typemap']);
+        $map = new MetadataDriver($app['schema'], $app['storage.config.contenttypes'], $app['storage.config.taxonomy'], $app['storage.typemap']);
         $this->assertSame($app['schema'], \PHPUnit_Framework_Assert::readAttribute($map, 'schemaManager'));
     }
 
     public function testInitialize()
     {
         $app = $this->getApp();
-        $map = new MetadataDriver($app['schema'], $app['config']->get('contenttypes'), $app['config']->get('taxonomy'), $app['storage.typemap']);
+        $map = new MetadataDriver($app['schema'], $app['storage.config.contenttypes'], $app['storage.config.taxonomy'], $app['storage.typemap']);
         $map->initialize();
         $metadata = $map->loadMetadataForClass('Bolt\Storage\Entity\Users');
         $this->assertNotNull($metadata);

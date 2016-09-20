@@ -932,6 +932,23 @@ class Config
         $passed = true;
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
+
+            // Make sure that there are no hyphens in the contenttype name, advise to change to underscores
+            if (strpos($key, '-') !== false) {
+                $error = Trans::__(
+                    'contenttypes.generic.invalid-hyphen',
+                    [
+                        '%contenttype%' => $key
+                    ]
+                );
+                $this->app['logger.flash']->error($error);
+                $original = $this->data['contenttypes'][$key];
+                $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
+                $this->data['contenttypes'][$key] = $original;
+
+                $passed = false;
+            }
+
             /**
              * Make sure any field that has a 'uses' parameter actually points to a field that exists.
              *
@@ -975,7 +992,7 @@ class Config
                     }
                 }
 
-                // Make sure the 'type' is in the list of allowed types
+                // Make sure that there are no hyphens in the field names, advise to change to underscores
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = Trans::__(
                         'contenttypes.generic.no-proper-type',
@@ -997,6 +1014,12 @@ class Config
              */
             if (isset($ct['relations'])) {
                 foreach ($ct['relations'] as $relKey => $relData) {
+                    // For BC we check if relation uses hyphen and re-map to underscores
+                    if (strpos($relKey, '-') !== false) {
+                        $newRelKey = str_replace('-', '_', strtolower(Str::makeSafe($relKey, true)));
+                        unset($this->data['contenttypes'][$key]['relations'][$relKey]);
+                        $this->data['contenttypes'][$key]['relations'][$newRelKey] = $relData;
+                    }
                     if (!isset($this->data['contenttypes'][$relKey])) {
                         $error = Trans::__(
                             'contenttypes.generic.invalid-relation',
