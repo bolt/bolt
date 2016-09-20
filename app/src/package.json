@@ -25,7 +25,7 @@
         "grunt-contrib-uglify": "~2.0.0",
         "grunt-contrib-watch": "~1.0.0",
         "grunt-endline": "~0.6.1",
-        "grunt-eol": "~0.2",
+        "grunt-eol": "~1.1.2",
         "grunt-html": "~8.0.2",
         "grunt-jsdoc": "~2.1.0",
         "grunt-phpdocumentor": "~0.4.1",
