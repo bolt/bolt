@@ -10,7 +10,7 @@ build setup: https://github.com/uikit/uikit
 The compressed codemirror was built at http://codemirror.net/doc/compress.html
 with the following options:
 
-   Version: 5.6
+   Version: 5.19
 
    CodeMirror Library:
    - codemirror.js
