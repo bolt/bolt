@@ -18,7 +18,7 @@ info:
     <p>Dies _<em>ist kursiv</em>_, dies __<strong>ist fett</strong>__, und dies ___<em><strong>ist beides</strong></em>___. Sie können auch
     Asterisks benutzen: Dies *<em>ist kursiv</em>*, dies **<strong>ist fett</strong>**.
     <p>So erstellen Sie <a href='#'>Links</a>:<br />
-    Eine [fantastische Webseite](http://example.org/ &amp;quot;Titel des Links&amp;quot;)</p>
+    Eine [fantastische Webseite](http://example.org/ &quot;Titel des Links&quot;)</p>
     <p>&nbsp; * Dies ist eine unsortierte Liste<br />
     &nbsp; * Element 2</p>
     <p>&nbsp; 1 Dies ist eine geordnete Liste<br />
