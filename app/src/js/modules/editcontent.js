@@ -286,6 +286,7 @@
                         window.onbeforeunload = null;
 
                         $('p.lastsaved')
+                            .removeClass('alert alert-danger')
                             .html(savedon)
                             .find('strong')
                             .text(moment(data.datechanged).format('MMM D, HH:mm'))
@@ -344,10 +345,15 @@
 
                         watchChanges();
                     })
-                    .fail(function(){
+                    .fail(function(data){
                         bolt.events.fire('Bolt.Content.Save.Fail');
 
-                        $('p.lastsaved').text(msgNotSaved);
+                        var response = $.parseJSON(data.responseText);
+                        var message = '<b>' + msgNotSaved + '</b><br><small>' + response.error.message + '</small>';
+
+                        $('p.lastsaved')
+                            .html(message)
+                            .addClass('alert alert-danger');
                     })
                     .always(function(){
                         bolt.events.fire('Bolt.Content.Save.Always');
