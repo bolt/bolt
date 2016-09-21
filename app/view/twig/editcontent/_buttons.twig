@@ -6,7 +6,7 @@
         {# Save Contentype #}
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
+                <i class="fa fa-fw fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
             </button>
             {# Dropdown #}
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -16,12 +16,12 @@
             <ul class="dropdown-menu" role="menu">
                 <li>
                     <button type="submit" class="btn btn-link" id="savebutton">
-                        <i class="fa fa-flag"></i> {{ __('general.phrase.save-and-return-overview') }}
+                        <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-return-overview') }}
                     </button>
                 </li>
                 <li>
                     <button type="submit" class="btn btn-link" id="savenewbutton">
-                        <i class="fa fa-flag"></i> {{ __('general.phrase.save-and-create-new-record') }}
+                        <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-create-new-record') }}
                     </button>
                 </li>
             </ul>
