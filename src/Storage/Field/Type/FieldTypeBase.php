@@ -126,7 +126,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     public function set($entity, $value)
     {
         $key = $this->mapping['fieldname'];
-        if (!$value && isset($this->mapping['data']['default'])) {
+        if ($value === null && isset($this->mapping['data']['default'])) {
             $value = $this->mapping['data']['default'];
         }
         $entity->$key = $value;
