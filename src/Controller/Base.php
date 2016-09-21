@@ -155,10 +155,16 @@ abstract class Base implements ControllerProviderInterface
      * @param array  $parameters An array of parameters
      * @param int    $status     The status code to use for the Response
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Symfony\Component\HttpFoundation\JsonResponse
      */
     protected function redirectToRoute($route, array $parameters = [], $status = 302)
     {
+        // Don't redirect on ajaxy requests, but abort with a 500 code instead.
+        if ($this->app['request']->isXmlHttpRequest()) {
+            $response = ['error' => ['message' => 'Redirect detected. Check if you are still logged on.'] ];
+            return new JsonResponse($response, 500);
+        }
+
         return $this->redirect($this->generateUrl($route, $parameters), $status);
     }
 
