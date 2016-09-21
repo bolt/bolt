@@ -113,7 +113,7 @@ class ScriptHandler
 
         $filesystem = new Filesystem();
 
-        $filesystem->dumpFile('.bolt.yml', Yaml::dump($config));
+        $filesystem->dumpFile('bolt.yml', Yaml::dump($config));
 
         $chmodDirs = [
             'extensions',

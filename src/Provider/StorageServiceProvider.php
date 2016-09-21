@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Configuration\ConfigurationValueProxy;
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection;
@@ -175,13 +176,25 @@ class StorageServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $meta = new MetadataDriver(
                     $app['schema'],
-                    $app['config']->get('contenttypes'),
-                    $app['config']->get('taxonomy'),
+                    $app['storage.config.contenttypes'],
+                    $app['storage.config.taxonomy'],
                     $app['storage.typemap'],
                     $app['storage.namingstrategy']
                 );
 
                 return $meta;
+            }
+        );
+
+        $app['storage.config.contenttypes'] = $app->share(
+            function ($app) {
+                return new ConfigurationValueProxy($app['config'], 'contenttypes');
+            }
+        );
+
+        $app['storage.config.taxonomy'] = $app->share(
+            function ($app) {
+                return new ConfigurationValueProxy($app['config'], 'taxonomy');
             }
         );
 
@@ -301,5 +314,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($app['storage.listener']);
+        $dispatcher->addSubscriber($app['storage.config.contenttypes']);
+        $dispatcher->addSubscriber($app['storage.config.taxonomy']);
     }
 }

@@ -84,11 +84,21 @@ return call_user_func(function () {
     if (file_exists($rootPath . '/.bolt.yml')) {
         $yaml = Yaml::parse(file_get_contents($rootPath . '/.bolt.yml')) ?: [];
         $config = array_replace_recursive($config, $yaml);
+    } elseif (file_exists($rootPath . '/bolt.yml')) {
+        $yaml = Yaml::parse(file_get_contents($rootPath . '/bolt.yml')) ?: [];
+        $config = array_replace_recursive($config, $yaml);
     } elseif (file_exists($rootPath . '/.bolt.php')) {
         $php = include $rootPath . '/.bolt.php';
-        if (is_array($php)) {
-            $config = array_replace_recursive($config, $php);
-        }
+    } elseif (file_exists($rootPath . '/bolt.php')) {
+        $php = include $rootPath . '/bolt.php';
+    }
+
+    // An extra handler if a PHP bootstrap is provided, allow the bootstrap file to return
+    // a pre-initialized Bolt Application rather than the config array.
+    if (isset($php) && is_array($php)) {
+        $config = array_replace_recursive($config, $php);
+    } elseif (isset($php) && $php instanceof Silex\Application) {
+        return $php;
     }
 
     // If application object is provided, assume it is ready to go.
