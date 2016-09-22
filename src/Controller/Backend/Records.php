@@ -57,7 +57,7 @@ class Records extends BackendBase
         // Set the editreferrer in twig if it was not set yet.
         $this->setEditReferrer($request);
 
-        // Get the Contenttype obejct
+        // Get the Contenttype object
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Save the POSTed record

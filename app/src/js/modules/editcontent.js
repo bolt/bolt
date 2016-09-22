@@ -286,6 +286,7 @@
                         window.onbeforeunload = null;
 
                         $('p.lastsaved')
+                            .removeClass('alert alert-danger')
                             .html(savedon)
                             .find('strong')
                             .text(moment(data.datechanged).format('MMM D, HH:mm'))
@@ -298,6 +299,10 @@
                             '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +
                             $('#statusselect option:selected').text()
                         );
+                        // Display the 'save succeeded' icon in the buttons
+                        $('#sidebarsavecontinuebutton i, #savecontinuebutton i')
+                            .removeClass('fa-flag fa-spin fa-spinner fa-exclamation-triangle')
+                            .addClass('fa-check');
 
                         // Update anything changed by POST_SAVE handlers
                         if ($.type(data) === 'object') {
@@ -344,20 +349,33 @@
 
                         watchChanges();
                     })
-                    .fail(function(){
+                    .fail(function(data){
                         bolt.events.fire('Bolt.Content.Save.Fail');
 
-                        $('p.lastsaved').text(msgNotSaved);
+                        var response = $.parseJSON(data.responseText);
+                        var message = '<b>' + msgNotSaved + '</b><br><small>' + response.error.message + '</small>';
+
+                        $('p.lastsaved')
+                            .html(message)
+                            .addClass('alert alert-danger');
+
+                        // Display the 'save failed' icon in the buttons
+                        $('#sidebarsavecontinuebutton i, #savecontinuebutton i')
+                            .removeClass('fa-flag fa-spin fa-spinner')
+                            .addClass('fa-exclamation-triangle');
                     })
                     .always(function(){
                         bolt.events.fire('Bolt.Content.Save.Always');
 
                         // Re-enable buttons
                         window.setTimeout(function(){
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
-                            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
-                        }, 300);
-                    });
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                        }, 1000);
+                        window.setTimeout(function(){
+                            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-flag');
+                        }, 5000);
+
+                });
             }
         });
     }
