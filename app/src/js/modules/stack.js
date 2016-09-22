@@ -56,7 +56,13 @@
                     $(element).addClass('disabled');
                 }
 
-                $(':bolt-buicStack').buicStack('prepend', data.newItem, data.trimmed);
+                $(':bolt-buicStack').buicStack('prepend', data.panel, data.trimmed);
+
+                // Move to better spot? rarila?
+                if (data.trimmed) {
+                    $('.select-from-stack:last-child').remove();
+                }
+                $('.select-from-stack').prepend(data.list);
             })
             .fail(function () {
                 console.log('Failed to add file to stack');

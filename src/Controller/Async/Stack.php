@@ -40,11 +40,13 @@ class Stack extends AsyncBase
 
         $file = $stack->add($filename);
 
-        $html = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
+        $panel = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
+        $list = $this->render('@bolt/components/stack/list-item.twig', ['file' => $file]);
 
         return $this->json([
             'trimmed' => $trimmed,
-            'newItem' => $html->getContent(),
+            'panel'   => $panel->getContent(),
+            'list'    => $list->getContent(),
         ]);
     }
 
