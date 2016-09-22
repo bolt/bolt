@@ -4,7 +4,6 @@
     extensions:  field.extensions|default([]),
     label:       field.label,
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.imagelist')
 } %}
 
@@ -80,9 +79,8 @@
         <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Buttons #}
-        {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
-            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload, true) }}
+            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, context.can.upload, true) }}
 
             <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
         </div>

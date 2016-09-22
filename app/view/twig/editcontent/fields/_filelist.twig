@@ -4,7 +4,6 @@
     extensions:  field.extensions|default([]),
     label:       field.label,
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')
 } %}
 
@@ -22,8 +21,6 @@
 } %}
 
 {% set list = context.content.get(contentkey)|default([]) %}
-
-{% set can_upload = context.can.upload and option.can_upload %}
 
 {#=== TEMPLATES ======================================================================================================#}
 
@@ -82,7 +79,7 @@
 
         {# Buttons #}
         <div class="clearfix">
-            {{ macro.upload_buttons('file', attributes.fileupload, option.upload, can_upload, true) }}
+            {{ macro.upload_buttons('file', attributes.fileupload, option.upload, context.can.upload, true) }}
         </div>
 
         {# Data #}

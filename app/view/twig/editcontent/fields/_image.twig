@@ -6,7 +6,6 @@
     extensions:  field.extensions|default([]),
     attrib:      (field.attrib is defined and field.attrib is iterable) ? field.attrib : [ field.attrib|default(null) ],
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload|default(false),
     info:        field.info|default('info.upload.image')
 } %}
 
@@ -118,7 +117,7 @@
                 <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
                 {# Uploadbuttons #}
-                {{ macro.upload_buttons('image', hattr.upload, option.upload, context.can.upload and option.can_upload, false) }}
+                {{ macro.upload_buttons('image', hattr.upload, option.upload, context.can.upload, false) }}
             </div>
 
             {# Preview #}

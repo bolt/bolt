@@ -5,7 +5,6 @@
     label:       field.label,
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.file')
 } %}
 
@@ -30,8 +29,6 @@
     }
 } %}
 
-{% set can_upload = context.can.upload and option.can_upload %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
@@ -52,7 +49,7 @@
         <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Uploadbuttons #}
-        {{ macro.upload_buttons('file', attributes.upload, option.upload, can_upload, false) }}
+        {{ macro.upload_buttons('file', attributes.upload, option.upload, context.can.upload, false) }}
 
         {# Infotext #}
         {% if not ismobileclient() %}
