@@ -1,10 +1,18 @@
 {% from '@bolt/_buic/_moment.twig' import buic_moment %}
 
+{# Only show modified header if some directories have timestamps #}
+{% set hasTimestamps = false %}
+{% for dir in context.directories %}
+    {% if not hasTimestamps and dir.timestamp != 0 %}
+        {% set hasTimestamps = true %}
+    {% endif %}
+{% endfor %}
+
 <table class="dashboardlisting">
     <thead>
         <tr>
             <th>{{ __('general.phrase.folders') }}</th>
-            <th colspan="2">{{ __('general.phrase.modified') }}</th>
+            <th colspan="2">{{ hasTimestamps ? __('general.phrase.modified') }}</th>
         </tr>
     </thead>
 
