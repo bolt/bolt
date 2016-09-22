@@ -47,7 +47,7 @@ class StackTest extends ControllerUnitTest
         $response = $this->controller()->show(Request::create('/async/stack/show'));
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-stack.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/stack/panel.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

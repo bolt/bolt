@@ -12,7 +12,7 @@
     {# Only show the stack on the topmost level. #}
     {% if context.path == "" %}
         {# Show the stack with the latest items. #}
-        {{ render(path("stack/show", {'options': 'minimal'})) }}
+        {{ render(path("stack/show", {'options': 'ck'})) }}
     {% endif %}
 
     <h1{{ macro.attr({_bind: ['ckfileselect']}) }} style="display: none;"></h1>

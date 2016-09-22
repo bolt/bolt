@@ -40,7 +40,7 @@ class Stack extends AsyncBase
 
         $file = $stack->add($filename);
 
-        $html = $this->render('@bolt/components/panel-stack-item.twig', ['file' => $file]);
+        $html = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
 
         return $this->json([
             'trimmed' => $trimmed,
@@ -60,12 +60,12 @@ class Stack extends AsyncBase
         $count = $request->query->get('count', \Bolt\Stack::MAX_ITEMS);
         $options = $request->query->get('options');
 
-        if ($options === 'minimal') {
-            $template = '@bolt/components/stack-minimal.twig';
+        if ($options === 'ck') {
+            $template = '@bolt/components/stack/ck.twig';
         } elseif ($options === 'list') {
-            $template = '@bolt/components/stack-list.twig';
+            $template = '@bolt/components/stack/list.twig';
         } else {
-            $template = '@bolt/components/panel-stack.twig';
+            $template = '@bolt/components/stack/panel.twig';
         }
 
         $context = [

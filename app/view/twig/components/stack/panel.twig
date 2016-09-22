@@ -14,7 +14,7 @@
     <fieldset class="buic-stack" data-bolt-widget="buicStack">
         <div class="stackholder">
             {% for file in stack()[:context.count] %}
-                {% include '@bolt/components/panel-stack-item.twig' with {'file': file} only %}
+                {% include '@bolt/components/stack/panel-item.twig' with {'file': file} only %}
             {% else %}
                 <div class="empty">{{ __('general.phrase.stack-empty') }}</div>
             {% endfor %}
@@ -53,5 +53,4 @@
             </div>
         </div>
     </fieldset>
-
-{% endblock panel_body %}
+{% endblock %}
