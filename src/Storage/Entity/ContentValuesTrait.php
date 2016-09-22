@@ -518,7 +518,7 @@ trait ContentValuesTrait
 
         // Grab the first field of type 'image', and return that.
         foreach ($this->contenttype['fields'] as $key => $field) {
-            if ($field['type'] === 'image') {
+            if ($field['type'] === 'image' && isset($this->values[$key])) {
                 // After v1.5.1 we store image data as an array
                 if (is_array($this->values[$key]) && isset($this->values[$key]['file'])) {
                     return $this->values[$key]['file'];
