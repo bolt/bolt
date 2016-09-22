@@ -13,6 +13,7 @@ Released 2016-09-22. Notable changes:
  - Fixed: Don't sanitise 'text' and 'textarea' type fields. [#5794](https://github.com/bolt/bolt/pull/5794)
  - Fixed: Fix dashboard news timeout [#5769](https://github.com/bolt/bolt/pull/5769)
  - Fixed: Get the `passwordreset.twig` content instead of the bolt Response [#5780](https://github.com/bolt/bolt/pull/5780)
+ - Fixed: In fields, only apply the default to an actual `null` value. [#5805](https://github.com/bolt/bolt/pull/5805)
  - Fixed: Making npm / grunt work (again) [#5791](https://github.com/bolt/bolt/pull/5791), [#5793](https://github.com/bolt/bolt/pull/5793)
  - New: Better feedback when Records can't be saved. [#5801](https://github.com/bolt/bolt/pull/5801)
  - Updated: Bolt MIT Licence was out of date [#5800](https://github.com/bolt/bolt/pull/5800)
