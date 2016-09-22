@@ -28,7 +28,7 @@ info:
         video: |
             Use this field to embed a video inside a page on the website. Just copy/paste the
                   URL of a video-page on Youtube, Vimeo or almost any other video sharing website.<br>
-                  Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
+                  Bolt will automatically fetch the &lt;embed&gt;-code, with the correct width, height and the original
                   title. If you change the width or height, the other value will change accordingly, to maintain the
                   aspect ratio.
     geolocation: |
@@ -50,7 +50,7 @@ info:
             ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
             this **<strong>is bold</strong>**.
             <p>Create <a href='#'>links</a> like this:<br>
-            An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+            An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
             <p>&nbsp; * This is an unordered list<br>
             &nbsp; * Item 2</p>
             <p>&nbsp; 1 This is an ordered list<br>
