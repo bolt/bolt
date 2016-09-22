@@ -39,14 +39,14 @@ info:
     <p>Markdown permite que você escreva facilmente usando um formato de texto,
     que será convertida para uma estrutura HTML válida.</p>
     <p><strong>Rápida referência:</strong><br>
-    # Isto é uma tag &amp;lt;h1&amp;gt;<br>
-    ## Isto é uma tag &amp;lt;h2&amp;gt;<br>
-    ###### Isto é uma tag &amp;lt;h6&amp;gt;</p>
+    # Isto é uma tag &lt;h1&gt;<br>
+    ## Isto é uma tag &lt;h2&gt;<br>
+    ###### Isto é uma tag &lt;h6&gt;</p>
     <p>Isto _<em>é itálico</em>_, isto __<strong>é negrito</strong>__ e isto é
     ___<em><strong>negrito e itálico</strong></em>___. Você também poderá utilizar asteriscos: Isto *<em>é itálico</em>*,
     isto é **<strong>negrito</strong>**.
     <p>Crie <a href='#'>links</a> assim:<br>
-    Um [site](http://exemplo.org/ &amp;quot;Título do link&amp;quot;)</p>
+    Um [site](http://exemplo.org/ &quot;Título do link&quot;)</p>
     <p>&nbsp; * Isto é uma lista não-ordenada<br>
     &nbsp; * Item 2</p>
     <p>&nbsp; 1 Isto é uma lista ordenada<br>

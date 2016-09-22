@@ -16,7 +16,7 @@ info:
     ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
     this **<strong>is bold</strong>**.
     <p>Create <a href='#'>links</a> like this:<br>
-    An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+    An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
     <p>&nbsp; * This is an unordered list<br>
     &nbsp; * Item 2</p>
     <p>&nbsp; 1 This is an ordered list<br>

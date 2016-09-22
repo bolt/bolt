@@ -26,6 +26,23 @@ Bolt 3.2-dev
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
 
+Bolt 3.1.3
+----------
+
+Released 2016-09-22. Notable changes:
+
+ - Fixed: Add 'alt' and 'title' to `allowed_attributes` for sanitising. [#5782](https://github.com/bolt/bolt/pull/5782)
+ - Fixed: Check for existence of `$this->values[$key]` to prevent warnings. [#5802](https://github.com/bolt/bolt/pull/5802)
+ - Fixed: Cleaned up double-encoded HTML entities in some descriptions. [#5804](https://github.com/bolt/bolt/pull/5804)
+ - Fixed: Don't display 'ungrouped' tab, if no groups are defined. [#5797](https://github.com/bolt/bolt/pull/5797)
+ - Fixed: Don't sanitise 'text' and 'textarea' type fields. [#5794](https://github.com/bolt/bolt/pull/5794)
+ - Fixed: Fix dashboard news timeout [#5769](https://github.com/bolt/bolt/pull/5769)
+ - Fixed: Get the `passwordreset.twig` content instead of the bolt Response [#5780](https://github.com/bolt/bolt/pull/5780)
+ - Fixed: In fields, only apply the default to an actual `null` value. [#5805](https://github.com/bolt/bolt/pull/5805)
+ - Fixed: Making npm / grunt work (again) [#5791](https://github.com/bolt/bolt/pull/5791), [#5793](https://github.com/bolt/bolt/pull/5793)
+ - New: Better feedback when Records can't be saved. [#5801](https://github.com/bolt/bolt/pull/5801)
+ - Updated: Bolt MIT Licence was out of date [#5800](https://github.com/bolt/bolt/pull/5800)
+
 Bolt 3.1.2
 ----------
 

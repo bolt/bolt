@@ -19,7 +19,7 @@ info:
     ___<em><strong>molempia</strong></em>___. Voit käyttää myös tähtiä: Tämä on *<em>kursiivi</em>*,
     tämä on **<strong>paksu</strong>**.
     <p>Luo <a href='#'>linkki</a> näin:<br>
-    Tässä [mielenkiintoinen nettisivu](http://example.org/ &amp;quot;Linkin otsikko&amp;quot;)</p>
+    Tässä [mielenkiintoinen nettisivu](http://example.org/ &quot;Linkin otsikko&quot;)</p>
     <p>&nbsp; * Tämä on järjestämätön lista<br>
     &nbsp; * Toinen rivi</p>
     <p>&nbsp; 1 Tämä on järjestetty lista<br>
