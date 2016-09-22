@@ -80,7 +80,7 @@
             }
 
             // If the "empty stack" notice was showing, remove it.
-            $('.empty').remove();
+            this._ui.holder.find('.empty').remove();
 
             this._ui.holder.prepend(stackItem);
         }
