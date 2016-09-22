@@ -35,6 +35,6 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12">
-        <textarea{{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey)|default(field.default)|default('') }}</textarea>
+        <textarea{{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 {% endblock fieldset_controls %}

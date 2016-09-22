@@ -1,4 +1,4 @@
-/*! UIkit 2.22.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+/*! UIkit 2.27.1 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
 (function(addon) {
 
     var component;
@@ -26,6 +26,7 @@
             mode         : 'split',
             markdown     : false,
             autocomplete : true,
+            enablescripts: false,
             height       : 500,
             maxsplitsize : 1000,
             codemirror   : { mode: 'htmlmixed', lineWrapping: true, dragDrop: false, autoCloseTags: true, matchTags: true, autoCloseBrackets: true, matchBrackets: true, indentUnit: 4, indentWithTabs: false, tabSize: 4, hintOptions: {completionSingle:false} },
@@ -206,9 +207,9 @@
                     }
                 };
 
-                var result = callback(match, index);
+                var result = typeof(callback) === 'string' ? callback : callback(match, index);
 
-                if (!result) {
+                if (!result && result !== '') {
                     return arguments[0];
                 }
 
@@ -289,6 +290,10 @@
         render: function() {
 
             this.currentvalue = this.editor.getValue();
+
+            if (!this.options.enablescripts) {
+                this.currentvalue = this.currentvalue.replace(/<(script|style)\b[^<]*(?:(?!<\/(script|style)>)<[^<]*)*<\/(script|style)>/img, '');
+            }
 
             // empty code
             if (!this.currentvalue) {
@@ -443,36 +448,81 @@
             addAction('link', '<a href="http://">$1</a>');
             addAction('image', '<img src="http://" alt="$1">');
 
-            var listfn = function() {
+            var listfn = function(tag) {
                 if (editor.getCursorMode() == 'html') {
 
-                    var cm      = editor.editor,
-                        pos     = cm.getDoc().getCursor(true),
-                        posend  = cm.getDoc().getCursor(false);
+                    tag = tag || 'ul';
+
+                    var cm        = editor.editor,
+                        doc       = cm.getDoc(),
+                        pos       = doc.getCursor(true),
+                        posend    = doc.getCursor(false),
+                        im        = CodeMirror.innerMode(cm.getMode(), cm.getTokenAt(cm.getCursor()).state),
+                        inList    = im && im.state && im.state.context && ['ul','ol'].indexOf(im.state.context.tagName) != -1;
 
                     for (var i=pos.line; i<(posend.line+1);i++) {
                         cm.replaceRange('<li>'+cm.getLine(i)+'</li>', { line: i, ch: 0 }, { line: i, ch: cm.getLine(i).length });
                     }
 
-                    cm.setCursor({ line: posend.line, ch: cm.getLine(posend.line).length });
+                    if (!inList) {
+                        cm.replaceRange('<'+tag+'>'+"\n"+cm.getLine(pos.line), { line: pos.line, ch: 0 }, { line: pos.line, ch: cm.getLine(pos.line).length });
+                        cm.replaceRange(cm.getLine((posend.line+1))+"\n"+'</'+tag+'>', { line: (posend.line+1), ch: 0 }, { line: (posend.line+1), ch: cm.getLine((posend.line+1)).length });
+                        cm.setCursor({ line: posend.line+1, ch: cm.getLine(posend.line+1).length });
+                    } else {
+                        cm.setCursor({ line: posend.line, ch: cm.getLine(posend.line).length });
+                    }
+
                     cm.focus();
                 }
             };
 
             editor.on('action.listUl', function() {
-                listfn();
+                listfn('ul');
             });
 
             editor.on('action.listOl', function() {
-                listfn();
+                listfn('ol');
             });
 
             editor.htmleditor.on('click', 'a[data-htmleditor-button="fullscreen"]', function() {
+
                 editor.htmleditor.toggleClass('uk-htmleditor-fullscreen');
 
                 var wrap = editor.editor.getWrapperElement();
 
                 if (editor.htmleditor.hasClass('uk-htmleditor-fullscreen')) {
+
+                    var fixedParent = false, parents = editor.htmleditor.parents().each(function(){
+                        if (UI.$(this).css('position')=='fixed' && !UI.$(this).is('html')) {
+                            fixedParent = UI.$(this);
+                        }
+                    });
+
+                    editor.htmleditor.data('fixedParents', false);
+
+                    if (fixedParent) {
+
+                        var transformed = [];
+
+                        fixedParent = fixedParent.parent().find(parents).each(function(){
+
+                            if (UI.$(this).css('transform') != 'none') {
+                                transformed.push(UI.$(this).data('transform-reset', {
+                                    'transform': this.style.transform,
+                                    '-webkit-transform': this.style.webkitTransform,
+                                    '-webkit-transition':this.style.webkitTransition,
+                                    'transition':this.style.transition
+                                }).css({
+                                    'transform': 'none',
+                                    '-webkit-transform': 'none',
+                                    '-webkit-transition':'none',
+                                    'transition':'none'
+                                }));
+                            }
+                        });
+
+                        editor.htmleditor.data('fixedParents', transformed);
+                    }
 
                     editor.editor.state.fullScreenRestore = {scrollTop: window.pageYOffset, scrollLeft: window.pageXOffset, width: wrap.style.width, height: wrap.style.height};
                     wrap.style.width  = '';
@@ -485,6 +535,12 @@
                     var info = editor.editor.state.fullScreenRestore;
                     wrap.style.width = info.width; wrap.style.height = info.height;
                     window.scrollTo(info.scrollLeft, info.scrollTop);
+
+                    if (editor.htmleditor.data('fixedParents')) {
+                        editor.htmleditor.data('fixedParents').forEach(function(parent){
+                            parent.css(parent.data('transform-reset'));
+                        });
+                    }
                 }
 
                 setTimeout(function() {
@@ -510,7 +566,7 @@
 
         init: function(editor) {
 
-            var parser = editor.options.mdparser || marked || null;
+            var parser = editor.options.mdparser || window.marked || null;
 
             if (!parser) return;
 

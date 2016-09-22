@@ -115,7 +115,7 @@
      * Initializes globals.
      *
      * @private
-     * @function initBuic
+     * @function initGlobal
      * @memberof Bolt.app
      */
     function initGlobal() {

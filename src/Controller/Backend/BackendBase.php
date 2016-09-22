@@ -8,6 +8,7 @@ use Bolt\Events\AccessControlEvents;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -47,7 +48,7 @@ abstract class BackendBase extends Base
      * @param Application $app       The application/container
      * @param string      $roleRoute An overriding value for the route name in permission checks
      *
-     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Symfony\Component\HttpFoundation\JsonResponse
      */
     public function before(Request $request, Application $app, $roleRoute = null)
     {
@@ -97,6 +98,13 @@ abstract class BackendBase extends Base
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
         if ($authCookie === null || !$this->accessControl()->isValidSession($authCookie)) {
+            // Don't redirect on ajaxy requests (eg. when Saving a record), but send an error
+            // message with a `500` status code instead.
+            if ($request->isXmlHttpRequest()) {
+                $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')] ];
+                return new JsonResponse($response, 500);
+            }
+
             $app['logger.flash']->info(Trans::__('general.phrase.please-logon'));
 
             return $this->redirectToRoute('login');
