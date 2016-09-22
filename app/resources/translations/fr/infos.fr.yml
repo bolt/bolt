@@ -50,7 +50,7 @@ info:
     ___<em><strong>les deux</strong></em>___. Vous pouvez aussi utiliser des astérisques&nbsp;: Texte en *<em>italique</em>*,
     texte en **<strong>gras</strong>**.
     <p>Créer des <a href='#'>liens</a> de cette manière&nbsp;:<br>
-    Un [site génial](http://example.org/ &amp;quot;Titre du lien&amp;quot;)</p>
+    Un [site génial](http://example.org/ &quot;Titre du lien&quot;)</p>
     <p>&nbsp; * Ceci est une liste non ordonnée<br>
     &nbsp; * Elément 2</p>
     <p>&nbsp; 1 Ceci est une liste ordonnée<br>

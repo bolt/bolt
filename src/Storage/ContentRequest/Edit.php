@@ -140,7 +140,7 @@ class Edit
         $contextHas = [
             'incoming_relations' => count($incomingNotInverted) > 0,
             'relations'          => isset($contentType['relations']),
-            'tabs'               => $contentType['groups'] !== false,
+            'tabs'               => $contentType['groups'] !== [],
             'taxonomy'           => isset($contentType['taxonomy']),
             'templatefields'     => empty($templateFieldsData) ? false : true,
         ];
