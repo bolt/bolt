@@ -1,6 +1,8 @@
 {# file \Bolt\Filesystem\Handler\FileInterface #}
 
-<div class="stackitem stackitem-wide {{ file.type not in ['image', 'document'] ? 'other' : file.type }}">
+<div class="stackitem stackitem-wide {{ file.type not in ['image', 'document'] ? 'other' : file.type }}"
+     data-full-path="{{ file.fullPath }}"
+>
     <a href="{{ file.url }}" class="filebrowserCallbackLink">
         {% if file.image %}
             <img src="{{ file.path|thumbnail(100,100) }}" width="100" height="100">

@@ -56,13 +56,19 @@
                     $(element).addClass('disabled');
                 }
 
-                $(':bolt-buicStack').buicStack('prepend', data.panel, data.trimmed);
+                $(':bolt-buicStack').buicStack('prepend', data.panel, data.removed);
 
                 // Move to better spot? rarila?
-                if (data.trimmed) {
-                    $('.select-from-stack:last-child').remove();
+                if (data.removed) {
+                    $('.select-from-stack [data-full-path="' + data.removed + '"]').remove();
                 }
-                $('.select-from-stack').prepend(data.list);
+                // Prepend item to stacks (if type filter exists, only if it matches)
+                $('.select-from-stack').each(function () {
+                    var type = $(this).data('type');
+                    if (!type || data.type === type) {
+                        $(this).prepend(data.list);
+                    }
+                });
             })
             .fail(function () {
                 console.log('Failed to add file to stack');

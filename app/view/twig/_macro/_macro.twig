@@ -212,19 +212,9 @@
                     <span class="caret"></span>
                 </button>
 
-                <ul class="dropdown-menu select-from-stack">
+                <ul class="dropdown-menu select-from-stack" {% if type %}data-type="{{ type }}"{% endif %}>
                     {% for file in stack %}
-                        <li>
-                            <a href="#" data-path="{{ file.path }}">
-                                {{- file.filename }}
-                                <small>(
-                                    {{- file.sizeFormatted(true) -}}
-                                    {%- if file.image -%}
-                                        , {{ file.width }} × {{ file.height }} px
-                                    {%- endif -%}
-                                    )</small>
-                            </a>
-                        </li>
+                        {% include '@bolt/components/stack/list-item.twig' with {'file': file} only %}
                     {% endfor %}
                 </ul>
             </div>

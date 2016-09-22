@@ -71,12 +71,11 @@
          * Add a file item to the stack display.
          *
          * @param {string} stackItem - HTML of stack item.
-         * @param {number} trimmed - Whether the stack was trimmed when new file was added.
+         * @param {string|null} removed - The removed file path, if any.
          */
-        prepend: function (stackItem, trimmed) {
-            // Remove last item in list if stack was trimmed.
-            if (trimmed) {
-                this._ui.holder.children().last().remove();
+        prepend: function (stackItem, removed) {
+            if (removed) {
+                this._ui.holder.find('[data-full-path="' + removed + '"]').remove();
             }
 
             // If the "empty stack" notice was showing, remove it.

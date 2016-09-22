@@ -52,14 +52,13 @@ class Stack implements \Countable, \IteratorAggregate
     /**
      * Add a file to the stack.
      *
-     * @param FileInterface|string $filename
+     * @param FileInterface|string $filename The file to add.
+     * @param FileInterface|null   $removed  Returns the removed file, if one was removed.
      *
-     * @throws FileNotFoundException If filename cannot be matched to filesystem.
      * @throws FileNotStackableException If file is not stackable.
-     *
-     * @return FileInterface Returns the file added.
+     * @return FileInterface If filename cannot be matched to filesystem.
      */
-    public function add($filename)
+    public function add($filename, FileInterface &$removed = null)
     {
         $this->initialize();
 
@@ -71,7 +70,9 @@ class Stack implements \Countable, \IteratorAggregate
 
         array_unshift($this->files, $file);
 
-        $this->files = array_slice($this->files, 0, self::MAX_ITEMS);
+        if (count($this) > static::MAX_ITEMS) {
+            $removed = array_pop($this->files);
+        }
 
         $this->persist();
 
@@ -205,17 +206,6 @@ class Stack implements \Countable, \IteratorAggregate
         $this->initialize();
 
         return count($this->files);
-    }
-
-    /**
-     * Returns whether the stack is full, meaning files
-     * will be shifted off when new ones are added.
-     *
-     * @return bool
-     */
-    public function isAtCapacity()
-    {
-        return count($this) >= static::MAX_ITEMS;
     }
 
     /**

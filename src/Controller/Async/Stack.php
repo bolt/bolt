@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Async;
 
+use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Response\BoltResponse;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,16 +36,18 @@ class Stack extends AsyncBase
     {
         $stack = $this->app['stack'];
 
-        // Determine if stack will be trimmed (check before adding new item).
-        $trimmed = !$stack->isAtCapacity();
-
-        $file = $stack->add($filename);
+        /** @var FileInterface|null $removed */
+        $file = $stack->add($filename, $removed);
 
         $panel = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
         $list = $this->render('@bolt/components/stack/list-item.twig', ['file' => $file]);
 
+        $type = $file->getType();
+        $type = !in_array($type, ['image', 'document']) ? 'other' : $type;
+
         return $this->json([
-            'trimmed' => $trimmed,
+            'type' => $type,
+            'removed' => $removed ? $removed->getFullPath() : null,
             'panel'   => $panel->getContent(),
             'list'    => $list->getContent(),
         ]);

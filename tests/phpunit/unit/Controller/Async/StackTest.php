@@ -36,7 +36,7 @@ class StackTest extends ControllerUnitTest
         $this->assertTrue($response instanceof JsonResponse);
         $json = json_decode($response->getContent(), true);
 
-        $this->assertEquals(-1, $json['indexToRemove']);
+        $this->assertNull($json['removed']);
         $this->assertContains('<div class="stackitem', $json['panel']);
         $this->assertContains('<li', $json['list']);
     }

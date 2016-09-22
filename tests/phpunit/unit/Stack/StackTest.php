@@ -180,18 +180,6 @@ class StackTest extends BoltUnitTest
         $this->assertCount(7, $this->stack, 'Stack should be countable and match the count of files on stack');
     }
 
-    public function testIsAtCapacityWhenFull()
-    {
-        $this->assertTrue($this->stack->isAtCapacity(), 'Stack should be at capacity when files count equals max');
-    }
-
-    public function testIsNotAtCapacityWhenEmpty()
-    {
-        $this->session->set('stack', []);
-
-        $this->assertFalse($this->stack->isAtCapacity(), 'Stack should not be at capacity when files count is less than max');
-    }
-
     public function testIsStackable()
     {
         $this->assertFalse($this->stack->isStackable('files://a.jpg'), 'Files on stack should not be stackable');
@@ -247,12 +235,24 @@ class StackTest extends BoltUnitTest
                 'stack' => $expectedList,
             ]);
 
-        $file = $this->stack->add('h.txt');
+        $file = $this->stack->add('h.txt', $removed);
         $this->assertTrue($file instanceof FileInterface, 'File object should be returned from add method');
         $this->assertEquals('files://h.txt', $file->getFullPath(), 'File object should be returned from add method');
+        $this->assertTrue($removed instanceof FileInterface, 'Add method should set the removed parameter to the file object removed');
+        $this->assertEquals('theme://g.txt', $removed->getFullPath(), 'Removed file should be the last file on the stack before the new one was added');
 
         $this->assertFiles($this->stack->getList(), $expectedList, 'Adding new file should prepend it to the stack and remove the oldest file');
         $this->assertEquals($expectedList, $this->session->get('stack'), 'Adding a file to the stack should persist change to session');
+    }
+
+    public function testAddNewFileWithEmptyStack()
+    {
+        $this->session->set('stack', []);
+
+        $this->stack->add('a.jpg');
+        $this->stack->add('b.txt', $removed);
+
+        $this->assertNull($removed, 'Add methods removed parameter should be optional and null if no file was removed off stack');
     }
 
     public function testAddExistingFile()
