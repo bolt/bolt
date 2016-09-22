@@ -82,7 +82,18 @@
             // If the "empty stack" notice was showing, remove it.
             this._ui.holder.find('.empty').remove();
 
+            // Add new item
             this._ui.holder.prepend(stackItem);
+
+            // Initialize popover for new item
+            // Settings copied from init.popOvers. DRY up somehow?
+            this._ui.holder.find('.info-pop').popover({
+                trigger: 'hover',
+                delay: {
+                    show: 500,
+                    hide: 200
+                }
+            });
         }
     });
 })(jQuery, Bolt);
