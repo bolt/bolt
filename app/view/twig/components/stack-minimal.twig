@@ -4,14 +4,14 @@
 
 <fieldset class="buic-stack" data-bolt-widget="buicStack">
     <div class="stackholder">
-        {% for idx, item in context.stack if idx < 7 %}
-            <div class="stackitem stackitem-wide {{ item.type }}">
-                <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">
-                    {% if item.type == 'image' %}
-                        <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
+        {% for file in stack()[:context.count] %}
+            <div class="stackitem stackitem-wide {{ file.type not in ['image', 'document'] ? 'other' : file.type }}">
+                <a href="{{ file.url }}" class="filebrowserCallbackLink">
+                    {% if item.image %}
+                        <img src="{{ item.path|thumbnail(100,100) }}" width="100" height="100">
                     {% else %}
                         <strong>{{ item.extension|upper }}</strong>
-                        <small>{{ item.basename }}</small>
+                        <small>{{ item.filename }}</small>
                     {% endif %}
                 </a>
             </div>

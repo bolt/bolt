@@ -1,67 +1,288 @@
 <?php
 namespace Bolt\Tests\Stack;
 
+use Bolt\Exception\FileNotStackableException;
+use Bolt\Filesystem;
+use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Users;
+use League\Flysystem\Memory\MemoryAdapter;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 /**
  * Class to test src/Stack.
  *
- * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class StackTest extends BoltUnitTest
 {
-    public function testSetup()
+    /** @var Stack */
+    private $stack;
+    /** @var Filesystem\FilesystemInterface */
+    private $filesystem;
+    /** @var \Bolt\Users|\PHPUnit_Framework_MockObject_MockObject */
+    private $users;
+    /** @var SessionInterface */
+    private $session;
+    /** @var string[] */
+    private $acceptedFileTypes = ['twig', 'html', 'js', 'css', 'scss', 'gif', 'jpg', 'jpeg', 'png', 'ico', 'zip', 'tgz', 'txt', 'md', 'doc', 'docx', 'pdf', 'epub', 'xls', 'xlsx', 'ppt', 'pptx', 'mp3', 'ogg', 'wav', 'm4a', 'mp4', 'm4v', 'ogv', 'wmv', 'avi', 'webm', 'svg'];
+
+    protected function setUp()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
-        $app['users'] = $users;
-        $app['session']->set('stack', []);
-        $stack = new Stack($app);
-        $stack->add('mytestfile');
+        $this->users = $this->getMock(Users::class, ['getCurrentUser', 'saveUser'], [$app]);
+        $this->session = new Session(
+            new MockArraySessionStorage()
+        );
+        $this->filesystem = new Filesystem\Manager([
+            'files'  => new Filesystem\Filesystem(new MemoryAdapter()),
+            'theme'  => new Filesystem\Filesystem(new MemoryAdapter()),
+        ]);
 
-        $this->assertTrue($stack->isOnStack('mytestfile'));
+        $this->stack = new Stack(
+            $this->filesystem,
+            $this->users,
+            $this->session,
+            $this->acceptedFileTypes
+        );
 
-        $stack->delete('mytestfile');
-        $this->assertFalse($stack->isOnStack('mytestfile'));
+        $this->session->set('stack', [
+            'a.jpg',
+            'b.txt',
+            'files://c.txt',
+            'd.doc',
+            'e.mp3',
+            'theme://f.txt',
+            'g.txt',
+            'does_not_exist.txt',
+            'h.txt',
+        ]);
 
-        $this->assertFalse($stack->isStackable('mytestfile'));
-        $this->assertTrue($stack->isStackable('mytestfile.png'));
+        $this->createFiles([
+            'files://a.jpg',
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'files://e.mp3',
+            'theme://f.txt',
+            'theme://g.txt',
+            'files://h.txt',
+            'files://evil.exe',
+        ]);
     }
 
-    public function testDuplicates()
+    public function testContainsAndInitializeFromSession()
     {
-        $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
-        $app['users'] = $users;
-        $app['session']->set('stack', []);
-        $stack = new Stack($app);
-        $stack->add('mytestfile');
-        $stack->add('mytestfile');
-        $this->assertTrue($stack->isOnStack('mytestfile'));
+        $this->users->expects($this->never())
+            ->method('getCurrentUser');
+
+        $this->assertTrue($this->stack->contains('a.jpg'), 'Stack::contains should match file paths without mount points');
+        $this->assertTrue($this->stack->contains('g.txt'), 'Stack::contains should match file paths without mount points');
+        $this->assertTrue($this->stack->contains('files://a.jpg'), 'Stack::contains should match file paths with mount points');
+        $this->assertTrue($this->stack->contains('files://c.txt'), 'Stack should initialize file paths with mount points');
+        $file = $this->filesystem->getFile('files://a.jpg');
+        $this->assertTrue($this->stack->contains($file), 'Stack::contains should match file objects');
+        $this->assertTrue($this->stack->contains('files/a.jpg'), 'Stack should strip "files/" from start of path');
+
+        $this->assertFalse($this->stack->contains('does_not_exist.txt'), 'Stack should not contain nonexistent files');
+
+        $this->assertFalse($this->stack->contains('h.txt'), 'Stack should trim list to max items on initialize');
     }
 
-    public function testListFilter()
+    public function testInitializeFromDatabase()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('files', PHPUNIT_ROOT . '/resources/stack');
-        $app->initialize();
+        $this->session->remove('stack');
 
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
-        $app['users'] = $users;
-        $app['session']->set('stack', []);
-        $stack = new Stack($app);
+        $this->users->expects($this->once())
+            ->method('getCurrentUser')
+            ->willReturn([
+                'stack' => [
+                    'a.txt',
+                ],
+            ])
+        ;
+        $this->filesystem->put('files://a.txt', '');
 
-        $stack->add('files/testing.md');
-        $stack->add('files/testing.txt');
-        $stack->add('files/test.jpg');
-        $stack->add('files/test2.jpg');
+        $this->stack->getList();
 
-        $items = $stack->listItems(100, 'image');
-        $this->assertEquals(2, count($items));
+        $this->assertEquals(
+            ['files://a.txt'],
+            $this->session->get('stack'),
+            'Initializing stack from database should cache list in session'
+        );
+    }
 
-        $items = $stack->listItems(100, 'document');
-        $this->assertEquals(2, count($items));
+    public function testList()
+    {
+        $files = $this->stack->getList();
+
+        $this->assertCount(7, $files);
+        $this->assertTrue($files[0] instanceof FileInterface, 'Should be a list of file objects');
+
+        $this->assertFiles($files, [
+            'files://a.jpg',
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'files://e.mp3',
+            'theme://f.txt',
+            'theme://g.txt',
+        ]);
+
+        $this->assertFiles($this->stack->getList(['image']), [
+            'files://a.jpg'
+        ], 'List should only contain image files');
+
+        $this->assertFiles($this->stack->getList(['document']), [
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'theme://f.txt',
+            'theme://g.txt',
+        ], 'List should only contain document files');
+
+        $this->assertFiles($this->stack->getList(['other']), [
+            'files://e.mp3',
+        ], 'List should only contain non image and document files');
+
+        $this->assertFiles($this->stack->getList(['image', 'document']), [
+            'files://a.jpg',
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'theme://f.txt',
+            'theme://g.txt',
+        ], 'List should contain only image and document files');
+    }
+
+    public function testIterable()
+    {
+        $this->assertTrue($this->stack instanceof \Traversable, 'Stack should be traversable');
+
+        $files = iterator_to_array($this->stack, false);
+        $this->assertFiles($files, [
+            'files://a.jpg',
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'files://e.mp3',
+            'theme://f.txt',
+            'theme://g.txt',
+        ], 'Iterating over Stack should yield all of the files on the stack');
+    }
+
+    public function testCountable()
+    {
+        $this->assertCount(7, $this->stack, 'Stack should be countable and match the count of files on stack');
+    }
+
+    public function testIsAtCapacityWhenFull()
+    {
+        $this->assertTrue($this->stack->isAtCapacity(), 'Stack should be at capacity when files count equals max');
+    }
+
+    public function testIsNotAtCapacityWhenEmpty()
+    {
+        $this->session->set('stack', []);
+
+        $this->assertFalse($this->stack->isAtCapacity(), 'Stack should not be at capacity when files count is less than max');
+    }
+
+    public function testIsStackable()
+    {
+        $this->assertFalse($this->stack->isStackable('files://a.jpg'), 'Files on stack should not be stackable');
+        $this->assertFalse($this->stack->isStackable('files://non_existent_file.txt'), 'Non existent files should not be stackable');
+        $this->assertFalse($this->stack->isStackable('files://evil.exe'), 'Unaccepted file extensions should not be stackable');
+    }
+
+    public function testDelete()
+    {
+        $count = count($this->stack);
+
+        $this->stack->delete('non_existent_file');
+        $this->assertEquals($count, count($this->stack), 'Deleting a non existent file should do nothing');
+
+        $this->stack->delete('files://h.txt');
+        $this->assertEquals($count, count($this->stack), 'Deleting a file not on the stack should do nothing');
+
+        $expectedList = [
+            'files://a.jpg',
+            'files://c.txt',
+            'files://d.doc',
+            'files://e.mp3',
+            'theme://f.txt',
+            'theme://g.txt',
+        ];
+
+        $this->users->expects($this->once())
+            ->method('saveUser')
+            ->with([
+                'stack' => $expectedList,
+            ]);
+
+        $this->stack->delete('files://b.txt');
+        $this->assertFiles($this->stack->getList(), $expectedList, 'Deleting a file on the stack should remove it');
+        $this->assertEquals($expectedList, $this->session->get('stack'), 'Deleting a file on the stack should persist removal to session');
+    }
+
+    public function testAddNewFile()
+    {
+        $expectedList = [
+            'files://h.txt',
+            'files://a.jpg',
+            'files://b.txt',
+            'files://c.txt',
+            'files://d.doc',
+            'files://e.mp3',
+            'theme://f.txt',
+        ];
+
+        $this->users->expects($this->once())
+            ->method('saveUser')
+            ->with([
+                'stack' => $expectedList,
+            ]);
+
+        $file = $this->stack->add('h.txt');
+        $this->assertTrue($file instanceof FileInterface, 'File object should be returned from add method');
+        $this->assertEquals('files://h.txt', $file->getFullPath(), 'File object should be returned from add method');
+
+        $this->assertFiles($this->stack->getList(), $expectedList, 'Adding new file should prepend it to the stack and remove the oldest file');
+        $this->assertEquals($expectedList, $this->session->get('stack'), 'Adding a file to the stack should persist change to session');
+    }
+
+    public function testAddExistingFile()
+    {
+        $this->setExpectedException(FileNotStackableException::class);
+        $this->stack->add('d.doc');
+    }
+
+    public function testAddUnacceptableFile()
+    {
+        $this->setExpectedException(FileNotStackableException::class);
+        $this->stack->add('evil.exe');
+    }
+
+    public function testAddNonExistentFile()
+    {
+        $this->setExpectedException(FileNotFoundException::class);
+        $this->stack->add('non_existent_file');
+    }
+
+    protected function createFiles(array $paths)
+    {
+        foreach ($paths as $path) {
+            $this->filesystem->put($path, '');
+        }
+    }
+
+    protected function assertFiles(array $files, array $expected, $message = '')
+    {
+        $paths = array_map(function(FileInterface $file) { return $file->getFullPath(); }, $files);
+        $this->assertEquals($expected, $paths, $message);
     }
 }

@@ -169,8 +169,6 @@
 {% macro upload_buttons(type, attr_upload, uploadpath, canUpload, multi) %}
     {% from _self import attr %}
 
-    {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-
     <div class="button-wrap fileselectbuttongroup">
 
         {# Button: Upload #}
@@ -203,8 +201,10 @@
         } %}
         <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}</button>
 
+        {% set stack = stack((type == 'image') ?  'image' : 'other, document') %}
+
         {# Button: Select from Stack #}
-        {% if not app.config.get('general/backend/stack/disable', false) and items %}
+        {% if not app.config.get('general/backend/stack/disable', false) and stack %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>
@@ -213,10 +213,17 @@
                 </button>
 
                 <ul class="dropdown-menu select-from-stack">
-                    {% for item in items %}
-                        {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
+                    {% for file in stack %}
                         <li>
-                            <a href="#" data-path="{{ item.filepath }}">{{ item.basename }} <small>({{ info }})</small></a>
+                            <a href="#" data-path="{{ file.path }}">
+                                {{- file.filename }}
+                                <small>(
+                                    {{- file.sizeFormatted(true) -}}
+                                    {%- if file.image -%}
+                                        , {{ file.width }} × {{ file.height }} px
+                                    {%- endif -%}
+                                    )</small>
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>

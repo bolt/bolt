@@ -81,8 +81,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('redirect',           [$this, 'redirect'],    $safe),
             new \Twig_SimpleFunction('request',            [$this, 'request']),
             new \Twig_SimpleFunction('showimage',          [$this, 'showImage'],   $safe),
-            new \Twig_SimpleFunction('stacked',            [$this, 'stacked']),
-            new \Twig_SimpleFunction('stackitems',         [$this, 'stackItems']),
+            new \Twig_SimpleFunction('stack',              [$this, 'stack']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
@@ -135,6 +134,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     {
         return [
             new \Twig_SimpleTest('json', [$this, 'testJson']),
+            new \Twig_SimpleTest('stackable', [$this, 'testStackable']),
         ];
     }
 
@@ -529,19 +529,19 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\AdminHandler::stacked()
+     * @see \Bolt\Twig\Handler\AdminHandler::testStackable()
      */
-    public function stacked($filename)
+    public function testStackable($filename)
     {
-        return $this->handlers['admin']->stacked($filename);
+        return $this->handlers['admin']->testStackable($filename);
     }
 
     /**
      * @see \Bolt\Twig\Handler\AdminHandler::stackItems()
      */
-    public function stackItems($amount = 20, $type = '')
+    public function stack($types = [])
     {
-        return $this->handlers['admin']->stackItems($amount, $type);
+        return $this->handlers['admin']->stack($types);
     }
 
     /**

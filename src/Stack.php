@@ -2,120 +2,126 @@
 
 namespace Bolt;
 
-use Bolt\Library as Lib;
-use Bolt\Translation\Translator as Trans;
-use Silex;
-use utilphp\util;
+use Bolt\Exception\FileNotStackableException;
+use Bolt\Filesystem\AggregateFilesystemInterface;
+use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\FileInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
- * Simple stack implementation for remembering "10 last items".
- *
- * Each user (by design) has their own stack. No sharesies!
+ * Stack for remembering the most recently used files for the current user.
  *
  * @author Bob den Otter, bob@twokings.nl
+ * @author Carson Full <carsonfull@gmail.com>
  */
-class Stack
+class Stack implements \Countable, \IteratorAggregate
 {
-    const MAX_ITEMS = 10;
+    const MAX_ITEMS = 7;
 
+    /** @var FilesystemInterface */
+    private $filesystem;
+    /** @var Users */
+    private $users;
+    /** @var SessionInterface */
+    private $session;
+    /** @var string[] */
+    private $acceptedFileTypes;
+
+    /** @var FileInterface[] */
+    private $files;
     /** @var boolean */
-    protected $initalized;
-    /** @var array */
-    private $items;
-    /** @var array */
-    private $imageTypes = ['jpg', 'jpeg', 'png', 'gif'];
-    /** @var array */
-    private $documentTypes = ['doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'];
-    /** @var \Silex\Application */
-    private $app;
+    private $initialized;
 
     /**
      * Constructor.
      *
-     * @param Silex\Application $app
+     * @param FilesystemInterface $filesystem
+     * @param Users               $users
+     * @param SessionInterface    $session
+     * @param string[]            $acceptedFileTypes
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(FilesystemInterface $filesystem, Users $users, SessionInterface $session, $acceptedFileTypes)
     {
-        $this->app = $app;
-    }
-
-    public function initialize()
-    {
-        if ($this->initalized) {
-            return;
-        }
-
-        if ($this->app['session']->isStarted() && $this->app['session']->get('stack') !== null) {
-            $this->items = $this->app['session']->get('stack');
-        } else {
-            $currentuser = $this->app['users']->getCurrentUser();
-            $this->items = $currentuser['stack'];
-            $this->app['session']->set('stack', $currentuser['stack']);
-        }
-
-        // intersect the allowed types with the types set
-        $confTypes = $this->app['config']->get('general/accept_file_types', []);
-        $this->imageTypes = array_intersect($this->imageTypes, $confTypes);
-        $this->documentTypes = array_intersect($this->documentTypes, $confTypes);
-
-        $this->initalized = true;
+        $this->filesystem = $filesystem;
+        $this->users = $users;
+        $this->session = $session;
+        $this->acceptedFileTypes = $acceptedFileTypes;
     }
 
     /**
-     * Add a certain item to the stack.
+     * Add a file to the stack.
      *
-     * @param string $filename
+     * @param FileInterface|string $filename
      *
-     * @return boolean
+     * @throws FileNotFoundException If filename cannot be matched to filesystem.
+     * @throws FileNotStackableException If file is not stackable.
+     *
+     * @return FileInterface Returns the file added.
      */
     public function add($filename)
     {
         $this->initialize();
 
-        // If the item is already on the stack, delete it, so it can be added to the front.
-        if (in_array($filename, $this->items)) {
-            $this->delete($filename);
+        $file = $this->getFile($filename);
+
+        if (!$this->isStackable($file)) {
+            throw new FileNotStackableException($file);
         }
 
-        array_unshift($this->items, $filename);
+        array_unshift($this->files, $file);
+
+        $this->files = array_slice($this->files, 0, self::MAX_ITEMS);
+
         $this->persist();
 
-        return true;
+        return $file;
     }
 
     /**
-     * Delete an item from the stack.
+     * Delete a file from the stack.
      *
-     * @param string $filename
+     * @param FileInterface|string $filename
      */
     public function delete($filename)
     {
         $this->initialize();
 
-        foreach ($this->items as $key => $item) {
-            if ($item == $filename) {
-                unset($this->items[$key]);
+        try {
+            $file = $this->getFile($filename);
+        } catch (FileNotFoundException $e) {
+            return;
+        }
+
+        foreach ($this->files as $key => $item) {
+            if ($item->getFullPath() === $file->getFullPath()) {
+                unset($this->files[$key]);
+                $this->files = array_values($this->files); // normalize indexes
                 $this->persist();
+                break;
             }
         }
     }
 
     /**
-     * Check if a given filename is present on the stack.
+     * Check if a given file is present on the stack.
      *
-     * @param string $filename
+     * @param FileInterface|string $filename
      *
-     * @return boolean
+     * @return bool
      */
-    public function isOnStack($filename)
+    public function contains($filename)
     {
         $this->initialize();
 
-        // We don't always need the "files/" part in the filename.
-        $shortname = str_replace('files/', '', $filename);
+        try {
+            $file = $this->getFile($filename);
+        } catch (FileNotFoundException $e) {
+            return false;
+        }
 
-        foreach ($this->items as $item) {
-            if ($item == $filename || $item == $shortname) {
+        foreach ($this->files as $item) {
+            if ($item->getFullPath() === $file->getFullPath()) {
                 return true;
             }
         }
@@ -124,135 +130,218 @@ class Stack
     }
 
     /**
-     * Check if a given filename is stackable.
+     * Check if a given file can be added to the stack.
      *
-     * @param string $filename
+     * Requirements:
+     * - File's extension is accepted
+     * - File can be matched to filesystem
+     * - File is not currently on the stack
+     *
+     * @param FileInterface|string $filename
      *
      * @return boolean
      */
     public function isStackable($filename)
     {
-        $ext = Lib::getExtension($filename);
+        try {
+            $file = $this->getFile($filename);
+        } catch (FileNotFoundException $e) {
+            return false;
+        }
 
-        return in_array($ext, $this->getFileTypes());
+        if (!in_array($file->getExtension(), $this->acceptedFileTypes)) {
+            return false;
+        }
+
+        return !$this->contains($file);
     }
 
     /**
-     * Return a list with the current stacked items. Add some relevant info to each item,
-     * and also check if the item is present and readable.
+     * Returns the list of files in the stack, filtered by type (if given).
      *
-     * @param integer $count
-     * @param string  $typefilter
+     * @param string[] $types Filter files by type. Valid types: "image", "document", "other"
      *
-     * @return array
+     * @return FileInterface[]
      */
-    public function listitems($count = 100, $typefilter = '')
+    public function getList(array $types = [])
     {
         $this->initialize();
 
-        // Make sure typefilter is an array, if passed something like "image, document"
-        if (!empty($typefilter)) {
-            $typefilter = array_map('trim', explode(',', $typefilter));
+        if (empty($types)) {
+            return $this->files;
         }
 
-        // Our basepaths for all files that can be on the stack: 'files' and 'theme'.
-        $filespath = $this->app['resources']->getPath('filespath');
-        $themepath = $this->app['resources']->getPath('themebasepath');
-
-        $items = $this->items;
-        $list = [];
-
-        foreach ($items as $item) {
-            $extension = strtolower(Lib::getExtension($item));
-            if (in_array($extension, $this->imageTypes)) {
-                $type = 'image';
-            } elseif (in_array($extension, $this->documentTypes)) {
-                $type = 'document';
-            } else {
-                $type = 'other';
+        $images = in_array('image', $types);
+        $docs = in_array('document', $types);
+        $other = in_array('other', $types);
+        $files = array_filter($this->files, function (FileInterface $file) use ($images, $docs, $other) {
+            switch ($file->getType()) {
+                case 'image':
+                    return $images;
+                case 'document':
+                    return $docs;
+                default:
+                    return $other;
             }
+        });
+        $files = array_values($files); // normalize indexes
 
-            // Skip this one, if it doesn't match the type.
-            if (!empty($typefilter) && (!in_array($type, $typefilter))) {
-                continue;
-            }
+        return $files;
+    }
 
-            // Figure out the full path, based on the two possible locations.
-            $fullpath = '';
-            if (is_readable(str_replace('files/files/', 'files/', $filespath . '/' . $item))) {
-                $fullpath = str_replace('files/files/', 'files/', $filespath . '/' . $item);
-            } elseif (is_readable($themepath . '/' . $item)) {
-                $fullpath = $themepath . '/' . $item;
-            }
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->getList());
+    }
 
-            // No dice! skip this one.
-            if (empty($fullpath)) {
-                continue;
-            }
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        $this->initialize();
 
-            $thisitem = [
-                'basename'    => basename($item),
-                'extension'   => $extension,
-                'filepath'    => str_replace('files/', '', $item),
-                'type'        => $type,
-                'writable'    => is_writable($fullpath),
-                'readable'    => is_readable($fullpath),
-                'filesize'    => Lib::formatFilesize(filesize($fullpath)),
-                'modified'    => date('Y/m/d H:i:s', filemtime($fullpath)),
-                'permissions' => util::full_permissions($fullpath),
-            ];
+        return count($this->files);
+    }
 
-            $thisitem['info'] = sprintf(
-                '%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>',
-                Trans::__('general.phrase.path'),
-                $thisitem['filepath'],
-                Trans::__('general.phrase.file-size'),
-                $thisitem['filesize'],
-                Trans::__('general.phrase.modified'),
-                $thisitem['modified'],
-                Trans::__('general.phrase.permissions'),
-                $thisitem['permissions']
-            );
+    /**
+     * Returns whether the stack is full, meaning files
+     * will be shifted off when new ones are added.
+     *
+     * @return bool
+     */
+    public function isAtCapacity()
+    {
+        return count($this) >= static::MAX_ITEMS;
+    }
 
-            if ($type == 'image') {
-                $size = getimagesize($fullpath);
-                $thisitem['imagesize'] = sprintf('%s × %s', $size[0], $size[1]);
-                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('general.phrase.size'), $size[0], $size[1]);
-            }
-
-            //add it to our list.
-            $list[] = $thisitem;
+    /**
+     * Initialize file list for current user, either from session or database.
+     */
+    private function initialize()
+    {
+        if ($this->initialized) {
+            return;
         }
 
-        $list = array_slice($list, 0, $count);
+        if ($this->session->isStarted() && $this->session->get('stack') !== null) {
+            $paths = $this->session->get('stack');
+            $this->files = $this->hydrateList($paths);
+        } else {
+            $paths = $this->users->getCurrentUser()['stack'];
+            $this->files = $this->hydrateList($paths);
+            $this->session->set('stack', $this->persistableList());
+        }
 
-        return $list;
+        $this->initialized = true;
     }
 
     /**
      * Persist the contents of the current stack to the session, as well as the database.
      */
-    public function persist()
+    private function persist()
     {
-        $this->initialize();
+        $items = $this->persistableList();
 
-        $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
+        $this->session->set('stack', $items);
 
-        $this->app['session']->set('stack', $this->items);
-
-        $currentuser = $this->app['users']->getCurrentUser();
-        $currentuser['stack'] = $this->items;
-
-        $this->app['users']->saveUser($currentuser);
+        $user = $this->users->getCurrentUser();
+        $user['stack'] = $items;
+        $this->users->saveUser($user);
     }
 
     /**
-     * Get the allowed filetypes.
+     * Converts a list of paths to file objects.
      *
-     * @return array
+     * @param string[] $paths
+     *
+     * @return FileInterface[]
      */
-    public function getFileTypes()
+    private function hydrateList($paths)
     {
-        return array_merge($this->imageTypes, $this->documentTypes);
+        $files = array_filter(array_map(function($path) {
+            try {
+                return $this->getFile($path);
+            } catch (FileNotFoundException $e) {
+                // Guess it doesn't exist anymore or we can't find it, remove from list.
+                return null;
+            }
+        }, $paths));
+
+        $files = array_slice($files, 0, self::MAX_ITEMS);
+
+        return $files;
+    }
+
+    /**
+     * Returns the list of files as full paths.
+     *
+     * @return string[]
+     */
+    private function persistableList()
+    {
+        return array_map(function (FileInterface $file) {
+            return $file->getFullPath();
+        }, $this->files);
+    }
+
+    /**
+     * Gets the file object for the path given. Paths with the mount point included are
+     * preferred, but are not required for BC. If the mount point is not included a list
+     * of filesystems are checked and chosen if the file exists in that filesystem.
+     *
+     * @param FileInterface|string $path
+     *
+     * @return FileInterface
+     */
+    private function getFile($path)
+    {
+        if ($path instanceof FileInterface) {
+            return $path;
+        }
+
+        if (!$this->filesystem instanceof AggregateFilesystemInterface || $this->containsMountPoint($path)) {
+            $file = $this->filesystem->getFile($path);
+            if (!$file->exists()) {
+                throw new FileNotFoundException($path);
+            }
+
+            return $file;
+        }
+
+        // Trim "files/" from front of path for BC.
+        if (strpos($path, 'files/') === 0) {
+            $path = substr($path, 6);
+        }
+
+        foreach (['files', 'themes', 'theme'] as $mountPoint) {
+            if (!$this->filesystem->hasFilesystem($mountPoint)) {
+                continue;
+            }
+
+            $file = $this->filesystem->getFile("$mountPoint://$path");
+            if ($file->exists()) {
+                return $file;
+            }
+        }
+
+        throw new FileNotFoundException($path);
+    }
+
+    /**
+     * Change if a path contains a mount point.
+     *
+     * Ex: files://foo.jpg
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    private function containsMountPoint($path)
+    {
+        return (bool) preg_match('#^.+\:\/\/.*#', $path);
     }
 }
