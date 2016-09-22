@@ -20,7 +20,7 @@ info:
     ___<em> <strong> är både </strong></em> ___. Du kan också använda asterisker: This *<em>är kursiv</em> *
     Detta ** <strong>är fetstil</strong> **.
     <p> Skapa <a href='#'> länkar </a> så här: <br>
-    En [spännande webbplats](http://example.org/ &amp;quot;länktitel&amp;quot;) </p>
+    En [spännande webbplats](http://example.org/ &quot;länktitel&quot;) </p>
     <p> &nbsp; * Detta är en onumrerad lista <br>
     &nbsp; * Punkt 2 </p>
     <p>&nbsp; 1 Detta är en numrerad lista<br>

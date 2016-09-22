@@ -29,7 +29,7 @@ info:
     video: |
       Használja ezt a mezőt video beágyazásához az oldalon. Csak másolja ki és illessze be ide a video URL-jét
       a Youtube-ról, Vimeo-ról vagy a legismertebb videómegosztó oldalak egyikéről.<br>
-      Automatikusan le lesznek töltve a megfelelő &amp;lt;embed&amp;gt; kód a helyes szélességgel és magassággal, valamint
+      Automatikusan le lesznek töltve a megfelelő &lt;embed&gt; kód a helyes szélességgel és magassággal, valamint
       az eredeti címmel. Ha a szélességet vagy a magasságot módosítja, akkor a másik automatikusan hozzá lesz igazítva, hogy
       tartsa a megfelelő képarányt.
   geolocation: |
@@ -44,14 +44,14 @@ info:
     <p>A markdown segítségével könnyen olvasható és írható egyszerű szöveg segítségével írhat bejegyzéseket, amelyek
     aztán érvényes HTML kóddá lesznek alakítva.</p>
     <p><strong>Gyors refernciák:</strong><br>
-    # Ez egy &amp;lt;h1&amp;gt; tag<br>
-    ## Ez egy &amp;lt;h2&amp;gt; tag<br>
-    ###### Ez egy &amp;lt;h6&amp;gt; tag</p>
+    # Ez egy &lt;h1&gt; tag<br>
+    ## Ez egy &lt;h2&gt; tag<br>
+    ###### Ez egy &lt;h6&gt; tag</p>
     <p>Ez _<em>dőlt</em>_, ez __<strong>félkövér</strong>__, ez pedig
     ___<em><strong>mindkettő</strong></em>___. Csillagokat is használhat: Ez *<em>dőlt</em>*,
     ez **<strong>félkövér</strong>**.
     <p>Így hozhat létre <a href='#'>linkeket</a>:<br>
-    Egy [érdekes weboldal](http://example.org/ &amp;quot;A link címe&amp;quot;)</p>
+    Egy [érdekes weboldal](http://example.org/ &quot;A link címe&quot;)</p>
     <p>&nbsp; * Ez egy lista<br>
     &nbsp; * 2-ik elem</p>
     <p>&nbsp; 1 Ez egy számozott lista<br>
