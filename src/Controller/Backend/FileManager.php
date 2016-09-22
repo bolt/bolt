@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Exception\FileNotStackableException;
 use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
@@ -321,7 +322,12 @@ class FileManager extends BackendBase
             );
 
             // Add the file to our stack.
-            $this->app['stack']->add($path . '/' . $filename);
+            try {
+                $this->app['stack']->add(sprintf('%s://%s/%s', $namespace, $path, $filename));
+            } catch (FileNotStackableException $e) {
+                // Doesn't matter. Just trying to help the user.
+            }
+
             $result->confirm();
         } else {
             foreach ($result->getMessages() as $message) {
