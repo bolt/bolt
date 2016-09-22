@@ -36,6 +36,12 @@
     // Modal header
     .modal-header {
         padding: $header-vpadding 15px;
+
+        // Fix text getting bottom chopped off
+        // Increase line height and shrink margin to half to compensate
+        line-height: inherit;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     // Modal footer
