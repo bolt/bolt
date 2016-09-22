@@ -29,7 +29,7 @@
         required:        option.required,
         title:           option.title,
         type:            (option.pattern in ['url', 'email']) ? option.pattern : 'text',
-        value:           context.content.get(contentkey)|default(field.default)|default(''),
+        value:           context.content.get(contentkey)|default(''),
     }
 } %}
 
