@@ -201,7 +201,7 @@
         } %}
         <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}</button>
 
-        {% set stack = stack((type == 'image') ?  'image' : 'other, document') %}
+        {% set stack = stack(type) %}
 
         {# Button: Select from Stack #}
         {% if not app.config.get('general/backend/stack/disable', false) and stack %}
