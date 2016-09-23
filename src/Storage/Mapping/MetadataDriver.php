@@ -195,13 +195,13 @@ class MetadataDriver implements MappingDriver
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
 
-            if (isset($this->contenttypes[$contentKey]['fields'][$colName])) {
+            if (isset($this->contenttypes[$contentKey]) && isset($this->contenttypes[$contentKey]['fields'][$colName])) {
                 $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
             }
         }
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
-        if ($contentKey) {
+        if ($contentKey && isset($this->contenttypes[$contentKey])) {
             $this->setRelations($contentKey, $className, $table);
             $this->setIncomingRelations($contentKey, $className);
             $this->setTaxonomies($contentKey, $className, $table);
@@ -466,10 +466,10 @@ class MetadataDriver implements MappingDriver
             $column = $column->getName();
         }
         if ($field !== null) {
-            if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
+            if (isset($this->contenttypes[$name]) && isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
                 $type = $this->contenttypes[$name]['fields'][$column]['fields'][$field]['type'];
             }
-        } elseif (isset($this->contenttypes[$name]['fields'][$column])) {
+        } elseif (isset($this->contenttypes[$name]) && isset($this->contenttypes[$name]['fields'][$column])) {
             $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
 
