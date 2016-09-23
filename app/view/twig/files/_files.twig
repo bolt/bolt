@@ -29,7 +29,7 @@
 
                         <i class="fa fa-fw fa-file-code-o"></i>
 
-                        <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.path}) }}">
+                        <a href="{{ path('fileedit', {'namespace': file.mountPoint, 'file': file.path}) }}">
                             <b>{{ file.filename|excerpt(80)|shy }}</b>
                         </a>
 
@@ -83,20 +83,20 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="Bolt.files.renameFile('{{ context.namespace }}', '{{ file.path }}', '{{ file.filename }}', this);">
+                                       data-action="Bolt.files.renameFile('{{ file.mountPoint }}', '{{ file.dirname }}', '{{ file.filename }}', this);">
 
                                         <i class="fa fa-keyboard-o"></i>
                                         {{ __('general.phrase.rename-foldername', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.deleteFile('{{ context.namespace }}', '{{ file.path }}', this);">
+                                    <a href="#" data-action="Bolt.files.deleteFile('{{ file.mountPoint }}', '{{ file.path }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('general.phrase.delete-file-name', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.path }}')">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('general.phrase.duplicate-file-name', {'%filename%': file.filename }) }}
                                     </a>

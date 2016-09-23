@@ -122,9 +122,10 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            $this->filesystem()->createDir("$namespace://$parentPath$folderName");
+            $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
+            $dir->create();
 
-            return $this->json("$parentPath$folderName", Response::HTTP_OK);
+            return $this->json($dir->getPath(), Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
             $this->logException($msg, $e);
@@ -147,9 +148,10 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
+            $file = $this->filesystem()->getFile("$namespace://$parentPath/$filename");
+            $file->put('');
 
-            return $this->json("$parentPath/$filename", Response::HTTP_OK);
+            return $this->json($file->getPath(), Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
             $this->logException($msg, $e);
@@ -199,21 +201,20 @@ class FilesystemManager extends AsyncBase
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
-        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that$fileBase will
+        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that $fileBase will
         // contain the entire filename. This also accounts for dotfiles.
         $extensionPos = strrpos($filename, '.') ?: strlen($filename);
 
         $fileBase = substr($filename, 0, $extensionPos) . '_copy';
         $fileExtension = substr($filename, $extensionPos);
 
-        $n = 1;
+        $n = 0;
 
         // Increase $n until filename_copy$n.ext doesn't exist
-        while ($filesystem->has($fileBase . $n . $fileExtension)) {
+        do {
             $n++;
-        }
-
-        $destination = $fileBase . $n . $fileExtension;
+            $destination = $fileBase . $n . $fileExtension;
+        } while ($filesystem->has($destination));
 
         try {
             $filesystem->copy($filename, $destination);

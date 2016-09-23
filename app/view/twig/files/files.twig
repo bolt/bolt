@@ -25,7 +25,7 @@
     <div class="row file-manager">
         <div class="col-xs-12">
 
-            {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
+            {{ files_path(context.directory) }}
 
             {{ widgets('files_below_header', 'backend') }}
 
@@ -40,15 +40,15 @@
             {% if context.form != false %}
                 <p>
                     <a href="#" class="btn btn-default"
-                       data-action="Bolt.files.createFolder('{{ context.namespace }}',
-                                                                '{{ context.pathsegments|keys|last }}',
+                       data-action="Bolt.files.createFolder('{{ context.directory.mountPoint }}',
+                                                                '{{ context.directory.path }}',
                                                                 this);">
                         <i class="fa fa-fw fa-plus"></i>
                         {{ __('page.file-management.label.create-folder') }}
                     </a>
                     <a href="#" class="btn btn-default"
-                       data-action="Bolt.files.createFile('{{ context.namespace }}',
-                                                            '{{ context.pathsegments|keys|last }}',
+                       data-action="Bolt.files.createFile('{{ context.directory.mountPoint }}',
+                                                            '{{ context.directory.path }}',
                                                             this);">
                         <i class="fa fa-fw fa-plus"></i>
                         {{ __('page.file-management.label.create-file') }}

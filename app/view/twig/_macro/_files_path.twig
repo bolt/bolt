@@ -1,15 +1,15 @@
-{% macro files_path(pathsegments, namespace, pathoptions) %}
+{% macro files_path(directory, pathoptions) -%}
+    {# directory \Bolt\Filesystem\Handler\DirectoryInterface #}
+    {%- set pathoptions = pathoptions|default({})|merge({'namespace': directory.mountPoint}) -%}
     <h3>
-        <a href="{{ path('files', pathoptions) }}" style="font-weight: inherit">{{ namespace }}</a>://
-
-        {%- for path, segment in pathsegments -%}
-            {{- loop.first ? '' : '/' -}}
-            {%- set pathoptions = pathoptions|merge({'path': path, 'namespace': namespace}) -%}
-            {%- if loop.last -%}
-                {{- segment -}}
+        {%- for dir in directory.parents|reverse|merge([directory]) -%}
+            {# dir \Bolt\Filesystem\Handler\DirectoryInterface #}
+            {%- if not loop.last or loop.first -%}
+                <a href="{{ path('files', pathoptions|merge({'path': dir.path})) }}" style="font-weight: inherit">{{ dir.filename ?: dir.mountPoint }}</a>
+                {{- loop.first ? '://' : '/' -}}
             {%- else -%}
-                <a href="{{ path('files', pathoptions) }}" style="font-weight: inherit">{{ segment }}</a>
-            {%- endif -%}
+                {{- dir.filename ?: dir.mountPoint -}}
+            {% endif %}
         {%- endfor -%}
     </h3>
-{% endmacro %}
+{%- endmacro %}

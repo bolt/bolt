@@ -60,6 +60,26 @@ class Str
     }
 
     /**
+     * Replace only the last occurrence of the $search text on the $subject.
+     *
+     * @param string $search
+     * @param string $replace
+     * @param string $subject
+     * @param bool   $caseSensitive
+     *
+     * @return string
+     */
+    public static function replaceLast($search, $replace, $subject, $caseSensitive = true)
+    {
+        $pos = $caseSensitive ? strrpos($subject, $search) : strripos($subject, $search);
+        if ($pos !== false) {
+            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        }
+
+        return $subject;
+    }
+
+    /**
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes. Only breaks in long (> 19 chars) words.
      *
@@ -78,5 +98,23 @@ class Str
         }
 
         return $str;
+    }
+
+    /**
+     * Returns whether the subjects ends with the search string.
+     *
+     * @param string $subject
+     * @param string $search
+     * @param bool   $caseSensitive
+     *
+     * @return bool
+     */
+    public static function endsWith($subject, $search, $caseSensitive = true)
+    {
+        if ($caseSensitive) {
+            $subject = strtolower($subject);
+            $search = strtolower($search);
+        }
+        return $search === '' || substr($subject, -strlen($search)) === $search;
     }
 }
