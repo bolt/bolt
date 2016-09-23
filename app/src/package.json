@@ -43,8 +43,7 @@
         "napa": "~2.3.0",
         "node-sass": "~3.10.0",
         "postcss-single-charset": "~1.0.0",
-        "request": "~2.75.0",
-        "select2": "~4.0.3"
+        "request": "~2.75.0"
     },
     "scripts": {
         "start": "grunt",
