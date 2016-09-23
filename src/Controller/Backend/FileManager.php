@@ -148,7 +148,7 @@ class FileManager extends BackendBase
         }
 
         $form = null;
-        if ($this->isAllowed('files:uploads')) {
+        if (!$request->query->has('CKEditor') && $this->isAllowed('files:uploads')) {
             // Define the "Upload here" form.
             $form = $this->createFormBuilder(FormType::class)
                 ->add(

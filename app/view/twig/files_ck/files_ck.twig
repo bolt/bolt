@@ -27,12 +27,13 @@
 
     {{ files_path(context.pathsegments, context.namespace, pathoptions) }}
 
-    {% if context.directories|length > 0 %}
-        {{ include('@bolt/files_ck/_folders.twig') }}
-    {% endif %}
+    <div class="file-manager">
+        {% if context.directories|length > 0 %}
+            {{ include('@bolt/files/_folders.twig', {'pathoptions': pathoptions}) }}
+        {% endif %}
 
-    {% if context.files|length > 0 %}
-        {{ include('@bolt/files_ck/_files.twig') }}
-    {% endif %}
-
+        {% if context.files|length > 0 %}
+            {{ include('@bolt/files_ck/_files.twig') }}
+        {% endif %}
+    </div>
 {% endblock page_main %}
