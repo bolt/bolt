@@ -25,7 +25,7 @@ Options -Indexes
   RewriteRule cache/ - [F]
 
   # Some servers require the RewriteBase to be set. If so, set to the correct folder.
-  # RewriteBase /
+  RewriteBase /
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -46,8 +46,8 @@ Options -Indexes
 #  AddType application/font-woff2    woff2
 #</IfModule>
 
-# Block access to all hidden files and directories. These types of files 
-# usually contain user preferences and can include private information like, 
+# Block access to all hidden files and directories. These types of files
+# usually contain user preferences and can include private information like,
 # for example, the `.git` or `.svn` directories.
 <IfModule mod_rewrite.c>
    RewriteEngine On
