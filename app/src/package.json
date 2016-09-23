@@ -9,7 +9,7 @@
     },
     "engines": {
         "node": ">=5.0.0",
-        "npm": ">= 3.0.0"
+        "npm": ">=3.0.0"
     },
     "devDependencies": {
         "autoprefixer": "~6.4.1",
