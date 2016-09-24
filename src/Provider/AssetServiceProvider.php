@@ -28,6 +28,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
+                $packages->addPackage('themes', $app['asset.package_factory']('themes'));
 
                 return $packages;
             }
