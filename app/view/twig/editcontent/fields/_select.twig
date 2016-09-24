@@ -35,9 +35,6 @@
 
 
 {% if field.sortable|default(false) %}
-    {% set oldclass = option.class %}
-    {% set option = option|merge({ class: oldclass~' select2-sortable wide'}) %}
-
     {% set newvals = [] %}
     {% for key, sel in selection %}
         {% set newvals = newvals|merge({ (key):values[sel]})%}
