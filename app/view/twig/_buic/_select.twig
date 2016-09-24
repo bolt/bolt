@@ -64,57 +64,37 @@
             'required':     conf.required,
         } %}
 
-        <div{{ hclass(['buic-select', conf.class]) }} data-bolt-widget="buicSelect">
-            <div>
-                <div>
-                    <select{{ hattr(attributes) }}>
-                        {% set last_optgroup = false %}
+        <select{{ hattr(attributes) }}>
+            {% set last_optgroup = false %}
 
-                        {% for option in conf.options %}
-                            {# optgroup #}
-                            {% set optgroup = option.group|default(false) %}
-                            {% if optgroup != last_optgroup %}
-                                {% if last_optgroup != false %}
-                                    </optgroup>
-                                {% endif %}
-                                {% if optgroup != false %}
-                                    <optgroup label="{{ optgroup }}">
-                                {% endif %}
-                                {% set last_optgroup = optgroup %}
-                            {% endif %}
-
-                            {# option #}
-                            {% set opttext = option.text|default(option.value)|striptags %}
-                            {% set optattr = {
-                                'value!':   option.value,
-                                'selected': option.selected|default(false),
-                                'label':    option.value == '' and opttext == '' ? '–' : false,
-                            } %}
-                            <option{{ hattr(optattr) }}>{{ opttext }}</option>
-                        {% endfor %}
-
-                        {# Close open optgroup #}
-                        {% if last_optgroup != false %}
-                            </optgroup>
-                        {% endif %}
-
-                    </select>
-                </div>
-                {% if conf.clear or conf.all %}
-                    <div>
-                        {% if conf.clear %}
-                            <button type="button" class="btn select-none">
-                                <span class="sr-only">{{ __('general.phrase.select-none') }}</span>
-                            </button>
-                        {% endif %}
-                        {% if conf.all %}
-                            <button type="button" class="btn select-all">
-                                <span class="sr-only">{{ __('general.phrase.select-all') }}</span>
-                            </button>
-                        {% endif %}
-                    </div>
+            {% for option in conf.options %}
+            {# optgroup #}
+            {% set optgroup = option.group|default(false) %}
+            {% if optgroup != last_optgroup %}
+            {% if last_optgroup != false %}
+                </optgroup>
+            {% endif %}
+            {% if optgroup != false %}
+            <optgroup label="{{ optgroup }}">
                 {% endif %}
-            </div>
-        </div>
+                {% set last_optgroup = optgroup %}
+                {% endif %}
+
+                {# option #}
+                {% set opttext = option.text|default(option.value)|striptags %}
+                {% set optattr = {
+                'value!':   option.value,
+                'selected': option.selected|default(false),
+                'label':    option.value == '' and opttext == '' ? '–' : false,
+                } %}
+                <option{{ hattr(optattr) }}>{{ opttext }}</option>
+                {% endfor %}
+
+                {# Close open optgroup #}
+                {% if last_optgroup != false %}
+            </optgroup>
+            {% endif %}
+
+        </select>
     {% endspaceless %}
 {% endmacro %}
