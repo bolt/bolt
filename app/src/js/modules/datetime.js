@@ -125,8 +125,8 @@
 
         // Process time field
         if (field.time.exists) {
-            var timeRegExp = new RegExp ('/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|' +
-                '(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/',
+            var timeRegExp = new RegExp ('^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|' +
+                '(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$',
                 'i');
             res = field.time.val().match(timeRegExp);
             if (res) {
