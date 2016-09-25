@@ -1,6 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
+
+Bolt 3.1.4
+----------
+
+Released 2016-09-25. Notable changes:
+
+ - Fixed: Fix time picker regexp: slashes are not needed for regex as string. [#5822](https://github.com/bolt/bolt/pull/5822)
+
 Bolt 3.1.3
 ----------
 
