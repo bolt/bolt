@@ -72,11 +72,14 @@ class Invitation extends BackendBase
 
         $formEmailView = $formEmailView->getForm();
 
+
         // Check if the form was POST-ed, and valid. If so, store the invitation.
-        if ($request->isMethod('POST') && $send) {
-            $formEmailView->submit($request->get($formEmailView->getName()));
+        if ($send) {
+
+            $formEmailView->handleRequest($request);
 
             if ($formEmailView->isValid()) {
+
                 $to = $formEmailView['to']->getData();
                 $subject = $formEmailView['subject']->getData();
                 $message = $formEmailView['message']->getData();
@@ -171,37 +174,35 @@ class Invitation extends BackendBase
 
         $formCodeView = $formCodeView->getForm();
 
-        // Check if the form was POST-ed, and valid. If so, store the invitation.
-        if ($request->isMethod('POST')) {
-            $formCodeView->submit($request->get($formCodeView->getName()));
 
+        $formCodeView->handleRequest($request);
 
-            if ($formCodeView->isValid()) {
-                //Generate token for invitation code
-                $random = new RandomGenerator($this->app['randomgenerator'], $this->app['session.generator.bytes_length']);
-                $code = $random->generateId();
+        if ($formCodeView->isValid()) {
 
-                $invitationEntity = new Entity\Invitations();
+            //Generate token for invitation code
+            $random = new RandomGenerator($this->app['randomgenerator'], $this->app['session.generator.bytes_length']);
+            $code = $random->generateId();
 
-                $expiration = $formCodeView['expiration']->getData();
-                $roles = $formCodeView['roles']->getData();
+            $invitationEntity = new Entity\Invitations();
 
-                $invitationEntity->setToken($code);
-                $invitationEntity->setRoles($roles);
-                $invitationEntity->setExpiration($expiration);
+            $expiration = $formCodeView['expiration']->getData();
+            $roles = $formCodeView['roles']->getData();
 
-                $this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity);
+            $invitationEntity->setToken($code);
+            $invitationEntity->setRoles($roles);
+            $invitationEntity->setExpiration($expiration);
 
-                if ($this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity)) {
-                    $this->flashes()->success(Trans::__('page.invitation.message.code-saved', ['%code%' => $code]));
-                } else {
-                    $this->flashes()->error(Trans::__('page.invitation.message.saving-code', ['%code%' => $code]));
-                }
+            $this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity);
 
-                //return $this->app->redirect($this->app["url_generator"]->generate('shareLink', $code));
-                //return new RedirectResponse($this->generateUrl('shareLink', $code));
-                return $this->shareLink($request, $code, false);
+            if ($this->getRepository('Bolt\Storage\Entity\Invitations')->save($invitationEntity)) {
+                $this->flashes()->success(Trans::__('page.invitation.message.code-saved', ['%code%' => $code]));
+            } else {
+                $this->flashes()->error(Trans::__('page.invitation.message.saving-code', ['%code%' => $code]));
             }
+
+            //return $this->app->redirect($this->app["url_generator"]->generate('shareLink', $code));
+            //return new RedirectResponse($this->generateUrl('shareLink', $code));
+            return $this->shareLink($request, $code, false);
         }
 
         // Get the current user to know what user role they can invite
@@ -296,7 +297,7 @@ class Invitation extends BackendBase
                 }
             }
         );
-        
+
         return $form;
     }
 }
