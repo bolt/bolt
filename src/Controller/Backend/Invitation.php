@@ -2,7 +2,6 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Storage\Entity;
-use Bolt\Storage\Entity\Invitations;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -18,6 +17,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Bolt\Session\Generator\RandomGenerator;
+use Bolt\Form\Type\InvitationType;
 
 /**
  * Backend controller for invitation code generation.
@@ -57,8 +57,16 @@ class Invitation extends BackendBase
         //get the full url to put it into the code field
         $fullcode = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath().'/bolt/invitation/'.$code;
 
-        // Get and generate the base form to share the invitation code by email
-        $formEmailView = $this->getInvitationEmailForm($fullcode);
+
+        $formEmailView = new InvitationType($this);
+
+        $defaults = array(
+            'invitationLink' => $fullcode,
+        );
+
+        $form = $this->createFormBuilder(FormType::class, $defaults);
+
+        $formEmailView = $formEmailView->getInvitationEmailForm($form, $fullcode);
 
         $formEmailView = $this->setShareFormValidation($formEmailView);
 
@@ -151,8 +159,13 @@ class Invitation extends BackendBase
     {
         $invitation = new Entity\Invitations();
 
+        $formCodeView = new InvitationType($this);
+
+        // Start building the form
+        $form = $this->createFormBuilder(FormType::class, $invitation);
+
         // Get and generate the base form to generate the invitation code
-        $formCodeView = $this->getGenerateInvitationForm($invitation);
+        $formCodeView = $formCodeView->getGenerateInvitationForm($form, $this->app['permissions']->getDefinedRoles());
 
         $formCodeView = $this->setInvitationFormValidation($formCodeView);
 
@@ -283,126 +296,7 @@ class Invitation extends BackendBase
                 }
             }
         );
-
-
-        return $form;
-    }
-
-    /**
-     * Create a form to generate an invitation code with the form builder.
-     *
-     * @param Entity\Invitations $invitation
-     *
-     * @return \Symfony\Component\Form\FormBuilder
-     */
-    private function getGenerateInvitationForm(Entity\Invitations $invitation)
-    {
-
-        // Start building the form
-        $form = $this->createFormBuilder(FormType::class, $invitation);
-
-        // Get the roles
-        $roles = array_map(
-            function ($role) {
-                return $role['label'];
-            },
-            $this->app['permissions']->getDefinedRoles()
-        );
-
-        $form
-            ->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'choices' => $roles,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'label' => Trans::__('page.invitation.label.assigned-roles'),
-                ]
-            )->add('expiration', DateTimeType::class, array(
-                'input' => 'datetime',
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-                'required' => true,
-                'disabled' => false,
-                'data' => new \DateTime("+1 week"),
-                'label' => Trans::__('page.invitation.expiration-date'),
-
-            ));
-
-        return $form;
-    }
-
-    /**
-     * Create a form to send the invitation code by email with the form builder.
-     *
-     * @param string $code    Invitation code to be sent by email
-     *
-     * @return \Symfony\Component\Form\FormBuilder
-     */
-    private function getInvitationEmailForm($code)
-    {
-        $defaults = array(
-            'invitationLink' => $code,
-        );
-
-        // Start building the form
-        $form = $this->createFormBuilder(FormType::class, $defaults);
-
-        $form
-            ->add(
-                'invitationLink',
-                TextType::class,
-                [
-                    'label' => Trans::__('page.invitation.share-options.copy'),
-                    'disabled' => true,
-                ]
-            )->add(
-                'copy',
-                ButtonType::class,
-                [
-                    'label' => Trans::__('page.invitation.button.copy'),
-                    'attr' => [
-                        'class' => 'btn btn-primary',
-                    ],
-                ]
-            )->add(
-                'to',
-                TextType::class,
-                [
-                    'constraints' => new Assert\Email(),
-                    'label' => Trans::__('page.invitation.share-options.to-email'),
-                    'attr' => [
-                        'placeholder' => Trans::__('page.invitation.share-options.to-placeholder'),
-                        'class' => 'to',
-                    ],
-                ]
-            )
-            ->add(
-                'subject',
-                TextType::class,
-                [
-                    'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
-                    'label' => Trans::__('page.invitation.share-options.subject-email'),
-                    'attr' => [
-                        'placeholder' => Trans::__('page.invitation.share-options.subject-placeholder'),
-                        'class' => 'subject',
-                    ],
-                ]
-            )
-            ->add(
-                'message',
-                TextareaType::class,
-                [
-                    'constraints' => [new Assert\NotBlank()],
-                    'label' => Trans::__('page.invitation.share-options.message-email'),
-                    'attr' => [
-                        'placeholder' => Trans::__('page.invitation.share-options.message-placeholder'),
-                        'class' => 'message',
-                    ],
-                ]
-            );
-
+        
         return $form;
     }
 }
