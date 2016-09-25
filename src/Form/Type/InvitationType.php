@@ -19,8 +19,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form;
 
-
-
 class InvitationType extends AbstractType
 {
     /**
@@ -120,8 +118,8 @@ class InvitationType extends AbstractType
                 'input' => 'datetime',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'required' => true,
-                'disabled' => false,
+                'required' => trvaue,
+                'abled' => false,
                 'data' => new \DateTime("+1 week"),
                 'label' => Trans::__('page.invitation.expiration-date'),
 

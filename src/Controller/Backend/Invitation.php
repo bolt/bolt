@@ -72,14 +72,12 @@ class Invitation extends BackendBase
 
         $formEmailView = $formEmailView->getForm();
 
-
         // Check if the form was POST-ed, and valid. If so, store the invitation.
         if ($send) {
 
             $formEmailView->handleRequest($request);
 
             if ($formEmailView->isValid()) {
-
                 $to = $formEmailView['to']->getData();
                 $subject = $formEmailView['subject']->getData();
                 $message = $formEmailView['message']->getData();
@@ -174,11 +172,9 @@ class Invitation extends BackendBase
 
         $formCodeView = $formCodeView->getForm();
 
-
         $formCodeView->handleRequest($request);
 
         if ($formCodeView->isValid()) {
-
             //Generate token for invitation code
             $random = new RandomGenerator($this->app['randomgenerator'], $this->app['session.generator.bytes_length']);
             $code = $random->generateId();
