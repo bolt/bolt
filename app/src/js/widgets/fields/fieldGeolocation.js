@@ -213,7 +213,7 @@
                 title: bolt.data('field.geolocation.marker'),
                 draggable: true,
                 animation: google.maps.Animation.DROP,
-                icon: bolt.conf('paths.app') + 'view/img/pin_red.png'
+                icon: self.element.data('pin-icon')
             });
 
             // Set coordinates when marker pin was moved.
