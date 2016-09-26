@@ -298,10 +298,11 @@ class FilesystemManager extends AsyncBase
     public function removeFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
         try {
-            $this->filesystem()->deleteDir(sprintf('%s://%s', $namespace, $folderName));
+            $this->filesystem()->deleteDir("$namespace://$parent/$folderName");
 
             return $this->json($folderName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
@@ -323,6 +324,7 @@ class FilesystemManager extends AsyncBase
     public function renameFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
@@ -331,7 +333,7 @@ class FilesystemManager extends AsyncBase
         }
 
         try {
-            $this->filesystem()->rename(sprintf('%s://%s', $namespace, $oldName), $newName);
+            $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
@@ -360,11 +362,12 @@ class FilesystemManager extends AsyncBase
     public function renameFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
         try {
-            $this->filesystem()->rename(sprintf('%s://%s', $namespace, $oldName), $newName);
+            $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
