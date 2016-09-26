@@ -45,8 +45,9 @@
 
     preview: {
         'alt':          'Preview',
+        'data-default-url': asset('img/default_empty_4x3.png', 'bolt'),
         'height':       preview_h,
-        'src':          image.file is not empty ? image.file|thumbnail(preview_w, preview_h, 'c') : app.paths.app ~ 'view/img/default_empty_4x3.png',
+        'src':          image.file is not empty ? image.file|thumbnail(preview_w, preview_h, 'c') : asset('img/default_empty_4x3.png', 'bolt'),
         'width':        preview_w,
     },
 } %}
