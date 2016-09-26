@@ -18,7 +18,7 @@ class Records extends AsyncBase
     {
         $c->method('POST');
 
-        $c->post('/content/{action}', 'action')
+        $c->post('/content/action', 'action')
             ->bind('contentaction');
     }
 
