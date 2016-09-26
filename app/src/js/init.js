@@ -219,18 +219,18 @@ var init = {
     deferredWidgets: function () {
         "use strict";
 
-        $('div.widget').each(function () {
+        $('[data-widget-url]').each(function () {
             if (typeof $(this).data('defer') === 'undefined') {
                 return;
             }
 
-            var key = $(this).data('key');
+            var $self = $(this);
 
             $.ajax({
-                url: Bolt.conf('paths.async') + 'widget/' + key,
+                url: $self.data('widgetUrl'),
                 type: 'GET',
                 success: function (result) {
-                    $('#widget-' + key).html(result);
+                    $self.html(result);
                 },
                 error: function () {
                     console.log('failed to get widget');
