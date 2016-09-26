@@ -26,14 +26,14 @@
      * @function exec
      * @memberof Bolt.files
      *
-     * @param {type} cmd - Command to send to the async controller.
+     * @param {type} url - Url.
      * @param {type} data - Request data.
      * @param {type} errMsg - Error message to print on the console when something goes wrong.
      * @param {function} [success] - Callback on success. Defaults to a page relaod.
      */
-    function exec(cmd, data, errMsg, success) {
+    function exec(url, data, errMsg, success) {
         var options = {
-            url: bolt.conf('paths.async') + cmd,
+            url: url,
             type: 'POST',
             data: data,
             success: function () {
@@ -66,7 +66,7 @@
 
         if (fileName.length) {
             exec(
-                'file/create',
+                bolt.data('url.file.create'),
                 {
                     filename: fileName,
                     parentPath: parentPath,
@@ -94,7 +94,7 @@
 
         if (newName.length && newName !== name) {
             exec(
-                'file/rename',
+                bolt.data('url.file.rename'),
                 {
                     namespace: namespace,
                     parent: parentPath,
@@ -121,7 +121,7 @@
     {
         if (confirm(bolt.data('files.msg.delete_file', {'%FILENAME%': filename}))) {
             exec(
-                'file/delete',
+                bolt.data('url.file.delete'),
                 {
                     namespace: namespace,
                     filename: filename
@@ -151,7 +151,7 @@
      */
     files.duplicateFile = function (namespace, filename) {
         exec(
-            'file/duplicate',
+            bolt.data('url.file.duplicate'),
             {
                 namespace: namespace,
                 filename: filename
@@ -176,7 +176,7 @@
 
         if (newName.length) {
             exec(
-                'folder/create',
+                bolt.data('url.folder.create'),
                 {
                     parent: parentPath,
                     foldername: newName,
@@ -204,7 +204,7 @@
 
         if (newName.length && newName !== name) {
             exec(
-                'folder/rename',
+                bolt.data('url.folder.rename'),
                 {
                     namespace: namespace,
                     parent: parentPath,
@@ -230,7 +230,7 @@
     files.deleteFolder = function (namespace, parentPath, name) {
         if (window.confirm(bolt.data('files.msg.delete_folder', {'%FOLDERNAME%': name}))) {
             exec(
-                'folder/remove',
+                bolt.data('url.folder.delete'),
                 {
                     namespace: namespace,
                     parent: parentPath,
@@ -238,10 +238,6 @@
                 },
                 'Something went wrong renaming this folder!'
             );
-            $.ajax({
-                success: function () {
-                }
-            });
         }
     };
 

@@ -21,6 +21,13 @@
         {{ data('files.msg.rename_file', __('page.file-management.message.create-file')) }}
         {{ data('files.msg.delete_file', __('Are you sure you want to delete %FILENAME%?')) }}
     {% endif %}
+    {{ data('url.file.create', path('file/create')) }}
+    {{ data('url.file.delete', path('file/delete')) }}
+    {{ data('url.file.duplicate', path('file/duplicate')) }}
+    {{ data('url.file.rename', path('file/rename')) }}
+    {{ data('url.folder.create', path('createfolder')) }}
+    {{ data('url.folder.delete', path('removefolder')) }}
+    {{ data('url.folder.rename', path('renamefolder')) }}
 
     <div class="row file-manager">
         <div class="col-xs-12">
