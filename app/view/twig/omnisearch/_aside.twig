@@ -6,7 +6,7 @@
 
 {{ widgets('dashboard', 'right_first') }}
 
-<div data-bolt-widget="panelActivity">
+<div data-bolt-widget="panelActivity" data-url="{{ path('latestactivity') }}">
     {{ render(path('latestactivity')) }}
 </div>
 

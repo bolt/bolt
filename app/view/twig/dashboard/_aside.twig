@@ -28,7 +28,7 @@
 {{ widgets('dashboard_aside_middle', 'backend') }}
 
 {# Latest Activity #}
-<div data-bolt-widget="panelActivity">
+<div data-bolt-widget="panelActivity" data-url="{{ path('latestactivity') }}">
     {{ render(path('latestactivity')) }}
 </div>
 
