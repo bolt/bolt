@@ -49,7 +49,9 @@
      * @param {object} element - The object that calls this function
      */
     stack.addToStack = function (filename, element) {
-        $.post(bolt.conf('paths.async') + 'stack/add/' + filename)
+        $.post(bolt.conf('stackAddUrl'), {
+            filename: filename,
+        })
             .done(function (data) {
                 // If added via a button on the page, disable the button, as visual feedback.
                 if (element) {

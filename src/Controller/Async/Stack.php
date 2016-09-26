@@ -17,7 +17,7 @@ class Stack extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->post('/stack/add/{filename}', 'add')
+        $c->post('/stack/add', 'add')
             ->assert('filename', '.*')
             ->bind('stack/add');
 
@@ -28,12 +28,14 @@ class Stack extends AsyncBase
     /**
      * Add a file to the user's stack.
      *
-     * @param string $filename
+     * @param Request $request
      *
      * @return JsonResponse
      */
-    public function add($filename)
+    public function add(Request $request)
     {
+        $filename = $request->request->get('filename');
+
         $stack = $this->app['stack'];
 
         /** @var FileInterface|null $removed */

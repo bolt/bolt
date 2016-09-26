@@ -32,7 +32,11 @@ class StackTest extends ControllerUnitTest
     {
         $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
 
-        $response = $this->controller()->add('foo.txt');
+        $request = Request::create('/async/stack/add', 'POST', [
+            'filename' => 'foo.txt',
+        ]);
+
+        $response = $this->controller()->add($request);
         $this->assertTrue($response instanceof JsonResponse);
         $json = json_decode($response->getContent(), true);
 
