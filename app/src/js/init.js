@@ -212,34 +212,6 @@ var init = {
     },
 
     /*
-     * Render any deferred widgets, if any.
-     *
-     * @returns {undefined}
-     */
-    deferredWidgets: function () {
-        "use strict";
-
-        $('[data-widget-url]').each(function () {
-            if (typeof $(this).data('defer') === 'undefined') {
-                return;
-            }
-
-            var $self = $(this);
-
-            $.ajax({
-                url: $self.data('widgetUrl'),
-                type: 'GET',
-                success: function (result) {
-                    $self.html(result);
-                },
-                error: function () {
-                    console.log('failed to get widget');
-                }
-            });
-        });
-    },
-
-    /*
      * Smarter dropdowns/dropups based on viewport height.
      * Based on: https://github.com/twbs/bootstrap/issues/3637#issuecomment-9850709
      *
