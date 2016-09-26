@@ -28,11 +28,10 @@
                 fieldset = this.element;
 
             // Initialize the autocomplete popup.
-            var accept = ($('input[accept]', fieldset).prop('accept') || '').replace(/\./g, ''),
-                input = $('input.path', fieldset);
+            var input = $('input.path', fieldset);
 
             input.autocomplete({
-                source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
+                source: fieldset.find('[data-autocomplete-url]').data('autocompleteUrl'),
                 minLength: 2,
                 close: function () {
                     $(input).trigger('change');

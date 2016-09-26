@@ -18,6 +18,7 @@
         placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
         type:         'text',
         value:        context.content.get(contentkey),
+        'data-autocomplete-url': path('file/autocomplete', {'ext': option.extensions|join(',')})
     },
 
     upload: {

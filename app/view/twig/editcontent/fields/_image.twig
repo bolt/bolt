@@ -28,6 +28,7 @@
         'placeholder':  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
         'type':         'text',
         'value':        image.file|default(''),
+        'data-autocomplete-url': path('file/autocomplete', {'ext': option.extensions|join(',')})
     },
 
     path_label: {
