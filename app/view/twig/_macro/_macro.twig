@@ -192,8 +192,7 @@
             'class': 'btn btn-tertiary btn-sm',
             'data-bolt-widget': {
                 buicBrowser: {
-                    namespace: 'files',
-                    path: uploadpath,
+                    url: path('asyncbrowse', {'namespace': 'files', 'path': uploadpath}),
                     multiselect: multi
                 },
             },

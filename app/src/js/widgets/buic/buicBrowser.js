@@ -2,7 +2,7 @@
  * @param {Object} $ - Global jQuery object
  * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -28,8 +28,7 @@
          * @property {string} [url] - URL to browse
          */
         options: {
-            namespace: '',
-            path: '',
+            url: '',
             multiselect: false
         },
 
@@ -48,8 +47,7 @@
              * @memberOf jQuery.widget.bolt.buicBrowser.prototype
              * @private
              */
-            this._url = bolt.conf('paths.async') + 'browse/' + this.options.namespace +
-                            (this.options.path ? '/' + this.options.path : '');
+            this._url = this.options.url;
 
             this._on({
                 'click': function () {
