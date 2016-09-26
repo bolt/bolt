@@ -26,6 +26,7 @@
      * @property {boolean} newRecord - Is new Record?
      * @property {string} savedOn - "Saved on" template.
      * @property {string} singularSlug - Contenttype slug.
+     * @property {string} previewUrl - The preview url.
      */
 
     /**
