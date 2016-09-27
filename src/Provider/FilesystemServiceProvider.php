@@ -35,6 +35,7 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                     [
                         new Plugin\HasUrl($app),
                         new Plugin\Parents($app),
+                        new Plugin\ToJson($app),
                         new Plugin\Authorized($app),
                         new Plugin\ThumbnailUrl($app),
                     ]
