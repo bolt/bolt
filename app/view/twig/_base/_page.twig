@@ -23,37 +23,21 @@
 
 {# TODO: Refactor this out. Too much business logic in the template. #}
 {% set page_scripts_inc = [
-    'js/lib.js'
+    asset('js/lib.js', 'bolt')
 ] %}
 
-{# Add locale include for datepicker #}
-{% set localepath = 'js/locale/datepicker/' %}
-{% if file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_long ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long ~ '.min.js']) %}
-{% elseif page_locale_short != 'en' and file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_short ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
-{% endif %}
-
-{# Add locale include for moment #}
-{% set localepath = 'js/locale/moment/' %}
-{% if file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_long ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long ~ '.min.js']) %}
-{% elseif page_locale_short != 'en' and file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_short ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
-{% endif %}
-
-{# Add locale include for select2 #}
-{% set localepath = 'js/locale/select2/' %}
-{% if file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_long ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long ~ '.min.js']) %}
-{% elseif page_locale_short != 'en' and file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_short ~ '.min.js') %}
-    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
-{% endif %}
+{# Add library locale files #}
+{% for lib in ['datepicker', 'moment', 'select2'] %}
+    {% if app.filesystem.has("view://js/locale/#{lib}#{page_locale_long}.min.js") %}
+        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_long}.min.js", 'bolt')]) %}
+    {% elseif page_locale_short != 'en' and app.filesystem.has("view://js/locale/#{lib}#{page_locale_short}.min.js") %}
+        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_short}.min.js", 'bolt')]) %}
+    {% endif %}
+{% endfor %}
 
 {# Determine locale include for ckeditor #}
-{% set localepath = 'js/locale/ckeditor/' %}
 {% set page_locale_long_bcp47 = page_locale_long|replace('_', '-')|lower %}
-{% if file_exists(paths.viewpath ~ '/' ~ localepath ~ page_locale_long_bcp47 ~ '.js') %}
+{% if app.filesystem.has("view://js/locale/ckeditor#{page_locale_long_bcp47}.js") %}
     {% set ckeditor_lang = page_locale_long_bcp47 %}
 {% else %}
     {% set ckeditor_lang = page_locale_short %}
@@ -74,7 +58,7 @@
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
 
     {% for script in page_scripts_inc -%}
-        <script src="{{ asset(script, 'bolt') }}"></script>
+        <script src="{{ script }}"></script>
     {% endfor %}
 
     <link rel="shortcut icon" href="{{ config.get('general/branding/favicon') ?: asset('img/favicon-bolt.ico', 'bolt') }}">
