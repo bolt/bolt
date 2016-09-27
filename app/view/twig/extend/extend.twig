@@ -168,6 +168,6 @@
     {{ data('extend.text.updated',            __('page.extend.message.updated')) }}
 
     {{ data('extend.siteurl',             context.site) }}
-    {{ data('extend.baseurl',             app['resources'].url('bolt') ~ 'extend'|trim('/') ~ '/') }}
+    {{ data('extend.baseurl',             app.request.basePath ~ '/' ~ app['controller.backend.extend.mount_prefix']|trim('/') ~ '/') }}
 
 {% endblock page_main %}
