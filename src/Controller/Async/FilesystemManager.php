@@ -66,23 +66,10 @@ class FilesystemManager extends AsyncBase
      */
     public function browse(Request $request, $namespace, $path)
     {
-        // No trailing slashes in the path.
-        $path = rtrim($path, '/');
-
-        $filesystem = $this->filesystem()->getFilesystem($namespace);
-
-        // Get the pathsegments, so we can show the path.
-        $pathsegments = [];
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
+        $directory = $this->filesystem()->getDir("$namespace://$path");
 
         try {
-            $it = $filesystem->listContents($path);
+            $it = $directory->getContents();
         } catch (IOException $e) {
             $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
             $this->logException($msg, $e);
@@ -94,11 +81,10 @@ class FilesystemManager extends AsyncBase
         $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
 
         $context = [
-            'namespace'    => $namespace,
+            'directory'    => $directory,
             'files'        => $files,
             'directories'  => $directories,
-            'pathsegments' => $pathsegments,
-            'multiselect'  => $request->query->get('multiselect') === 'true',
+            'multiselect'  => $request->query->getBoolean('multiselect'),
         ];
 
         return $this->render(

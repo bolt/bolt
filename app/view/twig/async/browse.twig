@@ -16,17 +16,15 @@
 
         {# Path #}
         <h4>
-            <a href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': context.namespace}) }}">
-                {{ context.namespace|excerpt(40)|shy -}}
-            </a>://
-            {%- for path, segment in context.pathsegments -%}
-                {%- if not loop.first %}/{% endif -%}
-                {%- if not loop.last -%}
-                    <a href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path}) }}">
-                        {{- segment|excerpt(40)|shy -}}
+            {%- for dir in context.directory.parents|reverse|merge([context.directory]) -%}
+                {# dir \Bolt\Filesystem\Handler\DirectoryInterface #}
+                {%- if not loop.last or loop.first -%}
+                    <a href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': dir.mountPoint, 'path': dir.path}) }}">
+                        {{- (dir.filename ?: dir.mountPoint)|excerpt(40)|shy -}}
                     </a>
+                    {{- loop.first ? '://' : '/' -}}
                 {%- else -%}
-                    {{- segment|excerpt(40)|shy -}}
+                    {{- (dir.filename ?: dir.mountPoint)|excerpt(40)|shy -}}
                 {%- endif -%}
             {% endfor %}
         </h4>
@@ -58,14 +56,14 @@
                 <table class="dashboardlisting">
                     {# Folders #}
                     <tbody class="folders">
-                    {% for directory in context.directories %}
+                    {% for dir in context.directories %}
                             <tr class="directory">
                                 {% if multiselect %}
                                     <td class="select"></td>
                                 {% endif %}
                                 <td class="name">
-                                    <a class="entry type-folder" href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': context.namespace, 'path': directory.path}) }}">
-                                        {{- directory.filename -}}
+                                    <a class="entry type-folder" href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': dir.mountPoint, 'path': dir.path}) }}">
+                                        {{- dir.filename -}}
                                     </a>
                                 </td>
                                 <td class="thumb"></td>

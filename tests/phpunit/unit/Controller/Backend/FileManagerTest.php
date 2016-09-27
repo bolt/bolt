@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,11 +30,13 @@ class FileManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/files'));
 
         $response = $this->controller()->manage($this->getRequest(), 'files', '');
-        $context = $response->getContext();
+        $context = $response->getContext()['context'];
 
-        $this->assertEquals('', $context['context']['path']);
-        $this->assertEquals('files', $context['context']['namespace']);
-        $this->assertEquals([], $context['context']['files']);
+        /** @var DirectoryInterface $dir */
+        $dir = $context['directory'];
+        $this->assertTrue($dir instanceof DirectoryInterface);
+        $this->assertEquals('files://', $dir->getFullPath());
+        $this->assertEquals([], $context['files']);
 
         // Try and upload a file
         $perms = $this->getMock('Bolt\Filesystem\FilePermissions', ['allowedUpload'], [$app['config']]);
