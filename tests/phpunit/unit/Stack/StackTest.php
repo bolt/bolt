@@ -42,9 +42,13 @@ class StackTest extends BoltUnitTest
             'files'  => new Filesystem\Filesystem(new MemoryAdapter()),
             'theme'  => new Filesystem\Filesystem(new MemoryAdapter()),
         ]);
+        $matcher = new Filesystem\Matcher(
+            $this->filesystem,
+            ['files', 'themes', 'theme']
+        );
 
         $this->stack = new Stack(
-            $this->filesystem,
+            $matcher,
             $this->users,
             $this->session,
             $this->acceptedFileTypes

@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
+use Bolt\Filesystem\Matcher;
 use Bolt\Filesystem\Plugin;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -48,6 +49,12 @@ class FilesystemServiceProvider implements ServiceProviderInterface
         $app['filesystem.plugin.url'] = function () use ($app) {
             return new Plugin\AssetUrl($app['asset.packages']);
         };
+
+        $app['filesystem.matcher'] = $app->share(function ($app) {
+            return new Matcher($app['filesystem'], $app['filesystem.matcher.mount_points']);
+        });
+
+        $app['filesystem.matcher.mount_points'] = ['files', 'themes', 'theme'];
     }
 
     public function boot(Application $app)

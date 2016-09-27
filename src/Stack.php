@@ -3,9 +3,8 @@
 namespace Bolt;
 
 use Bolt\Exception\FileNotStackableException;
-use Bolt\Filesystem\AggregateFilesystemInterface;
+use Bolt\Filesystem;
 use Bolt\Filesystem\Exception\FileNotFoundException;
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -19,8 +18,8 @@ class Stack implements \Countable, \IteratorAggregate
 {
     const MAX_ITEMS = 7;
 
-    /** @var FilesystemInterface */
-    private $filesystem;
+    /** @var Filesystem\Matcher */
+    private $matcher;
     /** @var Users */
     private $users;
     /** @var SessionInterface */
@@ -36,14 +35,14 @@ class Stack implements \Countable, \IteratorAggregate
     /**
      * Constructor.
      *
-     * @param FilesystemInterface $filesystem
+     * @param Filesystem\Matcher  $matcher
      * @param Users               $users
      * @param SessionInterface    $session
      * @param string[]            $acceptedFileTypes
      */
-    public function __construct(FilesystemInterface $filesystem, Users $users, SessionInterface $session, $acceptedFileTypes)
+    public function __construct(Filesystem\Matcher $matcher, Users $users, SessionInterface $session, $acceptedFileTypes)
     {
-        $this->filesystem = $filesystem;
+        $this->matcher = $matcher;
         $this->users = $users;
         $this->session = $session;
         $this->acceptedFileTypes = $acceptedFileTypes;
@@ -62,7 +61,7 @@ class Stack implements \Countable, \IteratorAggregate
     {
         $this->initialize();
 
-        $file = $this->getFile($filename);
+        $file = $this->matcher->getFile($filename);
 
         if (!$this->isStackable($file)) {
             throw new FileNotStackableException($file);
@@ -89,7 +88,7 @@ class Stack implements \Countable, \IteratorAggregate
         $this->initialize();
 
         try {
-            $file = $this->getFile($filename);
+            $file = $this->matcher->getFile($filename);
         } catch (FileNotFoundException $e) {
             return;
         }
@@ -116,7 +115,7 @@ class Stack implements \Countable, \IteratorAggregate
         $this->initialize();
 
         try {
-            $file = $this->getFile($filename);
+            $file = $this->matcher->getFile($filename);
         } catch (FileNotFoundException $e) {
             return false;
         }
@@ -145,7 +144,7 @@ class Stack implements \Countable, \IteratorAggregate
     public function isStackable($filename)
     {
         try {
-            $file = $this->getFile($filename);
+            $file = $this->matcher->getFile($filename);
         } catch (FileNotFoundException $e) {
             return false;
         }
@@ -254,7 +253,7 @@ class Stack implements \Countable, \IteratorAggregate
     {
         $files = array_filter(array_map(function($path) {
             try {
-                return $this->getFile($path);
+                return $this->matcher->getFile($path);
             } catch (FileNotFoundException $e) {
                 // Guess it doesn't exist anymore or we can't find it, remove from list.
                 return null;
@@ -276,62 +275,5 @@ class Stack implements \Countable, \IteratorAggregate
         return array_map(function (FileInterface $file) {
             return $file->getFullPath();
         }, $this->files);
-    }
-
-    /**
-     * Gets the file object for the path given. Paths with the mount point included are
-     * preferred, but are not required for BC. If the mount point is not included a list
-     * of filesystems are checked and chosen if the file exists in that filesystem.
-     *
-     * @param FileInterface|string $path
-     *
-     * @return FileInterface
-     */
-    private function getFile($path)
-    {
-        if ($path instanceof FileInterface) {
-            return $path;
-        }
-
-        if (!$this->filesystem instanceof AggregateFilesystemInterface || $this->containsMountPoint($path)) {
-            $file = $this->filesystem->getFile($path);
-            if (!$file->exists()) {
-                throw new FileNotFoundException($path);
-            }
-
-            return $file;
-        }
-
-        // Trim "files/" from front of path for BC.
-        if (strpos($path, 'files/') === 0) {
-            $path = substr($path, 6);
-        }
-
-        foreach (['files', 'themes', 'theme'] as $mountPoint) {
-            if (!$this->filesystem->hasFilesystem($mountPoint)) {
-                continue;
-            }
-
-            $file = $this->filesystem->getFile("$mountPoint://$path");
-            if ($file->exists()) {
-                return $file;
-            }
-        }
-
-        throw new FileNotFoundException($path);
-    }
-
-    /**
-     * Change if a path contains a mount point.
-     *
-     * Ex: files://foo.jpg
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    private function containsMountPoint($path)
-    {
-        return (bool) preg_match('#^.+\:\/\/.*#', $path);
     }
 }

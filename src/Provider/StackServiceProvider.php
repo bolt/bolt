@@ -13,7 +13,7 @@ class StackServiceProvider implements ServiceProviderInterface
         $app['stack'] = $app->share(
             function ($app) {
                 $stack = new Stack(
-                    $app['filesystem'],
+                    $app['filesystem.matcher'],
                     $app['users'],
                     $app['session'],
                     $app['config']->get('general/accept_file_types')

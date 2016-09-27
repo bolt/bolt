@@ -61,7 +61,7 @@ class AdminHandlerTest extends BoltUnitTest
     public function testStackable()
     {
         $app = $this->getApp();
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem'], $app['users'], $app['session'], []]);
+        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
         $stack
             ->expects($this->once())
             ->method('isStackable')
@@ -77,7 +77,7 @@ class AdminHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem'], $app['users'], $app['session'], []]);
+        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
         $stack
             ->expects($this->exactly(3))
             ->method('getList')
