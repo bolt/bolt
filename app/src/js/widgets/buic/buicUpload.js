@@ -169,7 +169,7 @@
                 if (file.error) {
                     bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
                 } else {
-                    self._trigger('uploaded', event, {path: file.name});
+                    self._trigger('uploaded', event, file);
                 }
             });
         },

@@ -19,7 +19,7 @@
      data-container=".buic-stack"
      data-title="{{ file.filename }}"
      data-content="{{ info|e }}"
-     data-full-path="{{ file.fullPath }}"
+     data-file="{{ file.toJson|json_encode }}"
 >
     {% if file.image %}
         <img src="{{ file.path|thumbnail(100, 100) }}" width="100" height="100" alt="{{ __('general.phrase.thumbnail') }}">

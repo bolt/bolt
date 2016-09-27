@@ -75,7 +75,11 @@
          */
         prepend: function (stackItem, removed) {
             if (removed) {
-                this._ui.holder.find('[data-full-path="' + removed + '"]').remove();
+                this._ui.holder.find('[data-file]').each(function () {
+                    if ($(this).data('file').fullPath === removed) {
+                        $(this).remove();
+                    }
+                });
             }
 
             // If the "empty stack" notice was showing, remove it.

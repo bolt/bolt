@@ -62,7 +62,11 @@
 
                 // Move to better spot? rarila?
                 if (data.removed) {
-                    $('.select-from-stack [data-full-path="' + data.removed + '"]').remove();
+                    $('.select-from-stack [data-file]').each(function () {
+                        if ($(this).data('file').fullPath === data.removed) {
+                            $(this).remove();
+                        }
+                    });
                 }
                 // Prepend item to stacks (if type filter exists, only if it matches)
                 $('.select-from-stack').each(function () {

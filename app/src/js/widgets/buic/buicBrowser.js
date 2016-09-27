@@ -105,9 +105,9 @@
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
-                        .on('click.bolt', '[data-fbrowser-select]', function (evt) {
+                        .on('click.bolt', '[data-file]', function (evt) {
                             evt.preventDefault();
-                            self._trigger('selected', null, {path: $(this).data('fbrowser-select')});
+                            self._trigger('selected', null, $(this).data('file'));
                             modal.close();
                         })
                         .on('click.bolt', '[aria-pressed]', function (evt) {
