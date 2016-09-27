@@ -2,7 +2,7 @@
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -16,33 +16,36 @@
      * @extends jQuery.widget.bolt.fieldFile
      */
     $.widget('bolt.fieldImage', $.bolt.fieldFile, /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
-        /**
-         * The constructor of the image field widget.
-         *
-         * @private
-         */
-        _create: function () {
-            var fieldset = this.element,
-                input = fieldset.find('input.path'),
-                preview = fieldset.find('img'),
-                width = preview.attr('width'),
-                height = preview.attr('height');
 
+        _create: function () {
             this._super();
 
-            // Update the preview image on change.
-            this._on(input, {
-                'change': function () {
-                    var path = input.val(),
-                        url = preview.data('defaultUrl');
+            // Until content field returns file objects, fake initially selected data here.
+            var input = $('input.path', this.element);
+            var selected = input.data('selected');
+            selected.previewUrl = this.element.find('img').attr('src');
+        },
 
-                    if (path) {
-                        url = bolt.conf('paths.root') + 'thumbs/' + width + 'x' + height + 'c/' + encodeURI(path);
-                    }
+        _onPreview: function (event, file) {
+            this._super(event, file);
+            this.element.find('img').attr('src', file.previewUrl);
+        },
 
-                    preview.attr('src', url);
-                }
-            });
-        }
+        _onSelect: function (event, file) {
+            this._super(event, file);
+            this.element.find('img').attr('src', file.previewUrl);
+        },
+
+        _onClose: function () {
+            this._super();
+            var input = $('input.path', this.element);
+            this.element.find('img').attr('src', input.data('selected').previewUrl);
+        },
+
+        _onClear: function () {
+            this._super();
+            var img = this.element.find('img');
+            img.attr('src', img.data('defaultUrl'));
+        },
     });
 })(jQuery, Bolt);
