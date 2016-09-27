@@ -64,15 +64,12 @@
                 }
             );
         } else {
-            // Sanitize PHP error file paths.
-            var file = errObj.error.file.replace(new RegExp(bolt.data('extend.rootpath'), 'g'), '');
-
             html = bolt.data(
                 'extend.packages.error',
                 {
                     '%ERROR_TYPE%': 'PHP Error',
                     '%ERROR_MESSAGE%': errObj.error.message,
-                    '%ERROR_LOCATION%': 'File: ' + file + '::' + errObj.error.line
+                    '%ERROR_LOCATION%': 'File: ' + errObj.error.file + '::' + errObj.error.line
                 }
             );
         }
