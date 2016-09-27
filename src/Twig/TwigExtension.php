@@ -54,7 +54,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('excerpt',            [$this, 'excerpt'],     $safe),
             new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFunction('fields',             [$this, 'fields'],      $env + $safe),
-            new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists']),
+            new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists'],  $deprecated),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
             new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
