@@ -39,9 +39,11 @@ class ToJson implements PluginInterface
         $result = [
             'path'     => $file->getPath(),
             'fullPath' => $file->getFullPath(),
+            'extension' => $file->getExtension(),
         ];
         if ($file instanceof ImageInterface) {
             $result['previewUrl'] = $file->thumb(200, 150, 'c');
+            $result['previewListUrl'] = $file->thumb(60, 40, 'c');
         }
         try {
             $result['url'] = $file->url();

@@ -35,13 +35,13 @@
 
 {% set template_item %}
     <div class="item ui-state-default">
-        <a class="magnific" href="{{ app.paths.files }}%FILENAME_A%" title="%TITLE_A%">
-            <img src="{{ app.paths.bolt }}../thumbs/60x40/%FILENAME_A%" width="60" height="40">
+        <a class="magnific" href="%URL_A%" title="%TITLE_A%">
+            <img src="%PREVIEW_A%" width="60" height="40">
         </a>
         <input type="text" class="title" value="%TITLE_A%">
-        <input type="hidden" class="filename" value="%FILENAME_A%">
+        <input type="hidden" class="filename" value="%FILEPATH_A%">
         <a href="#" class="remove"><i class="fa fa-times"></i></a>
-        <span class="desc">%FILENAME_E%</span>
+        <span class="desc">%FILEPATH_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -65,10 +65,13 @@
         {# Imagelist #}
         <div class="list">
             {% for image in list %}
+                {% set file = app['filesystem.matcher'].getImage(image.filename) %}
                 {{ template_item|replace({
                     '%TITLE_A%':    image.title|e('html_attr'),
-                    '%FILENAME_A%': image.filename|e('html_attr'),
-                    '%FILENAME_E%': image.filename|e('html')
+                    '%FILEPATH_E%': file.path|e('html'),
+                    '%FILEPATH_A%': file.path|e('html_attr'),
+                    '%PREVIEW_A%':  file.path|thumbnail(60, 40, 'c')|e('html_attr'),
+                    '%URL_A%':      file.url|e('html_attr'),
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
