@@ -4,6 +4,7 @@ namespace Bolt\Filesystem;
 
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\FileInterface;
+use Bolt\Filesystem\Handler\ImageInterface;
 
 /**
  * This is designed to help migrate us to our new filesystem abstraction which
@@ -74,6 +75,26 @@ class Matcher
         }
 
         throw new FileNotFoundException($path);
+    }
+
+    /**
+     * Same as {@see getFile} for images.
+     *
+     * @param ImageInterface|string $path
+     *
+     * @throws FileNotFoundException If file was not found.
+     *
+     * @return ImageInterface
+     */
+    public function getImage($path)
+    {
+        if ($path instanceof ImageInterface) {
+            return $path;
+        }
+
+        $file = $this->getFile($path);
+
+        return $this->filesystem->getImage($file->getFullPath());
     }
 
     /**
