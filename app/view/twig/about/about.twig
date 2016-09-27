@@ -15,7 +15,7 @@
 
             {{ app.translator.trans('about.bolt', {}, 'infos')|raw }}
 
-            {{ app.translator.trans('about.licence', {'%paths_root%': paths.root}, 'infos')|raw }}
+            {{ app.translator.trans('about.licence', {'%paths_root%': path('homepage')}, 'infos')|raw }}
 
             <p>
                 <a href="https://bolt.cm" class="btn btn-bolt" target="_blank">
