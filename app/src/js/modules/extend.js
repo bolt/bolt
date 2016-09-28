@@ -356,15 +356,20 @@
 
                 // Manage dropdown
                 var manage = '';
-                if (ext.status === 'installed' && ext.type !== "composer-plugin") {
-                    manage = conf.manage_dropdown.subst({
+                var parameters = {
                         '%NAME%': ext.name,
                         '%VERSION%': ext.version,
                         '%BASEURL%': bolt.data('extend.baseurl'),
                         '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
                         '%REPOSITORY_URL%': ext.repositoryLink
-                    });
+                    };
+
+                if (ext.status === 'installed' && ext.type !== 'composer-plugin') {
+                    manage = conf.manage_dropdown_installed.subst(parameters);
+                } else {
+                    manage = conf.manage_dropdown_uninstalled.subst(parameters);
                 }
+
                 var invalid = ' — [INVALID] ';
                 var disabled = ' — [DISABLED] ';
                 var constraint = '<i class="fa fa-cog fa-fw"></i>';
