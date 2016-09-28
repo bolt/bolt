@@ -257,6 +257,12 @@ class ResourceManager
      */
     public function getUrl($name)
     {
+        if (($name === 'canonical' || $name === 'canonicalurl') && isset($this->app['canonical'])) {
+            if ($url = $this->app['canonical']->getUrl()) {
+                return $url;
+            }
+        }
+
         if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
             return $this->urls[$name . 'url'];
         }
