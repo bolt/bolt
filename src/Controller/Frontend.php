@@ -175,13 +175,15 @@ class Frontend extends ConfigurableBase
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $this->templateChooser()->record($content);
 
-        // Setting the canonical URL.
+        // Update the route attributes to change the canonical URL generated.
         if ($content->isHome() && ($template === $this->getOption('general/homepage_template'))) {
-            $url = $this->app['resources']->getUrl('rooturl');
+            $request->attributes->add(['_route' => 'homepage', '_route_params' => []]);
         } else {
-            $url = $this->app['resources']->getUrl('rooturl') . ltrim($content->link(), '/');
+            list ($routeName, $routeParams) = $content->getRouteNameAndParams();
+            if ($routeName) {
+                $request->attributes->add(['_route' => $routeName, '_route_params' => $routeParams]);
+            }
         }
-        $this->app['resources']->setUrl('canonicalurl', $url);
 
         // Setting the editlink
         $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug'], 'id' => $content->id]);
