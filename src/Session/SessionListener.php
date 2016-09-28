@@ -90,7 +90,7 @@ class SessionListener implements EventSubscriberInterface
 
         $name = $this->session->getName();
 
-        $realm = '_' . md5($request->getHttpHost() . $request->getBaseUrl());
+        $realm = '_' . md5($request->getHttpHost() . $request->getBasePath());
 
         if (substr($name, -strlen($realm)) === $realm) { // name ends with realm
             return;
