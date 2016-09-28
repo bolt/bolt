@@ -250,12 +250,13 @@ class ResourceManager
      * Get a URL path definition.
      *
      * @param string $name
+     * @param bool   $includeBasePath
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    public function getUrl($name)
+    public function getUrl($name, $includeBasePath = true)
     {
         if (($name === 'canonical' || $name === 'canonicalurl') && isset($this->app['canonical'])) {
             if ($url = $this->app['canonical']->getUrl()) {
@@ -268,6 +269,10 @@ class ResourceManager
         }
         if (! array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
+        }
+
+        if (!$includeBasePath) {
+            return $this->urls[$name];
         }
 
         return $this->urlPrefix . $this->urls[$name];
@@ -361,13 +366,7 @@ class ResourceManager
 
         $rootUrl = rtrim($this->getUrl('root'), '/');
         if ($rootUrl !== $request->getBasePath()) {
-            $rootUrl = $request->getBasePath();
-            $this->setUrl('root', $rootUrl . $this->getUrl('root'));
-            $this->setUrl('app', $rootUrl . $this->getUrl('app'));
-            $this->setUrl('extensions', $rootUrl . $this->getUrl('extensions'));
-            $this->setUrl('files', $rootUrl . $this->getUrl('files'));
-            $this->setUrl('async', $rootUrl . $this->getUrl('async'));
-            $this->setUrl('upload', $rootUrl . $this->getUrl('upload'));
+            $this->urlPrefix = $request->getBasePath();
         }
 
         $this->setRequest('protocol', $protocol);
@@ -415,8 +414,8 @@ class ResourceManager
             $this->setPath('templatespath', $this->getPath('theme'));
         }
 
-        $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
-        $this->setUrl('bolt', $this->getUrl('root') . $branding);
+        $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
+        $this->setUrl('bolt', $branding);
         $this->app['config']->setCkPath();
     }
 
@@ -431,7 +430,7 @@ class ResourceManager
     {
         $themeDir = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
         $themePath = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
-        $themeUrl = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
+        $themeUrl = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
 
         // See if the user has set a theme path otherwise use the default
         if (!isset($generalConfig['theme_path'])) {
