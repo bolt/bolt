@@ -84,8 +84,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             function ($app) {
                 return new Listener\SnippetListener(
                     $app['asset.queue.snippet'],
+                    $app['canonical'],
+                    $app['asset.packages'],
                     $app['config'],
-                    $app['resources'],
                     $app['render']
                 );
             }
