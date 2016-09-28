@@ -47,6 +47,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('__',                 [$this, 'trans'],       $safe),
             new \Twig_SimpleFunction('backtrace',          [$this, 'printBacktrace']),
             new \Twig_SimpleFunction('buid',               [$this, 'buid'],        $safe),
+            new \Twig_SimpleFunction('canonical',          [$this, 'canonical']),
             new \Twig_SimpleFunction('countwidgets',       [$this, 'countWidgets'],  $safe),
             new \Twig_SimpleFunction('current',            [$this, 'current']),
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
@@ -187,6 +188,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function buid()
     {
         return $this->handlers['admin']->buid();
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\RoutingHandler::canonical()
+     */
+    public function canonical()
+    {
+        return $this->handlers['routing']->canonical();
     }
 
     /**
