@@ -48,6 +48,7 @@ class SessionListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $request->setSession($this->session);
 
+        $this->prependBasePathToCookie($request);
         $this->appendRealmToName($request);
 
         $name = $this->session->getName();
@@ -70,6 +71,15 @@ class SessionListener implements EventSubscriberInterface
         $this->session->save();
         $cookie = $this->generateCookie();
         $event->getResponse()->headers->setCookie($cookie);
+    }
+
+    protected function prependBasePathToCookie(Request $request)
+    {
+        if (!$path = $this->options['cookie_path']) {
+            return;
+        }
+
+        $this->options['cookie_path'] = $request->getBasePath() . $path;
     }
 
     protected function appendRealmToName(Request $request)
