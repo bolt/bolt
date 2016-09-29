@@ -21,12 +21,14 @@ class TwigServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
 
-                $loader->addPath('theme://', 'theme');
+                $themePath = 'theme://' . $app['config']->get('theme/template_directory');
+
+                $loader->addPath($themePath, 'theme');
                 $loader->addPath('app://theme_defaults', 'theme');
                 $loader->addPath('app://view/twig', 'bolt');
 
                 /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-                $loader->addPath('theme://');
+                $loader->addPath($themePath);
                 $loader->addPath('app://theme_defaults');
                 $loader->addPath('app://view/twig');
 
