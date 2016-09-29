@@ -6,6 +6,7 @@ use Codeception\Event\StepEvent;
 use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
 use Codeception\Util\Fixtures;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -140,13 +141,13 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         // Install the local extension
         $this->writeln('Installing local extension');
         $fs->mirror(CODECEPTION_DATA . '/extensions/local/bolt/testerevents/', INSTALL_ROOT . '/extensions/local/bolt/testerevents/', null, ['override' => true, 'delete' => true]);
-        system('php ' . NUT_PATH . ' extensions:setup');
+        $this->nut('extensions:setup');
 
         // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
+        $this->nut('cache:clear');
 
         // Turn up Twig's anger ratio
-        system('php ' . NUT_PATH . ' config:set strict_variables true');
+        $this->nut('config:set strict_variables true');
     }
 
     /**
@@ -180,7 +181,7 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
         // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
+        $this->nut('cache:clear');
 
         $fs = new Filesystem();
         $rundir = INSTALL_ROOT . '/app/cache/codeception-run-' . time() . '/';
@@ -213,13 +214,13 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
                 $this->writeln('Removing extensions/local/');
                 $fs->remove(INSTALL_ROOT . '/extensions/local/');
                 $this->writeln('Uninstalling wikimedia/composer-merge-plugin');
-                system('php ' . NUT_PATH . ' extensions:uninstall wikimedia/composer-merge-plugin');
+                $this->nut('extensions:uninstall wikimedia/composer-merge-plugin');
             }
         }
         if ($fs->exists(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml')) {
             $fs->remove(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml');
         }
-        system('php ' . NUT_PATH . ' extensions:dumpautoload');
+        $this->nut('extensions:dumpautoload');
     }
 
     /**
@@ -240,5 +241,15 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
     private function afterSuiteUnit(SuiteEvent $e)
     {
         //
+    }
+
+    private function nut($args)
+    {
+        /** @var \Silex\Application $app */
+        $app = require __DIR__ . '/../../../app/bootstrap.php';
+        $nut = $app['nut'];
+        $nut->setAutoExit(false);
+
+        $nut->run(new StringInput($args));
     }
 }
