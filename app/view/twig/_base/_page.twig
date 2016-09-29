@@ -72,6 +72,13 @@
 
     {% block page_plain %}{% endblock page_plain %}
 
+{# Convert array of [assetPath, packageName] to actual url #}
+{% set ckCss = [] %}
+{% for assetData in config.get('general/wysiwyg/ck/contentsCss') %}
+    {% set ckCss = ckCss|merge([asset(assetData.0, assetData.1)]) %}
+{% endfor %}
+{% set ckConfig = config.get('general/wysiwyg/ck')|merge({'contentsCss': ckCss}) %}
+
 {% set bconfig = {
     locale: {
         short: page_locale_short,
@@ -101,9 +108,11 @@
         underline:   0 + config.get('general/wysiwyg/underline'),
         codesnippet: 0 + config.get('general/wysiwyg/codesnippet'),
         specialchar: 0 + config.get('general/wysiwyg/specialchar'),
-        ck:          (config.get('general/wysiwyg/ck') is iterable) ? config.get('general/wysiwyg/ck') : false,
-        filebrowser: (config.get('general/wysiwyg/filebrowser') is iterable)
-                        ? config.get('general/wysiwyg/filebrowser') : false,
+        ck:          ckConfig,
+        filebrowser: {
+            browseUrl: path('recordbrowser'),
+            imageBrowseUrl: path('files', {namespace: 'files'}),
+        },
     },
     stackAddUrl: path('stack/add'),
     google_api_key: config.get('general/google_api_key'),

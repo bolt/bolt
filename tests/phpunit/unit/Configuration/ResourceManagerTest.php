@@ -281,7 +281,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         );
         $app = new Application(['resources' => $config]);
         $this->assertEquals('/bolt/', $config->getUrl('bolt'));
-        $this->assertEquals('/bolt/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
     }
 
     public function testConfigDrivenUrlsWithBrandingOverride()
@@ -298,7 +297,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();
         $this->assertEquals('/custom/', $config->getUrl('bolt'));
-        $this->assertEquals('/custom/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
     }
 
     public function testConfigsWithNonRootDirectory()
@@ -329,10 +327,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();
         $this->assertEquals('/sub/directory/custom/', $config->getUrl('bolt'));
-        $this->assertEquals(
-            '/sub/directory/custom/files/files/',
-            $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl')
-        );
     }
 
     public function testFindRelativePath()

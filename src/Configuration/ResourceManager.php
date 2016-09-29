@@ -423,7 +423,6 @@ class ResourceManager
 
         $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
         $this->setUrl('bolt', $branding);
-        $this->app['config']->setCkPath();
     }
 
     /**
