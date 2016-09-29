@@ -61,11 +61,11 @@ class ProfilerServiceProvider implements ServiceProviderInterface
             )
         );
 
-        $app['twig.loader.filesystem'] = $app->share(
+        $app['twig.loader.bolt_filesystem'] = $app->share(
             $app->extend(
-                'twig.loader.filesystem',
-                function (Twig_Loader_Filesystem $filesystem, $app) {
-                    $filesystem->addPath($app['resources']->getPath('app/view/toolbar'), 'BoltProfiler');
+                'twig.loader.bolt_filesystem',
+                function ($filesystem) {
+                    $filesystem->addPath('view://toolbar', 'BoltProfiler');
 
                     return $filesystem;
                 }
