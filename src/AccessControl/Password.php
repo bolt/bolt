@@ -8,6 +8,7 @@ use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Password handling.
@@ -167,11 +168,10 @@ class Password
      */
     private function resetPasswordNotification(Entity\Users $userEntity, $shadowpassword, $shadowtoken)
     {
-        $shadowlink = sprintf(
-            '%s%sresetpassword?token=%s',
-            $this->app['resources']->getUrl('hosturl'),
-            $this->app['resources']->getUrl('bolt'),
-            urlencode($shadowtoken)
+        $shadowLink = $this->app['url_generator']->generate(
+            'resetpassword',
+            ['token' => $shadowtoken],
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
 
         // Compile the email with the shadow password and reset link.
@@ -182,7 +182,7 @@ class Password
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken'    => $shadowtoken,
                 'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
-                'shadowlink'     => $shadowlink,
+                'shadowlink'     => $shadowLink,
             ]
         )->getContent();
 
