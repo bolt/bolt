@@ -28,7 +28,9 @@ class MenuServiceProvider implements ServiceProviderInterface
          */
         $app['menu.admin'] = $app->share(
             function ($app) {
-                $baseUrl = rtrim($app['resources']->getUrl('root'), '/') . $app['config']->get('general/branding/path');
+                // This service should not be invoked until request cycle since it depends
+                // on url generation. Probably should be refactored somehow.
+                $baseUrl = $app['url_generator']->generate('dashboard');
                 $adminMenu = new AdminMenuBuilder(new MenuEntry('root', $baseUrl));
                 $rootEntry = $adminMenu->build($app);
 
