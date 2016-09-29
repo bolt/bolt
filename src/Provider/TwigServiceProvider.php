@@ -99,25 +99,6 @@ class TwigServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['twig.loader.filesystem'] = $app->share(
-            $app->extend(
-                'twig.loader.filesystem',
-                function ($filesystem, $app) {
-                    $filesystem->addPath($app['resources']->getPath('app/view/twig'), 'bolt');
-
-                    /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-                    $filesystem->addPath($app['resources']->getPath('app/view/twig'));
-
-                    return $filesystem;
-                }
-            )
-        );
-
-        // Twig paths
-        $app['twig.path'] = function () use ($app) {
-            return $app['config']->getTwigPath();
-        };
-
         // Twig options
         $app['twig.options'] = function () use ($app) {
             // Should we cache or not?
