@@ -84,14 +84,15 @@ class Canonical implements EventSubscriberInterface
 
         $override = $this->override;
 
-        $schemeStubbed = false;
+        // Prepend scheme if not included so parse_url doesn't choke.
         if (strpos($override, 'http') !== 0) {
-            $schemeStubbed = true;
             $override = 'http://' . $override;
         }
         $parts = parse_url($override);
 
-        if (!$schemeStubbed && isset($parts['scheme'])) {
+        // Only override scheme if it's an upgrade to https.
+        // i.e Don't do: https -> http
+        if (isset($parts['scheme']) && $parts['scheme'] === 'https') {
             $this->requestContext->setScheme($parts['scheme']);
         }
         if (isset($parts['host'])) {
