@@ -367,7 +367,7 @@ class Users extends BackendBase
             $this->flashes()->clear();
             $this->flashes()->success(Trans::__('general.bolt-welcome-new-site', ['%USER%' => $userEntity->getDisplayname()]));
 
-            $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
+            $response = $this->setAuthenticationCookie($request, $this->redirectToRoute('dashboard'), (string) $token);
 
             return $response;
         }
