@@ -176,7 +176,8 @@ trait AssetTrait
 
         $app = $this->getContainer();
 
-        if ($app['filesystem']->has(sprintf('theme://%s', $path))) {
+        $themeFile = $app['filesystem']->getFile(sprintf('theme://%s', $path));
+        if ($themeFile->exists()) {
             $asset->setPackageName('theme')->setPath($path);
 
             return;
@@ -186,7 +187,7 @@ trait AssetTrait
             "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
             $path,
             $this->getWebDirectory()->getFullPath(),
-            $app['resources']->getUrl('theme')
+            $themeFile->getFullPath()
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
     }
