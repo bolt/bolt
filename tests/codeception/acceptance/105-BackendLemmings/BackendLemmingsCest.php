@@ -48,8 +48,10 @@ class BackendLemmingsCest extends AbstractAcceptanceTest
 
         $token = $I->grabValueFrom('#form__token');
         $I->sendAjaxPostRequest('/bolt/file/edit/config/permissions.yml', [
-            'form[_token]'   => $token,
-            'form[contents]' => $yaml,
+            'form' => [
+                '_token'   => $token,
+                'contents' => $yaml,
+            ],
         ]);
 
         // Verify we go to the dashboard and end up on the homepage

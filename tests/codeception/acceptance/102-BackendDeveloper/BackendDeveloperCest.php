@@ -109,8 +109,10 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         // Save it
         $token = $I->grabValueFrom('#form__token');
         $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/partials/_footer.twig', [
-            'form[_token]'   => $token,
-            'form[contents]' => $twig,
+            'form' => [
+                '_token'   => $token,
+                'contents' => $twig,
+            ],
         ]);
 
         $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
@@ -139,11 +141,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->fillField('#form_contents', $twig);
 
         // Save it
-        $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/tr', [
-            'form[_token]'   => $token,
-            'form[contents]' => $twig,
-        ]);
+        $I->click('Save', '#saveeditlocale');
 
         $I->amOnPage('/bolt/tr');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
@@ -169,11 +167,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->fillField('#form_contents', $twig);
 
         // Save it
-        $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/tr/infos', [
-            'form[_token]'   => $token,
-            'form[contents]' => $twig,
-        ]);
+        $I->click('Save', '#saveeditlocale');
 
         $I->amOnPage('/bolt/tr/infos');
         $I->see('Use this field to upload a photo of a kitten', 'textarea');
@@ -198,13 +192,10 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
         $twig = str_replace('The Entry you were looking for does not exist.', 'These are not the Entries you are looking for.', $twig);
+        $I->fillField('#form_contents', $twig);
 
         // Save it
-        $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/tr/contenttypes', [
-            'form[_token]'   => $token,
-            'form[contents]' => $twig,
-        ]);
+        $I->click('Save', '#saveeditlocale');
 
         $I->amOnPage('/bolt/tr/contenttypes');
         $I->see('These are not the Entries you are looking for.', 'textarea');
@@ -258,8 +249,10 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         $token = $I->grabValueFrom('#form__token');
         $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/testerevents.bolt.yml', [
-            'form[_token]'   => $token,
-            'form[contents]' => $twig,
+            'form' => [
+                '_token' => $token,
+                'contents' => $twig,
+            ],
         ]);
         $I->amOnPage('/bolt/file/edit/config/extensions/testerevents.bolt.yml');
 
