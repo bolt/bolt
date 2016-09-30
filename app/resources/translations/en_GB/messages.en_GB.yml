@@ -494,6 +494,9 @@ logs.system-log.trimmed: "The system log has been trimmed."
 
 menu.configuration.routing: "Routing set up"
 
+nut.greeting: "Welcome to Bolt!"
+nut.version: "version"
+
 page.checks.run-all: "Run all checks"
 page.checks.run-directory-checks: "Run directory checks"
 page.checks.run-email-checks: "Run email checks"
