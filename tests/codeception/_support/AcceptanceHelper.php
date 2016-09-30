@@ -41,4 +41,14 @@ class AcceptanceHelper extends \Codeception\Module
         $web->fillField('password', $password);
         $web->click('Log on');
     }
+
+    /**
+     * Reload app so configuration changes take affect.
+     */
+    public function reloadApp()
+    {
+        /** @var WorkingSilex $silex */
+        $silex = $this->moduleContainer->getModule('WorkingSilex');
+        $silex->reloadApp();
+    }
 }

@@ -48,6 +48,8 @@ class BackendLemmingsCest extends AbstractAcceptanceTest
 
         $I->click('Save');
 
+        $I->reloadApp();
+
         // Verify we go to the dashboard and end up on the homepage
         $I->amOnPage('/bolt');
 

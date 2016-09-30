@@ -25,6 +25,11 @@ class WorkingSilex extends Silex
 
     public function _before(TestInterface $test)
     {
+        $this->reloadApp();
+    }
+
+    public function reloadApp()
+    {
         $this->loadApp();
         $this->client = new Client($this->app, [], null, $this->cookieJar);
         $this->client->followRedirects();
