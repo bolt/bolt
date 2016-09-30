@@ -35,7 +35,7 @@
 
 {% if 'geolocation' in used_fieldtypes %}
     {{ data('field.geolocation.title-pin', __('field.geolocation.title-pin')) }}
-    <script src="https://maps.google.com/maps/api/js?sensor=false{{app.config.get('google_api_key') ? '&key=' ~ app.config.get('google_api_key') : '' }}"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=false{{app.config.get('general/google_api_key') ? '&key=' ~ app.config.get('general/google_api_key') : '' }}"></script>
 {% endif %}
 
 {% if 'slug' in used_fieldtypes %}
