@@ -202,8 +202,7 @@ class ScriptHandler
     {
         $boltDir = sprintf('%s/bolt/bolt/', $event->getComposer()->getConfig()->get('vendor-dir'));
         $question = sprintf(
-            '<info>Do you want to import the <comment>.gitignore</comment> file from <comment>%s</comment>] </info>',
-            $boltDir
+            '<info>Do you want to override the existing <comment>.gitignore</comment> file with the more restrictive one from <comment>vendor/bolt/bolt</comment>?</info>'
         );
         $confirm = $event->getIO()->askConfirmation($question, false);
         if ($confirm) {
