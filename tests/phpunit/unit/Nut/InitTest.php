@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\Hello;
+use Bolt\Nut\Init;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -15,7 +15,7 @@ class HelloTest extends BoltUnitTest
     public function testRun()
     {
         $app = $this->getApp();
-        $command = new Hello($app);
+        $command = new Init($app);
         $tester = new CommandTester($command);
 
         $tester->execute([]);
