@@ -205,7 +205,7 @@ class ScriptHandler
             '<info>Do you want to import the <comment>.gitignore</comment> file from <comment>%s</comment>] </info>',
             $boltDir
         );
-        $confirm = $event->getIO()->askConfirmation($question, true);
+        $confirm = $event->getIO()->askConfirmation($question, false);
         if ($confirm) {
             $fs = new Filesystem();
             $fs->copy($boltDir . '.gitignore', getcwd() . '/.gitignore', true);
