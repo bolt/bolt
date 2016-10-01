@@ -6,7 +6,6 @@ use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
 use Bolt\Storage\Field\Sanitiser\SanitiserAwareTrait;
 use Bolt\Storage\Field\Sanitiser\WysiwygAwareInterface;
 use Doctrine\DBAL\Types\Type;
-use Twig_Markup;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -17,7 +16,6 @@ use Twig_Markup;
 class HtmlType extends FieldTypeBase implements SanitiserAwareInterface, WysiwygAwareInterface
 {
     use SanitiserAwareTrait;
-
 
     public function hydrate($data, $entity)
     {
