@@ -1,15 +1,20 @@
-{% extends '@bolt/_base/_page.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-{% set page_bodyclass = 'login exception' %}
+    <title>{{ __('Exception') }} - Bolt</title>
 
-{% set page_hasnav = false %}
+    {# <link rel="stylesheet" href="{{ asset('css/lib.css', 'bolt') }}"> #}
+    <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
 
-{% block page_nav 'Exception' %}
+</head>
 
-{% block page_title __('Exception') %}
+<body class="login exception">
 
-{% block page_plain %}
-
+    {% block page_plain %}
     <div class="container">
 
         <div class="row">
@@ -41,5 +46,9 @@
             </div>
         </div>
     </div>
+    {% endblock page_plain %}
 
-{% endblock page_plain %}
+</body>
+</html>
+
+
