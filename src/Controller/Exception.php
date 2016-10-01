@@ -269,7 +269,7 @@ class Exception extends Base implements ExceptionControllerInterface
     /**
      * Get an exception trace that is safe to display publicly.
      *
-     * @param \Exception  $exception
+     * @param \Exception $exception
      *
      * @return array
      */

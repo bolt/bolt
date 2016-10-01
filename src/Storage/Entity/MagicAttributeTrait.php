@@ -119,6 +119,4 @@ trait MagicAttributeTrait
     {
         return in_array($field, $this->getFields());
     }
-
-
 }

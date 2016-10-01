@@ -3,16 +3,16 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Directive\HydrateDirective;
+use Bolt\Storage\Query\Directive\LimitDirective;
 use Bolt\Storage\Query\Directive\OrderDirective;
 use Bolt\Storage\Query\Directive\PagingDirective;
 use Bolt\Storage\Query\Directive\PrintQueryDirective;
 use Bolt\Storage\Query\Directive\ReturnSingleDirective;
 use Bolt\Storage\Query\Handler\FirstQueryHandler;
-use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Handler\IdentifiedSelectHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
-use Bolt\Storage\Query\Directive\LimitDirective;
 use Bolt\Storage\Query\Handler\NativeSearchHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
 use Bolt\Storage\Query\Handler\SearchQueryHandler;
@@ -207,7 +207,7 @@ class ContentQueryParser
      * This runs the callbacks attached to each directive command.
      *
      * @param QueryInterface $query
-     * @param array $skipDirective
+     * @param array          $skipDirective
      */
     public function runDirectives(QueryInterface $query, array $skipDirective = [])
     {

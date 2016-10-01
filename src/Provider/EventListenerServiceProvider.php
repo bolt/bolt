@@ -111,7 +111,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             'redirect',
             'flash_logger',
             'zone_guesser',
-            'pager'
+            'pager',
         ];
 
         foreach ($listeners as $name) {

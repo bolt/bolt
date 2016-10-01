@@ -22,7 +22,7 @@ trait ProfilerAwareTrait
     protected function isProfilerRequest(Request $request)
     {
         $route = $request->attributes->get('_route');
-        if($route === '_wdt' || strpos($route, '_profiler') === 0) {
+        if ($route === '_wdt' || strpos($route, '_profiler') === 0) {
             return true;
         }
 

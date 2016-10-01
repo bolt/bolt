@@ -107,7 +107,7 @@ class StorageEventListener implements EventSubscriberInterface
         if (!$event->isMasterRequest()) {
             return;
         }
-        if($this->isProfilerRequest($event->getRequest())) {
+        if ($this->isProfilerRequest($event->getRequest())) {
             return;
         }
 

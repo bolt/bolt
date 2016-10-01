@@ -48,7 +48,7 @@ abstract class BackendBase extends Base
      * @param Application $app       The application/container
      * @param string      $roleRoute An overriding value for the route name in permission checks
      *
-     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Symfony\Component\HttpFoundation\JsonResponse
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function before(Request $request, Application $app, $roleRoute = null)
     {
@@ -102,6 +102,7 @@ abstract class BackendBase extends Base
             // message with a `500` status code instead.
             if ($request->isXmlHttpRequest()) {
                 $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')] ];
+
                 return new JsonResponse($response, 500);
             }
 

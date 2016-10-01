@@ -135,7 +135,7 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     private function getValidator($className, $constructorArgs)
     {
         /** @var ValidationInterface $validator */
-        $validator = is_string($className) ? new $className($constructorArgs): $className;
+        $validator = is_string($className) ? new $className($constructorArgs) : $className;
         if (!$validator instanceof ValidationInterface) {
             throw new BootException(sprintf('System validator was given a validation class %s that does not implement %s', $className, ValidationInterface::class));
         }

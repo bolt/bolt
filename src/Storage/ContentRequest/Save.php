@@ -404,7 +404,7 @@ class Save
      *
      * @param string $name          The name of the route
      * @param array  $params        An array of parameters
-     * @param bool   $referenceType The type of reference to be generated (one of the constants)
+     * @param int    $referenceType The type of reference to be generated (one of the constants)
      *
      * @return string
      */
