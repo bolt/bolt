@@ -26,6 +26,16 @@ class WorkingSilex extends Silex
     public function _before(TestInterface $test)
     {
         $this->reloadApp();
+
+        $this->app->finish(function () {
+            if ($this->app['mailer.initialized'] && $this->app['swiftmailer.use_spool'] && $this->app['swiftmailer.spooltransport'] instanceof \Swift_Transport_SpoolTransport) {
+                $spool = $this->app['swiftmailer.spooltransport']->getSpool();
+                $r = new \ReflectionClass($spool);
+                $p = $r->getProperty('messages');
+                $p->setAccessible(true);
+                $p->setValue($spool, []);
+            }
+        }, 512);
     }
 
     public function reloadApp()
