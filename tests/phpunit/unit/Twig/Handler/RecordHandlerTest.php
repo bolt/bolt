@@ -24,7 +24,7 @@ For the fulfillment of his martyrdom.
 GRINGALET;
     protected $excerpt = <<<GRINGALET
 But Gawain chose the lower road, and passed
-Along the desolate shore. The die was cast…
+Along the desolate shore. The die was …
 GRINGALET;
 
     /**
