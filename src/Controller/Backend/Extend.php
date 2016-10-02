@@ -464,10 +464,15 @@ class Extend extends BackendBase
      */
     private function getJsonException(\Exception $e)
     {
+        // Make file path relative to not leak system info
+        $file = $e->getFile();
+        $base = realpath(__DIR__ . '/../../..');
+        $file = str_replace($base . '/', '', $file);
+
         $error = [
             'error' => [
                 'type'    => get_class($e),
-                'file'    => $e->getFile(),
+                'file'    => $file,
                 'line'    => $e->getLine(),
                 'message' => $e->getMessage(),
             ],

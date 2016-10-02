@@ -4,7 +4,6 @@
     extensions:  field.extensions|default([]),
     label:       field.label,
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')
 } %}
 
@@ -23,8 +22,6 @@
 
 {% set list = context.content.get(contentkey)|default([]) %}
 
-{% set can_upload = context.can.upload and option.can_upload %}
-
 {#=== TEMPLATES ======================================================================================================#}
 
 {### Template: Empty list ###}
@@ -40,9 +37,9 @@
     <div class="item ui-state-default">
         <div class="icon"><i class="fa fa-file-o"></i><span>%EXT_E%</span></div>
         <input type="text" class="title" value="%TITLE_A%">
-        <input type="hidden" class="filename" value="%FILENAME_A%">
+        <input type="hidden" class="filename" value="%FILEPATH_A%">
         <a href="#" class="remove"><i class="fa fa-times"></i></a>
-        <span class="desc">%FILENAME_E%</span>
+        <span class="desc">%FILEPATH_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -65,12 +62,13 @@
     <div class="col-xs-12 dropzone">
         {# Filelist #}
         <div class="list">
-            {% for file in list %}
+            {% for item in list %}
+                {% set file = app['filesystem.matcher'].getFile(item.filename) %}
                 {{ template_item|replace({
-                    '%TITLE_A%':    file.title|e('html_attr'),
-                    '%FILENAME_A%': file.filename|e('html_attr'),
-                    '%FILENAME_E%': file.filename|e('html'),
-                    '%EXT_E%': file.filename|preg_replace('/.+?\.([a-z0-9]+)$/', '$1')|upper|e('html')
+                    '%TITLE_A%':    item.title|e('html_attr'),
+                    '%FILEPATH_A%': file.path|e('html_attr'),
+                    '%FILEPATH_E%': file.path|e('html'),
+                    '%EXT_E%': file.extension|upper|e('html'),
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
@@ -82,7 +80,7 @@
 
         {# Buttons #}
         <div class="clearfix">
-            {{ macro.upload_buttons('file', attributes.fileupload, option.upload, can_upload, true) }}
+            {{ macro.upload_buttons([], attributes.fileupload, option.upload, context.can.upload, true) }}
         </div>
 
         {# Data #}

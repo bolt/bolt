@@ -2,21 +2,24 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Exception\FileNotStackableException;
 use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\FilesystemInterface;
-use Bolt\Filesystem\Handler\File;
+use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Filesystem\Handler\FileInterface;
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Helpers\Input;
-use Bolt\Library as Lib;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -60,68 +63,48 @@ class FileManager extends BackendBase
      * @param string  $namespace The filesystem namespace
      * @param string  $file      The file path
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function edit(Request $request, $namespace, $file)
     {
-        if ($namespace === 'app' && dirname($file) === 'config') {
-            // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
-            // correct dir, which might be 'app/config', but it might be something else.
-            $namespace = 'config';
-        }
+        $file = $this->filesystem()->getFile("$namespace://$file");
 
-        /** @var FilesystemInterface $filesystem */
-        $filesystem = $this->filesystem()->getFilesystem($namespace);
+        if (!$file->authorized()) {
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file->getPath()]));
 
-        if (!$filesystem->authorized($file)) {
-            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-edit-file', ['%s' => $file]));
-
-            return new RedirectResponse($this->generateUrl('dashboard'));
+            return $this->redirectToRoute('dashboard');
         }
 
         try {
-            /** @var File $file */
-            $file = $filesystem->get($file);
-            $type = Lib::getExtension($file->getPath());
-            $data = ['contents' => $file->read()];
+            $contents = $file->read();
         } catch (FileNotFoundException $e) {
-            $this->flashes()->error(Trans::__('general.phrase.file-not-exist', ['%s' => $file]));
+            $this->flashes()->error(Trans::__('general.phrase.file-not-exist', ['%s' => $file->getPath()]));
 
-            return new RedirectResponse($this->generateUrl('dashboard'));
+            return $this->redirectToRoute('dashboard');
         } catch (IOException $e) {
             $this->flashes()->error(Trans::__('general.phrase.file-not-readable', ['%s' => $file->getPath()]));
 
-            return new RedirectResponse($this->generateUrl('dashboard'));
+            return $this->redirectToRoute('dashboard');
         }
 
         /** @var Form $form */
-        $form = $this->createFormBuilder(FormType::class, $data)
+        $form = $this->createFormBuilder(FormType::class, compact('contents'))
             ->add('contents', TextareaType::class)
             ->getForm();
 
         // Handle the POST and check if it's valid.
-        if ($request->isMethod('POST')) {
-            return $this->handleEdit($request, $form, $file, $type);
-        }
-
-        // For 'related' files we might need to keep track of the current dirname on top of the namespace.
-        if (dirname($file->getPath()) !== '') {
-            $additionalPath = dirname($file->getPath()) . '/';
-        } else {
-            $additionalPath = '';
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            return $this->handleEdit($form, $file);
         }
 
         $context = [
             'form'           => $form->createView(),
-            'filetype'       => $type,
-            'file'           => $file->getPath(),
-            'basename'       => basename($file->getPath()),
-            'pathsegments'   => $this->getPathSegments(dirname($file->getPath())),
-            'additionalpath' => $additionalPath,
-            'namespace'      => $namespace,
+            'file'           => $file,
             'write_allowed'  => true,
-            'filegroup'      => $this->getFileGroup($filesystem, $file),
-            'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c'),
+            'related'        => $this->getRelatedFiles($file),
+            'datechanged'    => $file->getCarbon()->toIso8601String(),
+            'codeMirrorPlugins' => $this->getCodeMirrorPlugins($file),
         ];
 
         return $this->render('@bolt/editfile/editfile.twig', $context);
@@ -138,49 +121,16 @@ class FileManager extends BackendBase
      */
     public function manage(Request $request, $namespace, $path)
     {
-        // No trailing slashes in the path.
-        $path = rtrim($path, '/');
+        $directory = $this->filesystem()->getDir("$namespace://$path");
 
-        // Defaults
-        $files       = [];
-        $directories = [];
-        $formview    = false;
-        $uploadview  = true;
+        if (!$directory->authorized()) {
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $directory->getPath()]));
 
-        $filesystem = $this->filesystem()->getFilesystem($namespace);
-
-        if (!$filesystem->authorized($path)) {
-            if (empty($path)) {
-                $path = $namespace;
-            }
-
-            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $path]));
-
-            return new RedirectResponse($this->generateUrl('dashboard'));
+            return $this->redirectToRoute('dashboard');
         }
 
-        if (!$this->isAllowed('files:uploads')) {
-            $uploadview = false;
-        }
-
-        try {
-            $visibility = $filesystem->getVisibility($path);
-        } catch (FileNotFoundException $fnfe) {
-            $visibility = false;
-        }
-
-        if ($visibility === 'public') {
-            $validFolder = true;
-        } elseif ($visibility === 'readonly') {
-            $validFolder = true;
-            $uploadview = false;
-        } else {
-            $this->flashes()->error(Trans::__('general.phrase.directory-not-found-writable', ['%s' => $path]));
-            $formview = false;
-            $validFolder = false;
-        }
-
-        if ($validFolder) {
+        $form = null;
+        if (!$request->query->has('CKEditor') && $this->isAllowed('files:uploads')) {
             // Define the "Upload here" form.
             $form = $this->createFormBuilder(FormType::class)
                 ->add(
@@ -192,129 +142,118 @@ class FileManager extends BackendBase
                         'attr'     => [
                             'data-filename-placement' => 'inside',
                             'title'                   => Trans::__('general.phrase.select-file'),
+                            'accept'                  => '.' . join(',.', $this->getOption('general/accept_file_types')),
                         ],
                     ]
                 )
                 ->getForm();
 
             // Handle the upload.
-            if ($request->isMethod('POST')) {
-                $this->handleUpload($request, $form, $namespace, $path);
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                $this->handleUpload($form, $directory);
 
-                return $this->redirectToRoute('files', ['path' => $path, 'namespace' => $namespace]);
+                return $this->redirectToRoute('files', ['path' => $directory->getPath(), 'namespace' => $directory->getMountPoint()]);
             }
-
-            if ($uploadview !== false) {
-                $formview = $form->createView();
-            }
-
-            $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
-            $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
         }
+
+        $it = $directory->getContents();
+        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
+        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.
-        if (!$request->query->has('CKEditor')) {
-            $twig = '@bolt/files/files.twig';
-        } else {
-            $twig = '@bolt/files_ck/files_ck.twig';
-        }
+        $template = $request->query->has('CKEditor') ? '@bolt/files_ck/files_ck.twig' : '@bolt/files/files.twig';
 
         $context = [
-            'path'         => $path,
+            'directory'    => $directory,
             'files'        => $files,
             'directories'  => $directories,
-            'pathsegments' => $this->getPathSegments($path),
-            'form'         => $formview,
-            'namespace'    => $namespace,
+            'form'         => $form ? $form->createView() : false,
         ];
 
-        return $this->render($twig, $context);
+        return $this->render($template, $context);
     }
 
     /**
      * Handle a file edit POST.
      *
-     * @param Request $request
-     * @param Form    $form
-     * @param File    $file
-     * @param string  $type
+     * @param FormInterface $form
+     * @param FileInterface $file
      *
      * @return JsonResponse
      */
-    private function handleEdit(Request $request, Form $form, File $file, $type)
+    private function handleEdit(FormInterface $form, FileInterface $file)
     {
-        $form->submit($request->get($form->getName()));
-
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $contents = Input::cleanPostedData($data['contents']) . "\n";
-            $result = ['ok' => true, 'msg' => 'Unhandled state.'];
-
-            // Before trying to save a yaml file, check if it's valid.
-            if ($type === 'yml') {
-                $yamlparser = new Parser();
-                try {
-                    $yamlparser->parse($contents);
-                } catch (ParseException $e) {
-                    $result['ok'] = false;
-                    $result['msg'] = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $file->getPath()]) . $e->getMessage();
-                }
-            }
-
-            if ($result['ok']) {
-                // Remove ^M (or \r) characters from the file.
-                $contents = str_ireplace("\x0D", '', $contents);
-
-                try {
-                    $file->update($contents);
-                    $result['msg'] = Trans::__('page.file-management.message.save-success', ['%s' => $file->getPath()]);
-                    $result['datechanged'] = $file->getCarbon()->toIso8601String();
-                } catch (ExceptionInterface $e) {
-                    $result['msg'] = Trans::__('page.file-management.message.save-failed-unknown', ['%s' => $file->getPath()]);
-                }
-            }
-        } else {
-            $result = [
+        if (!$form->isValid()) {
+            return $this->json([
                 'ok'  => false,
                 'msg' => Trans::__('page.file-management.message.save-failed-invalid-form', ['%s' => $file->getPath()]),
-            ];
+            ]);
         }
 
-        return $this->json($result);
+        $data = $form->getData();
+        $contents = Input::cleanPostedData($data['contents']) . "\n";
+        // Remove ^M and \r characters from the file.
+        $contents = str_ireplace("\x0D", '', $contents);
+
+        // Before trying to save a yaml file, check if it's valid.
+        if ($file->getType() === 'yaml') {
+            $yamlparser = new Parser();
+            try {
+                $yamlparser->parse($contents);
+            } catch (ParseException $e) {
+                return $this->json([
+                    'ok'  => false,
+                    'msg' => Trans::__('page.file-management.message.save-failed-colon', ['%s' => $file->getPath()]) . $e->getMessage(),
+                ]);
+            }
+        }
+
+        try {
+            $file->update($contents);
+        } catch (ExceptionInterface $e) {
+            return $this->json([
+                'ok'  => false,
+                'msg' => Trans::__('page.file-management.message.save-failed-unknown', ['%s' => $file->getPath()]),
+            ]);
+        }
+
+        return $this->json([
+            'ok'          => true,
+            'msg'         => Trans::__('page.file-management.message.save-success', ['%s' => $file->getPath()]),
+            'datechanged' => $file->getCarbon()->toIso8601String(),
+        ]);
     }
 
     /**
      * Handle the upload POST.
      *
-     * @param Request $request   The Symfony Request
-     * @param Form    $form
-     * @param string  $namespace The filesystem namespace
-     * @param string  $path      The path prefix
+     * @param FormInterface      $form
+     * @param DirectoryInterface $directory
      */
-    private function handleUpload(Request $request, Form $form, $namespace, $path)
+    private function handleUpload(FormInterface $form, DirectoryInterface $directory)
     {
-        $form->submit($request);
         if (!$form->isValid()) {
             $this->flashes()->error(Trans::__('general.phrase.file-upload-failed'));
 
             return;
         }
 
-        $files = $request->files->get($form->getName());
-        $files = $files['FileUpload'];
+        /** @var UploadedFile[] $files */
+        $files = $form->getData()['FileUpload'];
 
         foreach ($files as $fileToProcess) {
             $fileToProcess = [
                 'name'     => $fileToProcess->getClientOriginalName(),
-                'tmp_name' => $fileToProcess->getPathName(),
+                'tmp_name' => $fileToProcess->getPathname(),
             ];
 
             $originalFilename = $fileToProcess['name'];
             $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
             if ($this->app['filepermissions']->allowedUpload($filename)) {
-                $this->processUpload($namespace, $path, $filename, $fileToProcess);
+                $this->processUpload($directory, $filename, $fileToProcess);
             } else {
                 $extensionList = [];
                 foreach ($this->app['filepermissions']->getAllowedUploadExtensions() as $extension) {
@@ -332,25 +271,22 @@ class FileManager extends BackendBase
     /**
      * Process an individual file upload.
      *
-     * @param string $namespace
-     * @param string $path
-     * @param string $filename
-     * @param array  $fileToProcess
-     *
-     * @return void
+     * @param DirectoryInterface $directory
+     * @param string             $filename
+     * @param array              $fileToProcess
      */
-    private function processUpload($namespace, $path, $filename, array $fileToProcess)
+    private function processUpload(DirectoryInterface $directory, $filename, array $fileToProcess)
     {
-        $this->app['upload.namespace'] = $namespace;
+        $this->app['upload.namespace'] = $directory->getMountPoint();
         $handler = $this->app['upload'];
-        $handler->setPrefix($path . '/');
+        $handler->setPrefix($directory->getPath() . '/');
         try {
             $result = $handler->process($fileToProcess);
         } catch (IOException $e) {
-            $message = Trans::__('page.file-management.message.upload-not-writable', ['%TARGET%' => $namespace . '://']);
+            $message = Trans::__('page.file-management.message.upload-not-writable', ['%TARGET%' => $directory->getPath()]);
             $this->flashes()->error($message);
 
-            return ;
+            return;
         }
 
         if ($result->isValid()) {
@@ -359,7 +295,12 @@ class FileManager extends BackendBase
             );
 
             // Add the file to our stack.
-            $this->app['stack']->add($path . '/' . $filename);
+            try {
+                $this->app['stack']->add($directory->getFile($filename));
+            } catch (FileNotStackableException $e) {
+                // Doesn't matter. Just trying to help the user.
+            }
+
             $result->confirm();
         } else {
             foreach ($result->getMessages() as $message) {
@@ -369,48 +310,62 @@ class FileManager extends BackendBase
     }
 
     /**
-     * Gather the 'similar' files, if present.
+     * Gather related (present) files.
+     *
+     * Matches: foo(_local)?\.*(.dist)?
      *
      * i.e., if we're editing config.yml, we also want to check for
      * config.yml.dist and config_local.yml
      *
-     * @param FilesystemInterface $filesystem
-     * @param File                $file
+     * @param FileInterface $file
      *
-     * @return array
+     * @return FileInterface[]
      */
-    private function getFileGroup(FilesystemInterface $filesystem, File $file)
+    private function getRelatedFiles(FileInterface $file)
     {
-        $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
-        $filegroup = [];
-        if ($filesystem->has($basename . '.yml')) {
-            $filegroup[] = basename($basename . '.yml');
+        // Match foo(_local).*(.dist)
+        $base = $file->getFilename();
+        if (Str::endsWith($base, '.dist')) {
+            $base = substr($base, 0, -5);
         }
-        if ($filesystem->has($basename . '_local.yml')) {
-            $filegroup[] = basename($basename . '_local.yml');
-        }
+        $ext = pathinfo($base, PATHINFO_EXTENSION);
+        $base = Str::replaceLast(".$ext", '', $base);
+        $base = Str::replaceLast('_local', '', $base);
 
-        return $filegroup;
-    }
-
-    /**
-     * Get the path segments, so we can show the path.
-     *
-     * @param string $path
-     *
-     * @return array
-     */
-    private function getPathSegments($path)
-    {
-        $pathsegments = [];
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
+        $dir = $file->getParent();
+        $related = [];
+        foreach ([".$ext", "_local.$ext", ".$ext.dist"] as $tail) {
+            $f = $dir->getFile($base . $tail);
+            if ($f->getFilename() !== $file->getFilename() && $f->exists()) {
+                $related[] = $f;
             }
         }
 
-        return $pathsegments;
+        return $related;
+    }
+
+    private function getCodeMirrorPlugins(FileInterface $file)
+    {
+        switch (strtolower($file->getExtension())) {
+            case 'twig':
+            case 'html':
+            case 'htm':
+                return ['xml', 'javascript', 'css', 'htmlmixed'];
+            case 'php':
+                return ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'];
+            case 'yml':
+            case 'yaml':
+                return ['yaml'];
+            case 'md':
+            case 'markdown':
+                return ['markdown'];
+            case 'css':
+            case 'less':
+                return ['css'];
+            case 'js':
+                return ['javascript'];
+            default:
+                return [];
+        }
     }
 }

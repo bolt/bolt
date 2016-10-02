@@ -1,9 +1,13 @@
 <?php
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Manager;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use League\Flysystem\Memory\MemoryAdapter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,25 +18,41 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class StackTest extends ControllerUnitTest
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        /** @var Manager $filesystem */
+        $filesystem = $this->getService('filesystem');
+        $filesystem->mountFilesystem('files', new Filesystem(new MemoryAdapter()));
+        $filesystem->put('files://foo.txt', '');
+    }
+
     public function testAddStack()
     {
         $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
-        $this->setRequest(Request::create('/async/stack/add/foo'));
 
-        $response = $this->controller()->addStack('foo');
+        $request = Request::create('/async/stack/add', 'POST', [
+            'filename' => 'foo.txt',
+        ]);
 
-        $this->assertTrue($response);
+        $response = $this->controller()->add($request);
+        $this->assertTrue($response instanceof JsonResponse);
+        $json = json_decode($response->getContent(), true);
+
+        $this->assertNull($json['removed']);
+        $this->assertContains('<div class="stackitem', $json['panel']);
+        $this->assertContains('<li', $json['list']);
     }
 
     public function testShowStack()
     {
         $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
-        $this->setRequest(Request::create('/async/stack/show'));
 
-        $response = $this->controller()->showStack($this->getRequest());
+        $response = $this->controller()->show(Request::create('/async/stack/show'));
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-stack.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/stack/panel.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

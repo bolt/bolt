@@ -28,26 +28,66 @@
                 fieldset = this.element;
 
             // Initialize the autocomplete popup.
-            var accept = ($('input[accept]', fieldset).prop('accept') || '').replace(/\./g, ''),
-                input = $('input.path', fieldset);
+            var input = $('input.path', fieldset);
+
+            // Until content field returns file objects, fake initially selected data here.
+            input.data('selected', {
+                path: input.val(),
+            });
 
             input.autocomplete({
-                source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
+                source: fieldset.find('[data-autocomplete-url]').data('autocompleteUrl'),
                 minLength: 2,
+                focus: function (event, ui) {
+                    self._onPreview(event, ui.item);
+                    return false;
+                },
+                select: function (event, ui) {
+                    self._onSelect(event, ui.item);
+                    return false;
+                },
                 close: function () {
-                    $(input).trigger('change');
+                    self._onClose();
+                }
+            })
+            .autocomplete('instance')._renderItem = function (ul, item) {
+                return $('<li>')
+                    .append(item.path)
+                    .appendTo(ul);
+            };
+            input.on('change', function () {
+                $(this).data('changeWithoutSelection', true);
+            });
+            input.on('blur', function () {
+                if ($(this).data('changeWithoutSelection')) {
+                    if ($(this).val() === '') {
+                        self._onClear();
+                    } else {
+                        self._onClose();
+                    }
                 }
             });
 
             // Binds event handlers.
             self._on({
                 'click.select-from-stack a': self._onSelectFromStack,
-                'buicbrowserselected':       self._onSetPath,
-                'buicuploaduploaded':        self._onSetPath
+                'buicbrowserselected':       self._onSelect,
+                'buicuploaduploaded':        self._onSelect,
             });
 
             // Bind upload.
             fieldset.buicUpload();
+        },
+
+        /**
+         * Preview the item, but not select it.
+         *
+         * @param event
+         * @param file
+         * @private
+         */
+        _onPreview: function (event, file) {
+            $('input.path', this.element).val(file.path);
         },
 
         /**
@@ -58,12 +98,13 @@
          * @param {Object} event - The event
          */
         _onSelectFromStack: function (event) {
-            var link = $(event.target);
+            var link = $(event.target),
+                fileItem = link.parent('[data-file]');
 
             // Close the dropdown.
             link.closest('.btn-group').removeClass('open');
 
-            this._onSetPath(event, {path: link.data('path')});
+            this._onSelect(event, fileItem.data('file'));
             event.preventDefault();
         },
 
@@ -72,19 +113,41 @@
          *
          * @private
          *
-         * @param {Object}                                             event - The event
-         * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         jQuery.widget.bolt.buicUpload#buicuploaduploaded|
-         *         Object}                                             data  - Data containing the path
+         * @param {Object} event - The event
+         * @param {Object} file  - Data containing the path
          */
-        _onSetPath: function (event, data) {
+        _onSelect: function (event, file) {
             $('input.path', this.element)
-                .val(data.path)
+                .data('changeWithoutSelection', false)
+                .data('selected', file)
+                .val(file.path)
                 .trigger('change');
 
             if (event.type !== 'click') {
-                bolt.stack.addToStack(data.path);
+                bolt.stack.addToStack(file.path);
             }
-        }
+        },
+
+        /**
+         * Reset the selection to the last selected item.
+         *
+         * @private
+         */
+        _onClose: function () {
+            var input = $('input.path', this.element);
+            input.val(input.data('selected').path);
+        },
+
+        /**
+         * Clear the selected item.
+         *
+         * @private
+         */
+        _onClear: function () {
+            var input = $('input.path', this.element);
+            input.val('');
+            input.data('selected', {});
+        },
+
     });
 })(jQuery, Bolt);

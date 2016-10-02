@@ -2,6 +2,8 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Filesystem\Handler\FileInterface;
+use Bolt\Stack;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 
@@ -61,15 +63,15 @@ class AdminHandler
     }
 
     /**
-     * Return whether or not an item is on the stack, and is stackable in the first place.
+     * Return whether or not a file is stackable.
      *
-     * @param string $filename File name
+     * @param FileInterface|string $filename
      *
      * @return boolean
      */
-    public function stacked($filename)
+    public function testStackable($filename)
     {
-        $stacked = ($this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename));
+        $stacked = $this->app['stack']->isStackable($filename);
 
         return $stacked;
     }
@@ -77,16 +79,19 @@ class AdminHandler
     /**
      * Return an array with the items on the stack.
      *
-     * @param integer $amount
-     * @param string  $type
+     * @param array|string $types
      *
      * @return array An array of items
      */
-    public function stackItems($amount = 20, $type = '')
+    public function stack($types = [])
     {
-        $items = $this->app['stack']->listitems($amount, $type);
+        if (is_string($types)) {
+            $types = array_filter(array_map('trim', explode(',', $types)));
+        }
 
-        return $items;
+        $files = $this->app['stack']->getList($types);
+
+        return $files;
     }
 
     /**

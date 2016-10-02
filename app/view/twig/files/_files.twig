@@ -4,8 +4,9 @@
     <thead>
         <tr>
             <th>{{ __('page.ckeditor-browse-server.files') }}</th>
+            <th></th>
             <th class="hidden-xs hidden-sm">{{ __('page.ckeditor-browse-server.size') }} / {{ __('page.ckeditor-browse-server.modified') }}</th>
-            <th colspan="2"></th>
+            <th></th>
         </tr>
     </thead>
 
@@ -13,73 +14,58 @@
         {% for file in context.files %}
             <tr>
                 {# Column: Filename #}
-                <td>
+                <td class="filename" colspan="{{ file.image ? 1 : 2 }}">
                     {% if file.image %}
 
                         <i class="fa fa-fw fa-file-image-o"></i>
 
-                        {% if file.public %}
-                            <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
-                               class="magnific"
-                               title="Image: {{ file.filename }}">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
-                            </a>
-                        {% else %}
-                            <b>{{ file.filename|excerpt(80)|shy }} </b>
-                            <i class="fa fa-lock"></i>
-                        {% endif %}
+                        <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
+                           class="magnific"
+                           title="Image: {{ file.filename }}">
+                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                        </a>
 
                     {% elseif file.extension in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
 
                         <i class="fa fa-fw fa-file-code-o"></i>
 
-                        {% if file.public %}
-                            <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.path}) }}">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
-                            </a>
-                        {% else %}
+                        <a href="{{ path('fileedit', {'namespace': file.mountPoint, 'file': file.path}) }}">
                             <b>{{ file.filename|excerpt(80)|shy }}</b>
-                        {% endif %}
-
-                        {% if file.private %}
-                            <i class="fa fa-lock"></i>
-                        {% endif %}
+                        </a>
 
                     {% else %}
-
-                        <i class="fa fa-fw fa-link"></i>
-
-                        {% if file.public %}
+                        {% if file.hasUrl %}
+                            <i class="fa fa-fw fa-link"></i>
                             <a href="{{ file.url }}" target="_blank">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|excerpt(80)|shy }} </b>
-                            <i class="fa fa-lock"></i>
+                            <i class="fa fa-fw fa-file-o disabled"></i>
+                            <b class="disabled">{{ file.filename|excerpt(80)|shy }}</b>
                         {% endif %}
                     {% endif %}
                 </td>
+                {# Column: Thumbnail #}
+                {% if file.image %}
+                    <td class="listthumb">
+                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
+                    </td>
+                {% endif %}
                 {# Column: Filesize / Modified #}
-                <td style="min-width: 120px;" class="hidden-xs hidden-sm">
-                    <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
-                        <b>{{ file.sizeformatted(true, true) }}</b></span>,
+                <td class="file-meta hidden-xs hidden-sm">
+                    <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeFormatted(true) }})">
+                        <b>{{ file.sizeFormatted(true) }}</b></span>,
                     {{ buic_moment(file.timestamp) }}
                     {% if file.image %}
                         <div class="image-dimensions">{{ file.width }}<span class="times">×</span>{{ file.height }} px</div>
                     {% endif %}
                 </td>
-                {# Column: Thumbnail #}
-                <td class="listthumb">
-                    {% if file.image %}
-                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
-                    {% endif %}
-                </td>
                 {# Column: Actions #}
-                <td class="actions" style="min-width: 16px;">
+                <td class="actions">
 
                     <div class="btn-group">
 
-                        {% if not app.config.get('general/backend/stack/disable', false) and not stacked(file.path) %}
+                        {% if not app.config.get('general/backend/stack/disable', false) and file is stackable %}
                             <a href="#" class="btn btn-default btn-sm" data-bolt-addtostack="{{ file.path }}">
                                 <i class="fa fa-paperclip"></i>
                                 <span class="visible-sm-inline visible-xs-inline">{{ __('general.phrase.stack') }}</span>
@@ -88,7 +74,7 @@
                         {% endif %}
 
                         {% if context.form != false %}
-                            <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" data-toggle="dropdown">
+                            <a class="btn dropdown-toggle btn-default btn-sm hidden-xs" style="padding-left: 9px; padding-right: 9px;" data-toggle="dropdown">
                                 <i class="fa fa-info-circle"></i>
                                 {{ __('general.phrase.options') }}
                                 <span class="caret"></span>
@@ -97,29 +83,22 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="Bolt.files.renameFile('{{ context.namespace }}', '{{ file.path }}', '{{ file.filename }}', this);">
+                                       data-action="Bolt.files.renameFile('{{ file.mountPoint }}', '{{ file.dirname }}', '{{ file.filename }}', this);">
 
                                         <i class="fa fa-keyboard-o"></i>
                                         {{ __('general.phrase.rename-foldername', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.deleteFile('{{ context.namespace }}', '{{ file.path }}', this);">
+                                    <a href="#" data-action="Bolt.files.deleteFile('{{ file.mountPoint }}', '{{ file.path }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('general.phrase.delete-file-name', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.path }}')">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('general.phrase.duplicate-file-name', {'%filename%': file.filename }) }}
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a class="nolink">
-                                        {{ __('general.phrase.permissions') }}:
-                                        <strong><code>{{ file.visibility }}</code></strong>
                                     </a>
                                 </li>
                             </ul>

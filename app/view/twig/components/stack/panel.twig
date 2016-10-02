@@ -13,15 +13,8 @@
 {% block panel_body %}
     <fieldset class="buic-stack" data-bolt-widget="buicStack">
         <div class="stackholder">
-            {% for idx, item in context.stack if idx < 7 %}
-                <div class="stackitem {{ item.type }} info-pop" data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
-                    {% if item.type == 'image' %}
-                        <img src="{{ item.filepath|thumbnail(100, 100) }}" width="100" height="100" alt="{{ __('general.phrase.thumbnail') }}">
-                    {% else %}
-                       <strong>{{ item.extension|upper }}</strong>
-                       <small>{{ item.basename }}</small>
-                    {% endif %}
-                </div>
+            {% for file in stack()[:context.count] %}
+                {% include '@bolt/components/stack/panel-item.twig' with {'file': file} only %}
             {% else %}
                 <div class="empty">{{ __('general.phrase.stack-empty') }}</div>
             {% endfor %}
@@ -51,25 +44,13 @@
                     'class': 'btn btn-tertiary',
                     'data-bolt-widget': {
                         buicBrowser: {
-                            namespace: 'files',
+                            url: path('asyncbrowse'),
                         },
                     },
                     'type': 'button',
                 } %}
-                <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('general.phrase.select') }}</button>
-            </div>
-        </div>
-
-        <div class="templates">
-            <div class="stackitem image">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" width="100" height="100" alt="{{ __('general.phrase.thumbnail') }}">
-            </div>
-
-            <div class="stackitem other">
-                <strong></strong>
-                <small></small>
+                <button{{ hattr(attr) }}><i class="fa fa-plus"></i> {{ __('general.phrase.select') }}</button>
             </div>
         </div>
     </fieldset>
-
-{% endblock panel_body %}
+{% endblock %}

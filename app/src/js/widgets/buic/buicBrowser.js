@@ -2,7 +2,7 @@
  * @param {Object} $ - Global jQuery object
  * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -28,8 +28,7 @@
          * @property {string} [url] - URL to browse
          */
         options: {
-            namespace: '',
-            path: '',
+            url: '',
             multiselect: false
         },
 
@@ -48,8 +47,7 @@
              * @memberOf jQuery.widget.bolt.buicBrowser.prototype
              * @private
              */
-            this._url = bolt.conf('paths.async') + 'browse/' + this.options.namespace +
-                            (this.options.path ? '/' + this.options.path : '');
+            this._url = this.options.url;
 
             this._on({
                 'click': function () {
@@ -107,9 +105,9 @@
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
-                        .on('click.bolt', '[data-fbrowser-select]', function (evt) {
+                        .on('click.bolt', '[data-file]', function (evt) {
                             evt.preventDefault();
-                            self._trigger('selected', null, {path: $(this).data('fbrowser-select')});
+                            self._trigger('selected', null, $(this).data('file'));
                             modal.close();
                         })
                         .on('click.bolt', '[aria-pressed]', function (evt) {

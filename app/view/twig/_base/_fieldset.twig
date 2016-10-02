@@ -15,7 +15,7 @@
 {% set attributes_fieldset = {
     'class':             'form-group bolt-field-' ~ block('fieldset_type'),
     'data-bolt-widget':  data_bolt_widget,
-} %}
+}|merge(attributes_fieldset|default({})) %}
 
 {% set attributes_label = {
     class:  'main ' ~ block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),

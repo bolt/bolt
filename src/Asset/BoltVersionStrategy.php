@@ -4,14 +4,14 @@ namespace Bolt\Asset;
 
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilesystemInterface;
-use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
+use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 /**
  * A version strategy that hashes a base salt, path, and timestamp of file.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class BoltVersionStrategy extends StaticVersionStrategy
+class BoltVersionStrategy implements VersionStrategyInterface
 {
     /** @var FilesystemInterface */
     protected $filesystem;
@@ -23,11 +23,9 @@ class BoltVersionStrategy extends StaticVersionStrategy
      *
      * @param FilesystemInterface $filesystem
      * @param string              $baseSalt
-     * @param string              $format
      */
-    public function __construct(FilesystemInterface $filesystem, $baseSalt, $format = null)
+    public function __construct(FilesystemInterface $filesystem, $baseSalt)
     {
-        parent::__construct(null, $format);
         $this->filesystem = $filesystem;
         $this->baseSalt = $baseSalt;
     }
@@ -44,5 +42,19 @@ class BoltVersionStrategy extends StaticVersionStrategy
         } catch (IOException $e) {
             return '';
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function applyVersion($path)
+    {
+        $version = $this->getVersion($path);
+
+        if (!$version) {
+            return $path;
+        }
+
+        return sprintf('%s?%s', $path, $version);
     }
 }

@@ -29,7 +29,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->image('generic-logo.png');
-        $this->assertSame('/files/generic-logo.png', $result);
+        $this->assertStringStartsWith('/files/generic-logo.png', $result);
     }
 
     public function testImageFileNameArray()
@@ -38,7 +38,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->image(['filename' => 'generic-logo.png']);
-        $this->assertSame('/files/generic-logo.png', $result);
+        $this->assertStringStartsWith('/files/generic-logo.png', $result);
     }
 
     public function testImageFileNameWidthOnly()

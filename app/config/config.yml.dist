@@ -204,8 +204,8 @@ thumbnails:
     default_image: [ 1000, 750 ]
     quality: 80
     cropping: crop
-    notfound_image: view/img/default_notfound.png
-    error_image: view/img/default_error.png
+    notfound_image: view://img/default_notfound.png
+    error_image: view://img/default_error.png
     save_files: false
     allow_upscale: false
     exif_orientation: true
@@ -217,7 +217,7 @@ thumbnails:
 # or `onclick`-attributes.
 htmlcleaner:
     allowed_tags: [ div, span, p, br, hr, s, u, strong, em, i, b, li, ul, ol, mark, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img, address, iframe ]
-    allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling ]
+    allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling, target ]
 
 # Uploaded file handling
 #
@@ -228,15 +228,12 @@ htmlcleaner:
 #     replacement: '-'
 #     lowercase: true
 
-# File types that are acceptable for upload in either 'file' fields or through
-# the 'files' screen.
-
-# The following is the default list of file-types that can be uploaded through
-# the 'files' screen.
+# Define the file types (extensions to be exact) that are acceptable for upload
+# in either 'file' fields or through the 'files' screen.
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
 # Alternatively, if you wish to limit these, uncomment the following list
-# instead. It includes file types that are harder to exploit.
+# instead. It just includes file types / extensions that are harder to exploit.
 # accept_file_types: [ gif, jpg, jpeg, png, txt, md, pdf, epub, mp3, svg ]
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key
@@ -314,8 +311,8 @@ wysiwyg:
 
 # Bolt uses the Google maps API for it's geolocation field and Google now
 # requires that it be loaded with an API key on new domains. You can generate
-# a key at https://console.developers.google.com and enter it here to make sure
-# that the geolocation field work.
+# a key at https://developers.google.com/maps/documentation/javascript/get-api-key
+# and enter it here to make sure that the geolocation field works.
 # google_api_key:
 
 # Global option to enable/disable the live editor

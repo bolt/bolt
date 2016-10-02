@@ -169,8 +169,6 @@
 {% macro upload_buttons(type, attr_upload, uploadpath, canUpload, multi) %}
     {% from _self import attr %}
 
-    {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-
     <div class="button-wrap fileselectbuttongroup">
 
         {# Button: Upload #}
@@ -194,8 +192,7 @@
             'class': 'btn btn-tertiary btn-sm',
             'data-bolt-widget': {
                 buicBrowser: {
-                    namespace: 'files',
-                    path: uploadpath,
+                    url: path('asyncbrowse', {'namespace': 'files', 'path': uploadpath}),
                     multiselect: multi
                 },
             },
@@ -203,8 +200,10 @@
         } %}
         <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}</button>
 
+        {% set stack = stack(type) %}
+
         {# Button: Select from Stack #}
-        {% if not app.config.get('general/backend/stack/disable', false) and items %}
+        {% if not app.config.get('general/backend/stack/disable', false) and stack %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>
@@ -212,12 +211,9 @@
                     <span class="caret"></span>
                 </button>
 
-                <ul class="dropdown-menu select-from-stack">
-                    {% for item in items %}
-                        {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
-                        <li>
-                            <a href="#" data-path="{{ item.filepath }}">{{ item.basename }} <small>({{ info }})</small></a>
-                        </li>
+                <ul class="dropdown-menu select-from-stack" {% if type %}data-type="{{ type }}"{% endif %}>
+                    {% for file in stack %}
+                        {% include '@bolt/components/stack/list-item.twig' with {'file': file} only %}
                     {% endfor %}
                 </ul>
             </div>

@@ -53,7 +53,7 @@
            contenttype with /latest/3, so it becomes something like "pages/latest/3".
            The 'else' in the inner for-loop is only used if there are no 'records',
            so we can use it to print a helpful message.
-           Lastly, "{{ paths.root }}{{ct.slug}}" will output something like '/pages',
+           Lastly, "path('contentlisting', {'contenttypeslug': ct.slug})" will output something like '/pages',
            effectively creating a working link to that contenttpye's listing page. #}
 
         {% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %}
@@ -68,7 +68,7 @@
                     <li>{{ __('contenttypes.generic.no-recent', {'%contenttype%': ct.slug}) }}</li>
                 {% endfor %}
             </ul>
-            <p><a href="{{ paths.root }}{{ct.slug}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct.slug}) }} &raquo;</a></p>
+            <p><a href="{{ path('contentlisting', {'contenttypeslug': ct.slug}) }}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct.slug}) }} &raquo;</a></p>
 
 
         {% endfor %}

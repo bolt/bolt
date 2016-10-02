@@ -2,7 +2,7 @@
 
 {{ widgets('users_aside_top', 'backend') }}
 
-<div data-bolt-widget="panelActivity">
+<div data-bolt-widget="panelActivity" data-url="{{ path('latestactivity') }}">
     {{ render(path('latestactivity')) }}
 </div>
 

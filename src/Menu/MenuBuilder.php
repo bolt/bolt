@@ -137,7 +137,7 @@ class MenuBuilder
     private function resolvePathToContent(array $item)
     {
         if ($item['path'] === 'homepage') {
-            $item['link'] = $this->app['resources']->getUrl('root');
+            $item['link'] = $this->app['url_generator']->generate('homepage');
 
             return $item;
         }
@@ -157,10 +157,14 @@ class MenuBuilder
         }
 
         // Get a copy of the path minus trailing/leading slash
-        $path = ltrim(rtrim($item['path'], '/'), '/');
+        $path = trim($item['path'], '/');
 
         // Pre-set our link in case the match() throws an exception
-        $item['link'] = $this->app['resources']->getUrl('root') . $path;
+        $basePath = '';
+        if ($request = $this->app['request_stack']->getCurrentRequest()) {
+            $basePath = $request->getBasePath();
+        }
+        $item['link'] = $basePath . '/' . $path;
 
         try {
             // See if we have a 'content/id' or 'content/slug' path

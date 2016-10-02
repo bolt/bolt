@@ -4,14 +4,24 @@
 fieldset.buic-stack {
     $stackitem-zindex: 111;
 
-    .templates {
-        display: none;
-    }
-
     .stackholder {
         padding: 12px 0 12px 2px;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    .popover {
+        margin-top: 4px;
+        width: inherit;
+        max-width: inherit;
+
+        .info-folder {
+            white-space: nowrap;
+        }
+
+        .buic-moment {
+            border-bottom: none;
+        }
     }
 
     .stackbuttons {

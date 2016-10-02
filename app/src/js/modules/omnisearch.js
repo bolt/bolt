@@ -28,14 +28,15 @@
      */
     omnisearch.init = function () {
 
-        $('.omnisearch select').select2({
+        var $select = $('.omnisearch select');
+        $select.select2({
             width: '100%',
             placeholder: bolt.data('omnisearch.placeholder'),
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
                 delay: 600,
-                url: bolt.conf('paths.async') + 'omnisearch',
+                url: $select.data('omnisearchUrl'),
                 dataType: 'json',
                 data: function (params) {
                     return {

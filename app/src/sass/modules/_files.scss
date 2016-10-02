@@ -1,0 +1,50 @@
+.file-manager {
+
+    .col-xs-12 {
+        padding-right: 5px; // reduced by 10px to offset #navpage-content's unsymmetrical padding.
+    }
+
+    td {
+        vertical-align: inherit;
+
+        &.filename {
+            width: 100%;
+
+            .disabled {
+                color: #999;
+            }
+        }
+
+        &.listthumb {
+            padding: 0;
+            @media (max-width: 767px) {
+                width: 1%;
+            }
+            @media (max-width: 640px) {
+                padding: 0;
+            }
+        }
+
+        &.file-meta {
+            min-width: 160px;
+        }
+        &.folder-meta {
+            min-width: 100px;
+        }
+
+        &.actions {
+            .btn-group {
+                @media (max-width: 767px) {
+                    margin-top: inherit;
+                    margin-bottom: inherit;
+                }
+            }
+            .btn-group > .btn:first-child:not(:last-child) {
+                @media (max-width: 767px) {
+                    border-bottom-right-radius: 3px;
+                    border-top-right-radius: 3px;
+                }
+            }
+        }
+    }
+}

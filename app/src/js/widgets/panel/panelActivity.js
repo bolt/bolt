@@ -22,11 +22,9 @@
          * Default options.
          *
          * @property {integer} delay - Initial update delay, shared by all instances
-         * @property {string} url - URL to get the latest activity from
          */
         options: {
             delay: 30 * 1000, // 30 seconds
-            url: ''
         },
 
         /**
@@ -35,11 +33,6 @@
          * @private
          */
         _create: function () {
-            // We can set the default only here as because of the call to bolt.conf().
-            if (!this.options.url) {
-                this.options.url = bolt.conf('paths.async') + 'latestactivity';
-            }
-
             this._super();
         },
 
@@ -51,7 +44,7 @@
         _update: function () {
             var self = this;
 
-            $.get(self.options.url)
+            $.get(self.element.data('url'))
                 .done(function (data) {
                     var newActivity = $(data);
 

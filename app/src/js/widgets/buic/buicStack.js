@@ -48,16 +48,9 @@
              * @private
              *
              * @property {Object} holder         - Stackholder
-             * @property {Object} template       - Templates
-             * @property {Object} template.image - Template for stackitems of type 'image'
-             * @property {Object} template.other - Template for stackitems of type 'other'
              */
             this._ui = {
-                holder: fieldset.find('.stackholder'),
-                template: {
-                    image: fieldset.find('.templates .image'),
-                    other: fieldset.find('.templates .other')
-                }
+                holder: fieldset.find('.stackholder')
             };
 
             // Listen to external events.
@@ -66,29 +59,44 @@
                 'buicuploaduploaded':  self._addPath
             });
 
+            // Initialize moment timestamps when popover content is added to DOM
+            fieldset.on('inserted.bs.popover', '.stackitem', function () {
+                bolt.app.initWidgets();
+            });
+
             fieldset.buicUpload();
         },
 
         /**
          * Add a file item to the stack display.
          *
-         * @param {string} path - Path to add to the stack
+         * @param {string} stackItem - HTML of stack item.
+         * @param {string|null} removed - The removed file path, if any.
          */
-        prepend: function (path) {
-            var ext = path.substr(path.lastIndexOf('.') + 1).toUpperCase();
-
-            // Remove the last stackitem.
-            $('.stackitem:nth-child(7)', this._ui.holder).remove();
+        prepend: function (stackItem, removed) {
+            if (removed) {
+                this._ui.holder.find('[data-file]').each(function () {
+                    if ($(this).data('file').fullPath === removed) {
+                        $(this).remove();
+                    }
+                });
+            }
 
             // If the "empty stack" notice was showing, remove it.
-            $('.empty').remove();
+            this._ui.holder.find('.empty').remove();
 
-            // Insert new item at the front.
-            this._ui.template[ext.match(/^(JPE?G|PNG|GIF)$/) ? 'image' : 'other'].clone()
-                .find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path)).end()
-                .find('strong').html(ext).end()
-                .find('small').html(path).end()
-                .prependTo(this._ui.holder);
+            // Add new item
+            this._ui.holder.prepend(stackItem);
+
+            // Initialize popover for new item
+            // Settings copied from init.popOvers. DRY up somehow?
+            this._ui.holder.find('.info-pop').popover({
+                trigger: 'hover',
+                delay: {
+                    show: 500,
+                    hide: 200
+                }
+            });
         }
     });
 })(jQuery, Bolt);

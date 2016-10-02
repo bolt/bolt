@@ -2,7 +2,7 @@
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -19,11 +19,9 @@
         /**
          * Default options.
          *
-         * @property {string}   slug        - The slug
          * @property {boolean}  allowSpaces - Allow spaces in tags
          */
         options: {
-            slug:        '',
             allowSpaces: false
         },
 
@@ -35,7 +33,6 @@
         _create: function () {
             var taxonomy = this.element.find('select'),
                 tagcloud = this.element.find('.tagcloud'),
-                slug = this.options.slug,
                 separators = [','],
                 tags = {};
 
@@ -52,7 +49,7 @@
 
             // Load all tags.
             $.ajax({
-                url: bolt.conf('paths.root') + 'async/tags/' + slug,
+                url: this.element.data('tagsUrl'),
                 dataType: 'json',
                 success: function (data) {
                     var options = taxonomy.val() || [];
@@ -74,7 +71,7 @@
             // Popular tags.
             if (tagcloud) {
                 $.ajax({
-                    url: bolt.conf('paths.root') + 'async/populartags/' + slug,
+                    url: this.element.data('popularTagsUrl'),
                     dataType: 'json',
                     data : {
                         limit: 40

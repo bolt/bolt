@@ -22,7 +22,7 @@
             {{ block.content }}
         {% endif %}
 
-        <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
+        <form method="get" action="{{ path('search') }}" id="searchform-inline" enctype="text/plain">
             <input type="search" value="{{ search|default() }}" placeholder="{{ __('general.phrase.search-ellipsis') }}" name="search" >
             <button type="submit" class="button">{{ __('general.phrase.search') }}</button>
         </form>

@@ -5,6 +5,7 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,38 +66,25 @@ class FilesystemManager extends AsyncBase
      */
     public function browse(Request $request, $namespace, $path)
     {
-        // No trailing slashes in the path.
-        $path = rtrim($path, '/');
-
-        $filesystem = $this->filesystem()->getFilesystem($namespace);
-
-        // Get the pathsegments, so we can show the path.
-        $pathsegments = [];
-        $cumulative = '';
-        if (!empty($path)) {
-            foreach (explode('/', $path) as $segment) {
-                $cumulative .= $segment . '/';
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
+        $directory = $this->filesystem()->getDir("$namespace://$path");
 
         try {
-            $filesystem->listContents($path);
+            $it = $directory->getContents();
         } catch (IOException $e) {
             $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
             $this->logException($msg, $e);
             $this->flashes()->error($msg);
+            $it = [];
         }
 
-        $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
-        $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
+        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
+        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
 
         $context = [
-            'namespace'    => $namespace,
+            'directory'    => $directory,
             'files'        => $files,
             'directories'  => $directories,
-            'pathsegments' => $pathsegments,
-            'multiselect'  => $request->query->get('multiselect') === 'true',
+            'multiselect'  => $request->query->getBoolean('multiselect'),
         ];
 
         return $this->render(
@@ -120,9 +108,10 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            $this->filesystem()->createDir("$namespace://$parentPath$folderName");
+            $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
+            $dir->create();
 
-            return $this->json("$parentPath$folderName", Response::HTTP_OK);
+            return $this->json($dir->getPath(), Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
             $this->logException($msg, $e);
@@ -145,9 +134,10 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
+            $file = $this->filesystem()->getFile("$namespace://$parentPath/$filename");
+            $file->put('');
 
-            return $this->json("$parentPath/$filename", Response::HTTP_OK);
+            return $this->json($file->getPath(), Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
             $this->logException($msg, $e);
@@ -197,21 +187,20 @@ class FilesystemManager extends AsyncBase
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
-        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that$fileBase will
+        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that $fileBase will
         // contain the entire filename. This also accounts for dotfiles.
         $extensionPos = strrpos($filename, '.') ?: strlen($filename);
 
         $fileBase = substr($filename, 0, $extensionPos) . '_copy';
         $fileExtension = substr($filename, $extensionPos);
 
-        $n = 1;
+        $n = 0;
 
         // Increase $n until filename_copy$n.ext doesn't exist
-        while ($filesystem->has($fileBase . $n . $fileExtension)) {
+        do {
             $n++;
-        }
-
-        $destination = $fileBase . $n . $fileExtension;
+            $destination = $fileBase . $n . $fileExtension;
+        } while ($filesystem->has($destination));
 
         try {
             $filesystem->copy($filename, $destination);
@@ -248,7 +237,7 @@ class FilesystemManager extends AsyncBase
         $result = [];
         /** @var \Bolt\Filesystem\Handler\File $file */
         foreach ($files as $file) {
-            $result[] = $file->getPath();
+            $result[] = $file->toJson();
         }
 
         return $this->json($result);
@@ -295,10 +284,11 @@ class FilesystemManager extends AsyncBase
     public function removeFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
         try {
-            $this->filesystem()->deleteDir(sprintf('%s://%s', $namespace, $folderName));
+            $this->filesystem()->deleteDir("$namespace://$parent/$folderName");
 
             return $this->json($folderName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
@@ -320,6 +310,7 @@ class FilesystemManager extends AsyncBase
     public function renameFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
@@ -328,7 +319,7 @@ class FilesystemManager extends AsyncBase
         }
 
         try {
-            $this->filesystem()->rename(sprintf('%s://%s', $namespace, $oldName), $newName);
+            $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
@@ -357,11 +348,12 @@ class FilesystemManager extends AsyncBase
     public function renameFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
         try {
-            $this->filesystem()->rename(sprintf('%s://%s', $namespace, $oldName), $newName);
+            $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {

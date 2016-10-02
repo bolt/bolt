@@ -1,8 +1,10 @@
 <?php
 namespace Bolt\Controller\Async;
 
+use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Response\BoltResponse;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,26 +17,42 @@ class Stack extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/stack/add/{filename}', 'addStack')
+        $c->post('/stack/add', 'add')
             ->assert('filename', '.*')
             ->bind('stack/add');
 
-        $c->get('/stack/show', 'showStack')
+        $c->get('/stack/show', 'show')
             ->bind('stack/show');
     }
 
     /**
      * Add a file to the user's stack.
      *
-     * @param string $filename
+     * @param Request $request
      *
-     * @return true
+     * @return JsonResponse
      */
-    public function addStack($filename)
+    public function add(Request $request)
     {
-        $this->stack()->add($filename);
+        $filename = $request->request->get('filename');
 
-        return true;
+        $stack = $this->app['stack'];
+
+        /** @var FileInterface|null $removed */
+        $file = $stack->add($filename, $removed);
+
+        $panel = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
+        $list = $this->render('@bolt/components/stack/list-item.twig', ['file' => $file]);
+
+        $type = $file->getType();
+        $type = !in_array($type, ['image', 'document']) ? 'other' : $type;
+
+        return $this->json([
+            'type' => $type,
+            'removed' => $removed ? $removed->getFullPath() : null,
+            'panel'   => $panel->getContent(),
+            'list'    => $list->getContent(),
+        ]);
     }
 
     /**
@@ -44,41 +62,26 @@ class Stack extends AsyncBase
      *
      * @return BoltResponse
      */
-    public function showStack(Request $request)
+    public function show(Request $request)
     {
-        $count = $request->query->get('items', 10);
-        $options = $request->query->get('options', false);
+        $count = $request->query->get('count', \Bolt\Stack::MAX_ITEMS);
+        $options = $request->query->get('options');
+
+        if ($options === 'ck') {
+            $template = '@bolt/components/stack/ck.twig';
+        } elseif ($options === 'list') {
+            $template = '@bolt/components/stack/list.twig';
+        } else {
+            $template = '@bolt/components/stack/panel.twig';
+        }
 
         $context = [
-            'stack'     => $this->stack()->listitems($count),
-            'filetypes' => $this->stack()->getFileTypes(),
+            'count'     => $count,
+            'filetypes' => $this->getOption('general/accept_file_types'),
             'namespace' => $this->app['upload.namespace'],
             'canUpload' => $this->isAllowed('files:uploads'),
         ];
 
-        switch ($options) {
-            case 'minimal':
-                $twig = '@bolt/components/stack-minimal.twig';
-                break;
-
-            case 'list':
-                $twig = '@bolt/components/stack-list.twig';
-                break;
-
-            case 'full':
-            default:
-                $twig = '@bolt/components/panel-stack.twig';
-                break;
-        }
-
-        return $this->render($twig, ['context' => $context]);
-    }
-
-    /**
-     * @return \Bolt\Stack
-     */
-    protected function stack()
-    {
-        return $this->app['stack'];
+        return $this->render($template, ['context' => $context]);
     }
 }

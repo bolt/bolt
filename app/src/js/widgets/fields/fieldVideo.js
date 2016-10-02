@@ -2,7 +2,7 @@
  * @param {Object} $ - Global jQuery object
  * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -141,7 +141,7 @@
          * @param {Object} data - Date sent from embed.ly
          */
         _set: function (data) {
-            var thumbnailUrl = data.thumbnail_url || bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
+            var thumbnailUrl = data.thumbnail_url || this._ui.preview.data('defaultUrl');
 
             this._ui.html.val(data.html || '');
             this._ui.width.val(data.width || '');

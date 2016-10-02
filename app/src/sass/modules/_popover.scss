@@ -24,15 +24,3 @@
       height: 2em;
     }
 }
-
-/* Note: We only use popover-bottom for items on the stack. If we start using it
-   for anything else, we need to specify the selector further */
-.popover.bottom {
-    width: 220px;
-    margin-top: 4px;
-}
-
-.popover.bottom .popover-content, .popover.bottom .popover-content code {
-    font-size: 12px;
-    overflow: hidden;
-}

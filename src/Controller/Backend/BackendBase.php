@@ -148,12 +148,13 @@ abstract class BackendBase extends Base
     /**
      * Set the authentication cookie in the response.
      *
+     * @param Request  $request
      * @param Response $response
      * @param string   $token
      *
      * @return Response
      */
-    protected function setAuthenticationCookie(Response $response, $token)
+    protected function setAuthenticationCookie(Request $request, Response $response, $token)
     {
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
         $response->headers->setCookie(
@@ -161,7 +162,7 @@ abstract class BackendBase extends Base
                 $this->app['token.authentication.name'],
                 $token,
                 time() + $this->getOption('general/cookies_lifetime'),
-                $this->resources()->getUrl('root'),
+                $request->getBasePath(),
                 $this->getOption('general/cookies_domain'),
                 $this->getOption('general/enforce_ssl'),
                 true

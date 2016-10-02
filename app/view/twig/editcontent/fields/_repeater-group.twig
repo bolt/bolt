@@ -21,7 +21,6 @@
             class:      '',
             label:      '',
             variant:    '',
-            canUpload:  field.canUpload,
             default:    null
         } %}
         {% for rkey, rfield in field.fields %}
@@ -34,7 +33,7 @@
                 'labelkey':   rfield.label|default(rkey|ucfirst),
                 'context': {
                     'content':  content,
-                    'can':      {'upload': field.canUpload}
+                    'can':      context.can,
                 }
             } %}
             <div class="repeater-field">
