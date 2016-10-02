@@ -16,7 +16,7 @@ class Html
     public static function trimText($str, $desiredLength, $hellip = true)
     {
         if ($hellip) {
-            $ellipseStr = '…';
+            $ellipseStr = ' …';
             $newLength = $desiredLength - 1;
         } else {
             $ellipseStr = '';
@@ -33,7 +33,7 @@ class Html
                     $str = mb_substr($str, 0, $lastSpace);
                 }
             }
-            $str .= ' ' . $ellipseStr;
+            $str .= $ellipseStr;
         }
 
         return $str;
