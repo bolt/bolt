@@ -26,7 +26,14 @@ class Html
         $str = trim(strip_tags($str));
 
         if (mb_strlen($str) > $desiredLength) {
-            $str = mb_substr($str, 0, $newLength) . $ellipseStr;
+            $nextChar = mb_substr($str, $newLength, 1);
+            $str = mb_substr($str, 0, $newLength);
+            if ($nextChar != ' ') {
+                if (false !== ($lastSpace = mb_strrpos($str, ' '))) {
+                    $str = mb_substr($str, 0, $lastSpace);
+                }
+            }
+            $str .= ' ' . $ellipseStr;
         }
 
         return $str;
