@@ -6,8 +6,10 @@ Bolt 3.3-dev
 
 - 
 
-Bolt 3.2-dev
+Bolt 3.2-beta 1
 -----------
+
+(note, changelog is incomplete)
 
 - Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
 - Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)

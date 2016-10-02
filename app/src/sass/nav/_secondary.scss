@@ -336,3 +336,8 @@
 body.mfp-zoom-out-cur #navpage-secondary {
     z-index: 1000;
 }
+
+// Override for Magnific popup, since we pull it in with our build process.
+body .mfp-bottom-bar {
+    min-width: 240px;
+}

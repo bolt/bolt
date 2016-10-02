@@ -490,6 +490,9 @@ logs.system-log.trimmed: "De systeemlog is verkleind."
 
 menu.configuration.routing: "Route instellingen"
 
+nut.greeting: "Welkom bij Bolt!"
+nut.version: "versie"
+
 page.checks.run-all: "Controleer alles"
 page.checks.run-directory-checks: "Controleer directories op fouten"
 page.checks.run-email-checks: "E-mail controles uitvoeren"

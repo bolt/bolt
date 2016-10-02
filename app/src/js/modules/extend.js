@@ -111,14 +111,17 @@
 
                 // Manage dropdown
                 var manage = '';
-                if (ext.status === 'installed' && ext.type !== "composer-plugin") {
-                    manage = conf.manage_dropdown.subst({
+                var parameters = {
                         '%NAME%': ext.name,
                         '%VERSION%': ext.version,
                         '%BASEURL%': bolt.data('extend.baseurl'),
                         '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
                         '%REPOSITORY_URL%': ext.repositoryLink
-                    });
+                };
+                if (ext.status === 'installed' && ext.type !== 'composer-plugin') {
+                    manage = conf.manage_dropdown_installed.subst(parameters);
+                } else {
+                    manage = conf.manage_dropdown_uninstalled.subst(parameters);
                 }
                 var invalid = ' — [INVALID] ';
                 var disabled = ' — [DISABLED] ';
@@ -188,9 +191,9 @@
                 target.find('.installed-list-items').append(html);
 
             })
-            .fail(function (data) {
-                formatErrorLog(data);
-            });
+                .fail(function (data) {
+                    formatErrorLog(data);
+                });
         });
     }
 
@@ -290,9 +293,9 @@
                 activeConsole.html(bolt.data('extend.text.updated'));
             }
         })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
     }
 
     /**
@@ -349,9 +352,9 @@
             feedbackDialogueSetMessage(data);
             checkInstalled();
         })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
     }
 
     function updatePackage(e) {
@@ -371,9 +374,9 @@
             }
             checkInstalled();
         })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
 
         e.preventDefault();
     }
@@ -393,9 +396,9 @@
             feedbackDialogueSetMessage(data);
             checkInstalled();
         })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
 
         e.stopPropagation();
         e.preventDefault();
@@ -487,9 +490,9 @@
 
             find('#installModal .loader').hide();
         })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
     }
 
     function checkPackage(e) {
@@ -535,17 +538,17 @@
             bolt.data('extend.baseurl') + 'packageInfo',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function (data) {
-            if (data.type === 'bolt-extension') {
-                extensionPostInstall(data);
-            }
-            if (data.type === 'bolt-theme') {
-                themePostInstall(data);
-            }
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .done(function (data) {
+                if (data.type === 'bolt-extension') {
+                    extensionPostInstall(data);
+                }
+                if (data.type === 'bolt-theme') {
+                    themePostInstall(data);
+                }
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
     }
 
     function install(e) {
@@ -562,16 +565,16 @@
             bolt.data('extend.baseurl') + 'install',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function () {
-            postInstall(packageName, packageVersion);
-            find('.install-response-container').hide();
-            find('.check-package').show();
-            find('input[name="check-package"]').val('');
-            checkInstalled();
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .done(function () {
+                postInstall(packageName, packageVersion);
+                find('.install-response-container').hide();
+                find('.check-package').show();
+                find('input[name="check-package"]').val('');
+                checkInstalled();
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
         e.preventDefault();
     }
 
@@ -584,13 +587,13 @@
             bolt.data('extend.baseurl') + 'generateTheme',
             {'theme': theme, 'name': themename}
         )
-        .done(function (data) {
-            find('.theme-generate-response').html('<p>' + data + '</p>').show();
-            find('.theme-generation-container').hide();
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .done(function (data) {
+                find('.theme-generate-response').html('<p>' + data + '</p>').show();
+                find('.theme-generation-container').hide();
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
 
         e.preventDefault();
     }
@@ -608,29 +611,29 @@
             activeConsole = t;
 
             $.get(bolt.data('extend.baseurl') + 'generateTheme', {'theme': theme, 'name': themename})
-            .done(function (data) {
-                activeConsole.html(data);
-                delay(function () {
-                    t.hide();
-                }, 5000);
-            })
-            .fail(function (data) {
-                formatErrorLog(data);
-            });
+                .done(function (data) {
+                    activeConsole.html(data);
+                    delay(function () {
+                        t.hide();
+                    }, 5000);
+                })
+                .fail(function (data) {
+                    formatErrorLog(data);
+                });
         }
         e.preventDefault();
     }
 
     function packageReadme(e) {
         $.get($(e.target).data('readme') )
-        .done(function (data) {
-            bootbox.dialog({
-                message: data ? data : 'Readme is empty.'
+            .done(function (data) {
+                bootbox.dialog({
+                    message: data ? data : 'Readme is empty.'
+                });
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
             });
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
 
         e.preventDefault();
     }
@@ -650,25 +653,25 @@
         $.get(bolt.data('extend.baseurl') + 'depends',
             {'needle': needle, 'constraint': constraint}
         )
-        .done(function (data) {
-            find('.loader').hide();
-            find('.dependency-response-container').hide();
-            find('.check-package').show();
-            find('input[name="check-package"]').val('');
+            .done(function (data) {
+                find('.loader').hide();
+                find('.dependency-response-container').hide();
+                find('.check-package').show();
+                find('input[name="check-package"]').val('');
 
-            var depList = find('#installModal .extension-dependencies-list');
-            depList.html('');
-            data.forEach(function (entry) {
-                depList.append('<li>' + entry.link + '</li>');
+                var depList = find('#installModal .extension-dependencies-list');
+                depList.html('');
+                data.forEach(function (entry) {
+                    depList.append('<li>' + entry.link + '</li>');
+                });
+                depList.show();
+
+                find('.extension-dependencies').show();
+                find('.postinstall-footer').show();
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
             });
-            depList.show();
-
-            find('.extension-dependencies').show();
-            find('.postinstall-footer').show();
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
 
         e.preventDefault();
     }
@@ -692,16 +695,16 @@
         $.get(
             $(e.target).attr('href')
         )
-        .done(function (data) {
-            find('.installed-container .console').html(data);
-            checkInstalled();
-            delay(function () {
-                activeConsole.hide();
-            }, 2000);
-        })
-        .fail(function (data) {
-            formatErrorLog(data);
-        });
+            .done(function (data) {
+                find('.installed-container .console').html(data);
+                checkInstalled();
+                delay(function () {
+                    activeConsole.hide();
+                }, 2000);
+            })
+            .fail(function (data) {
+                formatErrorLog(data);
+            });
 
         e.preventDefault();
     }
@@ -721,25 +724,25 @@
                     dataType: 'jsonp',
                     data: {'name': searchVal}
                 })
-                .success(function (data) {
-                    if (data.packages.length) {
-                        var cont = livesearch.parent().find('.auto-search');
-                        cont.html('').show();
+                    .success(function (data) {
+                        if (data.packages.length) {
+                            var cont = livesearch.parent().find('.auto-search');
+                            cont.html('').show();
 
-                        for (var p in data.packages) {
-                            if (data.packages.hasOwnProperty(p)) {
-                                var t = data.packages[p];
-                                var dataattr = 'data-request="prefill-package" data-packagename="' + t.name + '"';
-                                cont.append('<a class="btn btn-block btn-default prefill-package" ' +
-                                    dataattr + 'style="text-align: left;">' + t.title +
-                                    ' <small ' + dataattr + '>(' + t.authors + ' - ' + t.name + ')</small></a>');
+                            for (var p in data.packages) {
+                                if (data.packages.hasOwnProperty(p)) {
+                                    var t = data.packages[p];
+                                    var dataattr = 'data-request="prefill-package" data-packagename="' + t.name + '"';
+                                    cont.append('<a class="btn btn-block btn-default prefill-package" ' +
+                                        dataattr + 'style="text-align: left;">' + t.title +
+                                        ' <small ' + dataattr + '>(' + t.authors + ' - ' + t.name + ')</small></a>');
+                                }
                             }
+                            livesearch.on('blur', function () {
+                                cont.fadeOut();
+                            });
                         }
-                        livesearch.on('blur', function () {
-                            cont.fadeOut();
-                        });
-                    }
-                });
+                    });
             }, 500);
         });
     }
