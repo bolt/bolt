@@ -10,10 +10,11 @@ class Html
      * @param string $str           String to trim
      * @param int    $desiredLength Target string length
      * @param bool   $hellip        Add dots when the string is too long
+     * @param int    $cutOffCap     Maximum difference between string length when removing words
      *
      * @return string Trimmed string
      */
-    public static function trimText($str, $desiredLength, $hellip = true)
+    public static function trimText($str, $desiredLength, $hellip = true, $cutOffCap = 10)
     {
         if ($hellip) {
             $ellipseStr = ' …';
@@ -30,6 +31,11 @@ class Html
             $str = mb_substr($str, 0, $newLength);
             if ($nextChar != ' ') {
                 if (false !== ($lastSpace = mb_strrpos($str, ' '))) {
+                    // Check for to long cutoff
+                    if (mb_strlen($str) - $lastSpace >= $cutOffCap) {
+                        // Trim the ellipse, as we do not want a space now
+                        return $str . trim($ellipseStr);
+                    }
                     $str = mb_substr($str, 0, $lastSpace);
                 }
             }
