@@ -7,6 +7,10 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set attributes_fieldset = {
+    'data-pin-icon': asset('img/pin_red.png', 'bolt')
+} %}
+
 {% set geolocation = context.content.get(contentkey) %}
 
 {# Don't change these names as they are used as JSON keys inside the db storage! #}

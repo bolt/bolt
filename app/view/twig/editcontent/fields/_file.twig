@@ -5,7 +5,6 @@
     label:       field.label,
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
-    can_upload:  field.canUpload,
     info:        field.info|default('info.upload.file')
 } %}
 
@@ -19,6 +18,7 @@
         placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
         type:         'text',
         value:        context.content.get(contentkey),
+        'data-autocomplete-url': path('file/autocomplete', {'ext': option.extensions|join(',')})
     },
 
     upload: {
@@ -29,8 +29,6 @@
         type:         'file',
     }
 } %}
-
-{% set can_upload = context.can.upload and option.can_upload %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -52,7 +50,7 @@
         <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Uploadbuttons #}
-        {{ macro.upload_buttons('file', attributes.upload, option.upload, can_upload, false) }}
+        {{ macro.upload_buttons([], attributes.upload, option.upload, context.can.upload, false) }}
 
         {# Infotext #}
         {% if not ismobileclient() %}

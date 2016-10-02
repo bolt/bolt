@@ -153,19 +153,16 @@ class FrontendTest extends ControllerUnitTest
         ];
     }
 
-    /**
-     * @dataProvider testCanonicalUrlProvider
-     */
-    public function testCanonicalUrl($expected, $config_canonical, $use_https)
+    public function testCanonicalUrlForHomepage()
     {
-        $this->getService('config')->set('general/homepage', 'showcase/1');
+        $expected = 'http://foo.dev/';
 
-        if ($use_https) {
-            $_SERVER['HTTPS'] == 'on';
-            $_SERVER['SERVER_PORT'] == 443;
-        }
+        /** @var \Silex\Application $app */
+        $app = $this->getApp();
+        $app['config']->set('general/homepage', 'showcase/1');
 
-        $this->setRequest(Request::create('/'));
+        $this->setRequest(Request::create($expected));
+        $app['request_context']->fromRequest($this->getRequest());
 
         $templates = $this->getMock('Bolt\TemplateChooser', ['record'], [$this->getApp()]);
         $templates->expects($this->any())
@@ -173,19 +170,40 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue('index.twig'));
         $this->setService('templatechooser', $templates);
 
-        $response = $this->controller()->record($this->getRequest(), 'showcase', '1');
+        // Route for /showcase/1 instead of homepage
+        $this->controller()->record($this->getRequest(), 'showcase', '1');
 
-        if ($config_canonical) {
-            $this->getService('resources')->setUrl('canonicalurl', $config_canonical);
-        }
+        $this->assertEquals($expected, $app['canonical']->getUrl(), 'Canonical url should be homepage');
+    }
 
-        $canonical = $this->getService('resources')->getUrl('canonical');
+    public function testCanonicalUrlForNumericRecord()
+    {
+        /** @var \Silex\Application $app */
+        $app = $this->getApp();
 
-        $this->assertEquals($expected, $canonical);
+        $this->setRequest(Request::create('/pages/5'));
+        $app['request_context']->fromRequest($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $contenttype = $app['storage']->getContentType('pages');
+        $content1 = new Content($app, $contenttype);
+        $content1->id = 5;
+        $content1['slug'] = 'foo';
+
+        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$app]);
+        $app['storage'] = $storage;
+
+        $storage->expects($this->at(0))
+            ->method('getContent')
+            ->will($this->returnValue(false));
+
+        $storage->expects($this->at(1))
+            ->method('getContent')
+            ->will($this->returnValue($content1));
+
+        // Route for /page/5 instead of /page/foo
+        $this->controller()->record($this->getRequest(), 'pages', 5);
+
+        $this->assertEquals('http://localhost/page/foo', $app['canonical']->getUrl(), 'Canonical url should use record slug instead of record ID');
     }
 
     public function testNumericRecord()

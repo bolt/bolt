@@ -253,7 +253,7 @@ class Records extends BackendBase
             $tmpreferrer .= '?' . $tmp['query'];
         }
 
-        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer === $this->resources()->getUrl('bolt'))) {
+        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer === $this->generateUrl('dashboard') . '/')) {
             $this->app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
     }

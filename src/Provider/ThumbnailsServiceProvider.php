@@ -4,7 +4,9 @@ namespace Bolt\Provider;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\Image;
+use Bolt\Filesystem\Matcher;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;
@@ -55,15 +57,21 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.default_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
-
-            return $finder->find($app['config']->get('general/thumbnails/notfound_image'));
+            $matcher = new Matcher($app['filesystem'], ['view', 'app', 'themes', 'files']);
+            try {
+                return $matcher->getImage($app['config']->get('general/thumbnails/notfound_image'));
+            } catch (FileNotFoundException $e) {
+                return new Image();
+            }
         });
 
         $app['thumbnails.error_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
-
-            return $finder->find($app['config']->get('general/thumbnails/error_image'));
+            $matcher = new Matcher($app['filesystem'], ['view', 'app', 'themes', 'files']);
+            try {
+                return $matcher->getImage($app['config']->get('general/thumbnails/error_image'));
+            } catch (FileNotFoundException $e) {
+                return new Image();
+            }
         });
 
         $app['thumbnails.cache_time'] = $app['config']->get('general/thumbnails/browser_cache_time');

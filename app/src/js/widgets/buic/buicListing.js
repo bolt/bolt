@@ -24,6 +24,7 @@
             this.csrfToken  = this.element.data('bolt_csrf_token');
             this.contentType = this.element.data('contenttype');
             this.contentTypeName = this.element.data('contenttype-name');
+            this.actionUrl = this.element.data('action-url');
 
             this.element.find('table.listing tbody').buicListingPart();
         },
@@ -103,10 +104,9 @@
          * @param {object} modifications - The modifications to be sent.
          */
         _sendModifyRecordsQuery: function (modifications) {
-            var self = this,
-                url = bolt.conf('paths.async') + 'content/action' + window.location.search;
+            var self = this;
             $.ajax({
-                url: url,
+                url: self.actionUrl,
                 type: 'POST',
                 data: {
                     'bolt_csrf_token': self.csrfToken,

@@ -1,5 +1,10 @@
 {#=== INIT ===========================================================================================================#}
 
+{% set attributes_fieldset = {
+    'data-tags-url': path('tags', {'taxonomytype': taxonomy.slug}),
+    'data-popular-tags-url': path('populartags', {'taxonomytype': taxonomy.slug}),
+} %}
+
 {# Build the select options array #}
 {% set options = [] %}
 {% for tag in context.content.get(taxonomy.slug)|default([]) %}

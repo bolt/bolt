@@ -121,12 +121,10 @@
          *
          * @private
          *
-         * @param {Object}                                             event - The event
-         * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         jQuery.widget.bolt.buicUpload#buicuploaduploaded|
-         *         Object}                                             data  - Data containing the path
+         * @param {Object} event - The event
+         * @param {Object} file - Data containing the path
          */
-        _onAddPath: function (event, data) {
+        _onAddPath: function (event, file) {
             // Remove empty list message, if there.
             $('>p', this._ui.list).remove();
 
@@ -135,10 +133,12 @@
                 $(Bolt.data(
                     this.options.isImage ? 'field.imagelist.template.item' : 'field.filelist.template.item',
                     {
-                        '%TITLE_A%':    data.path.replace(/\.[a-z0-9]+$/, ''),
-                        '%FILENAME_E%': $('<div>').text(data.path).html(), // Escaped
-                        '%FILENAME_A%': data.path,
-                        '%EXT_E%':      data.path.replace(/^.+?\.([a-z0-9]+)$/, '$1').toUpperCase()
+                        '%TITLE_A%':    file.path.replace(/\.[a-z0-9]+$/, ''),
+                        '%FILEPATH_E%': $('<div>').text(file.path).html(), // Escaped
+                        '%FILEPATH_A%': file.path,
+                        '%EXT_E%':      file.extension.toUpperCase(),
+                        '%PREVIEW_A%':  file.previewListUrl,
+                        '%URL_A%':      file.url,
                     }
                 ))
             );
@@ -217,12 +217,13 @@
          * @param {Object} event - The event
          */
         _onSelectFromStack: function (event) {
-            var link = $(event.target);
+            var link = $(event.target),
+                fileItem = link.parent('[data-file]');
 
             // Close the dropdown.
             link.closest('.btn-group').removeClass('open');
 
-            this._onAddPath(event, {path: link.data('path')});
+            this._onAddPath(event, fileItem.data('file'));
             event.preventDefault();
         },
 

@@ -101,7 +101,6 @@ class Config
         } catch (RuntimeException $e) {
             return;
         }
-        $this->setCKPath();
 
         if ($loadCache) {
             // In this case the cache is loaded, but because the path of the theme
@@ -1153,19 +1152,15 @@ class Config
                 'ck'          => [
                     'autoParagraph'           => true,
                     'contentsCss'             => [
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor-contents.css',
-                        $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
+                        ['css/ckeditor-contents.css', 'bolt'],
+                        ['css/ckeditor.css', 'bolt'],
                     ],
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480,
                 ],
-                'filebrowser' => [
-                    'browseUrl'      => $this->app['resources']->getUrl('async') . 'recordbrowser/',
-                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files',
-                ],
             ],
             'liveeditor'                  => true,
-            'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'canonical'                   => null,
             'developer_notices'           => false,
             'cookies_use_remoteaddr'      => true,
             'cookies_use_browseragent'    => false,
@@ -1177,8 +1172,8 @@ class Config
                 'default_image'     => [1000, 750],
                 'quality'           => 75,
                 'cropping'          => 'crop',
-                'notfound_image'    => 'view/img/default_notfound.png',
-                'error_image'       => 'view/img/default_error.png',
+                'notfound_image'    => 'view://img/default_notfound.png',
+                'error_image'       => 'view://img/default_error.png',
             ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
@@ -1231,25 +1226,10 @@ class Config
     }
 
     /**
-     * Will be made protected in Bolt 3.0.
+     * @deprecated Deprecated since 3.3, to be removed in 4.0.
      */
     public function setCKPath()
     {
-        $app = $this->app['resources']->getUrl('app');
-
-        // Make sure the paths for CKeditor config are always set correctly.
-        $this->set(
-            'general/wysiwyg/ck/contentsCss',
-            [
-                $app . 'view/css/ckeditor-contents.css',
-                $app . 'view/css/ckeditor.css',
-            ]
-        );
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'recordbrowser/');
-        $this->set(
-            'general/wysiwyg/filebrowser/imageBrowseUrl',
-            $this->app['resources']->getUrl('bolt') . 'files/files/'
-        );
     }
 
     /**

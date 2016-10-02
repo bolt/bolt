@@ -47,6 +47,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('__',                 [$this, 'trans'],       $safe),
             new \Twig_SimpleFunction('backtrace',          [$this, 'printBacktrace']),
             new \Twig_SimpleFunction('buid',               [$this, 'buid'],        $safe),
+            new \Twig_SimpleFunction('canonical',          [$this, 'canonical']),
             new \Twig_SimpleFunction('countwidgets',       [$this, 'countWidgets'],  $safe),
             new \Twig_SimpleFunction('current',            [$this, 'current']),
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
@@ -54,7 +55,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('excerpt',            [$this, 'excerpt'],     $safe),
             new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFunction('fields',             [$this, 'fields'],      $env + $safe),
-            new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists']),
+            new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists'],  $deprecated),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
             new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
@@ -81,8 +82,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('redirect',           [$this, 'redirect'],    $safe),
             new \Twig_SimpleFunction('request',            [$this, 'request']),
             new \Twig_SimpleFunction('showimage',          [$this, 'showImage'],   $safe),
-            new \Twig_SimpleFunction('stacked',            [$this, 'stacked']),
-            new \Twig_SimpleFunction('stackitems',         [$this, 'stackItems']),
+            new \Twig_SimpleFunction('stack',              [$this, 'stack']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
@@ -135,6 +135,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     {
         return [
             new \Twig_SimpleTest('json', [$this, 'testJson']),
+            new \Twig_SimpleTest('stackable', [$this, 'testStackable']),
         ];
     }
 
@@ -187,6 +188,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function buid()
     {
         return $this->handlers['admin']->buid();
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\RoutingHandler::canonical()
+     */
+    public function canonical()
+    {
+        return $this->handlers['routing']->canonical();
     }
 
     /**
@@ -529,19 +538,19 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\AdminHandler::stacked()
+     * @see \Bolt\Twig\Handler\AdminHandler::testStackable()
      */
-    public function stacked($filename)
+    public function testStackable($filename)
     {
-        return $this->handlers['admin']->stacked($filename);
+        return $this->handlers['admin']->testStackable($filename);
     }
 
     /**
      * @see \Bolt\Twig\Handler\AdminHandler::stackItems()
      */
-    public function stackItems($amount = 20, $type = '')
+    public function stack($types = [])
     {
-        return $this->handlers['admin']->stackItems($amount, $type);
+        return $this->handlers['admin']->stack($types);
     }
 
     /**

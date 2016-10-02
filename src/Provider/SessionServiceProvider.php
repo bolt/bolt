@@ -110,7 +110,6 @@ class SessionServiceProvider implements ServiceProviderInterface
             'name'            => 'bolt_session',
             'restrict_realm'  => true,
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
-            'cookie_path'     => $app['resources']->getUrl('root'),
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
             'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
             'cookie_httponly' => true,

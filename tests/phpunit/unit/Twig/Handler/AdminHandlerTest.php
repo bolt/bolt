@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
+use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\AdminHandler;
 use Silex\Translator;
@@ -57,110 +58,42 @@ class AdminHandlerTest extends BoltUnitTest
         $this->assertTrue($result);
     }
 
-    public function testStackedIsOnStack()
+    public function testStackable()
     {
         $app = $this->getApp();
-        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
         $stack
-            ->expects($this->atLeastOnce())
-            ->method('isOnStack')
-            ->will($this->returnValue(true))
-        ;
-        $stack
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('isStackable')
-            ->will($this->returnValue(false))
         ;
         $app['stack'] = $stack;
 
         $handler = new AdminHandler($app);
 
-        $result = $handler->stacked('koala.jpg');
-        $this->assertTrue($result);
+        $handler->testStackable('koala.jpg');
     }
 
-    public function testStackedIsOnStackable()
+    public function testStack()
     {
         $app = $this->getApp();
-        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+
+        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
         $stack
-            ->expects($this->atLeastOnce())
-            ->method('isOnStack')
-            ->will($this->returnValue(false))
-        ;
-        $stack
-            ->expects($this->atLeastOnce())
-            ->method('isStackable')
-            ->will($this->returnValue(false))
+            ->expects($this->exactly(3))
+            ->method('getList')
+            ->withConsecutive(
+                [['other', 'document']],
+                [['other', 'document']],
+                [[]]
+            )
         ;
         $app['stack'] = $stack;
 
         $handler = new AdminHandler($app);
 
-        $result = $handler->stacked('koala.jpg');
-        $this->assertTrue($result);
-    }
-
-    public function testStackedNotIsOnStack()
-    {
-        $app = $this->getApp();
-        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
-        $stack
-            ->expects($this->atLeastOnce())
-            ->method('isOnStack')
-            ->will($this->returnValue(false))
-        ;
-        $stack
-            ->expects($this->any())
-            ->method('isStackable')
-            ->will($this->returnValue(true))
-        ;
-        $app['stack'] = $stack;
-
-        $handler = new AdminHandler($app);
-
-        $result = $handler->stacked('koala.jpg');
-        $this->assertFalse($result);
-    }
-
-    public function testStackedNotAnything()
-    {
-        $app = $this->getApp();
-        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
-        $stack
-            ->expects($this->atLeastOnce())
-            ->method('isOnStack')
-            ->will($this->returnValue(false))
-        ;
-        $stack
-            ->expects($this->atLeastOnce())
-            ->method('isStackable')
-            ->will($this->returnValue(false))
-        ;
-        $app['stack'] = $stack;
-
-        $handler = new AdminHandler($app);
-
-        $result = $handler->stacked('koala.jpg');
-        $this->assertTrue($result);
-    }
-
-    public function testStackItems()
-    {
-        $app = $this->getApp();
-
-        $stack = $this->getMock('Bolt\Stack', ['listitems'], [$app]);
-        $stack
-            ->expects($this->atLeastOnce())
-            ->method('listitems')
-            ->will($this->returnValue(['koala.jpg', 'clippy.png']))
-        ;
-        $app['stack'] = $stack;
-
-        $handler = new AdminHandler($app);
-
-        $result = $handler->stackItems();
-        $this->assertSame(['koala.jpg', 'clippy.png'], $result);
+        $handler->stack(['other', 'document']);
+        $handler->stack('other, document');
+        $handler->stack('');
     }
 
     public function testLogLevelString()

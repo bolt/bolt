@@ -48,6 +48,7 @@ class SessionListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $request->setSession($this->session);
 
+        $this->prependBasePathToCookie($request);
         $this->appendRealmToName($request);
 
         $name = $this->session->getName();
@@ -72,6 +73,15 @@ class SessionListener implements EventSubscriberInterface
         $event->getResponse()->headers->setCookie($cookie);
     }
 
+    protected function prependBasePathToCookie(Request $request)
+    {
+        if (!$path = $this->options['cookie_path']) {
+            return;
+        }
+
+        $this->options['cookie_path'] = $request->getBasePath() . $path;
+    }
+
     protected function appendRealmToName(Request $request)
     {
         if (!$this->options->getBoolean('restrict_realm')) {
@@ -80,7 +90,7 @@ class SessionListener implements EventSubscriberInterface
 
         $name = $this->session->getName();
 
-        $realm = '_' . md5($request->getHttpHost() . $request->getBaseUrl());
+        $realm = '_' . md5($request->getHttpHost() . $request->getBasePath());
 
         if (substr($name, -strlen($realm)) === $realm) { // name ends with realm
             return;

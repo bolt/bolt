@@ -48,7 +48,7 @@ class Authentication extends BackendBase
             $response = $this->redirectToRoute('dashboard');
 
             $token = $this->session()->get('authentication');
-            $this->setAuthenticationCookie($response, $token);
+            $this->setAuthenticationCookie($request, $response, $token);
 
             return $response;
         }
@@ -90,7 +90,9 @@ class Authentication extends BackendBase
     /**
      * Logout page.
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
     public function logout(Request $request)
     {
@@ -112,7 +114,7 @@ class Authentication extends BackendBase
         $response = $this->redirectToRoute('login');
         $response->headers->clearCookie(
             $this->app['token.authentication.name'],
-            $this->resources()->getUrl('root'),
+            $request->getBasePath(),
             $this->getOption('general/cookies_domain'),
             $this->getOption('general/enforce_ssl')
         );
@@ -165,7 +167,7 @@ class Authentication extends BackendBase
         $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
 
         $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
-        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), (string) $token);
+        $response = $this->setAuthenticationCookie($request, $this->redirectToRoute($retreat['route'], $retreat['params']), (string) $token);
 
         return $response;
     }

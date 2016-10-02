@@ -44,7 +44,7 @@
      * @param {BindData} data - Editcontent configuration data
      */
     liveEditor.init = function (data) {
-        liveEditor.slug = data.singularSlug;
+        liveEditor.previewUrl = data.previewUrl;
 
         if (Modernizr.contenteditable) {
             $('#sidebar-live-editor-button, #live-editor-button').bind('click', liveEditor.start);
@@ -163,9 +163,8 @@
         $('body').addClass('live-editor-active');
         $('#navpage-primary .navbar-header a').on('click', preventClick);
 
-        var newAction = bolt.conf('paths.root') + 'preview/' + liveEditor.slug;
         $('#editcontent *[name=_live-editor-preview]').val('yes');
-        $('#editcontent').attr('action', newAction).attr('target', 'live-editor-iframe').submit();
+        $('#editcontent').attr('action', liveEditor.previewUrl).attr('target', 'live-editor-iframe').submit();
         $('#editcontent').attr('action', '').attr('target', '_self');
         $('#editcontent *[name=_live-editor-preview]').val('');
 
@@ -264,12 +263,12 @@
     liveEditor.active = false;
 
     /**
-     * Contenttype slug for the editor
+     * The preview url
      *
      * @private
      * @type {string}
      */
-    liveEditor.slug = null;
+    liveEditor.previewUrl = null;
 
     bolt.liveEditor = liveEditor;
 })(Bolt || {}, jQuery, window, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);

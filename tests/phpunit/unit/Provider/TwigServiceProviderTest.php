@@ -23,11 +23,10 @@ class TwigServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('\Pimple', $app['twig.handlers']);
         $this->assertNotEmpty($app['twig.handlers']->keys());
 
-        $this->assertNotEmpty($app['twig.path']);
         $this->assertNotEmpty($app['twig.options']['cache'], 'Cache path was not set');
         $this->assertInstanceOf('\Twig_Environment', $app['twig']);
         $this->assertTrue($app['twig']->hasExtension('Bolt'), 'Bolt\Twig\TwigExtension was not added to twig environment');
-        $this->assertContains('bolt', $app['twig.loader.filesystem']->getNamespaces(), 'bolt namespace was not added to filesystem loader');
+        $this->assertContains('bolt', $app['twig.loader.bolt_filesystem']->getNamespaces(), 'bolt namespace was not added to filesystem loader');
 
         $this->assertInstanceOf('\Bolt\Twig\TwigExtension', $app['safe_twig.bolt_extension']);
         $this->assertInstanceOf('\Twig_Environment', $app['safe_twig']);

@@ -569,10 +569,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Dashboard');
         $I->click('Logout');
 
-        // Removed as we now unset the session cookie at logout
-        //$I->see('You have been logged out');
-
         $I->amOnPage('/bolt');
-        $I->see('Please log on');
+
+        $I->seeInCurrentUrl('/bolt/login');
     }
 }

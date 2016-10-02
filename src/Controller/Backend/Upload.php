@@ -103,7 +103,7 @@ class Upload extends BackendBase
     {
         $filesToProcess = $this->getFilesToProcess($request, $namespace, $files);
 
-        /** @var \Sirius\Upload\Result\Collection|\Sirius\Upload\Result\File $result */
+        /** @var \Sirius\Upload\Result\Collection $result */
         $result = $this->app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
@@ -111,16 +111,8 @@ class Upload extends BackendBase
             $result->confirm();
 
             $successfulFiles = [];
-            if ($result instanceof File) {
-                $successfulFiles = [$result->name];
-            } elseif ($result instanceof Collection) {
-                $successfulFiles = [];
-                foreach ($result as $resultFile) {
-                    $successfulFiles[] = [
-                        'url'  => $namespace . '/' . $resultFile->name,
-                        'name' => $resultFile->name,
-                    ];
-                }
+            foreach ($result as $resultFile) {
+                $successfulFiles[] = $this->filesystem()->toJson($namespace . '://' . $resultFile->name);
             }
 
             return $successfulFiles;
@@ -137,7 +129,6 @@ class Upload extends BackendBase
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
                 $errorFiles[] = [
-                    'url'   => $namespace . '/' . $resultFile->original_name,
                     'name'  => $resultFile->original_name,
                     'error' => (string) $errors[0],
                 ];
@@ -172,7 +163,7 @@ class Upload extends BackendBase
             if ($file instanceof UploadedFile) {
                 $filesToProcess[] = [
                     'name'     => $file->getClientOriginalName(),
-                    'tmp_name' => $file->getPathName(),
+                    'tmp_name' => $file->getPathname(),
                 ];
             } else {
                 $filesToProcess[] = $file;

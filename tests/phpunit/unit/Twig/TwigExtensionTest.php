@@ -538,24 +538,24 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->slug(null);
     }
 
-    public function testStacked()
+    public function testTestStackable()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'stacked');
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'testStackable');
         $twig = new TwigExtension($app, $handlers, true);
 
-        $twig->stacked(null);
+        $twig->testStackable(null);
     }
 
-    public function testStackItems()
+    public function testStack()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'stackItems');
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'stack');
         $twig = new TwigExtension($app, $handlers, true);
 
-        $twig->stackItems(null);
+        $twig->stack();
     }
 
     public function testTestJson()

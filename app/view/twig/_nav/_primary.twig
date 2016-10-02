@@ -3,7 +3,7 @@
         <i class="fa fa-fw fa-bars"></i> MENU
     </button>
     <a class="navbar-brand" href="{{ path('dashboard') }}">
-        {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
+        {# <img src="{{ asset('img/bolt-icon.svg', 'bolt') }}"> #}
         {{ app.config.get('general/branding/name')|default('Bolt') }}
     </a>
     <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
@@ -16,14 +16,14 @@
         {# one omnisearch here, for "small and up", the other in the side-navbar #}
         <form class="navbar-form hidden-xs">
             <div class="form-group has-feedback omnisearch" role="search">
-                <select class="form-control"></select>
+                <select class="form-control" data-omnisearch-url="{{ path('omnisearch') }}"></select>
                 <span class="form-control-feedback"><i class="fa fa-search"></i></span>
             </div>
         </form>
     </li>
 
     <li>
-        <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
+        <a href="{{ path('homepage') }}" target="_blank" class="hidden-xs">
             <i class="fa fa-fw fa-external-link-square"></i>
             {{ __('general.phrase.view-site') }}
         </a>

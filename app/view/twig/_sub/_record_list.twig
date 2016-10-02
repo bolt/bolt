@@ -20,7 +20,13 @@
     {% endset %}
 
     {% if not async %}
-        <div class="buic-listing" data-bolt-widget="buicListing" data-contenttype="{{ contenttype.slug }}" data-contenttype-name="{{ contenttype.singular_name }}" data-bolt_csrf_token="{{ token() }}">
+        <div class="buic-listing"
+            data-bolt-widget="buicListing"
+            data-contenttype="{{ contenttype.slug }}"
+            data-contenttype-name="{{ contenttype.singular_name }}"
+            data-bolt_csrf_token="{{ token() }}"
+            data-action-url="{{ path('contentaction', app.request.query.all) }}"
+        >
     {% endif %}
         <table class="{{ extra_classes }} dashboardlisting listing">
             {% for content in multiplecontent %}

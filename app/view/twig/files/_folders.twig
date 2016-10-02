@@ -1,68 +1,68 @@
 {% from '@bolt/_buic/_moment.twig' import buic_moment %}
 
+{# Only show modified header if some directories have timestamps #}
+{% set hasTimestamps = false %}
+{% for dir in context.directories %}
+    {% if not hasTimestamps and dir.timestamp != 0 %}
+        {% set hasTimestamps = true %}
+    {% endif %}
+{% endfor %}
+
 <table class="dashboardlisting">
     <thead>
         <tr>
             <th>{{ __('general.phrase.folders') }}</th>
-            <th colspan="2">{{ __('general.phrase.modified') }}</th>
+            <th colspan="2">{{ hasTimestamps ? __('general.phrase.modified') }}</th>
         </tr>
     </thead>
 
     <tbody>
         {% for directory in context.directories %}
             <tr>
-                <td>
+                <td class="filename">
                     <i class="fa fa-fw fa-folder-open-o"></i>
-                    <a href="{{ path('files', {'path': directory.path, 'namespace': context.namespace}) }}">
-                        <b>{{ directory.filename|excerpt(60)|shy }}/</b>
+                    <a href="{{ path('files', pathoptions|default({})|merge({'path': directory.path, 'namespace': directory.mountPoint})) }}">
+                        <b>{{ directory.filename|excerpt(60)|shy }}</b>
                     </a>
                 </td>
-                <td>
+                <td class="folder-meta">
                     {{ buic_moment(directory.timestamp) }}
                 </td>
-                <td class="actions">
                 {% if context.form != false %}
-                    <div class="btn-group">
-                    {% if directory.public %}
+                    <td class="actions">
+                        <div class="btn-group">
+                            <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
+                                <i class="fa fa-info-circle"></i>
+                                {{ __('general.phrase.options') }}
+                                <span class="caret"></span>
+                            </a>
 
-                        <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
-                            <i class="fa fa-info-circle"></i>
-                            {{ __('general.phrase.options') }}
-                            <span class="caret"></span>
-                        </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="#"
+                                       data-action="bolt.files.renameFolder('{{ directory.mountPoint }}',
+                                                                        '{{ directory.dirname }}',
+                                                                        '{{ directory.filename }}',
+                                                                        this);">
 
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="#"
-                                   data-action="bolt.files.renameFolder('{{ context.namespace }}',
-                                                                    '{{ context.pathsegments|keys|last }}',
-                                                                    '{{ directory.path }}',
-                                                                    this);">
+                                        <i class="fa fa-keyboard-o"></i>
+                                        {{ __('general.phrase.rename-foldername', {'%foldername%': directory.filename}) }}
+                                    </a>
+                                    <a href="#"
+                                       class="confirm"
+                                       data-action="bolt.files.deleteFolder('{{ directory.mountPoint }}',
+                                                                        '{{ directory.dirname }}',
+                                                                        '{{ directory.filename }}',
+                                                                        this);">
 
-                                    <i class="fa fa-keyboard-o"></i>
-                                    {{ __('general.phrase.rename-foldername', {'%foldername%': directory.filename}) }}
-                                </a>
-                                <a href="#"
-                                   class="confirm"
-                                   data-action="bolt.files.deleteFolder('{{ context.namespace }}',
-                                                                    '{{ context.pathsegments|keys|last }}',
-                                                                    '{{ directory.path }}',
-                                                                    this);">
-
-                                    <i class="fa fa-ban"></i>
-                                    {{ __('general.phrase.delete-directory-name', {'%foldername%': directory.filename}) }}
-                                </a>
-                            </li>
-                        </ul>
-                    {% else %}
-                        <a class="btn btn-default btn-sm">
-                            <i class="fa fa-exclamation-circle"></i>
-                            {{ __('page.file-management.message.folder-access-denied') }}
-                        </a>
-                    {% endif %}
-                    </div>
+                                        <i class="fa fa-ban"></i>
+                                        {{ __('general.phrase.delete-directory-name', {'%foldername%': directory.filename}) }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
                 {% endif %}
-                </td>
             </tr>
         {% endfor %}
     </tbody>

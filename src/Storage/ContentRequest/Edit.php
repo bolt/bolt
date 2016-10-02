@@ -123,11 +123,9 @@ class Edit
             }
         }
 
-        // Test write access for uploadable fields.
-        $contentType['fields'] = $this->setCanUpload($contentType['fields']);
-        $templateFields = $content->getTemplatefields();
-        if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
-            $templateFields->getContenttype()['fields'] = $this->setCanUpload($templateFields->getContenttype()->getFields());
+        $templateFieldsData = [];
+        if (($templateFields = $content->getTemplatefields()) && $templateFields instanceof TemplateFields) {
+            $templateFieldsData = $templateFields->getContenttype()->getFields();
         }
 
         // Build context for Twig.
@@ -142,7 +140,7 @@ class Edit
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== [],
             'taxonomy'           => isset($contentType['taxonomy']),
-            'templatefields'     => empty($templateFieldsData) ? false : true,
+            'templatefields'     => count($templateFieldsData) > 0,
         ];
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
@@ -213,57 +211,6 @@ class Edit
         }
 
         return $fields;
-    }
-
-    /**
-     * Determine write access for upload fields, and auto-create the desired directory if it does not exist.
-     *
-     * Note that in cases where an array is passed then true will be set if at least some of the directories can
-     * be written to.
-     *
-     * @param array $fields
-     *
-     * @return array
-     */
-    private function setCanUpload($fields)
-    {
-        $can = false;
-        foreach ($fields as &$values) {
-            if (isset($values['upload'])) {
-                foreach ((array) $values['upload'] as $path) {
-                    $can = $can || $this->checkUploadDirectory($path);
-                }
-                $values['canUpload'] = $can;
-            } else {
-                $values['canUpload'] = true;
-            }
-        }
-
-        return $fields;
-    }
-
-    /**
-     * Check a given upload path to see if it is 'public' or 'private' access, create if required.
-     *
-     * @param $path
-     *
-     * @return boolean
-     */
-    private function checkUploadDirectory($path)
-    {
-        if (strpos('://', $path) === false) {
-            $path = sprintf('files://%s', $path);
-        }
-        if ($this->filesystem->has($path)) {
-            return $this->filesystem->getVisibility($path) === 'public';
-        }
-        try {
-            $this->filesystem->createDir($path);
-
-            return $this->filesystem->getVisibility($path) === 'public';
-        } catch (IOException $e) {
-            return false;
-        }
     }
 
     /**

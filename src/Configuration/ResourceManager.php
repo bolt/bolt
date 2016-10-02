@@ -53,6 +53,12 @@ class ResourceManager
     protected $pathManager;
 
     /**
+     * @deprecated since 3.0, to be removed in 4.0.
+     * @var PathsProxy
+     */
+    private $pathsProxy;
+
+    /**
      * Constructor initialises on the app root path.
      *
      * @param \ArrayAccess $container ArrayAccess compatible DI container that must contain one of:
@@ -250,18 +256,29 @@ class ResourceManager
      * Get a URL path definition.
      *
      * @param string $name
+     * @param bool   $includeBasePath
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    public function getUrl($name)
+    public function getUrl($name, $includeBasePath = true)
     {
+        if (($name === 'canonical' || $name === 'canonicalurl') && isset($this->app['canonical'])) {
+            if ($url = $this->app['canonical']->getUrl()) {
+                return $url;
+            }
+        }
+
         if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
             return $this->urls[$name . 'url'];
         }
         if (! array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
+        }
+
+        if (!$includeBasePath) {
+            return $this->urls[$name];
         }
 
         return $this->urlPrefix . $this->urls[$name];
@@ -298,18 +315,19 @@ class ResourceManager
     }
 
     /**
-     * Returns merged array of Urls, Paths and current request.
+     * Just don't use this.
      *
-     * However $this->paths can be either mixed array elements of String or Path
-     * getPaths() will convert them string to provide homogeneous type result.
+     * @deprecated since 3.0, to be removed in 4.0.
      *
-     * @return string[] array of merged strings
+     * @return PathsProxy
      */
     public function getPaths()
     {
-        $paths = array_map('strval', $this->paths);
+        if ($this->pathsProxy === null) {
+            $this->pathsProxy = new PathsProxy($this);
+        }
 
-        return array_merge($paths, $this->urls, $this->request);
+        return $this->pathsProxy;
     }
 
     /**
@@ -355,13 +373,7 @@ class ResourceManager
 
         $rootUrl = rtrim($this->getUrl('root'), '/');
         if ($rootUrl !== $request->getBasePath()) {
-            $rootUrl = $request->getBasePath();
-            $this->setUrl('root', $rootUrl . $this->getUrl('root'));
-            $this->setUrl('app', $rootUrl . $this->getUrl('app'));
-            $this->setUrl('extensions', $rootUrl . $this->getUrl('extensions'));
-            $this->setUrl('files', $rootUrl . $this->getUrl('files'));
-            $this->setUrl('async', $rootUrl . $this->getUrl('async'));
-            $this->setUrl('upload', $rootUrl . $this->getUrl('upload'));
+            $this->urlPrefix = $request->getBasePath();
         }
 
         $this->setRequest('protocol', $protocol);
@@ -409,9 +421,8 @@ class ResourceManager
             $this->setPath('templatespath', $this->getPath('theme'));
         }
 
-        $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
-        $this->setUrl('bolt', $this->getUrl('root') . $branding);
-        $this->app['config']->setCkPath();
+        $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
+        $this->setUrl('bolt', $branding);
     }
 
     /**
@@ -425,7 +436,7 @@ class ResourceManager
     {
         $themeDir = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
         $themePath = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
-        $themeUrl = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
+        $themeUrl = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
 
         // See if the user has set a theme path otherwise use the default
         if (!isset($generalConfig['theme_path'])) {

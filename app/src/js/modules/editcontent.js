@@ -26,6 +26,7 @@
      * @property {boolean} newRecord - Is new Record?
      * @property {string} savedOn - "Saved on" template.
      * @property {string} singularSlug - Contenttype slug.
+     * @property {string} previewUrl - The preview url.
      */
 
     /**
@@ -210,8 +211,10 @@
      * @static
      * @function initDelete
      * @memberof Bolt.editcontent
+     *
+     * @param {BindData} data - Editcontent configuration data
      */
-    function initDelete() {
+    function initDelete(data) {
         $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
             e.preventDefault();
             bootbox.confirm(
@@ -219,12 +222,11 @@
                 function (confirmed) {
                     $('.alert').alert(); // Dismiss alert messages
                     if (confirmed === true) {
-                        var pathBolt = bolt.conf('paths.bolt'),
-                            form = $('#id').closest('form'),
+                        var form = $('#id').closest('form'),
                             ctype = $('#contenttype').val(),
                             id = $('#id').val(),
                             token = form.find('input[name="bolt_csrf_token"]').val(),
-                            url = bolt.conf('paths.async') + 'content/action',
+                            actionUrl = data.actionUrl,
                             modifications = {};
 
                         modifications[ctype] = {};
@@ -232,7 +234,7 @@
 
                         // Fire delete request.
                         $.ajax({
-                            url: url,
+                            url: actionUrl,
                             type: 'POST',
                             data: {
                                 'bolt_csrf_token': token,
@@ -240,7 +242,7 @@
                                 'actions': modifications
                             },
                             success: function () {
-                                window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
+                                window.location.href = data.overviewUrl;
                             }
                         });
                     }
@@ -483,7 +485,7 @@
         initSaveContinue(data);
         initPreview();
         initLiveEditor();
-        initDelete();
+        initDelete(data);
         initTabGroups();
         bolt.liveEditor.init(data);
         window.setTimeout(function () {

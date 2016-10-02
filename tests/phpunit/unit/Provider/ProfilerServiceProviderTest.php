@@ -30,7 +30,7 @@ class ProfilerServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Profiler\BoltDataCollector', $collectors['bolt']->__invoke($app));
         $this->assertInstanceOf('Bolt\Profiler\DatabaseDataCollector', $collectors['db']->__invoke($app));
 
-        $this->assertNotEmpty($app['twig.loader.filesystem']->getPaths('BoltProfiler'));
+        $this->assertNotEmpty($app['twig.loader.bolt_filesystem']->getPaths('BoltProfiler'));
 
         $logger = $app['db.logger'];
         $this->assertInstanceOf('Doctrine\DBAL\Logging\DebugStack', $logger);

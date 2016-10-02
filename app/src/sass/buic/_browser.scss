@@ -36,6 +36,12 @@
     // Modal header
     .modal-header {
         padding: $header-vpadding 15px;
+
+        // Fix text getting bottom chopped off
+        // Increase line height and shrink margin to half to compensate
+        line-height: inherit;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     // Modal footer
@@ -104,6 +110,7 @@
     table {
         td {
             padding: 2px 8px;
+            vertical-align: middle;
         }
 
         // Name column
@@ -113,11 +120,15 @@
             white-space: nowrap;
             width: 100%;
             max-width: 0;
+            line-height: 2rem;
+
+            .disabled {
+                color: #999;
+            }
         }
 
         // Info column
         td.info {
-            vertical-align: middle;
             width: 110px;
             min-width: 110px;
 
@@ -163,21 +174,6 @@
 
         tr.directory td {
             background: #fdfdfd;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        tr.locked {
-            opacity: 0.4;
-
-            span:after {
-                display: inline-block;
-                vertical-align: middle;
-                font-family: FontAwesome;
-                font-weight: normal;
-                color: #000;
-                content: "\f023"; // fa-lock
-            }
         }
 
         mark {

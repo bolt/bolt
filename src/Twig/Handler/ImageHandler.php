@@ -49,13 +49,15 @@ class ImageHandler
             $fileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : '');
         }
 
-        $image = sprintf(
-            '%s%s',
-            $this->app['resources']->getUrl('files'),
-            Lib::safeFilename($fileName)
-        );
+        if (!$fileName) {
+            return null;
+        }
 
-        return $image;
+        $file = $this->app['filesystem.matcher']->getFile($fileName);
+
+        $url = $file->url();
+
+        return $url;
     }
 
     /**
