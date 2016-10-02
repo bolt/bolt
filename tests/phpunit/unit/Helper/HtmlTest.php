@@ -21,6 +21,10 @@ class HtmlTest extends BoltUnitTest
         // Make sure tags are stripped
         $input = 'Lorem <strong>ipsum</strong> dolor sit amet, consectetur adipisicing elit.';
         $this->assertEquals('Lorem ipsum', Html::trimText($input, 11, false));
+
+        // Make sure long words (more than 10) are capped in the middle
+        $input = 'I suffer from hippopotomonstrosesquipedaliophobia.';
+        $this->assertEquals('I suffer from hippopotomonstrosesquiped…', Html::trimText($input, 40, true));
     }
 
     public function testDecorateTT()
