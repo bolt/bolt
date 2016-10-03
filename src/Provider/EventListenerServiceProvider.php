@@ -103,14 +103,21 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
 
-        $dispatcher->addSubscriber($app['listener.access_control']);
-        $dispatcher->addSubscriber($app['listener.general']);
-        $dispatcher->addSubscriber($app['listener.exception']);
-        $dispatcher->addSubscriber($app['listener.not_found']);
-        $dispatcher->addSubscriber($app['listener.snippet']);
-        $dispatcher->addSubscriber($app['listener.redirect']);
-        $dispatcher->addSubscriber($app['listener.flash_logger']);
-        $dispatcher->addSubscriber($app['listener.zone_guesser']);
-        $dispatcher->addSubscriber($app['listener.pager']);
+        $listeners = [
+            'general',
+            'exception',
+            'not_found',
+            'snippet',
+            'redirect',
+            'flash_logger',
+            'zone_guesser',
+            'pager'
+        ];
+
+        foreach ($listeners as $name) {
+            if (isset($app['listener.' . $name])) {
+                $dispatcher->addSubscriber($app['listener.' . $name]);
+            }
+        }
     }
 }
