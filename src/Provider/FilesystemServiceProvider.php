@@ -34,9 +34,9 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
                     ],
                     [
-                        new Plugin\HasUrl($app),
-                        new Plugin\Parents($app),
-                        new Plugin\ToJson($app),
+                        new Plugin\HasUrl(),
+                        new Plugin\Parents(),
+                        new Plugin\ToJson(),
                         new Plugin\Authorized($app),
                         new Plugin\ThumbnailUrl($app),
                     ]
