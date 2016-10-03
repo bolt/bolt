@@ -1119,7 +1119,7 @@ class Config
                 'level'    => 'DEBUG',
                 'filename' => 'bolt-debug.log',
             ],
-            'debug'                       => false,
+            'debug'                       => null,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => null,
             'production_error_level'      => null,

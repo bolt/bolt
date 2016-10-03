@@ -59,7 +59,10 @@ class Application extends Silex\Application
         $this->initLogger();
         $this['resources']->initialize();
 
-        $this['debug'] = $this['config']->get('general/debug', false);
+        if (($debugOverride = $this['config']->get('general/debug')) !== null) {
+            $this['debug'] = $debugOverride;
+        }
+
         // Re-register the shutdown functions now that we know our debug setting
         ShutdownHandler::register($this['debug']);
         if (!isset($this['environment'])) {
