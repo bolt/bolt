@@ -1105,7 +1105,7 @@ class Config
                 'randomfunction' => '',
             ],
             'sitename'                    => 'Default Bolt site',
-            'locale'                      => 'en_GB',
+            'locale'                      => null,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => [

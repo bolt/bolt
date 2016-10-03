@@ -66,8 +66,10 @@ class Application extends Silex\Application
             $this['environment'] = $this['debug'] ? 'development' : 'production';
         }
 
-        $locales = (array) $this['config']->get('general/locale');
-        $this['locale'] = reset($locales);
+        if (($locales = $this['config']->get('general/locale')) !== null) {
+            $locales = (array) $locales;
+            $this['locale'] = reset($locales);
+        }
 
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
