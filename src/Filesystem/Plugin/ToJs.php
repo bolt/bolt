@@ -2,7 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\PluginInterface;
 
@@ -11,25 +10,16 @@ use Bolt\Filesystem\PluginInterface;
  *
  * Goal of this plugin is to always give JS consistent data about a file in a DRY way.
  */
-class ToJson implements PluginInterface
+class ToJs implements PluginInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    use PluginTrait;
 
     /**
      * {@inheritdoc}
      */
     public function getMethod()
     {
-        return 'toJson';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
+        return 'toJs';
     }
 
     public function handle($path)

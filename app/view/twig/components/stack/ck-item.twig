@@ -1,7 +1,7 @@
 {# file \Bolt\Filesystem\Handler\FileInterface #}
 
 <div class="stackitem stackitem-wide {{ file.type not in ['image', 'document'] ? 'other' : file.type }}"
-     data-file="{{ file.toJson|json_encode }}"
+     data-file="{{ file.toJs|json_encode }}"
 >
     <a href="{{ file.url }}" class="filebrowserCallbackLink">
         {% if file.image %}

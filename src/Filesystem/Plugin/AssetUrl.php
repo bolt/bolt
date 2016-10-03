@@ -3,7 +3,6 @@
 namespace Bolt\Filesystem\Plugin;
 
 use Bolt\Filesystem\Exception\InvalidArgumentException;
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\PluginInterface;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\Packages;
@@ -23,8 +22,8 @@ use Symfony\Component\Asset\Packages;
  */
 class AssetUrl implements PluginInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    use PluginTrait;
+
     /** @var Packages|PackageInterface */
     protected $packages;
 
@@ -40,14 +39,6 @@ class AssetUrl implements PluginInterface
         }
 
         $this->packages = $packages;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     /**
