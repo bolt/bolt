@@ -119,14 +119,14 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
-        // Initialize debugging
-        $this->initDebugging();
-
         // Initialize the Database Providers.
         $this->initDatabase();
 
         // Initialize the rest of the Providers.
         $this->initProviders();
+
+        // Initialize debugging
+        $this->initDebugging();
 
         // Do a version check
         $this['config.environment']->checkVersion();
@@ -264,9 +264,6 @@ class Application extends Silex\Application
         );
     }
 
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
-     */
     public function initExtensions()
     {
         $this['extensions']->addManagedExtensions();
