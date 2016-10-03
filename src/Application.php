@@ -193,11 +193,11 @@ class Application extends Silex\Application
             error_reporting($errorLevel);
         }
 
+        $this->register(new Provider\DumperServiceProvider());
+
         if (!$this['debug']) {
             return;
         }
-
-        $this->register(new Provider\DumperServiceProvider());
 
         // Initialize Web Profiler providers
         $this->initProfiler();

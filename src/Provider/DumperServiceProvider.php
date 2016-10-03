@@ -24,11 +24,23 @@ class DumperServiceProvider implements ServiceProviderInterface
     {
         $app['dump'] = $app->protect(
             function ($var) use ($app) {
+                if (!$app['debug']) {
+                    return;
+                }
                 $app['dumper']->dump($app['dumper.cloner']->cloneVar($var));
             }
         );
 
-        VarDumper::setHandler($app['dump']);
+        VarDumper::setHandler(
+            function ($var) use ($app) {
+                /*
+                 * Referencing $app['dump'] in anonymous function
+                 * so the closure can be replaced in $app without
+                 * breaking the reference here.
+                 */
+                return $app['dump']($var);
+            }
+        );
 
         $app['dumper'] = $app->share(
             function ($app) {
