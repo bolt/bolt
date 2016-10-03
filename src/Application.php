@@ -188,17 +188,13 @@ class Application extends Silex\Application
      */
     public function initDebugging()
     {
-        if (!$this['debug']) {
-            if (($errorLevel = $this['config']->get('general/production_error_level')) !== null) {
-                error_reporting($errorLevel);
-            }
-
-            return;
+        // Set the error_reporting to the level specified in config.yml
+        if (($errorLevel = $this['config']->get($this['debug'] ? 'general/debug_error_level' : 'production_error_level')) !== null) {
+            error_reporting($errorLevel);
         }
 
-        // Set the error_reporting to the level specified in config.yml
-        if (($errorLevel = $this['config']->get('general/debug_error_level')) !== null) {
-            error_reporting($errorLevel);
+        if (!$this['debug']) {
+            return;
         }
 
         $this->register(new Provider\DumperServiceProvider());
