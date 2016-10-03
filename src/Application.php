@@ -189,7 +189,9 @@ class Application extends Silex\Application
     public function initDebugging()
     {
         if (!$this['debug']) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+            if (($errorLevel = $this['config']->get('general/production_error_level')) !== null) {
+                error_reporting($errorLevel);
+            }
 
             return;
         }

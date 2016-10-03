@@ -1122,6 +1122,7 @@ class Config
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => null,
+            'production_error_level'      => null,
             'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
             'debug_error_use_profiler'    => false,
             'debug_permission_audit_mode' => false,
