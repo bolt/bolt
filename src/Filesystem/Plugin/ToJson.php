@@ -2,7 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\PluginInterface;
 
@@ -13,8 +12,7 @@ use Bolt\Filesystem\PluginInterface;
  */
 class ToJson implements PluginInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    use PluginTrait;
 
     /**
      * {@inheritdoc}
@@ -22,14 +20,6 @@ class ToJson implements PluginInterface
     public function getMethod()
     {
         return 'toJson';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     public function handle($path)

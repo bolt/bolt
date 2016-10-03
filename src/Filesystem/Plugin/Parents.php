@@ -2,7 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\PluginInterface;
 
@@ -13,8 +12,7 @@ use Bolt\Filesystem\PluginInterface;
  */
 class Parents implements PluginInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    use PluginTrait;
 
     /**
      * {@inheritdoc}
@@ -22,14 +20,6 @@ class Parents implements PluginInterface
     public function getMethod()
     {
         return 'parents';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     /**

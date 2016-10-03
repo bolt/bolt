@@ -2,7 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\PluginInterface;
 
 /**
@@ -10,8 +9,7 @@ use Bolt\Filesystem\PluginInterface;
  */
 class HasUrl implements PluginInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    use PluginTrait;
 
     /**
      * {@inheritdoc}
@@ -19,14 +17,6 @@ class HasUrl implements PluginInterface
     public function getMethod()
     {
         return 'hasUrl';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Bolt\Filesystem\Plugin;
 
 use Bolt\Filesystem\FilePermissions;
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\PluginInterface;
 
 /**
@@ -13,10 +12,10 @@ use Bolt\Filesystem\PluginInterface;
  */
 class Authorized implements PluginInterface
 {
+    use PluginTrait;
+
     /** @var FilePermissions */
     protected $filePermissions;
-    /** @var FilesystemInterface */
-    protected $filesystem;
 
     /**
      * Constructor.
@@ -26,14 +25,6 @@ class Authorized implements PluginInterface
     public function __construct(FilePermissions $filePermissions)
     {
         $this->filePermissions = $filePermissions;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     /**

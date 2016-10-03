@@ -2,7 +2,6 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\PluginInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -13,10 +12,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ThumbnailUrl implements PluginInterface
 {
+    use PluginTrait;
+
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
-    /** @var FilesystemInterface */
-    protected $filesystem;
 
     /**
      * Constructor.
@@ -34,14 +33,6 @@ class ThumbnailUrl implements PluginInterface
     public function getMethod()
     {
         return 'thumb';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setFilesystem(FilesystemInterface $filesystem)
-    {
-        $this->filesystem = $filesystem;
     }
 
     /**
