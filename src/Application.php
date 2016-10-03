@@ -195,7 +195,9 @@ class Application extends Silex\Application
         }
 
         // Set the error_reporting to the level specified in config.yml
-        error_reporting($this['config']->get('general/debug_error_level'));
+        if (($errorLevel = $this['config']->get('general/debug_error_level')) !== null) {
+            error_reporting($errorLevel);
+        }
 
         $this->register(new Provider\DumperServiceProvider());
 
