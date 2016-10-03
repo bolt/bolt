@@ -38,7 +38,7 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         new Plugin\Parents(),
                         new Plugin\ToJson(),
                         new Plugin\Authorized($app),
-                        new Plugin\ThumbnailUrl($app),
+                        new Plugin\ThumbnailUrl($app['url_generator.lazy']),
                     ]
                 );
 
