@@ -39,6 +39,6 @@ class TwigServiceProviderTest extends BoltUnitTest
 
         $app['config']->set('general/caching/templates', false);
         $app->register(new TwigServiceProvider());
-        $this->assertFalse($app['twig.options']['cache']);
+        $this->assertArrayNotHasKey('cache', $app['twig.options']);
     }
 }

@@ -283,7 +283,7 @@ debuglog:
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
-strict_variables: true
+#strict_variables: false
 
 # There are several options for giving editors more options to insert images,
 # video, etc in the WYSIWYG areas. But, as you give them more options, that
