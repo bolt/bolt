@@ -10,7 +10,7 @@ use Bolt\Filesystem\PluginInterface;
  *
  * Goal of this plugin is to always give JS consistent data about a file in a DRY way.
  */
-class ToJson implements PluginInterface
+class ToJs implements PluginInterface
 {
     use PluginTrait;
 
@@ -19,7 +19,7 @@ class ToJson implements PluginInterface
      */
     public function getMethod()
     {
-        return 'toJson';
+        return 'toJs';
     }
 
     public function handle($path)

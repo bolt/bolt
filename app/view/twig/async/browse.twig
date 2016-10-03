@@ -106,7 +106,7 @@
 
                                 <td class="name">
                                     {% if file.hasUrl %}
-                                        <a class="entry {{ type }}" href="#" data-file="{{ file.toJson|json_encode }}">
+                                        <a class="entry {{ type }}" href="#" data-file="{{ file.toJs|json_encode }}">
                                             {{- file.filename -}}
                                         </a>
                                     {% else %}

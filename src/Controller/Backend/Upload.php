@@ -112,7 +112,7 @@ class Upload extends BackendBase
 
             $successfulFiles = [];
             foreach ($result as $resultFile) {
-                $successfulFiles[] = $this->filesystem()->toJson($namespace . '://' . $resultFile->name);
+                $successfulFiles[] = $this->filesystem()->toJs($namespace . '://' . $resultFile->name);
             }
 
             return $successfulFiles;
