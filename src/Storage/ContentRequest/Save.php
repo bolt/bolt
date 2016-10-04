@@ -168,6 +168,8 @@ class Save
             $content->setOwnerid($user['id']);
         }
 
+        // Hack … remove soon
+        $formValues += ['status' => 'draft'];
         // Make sure we have a proper status.
         if (!in_array($formValues['status'], ['published', 'timed', 'held', 'draft'])) {
             if ($status = $content->getStatus()) {
