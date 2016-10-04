@@ -2,10 +2,10 @@
 
 namespace Bolt\Tests\Twig;
 
+use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\UtilsHandler;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class to test Bolt\Twig\Handler\UtilsHandler
@@ -14,18 +14,14 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class UtilsHandlerTest extends BoltUnitTest
 {
-    protected function tearDown()
-    {
-        parent::tearDown();
-        VarDumper::setHandler(null);
-    }
-
     /**
      * Override Symfony's default handler to get the output
+     *
+     * @param Application $app
      */
-    protected function stubVarDumper()
+    protected function stubVarDumper(Application $app)
     {
-        VarDumper::setHandler(
+        $app['dump'] = $app->protect(
             function ($var) {
                 return $var;
             }
@@ -53,6 +49,7 @@ class UtilsHandlerTest extends BoltUnitTest
     public function testPrintBacktraceSafeDebugOn()
     {
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
         $handler = new UtilsHandler($app);
 
@@ -63,6 +60,7 @@ class UtilsHandlerTest extends BoltUnitTest
     public function testPrintBacktraceNoSafeDebugOff()
     {
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = false;
         $handler = new UtilsHandler($app);
 
@@ -74,6 +72,7 @@ class UtilsHandlerTest extends BoltUnitTest
     public function testPrintBacktraceNoSafeDebugOffLoggedoff()
     {
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', false);
         $handler = new UtilsHandler($app);
@@ -85,9 +84,8 @@ class UtilsHandlerTest extends BoltUnitTest
 
     public function testPrintBacktraceNoSafeDebugOn()
     {
-        $this->stubVarDumper();
-
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
@@ -134,9 +132,8 @@ class UtilsHandlerTest extends BoltUnitTest
 
     public function testPrintFirebugNoSafeDebugOnArrayString()
     {
-        $this->stubVarDumper();
-
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
@@ -152,9 +149,8 @@ class UtilsHandlerTest extends BoltUnitTest
 
     public function testPrintFirebugNoSafeDebugOnStringArray()
     {
-        $this->stubVarDumper();
-
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
@@ -170,9 +166,8 @@ class UtilsHandlerTest extends BoltUnitTest
 
     public function testPrintFirebugNoSafeDebugOnArrayArray()
     {
-        $this->stubVarDumper();
-
         $app = $this->getApp();
+        $this->stubVarDumper($app);
         $app['debug'] = true;
 
         $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);

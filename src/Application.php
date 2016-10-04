@@ -59,15 +59,20 @@ class Application extends Silex\Application
         $this->initLogger();
         $this['resources']->initialize();
 
-        $this['debug'] = $this['config']->get('general/debug', false);
+        if (($debugOverride = $this['config']->get('general/debug')) !== null) {
+            $this['debug'] = $debugOverride;
+        }
+
         // Re-register the shutdown functions now that we know our debug setting
         ShutdownHandler::register($this['debug']);
         if (!isset($this['environment'])) {
             $this['environment'] = $this['debug'] ? 'development' : 'production';
         }
 
-        $locales = (array) $this['config']->get('general/locale');
-        $this['locale'] = reset($locales);
+        if (($locales = $this['config']->get('general/locale')) !== null) {
+            $locales = (array) $locales;
+            $this['locale'] = reset($locales);
+        }
 
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
@@ -117,14 +122,14 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
-        // Initialize debugging
-        $this->initDebugging();
-
         // Initialize the Database Providers.
         $this->initDatabase();
 
         // Initialize the rest of the Providers.
         $this->initProviders();
+
+        // Initialize debugging
+        $this->initDebugging();
 
         // Do a version check
         $this['config.environment']->checkVersion();
@@ -186,16 +191,16 @@ class Application extends Silex\Application
      */
     public function initDebugging()
     {
-        if (!$this['debug']) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
-
-            return;
+        // Set the error_reporting to the level specified in config.yml
+        if (($errorLevel = $this['config']->get($this['debug'] ? 'general/debug_error_level' : 'production_error_level')) !== null) {
+            error_reporting($errorLevel);
         }
 
-        // Set the error_reporting to the level specified in config.yml
-        error_reporting($this['config']->get('general/debug_error_level'));
-
         $this->register(new Provider\DumperServiceProvider());
+
+        if (!$this['debug']) {
+            return;
+        }
 
         // Initialize Web Profiler providers
         $this->initProfiler();
@@ -262,9 +267,6 @@ class Application extends Silex\Application
         );
     }
 
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
-     */
     public function initExtensions()
     {
         $this['extensions']->addManagedExtensions();

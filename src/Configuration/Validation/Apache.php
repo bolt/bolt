@@ -2,6 +2,7 @@
 
 namespace Bolt\Configuration\Validation;
 
+use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\ExceptionControllerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,9 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
         $request = Request::createFromGlobals();
         $serverSoftware = $request->server->get('SERVER_SOFTWARE', '');
         $isApache = strpos($serverSoftware, 'Apache') !== false;
-        if ($this->resourceManager->getVerifier()->disableApacheChecks === true || !$isApache) {
+        /** @var LowlevelChecks $verifier */
+        $verifier = $this->resourceManager->getVerifier();
+        if ($verifier && $verifier->disableApacheChecks === true || !$isApache) {
             return null;
         }
 
