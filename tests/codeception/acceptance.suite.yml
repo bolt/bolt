@@ -7,13 +7,12 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser
+        - WorkingSilex:
+            app: app/bootstrap.php
         - AcceptanceHelper
         - YamlHelper
         - Db
     config:
-        PhpBrowser:
-            url: 'http://localhost:8123/'
         Db:
             populate: true
             cleanup: true
