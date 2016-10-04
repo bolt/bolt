@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
+use Bolt\Session\Handler\MemcacheHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
@@ -18,8 +19,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -278,9 +278,9 @@ class SessionServiceProvider implements ServiceProviderInterface
                 }
 
                 if ($key === 'memcache') {
-                    return new MemcacheSessionHandler($memcache, $handlerOptions);
+                    return new MemcacheHandler($memcache, $handlerOptions);
                 } else {
-                    return new MemcachedSessionHandler($memcache, $handlerOptions);
+                    return new MemcachedHandler($memcache, $handlerOptions);
                 }
             }
         );
