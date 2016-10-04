@@ -188,7 +188,7 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp(false);
-        $mock = $this->getMock('\Bolt\Asset\BoltVersionStrategy', ['getVersion'], [$app['filesystem']->getFilesystem('extensions'), $app['asset.salt']]);
+        $mock = $this->getMock('\Bolt\Asset\BoltVersionStrategy', ['getVersion'], [$app['filesystem']->getFilesystem('extensions')->getDir(''), $app['asset.salt']]);
         $mock->expects($this->any())
             ->method('getVersion')
             ->will($this->returnCallback(

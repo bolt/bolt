@@ -3,6 +3,7 @@ namespace Bolt\Provider;
 
 use Bolt\Asset;
 use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
@@ -45,8 +46,11 @@ class AssetServiceProvider implements ServiceProviderInterface
         );
 
         $app['asset.version_strategy'] = $app->protect(
-            function ($name) use ($app) {
-                return new Asset\BoltVersionStrategy($app['filesystem']->getFilesystem($name), $app['asset.salt']);
+            function ($nameOrDir) use ($app) {
+                $dir = $nameOrDir instanceof DirectoryInterface ? $nameOrDir :
+                    $app['filesystem']->getFilesystem($nameOrDir)->getDir('');
+
+                return new Asset\BoltVersionStrategy($dir, $app['asset.salt']);
             }
         );
 
