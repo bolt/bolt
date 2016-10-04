@@ -7,6 +7,7 @@ use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
 use Maid\Maid;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -89,9 +90,10 @@ class HtmlHandler
      */
     public function isMobileClient()
     {
+        $request = Request::createFromGlobals();
         if (preg_match(
             '/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
-            $_SERVER['HTTP_USER_AGENT']
+            $request->server->get('HTTP_USER_AGENT')
         )) {
             return true;
         } else {
