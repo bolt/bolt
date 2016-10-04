@@ -1104,7 +1104,7 @@ class Config
                 'randomfunction' => '',
             ],
             'sitename'                    => 'Default Bolt site',
-            'locale'                      => 'en_GB',
+            'locale'                      => null,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => [
@@ -1118,13 +1118,14 @@ class Config
                 'level'    => 'DEBUG',
                 'filename' => 'bolt-debug.log',
             ],
-            'debug'                       => false,
+            'debug'                       => null,
             'debug_show_loggedoff'        => false,
-            'debug_error_level'           => 8181,  // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
+            'debug_error_level'           => null,
+            'production_error_level'      => null,
             'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
             'debug_error_use_profiler'    => false,
             'debug_permission_audit_mode' => false,
-            'strict_variables'            => false,
+            'strict_variables'            => null,
             'theme'                       => 'base-2016',
             'listing_template'            => 'listing.twig',
             'listing_records'             => '5',
@@ -1187,8 +1188,8 @@ class Config
                 'x_frame_options' => true,
             ],
             'htmlcleaner'                 => [
-                'allowed_tags'       => explode(',', 'div,span,p,br,hr,s,u,strong,em,i,b,li,ul,ol,mark,blockquote,pre,code,tt,h1,h2,h3,h4,h5,h6,dd,dl,dh,table,tbody,thead,tfoot,th,td,tr,a,img,address,abbr'),
-                'allowed_attributes' => explode(',', 'id,class,style,name,value,href,src'),
+                'allowed_tags'       => explode(',', 'div,span,p,br,hr,s,u,strong,em,i,b,li,ul,ol,mark,blockquote,pre,code,tt,h1,h2,h3,h4,h5,h6,dd,dl,dh,table,tbody,thead,tfoot,th,td,tr,a,img,address,abbr,iframe'),
+                'allowed_attributes' => explode(',', 'id,class,style,name,value,href,src,alt,title,width,height,frameborder,allowfullscreen,scrolling'),
             ],
         ];
     }

@@ -237,7 +237,7 @@ class FilesystemManager extends AsyncBase
         $result = [];
         /** @var \Bolt\Filesystem\Handler\File $file */
         foreach ($files as $file) {
-            $result[] = $file->toJson();
+            $result[] = $file->toJs();
         }
 
         return $this->json($result);

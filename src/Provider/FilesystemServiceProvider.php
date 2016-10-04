@@ -34,11 +34,11 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
                     ],
                     [
-                        new Plugin\HasUrl($app),
-                        new Plugin\Parents($app),
-                        new Plugin\ToJson($app),
-                        new Plugin\Authorized($app),
-                        new Plugin\ThumbnailUrl($app),
+                        new Plugin\HasUrl(),
+                        new Plugin\Parents(),
+                        new Plugin\ToJs(),
+                        new Plugin\Authorized($app['filepermissions']),
+                        new Plugin\ThumbnailUrl($app['url_generator.lazy']),
                     ]
                 );
 

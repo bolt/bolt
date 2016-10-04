@@ -23,10 +23,10 @@ class AuthorizedTest extends BoltUnitTest
         $manager->mountFilesystem('files', $fs1);
         $manager->mountFilesystem('cache', $fs2);
         $manager->mountFilesystem('something', $fs3);
-        $manager->addPlugin(new Plugin\Authorized($app));
+        $manager->addPlugin(new Plugin\Authorized($app['filepermissions']));
 
         $this->assertTrue($fs1->authorized(''));
-        $this->assertFalse($fs2->authorized(''));
+        $this->assertFalse($fs2->getDir('')->authorized());
         $this->assertFalse($fs3->authorized(''));
     }
 }
