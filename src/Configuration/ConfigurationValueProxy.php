@@ -10,18 +10,31 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Class ConfigurationProxy a simple wrapper that allows passing a pointer to the eventual
  * compiled and validated configuration.
+ *
  * @internal
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
 {
-
+    /** @var mixed|null */
     protected $data;
+    /** @var Config */
     protected $config;
+    /** @var string */
     protected $path;
+    /** @var mixed|null */
     protected $default;
+    /** @var bool */
     protected $checked = false;
 
+    /**
+     * Constructor.
+     *
+     * @param Config $config
+     * @param string $path
+     * @param mixed  $default
+     */
     public function __construct(Config $config, $path, $default = null)
     {
         $this->config = $config;
@@ -29,6 +42,9 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         $this->default = $default;
     }
 
+    /**
+     *{@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -37,14 +53,7 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     }
 
     /**
-     * Whether a offset exists
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset
-     * An offset to check for.
-     *
-     * @return boolean true on success or false on failure.
-     *
-     * The return value will be cast to boolean if non-boolean was returned.
+     *{@inheritdoc}
      */
     public function offsetExists($offset)
     {
@@ -53,6 +62,9 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         return array_key_exists($offset, $this->data);
     }
 
+    /**
+     * Initialize the configuration value.
+     */
     public function initialize()
     {
         if (!$this->checked) {
@@ -63,30 +75,17 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     }
 
     /**
-     * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset
-     * The offset to retrieve.
-     *
-     * @return mixed Can return all value types.
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
         $this->initialize();
 
-        return $this->data[$offset];
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
 
     /**
-     * Offset to set
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset
-     * The offset to assign the value to.
-     *
-     * @param mixed $value
-     * The value to set.
-     *
-     * @return void
+     *{@inheritdoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -95,12 +94,7 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     }
 
     /**
-     * Offset to unset
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset
-     * The offset to unset.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function offsetUnset($offset)
     {
@@ -108,6 +102,9 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         unset($this->data[$offset]);
     }
 
+    /**
+     * Kernel request event callback.
+     */
     public function onKernelRequest()
     {
         $this->checked = false;

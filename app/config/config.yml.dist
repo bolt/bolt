@@ -216,7 +216,7 @@ thumbnails:
 # left in the content that is shown to users. For example, tags like `<script>`
 # or `onclick`-attributes.
 htmlcleaner:
-    allowed_tags: [ div, span, p, br, hr, s, u, strong, em, i, b, li, ul, ol, mark, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img, address, iframe ]
+    allowed_tags: [ div, span, p, br, hr, s, u, strong, em, i, b, li, ul, ol, mark, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dh, table, tbody, thead, tfoot, th, td, tr, a, img, address, abbr, iframe ]
     allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling, target ]
 
 # Uploaded file handling
@@ -260,11 +260,10 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 # option to show it to all users. You probably do not want to use this in a
 # production environment.
 debug: true
-developer_notices: false
 debug_show_loggedoff: false
 debug_permission_audit_mode: false
-debug_error_level: 8181 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
-# debug_error_level: -1 # equivalent to E_ALL
+# debug_error_level: 8181 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
+debug_error_level: -1 # equivalent to E_ALL
 debug_error_use_profiler: false # When set to true, Symfony Profiler will be used for exception display when possible
 
 # System debug logging
@@ -281,7 +280,7 @@ debuglog:
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
-strict_variables: false
+strict_variables: true
 
 # There are several options for giving editors more options to insert images,
 # video, etc in the WYSIWYG areas. But, as you give them more options, that
