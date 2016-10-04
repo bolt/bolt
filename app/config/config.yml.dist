@@ -208,6 +208,7 @@ thumbnails:
     save_files: false
     allow_upscale: false
     exif_orientation: true
+    only_aliases: false
 #    browser_cache_time: 2592000
 
 # Define the HTML tags and attributes that are allowed in 'cleaned' HTML. This
