@@ -217,7 +217,7 @@ class MetadataDriver implements MappingDriver
         foreach ($this->getAliases() as $alias => $table) {
             if (array_key_exists($table, $this->metadata)) {
                 $this->metadata[$alias] = $this->metadata[$table];
-            } elseif(
+            } elseif (
                 array_key_exists($table, $this->defaultAliases) &&
                 array_key_exists($this->defaultAliases[$table], $this->metadata)
             ) {
