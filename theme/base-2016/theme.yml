@@ -68,3 +68,11 @@ templateselect:
            filename: 'extrafields.twig'
          - name: 'Another template with extra fields'
            filename: 'anotherextrafields.twig'
+
+# Aliases can be set to restrict images to a specific set of available
+# resolutions or to decouple image sizes from template files.
+thumbnails:
+    aliases:
+        myimageformat:
+            size: [400,300]
+            cropping: crop

@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
+use Bolt\Session\Handler\MemcacheHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
@@ -18,8 +19,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -234,13 +234,21 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $memcache = new \Memcache();
 
                 foreach ($connections as $conn) {
-                    $memcache->addServer(
+                    $args = [
                         $conn['host'] ?: 'localhost',
                         $conn['port'] ?: 11211,
                         $conn['persistent'] ?: false,
-                        $conn['weight'] ?: 0,
-                        $conn['timeout'] ?: 1
-                    );
+                    ];
+                    if ($conn['weight'] > 0) {
+                        $args[] = $conn['weight'];
+                        if ($conn['timeout'] > 1) {
+                            $args[] = $conn['timeout'];
+                        }
+                    }
+                    call_user_func_array([$memcache, 'addServer'], $args);
+                    if ($conn['weight'] <= 0 && $conn['timeout'] > 1) {
+                        $memcache->setServerParams($args[0], $args[1], $conn['timeout']);
+                    }
                 }
 
                 return $memcache;
@@ -277,9 +285,9 @@ class SessionServiceProvider implements ServiceProviderInterface
                 }
 
                 if ($key === 'memcache') {
-                    return new MemcacheSessionHandler($memcache, $handlerOptions);
+                    return new MemcacheHandler($memcache, $handlerOptions);
                 } else {
-                    return new MemcachedSessionHandler($memcache, $handlerOptions);
+                    return new MemcachedHandler($memcache, $handlerOptions);
                 }
             }
         );

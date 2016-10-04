@@ -86,6 +86,10 @@ class TemplateFieldsType extends FieldTypeBase
             $type = $fieldobj->getStorageType();
             $key = $field['fieldname'];
 
+            // Hack … remove soon
+            if (!isset($input[$key])) {
+                continue;
+            }
             if ($this->isJson($input[$key])) {
                 $input[$key] = json_decode($input[$key], true);
             }

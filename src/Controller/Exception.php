@@ -26,26 +26,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class Exception extends Base implements ExceptionControllerInterface
 {
     /**
-     * Connect to the application.
-     *
-     * @param Application $app
-     *
-     * @return ControllerCollection
-     */
-    public function connect(Application $app)
-    {
-        $this->app = $app;
-        $this->app->after([$this, 'afterKernelException'], Application::LATE_EVENT);
-
-        return $app['controllers_factory'];
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function addRoutes(ControllerCollection $c)
     {
         $c->value(Zone::KEY, Zone::FRONTEND);
+
+        $this->app->after([$this, 'afterKernelException'], Application::LATE_EVENT);
     }
 
     /**
