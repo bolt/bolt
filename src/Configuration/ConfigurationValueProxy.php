@@ -81,7 +81,7 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     {
         $this->initialize();
 
-        return $this->data[$offset];
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
     }
 
     /**
