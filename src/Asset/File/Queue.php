@@ -51,6 +51,11 @@ class Queue implements QueueInterface
      */
     public function add(FileAssetInterface $asset)
     {
+        if (!$asset->getPackageName()) {
+            // Deprecated.
+            $asset->setPackageName('extensions');
+        }
+
         $url = $this->packages->getUrl($asset->getPath(), $asset->getPackageName());
         $asset->setUrl($url);
 

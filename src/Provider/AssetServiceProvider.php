@@ -7,7 +7,6 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
-use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
 
@@ -22,8 +21,7 @@ class AssetServiceProvider implements ServiceProviderInterface
     {
         $app['asset.packages'] = $app->share(
             function ($app) {
-                $defaultPackage = new Package($app['asset.version_strategy']('view'));
-                $packages = new Packages($defaultPackage);
+                $packages = new Packages();
 
                 $packages->addPackage('bolt', $app['asset.package.bolt']);
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
