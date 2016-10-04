@@ -235,13 +235,21 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $memcache = new \Memcache();
 
                 foreach ($connections as $conn) {
-                    $memcache->addServer(
+                    $args = [
                         $conn['host'] ?: 'localhost',
                         $conn['port'] ?: 11211,
                         $conn['persistent'] ?: false,
-                        $conn['weight'] ?: 0,
-                        $conn['timeout'] ?: 1
-                    );
+                    ];
+                    if ($conn['weight'] > 0) {
+                        $args[] = $conn['weight'];
+                        if ($conn['timeout'] > 1) {
+                            $args[] = $conn['timeout'];
+                        }
+                    }
+                    call_user_func_array([$memcache, 'addServer'], $args);
+                    if ($conn['weight'] <= 0 && $conn['timeout'] > 1) {
+                        $memcache->setServerParams($args[0], $args[1], $conn['timeout']);
+                    }
                 }
 
                 return $memcache;
