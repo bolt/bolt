@@ -49,6 +49,7 @@ trait StorageTrait
                         $app['storage.repositories'] += $map;
                         $app['storage.metadata']->setDefaultAlias($app['schema.prefix'] . $alias, key($map));
                         $entityManager->setRepository(key($map), current($map));
+                        $entityManager->addEntityAlias($alias, key($map));
                     }
 
                     return $entityManager;

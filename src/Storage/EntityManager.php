@@ -259,8 +259,8 @@ class EntityManager implements EntityManagerInterface
             throw new InvalidRepositoryException("Attempted to load repository for invalid class or alias: $className. Check that the class, alias or contenttype definition is correct.");
         }
 
-        if (array_key_exists($className, $this->repositories)) {
-            $repoClass = $this->repositories[$className];
+        if (array_key_exists($classMetadata->getName(), $this->repositories)) {
+            $repoClass = $this->repositories[$classMetadata->getName()];
             if (is_callable($repoClass)) {
                 return call_user_func_array($repoClass, [$this, $classMetadata]);
             }

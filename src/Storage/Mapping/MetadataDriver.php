@@ -150,6 +150,11 @@ class MetadataDriver implements MappingDriver
             $class = $this->aliases[$alias];
             if (class_exists($class)) {
                 return $class;
+            } elseif (array_key_exists($class, $this->defaultAliases)) {
+                $class = $this->defaultAliases[$class];
+                if (class_exists($class)) {
+                    return $class;
+                }
             }
         }
 
@@ -212,6 +217,11 @@ class MetadataDriver implements MappingDriver
         foreach ($this->getAliases() as $alias => $table) {
             if (array_key_exists($table, $this->metadata)) {
                 $this->metadata[$alias] = $this->metadata[$table];
+            } elseif(
+                array_key_exists($table, $this->defaultAliases) &&
+                array_key_exists($this->defaultAliases[$table], $this->metadata)
+            ) {
+                $this->metadata[$alias] = $this->metadata[$this->defaultAliases[$table]];
             }
         }
     }
