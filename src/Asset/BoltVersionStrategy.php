@@ -3,7 +3,7 @@
 namespace Bolt\Asset;
 
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 /**
@@ -13,20 +13,20 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
  */
 class BoltVersionStrategy implements VersionStrategyInterface
 {
-    /** @var FilesystemInterface */
-    protected $filesystem;
+    /** @var DirectoryInterface */
+    protected $directory;
     /** @var string */
     protected $baseSalt;
 
     /**
      * Constructor.
      *
-     * @param FilesystemInterface $filesystem
-     * @param string              $baseSalt
+     * @param DirectoryInterface $directory
+     * @param string             $baseSalt
      */
-    public function __construct(FilesystemInterface $filesystem, $baseSalt)
+    public function __construct(DirectoryInterface $directory, $baseSalt)
     {
-        $this->filesystem = $filesystem;
+        $this->directory = $directory;
         $this->baseSalt = $baseSalt;
     }
 
@@ -35,7 +35,7 @@ class BoltVersionStrategy implements VersionStrategyInterface
      */
     public function getVersion($path)
     {
-        $file = $this->filesystem->getFile($path);
+        $file = $this->directory->getFile($path);
 
         try {
             return substr(md5($this->baseSalt . $file->getFullPath() . $file->getTimestamp()), 0, 10);

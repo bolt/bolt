@@ -1,6 +1,24 @@
 Bolts backend’s frontend workflow using grunt
 =============================================
 
+Quick Start
+-----------
+
+Install required components:
+
+```
+    cd app/src/
+    npm install
+```
+
+Rebuild CSS & JavaScript:
+
+```
+    grunt updateLib
+    grunt prepareCkeditor 
+    grunt updateBolt
+```
+
 
 Available grunt tasks
 ---------------------
