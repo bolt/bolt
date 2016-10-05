@@ -80,9 +80,6 @@ class CodeceptionEventsExtension extends \Codeception\Extension
 
         // Empty the cache
         $this->nut('cache:clear');
-
-        // Turn up Twig's anger ratio
-        $this->nut('config:set strict_variables true');
     }
 
     /**
