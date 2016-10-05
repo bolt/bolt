@@ -324,13 +324,6 @@ class Config
         $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
         $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
 
-        // Make sure old settings for 'contentsCss' are still picked up correctly
-        if (isset($general['wysiwyg']['ck']['contentsCss'])) {
-            $general['wysiwyg']['ck']['contentsCss'] = [
-                1 => $general['wysiwyg']['ck']['contentsCss'],
-            ];
-        }
-
         // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
         // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
         if (isset($general['accept_file_types']) && !is_array($general['accept_file_types'])) {
