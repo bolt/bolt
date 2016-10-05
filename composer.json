@@ -50,7 +50,7 @@
         "symfony/process": "^2.8",
         "symfony/property-access": "^2.8",
         "symfony/routing": "^2.8",
-        "symfony/security" : "^2.8",
+        "symfony/security-acl" : "^2.8",
         "symfony/stopwatch": "^2.8",
         "symfony/translation" : "^2.8",
         "symfony/twig-bridge" : "^2.8",
