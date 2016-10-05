@@ -3,10 +3,10 @@ namespace Bolt\Provider;
 
 use Bolt\Asset;
 use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
-use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
 
@@ -21,16 +21,40 @@ class AssetServiceProvider implements ServiceProviderInterface
     {
         $app['asset.packages'] = $app->share(
             function ($app) {
-                $defaultPackage = new Package($app['asset.version_strategy']('view'));
-                $packages = new Packages($defaultPackage);
+                $packages = new Packages();
 
-                $packages->addPackage('bolt', $app['asset.package_factory']('view'));
+                $packages->addPackage('bolt', $app['asset.package.bolt']);
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
                 $packages->addPackage('themes', $app['asset.package_factory']('themes'));
 
                 return $packages;
+            }
+        );
+
+        $app['asset.package.bolt'] = $app->share(
+            function ($app) {
+                /*
+                 * This is technically the wrong directory as our composer script handler
+                 * copies the assets to the project's web directory. But since this is
+                 * just to check the file's last modified time for versioning it will do fine.
+                 */
+                $boltViewDir = $app['filesystem']->getDir('bolt://app/view');
+
+                /*
+                 * Remove app/view from path as AssetUrl plugin will include it.
+                 * This is because "bolt" FS points to bolt's root dir, but
+                 * "bolt" asset package points to "bolt_root_dir/app/view".
+                 *
+                 * This works with composer installs as well.
+                 */
+                return new Asset\UnprefixedPathPackage(
+                    $boltViewDir->getPath() . '/',
+                    $app['resources']->getUrl('view', false),
+                    $app['asset.version_strategy']($boltViewDir),
+                    $app['asset.context']
+                );
             }
         );
 
@@ -45,8 +69,11 @@ class AssetServiceProvider implements ServiceProviderInterface
         );
 
         $app['asset.version_strategy'] = $app->protect(
-            function ($name) use ($app) {
-                return new Asset\BoltVersionStrategy($app['filesystem']->getFilesystem($name), $app['asset.salt']);
+            function ($nameOrDir) use ($app) {
+                $dir = $nameOrDir instanceof DirectoryInterface ? $nameOrDir :
+                    $app['filesystem']->getFilesystem($nameOrDir)->getDir('');
+
+                return new Asset\BoltVersionStrategy($dir, $app['asset.salt']);
             }
         );
 
