@@ -10,6 +10,9 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -69,9 +72,15 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
             return;
         }
 
-        // Log the error message
         $exception = $event->getException();
         $message = $exception->getMessage();
+
+        $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+        if ($exception instanceof HttpExceptionInterface) {
+            $statusCode = $exception->getStatusCode();
+        }
+
+        // Log the error message
         $level = LogLevel::CRITICAL;
         if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() < 500) {
             $level = LogLevel::WARNING;
@@ -79,7 +88,21 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
         $this->logger->log($level, $message, ['event' => 'exception', 'exception' => $exception]);
 
         // Get and send the response
-        $response = $this->exceptionController->kernelException($event);
+        if ($this->isJsonRequest($event->getRequest())) {
+            $response = new JsonResponse(
+                [
+                    'success'   => false,
+                    'errorType' => get_class($exception),
+                    'code'      => $statusCode,
+                    'message'   => $message,
+                ]
+            );
+
+        } else {
+            $response = $this->exceptionController->kernelException($event);
+        }
+
+        $response->setStatusCode($statusCode);
         $event->setResponse($response);
     }
 
@@ -96,5 +119,17 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
                 ['onKernelException', -8]
             ],
         ];
+    }
+
+    /**
+     * Checks if the request content type is JSON.
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    protected function isJsonRequest(Request $request)
+    {
+        return strpos($request->headers->get('Content-Type'), 'application/json') === 0;
     }
 }
