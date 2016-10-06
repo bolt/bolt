@@ -48,7 +48,7 @@ class BootServiceProvider implements ServiceProviderInterface
 
         $app['boot.listener.checks'] = $app->share(
             function ($app) {
-                return new Listener\BootInitListener($app);
+                return new Listener\ConfigListener($app);
             }
         );
     }

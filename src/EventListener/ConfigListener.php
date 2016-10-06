@@ -15,13 +15,16 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Initialisation checks at the start of boot.
+ * Configuration checks at the start of the request cycle.
+ *
+ * This is a temporary solution to remove the configuration checks from
+ * pre-request, until such time as configuration can be refactored.
  *
  * @internal Do not extend/call.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BootInitListener implements EventSubscriberInterface
+class ConfigListener implements EventSubscriberInterface
 {
     /** @var Application */
     private $app;
