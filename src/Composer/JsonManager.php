@@ -147,7 +147,7 @@ class JsonManager
                 'post-package-update'  => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle',
             ],
         ];
-        $json = Arr::mergeRecursiveDistinct($json, $defaults);
+        $json = Arr::replaceRecursive($json, $defaults);
         ksort($json);
 
         return $json;
@@ -183,7 +183,7 @@ class JsonManager
                 'wikimedia/composer-merge-plugin' => '^1.3',
             ],
         ];
-        $composerJson = Arr::mergeRecursiveDistinct($composerJson, $defaults);
+        $composerJson = Arr::replaceRecursive($composerJson, $defaults);
         ksort($composerJson);
 
         return $composerJson;

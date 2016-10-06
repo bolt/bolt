@@ -185,7 +185,7 @@ class Import extends AbstractMigration
             'ownerid'     => 1,
         ];
 
-        $values = Arr::mergeRecursiveDistinct($values, $meta);
+        $values = Arr::replaceRecursive($values, $meta);
 
         $record = $this->app['storage']->getEmptyContent($contenttypeslug);
         $record->setValues($values);
