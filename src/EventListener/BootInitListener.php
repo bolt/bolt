@@ -40,18 +40,14 @@ class BootInitListener implements EventSubscriberInterface
      * Early boot functions.
      *
      * @param GetResponseEvent $event
-     *
-     * @return Response|null
      */
-    public function onBootEarly(GetResponseEvent $event)
+    public function onRequestEarly(GetResponseEvent $event)
     {
         $verifier = $this->app['boot.validator'];
         $response = $verifier->checks();
-        if (!$response instanceof Response) {
-            return null;
+        if ($response instanceof Response) {
+            $event->setResponse($response);
         }
-
-        $event->setResponse($response);
     }
 
     /**
@@ -59,9 +55,9 @@ class BootInitListener implements EventSubscriberInterface
      *
      * @param GetResponseEvent $event
      *
-     * @return Response|null
+     * @return null
      */
-    public function onBoot(GetResponseEvent $event)
+    public function onRequest(GetResponseEvent $event)
     {
         if (Zone::isBackend($event->getRequest())) {
             $this->setVersionChangeNotice();
@@ -89,6 +85,8 @@ class BootInitListener implements EventSubscriberInterface
             $response = $this->app['controller.exception']->genericException($e);
             $event->setResponse($response);
         }
+
+        return null;
     }
 
     /**
@@ -98,8 +96,8 @@ class BootInitListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => [
-                ['onBootEarly', Application::EARLY_EVENT],
-                ['onBoot', 33], // After routes determined. @see RouterListener::getSubscribedEvents
+                ['onRequestEarly', Application::EARLY_EVENT],
+                ['onRequest', 33], // Before routes determined. @see RouterListener::getSubscribedEvents
             ],
         ];
     }

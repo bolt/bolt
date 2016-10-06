@@ -37,7 +37,7 @@ class TwigExtensionTest extends BoltUnitTest
 
         // Call the event listener that adds the globals
         $event = new GetResponseEvent($app['kernel'], $request, HttpKernelInterface::MASTER_REQUEST);
-        (new BootInitListener($app))->onBoot($event);
+        (new BootInitListener($app))->onRequest($event);
 
         $response = $app['twig']->getGlobals();
         $this->assertArrayHasKey('bolt_name', $response);
@@ -86,7 +86,7 @@ class TwigExtensionTest extends BoltUnitTest
 
         // Call the event listener that adds the globals
         $event = new GetResponseEvent($app['kernel'], $request, HttpKernelInterface::MASTER_REQUEST);
-        (new BootInitListener($app))->onBoot($event);
+        (new BootInitListener($app))->onRequest($event);
 
         $result = $app['twig']->getGlobals();
         $this->assertArrayHasKey('user', $result);
