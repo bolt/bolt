@@ -81,17 +81,6 @@
                     // Find the add selected button
                     var addSelectedBtn = modal.footer.find('[data-fbrowser-add-checked]');
 
-                    // Set data structures
-                    modal.body.find('.entry').each(function () {
-                        var tr = $(this).closest('tr'),
-                            name = $(this).text().trim(),
-                            ext = name.match(/\.(.+?[^/])$/);
-
-                        $(tr)
-                            .attr('data-bolt-browse-name', name)
-                            .attr('data-bolt-browse-ext', ext ? ext[1] : '');
-                    });
-
                     // Set up event handler
                     modal.header
                         .on('click.bolt', '[data-fbrowser-chdir]', function (evt) {
@@ -105,9 +94,10 @@
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
-                        .on('click.bolt', '[data-file]', function (evt) {
+                        .on('click.bolt', '[data-file] a', function (evt) {
                             evt.preventDefault();
-                            self._trigger('selected', null, $(this).data('file'));
+                            var file = $(this).closest('[data-file]').data('file');
+                            self._trigger('selected', null, file);
                             modal.close();
                         })
                         .on('click.bolt', '[aria-pressed]', function (evt) {
@@ -128,7 +118,8 @@
                             self._filter(modal);
                         })
                         .on('change', '[data-fbrowser-check]', function () {
-                            var fileIndex = files.indexOf($(this).data('fbrowser-check'));
+                            var file = $(this).closest('[data-file]').data('file');
+                            var fileIndex = files.indexOf(file.fullPath);
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
                                 allChecked = false;
@@ -136,7 +127,7 @@
                                     addSelectedBtn.addClass('disabled');
                                 }
                             } else {
-                                files.push($(this).data('fbrowser-check'));
+                                files.push(file.fullPath);
                                 addSelectedBtn.removeClass('disabled');
                             }
                         });
@@ -146,7 +137,8 @@
                             if (!allChecked) {
                                 modal.body.find('[data-fbrowser-check]').each(function () {
                                     $(this).prop('checked', true);
-                                    files.push($(this).data('fbrowser-check'));
+                                    var file = $(this).closest('[data-file]').data('file');
+                                    files.push(file.fullPath);
                                 });
                                 allChecked = true;
                                 addSelectedBtn.removeClass('disabled');
@@ -161,8 +153,12 @@
                         })
                         .on('click.bolt', '[data-fbrowser-add-checked]:not(.disabled)', function (evt) {
                             evt.preventDefault();
-                            files.forEach(function (filePath) {
-                                self._trigger('selected', null, {path: filePath});
+                            modal.body.find('[data-fbrowser-check]').each(function () {
+                                if (!$(this).prop('checked')) {
+                                    return;
+                                }
+                                var file = $(this).closest('[data-file]').data('file');
+                                self._trigger('selected', null, file);
                             });
                             modal.close();
                         });
@@ -179,18 +175,19 @@
         _filter: function (modal) {
             var term = modal.body.find('input[name="filter"]').val(),
                 ext = modal.body.find('select[name="ext"]').val(),
-                name,
+                file,
                 hide;
 
-            modal.body.find('[data-bolt-browse-name]').each(function () {
-                name = $(this).data('bolt-browse-name');
-                hide = ext !== '' && $(this).data('bolt-browse-ext') !== ext ||
-                       term !== '' && name.search(term) < 0;
+            modal.body.find('[data-file]').each(function () {
+                file = $(this).data('file');
+                hide = ext !== '' && file.extension !== ext ||
+                       term !== '' && file.filename.search(term) < 0;
+
                 $(this).toggleClass('hidden', hide);
 
                 if (!hide) {
                     $(this).find('a, span').each(function () {
-                        $(this).html(name.replace(term, '<mark>' + term + '</mark>'));
+                        $(this).html(file.filename.replace(term, '<mark>' + term + '</mark>'));
                     });
                 }
             });

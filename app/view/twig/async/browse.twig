@@ -57,7 +57,7 @@
                     {# Folders #}
                     <tbody class="folders">
                     {% for dir in context.directories %}
-                            <tr class="directory">
+                            <tr class="directory" data-file="{{ dir.toJs|json_encode }}">
                                 {% if multiselect %}
                                     <td class="select"></td>
                                 {% endif %}
@@ -97,16 +97,16 @@
                                 {% set type = 'type-file' %}
                             {% endif %}
 
-                            <tr>
+                            <tr data-file="{{ file.toJs|json_encode }}">
                                 {% if multiselect %}
                                     <td class="select">
-                                        <input type="checkbox" {% if file.hasUrl %}data-fbrowser-check="{{ file.path }}"{% else %}disabled{% endif %} />
+                                        <input type="checkbox" {% if file.hasUrl %}data-fbrowser-check{% else %}disabled{% endif %} />
                                     </td>
                                 {% endif %}
 
                                 <td class="name">
                                     {% if file.hasUrl %}
-                                        <a class="entry {{ type }}" href="#" data-file="{{ file.toJs|json_encode }}">
+                                        <a class="entry {{ type }}" href="#">
                                             {{- file.filename -}}
                                         </a>
                                     {% else %}

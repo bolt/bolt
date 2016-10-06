@@ -218,7 +218,7 @@
          */
         _onSelectFromStack: function (event) {
             var link = $(event.target),
-                fileItem = link.parent('[data-file]');
+                fileItem = link.closest('[data-file]');
 
             // Close the dropdown.
             link.closest('.btn-group').removeClass('open');
