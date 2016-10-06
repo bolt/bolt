@@ -658,7 +658,7 @@ class Config
 
             // Make indexed arrays into associative for select fields
             // e.g.: [ 'yes', 'no' ] => { 'yes': 'yes', 'no': 'no' }
-            if ($field['type'] === 'select' && isset($field['values']) && is_array($field['values']) && Arr::isIndexedArray($field['values'])) {
+            if ($field['type'] === 'select' && isset($field['values']) && Arr::isIndexed($field['values'])) {
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
