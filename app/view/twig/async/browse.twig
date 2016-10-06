@@ -57,7 +57,7 @@
                     {# Folders #}
                     <tbody class="folders">
                     {% for dir in context.directories %}
-                            <tr class="directory" data-file="{{ dir.toJs|json_encode }}">
+                            <tr class="directory" data-folder="{{ dir.toJs|json_encode }}">
                                 {% if multiselect %}
                                     <td class="select"></td>
                                 {% endif %}

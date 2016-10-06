@@ -178,8 +178,8 @@
                 file,
                 hide;
 
-            modal.body.find('[data-file]').each(function () {
-                file = $(this).data('file');
+            modal.body.find('[data-file],[data-folder]').each(function () {
+                file = $(this).data('file') || $(this).data('folder');
                 hide = ext !== '' && file.extension !== ext ||
                        term !== '' && file.filename.search(term) < 0;
 
