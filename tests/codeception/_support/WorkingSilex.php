@@ -49,4 +49,10 @@ class WorkingSilex extends Silex
         $this->client = new Client($this->app, [], null, $this->cookieJar);
         $this->client->followRedirects();
     }
+
+    protected function clientRequest($method, $uri, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
+    {
+        $this->reloadApp();
+        return parent::clientRequest($method, $uri, $parameters, $files, $server, $content, $changeHistory);
+    }
 }
