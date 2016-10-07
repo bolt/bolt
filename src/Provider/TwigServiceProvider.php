@@ -82,12 +82,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension($app['twig.extension.http_foundation']);
 
                     if (isset($app['dump'])) {
-                        $twig->addExtension(new DumpExtension(
-                            $app['dumper.cloner'],
-                            $app['dumper.html'],
-                            $app['users'],
-                            $app['config']->get('general/debug_show_loggedoff', false)
-                        ));
+                        $twig->addExtension($app['twig.extension.dump']);
                     }
 
                     return $twig;
@@ -104,6 +99,17 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.extension.http_foundation'] = $app->share(
             function ($app) {
                 return new HttpFoundationExtension($app['request_stack'], $app['request_context']);
+            }
+        );
+
+        $app['twig.extension.dump'] = $app->share(
+            function ($app) {
+                return new DumpExtension(
+                    $app['dumper.cloner'],
+                    $app['dumper.html'],
+                    $app['users'],
+                    $app['config']->get('general/debug_show_loggedoff', false)
+                );
             }
         );
 
