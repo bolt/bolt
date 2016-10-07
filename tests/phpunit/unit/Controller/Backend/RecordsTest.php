@@ -16,6 +16,11 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  **/
 class RecordsTest extends ControllerUnitTest
 {
+    public function setUp()
+    {
+        $this->resetConfig();
+    }
+
     public function testEditGet()
     {
         // First test will fail permission so we check we are kicked back to the dashboard
