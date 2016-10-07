@@ -200,10 +200,6 @@ class Application extends Silex\Application
 
         $this->register(new Provider\DumperServiceProvider());
 
-        if (!$this['debug']) {
-            return;
-        }
-
         // Initialize Web Profiler providers
         $this->initProfiler();
     }
@@ -260,13 +256,6 @@ class Application extends Silex\Application
         ;
 
         $this['paths'] = $this['resources']->getPaths();
-
-        // Initialize stopwatch even if debug is not enabled.
-        $this['stopwatch'] = $this->share(
-            function () {
-                return new Stopwatch\Stopwatch();
-            }
-        );
 
         // Initialize our friendly helpers, if available.
         if (class_exists('\Bolt\Starter\Provider\StarterProvider')) {
