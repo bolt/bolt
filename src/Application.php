@@ -98,6 +98,7 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Provider\BootServiceProvider($this))
+            ->register(new Provider\FilesystemServiceProvider())
             ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
@@ -242,7 +243,6 @@ class Application extends Silex\Application
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
             ->register(new Provider\UploadServiceProvider())
-            ->register(new Provider\FilesystemServiceProvider())
             ->register(new Provider\ThumbnailsServiceProvider())
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
