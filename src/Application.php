@@ -97,7 +97,6 @@ class Application extends Silex\Application
     protected function initConfig()
     {
         $this
-            ->register(new Provider\BootServiceProvider($this))
             ->register(new Provider\FilesystemServiceProvider())
             ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())

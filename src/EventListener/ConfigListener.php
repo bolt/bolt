@@ -40,21 +40,21 @@ class ConfigListener implements EventSubscriberInterface
     }
 
     /**
-     * Early boot functions.
+     * Early functions.
      *
      * @param GetResponseEvent $event
      */
     public function onRequestEarly(GetResponseEvent $event)
     {
-        $verifier = $this->app['boot.validator'];
-        $response = $verifier->checks();
+        $validator = $this->app['config.validator'];
+        $response = $validator->checks();
         if ($response instanceof Response) {
             $event->setResponse($response);
         }
     }
 
     /**
-     * Normal boot functions.
+     * Normal functions.
      *
      * @param GetResponseEvent $event
      *
