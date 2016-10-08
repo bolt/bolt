@@ -2,9 +2,9 @@
 
 namespace Bolt;
 
-use Bolt;
 use Bolt\Controller\Zone;
-use Bolt\Exception\BootException;
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
@@ -18,10 +18,6 @@ use Eloquent\Pathogen\RelativePathInterface;
 use InvalidArgumentException;
 use RuntimeException;
 use Silex;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Parser;
 
@@ -96,28 +92,19 @@ class Config
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        try {
-            $loadCache = $this->loadCache();
-        } catch (RuntimeException $e) {
-            return;
+        $data = $this->loadCache();
+        if ($data === null) {
+            $data = $this->getConfig();
+
+            // If we have to reload the config, we will also want to make sure
+            // the DB integrity is checked.
+            $this->app['schema.timer']->setCheckRequired();
         }
+
+        $this->data = $data;
         $this->setCKPath();
-
-        if ($loadCache) {
-            // In this case the cache is loaded, but because the path of the theme
-            // folder is defined in the config file itself, we still need to check
-            // retrospectively if we need to invalidate it.
-            $this->checkValidCache();
-
-            return;
-        }
-
-        $this->data = $this->getConfig();
         $this->parseTemplatefields();
-
-        // If we have to reload the config, we will also want to make sure
-        // the DB integrity is checked.
-        $this->app['schema.timer']->setCheckRequired();
+        $this->revalidateCache();
     }
 
     /**
@@ -308,7 +295,6 @@ class Config
         $this->app['resources']->initializeConfig($config);
         $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']);
 
-        // @todo: If no config files can be found, get them from bolt.cm/files/default/
         return $config;
     }
 
@@ -1258,78 +1244,116 @@ class Config
      *
      * @throws RuntimeException
      *
-     * @return bool
+     * @return array|null
      */
     protected function loadCache()
     {
-        $dir = $this->app['resources']->getPath('config');
-        /* Get the timestamps for the config files. `config_local.yml` and `extensions.yml` default to '0', because if
-           they aren't present, it shouldn't trigger an update for the cache, while the others should.
-        */
-        $timestamps = [
-            file_exists($dir . '/config.yml') ? filemtime($dir . '/config.yml') : 10000000000,
-            file_exists($dir . '/taxonomy.yml') ? filemtime($dir . '/taxonomy.yml') : 10000000000,
-            file_exists($dir . '/contenttypes.yml') ? filemtime($dir . '/contenttypes.yml') : 10000000000,
-            file_exists($dir . '/menu.yml') ? filemtime($dir . '/menu.yml') : 10000000000,
-            file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
-            file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
-            file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 0,
-            file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
-        ];
-        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
-        $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
-
-        if ($this->cachetimestamp < max($timestamps)) {
-            return false;
-        } else {
-            unlink($configCache);
+        if ($this->isCacheValid() === false) {
+            return null;
         }
 
-        $finder = new Finder();
-        $finder->files()
-            ->in(dirname($configCache))
-            ->name('config-cache.json')
-            ->depth('== 0')
-        ;
-        /** @var SplFileInfo $file */
-        foreach ($finder as $file) {
-            try {
-                $this->data = json_decode($file->getContents(), true);
-            } catch (RuntimeException $e) {
-                $part = Translator::__(
-                    'Try logging in with your ftp-client and make the file readable. ' .
-                    'Else try to go <a>back</a> to the last page.'
-                );
-                $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
-                    '<pre>' . htmlspecialchars($configCache) . '</pre>' .
-                    '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
+        $cacheFs = $this->app['filesystem.cache'];
+        /** @var JsonFile $cacheFile */
+        $cacheFile = $cacheFs->get('config-cache.json');
+        $data = null;
 
-                throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
-            }
+        try {
+            $data = $cacheFile->parse();
+        } catch (ParseException $e) {
+            // JSON is invalid, remove the file
+            $this->invalidateCache();
+        } catch (IOException $e) {
+            $part = Translator::__(
+                'Try logging in with your ftp-client and make the file readable. ' .
+                'Else try to go <a>back</a> to the last page.'
+            );
+            $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
+                '<pre>' . htmlspecialchars($cacheFile->getFullPath()) . '</pre>' .
+                '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+            throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
         }
 
         // Check if we loaded actual data.
-        if (count($this->data) < 4 || empty($this->data['general'])) {
-            return false;
+        if (count($data) < 4 || empty($data['general'])) {
+            return null;
         }
 
         // Trigger the config loaded event on the resource manager
         $this->app['resources']->initializeConfig($this->data);
 
         // Yup, all seems to be right.
+        return $data;
+    }
+
+    /**
+     * Check if the acached config file exists, and is newer than the authoritative source.
+     * @return bool
+     */
+    private function isCacheValid()
+    {
+        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
+        $cacheFs = $this->app['filesystem.cache'];
+        /** @var \Bolt\Filesystem\Filesystem $configFs */
+        $configFs = $this->app['filesystem.config'];
+
+        if (!$cacheFs->has('config-cache.json')) {
+            return false;
+        }
+
+        /** @var JsonFile $cacheFile */
+        $cacheFile = $cacheFs->get('config-cache.json');
+        $cachedConfigTimestamp = $cacheFile->getTimestamp();
+
+        $configFiles = [
+            'config.yml',
+            'config_local.yml',
+            'contenttypes.yml',
+            'extensions.yml',
+            'menu.yml',
+            'permissions.yml',
+            'routing.yml',
+            'taxonomy.yml',
+        ];
+        foreach ($configFiles as $configFile) {
+            $timestamp = $configFs->has($configFile) ? $configFs->get($configFile)->getTimestamp() : 0;
+            if ($timestamp > $cachedConfigTimestamp) {
+                // The configuration file timestamp is *newer* than the cache file's … invalidate!
+                $this->invalidateCache();
+
+                return false;
+            }
+        }
+
         return true;
+    }
+
+    /**
+     * Invalidate (remove) the cache file.
+     */
+    private function invalidateCache()
+    {
+        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
+        $cacheFs = $this->app['filesystem.cache'];
+        /** @var JsonFile $cacheFile */
+        $cacheFile = $cacheFs->get('config-cache.json');
+        try {
+            $cacheFile->delete();
+        } catch (IOException $e) {
+            // We were unable to remove the file… time to retire this class
+        };
     }
 
     /**
      * @internal Do not use
      *
      * @param FilesystemInterface $cacheFs
-     * @param string              $environment
      * @param bool                $force
      */
-    public function cacheConfig(FilesystemInterface $cacheFs, $environment, $force = false)
+    public function cacheConfig(FilesystemInterface $cacheFs, $force = false)
     {
-        $cacheFileName = $environment . '/config-cache.json';
+        $cacheFileName = 'config-cache.json';
         if ($cacheFs->has($cacheFileName) && $force === false) {
             return;
         }
@@ -1338,64 +1362,50 @@ class Config
     }
 
     /**
-     * Cache built configuration parameters.
+     * @deprecated Deprecated since 3.2, to be removed in 4.0. Now handled in a listener.
      */
     protected function saveCache()
     {
-        // Store the version number along with the config.
-        $this->data['version'] = Bolt\Version::VERSION;
-        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
-        $fs = new Filesystem();
-
-        if ($this->get('general/caching/config')) {
-            try {
-                $fs->dumpFile($configCache, json_encode($this->data));
-
-                return;
-            } catch (IOException $e) {
-                $message = 'Error opening file<br/><br/>' .
-                    'The file <b>' . $configCache . '</b> could not be written! <br /><br />' .
-                    'Try logging in with your FTP client and check to see if it is chmodded to be readable by ' .
-                    'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
-                    'Current path: ' . getcwd() . '.';
-                throw new BootException($message);
-            }
-        }
-
-        try {
-            $fs->remove($configCache);
-        } catch (IOException $e) {
-            // We were unable to remove the file… time to retire this class
-        };
     }
 
     /**
-     * Check if cache timeout has occured.
+     * In this case the cache is loaded, but because the path of the theme
+     * folder is defined in the config file itself, we still need to check
+     * retrospectively if we need to invalidate it.
      */
-    protected function checkValidCache()
+    protected function revalidateCache()
     {
-        // Check the timestamp for the theme's config.yml
-        $themeConfigFile = $this->app['resources']->getPath('themepath/theme.yml');
+        $cacheFs = $this->app['filesystem.cache'];
+        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
 
-        /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
-        if (!file_exists($themeConfigFile)) {
-            $themeConfigFile = $this->app['resources']->getPath('themepath/config.yml');
-        }
-
-        // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
-        $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
-
-        if ($this->cachetimestamp > $configTimestamp) {
+        if (!$cacheFs->has('config-cache.json')) {
             return;
         }
 
-        // Invalidate cache for next request.
-        try {
-            $fs = new Filesystem();
-            $fs->remove($this->app['resources']->getPath('cache/config-cache.json'));
-        } catch (IOException $e) {
-            // We were unable to remove the file… time to retire this class
-        };
+        // Check the timestamp for the theme's configuration file
+        $timestampTheme = 0;
+        $themeFile = $themeDir->getFile('theme.yml');
+        if ($themeFile->exists()) {
+            $timestampTheme = $themeFile->getTimestamp();
+        } elseif (($themeFile = $themeDir->getFile('config.yml')) && $themeFile->exists()) {
+            /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
+            $timestampTheme = $themeFile->getTimestamp();
+        }
+
+        $timestampConfigCache = $cacheFs->getTimestamp('config-cache.json');
+        if ($timestampTheme > $timestampConfigCache) {
+            // Theme has been updated since config was cached.
+            // Invalidate cache for next request.
+            $this->invalidateCache();
+        }
+    }
+
+    /**
+     * @deprecated Deprecated since 3.2, to be removed in 4.0.
+     */
+    protected function checkValidCache()
+    {
+        $this->revalidateCache();
     }
 
     /**

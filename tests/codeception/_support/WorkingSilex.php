@@ -26,6 +26,11 @@ class WorkingSilex extends Silex
     public function _before(TestInterface $test)
     {
         $this->reloadApp();
+    }
+
+    protected function loadApp()
+    {
+        parent::loadApp();
 
         $this->app->finish(function () {
             if ($this->app['mailer.initialized'] && $this->app['swiftmailer.use_spool'] && $this->app['swiftmailer.spooltransport'] instanceof \Swift_Transport_SpoolTransport) {
@@ -43,5 +48,11 @@ class WorkingSilex extends Silex
         $this->loadApp();
         $this->client = new Client($this->app, [], null, $this->cookieJar);
         $this->client->followRedirects();
+    }
+
+    protected function clientRequest($method, $uri, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
+    {
+        $this->reloadApp();
+        return parent::clientRequest($method, $uri, $parameters, $files, $server, $content, $changeHistory);
     }
 }
