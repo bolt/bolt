@@ -150,6 +150,8 @@ class Frontend extends ConfigurableBase
             return null;
         }
 
+        // throw new \Exception('Koala!');
+
         // Perhaps we don't have a slug. Let's see if we can pick up the 'id', instead.
         if (empty($slug)) {
             $slug = $request->get('id');

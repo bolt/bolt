@@ -153,9 +153,23 @@ body.exception {
         height: auto;
     }
     code {
-        white-space: normal;
+        white-space: pre;
         word-wrap: break-word;
     }
+
+    p.exception {
+        font-size: 130%;
+        margin: 2em 0;
+    }
+
+    td {
+        font-family: $fonts-family-monospace;
+    }
+
+    pre[data-line] {
+        padding-left: 4.1em;
+    }
+
 }
 
 .dropdown-menu .nav-header {
