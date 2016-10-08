@@ -232,8 +232,11 @@ class Exception extends Base implements ExceptionControllerInterface
             }
         }
 
+        $loggedOnUser = (bool) $this->app['users']->getCurrentUser() ?: false;
+        $showLoggedOff = (bool) $this->app['config']->get('general/debug_show_loggedoff', false);
+
         return [
-            'debug'     => $this->app['debug'],
+            'debug'     => ($this->app['debug'] && ($loggedOnUser || $showLoggedOff)),
             'exception' => [
                 'object' => $exception,
                 'class'  => $exception ? get_class($exception) : null,
