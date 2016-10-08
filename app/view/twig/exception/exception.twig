@@ -42,24 +42,33 @@
                             {% block exception %}
                             {% endblock exception %}
 
-                            <p class='exception'>
-                                {{ exception.class|default('unknown') }} in <tt><abbr title="{{ exception.filename|default('unknown') }}">
-                                {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
-                                {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
-                            </p>
+                            {% if debug %}
+                                <p class='exception'>
+                                    {{ exception.class|default('unknown') }} in <tt><abbr title="{{ exception.filename|default('unknown') }}">
+                                    {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
+                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
+                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                </p>
+                            {% else %}
+                              <p class='exception'>
+                                    {{ exception.class|default('unknown') }} in <tt>
+                                    {{- exception.filebasename|default('unknown') }}</tt> line <tt>
+                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
+                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                </p>
+                            {% endif %}
 
-                            {% if exception.snippet -%}
+                            {% if debug and exception.snippet -%}
 <pre class='line-numbers' data-start='{{ exception.object.line|default(1) }}' data-line='6'><code class='language-php'>
 {{- exception.snippet -}}
 </code></pre>
                             {%- endif %}
 
-
-                            <hr>
-
                             {% block request %}
-                                {{ include('@bolt/exception/_request.twig') }}
+                                {% if debug %}
+                                    <hr>
+                                    {{ include('@bolt/exception/_request.twig') }}
+                                {% endif %}
                             {% endblock request %}
 
                             <hr>
