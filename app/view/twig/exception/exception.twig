@@ -35,9 +35,26 @@
                                 {% block exception %}
                                 {% endblock exception %}
 
+                                <h2>
+                                    Bolt Exception
+                                </h2>
+
+                                <p>
+                                    <code class="exception">{{ exception.class|default('unknown') }} in {{ exception.file|default('unknown') }} line {{ exception.object.line|default('unknown') }}</code>
+                                </p>
+
+                                <p>
+                                    <code class="exception">{{ exception.object.message|default('unknown')|nl2br }}</code>
+                                </p>
+
+
+                                <hr>
+
                                 {% block trace %}
                                     {{ include('@bolt/exception/_trace.twig') }}
                                 {% endblock trace %}
+
+                                {{ dump(exception) }}
                             </div>
                         {% endblock page_main %}
                     </div>
