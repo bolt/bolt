@@ -20,6 +20,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
         $app['config'] = $app->share(
             function ($app) {
                 $config = new Config($app);
+                $config->initialize();
 
                 return $config;
             }

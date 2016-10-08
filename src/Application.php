@@ -101,7 +101,6 @@ class Application extends Silex\Application
             ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
-        $this['config']->initialize();
     }
 
     protected function initSession()
