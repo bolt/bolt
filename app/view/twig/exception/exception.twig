@@ -8,7 +8,7 @@
     <title>{{ __('Exception') }} - Bolt</title>
 
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
-    {% if exception.snippet %}
+    {% if debug and exception.snippet %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-php.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
