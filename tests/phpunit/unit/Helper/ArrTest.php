@@ -8,6 +8,7 @@ use Bolt\Tests\BoltUnitTest;
  * Class to test src/Helper/Arr.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class ArrTest extends BoltUnitTest
 {
@@ -21,25 +22,115 @@ class ArrTest extends BoltUnitTest
         $this->assertEquals([0 => 1, 1 => 2], Arr::makeValuePairs($test, '', 'value'));
     }
 
-    public function testMergeRecusrsiveDistinct()
+    public function testLegacyMergeRecursiveDistinct()
     {
         $arr1 = ['key' => 'orig value'];
         $arr2 = ['key' => 'new value'];
         $this->assertEquals(['key' => 'new value'], Arr::mergeRecursiveDistinct($arr1, $arr2));
 
         // Needs an exclusion for accept_file_types
-        $arr1 = ['accept_file_types' => 'jpg'];
-        $arr2 = ['accept_file_types' => 'jpg,png'];
-        Arr::mergeRecursiveDistinct($arr1, $arr2);
-        $this->assertEquals(['accept_file_types' => 'jpg'], $arr1);
+        $arr1 = ['accept_file_types' => ['jpg']];
+        $arr2 = ['accept_file_types' => ['jpg', 'png']];
+        $actual = Arr::mergeRecursiveDistinct($arr1, $arr2);
+        $this->assertEquals(['accept_file_types' => ['jpg', 'png']], $actual);
 
-        // Test Recusrsion
+        // Test Recursion
         $arr1 = ['key' => ['test' => 'new value']];
-        $arr2 = ['key'            => ['test' => 'nested new value']];
+        $arr2 = ['key' => ['test' => 'nested new value']];
 
-        $this->assertEquals([
-            'key' => ['test' => 'nested new value'], ],
+        $this->assertEquals(
+            ['key' => ['test' => 'nested new value']],
             Arr::mergeRecursiveDistinct($arr1, $arr2)
-            );
+        );
+
+        // This is why this method is deprecated:
+        $arr1 = ['key' => ['foo', 'bar']];
+        $arr2 = ['key' => ['baz']];
+        $actual = Arr::mergeRecursiveDistinct($arr1, $arr2);
+        $this->assertEquals(['key' => ['baz', 'bar']], $actual);
+    }
+
+    public function replaceRecursiveProvider()
+    {
+        return [
+            'scalar replaces scalar (no duh)'         => [
+                ['a' => ['b' => 'foo']],
+                ['a' => ['b' => 'bar']],
+                ['a' => ['b' => 'bar']],
+            ],
+            'second adds to first (no duh)'           => [
+                ['a' => ['b' => 'foo']],
+                ['a' => ['c' => 'bar']],
+                ['a' => ['b' => 'foo', 'c' => 'bar']],
+            ],
+            'list replaces list completely'           => [
+                ['a' => ['foo', 'bar']],
+                ['a' => ['baz']],
+                ['a' => ['baz']],
+            ],
+            'null replaces scalar'                    => [
+                ['a' => ['b' => 'foo']],
+                ['a' => ['b' => null]],
+                ['a' => ['b' => null]],
+            ],
+            'null ignores arrays (both types)'        => [
+                ['a' => ['b' => 'foo']],
+                ['a' => null],
+                ['a' => ['b' => 'foo']],
+            ],
+            'empty list replaces arrays (both types)' => [
+                ['a' => ['foo', 'bar']],
+                ['a' => []],
+                ['a' => []],
+            ],
+            'scalar replaces arrays (both types)'     => [
+                ['a' => ['foo', 'bar']],
+                ['a' => 'derp'],
+                ['a' => 'derp'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider replaceRecursiveProvider
+     *
+     * @param array $array1
+     * @param array $array2
+     * @param array $result
+     */
+    public function testReplaceRecursive($array1, $array2, $result)
+    {
+        $this->assertEquals($result, Arr::replaceRecursive($array1, $array2));
+    }
+
+    public function isIndexedProvider()
+    {
+        return [
+            'key value pairs'                  => [['key' => 'value'], false],
+            'empty array'                      => [[], true],
+            'list'                             => [['foo', 'bar'], true],
+            'zero-indexed numeric int keys'    => [[0 => 'foo', 1 => 'bar'], true],
+            'zero-indexed numeric string keys' => [['0' => 'foo', '1' => 'bar'], true],
+            'non-zero-indexed keys'            => [[1 => 'foo', 2 => 'bar'], false],
+            'non-sequential keys'              => [[0 => 'foo', 2 => 'bar'], false],
+        ];
+    }
+
+    /**
+     * @dataProvider isIndexedProvider
+     *
+     * @param array $array
+     * @param bool  $indexed
+     */
+    public function testIsIndexedAndAssociative($array, $indexed)
+    {
+        $this->assertEquals($indexed, Arr::isIndexed($array));
+        $this->assertEquals(!$indexed, Arr::isAssociative($array));
+    }
+
+    public function testNonArraysAreNotIndexedOrAssociative()
+    {
+        $this->assertFalse(Arr::isIndexed('derp'));
+        $this->assertFalse(Arr::isAssociative('derp'));
     }
 }

@@ -117,7 +117,7 @@ trait ConfigTrait
         }
 
         if (is_array($newConfig)) {
-            $this->config = Arr::mergeRecursiveDistinct($this->config, $newConfig);
+            $this->config = Arr::replaceRecursive($this->config, $newConfig);
         }
     }
 
