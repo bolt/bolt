@@ -1376,7 +1376,7 @@ class Config
     protected function revalidateCache()
     {
         $cacheFs = $this->app['filesystem.cache'];
-        $themeFs = $this->app['filesystem.theme'];
+        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
 
         if (!$cacheFs->has('config-cache.json')) {
             return;
@@ -1384,11 +1384,12 @@ class Config
 
         // Check the timestamp for the theme's configuration file
         $timestampTheme = 0;
-        if ($themeFs->has('theme.yml')) {
-            $timestampTheme = $themeFs->getTimestamp('theme.yml');
-        } elseif ($themeFs->has('config.yml')) {
+        $themeFile = $themeDir->getFile('theme.yml');
+        if ($themeFile->exists()) {
+            $timestampTheme = $themeFile->getTimestamp();
+        } elseif (($themeFile = $themeDir->getFile('config.yml')) && $themeFile->exists()) {
             /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
-            $timestampTheme = $themeFs->getTimestamp('config.yml');
+            $timestampTheme = $themeFile->getTimestamp();
         }
 
         $timestampConfigCache = $cacheFs->getTimestamp('config-cache.json');
