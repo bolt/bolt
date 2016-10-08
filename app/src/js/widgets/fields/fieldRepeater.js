@@ -147,6 +147,7 @@
             this._renumber();
             bolt.datetime.init();
             bolt.ckeditor.init();
+            init.popOvers();
         },
 
         /**
