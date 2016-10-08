@@ -14,6 +14,7 @@ class LogTest extends ControllerUnitTest
 {
     public function setUp()
     {
+        $this->resetConfig();
         $this->resetDb();
         $this->addSomeContent();
 
@@ -66,7 +67,6 @@ class LogTest extends ControllerUnitTest
         // Test valid entry
         $this->setRequest(Request::create('/bolt/changelog/pages/1/1'));
         $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 1);
-        //                               changeRecord($request, $contenttype, $contentid, $id)
 
         $context = $response->getContext();
         $this->assertInstanceOf('Bolt\Storage\Entity\LogChange', $context['context']['entry']);

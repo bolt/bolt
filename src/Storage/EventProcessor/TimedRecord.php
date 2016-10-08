@@ -72,7 +72,7 @@ class TimedRecord
      */
     public function isDuePublish()
     {
-        return !$this->cache->fetch(self::CACHE_KEY_PUBLISH);
+        return !$this->cache->contains(self::CACHE_KEY_PUBLISH);
     }
 
     /**
@@ -80,7 +80,7 @@ class TimedRecord
      */
     public function isDueHold()
     {
-        return !$this->cache->fetch(self::CACHE_KEY_HOLD);
+        return !$this->cache->contains(self::CACHE_KEY_HOLD);
     }
 
     /**
@@ -89,9 +89,10 @@ class TimedRecord
     public function publishTimedRecords()
     {
         foreach ($this->contentTypeNames as $contentTypeName) {
-            $this->timedHandleRecords($contentTypeName, 'publish');
+            $this->timedHandleRecords($contentTypeName, 'timed');
         }
-        $this->cache->save(self::CACHE_KEY_PUBLISH, true, $this->config->get('general/caching/duration', 10));
+        $duration = $this->config->get('general/caching/duration', 10) * 60;
+        $this->cache->save(self::CACHE_KEY_PUBLISH, true, $duration);
     }
 
     /**
@@ -113,8 +114,8 @@ class TimedRecord
      */
     private function timedHandleRecords($contentTypeName, $type)
     {
-        /** @var ContentRepository $contentRepo */
         try {
+            /** @var ContentRepository $contentRepo */
             $contentRepo = $this->em->getRepository($contentTypeName);
         } catch (InvalidRepositoryException $e) {
             // ContentType doesn't have a repository
@@ -202,16 +203,15 @@ class TimedRecord
     {
         /** @var QueryBuilder $query */
         $query = $contentRepo->createQueryBuilder('t')
-            ->select('t.id')
             ->andWhere('t.status = :status')
             ->setParameter('currenttime', Carbon::now(), Type::DATETIME)
         ;
 
 
-        if ($type === 'publish') {
-            $this->getTimedQuery($query);
+        if ($type === 'timed') {
+            $this->getTimedPublishQuery($query);
         } elseif ($type === 'hold') {
-            $this->getPublishedQuery($query);
+            $this->getHoldQuery($query);
         } else {
             throw new StorageException(sprintf('Invalid type "%s" for timed record processing.', $type));
         }
@@ -224,7 +224,7 @@ class TimedRecord
      *
      * @param QueryBuilder $query
      */
-    private function getTimedQuery(QueryBuilder $query)
+    private function getTimedPublishQuery(QueryBuilder $query)
     {
         $query
             ->where('status = :status')
@@ -238,7 +238,7 @@ class TimedRecord
      *
      * @param QueryBuilder $query
      */
-    private function getPublishedQuery(QueryBuilder $query)
+    private function getHoldQuery(QueryBuilder $query)
     {
         $query
             ->where('datedepublish <= :currenttime')

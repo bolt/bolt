@@ -15,13 +15,16 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Initialisation checks at the start of boot.
+ * Configuration checks at the start of the request cycle.
+ *
+ * This is a temporary solution to remove the configuration checks from
+ * pre-request, until such time as configuration can be refactored.
  *
  * @internal Do not extend/call.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BootInitListener implements EventSubscriberInterface
+class ConfigListener implements EventSubscriberInterface
 {
     /** @var Application */
     private $app;
@@ -37,31 +40,27 @@ class BootInitListener implements EventSubscriberInterface
     }
 
     /**
-     * Early boot functions.
+     * Early functions.
      *
      * @param GetResponseEvent $event
-     *
-     * @return Response|null
      */
-    public function onBootEarly(GetResponseEvent $event)
+    public function onRequestEarly(GetResponseEvent $event)
     {
-        $verifier = $this->app['boot.validator'];
-        $response = $verifier->checks();
-        if (!$response instanceof Response) {
-            return null;
+        $validator = $this->app['config.validator'];
+        $response = $validator->checks();
+        if ($response instanceof Response) {
+            $event->setResponse($response);
         }
-
-        $event->setResponse($response);
     }
 
     /**
-     * Normal boot functions.
+     * Normal functions.
      *
      * @param GetResponseEvent $event
      *
-     * @return Response|null
+     * @return null
      */
-    public function onBoot(GetResponseEvent $event)
+    public function onRequest(GetResponseEvent $event)
     {
         if (Zone::isBackend($event->getRequest())) {
             $this->setVersionChangeNotice();
@@ -84,11 +83,13 @@ class BootInitListener implements EventSubscriberInterface
 
         $cacheFs = $this->app['filesystem']->getFilesystem('cache');
         try {
-            $this->app['config']->cacheConfig($cacheFs, '', false);
+            $this->app['config']->cacheConfig($cacheFs, false);
         } catch (IOException $e) {
             $response = $this->app['controller.exception']->genericException($e);
             $event->setResponse($response);
         }
+
+        return null;
     }
 
     /**
@@ -98,8 +99,8 @@ class BootInitListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => [
-                ['onBootEarly', Application::EARLY_EVENT],
-                ['onBoot', 33], // After routes determined. @see RouterListener::getSubscribedEvents
+                ['onRequestEarly', Application::EARLY_EVENT],
+                ['onRequest', 33], // Before routes determined. @see RouterListener::getSubscribedEvents
             ],
         ];
     }

@@ -38,6 +38,24 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    protected function resetConfig()
+    {
+        $configFiles = [
+            'config.yml',
+            'contenttypes.yml',
+            'menu.yml',
+            'permissions.yml',
+            'routing.yml',
+            'taxonomy.yml',
+        ];
+        foreach ($configFiles as $configFile) {
+            // Make sure we wipe the db file to start with a clean one
+            if (is_readable(PHPUNIT_WEBROOT . '/app/config/' . $configFile)) {
+                unlink(PHPUNIT_WEBROOT . '/app/config/' . $configFile);
+            }
+        }
+    }
+
     protected function getApp($boot = true)
     {
         if (!$this->app) {

@@ -17,6 +17,38 @@ class FilesystemServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        // These can be called early
+        $app['filesystem.config'] = $app->share(function ($app) {
+            $fs = new Filesystem(new Local($app['resources']->getPath('config')));
+            $fs->setMountPoint('config');
+
+            return $fs;
+        });
+
+        $app['filesystem.cache'] = $app->share(function ($app) {
+            $fs = new Filesystem(new Local($app['resources']->getPath('cache')));
+            $fs->setMountPoint('cache');
+
+            return $fs;
+        });
+
+        $app['filesystem.themes'] = $app->share(function ($app) {
+            $fs = new Filesystem(new Local($app['resources']->getPath('themebase')));
+            $fs->setMountPoint('themes');
+
+            return $fs;
+        });
+
+        // Calling this before boot … all bets are off … and if Bolt breaks, you get to keep both pieces!
+        // @TODO :fire: this when the new configuration loading lands
+        $app['filesystem.theme'] = $app->share(function ($app) {
+            $fs = new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme')));
+            $fs->setMountPoint('theme');
+
+            return $fs;
+        });
+
+        // Don't call this until boot.
         $app['filesystem'] = $app->share(
             function ($app) {
                 $manager = new Manager(
@@ -33,15 +65,15 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // User's files directory
                         'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
                         // User's config directory
-                        'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
+                        'config'     => $app['filesystem.config'],
                         // User's themes directory
-                        'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
+                        'themes'     => $app['filesystem.themes'],
                         // User's currently selected theme directory
-                        'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
+                        'theme'      => $app['filesystem.theme'],
                         // User's extension directory
                         'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
                         // User's cache directory
-                        'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
+                        'cache'      => $app['filesystem.cache'],
 
                         // Deprecated. Use specific filesystem instead.
                         'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),

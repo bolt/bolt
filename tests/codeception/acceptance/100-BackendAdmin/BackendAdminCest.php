@@ -289,7 +289,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
 
         // Set up the browser
         $this->setLoginCookies($I);
-        $I->amOnPage('/bolt');
+        $I->amOnPage('/bolt/clearcache');
+        $I->amOnPage('/bolt/dbcheck');
         $I->see('The database needs to be updated/repaired');
 
         $I->see('Check Database', 'a');
