@@ -7,9 +7,16 @@
 
     <title>{{ __('Exception') }} - Bolt</title>
 
-    {# <link rel="stylesheet" href="{{ asset('css/lib.css', 'bolt') }}"> #}
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
-
+    {% if debug and exception.snippet %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-php.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-highlight/prism-line-highlight.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-highlight/prism-line-highlight.min.css">
+    {% endif %}
 </head>
 
 <body class="login exception">
@@ -25,20 +32,52 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         {% block page_main %}
-                            <div class="row">
-                                {# Note: Do not translate / localise this, because people _will_ google for this. #}
-                                <p class="chapeau">Uncaught Fatal Error:</p>
+                        <div class="row">
+                            {# Note: Do not translate / localise this, because people _will_ google for this. #}
 
-                                {% block title %}
-                                {% endblock title %}
+                            {% block title %}
+                                <h1>Uncaught Fatal Error: Bolt Exception</h1>
+                            {% endblock title %}
 
-                                {% block exception %}
-                                {% endblock exception %}
+                            {% block exception %}
+                            {% endblock exception %}
 
-                                {% block trace %}
-                                    {{ include('@bolt/exception/_trace.twig') }}
-                                {% endblock trace %}
-                            </div>
+                            {% if debug %}
+                                <p class='exception'>
+                                    {{ exception.class|default('unknown') }} in <tt><abbr title="{{ exception.filename|default('unknown') }}">
+                                    {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
+                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
+                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                </p>
+                            {% else %}
+                              <p class='exception'>
+                                    {{ exception.class|default('unknown') }} in <tt>
+                                    {{- exception.filebasename|default('unknown') }}</tt> line <tt>
+                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
+                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                </p>
+                            {% endif %}
+
+                            {% if debug and exception.snippet -%}
+<pre class='line-numbers' data-start='{{ exception.object.line|default(1) }}' data-line='6'><code class='language-php'>
+{{- exception.snippet -}}
+</code></pre>
+                            {%- endif %}
+
+                            {% block request %}
+                                {% if debug %}
+                                    <hr>
+                                    {{ include('@bolt/exception/_request.twig') }}
+                                {% endif %}
+                            {% endblock request %}
+
+                            <hr>
+
+                            {% block trace %}
+                                {{ include('@bolt/exception/_trace.twig') }}
+                            {% endblock trace %}
+
+                        </div>
                         {% endblock page_main %}
                     </div>
                 </div>

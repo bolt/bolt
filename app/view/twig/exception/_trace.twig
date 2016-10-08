@@ -1,28 +1,28 @@
-<h2>
-    Details
-</h2>
-
-<p>
-    <code class="exception">{{ exception.class|default('unknown') }} in {{ exception.file|default('unknown') }} line {{ exception.object.line|default('unknown') }}</code>
-</p>
-
-<p>
-    <code class="exception">{{ exception.object.message|default('unknown')|nl2br }}</code>
-</p>
-
 {% if debug %}
     <h2>Stack trace</h2>
 
-    <ol class='stack-trace'>
+    <table class="table table-striped table-hover table-condensed">
     {% for t in exception.trace %}
-        <li>
-            <span># {{ loop.index }}. </span>
+        <tr>
+            <th># {{ loop.index }} </th>
+            <td>
             {% if t.class is defined %}
-                {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last -}}</strong>::
+                {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|trimtext(32) -}}</strong>::
             {% endif %}
             {{ t.function|default() }}()<br>
-            <em class='dim'>{{ t.file|default() }} # {{ t.line|default() }}</em>
-        </li>
+            <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
+            </td>
+        </tr>
     {% endfor %}
-    </ol>
+    </table>
+
+{% else %}
+
+    <p>Debug is not available, and/or you are not logged on. To see a full backtrace of the Exception, do one of the following: </p>
+
+    <ul>
+        <li>Set <tt>debug: true</tt> in <tt>config.yml</tt>, and make sure you're logged in to the Bolt Backend.</li>
+        <li>Set both <tt>debug: true</tt> and <tt>debug_show_loggedoff: true</tt> in <tt>config.yml</tt>.
+    </ul>
+
 {% endif %}

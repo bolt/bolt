@@ -232,13 +232,27 @@ class Exception extends Base implements ExceptionControllerInterface
             }
         }
 
+        $loggedOnUser = (bool) $this->app['users']->getCurrentUser() ?: false;
+        $showLoggedOff = (bool) $this->app['config']->get('general/debug_show_loggedoff', false);
+
+        $filename = $exception ? $exception->getFile() : null;
+        $linenumber = $exception ? $exception->getLine() : null;
+
+        if ($filename && $linenumber) {
+            $snippet = implode('', array_slice(file($filename), max(0, $linenumber - 6), 11));
+        } else {
+            $snippet = false;
+        }
+
         return [
-            'debug'     => $this->app['debug'],
+            'debug'     => ($this->app['debug'] && ($loggedOnUser || $showLoggedOff)),
             'exception' => [
-                'object' => $exception,
-                'class'  => $exception ? get_class($exception) : null,
-                'file'   => $exception ? basename($exception->getFile()) : null,
-                'trace'  => $exception ? $this->getSafeTrace($exception) : null,
+                'object'       => $exception,
+                'class'        => $exception ? get_class($exception) : null,
+                'filename'     => $filename,
+                'filebasename' => basename($filename),
+                'trace'        => $exception ? $this->getSafeTrace($exception) : null,
+                'snippet'      => $snippet,
             ],
         ];
     }
