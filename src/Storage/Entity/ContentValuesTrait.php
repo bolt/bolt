@@ -3,6 +3,7 @@ namespace Bolt\Storage\Entity;
 
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
+use Bolt\Legacy;
 use Bolt\Library as Lib;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 
@@ -298,7 +299,11 @@ trait ContentValuesTrait
                 }
 
                 if (is_array($unserdata)) {
-                    $value = new \Bolt\Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    if (is_a($this, Legacy\Content::class)) {
+                        $value = new static($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    } else {
+                        $value = new Legacy\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    }
                     $value->setValues($unserdata);
                 } else {
                     $value = null;
