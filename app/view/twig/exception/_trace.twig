@@ -1,18 +1,20 @@
 {% if debug %}
     <h2>Stack trace</h2>
 
-    <ol class='stack-trace'>
-    {% for t in exception.trace %}
-        <li>
-            <span># {{ loop.index }}. </span>
-            {% if t.class is defined %}
-                {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last -}}</strong>::
-            {% endif %}
-            {{ t.function|default() }}()<br>
-            <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
-        </li>
-    {% endfor %}
-    </ol>
+<table class="table table-striped table-hover table-condensed">
+{% for t in exception.trace %}
+    <tr>
+        <th># {{ loop.index }} </th>
+        <td>
+        {% if t.class is defined %}
+            {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|trimtext(32) -}}</strong>::
+        {% endif %}
+        {{ t.function|default() }}()<br>
+        <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
+        </td>
+    </tr>
+{% endfor %}
+</table>
 
 {% else %}
 

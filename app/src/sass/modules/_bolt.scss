@@ -166,8 +166,16 @@ body.exception {
         font-family: $fonts-family-monospace;
     }
 
+    th {
+        min-width: 4em;
+    }
+
     pre[data-line] {
         padding-left: 4.1em;
+    }
+
+    .dim {
+        color: #777;
     }
 
 }
