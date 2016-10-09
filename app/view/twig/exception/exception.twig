@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
     {% if debug and exception.snippet %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-php.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
@@ -44,17 +45,17 @@
 
                             {% if debug %}
                                 <p class='exception'>
-                                    {{ exception.class|default('unknown') }} in <tt><abbr title="{{ exception.filename|default('unknown') }}">
+                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt><abbr title="{{ exception.filename|default('unknown') }}">
                                     {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
                                     {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
                                 </p>
                             {% else %}
                               <p class='exception'>
-                                    {{ exception.class|default('unknown') }} in <tt>
+                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt>
                                     {{- exception.filebasename|default('unknown') }}</tt> line <tt>
                                     {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em>{{ exception.object.message|default('unknown')|nl2br }}</em>
+                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
                                 </p>
                             {% endif %}
 
@@ -74,8 +75,22 @@
                             <hr>
 
                             {% block trace %}
-                                {{ include('@bolt/exception/_trace.twig') }}
+                                {% if debug %}
+                                    {{ include('@bolt/exception/_trace.twig') }}
+                                {% endif %}
                             {% endblock trace %}
+
+                            {% if not debug %}
+                                <p>Debug is not available, and/or you are not logged on. To see a full backtrace of the
+                                    Exception, do one of the following: </p>
+
+                                <ul>
+                                    <li>Set <tt>debug: true</tt> in <tt>config.yml</tt>, and make sure you're logged in
+                                        to the Bolt Backend.</li>
+                                    <li>Set both <tt>debug: true</tt> and <tt>debug_show_loggedoff: true</tt> in
+                                        <tt>config.yml</tt>.
+                                </ul>
+                            {% endif %}
 
                         </div>
                         {% endblock page_main %}
