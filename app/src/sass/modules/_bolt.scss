@@ -166,6 +166,11 @@ body.exception {
         font-family: $fonts-family-monospace;
     }
 
+    td.trace {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+
     th {
         min-width: 4em;
     }
@@ -175,7 +180,7 @@ body.exception {
     }
 
     .dim {
-        color: #777;
+        color: #888;
     }
 
 }

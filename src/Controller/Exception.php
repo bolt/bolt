@@ -4,6 +4,7 @@ namespace Bolt\Controller;
 
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\File;
+use Bolt\Helpers\Html;
 use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
 use Silex\Application;
@@ -273,11 +274,40 @@ class Exception extends Base implements ExceptionControllerInterface
         $rootPath = $this->app['resources']->getPath('root');
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
-            unset($trace[$key]['args']);
+            $simpleargs = [];
+            foreach($trace[$key]['args'] as $arg) {
+                $type = gettype($arg);
+                switch($type) {
+                    case 'string':
+                        $simpleargs[] = sprintf('<span>"%s"</span>', Html::trimText($arg, 30));
+                        break;
 
-            // Don't display the full path.
+                    case 'integer':
+                    case 'float':
+                        $simpleargs[] = sprintf('<span>%s</span>', $arg);
+                        break;
+
+                    case 'object':
+                        $classname = get_class($arg);
+                        $shortname = (new \ReflectionClass($arg))->getShortName();
+                        $simpleargs[] = sprintf('<abbr title="%s">%s</abbr>', $classname, $shortname);
+                        break;
+
+                    case 'boolean':
+                        $simpleargs[] = $arg ? '[true]' : '[false]';
+                        break;
+
+                    default:
+                        $simpleargs[] = '[' . $type . ']';
+                }
+            }
+
+            $trace[$key]['simpleargs'] = $simpleargs;
+
+            // Don't display the full path, trim 64-char hexadecimal filenames.
             if (isset($trace[$key]['file'])) {
                 $trace[$key]['file'] = str_replace($rootPath, '[root]', $trace[$key]['file']);
+                $trace[$key]['file'] = preg_replace('/([0-9a-f]{16})[0-9a-f]{48}/i', '\1…', $trace[$key]['file']);
             }
         }
 
