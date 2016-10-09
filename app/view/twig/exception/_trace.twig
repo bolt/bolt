@@ -4,20 +4,21 @@
 {% for t in exception.trace %}
     <tr>
         <th># {{ loop.index }} </th>
-        <td class="trace">
+        <td>
             {% if t.class is defined %}
                 {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|trimtext(32) -}}</strong>::
             {%- endif -%}
             {{ t.function|default() }}(
 
-            {% if t.simpleargs is not empty %}
+            {%- if t.simpleargs is not empty -%}
             <a href="#trace-arguments-{{loop.index}}" onclick="javascript:$('#trace-arguments-{{loop.index}}').slideDown('fast'); return false;">
-                {% for arg in t.simpleargs %}
-                    {{ arg|raw }}{% if not loop.last %}, {% endif %}
-                {% endfor %}
+                {%- for arg in t.simpleargs -%}
+                    <tt>{{ arg|raw }}</tt>{% if not loop.last %}, {% endif %}
+                {%- endfor -%}
             </a>
-            {% endif %}
-            )<br>
+            {%- endif -%}
+            )
+            <br>
 
             {% if t.file|default() %}
                 <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
