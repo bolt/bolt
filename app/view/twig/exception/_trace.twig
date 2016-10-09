@@ -23,10 +23,12 @@
                 <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
             {% endif %}
 
+            {% if t.simpleargs is not empty %}
             <div id='trace-arguments-{{loop.index}}' style="display: none;">
                 Arguments:
                 {{ dump(t.args) }}
             </div>
+            {% endif %}
         </td>
     </tr>
 {% endfor %}
