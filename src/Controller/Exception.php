@@ -275,9 +275,9 @@ class Exception extends Base implements ExceptionControllerInterface
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
             $simpleargs = [];
-            foreach($trace[$key]['args'] as $arg) {
+            foreach ($trace[$key]['args'] as $arg) {
                 $type = gettype($arg);
-                switch($type) {
+                switch ($type) {
                     case 'string':
                         $simpleargs[] = sprintf('<span>"%s"</span>', Html::trimText($arg, 30));
                         break;
