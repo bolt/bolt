@@ -11,11 +11,10 @@
             {{ t.function|default() }}(
 
             {%- if t.simpleargs is not empty -%}
-            <a href="#trace-arguments-{{loop.index}}" onclick="javascript:$('#trace-arguments-{{loop.index}}').slideDown('fast'); return false;">
+
                 {%- for arg in t.simpleargs -%}
-                    <tt>{{ arg|raw }}</tt>{% if not loop.last %}, {% endif %}
+                    <tt><a href="#trace-arguments-{{loop.index}}" onclick="javascript:$('#trace-arguments-{{loop.index}}').slideDown('fast'); return false;">{{ arg|raw }}</a></tt>{% if not loop.last %}, {% endif %}
                 {%- endfor -%}
-            </a>
             {%- endif -%}
             )
             <br>
