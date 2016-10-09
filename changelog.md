@@ -1,6 +1,11 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2-beta 4
+---------------
+
+Released 2016-10-08.
+
 Bolt 3.2-beta 3
 ---------------
 
