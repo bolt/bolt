@@ -250,6 +250,7 @@ class Exception extends Base implements ExceptionControllerInterface
             'exception' => [
                 'object'       => $exception,
                 'class'        => $exception ? get_class($exception) : null,
+                'classbase'    => $exception ? (new \ReflectionClass($exception))->getShortName() : null,
                 'filename'     => $filename,
                 'filebasename' => basename($filename),
                 'trace'        => $exception ? $this->getSafeTrace($exception) : null,

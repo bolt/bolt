@@ -43,30 +43,28 @@
                             {% block exception %}
                             {% endblock exception %}
 
-                            {% if debug %}
-                                <p class='exception'>
-                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt><abbr title="{{ exception.filename|default('unknown') }}">
-                                    {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
-                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-                                </p>
-                            {% else %}
-                              <p class='exception'>
-                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt>
-                                    {{- exception.filebasename|default('unknown') }}</tt> line <tt>
-                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-                                </p>
-                            {% endif %}
+                            <p class='exception'>
+                                <tt><abbr title="{{ exception.class|default('unknown') }}">{{ exception.classbase|default('unknown') }}</abbr></tt> in <tt>{% if debug %}<abbr title="{{ exception.filename|default('unknown') }}">{% endif %}
+                                {{- exception.filebasename|default('unknown') }}{% if debug %}</abbr>{% endif %}</tt> line <tt>
+                                {{- exception.object.line|default('unknown') }}</tt>: <br>
+                                <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
+
+                            </p>
 
                             {% if debug and exception.snippet -%}
-<pre class='line-numbers' data-start='{{ exception.object.line|default(1) }}' data-line='6'><code class='language-php'>
+<pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
 {{- exception.snippet -}}
 </code></pre>
                             {%- endif %}
 
+                            <p class='exception'>
+                                {# Based on this classic tweet: https://twitter.com/divineomega/status/695744177557106688 #}
+                                {% set query = 'Bolt ' ~ exception.classbase|default('unknown') ~ ' in ' ~ exception.filebasename|default('unknown') ~ ' line ' ~ exception.object.line|default('unknown') ~ ': ' ~ exception.object.message|default('unknown') %}
+                                <a class='btn btn-default' href='https://www.google.nl/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
+                            </p>
+
                             {% block request %}
-                                {% if debug %}
+                                {% if debug and app.request is defined %}
                                     <hr>
                                     {{ include('@bolt/exception/_request.twig') }}
                                 {% endif %}
