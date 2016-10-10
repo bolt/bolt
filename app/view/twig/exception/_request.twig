@@ -1,0 +1,53 @@
+<h1>Request data</h1>
+
+{% set bags = [ 'attributes', 'query', 'server', 'files', 'cookies', 'headers', 'session'] %}
+{% set values = [ 'content', 'languages', 'charsets', 'encodings' , 'acceptableContentTypes', 'pathInfo', 'requestUri', 'baseUrl', 'basePath', 'method'] %}
+
+<table class="table table-striped table-hover table-condensed">
+{% for value in values %}
+    <tr>
+        <th>{{ value }}</th>
+        <td>
+            {% set value = attribute(app.request, value) %}
+            {% if value is iterable %}
+                {% for k, v in value %}
+                    {% if k is not same as(loop.index0) %} {{ k }} =&gt; {% endif %}
+                    {{ v|default('<em>(empty)</em>')|raw }}{% if not loop.last %}<br>{% endif %}
+                {% endfor %}
+            {% else %}
+                {{ value|default('<em>(empty)</em>')|raw }}
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+
+{% for bag in bags %}
+
+    {% set values = attribute(app.request, bag).all %}
+
+    {% if values is not empty %}
+        <h2>{{ bag|ucfirst }}</h2>
+
+        <table class="table table-striped table-hover table-condensed">
+            {% for key, value in values %}
+                <tr>
+                    <th>{{ key }}</th>
+                    <td>
+                        {% if value is iterable %}
+                            {% for k, v in value %}
+                                {% if k is not same as(loop.index0) %} {{ k }} =&gt; {% endif %}
+                                {{ v|default('<em>(empty)</em>')|raw }}{% if not loop.last %}<br>{% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {{ value|default('<em>(empty)</em>')|raw }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
+{% endfor %}

@@ -153,9 +153,32 @@ body.exception {
         height: auto;
     }
     code {
-        white-space: normal;
+        white-space: pre;
         word-wrap: break-word;
     }
+
+    p.exception {
+        font-size: 130%;
+        margin: 2em 0;
+    }
+
+    td {
+        font-family: $fonts-family-monospace;
+    }
+
+    th {
+        min-width: 4em;
+    }
+
+    pre[data-line] {
+        padding-left: 4.1em;
+    }
+
+    .dim {
+        color: #888;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
 }
 
 .dropdown-menu .nav-header {
