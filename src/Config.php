@@ -107,9 +107,26 @@ class Config
         }
 
         $this->data = $data;
+
+        $this->loadTheme();
+
         $this->setCKPath();
         $this->parseTemplatefields();
-        $this->revalidateCache();
+    }
+
+    /**
+     * Checks if cache is valid for theme; if not invalidate and load it.
+     */
+    private function loadTheme()
+    {
+        $this->app['resources']->initializeConfig($this->data);
+
+        if ($this->isThemeCacheValid()) {
+            return;
+        }
+        $this->invalidateCache();
+
+        $this->data['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $this->data['general']);
     }
 
     /**
@@ -295,10 +312,6 @@ class Config
         $config['routing']      = $this->parseConfigYaml('routing.yml');
         $config['permissions']  = $this->parseConfigYaml('permissions.yml');
         $config['extensions']   = $this->parseConfigYaml('extensions.yml');
-
-        // fetch the theme config. requires special treatment due to the path being dynamic
-        $this->app['resources']->initializeConfig($config);
-        $config['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $config['general']);
 
         return $config;
     }
@@ -1281,27 +1294,24 @@ class Config
             return null;
         }
 
-        // Trigger the config loaded event on the resource manager
-        $this->app['resources']->initializeConfig($this->data);
-
         // Yup, all seems to be right.
         return $data;
     }
 
     /**
-     * Check if the acached config file exists, and is newer than the authoritative source.
+     * Check if the cached config file exists, and is newer than the authoritative source.
      * @return bool
      */
     private function isCacheValid()
     {
-        /** @var \Bolt\Filesystem\Filesystem $configFs */
-        $configFs = $this->app['filesystem.config'];
-
         if (!$this->cacheFile->exists()) {
             return false;
         }
 
         $cachedConfigTimestamp = $this->cacheFile->getTimestamp();
+
+        /** @var \Bolt\Filesystem\Filesystem $configFs */
+        $configFs = $this->app['filesystem.config'];
 
         $configFiles = [
             'config.yml',
@@ -1324,6 +1334,32 @@ class Config
         }
 
         return true;
+    }
+
+    /**
+     * Check if the cache is still valid with theme file as well.
+     *
+     * @return bool
+     */
+    private function isThemeCacheValid()
+    {
+        if (!$this->cacheFile->exists()) {
+            return false;
+        }
+
+        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+
+        // Check the timestamp for the theme's configuration file
+        $timestampTheme = 0;
+        $themeFile = $themeDir->getFile('theme.yml');
+        if ($themeFile->exists()) {
+            $timestampTheme = $themeFile->getTimestamp();
+        } elseif (($themeFile = $themeDir->getFile('config.yml')) && $themeFile->exists()) {
+            /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
+            $timestampTheme = $themeFile->getTimestamp();
+        }
+
+        return $this->cacheFile->getTimestamp() > $timestampTheme;
     }
 
     /**
@@ -1359,42 +1395,10 @@ class Config
     }
 
     /**
-     * In this case the cache is loaded, but because the path of the theme
-     * folder is defined in the config file itself, we still need to check
-     * retrospectively if we need to invalidate it.
-     */
-    protected function revalidateCache()
-    {
-        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
-
-        if (!$this->cacheFile->exists()) {
-            return;
-        }
-
-        // Check the timestamp for the theme's configuration file
-        $timestampTheme = 0;
-        $themeFile = $themeDir->getFile('theme.yml');
-        if ($themeFile->exists()) {
-            $timestampTheme = $themeFile->getTimestamp();
-        } elseif (($themeFile = $themeDir->getFile('config.yml')) && $themeFile->exists()) {
-            /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
-            $timestampTheme = $themeFile->getTimestamp();
-        }
-
-        $timestampConfigCache = $this->cacheFile->getTimestamp();
-        if ($timestampTheme > $timestampConfigCache) {
-            // Theme has been updated since config was cached.
-            // Invalidate cache for next request.
-            $this->invalidateCache();
-        }
-    }
-
-    /**
      * @deprecated Deprecated since 3.2, to be removed in 4.0.
      */
     protected function checkValidCache()
     {
-        $this->revalidateCache();
     }
 
     /**
