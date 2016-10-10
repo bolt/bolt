@@ -71,6 +71,9 @@ class Config
     /** @var array */
     private $exceptions;
 
+    /** @var JsonFile */
+    private $cacheFile;
+
     /**
      * @param Silex\Application $app
      */
@@ -91,6 +94,8 @@ class Config
     {
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
+
+        $this->cacheFile = $this->app['filesystem.cache']->getFile('config-cache.json');
 
         $data = $this->loadCache();
         if ($data === null) {
@@ -1252,14 +1257,10 @@ class Config
             return null;
         }
 
-        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
-        $cacheFs = $this->app['filesystem.cache'];
-        /** @var JsonFile $cacheFile */
-        $cacheFile = $cacheFs->get('config-cache.json');
         $data = null;
 
         try {
-            $data = $cacheFile->parse();
+            $data = $this->cacheFile->parse();
         } catch (ParseException $e) {
             // JSON is invalid, remove the file
             $this->invalidateCache();
@@ -1269,7 +1270,7 @@ class Config
                 'Else try to go <a>back</a> to the last page.'
             );
             $message = '<p>' . Translator::__('general.phrase.file-not-readable-following-colon') . '</p>' .
-                '<pre>' . htmlspecialchars($cacheFile->getFullPath()) . '</pre>' .
+                '<pre>' . htmlspecialchars($this->cacheFile->getFullPath()) . '</pre>' .
                 '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
 
             throw new RuntimeException(Translator::__('page.file-management.message.file-not-readable' . $message), $e->getCode(), $e);
@@ -1293,18 +1294,14 @@ class Config
      */
     private function isCacheValid()
     {
-        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
-        $cacheFs = $this->app['filesystem.cache'];
         /** @var \Bolt\Filesystem\Filesystem $configFs */
         $configFs = $this->app['filesystem.config'];
 
-        if (!$cacheFs->has('config-cache.json')) {
+        if (!$this->cacheFile->exists()) {
             return false;
         }
 
-        /** @var JsonFile $cacheFile */
-        $cacheFile = $cacheFs->get('config-cache.json');
-        $cachedConfigTimestamp = $cacheFile->getTimestamp();
+        $cachedConfigTimestamp = $this->cacheFile->getTimestamp();
 
         $configFiles = [
             'config.yml',
@@ -1334,31 +1331,24 @@ class Config
      */
     private function invalidateCache()
     {
-        /** @var \Bolt\Filesystem\Filesystem $cacheFs */
-        $cacheFs = $this->app['filesystem.cache'];
-        /** @var JsonFile $cacheFile */
-        $cacheFile = $cacheFs->get('config-cache.json');
         try {
-            $cacheFile->delete();
+            $this->cacheFile->delete();
         } catch (IOException $e) {
             // We were unable to remove the file… time to retire this class
-        };
+        }
     }
 
     /**
      * @internal Do not use
      *
-     * @param FilesystemInterface $cacheFs
-     * @param bool                $force
+     * @param bool $force
      */
-    public function cacheConfig(FilesystemInterface $cacheFs, $force = false)
+    public function cacheConfig($force = false)
     {
-        $cacheFileName = 'config-cache.json';
-        if ($cacheFs->has($cacheFileName) && $force === false) {
+        if ($this->cacheFile->exists() && $force === false) {
             return;
         }
-        $cacheFile = new JsonFile($cacheFs, $cacheFileName);
-        $cacheFile->dump($this->data);
+        $this->cacheFile->dump($this->data);
     }
 
     /**
@@ -1375,10 +1365,9 @@ class Config
      */
     protected function revalidateCache()
     {
-        $cacheFs = $this->app['filesystem.cache'];
         $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
 
-        if (!$cacheFs->has('config-cache.json')) {
+        if (!$this->cacheFile->exists()) {
             return;
         }
 
@@ -1392,7 +1381,7 @@ class Config
             $timestampTheme = $themeFile->getTimestamp();
         }
 
-        $timestampConfigCache = $cacheFs->getTimestamp('config-cache.json');
+        $timestampConfigCache = $this->cacheFile->getTimestamp();
         if ($timestampTheme > $timestampConfigCache) {
             // Theme has been updated since config was cached.
             // Invalidate cache for next request.
