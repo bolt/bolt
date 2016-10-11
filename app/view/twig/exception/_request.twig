@@ -36,10 +36,15 @@
                 <tr>
                     <th>{{ key }}</th>
                     <td>
-                        {% if value is iterable %}
+                        {% if value is iterable and value is not empty %}
                             {% for k, v in value %}
                                 {% if k is not same as(loop.index0) %} {{ k }} =&gt; {% endif %}
-                                {{ v|default('<em>(empty)</em>')|raw }}{% if not loop.last %}<br>{% endif %}
+                                {% if v is iterable %}
+                                    <em>(object / array)</em>
+                                {% else %}
+                                    {{ v|default('<em>(empty)</em>')|raw }}
+                                {% endif %}
+                                {% if not loop.last %}<br>{% endif %}
                             {% endfor %}
                         {% else %}
                             {{ value|default('<em>(empty)</em>')|raw }}
