@@ -236,6 +236,7 @@ class Exception extends Base implements ExceptionControllerInterface
         $loggedOnUser = (bool) $this->app['users']->getCurrentUser() ?: false;
         $showLoggedOff = (bool) $this->app['config']->get('general/debug_show_loggedoff', false);
 
+        // Grab a section of the file that threw the exception, so we can show it.
         $filename = $exception ? $exception->getFile() : null;
         $linenumber = $exception ? $exception->getLine() : null;
 
@@ -245,8 +246,17 @@ class Exception extends Base implements ExceptionControllerInterface
             $snippet = false;
         }
 
+        // We might or might not have $this->app['request'] yet, which is used in the
+        // template to show the request variables. Use it, or grab what we can get.
+        if ($this->app['request'] instanceof Request) {
+            $request = $this->app['request'];
+        } else {
+            $request = Request::createFromGlobals();
+        }
+
         return [
             'debug'     => ($this->app['debug'] && ($loggedOnUser || $showLoggedOff)),
+            'request'   => $request,
             'exception' => [
                 'object'       => $exception,
                 'class'        => $exception ? get_class($exception) : null,

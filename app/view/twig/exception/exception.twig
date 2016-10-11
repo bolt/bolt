@@ -64,7 +64,7 @@
                             </p>
 
                             {% block request %}
-                                {% if debug and app.request is defined %}
+                                {% if debug and request is defined %}
                                     <hr>
                                     {{ include('@bolt/exception/_request.twig') }}
                                 {% endif %}

@@ -8,7 +8,7 @@
     <tr>
         <th>{{ value }}</th>
         <td>
-            {% set value = attribute(app.request, value)|default() %}
+            {% set value = attribute(request, value)|default() %}
             {% if value is iterable %}
                 {% for k, v in value %}
                     {% if k is not same as(loop.index0) %} {{ k }} =&gt; {% endif %}
@@ -25,9 +25,9 @@
 
 {% for bag in bags %}
 
-    {% if (attribute(app.request, bag) is defined) and (attribute(app.request, bag).all is not empty) %}
+    {% if (attribute(request, bag) is defined) and (attribute(request, bag).all is not empty) %}
 
-        {% set values = attribute(app.request, bag).all %}
+        {% set values = attribute(request, bag).all %}
 
         <h2>{{ bag|ucfirst }}</h2>
 
