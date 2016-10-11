@@ -248,8 +248,8 @@ class Exception extends Base implements ExceptionControllerInterface
 
         // We might or might not have $this->app['request'] yet, which is used in the
         // template to show the request variables. Use it, or grab what we can get.
-        if ($this->app['request'] instanceof Request) {
-            $request = $this->app['request'];
+        if ($this->app['request_stack']->getCurrentRequest() instanceof Request) {
+            $request = $this->app['request_stack']->getCurrentRequest();
         } else {
             $request = Request::createFromGlobals();
         }
