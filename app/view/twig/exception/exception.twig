@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>{{ __('Exception') }} - Bolt</title>
+    <title>Bolt - Uncaught Exception: {{ exception.class_name|default('unknown') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
     {% if debug and exception.snippet %}
@@ -37,7 +37,7 @@
                             {# Note: Do not translate / localise this, because people _will_ google for this. #}
 
                             {% block title %}
-                                <h1>Uncaught Fatal Error: Bolt Exception</h1>
+                                <h1>Bolt - Uncaught Exception: {{ exception.class_name|default('unknown') }}</h1>
                             {% endblock title %}
 
                             {% block exception %}
