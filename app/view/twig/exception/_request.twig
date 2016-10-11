@@ -42,7 +42,7 @@
                                 {% if v is iterable %}
                                     <em>(object / array)</em>
                                 {% else %}
-                                    {{ v|default('<em>(empty)</em>')|raw }}
+                                    {{ v|excerpt(200)|default('<em>(empty)</em>')|raw }}
                                 {% endif %}
                                 {% if not loop.last %}<br>{% endif %}
                             {% endfor %}
