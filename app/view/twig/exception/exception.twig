@@ -60,7 +60,7 @@
                             <p class='exception'>
                                 {# Based on this classic tweet: https://twitter.com/divineomega/status/695744177557106688 #}
                                 {% set query = 'Bolt ' ~ exception.classbase|default('unknown') ~ ' in ' ~ exception.filebasename|default('unknown') ~ ' line ' ~ exception.object.line|default('unknown') ~ ': ' ~ exception.object.message|default('unknown') %}
-                                <a class='btn btn-default' href='https://www.google.nl/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
+                                <a class='btn btn-default' href='https://www.google.com/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
                             </p>
 
                             {% block request %}
