@@ -50,6 +50,7 @@
         "symfony/process": "^2.8",
         "symfony/property-access": "^2.8",
         "symfony/routing": "^2.8",
+        "symfony/security-acl" : "^2.8",
         "symfony/security-core": "^2.8",
         "symfony/security-csrf" : "^2.8",
         "symfony/stopwatch": "^2.8",
