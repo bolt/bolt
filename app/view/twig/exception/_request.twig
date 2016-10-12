@@ -16,10 +16,14 @@
 
 {% macro printrow(key, value) %}
     {% import _self as macros %}
+    {% set obfuscated = ['cookie', '_csrf/bolt', 'bolt_authtoke', 'bolt_session_', 'authenticatio', 'HTTP_COOKIE'] %}
+
     <tr>
         <th>{{ key }}</th>
         <td>
-            {{ macros.printvalue(value) }}
+            {% if key|slice(0, 13) in obfuscated %}<span class='obfuscated' data-value="{% endif %}
+            {{- macros.printvalue(value) -}}
+            {%- if key|slice(0, 13) in obfuscated -%}">(Click to reveal sensitive data)</span>{% endif %}
         </td>
     </tr>
 {% endmacro %}
@@ -28,8 +32,8 @@
 
 <h1>Request data</h1>
 
-{% set bags = [ 'attributes', 'query', 'server', 'files', 'cookies', 'headers', 'session'] %}
-{% set values = [ 'content', 'languages', 'charsets', 'encodings' , 'acceptableContentTypes', 'pathInfo', 'requestUri', 'baseUrl', 'basePath', 'method'] %}
+{% set bags = ['attributes', 'query', 'files', 'cookies', 'headers', 'server', 'session'] %}
+{% set values = ['content', 'languages', 'charsets', 'encodings' , 'acceptableContentTypes', 'pathInfo', 'requestUri', 'baseUrl', 'basePath', 'method'] %}
 
 <table class="table table-striped table-hover table-condensed">
 {% for key in values %}
