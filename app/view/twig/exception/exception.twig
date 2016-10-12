@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
     {% if debug and exception.snippet %}
         <link rel="stylesheet" href="{{ asset('css/bolt_exception.css', 'bolt') }}">
-        <script src="{{ asset('js/jquery-2.2.4.min.js', 'bolt') }}" async></script>
-        <script src="{{ asset('js/bolt_exception.js', 'bolt') }}" async></script>
+        <script src="{{ asset('js/jquery-2.2.4.min.js', 'bolt') }}" defer></script>
+        <script src="{{ asset('js/bolt_exception.js', 'bolt') }}" defer></script>
     {% endif %}
 </head>
 
@@ -43,7 +43,6 @@
                                 {{- exception.file_name|default('unknown') }}{% if debug %}</abbr>{% endif %}</tt> line <tt>
                                 {{- exception.object.line|default('unknown') }}</tt>: <br>
                                 <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-
                             </p>
 
                             {% if debug and exception.snippet -%}
