@@ -158,6 +158,8 @@
             config.autoGrow_bottomSpace = 24;
             config.removePlugins = 'elementspath';
             config.resize_dir = 'vertical';
+            config.protectedSource.push(/\{\{[\s\S]*?\}\}/g);
+            config.protectedSource.push(/\{\%[\s\S]*?%\}/g);
 
             if (set.filebrowser) {
                 if (set.filebrowser.browseUrl) {
@@ -188,7 +190,7 @@
                 autoCloseBrackets: true,
                 enableSearchTools: true,
                 enableCodeFolding: true,
-                enableCodeFormatting: false,
+                enableCodeFormatting: true,
                 autoFormatOnStart: false,
                 autoFormatOnUncomment: false,
                 autoFormatOnModeChange: false,

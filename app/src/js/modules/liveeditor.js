@@ -119,9 +119,14 @@
                     $(this).attr('contenteditable', true);
 
                     if (fieldType === 'html') {
-                        cke.inline(this, {
+                        var editor = cke.inline(this, {
                             allowedContent: ''
                         });
+                        var saveData = bolt.utils.debounce(function () {
+                            editor.element.data('src', editor.getData());
+                        }, 500);
+                        editor.on('instanceReady', saveData);
+                        editor.on('change', saveData);
                     } else {
                         $(this).on('paste', function(e) {
                             var content;
@@ -194,21 +199,17 @@
             // Find form field
             var fieldName = $(this).data('bolt-field'),
                 field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']'),
-                fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset'),
-                fieldValue = '';
+                fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
             if (fieldType === 'html') {
-                fieldValue = $(this).html();
-
                 var fieldId = field.attr('id');
 
                 if (ckeditor.instances.hasOwnProperty(fieldId)) {
-                    ckeditor.instances[fieldId].setData(fieldValue);
+                    ckeditor.instances[fieldId].setData($(this).data('src'));
                 }
             } else {
-                fieldValue = liveEditor.cleanText($(this), fieldType);
+                field.val(liveEditor.cleanText($(this), fieldType));
             }
-            field.val(fieldValue);
         });
 
         $(iframe).attr('src', '');
