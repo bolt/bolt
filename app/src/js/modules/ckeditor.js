@@ -214,7 +214,7 @@
                 autoCloseBrackets: true,
                 enableSearchTools: true,
                 enableCodeFolding: true,
-                enableCodeFormatting: false,
+                enableCodeFormatting: true,
                 autoFormatOnStart: false,
                 autoFormatOnUncomment: false,
                 autoFormatOnModeChange: false,
