@@ -81,9 +81,8 @@ class ConfigListener implements EventSubscriberInterface
             return null;
         }
 
-        $cacheFs = $this->app['filesystem']->getFilesystem('cache');
         try {
-            $this->app['config']->cacheConfig($cacheFs, false);
+            $this->app['config']->cacheConfig();
         } catch (IOException $e) {
             $response = $this->app['controller.exception']->genericException($e);
             $event->setResponse($response);
