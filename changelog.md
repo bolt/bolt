@@ -5,6 +5,10 @@ Bolt 3.3-dev
 -----------
 
 - 
+Bolt 3.2-beta 5
+---------------
+
+Released 2016-10-13.
 
 Bolt 3.2-beta 4
 ---------------
@@ -34,6 +38,24 @@ Released 2016-10-03. Notable changes:
 - Fixed: System checks now run at start of request cycle
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
+Bolt 3.1.5
+----------
+
+Released 2016-10-12. Notable changes:
+
+ - Change: Better link for generating the Google Maps key. [#5843](https://github.com/bolt/bolt/pull/5843)
+ - Change: Lock Twig at `< 1.26` to preserve BC break on extension driven Twig functions [#5870](https://github.com/bolt/bolt/pull/5870)
+ - Change: Make sure all Symfony packages stay at `2.8.*`. [#5866](https://github.com/bolt/bolt/pull/5866)
+ - Fixed: add `colspan`, `rowspan`, `target` as allowed attributes, and `caption` as allowed tag [#5873](https://github.com/bolt/bolt/pull/5873) [#5827](https://github.com/bolt/bolt/pull/5827)
+ - Fixed: Add a 'manage' dropdown for uninstalled extensions. [#5831](https://github.com/bolt/bolt/pull/5831)
+ - Fixed: Memcache connection creation to only pass weight if it is > 0 [#5861](https://github.com/bolt/bolt/pull/5861)
+ - Fixed: Memcache session handler closing connection [#5859](https://github.com/bolt/bolt/pull/5859)
+ - Fixed: Runtime Notice: Only variables should be passed by reference [#5865](https://github.com/bolt/bolt/pull/5865)
+ - Fixed: switch checkbox field storage type from `string` to `boolean` [#5858](https://github.com/bolt/bolt/pull/5858)
+ - Fixed: Use `Legacy\Content` subclasses for template fields [#5881](https://github.com/bolt/bolt/pull/5881)
+ - Fixed: using `Silex\Application` in `bootstrap.php` [#5878](https://github.com/bolt/bolt/pull/5878)
+ - Updated: Spanish translations [#5838](https://github.com/bolt/bolt/pull/5838)
+
 
 Bolt 3.1.4
 ----------

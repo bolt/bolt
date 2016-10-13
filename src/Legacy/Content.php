@@ -203,20 +203,26 @@ class Content implements \ArrayAccess
     public function preParse($snippet, $allowtwig)
     {
         // Quickly verify that we actually need to parse the snippet!
-        if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
-            $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
-
-            try {
-                return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
-            } catch (\Twig_Error $e) {
-                $message = sprintf('Rendering a record Twig snippet failed: %s', $e->getRawMessage());
-                $this->app['logger.system']->critical($message, ['event' => 'exception', 'exception' => $e]);
-
-                return $message;
-            }
+        if (!$allowtwig || !preg_match('/[{][{%#]/', $snippet)) {
+            return $snippet;
         }
 
-        return $snippet;
+        // Don't parse Twig for live editor.
+        $request = $this->app['request_stack']->getCurrentRequest();
+        if ($request && $request->request->getBoolean('_live-editor-preview')) {
+            return $snippet;
+        }
+
+        $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
+
+        try {
+            return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
+        } catch (\Twig_Error $e) {
+            $message = sprintf('Rendering a record Twig snippet failed: %s', $e->getRawMessage());
+            $this->app['logger.system']->critical($message, ['event' => 'exception', 'exception' => $e]);
+
+            return $message;
+        }
     }
 
     public function getTemplateContext()

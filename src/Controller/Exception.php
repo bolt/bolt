@@ -236,30 +236,38 @@ class Exception extends Base implements ExceptionControllerInterface
         $loggedOnUser = (bool) $this->app['users']->getCurrentUser() ?: false;
         $showLoggedOff = (bool) $this->app['config']->get('general/debug_show_loggedoff', false);
 
-        $filename = $exception ? $exception->getFile() : null;
-        $linenumber = $exception ? $exception->getLine() : null;
+        // Grab a section of the file that threw the exception, so we can show it.
+        $filePath = $exception ? $exception->getFile() : null;
+        $lineNumber = $exception ? $exception->getLine() : null;
 
-        if ($filename && $linenumber) {
-            $snippet = implode('', array_slice(file($filename), max(0, $linenumber - 6), 11));
+        if ($filePath && $lineNumber) {
+            $phpFile = file($filePath) ?: [];
+            $snippet = implode('', array_slice($phpFile, max(0, $lineNumber - 6), 11));
         } else {
             $snippet = false;
         }
 
+        // We might or might not have $this->app['request'] yet, which is used in the
+        // template to show the request variables. Use it, or grab what we can get.
+        $request = $this->app['request_stack']->getCurrentRequest() ?: Request::createFromGlobals();
+
         return [
             'debug'     => ($this->app['debug'] && ($loggedOnUser || $showLoggedOff)),
+            'request'   => $request,
             'exception' => [
-                'object'       => $exception,
-                'class'        => $exception ? get_class($exception) : null,
-                'filename'     => $filename,
-                'filebasename' => basename($filename),
-                'trace'        => $exception ? $this->getSafeTrace($exception) : null,
-                'snippet'      => $snippet,
+                'object'     => $exception,
+                'class_name' => $exception ? (new \ReflectionClass($exception))->getShortName() : null,
+                'class_fqn'  => $exception ? get_class($exception) : null,
+                'file_path'  => $filePath,
+                'file_name'  => basename($filePath),
+                'trace'      => $exception ? $this->getSafeTrace($exception) : null,
+                'snippet'    => $snippet,
             ],
         ];
     }
 
     /**
-     * Get the exception trace that is safe to display publicly.
+     * Get an exception trace that is safe to display publicly.
      *
      * @param \Exception  $exception
      *
@@ -274,37 +282,9 @@ class Exception extends Base implements ExceptionControllerInterface
         $rootPath = $this->app['resources']->getPath('root');
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
-            $simpleargs = [];
-            foreach ($trace[$key]['args'] as $arg) {
-                $type = gettype($arg);
-                switch ($type) {
-                    case 'string':
-                        $simpleargs[] = sprintf('<span>"%s"</span>', Html::trimText($arg, 30));
-                        break;
+            $trace[$key]['args_safe'] = $this->getSafeArguments($trace[$key]['args']);
 
-                    case 'integer':
-                    case 'float':
-                        $simpleargs[] = sprintf('<span>%s</span>', $arg);
-                        break;
-
-                    case 'object':
-                        $classname = get_class($arg);
-                        $shortname = (new \ReflectionClass($arg))->getShortName();
-                        $simpleargs[] = sprintf('<abbr title="%s">%s</abbr>', $classname, $shortname);
-                        break;
-
-                    case 'boolean':
-                        $simpleargs[] = $arg ? '[true]' : '[false]';
-                        break;
-
-                    default:
-                        $simpleargs[] = '[' . $type . ']';
-                }
-            }
-
-            $trace[$key]['simpleargs'] = $simpleargs;
-
-            // Don't display the full path, trim 64-char hexadecimal filenames.
+            // Don't display the full path, trim 64-char hexadecimal file names.
             if (isset($trace[$key]['file'])) {
                 $trace[$key]['file'] = str_replace($rootPath, '[root]', $trace[$key]['file']);
                 $trace[$key]['file'] = preg_replace('/([0-9a-f]{16})[0-9a-f]{48}/i', '\1…', $trace[$key]['file']);
@@ -312,6 +292,46 @@ class Exception extends Base implements ExceptionControllerInterface
         }
 
         return $trace;
+    }
+
+    /**
+     * Get an array of safe (sanitised) function arguments from a trace entry.
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    protected function getSafeArguments(array $args)
+    {
+        $argsSafe = [];
+        foreach ($args as $arg) {
+            $type = gettype($arg);
+            switch ($type) {
+                case 'string':
+                    $argsSafe[] = sprintf('<span>"%s"</span>', Html::trimText($arg, 30));
+                    break;
+
+                case 'integer':
+                case 'float':
+                    $argsSafe[] = sprintf('<span>%s</span>', $arg);
+                    break;
+
+                case 'object':
+                    $className = get_class($arg);
+                    $shortName = (new \ReflectionClass($arg))->getShortName();
+                    $argsSafe[] = sprintf('<abbr title="%s">%s</abbr>', $className, $shortName);
+                    break;
+
+                case 'boolean':
+                    $argsSafe[] = $arg ? '[true]' : '[false]';
+                    break;
+
+                default:
+                    $argsSafe[] = '[' . $type . ']';
+            }
+        }
+
+        return $argsSafe;
     }
 
     /**

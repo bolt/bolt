@@ -5,18 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>{{ __('Exception') }} - Bolt</title>
+    <title>Uncaught Exception: {{ exception.class_name|default('unknown') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
     {% if debug and exception.snippet %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-php.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-highlight/prism-line-highlight.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-numbers/prism-line-numbers.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/plugins/line-highlight/prism-line-highlight.min.css">
+        <link rel="stylesheet" href="{{ asset('css/bolt_exception.css', 'bolt') }}">
+        <script src="{{ asset('js/jquery-2.2.4.min.js', 'bolt') }}" defer></script>
+        <script src="{{ asset('js/bolt_exception.js', 'bolt') }}" defer></script>
     {% endif %}
 </head>
 
@@ -37,36 +32,33 @@
                             {# Note: Do not translate / localise this, because people _will_ google for this. #}
 
                             {% block title %}
-                                <h1>Uncaught Fatal Error: Bolt Exception</h1>
+                                <h1>Uncaught Exception: {{ exception.class_name|default('unknown') }}</h1>
                             {% endblock title %}
 
                             {% block exception %}
                             {% endblock exception %}
 
-                            {% if debug %}
-                                <p class='exception'>
-                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt><abbr title="{{ exception.filename|default('unknown') }}">
-                                    {{- exception.filebasename|default('unknown') }}</abbr></tt> line <tt>
-                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-                                </p>
-                            {% else %}
-                              <p class='exception'>
-                                    <tt>{{ exception.class|default('unknown') }}</tt> in <tt>
-                                    {{- exception.filebasename|default('unknown') }}</tt> line <tt>
-                                    {{- exception.object.line|default('unknown') }}</tt>. <br>
-                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-                                </p>
-                            {% endif %}
+                            <p class='exception'>
+                                <tt><abbr title="{{ exception.class_fqn|default('unknown') }}">{{ exception.class_name|default('unknown') }}</abbr></tt> in <tt>{% if debug %}<abbr title="{{ exception.file_path|default('unknown') }}">{% endif %}
+                                {{- exception.file_name|default('unknown') }}{% if debug %}</abbr>{% endif %}</tt> line <tt>
+                                {{- exception.object.line|default('unknown') }}</tt>: <br>
+                                <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
+                            </p>
 
                             {% if debug and exception.snippet -%}
-<pre class='line-numbers' data-start='{{ exception.object.line|default(1) }}' data-line='6'><code class='language-php'>
+<pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
 {{- exception.snippet -}}
 </code></pre>
                             {%- endif %}
 
+                            <p class='exception'>
+                                {# Based on this classic tweet: https://twitter.com/divineomega/status/695744177557106688 #}
+                                {% set query = 'Bolt ' ~ exception.class_name|default('unknown') ~ ' in ' ~ exception.file_name|default('unknown') ~ ' line ' ~ exception.object.line|default('unknown') ~ ': ' ~ exception.object.message|default('unknown') %}
+                                <a class='btn btn-default' href='https://www.google.com/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
+                            </p>
+
                             {% block request %}
-                                {% if debug %}
+                                {% if debug and request is defined %}
                                     <hr>
                                     {{ include('@bolt/exception/_request.twig') }}
                                 {% endif %}

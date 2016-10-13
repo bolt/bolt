@@ -5,14 +5,14 @@
         <tr>
             <th># {{ loop.index }} </th>
             <td>
-                {% if t.class is defined and t.class is not empty %}
+                {% if t.class is defined %}
                     {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|trimtext(32) -}}</strong>::
                 {%- endif -%}
                 {{ t.function|default() }}(
 
-                {%- if t.simpleargs is not empty -%}
+                {%- if t.args_safe is not empty -%}
                     {% set index = loop.index %}
-                    {%- for arg in t.simpleargs -%}
+                    {%- for arg in t.args_safe -%}
                         <tt><a href="#trace-arguments-{{index}}" onclick="javascript:$('#trace-arguments-{{index}}').slideDown('fast'); return false;">{{ arg|raw }}</a></tt>{% if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 {%- endif -%}
@@ -23,7 +23,7 @@
                     <em class='dim'>{{ t.file|default() }} # line <strong>{{ t.line|default() }}</strong></em>
                 {% endif %}
 
-                {% if t.simpleargs is not empty %}
+                {% if t.args_safe is not empty %}
                     <div id='trace-arguments-{{loop.index}}' style="display: none;">
                         Arguments:
                         {{ dump(t.args) }}

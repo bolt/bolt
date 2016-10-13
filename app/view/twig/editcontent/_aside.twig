@@ -12,7 +12,7 @@
         {{ include('@bolt/editcontent/_aside-live-editor.twig') }}
         {{ include('@bolt/editcontent/_aside-preview.twig') }}
         {{ include('@bolt/editcontent/_aside-status.twig') }}
-        {% if isallowed('delete', context.content) and context.content.id is not empty %}
+        {% if isallowed('delete', context.contenttype) and context.content.id is not empty %}
             {{ include('@bolt/editcontent/_aside-delete.twig') }}
         {% endif %}
     </div>
