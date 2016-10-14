@@ -57,7 +57,12 @@ class Definition implements ArrayAccess
 
     public function getDefault()
     {
-        return $this->get('defaults', '');
+        return $this->get('default', '');
+    }
+
+    public function getError()
+    {
+        return $this->get('error', '');
     }
 
     public function getInfo()
@@ -82,15 +87,20 @@ class Definition implements ArrayAccess
         return $this->get('pattern', '');
     }
 
-    public function getPrefix()
+    public function getPlaceholder()
     {
-        return $this->get('prefix', '');
-
+        return $this->get('placeholder', '');
     }
 
     public function getPostfix()
     {
         return $this->get('postfix', '');
+    }
+
+    public function getPrefix()
+    {
+        return $this->get('prefix', '');
+
     }
 
     public function getReadonly()

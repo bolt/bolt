@@ -20,7 +20,11 @@ class DefinitionTest extends BoltUnitTest
         $field = $manager->load('textfield', ['type' => 'text']);
         $this->assertEquals('', $field->getClass());
         $this->assertEquals('', $field->getDefault());
+        $this->assertEquals('', $field->getError());
+        $this->assertEquals('ungrouped', $field->getGroup());
+        $this->assertEquals('', $field->getInfo());
         $this->assertEquals('', $field->getPattern());
+        $this->assertEquals('', $field->getPlaceholder());
         $this->assertEquals('', $field->getPostfix());
         $this->assertEquals('', $field->getPrefix());
         $this->assertEquals(false, $field->getReadonly());
