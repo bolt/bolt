@@ -22,6 +22,7 @@ class MappingServiceProvider implements ServiceProviderInterface
         );
 
         $app['mapping.definitions'] = [
+            'select'                       => 'Bolt\Storage\Mapping\Definition\Select',
             'slug'                         => 'Bolt\Storage\Mapping\Definition\Slug',
             'repeater'                     => 'Bolt\Storage\Mapping\Definition\Repeater',
         ];
