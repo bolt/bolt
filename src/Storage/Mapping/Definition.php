@@ -52,58 +52,78 @@ class Definition implements ArrayAccess
 
     public function getClass()
     {
-        if ($this->has('class')) {
-            return $this->get('class');
-        }
-
-        return '';
+        return $this->get('class', '');
     }
 
     public function getDefault()
     {
-        if ($this->has('default')) {
-            return $this->get('default');
-        }
+        return $this->get('defaults', '');
+    }
 
-        return '';
+    public function getInfo()
+    {
+        return $this->get('info', '');
+
     }
 
     public function getGroup()
     {
-        if ($this->has('group')) {
-            return $this->get('group');
-        }
-
-        return 'ungrouped';
+        return $this->get('group', 'ungrouped');
     }
 
     public function getLabel()
     {
-        if ($this->has('label')) {
-            return $this->get('label');
-        }
+        return $this->get('label', '');
 
-        return '';
+    }
+
+    public function getPattern()
+    {
+        return $this->get('pattern', '');
+    }
+
+    public function getPrefix()
+    {
+        return $this->get('prefix', '');
+
+    }
+
+    public function getPostfix()
+    {
+        return $this->get('postfix', '');
+    }
+
+    public function getReadonly()
+    {
+        $res = $this->get('readonly');
+
+        return $res ? true : false;
+    }
+
+    public function getSeparator()
+    {
+        $res = $this->get('separator');
+
+        return $res ? true : false;
+    }
+
+    public function getTitle()
+    {
+        return $this->get('title', '');
     }
 
     public function getVariant()
     {
-        if ($this->has('variant')) {
-            return $this->get('variant');
-        }
-
-        return '';
+        return $this->get('variant', '');
     }
 
-    protected function get($param)
+    protected function get($param, $default = null)
     {
-        $getter = 'get'.ucfirst($param);
-
-        if (method_exists($this, $getter)) {
-            return $this->$getter();
+        if ($this->has($param)) {
+            return $this->parameters[$param];
         }
 
-        return $this->parameters[$param];
+        return $default;
     }
 
     protected function set($param, $value)
