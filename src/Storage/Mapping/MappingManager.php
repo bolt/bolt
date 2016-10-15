@@ -14,11 +14,19 @@ class MappingManager
 {
     protected $handlers;
     protected $defaultHandler;
+    protected $config;
 
-    public function __construct(array $handlers, $defaultHandler = null)
+    /**
+     * MappingManager constructor.
+     * @param array $handlers
+     * @param string|null $defaultHandler
+     * @param array $config
+     */
+    public function __construct(array $handlers, $defaultHandler = null, array $config = [])
     {
         $this->handlers = $handlers;
         $this->defaultHandler = $defaultHandler;
+        $this->config = $config;
     }
 
     public function setHandlers(array $handlers)
