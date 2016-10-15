@@ -61,5 +61,43 @@ class DefinitionTest extends BoltUnitTest
         $this->assertEquals('testpostfix', $field->getPostfix());
     }
 
+    public function testSlugDefinition()
+    {
+        $app = $this->getApp();
+        $options = [
+            'type' => 'slug',
+            'uses' => 'title',
+        ];
+        $field = $app['mapping']->load('testslug', $options);
+        $this->assertEquals(['title'], $field->getUses());
+    }
+
+    public function testFileDefinition()
+    {
+        $app = $this->getApp();
+        $options = [
+            'type' => 'file',
+        ];
+        $field = $app['mapping']->load('testfile', $options);
+        $this->assertContains('pdf', $field->getExtensions());
+        $this->assertContains('doc', $field->getExtensions());
+        $this->assertContains('md', $field->getExtensions());
+        $this->assertContains('jpg', $field->getExtensions());
+
+    }
+
+    public function testImageDefinition()
+    {
+        $app = $this->getApp();
+        $options = [
+            'type' => 'imagelist',
+        ];
+        $field = $app['mapping']->load('testimage', $options);
+        $this->assertContains('jpg', $field->getExtensions());
+        $this->assertContains('gif', $field->getExtensions());
+        $this->assertContains('png', $field->getExtensions());
+        $this->assertNotContains('doc', $field->getExtensions());
+    }
+
 
 }
