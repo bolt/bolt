@@ -62,7 +62,16 @@ class MappingManager
 
         $handler = $this->getHandler($parameters['type']);
 
-        return new $handler($name, $parameters, $this->config);
+        $loaded = new $handler($name, $parameters, $this->config);
+
+        if ($loaded instanceof MappingAwareInterface) {
+            $loaded->setMappingManager($this);
+        }
+
+        $loaded->normalize();
+        $loaded->validate();
+
+        return $loaded;
     }
 
 }
