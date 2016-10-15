@@ -350,7 +350,7 @@ class FileManager extends BackendBase
             $message = Trans::__('page.file-management.message.upload-not-writable', ['%TARGET%' => $namespace . '://']);
             $this->flashes()->error($message);
 
-            return ;
+            return;
         }
 
         if ($result->isValid()) {

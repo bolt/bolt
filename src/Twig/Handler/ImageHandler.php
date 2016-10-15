@@ -263,7 +263,6 @@ class ImageHandler
 
     private function getAliasedUri($filename, $alias)
     {
-
         if (!$this->isAlias($alias)) {
             return false;
         }
@@ -279,6 +278,6 @@ class ImageHandler
 
     private function isAlias($alias)
     {
-        return (bool)$this->app["config"]->get("theme/thumbnails/aliases/".$alias, false);
+        return (bool) $this->app['config']->get('theme/thumbnails/aliases/' . $alias, false);
     }
 }

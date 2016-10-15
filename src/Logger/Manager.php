@@ -119,8 +119,8 @@ class Manager
     /**
      * Get the listing data such as title and count.
      *
-     * @param array   $contenttype The ContentType
-     * @param integer $contentId   The content ID
+     * @param array   $contenttype  The ContentType
+     * @param integer $contentId    The content ID
      * @param array   $queryOptions
      *
      * @return array
