@@ -15,7 +15,7 @@ class MappingServiceProvider implements ServiceProviderInterface
     {
         $app['mapping'] = $app->share(
             function ($app) {
-                $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+                $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default'], $app['config']->get('general'));
 
                 return $manager;
             }
