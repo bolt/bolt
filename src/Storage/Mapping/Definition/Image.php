@@ -12,5 +12,23 @@ use Bolt\Storage\Mapping\Definition;
 
 class Image extends Definition
 {
+    public function normalize()
+    {
+        parent::normalize();
+        $acceptableFileTypes = $this->config['accept_file_types'];
+        if (!$this->has('extensions')) {
+            $acceptableFileTypes = array_intersect(
+                ['gif', 'jpg', 'jpeg', 'png'],
+                $acceptableFileTypes
+            );
+            $this->set('extensions', $acceptableFileTypes);
+        }
+        $this->set('extensions', (array) $this->get('extensions') );
+    }
+
+    public function getExtensions()
+    {
+        return $this->get('extensions', []);
+    }
 
 }
