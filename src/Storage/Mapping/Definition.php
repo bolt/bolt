@@ -15,13 +15,20 @@ class Definition implements ArrayAccess
 {
 
     protected $name;
-
     protected $parameters;
+    protected $config;
 
-    public function __construct($name, array $parameters)
+    /**
+     * Definition constructor.
+     * @param $name
+     * @param array $parameters
+     * @param array $config
+     */
+    public function __construct($name, array $parameters, array $config)
     {
         $this->name = $name;
         $this->parameters = $parameters;
+        $this->config = $config;
         $this->normalize();
         $this->validate();
     }
