@@ -62,7 +62,7 @@ class MappingManager
 
         $handler = $this->getHandler($parameters['type']);
 
-        return new $handler($name, $parameters);
+        return new $handler($name, $parameters, $this->config);
     }
 
 }
