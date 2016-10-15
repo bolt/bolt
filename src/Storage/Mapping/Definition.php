@@ -29,8 +29,6 @@ class Definition implements ArrayAccess
         $this->name = $name;
         $this->parameters = $parameters;
         $this->config = $config;
-        $this->normalize();
-        $this->validate();
     }
 
     public function normalize()
