@@ -143,7 +143,7 @@ class Definition implements ArrayAccess
 
     protected function has($param)
     {
-        if (array_key_exists($this->parameters[$param]) && !empty($this->parameters[$param])) {
+        if (array_key_exists($param, $this->parameters) && !empty($this->parameters[$param])) {
             return true;
         }
 
