@@ -59,4 +59,9 @@ class Repeater extends Definition implements MappingAwareInterface
 
         return false;
     }
+
+    public function getLimit()
+    {
+        return $this->get('limit', 0);
+    }
 }
