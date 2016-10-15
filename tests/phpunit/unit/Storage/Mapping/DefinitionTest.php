@@ -113,9 +113,10 @@ class DefinitionTest extends BoltUnitTest
             ]
         ];
         $repeater = $app['mapping']->load('testrepeater', $options);
-        $this->assertEquals(4, count($repeater->getFields()));
+
+        // 4 defined, but slug is blacklisted so should be discarded
+        $this->assertEquals(3, count($repeater->getFields()));
         $this->assertInstanceOf(Definition::class, $repeater->getField('atitle'));
-        $this->assertInstanceOf(Definition\Slug::class, $repeater->getField('aslug'));
         $this->assertInstanceOf(Definition::class, $repeater->getField('ateaser'));
         $this->assertInstanceOf(Definition\File::class, $repeater->getField('afile'));
     }

@@ -35,11 +35,14 @@ class Repeater extends Definition implements MappingAwareInterface
     public function normalize()
     {
         parent::normalize();
-
+        $blacklist = ['repeater', 'slug', 'templatefield'];
         $parsed = [];
         foreach ($this->getFields() as $repeaterKey => $repeaterField) {
             $parsed[$repeaterKey] = $this->manager->load($repeaterKey, $repeaterField);
-        }
+            if (in_array($parsed[$repeaterKey]->getType(), $blacklist ) ) {
+                unset($parsed[$repeaterKey]);
+            }
+         }
         $this->set('fields', $parsed);
     }
 
