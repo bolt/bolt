@@ -13,9 +13,9 @@ use Bolt\Storage\Mapping\Definition;
 class File extends Definition
 {
 
-    public function normalize()
+    public function setup()
     {
-        parent::normalize();
+        parent::setup();
         $acceptableFileTypes = $this->config['accept_file_types'];
         if (!$this->has('extensions')) {
             $this->set('extensions', $acceptableFileTypes);

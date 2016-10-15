@@ -32,9 +32,9 @@ class Repeater extends Definition implements MappingAwareInterface
         }
     }
 
-    public function normalize()
+    public function setup()
     {
-        parent::normalize();
+        parent::setup();
         $blacklist = ['repeater', 'slug', 'templatefield'];
         $parsed = [];
         foreach ($this->getFields() as $repeaterKey => $repeaterField) {

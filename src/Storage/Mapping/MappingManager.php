@@ -68,7 +68,7 @@ class MappingManager
             $loaded->setMappingManager($this);
         }
 
-        $loaded->normalize();
+        $loaded->setup();
         $loaded->validate();
 
         return $loaded;

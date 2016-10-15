@@ -31,7 +31,7 @@ class Definition implements ArrayAccess
         $this->config = $config;
     }
 
-    public function normalize()
+    public function setup()
     {
         $this->name = str_replace('-', '_', strtolower(Str::makeSafe($this->name, true)));
     }
