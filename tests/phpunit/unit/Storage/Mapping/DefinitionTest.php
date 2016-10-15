@@ -32,5 +32,34 @@ class DefinitionTest extends BoltUnitTest
         $this->assertEquals('', $field->getTitle());
     }
 
+    public function testDefinitionWithSettings()
+    {
+        $app = $this->getApp();
+        $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+
+        $options = [
+            'type' => 'text',
+            'class' => 'testclass',
+            'default' => 'testdefault',
+            'error' => 'testerror',
+            'group' => 'testgroup',
+            'info' => 'testinfo',
+            'pattern' => 'testpattern',
+            'placeholder' => 'testplaceholder',
+            'postfix' => 'testpostfix',
+        ];
+
+        $field = $manager->load('textfield', $options);
+        $this->assertEquals('text', $field->getType());
+        $this->assertEquals('testclass', $field->getClass());
+        $this->assertEquals('testdefault', $field->getDefault());
+        $this->assertEquals('testerror', $field->getError());
+        $this->assertEquals('testgroup', $field->getGroup());
+        $this->assertEquals('testinfo', $field->getInfo());
+        $this->assertEquals('testpattern', $field->getPattern());
+        $this->assertEquals('testplaceholder', $field->getPlaceholder());
+        $this->assertEquals('testpostfix', $field->getPostfix());
+    }
+
 
 }
