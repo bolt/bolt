@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Mapping;
 
+use Bolt\Storage\Mapping\Definition;
 use Bolt\Storage\Mapping\MappingManager;
 use Bolt\Tests\BoltUnitTest;
 
@@ -97,6 +98,26 @@ class DefinitionTest extends BoltUnitTest
         $this->assertContains('gif', $field->getExtensions());
         $this->assertContains('png', $field->getExtensions());
         $this->assertNotContains('doc', $field->getExtensions());
+    }
+
+    public function testRepeaterDefinition()
+    {
+        $app = $this->getApp();
+        $options = [
+            'type' => 'repeater',
+            'fields' => [
+                'atitle' => ['type' => 'text'],
+                'aslug' => ['type' => 'slug'],
+                'ateaser' => ['type' => 'textarea'],
+                'afile' => ['type' => 'file'],
+            ]
+        ];
+        $repeater = $app['mapping']->load('testrepeater', $options);
+        $this->assertEquals(4, count($repeater->getFields()));
+        $this->assertInstanceOf(Definition::class, $repeater->getField('atitle'));
+        $this->assertInstanceOf(Definition\Slug::class, $repeater->getField('aslug'));
+        $this->assertInstanceOf(Definition::class, $repeater->getField('ateaser'));
+        $this->assertInstanceOf(Definition\File::class, $repeater->getField('afile'));
     }
 
 
