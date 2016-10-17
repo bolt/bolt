@@ -78,7 +78,7 @@ class Definition implements ArrayAccess
 
     public function getGroup()
     {
-        return $this->get('group', 'ungrouped');
+        return $this->get('group', '');
     }
 
     public function getLabel()
