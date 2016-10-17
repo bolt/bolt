@@ -110,7 +110,7 @@ class DefinitionTest extends BoltUnitTest
                 'aslug' => ['type' => 'slug'],
                 'ateaser' => ['type' => 'textarea'],
                 'afile' => ['type' => 'file'],
-            ]
+            ],
         ];
         $repeater = $app['mapping']->load('testrepeater', $options);
 

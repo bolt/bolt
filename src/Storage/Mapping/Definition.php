@@ -60,6 +60,24 @@ class Definition implements ArrayAccess
         return $this->get('class', '');
     }
 
+    protected function get($param, $default = null)
+    {
+        if ($this->has($param)) {
+            return $this->parameters[$param];
+        }
+
+        return $default;
+    }
+
+    protected function has($param)
+    {
+        if (array_key_exists($param, $this->parameters) && !empty($this->parameters[$param])) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getDefault()
     {
         return $this->get('default', '');
@@ -132,30 +150,6 @@ class Definition implements ArrayAccess
         return $this->get('variant', '');
     }
 
-    protected function get($param, $default = null)
-    {
-        if ($this->has($param)) {
-            return $this->parameters[$param];
-        }
-
-        return $default;
-    }
-
-    protected function set($param, $value)
-    {
-        $this->parameters[$param] = $value;
-    }
-
-    protected function has($param)
-    {
-        if (array_key_exists($param, $this->parameters) && !empty($this->parameters[$param])) {
-            return true;
-        }
-
-        return false;
-    }
-
-
     /**
      * Whether a offset exists - ArrayAccess method
      */
@@ -178,6 +172,11 @@ class Definition implements ArrayAccess
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
+    }
+
+    protected function set($param, $value)
+    {
+        $this->parameters[$param] = $value;
     }
 
     /**

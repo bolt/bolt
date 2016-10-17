@@ -20,7 +20,7 @@ class File extends Definition
         if (!$this->has('extensions')) {
             $this->set('extensions', $acceptableFileTypes);
         }
-        $this->set('extensions', (array) $this->get('extensions') );
+        $this->set('extensions', (array) $this->get('extensions'));
     }
 
     public function getExtensions()

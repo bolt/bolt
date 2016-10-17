@@ -11,7 +11,6 @@ use Bolt\Storage\Mapping\MappingManager;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-
 class Repeater extends Definition implements MappingAwareInterface
 {
     protected $manager;
@@ -25,7 +24,7 @@ class Repeater extends Definition implements MappingAwareInterface
     {
         parent::validate();
 
-        if (! $this->get('fields')) {
+        if (!$this->get('fields')) {
             $error = sprintf('Repeater Field "%s" has no "fields" set.', $this->getName());
 
             throw new InvalidArgumentException($error);
@@ -39,10 +38,10 @@ class Repeater extends Definition implements MappingAwareInterface
         $parsed = [];
         foreach ($this->getFields() as $repeaterKey => $repeaterField) {
             $parsed[$repeaterKey] = $this->manager->load($repeaterKey, $repeaterField);
-            if (in_array($parsed[$repeaterKey]->getType(), $blacklist ) ) {
+            if (in_array($parsed[$repeaterKey]->getType(), $blacklist)) {
                 unset($parsed[$repeaterKey]);
             }
-         }
+        }
         $this->set('fields', $parsed);
     }
 
@@ -50,7 +49,7 @@ class Repeater extends Definition implements MappingAwareInterface
     {
         $res = $this->get('fields', []);
 
-        return (array) $res;
+        return (array)$res;
     }
 
     public function getField($name)

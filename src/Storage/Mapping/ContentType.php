@@ -40,14 +40,17 @@ class ContentType implements ArrayAccess
     public function setup()
     {
         if (!isset($this->contentType['slug']) && !is_numeric($this->boltname)) {
-            $this->contentType['slug'] = Slugify::create()->slugify($this->boltname);
+            $this->contentType['slug'] = Slugify::create()
+                ->slugify($this->boltname);
         }
 
         if (!isset($this->contentType['slug'])) {
-            $this->contentType['slug'] = Slugify::create()->slugify($this->boltname);
+            $this->contentType['slug'] = Slugify::create()
+                ->slugify($this->boltname);
         }
         if (!isset($this->contentType['singular_slug'])) {
-            $this->contentType['singular_slug'] = Slugify::create()->slugify($this->contentType['singular_name']);
+            $this->contentType['singular_slug'] = Slugify::create()
+                ->slugify($this->contentType['singular_name']);
         }
 
         if (($this->contentType['viewless']) || (!$this->config['liveeditor'])) {
@@ -57,9 +60,11 @@ class ContentType implements ArrayAccess
         // Allow explicit setting of a Contenttype's table name suffix. We default
         // to slug if not present as it has been this way since Bolt v1.2.1
         if (!isset($this->contentType['tablename'])) {
-            $this->contentType['tablename'] = Slugify::create()->slugify($this->contentType['slug'], '_');
+            $this->contentType['tablename'] = Slugify::create()
+                ->slugify($this->contentType['slug'], '_');
         } else {
-            $this->contentType['tablename'] = Slugify::create()->slugify($this->contentType['tablename'], '_');
+            $this->contentType['tablename'] = Slugify::create()
+                ->slugify($this->contentType['tablename'], '_');
         }
 
         $this->setupFields();
@@ -67,38 +72,17 @@ class ContentType implements ArrayAccess
 
         if (!empty($this->contentType['relations']) && is_array($this->contentType['relations'])) {
             foreach (array_keys($this->contentType['relations']) as $relkey) {
-                if ($relkey != Slugify::create()->slugify($relkey)) {
-                    $this->contentType['relations'][Slugify::create()->slugify($relkey)] = $this->contentType['relations'][$relkey];
+                if ($relkey != Slugify::create()
+                        ->slugify($relkey)
+                ) {
+                    $this->contentType['relations'][Slugify::create()
+                        ->slugify($relkey)] = $this->contentType['relations'][$relkey];
                     unset($this->contentType['relations'][$relkey]);
                 }
             }
         }
 
 
-    }
-
-    public function validate()
-    {
-        // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
-        // neither 'singular_name' nor 'singular_slug' is set.
-        if (!isset($this->contentType['name']) && !isset($this->contentType['slug'])) {
-            $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $this->boltname);
-
-            throw new InvalidArgumentException($error);
-        }
-
-        if (!isset($this->contentType['singular_name']) && !isset($this->contentType['singular_slug'])) {
-            $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $this->boltname);
-
-            throw new InvalidArgumentException($error);
-        }
-
-        // Contenttypes without fields make no sense.
-        if (!isset($this->contentType['fields'])) {
-            $error = sprintf("In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.", $this->boltname);
-
-            throw new InvalidArgumentException($error);
-        }
     }
 
     public function setupFields(MappingManager $mappingManager)
@@ -113,19 +97,65 @@ class ContentType implements ArrayAccess
         }
     }
 
+    public function validate()
+    {
+        // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
+        // neither 'singular_name' nor 'singular_slug' is set.
+        if (!isset($this->contentType['name']) && !isset($this->contentType['slug'])) {
+            $error = sprintf(
+                "In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.",
+                $this->boltname
+            );
+
+            throw new InvalidArgumentException($error);
+        }
+
+        if (!isset($this->contentType['singular_name']) && !isset($this->contentType['singular_slug'])) {
+            $error = sprintf(
+                "In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.",
+                $this->boltname
+            );
+
+            throw new InvalidArgumentException($error);
+        }
+
+        // Contenttypes without fields make no sense.
+        if (!isset($this->contentType['fields'])) {
+            $error = sprintf(
+                "In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.",
+                $this->boltname
+            );
+
+            throw new InvalidArgumentException($error);
+        }
+    }
+
     public function getAllowNumericSlugs()
     {
         return $this->get('allow_numeric_slugs', false);
     }
 
+    protected function get($param, $default = null)
+    {
+        if ($this->has($param)) {
+            return $this->contentType[$param];
+        }
+
+        return $default;
+    }
+
+    protected function has($param)
+    {
+        if (array_key_exists($param, $this->contentType) && !empty($this->contentType[$param])) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getDefaultStatus()
     {
         return $this->get('default_status', 'draft');
-    }
-
-    public function getFields()
-    {
-        return $this->get('fields', []);
     }
 
     public function getIconMany()
@@ -153,6 +183,11 @@ class ContentType implements ArrayAccess
 
         $this->contentType['groups'] = $hasGroups ? array_keys($groups) : [];
 
+    }
+
+    public function getFields()
+    {
+        return $this->get('fields', []);
     }
 
     public function getListingRecords()
@@ -233,26 +268,6 @@ class ContentType implements ArrayAccess
     public function getViewless()
     {
         return $this->get('viewless', false);
-    }
-
-
-
-    protected function get($param, $default = null)
-    {
-        if ($this->has($param)) {
-            return $this->contentType[$param];
-        }
-
-        return $default;
-    }
-
-    protected function has($param)
-    {
-        if (array_key_exists($param, $this->contentType) && !empty($this->contentType[$param])) {
-            return true;
-        }
-
-        return false;
     }
 
     public function __toString()
