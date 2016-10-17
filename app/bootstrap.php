@@ -84,13 +84,8 @@ return call_user_func(function () {
     if (file_exists($rootPath . '/.bolt.yml')) {
         $yaml = Yaml::parse(file_get_contents($rootPath . '/.bolt.yml')) ?: [];
         $config = array_replace_recursive($config, $yaml);
-    } elseif (file_exists($rootPath . '/bolt.yml')) {
-        $yaml = Yaml::parse(file_get_contents($rootPath . '/bolt.yml')) ?: [];
-        $config = array_replace_recursive($config, $yaml);
     } elseif (file_exists($rootPath . '/.bolt.php')) {
         $php = include $rootPath . '/.bolt.php';
-    } elseif (file_exists($rootPath . '/bolt.php')) {
-        $php = include $rootPath . '/bolt.php';
     }
 
     // An extra handler if a PHP bootstrap is provided, allow the bootstrap file to return
@@ -121,6 +116,9 @@ return call_user_func(function () {
     // Set any non-standard paths
     foreach ((array) $config['paths'] as $name => $path) {
         $resources->setPath($name, $path);
+    }
+    if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+        BootException::earlyExceptionMissingLoaderConfig();
     }
 
     /** @var \Bolt\Configuration\ResourceManager $config */
