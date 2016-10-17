@@ -13,8 +13,8 @@
                 {{ app.config.get('general/sitename') -}}
             {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif -%}
         </title>
-        <link rel="stylesheet" href="{{ paths.theme }}css/foundation.css">
-        <link rel="stylesheet" href="{{ paths.theme }}css/theme.css">
+        <link rel="stylesheet" href="{{ asset('css/foundation.css', 'theme') }}">
+        <link rel="stylesheet" href="{{ asset('css/theme.css', 'theme') }}">
         <link href='https://fonts.googleapis.com/css?family=Noto+Sans:700,700italic' rel='stylesheet' type='text/css'>
         {% block headincludes %}
         {% endblock headincludes %}
