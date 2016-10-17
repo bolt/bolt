@@ -155,6 +155,16 @@ class ContentType implements ArrayAccess
 
     }
 
+    public function getListingRecords()
+    {
+        return $this->get('listing_records', false);
+    }
+
+    public function getListingTemplate()
+    {
+        return $this->get('listing_template', false);
+    }
+
     public function getLiveeditor()
     {
         return $this->get('liveeditor', true);
@@ -163,6 +173,16 @@ class ContentType implements ArrayAccess
     public function getName()
     {
         return $this->get('name');
+    }
+
+    public function getRecordsperpage()
+    {
+        return $this->get('recordsperpage', false);
+    }
+
+    public function getRecordTemplate()
+    {
+        return $this->get('record_template', false);
     }
 
     public function getRelations()
