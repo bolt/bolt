@@ -132,7 +132,9 @@ abstract class AbstractDependencyAction extends BaseAction
         }
 
         // Include replaced packages for inverted lookups as they are then the actual starting point to consider
-        $mapCb = function (Link $link) { return $link->getTarget(); };
+        $mapCb = function (Link $link) {
+            return $link->getTarget();
+        };
         foreach ($packages as $package) {
             $needles = array_merge(
                 $needles,

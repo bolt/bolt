@@ -136,6 +136,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      * Reads the current value of the field from an entity and returns value
      *
      * @param $entity
+     *
      * @return mixed
      */
     public function get($entity)
@@ -229,7 +230,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         foreach ($data as $key => $value) {
             if (strpos($key, '_') === 0) {
                 if (strpos($key, $field) === 1) {
-                    $path = explode('_', str_replace('_'.$field, '', $key));
+                    $path = explode('_', str_replace('_' . $field, '', $key));
                     $normalized[$path[1]] = $value;
                 }
             }

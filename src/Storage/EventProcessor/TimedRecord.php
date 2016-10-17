@@ -207,7 +207,6 @@ class TimedRecord
             ->setParameter('currenttime', Carbon::now(), Type::DATETIME)
         ;
 
-
         if ($type === 'timed') {
             $this->getTimedPublishQuery($query);
         } elseif ($type === 'hold') {

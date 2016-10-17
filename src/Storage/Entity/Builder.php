@@ -191,6 +191,7 @@ class Builder
      * @param $value
      * @param $field
      * @param null $subField
+     *
      * @return FieldValue|bool
      */
     public function getHydratedValue($value, $field, $subField = null)

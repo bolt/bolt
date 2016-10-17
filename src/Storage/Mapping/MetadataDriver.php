@@ -69,11 +69,11 @@ class MetadataDriver implements MappingDriver
     /**
      * Constructor.
      *
-     * @param Manager $schemaManager
+     * @param Manager                 $schemaManager
      * @param ConfigurationValueProxy $contenttypes
      * @param ConfigurationValueProxy $taxonomies
-     * @param array $typemap
-     * @param NamingStrategy $namingStrategy
+     * @param array                   $typemap
+     * @param NamingStrategy          $namingStrategy
      */
     public function __construct(Manager $schemaManager, ConfigurationValueProxy $contenttypes, ConfigurationValueProxy $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
     {
@@ -321,10 +321,10 @@ class MetadataDriver implements MappingDriver
 
             $mapping = [
                 'fieldname' => $relationKey,
-                'type' => 'null',
+                'type'      => 'null',
                 'fieldtype' => $this->typemap['relation'],
-                'entity' => $this->resolveClassName($relationKey),
-                'target' => $this->schemaManager->getTableName('relations'),
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->schemaManager->getTableName('relations'),
             ];
 
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
@@ -461,9 +461,9 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string $name
+     * @param string                       $name
      * @param \Doctrine\DBAL\Schema\Column $column
-     * @param null $field Optional field value for repeaters/array based columns
+     * @param null                         $field  Optional field value for repeaters/array based columns
      *
      * @return string
      */
@@ -482,8 +482,6 @@ class MetadataDriver implements MappingDriver
         } elseif (isset($this->contenttypes[$name]) && isset($this->contenttypes[$name]['fields'][$column])) {
             $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
-
-
 
         if ($column === 'slug') {
             $type = 'slug';

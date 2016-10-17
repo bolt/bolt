@@ -24,7 +24,7 @@ class ShutdownHandler
     {
         $errorLevels = error_reporting();
         if ($debug) {
-            $errorLevels |=  E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
+            $errorLevels |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
             Debug\DebugClassLoader::enable();
         }
         Debug\ErrorHandler::register()->throwAt($errorLevels, true);

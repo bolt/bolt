@@ -24,4 +24,3 @@ final class ProhibitsPackage extends AbstractDependencyAction
         return parent::execute($packageName, $textConstraint);
     }
 }
-

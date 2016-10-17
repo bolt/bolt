@@ -50,7 +50,7 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
      */
     public function onBootException(GetResponseForExceptionEvent $event)
     {
-        if($this->isProfilerRequest($event->getRequest())) {
+        if ($this->isProfilerRequest($event->getRequest())) {
             return;
         }
 
@@ -68,7 +68,7 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if($this->isProfilerRequest($event->getRequest())) {
+        if ($this->isProfilerRequest($event->getRequest())) {
             return;
         }
 
@@ -97,7 +97,6 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
                     'message'   => $message,
                 ]
             );
-
         } else {
             $response = $this->exceptionController->kernelException($event);
         }
@@ -116,7 +115,7 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
         return [
             KernelEvents::EXCEPTION => [
                 ['onBootException', Application::EARLY_EVENT],
-                ['onKernelException', -8]
+                ['onKernelException', -8],
             ],
         ];
     }
