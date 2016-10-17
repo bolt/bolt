@@ -30,5 +30,4 @@ class Image extends Definition
     {
         return $this->get('extensions', []);
     }
-
 }

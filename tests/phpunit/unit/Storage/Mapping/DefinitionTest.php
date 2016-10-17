@@ -120,6 +120,4 @@ class DefinitionTest extends BoltUnitTest
         $this->assertInstanceOf(Definition::class, $repeater->getField('ateaser'));
         $this->assertInstanceOf(Definition\File::class, $repeater->getField('afile'));
     }
-
-
 }

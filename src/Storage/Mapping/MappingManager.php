@@ -73,5 +73,4 @@ class MappingManager
 
         return $loaded;
     }
-
 }

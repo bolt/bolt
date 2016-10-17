@@ -27,5 +27,4 @@ class File extends Definition
     {
         return $this->get('extensions', []);
     }
-
 }
