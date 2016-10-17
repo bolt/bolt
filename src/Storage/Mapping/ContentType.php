@@ -53,7 +53,7 @@ class ContentType implements ArrayAccess
                 ->slugify($this->contentType['singular_name']);
         }
 
-        if (($this->contentType['viewless']) || (!$this->config['liveeditor'])) {
+        if (($this->get('viewless')) || (!$this->config['liveeditor'])) {
             $this->contentType['liveeditor'] = false;
         }
 
