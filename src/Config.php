@@ -15,6 +15,7 @@ use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Storage\Mapping\ContentType;
+use Bolt\Storage\Mapping\ContentTypeCollection;
 use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
@@ -387,13 +388,13 @@ class Config
      */
     protected function parseContentTypes(array $generalConfig)
     {
-        $contentTypes = [];
+        $contentTypes = new ContentTypeCollection();
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
             try {
                 $contentType = $this->parseContentType($key, $contentType, $generalConfig);
                 $key = $contentType->getSlug();
-                $contentTypes[$key] = $contentType;
+                $contentTypes->set($key, $contentType);
             } catch (InvalidArgumentException $e) {
                 $this->exceptions[] = $e->getMessage();
             }
