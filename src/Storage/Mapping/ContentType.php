@@ -67,8 +67,6 @@ class ContentType implements ArrayAccess
                 ->slugify($this->contentType['tablename'], '_');
         }
 
-        $this->setupFields();
-
 
         if (!empty($this->contentType['relations']) && is_array($this->contentType['relations'])) {
             foreach (array_keys($this->contentType['relations']) as $relkey) {
@@ -88,9 +86,9 @@ class ContentType implements ArrayAccess
     public function setupFields(MappingManager $mappingManager)
     {
         if (!$this->initialised) {
-            $fields = [];
+            $fields = new FieldCollection();
             foreach ($fields as $key => $field) {
-                $fields[$key] = $mappingManager->load($key, $field);
+                $fields->set($key, $mappingManager->load($key, $field));
             }
 
             $this->contentType['fields'] = $fields;
