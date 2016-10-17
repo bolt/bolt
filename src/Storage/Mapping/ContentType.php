@@ -67,12 +67,9 @@ class ContentType implements ArrayAccess
                 ->slugify($this->contentType['tablename'], '_');
         }
 
-
         if (!empty($this->contentType['relations']) && is_array($this->contentType['relations'])) {
             foreach (array_keys($this->contentType['relations']) as $relkey) {
-                if ($relkey != Slugify::create()
-                        ->slugify($relkey)
-                ) {
+                if ($relkey != Slugify::create()->slugify($relkey)) {
                     $this->contentType['relations'][Slugify::create()
                         ->slugify($relkey)] = $this->contentType['relations'][$relkey];
                     unset($this->contentType['relations'][$relkey]);
