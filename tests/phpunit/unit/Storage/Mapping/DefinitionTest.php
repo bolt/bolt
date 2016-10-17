@@ -22,7 +22,7 @@ class DefinitionTest extends BoltUnitTest
         $this->assertEquals('', $field->getClass());
         $this->assertEquals('', $field->getDefault());
         $this->assertEquals('', $field->getError());
-        $this->assertEquals('ungrouped', $field->getGroup());
+        $this->assertEquals('', $field->getGroup());
         $this->assertEquals('', $field->getInfo());
         $this->assertEquals('', $field->getPattern());
         $this->assertEquals('', $field->getPlaceholder());
