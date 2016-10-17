@@ -10,6 +10,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Webmozart\PathUtil\Path;
 
 /**
  * Async controller for filesystem management async routes.
@@ -225,12 +226,16 @@ class FilesystemManager extends AsyncBase
     public function filesAutoComplete(Request $request)
     {
         $term = $request->query->get('term', '.*');
+        $dir = Path::getDirectory($term);
+        $term = Path::getFilename($term);
+        $term = preg_quote($term);
+
         $extensions = implode('|', explode(',', $request->query->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
         $files = $this->filesystem()
             ->find()
-            ->in('files://')
+            ->in('files://' . $dir)
             ->name($regex)
         ;
 

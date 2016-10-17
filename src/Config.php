@@ -5,7 +5,6 @@ namespace Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Exception\ParseException;
-use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
@@ -935,7 +934,7 @@ class Config
                 $error = Trans::__(
                     'contenttypes.generic.invalid-hyphen',
                     [
-                        '%contenttype%' => $key
+                        '%contenttype%' => $key,
                     ]
                 );
                 $this->app['logger.flash']->error($error);
@@ -1173,6 +1172,7 @@ class Config
                 'cropping'          => 'crop',
                 'notfound_image'    => 'bolt://app/view/img/default_notfound.png',
                 'error_image'       => 'bolt://app/view/img/default_error.png',
+                'only_aliases'      => false,
             ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
@@ -1274,6 +1274,7 @@ class Config
 
     /**
      * Check if the cached config file exists, and is newer than the authoritative source.
+     *
      * @return bool
      */
     private function isCacheValid()

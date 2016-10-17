@@ -30,7 +30,6 @@ class TranslationServiceProvider implements ServiceProviderInterface
             if ($app['translator.caching'] === false) {
                 return null;
             }
-
         });
 
         $app['translator'] = $app->share(
@@ -192,6 +191,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
     {
         if (($timezone = $app['config']->get('general/timezone')) !== null) {
             date_default_timezone_set($timezone);
+
             return;
         }
 
