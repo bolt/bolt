@@ -286,7 +286,7 @@ class ContentType implements ArrayAccess
 
     public function offsetExists($offset)
     {
-        return isset($this->contentType[$offset]);
+        return $this->has($offset);
     }
 
     public function offsetUnset($offset)
@@ -296,7 +296,7 @@ class ContentType implements ArrayAccess
 
     public function offsetGet($offset)
     {
-        return isset($this->contentType[$offset]) ? $this->contentType[$offset] : null;
+        return $this->get($offset);
     }
 
     public function getFields()
