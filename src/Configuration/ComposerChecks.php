@@ -93,12 +93,12 @@ HTML;
             throw new BootException(
                 'The default folder <code>' . $location .
                 "</code> doesn't exist. Make sure it's " .
-                'present and writable to the user that the webserver is using.' . $this->checkSummary()
+                'present and writable to the user that the web server is using.' . $this->checkSummary()
             );
         } elseif (!is_writable($location)) {
             throw new BootException(
                 'The default folder <code>' . $location .
-                "</code> isn't writable. Make sure it's writable to the user that the webserver is using." . $this->checkSummary()
+                "</code> isn't writable. Make sure it's writable to the user that the web server is using." . $this->checkSummary()
             );
         }
     }
