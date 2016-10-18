@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Boot initialisation exception.
  *
- * This could be loaded on a very old version of PHP so no syntax/methods over
- * PHP 5.2 in this file.
- *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class BootException extends RuntimeException
