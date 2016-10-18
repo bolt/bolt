@@ -152,7 +152,7 @@ class LowlevelChecks implements ValidatorInterface
 
         if ($this->safeMode) {
             throw new BootException(
-                "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
+                "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hosting provider to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
             );
@@ -164,13 +164,13 @@ class LowlevelChecks implements ValidatorInterface
         if (!is_dir($path)) {
             throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
-                'present and writable to the user that the webserver is using.'
+                'present and writable to the user that the web server is using.'
             );
         }
         if (!is_writable($path)) {
             throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
-                'present and writable to the user that the webserver is using.'
+                'present and writable to the user that the web server is using.'
             );
         }
     }
@@ -199,7 +199,7 @@ class LowlevelChecks implements ValidatorInterface
             throw new BootException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .
-                'webserver is using. ' .
+                'web server is using. ' .
                 'If you are not running Apache, or your Apache setup performs the correct rewrites without ' .
                 'requiring a .htaccess file (in other words, <strong>if you know what you are doing</strong>), ' .
                 'you can disable this check by calling <code>$config->getVerifier()->disableApacheChecks(); ' .
@@ -323,7 +323,7 @@ class LowlevelChecks implements ValidatorInterface
 
         if (file_exists($ymlname) && !is_readable($ymlname)) {
             $error = sprintf(
-                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
+                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the web server is using.",
                 htmlspecialchars($name . '.yml', ENT_QUOTES),
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
@@ -337,7 +337,7 @@ class LowlevelChecks implements ValidatorInterface
             } catch (\Exception $e) {
                 $message = sprintf(
                     "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
-                    <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
+                    <code>%s</code>, and optionally make it writable to the user that the web server is using.",
                     htmlspecialchars($name . '.yml', ENT_QUOTES),
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                     htmlspecialchars($name . '.yml.dist', ENT_QUOTES)

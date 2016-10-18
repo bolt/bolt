@@ -117,7 +117,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             $this->fail('Bolt\Exception\BootException not thrown');
         } catch (BootException $e) {
             $message = strip_tags($e->getMessage());
-            $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the webserver is using/", $message);
+            $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the web server is using/", $message);
             $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $message);
             //$this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
