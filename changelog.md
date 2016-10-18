@@ -11,6 +11,11 @@ Bolt 3.3-dev
 
 - 
 
+Bolt 3.2-beta 6
+---------------
+
+Released 2016-10-17.
+
 Bolt 3.2-beta 5
 ---------------
 
@@ -44,6 +49,7 @@ Released 2016-10-03. Notable changes:
 - Fixed: System checks now run at start of request cycle
 - Removed: Internal use of LowlevelChecks (See Validator)
 - Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
+
 Bolt 3.1.5
 ----------
 

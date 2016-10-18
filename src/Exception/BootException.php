@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Boot initialisation exception.
  *
- * This could be loaded on a very old version of PHP so no syntax/methods over
- * PHP 5.2 in this file.
- *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class BootException extends RuntimeException
@@ -79,6 +76,23 @@ class BootException extends RuntimeException
 Configuration auto-detection failed because the file <code>vendor/autoload.php</code> doesn't exist.
 <br><br>
 Make sure you've installed the required components with Composer.
+EOM;
+        echo sprintf(static::getEarlyExceptionHtml(), 'Bolt - Installation Incomplete', $message, static::getHintsComposer());
+
+        throw new static(strip_tags($message));
+    }
+
+    /**
+     * Exception due to a missing .bolt.yml or .bolt.php file.
+     */
+    public static function earlyExceptionMissingLoaderConfig()
+    {
+        $message = <<<EOM
+This installation is missing either a .bolt.yml file (default), or a .bolt.php file.
+<br><br>
+If you have uploaded this install via a file manager or FTP, please check that 
+"show hidden files" is turned on. After doing so, you will be able to see this 
+file and you can upload it to the root of your Bolt installation.
 EOM;
         echo sprintf(static::getEarlyExceptionHtml(), 'Bolt - Installation Incomplete', $message, static::getHintsComposer());
 

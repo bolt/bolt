@@ -5,7 +5,7 @@
 use Bolt\Exception\BootException;
 
 if (version_compare(PHP_VERSION, '5.5.9', '<')) {
-    require dirname(dirname(__FILE__)) . '/src/Exception/BootException.php';
+    require dirname(__DIR__) . '/src/Exception/BootException.php';
 
     BootException::earlyExceptionVersion();
 }
@@ -24,4 +24,4 @@ if (PHP_SAPI === 'cli-server') {
     $_SERVER['SCRIPT_NAME'] = preg_replace("#^{$_SERVER['DOCUMENT_ROOT']}#", '', $_SERVER['SCRIPT_FILENAME']);
 }
 
-return require dirname(__FILE__) . '/bootstrap.php';
+return require __DIR__ . '/bootstrap.php';
