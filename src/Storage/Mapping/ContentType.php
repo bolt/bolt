@@ -82,7 +82,6 @@ class ContentType implements ArrayAccess
 
     public function setupFields(MappingManager $mappingManager)
     {
-        dump($this->contentType['fields']); exit;
         if (!$this->initialised) {
             $fields = new FieldCollection();
             foreach ($this->contentType['fields'] as $key => $field) {
