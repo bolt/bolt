@@ -269,12 +269,12 @@ class EntityManager implements EntityManagerInterface
             $repoClass = $this->repositories[$classMetadata->getName()];
             if (is_callable($repoClass)) {
                 $repo = call_user_func_array($repoClass, [$this, $classMetadata]);
+            } else {
+                $repo = new $repoClass($this, $classMetadata);
             }
-
-            $repo = $repoClass($this, $classMetadata);
         }
 
-        if (is_null($repo)) {
+        if ($repo === null) {
             foreach ($this->aliases as $alias => $namespace) {
                 $full = str_replace($alias, $namespace, $className);
 
@@ -294,7 +294,7 @@ class EntityManager implements EntityManagerInterface
          * the content repository, but in time this should be a metadata level
          * configuration.
          */
-        if (is_null($repo) && $this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
+        if ($repo === null && $this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
             $repo = $this->getDefaultRepositoryFactory($classMetadata);
         }
 
@@ -302,15 +302,15 @@ class EntityManager implements EntityManagerInterface
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
          */
-        if (is_null($repo) && in_array($className, $this->getMapper()->getUnmapped())) {
+        if ($repo === null  && in_array($className, $this->getMapper()->getUnmapped())) {
             $repo = $this->getDefaultRepositoryFactory($classMetadata);
         }
 
-        if (is_null($repo)) {
+        if ($repo === null) {
             $repo = new Repository($this, $classMetadata);
         }
 
-        if (is_a($repo, Repository\ContentRepository::class)) {
+        if ($repo instanceof Repository\ContentRepository) {
             /** @var ContentRepository $repo */
             $repo->setLegacyService($this->legacyService);
         }

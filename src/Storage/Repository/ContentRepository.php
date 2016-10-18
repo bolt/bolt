@@ -5,6 +5,7 @@ namespace Bolt\Storage\Repository;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -92,7 +93,7 @@ class ContentRepository extends Repository
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
         $entity = $event->getArgument('entity');
-        if (is_a($entity, 'Bolt\Storage\Entity\Content')) {
+        if ($entity instanceof Content) {
             $entity->setLegacyService($this->legacy);
         }
     }
