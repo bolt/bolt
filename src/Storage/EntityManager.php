@@ -8,6 +8,7 @@ use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
+use Bolt\Storage\Repository\ContentRepository;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
@@ -50,6 +51,8 @@ class EntityManager implements EntityManagerInterface
     protected $legacyStorage;
     /** @var Callable */
     protected $defaultRepositoryFactory;
+    /** @var  ContentLegacyService */
+    protected $legacyService;
 
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -248,6 +251,9 @@ class EntityManager implements EntityManagerInterface
      */
     public function getRepository($className)
     {
+        /** @var Repository $repo */
+        $repo = null;
+
         $className = (string) $className;
         if (array_key_exists($className, $this->aliases)) {
             $className = $this->aliases[$className];
@@ -262,22 +268,25 @@ class EntityManager implements EntityManagerInterface
         if (array_key_exists($classMetadata->getName(), $this->repositories)) {
             $repoClass = $this->repositories[$classMetadata->getName()];
             if (is_callable($repoClass)) {
-                return call_user_func_array($repoClass, [$this, $classMetadata]);
+                $repo = call_user_func_array($repoClass, [$this, $classMetadata]);
             }
 
-            return new $repoClass($this, $classMetadata);
+            $repo = $repoClass($this, $classMetadata);
         }
 
-        foreach ($this->aliases as $alias => $namespace) {
-            $full = str_replace($alias, $namespace, $className);
+        if (is_null($repo)) {
+            foreach ($this->aliases as $alias => $namespace) {
+                $full = str_replace($alias, $namespace, $className);
 
-            if (array_key_exists($full, $this->repositories)) {
-                $classMetadata = $this->getMapper()->loadMetadataForClass($full);
-                $repoClass = $this->repositories[$full];
+                if (array_key_exists($full, $this->repositories)) {
+                    $classMetadata = $this->getMapper()->loadMetadataForClass($full);
+                    $repoClass = $this->repositories[$full];
 
-                return new $repoClass($this, $classMetadata);
+                    $repo = new $repoClass($this, $classMetadata);
+                }
             }
         }
+
 
         /*
          * The metadata driver can also attempt to resolve an alias for us.
@@ -285,19 +294,28 @@ class EntityManager implements EntityManagerInterface
          * the content repository, but in time this should be a metadata level
          * configuration.
          */
-        if ($this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
-            return $this->getDefaultRepositoryFactory($classMetadata);
+        if (is_null($repo) && $this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
+            $repo = $this->getDefaultRepositoryFactory($classMetadata);
         }
 
         /*
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
          */
-        if (in_array($className, $this->getMapper()->getUnmapped())) {
-            return $this->getDefaultRepositoryFactory($classMetadata);
+        if (is_null($repo) && in_array($className, $this->getMapper()->getUnmapped())) {
+            $repo = $this->getDefaultRepositoryFactory($classMetadata);
         }
 
-        return new Repository($this, $classMetadata);
+        if (is_null($repo)) {
+            $repo = new Repository($this, $classMetadata);
+        }
+
+        if (is_a($repo, Repository\ContentRepository::class)) {
+            /** @var ContentRepository $repo */
+            $repo->setLegacyService($this->legacyService);
+        }
+
+        return $repo;
     }
 
     /**
@@ -402,6 +420,16 @@ class EntityManager implements EntityManagerInterface
     public function setLegacyStorage(Storage $storage)
     {
         $this->legacyStorage = $storage;
+    }
+
+    /**
+     * Sets the LegacyRepository
+     *
+     * @param ContentLegacyService $service
+     */
+    public function setLegacyService(ContentLegacyService $service)
+    {
+        $this->legacyService = $service;
     }
 
     /**
