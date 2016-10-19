@@ -8,7 +8,6 @@ use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extension\Manager;
-use Bolt\Filesystem\Handler\JsonFile;
 use Composer\IO\BufferIO;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -38,15 +37,21 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
-        $app['extend.repo'] = $app['extend.site'] . 'list.json';
+        $app['extend.site'] = function ($app) {
+            return $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
+        };
+        $app['extend.repo'] = function ($app) {
+            return $app['extend.site'] . 'list.json';
+        };
         $app['extend.urls'] = [
             'list' => 'list.json',
             'info' => 'info.json',
         ];
 
         $app['extend.online'] = false;
-        $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
+        $app['extend.enabled'] = function ($app) {
+            return $app['config']->get('general/extensions/enabled', true);
+        };
         $app['extend.writeable'] = $app->share(
             function () use ($app) {
                 $extensionsPath = $app['resources']->getPath('extensions');
@@ -109,7 +114,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.action.options'] = $app->share(
             function ($app) {
-                $composerJson = $app['filesystem']->get('extensions://composer.json', new JsonFile());
+                $composerJson = $app['filesystem']->getFile('extensions://composer.json');
                 $composerOverrides = $app['config']->get('general/extensions/composer', []);
 
                 return new Action\Options($composerJson, $composerOverrides, true);

@@ -59,19 +59,22 @@ class Application extends Silex\Application
         $this->initLogger();
         $this['resources']->initialize();
 
-        if (($debugOverride = $this['config']->get('general/debug')) !== null) {
-            $this['debug'] = $debugOverride;
-        }
+        $previousDebug = $this->raw('debug');
+        $this['debug'] = $this->share(function () use ($previousDebug) {
+            if (($debugOverride = $this['config']->get('general/debug')) !== null) {
+                return $debugOverride;
+            }
+
+            return $previousDebug;
+        });
 
         // Re-register the shutdown functions now that we know our debug setting
         ShutdownHandler::register($this['debug']);
-        if (!isset($this['environment'])) {
-            $this['environment'] = $this['debug'] ? 'development' : 'production';
-        }
 
-        if (($locales = $this['config']->get('general/locale')) !== null) {
-            $locales = (array) $locales;
-            $this['locale'] = reset($locales);
+        if (!isset($this['environment'])) {
+            $this['environment'] = $this->share(function () {
+                return $this['debug'] ? 'development' : 'production';
+            });
         }
 
         // Initialize the 'editlink' and 'edittitle'.
@@ -180,12 +183,14 @@ class Application extends Silex\Application
         $this
             ->register(new Provider\TwigServiceProvider())
             ->register(new Provider\RenderServiceProvider())
-            ->register(new Silex\Provider\HttpCacheServiceProvider(),
-                [
-                    'http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http'),
-                    'http_cache.options'   => $this['config']->get('general/performance/http_cache/options', []),
-                ]
-            );
+            ->register(new Silex\Provider\HttpCacheServiceProvider())
+        ;
+        $this['http_cache.cache_dir'] = function () {
+            return $this['resources']->getPath('cache/' . $this['environment'] . '/http');
+        };
+        $this['http_cache.options'] = function () {
+            return $this['config']->get('general/performance/http_cache/options', []);
+        };
     }
 
     /**
@@ -255,7 +260,9 @@ class Application extends Silex\Application
             ->register(new Provider\CanonicalServiceProvider())
         ;
 
-        $this['paths'] = $this['resources']->getPaths();
+        $this['paths'] = $this->share(function () {
+            return $this['resources']->getPaths();
+        });
 
         // Initialize our friendly helpers, if available.
         if (class_exists('\Bolt\Starter\Provider\StarterProvider')) {
