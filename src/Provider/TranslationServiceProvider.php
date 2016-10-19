@@ -30,6 +30,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
             if ($app['translator.caching'] === false) {
                 return null;
             }
+
+            return $app['resources']->getPath('cache/trans');
         });
 
         $app['translator'] = $app->share(
