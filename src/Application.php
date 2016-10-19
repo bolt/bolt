@@ -104,9 +104,6 @@ class Application extends Silex\Application
         // Initialize debugging
         $this->initDebugging();
 
-        // Do a version check
-        $this['config.environment']->checkVersion();
-
         // Calling for BC. Controllers are mounted in ControllerServiceProvider now.
         $this->initMountpoints();
 

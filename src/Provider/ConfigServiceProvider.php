@@ -62,6 +62,8 @@ class ConfigServiceProvider implements ServiceProviderInterface
     {
         $app['config']->doReplacements();
 
+        $app['config.environment']->checkVersion();
+
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($app['config.listener']);
