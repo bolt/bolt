@@ -43,18 +43,6 @@ class Application extends Silex\Application
 
         $this->register(new PathServiceProvider());
 
-        // Initialize the config. Note that we do this here, on 'construct'.
-        // All other initialisation is triggered from bootstrap.php
-        // Warning!
-        // One of a valid ResourceManager ['resources'] or ClassLoader ['classloader']
-        // must be defined for working properly
-        if (!isset($this['resources'])) {
-            $this['resources'] = new Configuration\ResourceManager($this);
-        } else {
-            $this['classloader'] = $this['resources']->getClassLoader();
-        }
-
-        $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
 
