@@ -39,6 +39,14 @@ class Application extends Silex\Application
 
         $this->register(new Provider\DebugServiceProvider());
 
+        /*
+         * Extensions registration phase is actually during boot,
+         * but since it is the first SP to boot it acts like a
+         * late registration. However, services needed by Extension
+         * Manager cannot be modified.
+         */
+        $this->register(new Provider\ExtensionServiceProvider());
+
         $this->register(new PathServiceProvider());
 
         $this->initConfig();
@@ -199,7 +207,6 @@ class Application extends Silex\Application
             ->register(new Provider\AccessControlServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
-            ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\TemplateChooserServiceProvider())
@@ -232,10 +239,11 @@ class Application extends Silex\Application
         }
     }
 
+    /**
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     */
     public function initExtensions()
     {
-        $this['extensions']->addManagedExtensions();
-        $this['extensions']->register($this);
     }
 
     /**
