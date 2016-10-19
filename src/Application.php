@@ -57,7 +57,6 @@ class Application extends Silex\Application
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
-        $this['resources']->initialize();
 
         $previousDebug = $this->raw('debug');
         $this['debug'] = $this->share(function () use ($previousDebug) {

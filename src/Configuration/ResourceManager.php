@@ -59,6 +59,9 @@ class ResourceManager
      */
     private $pathsProxy;
 
+    /** @var bool */
+    private $requestInitialized;
+
     /**
      * Constructor initialises on the app root path.
      *
@@ -80,7 +83,10 @@ class ResourceManager
         }
 
         if (!($container instanceof Application) && !empty($container['request'])) {
-            $this->requestObject = $container['request'];
+            try {
+                $this->requestObject = $container['request'];
+            } catch (\RuntimeException $e) {
+            }
         }
 
         $this->setUrl('root', '/');
@@ -271,6 +277,10 @@ class ResourceManager
             }
         }
 
+        if (!$this->requestInitialized && in_array($name, ['canonicalurl', 'current', 'currenturl', 'hosturl', 'rooturl'])) {
+            $this->initializeRequest($this->app, $this->requestObject);
+        }
+
         if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
             return $this->urls[$name . 'url'];
         }
@@ -308,6 +318,10 @@ class ResourceManager
      */
     public function getRequest($name)
     {
+        if (!$this->requestInitialized && in_array($name, ['canonical', 'protocol', 'hostname'])) {
+            $this->initializeRequest($this->app, $this->requestObject);
+        }
+
         if (! array_key_exists($name, $this->request)) {
             throw new \InvalidArgumentException("Request component $name is not available", 1);
         }
@@ -341,7 +355,7 @@ class ResourceManager
     public function initializeRequest(Application $app, Request $request = null)
     {
         if ($request === null) {
-            $request = Request::createFromGlobals();
+            $request = $app['request_stack']->getCurrentRequest() ?: Request::createFromGlobals();
         }
 
         // This is where we set the canonical. Note: The protocol (scheme) defaults to 'http',
@@ -372,7 +386,7 @@ class ResourceManager
             $protocol = 'cli';
         }
 
-        $rootUrl = rtrim($this->getUrl('root'), '/');
+        $rootUrl = rtrim($this->urls['root'], '/');
         if ($rootUrl !== $request->getBasePath()) {
             $this->urlPrefix = $request->getBasePath();
         }
@@ -384,13 +398,15 @@ class ResourceManager
         $this->setUrl('current', $current);
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
-        $this->setUrl('rooturl', sprintf('%s%s/', $this->getRequest('canonical'), $rootUrl));
+        $this->setUrl('rooturl', sprintf('%s%s/', $this->request['canonical'], $rootUrl));
 
-        $url = sprintf('%s%s', $this->getRequest('canonical'), $current);
+        $url = sprintf('%s%s', $this->request['canonical'], $current);
         if (PagerManager::isPagingRequest($request)) {
             $url .= '?' . http_build_query($request->query->all());
         }
         $this->setUrl('canonicalurl', $url);
+
+        $this->requestInitialized = true;
     }
 
     /**
@@ -417,7 +433,6 @@ class ResourceManager
 
     public function initialize()
     {
-        $this->initializeRequest($this->app, $this->requestObject);
     }
 
     /**
