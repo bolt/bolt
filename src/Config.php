@@ -117,8 +117,6 @@ class Config
      */
     private function loadTheme()
     {
-        $this->app['resources']->initializeConfig($this->data);
-
         if ($this->isThemeCacheValid()) {
             return;
         }

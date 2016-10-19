@@ -62,6 +62,9 @@ class ResourceManager
     /** @var bool */
     private $requestInitialized;
 
+    /** @var bool */
+    private $configInitialized;
+
     /**
      * Constructor initialises on the app root path.
      *
@@ -216,6 +219,10 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
+        if (!$this->configInitialized && in_array($name, ['theme', 'themepath'])) {
+            $this->initializeConfig();
+        }
+
         if (array_key_exists($name . 'path', $this->paths)) {
             $path = $this->paths[$name . 'path'];
         } elseif (array_key_exists($name, $this->paths)) {
@@ -277,8 +284,12 @@ class ResourceManager
             }
         }
 
-        if (!$this->requestInitialized && in_array($name, ['canonicalurl', 'current', 'currenturl', 'hosturl', 'rooturl'])) {
+        if (!$this->requestInitialized && in_array($name, ['canonical', 'canonicalurl', 'current', 'currenturl', 'host', 'hosturl', 'root', 'rooturl'])) {
             $this->initializeRequest($this->app, $this->requestObject);
+        }
+
+        if (!$this->configInitialized && in_array($name, ['theme', 'bolt', 'templates', 'templatespath'])) {
+            $this->initializeConfig();
         }
 
         if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
@@ -412,23 +423,22 @@ class ResourceManager
     /**
      * Takes a loaded config array and uses it to initialize settings that depend on it.
      *
-     * @param array $config
      */
-    public function initializeConfig($config)
+    public function initializeConfig()
     {
-        if (is_array($config) && isset($config['general'])) {
-            $this->setThemePath($config['general']);
-        }
+        $this->setThemePath($this->app['config']->get('general'));
 
-        $theme = $config['theme'];
+        $theme = $this->app['config']->get('theme');
         if (isset($theme['template_directory'])) {
-            $this->setPath('templatespath', $this->getPath('theme') . '/' . $theme['template_directory']);
+            $this->setPath('templatespath', $this->paths['themepath'] . '/' . $theme['template_directory']);
         } else {
-            $this->setPath('templatespath', $this->getPath('theme'));
+            $this->setPath('templatespath', $this->paths['themepath']);
         }
 
-        $branding = '/' . trim($config['general']['branding']['path'], '/') . '/';
+        $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
         $this->setUrl('bolt', $branding);
+
+        $this->configInitialized = true;
     }
 
     public function initialize()
@@ -450,10 +460,10 @@ class ResourceManager
 
         // See if the user has set a theme path otherwise use the default
         if (!isset($generalConfig['theme_path'])) {
-            $this->setPath('themepath', $this->getPath('themebase') . $themeDir);
+            $this->setPath('themepath', $this->paths['themebase'] . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         } else {
-            $this->setPath('themepath', $this->getPath('rootpath') . $themePath . $themeDir);
+            $this->setPath('themepath', $this->paths['rootpath'] . $themePath . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         }
     }

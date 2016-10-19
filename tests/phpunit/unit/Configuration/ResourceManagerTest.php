@@ -126,6 +126,8 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
+        $app = new Application(['resources' => $config]);
+
         $this->assertEquals('/', $config->getUrl('root'));
         $this->assertEquals('/app/', $config->getUrl('app'));
         $this->assertEquals('/extensions/', $config->getUrl('extensions'));
