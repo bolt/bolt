@@ -403,27 +403,21 @@ class ResourceManager
         if (is_array($config) && isset($config['general'])) {
             $this->setThemePath($config['general']);
         }
+
+        $theme = $config['theme'];
+        if (isset($theme['template_directory'])) {
+            $this->setPath('templatespath', $this->getPath('theme') . '/' . $theme['template_directory']);
+        } else {
+            $this->setPath('templatespath', $this->getPath('theme'));
+        }
+
+        $branding = '/' . trim($config['general']['branding']['path'], '/') . '/';
+        $this->setUrl('bolt', $branding);
     }
 
     public function initialize()
     {
         $this->initializeRequest($this->app, $this->requestObject);
-        $this->postInitialize();
-    }
-
-    public function postInitialize()
-    {
-        $this->setThemePath($this->app['config']->get('general'));
-
-        $theme = $this->app['config']->get('theme');
-        if (isset($theme['template_directory'])) {
-            $this->setPath('templatespath', $this->getPath('theme') . '/' . $this->app['config']->get('theme/template_directory'));
-        } else {
-            $this->setPath('templatespath', $this->getPath('theme'));
-        }
-
-        $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
-        $this->setUrl('bolt', $branding);
     }
 
     /**
