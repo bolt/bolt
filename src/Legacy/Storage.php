@@ -765,7 +765,7 @@ class Storage
         $results = $this->app['db']->fetchAll($select);
 
         if (!empty($results)) {
-            $ids = implode(' || ', util::array_pluck($results, 'id'));
+            $ids = implode(' || ', array_column($results, 'id'));
 
             $results = $this->getContent($contenttype, ['id' => $ids, 'returnsingle' => false]);
 
@@ -2373,7 +2373,7 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
@@ -2549,7 +2549,7 @@ class Storage
     {
         $tablename = $this->getTablename("relations");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
@@ -2587,7 +2587,7 @@ class Storage
     public function getRepeaters($content)
     {
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
