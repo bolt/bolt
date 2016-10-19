@@ -78,6 +78,9 @@ class ProfilerServiceProvider implements ServiceProviderInterface
                 return new DebugStack();
             }
         );
+
+        $app['editlink'] = null;
+        $app['edittitle'] = null;
     }
 
     public function boot(Application $app)
