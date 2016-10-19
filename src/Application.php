@@ -18,6 +18,9 @@ class Application extends Silex\Application
      */
     const DEFAULT_LOCALE = 'en_GB';
 
+    /** @var bool */
+    protected $initialized;
+
     /**
      * @param array $values
      */
@@ -54,6 +57,8 @@ class Application extends Silex\Application
 
         // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
+
+        $this->initialize();
     }
 
     /**
@@ -86,6 +91,11 @@ class Application extends Silex\Application
 
     public function initialize()
     {
+        if ($this->initialized) {
+            return;
+        }
+        $this->initialized = true;
+
         // Set up session handling
         $this->initSession();
 

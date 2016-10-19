@@ -131,10 +131,5 @@ return call_user_func(function () {
     }
     $app = new $appClass(['resources' => $resources]);
 
-    // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
-    if (method_exists($app, 'initialize')) {
-        $app->initialize();
-    }
-
     return $app;
 });
