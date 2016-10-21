@@ -114,6 +114,12 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         unset($this->data[$offset]);
     }
 
+    public function __call($name, $arguments)
+    {
+        $this->initialize();
+        return call_user_func_array([$this->data, $name], $arguments);
+    }
+
     /**
      * Kernel request event callback.
      */
