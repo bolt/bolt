@@ -165,7 +165,7 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Returns the Entity Manager.
      *
-     * @return \Bolt\Storage\EntityManager
+     * @return \Bolt\Storage\EntityManager|\Bolt\Legacy\Storage
      */
     protected function storage()
     {

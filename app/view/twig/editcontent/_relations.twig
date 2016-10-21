@@ -43,7 +43,7 @@
 {% endif %}
 
 {% if context.has.tabs and 'relations' in context.contenttype.groups %}
-    {{ include('@bolt/editcontent/_fields.twig') }}{
+    {{ include('@bolt/editcontent/_field.twig') }}
 {% endif %}
 
 {% if not context.has.tabs %}
