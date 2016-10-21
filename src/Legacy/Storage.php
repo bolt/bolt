@@ -17,7 +17,6 @@ use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Exception;
 use Silex\Application;
-use utilphp\util;
 
 /**
  * Legacy Storage class.
@@ -765,7 +764,7 @@ class Storage
         $results = $this->app['db']->fetchAll($select);
 
         if (!empty($results)) {
-            $ids = implode(' || ', util::array_pluck($results, 'id'));
+            $ids = implode(' || ', array_column($results, 'id'));
 
             $results = $this->getContent($contenttype, ['id' => $ids, 'returnsingle' => false]);
 
@@ -1822,10 +1821,10 @@ class Storage
 
         // Return content
         if ($decoded['return_single']) {
-            if (util::array_first_key($results)) {
+            if (count($results) > 0) {
                 $this->app['stopwatch']->stop('bolt.getcontent');
 
-                return util::array_first($results);
+                return reset($results);
             }
 
             if ($logNotFound) {
@@ -2373,14 +2372,15 @@ class Storage
     {
         $tablename = $this->getTablename("taxonomy");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
+        $first = reset($content);
+        $contenttype = $first->contenttype['slug'];
 
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
@@ -2549,14 +2549,15 @@ class Storage
     {
         $tablename = $this->getTablename("relations");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
+        $first = reset($content);
+        $contenttype = $first->contenttype['slug'];
 
         $query = sprintf(
             "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",
@@ -2587,14 +2588,15 @@ class Storage
     public function getRepeaters($content)
     {
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = array_column($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttypeslug = $content[util::array_first_key($content)]->contenttype['slug'];
+        $first = reset($content);
+        $contenttypeslug = $first->contenttype['slug'];
         $contenttype = $this->getContentType($contenttypeslug);
         $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
 

@@ -13,7 +13,6 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use utilphp\util;
 
 /**
  * Standard Frontend actions.
@@ -330,18 +329,10 @@ class Frontend extends ConfigurableBase
 
         $template = $this->templateChooser()->taxonomy($taxonomyslug);
 
+        // Get a display value for slug. This should be moved from 'slug' context key to 'name' in v4.0.
         $name = $slug;
-        // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
-        foreach ($content as $record) {
-            $flat = util::array_flatten($record->taxonomy);
-            $key = $this->generateUrl('taxonomylink', ['taxonomytype' => $taxonomy['slug'], 'slug' => $slug]);
-            if (isset($flat[$key])) {
-                $name = $flat[$key];
-            }
-            $key = $this->generateUrl('taxonomylink', ['taxonomytype' => $taxonomy['singular_slug'], 'slug' => $slug]);
-            if (isset($flat[$key])) {
-                $name = $flat[$key];
-            }
+        if ($taxonomy['behaves_like'] !== 'tags' && isset($taxonomy['options'][$slug])) {
+            $name = $taxonomy['options'][$slug];
         }
 
         $globals = [
