@@ -6,6 +6,7 @@ use Bolt\Legacy;
 use Bolt\Events\StorageEvents;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Doctrine\DBAL\Connection;
@@ -41,13 +42,13 @@ class StorageTest extends BoltUnitTest
         $this->assertInstanceOf(Legacy\Content::class, $content);
 
         // Fake it until we make it… to the end of the test suite.
-        $contentType = $app['config']->get('contenttypes/pages');
+        $contentType = clone $app['config']->get('contenttypes/pages');
         $contentType['name'] = 'Fakes';
         $contentType['singular_name'] = 'Fake';
         $contentType['slug'] = 'fakes';
         $contentType['singular_slug'] = 'fake';
         $contentType['tablename'] = 'fakes';
-        $app['config']->set('contenttypes/fakes', $contentType);
+        $app['config']->get('contenttypes')->set('fakes', $contentType);
 
         $fields = $app['config']->get('contenttypes/fakes/fields');
 
@@ -275,7 +276,7 @@ class StorageTest extends BoltUnitTest
         $storage = new Mock\StorageMock($app);
 
         // Test sorting is pulled from contenttype when not specified
-        $app['config']->set('contenttypes/entries/sort', '-id');
+        $app['config']->get('contenttypes/entries')['sort'] = '-id';
         $storage->getContent('entries');
         $this->assertSame('ORDER BY "id" DESC', $storage->queries[0]['queries'][0]['order']);
     }
@@ -315,7 +316,7 @@ class StorageTest extends BoltUnitTest
         /** @var \Bolt\Application */
         $app = $this->getApp();
 
-        $app['config']->set('contenttypes/' . $contentType['key'], $contentType);
+        $app['config']->get('contenttypes')->set($contentType->getName(), $contentType);
 
         // We should be able to retrieve $contentType when querying getContentType() for its key, slug, singular
         // slug, name and singular name
@@ -371,23 +372,27 @@ class StorageTest extends BoltUnitTest
     {
         return [
             [
-                [
-                    'key'           => 'foo_bars',
-                    'slug'          => 'foo_bars',
-                    'singular_slug' => 'foo_bar',
-                    'name'          => 'FooBars',
-                    'singular_name' => 'Foo Bar',
-                ],
+                new ContentType(
+                    'foo_bars',
+                    [
+                        'slug'          => 'foo_bars',
+                        'singular_slug' => 'foo_bar',
+                        'name'          => 'FooBars',
+                        'singular_name' => 'Foo Bar'
+                    ]
+                )
             ],
             [
-                [
-                    'key'           => 'somethingelse',
-                    'slug'          => 'things',
-                    'singular_slug' => 'thing',
-                    'name'          => 'Somethings',
-                    'singular_name' => 'Something',
-                ],
-            ],
+                new ContentType(
+                    'somethingelse',
+                    [
+                        'slug'          => 'things',
+                        'singular_slug' => 'thing',
+                        'name'          => 'Somethings',
+                        'singular_name' => 'Something'
+                    ]
+                )
+            ]
         ];
     }
 
