@@ -16,7 +16,6 @@ class Definition implements ArrayAccess
 
     protected $name;
     protected $parameters;
-    protected $config;
 
     /**
      * Definition constructor.
@@ -24,11 +23,10 @@ class Definition implements ArrayAccess
      * @param array $parameters
      * @param array $config
      */
-    public function __construct($name, array $parameters, array $config)
+    public function __construct($name, array $parameters)
     {
         $this->name = $name;
         $this->parameters = $parameters;
-        $this->config = $config;
     }
 
     public function setup()
