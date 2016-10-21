@@ -5,6 +5,8 @@ namespace Bolt\Storage\Database\Schema\Builder;
 use Bolt\Config;
 use Bolt\Storage\Database\Schema\Table\ContentType;
 use Bolt\Storage\Field\Manager as FieldManager;
+use Bolt\Storage\Mapping\Definition;
+use Bolt\Storage\Mapping\FieldCollection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
@@ -43,7 +45,7 @@ class ContentTables extends BaseBuilder
             /** @var ContentType $table */
             $table = $this->tables[$name];
             $tables[$name] = $table->buildTable($schema, $name, $this->charset, $this->collate);
-            if (isset($contentType['fields']) && is_array($contentType['fields'])) {
+            if (isset($contentType['fields'])) {
                 $this->addContentTypeTableColumns($this->tables[$name], $tables[$name], $contentType['fields'], $fieldManager);
             }
         }
@@ -74,10 +76,10 @@ class ContentTables extends BaseBuilder
      *
      * @param \Bolt\Storage\Database\Schema\Table\ContentType $tableObj
      * @param \Doctrine\DBAL\Schema\Table                     $table
-     * @param array                                           $fields
+     * @param FieldCollection                                 $fields
      * @param FieldManager                                    $fieldManager
      */
-    private function addContentTypeTableColumns(ContentType $tableObj, Table $table, array $fields, FieldManager $fieldManager)
+    private function addContentTypeTableColumns(ContentType $tableObj, Table $table, FieldCollection $fields, FieldManager $fieldManager)
     {
         // Check if all the fields are present in the DB.
         foreach ($fields as $fieldName => $values) {
@@ -103,10 +105,10 @@ class ContentTables extends BaseBuilder
      * @param \Bolt\Storage\Database\Schema\Table\ContentType $tableObj
      * @param \Doctrine\DBAL\Schema\Table                     $table
      * @param string                                          $fieldName
-     * @param array                                           $values
+     * @param Definition                                      $values
      * @param FieldManager                                    $fieldManager
      */
-    private function addContentTypeTableColumn(ContentType $tableObj, Table $table, $fieldName, array $values, FieldManager $fieldManager)
+    private function addContentTypeTableColumn(ContentType $tableObj, Table $table, $fieldName, Definition $values, FieldManager $fieldManager)
     {
         if ($tableObj->isKnownType($values['type'])) {
             // Use loose comparison on true as 'true' in YAML is a string
@@ -123,11 +125,11 @@ class ContentTables extends BaseBuilder
     /**
      * Certain field types can have single or JSON array types, figure it out.
      *
-     * @param array $values
+     * @param Definition $values
      *
      * @return string
      */
-    private function getContentTypeTableColumnType(array $values)
+    private function getContentTypeTableColumnType(Definition $values)
     {
         // Multi-value selects are stored as JSON arrays
         if (isset($values['type']) && $values['type'] === 'select' && isset($values['multiple']) && $values['multiple'] === true) {
