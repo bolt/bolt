@@ -12,18 +12,22 @@ use InvalidArgumentException;
 
 class MappingManager
 {
+
+    protected $factories;
     protected $handlers;
     protected $defaultHandler;
     protected $config;
 
     /**
      * MappingManager constructor.
+     * @param $factories
      * @param array $handlers
      * @param string|null $defaultHandler
      * @param array $config
      */
-    public function __construct(array $handlers, $defaultHandler = null, array $config = [])
+    public function __construct($factories, array $handlers, $defaultHandler = null, array $config = [])
     {
+        $this->factories = $factories;
         $this->handlers = $handlers;
         $this->defaultHandler = $defaultHandler;
         $this->config = $config;
@@ -52,6 +56,11 @@ class MappingManager
         $this->defaultHandler = $handler;
     }
 
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+    }
+
     public function load($name, array $parameters)
     {
         if (!array_key_exists('type', $parameters) || empty($parameters['type'])) {
@@ -62,7 +71,11 @@ class MappingManager
 
         $handler = $this->getHandler($parameters['type']);
 
-        $loaded = new $handler($name, $parameters, $this->config);
+        if (isset($this->factories[$handler])) {
+
+        }
+        $factory = (isset($this->factories[$handler])) ? $this->factories[$handler] : $this->factories['base'];
+        $loaded = $factory($name, $parameters, $this->config);
 
         if ($loaded instanceof MappingAwareInterface) {
             $loaded->setMappingManager($this);
