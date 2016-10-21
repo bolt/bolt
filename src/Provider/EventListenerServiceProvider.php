@@ -16,7 +16,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 return new Listener\AccessControlListener(
                     $app['filesystem'],
                     $app['session.storage'],
-                    $app['storage']
+                    $app['storage.lazy']
                 );
             }
         );
@@ -29,14 +29,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.exception'] = $app->share(
             function ($app) {
-                $rootPath = $app['resources']->getPath('root');
-
                 return new Listener\ExceptionListener(
-                    $rootPath,
-                    $app['render'],
-                    $app['logger.system'],
-                    $app['session'],
-                    $app['config']->get('general/debug', false)
+                    $app['controller.exception'],
+                    $app['logger.system']
                 );
             }
         );
@@ -47,6 +42,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
                     $app['storage.legacy'],
                     $app['templatechooser'],
+                    $app['twig'],
                     $app['render']
                 );
             }
@@ -107,14 +103,21 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
 
-        $dispatcher->addSubscriber($app['listener.access_control']);
-        $dispatcher->addSubscriber($app['listener.general']);
-        $dispatcher->addSubscriber($app['listener.exception']);
-        $dispatcher->addSubscriber($app['listener.not_found']);
-        $dispatcher->addSubscriber($app['listener.snippet']);
-        $dispatcher->addSubscriber($app['listener.redirect']);
-        $dispatcher->addSubscriber($app['listener.flash_logger']);
-        $dispatcher->addSubscriber($app['listener.zone_guesser']);
-        $dispatcher->addSubscriber($app['listener.pager']);
+        $listeners = [
+            'general',
+            'exception',
+            'not_found',
+            'snippet',
+            'redirect',
+            'flash_logger',
+            'zone_guesser',
+            'pager',
+        ];
+
+        foreach ($listeners as $name) {
+            if (isset($app['listener.' . $name])) {
+                $dispatcher->addSubscriber($app['listener.' . $name]);
+            }
+        }
     }
 }

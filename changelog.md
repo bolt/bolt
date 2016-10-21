@@ -1,6 +1,45 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2-beta 6
+---------------
+
+Released 2016-10-17.
+
+Bolt 3.2-beta 5
+---------------
+
+Released 2016-10-13.
+
+Bolt 3.2-beta 4
+---------------
+
+Released 2016-10-08.
+
+Bolt 3.2-beta 3
+---------------
+
+Released 2016-10-05.
+
+Bolt 3.2-beta 2
+---------------
+
+Released 2016-10-03. Notable changes:
+
+(note, changelog is incomplete)
+
+- Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
+- Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Lazy loading service provider for EntityManager [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Lazy loading service provider for SchemaManager [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Symfony HTTP Cache for request caching (replaces Doctrine file cache use) [#5615](https://github.com/bolt/bolt/pull/5615)
+- Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
+- Fixed: Database is no longer initialised prior to boot
+- Fixed: System checks now run at start of request cycle
+- Removed: Internal use of LowlevelChecks (See Validator)
+- Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
+
 Bolt 3.1.5
 ----------
 

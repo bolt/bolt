@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Types\Type;
 

@@ -70,6 +70,8 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
 
         $app['thumbnails.limit_upscaling'] = !$app['config']->get('general/thumbnails/allow_upscale', false);
 
+        $app['thumbnails.only_aliases'] = $app['config']->get('general/thumbnails/only_aliases', false);
+
         ImageResource::setNormalizeJpegOrientation($app['config']->get('general/thumbnails/exif_orientation', true));
         ImageResource::setQuality($app['config']->get('general/thumbnails/quality', 80));
     }

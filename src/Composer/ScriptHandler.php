@@ -2,7 +2,7 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\BootException;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -202,10 +202,9 @@ class ScriptHandler
     {
         $boltDir = sprintf('%s/bolt/bolt/', $event->getComposer()->getConfig()->get('vendor-dir'));
         $question = sprintf(
-            '<info>Do you want to import the <comment>.gitignore</comment> file from <comment>%s</comment>] </info>',
-            $boltDir
+            '<info>Do you want to override the existing <comment>.gitignore</comment> file with the more restrictive one from <comment>vendor/bolt/bolt</comment>?</info>'
         );
-        $confirm = $event->getIO()->askConfirmation($question, true);
+        $confirm = $event->getIO()->askConfirmation($question, false);
         if ($confirm) {
             $fs = new Filesystem();
             $fs->copy($boltDir . '.gitignore', getcwd() . '/.gitignore', true);
@@ -251,7 +250,7 @@ class ScriptHandler
 
             $dir = $app['resources']->getPath($name);
             $dir = Path::makeRelative($dir, getcwd());
-        } catch (LowlevelException $e) {
+        } catch (BootException $e) {
             $dir = static::getOption($event, $name . '-dir', $default);
         }
 

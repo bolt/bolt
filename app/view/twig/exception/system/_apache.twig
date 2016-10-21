@@ -1,0 +1,13 @@
+<h1>
+    The file <code>{{ webroot|default('{{  web root }}') }}/.htaccess</code> doesn't exist.
+</h1>
+
+<p>
+    Make sure it's present and readable to the user that the web server is
+    using. If you are not running Apache, or your Apache setup performs the
+    correct rewrites without requiring a .htaccess file (in other words,
+    <strong>if you know what you are doing</strong>), you can disable this check
+    by calling <code>$config->getVerifier()->disableApacheChecks();</code> in
+    <code>bootstrap.php</code>
+</p>
+

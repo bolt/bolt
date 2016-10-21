@@ -6,6 +6,8 @@ var init = {
      * @returns {undefined}
      */
     depublishTracking: function () {
+        "use strict";
+
         var noticeID = 'dateDepublishNotice',
             msg = $('#datedepublish').data('notice');
 
@@ -15,7 +17,7 @@ var init = {
                 depublish = $('#datedepublish').val();
 
             // remove old notice
-            $('.'+noticeID).remove();
+            $('.' + noticeID).remove();
 
             if (depublish === '') {
                 return;
@@ -48,6 +50,8 @@ var init = {
      * @fires "Bolt.File.Save.Always"
      */
     bindEditFile: function (data) {
+        "use strict";
+
         var editor;
 
         if (typeof CodeMirror !== 'undefined') {
@@ -91,15 +95,15 @@ var init = {
                     }
                     $('p.lastsaved').html(data.msg);
                 })
-                .fail(function(){
+                .fail(function () {
                     Bolt.events.fire('Bolt.File.Save.Fail');
                     alert(msgNotSaved);
                 })
-                .always(function(){
+                .always(function () {
                     Bolt.events.fire('Bolt.File.Save.Always');
 
                     // Re-enable buttons
-                    window.setTimeout(function(){
+                    window.setTimeout(function () {
                         $('#saveeditfile').removeClass('disabled').blur();
                         $('#saveeditfile i').removeClass('fa-spin fa-spinner');
                     }, 300);
@@ -114,6 +118,8 @@ var init = {
      * @returns {undefined}
      */
     bindEditLocale: function (data) {
+        "use strict";
+
         var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
             lineNumbers: true,
             autofocus: true,
@@ -130,12 +136,14 @@ var init = {
      * Bind filebrowser
      */
     bindFileBrowser: function () {
+        "use strict";
+
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });
 
-        var getUrlParam = function(paramName) {
+        var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
                 match = window.location.search.match(reParam);
 
@@ -156,6 +164,8 @@ var init = {
     },
 
     bindCkFileSelect: function () {
+        "use strict";
+
         var getUrlParam = function (paramName) {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
                 match = window.location.search.match(reParam);
@@ -176,12 +186,14 @@ var init = {
      * Bind prefill
      */
     bindPrefill: function () {
-        $('#check-all').on('click', function() {
+        "use strict";
+
+        $('#check-all').on('click', function () {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
             $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
         });
-        $('#uncheck-all').on('click', function() {
+        $('#uncheck-all').on('click', function () {
             $("#form_contenttypes :checkbox").removeAttr('checked');
         });
     },
@@ -192,6 +204,8 @@ var init = {
      * @returns {undefined}
      */
     confirmationDialogs: function () {
+        "use strict";
+
         $('.confirm').on('click', function () {
             return confirm($(this).data('confirm'));
         });
@@ -203,6 +217,8 @@ var init = {
      * @returns {undefined}
      */
     deferredWidgets: function () {
+        "use strict";
+
         $('div.widget').each(function () {
             if (typeof $(this).data('defer') === 'undefined') {
                 return;
@@ -230,6 +246,8 @@ var init = {
      * @returns {undefined}
      */
     dropDowns: function () {
+        "use strict";
+
         $('[data-toggle="dropdown"]').each(function (index, item) {
             var mouseEvt;
             if (typeof event === 'undefined') {
@@ -244,11 +262,11 @@ var init = {
                 // Prevent breakage on old IE.
                 if (typeof mouseEvt !== "undefined" && mouseEvt !== null) {
                     var self = $(this).find('[data-toggle="dropdown"]'),
-                    menu = self.next('.dropdown-menu'),
-                    mousey = mouseEvt.pageY + 20,
-                    menuHeight = menu.height(),
-                    menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
-                    profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
+                        menu = self.next('.dropdown-menu'),
+                        mousey = mouseEvt.pageY + 20,
+                        menuHeight = menu.height(),
+                        menuVisY = $(window).height() - mousey + menuHeight, // Distance from the bottom of viewport
+                        profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
                     if (mousey - menuHeight > 20 && menuVisY < profilerHeight) {
@@ -258,8 +276,6 @@ var init = {
                         });
                     }
                 }
-
-
             });
         });
     },
@@ -270,6 +286,8 @@ var init = {
      * @returns {undefined}
      */
     dropZone: function () {
+        "use strict";
+
         // @todo make it prettier, and distinguish between '.in' and '.hover'.
         $(document).bind('dragover', function (e) {
             var dropZone = $('.dropzone'),
@@ -295,7 +313,8 @@ var init = {
      * Initialize the Magnific popup shizzle. Fancybox is still here as a trigger, for backwards compatibility.
      */
     magnificPopup: function () {
-        //
+        "use strict";
+
         $('.magnific, .fancybox').magnificPopup({
             type: 'image',
             gallery: {
@@ -322,12 +341,14 @@ var init = {
      * @returns {undefined}
      */
     focusStatusSelect: function () {
+        "use strict";
+
         $('#lastsavedstatus').click(function (e) {
             e.preventDefault();
             $('a[href="#tab-meta"]').click();
             $('#statusselect').focus();
         });
-     },
+    },
 
     /*
      * Toggle options for showing / hiding the password input on the logon screen.
@@ -335,6 +356,8 @@ var init = {
      * @returns {undefined}
      */
     passwordInput: function () {
+        "use strict";
+
         $(".togglepass").on('click', function () {
             if ($(this).hasClass('show-password')) {
                 $('input[name="password"]').attr('type', 'text');
@@ -362,6 +385,8 @@ var init = {
      * Initialize popovers.
      */
     popOvers: function () {
+        "use strict";
+
         $('.info-pop').popover({
             trigger: 'hover',
             delay: {
@@ -376,6 +401,8 @@ var init = {
      * ?
      */
     sortables: function () {
+        "use strict";
+
         $('tbody.sortable').sortable({
             items: 'tr',
             opacity: '0.5',

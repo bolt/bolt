@@ -1,0 +1,58 @@
+{% macro printvalue(value) %}
+    {% if value is iterable and value is not empty %}
+        {% for k, v in value %}
+            {% if k is not same as(loop.index0) %} {{ k }} =&gt; {% endif %}
+            {% if v is iterable %}
+                <em>(object / array)</em>
+            {% else %}
+                {{ v|excerpt(200)|default('<em>(empty)</em>')|raw }}
+            {% endif %}
+            {% if not loop.last %}<br>{% endif %}
+        {% endfor %}
+    {% else %}
+        {{ value|excerpt(200)|default('<em>(empty)</em>')|raw }}
+    {% endif %}
+{% endmacro %}
+
+{% macro printrow(key, value) %}
+    {% import _self as macros %}
+    {% set obfuscated = ['cookie', '_csrf/bolt', 'bolt_authtoke', 'bolt_session_', 'authenticatio', 'HTTP_COOKIE'] %}
+
+    <tr>
+        <th>{{ key }}</th>
+        <td>
+            {% if key|slice(0, 13) in obfuscated %}<span class='obfuscated' data-value="{% endif %}
+            {{- macros.printvalue(value) -}}
+            {%- if key|slice(0, 13) in obfuscated -%}">(Click to reveal sensitive data)</span>{% endif %}
+        </td>
+    </tr>
+{% endmacro %}
+
+{% import _self as macros %}
+
+<h1>Request data</h1>
+
+{% set bags = ['attributes', 'query', 'files', 'cookies', 'headers', 'server', 'session'] %}
+{% set values = ['content', 'languages', 'charsets', 'encodings' , 'acceptableContentTypes', 'pathInfo', 'requestUri', 'baseUrl', 'basePath', 'method'] %}
+
+<table class="table table-striped table-hover table-condensed">
+{% for key in values %}
+    {% set value = attribute(request, key)|default() %}
+    {{ macros.printrow(key, value) }}
+{% endfor %}
+</table>
+
+
+{% for bag in bags if (attribute(request, bag) is defined) and (attribute(request, bag).all is not empty)%}
+
+    {% set values = attribute(request, bag).all %}
+
+    <h2>{{ bag|ucfirst }}</h2>
+
+    <table class="table table-striped table-hover table-condensed">
+        {% for key, value in values %}
+            {{ macros.printrow(key, value) }}
+        {% endfor %}
+    </table>
+
+{% endfor %}

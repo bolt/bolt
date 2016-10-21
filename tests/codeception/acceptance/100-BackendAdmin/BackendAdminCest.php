@@ -289,7 +289,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
 
         // Set up the browser
         $this->setLoginCookies($I);
-        $I->amOnPage('/bolt');
+        $I->amOnPage('/bolt/clearcache');
+        $I->amOnPage('/bolt/dbcheck');
         $I->see('The database needs to be updated/repaired');
 
         $I->see('Check Database', 'a');
@@ -569,10 +570,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Dashboard');
         $I->click('Logout');
 
-        // Removed as we now unset the session cookie at logout
-        //$I->see('You have been logged out');
-
         $I->amOnPage('/bolt');
-        $I->see('Please log on');
+
+        $I->seeInCurrentUrl('/bolt/login');
     }
 }

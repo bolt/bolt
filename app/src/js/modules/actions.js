@@ -34,9 +34,10 @@
             // Bind the click events, with the 'action' namespace.
             .on('click.action', function (e) {
                 var action = $(this).attr('data-action');
+
                 if (typeof action !== 'undefined' && action !== '') {
                     e.preventDefault();
-                    eval(action); // jshint ignore:line
+                    eval(action); // eslint-disable-line no-eval
                     e.stopPropagation();
                 }
             })

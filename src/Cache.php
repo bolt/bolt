@@ -69,7 +69,9 @@ class Cache extends FilesystemCache
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
             // Clear our own cache folder.
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/'));
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/profiler'));
 
             // Clear the thumbs folder.
             $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));

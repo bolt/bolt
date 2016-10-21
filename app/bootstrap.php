@@ -5,7 +5,8 @@ namespace Bolt;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
-use Bolt\Exception\LowlevelException;
+use Bolt\Debug\ShutdownHandler;
+use Bolt\Exception\BootException;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 
@@ -21,7 +22,7 @@ use Symfony\Component\Yaml\Yaml;
  * - Load and verify configuration
  * - Initialize the application
  *
- * @throws LowlevelException
+ * @throws BootException
  *
  * @return \Silex\Application
  */
@@ -55,13 +56,13 @@ return call_user_func(function () {
 
     // None of the mappings matched, error
     if ($error) {
-        include $boltRootPath . '/src/Exception/LowlevelException.php';
-        throw new LowlevelException(
-            'Configuration autodetection failed because The file ' .
-            "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
-            "you've installed the required components with Composer."
-        );
+        include $boltRootPath . '/src/Exception/BootException.php';
+
+        BootException::earlyExceptionComposer();
     }
+
+    // Register handlers early
+    ShutdownHandler::register();
 
     /*
      * Load initialization config needed to bootstrap application.
@@ -85,9 +86,14 @@ return call_user_func(function () {
         $config = array_replace_recursive($config, $yaml);
     } elseif (file_exists($rootPath . '/.bolt.php')) {
         $php = include $rootPath . '/.bolt.php';
-        if (is_array($php)) {
-            $config = array_replace_recursive($config, $php);
-        }
+    }
+
+    // An extra handler if a PHP bootstrap is provided, allow the bootstrap file to return
+    // a pre-initialized Bolt Application rather than the config array.
+    if (isset($php) && is_array($php)) {
+        $config = array_replace_recursive($config, $php);
+    } elseif (isset($php) && $php instanceof Silex\Application) {
+        return $php;
     }
 
     // If application object is provided, assume it is ready to go.
@@ -110,6 +116,9 @@ return call_user_func(function () {
     // Set any non-standard paths
     foreach ((array) $config['paths'] as $name => $path) {
         $resources->setPath($name, $path);
+    }
+    if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+        BootException::earlyExceptionMissingLoaderConfig();
     }
 
     /** @var \Bolt\Configuration\ResourceManager $config */

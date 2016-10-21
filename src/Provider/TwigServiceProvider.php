@@ -117,19 +117,18 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Twig options
         $app['twig.options'] = function () use ($app) {
+            $options = [];
+
             // Should we cache or not?
             if ($app['config']->get('general/caching/templates')) {
-                $cache = $app['resources']->getPath('cache');
-            } else {
-                $cache = false;
+                $options['cache'] = $app['resources']->getPath('cache/' . $app['environment'] . '/twig');
             }
 
-            return [
-                'debug'            => true,
-                'cache'            => $cache,
-                'strict_variables' => $app['config']->get('general/strict_variables'),
-                'autoescape'       => 'html',
-            ];
+            if (($strict = $app['config']->get('general/strict_variables')) !== null) {
+                $options['strict_variables'] = $strict;
+            }
+
+            return $options;
         };
 
         $app['safe_twig.bolt_extension'] = function () use ($app) {

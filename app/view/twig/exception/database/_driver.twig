@@ -1,0 +1,36 @@
+<h1>
+    Bolt Database driver error.
+</h1>
+
+{% if subtype == 'missing' %}
+    <p>
+        {{ name }} was selected as the database type, but the driver does not exist or is not loaded.
+    </p>
+    <p>
+        Please install the {{ driver }} driver.
+    </p>
+{% endif %}
+
+{% if subtype == 'parameter' %}
+    <p>
+        There is no <code>{{ parameter }}</code> set for your database.
+    </p>
+{% endif %}
+
+{% if subtype == 'unsupported' %}
+    <p>
+        {{ driver }} was selected as the database type, but it is not supported.
+    </p>
+{% endif %}
+
+{% if subtype == 'insecure' %}
+    <p>
+        There is no <code>password</code> set for the database connection, and you're using user 'root'.
+    </p>
+    <p>
+        That must surely be a mistake, right?
+    </p>
+    <p>
+        Bolt will stubbornly refuse to run until you've set a password for 'root'.
+    </p>
+{% endif %}

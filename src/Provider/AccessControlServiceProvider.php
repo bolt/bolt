@@ -3,7 +3,6 @@
 namespace Bolt\Provider;
 
 use Bolt\AccessControl;
-use Bolt\Storage\Repository;
 use PasswordLib\Password\Factory as PasswordFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -32,14 +31,8 @@ class AccessControlServiceProvider implements ServiceProviderInterface
 
         $app['access_control'] = $app->share(
             function ($app) {
-                /** @var Repository\AuthtokenRepository $repoAuth */
-                $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-                /** @var Repository\UsersRepository $repoUser */
-                $repoUser = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
-
                 $tracker = new AccessControl\AccessChecker(
-                    $repoAuth,
-                    $repoUser,
+                    $app['storage.lazy'],
                     $app['request_stack'],
                     $app['session'],
                     $app['dispatcher'],

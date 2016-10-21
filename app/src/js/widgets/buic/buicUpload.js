@@ -125,7 +125,7 @@
          * @param {Object} event
          * @param {Object} data
          */
-        _onUploadSubmit: function(event, data) {
+        _onUploadSubmit: function (event, data) {
             this._progress('add', data.files);
         },
 

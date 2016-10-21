@@ -1,0 +1,9 @@
+{% extends '@bolt/exception/exception.twig' %}
+
+{% block exception %}
+    {% if type == 'config-read' %}
+        {{ include('@bolt/exception/system/_config-read.twig') }}
+    {% elseif type == 'config-write' %}
+        {{ include('@bolt/exception/system/_config-write.twig') }}
+    {% endif %}
+{% endblock exception %}

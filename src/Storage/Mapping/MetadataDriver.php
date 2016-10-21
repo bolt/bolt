@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Configuration\ConfigurationValueProxy;
 use Bolt\Exception\StorageException;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
@@ -68,13 +69,13 @@ class MetadataDriver implements MappingDriver
     /**
      * Constructor.
      *
-     * @param Manager        $schemaManager
-     * @param array          $contenttypes
-     * @param array          $taxonomies
-     * @param array          $typemap
-     * @param NamingStrategy $namingStrategy
+     * @param Manager                 $schemaManager
+     * @param ConfigurationValueProxy $contenttypes
+     * @param ConfigurationValueProxy $taxonomies
+     * @param array                   $typemap
+     * @param NamingStrategy          $namingStrategy
      */
-    public function __construct(Manager $schemaManager, array $contenttypes, array $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
+    public function __construct(Manager $schemaManager, ConfigurationValueProxy $contenttypes, ConfigurationValueProxy $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
     {
         $this->schemaManager = $schemaManager;
         $this->contenttypes = $contenttypes;
@@ -194,13 +195,13 @@ class MetadataDriver implements MappingDriver
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
 
-            if (isset($this->contenttypes[$contentKey]['fields'][$colName])) {
+            if (isset($this->contenttypes[$contentKey]) && isset($this->contenttypes[$contentKey]['fields'][$colName])) {
                 $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
             }
         }
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
-        if ($contentKey) {
+        if ($contentKey && isset($this->contenttypes[$contentKey])) {
             $this->setRelations($contentKey, $className, $table);
             $this->setIncomingRelations($contentKey, $className);
             $this->setTaxonomies($contentKey, $className, $table);
@@ -310,10 +311,10 @@ class MetadataDriver implements MappingDriver
 
             $mapping = [
                 'fieldname' => $relationKey,
-                'type' => 'null',
+                'type'      => 'null',
                 'fieldtype' => $this->typemap['relation'],
-                'entity' => $this->resolveClassName($relationKey),
-                'target' => $this->schemaManager->getTableName('relations'),
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->schemaManager->getTableName('relations'),
             ];
 
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
@@ -450,9 +451,9 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string $name
+     * @param string                       $name
      * @param \Doctrine\DBAL\Schema\Column $column
-     * @param null $field Optional field value for repeaters/array based columns
+     * @param null                         $field  Optional field value for repeaters/array based columns
      *
      * @return string
      */
@@ -465,14 +466,12 @@ class MetadataDriver implements MappingDriver
             $column = $column->getName();
         }
         if ($field !== null) {
-            if (isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
+            if (isset($this->contenttypes[$name]) && isset($this->contenttypes[$name]['fields'][$column]['fields'][$field])) {
                 $type = $this->contenttypes[$name]['fields'][$column]['fields'][$field]['type'];
             }
-        } elseif (isset($this->contenttypes[$name]['fields'][$column])) {
+        } elseif (isset($this->contenttypes[$name]) && isset($this->contenttypes[$name]['fields'][$column])) {
             $type = $this->contenttypes[$name]['fields'][$column]['type'];
         }
-
-
 
         if ($column === 'slug') {
             $type = 'slug';

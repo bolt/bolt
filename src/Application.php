@@ -2,13 +2,14 @@
 
 namespace Bolt;
 
+use Bolt\Debug\ShutdownHandler;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -35,6 +36,9 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
+        // Register PHP shutdown functions to catch fatal errors & exceptions
+        ShutdownHandler::register();
+
         parent::__construct($values);
 
         $this->register(new PathServiceProvider());
@@ -50,18 +54,25 @@ class Application extends Silex\Application
             $this['classloader'] = $this['resources']->getClassLoader();
         }
 
-        // Register a PHP shutdown function to catch fatal errors with the application object
-        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $this);
-
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
         $this['resources']->initialize();
 
-        $this['debug'] = $this['config']->get('general/debug', false);
+        if (($debugOverride = $this['config']->get('general/debug')) !== null) {
+            $this['debug'] = $debugOverride;
+        }
 
-        $locales = (array) $this['config']->get('general/locale');
-        $this['locale'] = reset($locales);
+        // Re-register the shutdown functions now that we know our debug setting
+        ShutdownHandler::register($this['debug']);
+        if (!isset($this['environment'])) {
+            $this['environment'] = $this['debug'] ? 'development' : 'production';
+        }
+
+        if (($locales = $this['config']->get('general/locale')) !== null) {
+            $locales = (array) $locales;
+            $this['locale'] = reset($locales);
+        }
 
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
@@ -71,12 +82,25 @@ class Application extends Silex\Application
         $this['jsdata'] = [];
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function run(Request $request = null)
+    {
+        if ($this['config']->get('general/caching/request')) {
+            $this['http_cache']->run($request);
+        } else {
+            parent::run($request);
+        }
+    }
+
     protected function initConfig()
     {
-        $this->register(new Provider\DatabaseSchemaServiceProvider())
+        $this
+            ->register(new Provider\FilesystemServiceProvider())
+            ->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
-        $this['config']->initialize();
     }
 
     protected function initSession()
@@ -97,14 +121,14 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
-        // Initialize debugging
-        $this->initDebugging();
-
         // Initialize the Database Providers.
         $this->initDatabase();
 
         // Initialize the rest of the Providers.
         $this->initProviders();
+
+        // Initialize debugging
+        $this->initDebugging();
 
         // Do a version check
         $this['config.environment']->checkVersion();
@@ -139,7 +163,6 @@ class Application extends Silex\Application
     public function initDatabase()
     {
         $this->register(new Provider\DatabaseServiceProvider());
-        $this->checkDatabaseConnection();
     }
 
     /**
@@ -158,7 +181,7 @@ class Application extends Silex\Application
             ->register(new Provider\TwigServiceProvider())
             ->register(new Provider\RenderServiceProvider())
             ->register(new Silex\Provider\HttpCacheServiceProvider(),
-                ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http')]
             );
     }
 
@@ -167,21 +190,16 @@ class Application extends Silex\Application
      */
     public function initDebugging()
     {
-        if (!$this['debug']) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
-
-            return;
-        }
-
         // Set the error_reporting to the level specified in config.yml
-        error_reporting($this['config']->get('general/debug_error_level'));
-
-        // Register Whoops, to handle errors for logged in users only.
-        if ($this['config']->get('general/debug_enable_whoops')) {
-            $this->register(new WhoopsServiceProvider());
+        if (($errorLevel = $this['config']->get($this['debug'] ? 'general/debug_error_level' : 'production_error_level')) !== null) {
+            error_reporting($errorLevel);
         }
 
         $this->register(new Provider\DumperServiceProvider());
+
+        if (!$this['debug']) {
+            return;
+        }
 
         // Initialize Web Profiler providers
         $this->initProfiler();
@@ -223,7 +241,6 @@ class Application extends Silex\Application
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
             ->register(new Provider\UploadServiceProvider())
-            ->register(new Provider\FilesystemServiceProvider())
             ->register(new Provider\ThumbnailsServiceProvider())
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
@@ -248,9 +265,6 @@ class Application extends Silex\Application
         );
     }
 
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
-     */
     public function initExtensions()
     {
         $this['extensions']->addManagedExtensions();

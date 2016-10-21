@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Configuration;
 
+use Bolt\Configuration\Validation\ValidatorInterface;
 use Bolt\Pager\PagerManager;
 use Composer\Autoload\ClassLoader;
 use Eloquent\Pathogen\AbsolutePathInterface;
@@ -410,7 +412,6 @@ class ResourceManager
         $branding = ltrim($this->app['config']->get('general/branding/path') . '/', '/');
         $this->setUrl('bolt', $this->getUrl('root') . $branding);
         $this->app['config']->setCkPath();
-        $this->verifyDb();
     }
 
     /**
@@ -437,30 +438,29 @@ class ResourceManager
     }
 
     /**
-     * Verifies the configuration to ensure that paths exist and are writable.
+     * @deprecated Deprecated since 3.1, to be removed in 4.0.
      */
     public function verify()
     {
-        $this->getVerifier()->doChecks();
     }
 
     /**
-     * Verify the database folder.
+     * @deprecated Deprecated since 3.1, to be removed in 4.0.
      */
     public function verifyDb()
     {
-        $this->getVerifier()->doDatabaseCheck();
     }
 
     /**
      * Get the LowlevelChecks object.
      *
-     * @return LowlevelChecks
+     * @return ValidatorInterface
      */
     public function getVerifier()
     {
         if (! $this->verifier) {
-            $this->verifier = new LowlevelChecks($this);
+            $verifier = new LowlevelChecks($this);
+            $this->verifier = $verifier;
         }
 
         return $this->verifier;
@@ -469,7 +469,7 @@ class ResourceManager
     /**
      * Set the LowlevelChecks object.
      *
-     * @param \Bolt\Configuration\LowlevelChecks|null $verifier
+     * @param ValidatorInterface|null $verifier
      */
     public function setVerifier($verifier)
     {

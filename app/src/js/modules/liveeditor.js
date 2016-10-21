@@ -43,7 +43,7 @@
      *
      * @param {BindData} data - Editcontent configuration data
      */
-    liveEditor.init = function(data) {
+    liveEditor.init = function (data) {
         liveEditor.slug = data.singularSlug;
 
         if (Modernizr.contenteditable) {
@@ -108,7 +108,7 @@
             };
 
             cke.disableAutoInline = false;
-            jq.find('[data-bolt-field]').each(function() {
+            jq.find('[data-bolt-field]').each(function () {
                 // Find form field
                 var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
                     fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
@@ -128,7 +128,7 @@
                         editor.on('instanceReady', saveData);
                         editor.on('change', saveData);
                     } else {
-                        $(this).on('paste', function(e) {
+                        $(this).on('paste', function (e) {
                             var content;
 
                             e.preventDefault();
@@ -232,7 +232,7 @@
      * @param {String} fieldType - type of field to clean (text, textarea)
      * @return {String} Value for editcontent input fields
      */
-    liveEditor.cleanText = function(element, fieldType) {
+    liveEditor.cleanText = function (element, fieldType) {
         // Preserve newlines and spacing for textarea fields
         if (fieldType === 'textarea') {
             element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));

@@ -2,7 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Storage\Database\Schema\Builder;
+use Bolt\Storage\Database\Schema\LazySchemaManager;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\Table;
 use Bolt\Storage\Database\Schema\Timer;
@@ -21,6 +23,15 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
         $app['schema'] = $app->share(
             function ($app) {
                 return new Manager($app);
+            }
+        );
+        $app['schema.lazy'] = $app->share(
+            function ($app) {
+                return new LazySchemaManager(
+                    function () use ($app) {
+                        return $app['schema'];
+                    }
+                );
             }
         );
 
@@ -184,7 +195,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 
         $app['schema.timer'] = $app->share(
             function ($app) {
-                return new Timer($app['resources']->getPath('cache'));
+                return new Timer($app['filesystem.cache']->getFile(Timer::CHECK_TIMESTAMP_FILE));
             }
         );
 

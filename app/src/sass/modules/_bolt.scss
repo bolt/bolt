@@ -138,10 +138,47 @@ table.dataTable thead .sorting:after {
     margin: 15px 0;
 }
 
+// Todo: move this.
 .login .logo {
-    margin-top:100px;
+    margin-top: 100px;
     width: 179px;
     height: auto;
+}
+
+// Todo: move this.
+body.exception {
+    .logo {
+        margin-top: 30px;
+        width: 120px;
+        height: auto;
+    }
+    code {
+        white-space: pre;
+        word-wrap: break-word;
+    }
+
+    p.exception {
+        font-size: 130%;
+        margin: 2em 0;
+    }
+
+    td {
+        font-family: $fonts-family-monospace;
+    }
+
+    th {
+        min-width: 4em;
+    }
+
+    pre[data-line] {
+        padding-left: 4.1em;
+    }
+
+    .dim {
+        color: #888;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
 }
 
 .dropdown-menu .nav-header {

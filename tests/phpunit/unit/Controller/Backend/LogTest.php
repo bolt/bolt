@@ -14,6 +14,7 @@ class LogTest extends ControllerUnitTest
 {
     public function setUp()
     {
+        $this->resetConfig();
         $this->resetDb();
         $this->addSomeContent();
 
@@ -49,7 +50,8 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/changelog'));
-        $this->checkTwigForTemplate($this->getApp(), 'activity/changelog.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/activity/changelog.twig');
+        $this->controller()->changeOverview($this->getRequest());
     }
 
     public function testChangeRecord()
@@ -65,7 +67,6 @@ class LogTest extends ControllerUnitTest
         // Test valid entry
         $this->setRequest(Request::create('/bolt/changelog/pages/1/1'));
         $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 1);
-        //                               changeRecord($request, $contenttype, $contentid, $id)
 
         $context = $response->getContext();
         $this->assertInstanceOf('Bolt\Storage\Entity\LogChange', $context['context']['entry']);
@@ -87,7 +88,7 @@ class LogTest extends ControllerUnitTest
 
         $context = $response->getContext();
 
-        $this->assertFalse($context['context']['entries']);
+        $this->assertEmpty($context['context']['entries']);
         $this->assertNull($context['context']['content']);
         $this->assertEquals('Pages', $context['context']['title']);
         $this->assertEquals('pages', $context['context']['contenttype']['slug']);
@@ -182,7 +183,8 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals('/bolt/systemlog', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/systemlog'));
-        $this->checkTwigForTemplate($this->getApp(), 'activity/systemlog.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/activity/systemlog.twig');
+        $this->controller()->systemOverview($this->getRequest());
     }
 
     /**

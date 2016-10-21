@@ -1,10 +1,15 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Exception\LowLevelDatabaseException;
-use Bolt\Exception\LowlevelException;
+use Bolt\Configuration\Validation\ValidatorInterface;
+use Bolt\Controller;
+use Bolt\Exception\BootException;
+use Symfony\Component\HttpFoundation\Response;
 
-class LowlevelChecks
+/**
+ * @deprecated Deprecated since 3.1, to be removed in 4.0.
+ */
+class LowlevelChecks implements ValidatorInterface
 {
     public $config;
     public $disableApacheChecks = false;
@@ -44,6 +49,41 @@ class LowlevelChecks
         $this->postgresLoaded = extension_loaded('pdo_pgsql');
         $this->sqliteLoaded = extension_loaded('pdo_sqlite');
         $this->mysqlLoaded = extension_loaded('pdo_mysql');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function check($checkName)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checks()
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($checkName, $className, $prepend = false)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function has($checkName)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($checkName)
+    {
     }
 
     /**
@@ -94,7 +134,7 @@ class LowlevelChecks
     public function checkMagicQuotes()
     {
         if ($this->magicQuotes) {
-            throw new LowlevelException(
+            throw new BootException(
                 "Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
@@ -111,8 +151,8 @@ class LowlevelChecks
         }
 
         if ($this->safeMode) {
-            throw new LowlevelException(
-                "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
+            throw new BootException(
+                "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hosting provider to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
             );
@@ -122,15 +162,15 @@ class LowlevelChecks
     public function assertWritableDir($path)
     {
         if (!is_dir($path)) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
-                'present and writable to the user that the webserver is using.'
+                'present and writable to the user that the web server is using.'
             );
         }
         if (!is_writable($path)) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
-                'present and writable to the user that the webserver is using.'
+                'present and writable to the user that the web server is using.'
             );
         }
     }
@@ -156,10 +196,10 @@ class LowlevelChecks
             return;
         }
         if ($this->isApache && !is_readable($this->config->getPath('web') . '/.htaccess')) {
-            throw new LowlevelException(
+            throw new BootException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .
-                'webserver is using. ' .
+                'web server is using. ' .
                 'If you are not running Apache, or your Apache setup performs the correct rewrites without ' .
                 'requiring a .htaccess file (in other words, <strong>if you know what you are doing</strong>), ' .
                 'you can disable this check by calling <code>$config->getVerifier()->disableApacheChecks(); ' .
@@ -169,63 +209,73 @@ class LowlevelChecks
     }
 
     /**
+     * @return Controller\Exception
+     */
+    private function getExceptionController()
+    {
+        return $this->config->app['controller.exception'];
+    }
+
+    /**
      * Perform the check for the database folder. We do this seperately, because it can only
      * be done _after_ the other checks, since we need to have the $config, to see if we even
      * _need_ to do this check.
+     *
+     * @return Response|null
      */
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
         $driver = $cfg['driver'];
 
-        if ($driver == 'pdo_sqlite') {
-            $this->doDatabaseSqliteCheck($cfg);
-
-            return;
+        if ($driver === 'pdo_sqlite') {
+            return $this->doDatabaseSqliteCheck($cfg);
         }
 
         if (!in_array($driver, ['pdo_mysql', 'pdo_pgsql'])) {
-            throw LowLevelDatabaseException::unsupportedDriver($driver);
+            return $this->getExceptionController()->databaseDriver('unsupported', null, $driver);
         }
 
         if ($driver == 'pdo_mysql' && !$this->mysqlLoaded) {
-            throw LowLevelDatabaseException::missingDriver('MySQL', 'pdo_mysql');
+            return $this->getExceptionController()->databaseDriver('missing', 'MySQL', 'pdo_mysql');
         }
 
         if ($driver == 'pdo_pgsql' && !$this->postgresLoaded) {
-            throw LowLevelDatabaseException::missingDriver('PostgreSQL', 'pdo_pgsql');
+            return $this->getExceptionController()->databaseDriver('missing', 'PostgreSQL', 'pdo_pgsql');
         }
 
         if (empty($cfg['dbname'])) {
-            throw LowLevelDatabaseException::missingParameter('databasename');
+            return $this->getExceptionController()->databaseDriver('parameter', null, $driver, 'databasename');
         }
         if (empty($cfg['user'])) {
-            throw LowLevelDatabaseException::missingParameter('username');
+            return $this->getExceptionController()->databaseDriver('parameter', null, $driver, 'username');
         }
         if (empty($cfg['password']) && ($cfg['user'] === 'root')) {
-            throw LowLevelDatabaseException::unsecure();
+            return $this->getExceptionController()->databaseDriver('insecure', null, $driver);
         }
+
+        return null;
     }
 
     protected function doDatabaseSqliteCheck($config)
     {
         if (!$this->sqliteLoaded) {
-            throw LowLevelDatabaseException::missingDriver('SQLite', 'pdo_sqlite');
+            return $this->getExceptionController()->databaseDriver('missing', 'SQLite', 'pdo_sqlite');
         }
 
         // If in-memory connection, skip path checks
         if (isset($config['memory']) && $config['memory'] === true) {
-            return;
+            return null;
         }
 
         // If the file is present, make sure it is writable
         $file = $config['path'];
         if (file_exists($file)) {
             if (!is_writable($file)) {
-                throw LowLevelDatabaseException::unwritableFile($file);
+                return $this->getExceptionController()->databasePath('file', $file, 'is not writable');
             }
 
-            return;
+            return null;
         }
 
         // If the file isn't present, make sure the directory
@@ -241,15 +291,15 @@ class LowlevelChecks
                 $this->config->app['config']->initialize();
                 $config = $this->config->app['config']->get('general/database');
                 if (!file_exists(dirname($config['path']))) {
-                    throw LowLevelDatabaseException::nonexistantFolder($dir);
+                    return $this->getExceptionController()->databasePath('folder', $dir, 'does not exist');
                 }
             } else {
-                throw LowLevelDatabaseException::nonexistantFolder($dir);
+                return $this->getExceptionController()->databasePath('folder', $dir, 'does not exist');
             }
         }
 
         if (!is_writable($dir)) {
-            throw LowLevelDatabaseException::unwritableFolder($dir);
+            return $this->getExceptionController()->databasePath('folder', $dir, 'is not writable');
         }
     }
 
@@ -264,7 +314,7 @@ class LowlevelChecks
      *
      * @param string $name Filename stem; .yml extension will be added automatically.
      *
-     * @throws \Bolt\Exception\LowlevelException
+     * @throws \Bolt\Exception\BootException
      */
     protected function lowlevelConfigFix($name)
     {
@@ -273,11 +323,11 @@ class LowlevelChecks
 
         if (file_exists($ymlname) && !is_readable($ymlname)) {
             $error = sprintf(
-                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
+                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the web server is using.",
                 htmlspecialchars($name . '.yml', ENT_QUOTES),
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
-            throw new LowlevelException($error);
+            throw new BootException($error);
         }
 
         if (!file_exists($ymlname)) {
@@ -287,13 +337,13 @@ class LowlevelChecks
             } catch (\Exception $e) {
                 $message = sprintf(
                     "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
-                    <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
+                    <code>%s</code>, and optionally make it writable to the user that the web server is using.",
                     htmlspecialchars($name . '.yml', ENT_QUOTES),
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                     htmlspecialchars($name . '.yml.dist', ENT_QUOTES)
                 );
 
-                throw new LowlevelException($message);
+                throw new BootException($message);
             }
         }
     }

@@ -1,6 +1,9 @@
 <?php
 namespace Bolt\Exception;
 
+/**
+ * @deprecated Deprecated since 3.2, to be removed in 4.0. @see \Bolt\Exception\BootException
+ */
 class LowLevelDatabaseException extends LowlevelException
 {
     public static function failedConnect($platform, \Exception $previous)

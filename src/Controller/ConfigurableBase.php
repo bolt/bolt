@@ -160,7 +160,7 @@ abstract class ConfigurableBase extends Base
         $callbackResolver = $this->callbackResolver;
 
         return function (Request $request) use ($callback, $callbackResolver) {
-            if (!substr($callback, 0, 2) === '::') {
+            if (!is_string($callback) || substr($callback, 0, 2) !== '::') {
                 return $callbackResolver->resolveCallback($callback);
             }
 
@@ -168,12 +168,15 @@ abstract class ConfigurableBase extends Base
             if (is_array($controller)) {
                 list($cls, $_) = $controller;
             } elseif (is_string($controller)) {
-                list($cls, $_) = explode('::', $controller);
+                if (strpos($controller, '::') !== false) {
+                    list($cls, $_) = explode('::', $controller);
+                } else {
+                    $cls = $controller;
+                }
             } else {
                 return null;
             }
             $callback = [$cls, substr($callback, 2)];
-            $callback = $callbackResolver->resolveCallback($callback);
 
             return $callback;
         };

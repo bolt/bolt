@@ -16,4 +16,12 @@ class HiddenType extends FieldTypeBase
     {
         return 'hidden';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('text');
+    }
 }

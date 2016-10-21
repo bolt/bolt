@@ -6,7 +6,6 @@ use Bolt\Controller\Zone;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
 use Bolt\Translation\Translator as Trans;
-use Bolt\Version;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,7 +48,7 @@ abstract class BackendBase extends Base
      * @param Application $app       The application/container
      * @param string      $roleRoute An overriding value for the route name in permission checks
      *
-     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|Symfony\Component\HttpFoundation\JsonResponse
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function before(Request $request, Application $app, $roleRoute = null)
     {
@@ -67,24 +66,6 @@ abstract class BackendBase extends Base
             $roleRoute = $this->getRoutePermission($route);
         } else {
             $roleRoute = $this->getRoutePermission($roleRoute);
-        }
-
-        // Sanity checks for doubles in in contenttypes. This has to be done
-        // here, because the 'translator' classes need to be initialised.
-        $app['config']->checkConfig();
-
-        // If we had to reload the config earlier on because we detected a
-        // version change, display a notice.
-        if ($app['config']->notify_update) {
-            $notice = Trans::__(
-                "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
-                [
-                    '%VERSION%' => Version::VERSION,
-                    '%URI%'     => $app['url_generator']->generate('dbcheck'),
-                ]
-            );
-            $app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
-            $app['logger.flash']->warning($notice);
         }
 
         // Check for first user set up
@@ -121,6 +102,7 @@ abstract class BackendBase extends Base
             // message with a `500` status code instead.
             if ($request->isXmlHttpRequest()) {
                 $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')] ];
+
                 return new JsonResponse($response, 500);
             }
 

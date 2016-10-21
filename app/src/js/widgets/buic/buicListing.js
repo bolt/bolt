@@ -87,7 +87,7 @@
                         ok: {
                             label: buttonText,
                             className: 'btn-primary',
-                            callback: function() {
+                            callback: function () {
                                 self._sendModifyRecordsQuery(modifications);
                             }
                         }

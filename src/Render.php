@@ -66,6 +66,8 @@ class Render
     /**
      * Check if the template exists.
      *
+     * @internal
+     *
      * @param string $template The name of the template.
      *
      * @return bool
@@ -95,7 +97,7 @@ class Render
     }
 
     /**
-     * Postprocess the rendered HTML: insert the snippets, and stuff.
+     * Post-process the rendered HTML: insert the snippets, and stuff.
      *
      * @param Request  $request
      * @param Response $response
@@ -108,11 +110,12 @@ class Render
                 $queue->process($request, $response);
             }
         }
-        $this->cacheRequest($response);
     }
 
     /**
      * Retrieve a fully cached page from cache.
+     *
+     * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
      *
      * @return \Symfony\Component\HttpFoundation\Response|boolean
      */
@@ -147,6 +150,8 @@ class Render
     /**
      * Store a fully rendered (and post-processed) page to cache.
      *
+     * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
+     *
      * @param Response $response
      */
     public function cacheRequest(Response $response)
@@ -164,6 +169,8 @@ class Render
     /**
      * Get the duration (in seconds) for the cache.
      *
+     * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
+     *
      * @return integer
      */
     public function cacheDuration()
@@ -177,6 +184,8 @@ class Render
 
     /**
      * Check if the current conditions are suitable for caching.
+     *
+     * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
      *
      * @param string $type
      * @param bool   $checkoverride

@@ -10,8 +10,6 @@
 (function (bolt, $) {
     'use strict';
 
-    /*jshint latedef: nofunc */
-
     /**
      * Bolt.files mixin container.
      *
@@ -19,6 +17,38 @@
      * @type {Object}
      */
     var files = {};
+
+    /**
+     * Perform an AJAX POST.
+     *
+     * @private
+     * @static
+     * @function exec
+     * @memberof Bolt.files
+     *
+     * @param {type} cmd - Command to send to the async controller.
+     * @param {type} data - Request data.
+     * @param {type} errMsg - Error message to print on the console when something goes wrong.
+     * @param {function} [success] - Callback on success. Defaults to a page relaod.
+     */
+    function exec(cmd, data, errMsg, success) {
+        var options = {
+            url: bolt.conf('paths.async') + cmd,
+            type: 'POST',
+            data: data,
+            success: function () {
+                document.location.reload();
+            },
+            error: function (result) {
+                alert(result.responseText);
+                console.log(errMsg);
+            }
+        };
+        if (success) {
+            options.success = success;
+        }
+        $.ajax(options);
+    }
 
     /**
      * Create a file on the server utilizing an AJAX request.
@@ -214,38 +244,6 @@
             });
         }
     };
-
-    /**
-     * Perform an AJAX POST.
-     *
-     * @private
-     * @static
-     * @function exec
-     * @memberof Bolt.files
-     *
-     * @param {type} cmd - Command to send to the async controller.
-     * @param {type} data - Request data.
-     * @param {type} errMsg - Error message to print on the console when something goes wrong.
-     * @param {function} [success] - Callback on success. Defaults to a page relaod.
-     */
-    function exec(cmd, data, errMsg, success) {
-        var options = {
-            url: bolt.conf('paths.async') + cmd,
-            type: 'POST',
-            data: data,
-            success: function () {
-                document.location.reload();
-            },
-            error: function (result) {
-                alert(result.responseText);
-                console.log(errMsg);
-            }
-        };
-        if (success) {
-            options.success = success;
-        }
-        $.ajax(options);
-    }
 
     // Apply mixin container
     bolt.files = files;

@@ -141,7 +141,7 @@ class Authentication extends BackendBase
      *
      * @param Request $request
      *
-     * @return RedirectResponse
+     * @return Response
      */
     private function handlePostLogin(Request $request)
     {

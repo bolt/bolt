@@ -64,6 +64,8 @@ trait MagicAttributeTrait
                 return $this->$underscored;
             } elseif ($this->has($var)) {
                 return $this->_fields[$var];
+            } elseif ($this->has($underscored)) {
+                return $this->_fields[$underscored];
             }
         }
 
@@ -117,6 +119,4 @@ trait MagicAttributeTrait
     {
         return in_array($field, $this->getFields());
     }
-
-
 }
