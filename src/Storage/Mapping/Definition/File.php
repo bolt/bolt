@@ -13,10 +13,18 @@ use Bolt\Storage\Mapping\Definition;
 class File extends Definition
 {
 
+    public $appConfig;
+
+    public function __construct($name, array $parameters, array $config)
+    {
+        $this->appConfig = $config;
+        parent::__construct($name, $parameters);
+    }
+
     public function setup()
     {
         parent::setup();
-        $acceptableFileTypes = $this->config['accept_file_types'];
+        $acceptableFileTypes = $this->appConfig['accept_file_types'];
         if (!$this->has('extensions')) {
             $this->set('extensions', $acceptableFileTypes);
         }
@@ -26,5 +34,14 @@ class File extends Definition
     public function getExtensions()
     {
         return $this->get('extensions', []);
+    }
+
+    /**
+     * File definitions need access to the global config to read allowed file types
+     * @param array $config
+     */
+    public function setAppConfig(array $config)
+    {
+        $this->appConfig = $config;
     }
 }

@@ -12,10 +12,19 @@ use Bolt\Storage\Mapping\Definition;
 
 class Image extends Definition
 {
+
+    protected $appConfig;
+
+    public function __construct($name, array $parameters, array $config)
+    {
+        $this->appConfig = $config;
+        parent::__construct($name, $parameters);
+    }
+
     public function setup()
     {
         parent::setup();
-        $acceptableFileTypes = $this->config['accept_file_types'];
+        $acceptableFileTypes = $this->appConfig['accept_file_types'];
         if (!$this->has('extensions')) {
             $acceptableFileTypes = array_intersect(
                 ['gif', 'jpg', 'jpeg', 'png'],
@@ -29,5 +38,14 @@ class Image extends Definition
     public function getExtensions()
     {
         return $this->get('extensions', []);
+    }
+
+    /**
+     * Image definitions need access to the global config to read allowed file types
+     * @param array $config
+     */
+    public function setAppConfig(array $config)
+    {
+        $this->appConfig = $config;
     }
 }
