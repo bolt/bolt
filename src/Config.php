@@ -388,6 +388,7 @@ class Config
      */
     protected function parseContentTypes(array $generalConfig)
     {
+        $this->app['mapping']->setConfig($generalConfig);
         $contentTypes = new ContentTypeCollection();
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
