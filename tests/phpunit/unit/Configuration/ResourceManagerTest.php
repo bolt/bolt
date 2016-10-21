@@ -4,6 +4,7 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
+use Bolt\Tests\BoltUnitTest;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ResourceManagerTest extends \PHPUnit_Framework_TestCase
+class ResourceManagerTest extends BoltUnitTest
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $app = $this->getApp();
+        $filesystem = $app['filesystem'];
+        if ($filesystem->has('config://config.yml')) {
+            $filesystem->delete('config://config.yml');
+        }
+    }
+
+
     public function testConstruction()
     {
         $container = new \Pimple(
@@ -363,14 +376,5 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $app = new Application(['resources' => $config]);
         $app2 = ResourceManager::getApp();
         $this->assertEquals($app, $app2);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testEarlyStaticFails()
-    {
-        $this->setExpectedException('RuntimeException');
-        $app = ResourceManager::getApp();
     }
 }
