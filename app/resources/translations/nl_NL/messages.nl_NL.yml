@@ -183,7 +183,7 @@ field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
 
 field.slug.button.edit: "Bewerk"
-field.slug.button.link: "Link naar:"
+field.slug.button.generate: "Genereer van:"
 field.slug.button.lock: "Vergrendelen"
 field.slug.message.warning: "Het aanpassen van dit bewerkingsvlak kan bestaande koppelingen aan deze record verbreken!"
 field.slug.permalink: "Permalink"

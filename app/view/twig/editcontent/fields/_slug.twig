@@ -37,7 +37,7 @@
     label_alias:     __('field.slug.unique-alias'),
     label_permalink: __('field.slug.permalink'),
     menu_edit:       __('field.slug.button.edit'),
-    menu_link:       __('field.slug.button.link'),
+    menu_generate:   __('field.slug.button.generate'),
     menu_lock:       __('field.slug.button.lock'),
     warning:         __('field.slug.message.warning'),
 } %}
@@ -76,8 +76,8 @@
                         <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_lock }}</a>
                     </li>
                     {% if option.uses|length %}
-                        <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
-                            <a href="#"><i class="fa fa-fw fa-link"></i> <span>{{ trans.menu_link }} <var>{{ uses|join(' + ')}}</var></span></a>
+                        <li class="link{{ mode == 'linked' ? ' disabled' : '' }}" style="min-width: 200px;">
+                            <a href="#"><i class="fa fa-fw fa-link"></i> <span>{{ trans.menu_generate }} <var>{{ uses|join(' + ')}}</var></span></a>
                         </li>
                     {% endif %}
                     <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
