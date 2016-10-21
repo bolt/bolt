@@ -46,6 +46,7 @@
         "symfony/http-foundation": "^2.8",
         "symfony/http-kernel": "^2.8",
         "symfony/intl" : "^2.8",
+        "symfony/monolog-bridge": "^2.8",
         "symfony/options-resolver": "^2.8",
         "symfony/process": "^2.8",
         "symfony/property-access": "^2.8",
