@@ -30,7 +30,7 @@ class ContentType implements ArrayAccess
      * @param array $contentType
      * @param array $config
      */
-    public function __construct($boltname, array $contentType, array $config)
+    public function __construct($boltname, array $contentType, array $config = [])
     {
         $this->boltname = $boltname;
         $this->contentType = $contentType;
