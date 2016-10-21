@@ -79,10 +79,28 @@ class LoggerServiceProvider implements ServiceProviderInterface
         $app->register(
             new MonologServiceProvider(),
             [
-                'monolog.name'    => 'bolt',
-                'monolog.level'   => constant('Monolog\Logger::' . strtoupper($app['config']->get('general/debuglog/level'))),
-                'monolog.logfile' => $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename'),
+                'monolog.name' => 'bolt',
             ]
+        );
+
+        $app['monolog.level'] = function ($app) {
+            return Logger::toMonologLevel($app['config']->get('general/debuglog/level'));
+        };
+
+        $app['monolog.logfile'] = function ($app) {
+            return $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename');
+        };
+
+        $app['monolog.handler'] = $app->extend(
+            'monolog.handler',
+            function ($handler, $app) {
+                // If we're not debugging, just send to /dev/null
+                if (!$app['config']->get('general/debuglog/enabled')) {
+                    return new NullHandler();
+                }
+
+                return $handler;
+            }
         );
 
         // If we're not debugging, just send to /dev/null
