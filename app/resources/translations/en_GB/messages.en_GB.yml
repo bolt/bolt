@@ -179,7 +179,7 @@ field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Preview"
 
 field.slug.button.edit: "Edit"
-field.slug.button.link: "Link to:"
+field.slug.button.generate: "Generate from:"
 field.slug.button.lock: "Lock"
 field.slug.message.warning: "Editing this field might break existing links to this record!"
 field.slug.permalink: "Permalink"

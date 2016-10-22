@@ -446,7 +446,6 @@ class Config
         foreach ($tempContentTypes as $key => $contentType) {
             try {
                 $contentType = $this->parseContentType($key, $contentType, $generalConfig);
-                $key = $contentType['slug'];
                 $contentTypes[$key] = $contentType;
             } catch (InvalidArgumentException $e) {
                 $this->exceptions[] = $e->getMessage();
