@@ -1,10 +1,10 @@
 # app/resources/translations/de_DE/messages.de_DE.yml – generated on 2016-05-09 07:28:27 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -223,7 +223,7 @@ field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Vorschau"
 
 field.slug.button.edit: "Bearbeiten"
-field.slug.button.link: "Verknüpfen mit:"
+field.slug.button.generate: "Generiere von:"
 field.slug.button.lock: "Sperren"
 field.slug.message.warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
 field.slug.permalink: "Permanenter Link"
