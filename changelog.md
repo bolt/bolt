@@ -1,8 +1,8 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.2-RC
------------
+Bolt 3.2 RC 1
+-------------
 
 Released 2016-10-24. Notable changes:
 
