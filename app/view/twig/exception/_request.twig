@@ -16,7 +16,7 @@
 
 {% macro printrow(key, value) %}
     {% import _self as macros %}
-    {% set obfuscated = ['cookie', '_csrf/bolt', 'bolt_authtoke', 'bolt_session_', 'authenticatio', 'HTTP_COOKIE'] %}
+    {% set obfuscated = ['cookie', '_csrf/bolt', '_csrf/form', 'bolt_authtoke', 'bolt_session_', 'authenticatio', 'HTTP_COOKIE'] %}
 
     <tr>
         <th>{{ key }}</th>
