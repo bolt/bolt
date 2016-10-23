@@ -16,7 +16,7 @@ class DefinitionTest extends BoltUnitTest
     public function testDefinitionDefaults()
     {
         $app = $this->getApp();
-        $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+        $manager = $app['mapping'];
 
         $field = $manager->load('textfield', ['type' => 'text']);
         $this->assertEquals('', $field->getClass());
@@ -36,7 +36,7 @@ class DefinitionTest extends BoltUnitTest
     public function testDefinitionWithSettings()
     {
         $app = $this->getApp();
-        $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+        $manager = $app['mapping'];
 
         $options = [
             'type' => 'text',
