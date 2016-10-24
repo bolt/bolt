@@ -30,6 +30,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.exception'] = $app->share(
             function ($app) {
                 return new Listener\ExceptionListener(
+                    $app['config'],
                     $app['controller.exception'],
                     $app['logger.system']
                 );
