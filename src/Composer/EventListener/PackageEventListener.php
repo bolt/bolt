@@ -72,9 +72,7 @@ class PackageEventListener
         foreach ($finder as $jsonFile) {
             $jsonData = json_decode($jsonFile->getContents(), true);
             if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
-                // Hack to get web path for local extensions on a git install
-                $location = strpos($jsonFile->getPath(), 'vendor') === 0 ? 'vendor' : 'local';
-                $webPath = sprintf('extensions/%s/%s', $location, $jsonData['name']);
+                $webPath = sprintf('extensions/vendor/%s', $jsonData['name']);
 
                 if ($includeAssetsDir && !empty($jsonData['extra']['bolt-assets'])) {
                     $webPath .= '/' . trim($jsonData['extra']['bolt-assets'], '/');
@@ -123,11 +121,6 @@ class PackageEventListener
             ->notPath('vendor/composer')
             ->depth(2)
         ;
-        try {
-            $finder->in(['local']);
-        } catch (\InvalidArgumentException $e) {
-            // No local extensions are installed
-        }
         try {
             $finder->in(['vendor']);
         } catch (\InvalidArgumentException $e) {
