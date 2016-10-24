@@ -234,11 +234,7 @@ class Manager
     {
         $className = $descriptor->getClass();
         if ($this->isClassLoadable($className) === false) {
-            if ($descriptor->getType() === 'local' && $this->isClassLoadable('Wikimedia\Composer\MergePlugin') === false) {
-                $this->flashLogger->error(Trans::__('general.phrase.error-local-extension-set-up-incomplete', ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
-            } else {
-                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
-            }
+            $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
 
             return;
         }
