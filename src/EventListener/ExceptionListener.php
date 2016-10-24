@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\EventListener;
 
+use Bolt\Config;
 use Bolt\Controller;
 use Bolt\Exception\BootException;
 use Bolt\Request\ProfilerAwareTrait;
@@ -28,17 +29,21 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
     use LoggerAwareTrait;
     use ProfilerAwareTrait;
 
+    /** @var Config */
+    private $config;
     /** @var Controller\Exception */
     protected $exceptionController;
 
     /**
      * Constructor.
      *
+     * @param Config               $config
      * @param Controller\Exception $exceptionController
      * @param LoggerInterface      $logger
      */
-    public function __construct(Controller\Exception $exceptionController, LoggerInterface $logger)
+    public function __construct(Config $config, Controller\Exception $exceptionController, LoggerInterface $logger)
     {
+        $this->config = $config;
         $this->exceptionController = $exceptionController;
         $this->setLogger($logger);
     }
@@ -97,6 +102,8 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
                     'message'   => $message,
                 ]
             );
+        } elseif ($this->config->get('general/debug_error_use_symfony')) {
+            return null;
         } else {
             $response = $this->exceptionController->kernelException($event);
         }
