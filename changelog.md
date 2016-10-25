@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.3-dev
 -----------
 
-- 
+- Break: Removed local extension functionality
 
 Bolt 3.2-beta 7
 ---------------
