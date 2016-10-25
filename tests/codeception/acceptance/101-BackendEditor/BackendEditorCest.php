@@ -90,24 +90,6 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that the PRE_SAVE and POST_SAVE storage event triggered on create.
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function checkCreateRecordsEventTest(\AcceptanceTester $I)
-    {
-        $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create');
-
-        // Set up the browser
-        $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/editcontent/pages/1');
-
-        $I->seeInField('#title',  'A PAGE I MADE');
-        $I->see('Snuck in to teaser during PRE_SAVE on create');
-        $I->see('Snuck in to body during POST_SAVE on create');
-    }
-
-    /**
      * Check that the editor can't publish Entries
      *
      * @param \AcceptanceTester $I
@@ -135,24 +117,6 @@ class BackendEditorCest extends AbstractAcceptanceTest
 
         // Check the 'Duplicate page' context menu option is shown
         $I->see('Duplicate Page', 'a');
-    }
-
-    /**
-     * Check that the PRE_SAVE and POST_SAVE storage event triggered on save.
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function checkSaveRecordsEventTest(\AcceptanceTester $I)
-    {
-        $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save');
-
-        // Set up the browser
-        $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/editcontent/pages/1');
-
-        $I->seeInField('#title',  'A Page I Made');
-        $I->see('Added to teaser during PRE_SAVE on save');
-        $I->see('Added to body during POST_SAVE on save');
     }
 
     /**
@@ -226,7 +190,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
 
         $I->click('Save Page', '#savecontinuebutton');
         $I->see('The new Page has been saved.');
-        $I->click('CONTACT PAGE');
+        $I->click('Contact Page');
 
         // Page has been saved, fill templatefields
         $I->see('Template', 'a[data-toggle=tab]');
@@ -234,7 +198,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#templatefields-section_1', 'This is the contact text');
         $I->click('Save Page');
 
-        $I->click('CONTACT PAGE');
+        $I->click('Contact Page');
         /*
          * In v2.0.13 Codeception made the awesome decision to refactor their
          * PHP Browser code — in a patch release no less — and it doesn't

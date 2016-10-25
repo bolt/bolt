@@ -220,43 +220,4 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->see('Run all Updates',                'a');
         $I->see('Install all Packages',           'a');
     }
-
-    /**
-     * Test that the 'developer' user can configure installed extensions.
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function configureInstalledExtensions(\AcceptanceTester $I)
-    {
-        $I->wantTo("See that the 'developer' user can configure installed extensions.");
-
-        // Set up the browser
-        $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/files/config/extensions');
-
-        $I->see('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
-        $I->click('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
-
-        $I->see('# Sit back and breathe', 'textarea');
-        $I->see('its_nice_to_know_you_work_alone: true', 'textarea');
-
-        // Edit the field
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
-        $twig .= PHP_EOL . "# Let's make this perfectly clear";
-        $twig .= PHP_EOL . 'theres_no_secrets_this_year: true' . PHP_EOL;
-
-        $I->fillField('#form_contents', $twig);
-
-        $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/testerevents.bolt.yml', [
-            'form' => [
-                '_token' => $token,
-                'contents' => $twig,
-            ],
-        ]);
-        $I->amOnPage('/bolt/file/edit/config/extensions/testerevents.bolt.yml');
-
-        $I->see("# Let's make this perfectly clear", 'textarea');
-        $I->see('theres_no_secrets_this_year: true', 'textarea');
-    }
 }
