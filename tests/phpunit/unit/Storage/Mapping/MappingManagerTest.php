@@ -15,7 +15,7 @@ class MappingManagerTest extends BoltUnitTest
     public function testLookup()
     {
         $app = $this->getApp();
-        $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+        $manager = $app['mapping'];
 
         $this->assertEquals('Bolt\Storage\Mapping\Definition\Slug', $manager->getHandler('slug'));
         $this->assertEquals('Bolt\Storage\Mapping\Definition', $manager->getHandler('nonexistent'));
@@ -24,7 +24,7 @@ class MappingManagerTest extends BoltUnitTest
     public function testLoad()
     {
         $app = $this->getApp();
-        $manager = new MappingManager($app['mapping.definitions'], $app['mapping.default']);
+        $manager = $app['mapping'];
 
         $this->assertInstanceOf('Bolt\Storage\Mapping\Definition\Slug', $manager->load('slug', ['type' => 'slug']));
         $this->assertInstanceOf('Bolt\Storage\Mapping\Definition', $manager->load('title', ['type' => 'text']));
