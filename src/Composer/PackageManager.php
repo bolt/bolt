@@ -305,25 +305,6 @@ class PackageManager
             $collection->add($package);
         }
 
-        // Local
-        $extensions = $this->app['extensions']->all();
-        foreach ($extensions as $name => $extension) {
-            if ($collection->get($extension->getId())) {
-                continue;
-            }
-            /** @var JsonFile $composerJson */
-            $composerJson = $extension->getBaseDirectory()->get('composer.json');
-            $package = Package::createFromComposerJson($composerJson->parse());
-            $package->setStatus('local');
-            $package->setTitle($extension->getDisplayName());
-            $package->setReadmeLink($this->linkReadMe($extension));
-            $package->setConfigLink($this->linkConfig($extension));
-            $package->setValid($extension->isValid());
-            $package->setEnabled($extension->isEnabled());
-
-            $collection->add($package);
-        }
-
         // Pending
         $requires = isset($this->json['require']) ? $this->json['require'] : [];
         foreach ($requires as $name => $version) {
