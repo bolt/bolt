@@ -73,11 +73,6 @@ class CodeceptionEventsExtension extends \Codeception\Extension
             }
         }
 
-        // Install the local extension
-        $this->writeln('Installing local extension');
-        $fs->mirror(CODECEPTION_DATA . '/extensions/local/bolt/testerevents/', INSTALL_ROOT . '/extensions/local/bolt/testerevents/', null, ['override' => true, 'delete' => true]);
-        $this->nut('extensions:setup');
-
         // Empty the cache
         $this->nut('cache:clear');
     }
@@ -109,30 +104,9 @@ class CodeceptionEventsExtension extends \Codeception\Extension
             }
         }
 
-        // Events tester local extension
-        if ($fs->exists(INSTALL_ROOT . '/extensions/local/bolt/testerevents/')) {
-            $this->writeln('Removing extensions/local/bolt/testerevents/');
-            $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/testerevents/');
-
-            $finder = new Finder();
-            $finder->files()->in(INSTALL_ROOT . '/extensions/local/bolt/');
-            if ($finder->count() === 0) {
-                $this->writeln('Removing extensions/local/bolt/');
-                $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/');
-            }
-            $finder = new Finder();
-            $finder->files()->in(INSTALL_ROOT . '/extensions/local/');
-            if ($finder->count() === 0) {
-                $this->writeln('Removing extensions/local/');
-                $fs->remove(INSTALL_ROOT . '/extensions/local/');
-                $this->writeln('Uninstalling wikimedia/composer-merge-plugin');
-                $this->nut('extensions:uninstall wikimedia/composer-merge-plugin');
-            }
-        }
         if ($fs->exists(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml')) {
             $fs->remove(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml');
         }
-        $this->nut('extensions:dumpautoload');
     }
 
     private function nut($args)
