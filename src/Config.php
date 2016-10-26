@@ -563,7 +563,7 @@ class Config
             $contentType['slug'] = Slugify::create()->slugify($contentType['name']);
         }
         if (!isset($contentType['name'])) {
-            $contentType['name'] = ucwords(preg_replace('/[^a-z0-9]/', ' ', $contentType['slug']));
+            $contentType['name'] = ucwords(preg_replace('/[^a-z0-9]/i', ' ', $contentType['slug']));
         }
         if (!isset($contentType['singular_slug'])) {
             $contentType['singular_slug'] = Slugify::create()->slugify($contentType['singular_name']);
