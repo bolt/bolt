@@ -29,6 +29,7 @@ class FieldValue extends BaseTable
         $this->table->addColumn('value_date',       'date',         ['notnull' => false]);
         $this->table->addColumn('value_datetime',   'datetime',     ['notnull' => false]);
         $this->table->addColumn('value_json_array', 'json_array',   []);
+        $this->table->addColumn('value_boolean',    'boolean',      ['default' => 0]);
         // @codingStandardsIgnoreEnd
     }
 
