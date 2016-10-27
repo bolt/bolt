@@ -224,11 +224,12 @@ class Storage
             }
         }
 
-        $content['title'] = rtrim($content['title'], '.,;:');
-        $content['slug'] = $this->app['slugify']->slugify($content['title']);
-
         $contentobject = $this->getContentObject($contenttype);
         $contentobject->setValues($content);
+
+        // After we initially filled the content object, we get the title to set the slug.
+        $slug = $this->app['slugify']->slugify($contentobject->getTitle());
+        $contentobject->setValue('slug', $slug);
 
         if (!empty($contenttype['taxonomy'])) {
             foreach ($contenttype['taxonomy'] as $taxonomy) {
