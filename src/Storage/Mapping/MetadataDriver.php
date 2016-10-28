@@ -605,5 +605,7 @@ class MetadataDriver implements MappingDriver
                 return $key;
             }
         }
+
+        return $alias;
     }
 }
