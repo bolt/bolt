@@ -182,7 +182,7 @@ class MetadataDriver implements MappingDriver
                 'fieldname'        => $column->getName(),
                 'attribute'        => $this->camelize($column->getName()),
                 'type'             => $column->getType()->getName(),
-                'fieldtype'        => $this->getFieldTypeFor($table->getOption('alias'), $column),
+                'fieldtype'        => $this->getFieldTypeFor($contentKey, $column),
                 'length'           => $column->getLength(),
                 'nullable'         => $column->getNotnull(),
                 'platformOptions'  => $column->getPlatformOptions(),
