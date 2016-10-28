@@ -52,6 +52,18 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
         ];
     }
 
+
+    /**
+     * Get the data of the loaded config
+     * @return array
+     */
+    public function getData()
+    {
+        $this->initialize();
+
+        return $this->data;
+    }
+
     /**
      *{@inheritdoc}
      */
