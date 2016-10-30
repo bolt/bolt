@@ -1,6 +1,22 @@
 Changelog for Bolt 3.x
 ======================
 
+
+Bolt 3.2 RC 2
+-------------
+
+Released 2016-10-31. Notable changes:
+
+ - Change: Switch profiler target option to Symfony's target [#5946](https://github.com/bolt/bolt/pull/5946)
+ - Fixed: Add a `value_boolean` type to the `field_value` table. [#5959](https://github.com/bolt/bolt/pull/5959)
+ - Fixed: Fix Issues Caused By Slug/Key inconsistencies: Multi select field doesn't save values. [#5965](https://github.com/bolt/bolt/pull/5965) [#5969](https://github.com/bolt/bolt/pull/5969)
+ - Fixed: Handle user entity `pre-save` events very early to mitigate passwords not being hashed, if another event stopped propagation [#5958](https://github.com/bolt/bolt/pull/5958)
+ - Fixed: If `name:` or `singular_name:` isn't set in 'contenttype.yml', generate something semi-logical from the slug. [#5962](https://github.com/bolt/bolt/pull/5962)
+ - Fixed: Making license link to the MIT License on docs. [#5949](https://github.com/bolt/bolt/pull/5949)
+ - Fixed: Optional `order` in relationship shouldn't throw an exception. [#5955](https://github.com/bolt/bolt/pull/5955)
+ - Fixed: Set the slug after filling the object, prevent breakage in "prefilling" content without a `title` field. [#5967](https://github.com/bolt/bolt/pull/5967)
+ - Fixed: Standardise the Doctrine Types used by custom fields [#5956](https://github.com/bolt/bolt/pull/5956)
+
 Bolt 3.2 RC 1
 -------------
 
