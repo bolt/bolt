@@ -104,7 +104,7 @@ class MetadataDriver implements MappingDriver
     {
         foreach ($this->schemaManager->getSchemaTables() as $table) {
             if ($tableName = $table->getName()) {
-                $this->aliases[$table->getOption('alias')] = $tableName;
+                $this->aliases[$this->getContentTypeFromAlias($table->getOption('alias'))] = $tableName;
             }
         }
     }
