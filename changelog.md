@@ -16,6 +16,7 @@ Released 2016-10-31. Notable changes:
  - Fixed: Optional `order` in relationship shouldn't throw an exception. [#5955](https://github.com/bolt/bolt/pull/5955)
  - Fixed: Set the slug after filling the object, prevent breakage in "prefilling" content without a `title` field. [#5967](https://github.com/bolt/bolt/pull/5967)
  - Fixed: Standardise the Doctrine Types used by custom fields [#5956](https://github.com/bolt/bolt/pull/5956)
+ - Fixed: Use of `tablename:` in contenttypes disallows editing records. [#5960](https://github.com/bolt/bolt/pull/5960)
 
 Bolt 3.2 RC 1
 -------------
