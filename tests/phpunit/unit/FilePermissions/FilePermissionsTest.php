@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\FilePermissions;
 
+use Bolt\Exception\FilesystemException;
 use Bolt\Filesystem\FilePermissions;
 use Bolt\Tests\BoltUnitTest;
 
@@ -31,6 +33,17 @@ class FilePermissionsTest extends BoltUnitTest
         $this->assertFalse($fp->allowedUpload($badExtension));
 
         $okFile = 'mycoolimage.jpg';
+
+        if (ini_set('file_uploads', '0') !== false) {
+            try {
+                $fp->allowedUpload($okFile);
+            } catch (FilesystemException $e) {
+                $this->assertEquals($e->getCode(), 5);
+                $this->assertEquals($e->getMessage(), 'File uploads are not allowed, check the file_uploads ini directive.');
+            }
+            ini_set('file_uploads', '1');
+        }
+
         $this->assertTrue($fp->allowedUpload($okFile));
     }
 }
