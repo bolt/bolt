@@ -66,7 +66,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->user->getPassword()->willReturn('pass');
         $this->storageEvent->getContent()->willReturn($this->user->reveal());
 
-        $this->listener->onPreSave($this->storageEvent->reveal());
+        $this->listener->onUserEntityPreSave($this->storageEvent->reveal());
     }
 
     /**
@@ -79,7 +79,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->passwordFactory->createHash('password', Argument::type('string'))->willReturn('hashedpassword');
         $this->user->setPassword('hashedpassword')->shouldBeCalled();
 
-        $this->listener->onPreSave($this->storageEvent->reveal());
+        $this->listener->onUserEntityPreSave($this->storageEvent->reveal());
     }
 
     /**
@@ -94,7 +94,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->passwordFactory->createHash(Argument::cetera())->shouldNotBeCalled();
         $this->user->setPassword($hash)->shouldBeCalled();
 
-        $this->listener->onPreSave($this->storageEvent->reveal());
+        $this->listener->onUserEntityPreSave($this->storageEvent->reveal());
     }
 
     public function providePreSaveAlreadyHashed()

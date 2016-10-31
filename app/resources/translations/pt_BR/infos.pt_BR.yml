@@ -67,7 +67,7 @@ about:
     Se você é desenvolvedor, você será muito bem-vindo para ajudar no desenvolvimento de Bolt.</p>
   licence: |
     <p>Todas as partes do Bolt são livres para serem utilizadas sob a licença open-source MIT. O texto completo desta licença
-    pode ser encontrada aqui: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
+    pode ser encontrada aqui: <a href="https://docs.bolt.cm/other/license">LICENSE.md</a>.</p>
 prefill:
   short_help: |
     <p>Verifique os tipos de arquivo para cada um dos campos que precisa popular com conteúdo Lorem Ipsum.</p>

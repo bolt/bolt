@@ -104,7 +104,7 @@ class MetadataDriver implements MappingDriver
     {
         foreach ($this->schemaManager->getSchemaTables() as $table) {
             if ($tableName = $table->getName()) {
-                $this->aliases[$table->getOption('alias')] = $tableName;
+                $this->aliases[$this->getContentTypeFromAlias($table->getOption('alias'))] = $tableName;
             }
         }
     }
@@ -172,7 +172,7 @@ class MetadataDriver implements MappingDriver
             $this->unmapped[] = $tblName;
         }
 
-        $contentKey = $table->getOption('alias');
+        $contentKey = $this->getContenttypeFromAlias($table->getOption('alias'));
         $this->metadata[$className] = [];
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
         $this->metadata[$className]['table'] = $table->getName();
@@ -182,7 +182,7 @@ class MetadataDriver implements MappingDriver
                 'fieldname'        => $column->getName(),
                 'attribute'        => $this->camelize($column->getName()),
                 'type'             => $column->getType()->getName(),
-                'fieldtype'        => $this->getFieldTypeFor($table->getOption('alias'), $column),
+                'fieldtype'        => $this->getFieldTypeFor($contentKey, $column),
                 'length'           => $column->getLength(),
                 'nullable'         => $column->getNotnull(),
                 'platformOptions'  => $column->getPlatformOptions(),
@@ -586,5 +586,26 @@ class MetadataDriver implements MappingDriver
     public function getTaxonomyConfig()
     {
         return $this->taxonomies;
+    }
+
+    /**
+     * Given a tablename or slug get the correct Bolt keyname from the config
+     * @param $alias
+     * @return string $key
+     */
+    public function getContentTypeFromAlias($alias)
+    {
+
+        foreach ($this->contenttypes->getData() as $key => $contenttype) {
+            if (isset($contenttype['tablename']) && $contenttype['tablename'] == $alias) {
+                return $key;
+            }
+
+            if (isset($contenttype['slug']) && $contenttype['slug'] == $alias) {
+                return $key;
+            }
+        }
+
+        return $alias;
     }
 }

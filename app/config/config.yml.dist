@@ -263,9 +263,9 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 debug: true
 debug_show_loggedoff: false
 debug_permission_audit_mode: false
-# debug_error_level: 8181 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
-debug_error_level: -1 # equivalent to E_ALL
-debug_error_use_profiler: false # When set to true, Symfony Profiler will be used for exception display when possible
+# debug_error_level: 8181           # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
+debug_error_level: -1               # equivalent to E_ALL
+debug_error_use_symfony: false      # When set to true, Symfony Profiler will be used for exception display when possible
 
 # error level when debug is disabled
 #production_error_level: 8181 # = E_ALL &~ E_NOTICE &~ E_WARNING &~ E_DEPRECATED &~ E_USER_DEPRECATED

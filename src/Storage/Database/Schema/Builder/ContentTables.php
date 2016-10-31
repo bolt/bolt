@@ -7,6 +7,7 @@ use Bolt\Storage\Database\Schema\Table\ContentType;
 use Bolt\Storage\Field\Manager as FieldManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Builder for Bolt content tables.
@@ -113,9 +114,9 @@ class ContentTables extends BaseBuilder
             // Add the contenttype's specific fields
             $tableObj->addCustomFields($fieldName, $this->getContentTypeTableColumnType($values), $addIndex);
         } elseif ($handler = $fieldManager->getDatabaseField($values['type'])) {
-            // Add template fields
+            $type = ($handler->getStorageType() instanceof Type) ? $handler->getStorageType()->getName() : $handler->getStorageType();
             /** @var $handler \Bolt\Storage\Field\FieldInterface */
-            $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
+            $table->addColumn($fieldName, $type, $handler->getStorageOptions());
         }
     }
 

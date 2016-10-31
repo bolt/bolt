@@ -555,8 +555,14 @@ class Config
         if (!isset($contentType['slug'])) {
             $contentType['slug'] = Slugify::create()->slugify($contentType['name']);
         }
+        if (!isset($contentType['name'])) {
+            $contentType['name'] = ucwords(preg_replace('/[^a-z0-9]/i', ' ', $contentType['slug']));
+        }
         if (!isset($contentType['singular_slug'])) {
             $contentType['singular_slug'] = Slugify::create()->slugify($contentType['singular_name']);
+        }
+        if (!isset($contentType['singular_name'])) {
+            $contentType['singular_name'] = ucwords(preg_replace('/[^a-z0-9]/i', ' ', $contentType['singular_slug']));
         }
         if (!isset($contentType['show_on_dashboard'])) {
             $contentType['show_on_dashboard'] = true;
@@ -1119,7 +1125,7 @@ class Config
             'debug_error_level'           => null,
             'production_error_level'      => null,
             'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
-            'debug_error_use_profiler'    => false,
+            'debug_error_use_symfony'     => false,
             'debug_permission_audit_mode' => false,
             'strict_variables'            => null,
             'theme'                       => 'base-2016',

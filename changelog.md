@@ -16,39 +16,84 @@ Bolt 3.2-beta 6
 
 Released 2016-10-17.
 
-Bolt 3.2-beta 5
----------------
+Bolt 3.2 RC 2
+-------------
 
-Released 2016-10-13.
+Released 2016-10-31. Notable changes:
 
-Bolt 3.2-beta 4
----------------
+ - Change: Switch profiler target option to Symfony's target [#5946](https://github.com/bolt/bolt/pull/5946)
+ - Fixed: Add a `value_boolean` type to the `field_value` table. [#5959](https://github.com/bolt/bolt/pull/5959)
+ - Fixed: Fix Issues Caused By Slug/Key inconsistencies: Multi select field doesn't save values. [#5965](https://github.com/bolt/bolt/pull/5965) [#5969](https://github.com/bolt/bolt/pull/5969)
+ - Fixed: Handle user entity `pre-save` events very early to mitigate passwords not being hashed, if another event stopped propagation [#5958](https://github.com/bolt/bolt/pull/5958)
+ - Fixed: If `name:` or `singular_name:` isn't set in 'contenttype.yml', generate something semi-logical from the slug. [#5962](https://github.com/bolt/bolt/pull/5962)
+ - Fixed: Making license link to the MIT License on docs. [#5949](https://github.com/bolt/bolt/pull/5949)
+ - Fixed: Optional `order` in relationship shouldn't throw an exception. [#5955](https://github.com/bolt/bolt/pull/5955)
+ - Fixed: Set the slug after filling the object, prevent breakage in "prefilling" content without a `title` field. [#5967](https://github.com/bolt/bolt/pull/5967)
+ - Fixed: Standardise the Doctrine Types used by custom fields [#5956](https://github.com/bolt/bolt/pull/5956)
+ - Fixed: Use of `tablename:` in contenttypes disallows editing records. [#5960](https://github.com/bolt/bolt/pull/5960)
 
-Released 2016-10-08.
+Bolt 3.2 RC 1
+-------------
 
-Bolt 3.2-beta 3
----------------
+Released 2016-10-24. Notable changes:
 
-Released 2016-10-05.
+ - Feature: New Exception screen, for easier and better troubleshooting.
+ - Feature: New and revamped Error and Exception handling.
+ - Feature: Use of underscores and hyphens (`_` and `-`) in contenttype names and fields is possible again. [#5787](https://github.com/bolt/bolt/pull/5787), [#5853](https://github.com/bolt/bolt/pull/5853), [#5939](https://github.com/bolt/bolt/pull/5939), [#5853](https://github.com/bolt/bolt/pull/5853)
+ - Feature: Symfony HTTP Cache for request caching (replaces Doctrine file cache use) [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Feature: You can use 'aliases' for thumbnails, to give different thumbnail sizes names, as well as prevent unlimited remote thumbnail generation. [#3703](https://github.com/bolt/bolt/pull/3703) [#5768](https://github.com/bolt/bolt/pull/5768)
+ - Added: `debug_error_use_profiler` option to replace `Whoops!` with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
+ - Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Added: JSON exception listener [#5863](https://github.com/bolt/bolt/pull/5863)
+ - Added: Lazy loading service provider for EntityManager [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Added: Lazy loading service provider for SchemaManager [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
+ - Changed: `{{ asset() }}` and `{{ path() }}` instead of `{{ paths }}`
+ - Changed: Cropping images in imagefield differently, less 'chopped off' parts. [#5847](https://github.com/bolt/bolt/pull/5847)
+ - Changed: Dropped last bit of PHP `<= 5.2` support. We don't have 'legacy.php' anymore, so no use in keeping `__FILE__` around. [#5916](https://github.com/bolt/bolt/pull/5916)
+ - Changed: For slugs use 'Generate from:' instead of 'Link to:', as that was found to be confusing. [#5936](https://github.com/bolt/bolt/pull/5936)
+ - Changed: Lock Twig at `< 1.26` to preserve BC break on extension driven Twig functions. (see also [This Twig issue](https://github.com/twigphp/Twig/issues/2165). [#5870](https://github.com/bolt/bolt/pull/5870)
+ - Changed: Make sure all Symfony packages stay at `2.8.*`. [#5866](https://github.com/bolt/bolt/pull/5866)
+ - Changed: Making "delete" button red in confirmation modal for deleting records. [#5942](https://github.com/bolt/bolt/pull/5942)
+ - Changed: Rename `BootInitListener` to `ConfigListener`. [#5877](https://github.com/bolt/bolt/pull/5877)
+ - Changed: Stricter settings for developers, to get higher visibility for potential issues. [#5840](https://github.com/bolt/bolt/pull/5840)
+ - Changed: Use `Legacy\Content` subclasses for template fields. [#5881](https://github.com/bolt/bolt/pull/5881)
+ - Fixed Runtime Notice: Only variables should be passed by reference [#5865](https://github.com/bolt/bolt/pull/5865)
+ - Fixed: `installAssets` failure during `composer install` [#5930](https://github.com/bolt/bolt/pull/5930)
+ - Fixed: Database is no longer initialised prior to boot
+ - Fixed: Edge case bugs with `routing.yml`. [#5923](https://github.com/bolt/bolt/pull/5923)
+ - Fixed: file autocomplete for sub directories and unquoted regular expressions. [#5904](https://github.com/bolt/bolt/pull/5904)
+ - Fixed: fix for images with `alt` attribute but no `path` - see #5900. [#5919](https://github.com/bolt/bolt/pull/5919)
+ - Fixed: Fixed `theme.yml` cache refresh [#5889](https://github.com/bolt/bolt/pull/5889)
+ - Fixed: Fixed context for `isallowed` permissions check. Fixes the display of the delete button in the aside on editcontent views for 'editor' user roles. [#5890](https://github.com/bolt/bolt/pull/5890)
+ - Fixed: Fixed the info Popovers in Repeaters [#5883](https://github.com/bolt/bolt/pull/5883)
+ - Fixed: Fixed Twig editing in live editor / CKEditor [#5899](https://github.com/bolt/bolt/pull/5899)
+ - Fixed: Hidden fields inside a repeater block work correctly now. [#5938](https://github.com/bolt/bolt/pull/5938)
+ - Fixed: Less assumptions for configuration [#5856](https://github.com/bolt/bolt/pull/5856)
+ - Fixed: Memcache connection creation to only pass weight if it is `> 0` [#5861](https://github.com/bolt/bolt/pull/5861)
+ - Fixed: Memcache session handler closing connection [#5859](https://github.com/bolt/bolt/pull/5859)
+ - Fixed: No `{% extends %}` in exception handler template, because we're not sure we have `{{ app }}` yet.. [#5867](https://github.com/bolt/bolt/pull/5867)
+ - Fixed: Re-add translation cache. [#5922](https://github.com/bolt/bolt/pull/5922)
+ - Fixed: Replace paths string concat with `path()` route and `asset()` generation. [#5906](https://github.com/bolt/bolt/pull/5906)
+ - Fixed: Show custom fields in "Relationships" tab. [#5925](https://github.com/bolt/bolt/pull/5925)
+ - Fixed: Switch checkbox field storage type from `string` to `boolean`. [#5858](https://github.com/bolt/bolt/pull/5858)
+ - Fixed: System checks now run at start of request cycle
+ - Removed: Internal use of `LowlevelChecks` (See `Validator`)
+ - Removed: Internal use of `LowlevelException` & `LowlevelDatabaseException` (See `BootException`)
+ - Tests: Don't try to set `strict_variables: true` in config as it now mirrors debug setting by default [#5871](https://github.com/bolt/bolt/pull/5871)
+ - Update: Updated Symfony components to 2.8.12.
+ - Update: Updating Base-2016 dependencies. [#5934](https://github.com/bolt/bolt/pull/5934)
 
-Bolt 3.2-beta 2
----------------
+Bolt 3.2 betas were released at:
 
-Released 2016-10-03. Notable changes:
-
-(note, changelog is incomplete)
-
-- Added: Add support for separate entity attribute, versus db column names. [#5608](https://github.com/bolt/bolt/pull/5608)
-- Added: debug_error_use_profiler option to replace Whoops! with Symfony Profiler page [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Exception controller to display error pages rendered from Twig templates [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Lazy loading service provider for EntityManager [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Lazy loading service provider for SchemaManager [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Symfony HTTP Cache for request caching (replaces Doctrine file cache use) [#5615](https://github.com/bolt/bolt/pull/5615)
-- Added: Twig, Doctrine, Bolt & request caching done per-environment, and per service [#5615](https://github.com/bolt/bolt/pull/5615)
-- Fixed: Database is no longer initialised prior to boot
-- Fixed: System checks now run at start of request cycle
-- Removed: Internal use of LowlevelChecks (See Validator)
-- Removed: Internal use of LowlevelException & LowlevelDatabaseException (See BootException)
+ - Beta 1: Released 2016-09-27.
+ - Beta 2: Released 2016-10-03.
+ - Beta 3: Released 2016-10-05.
+ - Beta 4: Released 2016-10-08.
+ - Beta 6: Released 2016-10-13.
+ - Beta 5: Released 2016-10-17.
+ - Beta 7: Released 2016-10-21.
 
 Bolt 3.1.5
 ----------
