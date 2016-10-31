@@ -68,7 +68,7 @@ about:
     もしあなたが開発者なら、ぜひBoltのさらなる開発に協力してください。</p>
   licence: |
     <p>BoltのすべてのパーツはオープンソースMITライセンスの元で自由に利用できます。ライセンスの全文は
-    こちらにBoltに含まれる<a href=%paths_root%LICENSE.md">LICENSE.md</a>にあります。</p>
+    こちらにBoltに含まれる<a href=https://docs.bolt.cm/other/license">LICENSE.md</a>にあります。</p>
 prefill:
   short_help: |
     <p>ダミーコンテンツ（Lorem Ipsum）を含むレコードを自動生成したいコンテンツタイプをチェックしてください。<p>

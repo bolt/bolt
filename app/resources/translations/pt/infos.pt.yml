@@ -29,6 +29,6 @@ info:
   taxonomy: Selecionando uma ou mais taxonomias para este registo estará a classificar o registo para ter tais propriedades. No sítio web você poderá usar isto para agrupar certos registos, ou para criar automaticamente ligações para registos que partilhem esta classificação.
 about:
   bolt: '<p>Bolt é um SGC (CMS) que pretende ser simples, rápido e fácil de usar quer por programadores quer por editores de conteúdo. Bolt é desenvolvido em código aberto e como tal utiliza outros componentes de código aberto. Se é programador, será muito bem-vindo na ajuda ao desenvolvimento do Bolt.</p>'
-  licence: '<p>Todas os elementos do Bolt podem ser utilizadas livremente sob a licença de código aberto MIT. O texto completo desta licença pode ser encontrada aqui: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>'
+  licence: '<p>Todas os elementos do Bolt podem ser utilizadas livremente sob a licença de código aberto MIT. O texto completo desta licença pode ser encontrada aqui: <a href="https://docs.bolt.cm/other/license">LICENSE.md</a>.</p>'
 prefill:
   short_help: '<p>Verifique os tipos de ficheiro para cada um dos campos que pretende preencher automaticamente com conteúdo do tipo Lorem Ipsum.</p><p>Se todas as caixas de verificação estiverem desmarcadas, Bolt apenas irá pré-preencher os tipos de conteúdo que ainda não tenham dados.</p>'

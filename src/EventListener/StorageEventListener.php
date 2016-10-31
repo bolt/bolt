@@ -14,6 +14,7 @@ use Bolt\Storage\EventProcessor;
 use Bolt\Translation\Translator as Trans;
 use PasswordLib\Password\Factory as PasswordFactory;
 use PasswordLib\Password\Implementation as Password;
+use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -63,11 +64,11 @@ class StorageEventListener implements EventSubscriberInterface
     }
 
     /**
-     * Pre-save storage event.
+     * Pre-save storage event for user entities.
      *
      * @param StorageEvent $event
      */
-    public function onPreSave(StorageEvent $event)
+    public function onUserEntityPreSave(StorageEvent $event)
     {
         /** @var Entity\Users $entityRecord */
         $entityRecord = $event->getContent();
@@ -189,7 +190,7 @@ class StorageEventListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST       => ['onKernelRequest', 31],
-            StorageEvents::PRE_SAVE     => 'onPreSave',
+            StorageEvents::PRE_SAVE     => ['onUserEntityPreSave', Application::EARLY_EVENT],
             StorageEvents::POST_HYDRATE => 'onPostHydrate',
         ];
     }

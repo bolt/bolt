@@ -185,8 +185,9 @@ class Edit
             $repo = $this->em->getRepository($relationName);
             $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
             $neededFields = $this->neededFields($relationValues, $relationConfig);
+            $order = isset($relationValues['order']) ? $relationValues['order'] : null;
 
-            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order'], $neededFields);
+            $list[$relationName] = $repo->getSelectList($relationConfig, $order, $neededFields);
         }
 
         return $list;
