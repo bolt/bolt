@@ -198,7 +198,7 @@ class RepeaterType extends FieldTypeBase
             case 'sqlite':
                 return 'GROUP_CONCAT(DISTINCT ' . $dummy . ".name||'_'||" . $dummy . ".grouping||'_'||" . $dummy . ".id) as $alias";
             case 'postgresql':
-                return 'string_agg(DISTINCT ' . $dummy . ".name||'_'||" . $dummy . ".grouping||'_'||" . $dummy . ".id, ',') as $alias";
+                return 'string_agg(' . $dummy . ".name||'_'||" . $dummy . ".grouping||'_'||" . $dummy . ".id, ',' ORDER BY " . $dummy . ".grouping) as $alias";
         }
     }
 
