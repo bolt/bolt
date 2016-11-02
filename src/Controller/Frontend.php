@@ -479,17 +479,18 @@ class Frontend extends ConfigurableBase
         // Build the pager
         $page = $this->app['pager']->getCurrentPage($contenttype['slug']);
 
-        // Theme value takes precedence over CT & default config
-        // @see https://github.com/bolt/bolt/issues/3951
-        if (!$amount = $this->getOption('theme/listing_records', false)) {
-            $amount = empty($contenttype['listing_records']) ? $this->getOption('general/listing_records') : $contenttype['listing_records'];
+        // CT value takes precedence over theme & config.yml
+        if (!empty($contenttype['listing_records'])) {
+            $amount = $contenttype['listing_records'];
+        } else {
+            $amount = $this->getOption('theme/listing_records', false) ? $this->getOption('theme/listing_records') : $this->getOption('general/listing_records');
         }
-        if (!$order = $this->getOption('theme/listing_sort', false)) {
-            $order = empty($contenttype['sort']) ? null : $contenttype['sort'];
-        }
-        // If $order is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
-        // explicitly set it to sort on the general/listing_sort setting.
-        if ($order === null) {
+
+        if (!empty($contenttype['sort'])) {
+            $order = $contenttype['sort'];
+        } else {
+            // If $contenttype['sort'] is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
+            // explicitly set it to sort on the general/listing_sort setting.
             $taxonomies = $this->getOption('taxonomy');
             $hassortorder = false;
             if (!empty($contenttype['taxonomy'])) {
@@ -502,7 +503,7 @@ class Frontend extends ConfigurableBase
                 }
             }
             if (!$hassortorder) {
-                $order = $this->getOption('general/listing_sort');
+                $order = $this->getOption('theme/listing_sort', false) ? $this->getOption('theme/listing_sort') : $this->getOption('general/listing_sort');
             }
         }
 
