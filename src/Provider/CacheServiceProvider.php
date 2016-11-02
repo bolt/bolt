@@ -14,7 +14,7 @@ class CacheServiceProvider implements ServiceProviderInterface
             function (Application $app) {
                 try {
                     $cache = new Cache(
-                        $app['resources']->getPath('cache/' . $app['environment'] . '/data'),
+                        $app['resources']->getPath('cache/data'),
                         Cache::EXTENSION,
                         0002,
                         $app['filesystem']

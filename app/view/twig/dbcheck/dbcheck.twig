@@ -25,7 +25,7 @@
                     <p><button type="submit" class="btn btn-default btn-primary">{{ __('general.phrase.check-again') }}</button></p>
                 </form>
 
-            {% elseif context.check.responsestrings %}
+            {% elseif context.check.responsestrings is defined and context.check.responsestrings is iterable %}
 
                 {{ list(__('general.phrase.modifications-needed-colon'), context.check.responsestrings) }}
                 {{ list(__('general.phrase.hints-colon'), hints) }}
