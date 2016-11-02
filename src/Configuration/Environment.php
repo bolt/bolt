@@ -172,6 +172,6 @@ class Environment
 
     private function getVersionFileName()
     {
-        return dirname(dirname($this->cache->getDirectory())) . '/.version';
+        return dirname($this->cache->getDirectory()) . '/.version';
     }
 }

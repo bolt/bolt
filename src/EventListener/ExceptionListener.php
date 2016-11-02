@@ -91,25 +91,6 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
             $level = LogLevel::WARNING;
         }
         $this->logger->log($level, $message, ['event' => 'exception', 'exception' => $exception]);
-
-        // Get and send the response
-        if ($this->isJsonRequest($event->getRequest())) {
-            $response = new JsonResponse(
-                [
-                    'success'   => false,
-                    'errorType' => get_class($exception),
-                    'code'      => $statusCode,
-                    'message'   => $message,
-                ]
-            );
-        } elseif ($this->config->get('general/debug_error_use_symfony')) {
-            return null;
-        } else {
-            $response = $this->exceptionController->kernelException($event);
-        }
-
-        $response->setStatusCode($statusCode);
-        $event->setResponse($response);
     }
 
     /**

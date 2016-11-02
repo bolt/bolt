@@ -310,12 +310,11 @@ class Exception extends Base implements ExceptionControllerInterface
             return;
         }
 
-        $environment = $this->app['environment'];
         $serialised = serialize(FlattenException::create($exception));
 
         $sourceFile = Slugify::create()->slugify($exception->getFile());
         $fileName = sprintf('%s-%s.exception', Carbon::now()->format('Ymd-Hmi'), substr($sourceFile, -102));
-        $fullPath = sprintf('%s/exception/%s', $environment, $fileName);
+        $fullPath = sprintf('exception/%s', $fileName);
 
         $cacheFilesystem = $this->app['filesystem']->getFilesystem('cache');
         $file = new File($cacheFilesystem, $fullPath);
