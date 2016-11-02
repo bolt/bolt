@@ -121,7 +121,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
             // Should we cache or not?
             if ($app['config']->get('general/caching/templates')) {
-                $options['cache'] = $app['resources']->getPath('cache/' . $app['environment'] . '/twig');
+                $options['cache'] = $app['resources']->getPath('cache/twig');
             }
 
             if (($strict = $app['config']->get('general/strict_variables')) !== null) {
