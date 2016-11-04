@@ -218,6 +218,7 @@ class Edit
 
     /**
      * Determine write access for upload fields, and auto-create the desired directory if it does not exist.
+     *
      * Note that in cases where an array is passed then true will be set if at least some of the directories can
      * be written to.
      *
