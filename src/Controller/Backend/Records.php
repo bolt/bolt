@@ -94,7 +94,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordEdit()->action($content, $contenttype, $duplicate);
+        $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
     }
