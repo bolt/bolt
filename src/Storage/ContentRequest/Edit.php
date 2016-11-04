@@ -18,13 +18,13 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Helper class for ContentType record editor edits.
+ *
  * Prior to v3.0 this functionality existed in \Bolt\Controllers\Backend::editcontent().
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Edit
 {
-
     /** @var EntityManager */
     protected $em;
     /** @var Config */
@@ -56,13 +56,12 @@ class Edit
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash
     ) {
-
-        $this->em           = $em;
-        $this->config       = $config;
-        $this->users        = $users;
-        $this->filesystem   = $filesystem;
+        $this->em = $em;
+        $this->config = $config;
+        $this->users = $users;
+        $this->filesystem = $filesystem;
         $this->loggerSystem = $loggerSystem;
-        $this->loggerFlash  = $loggerFlash;
+        $this->loggerFlash = $loggerFlash;
     }
 
     /**
@@ -76,16 +75,10 @@ class Edit
      */
     public function action(Content $content, ContentType $contentType, $duplicate)
     {
-
         $contentTypeSlug = $contentType['slug'];
-        $new             = $content->getId() === null ?: false;
-        $oldStatus       = $content->getStatus();
-        $allStatuses     = [
-            'published',
-            'held',
-            'draft',
-            'timed'
-        ];
+        $new = $content->getId() === null ?: false;
+        $oldStatus = $content->getStatus();
+        $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
 
         foreach ($allStatuses as $status) {
@@ -119,13 +112,12 @@ class Edit
 
         // Build list of incoming non inverted related records.
         $incomingNotInverted = [];
-        foreach ($content->getRelation()
-                         ->incoming($content) as $relation) {
+        foreach ($content->getRelation()->incoming($content) as $relation) {
             if ($relation->isInverted()) {
                 continue;
             }
             $fromContentType = $relation->getFromContenttype();
-            $record          = $this->em->getContent($fromContentType . '/' . $relation->getFromId());
+            $record = $this->em->getContent($fromContentType . '/' . $relation->getFromId());
 
             if ($record) {
                 $incomingNotInverted[$fromContentType][] = $record;
@@ -134,22 +126,19 @@ class Edit
 
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
-        $templateFields        = $content->getTemplatefields();
-        if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()
-                                                                                              ->getFields()
-        ) {
-            $templateFields->getContenttype()['fields'] = $this->setCanUpload($templateFields->getContenttype()
-                                                                                             ->getFields());
+        $templateFields = $content->getTemplatefields();
+        if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
+            $templateFields->getContenttype()['fields'] = $this->setCanUpload($templateFields->getContenttype()->getFields());
         }
 
         // Build context for Twig.
-        $contextCan    = [
-            'upload'           => $this->users->isAllowed('files:uploads'),
-            'publish'          => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':publish:' . $content->getId()),
-            'depublish'        => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':depublish:' . $content->getId()),
-            'change_ownership' => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
+        $contextCan = [
+            'upload'             => $this->users->isAllowed('files:uploads'),
+            'publish'            => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':publish:' . $content->getId()),
+            'depublish'          => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
         ];
-        $contextHas    = [
+        $contextHas = [
             'incoming_relations' => count($incomingNotInverted) > 0,
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== [],
@@ -157,10 +146,10 @@ class Edit
             'templatefields'     => empty($templateFieldsData) ? false : true,
         ];
         $contextValues = [
-            'datepublish'   => $this->getPublishingDate($content->getDatepublish(), true),
-            'datedepublish' => $this->getPublishingDate($content->getDatedepublish()),
+            'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
+            'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
-        $context       = [
+        $context = [
             'incoming_not_inv' => $incomingNotInverted,
             'contenttype'      => $content->getContenttype(),
             'content'          => $content,
@@ -189,7 +178,6 @@ class Edit
      */
     private function getRelationsList(ContentType $contentType)
     {
-
         $list = [];
         if (!isset($contentType['relations']) || !is_array($contentType['relations'])) {
             return $list;
@@ -197,9 +185,9 @@ class Edit
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
             /** @var Repository\ContentRepository $repo */
-            $repo           = $this->em->getRepository($relationName);
+            $repo = $this->em->getRepository($relationName);
             $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
-            $neededFields   = $this->neededFields($relationValues, $relationConfig);
+            $neededFields = $this->neededFields($relationValues, $relationConfig);
 
             $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order'], $neededFields);
         }
@@ -217,7 +205,6 @@ class Edit
      */
     private function neededFields($relationValues, $relationConfig)
     {
-
         $fields = [];
 
         // Regex the 'format' for things that look like 'item.foo', and intersect with the actual fields in the contenttype.
@@ -240,7 +227,6 @@ class Edit
      */
     private function setCanUpload($fields)
     {
-
         $can = false;
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
@@ -265,7 +251,6 @@ class Edit
      */
     private function checkUploadDirectory($path)
     {
-
         if (strpos('://', $path) === false) {
             $path = sprintf('files://%s', $path);
         }
@@ -291,9 +276,8 @@ class Edit
      */
     private function getTemplateFieldTemplates(ContentType $contentType, Content $content)
     {
-
         $templateFieldTemplates = [];
-        $templateFieldsConfig   = $this->config->get('theme/templatefields');
+        $templateFieldsConfig = $this->config->get('theme/templatefields');
 
         if ($templateFieldsConfig) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
@@ -327,7 +311,6 @@ class Edit
      */
     private function getPublishingDate($date, $setNowOnEmpty = false)
     {
-
         if ($setNowOnEmpty && $date === '') {
             return date('Y-m-d H:i:s');
         } elseif ($date === '1900-01-01 00:00:00') {
@@ -347,15 +330,12 @@ class Edit
      */
     private function createGroupTabs(ContentType $contentType, array $has)
     {
-
-        $groups   = [];
+        $groups = [];
         $groupIds = [];
 
         $addGroup = function ($group, $label) use (&$groups, &$groupIds) {
-
             $nr = count($groups) + 1;
-            $id = rtrim('tab-' . Slugify::create()
-                                        ->slugify($group), '-');
+            $id = rtrim('tab-' . Slugify::create()->slugify($group), '-');
             if (isset($groupIds[$id]) || $id === 'tab') {
                 $id .= '-' . $nr;
             }
@@ -365,7 +345,7 @@ class Edit
                 'is_active' => $nr === 1,
                 'fields'    => [],
             ];
-            $groupIds[$id]  = 1;
+            $groupIds[$id] = 1;
         };
 
         foreach ($contentType['groups'] ? $contentType['groups'] : ['ungrouped'] as $group) {
@@ -373,12 +353,7 @@ class Edit
                 $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
             } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {
                 $default = ['DEFAULT' => ucfirst($group)];
-                $key     = [
-                    'contenttypes',
-                    $contentType['slug'],
-                    'group',
-                    $group
-                ];
+                $key = ['contenttypes', $contentType['slug'], 'group', $group];
                 $addGroup($group, Trans::__($key, $default));
             }
         }
@@ -420,23 +395,17 @@ class Edit
      */
     private function getUsedFieldtypes(ContentType $contentType, Content $content, array $has)
     {
-
         $fieldtypes = [
             'meta' => true,
         ];
 
         if ($content->getTemplatefields() instanceof TemplateFields) {
-            $templateFields = $content->getTemplatefields()
-                                      ->getContenttype()
-                                      ->getFields() ?: [];
+            $templateFields = $content->getTemplatefields()->getContenttype()->getFields() ?: [];
         } else {
             $templateFields = [];
         }
 
-        foreach ([
-                     $contentType['fields'],
-                     $templateFields
-                 ] as $fields) {
+        foreach ([$contentType['fields'], $templateFields] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
