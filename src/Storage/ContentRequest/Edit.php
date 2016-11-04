@@ -151,7 +151,7 @@ class Edit
         ];
         $context = [
             'incoming_not_inv' => $incomingNotInverted,
-            'contenttype'      => $content->getContenttype(),
+            'contenttype'      => $contentType,
             'content'          => $content,
             'allowed_status'   => $allowedStatuses,
             'contentowner'     => $contentowner,
