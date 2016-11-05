@@ -1,0 +1,11 @@
+<div style="display: none;">
+{% for t in exception.trace %}
+
+    {% if t.args_safe is not empty %}
+    <div id='arguments-{{loop.index}}' class='trace-arguments-placeholder'>
+        Arguments:
+        {{ dump(t.args) }}
+    </div>
+    {% endif %}
+{% endfor %}
+</div>

@@ -25,8 +25,7 @@
 
             {% if t.args_safe is not empty %}
             <div id='trace-arguments-{{loop.index}}' style="display: none;">
-                Arguments:
-                {{ dump(t.args) }}
+                <em>(Arguments are loading)</em>
             </div>
             {% endif %}
         </td>
