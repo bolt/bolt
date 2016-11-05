@@ -96,7 +96,7 @@ class Builder
             $entity = new $class();
         }
 
-        if (!$entity->getContenttype() && $ct = $this->getClassMetadata()->getBoltName()) {
+        if ($entity instanceof Content && !$entity->getContenttype() && $ct = $this->getClassMetadata()->getBoltName()) {
             $entity->setContenttype($ct);
         }
 
