@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Debug\ShutdownHandler;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
@@ -35,6 +36,9 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
+        // Register PHP shutdown functions to catch fatal errors & exceptions
+        ShutdownHandler::register();
+
         parent::__construct($values);
 
         $this->register(new PathServiceProvider());
@@ -57,6 +61,12 @@ class Application extends Silex\Application
 
         if (($debugOverride = $this['config']->get('general/debug')) !== null) {
             $this['debug'] = $debugOverride;
+        }
+
+        // Re-register the shutdown functions now that we know our debug setting
+        ShutdownHandler::register($this['debug']);
+        if (!isset($this['environment'])) {
+            $this['environment'] = $this['debug'] ? 'development' : 'production';
         }
 
         if (($locales = $this['config']->get('general/locale')) !== null) {
@@ -171,7 +181,7 @@ class Application extends Silex\Application
             ->register(new Provider\TwigServiceProvider())
             ->register(new Provider\RenderServiceProvider())
             ->register(new Silex\Provider\HttpCacheServiceProvider(),
-                ['http_cache.cache_dir' => $this['resources']->getPath('cache/http')]
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http')]
             );
     }
 
