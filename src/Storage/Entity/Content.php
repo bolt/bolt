@@ -316,7 +316,7 @@ class Content extends Entity
      */
     public function getTitle()
     {
-        if (isset($this->_fields['title'])) {
+        if (array_key_exists('title', $this->_fields)) {
             return $this->_fields['title'];
         }
 
