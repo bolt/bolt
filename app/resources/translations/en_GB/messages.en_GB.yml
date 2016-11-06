@@ -1,20 +1,45 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-05-29 15:05:42 Europe/Amsterdam
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-11-06 08:42:39 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
+#  15 unused messages
+#   4 untranslated messages
 #  no untranslated keyword based messages
-# 104 translations
-# 513 keyword based translations
+#  88 translations
+# 530 keyword based translations
 
-#--- 104 translations ---------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
+
+"Alas, no about!": "Alas, no about!"
+"Chapter": "Chapter"
+"Chapters": "Chapters"
+"Edit": "Edit"
+"No content found.": "No content found."
+"No results found for '%SEARCHTERM%'. Please try another search.": "No results found for '%SEARCHTERM%'. Please try another search."
+"Overview for": "Overview for"
+"Permalink": "Permalink"
+"Read more": "Read more"
+"Related content": "Related content"
+"Search": "Search"
+"Search results for <b>%search%</b>.": "Search results for <b>%search%</b>."
+"Search …": "Search …"
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Database' and select 'Add sample Records' to automatically generate this Block.\""
+"Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
+
+#--- 4 untranslated messages --------------------------------------------------
+
+"Dependencies": #
+"Finding packages that require this one…": #
+"Group": #
+"Groups": #
+
+#--- 88 translations ----------------------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
@@ -23,7 +48,6 @@
 "Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
-"Alas, no about!": "Alas, no about!"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
 "Are you sure you want to delete %FILENAME%?": "Are you sure you want to delete %FILENAME%?"
 "Are you sure you want to delete %username%?": "Are you sure you want to delete %username%?"
@@ -37,8 +61,6 @@
 "Body": "Body"
 "Categories": "Categories"
 "Category": "Category"
-"Chapter": "Chapter"
-"Chapters": "Chapters"
 "Choose an entry": "Choose an entry"
 "Client error: %errormessage%": "Client error: %errormessage%"
 "Content": "Content"
@@ -47,7 +69,6 @@
 "Datetime": "Datetime"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
 "Do you really want to delete %FOLDERNAME%?": "Do you really want to delete %FOLDERNAME%?"
-"Edit": "Edit"
 "Error reading extensions/composer.json file: %ERROR%": "Error reading extensions/composer.json file: %ERROR%"
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
@@ -72,16 +93,7 @@
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead."
 "Multiselect": "Multi-select"
-"No content found.": "No content found."
-"No results found for '%SEARCHTERM%'. Please try another search.": "No results found for '%SEARCHTERM%'. Please try another search."
-"Overview for": "Overview for"
-"Permalink": "Permalink"
-"Read more": "Read more"
-"Related content": "Related content"
 "Repeater": "Repeater"
-"Search": "Search"
-"Search results for <b>%search%</b>.": "Search results for <b>%search%</b>."
-"Search …": "Search …"
 "Select a page": "Select a page"
 "Select zero or more pages": "Select zero or more pages"
 "Selectentry": "Select entry"
@@ -101,7 +113,6 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Database' and select 'Add sample Records' to automatically generate this Block.\""
 "This is a checkbox": "This is a checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "Title": "Title"
@@ -116,11 +127,10 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>."
 "Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
-"Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 513 keyword based translations -------------------------------------------
+#--- 530 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -220,7 +230,6 @@ general.bolt-third-party-libraries: "Below are the third party libraries that ar
 general.bolt-welcome-new-site: "Welcome to your new Bolt site, %USER%."
 
 general.phrase.access-denied-logged-out: "You have been logged out."
-general.phrase.invalid-taxonomy-slug: "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.access-denied-permissions-edit-file: "You don't have correct permissions to edit the file '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "You don't have the correct permissions to display the file or directory '%s'."
 general.phrase.access-denied-privilege-edit-record: "You do not have the right privileges to edit that record."
@@ -314,6 +323,7 @@ general.phrase.global-permissions: "Global Permissions"
 general.phrase.hints-colon: "Hints:"
 general.phrase.id: "Id"
 general.phrase.info: "Info"
+general.phrase.invalid-taxonomy-slug: "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.ip.address: "IP address"
 general.phrase.keyword-ellipsis: "Keyword …"
 general.phrase.last-edited-on-colon: "Last edited on:"
@@ -495,6 +505,7 @@ logs.system-log.trimmed: "The system log has been trimmed."
 menu.configuration.routing: "Routing set up"
 
 nut.greeting: "Welcome to Bolt!"
+
 nut.version: "version"
 
 page.checks.run-all: "Run all checks"
@@ -595,21 +606,21 @@ page.extend.listheader.extension: "Extension"
 page.extend.listheader.status: "Status"
 page.extend.listheader.version: "Version"
 page.extend.message.add-extension-with-form: "Add a new extension using the form below."
+page.extend.message.autoload-dump: "This will rebuild both the autoload files and cache."
 page.extend.message.autoloader-start: "Loading Composer autoload dumper"
 page.extend.message.autoloader-update: "Updating Composer autoloader"
-page.extend.message.autoload-dump: "This will rebuild both the autoload files and cache."
 page.extend.message.bad-json: "Malformed JSON response. Ensure no debugging or other code is being added to the response"
 page.extend.message.before-theme-start: "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
 page.extend.message.check-for-updates: "Check for updates"
-page.extend.message.checking-installed-packages: "Checking installed packages"
 page.extend.message.checking-for-updates: "Checking for available updates (this may take up to 60 seconds)"
+page.extend.message.checking-installed-packages: "Checking installed packages"
 page.extend.message.compatible-unstable-versions: "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 page.extend.message.confirm-remove: "Please confirm that you want to remove this extension?"
 page.extend.message.copying: "Copying theme assets …"
 page.extend.message.discover-by-visiting: "You can discover new extensions by visiting"
 page.extend.message.ext-dir-missing: "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-page.extend.message.installation-running: "Installation running"
 page.extend.message.install-all: "Running install of all packages …"
+page.extend.message.installation-running: "Installation running"
 page.extend.message.installing: "Preparing to install package …"
 page.extend.message.installing-selected-package: "Installing selected package version (this may take up to 60 seconds)."
 page.extend.message.installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
@@ -625,8 +636,8 @@ page.extend.message.no-stable-versions-available: "No Stable Versions Available"
 page.extend.message.no-test-versions-available: "No Test Versions Available"
 page.extend.message.no-update-check-in-readmode: "Cannot check for updates in read-only mode"
 page.extend.message.overwrite: "This will overwrite any existing files! Are you sure?"
-page.extend.message.package-install-info-fail: "Unable to get installation information for %PACKAGE% %VERSION%."
 page.extend.message.package-dependencies: "Packages that depend on this"
+page.extend.message.package-install-info-fail: "Unable to get installation information for %PACKAGE% %VERSION%."
 page.extend.message.removing: "Preparing to remove package …"
 page.extend.message.running-update: "Running update …"
 page.extend.message.running-update-all: "Running updates"

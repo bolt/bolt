@@ -1,4 +1,4 @@
-# app/resources/translations/pt/messages.pt.yml – generated on 2016-05-09 07:28:53 Europe/Amsterdam
+# app/resources/translations/pt/messages.pt.yml – generated on 2016-11-06 08:42:47 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,37 +8,67 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   1 unused messages
-#   6 untranslated messages
-#  10 untranslated keyword based messages
+#   6 unused messages
+#   8 untranslated messages
+#  33 untranslated keyword based messages
 #  84 translations
-# 502 keyword based translations
+# 497 keyword based translations
 
-#--- 1 unused messages --------------------------------------------------------
+#--- 6 unused messages --------------------------------------------------------
 
 "Selection:": "Seleção:"
+"field.slug.button.link": "Ligar a:"
+"page.extend.button.config": "Configurar"
+"page.extend.button.readme": "Informações"
+"page.extend.button.uninstall": "Desinstalar"
+"page.extend.button.versions": "Versões"
 
-#--- 6 untranslated messages --------------------------------------------------
+#--- 8 untranslated messages --------------------------------------------------
 
+"Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Finding packages that require this one…": #
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 10 untranslated keyword based messages -----------------------------------
+#--- 33 untranslated keyword based messages -----------------------------------
 
+"contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.slug.button.generate": # "Generate from:"
+"general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.related-content": #
+"general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
+"general.phrase.redirect-detected": # "Redirect detected. Check if you are still logged on."
+"general.phrase.related-content": # "Related content"
 "general.phrase.selection": # "Selection"
+"general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"nut.greeting": # "Welcome to Bolt!"
+"nut.version": # "version"
 "page.edit-users.note-sqlite": # "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
+"page.extend.button.link-config": # "Edit configuration"
+"page.extend.button.link-marketplace": # "View on marketplace"
+"page.extend.button.link-readme": # "View README"
+"page.extend.button.link-repository": # "View source repository"
+"page.extend.button.link-uninstall": # "Uninstall extension"
+"page.extend.button.link-versions": # "Install different version"
+"page.extend.button.manage": # "Manage"
+"page.extend.button.package-dependencies": # "Identify installed packages requiring this"
+"page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
+"page.extend.message.autoloader-update": # "Updating Composer autoloader"
 "page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
 "page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+"page.extend.message.installation-running": # "Installation running"
+"page.extend.message.invalid-theme-source-dir": # "Invalid theme source directory: %SOURCE%"
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+"page.extend.message.package-dependencies": # "Packages that depend on this"
+"page.extend.message.running-update-all": # "Running updates"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 84 translations ----------------------------------------------------------
 
@@ -127,7 +157,7 @@
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
-#--- 502 keyword based translations -------------------------------------------
+#--- 497 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -185,7 +215,6 @@ field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Pré-visualizar"
 
 field.slug.button.edit: "Editar"
-field.slug.button.link: "Ligar a:"
 field.slug.button.lock: "Bloquear"
 field.slug.message.warning: "Ao editar este campo pode quebrar as ligações existentes para este registo!"
 field.slug.permalink: "Endereço permanente"
@@ -555,19 +584,15 @@ page.edit-users.user-edit: "Edite uma conta de utilizador existente, usando o fo
 
 page.extend.button.autoload-dump: "Reconstruir o carregamento automático"
 page.extend.button.browse-versions: "Procurar versões"
-page.extend.button.config: "Configurar"
 page.extend.button.copy-to-theme-folder: "Copiar para pasta do tema"
 page.extend.button.info-help: "Mais informações/ajuda"
 page.extend.button.install-all: "Instalar todos os pacotes"
 page.extend.button.install-package: "Instalar pacote"
 page.extend.button.install-this-version: "Instalar esta versão"
-page.extend.button.readme: "Informações"
 page.extend.button.show-all-versions: "Mostrar todas as versões"
-page.extend.button.uninstall: "Desinstalar"
 page.extend.button.update-all: "Executar todas as atualizações"
 page.extend.button.update-check: "Executar verificador de atualizações"
 page.extend.button.update-package: "Pacote de atualização"
-page.extend.button.versions: "Versões"
 page.extend.error-composer-json-not-readable: "O ficheiro composer.json das extensões Bolt não é legível."
 page.extend.error-composer-json-not-writable: "O ficheiro composer.json das extensões Bolt não é editável."
 page.extend.headline.currently-installed: "As suas extensões atualmente instaladas"
@@ -587,8 +612,8 @@ page.extend.message.add-extension-with-form: "Adicionar uma nova extensão usand
 page.extend.message.autoload-dump: "Isto irá reconstruir os ficheiros de carregamento automático e a cache."
 page.extend.message.before-theme-start: "Antes de poder começar a usar o tema no seu sítio é preciso fazer uma cópia da sua pasta de temas. Se quiser dar um nome alternativo ao modelo pode escrevê-lo aqui."
 page.extend.message.check-for-updates: "Procurar por atualizações"
-page.extend.message.checking-installed-packages: "A verificar pacotes instalados"
 page.extend.message.checking-for-updates: "A verificar atualizações disponíveis (pode levar alguns segundos)"
+page.extend.message.checking-installed-packages: "A verificar pacotes instalados"
 page.extend.message.compatible-unstable-versions: "As versões listadas abaixo são compatíveis com a versão do Bolt que está a usar. Como são versões instáveis recomendamos que as <strong>não</strong> use em sistemas de produção."
 page.extend.message.confirm-remove: "Por favor, confirme que pretende remover esta extensão."
 page.extend.message.copying: "Copiar recursos do tema..."
