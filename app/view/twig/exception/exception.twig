@@ -57,20 +57,20 @@
                                 <a class='btn btn-default' href='https://www.google.com/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
                             </p>
 
+                            {% block trace %}
+                                {% if debug %}
+                                    {{ include('@bolt/exception/_trace.twig') }}
+                                {% endif %}
+                            {% endblock trace %}
+
+                            <hr>
+
                             {% block request %}
                                 {% if debug and request is defined %}
                                     <hr>
                                     {{ include('@bolt/exception/_request.twig') }}
                                 {% endif %}
                             {% endblock request %}
-
-                            <hr>
-
-                            {% block trace %}
-                                {% if debug %}
-                                    {{ include('@bolt/exception/_trace.twig') }}
-                                {% endif %}
-                            {% endblock trace %}
 
                             {% if not debug %}
                                 <p>Debug is not available, and/or you are not logged on. To see a full backtrace of the
@@ -97,4 +97,8 @@
 </body>
 </html>
 
-
+{% block tracedumps %}
+    {% if debug %}
+        {{ include('@bolt/exception/_tracedumps.twig') }}
+    {% endif %}
+{% endblock tracedumps %}

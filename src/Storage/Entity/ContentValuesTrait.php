@@ -217,7 +217,7 @@ trait ContentValuesTrait
     }
 
     /**
-     * Set a Contenttype record's individual value.
+     * Set a ContentType record's individual value.
      *
      * @param string $key
      * @param mixed  $value
@@ -320,7 +320,7 @@ trait ContentValuesTrait
     }
 
     /**
-     * Set a Contenttype record's values.
+     * Set a ContentType record's values.
      *
      * @param array $values
      */
@@ -437,7 +437,7 @@ trait ContentValuesTrait
     }
 
     /**
-     * Set a Contenttype record values from a HTTP POST.
+     * Set a ContentType record values from a HTTP POST.
      *
      * @param array  $values
      * @param string $contenttype
@@ -612,7 +612,7 @@ trait ContentValuesTrait
     }
 
     /**
-     * Check if a Contenttype field has a template set.
+     * Check if a ContentType field has a template set.
      *
      * @return boolean
      */
@@ -635,7 +635,7 @@ trait ContentValuesTrait
     }
 
     /**
-     * Get the template associate with a Contenttype field.
+     * Get the template associate with a ContentType field.
      *
      * @return string
      */

@@ -11,7 +11,7 @@
   "dependencies": {
     "foundation-sites": "~6.2.4",
     "motion-ui": "~1.2.2",
-    "what-input": "~4.0.1",
+    "what-input": "~4.0.3",
     "magnific-popup": "^1.1.0",
     "jquery": "~2.2.4"
   },
@@ -24,6 +24,6 @@
   ],
   "private": true,
   "resolutions": {
-    "what-input": "~4.0.1"
+    "what-input": "~4.0.3"
   }
 }

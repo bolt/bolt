@@ -1,4 +1,4 @@
-# app/resources/translations/ru/messages.ru.yml – generated on 2016-05-09 07:28:48 Europe/Amsterdam
+# app/resources/translations/ru/messages.ru.yml – generated on 2016-11-06 08:42:44 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,69 +8,45 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   1 unused messages
-#  42 untranslated messages
-# 175 untranslated keyword based messages
-#  48 translations
+#   7 unused messages
+#  11 untranslated messages
+# 193 untranslated keyword based messages
+#  81 translations
 # 337 keyword based translations
 
-#--- 1 unused messages --------------------------------------------------------
+#--- 7 unused messages --------------------------------------------------------
 
 "component.changelog-detail.by": #
-
-#--- 42 untranslated messages -------------------------------------------------
-
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>":
-"An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Вы действительно хотите удалить файл %FILENAME%?"
-"Are you sure you want to do this for %NUMBER% records?": "Вы действительно хотите выполнить эту операцию над %NUMBER% записями?"
-"Are you sure you want to do this for 1 record?": "Вы действительно хотите выполнить эту операцию над 1 записью?"
-"Are you sure you want to remove these files?": "Вы действительно хотите удалить эти файлы?"
-"Are you sure you want to remove these images?": "Вы действительно хотите удалить эти изображения?"
-"Are you sure you want to remove this file?": "Вы действительно хотите удалить этот файл?"
-"Are you sure you want to remove this image?": "Вы действительно хотите удалить это изображение?"
-"Are you sure you wish to delete this record? There is no undo.": "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
-"Client error: %errormessage%": "Ошибка клиента: %errormessage%"
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
-"Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
-"Error reading extensions/composer.json file: %ERROR%": "Ошибка при чтении файла extensions/composer.json: %ERROR%"
-"Extend": "Дополнения"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.":
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.":
-"Extension server returned an error: %errormessage%":
-"Generic failure while testing connection to extension server: %errormessage%":
-"Group": "Группа"
-"Groups": "Группы"
-"Html": "Html"
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
-"Link": "Ссылка"
-"Markdown": "Markdown"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Свойство объекта меню \"add\" устарело. Используйте вместо него \"#\" под \"param\"."
-"Multiselect": "Мультивыбор"
-"Repeater":
-"Slug":
-"Testing connection to extension server failed: %errormessage%":
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "База данных должна быть обновлена/восстановлена. Пройдите по 'Конфигурация' > '<a href=\"%link%\">Проверить Базу Данных</a>' чтобы сделать это сейчас."
 "The field %field% has been changed to %newValue%": "Значение поля %field% было изменено на %newValue%"
-"Unable to create directory: %DIR%": "Невозможно создать директорию: %DIR%"
-"Unable to create file: %FILE%": "Невозможно создать файл: %FILE%"
-"Unable to delete directory: %DIR%": "Невозможно удалить директорию: %DIR%"
-"Unable to delete file: %FILE%": "Невозможно удалить файл: %FILE%"
-"Unable to duplicate file: %FILE%": "Невозможно скопировать файл: %FILE%"
-"Unable to rename directory: %DIR%": "Невозможно переименовать директорию: %DIR%"
-"Unable to rename file: %FILE%": "Невозможно переименовать файл: %FILE%"
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "К сожалению, не найдено никакого контента. Попробуйте другую страницу, или пройдите к <a href=\"%paths_root%\">домашней странице</a>."
-"filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
+"field.slug.button.link": #
+"page.extend.button.config": #
+"page.extend.button.readme": #
+"page.extend.button.uninstall": #
+"page.extend.button.versions": #
 
-#--- 175 untranslated keyword based messages ----------------------------------
+#--- 11 untranslated messages -------------------------------------------------
+
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
+"Dependencies": #
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
+"Extension server returned an error: %errormessage%": #
+"Finding packages that require this one…": #
+"Generic failure while testing connection to extension server: %errormessage%": #
+"Repeater": #
+"Slug": #
+"Testing connection to extension server failed: %errormessage%": #
+"The field %field% has been changed to \"%newValue%\"": #
+
+#--- 193 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
-"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.markdown.label.markedview": # "Markdown"
-"field.slug.button.link": # "Link to:"
+"field.slug.button.generate": # "Generate from:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
 "field.slug.unique-alias": # "Unique alias"
@@ -92,7 +68,8 @@
 "general.phrase.delete": # "Delete"
 "general.phrase.delete-set": # "Delete Set"
 "general.phrase.depublish": # "Depublish"
-"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now"
+"general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now."
+"general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
@@ -109,6 +86,7 @@
 "general.phrase.full-list-ellipsis": # "Full list …"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
+"general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.keyword-ellipsis": # "Keyword …"
 "general.phrase.live-edit": # "Live Edit"
 "general.phrase.log-change-trim": # "Trim Change Log"
@@ -131,7 +109,8 @@
 "general.phrase.publish": # "Publish"
 "general.phrase.record-related-to-variable": # "This record is related to the following %CTNAME%:"
 "general.phrase.records": # "Records"
-"general.phrase.related-content": #
+"general.phrase.redirect-detected": # "Redirect detected. Check if you are still logged on."
+"general.phrase.related-content": # "Related content"
 "general.phrase.required-character-count": # "At least %NUM% characters required"
 "general.phrase.required-is-bang": # "Is required!"
 "general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
@@ -140,6 +119,7 @@
 "general.phrase.show-proposed-alterations": # "Show proposed alterations"
 "general.phrase.slug-colon": # "Slug:"
 "general.phrase.something-went-wrong-after-first-user": # "Something went wrong with logging in after first user creation!"
+"general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "general.phrase.system-config-checks": # "System Configuration Checks"
 "general.phrase.thumbnail": # "Thumbnail"
 "general.phrase.time-format-24-12": # "Time in 24h/12h format"
@@ -160,6 +140,8 @@
 "logs.system-log.cleared": # "The system log has been cleared."
 "logs.system-log.trimmed": # "The system log has been trimmed."
 "menu.configuration.routing": # "Routing set up"
+"nut.greeting": # "Welcome to Bolt!"
+"nut.version": # "version"
 "page.checks.run-all": # "Run all checks"
 "page.checks.run-directory-checks": # "Run directory checks"
 "page.checks.run-email-checks": # "Run email checks"
@@ -171,16 +153,20 @@
 "page.edit-users.label.email": # "Email"
 "page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
-"page.extend.button.config": # "Config"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
 "page.extend.button.info-help": # "More info/help"
 "page.extend.button.install-package": # "Install Package"
 "page.extend.button.install-this-version": # "Install This Version"
-"page.extend.button.readme": # "Readme"
+"page.extend.button.link-config": # "Edit configuration"
+"page.extend.button.link-marketplace": # "View on marketplace"
+"page.extend.button.link-readme": # "View README"
+"page.extend.button.link-repository": # "View source repository"
+"page.extend.button.link-uninstall": # "Uninstall extension"
+"page.extend.button.link-versions": # "Install different version"
+"page.extend.button.manage": # "Manage"
+"page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.button.uninstall": # "Uninstall"
 "page.extend.button.update-package": # "Update Package"
-"page.extend.button.versions": # "Versions"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
@@ -197,21 +183,25 @@
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
 "page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
+"page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
+"page.extend.message.autoloader-update": # "Updating Composer autoloader"
 "page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
 "page.extend.message.before-theme-start": # "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
 "page.extend.message.check-for-updates": # "Check for updates"
-"page.extend.message.checking-installed-packages": # "Checking installed packages"
 "page.extend.message.checking-for-updates": # "Checking for available updates (this may take up to 60 seconds)"
+"page.extend.message.checking-installed-packages": # "Checking installed packages"
 "page.extend.message.compatible-unstable-versions": # "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 "page.extend.message.confirm-remove": # "Please confirm that you want to remove this extension?"
 "page.extend.message.copying": # "Copying theme assets …"
 "page.extend.message.discover-by-visiting": # "You can discover new extensions by visiting"
 "page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
 "page.extend.message.install-all": # "Running install of all packages …"
+"page.extend.message.installation-running": # "Installation running"
 "page.extend.message.installing": # "Preparing to install package …"
 "page.extend.message.installing-selected-package": # "Installing selected package version (this may take up to 60 seconds)."
 "page.extend.message.installs-all-listed-packages": # "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
 "page.extend.message.installs-updates": # "This will install all available updates."
+"page.extend.message.invalid-theme-source-dir": # "Invalid theme source directory: %SOURCE%"
 "page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
 "page.extend.message.marked-as-stable": # "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
@@ -221,9 +211,11 @@
 "page.extend.message.no-test-versions-available": # "No Test Versions Available"
 "page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
 "page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.removing": # "Preparing to remove package …"
 "page.extend.message.running-update": # "Running update …"
+"page.extend.message.running-update-all": # "Running updates"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
@@ -234,6 +226,7 @@
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
+"page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "page.file-management.title": # "Files"
 "panel.latest-activity.by": # "by"
 "panel.latest-activity.change": # "Latest changes"
@@ -241,7 +234,7 @@
 "panel.latest-activity.deleted": # "Deleted"
 "panel.latest-activity.system": # "Latest system activity"
 
-#--- 48 translations ----------------------------------------------------------
+#--- 81 translations ----------------------------------------------------------
 
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
@@ -249,26 +242,49 @@
 "(none)": "(отсутствует)"
 "Add a brief, optional comment to describe what's changed.": "Кратко, необязательный комментарий, который описывает что изменилось."
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
+"Are you sure you want to delete %FILENAME%?": "Вы действительно хотите удалить файл %FILENAME%?"
 "Are you sure you want to delete %username%?": "Вы действительно хотите удалить пользователя %username%?"
+"Are you sure you want to do this for %NUMBER% records?": "Вы действительно хотите выполнить эту операцию над %NUMBER% записями?"
+"Are you sure you want to do this for 1 record?": "Вы действительно хотите выполнить эту операцию над 1 записью?"
+"Are you sure you want to remove these files?": "Вы действительно хотите удалить эти файлы?"
+"Are you sure you want to remove these images?": "Вы действительно хотите удалить эти изображения?"
+"Are you sure you want to remove this file?": "Вы действительно хотите удалить этот файл?"
+"Are you sure you want to remove this image?": "Вы действительно хотите удалить это изображение?"
+"Are you sure you wish to delete this record? There is no undo.": "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
 "Body": "Тело"
 "Categories": "Категории"
 "Category": "Категория"
 "Choose an entry": "Выберите запрись"
+"Client error: %errormessage%": "Ошибка клиента: %errormessage%"
 "Content": "Контент"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
 "Date": "Дата"
 "Datetime": "Дата и время"
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
+"Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
+"Error reading extensions/composer.json file: %ERROR%": "Ошибка при чтении файла extensions/composer.json: %ERROR%"
 "Everybody": "Все"
 "Excerpt": "Задержка"
 "Expand sidebar": "Развернуть боковую панель"
+"Extend": "Дополнения"
 "File": "Файл"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Файл '%file%' не может быть загружен (неверный/неразрешенный тип файла). Убедитесь что расширение файла является одним из следующих:"
 "Filelist": "Лист файлов"
 "Floatfield": "Поле Float"
 "Geolocation": "Геолокация"
+"Group": "Группа"
+"Groups": "Группы"
+"Html": "Html"
 "Image": "Изображение"
 "Imagelist": "Изображения"
 "Integerfield": "Поле Integer"
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
+"Link": "Ссылка"
+"Markdown": "Markdown"
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Свойство объекта меню \"add\" устарело. Используйте вместо него \"#\" под \"param\"."
+"Multiselect": "Мультивыбор"
 "Select a page": "Выбрать страницу"
 "Select zero or more pages": "Выбрать 0 или больше страниц"
 "Selectentry": "Выбрать запись"
@@ -280,6 +296,7 @@
 "Teaser": "Тизер"
 "Template": "Шаблон"
 "Textarea": "Текстовое поле"
+"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "База данных должна быть обновлена/восстановлена. Пройдите по 'Конфигурация' > '<a href=\"%link%\">Проверить Базу Данных</a>' чтобы сделать это сейчас."
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Идентификатор для slug '%taxonomytype%' не может быть идентичным ('%slug%' и '%taxonomytype%'). Пожалуйста, отредактируйте taxonomy.yml, и сделать их соответствие для предотвращения несоответствий между хранением баз данных и шаблонов."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Настройки для роли и права доступа сохранены в <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
@@ -288,9 +305,18 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
 "Title": "Заголовок"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Попробуйте зайти при помощи ftp-клиента и сделать эти файл доступными для чтения. Или пройдите <a>назад</a> на последнюю страницу."
+"Unable to create directory: %DIR%": "Невозможно создать директорию: %DIR%"
+"Unable to create file: %FILE%": "Невозможно создать файл: %FILE%"
+"Unable to delete directory: %DIR%": "Невозможно удалить директорию: %DIR%"
+"Unable to delete file: %FILE%": "Невозможно удалить файл: %FILE%"
+"Unable to duplicate file: %FILE%": "Невозможно скопировать файл: %FILE%"
+"Unable to rename directory: %DIR%": "Невозможно переименовать директорию: %DIR%"
+"Unable to rename file: %FILE%": "Невозможно переименовать файл: %FILE%"
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "К сожалению, не найдено никакого контента. Попробуйте другую страницу, или пройдите к <a href=\"%paths_root%\">домашней странице</a>."
 "Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"
 "You've been logged on successfully.": "Вы успешно вошли."
+"filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
 #--- 337 keyword based translations -------------------------------------------
 

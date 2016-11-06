@@ -104,7 +104,12 @@ class MetadataDriver implements MappingDriver
     {
         foreach ($this->schemaManager->getSchemaTables() as $table) {
             if ($tableName = $table->getName()) {
-                $this->aliases[$this->getContentTypeFromAlias($table->getOption('alias'))] = $tableName;
+                $mainAlias = $this->getContentTypeFromAlias($table->getOption('alias'));
+                $this->aliases[$mainAlias] = $tableName;
+                $slugAlias = $this->getContentTypeFromAlias($table->getOption('alias'), true);
+                if ($mainAlias !== $slugAlias) {
+                    $this->aliases[$slugAlias] = $tableName;
+                }
             }
         }
     }
@@ -600,13 +605,20 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Given a tablename or slug get the correct Bolt keyname from the config
+     *
      * @param $alias
+     * @param bool $forceSlug
+     *
      * @return string $key
      */
-    public function getContentTypeFromAlias($alias)
+    public function getContentTypeFromAlias($alias, $forceSlug = false)
     {
-
         foreach ($this->contenttypes->getData() as $key => $contenttype) {
+            if ($forceSlug) {
+                if (isset($contenttype['slug']) && $contenttype['slug'] == $alias) {
+                    return $contenttype['slug'];
+                }
+            }
             if (isset($contenttype['tablename']) && $contenttype['tablename'] == $alias) {
                 return $key;
             }

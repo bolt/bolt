@@ -288,14 +288,15 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.event_processor.timed'] = $app->share(
             function ($app) {
                 $contentTypes = array_keys($app['config']->get('contenttypes', []));
+                $interval = $app['config']->get('general/caching/duration', 10) * 60;
 
                 return new EventProcessor\TimedRecord(
                     $contentTypes,
                     $app['storage.lazy'],
-                    $app['config'],
                     $app['cache'],
                     $app['dispatcher'],
-                    $app['logger.system']
+                    $app['logger.system'],
+                    $interval
                 );
             }
         );

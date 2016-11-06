@@ -17,4 +17,10 @@ $(document).ready(function() {
         $(this).removeClass('obfuscated').html(value);
         return false;
     });
+
+    $('.trace-arguments-placeholder').each(function(){
+        var id = $(this).attr('id');
+        trace = $('#'+id).detach();
+        $('#trace-'+id).html(trace);
+    });
 });

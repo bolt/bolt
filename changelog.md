@@ -100,6 +100,21 @@ Bolt 3.2 betas were released at:
  - Beta 5: Released 2016-10-17.
  - Beta 7: Released 2016-10-21.
 
+Bolt 3.1.6
+----------
+
+Released 2016-11-06. Notable changes:
+
+ - Changed: Replace paths string concat with `path()` route and `asset()` generation. [#5906](https://github.com/bolt/bolt/pull/5906)
+ - Fixed: fix `listing_records` and sort in `theme.yml` [#5980](https://github.com/bolt/bolt/pull/5980)
+ - Fixed: Fix file autocomplete for sub directories and unquoted regex. [#5904](https://github.com/bolt/bolt/pull/5904)
+ - Fixed: fix for images with `alt` attribute but no `path` - see [#5900](https://github.com/bolt/bolt/pull/5900) [#5919](https://github.com/bolt/bolt/pull/5919)
+ - Fixed: Show custom fields in "Relationships" tab [#5925](https://github.com/bolt/bolt/pull/5925)
+ - Fixed: Unset unset `has_sortorder` parameter causing exceptions [#5984](https://github.com/bolt/bolt/pull/5984)
+ - Reverted: Set Twig syntax as protected source for CKEditor. [#5902](https://github.com/bolt/bolt/pull/5902)
+ - Travis: Add PHP 7.1 [#5911](https://github.com/bolt/bolt/pull/5911)
+ - Updated: Updating Base-2016 dependencies. [#5934](https://github.com/bolt/bolt/pull/5934)
+
 Bolt 3.1.5
 ----------
 
