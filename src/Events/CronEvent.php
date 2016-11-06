@@ -8,6 +8,8 @@ use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Event class for system compulsory cron jobs.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class CronEvent extends Event
 {
@@ -29,11 +31,11 @@ class CronEvent extends Event
         $this->output = $output;
 
         // Add listeners
-        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY, [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY, [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY, [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,  [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,   [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,  [$this, 'doRunScheduledJobs']);
         $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY, [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY, [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY,  [$this, 'doRunScheduledJobs']);
     }
 
     /**
