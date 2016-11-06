@@ -94,7 +94,7 @@ class Import extends AbstractMigration
         foreach ($this->data as $data) {
             // Test that we've at the least of an array
             if (!is_array($data)) {
-                $this->setError(true)->setErrorMessage("File '$filename' has malformed Contenttype import data! Skipping file.");
+                $this->setError(true)->setErrorMessage("File '$filename' has malformed ContentType import data! Skipping file.");
 
                 return false;
             }
@@ -114,14 +114,14 @@ class Import extends AbstractMigration
     }
 
     /**
-     * Check that the Contenttype specified in the record data is valid.
+     * Check that the ContentType specified in the record data is valid.
      *
      * @param string $filename
      * @param string $contenttypeslug
      *
      * @return boolean
      */
-    private function checkContenttypesValid($filename, $contenttypeslug)
+    private function checkContentTypesValid($filename, $contenttypeslug)
     {
         if (isset($this->contenttypes[$contenttypeslug])) {
             return true;
@@ -130,7 +130,7 @@ class Import extends AbstractMigration
         $contenttype = $this->app['storage']->getContentType($contenttypeslug);
 
         if (empty($contenttype)) {
-            $this->setError(true)->setErrorMessage("File '$filename' has and invalid Contenttype '$contenttypeslug'! Skipping file.");
+            $this->setError(true)->setErrorMessage("File '$filename' has and invalid ContentType '$contenttypeslug'! Skipping file.");
 
             return false;
         }
@@ -155,7 +155,7 @@ class Import extends AbstractMigration
         $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127);
 
         if (!$this->isRecordUnique($contenttypeslug, $slug)) {
-            $this->setWarning(true)->setWarningMessage("File '$filename' has an exiting Contenttype '$contenttypeslug' with the slug '$slug'! Skipping record.");
+            $this->setWarning(true)->setWarningMessage("File '$filename' has an exiting ContentType '$contenttypeslug' with the slug '$slug'! Skipping record.");
 
             return false;
         }

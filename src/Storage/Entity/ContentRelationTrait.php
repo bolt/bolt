@@ -28,7 +28,7 @@ trait ContentRelationTrait
     /**
      * Gets one or more related records.
      *
-     * @param string $filterContentType Contenttype to filter returned results on
+     * @param string $filterContentType ContentType to filter returned results on
      * @param array  $options           A set of 'WHERE' options to apply to the filter
      *
      * Backward compatability note:

@@ -15,7 +15,7 @@
         } %}
         {% set sub = [sub_view, sub_new, '-'] %}
 
-        {# Contenttypes, where show_in_menu is set true #}
+        {# ContentTypes, where show_in_menu is set true #}
         {% if contenttype.show_in_menu == "true" %}
 
             {% setcontent records = slug limit 4 nohydrate orderby '-datechanged' %}
@@ -34,7 +34,7 @@
 
             {{ nav.submenu(contenttype.icon_many|default(''), label, sub, active, true) }}
 
-        {# Contenttypes, where show_in_menu is set to a custom value or false #}
+        {# ContentTypes, where show_in_menu is set to a custom value or false #}
         {% else %}
 
             {% set sub_view = {

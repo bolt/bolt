@@ -140,7 +140,7 @@ class Save
     }
 
     /**
-     * Set a Contenttype record values from a HTTP POST.
+     * Set a ContentType record values from a HTTP POST.
      *
      * @param Entity\Content $content
      * @param array          $formValues
