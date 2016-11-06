@@ -13,7 +13,7 @@
     },
     "devDependencies": {
         "autoprefixer": "~6.5.1",
-        "blueimp-file-upload": "9.13.1",
+        "blueimp-file-upload": "9.14.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
         "css-mqpacker": "~5.0.1",
@@ -45,9 +45,9 @@
         "modernizr": "~3.3.1",
         "moment": "~2.15.2",
         "napa": "~2.3.0",
-        "node-sass": "~3.10.1",
+        "node-sass": "~3.11.2",
         "postcss-single-charset": "~1.0.0",
-        "request": "~2.76.0",
+        "request": "~2.78.0",
         "select2": "~4.0.3"
     },
     "scripts": {

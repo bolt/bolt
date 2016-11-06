@@ -111,7 +111,7 @@ class Frontend extends ConfigurableBase
     public function homepage(Request $request)
     {
         $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
-        $listingparameters = $this->getListingParameters($request, $homepage);
+        $listingparameters = $this->getListingParameters($homepage);
         $content = $this->getContent($homepage, $listingparameters);
 
         $template = $this->templateChooser()->homepage($content);
@@ -271,7 +271,7 @@ class Frontend extends ConfigurableBase
      */
     public function listing(Request $request, $contenttypeslug)
     {
-        $listingparameters = $this->getListingParameters($request, $contenttypeslug);
+        $listingparameters = $this->getListingParameters($contenttypeslug);
         $content = $this->getContent($contenttypeslug, $listingparameters);
         $contenttype = $this->getContentType($contenttypeslug);
 
@@ -477,50 +477,57 @@ class Frontend extends ConfigurableBase
     /**
      * Returns an array of the parameters used in getContent for listing pages.
      *
-     * @param Request $request         The Symfony Request
-     * @param string  $contenttypeslug The content type slug
+     * @param string  $contentTypeSlug The content type slug
      *
      * @return array Parameters to use in getContent
      */
-    private function getListingParameters(Request $request, $contenttypeslug)
+    private function getListingParameters($contentTypeSlug)
     {
-        $contenttype = $this->getContentType(current(explode('/', $contenttypeslug)));
+        $contentType = $this->getContentType(current(explode('/', $contentTypeSlug)));
 
-        // If the contenttype is 'viewless', don't show the listing / record page.
-        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $this->abort(Response::HTTP_NOT_FOUND, 'Page ' . $contenttype['slug'] . ' not found.');
+        // If the ContentType is 'viewless', don't show the listing / record page.
+        if ($contentType === false || $contentType['viewless']) {
+            $this->abort(Response::HTTP_NOT_FOUND, 'Page ' . $contentType['slug'] . ' not found.');
         }
 
         // Build the pager
-        $page = $this->app['pager']->getCurrentPage($contenttype['slug']);
+        $page = $this->app['pager']->getCurrentPage($contentType['slug']);
+        $order = $contentType['sort'] ?: $this->getListingOrder($contentType);
 
-        // Theme value takes precedence over CT & default config
-        // @see https://github.com/bolt/bolt/issues/3951
-        if (!$amount = $this->getOption('theme/listing_records', false)) {
-            $amount = empty($contenttype['listing_records']) ? $this->getOption('general/listing_records') : $contenttype['listing_records'];
-        }
-        if (!$order = $this->getOption('theme/listing_sort', false)) {
-            $order = empty($contenttype['sort']) ? null : $contenttype['sort'];
-        }
-        // If $order is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
-        // explicitly set it to sort on the general/listing_sort setting.
-        if ($order === null) {
-            $taxonomies = $this->getOption('taxonomy');
-            $hassortorder = false;
-            if (!empty($contenttype['taxonomy'])) {
-                foreach ($contenttype['taxonomy'] as $contenttypetaxonomy) {
-                    if ($taxonomies[$contenttypetaxonomy]['has_sortorder']) {
-                        // We have a taxonomy with a sortorder, so we must keep $order = false, in order
-                        // to let `getContent()` handle it. We skip the fallback that's a few lines below.
-                        $hassortorder = true;
-                    }
-                }
-            }
-            if (!$hassortorder) {
-                $order = $this->getOption('general/listing_sort');
-            }
+        // CT value takes precedence over theme & config.yml
+        if (!empty($contentType['listing_records'])) {
+            $amount = $contentType['listing_records'];
+        } else {
+            $amount = $this->getOption('theme/listing_records') ?: $this->getOption('general/listing_records');
         }
 
         return ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true];
+    }
+
+    /**
+     * Return the listing order.
+     *
+     * If the ContentType's sort is false (default in Config::parseContentType),
+     * either:
+     *  - we let `getContent()` sort by itself
+     *  - we explicitly set it to sort on the general/listing_sort setting
+     *
+     * @param array $contentType
+     *
+     * @return null|string
+     */
+    private function getListingOrder(array $contentType)
+    {
+        // An empty default isn't set in config yet, arrays got to hate them.
+        $contentType += ['taxonomy' => []];
+        $taxonomies = $this->getOption('taxonomy');
+        foreach ($contentType['taxonomy'] as $taxonomyName) {
+            if ($taxonomies[$taxonomyName]['has_sortorder']) {
+                // Let getContent() handle it
+                return null;
+            }
+        }
+
+        return $this->getOption('theme/listing_sort') ?: $this->getOption('general/listing_sort');
     }
 }

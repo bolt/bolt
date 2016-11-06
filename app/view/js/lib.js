@@ -138,3 +138,4 @@ j.addTest("contenteditable",function(){if("contentEditable"in l){var a=g("div");
 j.addTest("cookies",function(){try{b.cookie="cookietest=1";var a=b.cookie.indexOf("cookietest=")!=-1;return b.cookie="cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT",a}catch(a){return!1}}),e(),f(k),delete i.addTest,delete i.addAsyncTest;for(var n=0;n<j._q.length;n++)j._q[n]();a.Modernizr=j}(window,document);
 
 !function(a){a.fn.extend({select2Sortable:function(){var b=a(this);a(b).select2({width:"100%",createTag:function(a){}});var c=a(b).next(".select2-container").first("ul.select2-selection__rendered");c.sortable({items:"li:not(.select2-search)",tolerance:"pointer",stop:function(){a(a(c).find(".select2-selection__choice").get().reverse()).each(function(){var c=a(this).data("data").id,d=b.find('option[value="'+c+'"]')[0];a(b).prepend(d)})}})}})}(jQuery);
+//# sourceMappingURL=../maps/lib.js.map
