@@ -1,20 +1,53 @@
-# app/resources/translations/fr/messages.fr.yml – generated on 2016-05-09 07:28:36 Europe/Amsterdam
+# app/resources/translations/fr/messages.fr.yml – generated on 2016-11-06 08:42:38 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-# 104 translations
-# 510 keyword based translations
+#  16 unused messages
+#   4 untranslated messages
+#   4 untranslated keyword based messages
+#  88 translations
+# 526 keyword based translations
 
-#--- 104 translations ----------------------------------------------------------
+#--- 16 unused messages -------------------------------------------------------
+
+"Alas, no about!": "Hélas, aucun à propos !"
+"Chapter": "Chapitre"
+"Chapters": "Chapitres"
+"Edit": "Editer"
+"No content found.": "Aucun contenu trouvé."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat trouvé pour '%SEARCHTERM%'. Veuillez essayer une nouvelle recherche."
+"Overview for": "Vue d'ensemble pour"
+"Permalink": "Lien permanent"
+"Read more": "En lire plus"
+"Related content": "Contenu lié"
+"Search": "Recherche"
+"Search results for <b>%search%</b>.": "Chercher des resultats pour <b>%search%</b>."
+"Search …": "Rechercher…"
+"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a actuellement aucun bloc avec le slug 'about-us'. Si vous créez un, il sera affiché ici. Aller dans 'Configuration' > 'Vérifier la base de données' et sélectionnez 'Ajouter des exemples' pour générer automatiquement ce bloc."
+"Written by <em>%name%</em> on %date%": "Ecrit par <em>%name%</em> le %date%"
+"field.slug.button.link": "Lier à :"
+
+#--- 4 untranslated messages --------------------------------------------------
+
+"Dependencies": #
+"Finding packages that require this one…": #
+"Group": #
+"Groups": #
+
+#--- 4 untranslated keyword based messages ------------------------------------
+
+"contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.slug.button.generate": # "Generate from:"
+"nut.greeting": # "Welcome to Bolt!"
+"nut.version": # "version"
+
+#--- 88 translations ----------------------------------------------------------
 
 "(default template)": "(modèle par défaut)"
 "(no category)": "(aucune catégorie)"
@@ -23,7 +56,6 @@
 "Add a brief, optional comment to describe what's changed.": "Facultatif : ajouter un commentaire décrivant la modification"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Ajouter des enregistrements de démonstration</a>"
 "Added to <tt>%key%</tt> '%title%'": "Contenu '%title%' ajouté à <tt>%key%</tt>"
-"Alas, no about!": "Hélas, aucun à propos !"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Une erreur s'est produite lors de la mise à jour de `%TABLE%`. L'erreur est %ERROR%"
 "Are you sure you want to delete %FILENAME%?": "Etes-vous certain de vouloir supprimer le fichier %FILENAME% ?"
 "Are you sure you want to delete %username%?": "Etes-vous certain de vouloir supprimer l'utilisateur %username% ?"
@@ -37,8 +69,6 @@
 "Body": "Corps"
 "Categories": "Catégories"
 "Category": "Catégorie"
-"Chapter": "Chapitre"
-"Chapters": "Chapitres"
 "Choose an entry": "Choisissez un billet"
 "Client error: %errormessage%": "Erreur client : %errormessage%"
 "Content": "Contenu"
@@ -47,7 +77,6 @@
 "Datetime": "Date et heure"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "La version détectée de Bolt est modifiée en <b>%VERSION%</b>, et le cache a été effacé. Veuillez <a href=\"%URI%\">vérifier la base de données</a>, si vous ne l'avez déjà fait."
 "Do you really want to delete %FOLDERNAME%?": "Etes-vous certain de vouloir supprimer le répertoire %FOLDERNAME% ?"
-"Edit": "Editer"
 "Error reading extensions/composer.json file: %ERROR%": "Erreur de lecture du fichier extensions/composer.json : %ERROR%"
 "Everybody": "Tout le monde"
 "Excerpt": "Extrait"
@@ -72,16 +101,7 @@
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propriété \"add\" pour les entrées de menu est dépréciée. Utilisez plutôt \"#\" sous \"param\"."
 "Multiselect": "Sélection multiple"
-"No content found.": "Aucun contenu trouvé."
-"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat trouvé pour '%SEARCHTERM%'. Veuillez essayer une nouvelle recherche."
-"Overview for": "Vue d'ensemble pour"
-"Permalink": "Lien permanent"
-"Read more": "En lire plus"
-"Related content": "Contenu lié"
 "Repeater": "Collection"
-"Search": "Recherche"
-"Search results for <b>%search%</b>.": "Chercher des resultats pour <b>%search%</b>."
-"Search …": "Rechercher…"
 "Select a page": "Choisir une page"
 "Select zero or more pages": "Sélectionner une ou plusieurs pages"
 "Selectentry": "Choisir un billet"
@@ -101,7 +121,6 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "La configuration des rôles et des droits est stockée dans le fichier <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Le même type de slug '%slug%' est défini dans plusieurs types de contenu. Merci de modifier le fichier contenttypes.yml pour distinguer les usages."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Le fichier de traduction '%s' n'a pu être créé. Vous devrez utiliser votre propre éditeur de texte pour le modifier."
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a actuellement aucun bloc avec le slug 'about-us'. Si vous créez un, il sera affiché ici. Aller dans 'Configuration' > 'Vérifier la base de données' et sélectionnez 'Ajouter des exemples' pour générer automatiquement ce bloc."
 "This is a checkbox": "Ceci est une case à cocher"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
 "Title": "Titre"
@@ -116,11 +135,10 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Malheureusement, aucun contenu n'a pu être trouvé. Essayez une autre page, ou retourner sur la <a href=\"%paths_root%\">page d'accueil</a>."
 "Video": "Vidéo"
 "View (saved version) on site": "Afficher la version enregistrée"
-"Written by <em>%name%</em> on %date%": "Ecrit par <em>%name%</em> le %date%"
 "You've been logged on successfully.": "Connexion réussie."
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
-#--- 510 keyword based translations -------------------------------------------
+#--- 526 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions pour les %contenttypes%"
 contenttypes.generic.actions-one: "Actions pour ce(tte) %contenttype%"
@@ -178,7 +196,6 @@ field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Aperçu"
 
 field.slug.button.edit: "Modifier"
-field.slug.button.link: "Lier à :"
 field.slug.button.lock: "Verrouiller"
 field.slug.message.warning: "Modifier ce champ pourrait rompre les relations existantes !"
 field.slug.permalink: "Permalien"
@@ -591,21 +608,21 @@ page.extend.listheader.extension: "Extension"
 page.extend.listheader.status: "Statut"
 page.extend.listheader.version: "Version"
 page.extend.message.add-extension-with-form: "Ajouter une nouvelle extension via le formulaire ci-dessous."
+page.extend.message.autoload-dump: "Cela reconstruira les fichiers de cache et d'Autoloader."
 page.extend.message.autoloader-start: "Chargement du dump de l'autoloader Composer"
 page.extend.message.autoloader-update: "Mise à jour de l'autoloader Composer"
-page.extend.message.autoload-dump: "Cela reconstruira les fichiers de cache et d'Autoloader."
 page.extend.message.bad-json: "Réponse JSON malformée. Assurez-vous qu'aucun code de débogage ou autre n'est ajouté à la réponse"
 page.extend.message.before-theme-start: "Avant de pouvoir utiliser ce thème, celui-ci doit être copié dans le répertoire des thèmes. Vous pouvez, si vous le désirez, changer le nom de celui-ci."
 page.extend.message.check-for-updates: "Rechercher les mises à jour"
-page.extend.message.checking-installed-packages: "Vérification des paquets installés"
 page.extend.message.checking-for-updates: "Recherche des mises à jour disponibles (cela peut prendre jusqu'à 60 secondes)"
+page.extend.message.checking-installed-packages: "Vérification des paquets installés"
 page.extend.message.compatible-unstable-versions: "Les versions listées ci-dessous sont compatible avec la version de Bolt que vous utilisez. Cependant, comme elles ne sont pas marquées comme stable par le développeur, nous vous recommandons de <strong>ne pas</strong> les utiliser en production."
 page.extend.message.confirm-remove: "Veuillez confirmer que vous souhaitez supprimer cette extension"
 page.extend.message.copying: "Copie des éléments du thème…"
 page.extend.message.discover-by-visiting: "Vous pouvez découvrir de nouvelles extensions en visitant"
 page.extend.message.ext-dir-missing: "Le répertoire des extensions (<code>%DIRECTORY%</code>) n'existe pas ou n'est pas accessible en écriture. Cela signifie que vous ne pouvez pas gérer les extensions de Bolt via l'interface web tant que vous n'aurez pas changé les permissions du répertoire <code>%DIRECTORY%</code>. Vous pouvez toujours gérer les extensions manuellement."
-page.extend.message.installation-running: "Installation en cours"
 page.extend.message.install-all: "Installation de tous les paquets en cours…"
+page.extend.message.installation-running: "Installation en cours"
 page.extend.message.installing: "Préparation de l'installation du paquet…"
 page.extend.message.installing-selected-package: "Installation du paquet dans la version sélectionnée (cela peut prendre jusqu'à 60 secondes)"
 page.extend.message.installs-all-listed-packages: "Cela garantira que tous les paquets listés sont bien installés. Utilisez cette commande si vous avez récemment changé de serveur ou que vous avez installé un paquet manuellement."
@@ -621,8 +638,8 @@ page.extend.message.no-stable-versions-available: "Aucune version stable disponi
 page.extend.message.no-test-versions-available: "Aucune version de test disponible"
 page.extend.message.no-update-check-in-readmode: "Impossible de vérifier les mises à jour en mode lecture seule"
 page.extend.message.overwrite: "Cela va écraser les fichiers existants ! Êtes-vous certain ?"
-page.extend.message.package-install-info-fail: "Impossible d'obtenir des informations sur l'installation pour %PACKAGE% %VERSION%."
 page.extend.message.package-dependencies: "Paquets dépendants de celui-ci"
+page.extend.message.package-install-info-fail: "Impossible d'obtenir des informations sur l'installation pour %PACKAGE% %VERSION%."
 page.extend.message.removing: "Préparation de la suppression du paquet…"
 page.extend.message.running-update: "Mise à jour en cours…"
 page.extend.message.running-update-all: "Mises à jour en cours"

@@ -595,13 +595,14 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Given a tablename or slug get the correct Bolt keyname from the config
+     *
      * @param $alias
      * @param bool $forceSlug
+     *
      * @return string $key
      */
     public function getContentTypeFromAlias($alias, $forceSlug = false)
     {
-
         foreach ($this->contenttypes->getData() as $key => $contenttype) {
             if ($forceSlug) {
                 if (isset($contenttype['slug']) && $contenttype['slug'] == $alias) {

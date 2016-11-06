@@ -57,7 +57,7 @@ class Records extends BackendBase
         // Set the editreferrer in twig if it was not set yet.
         $this->setEditReferrer($request);
 
-        // Get the Contenttype object
+        // Get the ContentType object
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Save the POSTed record
@@ -164,7 +164,7 @@ class Records extends BackendBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Get relations
-        $showContenttype = null;
+        $showContentType = null;
         $relations = null;
         if (isset($contenttype['relations'])) {
             $relations = $contenttype['relations'];
@@ -181,7 +181,7 @@ class Records extends BackendBase
                 $relatedtype = $this->getContentType($relatedslug);
 
                 if ($relatedtype['slug'] == $showSlug) {
-                    $showContenttype = $relatedtype;
+                    $showContentType = $relatedtype;
                 }
 
                 $relations[$relatedslug] = [
@@ -197,8 +197,8 @@ class Records extends BackendBase
             'title'            => $content['title'],
             'contenttype'      => $contenttype,
             'relations'        => $relations,
-            'show_contenttype' => $showContenttype,
-            'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
+            'show_contenttype' => $showContentType,
+            'related_content'  => is_null($relations) ? null : $content->related($showContentType['slug']),
             'permissions'      => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser()),
         ];
 
