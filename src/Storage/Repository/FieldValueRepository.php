@@ -19,6 +19,7 @@ class FieldValueRepository extends Repository
             ->where('content_id = :id')
             ->andWhere('contenttype = :contenttype')
             ->andWhere('name = :name')
+            ->orderBy('grouping', 'ASC')
             ->setParameters([
                 'id'          => $id,
                 'contenttype' => $contenttype,
