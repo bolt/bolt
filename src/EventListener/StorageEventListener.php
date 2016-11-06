@@ -36,6 +36,8 @@ class StorageEventListener implements EventSubscriberInterface
     protected $passwordFactory;
     /** @var integer */
     protected $hashStrength;
+    /** @var bool */
+    protected $timedRecordsEnabled;
 
     /**
      * Constructor.
@@ -46,6 +48,7 @@ class StorageEventListener implements EventSubscriberInterface
      * @param FlashLoggerInterface          $loggerFlash
      * @param PasswordFactory               $passwordFactory
      * @param integer                       $hashStrength
+     * @param bool                          $timedRecordsEnabled
      */
     public function __construct(
         EventProcessor\TimedRecord $timedRecord,
@@ -53,7 +56,8 @@ class StorageEventListener implements EventSubscriberInterface
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
         PasswordFactory $passwordFactory,
-        $hashStrength
+        $hashStrength,
+        $timedRecordsEnabled
     ) {
         $this->timedRecord = $timedRecord;
         $this->schemaManager = $schemaManager;
@@ -61,6 +65,7 @@ class StorageEventListener implements EventSubscriberInterface
         $this->loggerFlash = $loggerFlash;
         $this->passwordFactory = $passwordFactory;
         $this->hashStrength = $hashStrength;
+        $this->timedRecordsEnabled = $timedRecordsEnabled;
     }
 
     /**
@@ -115,10 +120,10 @@ class StorageEventListener implements EventSubscriberInterface
         $this->schemaCheck($event);
 
         // Check if we need to 'publish' any 'timed' records, or 'hold' any expired records.
-        if ($this->timedRecord->isDuePublish()) {
+        if ($this->timedRecordsEnabled && $this->timedRecord->isDuePublish()) {
             $this->timedRecord->publishTimedRecords();
         }
-        if ($this->timedRecord->isDueHold()) {
+        if ($this->timedRecordsEnabled && $this->timedRecord->isDueHold()) {
             $this->timedRecord->holdExpiredRecords();
         }
     }

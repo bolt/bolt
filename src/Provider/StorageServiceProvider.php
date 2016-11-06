@@ -280,7 +280,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
-                    $app['access_control.hash.strength']
+                    $app['access_control.hash.strength'],
+                    $app['config']->get('general/performance/timed_records/use_cron', false)
                 );
             }
         );
