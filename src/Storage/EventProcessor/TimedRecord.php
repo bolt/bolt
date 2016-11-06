@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\EventProcessor;
 
-use Bolt\Config;
 use Bolt\Events\StorageEvent;
 use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Exception\StorageException;
@@ -32,39 +31,39 @@ class TimedRecord
     protected $contentTypeNames;
     /** @var  EntityManagerInterface */
     protected $em;
-    /** @var Config */
-    protected $config;
     /** @var CacheProvider */
     protected $cache;
     /** @var EventDispatcherInterface */
     protected $dispatcher;
     /** @var LoggerInterface */
     protected $systemLogger;
+    /** @var integer */
+    protected $interval;
 
     /**
      * Constructor.
      *
      * @param array                    $contentTypeNames
      * @param EntityManagerInterface   $em
-     * @param Config                   $config
      * @param CacheProvider            $cache
      * @param EventDispatcherInterface $dispatcher
      * @param LoggerInterface          $systemLogger
+     * @param integer                  $interval
      */
     public function __construct(
         array $contentTypeNames,
         EntityManagerInterface $em,
-        Config $config,
         CacheProvider $cache,
         EventDispatcherInterface $dispatcher,
-        LoggerInterface $systemLogger
+        LoggerInterface $systemLogger,
+        $interval
     ) {
         $this->contentTypeNames = $contentTypeNames;
         $this->em = $em;
-        $this->config = $config;
         $this->cache = $cache;
         $this->dispatcher = $dispatcher;
         $this->systemLogger = $systemLogger;
+        $this->interval = $interval;
     }
 
     /**
@@ -91,8 +90,7 @@ class TimedRecord
         foreach ($this->contentTypeNames as $contentTypeName) {
             $this->timedHandleRecords($contentTypeName, 'timed');
         }
-        $duration = $this->config->get('general/caching/duration', 10) * 60;
-        $this->cache->save(self::CACHE_KEY_PUBLISH, true, $duration);
+        $this->cache->save(self::CACHE_KEY_PUBLISH, true, $this->interval);
     }
 
     /**
@@ -103,7 +101,7 @@ class TimedRecord
         foreach ($this->contentTypeNames as $contentTypeName) {
             $this->timedHandleRecords($contentTypeName, 'hold');
         }
-        $this->cache->save(self::CACHE_KEY_HOLD, true, $this->config->get('general/caching/duration', 10));
+        $this->cache->save(self::CACHE_KEY_HOLD, true, $this->interval);
     }
 
     /**
