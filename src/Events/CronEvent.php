@@ -70,6 +70,15 @@ class CronEvent extends Event
      */
     private function cronHourly()
     {
+        $timedRecords = $this->app['storage.event_processor.timed'];
+        if ($timedRecords->isDuePublish()) {
+            $this->notify('Publishing timed records');
+            $timedRecords->publishTimedRecords();
+        }
+        if ($timedRecords->isDueHold()) {
+            $this->notify('De-publishing timed records');
+            $timedRecords->holdExpiredRecords();
+        }
     }
 
     /**
