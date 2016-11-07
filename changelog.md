@@ -31,6 +31,7 @@ Released 2016-11-07. Notable changes:
  - Changed: Switch profiler target option to Symfony's target [#5946](https://github.com/bolt/bolt/pull/5946)
  - Changed: Timed record tweak [#5995](https://github.com/bolt/bolt/pull/5995)
  - Changed: Use `Legacy\Content` subclasses for template fields. [#5881](https://github.com/bolt/bolt/pull/5881)
+ - Fixed: Add missing use statement to HiddenType [#5999](https://github.com/bolt/bolt/pull/5999)
  - Fixed Runtime Notice: Only variables should be passed by reference [#5865](https://github.com/bolt/bolt/pull/5865)
  - Fixed: `installAssets` failure during `composer install` [#5930](https://github.com/bolt/bolt/pull/5930)
  - Fixed: Add a `value_boolean` type to the `field_value` table. [#5959](https://github.com/bolt/bolt/pull/5959)
