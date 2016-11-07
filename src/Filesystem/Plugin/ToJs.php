@@ -27,9 +27,9 @@ class ToJs implements PluginInterface
         $file = $this->filesystem->getFile($path);
 
         $result = [
-            'filename' => $file->getFilename(),
-            'path'     => $file->getPath(),
-            'fullPath' => $file->getFullPath(),
+            'filename'  => $file->getFilename(),
+            'path'      => $file->getPath(),
+            'fullPath'  => $file->getFullPath(),
             'extension' => $file->getExtension(),
         ];
         if ($file instanceof ImageInterface) {

@@ -48,7 +48,7 @@ class Stack extends AsyncBase
         $type = !in_array($type, ['image', 'document']) ? 'other' : $type;
 
         return $this->json([
-            'type' => $type,
+            'type'    => $type,
             'removed' => $removed ? $removed->getFullPath() : null,
             'panel'   => $panel->getContent(),
             'list'    => $list->getContent(),

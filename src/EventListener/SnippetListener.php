@@ -31,9 +31,9 @@ class SnippetListener implements EventSubscriberInterface
      * Constructor.
      *
      * @param Queue     $queue
-     * @param Config    $config
      * @param Canonical $canonical
      * @param Packages  $packages
+     * @param Config    $config
      * @param Render    $render
      */
     public function __construct(Queue $queue, Canonical $canonical, Packages $packages, Config $config, Render $render)
@@ -46,7 +46,7 @@ class SnippetListener implements EventSubscriberInterface
     }
 
     /**
-     * Callback for reponse event.
+     * Callback for response event.
      *
      * @param FilterResponseEvent $event
      */
