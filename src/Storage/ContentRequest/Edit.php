@@ -3,7 +3,6 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
-use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;

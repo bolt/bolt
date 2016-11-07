@@ -5,7 +5,6 @@ namespace Bolt\Composer;
 use Bolt;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
-use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Translation\Translator as Trans;
 use Composer\Package\CompletePackageInterface;
 use GuzzleHttp\Exception\ClientException;
