@@ -35,6 +35,7 @@ Released 2016-11-07. Notable changes:
  - Fixed Runtime Notice: Only variables should be passed by reference [#5865](https://github.com/bolt/bolt/pull/5865)
  - Fixed: `installAssets` failure during `composer install` [#5930](https://github.com/bolt/bolt/pull/5930)
  - Fixed: Add a `value_boolean` type to the `field_value` table. [#5959](https://github.com/bolt/bolt/pull/5959)
+ - Fixed: Cache Twig relative to the defined theme [#6000](https://github.com/bolt/bolt/pull/6000)
  - Fixed: Database is no longer initialised prior to boot
  - Fixed: Edge case bugs with `routing.yml`. [#5923](https://github.com/bolt/bolt/pull/5923)
  - Fixed: Ensure response strings context variable exists and is iterable [#5978](https://github.com/bolt/bolt/pull/5978)
