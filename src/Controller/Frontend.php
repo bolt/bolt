@@ -178,7 +178,7 @@ class Frontend extends ConfigurableBase
         if ($content->isHome() && ($template === $this->getOption('general/homepage_template'))) {
             $request->attributes->add(['_route' => 'homepage', '_route_params' => []]);
         } else {
-            list ($routeName, $routeParams) = $content->getRouteNameAndParams();
+            list($routeName, $routeParams) = $content->getRouteNameAndParams();
             if ($routeName) {
                 $request->attributes->add(['_route' => $routeName, '_route_params' => $routeParams]);
             }
@@ -470,7 +470,7 @@ class Frontend extends ConfigurableBase
     /**
      * Returns an array of the parameters used in getContent for listing pages.
      *
-     * @param string  $contentTypeSlug The content type slug
+     * @param string $contentTypeSlug The content type slug
      *
      * @return array Parameters to use in getContent
      */

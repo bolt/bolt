@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Bolt\Exception\FileNotStackableException;
-use Bolt\Filesystem;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\FileInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -35,10 +34,10 @@ class Stack implements \Countable, \IteratorAggregate
     /**
      * Constructor.
      *
-     * @param Filesystem\Matcher  $matcher
-     * @param Users               $users
-     * @param SessionInterface    $session
-     * @param string[]            $acceptedFileTypes
+     * @param Filesystem\Matcher $matcher
+     * @param Users              $users
+     * @param SessionInterface   $session
+     * @param string[]           $acceptedFileTypes
      */
     public function __construct(Filesystem\Matcher $matcher, Users $users, SessionInterface $session, $acceptedFileTypes)
     {
@@ -55,6 +54,7 @@ class Stack implements \Countable, \IteratorAggregate
      * @param FileInterface|null   $removed  Returns the removed file, if one was removed.
      *
      * @throws FileNotStackableException If file is not stackable.
+     *
      * @return FileInterface If filename cannot be matched to filesystem.
      */
     public function add($filename, FileInterface &$removed = null)
@@ -251,7 +251,7 @@ class Stack implements \Countable, \IteratorAggregate
      */
     private function hydrateList($paths)
     {
-        $files = array_filter(array_map(function($path) {
+        $files = array_filter(array_map(function ($path) {
             try {
                 return $this->matcher->getFile($path);
             } catch (FileNotFoundException $e) {

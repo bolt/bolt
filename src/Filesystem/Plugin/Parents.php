@@ -41,7 +41,7 @@ class Parents implements PluginInterface
         do {
             $dir = $dir->getParent();
             $parents[] = $dir;
-        } while(!$dir->isRoot());
+        } while (!$dir->isRoot());
 
         return $parents;
     }

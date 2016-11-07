@@ -99,11 +99,11 @@ class FileManager extends BackendBase
         }
 
         $context = [
-            'form'           => $form->createView(),
-            'file'           => $file,
-            'write_allowed'  => true,
-            'related'        => $this->getRelatedFiles($file),
-            'datechanged'    => $file->getCarbon()->toIso8601String(),
+            'form'              => $form->createView(),
+            'file'              => $file,
+            'write_allowed'     => true,
+            'related'           => $this->getRelatedFiles($file),
+            'datechanged'       => $file->getCarbon()->toIso8601String(),
             'codeMirrorPlugins' => $this->getCodeMirrorPlugins($file),
         ];
 

@@ -7,7 +7,7 @@ use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class FileNotStackableException extends \Exception implements HttpExceptionInterface
+class FileNotStackableException extends Exception implements HttpExceptionInterface
 {
     /** @var FileInterface */
     private $unstackableFile;

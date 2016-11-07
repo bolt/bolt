@@ -4,8 +4,6 @@ namespace Bolt\Controller\Backend;
 
 use Silex\Application;
 use Silex\ControllerCollection;
-use Sirius\Upload\Result\Collection;
-use Sirius\Upload\Result\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

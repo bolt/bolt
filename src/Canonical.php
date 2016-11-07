@@ -35,7 +35,7 @@ class Canonical implements EventSubscriberInterface
      * @param RequestStack          $requestStack
      * @param RequestContext        $requestContext
      * @param UrlGeneratorInterface $urlGenerator
-     * @param string|null           $override An optional scheme/host override.
+     * @param string|null           $override       An optional scheme/host override.
      */
     public function __construct(
         RequestStack $requestStack,

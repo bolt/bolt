@@ -115,6 +115,7 @@ class Str
             $subject = strtolower($subject);
             $search = strtolower($search);
         }
+
         return $search === '' || substr($subject, -strlen($search)) === $search;
     }
 }

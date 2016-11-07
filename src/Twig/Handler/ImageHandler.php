@@ -5,7 +5,6 @@ namespace Bolt\Twig\Handler;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Handler\NullableImage;
 use Bolt\Helpers\Image\Thumbnail;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 
