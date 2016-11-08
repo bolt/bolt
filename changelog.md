@@ -1,7 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.2.0 
+Bolt 3.2.1
+----------
+
+Released 2016-11-08. Notable changes:
+
+ - Updated: updated `bolt/thumbs` to 3.1.0, for thumbnail alias functionality.
+
+Bolt 3.2.0
 ----------
 
 Released 2016-11-07. Notable changes:
