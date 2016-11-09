@@ -41,6 +41,10 @@ class Sanitiser implements SanitiserInterface
             ? $this->getWyswigAllowedTags()
             : $this->getAllowedTags();
 
+        // If the input does not contain encoded HTML entities, we'll need to
+        // decode the output later, because the sanitiser will insert entities.
+        $needsDecodeEntities = ($value === html_entity_decode($value, ENT_NOQUOTES));
+
         $maid = new Maid(
             [
                 'output-format'   => 'html',
@@ -49,7 +53,13 @@ class Sanitiser implements SanitiserInterface
             ]
         );
 
-        return $maid->clean($value);
+        $output = $maid->clean($value);
+
+        if ($needsDecodeEntities) {
+            $output = html_entity_decode($output, ENT_NOQUOTES);
+        }
+
+        return $output;
     }
 
     /**
