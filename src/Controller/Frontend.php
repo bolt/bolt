@@ -485,8 +485,13 @@ class Frontend extends ConfigurableBase
     {
         $contentType = $this->getContentType(current(explode('/', $contentTypeSlug)));
 
+        // If there is no ContentType, don't get parameters for it
+        if ($contentType === false) {
+            return [];
+        }
+
         // If the ContentType is 'viewless', don't show the listing / record page.
-        if ($contentType === false || $contentType['viewless']) {
+        if ($contentType['viewless']) {
             $this->abort(Response::HTTP_NOT_FOUND, 'Page ' . $contentType['slug'] . ' not found.');
         }
 
