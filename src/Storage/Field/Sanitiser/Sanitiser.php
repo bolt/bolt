@@ -40,9 +40,14 @@ class Sanitiser implements SanitiserInterface
         $allowedTags = $isWysiwyg
             ? $this->getWyswigAllowedTags()
             : $this->getAllowedTags();
-
-        // If the input does not contain encoded HTML entities, we'll need to
-        // decode the output later, because the sanitiser will insert entities.
+        
+        // Check if the input containts encoded HTML entities. If it does, we'll 
+        // need to decode the output later. This is because the sanitiser will 
+        // convert entities in the cleaned HTML, if they aren't present yet. 
+        // Ideally we'd fix this upstream by using \DomDocument::substituteEntities, 
+        // but that setting is disregarded in PHP's implementation at least. 
+        // This leaves us no choice but to implement this crude, albeit contained 
+        // fix in this location.
         $needsDecodeEntities = ($value === html_entity_decode($value, ENT_NOQUOTES));
 
         $maid = new Maid(
