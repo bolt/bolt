@@ -18,7 +18,6 @@ class RandomGeneratorTest extends BoltUnitTest
 
         $this->assertObjectHasAttribute('generator',  $fooFighters);
         $this->assertObjectHasAttribute('length',     $fooFighters);
-        $this->assertObjectHasAttribute('characters', $fooFighters);
     }
 
     public function testGenerateId()
