@@ -280,7 +280,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
                     $app['password_factory'],
-                    $app['access_control.hash.strength']
+                    $app['access_control.hash.strength'],
+                    $app['config']->get('general/performance/timed_records/use_cron', false)
                 );
             }
         );
@@ -288,7 +289,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.event_processor.timed'] = $app->share(
             function ($app) {
                 $contentTypes = array_keys($app['config']->get('contenttypes', []));
-                $interval = $app['config']->get('general/caching/duration', 10) * 60;
+                $interval = $app['config']->get('general/performance/timed_records/interval');
 
                 return new EventProcessor\TimedRecord(
                     $contentTypes,

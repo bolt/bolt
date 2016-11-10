@@ -104,11 +104,13 @@ class Cron extends Event
     {
         if ($this->isExecutable($interimName)) {
             $this->notify($data['message']);
+            /** @var Entity\Cron $cronEntity */
+            $cronEntity = $this->jobs[$interimName]['entity'];
 
             try {
                 $this->app['dispatcher']->dispatch($interimName, $event);
-                $this->jobs[$interimName]['entity']->setLastrun($this->runtime);
-                $this->repository->save($this->jobs[$interimName]['entity']);
+                $cronEntity->setLastrun($this->runtime);
+                $this->repository->save($cronEntity);
             } catch (\Exception $e) {
                 $this->handleError($e, $interimName);
             }
@@ -179,7 +181,7 @@ class Cron extends Event
      * @param string                    $interimName The interim; CRON_HOURLY, CRON_DAILY, CRON_WEEKLY, CRON_MONTHLY or CRON_YEARLY
      * @param \Bolt\Storage\Entity\Cron $runEntity   The last execution time of the interim
      *
-     * @return integer The UNIX timestamp for the interims next valid execution time
+     * @return \DateTime
      */
     private function getNextRunTime($interimName, Entity\Cron $runEntity)
     {
@@ -194,15 +196,15 @@ class Cron extends Event
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user.
      *
-     * @param string $msg
+     * @param string $message
      */
-    private function notify($msg)
+    private function notify($message)
     {
         if ($this->output !== null) {
-            $this->output->writeln("<info>{$msg}</info>");
+            $this->output->writeln("<info>{$message}</info>");
         }
 
-        $this->app['logger.system']->info("$msg", ['event' => 'cron']);
+        $this->app['logger.system']->info($message, ['event' => 'cron']);
     }
 
     /**
