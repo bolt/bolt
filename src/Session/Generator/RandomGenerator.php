@@ -2,10 +2,10 @@
 
 namespace Bolt\Session\Generator;
 
-use RandomLib\Generator;
+use Bolt\Security\Random\Generator;
 
 /**
- * Generates session IDs with RandomLib
+ * Generates session IDs.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -15,21 +15,17 @@ class RandomGenerator implements GeneratorInterface
     protected $generator;
     /** @var integer */
     protected $length;
-    /** @var integer */
-    protected $characters;
 
     /**
      * Constructor.
      *
      * @param Generator $generator
      * @param integer   $length
-     * @param integer   $characters
      */
-    public function __construct(Generator $generator, $length = 32, $characters = Generator::CHAR_ALNUM)
+    public function __construct(Generator $generator, $length = 32)
     {
         $this->generator = $generator;
         $this->length = $length;
-        $this->characters = $characters;
     }
 
     /**
@@ -37,6 +33,6 @@ class RandomGenerator implements GeneratorInterface
      */
     public function generateId()
     {
-        return $this->generator->generateString($this->length, $this->characters);
+        return $this->generator->generateString($this->length);
     }
 }

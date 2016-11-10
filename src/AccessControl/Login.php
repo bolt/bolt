@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
