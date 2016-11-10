@@ -7,10 +7,9 @@ namespace Bolt\Exception;
  */
 class FilesystemException extends \Exception
 {
-    const FILE_NOT_READABLE            = 1;
-    const FILE_NOT_WRITEABLE           = 2;
-    const FILE_NOT_REMOVEABLE          = 4;
-    const FILE_UPLOADS_ARE_NOT_ALLOWED = 5;
+    const FILE_NOT_READABLE   = 1;
+    const FILE_NOT_WRITEABLE  = 2;
+    const FILE_NOT_REMOVEABLE = 4;
 
     protected $code = 0;
 

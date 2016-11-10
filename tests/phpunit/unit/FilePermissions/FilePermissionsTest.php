@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\FilePermissions;
 
-use Bolt\Exception\FilesystemException;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilePermissions;
 use Bolt\Tests\BoltUnitTest;
 
@@ -37,8 +37,7 @@ class FilePermissionsTest extends BoltUnitTest
         if (ini_set('file_uploads', '0') !== false) {
             try {
                 $fp->allowedUpload($okFile);
-            } catch (FilesystemException $e) {
-                $this->assertEquals($e->getCode(), 5);
+            } catch (IOException $e) {
                 $this->assertEquals($e->getMessage(), 'File uploads are not allowed, check the file_uploads ini directive.');
             }
             ini_set('file_uploads', '1');

@@ -3,7 +3,7 @@
 namespace Bolt\Filesystem;
 
 use Bolt\Config;
-use Bolt\Exception\FilesystemException;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Library as Lib;
 
 /**
@@ -93,7 +93,7 @@ class FilePermissions
     {
         // Check if file_uploads ini directive is true
         if (ini_get('file_uploads') != 1) {
-            throw new FilesystemException('File uploads are not allowed, check the file_uploads ini directive.', 5);
+            throw new IOException('File uploads are not allowed, check the file_uploads ini directive.');
         }
         // no UNIX-hidden files
         if ($originalFilename[0] === '.') {
