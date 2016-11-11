@@ -83,7 +83,7 @@ class RepeaterType extends FieldTypeBase
     {
         $key = $this->mapping['fieldname'];
         if ($this->isJson($data[$key])) {
-            $originalMapping[$key]['fields'] = $this->mapping['fields'];
+            $originalMapping[$key]['fields'] = $this->mapping['data']['fields'];
             $originalMapping[$key]['type'] = 'repeater';
             $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
 
