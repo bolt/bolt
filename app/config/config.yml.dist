@@ -176,13 +176,6 @@ caching:
     thumbnails: true
     translations: true
 
-# Performance specific settings
-#
-# performance:
-#     timed_records:
-#         interval: 3600    # Number of seconds in between timed record checks
-#         use_cron: false   # If set to `true`, timed record checks will only be done via the hourly cron job
-
 # Set 'enabled' to 'true' to log all content changes in the database.
 #
 # Unless you need to rigorously monitor every change to your site's content, it
