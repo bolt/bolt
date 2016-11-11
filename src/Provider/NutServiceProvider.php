@@ -41,6 +41,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\Extensions($app),
                     new Nut\ExtensionsDumpAutoload($app),
                     new Nut\ExtensionsInstall($app),
+                    new Nut\ExtensionsSetup($app),
                     new Nut\ExtensionsUninstall($app),
                     new Nut\ExtensionsUpdate($app),
                     new Nut\Info($app),
