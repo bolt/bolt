@@ -119,6 +119,19 @@
     }
 
     /**
+     * Disable the "save" buttons, to indicate stuff is being done in the background.
+     *
+     * @static
+     * @function indicateSavingAction
+     * @memberof Bolt.editcontent
+     */
+    function indicateSavingAction() {
+        $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+        $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
+        $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
+    }
+
+    /**
      * Set validation handlers.
      *
      * @static
@@ -263,6 +276,7 @@
         });
 
         $('#savebutton').bind('click', function () {
+            indicateSavingAction();
             watchChanges();
         });
     }
@@ -276,6 +290,7 @@
      */
     function initSaveNew() {
         $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
+            indicateSavingAction();
             watchChanges();
 
             // Do a regular post, and expect to be redirected back to the "new record" page.
@@ -316,10 +331,7 @@
                 savedon = data.savedon,
                 msgNotSaved = data.msgNotSaved;
 
-            // Disable the buttons, to indicate stuff is being done.
-            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
-            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
-            $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
+            indicateSavingAction();
 
             if (newrecord) {
                 watchChanges();
