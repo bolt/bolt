@@ -4,19 +4,59 @@ Bolts backend’s frontend workflow using grunt
 Quick Start
 -----------
 
-Install required components:
+### Install Yarn
+
+#### CentOS & RHEL 6, Fedora 21
+
+```
+    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+    sudo yum install yarn
+```
+
+
+#### CentOS & RHEL 7, Fedora 22+
+
+```
+    sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo
+    sudo dnf install yarn
+```
+
+
+#### Debian/Ubuntu Linux
+
+```
+    sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    sudo apt-get update && sudo apt-get install yarn
+```
+
+
+#### OS X (with Homebrew)
+
+```
+    brew update
+    brew install yarn
+```
+
+
+#### Windows
+
+Download and install the MSI from [Yarn's site](https://yarnpkg.com/latest.msi)
+
+
+### Install required components:
 
 ```
     cd app/src/
-    npm install
+    yarn install --strict-semver
 ```
 
-Rebuild CSS & JavaScript:
+### Rebuild CSS & JavaScript:
 
 ```
-    grunt updateLib
-    grunt prepareCkeditor 
-    grunt updateBolt
+    yarn run grunt updateLib
+    yarn run grunt prepareCkeditor 
+    yarn run grunt updateBolt
 ```
 
 
@@ -81,8 +121,10 @@ enable generation of sourcemaps looks like this:
 
 ### Pages
 
-For the linting tasks you have to define a list of pages to download to the `tmp/pages` folder. If it doesn't yet exist, create the file `app/src/grunt-local/pages.js`. A sample file to
-enable this task looks like this:
+For the linting tasks you have to define a list of pages to download to the
+`tmp/pages` folder. If it doesn't yet exist, create the file 
+`app/src/grunt-local/pages.js`. A sample file to enable this task looks like this:
+
 ```javascript
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
@@ -203,8 +245,10 @@ Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
 ```
 ### Bootlint
 
-If it doesn't yet exist, create the file `app/src/grunt-local/bootlint.js`. You can override
-Bootlint options, e.g.:
+If it doesn't yet exist, create the file `app/src/grunt-local/bootlint.js`.
+
+You can override Bootlint options, e.g.:
+
 ```javascript
     module.exports = {
         relaxerror: ["W012"],
@@ -216,8 +260,9 @@ Bootlint options, e.g.:
 
 ### Htmllint
 
-If it doesn't yet exist, create the file `app/src/grunt-local/htmllint.js`. You can override
-Htmllint options, e.g.:
+If it doesn't yet exist, create the file `app/src/grunt-local/htmllint.js`. 
+
+You can override Htmllint options, e.g.:
 
 ```javascript
     module.exports = {
