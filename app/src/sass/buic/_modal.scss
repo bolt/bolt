@@ -41,6 +41,10 @@
     }
 }
 
+.modal-body img {
+    max-width: 100%;
+}
+
 .modal-backdrop {
   z-index: $zindex-backdrop; // a few higher than #navpage-secondary
 }

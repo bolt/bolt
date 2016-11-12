@@ -2,6 +2,7 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -51,7 +52,7 @@ class AccessControlListener implements EventSubscriberInterface
     {
         /** @var Entity\Users $userEntity */
         $userEntity = $event->getContent();
-        if (!$userEntity instanceof \Bolt\Storage\Entity\Users) {
+        if (!$userEntity instanceof Entity\Users) {
             return;
         }
 
@@ -70,7 +71,7 @@ class AccessControlListener implements EventSubscriberInterface
     {
         /** @var Entity\Users $userEntity */
         $userEntity = $event->getContent();
-        if (!$userEntity instanceof \Bolt\Storage\Entity\Users) {
+        if (!$userEntity instanceof Entity\Users) {
             return;
         }
 
@@ -110,7 +111,7 @@ class AccessControlListener implements EventSubscriberInterface
             if (!isset($data['_sf2_attributes']['authentication'])) {
                 continue;
             }
-            if (!$data['_sf2_attributes']['authentication'] instanceof \Bolt\AccessControl\Token\Token) {
+            if (!$data['_sf2_attributes']['authentication'] instanceof Token) {
                 continue;
             }
             /** @var \Bolt\AccessControl\Token\Token $token */

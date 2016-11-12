@@ -25,7 +25,7 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $generator = new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
 
-        $this->assertSame('a186bd81a42ade8d9db20d67f3e3dedb', (string) $generator);
+        $this->assertSame('9b5573929c64c32c04f194e803397b5b2331c0e37710f18880919c7821012b00', (string) $generator);
     }
 
     public function testGenerateNoRemoteAddress()
@@ -43,7 +43,7 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $generator = new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
 
-        $this->assertSame('fab8d7c5234c667135c6272593801cde', (string) $generator);
+        $this->assertSame('4821a933b29911764493b2c094481de4053386ed406e978ef57c9199eae4238f', (string) $generator);
     }
 
     public function testGenerateNoHttpHost()
@@ -61,7 +61,7 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $generator = new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
 
-        $this->assertSame('adf79fb05150a89782c040901b62e364', (string) $generator);
+        $this->assertSame('3e242930d5d3f507d7b6e2b3b342b2d3b7af0dbbdd5687524cec3a1301dab91d', (string) $generator);
     }
 
     public function testGenerateNoBrowserAgent()
@@ -79,7 +79,7 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $generator = new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
 
-        $this->assertSame('87089069215f0b7f2a066c3ad132a5c2', (string) $generator);
+        $this->assertSame('183b1f0a3f665b4f2f5c0da5583559b5852ddd6106e3dcb4ed7b6ba563dd2a4d', (string) $generator);
     }
 
     /**

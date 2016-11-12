@@ -72,7 +72,8 @@ class SetcontentTest extends BoltUnitTest
         $twigParser = new TwigParserMock($app['twig']);
         $twigParser->setStream($twigTokenStream);
 
-        $expression = new Twig_ExpressionParser($twigParser, ['='], []);
+        $env = $app['twig'];
+        $expression = new Twig_ExpressionParser($twigParser, $env);
         $twigParser->setExpressionParser($expression);
 
         $setContentParser = new SetcontentTokenParser();

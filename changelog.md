@@ -11,7 +11,34 @@ Bolt 3.3-dev
 
 - Break: Removed local extension functionality
 
-Bolt 3.2.0 
+Bolt 3.2.2
+----------
+
+Released 2016-11-12. Notable changes:
+
+ - Added: Enable HTTP Cache to be passed configuration options. [#6023](https://github.com/bolt/bolt/pull/6023)
+ - Added: Show "saving" indication on different types of 'save' actions. [#6026](https://github.com/bolt/bolt/pull/6026)
+ - Changed: `$context['contenttype']` to be the same as `$content->getContentType()`. [#5988](https://github.com/bolt/bolt/pull/5988)
+ - Changed: Remove record taxonomy based routes from example. [#6008](https://github.com/bolt/bolt/pull/6008)
+ - Fixed: Add max-width to images in modals. [#6010](https://github.com/bolt/bolt/pull/6010)
+ - Fixed: Allow aliased thumbnails for image 'arrays'. [#6027](https://github.com/bolt/bolt/pull/6027)
+ - Fixed: Fix `only_aliases` behaviour to work for backend users [#32](https://github.com/bolt/bolt-thumbs/pull/32)
+ - Fixed: Fix check for alias if ContentType uses a custom `tablename`. [#6024](https://github.com/bolt/bolt/pull/6024)
+ - Fixed: Fix for Notice and subsequent warning related to repeater fields [#6031](https://github.com/bolt/bolt/pull/6031)
+ - Fixed: Prevent "404" on missing ContentType for homepage. [#6012](https://github.com/bolt/bolt/pull/6012)
+ - Fixed: Prevent encoding of entities "On save" in text fields. [#6018](https://github.com/bolt/bolt/pull/6018)
+ - Fixed: Readded missing alias config and default sizes. [#6029](https://github.com/bolt/bolt/pull/6029)
+ - Fixed: Use indentation of 4 spaces for consistency in `theme.yml`. [#6033](https://github.com/bolt/bolt/pull/6033)
+ - Updated: Fix for Twig `^1.27`, updated to Twig 1.27. [#6004](https://github.com/bolt/bolt/pull/6004)
+
+Bolt 3.2.1
+----------
+
+Released 2016-11-08. Notable changes:
+
+ - Updated: updated `bolt/thumbs` to 3.1.0, for thumbnail alias functionality.
+
+Bolt 3.2.0
 ----------
 
 Released 2016-11-07. Notable changes:

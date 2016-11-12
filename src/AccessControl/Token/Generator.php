@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\AccessControl\Token;
 
 /**
@@ -11,7 +12,18 @@ class Generator
     /** @var string */
     protected $token;
 
-    public function __construct($username, $salt, $remoteIP, $hostName, $userAgent, array $cookieOptions)
+    /**
+     * Constructor.
+     *
+     * @param string $username
+     * @param string $salt
+     * @param string $remoteIP
+     * @param string $hostName
+     * @param string $userAgent
+     * @param array  $cookieOptions
+     * @param string $algorithm
+     */
+    public function __construct($username, $salt, $remoteIP, $hostName, $userAgent, array $cookieOptions, $algorithm = 'sha256')
     {
         if ($remoteIP === null) {
             throw new \InvalidArgumentException('Token generator requires an IP address to be provided');
@@ -27,7 +39,7 @@ class Generator
         $hostName = $cookieOptions['browseragent'] ? $userAgent : '';
         $userAgent = $cookieOptions['httphost'] ? $hostName : '';
 
-        $this->token = md5($username . $salt . $remoteIP . $hostName . $userAgent);
+        $this->token = hash($algorithm, $username . $salt . $remoteIP . $hostName . $userAgent);
     }
 
     public function __toString()

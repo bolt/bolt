@@ -7,6 +7,7 @@ use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Twig_Error_Loader as LoaderError;
+use Twig_Source as TwigSource;
 
 /**
  * Loads templates from a Bolt\Filesystem interface.
@@ -44,6 +45,16 @@ class FilesystemLoader extends \Twig_Loader_Filesystem
     public function prependPath($path, $namespace = self::MAIN_NAMESPACE)
     {
         $this->prependDir($this->filesystem->getDir($path), $namespace);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceContext($name)
+    {
+        $file = $this->findTemplate($name);
+
+        return new TwigSource($file->read(), $name, $file->getFullPath());
     }
 
     /**

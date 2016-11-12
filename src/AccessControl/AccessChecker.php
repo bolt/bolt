@@ -1,17 +1,18 @@
 <?php
+
 namespace Bolt\AccessControl;
 
 use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Security\Random\Generator;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
-use RandomLib\Generator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -36,7 +37,7 @@ class AccessChecker
     protected $systemLogger;
     /** @var \Bolt\AccessControl\Permissions */
     protected $permissions;
-    /** @var \RandomLib\Generator */
+    /** @var Generator */
     protected $randomGenerator;
     /** @var EventDispatcherInterface */
     protected $dispatcher;
