@@ -12,7 +12,7 @@
     "require" : {
         "bolt/filesystem" : "^2.0",
         "bolt/pathogen" : "~0.6",
-        "bolt/thumbs" : "^3.0",
+        "bolt/thumbs" : "^3.1.1",
         "brandonwamboldt/utilphp" : "~1.0",
         "cocur/slugify" : "~1.0",
         "composer/composer" : "^1.2",
@@ -61,7 +61,7 @@
         "symfony/web-profiler-bundle" : "^2.8",
         "symfony/yaml" : "^2.8",
         "tdammers/htmlmaid" : "~0.7",
-        "twig/twig" : "<1.26",
+        "twig/twig" : "^1.27",
         "ua-parser/uap-php" : "~3.4"
     },
     "require-dev" : {

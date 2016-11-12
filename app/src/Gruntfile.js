@@ -33,7 +33,6 @@ module.exports = function (grunt) {
         files: {
             boltJs: [
                 // Prerequisites
-                '<%= path.src.js %>/console.js',
                 '<%= path.src.js %>/class-extends.js',
                 // Old stuff
                 '<%= path.src.js %>/init.js',

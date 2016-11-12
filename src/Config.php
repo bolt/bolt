@@ -1195,6 +1195,9 @@ class Config
                 'allowed_attributes' => explode(',', 'id,class,style,name,value,href,src,alt,title,width,height,frameborder,allowfullscreen,scrolling'),
             ],
             'performance'                 => [
+                'http_cache'    => [
+                    'options' => [],
+                ],
                 'timed_records' => [
                     'interval' => 3660,
                     'use_cron' => false,

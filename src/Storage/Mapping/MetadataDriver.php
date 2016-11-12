@@ -605,7 +605,7 @@ class MetadataDriver implements MappingDriver
     {
         foreach ($this->contenttypes->getData() as $key => $contenttype) {
             if ($forceSlug) {
-                if (isset($contenttype['slug']) && $contenttype['slug'] == $alias) {
+                if (isset($contenttype['slug']) && ($contenttype['slug'] == $alias || $contenttype['tablename'] == $alias)) {
                     return $contenttype['slug'];
                 }
             }
