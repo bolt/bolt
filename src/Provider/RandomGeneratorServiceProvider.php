@@ -2,8 +2,7 @@
 
 namespace Bolt\Provider;
 
-use RandomLib;
-use SecurityLib\Strength;
+use Bolt\Security\Random\Generator;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -13,9 +12,7 @@ class RandomGeneratorServiceProvider implements ServiceProviderInterface
     {
         $app['randomgenerator'] = $app->share(
             function () {
-                $factory = new RandomLib\Factory();
-
-                return $factory->getGenerator(new Strength(Strength::MEDIUM));
+                return new Generator();
             }
         );
     }

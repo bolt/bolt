@@ -74,11 +74,15 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             }
         });
 
+        $app['thumbnails.default_imagesize'] = $app['config']->get('general/thumbnails/default_image');
+
         $app['thumbnails.cache_time'] = $app['config']->get('general/thumbnails/browser_cache_time');
 
         $app['thumbnails.limit_upscaling'] = !$app['config']->get('general/thumbnails/allow_upscale', false);
 
         $app['thumbnails.only_aliases'] = $app['config']->get('general/thumbnails/only_aliases', false);
+
+        $app['thumbnails.aliases'] = $app['config']->get('theme/thumbnails/aliases', []);
 
         ImageResource::setNormalizeJpegOrientation($app['config']->get('general/thumbnails/exif_orientation', true));
         ImageResource::setQuality($app['config']->get('general/thumbnails/quality', 80));
