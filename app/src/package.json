@@ -12,7 +12,7 @@
         "npm": ">=3.0.0"
     },
     "devDependencies": {
-        "autoprefixer": "~6.5.1",
+        "autoprefixer": "~6.5.3",
         "blueimp-file-upload": "9.14.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
@@ -43,9 +43,9 @@
         "load-grunt-tasks": "~3.5.2",
         "magnific-popup": "~1.1.0",
         "modernizr": "~3.3.1",
-        "moment": "~2.15.2",
+        "moment": "~2.16.0",
         "napa": "~2.3.0",
-        "node-sass": "~3.11.2",
+        "node-sass": "~3.11.3",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.78.0",
         "select2": "~4.0.3"
