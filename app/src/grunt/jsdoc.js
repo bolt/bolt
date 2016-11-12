@@ -7,7 +7,6 @@ module.exports = {
      */
     boltJs: {
         src: [
-            '<%= path.src.js %>/console.js',
             '<%= path.src.js %>/class-extends.js',
             // Bolt module
             '<%= path.src.js %>/bolt.js',
