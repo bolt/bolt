@@ -134,7 +134,7 @@ class Excerpt
     private function determineSnipLocation(array $locations, $prevCount)
     {
         // If we only have 1 match we don't actually do the for loop so set to the first
-        $startPos = $locations[0];
+        $startPos = (int) reset($locations);
         $loccount = count($locations);
         $smallestDiff = PHP_INT_MAX;
 
