@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Controller\Zone;
-use Bolt\Response\BoltResponse;
+use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,8 +57,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->changeLogRecord('pages', 1);
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-change-record.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('@bolt/components/panel-change-record.twig', $response->getTemplate()->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -143,8 +143,8 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/dashboardnews'));
 
         $response = $this->controller()->dashboardNews($this->getRequest());
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-news.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('@bolt/components/panel-news.twig', $response->getTemplate()->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -154,8 +154,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->lastModified('page', 1);
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-lastmodified.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('@bolt/components/panel-lastmodified.twig', $response->getTemplate()->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -165,8 +165,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->latestActivity();
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/panel-activity.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('@bolt/components/panel-activity.twig', $response->getTemplate()->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

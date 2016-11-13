@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Controller\Zone;
-use Bolt\Response\BoltResponse;
+use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +43,7 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->about();
 
-        $this->assertEquals('@bolt/about/about.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/about/about.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testClearCache()
@@ -154,8 +154,8 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/tr/contenttypes/en_CY'));
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
-        $this->assertTrue($response instanceof BoltResponse, 'Response is not instance of BoltResponse');
-        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse, 'Response is not instance of TemplateResponse');
+        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplate()->getTemplateName());
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
 

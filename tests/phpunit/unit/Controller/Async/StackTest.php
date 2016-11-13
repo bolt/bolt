@@ -1,9 +1,10 @@
 <?php
+
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
-use Bolt\Response\BoltResponse;
+use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use League\Flysystem\Memory\MemoryAdapter;
@@ -51,8 +52,8 @@ class StackTest extends ControllerUnitTest
 
         $response = $this->controller()->show(Request::create('/async/stack/show'));
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('@bolt/components/stack/panel.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('@bolt/components/stack/panel.twig', $response->getTemplate()->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

@@ -1,10 +1,11 @@
 <?php
+
 namespace Bolt\Tests\Controller;
 
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
-use Bolt\Response\BoltResponse;
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
+use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -44,8 +45,8 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('index.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testConfiguredConfigHomepageTemplate()
@@ -55,8 +56,8 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('index.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testConfiguredThemeHomepageTemplate()
@@ -67,75 +68,47 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('custom-home.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('custom-home.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testHomepageContent()
     {
-        $app = $this->getApp();
         $this->setRequest(Request::create('/'));
 
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$app]);
-        $content1 = new Content($app);
-        $content1->setValue('id', 42);
-        $storage->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue($content1));
-        $this->setService('storage', $storage);
-
         $response = $this->controller()->homepage($this->getRequest());
-        $globals = $response->getGlobalContext();
+        $globals = $response->getGlobals();
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame([42 => $content1], $globals['records']);
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertInstanceOf(Content::class, $globals['record']);
     }
 
     public function testMultipleHomepages()
     {
+        $app = $this->getApp();
         $this->setRequest(Request::create('/'));
+        $app['config']->set('general/homepage', 'pages');
 
-        $content1 = new Content($this->getApp());
-        $content2 = new Content($this->getApp());
-
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$this->getApp()]);
-        $storage->expects($this->once())
-            ->method('getContent')
-            ->will($this->returnValue(
-                [$content1, $content2]
-            ));
-        $this->setService('storage', $storage);
-
-        $globals = $this->controller()->homepage($this->getRequest())->getGlobalContext();
-
-        $this->assertSame($content1, $globals['records'][0]);
-        $this->assertSame($content2, $globals['records'][1]);
+        $globals = $this->controller()->homepage($this->getRequest())->getGlobals();
+        foreach ($globals['records'] as $record) {
+            $this->assertInstanceOf(Content::class, $record);
+        }
     }
 
     public function testRecord()
     {
-        $contenttype = $this->getService('storage')->getContentType('pages');
-        $this->setRequest(Request::create('/pages/test'));
-        $content1 = new Content($this->getApp(), $contenttype);
+        $contentType = $this->getService('storage')->getContentType('pages');
+        $request = Request::create('/pages/test');
+        $this->setRequest($request);
+        $content = new Content($this->getApp(), $contentType);
+        $content->setValues(['slug' => 'test', 'title' => 'test']);
+        $this->getService('storage')->saveContent($content);
 
-        $storage = $this->getMock('Bolt\Storage', ['getContent', 'getContentType'], [$this->getApp()]);
+        $response = $this->controller()->record($request, 'pages', 'test');
 
-        $storage->expects($this->once())
-            ->method('getContent')
-            ->with('pages')
-            ->will($this->returnValue($content1));
-
-        $storage->expects($this->once())
-            ->method('getContentType')
-            ->with('pages')
-            ->will($this->returnValue($contenttype));
-        $this->setService('storage', $storage);
-
-        $response = $this->controller()->record($this->getRequest(), 'pages', 'test');
-
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('page.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -159,7 +132,7 @@ class FrontendTest extends ControllerUnitTest
 
         /** @var \Silex\Application $app */
         $app = $this->getApp();
-        $app['config']->set('general/homepage', 'showcase/1');
+        $app['config']->set('general/homepage', 'page/1');
 
         $this->setRequest(Request::create($expected));
         $app['request_context']->fromRequest($this->getRequest());
@@ -170,8 +143,8 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue('index.twig'));
         $this->setService('templatechooser', $templates);
 
-        // Route for /showcase/1 instead of homepage
-        $this->controller()->record($this->getRequest(), 'showcase', '1');
+        // Route for /page/1 instead of homepage
+        $this->controller()->record($this->getRequest(), 'page', '1');
 
         $this->assertEquals($expected, $app['canonical']->getUrl(), 'Canonical url should be homepage');
     }
@@ -184,12 +157,12 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages/5'));
         $app['request_context']->fromRequest($this->getRequest());
 
-        $contenttype = $app['storage']->getContentType('pages');
-        $content1 = new Content($app, $contenttype);
+        $contentType = $app['storage']->getContentType('pages');
+        $content1 = new Content($app, $contentType);
         $content1->id = 5;
         $content1['slug'] = 'foo';
 
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$app]);
+        $storage = $this->getMock(Storage::class, ['getContent'], [$app]);
         $app['storage'] = $storage;
 
         $storage->expects($this->at(0))
@@ -209,10 +182,10 @@ class FrontendTest extends ControllerUnitTest
     public function testNumericRecord()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
-        $contenttype = $this->getService('storage')->getContentType('pages');
-        $content1 = new Content($this->getApp(), $contenttype);
+        $contentType = $this->getService('storage')->getContentType('pages');
+        $content1 = new Content($this->getApp(), $contentType);
 
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -226,15 +199,15 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->record($this->getRequest(), 'pages', 5);
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('page.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testNoRecord()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -245,15 +218,15 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->record($this->getRequest(), 'pages');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('record.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testRecordNoTemplate()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -264,31 +237,31 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->record($this->getRequest(), 'pages');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('record.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testViewlessRecord()
     {
         $this->setRequest(Request::create('/pages/test'));
 
-        $contenttype = $this->getService('storage')->getContentType('pages');
-        $contenttype['viewless'] = true;
+        $contentType = $this->getService('storage')->getContentType('pages');
+        $contentType['viewless'] = true;
 
-        $storage = $this->getMock('Bolt\Storage', ['getContentType'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getContentType'], [$this->getApp()]);
         $storage->expects($this->once())
             ->method('getContentType')
-            ->will($this->returnValue($contenttype));
+            ->will($this->returnValue($contentType));
         $this->setService('storage', $storage);
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
 
         $response = $this->controller()->record($this->getRequest(), 'pages', 'test');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('record.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -308,9 +281,9 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->preview($this->getRequest(), 'pages');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('record.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testListing()
@@ -318,33 +291,33 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages'));
         $response = $this->controller()->listing($this->getRequest(), 'pages');
 
-        $this->assertSame('listing.twig', $response->getTemplateName());
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertSame('listing.twig', $response->getTemplate()->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testViewlessListing()
     {
         $this->setRequest(Request::create('/'));
-        $contenttype = $this->getService('storage')->getContentType('pages');
-        $contenttype['viewless'] = true;
+        $contentType = $this->getService('storage')->getContentType('pages');
+        $contentType['viewless'] = true;
 
-        $storage = $this->getMock('Bolt\Storage', ['getContentType'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getContentType'], [$this->getApp()]);
         $storage->expects($this->once())
             ->method('getContentType')
-            ->will($this->returnValue($contenttype));
+            ->will($this->returnValue($contentType));
         $this->setService('storage', $storage);
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
         $response = $this->controller()->listing($this->getRequest(), 'pages');
-        $this->assertTrue($response instanceof BoltResponse);
+        $this->assertTrue($response instanceof TemplateResponse);
     }
 
     public function testBadTaxonomy()
     {
         $this->setRequest(Request::create('/faketaxonomy/main'));
 
-        $storage = $this->getMock('Bolt\Storage', ['getTaxonomyType'], [$this->getApp()]);
+        $storage = $this->getMock(Storage::class, ['getTaxonomyType'], [$this->getApp()]);
         $storage->expects($this->once())
             ->method('getTaxonomyType')
             ->will($this->returnValue(false));
@@ -361,8 +334,8 @@ class FrontendTest extends ControllerUnitTest
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'No slug');
 
         $response = $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testTaxonomyListing()
@@ -372,9 +345,9 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->taxonomy($this->getRequest(), 'categories', 'news');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('listing.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('listing.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testSimpleTemplateRender()
@@ -383,9 +356,9 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->template('index');
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('index.twig', $response->getTemplate()->getTemplateName());
+//$this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -403,9 +376,9 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->search($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('search.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testSearchWithFilters()
@@ -419,9 +392,9 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->search($this->getRequest());
 
-        $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobalContext());
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('search.twig', $response->getTemplate()->getTemplateName());
+        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testBeforeHandlerForFirstUser()
@@ -491,7 +464,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setService('prefill', $prefillMock);
 
         $storage = new Storage($app);
-        $storage->preFill(['showcases']);
+        $storage->preFill(['pages']);
     }
 
     /**
