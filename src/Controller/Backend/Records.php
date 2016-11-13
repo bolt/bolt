@@ -42,7 +42,7 @@ class Records extends BackendBase
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The content ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function edit(Request $request, $contenttypeslug, $id)
     {
@@ -105,7 +105,7 @@ class Records extends BackendBase
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function overview(Request $request, $contenttypeslug)
     {
@@ -148,7 +148,7 @@ class Records extends BackendBase
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function related(Request $request, $contenttypeslug, $id)
     {

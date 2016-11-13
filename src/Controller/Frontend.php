@@ -7,7 +7,8 @@ use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
-use Bolt\Response\BoltResponse;
+use Bolt\Legacy\Content;
+use Bolt\Response\TemplateResponse;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -43,7 +44,7 @@ class Frontend extends ConfigurableBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return null|BoltResponse|RedirectResponse
+     * @return null|TemplateResponse|RedirectResponse
      */
     public function before(Request $request)
     {
@@ -105,7 +106,7 @@ class Frontend extends ConfigurableBase
      *
      * @param Request $request
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function homepage(Request $request)
     {
@@ -136,7 +137,7 @@ class Frontend extends ConfigurableBase
      * @param string  $contenttypeslug The content type slug
      * @param string  $slug            The content slug
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function record(Request $request, $contenttypeslug, $slug = '')
     {
@@ -204,7 +205,7 @@ class Frontend extends ConfigurableBase
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function preview(Request $request, $contenttypeslug)
     {
@@ -268,7 +269,7 @@ class Frontend extends ConfigurableBase
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function listing(Request $request, $contenttypeslug)
     {
@@ -296,7 +297,7 @@ class Frontend extends ConfigurableBase
      * @param string  $taxonomytype The taxonomy type slug
      * @param string  $slug         The taxonomy slug
      *
-     * @return BoltResponse|false
+     * @return TemplateResponse|false
      */
     public function taxonomy(Request $request, $taxonomytype, $slug)
     {
@@ -378,7 +379,7 @@ class Frontend extends ConfigurableBase
      * @param Request $request      The Symfony Request
      * @param array   $contenttypes The content type slug(s) you want to search for
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function search(Request $request, array $contenttypes = null)
     {
@@ -455,7 +456,7 @@ class Frontend extends ConfigurableBase
      *
      * @param string $template The template name
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function template($template)
     {

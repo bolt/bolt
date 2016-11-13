@@ -40,7 +40,7 @@ class Log extends BackendBase
      *
      * @param Request $request
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function changeOverview(Request $request)
     {
@@ -79,7 +79,7 @@ class Log extends BackendBase
      * @param integer $contentid   Content record ID
      * @param integer $id          The change log entry ID
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
@@ -109,7 +109,7 @@ class Log extends BackendBase
      * @param string  $contenttype ContentType slug
      * @param integer $contentid   Content record ID
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function changeRecordListing(Request $request, $contenttype, $contentid)
     {
@@ -151,7 +151,7 @@ class Log extends BackendBase
      *
      * @param Request $request
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function systemOverview(Request $request)
     {

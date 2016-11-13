@@ -33,7 +33,7 @@ class Database extends BackendBase
      *
      * @param Request $request
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function check(Request $request)
     {
@@ -70,7 +70,7 @@ class Database extends BackendBase
     /**
      * Show the result of database updates.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function updateResult()
     {

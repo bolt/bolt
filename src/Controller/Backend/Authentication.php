@@ -39,7 +39,7 @@ class Authentication extends BackendBase
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param boolean                                   $resetCookies
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function getLogin(Request $request, $resetCookies = false)
     {

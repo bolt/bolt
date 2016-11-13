@@ -70,7 +70,7 @@ class General extends AsyncBase
      * @param string  $contenttype
      * @param integer $contentid
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function changeLogRecord($contenttype, $contentid)
     {
@@ -94,7 +94,7 @@ class General extends AsyncBase
      *
      * @param Request $request
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function dashboardNews(Request $request)
     {
@@ -121,7 +121,7 @@ class General extends AsyncBase
      * @param string       $contenttypeslug
      * @param integer|null $contentid
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function lastModified($contenttypeslug, $contentid = null)
     {
@@ -138,7 +138,7 @@ class General extends AsyncBase
     /**
      * Get the 'latest activity' for the dashboard.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function latestActivity()
     {
@@ -418,7 +418,7 @@ class General extends AsyncBase
      * @param string  $contenttypeslug
      * @param integer $contentid
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     private function getLastmodifiedByContentLog($contenttypeslug, $contentid)
     {
@@ -455,7 +455,7 @@ class General extends AsyncBase
      *
      * @param string $contenttypeslug
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     private function getLastmodifiedSimple($contenttypeslug)
     {
