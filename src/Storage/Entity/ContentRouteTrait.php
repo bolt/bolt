@@ -48,13 +48,10 @@ trait ContentRouteTrait
     public function link($referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         list($name, $params) = $this->getRouteNameAndParams();
-        if ($name === null) {
-            return null;
-        }
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $this->app['url_generator'];
 
-        $link = $this->app['url_generator']->generate($name, $params, $referenceType);
-
-        return $link;
+        return $name ? $urlGenerator->generate($name, $params, $referenceType) : null;
     }
 
     /**
@@ -117,7 +114,8 @@ trait ContentRouteTrait
         }
 
         // Needed params as array keys
-        $neededKeys = array_flip($route->compile()->getPathVariables());
+        $pathVars = $route->compile()->getPathVariables();
+        $neededKeys = array_flip($pathVars);
 
         // Set the values of neededKeys from the availableParams.
         // This removes extra parameters that are not needed for url generation.
