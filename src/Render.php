@@ -2,10 +2,12 @@
 
 namespace Bolt;
 
-use Bolt\Response\BoltResponse;
+use Bolt\Response\TemplateResponse;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment as Environment;
+use Twig_Template as Template;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.
@@ -45,20 +47,35 @@ class Render
     /**
      * Render a template, possibly store it in cache. Or, if applicable, return the cached result.
      *
-     * @param string $template the template name
-     * @param array  $vars     array of context variables
-     * @param array  $globals  array of global variables
+     * @param string $templateFile Template file name
+     * @param array  $context      Context variables
+     * @param array  $globals      Global variables
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return TemplateResponse
      */
-    public function render($template, $vars = [], $globals = [])
+    public function render($templateFile, $context = [], $globals = [])
     {
-        $response = BoltResponse::create(
-            $this->app[$this->twigKey]->loadTemplate($template),
-            $vars,
-            $globals
-        );
-        $response->setStopwatch($this->app['stopwatch']);
+        $this->app['stopwatch']->start('bolt.render', 'template');
+
+        /** @var Environment $twig */
+        $twig = $this->app[$this->twigKey];
+        /** @var Template $template */
+        $template = $twig->loadTemplate($templateFile);
+
+        foreach ($globals as $name => $value) {
+            $twig->addGlobal($name, $value);
+        }
+
+        $html = $template->render($context);
+
+        $response = new TemplateResponse($html);
+        $response
+            ->setTemplate($template)
+            ->setContext($context)
+            ->setGlobals($globals)
+        ;
+
+        $this->app['stopwatch']->stop('bolt.render');
 
         return $response;
     }
