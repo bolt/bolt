@@ -163,55 +163,62 @@ class Password
      * Send the password reset link notification to the user.
      *
      * @param Entity\Users $userEntity
-     * @param string       $shadowpassword
-     * @param string       $shadowtoken
+     * @param string       $shadowPassword
+     * @param string       $shadowToken
      */
-    private function resetPasswordNotification(Entity\Users $userEntity, $shadowpassword, $shadowtoken)
+    private function resetPasswordNotification(Entity\Users $userEntity, $shadowPassword, $shadowToken)
     {
-        $shadowLink = $this->app['url_generator']->generate(
+        $config = $this->app['config'];
+        $flash = $this->app['logger.flash'];
+        $mailer = $this->app['mailer'];
+        $logger = $this->app['logger.system'];
+        $twig = $this->app['twig'];
+        $urlGenerator = $this->app['url_generator'];
+
+        $shadowLink = $urlGenerator->generate(
             'resetpassword',
-            ['token' => $shadowtoken],
+            ['token' => $shadowToken],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
         // Compile the email with the shadow password and reset link.
-        $mailhtml = $this->app['render']->render(
+        $mailHtml = $twig->render(
             '@bolt/mail/passwordreset.twig',
             [
                 'user'           => $userEntity,
-                'shadowpassword' => $shadowpassword,
-                'shadowtoken'    => $shadowtoken,
-                'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
+                'shadowpassword' => $shadowPassword,
+                'shadowtoken'    => $shadowToken,
+                'shadowvalidity' => Carbon::now()->addHours(2)->format('Y-m-d H:i:s'),
                 'shadowlink'     => $shadowLink,
             ]
-        )->getContent();
+        );
 
-        $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
-        $name = $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'));
-        $email = $this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail());
+        $subject = sprintf('[ Bolt / %s ] Password reset.', $config->get('general/sitename'));
+        $name = $config->get('general/mailoptions/senderName', $config->get('general/sitename'));
+        $email = $config->get('general/mailoptions/senderMail', $userEntity->getEmail());
         $from = [$email => $name];
 
-        $message = $this->app['mailer']
+        $message = $mailer
             ->createMessage('message')
             ->setSubject($subject)
             ->setFrom($from)
             ->setReplyTo($from)
             ->setTo([$userEntity->getEmail() => $userEntity->getDisplayname()])
-            ->setBody(strip_tags($mailhtml))
-            ->addPart($mailhtml, 'text/html')
+            ->setBody(strip_tags($mailHtml))
+            ->addPart($mailHtml, 'text/html')
         ;
 
         $failed = true;
         $failedRecipients = [];
 
         try {
-            $recipients = $this->app['mailer']->send($message, $failedRecipients);
+            $recipients = $mailer->send($message, $failedRecipients);
 
             // Try and send immediately
             $this->app['swiftmailer.spooltransport']->getSpool()->flushQueue($this->app['swiftmailer.transport']);
 
             if ($recipients) {
-                $this->app['logger.system']->info("Password request sent to '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
+                $logger->info("Password request sent to '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
                 $failed = false;
             }
         } catch (\Exception $e) {
@@ -219,8 +226,8 @@ class Password
         }
 
         if ($failed) {
-            $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
-            $this->app['logger.flash']->error(Trans::__('general.phrase.error-send-password-request'));
+            $logger->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
+            $flash->error(Trans::__('general.phrase.error-send-password-request'));
         }
     }
 }
