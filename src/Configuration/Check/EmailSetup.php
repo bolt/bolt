@@ -83,14 +83,14 @@ class EmailSetup extends BaseCheck implements ConfigurationCheckInterface
      */
     private function getEmailHtml()
     {
-        return $this->app['render']->render(
+        return $this->app['twig']->render(
             'email/pingtest.twig',
             [
                 'sitename' => $this->app['config']->get('general/sitename'),
                 'user'     => $this->options['user']['displayname'],
                 'ip'       => $this->options['ip'],
             ]
-        )->getContent();
+        );
     }
 
     /**

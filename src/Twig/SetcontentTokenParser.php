@@ -2,21 +2,29 @@
 
 namespace Bolt\Twig;
 
+/**
+ * TWig setcontent token parser.
+ *
+ * @author Bob den Otter <bob@twokings.nl>
+ */
 class SetcontentTokenParser extends \Twig_TokenParser
 {
+    /**
+     * {@inheritdoc}
+     */
     public function parse(\Twig_Token $token)
     {
         $lineno = $token->getLine();
 
         $arguments = new \Twig_Node_Expression_Array([], $lineno);
-        $wherearguments = null;
+        $whereArguments = [];
 
         // name - the new variable with the results
         $name = $this->parser->getStream()->expect(\Twig_Token::NAME_TYPE)->getValue();
         $this->parser->getStream()->expect(\Twig_Token::OPERATOR_TYPE, '=');
 
-        // contenttype, or simple expression to content.
-        $contenttype = $this->parser->getExpressionParser()->parseExpression();
+        // ContentType, or simple expression to content.
+        $contentType = $this->parser->getExpressionParser()->parseExpression();
 
         $counter = 0;
 
@@ -24,7 +32,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
             // where parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
                 $this->parser->getStream()->next();
-                $wherearguments = $this->parser->getExpressionParser()->parseExpression();
+                $whereArguments = ['wherearguments' => $this->parser->getExpressionParser()->parseExpression()];
             }
 
             // limit parameter
@@ -85,9 +93,12 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new SetcontentNode($name, $contenttype, $arguments, $wherearguments, $lineno, $this->getTag());
+        return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTag()
     {
         return 'setcontent';

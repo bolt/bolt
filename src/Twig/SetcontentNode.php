@@ -2,18 +2,39 @@
 
 namespace Bolt\Twig;
 
-class SetcontentNode extends \Twig_Node
+use Twig_Node as Node;
+use Twig_Node_Expression_Array as NodeExpressionArray;
+
+/**
+ * Twig setcontent node.
+ *
+ * @author Bob den Otter <bob@twokings.nl>
+ */
+class SetcontentNode extends Node
 {
-    public function __construct($name, $contenttype, \Twig_Node_Expression_Array $arguments, $wherearguments, $lineno, $tag = null)
+    /**
+     * Constructor.
+     *
+     * @param string              $name
+     * @param Node                $contentType
+     * @param NodeExpressionArray $arguments
+     * @param array               $whereArguments
+     * @param int                 $lineNo
+     * @param null                $tag
+     */
+    public function __construct($name, Node $contentType, NodeExpressionArray $arguments, array $whereArguments, $lineNo, $tag = null)
     {
         parent::__construct(
-            ['wherearguments' => $wherearguments],
-            ['name'           => $name, 'contenttype' => $contenttype, 'arguments' => $arguments],
-            $lineno,
+            $whereArguments,
+            ['name' => $name, 'contenttype' => $contentType, 'arguments' => $arguments],
+            $lineNo,
             $tag
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function compile(\Twig_Compiler $compiler)
     {
         $arguments = $this->getAttribute('arguments');
@@ -25,12 +46,14 @@ class SetcontentNode extends \Twig_Node
             ->write('$template_storage->getContent(')
             ->subcompile($this->getAttribute('contenttype'))
             ->raw(', ')
-            ->subcompile($arguments);
+            ->subcompile($arguments)
+        ;
 
-        if (!is_null($this->getNode('wherearguments'))) {
+        if ($this->hasNode('wherearguments')) {
             $compiler
                 ->raw(', $pager, ')
-                ->subcompile($this->getNode('wherearguments'));
+                ->subcompile($this->getNode('wherearguments'))
+            ;
         }
 
         $compiler->raw(" );\n");

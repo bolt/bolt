@@ -2,27 +2,34 @@
 
 namespace Bolt\Twig;
 
+use Twig_Node as Node;
+
 /**
  * Represents a switch node.
  *
- * @package    twig
+ * @author Dsls
+ * @author maxgalbu
  *
- * @author     Dsls
- * @author     maxgalbu
- *
- * @see        https://gist.github.com/maxgalbu/9409182
+ * @see https://gist.github.com/maxgalbu/9409182
  */
-class SwitchNode extends \Twig_Node
+class SwitchNode extends Node
 {
-    public function __construct(\Twig_NodeInterface $value, \Twig_NodeInterface $cases, \Twig_NodeInterface $default = null, $lineno = 0, $tag = null)
+    /**
+     * Constructor.
+     *
+     * @param Node      $value
+     * @param Node      $cases
+     * @param Node|null $default
+     * @param int       $lineNo
+     * @param null      $tag
+     */
+    public function __construct(Node $value, Node $cases, Node $default = null, $lineNo = 0, $tag = null)
     {
-        parent::__construct(['value' => $value, 'cases' => $cases, 'default' => $default], [], $lineno, $tag);
+        parent::__construct(['value' => $value, 'cases' => $cases, 'default' => $default], [], $lineNo, $tag);
     }
 
     /**
-     * Compiles the node to PHP.
-     *
-     * @param Twig_Compiler A Twig_Compiler instance
+     * {@inheritdoc}
      */
     public function compile(\Twig_Compiler $compiler)
     {
@@ -31,7 +38,7 @@ class SwitchNode extends \Twig_Node
             ->write('switch (')
             ->subcompile($this->getNode('value'))
             ->raw(") {\n")
-            ->indent
+            ->indent()
         ;
         for ($i = 0; $i < count($this->getNode('cases')); $i += 2) {
             $compiler
@@ -40,7 +47,7 @@ class SwitchNode extends \Twig_Node
                 ->raw(":\n")
                 ->indent()
                 ->subcompile($this->getNode('cases')->getNode($i + 1))
-                ->addIndentation()
+                ->write('')
                 ->raw("break;\n")
             ;
         }
@@ -50,7 +57,7 @@ class SwitchNode extends \Twig_Node
                 ->write("default:\n")
                 ->indent()
                 ->subcompile($this->getNode('default'))
-                ->addIndentation()
+                ->write('')
                 ->raw("break;\n")
             ;
         }

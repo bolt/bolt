@@ -145,15 +145,17 @@ class General extends BackendBase
     {
         // Determine the Contenttypes that we're doing the prefill for
         $choices = [];
-        foreach ($this->getOption('contenttypes') as $key => $cttype) {
-            $namekey = 'contenttypes.' . $key . '.name.plural';
-            $name = Trans::__($namekey, [], 'contenttypes');
-            $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
+        foreach ($this->getOption('contenttypes') as $key => $contentType) {
+            $nameKey = 'contenttypes.' . $key . '.name.plural';
+            $nameTrans = Trans::__($nameKey, [], 'contenttypes');
+            $name = ($nameTrans === $nameKey) ? $contentType['name'] : $nameTrans;
+            $choices[$name] = $key;
         }
 
         // Create the form
         $form = $this->createFormBuilder(FormType::class)
             ->add('contenttypes', ChoiceType::class, [
+                'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
                 'choices'  => $choices,
                 'multiple' => true,
                 'expanded' => true,

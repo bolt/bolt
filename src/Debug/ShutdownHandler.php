@@ -27,9 +27,9 @@ class ShutdownHandler
             $errorLevels |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
             Debug\DebugClassLoader::enable();
         }
-        Debug\ErrorHandler::register()->throwAt($errorLevels, true);
 
         if (PHP_SAPI !== 'cli') {
+            Debug\ErrorHandler::register()->throwAt($errorLevels, true);
             Debug\ExceptionHandler::register($debug);
         } else {
             $consoleHandler = function (\Exception $e) {
