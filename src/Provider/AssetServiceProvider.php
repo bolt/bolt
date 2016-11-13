@@ -139,7 +139,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $queue = new Asset\Widget\Queue(
                     $app['asset.injector'],
                     $app['cache'],
-                    $app['render']
+                    $app['twig']
                 );
 
                 return $queue;
