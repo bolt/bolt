@@ -12,6 +12,8 @@ use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment as TwigEnvironment;
+use Twig_Markup as TwigMarkup;
 
 /**
  * Widget queue processor.
@@ -29,7 +31,7 @@ class Queue implements QueueInterface
     protected $injector;
     /** @var \Doctrine\Common\Cache\CacheProvider */
     protected $cache;
-    /** @var \Bolt\Render */
+    /** @var TwigEnvironment */
     protected $render;
 
     /** @var boolean */
@@ -38,15 +40,21 @@ class Queue implements QueueInterface
     /**
      * Constructor.
      *
-     * @param Injector      $injector
-     * @param CacheProvider $cache
-     * @param Render        $render
+     * NOTE: Constructor type hint for TwigEnvironment omitted for BC, add in v4
+     *
+     * @param Injector        $injector
+     * @param CacheProvider   $cache
+     * @param TwigEnvironment $render
      */
-    public function __construct(Injector $injector, CacheProvider $cache, Render $render)
+    public function __construct(Injector $injector, CacheProvider $cache, $render)
     {
         $this->injector = $injector;
         $this->cache = $cache;
         $this->render = $render;
+
+        if ($render instanceof Render) {
+            @trigger_error('Passing Bolt\Render to the widget queue constructor is deprecated since 3.3, use Twig_Environment instead.', E_USER_DEPRECATED);
+        }
     }
 
     /**
@@ -77,7 +85,7 @@ class Queue implements QueueInterface
      *
      * @param string $key
      *
-     * @return \Twig_Markup|string
+     * @return TwigMarkup|string
      */
     public function getRendered($key)
     {

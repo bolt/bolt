@@ -2,10 +2,10 @@
 
 namespace Bolt\Twig;
 
-use Twig_Error_Syntax;
-use Twig_Node;
-use Twig_Token;
-use Twig_TokenParser;
+use Twig_Error_Syntax as TwigSyntaxError;
+use Twig_Node as Node;
+use Twig_Token as Token;
+use Twig_TokenParser as Parser;
 
 /*
  * Adapted from code originally in Twig/extensions.
@@ -25,18 +25,18 @@ use Twig_TokenParser;
  *
  * @see: https://gist.github.com/maxgalbu/9409182
  */
-class SwitchTokenParser extends Twig_TokenParser
+class SwitchTokenParser extends Parser
 {
     /**
      * Parses a token and returns a node.
      *
-     * @param Twig_Token $token A Twig_Token instance
+     * @param Token $token A Token instance
      *
-     * @throws Twig_Error_Syntax
+     * @throws TwigSyntaxError
      *
-     * @return Twig_Node A Twig node instance
+     * @return Node A Twig node instance
      */
-    public function parse(Twig_Token $token)
+    public function parse(Token $token)
     {
         $parser = $this->parser;
         $stream = $parser->getStream();
@@ -46,21 +46,21 @@ class SwitchTokenParser extends Twig_TokenParser
         $end = false;
 
         $name = $parser->getExpressionParser()->parseExpression();
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
-        $stream->expect(Twig_Token::TEXT_TYPE);
-        $stream->expect(Twig_Token::BLOCK_START_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
+        $stream->expect(Token::TEXT_TYPE);
+        $stream->expect(Token::BLOCK_START_TYPE);
         while (!$end) {
-            /** @var Twig_Token $v */
+            /** @var Token $v */
             $v = $stream->next();
             switch ($v->getValue()) {
                 case 'default':
-                    $stream->expect(Twig_Token::BLOCK_END_TYPE);
+                    $stream->expect(Token::BLOCK_END_TYPE);
                     $default = $parser->subparse([$this, 'decideIfEnd']);
                     break;
 
                 case 'case':
                     $expr = $parser->getExpressionParser()->parseExpression();
-                    $stream->expect(Twig_Token::BLOCK_END_TYPE);
+                    $stream->expect(Token::BLOCK_END_TYPE);
                     $body = $parser->subparse([$this, 'decideIfFork']);
                     $cases[] = $expr;
                     $cases[] = $body;
@@ -73,31 +73,31 @@ class SwitchTokenParser extends Twig_TokenParser
                 default:
                     $message = sprintf('Unexpected end of template. Twig was looking for the following tags "case", "default", or "endswitch" to close the "switch" block started at line %d)', $v->getLine());
 
-                    throw new Twig_Error_Syntax($message, $v->getLine());
+                    throw new TwigSyntaxError($message, $v->getLine());
             }
         }
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new SwitchNode($name, new Twig_Node($cases), $default, $token->getLine(), $this->getTag());
+        return new SwitchNode($name, new Node($cases), $default, $token->getLine(), $this->getTag());
     }
 
     /**
-     * @param Twig_Token $token
+     * @param Token $token
      *
      * @return bool
      */
-    public function decideIfFork(Twig_Token $token)
+    public function decideIfFork(Token $token)
     {
         return $token->test(['case', 'default', 'endswitch']);
     }
 
     /**
-     * @param Twig_Token $token
+     * @param Token $token
      *
      * @return bool
      */
-    public function decideIfEnd(Twig_Token $token)
+    public function decideIfEnd(Token $token)
     {
         return $token->test(['endswitch']);
     }

@@ -498,17 +498,17 @@ class Users extends BackendBase
      */
     private function getUserEditFields(FormBuilder $form, $id)
     {
-        $enabledoptions = [
-            1 => Trans::__('page.edit-users.activated.yes'),
-            0 => Trans::__('page.edit-users.activated.no'),
+        $enabledOptions = [
+            Trans::__('page.edit-users.activated.yes') => 1,
+            Trans::__('page.edit-users.activated.no')  => 0,
         ];
 
-        $roles = array_map(
+        $roles = array_flip(array_map(
             function ($role) {
                 return $role['label'];
             },
             $this->app['permissions']->getDefinedRoles()
-        );
+        ));
 
         // New users and the current users don't need to disable themselves
         $currentUser = $this->getUser();
@@ -517,9 +517,10 @@ class Users extends BackendBase
                 'enabled',
                 ChoiceType::class,
                 [
-                    'choices'     => $enabledoptions,
+                    'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
+                    'choices'     => $enabledOptions,
                     'expanded'    => false,
-                    'constraints' => new Assert\Choice(array_keys($enabledoptions)),
+                    'constraints' => new Assert\Choice(array_values($enabledOptions)),
                     'label'       => Trans::__('page.edit-users.label.user-enabled'),
                 ]
             );
@@ -530,6 +531,7 @@ class Users extends BackendBase
                 'roles',
                 ChoiceType::class,
                 [
+                    'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
                     'choices'  => $roles,
                     'expanded' => true,
                     'multiple' => true,

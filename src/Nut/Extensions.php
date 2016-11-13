@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -43,10 +44,11 @@ class Extensions extends BaseCommand
             $rows[] = [$package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription()];
         }
 
-        $table = $this->getHelper('table');
+        $table = new Table($output);
         $table
             ->setHeaders(['Name', 'Version', 'Type',  'Description'])
-            ->setRows($rows);
-        $table->render($output);
+            ->setRows($rows)
+            ->render()
+        ;
     }
 }
