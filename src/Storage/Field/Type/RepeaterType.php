@@ -241,7 +241,7 @@ class RepeaterType extends FieldTypeBase
                 function ($query, $result, $id) use ($repo, $fieldValue) {
                     if ($result === 1 && $id) {
                         $fieldValue->setContent_id($id);
-                        $repo->save($fieldValue);
+                        $repo->save($fieldValue, $silenceEvents = true);
                     }
                 }
             );
