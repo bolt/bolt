@@ -239,12 +239,17 @@ class Content extends Entity
     }
 
     /**
+     * @param string|null $contentType
      * @return Collection\Relations
      */
-    public function getRelation()
+    public function getRelation($contentType = null)
     {
         if (!$this->relation instanceof Collection\Relations) {
             $this->relation = new Collection\Relations();
+        }
+
+        if ($contenttype !== null) {
+            return $this->relation[$contentType];
         }
 
         return $this->relation;
