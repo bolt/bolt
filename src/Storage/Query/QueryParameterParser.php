@@ -132,7 +132,7 @@ class QueryParameterParser
             $count = 1;
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
-                if (!in_array($key, $this->parameterWhitelist)) {
+                if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
                     continue;
                 }
                 $val = $this->parseValue($val);
@@ -168,7 +168,7 @@ class QueryParameterParser
      */
     public function multipleValueHandler($key, $value, $expr)
     {
-        if (!in_array($key, $this->parameterWhitelist)) {
+        if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
             return false;
         }
         if (strpos($value, '&&') || strpos($value, '||')) {
@@ -216,7 +216,7 @@ class QueryParameterParser
      */
     public function defaultFilterHandler($key, $value, $expr)
     {
-        if (!in_array($key, $this->parameterWhitelist)) {
+        if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
             return false;
         }
         $val = $this->parseValue($value);
