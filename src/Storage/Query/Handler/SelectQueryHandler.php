@@ -32,7 +32,7 @@ class SelectQueryHandler
             $metadata = $repo->getClassMetadata();
             $allowedParams = array_keys($metadata->getFieldMappings());
             $queryParams = array_keys($contentQuery->getParameters());
-            if(array_diff($queryParams, $allowedParams)) {
+            if (array_diff($queryParams, $allowedParams)) {
                 continue;
             }
 
