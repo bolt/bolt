@@ -20,6 +20,7 @@ class QueryParameterParser
 
     protected $valueMatchers = [];
     protected $filterHandlers = [];
+    protected $parameterWhitelist = [];
 
     /**
      * Constructor.
@@ -59,6 +60,14 @@ class QueryParameterParser
     public function setAlias($alias)
     {
         $this->alias = $alias . '.';
+    }
+
+    /**
+     * @param array $params
+     */
+    public function setParameterWhitelist(array $params)
+    {
+        $this->parameterWhitelist = $params;
     }
 
     /**
@@ -123,6 +132,9 @@ class QueryParameterParser
             $count = 1;
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
+                if (!in_array($key, $this->parameterWhitelist)) {
+                    continue;
+                }
                 $val = $this->parseValue($val);
                 $placeholder = $key . '_' . $count;
                 $filterParams[$placeholder] = $val['value'];

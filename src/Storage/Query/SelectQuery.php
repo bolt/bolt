@@ -196,6 +196,16 @@ class SelectQuery implements QueryInterface
     }
 
     /**
+     * Passes a whitelist of parameters to the parser
+     * @param array $params
+     */
+    public function setParameterWhitelist(array $params)
+    {
+        $this->parser->setParameterWhitelist($params);
+    }
+
+
+    /**
      * @return string String representation of query
      */
     public function __toString()
