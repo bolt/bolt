@@ -109,7 +109,7 @@ class RelationType extends FieldTypeBase
             $entity->getRelation()->add($relEntity);
             $fieldRels->add($relEntity);
         }
-        $this->set($entity, $fieldRels);
+        $this->set($entity, $fieldRels[$field]);
     }
 
     /**
