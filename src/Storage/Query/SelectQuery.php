@@ -214,6 +214,7 @@ class SelectQuery implements QueryInterface
      */
     protected function processFilters()
     {
+        $this->filters = [];
         foreach ($this->params as $key => $value) {
             $this->parser->setAlias($this->contenttype);
             $this->addFilter($this->parser->getFilter($key, $value));
