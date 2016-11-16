@@ -248,7 +248,7 @@ class Content extends Entity
             $this->relation = new Collection\Relations();
         }
 
-        if ($contenttype !== null) {
+        if ($contentType !== null) {
             return $this->relation[$contentType];
         }
 
