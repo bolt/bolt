@@ -20,7 +20,6 @@ class QueryParameterParser
 
     protected $valueMatchers = [];
     protected $filterHandlers = [];
-    protected $parameterWhitelist = [];
 
     /**
      * Constructor.
@@ -60,14 +59,6 @@ class QueryParameterParser
     public function setAlias($alias)
     {
         $this->alias = $alias . '.';
-    }
-
-    /**
-     * @param array $params
-     */
-    public function setParameterWhitelist(array $params)
-    {
-        $this->parameterWhitelist = $params;
     }
 
     /**
@@ -132,9 +123,6 @@ class QueryParameterParser
             $count = 1;
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
-                if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
-                    continue;
-                }
                 $val = $this->parseValue($val);
                 $placeholder = $key . '_' . $count;
                 $filterParams[$placeholder] = $val['value'];
@@ -168,9 +156,6 @@ class QueryParameterParser
      */
     public function multipleValueHandler($key, $value, $expr)
     {
-        if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
-            return false;
-        }
         if (strpos($value, '&&') || strpos($value, '||')) {
             $values = preg_split('/ *(&&|\|\|) */', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
             $op = $values[1];
@@ -216,9 +201,6 @@ class QueryParameterParser
      */
     public function defaultFilterHandler($key, $value, $expr)
     {
-        if (count($this->parameterWhitelist) && !in_array($key, $this->parameterWhitelist)) {
-            return false;
-        }
         $val = $this->parseValue($value);
         $placeholder = $key . '_1';
         $exprMethod = $val['operator'];

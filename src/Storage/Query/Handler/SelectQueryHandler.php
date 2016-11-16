@@ -31,7 +31,11 @@ class SelectQueryHandler
              */
             $metadata = $repo->getClassMetadata();
             $allowedParams = array_keys($metadata->getFieldMappings());
-            $query->setParameterWhitelist($allowedParams);
+            $queryParams = array_keys($contentQuery->getParameters());
+            if (array_diff($queryParams, $allowedParams)) {
+                continue;
+            }
+
             $query->setParameters($contentQuery->getParameters());
             $contentQuery->runDirectives($query);
 
