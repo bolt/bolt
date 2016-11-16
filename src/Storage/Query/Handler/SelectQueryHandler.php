@@ -25,6 +25,17 @@ class SelectQueryHandler
             $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
             $query->setContentType($contenttype);
 
+            /** This block is added to deal with the possibility that a requested filter is not an allowable option on the
+             * database table. If the requested field filter is not a valid field on this table then we completely skip
+             * the query because no results will be expected if the field does not exist.
+             */
+            $metadata = $repo->getClassMetadata();
+            $allowedParams = array_keys($metadata->getFieldMappings());
+            $queryParams = array_keys($contentQuery->getParameters());
+            if(array_diff($queryParams, $allowedParams)) {
+                continue;
+            }
+
             $query->setParameters($contentQuery->getParameters());
             $contentQuery->runDirectives($query);
 
