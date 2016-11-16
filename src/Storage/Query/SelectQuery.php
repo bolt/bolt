@@ -227,7 +227,10 @@ class SelectQuery implements QueryInterface
         $this->filters = [];
         foreach ($this->params as $key => $value) {
             $this->parser->setAlias($this->contenttype);
-            $this->addFilter($this->parser->getFilter($key, $value));
+            $filter = $this->parser->getFilter($key, $value);
+            if ($filter) {
+                $this->addFilter($filter);
+            }
         }
     }
 }

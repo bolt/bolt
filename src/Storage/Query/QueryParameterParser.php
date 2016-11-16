@@ -168,6 +168,9 @@ class QueryParameterParser
      */
     public function multipleValueHandler($key, $value, $expr)
     {
+        if (!in_array($key, $this->parameterWhitelist)) {
+            return false;
+        }
         if (strpos($value, '&&') || strpos($value, '||')) {
             $values = preg_split('/ *(&&|\|\|) */', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
             $op = $values[1];
@@ -213,6 +216,9 @@ class QueryParameterParser
      */
     public function defaultFilterHandler($key, $value, $expr)
     {
+        if (!in_array($key, $this->parameterWhitelist)) {
+            return false;
+        }
         $val = $this->parseValue($value);
         $placeholder = $key . '_1';
         $exprMethod = $val['operator'];
