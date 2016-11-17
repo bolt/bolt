@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,9 +132,13 @@ class AuthenticationTest extends ControllerUnitTest
 
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset']));
+        $flash = $this->prophesize(FlashLogger::class);
+        $flash->get('info')->shouldBeCalled();
+        $flash->get('success')->shouldBeCalled();
+        $flash->get('error')->shouldBeCalled();
+        $flash->error('Please provide a username')->shouldBeCalled();
+        $this->setService('logger.flash', $flash->reveal());
         $this->controller()->postLogin($this->getRequest());
-        $flash = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/Please provide a username/i', $flash[0]);
 
         // Test normal operation
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset', 'username' => 'admin']));
