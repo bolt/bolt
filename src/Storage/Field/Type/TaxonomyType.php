@@ -47,9 +47,9 @@ class TaxonomyType extends FieldTypeBase
                     $refl->setAccessible(true);
                     $originalParts = $refl->getValue($originalExpression);
                     foreach ($originalParts as &$part) {
-                        str_replace($query.".".$field, $field.".slug", $part);
+                        $part = str_replace($query->getContenttype().".".$field, $field.".slug", $part);
                     }
-                    $refl->setValue($originalParts);
+                    $refl->setValue($originalExpression, $originalParts);
 
                     $filter->setExpression($originalExpression);
                 }
