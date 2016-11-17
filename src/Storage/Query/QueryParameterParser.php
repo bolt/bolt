@@ -115,6 +115,7 @@ class QueryParameterParser
     {
         if (strpos($key, '|||')) {
             $keys = preg_split('/ *(\|\|\|) */', $key);
+            $inputKeys = $keys;
             $values = preg_split('/ *(\|\|\|) */', $value);
             $values = array_pad($values, count($keys), end($values));
 
@@ -132,7 +133,7 @@ class QueryParameterParser
             }
 
             $filter = new Filter();
-            $filter->setKey($key);
+            $filter->setKey($inputKeys);
             $filter->setExpression(call_user_func_array([$expr, 'orX'], $parts));
             $filter->setParameters($filterParams);
 
