@@ -49,6 +49,16 @@ class SelectQuery implements QueryInterface
     }
 
     /**
+     * Gets the contenttype that this query will run against.
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contenttype;
+    }
+
+    /**
      * Sets the parameters that will filter / alter the query
      *
      * @param array $params
