@@ -65,13 +65,21 @@ class SelectQueryHandler
         $cleanParams = [];
         foreach ($queryParams as $fieldSelect => $valueSelect) {
             $stack = preg_split('/ *(\|\|\|) */', $fieldSelect);
+            $valueStack = preg_split('/ *(\|\|\|) */', $valueSelect);
+
             if (count($stack) > 1) {
-                $allowed = array_intersect($stack, $allowedParams);
-                if (!count($allowed)) {
+                foreach ($stack as $i => $stackItem) {
+                    if (in_array($stackItem, $allowedParams)) {
+                        $allowedKeys[] = $stackItem;
+                        $allowedVals[] = $valueStack[$i];
+                    }
+                }
+
+                if (!count($allowedKeys)) {
                     return false;
                 }
-                $allowed = join(" ||| ", $allowed);
-                $cleanParams[$allowed] = $valueSelect;
+                $allowed = join(" ||| ", $allowedKeys);
+                $cleanParams[$allowed] = join(" ||| ", $allowedVals);
             } else {
                 if (!in_array($fieldSelect, $allowedParams)) {
                     return false;
