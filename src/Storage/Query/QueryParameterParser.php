@@ -40,8 +40,8 @@ class QueryParameterParser
         $this->addValueMatcher('>(\w+)', ['value' => '$1', 'operator' => 'gt']);
         $this->addValueMatcher('!$',      ['value' => '',   'operator' => 'isNotNull']);
         $this->addValueMatcher('!(\w+)',  ['value' => '$1', 'operator' => 'neq']);
-        $this->addValueMatcher('!\[([\w ,]+)\]',  ['value' => '$1', 'operator' => 'notIn']);
-        $this->addValueMatcher('\[([\w ,]+)\]',  ['value' => '$1', 'operator' => 'in']);
+        $this->addValueMatcher('!\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'notIn']);
+        $this->addValueMatcher('\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'in']);
         $this->addValueMatcher('(%\w+|\w+%|%\w+%)',  ['value' => '$1', 'operator' => 'like']);
         $this->addValueMatcher('(\w+)',   ['value' => '$1', 'operator' => 'eq']);
 
@@ -233,7 +233,12 @@ class QueryParameterParser
             $regex = sprintf('/%s/', $matcher['token']);
             $values = $matcher['params'];
             if (preg_match($regex, $value)) {
-                $values['value'] = preg_replace($regex, $values['value'], $value);
+                if (is_callable($values['value'])) {
+                    preg_match($regex, $value, $output);
+                    $values['value'] = $values['value']($output[1]);
+                } else {
+                    $values['value'] = preg_replace($regex, $values['value'], $value);
+                }
                 $values['matched'] = $matcher['token'];
 
                 return $values;
