@@ -160,7 +160,9 @@ class SelectQuery implements QueryInterface
         if ($this->getWhereExpression()) {
             $query->where($this->getWhereExpression());
         }
-        $query->setParameters($this->getWhereParameters());
+        foreach ($this->getWhereParameters() as $key => $param) {
+            $query->setParameter($key, $param, (is_array($param)) ? Connection::PARAM_STR_ARRAY : null );
+        }
 
         return $query;
     }
