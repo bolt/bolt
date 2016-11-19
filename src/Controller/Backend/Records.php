@@ -152,22 +152,22 @@ class Records extends BackendBase
      */
     public function related(Request $request, $contenttypeslug, $id)
     {
-        // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
+        // Make sure the user is allowed to see this page, based on 'allowed ContentType' for Editors.
         if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
             $this->flashes()->error(Trans::__('general.phrase.access-denied-privilege-edit-record'));
 
             return $this->redirectToRoute('dashboard');
         }
 
-        // Get content record, and the contenttype config from $contenttypeslug
+        // Get content record, and the ContentType config from $contenttypeslug
         $content = $this->getContent($contenttypeslug, ['id' => $id]);
-        $contenttype = $this->getContentType($contenttypeslug);
+        $contentType = $this->getContentType($contenttypeslug);
 
         // Get relations
         $showContentType = null;
         $relations = null;
-        if (isset($contenttype['relations'])) {
-            $relations = $contenttype['relations'];
+        if (isset($contentType['relations'])) {
+            $relations = $contentType['relations'];
 
             // Which related contenttype is to be shown?
             // If non is selected or selection does not exist, take the first one
@@ -177,25 +177,25 @@ class Records extends BackendBase
                 $showSlug = key($relations);
             }
 
-            foreach (array_keys($relations) as $relatedslug) {
-                $relatedtype = $this->getContentType($relatedslug);
+            foreach (array_keys($relations) as $relatedSlug) {
+                $relatedType = $this->getContentType($relatedSlug);
 
-                if ($relatedtype['slug'] == $showSlug) {
-                    $showContentType = $relatedtype;
+                if ($relatedType['slug'] == $showSlug) {
+                    $showContentType = $relatedType;
                 }
 
-                $relations[$relatedslug] = [
-                    'name'   => Trans::__($relatedtype['name']),
-                    'active' => ($relatedtype['slug'] === $showSlug),
+                $relations[$relatedSlug] = [
+                    'name'   => Trans::__($relatedType['name']),
+                    'active' => ($relatedType['slug'] === $showSlug),
                 ];
             }
         }
 
         $context = [
             'id'               => $id,
-            'name'             => Trans::__($contenttype['singular_name']),
+            'name'             => Trans::__($contentType['singular_name']),
             'title'            => $content['title'],
-            'contenttype'      => $contenttype,
+            'contenttype'      => $contentType,
             'relations'        => $relations,
             'show_contenttype' => $showContentType,
             'related_content'  => is_null($relations) ? null : $content->related($showContentType['slug']),
