@@ -65,11 +65,9 @@ class QueryParameterParser
      * Runs the keys/values through the relevant parsers.
      *
      * @param string $key
-     * @param mixed  $value
-     *
-     * @throws Bolt\Exception\QueryParseException
-     *
+     * @param mixed $value
      * @return Filter|null
+     * @throws QueryParseException
      */
     public function getFilter($key, $value = null)
     {
@@ -124,11 +122,19 @@ class QueryParameterParser
             $count = 1;
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
-                $val = $this->parseValue($val);
-                $placeholder = $key . '_' . $count;
-                $filterParams[$placeholder] = $val['value'];
-                $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
+                $multipleValue = $this->multipleValueHandler($key, $val, $this->expr);
+                if ($multipleValue) {
+                    $filter = $multipleValue->getExpression();
+                    $filterParams = $filterParams + $multipleValue->getParameters();
+                } else {
+                    $val = $this->parseValue($val);
+                    $placeholder = $key . '_' . $count;
+                    $filterParams[$placeholder] = $val['value'];
+                    $exprMethod = $val['operator'];
+                    $filter = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
+                }
+
+                $parts[] = $filter;
                 $count++;
             }
 
