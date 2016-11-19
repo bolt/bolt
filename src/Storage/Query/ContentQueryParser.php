@@ -65,6 +65,16 @@ class ContentQueryParser
         $this->setupDefaults();
     }
 
+    public function reset()
+    {
+        $this->contentTypes = [];
+        $this->operation = null;
+        $this->query = null;
+        $this->params = null;
+        $this->contentTypes = [];
+        $this->directives = [];
+    }
+
     /**
      * Internal method to initialise the default handlers.
      */
