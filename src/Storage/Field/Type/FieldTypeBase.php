@@ -7,6 +7,7 @@ use Bolt\Storage\Field\FieldInterface;
 use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
 use Bolt\Storage\Field\Sanitiser\WysiwygAwareInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\Filter;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
