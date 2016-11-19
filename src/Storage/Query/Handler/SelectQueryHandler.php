@@ -29,7 +29,7 @@ class SelectQueryHandler
              * is no need to continue with the query.
              */
             $params = $this->whitelistParameters($contentQuery->getParameters(), $repo);
-            if (!$params) {
+            if (!$params && count($contentQuery->getParameters())) {
                 continue;
             }
 
