@@ -250,4 +250,32 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 
         return $compiled;
     }
+
+    /** This method does an in-place modification of a generic contenttype.field query to the format actually used
+     * in the raw sql category. For instance a simple query might say `entries.tags = 'movies'` but now we are in the
+     * context of entries the actual SQL fragment needs to be `tags.slug = 'movies'`. We don't know this until we
+     * drill down to the individual field types so this rewrites the SQL fragment just before the query gets sent.
+     *
+     * Note, reflection is used to achieve this, it is not ideal, but the CompositeExpression shipped with DBAL chooses
+     * to keep the query parts as private and only allow access to the final computed string.
+     *
+     * @param Filter $filter
+     * @param QueryInterface $query
+     * @param $field
+     * @param $column
+     */
+    protected function rewriteQueryFilterParameters(Filter $filter, QueryInterface $query, $field, $column)
+    {
+        $originalExpression = $filter->getExpressionObject();
+
+        $reflected = new ReflectionProperty(CompositeExpression::class, 'parts');
+        $reflected->setAccessible(true);
+        $originalParts = $reflected->getValue($originalExpression);
+        foreach ($originalParts as &$part) {
+            $part = str_replace($query->getContenttype().".".$field, $field.".".$column, $part);
+        }
+        $reflected->setValue($originalExpression, $originalParts);
+
+        $filter->setExpression($originalExpression);
+    }
 }

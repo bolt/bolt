@@ -40,18 +40,7 @@ class TaxonomyType extends FieldTypeBase
         foreach ($query->getFilters() as $filter) {
             foreach ((array)$filter->getKey() as $filterKey) {
                 if ($filterKey == $field) {
-                    // This gets the method name, one of andX() / orX() depending on type of expression
-                    $originalExpression = $filter->getExpressionObject();
-
-                    $refl = new ReflectionProperty(CompositeExpression::class, 'parts');
-                    $refl->setAccessible(true);
-                    $originalParts = $refl->getValue($originalExpression);
-                    foreach ($originalParts as &$part) {
-                        $part = str_replace($query->getContenttype().".".$field, $field.".slug", $part);
-                    }
-                    $refl->setValue($originalExpression, $originalParts);
-
-                    $filter->setExpression($originalExpression);
+                    $this->rewriteQueryFilterParameters($filter, $query, $field, $column);
                 }
             }
         }
