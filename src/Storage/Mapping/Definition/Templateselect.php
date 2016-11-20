@@ -12,6 +12,8 @@ use Bolt\Storage\Mapping\Definition;
 
 class Templateselect extends Definition
 {
+    protected $filter;
+
     public function getFilter()
     {
         return $this->get('filter', false);

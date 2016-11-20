@@ -14,6 +14,7 @@ class Image extends Definition
 {
 
     protected $appConfig;
+    protected $extensions;
 
     public function __construct($name, array $parameters, array $config)
     {

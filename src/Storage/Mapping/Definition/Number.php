@@ -12,6 +12,10 @@ use Bolt\Storage\Mapping\Definition;
 
 class Number extends Definition
 {
+    protected $max;
+    protected $min;
+    protected $step;
+
     public function getMin()
     {
         return $this->get('min', []);

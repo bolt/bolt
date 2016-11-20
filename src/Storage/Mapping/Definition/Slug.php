@@ -12,6 +12,8 @@ use Bolt\Storage\Mapping\Definition;
 
 class Slug extends Definition
 {
+    protected $uses;
+
     public function getUses()
     {
         $res = $this->get('uses', []);

@@ -14,6 +14,8 @@ use Bolt\Storage\Mapping\MappingManager;
 class Repeater extends Definition implements MappingAwareInterface
 {
     protected $manager;
+    protected $fields;
+    protected $limit;
 
     public function setMappingManager(MappingManager $manager)
     {

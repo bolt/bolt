@@ -12,6 +12,8 @@ use Bolt\Storage\Mapping\Definition;
 
 class Date extends Definition
 {
+    protected $options;
+
     public function getOptions()
     {
         return $this->get('options', []);

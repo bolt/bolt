@@ -12,6 +12,9 @@ use Bolt\Storage\Mapping\Definition;
 
 class Html extends Definition
 {
+    protected $allowtwig;
+    protected $options;
+
     public function getAllowtwig()
     {
         return $this->get('allowtwig', false);

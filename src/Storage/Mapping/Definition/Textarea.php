@@ -12,6 +12,8 @@ use Bolt\Storage\Mapping\Definition;
 
 class Textarea extends Definition
 {
+    protected $allowtwig;
+
     public function getAllowtwig()
     {
         return $this->get('allowtwig', false);

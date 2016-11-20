@@ -13,6 +13,8 @@ use Bolt\Storage\Mapping\Definition;
 
 class Select extends Definition
 {
+    protected $values;
+
     public function getValues()
     {
         $res = $this->get('values', []);
