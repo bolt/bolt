@@ -17,7 +17,8 @@ class MappingManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $manager = $app['mapping'];
 
-        $this->assertEquals('Bolt\Storage\Mapping\Definition\Slug', $manager->getHandler('slug'));
+        $this->assertEquals('slug', $manager->getHandler('slug'));
+        $this->assertEquals('file', $manager->getHandler('filelist'));
         $this->assertEquals('Bolt\Storage\Mapping\Definition', $manager->getHandler('nonexistent'));
     }
 
