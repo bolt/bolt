@@ -13,12 +13,18 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
  */
 class QueryParameterParser
 {
-    protected $key;
-    protected $value;
-    protected $expr;
+    /** @var string */
     public $alias;
 
+    /** @var string */
+    protected $key;
+    /** @var mixed */
+    protected $value;
+    /** @var ExpressionBuilder */
+    protected $expr;
+    /** @var array */
     protected $valueMatchers = [];
+    /** @var Filter[] */
     protected $filterHandlers = [];
 
     /**
@@ -65,9 +71,13 @@ class QueryParameterParser
      * Runs the keys/values through the relevant parsers.
      *
      * @param string $key
-     * @param mixed $value
-     * @return Filter|null
+     * @param mixed  $value
+     * @param mixed  $value
+     *
      * @throws QueryParseException
+     * @throws QueryParseException
+     *
+     * @return Filter|null
      */
     public function getFilter($key, $value = null)
     {
@@ -75,12 +85,15 @@ class QueryParameterParser
             throw new QueryParseException('Cannot call method without an Expression Builder parameter set', 1);
         }
 
+        /** @var callable $callback */
         foreach ($this->filterHandlers as $callback) {
             $result = $callback($key, $value, $this->expr);
             if ($result instanceof Filter) {
                 return $result;
             }
         }
+
+        return null;
     }
 
     /**
@@ -89,6 +102,8 @@ class QueryParameterParser
      * @param string            $key
      * @param string            $value
      * @param ExpressionBuilder $expr
+     *
+     * @throws QueryParseException
      */
     public function incorrectQueryHandler($key, $value, $expr)
     {
@@ -101,7 +116,6 @@ class QueryParameterParser
      * This handler processes 'triple pipe' queries as implemented in Bolt
      * It looks for three pipes in the key and value and creates an OR composite
      * expression for example: 'username|||email':'fred|||pete'.
-     *
      *
      * @param string            $key
      * @param string            $value
@@ -224,9 +238,9 @@ class QueryParameterParser
      * This method uses the defined value matchers to parse a passed in value to the following
      * component parts:
      * [
-     *     'value' => <the value remaining after the parse>
-     *     'operator'=> <the operator that should be used>
-     *     'matched' => <the pattern that the value matched>
+     *     'value'    => <the value remaining after the parse>
+     *     'operator' => <the operator that should be used>
+     *     'matched'  => <the pattern that the value matched>
      * ]
      *
      * @param string $value Value to process
@@ -260,7 +274,7 @@ class QueryParameterParser
      * Note: the callback should either return nothing or an instance of
      * \Bolt\Storage\Query\Filter
      *
-     * @param Callable $handler [description]
+     * @param Callable $handler
      */
     public function addFilterHandler(callable $handler)
     {
@@ -272,9 +286,9 @@ class QueryParameterParser
      *
      * This gives the ability to define additional value -> operator matches
      *
-     * @param string $token    regex pattern to match against
-     * @param array  $params   array of options to provide to the matched param
-     * @param bool   $priority if set item will be prepended to start of list
+     * @param string $token    Regex pattern to match against
+     * @param array  $params   Options to provide to the matched param
+     * @param bool   $priority If set item will be prepended to start of list
      */
     public function addValueMatcher($token, $params = [], $priority = null)
     {

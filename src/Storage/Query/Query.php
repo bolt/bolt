@@ -4,8 +4,14 @@ namespace Bolt\Storage\Query;
 
 class Query
 {
+    /** @var ContentQueryParser */
     protected $parser;
 
+    /**
+     * Constructor.
+     *
+     * @param ContentQueryParser $parser
+     */
     public function __construct(ContentQueryParser $parser)
     {
         $this->parser = $parser;
@@ -20,7 +26,7 @@ class Query
      * @param string $textquery
      * @param string $parameters
      *
-     * @return array
+     * @return QueryResultset
      */
     public function getContent($textquery, $parameters = null)
     {

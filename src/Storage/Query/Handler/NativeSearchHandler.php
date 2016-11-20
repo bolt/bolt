@@ -7,7 +7,7 @@ use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\SearchQueryResultset;
 
 /**
- *  Handler class to perform a native search where the db adapter supports full=text
+ * Handler class to perform a native search where the db adapter supports full-text
  * language searching, thus avoiding the need to weight the results in PHP code.
  */
 class NativeSearchHandler
@@ -27,6 +27,11 @@ class NativeSearchHandler
         }
     }
 
+    /**
+     * @param ContentQueryParser $contentQuery
+     *
+     * @return SearchQueryResultset
+     */
     public function postgresSearch(ContentQueryParser $contentQuery)
     {
         $set = new SearchQueryResultset();

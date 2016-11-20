@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Query;
 
+use ArrayIterator;
+
 /**
  * This class is a wrapper that handles single or multiple
  * sets or results fetched via a query. They can be iterated
@@ -10,6 +12,7 @@ namespace Bolt\Storage\Query;
  */
 class QueryResultset extends \AppendIterator implements \Countable
 {
+    /** @var array */
     protected $results = [];
 
     /**
@@ -24,7 +27,7 @@ class QueryResultset extends \AppendIterator implements \Countable
             $this->results = array_merge($this->results, $results);
         }
 
-        $this->append(new \ArrayIterator($results));
+        $this->append(new ArrayIterator($results));
     }
 
     /**

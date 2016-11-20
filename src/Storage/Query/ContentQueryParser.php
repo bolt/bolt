@@ -26,26 +26,27 @@ use Bolt\Storage\Query\Handler\SelectQueryHandler;
  */
 class ContentQueryParser
 {
+    /** @var EntityManager */
     protected $em;
-
+    /** @var string */
     protected $query;
-
+    /** @var array */
     protected $params = [];
-
+    /** @var array */
     protected $contentTypes = [];
-
+    /** @var string */
     protected $operation;
-
+    /** @var string */
     protected $identifier;
-
+    /** @var array */
     protected $operations = ['search', 'latest', 'first', 'random', 'nativesearch'];
-
+    /** @var array */
     protected $directives = [];
-
+    /** @var callable[] */
     protected $directiveHandlers = [];
-
+    /** @var callable[] */
     protected $handlers = [];
-
+    /** @var QueryInterface[] */
     protected $services = [];
 
     /**
@@ -109,8 +110,8 @@ class ContentQueryParser
     /**
      * Sets a single input parameter.
      *
-     * @param array $param
-     * @param mixed $value
+     * @param string $param
+     * @param mixed  $value
      */
     public function setParameter($param, $value)
     {
@@ -152,7 +153,7 @@ class ContentQueryParser
      * A simple select operation will just contain the contenttype eg 'pages'
      * but additional operations can be triggered using the '/' separator.
      *
-     * @return string Parsed operation name
+     * @internal
      */
     protected function parseOperation()
     {
@@ -394,7 +395,7 @@ class ContentQueryParser
     /**
      * Runs the query and fetches the results.
      *
-     * @return QueryResult
+     * @return QueryResultset
      */
     public function fetch()
     {

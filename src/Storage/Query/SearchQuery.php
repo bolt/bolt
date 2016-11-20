@@ -20,6 +20,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SearchQuery extends SelectQuery
 {
+    /** @var string */
     protected $search;
     /** @var SearchConfig */
     protected $config;

@@ -8,12 +8,13 @@ namespace Bolt\Storage\Query;
  */
 class SearchWeighter
 {
+    /** @var SearchConfig */
     protected $config;
-
+    /** @var QueryResultset|array */
     protected $results;
-
+    /** @var array */
     protected $searchWords;
-
+    /** @var string */
     protected $contenttype;
 
     /**

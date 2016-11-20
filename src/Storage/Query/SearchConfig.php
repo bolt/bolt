@@ -13,8 +13,11 @@ use Bolt\Config;
  */
 class SearchConfig
 {
+    /** @var array|Config */
     protected $config = [];
+    /** @var array */
     protected $searchableTypes = [];
+    /** @var array */
     protected $joins = [];
 
     public function __construct(Config $config)

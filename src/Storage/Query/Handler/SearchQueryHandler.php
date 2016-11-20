@@ -3,10 +3,12 @@
 namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Query\SearchQuery;
 use Bolt\Storage\Query\SearchQueryResultset;
+use Bolt\Storage\Query\SearchWeighter;
 
 /**
- *  Handler class to perform search query and then weight the fetched resultset.
+ *  Handler class to perform search query and then weight the fetched result set.
  */
 class SearchQueryHandler
 {
@@ -20,6 +22,7 @@ class SearchQueryHandler
         $set = new SearchQueryResultset();
 
         $cleanSearchQuery = $contentQuery->getService('search');
+        /** @var SearchQuery $query */
         $query = clone $cleanSearchQuery;
 
         foreach ($contentQuery->getContentTypes() as $contenttype) {
@@ -36,6 +39,7 @@ class SearchQueryHandler
             $result = $repo->queryWith($query);
             if ($result) {
                 if (count($result) > 0) {
+                    /** @var SearchWeighter $weighter */
                     $weighter = $contentQuery->getService('search_weighter');
                     $weighter->setContentType($contenttype);
                     $weighter->setResults($result);
