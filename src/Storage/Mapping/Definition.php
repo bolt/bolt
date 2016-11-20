@@ -15,17 +15,35 @@ class Definition implements ArrayAccess
 {
 
     protected $name;
-    protected $parameters;
+    protected $type;
+    protected $class;
+    protected $default;
+    protected $error;
+    protected $info;
+    protected $group;
+    protected $label;
+    protected $pattern;
+    protected $placeholder;
+    protected $postfix;
+    protected $prefix;
+    protected $readonly;
+    protected $separator;
+    protected $title;
+    protected $variant;
 
     /**
      * Definition constructor.
      * @param $name
      * @param array $parameters
-     * @param array $config
      */
     public function __construct($name, array $parameters)
     {
         $this->name = $name;
+        foreach ($parameters as $key => $param) {
+            if (property_exists($this, $key)) {
+                $this->$key = $param;
+            }
+        }
         $this->parameters = $parameters;
     }
 
@@ -50,7 +68,7 @@ class Definition implements ArrayAccess
 
     public function getType()
     {
-        return $this->parameters['type'];
+        return $this->type;
     }
 
     public function getClass()
@@ -61,7 +79,7 @@ class Definition implements ArrayAccess
     protected function get($param, $default = null)
     {
         if ($this->has($param)) {
-            return $this->parameters[$param];
+            return $this->$param;
         }
 
         return $default;
@@ -69,7 +87,7 @@ class Definition implements ArrayAccess
 
     protected function has($param)
     {
-        if (array_key_exists($param, $this->parameters) && !empty($this->parameters[$param])) {
+        if (property_exists($this, $param) && !empty($this->$param)) {
             return true;
         }
 
@@ -174,14 +192,19 @@ class Definition implements ArrayAccess
 
     protected function set($param, $value)
     {
-        $this->parameters[$param] = $value;
+        if (property_exists($this, $param)) {
+            $this->$param = $value;
+        }
     }
 
     /**
      * Offset to unset - ArrayAccess method
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
-        unset($this->parameters[$offset]);
+        if (property_exists($this, $offset)) {
+            unset($this->$offset);
+        }
     }
 }
