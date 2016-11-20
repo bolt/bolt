@@ -130,7 +130,7 @@ class ContentType implements ArrayAccess
         return $this->get('allow_numeric_slugs', false);
     }
 
-    protected function get($param, $default = null)
+    protected function & get($param, $default = null)
     {
         if ($this->has($param)) {
             return $this->contentType[$param];
@@ -289,7 +289,7 @@ class ContentType implements ArrayAccess
         unset($this->contentType[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function & offsetGet($offset)
     {
         return $this->get($offset);
     }
