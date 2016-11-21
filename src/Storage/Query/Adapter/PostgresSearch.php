@@ -13,7 +13,7 @@ class PostgresSearch
     protected $qb;
     protected $config;
     protected $searchWords;
-    protected $contenttype;
+    protected $contentType;
 
     public function __construct(QueryBuilder $qb, SearchConfig $config, array $searchWords)
     {
@@ -24,7 +24,7 @@ class PostgresSearch
 
     public function setContentType($type)
     {
-        $this->contenttype = $type;
+        $this->contentType = $type;
     }
 
     public function getQuery()
@@ -35,8 +35,8 @@ class PostgresSearch
         $sub->select('*');
         $select = [];
 
-        $fieldsToSearch = $this->config->getConfig($this->contenttype);
-        $joins = $this->config->getJoins($this->contenttype);
+        $fieldsToSearch = $this->config->getConfig($this->contentType);
+        $joins = $this->config->getJoins($this->contentType);
         $fieldsToSearch = array_diff_key($fieldsToSearch, array_flip($joins));
 
         $from = $this->qb->getQueryPart('from');

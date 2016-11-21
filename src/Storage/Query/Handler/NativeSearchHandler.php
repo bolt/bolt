@@ -7,7 +7,7 @@ use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\SearchQueryResultset;
 
 /**
- *  Handler class to perform a native search where the db adapter supports full=text
+ * Handler class to perform a native search where the db adapter supports full-text
  * language searching, thus avoiding the need to weight the results in PHP code.
  */
 class NativeSearchHandler
@@ -27,19 +27,24 @@ class NativeSearchHandler
         }
     }
 
+    /**
+     * @param ContentQueryParser $contentQuery
+     *
+     * @return SearchQueryResultset
+     */
     public function postgresSearch(ContentQueryParser $contentQuery)
     {
         $set = new SearchQueryResultset();
 
-        foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
-            $query = $repo->createQueryBuilder($contenttype);
+        foreach ($contentQuery->getContentTypes() as $contentType) {
+            $repo = $contentQuery->getEntityManager()->getRepository($contentType);
+            $query = $repo->createQueryBuilder($contentType);
             $config = $contentQuery->getService('search_config');
             $search = $contentQuery->getParameter('filter');
             $adapter = new PostgresSearch($query, $config, explode(' ', $search));
-            $adapter->setContentType($contenttype);
+            $adapter->setContentType($contentType);
             $result = $repo->findWith($adapter->getQuery());
-            $set->add($result, $contenttype);
+            $set->add($result, $contentType);
         }
 
         return $set;
