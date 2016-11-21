@@ -36,19 +36,10 @@ class TaxonomyType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
 
         foreach ($query->getFilters() as $filter) {
-            if ($filter->getKey() == $field) {
-                // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()
-                        ->getType()) . 'X';
-
-                $newExpr = $query->getQueryBuilder()
-                    ->expr()
-                    ->$method();
-                foreach ($filter->getParameters() as $k => $v) {
-                    $newExpr->add("$field.slug = :$k");
+            foreach ((array)$filter->getKey() as $filterKey) {
+                if ($filterKey == $field) {
+                    $this->rewriteQueryFilterParameters($filter, $query, $field, 'slug');
                 }
-
-                $filter->setExpression($newExpr);
             }
         }
     }

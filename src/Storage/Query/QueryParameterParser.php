@@ -40,8 +40,8 @@ class QueryParameterParser
         $this->addValueMatcher('>(\w+)', ['value' => '$1', 'operator' => 'gt']);
         $this->addValueMatcher('!$',      ['value' => '',   'operator' => 'isNotNull']);
         $this->addValueMatcher('!(\w+)',  ['value' => '$1', 'operator' => 'neq']);
-        $this->addValueMatcher('!\[([\w ,]+)\]',  ['value' => '$1', 'operator' => 'notIn']);
-        $this->addValueMatcher('\[([\w ,]+)\]',  ['value' => '$1', 'operator' => 'in']);
+        $this->addValueMatcher('!\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'notIn']);
+        $this->addValueMatcher('\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'in']);
         $this->addValueMatcher('(%\w+|\w+%|%\w+%)',  ['value' => '$1', 'operator' => 'like']);
         $this->addValueMatcher('(\w+)',   ['value' => '$1', 'operator' => 'eq']);
 
@@ -65,11 +65,9 @@ class QueryParameterParser
      * Runs the keys/values through the relevant parsers.
      *
      * @param string $key
-     * @param mixed  $value
-     *
-     * @throws Bolt\Exception\QueryParseException
-     *
+     * @param mixed $value
      * @return Filter|null
+     * @throws QueryParseException
      */
     public function getFilter($key, $value = null)
     {
@@ -115,6 +113,7 @@ class QueryParameterParser
     {
         if (strpos($key, '|||')) {
             $keys = preg_split('/ *(\|\|\|) */', $key);
+            $inputKeys = $keys;
             $values = preg_split('/ *(\|\|\|) */', $value);
             $values = array_pad($values, count($keys), end($values));
 
@@ -123,16 +122,24 @@ class QueryParameterParser
             $count = 1;
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
-                $val = $this->parseValue($val);
-                $placeholder = $key . '_' . $count;
-                $filterParams[$placeholder] = $val['value'];
-                $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
+                $multipleValue = $this->multipleValueHandler($key, $val, $this->expr);
+                if ($multipleValue) {
+                    $filter = $multipleValue->getExpression();
+                    $filterParams = $filterParams + $multipleValue->getParameters();
+                } else {
+                    $val = $this->parseValue($val);
+                    $placeholder = $key . '_' . $count;
+                    $filterParams[$placeholder] = $val['value'];
+                    $exprMethod = $val['operator'];
+                    $filter = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
+                }
+
+                $parts[] = $filter;
                 $count++;
             }
 
             $filter = new Filter();
-            $filter->setKey($key);
+            $filter->setKey($inputKeys);
             $filter->setExpression(call_user_func_array([$expr, 'orX'], $parts));
             $filter->setParameters($filterParams);
 
@@ -232,7 +239,12 @@ class QueryParameterParser
             $regex = sprintf('/%s/', $matcher['token']);
             $values = $matcher['params'];
             if (preg_match($regex, $value)) {
-                $values['value'] = preg_replace($regex, $values['value'], $value);
+                if (is_callable($values['value'])) {
+                    preg_match($regex, $value, $output);
+                    $values['value'] = $values['value']($output[1]);
+                } else {
+                    $values['value'] = preg_replace($regex, $values['value'], $value);
+                }
                 $values['matched'] = $matcher['token'];
 
                 return $values;

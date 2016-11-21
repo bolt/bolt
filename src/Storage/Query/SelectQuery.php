@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -46,6 +47,16 @@ class SelectQuery implements QueryInterface
     public function setContentType($contentType)
     {
         $this->contenttype = $contentType;
+    }
+
+    /**
+     * Gets the contenttype that this query will run against.
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contenttype;
     }
 
     /**
@@ -150,7 +161,9 @@ class SelectQuery implements QueryInterface
         if ($this->getWhereExpression()) {
             $query->where($this->getWhereExpression());
         }
-        $query->setParameters($this->getWhereParameters());
+        foreach ($this->getWhereParameters() as $key => $param) {
+            $query->setParameter($key, $param, (is_array($param)) ? Connection::PARAM_STR_ARRAY : null);
+        }
 
         return $query;
     }
@@ -196,6 +209,16 @@ class SelectQuery implements QueryInterface
     }
 
     /**
+     * Passes a whitelist of parameters to the parser
+     * @param array $params
+     */
+    public function setParameterWhitelist(array $params)
+    {
+        $this->parser->setParameterWhitelist($params);
+    }
+
+
+    /**
      * @return string String representation of query
      */
     public function __toString()
@@ -217,7 +240,10 @@ class SelectQuery implements QueryInterface
         $this->filters = [];
         foreach ($this->params as $key => $value) {
             $this->parser->setAlias($this->contenttype);
-            $this->addFilter($this->parser->getFilter($key, $value));
+            $filter = $this->parser->getFilter($key, $value);
+            if ($filter) {
+                $this->addFilter($filter);
+            }
         }
     }
 }

@@ -20,9 +20,9 @@ class SearchQueryHandler
         $set = new SearchQueryResultset();
 
         $cleanSearchQuery = $contentQuery->getService('search');
+        $query = clone $cleanSearchQuery;
 
         foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $query = clone $cleanSearchQuery;
             $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
             $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
             $query->setContentType($contenttype);
