@@ -64,7 +64,7 @@ class SelectQueryHandler
      *
      * @return bool|array $cleanParams
      */
-    public function whitelistParameters(array $queryParams, $repo)
+    public function whitelistParameters(array $queryParams, Repository $repo)
     {
         $metadata = $repo->getClassMetadata();
         $allowedParams = array_keys($metadata->getFieldMappings());
