@@ -251,6 +251,8 @@ class QueryParameterParser
      *
      * @param string $value Value to process
      *
+     * @throws QueryParseException
+     *
      * @return array Parsed values
      */
     public function parseValue($value)
@@ -270,6 +272,8 @@ class QueryParameterParser
                 return $values;
             }
         }
+
+        throw new QueryParseException(sprintf('No matching value found for "%s"', $value));
     }
 
     /**
