@@ -70,7 +70,7 @@ class MappingManager
         }
 
         $handler = $this->getHandler($parameters['type']);
-        
+
         $factory = (isset($this->factories[$handler])) ? $this->factories[$handler] : $this->factories['base'];
         $loaded = $factory($name, $parameters, $this->config);
 
