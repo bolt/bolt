@@ -18,9 +18,9 @@ class SelectQueryHandler
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $set = new QueryResultset();
+        $query = $contentQuery->getService('select');
 
         foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $query = $contentQuery->getService('select');
             $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
             $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
             $query->setContentType($contenttype);
