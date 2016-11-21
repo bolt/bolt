@@ -40,16 +40,18 @@ class QueryParameterParser
 
     public function setupDefaults()
     {
-        $this->addValueMatcher('<(\w+)', ['value' => '$1', 'operator' => 'lt']);
-        $this->addValueMatcher('<=(\w+)', ['value' => '$1', 'operator' => 'lte']);
-        $this->addValueMatcher('>=(\w+)', ['value' => '$1', 'operator' => 'gte']);
-        $this->addValueMatcher('>(\w+)', ['value' => '$1', 'operator' => 'gt']);
-        $this->addValueMatcher('!$',      ['value' => '',   'operator' => 'isNotNull']);
-        $this->addValueMatcher('!(\w+)',  ['value' => '$1', 'operator' => 'neq']);
-        $this->addValueMatcher('!\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'notIn']);
-        $this->addValueMatcher('\[([\w ,]+)\]',  ['value' => function($val) { return explode(',', $val); }, 'operator' => 'in']);
-        $this->addValueMatcher('(%\w+|\w+%|%\w+%)',  ['value' => '$1', 'operator' => 'like']);
-        $this->addValueMatcher('(\w+)',   ['value' => '$1', 'operator' => 'eq']);
+        // @codingStandardsIgnoreStart
+        $this->addValueMatcher('<(\w+)',            ['value' => '$1', 'operator' => 'lt']);
+        $this->addValueMatcher('<=(\w+)',           ['value' => '$1', 'operator' => 'lte']);
+        $this->addValueMatcher('>=(\w+)',           ['value' => '$1', 'operator' => 'gte']);
+        $this->addValueMatcher('>(\w+)',            ['value' => '$1', 'operator' => 'gt']);
+        $this->addValueMatcher('!$',                ['value' => '',   'operator' => 'isNotNull']);
+        $this->addValueMatcher('!(\w+)',            ['value' => '$1', 'operator' => 'neq']);
+        $this->addValueMatcher('!\[([\w ,]+)\]',    ['value' => function($val) { return explode(',', $val); }, 'operator' => 'notIn']);
+        $this->addValueMatcher('\[([\w ,]+)\]',     ['value' => function($val) { return explode(',', $val); }, 'operator' => 'in']);
+        $this->addValueMatcher('(%\w+|\w+%|%\w+%)', ['value' => '$1', 'operator' => 'like']);
+        $this->addValueMatcher('(\w+)',             ['value' => '$1', 'operator' => 'eq']);
+        // @codingStandardsIgnoreEnd
 
         $this->addFilterHandler([$this, 'defaultFilterHandler']);
         $this->addFilterHandler([$this, 'multipleValueHandler']);
