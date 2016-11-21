@@ -24,7 +24,7 @@ class SelectQuery implements QueryInterface
     /** @var QueryParameterParser */
     protected $parser;
     /** @var string */
-    protected $contenttype;
+    protected $contentType;
     /** @var array */
     protected $params;
     /** @var Filter[] */
@@ -46,23 +46,23 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Sets the contenttype that this query will run against.
+     * Sets the ContentType that this query will run against.
      *
-     * @param string $contenttype
+     * @param string $contentType
      */
-    public function setContentType($contenttype)
+    public function setContentType($contentType)
     {
-        $this->contenttype = $contenttype;
+        $this->contentType = $contentType;
     }
 
     /**
-     * Gets the contenttype that this query will run against.
+     * Gets the ContentType that this query will run against.
      *
      * @return string
      */
     public function getContentType()
     {
-        return $this->contenttype;
+        return $this->contentType;
     }
 
     /**
@@ -250,7 +250,7 @@ class SelectQuery implements QueryInterface
     {
         $this->filters = [];
         foreach ($this->params as $key => $value) {
-            $this->parser->setAlias($this->contenttype);
+            $this->parser->setAlias($this->contentType);
             $filter = $this->parser->getFilter($key, $value);
             if ($filter) {
                 $this->addFilter($filter);

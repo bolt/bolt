@@ -25,10 +25,10 @@ class SearchQueryHandler
         /** @var SearchQuery $query */
         $query = clone $cleanSearchQuery;
 
-        foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
-            $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
-            $query->setContentType($contenttype);
+        foreach ($contentQuery->getContentTypes() as $contentType) {
+            $repo = $contentQuery->getEntityManager()->getRepository($contentType);
+            $query->setQueryBuilder($repo->createQueryBuilder($contentType));
+            $query->setContentType($contentType);
 
             $searchParam = $contentQuery->getParameter('filter');
             $query->setParameters($contentQuery->getParameters());
@@ -41,14 +41,14 @@ class SearchQueryHandler
                 if (count($result) > 0) {
                     /** @var SearchWeighter $weighter */
                     $weighter = $contentQuery->getService('search_weighter');
-                    $weighter->setContentType($contenttype);
+                    $weighter->setContentType($contentType);
                     $weighter->setResults($result);
                     $weighter->setSearchWords($query->getSearchWords());
 
                     $scores = $weighter->weight();
-                    $set->add($result, $contenttype, $scores);
+                    $set->add($result, $contentType, $scores);
                 } else {
-                    $set->add($result, $contenttype);
+                    $set->add($result, $contentType);
                 }
             }
         }

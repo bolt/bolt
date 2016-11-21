@@ -150,7 +150,7 @@ class ContentQueryParser
      * Internal method that takes the 'query' part of the input and
      * parses it into one of the various operations supported.
      *
-     * A simple select operation will just contain the contenttype eg 'pages'
+     * A simple select operation will just contain the ContentType eg 'pages'
      * but additional operations can be triggered using the '/' separator.
      *
      * @internal

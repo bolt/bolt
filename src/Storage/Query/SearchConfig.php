@@ -8,7 +8,7 @@ use Bolt\Config;
  * This class takes an overall config array as input and parses into values
  * applicable for performing searches.
  *
- * This takes into account contenttypes that aren't searchable along with
+ * This takes into account ContentTypes that aren't searchable along with
  * taxonomy and field weightings.
  */
 class SearchConfig
@@ -80,7 +80,7 @@ class SearchConfig
     }
 
     /**
-     * Iterates the taxonomies for a given contenttype, then assigns a
+     * Iterates the taxonomies for a given ContentType, then assigns a
      * weighting based on type.
      *
      * @param string $contentType
@@ -105,7 +105,7 @@ class SearchConfig
     }
 
     /**
-     * Helper method to return the join search columns for a contenttype
+     * Helper method to return the join search columns for a ContentType
      * weighting based on type.
      *
      * @param string $contentType
@@ -118,7 +118,7 @@ class SearchConfig
     }
 
     /**
-     * Determine what columns are searchable for a given contenttype.
+     * Determine what columns are searchable for a given ContentType.
      *
      * @param string $type
      *
@@ -145,8 +145,8 @@ class SearchConfig
     }
 
     /**
-     * Does some checks to see whether a contenttype should appear in search results.
-     * This is based on contenttype options.
+     * Does some checks to see whether a ContentType should appear in search results.
+     * This is based on ContentType options.
      *
      * @param string $contentType
      *

@@ -36,15 +36,15 @@ class NativeSearchHandler
     {
         $set = new SearchQueryResultset();
 
-        foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
-            $query = $repo->createQueryBuilder($contenttype);
+        foreach ($contentQuery->getContentTypes() as $contentType) {
+            $repo = $contentQuery->getEntityManager()->getRepository($contentType);
+            $query = $repo->createQueryBuilder($contentType);
             $config = $contentQuery->getService('search_config');
             $search = $contentQuery->getParameter('filter');
             $adapter = new PostgresSearch($query, $config, explode(' ', $search));
-            $adapter->setContentType($contenttype);
+            $adapter->setContentType($contentType);
             $result = $repo->findWith($adapter->getQuery());
-            $set->add($result, $contenttype);
+            $set->add($result, $contentType);
         }
 
         return $set;

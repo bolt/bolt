@@ -8,7 +8,7 @@ use ArrayIterator;
  * This class is a wrapper that handles single or multiple
  * sets or results fetched via a query. They can be iterated
  * normally, or split by label, eg just results from one
- * contenttype.
+ * ContentType.
  */
 class QueryResultset extends \AppendIterator implements \Countable
 {

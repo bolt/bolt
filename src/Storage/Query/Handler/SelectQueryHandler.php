@@ -23,10 +23,10 @@ class SelectQueryHandler
         /** @var SelectQuery $query */
         $query = $contentQuery->getService('select');
 
-        foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
-            $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
-            $query->setContentType($contenttype);
+        foreach ($contentQuery->getContentTypes() as $contentType) {
+            $repo = $contentQuery->getEntityManager()->getRepository($contentType);
+            $query->setQueryBuilder($repo->createQueryBuilder($contentType));
+            $query->setContentType($contentType);
 
             /** Run the parameters through the whitelister. If we get a false back from this method it's because there
              * is no need to continue with the query.
@@ -42,7 +42,7 @@ class SelectQueryHandler
 
             $result = $repo->queryWith($query);
             if ($result) {
-                $set->add($result, $contenttype);
+                $set->add($result, $contentType);
             }
         }
 
