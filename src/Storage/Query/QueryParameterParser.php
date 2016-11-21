@@ -123,44 +123,46 @@ class QueryParameterParser
      * @param string            $value
      * @param ExpressionBuilder $expr
      *
-     * @return Filter|void
+     * @return Filter|null
      */
     public function multipleKeyAndValueHandler($key, $value, $expr)
     {
-        if (strpos($key, '|||')) {
-            $keys = preg_split('/ *(\|\|\|) */', $key);
-            $inputKeys = $keys;
-            $values = preg_split('/ *(\|\|\|) */', $value);
-            $values = array_pad($values, count($keys), end($values));
+        if (!strpos($key, '|||')) {
+            return null;
+        }
 
-            $filterParams = [];
-            $parts = [];
-            $count = 1;
+        $keys = preg_split('/ *(\|\|\|) */', $key);
+        $inputKeys = $keys;
+        $values = preg_split('/ *(\|\|\|) */', $value);
+        $values = array_pad($values, count($keys), end($values));
 
-            while (($key = array_shift($keys)) && ($val = array_shift($values))) {
-                $multipleValue = $this->multipleValueHandler($key, $val, $this->expr);
-                if ($multipleValue) {
-                    $filter = $multipleValue->getExpression();
-                    $filterParams = $filterParams + $multipleValue->getParameters();
-                } else {
-                    $val = $this->parseValue($val);
-                    $placeholder = $key . '_' . $count;
-                    $filterParams[$placeholder] = $val['value'];
-                    $exprMethod = $val['operator'];
-                    $filter = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
-                }
+        $filterParams = [];
+        $parts = [];
+        $count = 1;
 
-                $parts[] = $filter;
-                $count++;
+        while (($key = array_shift($keys)) && ($val = array_shift($values))) {
+            $multipleValue = $this->multipleValueHandler($key, $val, $this->expr);
+            if ($multipleValue) {
+                $filter = $multipleValue->getExpression();
+                $filterParams = $filterParams + $multipleValue->getParameters();
+            } else {
+                $val = $this->parseValue($val);
+                $placeholder = $key . '_' . $count;
+                $filterParams[$placeholder] = $val['value'];
+                $exprMethod = $val['operator'];
+                $filter = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
             }
 
-            $filter = new Filter();
-            $filter->setKey($inputKeys);
-            $filter->setExpression(call_user_func_array([$expr, 'orX'], $parts));
-            $filter->setParameters($filterParams);
-
-            return $filter;
+            $parts[] = $filter;
+            $count++;
         }
+
+        $filter = new Filter();
+        $filter->setKey($inputKeys);
+        $filter->setExpression(call_user_func_array([$expr, 'orX'], $parts));
+        $filter->setParameters($filterParams);
+
+        return $filter;
     }
 
     /**
@@ -175,42 +177,44 @@ class QueryParameterParser
      * @param string            $value
      * @param ExpressionBuilder $expr
      *
-     * @return Filter|void
+     * @return Filter|null
      */
     public function multipleValueHandler($key, $value, $expr)
     {
-        if (strpos($value, '&&') || strpos($value, '||')) {
-            $values = preg_split('/ *(&&|\|\|) */', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
-            $op = $values[1];
-
-            if ($op === '&&') {
-                $comparison = 'andX';
-            } elseif ($op === '||') {
-                $comparison = 'orX';
-            }
-
-            $values = array_diff($values, ['&&', '||']);
-
-            $filterParams = [];
-            $parts = [];
-            $count = 1;
-
-            while ($val = array_shift($values)) {
-                $val = $this->parseValue($val);
-                $placeholder = $key . '_' . $count;
-                $filterParams[$placeholder] = $val['value'];
-                $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
-                $count++;
-            }
-
-            $filter = new Filter();
-            $filter->setKey($key);
-            $filter->setExpression(call_user_func_array([$expr, $comparison], $parts));
-            $filter->setParameters($filterParams);
-
-            return $filter;
+        if (strpos($value, '&&') === false && strpos($value, '||') === false) {
+            return null;
         }
+
+        $values = preg_split('/ *(&&|\|\|) */', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $op = $values[1];
+
+        if ($op === '&&') {
+            $comparison = 'andX';
+        } elseif ($op === '||') {
+            $comparison = 'orX';
+        }
+
+        $values = array_diff($values, ['&&', '||']);
+
+        $filterParams = [];
+        $parts = [];
+        $count = 1;
+
+        while ($val = array_shift($values)) {
+            $val = $this->parseValue($val);
+            $placeholder = $key . '_' . $count;
+            $filterParams[$placeholder] = $val['value'];
+            $exprMethod = $val['operator'];
+            $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
+            $count++;
+        }
+
+        $filter = new Filter();
+        $filter->setKey($key);
+        $filter->setExpression(call_user_func_array([$expr, $comparison], $parts));
+        $filter->setParameters($filterParams);
+
+        return $filter;
     }
 
     /**
