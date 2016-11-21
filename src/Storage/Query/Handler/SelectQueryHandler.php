@@ -74,6 +74,8 @@ class SelectQueryHandler
             $valueStack = preg_split('/ *(\|\|\|) */', $valueSelect);
 
             if (count($stack) > 1) {
+                $allowedKeys = [];
+                $allowedVals = [];
                 foreach ($stack as $i => $stackItem) {
                     if (in_array($stackItem, $allowedParams)) {
                         $allowedKeys[] = $stackItem;
