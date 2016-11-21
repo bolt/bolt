@@ -242,6 +242,7 @@ class FileManager extends BackendBase
 
         /** @var UploadedFile[] $files */
         $files = $form->getData()['FileUpload'];
+        $permissions = $this->app['filepermissions'];
 
         foreach ($files as $fileToProcess) {
             $fileToProcess = [
@@ -252,11 +253,19 @@ class FileManager extends BackendBase
             $originalFilename = $fileToProcess['name'];
             $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
-            if ($this->app['filepermissions']->allowedUpload($filename)) {
+            try {
+                $isAllowed = $permissions->allowedUpload($filename);
+            } catch (IOException $e) {
+                $this->flashes()->error($e->getMessage());
+
+                continue;
+            }
+
+            if ($isAllowed) {
                 $this->processUpload($directory, $filename, $fileToProcess);
             } else {
                 $extensionList = [];
-                foreach ($this->app['filepermissions']->getAllowedUploadExtensions() as $extension) {
+                foreach ($permissions->getAllowedUploadExtensions() as $extension) {
                     $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
                 }
                 $extensionList = implode(' ', $extensionList);

@@ -53,7 +53,7 @@ class QueryParameterParserTest extends BoltUnitTest
 
         $p = new QueryParameterParser();
         $expr = $p->parseValue('[1,2,3]');
-        $this->assertEquals('1,2,3', $expr['value']);
+        $this->assertEquals(3, count($expr['value']));
         $this->assertEquals('in', $expr['operator']);
     }
 

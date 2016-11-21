@@ -22,35 +22,27 @@ class QueryServiceProvider implements ServiceProviderInterface
             return $runner;
         };
 
-        $app['query.parser'] = $app->share(
-            function ($app) {
-                $parser = new ContentQueryParser($app['storage']);
-                $parser->addService('select', $app['query.select']);
-                $parser->addService('search', $app['query.search']);
-                $parser->addService('search_weighter', $app['query.search_weighter']);
-                $parser->addService('search_config', $app['query.search_config']);
+        $app['query.parser'] = function ($app) {
+            $parser = new ContentQueryParser($app['storage']);
+            $parser->addService('select', $app['query.select']);
+            $parser->addService('search', $app['query.search']);
+            $parser->addService('search_weighter', $app['query.search_weighter']);
+            $parser->addService('search_config', $app['query.search_config']);
 
-                return $parser;
-            }
-        );
+            return $parser;
+        };
 
-        $app['query.parser.handler'] = $app->share(
-            function ($app) {
-                return new QueryParameterParser($app['storage']->createExpressionBuilder());
-            }
-        );
+        $app['query.parser.handler'] = function ($app) {
+            return new QueryParameterParser($app['storage']->createExpressionBuilder());
+        };
 
-        $app['query.select'] = $app->share(
-            function ($app) {
-                return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
-            }
-        );
+        $app['query.select'] = function ($app) {
+            return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
+        };
 
-        $app['query.search'] = $app->share(
-            function ($app) {
-                return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);
-            }
-        );
+        $app['query.search'] = function ($app) {
+            return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);
+        };
 
         $app['query.search_config'] = $app->share(
             function ($app) {

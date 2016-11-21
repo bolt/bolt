@@ -39,15 +39,7 @@ class RelationType extends FieldTypeBase
 
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
-                // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
-
-                $newExpr = $query->getQueryBuilder()->expr()->$method();
-                foreach ($filter->getParameters() as $k => $v) {
-                    $newExpr->add("$field.to_id = :$k");
-                }
-
-                $filter->setExpression($newExpr);
+                $this->rewriteQueryFilterParameters($filter, $query, $field, 'to_id');
             }
         }
     }
@@ -109,7 +101,7 @@ class RelationType extends FieldTypeBase
             $entity->getRelation()->add($relEntity);
             $fieldRels->add($relEntity);
         }
-        $this->set($entity, $fieldRels);
+        $this->set($entity, $fieldRels[$field]);
     }
 
     /**
@@ -139,7 +131,7 @@ class RelationType extends FieldTypeBase
             function ($query, $result, $id) use ($repo, $collection, $toDelete, $inverseCollection) {
                 foreach ($collection as $entity) {
                     $entity->from_id = $id;
-                    $repo->save($entity);
+                    $repo->save($entity, $silenceEvents = true);
                 }
 
                 foreach ($inverseCollection as $entity) {

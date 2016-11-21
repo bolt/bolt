@@ -2,14 +2,17 @@
 
 namespace Bolt\Storage\Query;
 
+use ArrayIterator;
+
 /**
  * This class builds on the default QueryResultset to add
  * the ability to merge sets based on weighted scores.
  */
 class SearchQueryResultset extends QueryResultset
 {
+    /** @var array */
     protected $results = [];
-
+    /** @var array */
     protected $scores = [];
 
     /**
@@ -27,9 +30,12 @@ class SearchQueryResultset extends QueryResultset
             $this->results = array_merge($this->results, $results);
         }
 
-        $this->append(new \ArrayIterator($results));
+        $this->append(new ArrayIterator($results));
     }
 
+    /**
+     * @param string $label
+     */
     public function sortSingle($label)
     {
         $results = $this->get($label);

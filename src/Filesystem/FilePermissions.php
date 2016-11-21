@@ -3,6 +3,7 @@
 namespace Bolt\Filesystem;
 
 use Bolt\Config;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Library as Lib;
 
 /**
@@ -85,10 +86,16 @@ class FilePermissions
      *
      * @param string $originalFilename
      *
+     * @throws IOException
+     *
      * @return bool
      */
     public function allowedUpload($originalFilename)
     {
+        // Check if file_uploads ini directive is true
+        if (ini_get('file_uploads') != 1) {
+            throw new IOException('File uploads are not allowed, check the file_uploads ini directive.');
+        }
         // no UNIX-hidden files
         if ($originalFilename[0] === '.') {
             return false;

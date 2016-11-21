@@ -20,6 +20,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SearchQuery extends SelectQuery
 {
+    /** @var string */
     protected $search;
     /** @var SearchConfig */
     protected $config;
@@ -95,12 +96,12 @@ class SearchQuery extends SelectQuery
      */
     protected function processFilters()
     {
-        if (!$this->contenttype) {
-            throw new QueryParseException('You have attempted to run a search query without specifying a contenttype', 1);
+        if (!$this->contentType) {
+            throw new QueryParseException('You have attempted to run a search query without specifying a ContentType', 1);
         }
 
-        if (!$config = $this->config->getConfig($this->contenttype)) {
-            throw new QueryParseException('You have attempted to run a search query on an unknown contenttype or one that is not searchable', 1);
+        if (!$config = $this->config->getConfig($this->contentType)) {
+            throw new QueryParseException('You have attempted to run a search query on an unknown ContentType or one that is not searchable', 1);
         }
 
         $params = $this->params;

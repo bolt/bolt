@@ -12,8 +12,6 @@ class IdentifiedSelectHandler
     /**
      * @param ContentQueryParser $contentQuery
      *
-     * @internal param $identifier
-     *
      * @return mixed
      */
     public function __invoke(ContentQueryParser $contentQuery)

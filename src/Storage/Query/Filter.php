@@ -16,6 +16,7 @@ class Filter
     protected $key;
     /** @var CompositeExpression */
     protected $expression;
+    /** @var array */
     protected $parameters = [];
 
     /**
