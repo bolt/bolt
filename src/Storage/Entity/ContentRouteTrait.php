@@ -96,7 +96,8 @@ trait ContentRouteTrait
             return null;
         }
 
-        $slug = $this->values['slug'];
+        // slug is either stored in $this->values['slug'] or in $this->slug
+        $slug = $this->values['slug'] ?: $this->slug;
         if (empty($slug)) {
             $slug = $this->id;
         }
