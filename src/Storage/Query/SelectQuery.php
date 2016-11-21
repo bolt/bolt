@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -18,12 +19,18 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SelectQuery implements QueryInterface
 {
+    /** @var QueryBuilder */
     protected $qb;
+    /** @var QueryParameterParser */
     protected $parser;
-    protected $contenttype;
+    /** @var string */
+    protected $contentType;
+    /** @var array */
     protected $params;
+    /** @var Filter[] */
     protected $filters = [];
     protected $replacements = [];
+    /** @var bool */
     protected $singleFetchMode = false;
 
     /**
@@ -39,13 +46,23 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Sets the contenttype that this query will run against.
+     * Sets the ContentType that this query will run against.
      *
      * @param string $contentType
      */
     public function setContentType($contentType)
     {
-        $this->contenttype = $contentType;
+        $this->contentType = $contentType;
+    }
+
+    /**
+     * Gets the ContentType that this query will run against.
+     *
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
     }
 
     /**
@@ -109,11 +126,17 @@ class SelectQuery implements QueryInterface
         );
     }
 
-    public function setWhereParameter($key, $val)
+    /**
+     * Sets all the parameters for a specific field name.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function setWhereParameter($key, $value)
     {
         foreach ($this->filters as $filter) {
             if ($filter->hasParameter($key)) {
-                $filter->setParameter($key, $val);
+                $filter->setParameter($key, $value);
             }
         }
     }
@@ -150,7 +173,9 @@ class SelectQuery implements QueryInterface
         if ($this->getWhereExpression()) {
             $query->where($this->getWhereExpression());
         }
-        $query->setParameters($this->getWhereParameters());
+        foreach ($this->getWhereParameters() as $key => $param) {
+            $query->setParameter($key, $param, (is_array($param)) ? Connection::PARAM_STR_ARRAY : null);
+        }
 
         return $query;
     }
@@ -166,9 +191,9 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Allows replacing the default querybuilder
+     * Allows replacing the default QueryBuilder.
      *
-     * @return QueryBuilder
+     * @param QueryBuilder $qb
      */
     public function setQueryBuilder(QueryBuilder $qb)
     {
@@ -176,7 +201,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Returns wether the query is in single fetch mode.
+     * Returns whether the query is in single fetch mode.
      *
      * @return bool
      */
@@ -196,6 +221,17 @@ class SelectQuery implements QueryInterface
     }
 
     /**
+     * Passes a whitelist of parameters to the parser.
+     *
+     * @param array $params
+     */
+    public function setParameterWhitelist(array $params)
+    {
+        $this->parser->setParameterWhitelist($params);
+    }
+
+
+    /**
      * @return string String representation of query
      */
     public function __toString()
@@ -207,16 +243,18 @@ class SelectQuery implements QueryInterface
 
     /**
      * Internal method that runs the individual key/value input through
-     * the QueryParamtererParser. This allows complicated expressions to
+     * the QueryParameterParser. This allows complicated expressions to
      * be turned into simple sql expressions
-     *
-     * @return void
      */
     protected function processFilters()
     {
+        $this->filters = [];
         foreach ($this->params as $key => $value) {
-            $this->parser->setAlias($this->contenttype);
-            $this->addFilter($this->parser->getFilter($key, $value));
+            $this->parser->setAlias($this->contentType);
+            $filter = $this->parser->getFilter($key, $value);
+            if ($filter) {
+                $this->addFilter($filter);
+            }
         }
     }
 }

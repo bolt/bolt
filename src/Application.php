@@ -183,7 +183,7 @@ class Application extends Silex\Application
             ->register(new Silex\Provider\HttpCacheServiceProvider(),
                 [
                     'http_cache.cache_dir' => $this['resources']->getPath('cache/' . $this['environment'] . '/http'),
-                    'http_cache.options'   => $this['config']->get('general/performance/http_cache/options'),
+                    'http_cache.options'   => $this['config']->get('general/performance/http_cache/options', []),
                 ]
             );
     }

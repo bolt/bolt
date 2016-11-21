@@ -3,9 +3,10 @@
 namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Query\QueryResultset;
 
 /**
- *  Handler to modifiy query based on activation of 'latest' modifier.
+ *  Handler to modify query based on activation of 'latest' modifier.
  *
  *  eg: 'pages/latest/10'
  */
