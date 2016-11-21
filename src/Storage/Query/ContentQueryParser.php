@@ -68,6 +68,7 @@ class ContentQueryParser
     public function reset()
     {
         $this->contentTypes = [];
+        $this->identifier = null;
         $this->operation = null;
         $this->query = null;
         $this->params = null;
