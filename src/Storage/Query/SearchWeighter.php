@@ -8,13 +8,14 @@ namespace Bolt\Storage\Query;
  */
 class SearchWeighter
 {
+    /** @var SearchConfig */
     protected $config;
-
+    /** @var QueryResultset|array */
     protected $results;
-
+    /** @var array */
     protected $searchWords;
-
-    protected $contenttype;
+    /** @var string */
+    protected $contentType;
 
     /**
      * Constructor takes a compiled SearchConfig which is essentially an array
@@ -40,7 +41,7 @@ class SearchWeighter
     }
 
     /**
-     * Sets the contenttype that we are weighting, that is, what type the results
+     * Sets the ContentType that we are weighting, that is, what type the results
      * array is. That allows us to map against the configuration to see which fields
      * to scan for relevant text.
      *
@@ -48,7 +49,7 @@ class SearchWeighter
      */
     public function setContentType($type)
     {
-        $this->contenttype = $type;
+        $this->contentType = $type;
     }
 
     /**
@@ -78,13 +79,13 @@ class SearchWeighter
     }
 
     /**
-     * Helper method to fetch the fields for an individual contenttype.
+     * Helper method to fetch the fields for an individual ContentType.
      *
      * @return array|false
      */
     protected function getContentFields()
     {
-        return $this->config->getConfig($this->contenttype);
+        return $this->config->getConfig($this->contentType);
     }
 
     /**

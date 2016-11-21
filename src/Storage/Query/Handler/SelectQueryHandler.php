@@ -4,6 +4,8 @@ namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\QueryResultset;
+use Bolt\Storage\Query\SelectQuery;
+use Bolt\Storage\Repository;
 
 /**
  *  Handler class to perform select query and return a resultset.
@@ -18,12 +20,13 @@ class SelectQueryHandler
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $set = new QueryResultset();
+        /** @var SelectQuery $query */
         $query = $contentQuery->getService('select');
 
-        foreach ($contentQuery->getContentTypes() as $contenttype) {
-            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
-            $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
-            $query->setContentType($contenttype);
+        foreach ($contentQuery->getContentTypes() as $contentType) {
+            $repo = $contentQuery->getEntityManager()->getRepository($contentType);
+            $query->setQueryBuilder($repo->createQueryBuilder($contentType));
+            $query->setContentType($contentType);
 
             /** Run the parameters through the whitelister. If we get a false back from this method it's because there
              * is no need to continue with the query.
@@ -39,7 +42,7 @@ class SelectQueryHandler
 
             $result = $repo->queryWith($query);
             if ($result) {
-                $set->add($result, $contenttype);
+                $set->add($result, $contentType);
             }
         }
 
@@ -50,15 +53,18 @@ class SelectQueryHandler
         }
     }
 
-    /** This block is added to deal with the possibility that a requested filter is not an allowable option on the
+    /**
+     * This block is added to deal with the possibility that a requested filter is not an allowable option on the
      * database table. If the requested field filter is not a valid field on this table then we completely skip
      * the query because no results will be expected if the field does not exist. The exception to this is if the field
      * is part of an OR query then we remove the missing field from the stack but still allow the other fields through.
-     * @param array $queryParams
-     * @param $repo
+     *
+     * @param array      $queryParams
+     * @param Repository $repo
+     *
      * @return bool|array $cleanParams
      */
-    public function whitelistParameters(array $queryParams, $repo)
+    public function whitelistParameters(array $queryParams, Repository $repo)
     {
         $metadata = $repo->getClassMetadata();
         $allowedParams = array_keys($metadata->getFieldMappings());
@@ -68,6 +74,8 @@ class SelectQueryHandler
             $valueStack = preg_split('/ *(\|\|\|) */', $valueSelect);
 
             if (count($stack) > 1) {
+                $allowedKeys = [];
+                $allowedVals = [];
                 foreach ($stack as $i => $stackItem) {
                     if (in_array($stackItem, $allowedParams)) {
                         $allowedKeys[] = $stackItem;
@@ -78,8 +86,8 @@ class SelectQueryHandler
                 if (!count($allowedKeys)) {
                     return false;
                 }
-                $allowed = join(" ||| ", $allowedKeys);
-                $cleanParams[$allowed] = join(" ||| ", $allowedVals);
+                $allowed = join(' ||| ', $allowedKeys);
+                $cleanParams[$allowed] = join(' ||| ', $allowedVals);
             } else {
                 if (!in_array($fieldSelect, $allowedParams)) {
                     return false;
