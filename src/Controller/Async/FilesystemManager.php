@@ -63,7 +63,7 @@ class FilesystemManager extends AsyncBase
      * @param string  $namespace
      * @param string  $path
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function browse(Request $request, $namespace, $path)
     {
@@ -251,7 +251,7 @@ class FilesystemManager extends AsyncBase
     /**
      * List records to easily insert links through the WYSIWYG editor.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function recordBrowser()
     {
