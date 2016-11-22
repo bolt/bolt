@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Entity;
 
 use Bolt\Configuration\ResourceManager;
@@ -47,13 +48,10 @@ trait ContentRouteTrait
     public function link($referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         list($name, $params) = $this->getRouteNameAndParams();
-        if ($name === null) {
-            return null;
-        }
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $this->app['url_generator'];
 
-        $link = $this->app['url_generator']->generate($name, $params, $referenceType);
-
-        return $link;
+        return $name ? $urlGenerator->generate($name, $params, $referenceType) : null;
     }
 
     /**
@@ -96,11 +94,7 @@ trait ContentRouteTrait
             return null;
         }
 
-        $slug = $this->values['slug'];
-        if (empty($slug)) {
-            $slug = $this->id;
-        }
-
+        $slug = $this->getLinkSlug();
         $availableParams = array_filter(
             array_merge(
                 $config['defaults'] ?: [],
@@ -120,7 +114,8 @@ trait ContentRouteTrait
         }
 
         // Needed params as array keys
-        $neededKeys = array_flip($route->compile()->getPathVariables());
+        $pathVars = $route->compile()->getPathVariables();
+        $neededKeys = array_flip($pathVars);
 
         // Set the values of neededKeys from the availableParams.
         // This removes extra parameters that are not needed for url generation.
@@ -213,8 +208,26 @@ trait ContentRouteTrait
      */
     protected function getReference()
     {
-        $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
+        $reference = $this->contenttype['singular_slug'] . '/' . $this->getLinkSlug();
 
         return $reference;
+    }
+
+    /**
+     * Get a record's slug depending on the type of object used.
+     *
+     * @return string|int
+     */
+    private function getLinkSlug()
+    {
+        if ($this instanceof Content) {
+            return $this->slug ?: $this->id;
+        }
+
+        if (isset($this->values['slug'])) {
+            return $this->values['slug'];
+        }
+
+        return $this->id;
     }
 }

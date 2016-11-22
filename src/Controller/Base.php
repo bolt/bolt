@@ -65,15 +65,15 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Renders a template
      *
-     * @param string $template  the template name
-     * @param array  $variables array of context variables
-     * @param array  $globals   array of global variables
+     * @param string $template Template name
+     * @param array  $context  Context variables
+     * @param array  $globals  Global variables
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
-    protected function render($template, array $variables = [], array $globals = [])
+    protected function render($template, array $context = [], array $globals = [])
     {
-        return $this->app['render']->render($template, $variables, $globals);
+        return $this->app['render']->render($template, $context, $globals);
     }
 
     /**

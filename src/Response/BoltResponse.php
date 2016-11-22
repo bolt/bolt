@@ -10,6 +10,8 @@ use Twig_Template as Template;
  * BoltResponse uses a renderer and context variables
  * to create the response content.
  *
+ * @deprecated Deprecated since 3.3, use TemplateResponse instead.
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class BoltResponse extends Response

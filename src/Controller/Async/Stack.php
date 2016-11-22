@@ -2,7 +2,7 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Filesystem\Handler\FileInterface;
-use Bolt\Response\BoltResponse;
+use Bolt\Response\TemplateResponse;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +60,7 @@ class Stack extends AsyncBase
      *
      * @param Request $request
      *
-     * @return BoltResponse
+     * @return TemplateResponse
      */
     public function show(Request $request)
     {
