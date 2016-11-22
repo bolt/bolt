@@ -33,7 +33,7 @@ class SearchWeighter
      * Sets an iterable group of results, this normally comes directly
      * from the database query.
      *
-     * @param QueryResultset $results
+     * @param QueryResultset|array $results
      */
     public function setResults(array $results)
     {
