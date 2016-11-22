@@ -36,7 +36,7 @@
 {% endfor %}
 
 {# Determine locale include for ckeditor #}
-{% set page_locale_long_bcp47 = page_locale_long|replace('_', '-')|lower %}
+{% set page_locale_long_bcp47 = page_locale_long|replace({'_': '-'})|lower %}
 {% if app.filesystem.has("bolt://app/view/js/locale/ckeditor#{page_locale_long_bcp47}.js") %}
     {% set ckeditor_lang = page_locale_long_bcp47 %}
 {% else %}
@@ -77,7 +77,7 @@
 {% for assetData in config.get('general/wysiwyg/ck/contentsCss') %}
     {% set ckCss = ckCss|merge([asset(assetData.0, assetData.1)]) %}
 {% endfor %}
-{% set ckConfig = config.get('general/wysiwyg/ck')|merge({'contentsCss': ckCss}) %}
+{% set ckConfig = config.get('general/wysiwyg/ck')|default({})|merge({'contentsCss': ckCss}) %}
 
 {% set bconfig = {
     locale: {

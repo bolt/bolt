@@ -32,13 +32,13 @@ abstract class BackendBase extends Base
     /**
      * {@inheritdoc}
      */
-    protected function render($template, array $variables = [], array $globals = [])
+    protected function render($template, array $context = [], array $globals = [])
     {
-        if (!isset($variables['context'])) {
-            $variables = ['context' => $variables];
+        if (!isset($context['context'])) {
+            $context = ['context' => $context];
         }
 
-        return parent::render($template, $variables, $globals);
+        return parent::render($template, $context, $globals);
     }
 
     /**

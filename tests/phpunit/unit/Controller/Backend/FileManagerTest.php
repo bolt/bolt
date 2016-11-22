@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
@@ -20,7 +21,7 @@ class FileManagerTest extends ControllerUnitTest
 
         $response = $this->controller()->edit($this->getRequest(), 'config', 'config.yml');
 
-        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testManage()

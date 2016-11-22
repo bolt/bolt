@@ -291,7 +291,7 @@ class Extend extends BackendBase
     /**
      * Package install chooser modal.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function installPackage()
     {
@@ -305,7 +305,7 @@ class Extend extends BackendBase
     /**
      * The main 'Extend' page.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function overview()
     {

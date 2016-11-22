@@ -55,7 +55,7 @@ class Users extends BackendBase
     /**
      * All users admin page.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function admin()
     {
@@ -84,7 +84,7 @@ class Users extends BackendBase
      * @param Request $request The Symfony Request
      * @param integer $id      The user ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function edit(Request $request, $id)
     {
@@ -147,7 +147,7 @@ class Users extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function first(Request $request)
     {
@@ -277,7 +277,7 @@ class Users extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function profile(Request $request)
     {
@@ -323,7 +323,7 @@ class Users extends BackendBase
     /**
      * Route to view the configured user roles.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function viewRoles()
     {

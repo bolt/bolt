@@ -3,8 +3,10 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Controller\Zone;
-use Bolt\Response\BoltResponse;
+use Bolt\Logger\FlashLogger;
+use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Prophecy\Argument\Token\StringContainsToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +45,7 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->about();
 
-        $this->assertEquals('@bolt/about/about.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/about/about.twig', $response->getTemplate()->getTemplateName());
     }
 
     public function testClearCache()
@@ -154,8 +156,8 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/tr/contenttypes/en_CY'));
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
-        $this->assertTrue($response instanceof BoltResponse, 'Response is not instance of BoltResponse');
-        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplateName());
+        $this->assertTrue($response instanceof TemplateResponse, 'Response is not instance of TemplateResponse');
+        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplate()->getTemplateName());
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
 
@@ -189,11 +191,18 @@ class GeneralTest extends ControllerUnitTest
                 ],
             ]
         ));
+
+        $flash = $this->prophesize(FlashLogger::class);
+        $flash->keys()->shouldBeCalled();
+        $flash->get('info')->shouldBeCalled();
+        $flash->get('success')->shouldBeCalled();
+        $flash->get('error')->shouldBeCalled();
+        $flash->error(new StringContainsToken('could not be saved'))->shouldBeCalled();
+        $this->setService('logger.flash', $flash->reveal());
+
         $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof RedirectResponse, 'Response is not instance of RedirectResponse');
-        $errors = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/could not be saved/', $errors[0]);
     }
 
     /**

@@ -117,7 +117,7 @@ class FileManager extends BackendBase
      * @param string  $namespace The filesystem namespace
      * @param string  $path      The path prefix
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function manage(Request $request, $namespace, $path)
     {

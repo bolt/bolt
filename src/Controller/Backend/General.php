@@ -57,7 +57,7 @@ class General extends BackendBase
     /**
      * About page route.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function about()
     {
@@ -67,7 +67,7 @@ class General extends BackendBase
     /**
      * Configuration checks/tests route.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function checks()
     {
@@ -77,7 +77,7 @@ class General extends BackendBase
     /**
      * Clear the cache.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function clearCache()
     {
@@ -95,7 +95,7 @@ class General extends BackendBase
     /**
      * Dashboard or 'root' route.
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function dashboard()
     {
@@ -107,7 +107,7 @@ class General extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Bolt\Response\BoltResponse
+     * @return \Bolt\Response\TemplateResponse
      */
     public function omnisearch(Request $request)
     {
@@ -139,7 +139,7 @@ class General extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function prefill(Request $request)
     {
@@ -193,7 +193,7 @@ class General extends BackendBase
      * @param string  $domain    The domain
      * @param string  $tr_locale The translation locale
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function translation(Request $request, $domain, $tr_locale)
     {
