@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Entity;
 
 use Bolt\Configuration\ResourceManager;
@@ -61,10 +62,7 @@ trait ContentRouteTrait
             return null;
         }
 
-        $slug = $this->values['slug'];
-        if (empty($slug)) {
-            $slug = $this->id;
-        }
+        $slug = $this->getLinkSlug();
         $link = $this->app['url_generator']->generate(
             $binding,
             array_filter(
@@ -186,8 +184,26 @@ trait ContentRouteTrait
      */
     protected function getReference()
     {
-        $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
+        $reference = $this->contenttype['singular_slug'] . '/' . $this->getLinkSlug();
 
         return $reference;
+    }
+
+    /**
+     * Get a record's slug depending on the type of object used.
+     *
+     * @return string|int
+     */
+    private function getLinkSlug()
+    {
+        if ($this instanceof Content) {
+            return $this->slug ?: $this->id;
+        }
+
+        if (isset($this->values['slug'])) {
+            return $this->values['slug'];
+        }
+
+        return $this->id;
     }
 }
