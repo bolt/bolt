@@ -163,7 +163,7 @@ class General extends BackendBase
             ->getForm();
 
         if ($request->isMethod('POST') || $request->get('force') == 1) {
-            $form->submit($request);
+            $form->handleRequest($request);
             $contenttypes = $form->get('contenttypes')->getData();
 
             try {
