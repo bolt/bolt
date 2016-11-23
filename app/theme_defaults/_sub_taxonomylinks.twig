@@ -2,9 +2,9 @@
     {% for type, values in record.taxonomy %}
         <em>
         {% if values|length < 2 %}
-            {{ config.get('taxonomy')[type].singular_name }}:
+            {{ __(config.get('taxonomy')[type].singular_name) }}:
         {% else %}
-            {{ config.get('taxonomy')[type].name }}:
+            {{ __(config.get('taxonomy')[type].name) }}:
         {% endif %}
         </em>
         {% for link, value in values %}
