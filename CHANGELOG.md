@@ -1,5 +1,10 @@
-Changelog for Bolt 3.x
+Changelog for Bolt 4.x
 ======================
+
+Bolt 4.0-dev
+-----------
+
+- 
 
 Bolt 3.5-dev
 -----------
