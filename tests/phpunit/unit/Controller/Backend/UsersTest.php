@@ -69,12 +69,8 @@ class UsersTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
 
-        // Symfony forms normally need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
-        $csrf->expects($this->once())
-            ->method('isCsrfTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('form.csrf_provider', $csrf);
+        // Symfony forms need a CSRF token so we have to mock this too
+        $this->removeCSRF($this->getApp());
 
         // Update the display name via a POST request
         $this->setRequest(Request::create(
@@ -98,15 +94,7 @@ class UsersTest extends ControllerUnitTest
     public function testFirst()
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
-        $csrf->expects($this->any())
-            ->method('isCsrfTokenValid')
-            ->will($this->returnValue(true));
-
-        $csrf->expects($this->any())
-            ->method('generateCsrfToken')
-            ->will($this->returnValue('xyz'));
-        $this->setService('form.csrf_provider', $csrf);
+        $this->removeCSRF($this->getApp());
 
         // Because we have users in the database this should exit at first attempt
         $this->setRequest(Request::create('/bolt/userfirst'));
@@ -328,12 +316,8 @@ class UsersTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
 
-        // Symfony forms normally need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
-        $csrf->expects($this->once())
-            ->method('isCsrfTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('form.csrf_provider', $csrf);
+        // Symfony forms need a CSRF token so we have to mock this too
+        $this->removeCSRF($this->getApp());
 
         // Update the display name via a POST request
         $this->setRequest(Request::create(
