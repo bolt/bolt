@@ -19,6 +19,7 @@ use Bolt\Twig\Handler\UserHandler;
 use Bolt\Twig\Handler\UtilsHandler;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Abstract Class that other unit tests can extend, provides generic methods for Bolt tests.
@@ -292,13 +293,13 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function removeCSRF($app)
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['form']);
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid', 'getToken'], [], '', false);
         $csrf->expects($this->any())
-            ->method('isCsrfTokenValid')
+            ->method('isTokenValid')
             ->will($this->returnValue(true));
 
         $csrf->expects($this->any())
-            ->method('generateCsrfToken')
+            ->method('getToken')
             ->will($this->returnValue('xyz'));
 
         $app['form.csrf_provider'] = $csrf;
