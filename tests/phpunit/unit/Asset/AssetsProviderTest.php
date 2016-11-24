@@ -1,5 +1,6 @@
 <?php
-namespace Bolt\Tests\Extensions;
+
+namespace Bolt\Tests\Asset;
 
 use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
@@ -380,42 +381,6 @@ HTML;
         $app['asset.queue.snippet']->add($this->getSnippet(Target::AFTER_META, '<meta name="test-snippet" />'));
         $app['asset.queue.snippet']->process($this->getRequest(), $response);
         $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($response->getContent()));
-    }
-
-    public function testSnippetsWithCallback()
-    {
-        $app = $this->getApp();
-        new Mock\SnippetCallbackExtension($app);
-        $response = new Response($this->template);
-
-        // Test snippet inserts at top of <head>
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
-        $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($response->getContent()));
-    }
-
-    public function testSnippetsWithGlobalCallback()
-    {
-        $app = $this->getApp();
-        $app['asset.queue.snippet']->add($this->getSnippet(
-            Target::AFTER_META,
-            '\Bolt\Tests\Extensions\globalAssetsSnippet',
-            'core',
-            ["\n"]
-        ));
-
-        // Test snippet inserts at top of <head>
-        $response = new Response('<html></html>');
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
-        $this->assertEquals('<html></html><br />' . PHP_EOL . PHP_EOL, $response->getContent());
-    }
-
-    public function testExtensionSnippets()
-    {
-        $app = $this->getApp();
-        new Mock\Extension($app);
-        $response = new Response($this->template);
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
-        $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($response->getContent()));
     }
 
     public function testAddJquery()
