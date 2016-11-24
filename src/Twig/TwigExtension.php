@@ -66,7 +66,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('image',              [$this, 'image']),
             new \Twig_SimpleFunction('imageinfo',          [$this, 'imageInfo']),
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
-            new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
@@ -329,15 +328,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function isAllowed($what, $content = null)
     {
         return $this->handlers['user']->isAllowed($what, $content);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Just use config instead.
-     * @see \Bolt\Twig\Handler\AdminHandler::isChangelogEnabled()
-     */
-    public function isChangelogEnabled()
-    {
-        return $this->handlers['admin']->isChangelogEnabled();
     }
 
     /**

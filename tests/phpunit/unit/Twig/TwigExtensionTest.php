@@ -299,16 +299,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->isAllowed(null, null);
     }
 
-    public function testIsChangelogEnabled()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'isChangelogEnabled');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->isChangelogEnabled();
-    }
-
     public function testIsMobileClient()
     {
         $app = $this->getApp();
