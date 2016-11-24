@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Extension;
 
+use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\ControllerMountExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
@@ -16,7 +17,7 @@ class ControllerMountTraitTest extends BoltUnitTest
     public function testControllerMountDefault()
     {
         $app = $this->getApp();
-        $event = $this->getMock('Bolt\Events\MountEvent', ['mount'], [$app, $app['controllers']]);
+        $event = $this->getMockMountEvent();
         $event->expects($this->exactly(0))->method('mount');
 
         $ext = new NormalExtension();
@@ -27,11 +28,27 @@ class ControllerMountTraitTest extends BoltUnitTest
     public function testControllerMount()
     {
         $app = $this->getApp();
-        $event = $this->getMock('Bolt\Events\MountEvent', ['mount'], [$app, $app['controllers']]);
+        $event = $this->getMockMountEvent();
         $event->expects($this->exactly(2))->method('mount');
 
         $ext = new ControllerMountExtension();
         $ext->setContainer($app);
         $ext->onMountControllers($event);
+    }
+
+    /**
+     * @param array $methods
+     *
+     * @return MountEvent|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockMountEvent($methods = ['mount'])
+    {
+        $app = $this->getApp();
+
+        return $this->getMockBuilder(MountEvent::class)
+            ->setMethods($methods)
+            ->setConstructorArgs([$app, $app['controllers']])
+            ->getMock()
+        ;
     }
 }

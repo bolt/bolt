@@ -55,14 +55,14 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeCdo()
     {
         $this->markTestSkipped('Mock of setlocale not working on a long running test.');
-        
+
         $app = $this->getApp();
         $this->php
             ->expects($this->once())
             ->method('setlocale')
             ->will($this->returnValue(false))
         ;
-        $logger = $this->getMock('Monolog\Logger', ['error'], ['dropbear']);
+        $logger = $this->getMockMonolog();
         $logger
             ->expects($this->once())
             ->method('error')

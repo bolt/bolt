@@ -3,6 +3,9 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Asset\Snippet\Snippet;
+use Bolt\Legacy\Content;
+use Bolt\Pager\Pager;
+use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\RecordHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -167,7 +170,11 @@ GRINGALET;
         $app['request'] = $request;
 
         $handler = new RecordHandler($app);
-        $content = $this->getMock('\Bolt\Legacy\Content', ['link'], [$app]);
+        $content = $this->getMockBuilder(Content::class)
+            ->setMethods(['link'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $content->expects($this->atLeastOnce())
             ->method('link')
             ->will($this->returnValue('/pages/koala'))
@@ -506,8 +513,10 @@ GRINGALET;
     public function testPagerEmptyPager()
     {
         $app = $this->getApp();
-
-        $pager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager'], []);
+        $pager = $this->getMockBuilder(PagerManager::class)
+            ->setMethods(['isEmptyPager'])
+            ->getMock()
+        ;
         $pager
             ->expects($this->once())
             ->method('isEmptyPager')
@@ -529,10 +538,14 @@ GRINGALET;
     public function testPager()
     {
         $app = $this->getApp();
+        $manager = $this->getMockBuilder(PagerManager::class)
+            ->setMethods(['isEmptyPager', 'getPager'])
+            ->getMock()
+        ;
 
-        $manager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager', 'getPager'], []);
-
-        $pager = $this->getMock('\Bolt\Pager\Pager');
+        $pager = $this->getMockBuilder(Pager::class)
+            ->getMock()
+        ;
         $pager->for = $pagerName = 'Clippy';
         $pager->totalpages = $surr = 2;
 

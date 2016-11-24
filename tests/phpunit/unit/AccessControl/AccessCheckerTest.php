@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Tests;
 
+use Bolt\AccessControl\AccessChecker;
 use Bolt\AccessControl\Token\Token;
+use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -92,13 +94,16 @@ class AccessCheckerTest extends BoltUnitTest
         $ipAddress = '8.8.8.8';
         $userAgent = 'Bolt PHPUnit tests';
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
-        $logger->expects($this->atLeastOnce())
+        $logger = $this->getMockBuilder(FlashLogger::class)
+            ->setMethods(['info', 'has'])
+            ->getMock()
+        ;
+        $logger
+            ->expects($this->atLeastOnce())
             ->method('info')
-            ->with($this->equalTo('You have been logged out.'));
+            ->with($this->equalTo('You have been logged out.'))
+        ;
         $app['logger.flash'] = $logger;
-
-        $app->boot();
 
         $userEntity = new Entity\Users();
         $tokenEntity = new Entity\Authtoken();
@@ -119,7 +124,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -177,13 +182,14 @@ class AccessCheckerTest extends BoltUnitTest
         $accessControl = $this->getAccessControl();
         $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
-        $mockAuth = $this->getMock('Bolt\Storage\Entity\Authtoken', ['getToken']);
-        $mockAuth
+        $mockAuth =$this->getMockBuilder(Entity\Authtoken::class)
+            ->setMethods(['getToken'])
+            ->getMock()
             ->expects($this->once())
             ->method('getToken');
         $app['storage']->setRepository('Bolt\Storage\Entity\Authtoken', $mockAuth);
 
-        $mockUser = $this->getMock('Bolt\Storage\Entity\Users', ['getUser']);
+        $mockUser = $this->getMockUsers();
         $mockUser
             ->expects($this->never())
             ->method('getUser');

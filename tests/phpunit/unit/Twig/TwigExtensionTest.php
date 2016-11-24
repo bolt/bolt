@@ -74,7 +74,7 @@ class TwigExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser'], [$app]);
+        $users = $this->getMockUsers(['getCurrentUser']);
         $users
             ->expects($this->atLeastOnce())
             ->method('getCurrentUser')
@@ -613,13 +613,16 @@ class TwigExtensionTest extends BoltUnitTest
      * @param string $name
      * @param string $method
      *
-     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getMockHandler($name, $method)
     {
-        $app = $this->getApp();
         $name = 'Bolt\\Twig\\Handler\\' . $name;
-        $handler = $this->getMock($name, [$method], [$app]);
+        $handler = $this->getMockBuilder($name)
+            ->setMethods([$method])
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
         $handler
             ->expects($this->once())
             ->method($method)

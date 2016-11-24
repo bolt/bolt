@@ -19,7 +19,7 @@ class ThumbnailUrlTest extends BoltUnitTest
         $manager = new Manager([]);
         $manager->mountFilesystem('files', $fs);
 
-        $urlGenerator = $this->getMock(UrlGeneratorInterface::class);
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $urlGenerator->expects($this->once())
             ->method('generate')
             ->with('thumb', [
@@ -39,7 +39,7 @@ class ThumbnailUrlTest extends BoltUnitTest
 
     public function testName()
     {
-        $urlGenerator = $this->getMock(UrlGeneratorInterface::class);
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $plugin = new Plugin\ThumbnailUrl($urlGenerator);
 
         $this->assertEquals('thumb', $plugin->getMethod());
