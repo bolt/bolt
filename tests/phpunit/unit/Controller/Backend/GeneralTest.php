@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Controller\Zone;
+use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -122,7 +123,7 @@ class GeneralTest extends ControllerUnitTest
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
         // Test for the Exception if connection fails to the prefill service
-        $store = $this->getMock('Bolt\Storage', ['preFill'], [$this->getApp()]);
+        $store = $this->getMock(Storage::class, ['preFill'], [$this->getApp()]);
 
         $app = $this->getApp();
         if ($app['guzzle.api_version'] === 5) {
