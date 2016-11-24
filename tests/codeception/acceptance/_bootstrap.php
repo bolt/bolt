@@ -72,3 +72,6 @@ Fixtures::add('tokenNames', [
     'session'   => 'bolt_session_' . md5('localhost:8123'),
     'authtoken' => 'bolt_authtoken_' . md5('localhost:8123'),
 ]);
+
+// Temporary hack
+restore_error_handler();
