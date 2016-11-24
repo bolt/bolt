@@ -67,7 +67,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('imageinfo',          [$this, 'imageInfo']),
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
-            new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
