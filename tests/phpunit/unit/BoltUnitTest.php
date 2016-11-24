@@ -174,12 +174,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function getRenderMock(Application $app)
     {
-        $render = $this->getMock(Render::class, ['render', 'fetchCachedRequest'], [$app]);
-        $render->expects($this->any())
-            ->method('fetchCachedRequest')
-            ->will($this->returnValue(false));
-
-        return $render;
+        return $this->getMock(Render::class, ['render'], [$app]);
     }
 
     protected function checkTwigForTemplate(Application $app, $testTemplate)
