@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Storage;
 
-use Bolt\Legacy;
 use Bolt\Events\StorageEvents;
+use Bolt\Legacy;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;

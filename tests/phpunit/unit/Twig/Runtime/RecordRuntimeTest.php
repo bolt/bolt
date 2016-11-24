@@ -7,6 +7,7 @@ use Bolt\Legacy\Content;
 use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
 use Bolt\Routing\Canonical;
+use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
@@ -251,6 +252,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
         $app['request_stack']->push($request);
+        /** @var Repository $repo */
         $repo = $app['storage']->getRepository('pages');
         $content = $repo->find(1);
 
@@ -314,7 +316,6 @@ GRINGALET;
 
     public function testExcerptNonContentClassObject()
     {
-        $app = $this->getApp();
         $handler = $this->getRecordRuntime();
 
         $content = (new Snippet())->setCallback($this->original);
@@ -325,7 +326,6 @@ GRINGALET;
 
     public function testExcerptArray()
     {
-        $app = $this->getApp();
         $handler = $this->getRecordRuntime();
 
         $content = [
@@ -348,7 +348,6 @@ GRINGALET;
 
     public function testExcerptString()
     {
-        $app = $this->getApp();
         $handler = $this->getRecordRuntime();
 
         $result = $handler->excerpt($this->original, 87);
@@ -357,7 +356,6 @@ GRINGALET;
 
     public function testExcerptNull()
     {
-        $app = $this->getApp();
         $handler = $this->getRecordRuntime();
 
         $result = $handler->excerpt(null);
@@ -431,7 +429,7 @@ GRINGALET;
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertContains('Koala', $result);
 
-        $result = $handler->listTemplates('*styleguide*', false);
+        $result = $handler->listTemplates('*styleguide*');
         $this->assertArrayHasKey('styleguide.twig', $result);
         $this->assertContains('Clippy', $result);
 
