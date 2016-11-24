@@ -68,7 +68,6 @@ class ConfigListener implements EventSubscriberInterface
 
         // Twig globals
         $this->setGlobals(false);
-        $this->setGlobals(true);
 
         // Only cache if the config passes checks
         if ($this->app['config']->checkConfig() === false) {
