@@ -31,10 +31,6 @@ class Manager implements SchemaManagerInterface
     /** @var \Silex\Application */
     private $app;
 
-    /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-    const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
-    const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
-
     /**
      * Constructor.
      *
@@ -45,27 +41,6 @@ class Manager implements SchemaManagerInterface
         $this->app = $app;
         $this->connection = $app['db'];
         $this->config = $app['config'];
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
-     *
-     * @param string $name
-     * @param mixed  $args
-     */
-    public function __call($name, $args)
-    {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed, integrity checker function: ' . $name, ['event' => 'deprecated']);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
-     *
-     * @param string $name
-     */
-    public function __get($name)
-    {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed integrity, checker property: ' . $name, ['event' => 'deprecated']);
     }
 
     /**
