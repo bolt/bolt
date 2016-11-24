@@ -74,7 +74,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('menu',               [$this, 'menu'],        $env + $safe),
             new \Twig_SimpleFunction('pager',              [$this, 'pager'],       $env),
             new \Twig_SimpleFunction('popup',              [$this, 'popup'],       $safe),
-            new \Twig_SimpleFunction('print',              [$this, 'printDump'],   $deprecated + ['alternative' => 'dump']),
             new \Twig_SimpleFunction('randomquote',        [$this, 'randomQuote'], $safe),
             new \Twig_SimpleFunction('redirect',           [$this, 'redirect'],    $safe),
             new \Twig_SimpleFunction('request',            [$this, 'request']),
@@ -432,16 +431,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function printBacktrace($depth = 15)
     {
         return $this->handlers['utils']->printBacktrace($depth, $this->safe);
-    }
-
-    /**
-     * Just for safe_twig. Main twig overrides this function.
-     *
-     * @see \Bolt\Provider\TwigServiceProvider
-     */
-    public function printDump()
-    {
-        return null;
     }
 
     /**

@@ -419,15 +419,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->printBacktrace(null, null);
     }
 
-    public function testPrintDump()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->printDump(null, null);
-    }
-
     public function testPrintFirebug()
     {
         $app = $this->getApp();
