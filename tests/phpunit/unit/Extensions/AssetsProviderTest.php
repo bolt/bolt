@@ -205,23 +205,6 @@ HTML;
         return $app;
     }
 
-    public function testBadExtensionSnippets()
-    {
-        $app = $this->getApp();
-        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
-            $app['asset.injector'],
-            $app['cache'],
-            $app['config'],
-            $app['resources'],
-            $app['request_stack']
-        );
-        new Mock\BadExtensionSnippets($app);
-        $response = new Response($this->template);
-
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
-        $this->assertEquals($this->html($this->snippetException), $this->html($response->getContent()));
-    }
-
     public function testAddCss()
     {
         $app = $this->getApp();
