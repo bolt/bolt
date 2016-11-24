@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller;
 
+use Bolt\AccessControl\Permissions;
 use Bolt\Configuration\Validation\Validator;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;

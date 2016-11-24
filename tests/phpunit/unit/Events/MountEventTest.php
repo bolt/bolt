@@ -31,7 +31,7 @@ class MountEventTest extends BoltUnitTest
         $app = $this->getApp();
 
         $route = new Route('/');
-        $controllers = $this->getMock('Silex\ControllerCollection', ['mount'], [$route]);
+        $controllers = $this->getMockControllerCollection(['mount'], $route);
         $controllers
             ->expects($this->once())
             ->method('mount')
@@ -46,7 +46,7 @@ class MountEventTest extends BoltUnitTest
         $app = $this->getApp();
 
         $route = new Route('/');
-        $controllers = $this->getMock('Silex\ControllerCollection', ['connect', 'mount'], [$route]);
+        $controllers = $this->getMockControllerCollection(['connect', 'mount'], $route);
         $controllers
             ->expects($this->never())
             ->method('mount')
@@ -62,7 +62,7 @@ class MountEventTest extends BoltUnitTest
         $app = $this->getApp();
 
         $route = new Route('/');
-        $controllers = $this->getMock('Silex\ControllerCollection', ['connect', 'mount'], [$route]);
+        $controllers = $this->getMockControllerCollection(['connect', 'mount'], $route);
         $controllers
             ->expects($this->never())
             ->method('mount')
@@ -72,6 +72,22 @@ class MountEventTest extends BoltUnitTest
 
         $mountEvent = new MountEvent($app, $controllers);
         $mountEvent->mount('/', new ControllerMock($route));
+    }
+
+    /**
+     * @param array $methods
+     *
+     * @param Route $route
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject|ControllerCollection
+     */
+    protected function getMockControllerCollection($methods = ['connect', 'mount'], Route $route)
+    {
+        return $this->getMockBuilder(ControllerCollection::class)
+            ->setMethods($methods)
+            ->setConstructorArgs([$route])
+            ->getMock()
+        ;
     }
 }
 

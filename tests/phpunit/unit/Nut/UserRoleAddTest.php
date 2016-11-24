@@ -15,7 +15,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testAdd()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app);
+        $app['users'] = $this->getUserMockWithReturns();
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
@@ -27,7 +27,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testRoleExists()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app, true);
+        $app['users'] = $this->getUserMockWithReturns(true);
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
@@ -39,7 +39,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testRoleFails()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app, false, false);
+        $app['users'] = $this->getUserMockWithReturns(false, false);
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
@@ -48,9 +48,10 @@ class UserRoleAddTest extends BoltUnitTest
         $this->assertRegExp('/Could not add role/', trim($result));
     }
 
-    protected function getUserMock($app, $hasRole = false, $addRole = true)
+    protected function getUserMockWithReturns($hasRole = false, $addRole = true)
     {
-        $users = $this->getMock('Bolt\Users', ['hasRole', 'addRole'], [$app]);
+        /** @var \PHPUnit_Framework_MockObject_MockObject $users */
+        $users = $this->getMockUsers(['hasRole', 'addRole']);
         $users->expects($this->any())
             ->method('hasRole')
             ->will($this->returnValue($hasRole));

@@ -2,11 +2,13 @@
 
 namespace Bolt\Tests\Asset;
 
+use Bolt\Asset\BoltVersionStrategy;
 use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
+use Bolt\Tests\Extensions\Mock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -189,7 +191,11 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp(false);
-        $mock = $this->getMock('\Bolt\Asset\BoltVersionStrategy', ['getVersion'], [$app['filesystem']->getFilesystem('extensions')->getDir(''), $app['asset.salt']]);
+        $mock = $this->getMockBuilder(BoltVersionStrategy::class)
+            ->setMethods(['getVersion'])
+            ->setConstructorArgs([$app['filesystem']->getFilesystem('extensions')->getDir(''), $app['asset.salt']])
+            ->getMock()
+        ;
         $mock->expects($this->any())
             ->method('getVersion')
             ->will($this->returnCallback(

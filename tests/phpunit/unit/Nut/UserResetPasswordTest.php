@@ -3,9 +3,11 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserResetPassword;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -19,6 +21,7 @@ class UserResetPasswordTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
+        /** @var Repository\UsersRepository $repo */
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
         $user = new Entity\Users([
             'username'    => 'koala',
@@ -32,7 +35,10 @@ class UserResetPasswordTest extends BoltUnitTest
         $command = new UserResetPassword($app);
         $tester = new CommandTester($command);
 
-        $helper = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        $helper = $this->getMockBuilder(QuestionHelper::class)
+            ->setMethods(['ask'])
+            ->getMock()
+        ;
         $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue(true));

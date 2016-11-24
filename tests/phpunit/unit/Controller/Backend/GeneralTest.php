@@ -34,7 +34,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt'));
 
         $request = $this->getRequest();
-        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
 
         $this->assertEquals('backend', Zone::get($request));
@@ -53,7 +53,7 @@ class GeneralTest extends ControllerUnitTest
     public function testClearCache()
     {
         $this->allowLogin($this->getApp());
-        $cache = $this->getCacheMock();
+        $cache = $this->getMockCache();
         $cache->expects($this->at(0))
             ->method('flushAll')
             ->will($this->returnValue(false));
@@ -122,7 +122,11 @@ class GeneralTest extends ControllerUnitTest
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
         // Test for the Exception if connection fails to the prefill service
-        $store = $this->getMock(Storage::class, ['preFill'], [$this->getApp()]);
+        $store = $this->getMockBuilder(Storage::class)
+            ->setMethods(['preFill'])
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
 
         $app = $this->getApp();
         if ($app['guzzle.api_version'] === 5) {
@@ -138,7 +142,7 @@ class GeneralTest extends ControllerUnitTest
 
         $this->setService('storage', $store);
 
-        $logger = $this->getMock('Monolog\Logger', ['error'], ['test']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->once())
             ->method('error')
             ->with("Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.");

@@ -6,6 +6,7 @@ use Bolt\Controller\Zone;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class GeneralTest extends ControllerUnitTest
         $request = $this->getRequest();
         $request->cookies->set($app['token.authentication.name'], 'dropbear');
 
-        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
 
         $this->assertEquals('async', Zone::get($request));
@@ -66,22 +67,13 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app = $this->getApp();
-        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
-
-        if ($app['guzzle.api_version'] === 5) {
-            $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
-            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
-        } else {
-            $guzzleInterface = $this->getMock('Psr\Http\Message\RequestInterface');
-            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
-        }
+        $testGuzzle = $this->getMockGuzzleClient();
+        $requestInterface = $this->createMock(RequestInterface::class);
+        $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $requestInterface)));
 
         $app['guzzle.client'] = $testGuzzle;
 
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app, $changeRepository, $systemRepository]);
-
+        $logger = $this->getMockLoggerManager();
         $logger->expects($this->at(1))
             ->method('error')
             ->with($this->stringContains('Error occurred'));
@@ -94,20 +86,14 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app = $this->getApp();
         $app['cache']->flushAll();
-        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
-        $testRequest = $this->getMock('GuzzleHttp\Message', ['getBody']);
-        $testRequest->expects($this->any())
-                    ->method('getBody')
-                    ->will($this->returnValue('invalidstring'));
+        $testGuzzle = $this->getMockGuzzleClient();
+        $testRequest = $this->createMock(RequestInterface::class);
         $testGuzzle->expects($this->any())
                     ->method('get')
                     ->will($this->returnValue($testRequest));
         $app['guzzle.client'] = $testGuzzle;
 
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app, $changeRepository, $systemRepository]);
-
+        $logger = $this->getMockLoggerManager();
         $logger->expects($this->at(1))
             ->method('error')
             ->with($this->stringContains('Invalid JSON'));
@@ -122,14 +108,15 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app['config']->set('general/branding/news_variable', 'testing');
 
-        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
-        $testRequest = $this->getMock('GuzzleHttp\Message', ['getBody']);
-        $testRequest->expects($this->any())
-                    ->method('getBody')
-                    ->will($this->returnValue('{"testing":[{"item":"one"},{"item":"two"},{"item":"three"}]}'));
+        $testGuzzle = $this->getMockGuzzleClient();
+        $requestInterface = $this->createMock(RequestInterface::class);
+        $requestInterface
+            ->method('getBody')
+            ->will($this->returnValue('{"testing":[{"item":"one"},{"item":"two"},{"item":"three"}]}'))
+        ;
         $testGuzzle->expects($this->any())
                     ->method('get')
-                    ->will($this->returnValue($testRequest));
+                    ->will($this->returnValue($requestInterface));
         $app['guzzle.client'] = $testGuzzle;
 
         $response = $this->controller()->dashboardNews($this->getRequest());

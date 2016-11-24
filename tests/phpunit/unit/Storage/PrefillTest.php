@@ -27,8 +27,7 @@ class PrefillTest extends BoltUnitTest
             $request = new Request('GET', '/');
         }
 
-        $guzzle = $this->getMock('GuzzleHttp\Client', ['get']);
-
+        $guzzle = $this->getMockGuzzleClient();
         $guzzle->expects($this->once())
             ->method('get')
             ->with('http://loripsum.net/api/1/veryshort')

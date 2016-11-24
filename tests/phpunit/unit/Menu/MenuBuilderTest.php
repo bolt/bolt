@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Menu;
 
+use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Tests\BoltUnitTest;
@@ -193,7 +194,11 @@ class MenuBuilderTest extends BoltUnitTest
 
         $contentMock = null;
         if (false !== $content) {
-            $contentMock = $this->getMock('Bolt\Legacy\Content', ['getContent', 'link'], [$app], '', false);
+            $contentMock = $this->getMockBuilder(Content::class)
+                ->setMethods(['getContent', 'link'])
+                ->setConstructorArgs([$app])
+                ->getMock()
+            ;
             $contentMock->expects($this->once())
                 ->method('link')
                 ->will($this->returnValue($link));
@@ -203,7 +208,11 @@ class MenuBuilderTest extends BoltUnitTest
             }
         }
 
-        $storage = $this->getMock(Storage::class, ['getContent'], [$app]);
+        $storage = $this->getMockBuilder(Storage::class)
+            ->setMethods(['getContent', 'link'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $storage->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($contentMock));
