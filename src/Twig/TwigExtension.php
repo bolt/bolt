@@ -81,7 +81,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('stack',              [$this, 'stack']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
-            new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFunction('unique',             [$this, 'unique'],      $safe),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
@@ -117,7 +116,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('shy',            [$this, 'shy'],               $safe),
             new \Twig_SimpleFilter('slug',           [$this, 'slug']),
             new \Twig_SimpleFilter('thumbnail',      [$this, 'thumbnail']),
-            new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
             new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
             new \Twig_SimpleFilter('ucfirst',        'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
@@ -562,14 +560,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         $numArgs = func_num_args();
 
         return $this->handlers['admin']->trans($args, $numArgs);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see \Bolt\Twig\TwigExtension::excerpt} instead
-     */
-    public function trim($content, $length = 200)
-    {
-        return $this->excerpt($content, $length);
     }
 
     /**

@@ -579,16 +579,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->trans(null, null);
     }
 
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['record'] = $this->getMockHandler('RecordHandler', 'excerpt');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->trim(null, null);
-    }
-
     public function testTwig()
     {
         $app = $this->getApp();
