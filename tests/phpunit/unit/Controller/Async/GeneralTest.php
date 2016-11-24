@@ -67,14 +67,8 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app = $this->getApp();
         $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
-
-        if ($app['guzzle.api_version'] === 5) {
-            $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
-            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
-        } else {
-            $guzzleInterface = $this->getMock('Psr\Http\Message\RequestInterface');
-            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
-        }
+        $guzzleInterface = $this->getMock('Psr\Http\Message\RequestInterface');
+        $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
 
         $app['guzzle.client'] = $testGuzzle;
 

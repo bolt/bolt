@@ -125,12 +125,7 @@ class GeneralTest extends ControllerUnitTest
         // Test for the Exception if connection fails to the prefill service
         $store = $this->getMock(Storage::class, ['preFill'], [$this->getApp()]);
 
-        $app = $this->getApp();
-        if ($app['guzzle.api_version'] === 5) {
-            $guzzleRequest = new \GuzzleHttp\Message\Request('GET', '');
-        } else {
-            $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', '');
-        }
+        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', '');
         $store->expects($this->any())
             ->method('preFill')
             ->will($this->returnCallback(function () use ($guzzleRequest) {

@@ -10,7 +10,6 @@ use Composer\Package\CompletePackageInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Ring\Client\ClientUtils;
 use Silex\Application;
 
 class PackageManager
@@ -110,11 +109,7 @@ class PackageManager
         }
 
         try {
-            if ($this->app['guzzle.api_version'] === 5) {
-                ClientUtils::getDefaultCaBundle();
-            } else {
-                \GuzzleHttp\default_ca_bundle();
-            }
+            \GuzzleHttp\default_ca_bundle();
 
             return $this->useSsl = true;
         } catch (\RuntimeException $e) {
