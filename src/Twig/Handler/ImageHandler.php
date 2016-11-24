@@ -92,9 +92,6 @@ class ImageHandler
      * example: {{ popup(content.image, 320, 240) }}
      * example: {{ content.image|popup(width=320, height=240, title="My Image") }}
      *
-     * Note: This function used to be called 'fancybox', but Fancybox was
-     * deprecated in favour of the Magnific Popup library.
-     *
      * @param string|array $fileName Image file name
      * @param integer      $width    Image width
      * @param integer      $height   Image height
