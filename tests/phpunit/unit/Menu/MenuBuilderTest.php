@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Menu;
 
+use Bolt\Legacy\Storage;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -201,7 +203,7 @@ class MenuBuilderTest extends BoltUnitTest
             }
         }
 
-        $storage = $this->getMock('Bolt\Storage', ['getContent'], [$app]);
+        $storage = $this->getMock(Storage::class, ['getContent'], [$app]);
         $storage->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($contentMock));
