@@ -15,24 +15,10 @@ use Symfony\Component\Stopwatch;
 class Application extends Silex\Application
 {
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use $app['locale_fallbacks'] instead.
-     */
-    const DEFAULT_LOCALE = 'en_GB';
-
-    /**
      * @param array $values
      */
     public function __construct(array $values = [])
     {
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_version'] = Version::VERSION;
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_name'] = Version::name();
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_released'] = Version::isStable();
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_long_version'] = Version::VERSION;
-
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
