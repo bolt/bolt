@@ -101,7 +101,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('image',          [$this, 'image']),
             new \Twig_SimpleFilter('imageinfo',      [$this, 'imageInfo']),
             new \Twig_SimpleFilter('json_decode',    [$this, 'jsonDecode']),
-            new \Twig_SimpleFilter('localdate',      [$this, 'localeDateTime'],    $safe + $deprecated + ['alternative' => 'localedatetime']),
             new \Twig_SimpleFilter('localedatetime', [$this, 'localeDateTime'],    $safe),
             new \Twig_SimpleFilter('loglevel',       [$this, 'logLevel']),
             new \Twig_SimpleFilter('markdown',       [$this, 'markdown'],          $safe),
