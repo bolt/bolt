@@ -2558,7 +2558,7 @@ class Storage
         }
 
         // Get the contenttype from first $content
-        $ct = $content[util::array_first_key($content)];
+        $ct = reset($content);
         $contenttype = isset($ct->contenttype['key']) ? $ct->contenttype['key'] : $ct->contenttype['slug'];
 
         $query = sprintf(
