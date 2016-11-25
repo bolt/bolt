@@ -1027,6 +1027,7 @@ class Config
                         $newRelKey = str_replace('-', '_', strtolower(Str::makeSafe($relKey, true)));
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
                         $this->data['contenttypes'][$key]['relations'][$newRelKey] = $relData;
+                        $relKey = $newRelKey;
                     }
                     if (!isset($this->data['contenttypes'][$relKey])) {
                         $error = Trans::__(
