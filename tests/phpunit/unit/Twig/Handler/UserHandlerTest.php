@@ -98,7 +98,7 @@ class UserHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handler = new UserHandler($app);
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')
@@ -115,7 +115,7 @@ class UserHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handler = new UserHandler($app);
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')
@@ -131,7 +131,7 @@ class UserHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handler = new UserHandler($app);
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')

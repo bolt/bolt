@@ -15,24 +15,10 @@ use Symfony\Component\Stopwatch;
 class Application extends Silex\Application
 {
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use $app['locale_fallbacks'] instead.
-     */
-    const DEFAULT_LOCALE = 'en_GB';
-
-    /**
      * @param array $values
      */
     public function __construct(array $values = [])
     {
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_version'] = Version::VERSION;
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_name'] = Version::name();
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_released'] = Version::isStable();
-        /** @deprecated since 3.0, to be removed in 4.0. */
-        $values['bolt_long_version'] = Version::VERSION;
-
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
@@ -133,20 +119,8 @@ class Application extends Silex\Application
         // Do a version check
         $this['config.environment']->checkVersion();
 
-        // Calling for BC. Controllers are mounted in ControllerServiceProvider now.
-        $this->initMountpoints();
-
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
-
-        // Initialize the global 'before' handler.
-        $this->before([$this, 'beforeHandler']);
-
-        // Initialize the global 'after' handler.
-        $this->after([$this, 'afterHandler']);
-
-        // Calling for BC. Initialize the 'error' handler.
-        $this->error([$this, 'errorHandler']);
     }
 
     /**
@@ -163,13 +137,6 @@ class Application extends Silex\Application
     public function initDatabase()
     {
         $this->register(new Provider\DatabaseServiceProvider());
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    protected function checkDatabaseConnection()
-    {
     }
 
     /**
@@ -297,34 +264,6 @@ class Application extends Silex\Application
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
-     */
-    public function initMountpoints()
-    {
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function beforeHandler()
-    {
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function afterHandler()
-    {
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function errorHandler()
-    {
-    }
-
-    /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string $name
@@ -334,34 +273,5 @@ class Application extends Silex\Application
     public function __isset($name)
     {
         return isset($this[$name]);
-    }
-
-    /**
-     * Get the Bolt version string
-     *
-     * @return string
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *             Use parameters in application instead
-     */
-    public function getVersion()
-    {
-        return Version::VERSION;
-    }
-
-    /**
-     * Generates a path from the given parameters.
-     *
-     * @param string $route      The name of the route
-     * @param array  $parameters An array of parameters
-     *
-     * @return string The generated path
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *             Use {@see \Symfony\Component\Routing\Generator\UrlGeneratorInterface} instead.
-     */
-    public function generatePath($route, $parameters = [])
-    {
-        return $this['url_generator']->generate($route, $parameters);
     }
 }

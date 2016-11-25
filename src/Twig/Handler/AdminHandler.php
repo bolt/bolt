@@ -57,11 +57,6 @@ class AdminHandler
         $this->app['jsdata'] = $jsdata;
     }
 
-    public function isChangelogEnabled()
-    {
-        return $this->app['config']->get('general/changelog/enabled');
-    }
-
     /**
      * Return whether or not a file is stackable.
      *
@@ -201,7 +196,7 @@ class AdminHandler
 
         $matches = [];
         if (preg_match('/ ([a-z0-9_-]+\.yml)/i', $str, $matches)) {
-            $path = $this->app->generatePath('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
+            $path = $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
             $link = sprintf(' <a href="%s">%s</a>', $path, $matches[1]);
             $str = preg_replace('/ ([a-z0-9_-]+\.yml)/i', $link, $str);
         }

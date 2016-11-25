@@ -16,7 +16,10 @@ class SimpleExtensionTest extends BoltUnitTest
     public function testRegister()
     {
         $app = $this->getApp();
-        $mock = $this->getMock('Bolt\Tests\Extension\Mock\NormalExtension', ['getContainer']);
+        $mock = $this->getMockBuilder(NormalExtension::class)
+            ->setMethods(['getContainer'])
+            ->getMock()
+        ;
         $mock->expects($this->atLeast(4))->method('getContainer')->willReturn($app);
 
         /** @var NormalExtension $mock */

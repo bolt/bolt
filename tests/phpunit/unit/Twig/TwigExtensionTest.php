@@ -74,7 +74,7 @@ class TwigExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser'], [$app]);
+        $users = $this->getMockUsers(['getCurrentUser']);
         $users
             ->expects($this->atLeastOnce())
             ->method('getCurrentUser')
@@ -299,16 +299,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->isAllowed(null, null);
     }
 
-    public function testIsChangelogEnabled()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'isChangelogEnabled');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->isChangelogEnabled();
-    }
-
     public function testIsMobileClient()
     {
         $app = $this->getApp();
@@ -427,15 +417,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig = new TwigExtension($app, $handlers, true);
 
         $twig->printBacktrace(null, null);
-    }
-
-    public function testPrintDump()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->printDump(null, null);
     }
 
     public function testPrintFirebug()
@@ -598,16 +579,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->trans(null, null);
     }
 
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['record'] = $this->getMockHandler('RecordHandler', 'excerpt');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->trim(null, null);
-    }
-
     public function testTwig()
     {
         $app = $this->getApp();
@@ -642,13 +613,16 @@ class TwigExtensionTest extends BoltUnitTest
      * @param string $name
      * @param string $method
      *
-     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getMockHandler($name, $method)
     {
-        $app = $this->getApp();
         $name = 'Bolt\\Twig\\Handler\\' . $name;
-        $handler = $this->getMock($name, [$method], [$app]);
+        $handler = $this->getMockBuilder($name)
+            ->setMethods([$method])
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
         $handler
             ->expects($this->once())
             ->method($method)

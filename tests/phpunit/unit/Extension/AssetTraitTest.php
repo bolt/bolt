@@ -9,6 +9,8 @@ use Bolt\Asset\Widget\Widget;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
+use Bolt\Filesystem\Handler\File;
+use Bolt\Filesystem\Manager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\AssetExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
@@ -100,7 +102,10 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
 
-        $mockFile = $this->getMock('\Bolt\Filesystem\Handler\File', ['exists', 'getPath']);
+        $mockFile = $this->getMockBuilder(File::class)
+            ->setMethods(['exists', 'getPath'])
+            ->getMock()
+        ;
         $mockFile
             ->method('exists')
             ->willReturn(true)
@@ -109,7 +114,10 @@ class AssetTraitTest extends BoltUnitTest
             ->method('getPath')
             ->willReturn('/extensions/local/bolt/koala/test.js')
         ;
-        $mockDir = $this->getMock('\Bolt\Filesystem\Handler\Directory', ['getFile']);
+        $mockDir = $this->getMockBuilder(Directory::class)
+            ->setMethods(['getFile'])
+            ->getMock()
+        ;
         $mockDir
             ->method('getFile')
             ->willReturn($mockFile)
@@ -143,7 +151,11 @@ class AssetTraitTest extends BoltUnitTest
             'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
             'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
         ];
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
+        $mock = $this->getMockBuilder(Manager::class)
+            ->setMethods(['has'])
+            ->setConstructorArgs([$mockParams])
+            ->getMock()
+        ;
         $mock->expects($this->any())
             ->method('has')
             ->willReturn(true)

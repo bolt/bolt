@@ -1,92 +1,89 @@
 {
-    "name" : "bolt/bolt",
-    "description" : "Sophisticated, lightweight & simple CMS",
-    "homepage" : "http://bolt.cm",
-    "keywords" : [
+    "name": "bolt/bolt",
+    "description": "Sophisticated, lightweight & simple CMS",
+    "homepage": "http://bolt.cm",
+    "keywords": [
         "CMS",
         "Silex",
         "PHP",
         "Symfony"
     ],
-    "license" : "MIT",
-    "require" : {
-        "bolt/filesystem" : "^2.0",
-        "bolt/pathogen" : "~0.6",
-        "bolt/thumbs" : "^3.1.1",
-        "brandonwamboldt/utilphp" : "~1.0",
-        "cocur/slugify" : "~1.0",
-        "composer/composer" : "^1.2",
-        "doctrine/cache" : "^1.5",
-        "doctrine/dbal" : "^2.5",
-        "erusev/parsedown-extra" : "~0.2",
-        "ext-mbstring" : "*",
-        "ext-pdo" : "*",
-        "filp/whoops" : "~2.0",
-        "guzzlehttp/guzzle": "^5.3.1 || ^6.2.1",
-        "ircmaxell/random-lib" : "~1.1",
+    "license": "MIT",
+    "require": {
+        "bolt/filesystem": "^2.0",
+        "bolt/pathogen": "^0.6",
+        "bolt/thumbs": "^3.1.1",
+        "cocur/slugify": "^2.0",
+        "composer/composer": "^1.2",
+        "doctrine/cache": "^1.5",
+        "doctrine/dbal": "^2.5",
+        "erusev/parsedown-extra": "^0.7",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^6.2.1",
         "jdorn/sql-formatter": "^1.2",
-        "monolog/monolog" : "~1.12",
-        "nesbot/carbon" : "^1.20",
+        "monolog/monolog": "^1.21",
+        "nesbot/carbon": "^1.21",
         "paragonie/random_compat": "^1.4",
         "PasswordLib/PasswordLib": "^1.0@beta",
-        "php" : ">=5.5.9",
-        "silex/silex" : "^1.3",
-        "silex/web-profiler" : "^1.0",
-        "siriusphp/upload" : "~1.2",
-        "stecman/symfony-console-completion" : "~0.4",
-        "swiftmailer/swiftmailer" : "~5.3",
-        "symfony/asset" : "^3.0",
-        "symfony/config" : "^3.0",
+        "php": "^5.6 || ^7.0",
+        "silex/silex": "^1.3",
+        "silex/web-profiler": "^1.0",
+        "siriusphp/upload": "^1.3",
+        "stecman/symfony-console-completion": "^0.7",
+        "swiftmailer/swiftmailer": "^5.4",
+        "symfony/asset": "^3.0",
+        "symfony/config": "^3.0",
         "symfony/event-dispatcher": "^3.0",
-        "symfony/form" : "^3.0",
+        "symfony/form": "^3.0",
         "symfony/options-resolver": "^3.0",
         "symfony/process": "^3.0",
-        "symfony/security" : "^3.0",
+        "symfony/security": "^3.0",
         "symfony/stopwatch": "^2.8",
-        "symfony/translation" : "^3.0",
-        "symfony/validator" : "^3.0",
-        "symfony/var-dumper" : "^3.0",
-        "symfony/web-profiler-bundle" : "^2.8",
-        "symfony/yaml" : "^3.0",
-        "tdammers/htmlmaid" : "~0.7",
-        "twig/twig" : "^1.27",
-        "ua-parser/uap-php" : "~3.4"
+        "symfony/translation": "^3.0",
+        "symfony/validator": "^3.0",
+        "symfony/var-dumper": "^3.0",
+        "symfony/web-profiler-bundle": "^2.8",
+        "symfony/yaml": "^3.0",
+        "tdammers/htmlmaid": "^0.7",
+        "twig/twig": "^1.28",
+        "ua-parser/uap-php": "^3.4"
     },
-    "require-dev" : {
-        "bolt/codingstyle" : "~1.0",
-        "codeception/codeception" : "2.2.1",
+    "require-dev": {
+        "bolt/codingstyle": "^1.0",
+        "codeception/codeception": "2.2.1",
         "league/flysystem-memory": "^1.0",
-        "lstrojny/phpunit-function-mocker" : "0.3.0",
-        "phpmd/phpmd" : "~2.2",
-        "phpunit/dbunit" : "~1.3",
-        "phpunit/php-code-coverage" : "~2.0",
-        "phpunit/phpunit" : "^4.8",
-        "sebastian/phpcpd" : "~2.0",
-        "squizlabs/php_codesniffer" : "~2.0",
-        "symfony/phpunit-bridge" : "^3.0"
+        "lstrojny/phpunit-function-mocker": "^0.4.0",
+        "phpmd/phpmd": "^2.5",
+        "phpunit/dbunit": "^2.0",
+        "phpunit/php-code-coverage": "^4.0",
+        "phpunit/phpunit": "^5.4",
+        "sebastian/phpcpd": "^2.0",
+        "squizlabs/php_codesniffer": "^2.7",
+        "symfony/phpunit-bridge": "^3.0"
     },
     "conflict": {
         "rossriley/flysystem53": "*"
     },
-    "autoload" : {
-        "psr-4" : {
-            "Bolt\\" : "src"
+    "autoload": {
+        "psr-4": {
+            "Bolt\\": "src"
         },
-        "files" : [
+        "files": [
             "app/deprecated.php"
         ]
     },
-    "autoload-dev" : {
-        "psr-4" : {
-            "Bolt\\Tests\\" : "tests/phpunit/unit"
+    "autoload-dev": {
+        "psr-4": {
+            "Bolt\\Tests\\": "tests/phpunit/unit"
         }
     },
-    "bin" : [
+    "bin": [
         "app/nut"
     ],
-    "extra" : {
-        "branch-alias" : {
-            "dev-master" : "4.0.x-dev"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
         }
     }
 }

@@ -6,6 +6,7 @@ use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Response\TemplateResponse;
+use Bolt\TemplateChooser;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -32,7 +33,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
 
         $request = $this->getRequest();
-        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $kernel = $this->createMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
 
         $this->assertEquals('frontend', Zone::get($request));
@@ -137,7 +138,11 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create($expected));
         $app['request_context']->fromRequest($this->getRequest());
 
-        $templates = $this->getMock('Bolt\TemplateChooser', ['record'], [$this->getApp()]);
+        $templates = $this->getMockBuilder(TemplateChooser::class)
+            ->setMethods(['record'])
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
         $templates->expects($this->any())
             ->method('record')
             ->will($this->returnValue('index.twig'));
@@ -162,7 +167,7 @@ class FrontendTest extends ControllerUnitTest
         $content1->id = 5;
         $content1['slug'] = 'foo';
 
-        $storage = $this->getMock(Storage::class, ['getContent'], [$app]);
+        $storage = $this->getMockStorage(['getContent']);
         $app['storage'] = $storage;
 
         $storage->expects($this->at(0))
@@ -185,7 +190,7 @@ class FrontendTest extends ControllerUnitTest
         $contentType = $this->getService('storage')->getContentType('pages');
         $content1 = new Content($this->getApp(), $contentType);
 
-        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
+        $storage = $this->getMockStorage(['getContent']);
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -207,7 +212,7 @@ class FrontendTest extends ControllerUnitTest
     public function testNoRecord()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
-        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
+        $storage = $this->getMockStorage();
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -226,7 +231,7 @@ class FrontendTest extends ControllerUnitTest
     public function testRecordNoTemplate()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
-        $storage = $this->getMock(Storage::class, ['getContent'], [$this->getApp()]);
+        $storage = $this->getMockStorage();
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -249,7 +254,7 @@ class FrontendTest extends ControllerUnitTest
         $contentType = $this->getService('storage')->getContentType('pages');
         $contentType['viewless'] = true;
 
-        $storage = $this->getMock(Storage::class, ['getContentType'], [$this->getApp()]);
+        $storage = $this->getMockStorage();
         $storage->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue($contentType));
@@ -272,11 +277,16 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages'));
         $this->controller()->listing($this->getRequest(), 'pages/test');
 
-        $templates = $this->getMock('Bolt\TemplateChooser', ['record'], [$this->getApp()]);
+        $templates = $this->getMockBuilder(TemplateChooser::class)
+            ->setMethods(['record'])
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
         $templates
             ->expects($this->any())
             ->method('record')
-            ->will($this->returnValue('record.twig'));
+            ->will($this->returnValue('record.twig'))
+        ;
         $this->setService('templatechooser', $templates);
 
         $response = $this->controller()->preview($this->getRequest(), 'pages');
@@ -302,7 +312,7 @@ class FrontendTest extends ControllerUnitTest
         $contentType = $this->getService('storage')->getContentType('pages');
         $contentType['viewless'] = true;
 
-        $storage = $this->getMock(Storage::class, ['getContentType'], [$this->getApp()]);
+        $storage = $this->getMockStorage();
         $storage->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue($contentType));
@@ -317,7 +327,7 @@ class FrontendTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/faketaxonomy/main'));
 
-        $storage = $this->getMock(Storage::class, ['getTaxonomyType'], [$this->getApp()]);
+        $storage = $this->getMockStorage();
         $storage->expects($this->once())
             ->method('getTaxonomyType')
             ->will($this->returnValue(false));
@@ -401,7 +411,7 @@ class FrontendTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/'));
 
-        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users = $this->getMockUsers();
 
         $users->expects($this->once())
             ->method('getUsers')
@@ -419,7 +429,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $this->getService('config')->set('general/maintenance_mode', true);
 
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
@@ -435,7 +445,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $this->getService('config')->set('general/maintenance_mode', true);
 
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));

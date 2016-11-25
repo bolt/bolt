@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Nut;
 
+use Bolt\Composer\PackageManager;
 use Bolt\Nut\ExtensionsInstall;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -17,7 +18,11 @@ class ExtensionsInstallTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock('Bolt\Composer\PackageManager', ['requirePackage'], [$app]);
+        $runner = $this->getMockBuilder(PackageManager::class)
+            ->setMethods(['requirePackage'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $runner->expects($this->any())
             ->method('requirePackage')
             ->will($this->returnValue(0));
@@ -36,7 +41,11 @@ class ExtensionsInstallTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock('Bolt\Composer\PackageManager', ['requirePackage'], [$app]);
+        $runner = $this->getMockBuilder(PackageManager::class)
+            ->setMethods(['requirePackage'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $runner->expects($this->any())
             ->method('requirePackage')
             ->will($this->returnValue(1));

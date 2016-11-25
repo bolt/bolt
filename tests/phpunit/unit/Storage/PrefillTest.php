@@ -3,9 +3,7 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Tests\BoltUnitTest;
-use GuzzleHttp\Message\MessageFactory;
 use GuzzleHttp\Psr7\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test src/Storage/Prefill.
@@ -17,18 +15,9 @@ class PrefillTest extends BoltUnitTest
     public function testUrl()
     {
         $app = $this->getApp();
+        $request = new Request('GET', '/');
 
-        $response = new Response(Response::HTTP_OK);
-
-        if ($app['guzzle.api_version'] === 5) {
-            $factory = new MessageFactory();
-            $request = $factory->createRequest('GET', '/');
-        } else {
-            $request = new Request('GET', '/');
-        }
-
-        $guzzle = $this->getMock('GuzzleHttp\Client', ['get']);
-
+        $guzzle = $this->getMockGuzzleClient();
         $guzzle->expects($this->once())
             ->method('get')
             ->with('http://loripsum.net/api/1/veryshort')

@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * This will replace current BaseExtension.
+ * Generic base class for Bolt extensions.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Logger;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 

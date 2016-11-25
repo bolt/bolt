@@ -27,27 +27,14 @@ class GuzzleServiceProvider implements ServiceProviderInterface
             );
         }
 
-        /** @deprecated Remove when Guzzle 5 support is dropped */
-        if (!isset($app['guzzle.plugins'])) {
-            $app['guzzle.plugins'] = [];
-        }
-
         // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
         $app['guzzle.client'] = $app->share(
             function () use ($app) {
-                if ($app['guzzle.api_version'] === 5) {
-                    $options = ['base_url' => $app['guzzle.base_url']];
-                    $client = new Client($options);
-                    foreach ($app['guzzle.plugins'] as $plugin) {
-                        $client->addSubscriber($plugin);
-                    }
-                } else {
-                    $options = [
-                        'base_uri' => $app['guzzle.base_url'],
-                        'handler'  => $app['guzzle.handler_stack'],
-                    ];
-                    $client = new Client($options);
-                }
+                $options = [
+                    'base_uri' => $app['guzzle.base_url'],
+                    'handler'  => $app['guzzle.handler_stack'],
+                ];
+                $client = new Client($options);
 
                 return $client;
             }

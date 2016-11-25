@@ -53,11 +53,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
             new \Twig_SimpleFunction('dump',               [$this, 'printDump']),
             new \Twig_SimpleFunction('excerpt',            [$this, 'excerpt'],     $safe),
-            new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFunction('fields',             [$this, 'fields'],      $env + $safe),
             new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists'],  $deprecated),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
-            new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
             new \Twig_SimpleFunction('getuserid',          [$this, 'getUserId']),
             new \Twig_SimpleFunction('getwidgets',         [$this, 'getWidgets'],  $safe),
@@ -68,16 +66,13 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('image',              [$this, 'image']),
             new \Twig_SimpleFunction('imageinfo',          [$this, 'imageInfo']),
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
-            new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
-            new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
             new \Twig_SimpleFunction('menu',               [$this, 'menu'],        $env + $safe),
             new \Twig_SimpleFunction('pager',              [$this, 'pager'],       $env),
             new \Twig_SimpleFunction('popup',              [$this, 'popup'],       $safe),
-            new \Twig_SimpleFunction('print',              [$this, 'printDump'],   $deprecated + ['alternative' => 'dump']),
             new \Twig_SimpleFunction('randomquote',        [$this, 'randomQuote'], $safe),
             new \Twig_SimpleFunction('redirect',           [$this, 'redirect'],    $safe),
             new \Twig_SimpleFunction('request',            [$this, 'request']),
@@ -85,7 +80,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('stack',              [$this, 'stack']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
-            new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFunction('unique',             [$this, 'unique'],      $safe),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
@@ -104,11 +98,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('current',        [$this, 'current']),
             new \Twig_SimpleFilter('editable',       [$this, 'editable'],          $safe),
             new \Twig_SimpleFilter('excerpt',        [$this, 'excerpt'],           $safe),
-            new \Twig_SimpleFilter('fancybox',       [$this, 'popup'],             $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFilter('image',          [$this, 'image']),
             new \Twig_SimpleFilter('imageinfo',      [$this, 'imageInfo']),
             new \Twig_SimpleFilter('json_decode',    [$this, 'jsonDecode']),
-            new \Twig_SimpleFilter('localdate',      [$this, 'localeDateTime'],    $safe + $deprecated + ['alternative' => 'localedatetime']),
             new \Twig_SimpleFilter('localedatetime', [$this, 'localeDateTime'],    $safe),
             new \Twig_SimpleFilter('loglevel',       [$this, 'logLevel']),
             new \Twig_SimpleFilter('markdown',       [$this, 'markdown'],          $safe),
@@ -122,7 +114,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('shy',            [$this, 'shy'],               $safe),
             new \Twig_SimpleFilter('slug',           [$this, 'slug']),
             new \Twig_SimpleFilter('thumbnail',      [$this, 'thumbnail']),
-            new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
             new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
             new \Twig_SimpleFilter('ucfirst',        'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
@@ -335,15 +326,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Just use config instead.
-     * @see \Bolt\Twig\Handler\AdminHandler::isChangelogEnabled()
-     */
-    public function isChangelogEnabled()
-    {
-        return $this->handlers['admin']->isChangelogEnabled();
-    }
-
-    /**
      * @see \Bolt\Twig\Handler\HtmlHandler::isMobileClient()
      */
     public function isMobileClient()
@@ -445,16 +427,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function printBacktrace($depth = 15)
     {
         return $this->handlers['utils']->printBacktrace($depth, $this->safe);
-    }
-
-    /**
-     * Just for safe_twig. Main twig overrides this function.
-     *
-     * @see \Bolt\Provider\TwigServiceProvider
-     */
-    public function printDump()
-    {
-        return null;
     }
 
     /**
@@ -586,14 +558,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         $numArgs = func_num_args();
 
         return $this->handlers['admin']->trans($args, $numArgs);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see \Bolt\Twig\TwigExtension::excerpt} instead
-     */
-    public function trim($content, $length = 200)
-    {
-        return $this->excerpt($content, $length);
     }
 
     /**
