@@ -2216,6 +2216,7 @@ class Storage
                         $slugifiedContentType === $this->app['slugify']->slugify($ct['singular_name'])
                     ) {
                         $contenttype = $ct;
+                        $contenttype['key'] = $key;
                         break;
                     }
                 }
@@ -2558,7 +2559,7 @@ class Storage
 
         // Get the contenttype from first $content
         $first = reset($content);
-        $contenttype = $first->contenttype['slug'];
+        $contenttype = isset($first->contenttype['key']) ? $first->contenttype['key'] : $first->contenttype['slug'];
 
         $query = sprintf(
             "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",
