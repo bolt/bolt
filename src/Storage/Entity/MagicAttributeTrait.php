@@ -51,21 +51,24 @@ trait MagicAttributeTrait
 
     public function __call($method, $arguments)
     {
-        $var = lcfirst(substr($method, 3));
+        $var = lcfirst(str_replace(['get', 'set', 'serialize'], '', $method));
         $underscored = $this->underscore($var);
         $camelized = $this->camelize($var);
+        $numericCamel = $this->underscore(preg_replace('/([a-z])([\d])/', '$1_$2', $var));
+        $try = [
+            $var,
+            $camelized,
+            $underscored,
+            $numericCamel
+        ];
 
         if (strncasecmp($method, 'get', 3) == 0) {
-            if ($this->has($var) && property_exists($this, $var)) {
-                return $this->$var;
-            } elseif ($this->has($camelized) && property_exists($this, $camelized)) {
-                return $this->$camelized;
-            } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
-                return $this->$underscored;
-            } elseif ($this->has($var)) {
-                return $this->_fields[$var];
-            } elseif ($this->has($underscored)) {
-                return $this->_fields[$underscored];
+            foreach ($try as $test) {
+                if ($this->has($test) && property_exists($this, $test)) {
+                    return $this->$test;
+                } elseif ($this->has($test)) {
+                    return $this->_fields[$test];
+                }
             }
         }
 

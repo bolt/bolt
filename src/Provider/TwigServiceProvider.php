@@ -8,6 +8,7 @@ use Bolt\Twig\TwigExtension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
@@ -55,16 +56,16 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new \Pimple(
                     [
                         // @codingStandardsIgnoreStart
-                        'admin'  => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
-                        'array'  => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
-                        'html'   => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
-                        'image'  => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
-                        'record' => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
+                        'admin'   => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
+                        'array'   => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
+                        'html'    => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
+                        'image'   => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
+                        'record'  => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
                         'routing' => $app->share(function () use ($app) { return new Handler\RoutingHandler($app); }),
-                        'text'   => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
-                        'user'   => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
-                        'utils'  => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
-                        'widget' => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
+                        'text'    => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
+                        'user'    => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
+                        'utils'   => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
+                        'widget'  => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
                         // @codingStandardsIgnoreEnd
                     ]
                 );
@@ -78,6 +79,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
                     $twig->addExtension($app['twig.extension.asset']);
+                    $twig->addExtension($app['twig.extension.http_foundation']);
 
                     if (isset($app['dump'])) {
                         $twig->addExtension(new DumpExtension(
@@ -95,7 +97,13 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.asset'] = $app->share(
             function ($app) {
-                return new AssetExtension($app['asset.packages']);
+                return new AssetExtension($app['asset.packages'], $app['twig.extension.http_foundation']);
+            }
+        );
+
+        $app['twig.extension.http_foundation'] = $app->share(
+            function ($app) {
+                return new HttpFoundationExtension($app['request_stack'], $app['request_context']);
             }
         );
 

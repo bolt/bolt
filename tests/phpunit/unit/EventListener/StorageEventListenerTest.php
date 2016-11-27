@@ -45,11 +45,11 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener = new StorageEventListener(
             $this->timedRecord->reveal(),
             $this->schemaManager->reveal(),
-
             $this->urlGenerator->reveal(),
             $this->flashLogger->reveal(),
             $this->passwordFactory->reveal(),
-            5
+            5,
+            false
         );
 
         $this->storageEvent = $this->prophesize(StorageEvent::class);
