@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
 use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
@@ -24,6 +25,8 @@ use ReflectionProperty;
  */
 abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 {
+    use CaseTransformTrait;
+
     public $mapping;
 
     protected $em;
@@ -81,7 +84,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $key = $this->mapping['fieldname'];
 
         $qb = &$queries[0];
-        $valueMethod = 'serialize' . ucfirst($attribute);
+        $valueMethod = 'serialize' . ucfirst($this->camelize($attribute));
         $value = $entity->$valueMethod();
 
         if ($this instanceof SanitiserAwareInterface && is_string($value)) {
