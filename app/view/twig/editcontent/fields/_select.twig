@@ -4,6 +4,7 @@
     info:      field.info|default(''),
     label:     field.label,
     multiple:  (field.multiple is defined and field.multiple),
+    sortable:  (field.sortable is defined and field.sortable),
     required:  field.required|default(false),
     values:    field.values|default([]),
     default:   field.default|default(null),
@@ -31,14 +32,6 @@
 {% set selection = context.content.get(contentkey)|default(option.default) %}
 {% if selection is not iterable %}
     {% set selection = [ selection ] %}
-{% endif %}
-
-
-{% if field.sortable|default(false) %}
-    {% set option = option|merge({ class: option.class ~ ' select2-sortable wide'}) %}
-    {% for key, sel in selection %}
-        {% set values = unique({ (key) : values[sel] }, values)%}
-    {% endfor %}
 {% endif %}
 
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
@@ -83,7 +76,7 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
-    {% if field.sortable|default(false) %}
+    {% if option.sortable %}
         <script>
             $(function() {
                 $(function(){
@@ -94,7 +87,7 @@
     {% endif %}
     {% from '@bolt/_buic/_select.twig' import buic_select %}
 
-    <div class="col-sm-9{{ (field.sortable|default(false)) ? ' sortable-select2-container' }}">
+    <div class="col-sm-9{{ option.sortable ? ' sortable-select2-container' }}">
         {{ buic_select(buic_opt_select) }}
     </div>
 {% endblock fieldset_controls %}
