@@ -35,14 +35,10 @@
 
 
 {% if field.sortable|default(false) %}
-    {% set oldclass = option.class %}
-    {% set option = option|merge({ class: oldclass~' select2-sortable wide'}) %}
-
-    {% set newvals = [] %}
+    {% set option = option|merge({ class: option.class ~ ' select2-sortable wide'}) %}
     {% for key, sel in selection %}
-        {% set newvals = newvals|merge({ (key):values[sel]})%}
+        {% set values = unique({ (key) : values[sel] }, values)%}
     {% endfor %}
-    {% set values = unique(newvals, values)%}
 {% endif %}
 
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
