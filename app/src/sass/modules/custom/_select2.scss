@@ -26,6 +26,8 @@
         background-color: #f4f4f4;
         border: 1px solid #ddd;
         padding: 2px 5px;
+        display: block;
+        width: 100%;
     }
 
     // Push the input line of a multi select into a new line.
@@ -45,11 +47,6 @@
  * Styles for Sortable Select2 Fields
  */
 .sortable-select2-container {
-
-    .select2-container {
-        display: block;
-        width: 100%;
-    }
 
     .select2-container-multi .select2-choices .select2-search-choice {
         cursor: move;
