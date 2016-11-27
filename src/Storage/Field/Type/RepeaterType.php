@@ -82,7 +82,7 @@ class RepeaterType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
-        if ($this->isJson($data[$key])) {
+        if (isset($data[$key]) && $this->isJson($data[$key])) {
             $originalMapping[$key]['fields'] = $this->mapping['fields'];
             $originalMapping[$key]['type'] = 'repeater';
             $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
