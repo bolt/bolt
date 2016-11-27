@@ -54,15 +54,16 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new \Pimple(
                     [
                         // @codingStandardsIgnoreStart
-                        'admin'  => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
-                        'array'  => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
-                        'html'   => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
-                        'image'  => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
-                        'record' => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
-                        'text'   => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
-                        'user'   => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
-                        'utils'  => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
-                        'widget' => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
+                        'admin'   => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
+                        'array'   => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
+                        'html'    => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
+                        'image'   => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
+                        'record'  => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
+                        'routing' => $app->share(function () use ($app) { return new Handler\RoutingHandler($app); }),
+                        'text'    => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
+                        'user'    => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
+                        'utils'   => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
+                        'widget'  => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
                         // @codingStandardsIgnoreEnd
                     ]
                 );
