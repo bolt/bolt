@@ -48,11 +48,8 @@
  */
 .sortable-select2-container {
 
-    .select2-container-multi .select2-choices .select2-search-choice {
-        cursor: move;
-    }
-
     .select2-selection__choice {
+        cursor: move !important;
         border-color: #d0d0d0;
         padding: 0px;
         display: block;
@@ -60,9 +57,7 @@
         border-radius: 0px;
         border-color: #d0d0d0;
     }
-    .select2-selection__choice.ui-sortable-helper {
-        cursor:move;
-    }
+
     .select2-drop {
         border-radius: 0px;
     }
