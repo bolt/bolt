@@ -176,10 +176,6 @@ class Frontend extends ConfigurableBase
             }
         }
 
-        // Setting the editlink
-        $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug'], 'id' => $content->id]);
-        $this->app['edittitle'] = $content->getTitle();
-
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [

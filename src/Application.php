@@ -60,10 +60,6 @@ class Application extends Silex\Application
             $this['locale'] = reset($locales);
         }
 
-        // Initialize the 'editlink' and 'edittitle'.
-        $this['editlink'] = '';
-        $this['edittitle'] = '';
-
         // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
     }

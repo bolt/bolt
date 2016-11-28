@@ -34,8 +34,6 @@ class BoltDataCollectorTest extends BoltUnitTest
         $this->assertNotEmpty($data->getVersion());
         $this->assertNotEmpty($data->getPayoff());
         $this->assertNotEmpty($data->getDashboardLink());
-        $this->assertEmpty($data->getEditLink());
-        $this->assertEmpty($data->getEditTitle());
     }
 
     public function testBrandingData()
@@ -52,18 +50,5 @@ class BoltDataCollectorTest extends BoltUnitTest
 
         $this->assertRegExp('/testperson/', $data->getBranding());
         $this->assertRegExp('/testemail/', $data->getBranding());
-    }
-
-    public function testEditLinks()
-    {
-        $app = $this->getApp();
-        $app['editlink'] = 'editlink';
-        $app['edittitle'] = 'edittitle';
-        $request = Request::create('/', 'GET');
-        $response = $app->handle($request);
-        $data = new BoltDataCollector($app);
-        $data->collect($request, $response);
-        $this->assertEquals('editlink', $data->getEditlink());
-        $this->assertEquals('edittitle', $data->getEdittitle());
     }
 }
