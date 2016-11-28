@@ -67,7 +67,8 @@
 {% block fieldset_widget 'fieldSelect' %}
 
 {% set fieldset_conf = {
-    autocomplete: field.autocomplete|default(false)
+    autocomplete: field.autocomplete|default(false),
+    sortable: field.sortable|default(false)
 } %}
 
 {% block fieldset_label_text  labelkey %}
@@ -76,15 +77,6 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
-    {% if option.sortable %}
-        <script>
-            $(function() {
-                $(function(){
-                    $('#{{ key }}').select2('destroy').select2Sortable({});
-                });
-            });
-        </script>
-    {% endif %}
     {% from '@bolt/_buic/_select.twig' import buic_select %}
 
     <div class="col-sm-9{{ option.sortable ? ' sortable-select2-container' }}">

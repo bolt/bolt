@@ -32,8 +32,7 @@
          */
         _create: function () {
             var select = this.element.find('select');
-
-            select.select2({
+            var options = {
                 width: '100%',
                 placeholder: {
                     id: '',
@@ -41,7 +40,12 @@
                 },
                 allowClear: true,
                 minimumResultsForSearch: this.options.autocomplete ? 0 : Infinity
-            });
+            };
+            if (this.options.sortable) {
+                select.select2Sortable(options);
+            } else {
+                select.select2(options);
+            }
         }
     });
 })(jQuery, Bolt);
