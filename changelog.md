@@ -17,21 +17,19 @@ Released 2016-11-29. Notable changes:
  - Fixed: Fix problems saving fields with underscores and numbers [#6088](https://github.com/bolt/bolt/pull/6088)
  - Fixed: Fixing issues with underscores [#6051](https://github.com/bolt/bolt/pull/6051)
  - Fixed: HTML showing in Latest system activity widget. Output the `log.message` as raw as the logs contain HTML. [#6080](https://github.com/bolt/bolt/pull/6080)
+ - Fixed: HTTP cache options: Ensure `http_cache.options` is always passed an array. [#6059](https://github.com/bolt/bolt/pull/6059)
  - Fixed: Relation collection hydration [#6052](https://github.com/bolt/bolt/pull/6052)
  - Fixed: Silence events when saving relations and taxonomies [#6045](https://github.com/bolt/bolt/pull/6045), [#6047](https://github.com/bolt/bolt/pull/6047)
  - Fixed: Sortable select fields now also work inside repeaters. [#6101](https://github.com/bolt/bolt/pull/6101)
  - Fixed: Use consistent semantics for PHP version [#6100](https://github.com/bolt/bolt/pull/6100)
  - Fixed: When saving field values for repeaters, do not trigger additional events. [#6043](https://github.com/bolt/bolt/pull/6043)
- - HTTP cache options: Ensure `http_cache.options` is always passed an array. [#6059](https://github.com/bolt/bolt/pull/6059)
  - Maintenance: Clean up formatting of `composer.json` [#6084](https://github.com/bolt/bolt/pull/6084)
+ - Maintenance: removing unused npm package `jshint`. [#6098](https://github.com/bolt/bolt/pull/6098)
  - Removed: Remove `console.js`, as every browser > IE 8 has it. No need for this anymore. [#6037](https://github.com/bolt/bolt/pull/6037)
  - Removed: Remove `setParameterWhitelist()` as we never ended up using it [#6070](https://github.com/bolt/bolt/pull/6070)
  - Removed: Remove unused cache handling check from `Frontend::before()` [#6076](https://github.com/bolt/bolt/pull/6076)
- - Removed: removing unused npm package `jshint`. [#6098](https://github.com/bolt/bolt/pull/6098)
  - Updated: Russian translation, 46 more translations added [#6056](https://github.com/bolt/bolt/pull/6056), [#6103](https://github.com/bolt/bolt/pull/6103)
  - Updated: Updating Yarn and dependencies. [#6095](https://github.com/bolt/bolt/pull/6095), [#6099](https://github.com/bolt/bolt/pull/6099)
- - Updated: Russian translation, 37 more translations added [#6056](https://github.com/bolt/bolt/pull/6056)
- - Updated: Updating Yarn and dependencies. [#6095](https://github.com/bolt/bolt/pull/6095)
 
 Bolt 3.2.2
 ----------
