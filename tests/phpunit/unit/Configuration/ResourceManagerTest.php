@@ -243,12 +243,9 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
-        $app = new Application(['resources' => $config]);
+        new Application(['resources' => $config]);
         $this->assertEquals('https', $config->getRequest('protocol'));
         $this->assertEquals('test.dev', $config->getRequest('hostname'));
-
-        // This is wrong btw. It should be https. Not going to fix, use new canonical code.
-        $this->assertEquals('http://test.dev/bolt/test/location', $config->getUrl('canonical'));
     }
 
     public function testNonRootDirectory()
