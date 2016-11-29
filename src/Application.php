@@ -256,6 +256,7 @@ class Application extends Silex\Application
             ->register(new Provider\FormServiceProvider())
             ->register(new Provider\MailerServiceProvider())
             ->register(new Provider\PagerServiceProvider())
+            ->register(new Provider\CanonicalServiceProvider())
         ;
 
         $this['paths'] = $this['resources']->getPaths();

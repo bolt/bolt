@@ -230,10 +230,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         );
-        $app = new Application(['resources' => $config]);
+        new Application(['resources' => $config]);
         $this->assertEquals('https', $config->getRequest('protocol'));
         $this->assertEquals('test.dev', $config->getRequest('hostname'));
-        $this->assertEquals('http://bolt.dev/bolt/test/location', $config->getUrl('canonical'));
     }
 
     public function testNonRootDirectory()
