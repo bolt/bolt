@@ -10,9 +10,9 @@
 
 #   7 unused messages
 #  11 untranslated messages
-# 193 untranslated keyword based messages
+# 184 untranslated keyword based messages
 #  81 translations
-# 337 keyword based translations
+# 346 keyword based translations
 
 #--- 7 unused messages --------------------------------------------------------
 
@@ -38,7 +38,7 @@
 "Testing connection to extension server failed: %errormessage%": #
 "The field %field% has been changed to \"%newValue%\"": #
 
-#--- 193 untranslated keyword based messages ----------------------------------
+#--- 184 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -78,7 +78,6 @@
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
@@ -113,8 +112,6 @@
 "general.phrase.related-content": # "Related content"
 "general.phrase.required-character-count": # "At least %NUM% characters required"
 "general.phrase.required-is-bang": # "Is required!"
-"general.phrase.required-is-or-match-pattern": # "Is required or needs to match a pattern!"
-"general.phrase.search-results-for-variable": # "Search results for <b>%search%</b>."
 "general.phrase.selection": # "Selection"
 "general.phrase.show-proposed-alterations": # "Show proposed alterations"
 "general.phrase.slug-colon": # "Slug:"
@@ -218,21 +215,17 @@
 "page.extend.message.running-update-all": # "Running updates"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
-"page.extend.message.updated": # "Everything is up to date!"
-"page.extend.message.updating": # "Searching for available updates …"
+"page.extend.message.updated": # "Все в актуальном состоянии!"
+"page.extend.message.updating": # "Поиск обновлений …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Создать файл"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
-"page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
-"page.file-management.title": # "Files"
+
 "panel.latest-activity.by": # "by"
-"panel.latest-activity.change": # "Latest changes"
-"panel.latest-activity.created": # "Created"
-"panel.latest-activity.deleted": # "Deleted"
-"panel.latest-activity.system": # "Latest system activity"
+
 
 #--- 81 translations ----------------------------------------------------------
 
@@ -318,7 +311,7 @@
 "You've been logged on successfully.": "Вы успешно вошли."
 "filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
-#--- 337 keyword based translations -------------------------------------------
+#--- 346 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"
@@ -333,7 +326,7 @@ contenttypes.generic.group.taxonomy: "Таксономия"
 contenttypes.generic.group.template: "Шаблон"
 contenttypes.generic.invalid-field: "Невозможно установить %field% в %contenttype%: Поле недействительно."
 contenttypes.generic.last-modified: "Последнее редактирование %contenttypes%"
-contenttypes.generic.new: "Новый %contenttype%"
+contenttypes.generic.new: "Создать %contenttype%"
 contenttypes.generic.no-latest: "Нет последних %contenttype%"
 contenttypes.generic.no-proper-type: "В сущности '%contenttype%', поле '%field%' имеет 'тип: %type%', который не является допустимым. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
 contenttypes.generic.no-recent: "Нет недавних %contenttype%."
@@ -577,6 +570,9 @@ general.phrase.view-on-site: "Просмотреть на сайте"
 general.phrase.view-related: "Посмотреть материалы по теме"
 general.phrase.view-site: "Открыть сайт"
 general.phrase.written-by-on: "Написано <em>%name%</em> от %date%"
+general.phrase.required-is-or-match-pattern: "Обязательно для заполнения или должно соответствовать шаблону!"
+general.phrase.search-results-for-variable: "Результаты поиска для<b>%search%</b>."
+general.phrase.field-fieldname: "Поле “%FIELD_NAME%”:"
 
 generic.noscript.headline: "JavaScript отключен"
 generic.noscript.message: "JavaScript в данный момент отключен. Большинство функционала Bolt не будет работать без него, для лучшего использования мы рекомендуем вам включить JavaScript в настройках вашего браузера."
@@ -656,6 +652,8 @@ page.file-management.message.save-failed-colon: "Файл '%s' не может �
 page.file-management.message.save-failed-unknown: "Файл '%s' по непонятным причинам, не может быть сохранён."
 page.file-management.message.save-success: "Файл '%s' сохранён."
 page.file-management.message.upload-success: "Файл '%file%' успешно загружен."
+page.file-management.message.upload-not-writable: "Невозможно загрузить файлы в дерикторию. Проверьте права доступа к %TARGET%"
+page.file-management.title: "Файлы"
 
 page.login.button.back: "Вернуться на страницу логина"
 page.login.button.forgot-password: "Я забыл свой пароль …"
@@ -670,11 +668,16 @@ page.login.password-show: "Показать"
 page.login.placeholder.password: "Ваше имя пользователя"
 page.login.title: "Войти в Bolt"
 
-panel.latest-activity.button.more: "больше активности"
+panel.latest-activity.button.more: "Больше активностей"
 panel.latest-activity.logged-in: "Вошел в систему"
 panel.latest-activity.logged-out: "Вышел из системы"
 panel.latest-activity.saved: "Сохранён"
-panel.latest-activity.unknown: "неизвестно"
+panel.latest-activity.unknown: "Неизвестно"
+panel.latest-activity.change: "Последние изменения"
+panel.latest-activity.created: "Создано"
+panel.latest-activity.deleted: "Удалено"
+panel.latest-activity.system: "Последние активности системы"
+
 
 panel.user-actions.button.add: "Добавить нового пользователя"
 
