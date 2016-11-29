@@ -132,8 +132,12 @@ class TextHandler
      */
     public function testJson($string)
     {
-        json_decode($string, true);
+        if (is_scalar($string) || is_callable([$string, '__toString'])) {
+            json_decode((string) $string, true);
 
-        return json_last_error() === JSON_ERROR_NONE;
+            return json_last_error() === JSON_ERROR_NONE;
+        }
+
+        return false;
     }
 }
