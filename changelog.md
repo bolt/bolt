@@ -7,6 +7,9 @@ Bolt 3.2.3
 Released 2016-11-29. Notable changes:
 
  - Added: Backport `canonical` Twig function [#6092](https://github.com/bolt/bolt/pull/6092), [#6091](https://github.com/bolt/bolt/pull/6092)
+Released 2016-11-XX. Notable changes:
+
+ - Added: Backport `canonical` Twig function [#6092](https://github.com/bolt/bolt/pull/6092)
  - Added: Missing `HttpFoundationExtension` Twig extension. fixes Exception when generating absolute URLs with `{{ asset() }}`. [#6091](https://github.com/bolt/bolt/pull/6091)
  - Added: Yarn, to lessen the pain related sudden onset bitrot in NPM packages. :fire: :boom: [#6038](https://github.com/bolt/bolt/pull/6038)
  - Fixed: "excerpts" exception with no found highlights [#6041](https://github.com/bolt/bolt/pull/6041)
@@ -29,6 +32,8 @@ Released 2016-11-29. Notable changes:
  - Removed: removing unused npm package `jshint`. [#6098](https://github.com/bolt/bolt/pull/6098)
  - Updated: Russian translation, 46 more translations added [#6056](https://github.com/bolt/bolt/pull/6056), [#6103](https://github.com/bolt/bolt/pull/6103)
  - Updated: Updating Yarn and dependencies. [#6095](https://github.com/bolt/bolt/pull/6095), [#6099](https://github.com/bolt/bolt/pull/6099)
+ - Updated: Russian translation, 37 more translations added [#6056](https://github.com/bolt/bolt/pull/6056)
+ - Updated: Updating Yarn and dependencies. [#6095](https://github.com/bolt/bolt/pull/6095)
 
 Bolt 3.2.2
 ----------
