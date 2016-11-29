@@ -13,6 +13,7 @@ Released 2016-11-29. Notable changes:
  - Fixed: Additional set of fixes for complex getContent queries [#6050](https://github.com/bolt/bolt/pull/6050), [#6061](https://github.com/bolt/bolt/pull/6061), [#6054](https://github.com/bolt/bolt/pull/6054)
  - Fixed: Empty multiple & sortable select fields to have blank item, by preventing bogus items in array. [#6096](https://github.com/bolt/bolt/pull/6096)
  - Fixed: Fix accessing slug property from `Entity\Content` class [#6067](https://github.com/bolt/bolt/pull/6067)
+ - Fixed: Fix metadata lookup in repeaters [#6089](https://github.com/bolt/bolt/pull/6089)
  - Fixed: Fix problems saving fields with underscores and numbers [#6088](https://github.com/bolt/bolt/pull/6088)
  - Fixed: Fixing issues with underscores [#6051](https://github.com/bolt/bolt/pull/6051)
  - Fixed: HTML showing in Latest system activity widget. Output the `log.message` as raw as the logs contain HTML. [#6080](https://github.com/bolt/bolt/pull/6080)
