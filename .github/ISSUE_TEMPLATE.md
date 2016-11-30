@@ -9,9 +9,9 @@ See: https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
 Details
 -------
 
- - Relevant Bolt Version: [ 2.2 | 3.0 | master ]
+ - Relevant Bolt Version: [ 3.2 | 3.3 | master ]
  - Install type: [ GitHub checkout | Zip/tarball install | Composer install ]
- - PHP version: [ 5.4 | 5.5 | 5.6 | 7.0 ]
+ - PHP version: [ 5.5 | 5.6 | 7.0 ]
  - Used web server: [ Apache | Nginx ] version [ version ]
  - For UX/UI issues: [ browser name and version ]
 
