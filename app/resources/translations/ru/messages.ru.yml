@@ -10,9 +10,9 @@
 
 #   7 unused messages
 #  11 untranslated messages
-# 184 untranslated keyword based messages
+# 162 untranslated keyword based messages
 #  81 translations
-# 346 keyword based translations
+# 368 keyword based translations
 
 #--- 7 unused messages --------------------------------------------------------
 
@@ -38,7 +38,7 @@
 "Testing connection to extension server failed: %errormessage%": #
 "The field %field% has been changed to \"%newValue%\"": #
 
-#--- 184 untranslated keyword based messages ----------------------------------
+#--- 162 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -152,30 +152,14 @@
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
 "page.extend.button.info-help": # "More info/help"
-"page.extend.button.install-package": # "Install Package"
-"page.extend.button.install-this-version": # "Install This Version"
-"page.extend.button.link-config": # "Edit configuration"
-"page.extend.button.link-marketplace": # "View on marketplace"
-"page.extend.button.link-readme": # "View README"
-"page.extend.button.link-repository": # "View source repository"
-"page.extend.button.link-uninstall": # "Uninstall extension"
-"page.extend.button.link-versions": # "Install different version"
-"page.extend.button.manage": # "Manage"
+
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
-"page.extend.button.show-all-versions": # "Show all versions"
-"page.extend.button.update-package": # "Update Package"
+
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
-"page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
-"page.extend.headline.install-new-extension": # "Install a new Extension"
-"page.extend.headline.installation-complete": # "Installation complete"
-"page.extend.headline.installing-package": # "Installing package"
-"page.extend.headline.latest-version": # "Latest stable version"
-"page.extend.headline.stable-versions": # "Stable versions"
-"page.extend.headline.test-versions": # "Unstable test versions"
+
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
-"page.extend.listheader.extension": # "Extension"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -215,9 +199,8 @@
 "page.extend.message.running-update-all": # "Running updates"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
-"page.extend.message.updated": # "Все в актуальном состоянии!"
-"page.extend.message.updating": # "Поиск обновлений …"
-"page.extend.pagetitle": # "Extend %BOLTNAME%"
+
+
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
@@ -225,7 +208,6 @@
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 
 "panel.latest-activity.by": # "by"
-
 
 #--- 81 translations ----------------------------------------------------------
 
@@ -311,7 +293,7 @@
 "You've been logged on successfully.": "Вы успешно вошли."
 "filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
-#--- 346 keyword based translations -------------------------------------------
+#--- 368 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"
@@ -635,10 +617,32 @@ page.edit-users.user-edit: "Редактирование существующе�
 
 page.extend.button.browse-versions: "Обзор версий"
 page.extend.button.install-all: "Установить все пакеты"
-page.extend.button.update-all: "Запустить все обновления"
+page.extend.button.update-all: "Обновить всё"
 page.extend.button.update-check: "Проверить обновления"
 page.extend.listheader.actions: "Действия"
 page.extend.message.maintenance: "Обслуживание"
+page.extend.button.install-package: "Установить пакет"
+page.extend.button.install-this-version: "Установить эту версию"
+page.extend.pagetitle: "Расширения %BOLTNAME%"
+page.extend.message.updated: "Все в актуальном состоянии!"
+page.extend.message.updating: "Поиск обновлений …"
+page.extend.headline.currently-installed: "Установленные Расширения"
+page.extend.headline.install-new-extension:  "Установить новое Расширение"
+page.extend.headline.installation-complete:  "Установка завершена"
+page.extend.headline.installing-package: "Установка пакета"
+page.extend.headline.latest-version: "Последняя стабильная версия"
+page.extend.headline.stable-versions: "Стабильные версии"
+page.extend.headline.test-versions: "Нестабильные тестовые версии"
+page.extend.button.show-all-versions: "Показать все версии"
+page.extend.button.update-package: "Обновить пакеты"
+page.extend.button.link-readme: "Посмотреть README"
+page.extend.button.link-repository: "Перейти к репозиторию исходного кода"
+page.extend.button.link-uninstall: "Деинсталлировать Расширение"
+page.extend.button.link-versions: "Установить другую версию"
+page.extend.button.link-marketplace: "Перейти к сайту Расширений"
+page.extend.button.link-config: "Редактирование конфигурации"
+page.extend.listheader.extension: "Расширения"
+page.extend.button.manage: "Управление"
 
 page.file-management.label.create-folder: "Создать папку"
 page.file-management.message.access-denied: "Недостаточно прав на загрузку в эту папку."
