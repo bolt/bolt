@@ -1,10 +1,10 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\RecordHandler;
+use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -38,7 +38,7 @@ GRINGALET;
         $this->addSomeContent();
         $request = (new Request())->create('/');
         $app['request'] = $request;
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current(null);
 
@@ -59,7 +59,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('/clippy-inc');
         $this->assertTrue($result);
@@ -80,7 +80,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current([
             'label' => 'Home',
@@ -106,7 +106,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('koala');
         $this->assertTrue($result);
@@ -126,7 +126,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current(['link' => '/pages/koala']);
         $this->assertTrue($result);
@@ -146,7 +146,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current(['contenttype' => ['slug' => 'snails', 'slug' => 'singular_slug']]);
         $this->assertFalse($result);
@@ -166,7 +166,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $content = $this->getMock('\Bolt\Legacy\Content', ['link'], [$app]);
         $content->expects($this->atLeastOnce())
             ->method('link')
@@ -191,7 +191,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('/pages/koala');
         $this->assertTrue($result);
@@ -211,7 +211,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('/pages/koala');
         $this->assertTrue($result);
@@ -231,7 +231,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('/pages/koala');
         $this->assertTrue($result);
@@ -254,7 +254,7 @@ GRINGALET;
         $repo = $app['storage']->getRepository('pages');
         $content = $repo->find(1);
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current($content);
         $this->assertFalse($result);
@@ -274,7 +274,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->current('/pages/koala');
         $this->assertTrue($result);
@@ -294,7 +294,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $content = [
             'slug'        => 'koala',
             'contenttype' => [
@@ -321,7 +321,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $content = [
             'slug'        => 'koala',
             'contenttype' => [
@@ -348,7 +348,7 @@ GRINGALET;
         ]);
         $app['request'] = $request;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $content = ['slug' => 'clippy'];
 
         $result = $handler->current($content);
@@ -358,7 +358,7 @@ GRINGALET;
     public function testExcerptContentClassObject()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $content = $app['storage']->getEmptyContent('pages');
         $content->setValue('body', $this->original);
@@ -370,7 +370,7 @@ GRINGALET;
     public function testExcerptNonContentClassObject()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $content = (new Snippet())->setCallback($this->original);
 
@@ -381,7 +381,7 @@ GRINGALET;
     public function testExcerptArray()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $content = [
             'id'          => 42,
@@ -404,7 +404,7 @@ GRINGALET;
     public function testExcerptString()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->excerpt($this->original, 87);
         $this->assertSame($this->excerpt, $result);
@@ -413,7 +413,7 @@ GRINGALET;
     public function testExcerptNull()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->excerpt(null);
         $this->assertSame('', $result);
@@ -422,7 +422,7 @@ GRINGALET;
     public function testTrim()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->trim($this->original, 87);
         $this->assertSame($this->excerpt, $result);
@@ -431,7 +431,7 @@ GRINGALET;
     public function testListTemplatesSafe()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->listTemplates('*.twig', true);
         $this->assertNull($result);
@@ -441,7 +441,7 @@ GRINGALET;
     {
         $app = $this->getApp();
         $app['config']->set('theme/templateselect', null);
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->listTemplates(null, false);
         $this->assertArrayHasKey('page.twig', $result);
@@ -458,7 +458,7 @@ GRINGALET;
     {
         $app = $this->getApp();
         $app['config']->set('theme/templateselect', null);
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->listTemplates('*.twig', false);
         $this->assertArrayHasKey('page.twig', $result);
@@ -475,7 +475,7 @@ GRINGALET;
     {
         $app = $this->getApp();
         $app['config']->set('theme/templateselect', null);
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->listTemplates('s*.twig', false);
         $this->assertArrayHasKey('search.twig', $result);
@@ -498,7 +498,7 @@ GRINGALET;
                 'filename' => 'anotherextrafields.twig',
             ],
         ]);
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->listTemplates('*extra*', false);
         $this->assertArrayHasKey('extrafields.twig', $result);
@@ -524,7 +524,7 @@ GRINGALET;
         ;
         $app['pager'] = $pager;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $env = $app['twig'];
         $pagerName = 'Clippy';
         $surr = 4;
@@ -557,7 +557,7 @@ GRINGALET;
         ;
         $app['pager'] = $manager;
 
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $env = $app['twig'];
         $template = 'backend';
         $class = '';
@@ -572,7 +572,7 @@ GRINGALET;
     public function testSelectFieldEmptyContentStartEmpty()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->selectField([], 'koala', true);
         $this->assertSame([], $result);
@@ -581,7 +581,7 @@ GRINGALET;
     public function testSelectFieldEmptyContentStartFull()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
 
         $result = $handler->selectField([], 'koala', false);
         $this->assertSame(['' => ''], $result);
@@ -590,7 +590,7 @@ GRINGALET;
     public function testSelectFieldContentFieldString()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $record1 = $app['storage']->getEmptyContent('pages');
         $record2 = $app['storage']->getEmptyContent('pages');
 
@@ -605,7 +605,7 @@ GRINGALET;
     public function testSelectFieldContentFieldArray()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $record1 = $app['storage']->getEmptyContent('pages');
         $record2 = $app['storage']->getEmptyContent('pages');
 
@@ -620,7 +620,7 @@ GRINGALET;
     public function testSelectFieldContentFieldArrayDerpy()
     {
         $app = $this->getApp();
-        $handler = new RecordHandler($app);
+        $handler = new RecordRuntime($app);
         $record1 = $app['storage']->getEmptyContent('pages');
         $record2 = $app['storage']->getEmptyContent('pages');
 

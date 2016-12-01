@@ -1,9 +1,9 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\UserHandler;
+use Bolt\Twig\Runtime\UserRuntime;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
@@ -25,7 +25,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserById()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUser(1);
         $this->assertArrayHasKey('id', $result);
@@ -37,7 +37,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserByUsername()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUser('admin');
         $this->assertArrayHasKey('id', $result);
@@ -49,7 +49,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserByEmail()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUser('admin@example.com');
         $this->assertArrayHasKey('id', $result);
@@ -61,7 +61,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdInvalid()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUserId(42);
         $this->assertFalse($result);
@@ -70,7 +70,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdById()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUserId(1);
         $this->assertSame(1, $result);
@@ -79,7 +79,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdByUsername()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUserId('admin');
         $this->assertSame(1, $result);
@@ -88,7 +88,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdByEmail()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
 
         $result = $handler->getUserId('admin@example.com');
         $this->assertSame(1, $result);
@@ -97,7 +97,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedObject()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
         $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
         $users
             ->expects($this->atLeastOnce())
@@ -114,7 +114,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedArray()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
         $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
         $users
             ->expects($this->atLeastOnce())
@@ -130,7 +130,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedString()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
         $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
         $users
             ->expects($this->atLeastOnce())
@@ -146,7 +146,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testToken()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app);
         $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
         $app['csrf'] = $tokenManager;
         $token = $tokenManager->refreshToken('bolt');

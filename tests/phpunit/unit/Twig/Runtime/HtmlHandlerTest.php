@@ -1,10 +1,10 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\HtmlHandler;
+use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -17,7 +17,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testDecorateTT()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->decorateTT('Lorem `ipsum` dolor.');
         $this->assertSame('Lorem <tt>ipsum</tt> dolor.', $result);
@@ -26,7 +26,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testEditableSafe()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->editable('<blink>Drop Bear Warning!</blink>', new Content($app), 'paddock', true);
         $this->assertNull($result);
@@ -35,7 +35,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testEditable()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
         $content = new Content($app);
         $content->setValues([
             'id'          => 42,
@@ -50,7 +50,7 @@ class HtmlHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['locale'] = 'en_Aussie_Mate';
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->htmlLang();
         $this->assertSame('en-Aussie-Mate', $result);
@@ -82,7 +82,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testIsMobileClientValid($userAgent, $isMobile = true)
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $request = Request::create('/');
         $request->headers->set('User-Agent', $userAgent);
@@ -99,7 +99,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testIsMobileClientInvalid()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
         $result = $handler->isMobileClient();
@@ -109,7 +109,7 @@ class HtmlHandlerTest extends BoltUnitTest
     public function testMarkdown()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $markdown = <<<MARKDOWN
 # Episode IV
@@ -133,7 +133,7 @@ HTML;
     public function testLink()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->link('http://google.com', 'click');
         $this->assertSame('<a href="http://google.com">click</a>', $result);
@@ -152,7 +152,7 @@ HTML;
     public function testMenuSafe()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], true);
         $this->assertNull($result);
@@ -165,7 +165,7 @@ HTML;
         $app['request'] = $request;
         $app['request_stack']->push($request);
 
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy'], false);
         $this->assertRegExp('#<li class="index-1 first">#', $result);
@@ -174,7 +174,7 @@ HTML;
     public function testShy()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->shy('SomePeopleSayTheyAreShyOtherPeopleSayTheyAreNotWhatDoYouSay');
         $this->assertSame('SomePeople&shy;SayTheyAre&shy;ShyOtherPe&shy;opleSayThe&shy;yAreNotWha&shy;tDoYouSay', $result);
@@ -183,7 +183,7 @@ HTML;
     public function testTwig()
     {
         $app = $this->getApp();
-        $handler = new HtmlHandler($app);
+        $handler = new HtmlRuntime($app);
 
         $result = $handler->twig("{{ 'koala'|capitalize }}");
         $this->assertSame('Koala', $result);

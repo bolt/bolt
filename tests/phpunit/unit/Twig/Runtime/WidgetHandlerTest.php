@@ -1,10 +1,10 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Asset\Widget\Widget;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\WidgetHandler;
+use Bolt\Twig\Runtime\WidgetRuntime;
 
 /**
  * Class to test Bolt\Twig\Handler\WidgetHandler
@@ -16,7 +16,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testCountWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -31,7 +31,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testCountWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -46,7 +46,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testCountWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -61,7 +61,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testGetWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -78,7 +78,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testHasWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
 
         $this->assertFalse($handler->hasWidgets('gum-tree', 'frontend'));
 
@@ -96,7 +96,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testHasWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -110,7 +110,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testHasWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -125,7 +125,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testWidget()
     {
         $app = $this->getApp();
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -142,7 +142,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testWidgetNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -157,7 +157,7 @@ class WidgetHandlerTest extends BoltUnitTest
     public function testWidgetNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetHandler($app);
+        $handler = new WidgetRuntime($app);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
