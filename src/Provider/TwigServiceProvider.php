@@ -21,11 +21,64 @@ class TwigServiceProvider implements ServiceProviderInterface
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
         }
+
+        // Twig runtime handlers
+        $app['twig.runtime.bolt_admin'] = function ($app) {
+            return new Handler\AdminHandler($app);
+        };
+        $app['twig.runtime.bolt_array'] = function ($app) {
+            return new Handler\ArrayHandler($app);
+        };
+        $app['twig.runtime.bolt_html'] = function ($app) {
+            return new Handler\HtmlHandler($app);
+        };
+        $app['twig.runtime.bolt_image'] = function ($app) {
+            return new Handler\ImageHandler($app);
+        };
+        $app['twig.runtime.bolt_record'] = function ($app) {
+            return new Handler\RecordHandler($app);
+        };
+        $app['twig.runtime.bolt_routing'] = function ($app) {
+            return new Handler\RoutingHandler($app);
+        };
+        $app['twig.runtime.bolt_text'] = function ($app) {
+            return new Handler\TextHandler($app);
+        };
+        $app['twig.runtime.bolt_user'] = function ($app) {
+            return new Handler\UserHandler($app);
+        };
+        $app['twig.runtime.bolt_utils'] = function ($app) {
+            return new Handler\UtilsHandler($app);
+        };
+        $app['twig.runtime.bolt_widget'] = function ($app) {
+            return new Handler\WidgetHandler($app);
+        };
+
+        /** @deprecated Can be replaced when switch to Silex 2 occurs */
         if (!isset($app['twig.runtimes'])) {
             $app['twig.runtimes'] = function () {
                 return [];
             };
         }
+        $app['twig.runtimes'] = $app->extend(
+            'twig.runtimes',
+            function () {
+                return [
+                    Handler\AdminHandler::class   => 'twig.runtime.bolt_admin',
+                    Handler\ArrayHandler::class   => 'twig.runtime.bolt_array',
+                    Handler\HtmlHandler::class    => 'twig.runtime.bolt_html',
+                    Handler\ImageHandler::class   => 'twig.runtime.bolt_image',
+                    Handler\RecordHandler::class  => 'twig.runtime.bolt_record',
+                    Handler\RoutingHandler::class => 'twig.runtime.bolt_routing',
+                    Handler\TextHandler::class    => 'twig.runtime.bolt_text',
+                    Handler\UserHandler::class    => 'twig.runtime.bolt_user',
+                    Handler\UtilsHandler::class   => 'twig.runtime.bolt_utils',
+                    Handler\WidgetHandler::class  => 'twig.runtime.bolt_widget',
+                ];
+            }
+        );
+
+
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
         if (!isset($app['twig.runtime_loader'])) {
             $app['twig.runtime_loader'] = function ($app) {
@@ -60,28 +113,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                         $app['twig.loader.array'],
                         $app['twig.loader.bolt_filesystem'],
                         $app['twig.loader.filesystem'],
-                    ]
-                );
-            }
-        );
-
-        // Handlers
-        $app['twig.handlers'] = $app->share(
-            function (Application $app) {
-                return new \Pimple(
-                    [
-                        // @codingStandardsIgnoreStart
-                        'admin'   => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
-                        'array'   => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
-                        'html'    => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
-                        'image'   => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
-                        'record'  => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
-                        'routing' => $app->share(function () use ($app) { return new Handler\RoutingHandler($app); }),
-                        'text'    => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
-                        'user'    => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
-                        'utils'   => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
-                        'widget'  => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
-                        // @codingStandardsIgnoreEnd
                     ]
                 );
             }
