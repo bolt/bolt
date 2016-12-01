@@ -3,6 +3,8 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\EventListener\ConfigListener;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Twig\SetcontentTokenParser;
+use Bolt\Twig\SwitchTokenParser;
 use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -18,9 +20,7 @@ class TwigExtensionTest extends BoltUnitTest
 {
     public function testTwigInterface()
     {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
+        $twig = new TwigExtension(false);
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
@@ -59,8 +59,7 @@ class TwigExtensionTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $app['request'] = $request;
         $app['request_stack']->push($request);
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
+        $twig = new TwigExtension(true);
 
         $result = $twig->getGlobals();
         $this->assertArrayHasKey('config', $result);
@@ -94,11 +93,10 @@ class TwigExtensionTest extends BoltUnitTest
 
     public function testGetTokenParsers()
     {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
+        $twig = new TwigExtension(false);
 
         $result = $twig->getTokenParsers();
-        $this->assertInstanceOf('Bolt\Twig\SetcontentTokenParser', $result[0]);
+        $this->assertInstanceOf(SetcontentTokenParser::class, $result[0]);
+        $this->assertInstanceOf(SwitchTokenParser::class, $result[1]);
     }
 }
