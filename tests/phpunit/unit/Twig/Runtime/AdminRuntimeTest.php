@@ -8,11 +8,11 @@ use Bolt\Twig\Runtime\AdminRuntime;
 use Silex\Translator;
 
 /**
- * Class to test Bolt\Twig\Runtime\AdminHandler
+ * Class to test Bolt\Twig\Runtime\AdminRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AdminHandlerTest extends BoltUnitTest
+class AdminRuntimeTest extends BoltUnitTest
 {
     public function testBuic()
     {

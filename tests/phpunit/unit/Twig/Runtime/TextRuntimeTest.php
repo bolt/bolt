@@ -6,11 +6,11 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\TextRuntime;
 
 /**
- * Class to test Bolt\Twig\Runtime\TextHandler
+ * Class to test Bolt\Twig\Runtime\TextRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TextHandlerTest extends BoltUnitTest
+class TextRuntimeTest extends BoltUnitTest
 {
     public function setUp()
     {

@@ -9,11 +9,11 @@ use Bolt\Twig\Runtime\ImageRuntime;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class to test Bolt\Twig\Runtime\ImageHandler
+ * Class to test Bolt\Twig\Runtime\ImageRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ImageHandlerTest extends BoltUnitTest
+class ImageRuntimeTest extends BoltUnitTest
 {
     protected function setUp()
     {

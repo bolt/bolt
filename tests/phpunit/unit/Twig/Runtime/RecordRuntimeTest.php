@@ -8,11 +8,11 @@ use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Handler\RecordHandler
+ * Class to test Bolt\Twig\Runtime\RecordRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RecordHandlerTest extends BoltUnitTest
+class RecordRuntimeTest extends BoltUnitTest
 {
     protected $original = <<<GRINGALET
 But Gawain chose the lower road, and passed

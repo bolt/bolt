@@ -8,11 +8,11 @@ use Bolt\Twig\Runtime\UtilsRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Handler\UtilsHandler
+ * Class to test Bolt\Twig\Runtime\UtilsRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UtilsHandlerTest extends BoltUnitTest
+class UtilsRuntimeTest extends BoltUnitTest
 {
     /**
      * Override Symfony's default handler to get the output

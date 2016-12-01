@@ -8,11 +8,11 @@ use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Handler\HtmlHandler
+ * Class to test Bolt\Twig\Runtime\HtmlRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class HtmlHandlerTest extends BoltUnitTest
+class HtmlRuntimeTest extends BoltUnitTest
 {
     public function testDecorateTT()
     {

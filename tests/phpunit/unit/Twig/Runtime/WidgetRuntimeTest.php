@@ -7,11 +7,11 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\WidgetRuntime;
 
 /**
- * Class to test Bolt\Twig\Handler\WidgetHandler
+ * Class to test Bolt\Twig\Runtime\WidgetRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class WidgetHandlerTest extends BoltUnitTest
+class WidgetRuntimeTest extends BoltUnitTest
 {
     public function testCountWidgets()
     {

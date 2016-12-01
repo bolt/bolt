@@ -6,11 +6,11 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\ArrayRuntime;
 
 /**
- * Class to test Bolt\Twig\Runtime\ArrayHandler
+ * Class to test Bolt\Twig\Runtime\ArrayRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ArrayHandlerTest extends BoltUnitTest
+class ArrayRuntimeTest extends BoltUnitTest
 {
     public function setUp()
     {
