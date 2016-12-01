@@ -430,15 +430,6 @@ GRINGALET;
         $this->assertSame($this->excerpt, $result);
     }
 
-    public function testListTemplatesSafe()
-    {
-        $app = $this->getApp();
-        $handler = new RecordRuntime($app);
-
-        $result = $handler->listTemplates('*.twig');
-        $this->assertNull($result);
-    }
-
     public function testListTemplatesAll()
     {
         $app = $this->getApp();

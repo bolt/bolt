@@ -23,15 +23,6 @@ class HtmlRuntimeTest extends BoltUnitTest
         $this->assertSame('Lorem <tt>ipsum</tt> dolor.', $result);
     }
 
-    public function testEditableSafe()
-    {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
-
-        $result = $handler->editable('<blink>Drop Bear Warning!</blink>', new Content($app), 'paddock');
-        $this->assertNull($result);
-    }
-
     public function testEditable()
     {
         $app = $this->getApp();
@@ -146,19 +137,6 @@ HTML;
 
         $result = $handler->link('gooblycook', 'click');
         $this->assertSame('<a href="gooblycook">click</a>', $result);
-    }
-
-
-    public function testMenuSafe()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = new HtmlRuntime($app);
-
-        $result = $handler->menu($app['safe_twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy']);
-        $this->assertNull($result);
     }
 
     public function testMenuMain()

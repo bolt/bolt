@@ -37,15 +37,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $this->assertTrue($result);
     }
 
-    public function testFileExistsSafe()
-    {
-        $app = $this->getApp();
-        $handler = new UtilsRuntime($app);
-
-        $result = $handler->fileExists(__FILE__);
-        $this->assertFalse($result);
-    }
-
     public function testPrintBacktraceSafeDebugOn()
     {
         $app = $this->getApp();
@@ -180,15 +171,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $handler->printFirebug(['koala and clippy'], ['Danger Detected!']);
     }
 
-    public function testRedirectSafe()
-    {
-        $app = $this->getApp();
-        $handler = new UtilsRuntime($app);
-
-        $result = $handler->redirect('/clippy/koala');
-        $this->assertNull($result);
-    }
-
     /**
      * @runInSeparateProcess
      * @requires extension xdebug
@@ -205,17 +187,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $this->expectOutputRegex('/Redirecting to/i');
         $handler->redirect('/clippy/koala');
         $this->assertContains('location: /clippy/koala', xdebug_get_headers());
-    }
-
-    public function testRequestSafe()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $app['request'] = $request;
-        $handler = new UtilsRuntime($app);
-
-        $result = $handler->request('route', 'GET', true);
-        $this->assertNull($result);
     }
 
     public function testRequestGet()

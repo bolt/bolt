@@ -101,14 +101,4 @@ class TwigExtensionTest extends BoltUnitTest
         $result = $twig->getTokenParsers();
         $this->assertInstanceOf('Bolt\Twig\SetcontentTokenParser', $result[0]);
     }
-
-    public function testGetTokenParsersSafe()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $result = $twig->getTokenParsers();
-        $this->assertSame([], $result);
-    }
 }
