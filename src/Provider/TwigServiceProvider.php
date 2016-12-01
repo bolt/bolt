@@ -125,7 +125,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             $app->extend(
                 'twig',
                 function (\Twig_Environment $twig, $app) {
-                    $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
+                    $twig->addExtension(new TwigExtension(false));
                     $twig->addExtension($app['twig.extension.asset']);
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);

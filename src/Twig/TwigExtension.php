@@ -2,33 +2,20 @@
 
 namespace Bolt\Twig;
 
-use Bolt;
-use Silex;
-
 /**
  * The class for Bolt' Twig tags, functions and filters.
  */
 class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
-    /** @var \Silex\Application */
-    private $app;
-
     /** @var boolean */
     private $safe;
 
-    /** @var \Pimple */
-    private $handlers;
-
     /**
-     * @param \Silex\Application $app
-     * @param \Pimple            $handlers
-     * @param boolean            $safe
+     * @param boolean $safe
      */
-    public function __construct(Silex\Application $app, \Pimple $handlers, $safe)
+    public function __construct($safe)
     {
-        $this->app      = $app;
-        $this->handlers = $handlers;
-        $this->safe     = $safe;
+        $this->safe = $safe;
     }
 
     public function getName()
