@@ -7,8 +7,10 @@ use Bolt\Composer\EventListener\BufferIOListener;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
+use Bolt\Extension\ExtensionQueue;
 use Bolt\Extension\Manager;
 use Composer\IO\BufferIO;
+use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -24,10 +26,13 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                     $app['logger.flash'],
                     $app['config']
                 );
+                $loader->addManagedExtensions();
 
                 return $loader;
             }
         );
+
+
 
         $app['extensions.stats'] = $app->share(
             function ($app) {
@@ -126,7 +131,6 @@ class ExtensionServiceProvider implements ServiceProviderInterface
     {
         /** @var Manager $extensionService */
         $extensionService = $app['extensions'];
-        $extensionService->addManagedExtensions();
         $extensionService->register($app);
         $extensionService->boot($app);
     }

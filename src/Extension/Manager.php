@@ -124,9 +124,13 @@ class Manager
         // Set paths in the extension
         if ($baseDir !== null) {
             $extension->setBaseDirectory($baseDir);
+        } else {
+            $extension->setBaseDirectory($this->extFs->getDir($extension->getId()));
         }
         if ($webDir !== null) {
             $extension->setWebDirectory($webDir);
+        } else {
+            $extension->setWebDirectory($this->webFs->getDir($extension->getId()));
         }
 
         // Determine if enabled
@@ -174,7 +178,6 @@ class Manager
             $this->addManagedExtension($descriptor);
         }
 
-        $this->loaded = true;
     }
 
     /**
@@ -229,6 +232,7 @@ class Manager
                 $provider->boot($app);
             }
         }
+        $this->loaded = true;
         $this->booted = true;
     }
 
