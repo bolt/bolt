@@ -5,6 +5,7 @@ use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
+use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Bolt\Twig\TwigExtension;
@@ -19,6 +20,17 @@ class TwigServiceProvider implements ServiceProviderInterface
     {
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
+        }
+        if (!isset($app['twig.runtimes'])) {
+            $app['twig.runtimes'] = function () {
+                return [];
+            };
+        }
+        /** @deprecated Can be replaced when switch to Silex 2 occurs */
+        if (!isset($app['twig.runtime_loader'])) {
+            $app['twig.runtime_loader'] = function ($app) {
+                return new RuntimeLoader($app, $app['twig.runtimes']);
+            };
         }
 
         $app['twig.loader.bolt_filesystem'] = $app->share(
@@ -94,6 +106,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $sandbox = $app['twig.extension.sandbox'];
                     $twig->addExtension($sandbox);
                     $twig->addGlobal('app', new ArrayAccessSecurityProxy($app, $sandbox));
+
+                    /** @deprecated Can be replaced when switch to Silex 2 occurs */
+                    $twig->addRuntimeLoader($app['twig.runtime_loader']);
 
                     return $twig;
                 }
