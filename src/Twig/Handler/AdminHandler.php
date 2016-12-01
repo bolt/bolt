@@ -119,13 +119,16 @@ class AdminHandler
      *
      * @internal
      *
-     * @param array   $args
-     * @param integer $numArgs
+     * @internal param array $args
+     * @internal param int   $numArgs
      *
      * @return string Translated content
      */
-    public function trans(array $args, $numArgs)
+    public function trans()
     {
+        $args = func_get_args();
+        $numArgs = func_num_args();
+
         switch ($numArgs) {
             case 4:
                 return Trans::__($args[0], $args[1], $args[2], $args[3]);
@@ -188,17 +191,11 @@ class AdminHandler
      * for use in Flashbag messages, to allow easy editing.
      *
      * @param string  $str
-     * @param boolean $safe
      *
      * @return string Resulting string
      */
-    public function ymllink($str, $safe)
+    public function ymllink($str)
     {
-        // There is absolutely no way anyone could possibly need this in a "safe" context
-        if ($safe) {
-            return null;
-        }
-
         $matches = [];
         if (preg_match('/ ([a-z0-9_-]+\.yml)/i', $str, $matches)) {
             $path = $this->app->generatePath('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);

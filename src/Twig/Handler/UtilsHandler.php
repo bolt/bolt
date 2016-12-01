@@ -27,32 +27,25 @@ class UtilsHandler
     /**
      * Check if a file exists.
      *
-     * @param string  $fn
-     * @param boolean $safe
+     * @param string $filename
      *
      * @return boolean
      */
-    public function fileExists($fn, $safe)
+    public function fileExists($filename)
     {
-        if ($safe) {
-            // pretend we don't know anything about any files
-            return false;
-        } else {
-            return file_exists($fn);
-        }
+        return file_exists($filename);
     }
 
     /**
      * Output pretty-printed backtrace.
      *
      * @param integer $depth
-     * @param boolean $safe
      *
      * @return string|null
      */
-    public function printBacktrace($depth, $safe)
+    public function printBacktrace($depth)
     {
-        if (!$this->allowDebug($safe)) {
+        if (!$this->allowDebug()) {
             return null;
         }
 
@@ -62,15 +55,14 @@ class UtilsHandler
     /**
      * Send debug data to the developers FirePHP instance in-browser.
      *
-     * @param mixed   $var  The data to be dumped into FirePHP
-     * @param mixed   $msg  The message to associate with the data
-     * @param boolean $safe
+     * @param mixed $var  The data to be dumped into FirePHP
+     * @param mixed $msg  The message to associate with the data
      *
      * @return string FirePHP formatted string
      */
-    public function printFirebug($var, $msg, $safe)
+    public function printFirebug($var, $msg)
     {
-        if (!$this->allowDebug($safe)) {
+        if (!$this->allowDebug()) {
             return null;
         }
 
@@ -84,18 +76,12 @@ class UtilsHandler
     /**
      * Redirect the browser to another page.
      *
-     * @param string  $path
-     * @param boolean $safe
+     * @param string $path
      *
      * @return string
      */
-    public function redirect($path, $safe)
+    public function redirect($path)
     {
-        // Nope! We're not allowing user-supplied content to issue redirects.
-        if ($safe) {
-            return null;
-        }
-
         Lib::simpleredirect($path);
 
         return '';
@@ -107,17 +93,11 @@ class UtilsHandler
      * @param string  $parameter    The parameter to get
      * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
      * @param boolean $stripSlashes Apply stripslashes. Defaults to false.
-     * @param boolean $safe
      *
      * @return mixed
      */
-    public function request($parameter, $from, $stripSlashes, $safe)
+    public function request($parameter, $from = '', $stripSlashes = false)
     {
-        // Don't expose request in safe context
-        if ($safe) {
-            return null;
-        }
-
         $from = strtoupper($from);
 
         if ($from === 'GET') {
@@ -137,20 +117,18 @@ class UtilsHandler
 
     /**
      * Helper function to determine if we're supposed to allow `backtrace`
-     * and `firebug`. If `$safe` is set or `$this->app['debug']` is false, we
-     * don't allow it. Otherwise we show only to _logged on_ users, _or_
-     * non-authenticated users, but then `debug_show_loggedoff` needs to be set.
-     *
-     * @param boolean $safe
+     * and `firebug`. If `$this->app['debug']` is false, we don't allow it.
+     * Otherwise we show only to _logged on_ users, _or_ non-authenticated
+     * users, but then `debug_show_loggedoff` needs to be set.
      *
      * @return boolean
      */
-    private function allowDebug($safe)
+    private function allowDebug()
     {
         $debug = $this->app['debug'];
         $isUser = (bool) $this->app['users']->getCurrentUser() ?: false;
         $showAlways = $this->app['config']->get('general/debug_show_loggedoff', false);
 
-        return !$safe && $debug && ($isUser || $showAlways);
+        return $debug && ($isUser || $showAlways);
     }
 }

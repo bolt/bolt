@@ -177,18 +177,12 @@ class RecordHandler
     /**
      * Lists templates, optionally filtered by $filter.
      *
-     * @param string  $filter
-     * @param boolean $safe
+     * @param string $filter
      *
      * @return array Sorted and possibly filtered templates
      */
-    public function listTemplates($filter = null, $safe = false)
+    public function listTemplates($filter = null)
     {
-        // No need to list templates in safe mode.
-        if ($safe) {
-            return null;
-        }
-
         $files = [];
 
         $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';

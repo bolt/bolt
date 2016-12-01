@@ -30,7 +30,7 @@ class HtmlHandler
     /**
      * Transforms plain text to HTML
      *
-     * @see Bolt\Helpers\Html::decorateTT()
+     * @see \Bolt\Helpers\Html::decorateTT()
      *
      * @param string $str
      *
@@ -47,23 +47,17 @@ class HtmlHandler
      * @param string               $html    The HTML to be editable
      * @param \Bolt\Legacy\Content $content The actual content
      * @param string               $field
-     * @param boolean              $safe
      *
      * @return string
      */
-    public function editable($html, Content $content, $field, $safe)
+    public function editable($html, Content $content, $field)
     {
-        // Editing content from within content? NOPE NOPE NOPE.
-        if ($safe) {
-            return null;
-        }
-
-        $contenttype = $content->contenttype['slug'];
+        $contentTypeName = $content->contenttype['slug'];
 
         $output = sprintf(
             '<div class="Bolt-editable" data-id="%s" data-contenttype="%s" data-field="%s">%s</div>',
             $content->id,
-            $contenttype,
+            $contentTypeName,
             $field,
             $html
         );
@@ -161,16 +155,11 @@ class HtmlHandler
      * @param string            $identifier Identifier for a particular menu
      * @param string            $template   The template to use.
      * @param array             $params     Extra parameters to pass on to the menu template.
-     * @param boolean           $safe
      *
      * @return string|null
      */
-    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [], $safe)
+    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
     {
-        if ($safe) {
-            return null;
-        }
-
         /** @var \Bolt\Menu\Menu $menu */
         $menu = $this->app['menu']->menu($identifier);
 
@@ -209,14 +198,14 @@ class HtmlHandler
      * http://twig.sensiolabs.org/doc/functions/template_from_string.html
      *
      * @param string $snippet
-     * @param array  $extravars
+     * @param array  $context
      *
      * @return string Twig output
      */
-    public function twig($snippet, $extravars = [])
+    public function twig($snippet, $context = [])
     {
         $template = $this->app['twig']->createTemplate((string) $snippet);
 
-        return twig_include($this->app['twig'], $extravars, $template, [], true, false, true);
+        return twig_include($this->app['twig'], $context, $template, [], true, false, true);
     }
 }

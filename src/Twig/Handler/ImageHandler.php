@@ -40,7 +40,7 @@ class ImageHandler
     {
         //Check if it's an alias as the only parameter after $filename
         if ($width && !$height && !$crop && $this->isAlias($width)) {
-            return $this->getAliasedUri($filename, $width);
+            return $this->getAliasedUri($fileName, $width);
         }
 
         if ($width || $height) {
@@ -68,16 +68,13 @@ class ImageHandler
      * Get an image.
      *
      * @param string $fileName
-     * @param string $safe
      *
      * @return \Bolt\Filesystem\Handler\ImageInterface
      */
-    public function imageInfo($fileName, $safe)
+    public function imageInfo($fileName)
     {
         if ($fileName instanceof ImageInterface) {
             return $fileName;
-        } elseif ($safe) {
-            return null;
         }
 
         $image = $this->app['filesystem']->getFile('files://' . $fileName, new NullableImage());
