@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
 use Silex;
 use Symfony\Component\Security\Csrf\CsrfToken;

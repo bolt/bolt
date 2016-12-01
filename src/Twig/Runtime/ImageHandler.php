@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Handler\NullableImage;

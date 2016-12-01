@@ -1,10 +1,11 @@
 <?php
+
 namespace Bolt\Provider;
 
+use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
-use Bolt\Twig\Handler;
 use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
@@ -24,34 +25,34 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
-            return new Handler\AdminHandler($app);
+            return new Twig\Runtime\AdminHandler($app);
         };
         $app['twig.runtime.bolt_array'] = function ($app) {
-            return new Handler\ArrayHandler($app);
+            return new Twig\Runtime\ArrayHandler($app);
         };
         $app['twig.runtime.bolt_html'] = function ($app) {
-            return new Handler\HtmlHandler($app);
+            return new Twig\Runtime\HtmlHandler($app);
         };
         $app['twig.runtime.bolt_image'] = function ($app) {
-            return new Handler\ImageHandler($app);
+            return new Twig\Runtime\ImageHandler($app);
         };
         $app['twig.runtime.bolt_record'] = function ($app) {
-            return new Handler\RecordHandler($app);
+            return new Twig\Runtime\RecordHandler($app);
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Handler\RoutingHandler($app);
+            return new Twig\Runtime\RoutingHandler($app);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
-            return new Handler\TextHandler($app);
+            return new Twig\Runtime\TextHandler($app);
         };
         $app['twig.runtime.bolt_user'] = function ($app) {
-            return new Handler\UserHandler($app);
+            return new Twig\Runtime\UserHandler($app);
         };
         $app['twig.runtime.bolt_utils'] = function ($app) {
-            return new Handler\UtilsHandler($app);
+            return new Twig\Runtime\UtilsHandler($app);
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Handler\WidgetHandler($app);
+            return new Twig\Runtime\WidgetHandler($app);
         };
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
@@ -64,16 +65,16 @@ class TwigServiceProvider implements ServiceProviderInterface
             'twig.runtimes',
             function () {
                 return [
-                    Handler\AdminHandler::class   => 'twig.runtime.bolt_admin',
-                    Handler\ArrayHandler::class   => 'twig.runtime.bolt_array',
-                    Handler\HtmlHandler::class    => 'twig.runtime.bolt_html',
-                    Handler\ImageHandler::class   => 'twig.runtime.bolt_image',
-                    Handler\RecordHandler::class  => 'twig.runtime.bolt_record',
-                    Handler\RoutingHandler::class => 'twig.runtime.bolt_routing',
-                    Handler\TextHandler::class    => 'twig.runtime.bolt_text',
-                    Handler\UserHandler::class    => 'twig.runtime.bolt_user',
-                    Handler\UtilsHandler::class   => 'twig.runtime.bolt_utils',
-                    Handler\WidgetHandler::class  => 'twig.runtime.bolt_widget',
+                    Twig\Runtime\AdminHandler::class   => 'twig.runtime.bolt_admin',
+                    Twig\Runtime\ArrayHandler::class   => 'twig.runtime.bolt_array',
+                    Twig\Runtime\HtmlHandler::class    => 'twig.runtime.bolt_html',
+                    Twig\Runtime\ImageHandler::class   => 'twig.runtime.bolt_image',
+                    Twig\Runtime\RecordHandler::class  => 'twig.runtime.bolt_record',
+                    Twig\Runtime\RoutingHandler::class => 'twig.runtime.bolt_routing',
+                    Twig\Runtime\TextHandler::class    => 'twig.runtime.bolt_text',
+                    Twig\Runtime\UserHandler::class    => 'twig.runtime.bolt_user',
+                    Twig\Runtime\UtilsHandler::class   => 'twig.runtime.bolt_utils',
+                    Twig\Runtime\WidgetHandler::class  => 'twig.runtime.bolt_widget',
                 ];
             }
         );

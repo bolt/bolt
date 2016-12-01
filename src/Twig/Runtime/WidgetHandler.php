@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
 use Bolt\Controller\Zone;
 use Silex;
