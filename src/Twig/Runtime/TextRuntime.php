@@ -10,7 +10,7 @@ use Silex;
  *
  * @internal
  */
-class TextHandler
+class TextRuntime
 {
     /** @var \Silex\Application */
     private $app;

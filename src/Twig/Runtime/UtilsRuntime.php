@@ -11,7 +11,7 @@ use Symfony\Component\VarDumper\VarDumper;
  *
  * @internal
  */
-class UtilsHandler
+class UtilsRuntime
 {
     /** @var \Silex\Application */
     private $app;

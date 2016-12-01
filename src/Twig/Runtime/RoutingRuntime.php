@@ -9,7 +9,7 @@ use Silex;
  *
  * @internal
  */
-class RoutingHandler
+class RoutingRuntime
 {
     /** @var \Silex\Application */
     private $app;

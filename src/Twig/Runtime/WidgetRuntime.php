@@ -10,7 +10,7 @@ use Silex;
  *
  * @internal
  */
-class WidgetHandler
+class WidgetRuntime
 {
     /** @var \Silex\Application */
     private $app;

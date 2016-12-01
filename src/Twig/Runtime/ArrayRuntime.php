@@ -9,7 +9,7 @@ use Silex;
  *
  * @internal
  */
-class ArrayHandler
+class ArrayRuntime
 {
     private $orderOn;
     private $orderAscending;

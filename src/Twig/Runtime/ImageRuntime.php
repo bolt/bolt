@@ -13,7 +13,7 @@ use Silex;
  *
  * @internal
  */
-class ImageHandler
+class ImageRuntime
 {
     /** @var \Silex\Application */
     private $app;

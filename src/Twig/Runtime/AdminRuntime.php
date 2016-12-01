@@ -12,7 +12,7 @@ use Silex;
  *
  * @internal
  */
-class AdminHandler
+class AdminRuntime
 {
     /** @var \Silex\Application */
     private $app;

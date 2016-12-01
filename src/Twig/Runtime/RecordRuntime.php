@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @internal
  */
-class RecordHandler
+class RecordRuntime
 {
     /** @var \Silex\Application */
     private $app;

@@ -25,34 +25,34 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
-            return new Twig\Runtime\AdminHandler($app);
+            return new Twig\Runtime\AdminRuntime($app);
         };
         $app['twig.runtime.bolt_array'] = function ($app) {
-            return new Twig\Runtime\ArrayHandler($app);
+            return new Twig\Runtime\ArrayRuntime($app);
         };
         $app['twig.runtime.bolt_html'] = function ($app) {
-            return new Twig\Runtime\HtmlHandler($app);
+            return new Twig\Runtime\HtmlRuntime($app);
         };
         $app['twig.runtime.bolt_image'] = function ($app) {
-            return new Twig\Runtime\ImageHandler($app);
+            return new Twig\Runtime\ImageRuntime($app);
         };
         $app['twig.runtime.bolt_record'] = function ($app) {
-            return new Twig\Runtime\RecordHandler($app);
+            return new Twig\Runtime\RecordRuntime($app);
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Twig\Runtime\RoutingHandler($app);
+            return new Twig\Runtime\RoutingRuntime($app);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
-            return new Twig\Runtime\TextHandler($app);
+            return new Twig\Runtime\TextRuntime($app);
         };
         $app['twig.runtime.bolt_user'] = function ($app) {
-            return new Twig\Runtime\UserHandler($app);
+            return new Twig\Runtime\UserRuntime($app);
         };
         $app['twig.runtime.bolt_utils'] = function ($app) {
-            return new Twig\Runtime\UtilsHandler($app);
+            return new Twig\Runtime\UtilsRuntime($app);
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Twig\Runtime\WidgetHandler($app);
+            return new Twig\Runtime\WidgetRuntime($app);
         };
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
@@ -65,16 +65,16 @@ class TwigServiceProvider implements ServiceProviderInterface
             'twig.runtimes',
             function () {
                 return [
-                    Twig\Runtime\AdminHandler::class   => 'twig.runtime.bolt_admin',
-                    Twig\Runtime\ArrayHandler::class   => 'twig.runtime.bolt_array',
-                    Twig\Runtime\HtmlHandler::class    => 'twig.runtime.bolt_html',
-                    Twig\Runtime\ImageHandler::class   => 'twig.runtime.bolt_image',
-                    Twig\Runtime\RecordHandler::class  => 'twig.runtime.bolt_record',
-                    Twig\Runtime\RoutingHandler::class => 'twig.runtime.bolt_routing',
-                    Twig\Runtime\TextHandler::class    => 'twig.runtime.bolt_text',
-                    Twig\Runtime\UserHandler::class    => 'twig.runtime.bolt_user',
-                    Twig\Runtime\UtilsHandler::class   => 'twig.runtime.bolt_utils',
-                    Twig\Runtime\WidgetHandler::class  => 'twig.runtime.bolt_widget',
+                    Twig\Runtime\AdminRuntime::class   => 'twig.runtime.bolt_admin',
+                    Twig\Runtime\ArrayRuntime::class   => 'twig.runtime.bolt_array',
+                    Twig\Runtime\HtmlRuntime::class    => 'twig.runtime.bolt_html',
+                    Twig\Runtime\ImageRuntime::class   => 'twig.runtime.bolt_image',
+                    Twig\Runtime\RecordRuntime::class  => 'twig.runtime.bolt_record',
+                    Twig\Runtime\RoutingRuntime::class => 'twig.runtime.bolt_routing',
+                    Twig\Runtime\TextRuntime::class    => 'twig.runtime.bolt_text',
+                    Twig\Runtime\UserRuntime::class    => 'twig.runtime.bolt_user',
+                    Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
+                    Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
                 ];
             }
         );

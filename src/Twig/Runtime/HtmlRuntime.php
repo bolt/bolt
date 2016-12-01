@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @internal
  */
-class HtmlHandler
+class HtmlRuntime
 {
     /** @var \Silex\Application */
     private $app;

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
  *
  * @internal
  */
-class UserHandler
+class UserRuntime
 {
     /** @var \Silex\Application */
     private $app;
