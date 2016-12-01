@@ -28,7 +28,7 @@ class HtmlRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new HtmlRuntime($app);
 
-        $result = $handler->editable('<blink>Drop Bear Warning!</blink>', new Content($app), 'paddock', true);
+        $result = $handler->editable('<blink>Drop Bear Warning!</blink>', new Content($app), 'paddock');
         $this->assertNull($result);
     }
 
@@ -42,7 +42,7 @@ class HtmlRuntimeTest extends BoltUnitTest
             'contenttype' => ['slug' => 'snail'],
         ]);
 
-        $result = $handler->editable('<blink>Drop Bear Warning!</blink>', $content, 'paddock', false);
+        $result = $handler->editable('<blink>Drop Bear Warning!</blink>', $content, 'paddock');
         $this->assertSame('<div class="Bolt-editable" data-id="42" data-contenttype="" data-field="paddock"><blink>Drop Bear Warning!</blink></div>', $result);
     }
 
@@ -152,9 +152,12 @@ HTML;
     public function testMenuSafe()
     {
         $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $app['request_stack']->push($request);
         $handler = new HtmlRuntime($app);
 
-        $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], true);
+        $result = $handler->menu($app['safe_twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy']);
         $this->assertNull($result);
     }
 
@@ -167,7 +170,7 @@ HTML;
 
         $handler = new HtmlRuntime($app);
 
-        $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy'], false);
+        $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy']);
         $this->assertRegExp('#<li class="index-1 first">#', $result);
     }
 

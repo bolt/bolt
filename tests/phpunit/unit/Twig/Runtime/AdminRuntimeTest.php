@@ -5,6 +5,7 @@ namespace Bolt\Tests\Twig\Runtime;
 use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\AdminRuntime;
+use Monolog\Logger;
 use Silex\Translator;
 
 /**
@@ -110,28 +111,28 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->logLevel(\Monolog\Logger::ALERT);
+        $result = $handler->logLevel(Logger::ALERT);
         $this->assertSame('Alert', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::CRITICAL);
+        $result = $handler->logLevel(Logger::CRITICAL);
         $this->assertSame('Critical', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::DEBUG);
+        $result = $handler->logLevel(Logger::DEBUG);
         $this->assertSame('Debug', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::EMERGENCY);
+        $result = $handler->logLevel(Logger::EMERGENCY);
         $this->assertSame('Emergency', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::ERROR);
+        $result = $handler->logLevel(Logger::ERROR);
         $this->assertSame('Error', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::INFO);
+        $result = $handler->logLevel(Logger::INFO);
         $this->assertSame('Info', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::NOTICE);
+        $result = $handler->logLevel(Logger::NOTICE);
         $this->assertSame('Notice', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::WARNING);
+        $result = $handler->logLevel(Logger::WARNING);
         $this->assertSame('Warning', $result);
     }
 
@@ -149,7 +150,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->trans([], 0);
+        $result = $handler->trans();
         $this->assertNull($result);
     }
 
@@ -158,7 +159,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->trans(['general.about'], 1);
+        $result = $handler->trans('general.about');
         $this->assertSame('About', $result);
     }
 
@@ -167,7 +168,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'Page']], 2);
+        $result = $handler->trans('contenttypes.generic.delete', ['%contenttype%' => 'Page']);
         $this->assertSame('Delete Page', $result);
     }
 
@@ -176,7 +177,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->trans(['contenttypes.pages.group.content', [], 'contenttypes'], 3);
+        $result = $handler->trans('contenttypes.pages.group.content', [], 'contenttypes');
         $this->assertSame('Content', $result);
     }
 
@@ -193,7 +194,7 @@ class AdminRuntimeTest extends BoltUnitTest
 
         $handler = new AdminRuntime($app);
 
-        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE'], 4);
+        $result = $handler->trans('contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE');
         $this->assertSame('Page löschen', $result);
     }
 
@@ -211,7 +212,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->ymllink(' config.yml', true);
+        $result = $handler->ymllink(' config.yml');
         $this->assertNull($result);
     }
 
@@ -220,7 +221,7 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new AdminRuntime($app);
 
-        $result = $handler->ymllink(' config.yml', false);
+        $result = $handler->ymllink(' config.yml');
         $this->assertSame(' <a href="/bolt/file/edit/config/config.yml">config.yml</a>', $result);
     }
 

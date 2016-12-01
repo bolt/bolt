@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Asset\Snippet\Snippet;
+use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
@@ -360,6 +361,7 @@ GRINGALET;
         $app = $this->getApp();
         $handler = new RecordRuntime($app);
 
+        /** @var Content $content */
         $content = $app['storage']->getEmptyContent('pages');
         $content->setValue('body', $this->original);
 
@@ -433,7 +435,7 @@ GRINGALET;
         $app = $this->getApp();
         $handler = new RecordRuntime($app);
 
-        $result = $handler->listTemplates('*.twig', true);
+        $result = $handler->listTemplates('*.twig');
         $this->assertNull($result);
     }
 
@@ -443,7 +445,7 @@ GRINGALET;
         $app['config']->set('theme/templateselect', null);
         $handler = new RecordRuntime($app);
 
-        $result = $handler->listTemplates(null, false);
+        $result = $handler->listTemplates(null);
         $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
@@ -460,7 +462,7 @@ GRINGALET;
         $app['config']->set('theme/templateselect', null);
         $handler = new RecordRuntime($app);
 
-        $result = $handler->listTemplates('*.twig', false);
+        $result = $handler->listTemplates('*.twig');
         $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
@@ -477,7 +479,7 @@ GRINGALET;
         $app['config']->set('theme/templateselect', null);
         $handler = new RecordRuntime($app);
 
-        $result = $handler->listTemplates('s*.twig', false);
+        $result = $handler->listTemplates('s*.twig');
         $this->assertArrayHasKey('search.twig', $result);
         $this->assertArrayHasKey('styleguide.twig', $result);
         $this->assertArrayNotHasKey('index.twig', $result);
@@ -500,7 +502,7 @@ GRINGALET;
         ]);
         $handler = new RecordRuntime($app);
 
-        $result = $handler->listTemplates('*extra*', false);
+        $result = $handler->listTemplates('*extra*');
         $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('anotherextrafields.twig', $result);
         $this->assertContains('Koala', $result);
@@ -591,7 +593,9 @@ GRINGALET;
     {
         $app = $this->getApp();
         $handler = new RecordRuntime($app);
+        /** @var Content $record1 */
         $record1 = $app['storage']->getEmptyContent('pages');
+        /** @var Content $record2 */
         $record2 = $app['storage']->getEmptyContent('pages');
 
         $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);
@@ -606,7 +610,9 @@ GRINGALET;
     {
         $app = $this->getApp();
         $handler = new RecordRuntime($app);
+        /** @var Content $record1 */
         $record1 = $app['storage']->getEmptyContent('pages');
+        /** @var Content $record2 */
         $record2 = $app['storage']->getEmptyContent('pages');
 
         $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);
@@ -621,7 +627,9 @@ GRINGALET;
     {
         $app = $this->getApp();
         $handler = new RecordRuntime($app);
+        /** @var Content $record1 */
         $record1 = $app['storage']->getEmptyContent('pages');
+        /** @var Content $record2 */
         $record2 = $app['storage']->getEmptyContent('pages');
 
         $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);

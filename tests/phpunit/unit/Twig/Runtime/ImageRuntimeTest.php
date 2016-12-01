@@ -99,7 +99,7 @@ class ImageRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageRuntime($app);
 
-        $image = $handler->imageInfo('koala.jpg', false);
+        $image = $handler->imageInfo('koala.jpg');
         $this->assertInstanceOf(ImageInterface::class, $image);
         $this->assertInstanceOf(Image\Info::class, $image->getInfo());
     }
@@ -109,7 +109,7 @@ class ImageRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageRuntime($app);
 
-        $image = $handler->imageInfo('generic-logo.png', false);
+        $image = $handler->imageInfo('generic-logo.png');
         $this->assertInstanceOf(ImageInterface::class, $image);
         $this->assertInstanceOf(Image\Info::class, $image->getInfo());
     }
@@ -270,7 +270,7 @@ class ImageRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageRuntime($app);
 
-        $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Koala">', $result);
     }
 
@@ -279,7 +279,7 @@ class ImageRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageRuntime($app);
 
-        $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null, null);
+        $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
     }
 
@@ -288,7 +288,7 @@ class ImageRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageRuntime($app);
 
-        $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Gum Leaves">', $result);
     }
 }

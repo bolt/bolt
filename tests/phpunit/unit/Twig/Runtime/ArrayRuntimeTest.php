@@ -14,7 +14,7 @@ class ArrayRuntimeTest extends BoltUnitTest
 {
     public function setUp()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Handler')
+        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Runtime')
             ->mockFunction('shuffle')
             ->getMock()
         ;
