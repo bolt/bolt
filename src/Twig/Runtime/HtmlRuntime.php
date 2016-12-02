@@ -2,12 +2,14 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Config;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
+use Bolt\Menu\MenuBuilder;
+use Bolt\Storage\EntityManager;
 use Maid\Maid;
-use Silex;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -16,15 +18,48 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HtmlRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var Config */
+    private $config;
+    /** @var \Parsedown */
+    private $markdown;
+    /** @var MenuBuilder */
+    private $menu;
+    /** @var EntityManager */
+    private $em;
+    /** @var RequestStack */
+    private $requestStack;
+    /** @var \Twig_Environment */
+    private $twig;
+    /** @var string */
+    private $locale;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Config            $config
+     * @param \Parsedown        $markdown
+     * @param MenuBuilder       $menu
+     * @param EntityManager     $em
+     * @param RequestStack      $requestStack
+     * @param \Twig_Environment $twig
+     * @param string            $locale
      */
-    public function __construct(Silex\Application $app)
-    {
-        $this->app = $app;
+    public function __construct(
+        Config $config,
+        \Parsedown $markdown,
+        MenuBuilder $menu,
+        EntityManager $em,
+        RequestStack $requestStack,
+        \Twig_Environment $twig,
+        $locale
+    ) {
+        $this->config = $config;
+        $this->markdown = $markdown;
+        $this->menu = $menu;
+        $this->em = $em;
+        $this->requestStack = $requestStack;
+        $this->twig = $twig;
+        $this->locale = $locale;
     }
 
     /**
@@ -74,7 +109,7 @@ class HtmlRuntime
      */
     public function htmlLang()
     {
-        return str_replace('_', '-', $this->app['locale']);
+        return str_replace('_', '-', $this->locale);
     }
 
     /**
@@ -84,7 +119,8 @@ class HtmlRuntime
      */
     public function isMobileClient()
     {
-        if (($request = $this->app['request_stack']->getCurrentRequest()) === null) {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request === null) {
             return false;
         }
 
@@ -104,20 +140,20 @@ class HtmlRuntime
     public function markdown($content)
     {
         // Parse the field as Markdown, return HTML
-        $output = $this->app['markdown']->text($content);
+        $output = $this->markdown->text($content);
 
-        $config = $this->app['config']->get('general/htmlcleaner');
-        $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
+        $config = $this->config->get('general/htmlcleaner');
+        $allowedTags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
             ['div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'];
-        $allowed_attributes = !empty($config['allowed_attributes']) ? $config['allowed_attributes'] :
+        $allowedAttributes = !empty($config['allowed_attributes']) ? $config['allowed_attributes'] :
             ['id', 'class', 'name', 'value', 'href', 'src'];
 
         // Sanitize/clean the HTML.
         $maid = new Maid(
             [
                 'output-format'   => 'html',
-                'allowed-tags'    => $allowed_tags,
-                'allowed-attribs' => $allowed_attributes,
+                'allowed-tags'    => $allowedTags,
+                'allowed-attribs' => $allowedAttributes,
             ]
         );
         $output = $maid->clean($output);
@@ -126,7 +162,7 @@ class HtmlRuntime
     }
 
     /**
-     * Create an HTML link to a given URL or contenttype/slug pair.
+     * Create an HTML link to a given URL or ContentType/slug pair.
      *
      * @param string $location
      * @param string $label
@@ -141,7 +177,7 @@ class HtmlRuntime
 
         if (Html::isURL($location)) {
             $location = Html::addScheme($location);
-        } elseif ($record = $this->app['storage']->getContent($location)) {
+        } elseif ($record = $this->em->getContent($location)) {
             $location = $record->link();
         }
 
@@ -160,16 +196,15 @@ class HtmlRuntime
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
     {
-        /** @var \Bolt\Menu\Menu $menu */
-        $menu = $this->app['menu']->menu($identifier);
+        $menu = $this->menu->menu($identifier);
 
-        $twigvars = [
+        $context = [
             'name' => $menu->getName(),
             'menu' => $menu->getItems(),
         ];
-        $twigvars += (array) $params;
+        $context += (array) $params;
 
-        return $env->render($template, $twigvars);
+        return $env->render($template, $context);
     }
 
     /**
@@ -204,8 +239,8 @@ class HtmlRuntime
      */
     public function twig($snippet, $context = [])
     {
-        $template = $this->app['twig']->createTemplate((string) $snippet);
+        $template = $this->twig->createTemplate((string) $snippet);
 
-        return twig_include($this->app['twig'], $context, $template, [], true, false, true);
+        return twig_include($this->twig, $context, $template, [], true, false, true);
     }
 }

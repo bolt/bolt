@@ -31,7 +31,15 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\ArrayRuntime();
         };
         $app['twig.runtime.bolt_html'] = function ($app) {
-            return new Twig\Runtime\HtmlRuntime($app);
+            return new Twig\Runtime\HtmlRuntime(
+                $app['config'],
+                $app['markdown'],
+                $app['menu'],
+                $app['storage'],
+                $app['request_stack'],
+                $app['twig'],
+                $app['locale']
+            );
         };
         $app['twig.runtime.bolt_image'] = function ($app) {
             return new Twig\Runtime\ImageRuntime(
