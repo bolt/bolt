@@ -2,11 +2,14 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Config;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Handler\NullableImage;
+use Bolt\Filesystem\Manager;
+use Bolt\Filesystem\Matcher;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Translation\Translator as Trans;
-use Silex;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Bolt specific Twig functions and filters that provide image support
@@ -15,15 +18,33 @@ use Silex;
  */
 class ImageRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var Config */
+    private $config;
+    /** @var UrlGeneratorInterface */
+    private $urlGenerator;
+    /** @var Manager */
+    private $filesystem;
+    /** @var Matcher */
+    private $filesystemMatcher;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Config                $config
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param Manager               $filesystem
+     * @param Matcher               $filesystemMatcher
      */
-    public function __construct(Silex\Application $app)
-    {
-        $this->app = $app;
+    public function __construct(
+        Config $config,
+        UrlGeneratorInterface $urlGenerator,
+        Manager $filesystem,
+        Matcher $filesystemMatcher
+    ) {
+        $this->config = $config;
+        $this->urlGenerator = $urlGenerator;
+        $this->filesystem = $filesystem;
+        $this->filesystemMatcher = $filesystemMatcher;
     }
 
     /**
@@ -57,7 +78,7 @@ class ImageRuntime
             return null;
         }
 
-        $file = $this->app['filesystem.matcher']->getFile($fileName);
+        $file = $this->filesystemMatcher->getFile($fileName);
 
         $url = $file->url();
 
@@ -77,7 +98,7 @@ class ImageRuntime
             return $fileName;
         }
 
-        $image = $this->app['filesystem']->getFile('files://' . $fileName, new NullableImage());
+        $image = $this->filesystem->getFile('files://' . $fileName, new NullableImage());
 
         return $image;
     }
@@ -106,7 +127,7 @@ class ImageRuntime
             return '';
         }
 
-        $thumbconf = $this->app['config']->get('general/thumbnails');
+        $thumbconf = $this->config->get('general/thumbnails');
         $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
         $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
 
@@ -159,13 +180,13 @@ class ImageRuntime
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
         if ($width === null && $height === null) {
-            $thumbconf = $this->app['config']->get('general/thumbnails');
+            $thumbconf = $this->config->get('general/thumbnails');
             $width = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
             $height = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
             $thumb->setWidth($width);
             $thumb->setHeight($height);
         } elseif ($width === null xor $height === null) {
-            $info = $this->imageInfo($thumb->getFileName(), false)->getInfo();
+            $info = $this->imageInfo($thumb->getFileName())->getInfo();
 
             if ($width !== null) {
                 $width = min($width, $info->getWidth());
@@ -224,7 +245,7 @@ class ImageRuntime
      */
     private function getThumbnail($fileName = null, $width = null, $height = null, $scale = null)
     {
-        $thumb = new Thumbnail($this->app['config']->get('general/thumbnails'));
+        $thumb = new Thumbnail($this->config->get('general/thumbnails'));
         $thumb
             ->setFileName($fileName)
             ->setWidth($width)
@@ -248,7 +269,7 @@ class ImageRuntime
             return false;
         }
 
-        return $this->app['url_generator']->generate(
+        return $this->urlGenerator->generate(
             'thumb',
             [
                 'width'  => $thumb->getWidth(),
@@ -278,7 +299,7 @@ class ImageRuntime
             $filename = $filename['file'];
         }
 
-        return $this->app['url_generator']->generate(
+        return $this->urlGenerator->generate(
             'thumb_alias',
             [
                 'alias'  => $alias,
@@ -289,6 +310,6 @@ class ImageRuntime
 
     private function isAlias($alias)
     {
-        return (bool) $this->app['config']->get('theme/thumbnails/aliases/' . $alias, false);
+        return (bool) $this->config->get('theme/thumbnails/aliases/' . $alias, false);
     }
 }
