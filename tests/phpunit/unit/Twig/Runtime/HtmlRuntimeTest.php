@@ -16,8 +16,7 @@ class HtmlRuntimeTest extends BoltUnitTest
 {
     public function testDecorateTT()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->decorateTT('Lorem `ipsum` dolor.');
         $this->assertSame('Lorem <tt>ipsum</tt> dolor.', $result);
@@ -26,7 +25,7 @@ class HtmlRuntimeTest extends BoltUnitTest
     public function testEditable()
     {
         $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
         $content = new Content($app);
         $content->setValues([
             'id'          => 42,
@@ -41,7 +40,7 @@ class HtmlRuntimeTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['locale'] = 'en_Aussie_Mate';
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->htmlLang();
         $this->assertSame('en-Aussie-Mate', $result);
@@ -73,7 +72,7 @@ class HtmlRuntimeTest extends BoltUnitTest
     public function testIsMobileClientValid($userAgent, $isMobile = true)
     {
         $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $request = Request::create('/');
         $request->headers->set('User-Agent', $userAgent);
@@ -89,8 +88,7 @@ class HtmlRuntimeTest extends BoltUnitTest
 
     public function testIsMobileClientInvalid()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
         $result = $handler->isMobileClient();
@@ -99,8 +97,7 @@ class HtmlRuntimeTest extends BoltUnitTest
 
     public function testMarkdown()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $markdown = <<<MARKDOWN
 # Episode IV
@@ -123,8 +120,7 @@ HTML;
 
     public function testLink()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->link('http://google.com', 'click');
         $this->assertSame('<a href="http://google.com">click</a>', $result);
@@ -146,7 +142,7 @@ HTML;
         $app['request'] = $request;
         $app['request_stack']->push($request);
 
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy']);
         $this->assertRegExp('#<li class="index-1 first">#', $result);
@@ -154,8 +150,7 @@ HTML;
 
     public function testShy()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->shy('SomePeopleSayTheyAreShyOtherPeopleSayTheyAreNotWhatDoYouSay');
         $this->assertSame('SomePeople&shy;SayTheyAre&shy;ShyOtherPe&shy;opleSayThe&shy;yAreNotWha&shy;tDoYouSay', $result);
@@ -163,10 +158,27 @@ HTML;
 
     public function testTwig()
     {
-        $app = $this->getApp();
-        $handler = new HtmlRuntime($app);
+        $handler = $this->getHtmlRuntime();
 
         $result = $handler->twig("{{ 'koala'|capitalize }}");
         $this->assertSame('Koala', $result);
+    }
+
+    /**
+     * @return HtmlRuntime
+     */
+    protected function getHtmlRuntime()
+    {
+        $app = $this->getApp();
+
+        return new HtmlRuntime(
+            $app['config'],
+            $app['markdown'],
+            $app['menu'],
+            $app['storage'],
+            $app['request_stack'],
+            $app['safe_twig'],
+            $app['locale']
+        );
     }
 }
