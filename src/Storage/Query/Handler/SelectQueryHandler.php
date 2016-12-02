@@ -70,8 +70,12 @@ class SelectQueryHandler
         $allowedParams = array_keys($metadata->getFieldMappings());
         $cleanParams = [];
         foreach ($queryParams as $fieldSelect => $valueSelect) {
-            $stack = preg_split('/ *(\|\|\|) */', $fieldSelect);
-            $valueStack = preg_split('/ *(\|\|\|) */', $valueSelect);
+            $stack = [];
+
+            if (is_string($valueSelect)) {
+                $stack = preg_split('/ *(\|\|\|) */', $fieldSelect);
+                $valueStack = preg_split('/ *(\|\|\|) */', $valueSelect);
+            }
 
             if (count($stack) > 1) {
                 $allowedKeys = [];
