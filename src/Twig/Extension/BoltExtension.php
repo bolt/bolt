@@ -1,13 +1,17 @@
 <?php
 
-namespace Bolt\Twig;
+namespace Bolt\Twig\Extension;
+
+use Bolt\Twig\Runtime;
+use Bolt\Twig\SetcontentTokenParser;
+use Bolt\Twig\SwitchTokenParser;
 
 use Bolt;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
  */
-class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /** @var boolean */
     private $safe;
