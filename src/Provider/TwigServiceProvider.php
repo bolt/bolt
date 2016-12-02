@@ -42,7 +42,12 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_record'] = function ($app) {
-            return new Twig\Runtime\RecordRuntime($app);
+            return new Twig\Runtime\RecordRuntime(
+                $app['request_stack'],
+                $app['pager'],
+                $app['resources']->getPath('templatespath'),
+                $app['config']->get('theme/templateselect/templates', [])
+            );
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
             return new Twig\Runtime\RoutingRuntime($app['canonical']);
