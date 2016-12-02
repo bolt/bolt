@@ -25,7 +25,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
-            return new Twig\Runtime\AdminRuntime($app);
+            return new Twig\Runtime\AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);
         };
         $app['twig.runtime.bolt_array'] = function ($app) {
             return new Twig\Runtime\ArrayRuntime($app);
