@@ -25,8 +25,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameLegacy()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image('generic-logo.png');
         $this->assertStringStartsWith('/files/generic-logo.png', $result);
@@ -34,8 +33,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameArray()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image(['filename' => 'generic-logo.png']);
         $this->assertStringStartsWith('/files/generic-logo.png', $result);
@@ -43,8 +41,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameWidthOnly()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image(['filename' => 'generic-logo.png'], 20);
         $this->assertSame('/thumbs/20x120c/generic-logo.png', $result);
@@ -52,8 +49,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameHeightOnly()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image(['filename' => 'generic-logo.png'], '', 20);
         $this->assertSame('/thumbs/160x20c/generic-logo.png', $result);
@@ -61,8 +57,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameWidthHeight()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20);
         $this->assertSame('/thumbs/20x20c/generic-logo.png', $result);
@@ -70,8 +65,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageFileNameCrop()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'f');
         $this->assertSame('/thumbs/20x20f/generic-logo.png', $result);
@@ -96,8 +90,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageInfoNotReadable()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $image = $handler->imageInfo('koala.jpg');
         $this->assertInstanceOf(ImageInterface::class, $image);
@@ -106,8 +99,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testImageInfo()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $image = $handler->imageInfo('generic-logo.png');
         $this->assertInstanceOf(ImageInterface::class, $image);
@@ -116,8 +108,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupEmptyFileName()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup();
         $this->assertSame('', $result);
@@ -125,8 +116,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupFileNameOnly()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup('generic-logo.png');
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
@@ -134,8 +124,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupWidth()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup('generic-logo.png', 50);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x120c/generic-logo.png" width="50" height="120" alt="Image: generic-logo.png"></a>', $result);
@@ -143,8 +132,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupHeight()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup('generic-logo.png', null, 50);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50c/generic-logo.png" width="160" height="50" alt="Image: generic-logo.png"></a>', $result);
@@ -152,8 +140,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupCrop()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup('generic-logo.png', null, null, 'f');
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
@@ -178,8 +165,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupFileNameArrayWithTitle()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Koala"></a>', $result);
@@ -187,8 +173,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupFileNameArrayWithoutTitle()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup(['filename' => 'generic-logo.png'], null, null, null, null);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
@@ -196,8 +181,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testPopupFileNameArrayWithAlt()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->popup(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Gum Leaves"></a>', $result);
@@ -205,8 +189,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageEmptyFileName()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage();
         $this->assertSame('', $result);
@@ -214,8 +197,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageFileNameOnly()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage('generic-logo.png');
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
@@ -223,8 +205,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageWidth()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage('generic-logo.png', 50);
         $this->assertSame('<img src="/thumbs/50x28c/generic-logo.png" width="50" height="28" alt="">', $result);
@@ -232,8 +213,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageHeight()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage('generic-logo.png', null, 50);
         $this->assertSame('<img src="/thumbs/89x50c/generic-logo.png" width="89" height="50" alt="">', $result);
@@ -241,8 +221,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageCrop()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage('generic-logo.png', null, null, 'f');
         $this->assertSame('<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">', $result);
@@ -267,8 +246,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageFileNameArrayWithTitle()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Koala">', $result);
@@ -276,8 +254,7 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageFileNameArrayWithoutTitle()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
@@ -285,10 +262,24 @@ class ImageRuntimeTest extends BoltUnitTest
 
     public function testShowImageFileNameArrayWithAlt()
     {
-        $app = $this->getApp();
-        $handler = new ImageRuntime($app);
+        $handler = $this->getImageRuntime();
 
         $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null);
         $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Gum Leaves">', $result);
+    }
+
+    /**
+     * @return ImageRuntime
+     */
+    protected function getImageRuntime()
+    {
+        $app = $this->getApp();
+
+        return new ImageRuntime(
+            $app['config'],
+            $app['url_generator'],
+            $app['filesystem'],
+            $app['filesystem.matcher']
+        );
     }
 }
