@@ -23,7 +23,7 @@ class ArrayRuntimeTest extends BoltUnitTest
     public function testOrderEmpty()
     {
         $app = $this->getApp();
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order([], 'title');
         $this->assertSame([], $result);
@@ -38,7 +38,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Wayne', 'type' => 'batman'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, 'name', null);
         $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"0":{"name":"Johno","type":"koala"},"2":{"name":"Wayne","type":"batman"}}', json_encode($result));
@@ -53,7 +53,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Johno', 'type' => 'koala'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, '-name', null);
         $this->assertSame('{"0":{"name":"Wayne","type":"batman"},"2":{"name":"Johno","type":"koala"},"1":{"name":"Bruce","type":"clippy"}}', json_encode($result));
@@ -68,7 +68,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Johno', 'type' => 'batman'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, 'name', 'type');
         $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"2":{"name":"Johno","type":"batman"},"0":{"name":"Johno","type":"koala"}}', json_encode($result));
@@ -83,7 +83,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Bruce', 'type' => 'clippy'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, 'name', '-type');
         $this->assertSame('{"2":{"name":"Bruce","type":"clippy"},"1":{"name":"Johno","type":"koala"},"0":{"name":"Johno","type":"batman"}}', json_encode($result));
@@ -98,7 +98,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Bruce', 'type' => 'clippy'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, 'name', '-type');
         $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"batman"},"[0-2]":{"name":"Johno","type":"batman"}}#', json_encode($result));
@@ -113,7 +113,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ['name' => 'Johno', 'type' => 'batman'],
         ];
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->order($srcArr, 'name');
         $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', json_encode($result));
@@ -122,7 +122,7 @@ class ArrayRuntimeTest extends BoltUnitTest
     public function testShuffleString()
     {
         $app = $this->getApp();
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
 
         $result = $handler->shuffle('shuffleboard');
         $this->assertSame('shuffleboard', $result);
@@ -140,7 +140,7 @@ class ArrayRuntimeTest extends BoltUnitTest
             ->method('shuffle')
         ;
 
-        $handler = new ArrayRuntime($app);
+        $handler = new ArrayRuntime();
         $handler->shuffle(['shuffle', 'board']);
     }
 }
