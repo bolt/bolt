@@ -3,7 +3,8 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Library as Lib;
-use Silex;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -13,15 +14,33 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class UtilsRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var LoggerInterface */
+    private $firebugLogger;
+    /** @var RequestStack */
+    private $requestsStack;
+    /** @var bool */
+    private $debug;
+    /** @var bool */
+    private $isUser;
+    /** @var bool */
+    private $showAlways;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param LoggerInterface $firebugLogger
+     * @param RequestStack    $requestsStack
+     * @param bool            $debug
+     * @param bool            $isUser
+     * @param bool            $showAlways
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(LoggerInterface $firebugLogger, RequestStack $requestsStack, $debug, $isUser, $showAlways)
     {
-        $this->app = $app;
+        $this->firebugLogger = $firebugLogger;
+        $this->requestsStack = $requestsStack;
+        $this->debug = $debug;
+        $this->isUser = $isUser;
+        $this->showAlways = $showAlways;
     }
 
     /**
@@ -55,21 +74,19 @@ class UtilsRuntime
     /**
      * Send debug data to the developers FirePHP instance in-browser.
      *
-     * @param mixed $var  The data to be dumped into FirePHP
-     * @param mixed $msg  The message to associate with the data
-     *
-     * @return string FirePHP formatted string
+     * @param mixed $var The data to be dumped into FirePHP
+     * @param mixed $msg The message to associate with the data
      */
     public function printFirebug($var, $msg)
     {
         if (!$this->allowDebug()) {
-            return null;
+            return;
         }
 
         if (is_string($msg)) {
-            $this->app['logger.firebug']->info($msg, (array) $var);
+            $this->firebugLogger->info($msg, (array) $var);
         } elseif (is_string($var)) {
-            $this->app['logger.firebug']->info($var, (array) $msg);
+            $this->firebugLogger->info($var, (array) $msg);
         }
     }
 
@@ -98,21 +115,26 @@ class UtilsRuntime
      */
     public function request($parameter, $from = '', $stripSlashes = false)
     {
+        $request = $this->requestsStack->getCurrentRequest();
+        if ($request === null) {
+            return null;
+        }
+
         $from = strtoupper($from);
 
         if ($from === 'GET') {
-            $request = $this->app['request']->query->get($parameter, false);
+            $value = $request->query->get($parameter, false);
         } elseif ($from === 'POST') {
-            $request = $this->app['request']->request->get($parameter, false);
+            $value = $request->request->get($parameter, false);
         } else {
-            $request = $this->app['request']->get($parameter, false);
+            $value = $request->get($parameter, false);
         }
 
         if ($stripSlashes) {
-            $request = stripslashes($request);
+            $value = stripslashes($value);
         }
 
-        return $request;
+        return $value;
     }
 
     /**
@@ -125,10 +147,6 @@ class UtilsRuntime
      */
     private function allowDebug()
     {
-        $debug = $this->app['debug'];
-        $isUser = (bool) $this->app['users']->getCurrentUser() ?: false;
-        $showAlways = $this->app['config']->get('general/debug_show_loggedoff', false);
-
-        return $debug && ($isUser || $showAlways);
+        return $this->debug && ($this->isUser || $this->showAlways);
     }
 }

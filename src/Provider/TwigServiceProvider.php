@@ -59,7 +59,13 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\UserRuntime($app['users'], $app['csrf']);
         };
         $app['twig.runtime.bolt_utils'] = function ($app) {
-            return new Twig\Runtime\UtilsRuntime($app);
+            return new Twig\Runtime\UtilsRuntime(
+                $app['logger.firebug'],
+                $app['request_stack'],
+                $app['debug'],
+                (bool) $app['users']->getCurrentUser() ?: false,
+                $app['config']->get('general/debug_show_loggedoff', false)
+            );
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
             return new Twig\Runtime\WidgetRuntime($app);
