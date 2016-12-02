@@ -2,8 +2,8 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Asset\Widget\Queue;
 use Bolt\Controller\Zone;
-use Silex;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -12,15 +12,21 @@ use Silex;
  */
 class WidgetRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var Queue */
+    private $widgetQueue;
+    /** @var bool */
+    private $strictVariables;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Queue $widgetQueue
+     * @param bool  $strictVariables
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Queue $widgetQueue, $strictVariables)
     {
-        $this->app = $app;
+        $this->widgetQueue = $widgetQueue;
+        $this->strictVariables = $strictVariables;
     }
 
     /**
@@ -33,11 +39,11 @@ class WidgetRuntime
      */
     public function countWidgets($location = null, $zone = Zone::FRONTEND)
     {
-        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+        if ($location === null && $this->strictVariables === true) {
             throw new \InvalidArgumentException('countwidgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->countItemsInQueue($location, $zone);
+        return $this->widgetQueue->countItemsInQueue($location, $zone);
     }
 
     /**
@@ -47,7 +53,7 @@ class WidgetRuntime
      */
     public function getWidgets()
     {
-        return $this->app['asset.queue.widget']->getQueue();
+        return $this->widgetQueue->getQueue();
     }
 
     /**
@@ -60,11 +66,11 @@ class WidgetRuntime
      */
     public function hasWidgets($location = null, $zone = Zone::FRONTEND)
     {
-        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+        if ($location === null && $this->strictVariables === true) {
             throw new \InvalidArgumentException('haswidgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->hasItemsInQueue($location, $zone);
+        return $this->widgetQueue->hasItemsInQueue($location, $zone);
     }
 
     /**
@@ -78,10 +84,10 @@ class WidgetRuntime
      */
     public function widgets($location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
     {
-        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+        if ($location === null && $this->strictVariables === true) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->render($location, $zone, $wrapper);
+        return $this->widgetQueue->render($location, $zone, $wrapper);
     }
 }

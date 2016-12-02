@@ -68,7 +68,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Twig\Runtime\WidgetRuntime($app);
+            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         };
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
