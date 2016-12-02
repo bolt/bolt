@@ -224,6 +224,12 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         if (!is_string($value)) {
             return false;
         }
+        
+        // This handles an inconsistency in the result from the JSON parser across 5.x and 7.x of PHP
+        if ($value === '') {
+            return false;
+        }
+        
         json_decode($value);
 
         return json_last_error() === JSON_ERROR_NONE;
