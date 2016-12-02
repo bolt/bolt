@@ -56,7 +56,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
         };
         $app['twig.runtime.bolt_user'] = function ($app) {
-            return new Twig\Runtime\UserRuntime($app);
+            return new Twig\Runtime\UserRuntime($app['users'], $app['csrf']);
         };
         $app['twig.runtime.bolt_utils'] = function ($app) {
             return new Twig\Runtime\UtilsRuntime($app);
