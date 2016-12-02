@@ -16,7 +16,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testCountWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -31,7 +31,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testCountWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -46,7 +46,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testCountWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -61,7 +61,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testGetWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -69,7 +69,7 @@ class WidgetRuntimeTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $result = $handler->getWidgets('gum-tree', 'frontend');
+        $result = $handler->getWidgets();
         $this->assertCount(1, $result);
 
         $this->assertInstanceOf('Bolt\Asset\Widget\Widget', reset($result));
@@ -78,7 +78,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testHasWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
 
         $this->assertFalse($handler->hasWidgets('gum-tree', 'frontend'));
 
@@ -96,7 +96,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testHasWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -110,7 +110,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testHasWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -125,7 +125,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testWidget()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -142,7 +142,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testWidgetNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -157,7 +157,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testWidgetNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app);
+        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
