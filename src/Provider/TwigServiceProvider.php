@@ -53,7 +53,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\RoutingRuntime($app['canonical']);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
-            return new Twig\Runtime\TextRuntime($app);
+            return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
         };
         $app['twig.runtime.bolt_user'] = function ($app) {
             return new Twig\Runtime\UserRuntime($app);

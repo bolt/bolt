@@ -3,7 +3,8 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Helpers\Str;
-use Silex;
+use Cocur\Slugify\Slugify;
+use Psr\Log\LoggerInterface;
 
 /**
  * Bolt specific Twig functions and filters that provide text manipulation
@@ -12,15 +13,21 @@ use Silex;
  */
 class TextRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var LoggerInterface */
+    private $systemLogger;
+    /** @var Slugify */
+    private $slugify;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param LoggerInterface $systemLogger
+     * @param Slugify         $slugify
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(LoggerInterface $systemLogger, Slugify $slugify)
     {
-        $this->app = $app;
+        $this->systemLogger = $systemLogger;
+        $this->slugify = $slugify;
     }
 
     /**
@@ -66,7 +73,7 @@ class TextRuntime
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->error('No valid locale detected. Fallback on DateTime active.', ['event' => 'system']);
+            $this->systemLogger->error('No valid locale detected. Fallback on DateTime active.', ['event' => 'system']);
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {
@@ -120,7 +127,7 @@ class TextRuntime
             $str = implode(' ', $str);
         }
 
-        return $this->app['slugify']->slugify($str);
+        return $this->slugify->slugify($str);
     }
 
     /**
