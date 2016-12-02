@@ -45,7 +45,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\RecordRuntime($app);
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Twig\Runtime\RoutingRuntime($app);
+            return new Twig\Runtime\RoutingRuntime($app['canonical']);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
             return new Twig\Runtime\TextRuntime($app);

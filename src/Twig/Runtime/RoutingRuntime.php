@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig\Runtime;
 
-use Silex;
+use Bolt\Canonical;
 
 /**
  * Bolt specific Twig functions and filters that provide routing functionality
@@ -11,15 +11,17 @@ use Silex;
  */
 class RoutingRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var Canonical */
+    private $canonical;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Canonical $canonical
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Canonical $canonical)
     {
-        $this->app = $app;
+        $this->canonical = $canonical;
     }
 
     /**
@@ -29,6 +31,6 @@ class RoutingRuntime
      */
     public function canonical()
     {
-        return $this->app['canonical']->getUrl();
+        return $this->canonical->getUrl();
     }
 }
