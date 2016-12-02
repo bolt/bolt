@@ -7,6 +7,7 @@ use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Mocks\LoripsumMock;
+use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -153,6 +154,7 @@ class FrontendTest extends ControllerUnitTest
     {
         /** @var \Silex\Application $app */
         $app = $this->getApp();
+        $app['twig.runtime.bolt_html'] = $this->getHtmlRuntime();
 
         $this->setRequest(Request::create('/pages/5'));
         $app['request_context']->fromRequest($this->getRequest());
@@ -181,6 +183,10 @@ class FrontendTest extends ControllerUnitTest
 
     public function testNumericRecord()
     {
+        /** @var \Silex\Application $app */
+        $app = $this->getApp();
+        $app['twig.runtime.bolt_html'] = $this->getHtmlRuntime();
+
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
         $contentType = $this->getService('storage')->getContentType('pages');
         $content1 = new Content($this->getApp(), $contentType);
@@ -202,6 +208,24 @@ class FrontendTest extends ControllerUnitTest
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('page.twig', $response->getTemplate()->getTemplateName());
         $this->assertNotEmpty($response->getGlobals());
+    }
+
+    /**
+     * @return HtmlRuntime
+     */
+    private function getHtmlRuntime()
+    {
+        $app = $this->getApp();
+
+        return new HtmlRuntime(
+            $app['config'],
+            $app['markdown'],
+            $app['menu'],
+            $app['storage'],
+            $app['request_stack'],
+            $app['safe_twig'],
+            $app['locale']
+        );
     }
 
     public function testNoRecord()
