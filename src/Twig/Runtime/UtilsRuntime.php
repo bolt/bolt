@@ -56,6 +56,16 @@ class UtilsRuntime
     }
 
     /**
+     * Just for safe_twig. Main twig overrides this function.
+     *
+     * @see \Bolt\Provider\TwigServiceProvider
+     */
+    public function printDump()
+    {
+        return null;
+    }
+
+    /**
      * Output pretty-printed backtrace.
      *
      * @param integer $depth
