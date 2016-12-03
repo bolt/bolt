@@ -90,15 +90,14 @@ class HtmlHandler
      */
     public function isMobileClient()
     {
-        $request = Request::createFromGlobals();
-        if (preg_match(
-            '/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
-            $request->server->get('HTTP_USER_AGENT')
-        )) {
-            return true;
-        } else {
+        if (($request = $this->app['request_stack']->getCurrentRequest()) === null) {
             return false;
         }
+
+        return preg_match(
+            '/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
+            $request->headers->get('User-Agent')
+        );
     }
 
     /**
