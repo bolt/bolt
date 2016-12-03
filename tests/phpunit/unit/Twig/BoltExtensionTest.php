@@ -1,26 +1,27 @@
 <?php
+
 namespace Bolt\Tests\Twig;
 
 use Bolt\EventListener\ConfigListener;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
-use Bolt\Twig\TwigExtension;
+use Bolt\Twig\Extension\BoltExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * Class to test src/Library.
+ * Class to test src/Twig/Extension/BoltExtension.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TwigExtensionTest extends BoltUnitTest
+class BoltExtensionTest extends BoltUnitTest
 {
     public function testTwigInterface()
     {
-        $twig = new TwigExtension(false);
+        $twig = new BoltExtension(false);
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
@@ -59,7 +60,7 @@ class TwigExtensionTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $app['request'] = $request;
         $app['request_stack']->push($request);
-        $twig = new TwigExtension(true);
+        $twig = new BoltExtension(true);
 
         $result = $twig->getGlobals();
         $this->assertArrayHasKey('config', $result);
@@ -93,7 +94,7 @@ class TwigExtensionTest extends BoltUnitTest
 
     public function testGetTokenParsers()
     {
-        $twig = new TwigExtension(false);
+        $twig = new BoltExtension(false);
 
         $result = $twig->getTokenParsers();
         $this->assertInstanceOf(SetcontentTokenParser::class, $result[0]);
