@@ -9,7 +9,7 @@ use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
-use Bolt\Twig\TwigExtension;
+use Bolt\Twig\Extension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
@@ -150,7 +150,18 @@ class TwigServiceProvider implements ServiceProviderInterface
             $app->extend(
                 'twig',
                 function (\Twig_Environment $twig, $app) {
-                    $twig->addExtension(new TwigExtension(false));
+                    $twig->addExtension($app['twig.extension.bolt']);
+                    $twig->addExtension($app['twig.extension.bolt_admin']);
+                    $twig->addExtension($app['twig.extension.bolt_array']);
+                    $twig->addExtension($app['twig.extension.bolt_html']);
+                    $twig->addExtension($app['twig.extension.bolt_image']);
+                    $twig->addExtension($app['twig.extension.bolt_record']);
+                    $twig->addExtension($app['twig.extension.bolt_routing']);
+                    $twig->addExtension($app['twig.extension.bolt_text']);
+                    $twig->addExtension($app['twig.extension.bolt_users']);
+                    $twig->addExtension($app['twig.extension.bolt_utils']);
+                    $twig->addExtension($app['twig.extension.bolt_widget']);
+
                     $twig->addExtension($app['twig.extension.asset']);
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);
@@ -170,6 +181,50 @@ class TwigServiceProvider implements ServiceProviderInterface
                 }
             )
         );
+
+        $app['twig.extension.bolt'] = function () {
+            return new Extension\BoltExtension(false);
+        };
+
+        $app['twig.extension.bolt_admin'] = function () {
+            return new Extension\AdminExtension();
+        };
+
+        $app['twig.extension.bolt_array'] = function () {
+            return new Extension\ArrayExtension();
+        };
+
+        $app['twig.extension.bolt_html'] = function () {
+            return new Extension\HtmlExtension();
+        };
+
+        $app['twig.extension.bolt_image'] = function () {
+            return new Extension\ImageExtension();
+        };
+
+        $app['twig.extension.bolt_record'] = function () {
+            return new Extension\RecordExtension();
+        };
+
+        $app['twig.extension.bolt_routing'] = function () {
+            return new Extension\RoutingExtension();
+        };
+
+        $app['twig.extension.bolt_text'] = function () {
+            return new Extension\TextExtension();
+        };
+
+        $app['twig.extension.bolt_users'] = function () {
+            return new Extension\UserExtension();
+        };
+
+        $app['twig.extension.bolt_utils'] = function () {
+            return new Extension\UtilsExtension();
+        };
+
+        $app['twig.extension.bolt_widget'] = function () {
+            return new Extension\WidgetExtension();
+        };
 
         $app['twig.extension.asset'] = $app->share(
             function ($app) {
