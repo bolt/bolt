@@ -21,7 +21,7 @@ Please list any details for the PR, that might be relevant. Some pointers:
 Choosing a target branch
 ------------------------
 
-Bolt has a branching strategy that follow these fules: 
+Bolt has a branching strategy that follow these rules: 
 
  * `release/3.X` — "stable" branch (Note: `X` will be a number)
  * `release/3.Y` — "beta" branch (Note: `Y` will be a number, one greater than `X`)
