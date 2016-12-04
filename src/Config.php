@@ -1128,6 +1128,7 @@ class Config
             'debug_enable_whoops'         => false, /** @deprecated. Deprecated since 3.2, to be removed in 4.0 */
             'debug_error_use_symfony'     => false,
             'debug_permission_audit_mode' => false,
+            'debug_trace_argument_limit'  => 4,
             'strict_variables'            => null,
             'theme'                       => 'base-2016',
             'listing_template'            => 'listing.twig',
