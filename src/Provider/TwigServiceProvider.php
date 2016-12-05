@@ -5,6 +5,7 @@ use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
+use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
@@ -138,17 +139,9 @@ class TwigServiceProvider implements ServiceProviderInterface
             return $options;
         };
 
-        $app['safe_twig.bolt_extension'] = function () use ($app) {
-            return new TwigExtension($app, $app['twig.handlers'], true);
-        };
-
         $app['safe_twig'] = $app->share(
             function ($app) {
-                $loader = new \Twig_Loader_String();
-                $twig = new \Twig_Environment($loader);
-                $twig->addExtension($app['safe_twig.bolt_extension']);
-
-                return $twig;
+                return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
             }
         );
     }
