@@ -182,8 +182,8 @@ class TwigServiceProvider implements ServiceProviderInterface
             )
         );
 
-        $app['twig.extension.bolt'] = function () {
-            return new Extension\BoltExtension(false);
+        $app['twig.extension.bolt'] = function ($app) {
+            return new Extension\BoltExtension($app['storage.lazy'], $app['config'], $app['resources']);
         };
 
         $app['twig.extension.bolt_admin'] = function () {

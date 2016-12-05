@@ -2,25 +2,37 @@
 
 namespace Bolt\Twig\Extension;
 
+use Bolt;
+use Bolt\Configuration\ResourceManager;
+use Bolt\Config;
+use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
-
-use Bolt;
 
 /**
  * Bolt base Twig functionality and definitions.
  */
 class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
-    /** @var boolean */
-    private $safe;
+    /** @var EntityManagerInterface */
+    private $em;
+    /** @var Config */
+    private $config;
+    /** @var ResourceManager */
+    private $resources;
 
     /**
-     * @param boolean $safe
+     * Constructor.
+     *
+     * @param EntityManagerInterface $em
+     * @param Config                 $config
+     * @param ResourceManager        $resources
      */
-    public function __construct($safe)
+    public function __construct(EntityManagerInterface $em, Config $config, ResourceManager $resources)
     {
-        $this->safe = $safe;
+        $this->em = $em;
+        $this->config = $config;
+        $this->resources = $resources;
     }
 
     /**
@@ -34,11 +46,11 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * Used by setcontent tag.
      *
-     * @return \Bolt\Storage\EntityManager
+     * @return EntityManagerInterface
      */
     public function getStorage()
     {
-        return $this->app['storage'];
+        return $this->em;
     }
 
     /**
@@ -86,11 +98,11 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,
-            'paths'        => $this->app['resources']->getPaths(),
+            'paths'        => $this->resources->getPaths(),
             'theme'        => null,
             'user'         => null,
             'users'        => null,
-            'config'       => $this->app['config'],
+            'config'       => $this->config,
         ];
     }
 
@@ -99,11 +111,10 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function getTokenParsers()
     {
-        $parsers = [];
-        if (!$this->safe) {
-            $parsers[] = new SetcontentTokenParser();
-            $parsers[] = new SwitchTokenParser();
-        }
+        $parsers = [
+            new SetcontentTokenParser(),
+            new SwitchTokenParser(),
+        ];
 
         return $parsers;
     }
