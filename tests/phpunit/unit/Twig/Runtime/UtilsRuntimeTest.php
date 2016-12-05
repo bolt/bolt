@@ -1,18 +1,18 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\UtilsHandler;
+use Bolt\Twig\Runtime\UtilsRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Handler\UtilsHandler
+ * Class to test Bolt\Twig\Runtime\UtilsRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UtilsHandlerTest extends BoltUnitTest
+class UtilsRuntimeTest extends BoltUnitTest
 {
     /**
      * Override Symfony's default handler to get the output
@@ -30,20 +30,9 @@ class UtilsHandlerTest extends BoltUnitTest
 
     public function testFileExists()
     {
-        $app = $this->getApp();
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->fileExists(__FILE__, false);
+        $handler = $this->getHandler();
+        $result = $handler->fileExists(__FILE__);
         $this->assertTrue($result);
-    }
-
-    public function testFileExistsSafe()
-    {
-        $app = $this->getApp();
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->fileExists(__FILE__, true);
-        $this->assertFalse($result);
     }
 
     public function testPrintBacktraceSafeDebugOn()
@@ -51,9 +40,9 @@ class UtilsHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $this->stubVarDumper($app);
         $app['debug'] = true;
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printBacktrace(5, true);
+        $result = $handler->printBacktrace(5);
         $this->assertNull($result);
     }
 
@@ -62,9 +51,9 @@ class UtilsHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $this->stubVarDumper($app);
         $app['debug'] = false;
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printBacktrace(5, false);
+        $result = $handler->printBacktrace(5);
         $this->assertNull($result);
     }
 
@@ -75,9 +64,9 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', false);
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printBacktrace(5, false);
+        $result = $handler->printBacktrace(5);
         $this->assertNull($result);
     }
 
@@ -89,9 +78,9 @@ class UtilsHandlerTest extends BoltUnitTest
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printBacktrace(5, false);
+        $result = $handler->printBacktrace(5);
         $this->assertCount(5, $result);
         $this->assertArrayHasKey('file', $result[0]);
         $this->assertArrayHasKey('line', $result[0]);
@@ -103,9 +92,9 @@ class UtilsHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['debug'] = true;
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!');
         $this->assertNull($result);
     }
 
@@ -113,9 +102,9 @@ class UtilsHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['debug'] = false;
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!');
         $this->assertNull($result);
     }
 
@@ -123,9 +112,9 @@ class UtilsHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['debug'] = true;
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!');
         $this->assertNull($result);
     }
 
@@ -142,9 +131,9 @@ class UtilsHandlerTest extends BoltUnitTest
         ->method('info');
         $app['logger.firebug'] = $logger;
 
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', false);
+        $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!');
     }
 
     public function testPrintFirebugNoSafeDebugOnStringArray()
@@ -159,9 +148,9 @@ class UtilsHandlerTest extends BoltUnitTest
             ->method('info');
         $app['logger.firebug'] = $logger;
 
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $handler->printFirebug('Danger Detected!', ['koala', 'clippy'], false);
+        $handler->printFirebug('Danger Detected!', ['koala', 'clippy']);
     }
 
     public function testPrintFirebugNoSafeDebugOnArrayArray()
@@ -175,18 +164,9 @@ class UtilsHandlerTest extends BoltUnitTest
             ->method('info');
         $app['logger.firebug'] = $logger;
 
-        $handler = new UtilsHandler($app);
+        $handler = $this->getHandler();
 
-        $handler->printFirebug(['koala and clippy'], ['Danger Detected!'], false);
-    }
-
-    public function testRedirectSafe()
-    {
-        $app = $this->getApp();
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->redirect('/clippy/koala', true);
-        $this->assertNull($result);
+        $handler->printFirebug(['koala and clippy'], ['Danger Detected!']);
     }
 
     /**
@@ -199,23 +179,11 @@ class UtilsHandlerTest extends BoltUnitTest
             $this->markTestSkipped('No xdebug support enabled.');
         }
 
-        $app = $this->getApp();
-        $handler = new UtilsHandler($app);
-
+        $handler = $this->getHandler();
         $this->expectOutputRegex('/Redirecting to/i');
-        $handler->redirect('/clippy/koala', false);
+
+        $handler->redirect('/clippy/koala');
         $this->assertContains('location: /clippy/koala', xdebug_get_headers());
-    }
-
-    public function testRequestSafe()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $app['request'] = $request;
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->request('route', 'GET', true, true);
-        $this->assertNull($result);
     }
 
     public function testRequestGet()
@@ -224,9 +192,10 @@ class UtilsHandlerTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $request->query->set('koala', 'gum leaves');
         $app['request'] = $request;
-        $handler = new UtilsHandler($app);
+        $app['request_stack']->push($request);
+        $handler = $this->getHandler();
 
-        $result = $handler->request('koala', 'GET', true, false);
+        $result = $handler->request('koala', 'GET', true);
         $this->assertSame('gum leaves', $result);
     }
 
@@ -236,9 +205,10 @@ class UtilsHandlerTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $request->request->set('koala', 'gum leaves');
         $app['request'] = $request;
-        $handler = new UtilsHandler($app);
+        $app['request_stack']->push($request);
+        $handler = $this->getHandler();
 
-        $result = $handler->request('koala', 'POST', true, false);
+        $result = $handler->request('koala', 'POST', true);
         $this->assertSame('gum leaves', $result);
     }
 
@@ -248,9 +218,26 @@ class UtilsHandlerTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $request->attributes->set('koala', 'gum leaves');
         $app['request'] = $request;
-        $handler = new UtilsHandler($app);
+        $app['request_stack']->push($request);
+        $handler = $this->getHandler();
 
-        $result = $handler->request('koala', 'PATCH', true, false);
+        $result = $handler->request('koala', 'PATCH', true);
         $this->assertSame('gum leaves', $result);
+    }
+
+    /**
+     * @return UtilsRuntime
+     */
+    protected function getHandler()
+    {
+        $app = $this->getApp();
+
+        return new UtilsRuntime(
+            $app['logger.firebug'],
+            $app['request_stack'],
+            $app['debug'],
+            (bool) $app['users']->getCurrentUser() ?: false,
+            $app['config']->get('general/debug_show_loggedoff', false)
+        );
     }
 }

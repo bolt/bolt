@@ -1,26 +1,33 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
-use Silex;
+use Bolt\Users;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Bolt specific Twig functions and filters that provide user functionality
  *
  * @internal
  */
-class UserHandler
+class UserRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var Users */
+    private $users;
+    /** @var CsrfTokenManager */
+    private $csrfTokenManager;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Users            $users
+     * @param CsrfTokenManager $csrfTokenManager
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Users $users, CsrfTokenManager $csrfTokenManager)
     {
-        $this->app = $app;
+        $this->users = $users;
+        $this->csrfTokenManager = $csrfTokenManager;
     }
 
     /**
@@ -33,7 +40,7 @@ class UserHandler
      */
     public function getUser($who)
     {
-        return $this->app['users']->getUser($who);
+        return $this->users->getUser($who);
     }
 
     /**
@@ -46,7 +53,7 @@ class UserHandler
      */
     public function getUserId($who)
     {
-        $user = $this->app['users']->getUser($who);
+        $user = $this->users->getUser($who);
 
         if (isset($user['id'])) {
             return $user['id'];
@@ -79,7 +86,7 @@ class UserHandler
             $contenttype = $content;
         }
 
-        return $this->app['users']->isAllowed($what, $contenttype, $contentid);
+        return $this->users->isAllowed($what, $contenttype, $contentid);
     }
 
     /**
@@ -91,6 +98,6 @@ class UserHandler
      */
     public function token()
     {
-        return $this->app['csrf']->getToken('bolt');
+        return $this->csrfTokenManager->getToken('bolt');
     }
 }

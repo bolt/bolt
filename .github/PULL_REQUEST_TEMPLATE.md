@@ -17,5 +17,13 @@ Please list any details for the PR, that might be relevant. Some pointers:
  - Please include tests with your PR. If you do, we will love you for it.
  - Check if the change in the PR is a good fit for Bolt, or if it would be
    better off as an extension.
- - Make sure you're doing the PR to the correct branch: 'master' for 3.0, or
-   'release/2.2' for Bolt 2.2.x.
+   
+Choosing a target branch
+------------------------
+
+Bolt has a branching strategy that follow these rules: 
+
+ * `release/3.X` — "stable" branch (Note: `X` will be a number)
+ * `release/3.Y` — "beta" branch (Note: `Y` will be a number, one greater than `X`)
+ * `3.x` — "alpha" branch, major features should be sent here (Note: `x` is literal, it really is an "x")
+ * `master` — 4.x development. Things will break, and if they do you get to keep both pieces!

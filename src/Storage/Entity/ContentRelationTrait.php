@@ -55,7 +55,7 @@ trait ContentRelationTrait
             if (!empty($filterContentType) && ($contenttype != $filterContentType)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
-
+            sort($ids);
             $params = ['hydrate' => true];
             $where = ['id' => implode(' || ', $ids)];
             $dummy = false;
@@ -99,16 +99,11 @@ trait ContentRelationTrait
      */
     public function setRelation($contenttype, $id)
     {
-        if (!empty($this->relation[$contenttype])) {
-            $ids = $this->relation[$contenttype];
-        } else {
-            $ids = [];
+        if (empty($this->relation[$contenttype])) {
+            $this->relation[$contenttype][] = $id;
+        } elseif (!in_array($id, $this->relation[$contenttype])) {
+            array_push($this->relation[$contenttype], $id);
         }
-
-        $ids[] = $id;
-        sort($ids);
-
-        $this->relation[$contenttype] = array_unique($ids);
     }
 
     /**

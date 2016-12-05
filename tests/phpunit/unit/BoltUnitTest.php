@@ -15,14 +15,6 @@ use Bolt\Logger\Manager;
 use Bolt\Render;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
-use Bolt\Twig\Handler\AdminHandler;
-use Bolt\Twig\Handler\ArrayHandler;
-use Bolt\Twig\Handler\HtmlHandler;
-use Bolt\Twig\Handler\ImageHandler;
-use Bolt\Twig\Handler\RecordHandler;
-use Bolt\Twig\Handler\TextHandler;
-use Bolt\Twig\Handler\UserHandler;
-use Bolt\Twig\Handler\UtilsHandler;
 use Bolt\Users;
 use Cocur\Slugify\Slugify;
 use GuzzleHttp\Client;
@@ -30,9 +22,9 @@ use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
@@ -221,18 +213,63 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['access_control'] = $auth;
     }
 
-    protected function getTwigHandlers($app)
+    /**
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['isValidSession']
+     *
+     * @return \Bolt\AccessControl\AccessChecker|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
     {
-        return new \Pimple([
-            'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
-            'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
-            'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
-            'image'  => $app->share(function () use ($app) { return new ImageHandler($app); }),
-            'record' => $app->share(function () use ($app) { return new RecordHandler($app); }),
-            'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
-            'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
-            'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
-        ]);
+        $accessCheckerMock = $this->getMock(
+            'Bolt\AccessControl\AccessChecker',
+            $functions,
+            [
+                $app['storage.lazy'],
+                $app['request_stack'],
+                $app['session'],
+                $app['dispatcher'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['access_control.cookie.options'],
+            ]
+        );
+
+        return $accessCheckerMock;
+    }
+
+    /**
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['login']
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject A mocked \Bolt\AccessControl\Login
+     */
+    protected function getLoginMock($app, $functions = ['login'])
+    {
+        $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
+
+        return $loginMock;
+    }
+
+    protected function getCacheMock($path = null)
+    {
+        $app = $this->getApp();
+        if ($path === null) {
+            $path = $app['resources']->getPath('cache');
+        }
+
+        $params = [
+            $path,
+            \Bolt\Cache::EXTENSION,
+            0002,
+            $app['filesystem'],
+        ];
+
+        $cache = $this->getMock('Bolt\Cache', ['flushAll'], $params);
+
+        return $cache;
     }
 
     protected function removeCSRF($app)

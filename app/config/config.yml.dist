@@ -266,6 +266,7 @@ debug_permission_audit_mode: false
 # debug_error_level: 8181           # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
 debug_error_level: -1               # equivalent to E_ALL
 debug_error_use_symfony: false      # When set to true, Symfony Profiler will be used for exception display when possible
+debug_trace_argument_limit: 4       # Determine how many steps in the backtrace will show (dump) arguments.
 
 # error level when debug is disabled
 #production_error_level: 8181 # = E_ALL &~ E_NOTICE &~ E_WARNING &~ E_DEPRECATED &~ E_USER_DEPRECATED

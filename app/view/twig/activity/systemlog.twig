@@ -71,11 +71,8 @@
                         <th>Type</th>
                         <th>Context</th>
                         <th>Route</th>
-                        <th>URI</th>
-                        <th>Details</th>
-                        <th>User</th>
-                        <th>IP</th>
-                        <th>Date</th>
+                        <th>URI / Details</th>
+                        <th>User / IP / Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,27 +91,20 @@
                             {{ entry.route }}
                         </td>
                         <td>
-                            {{ entry.requesturi }}
-                        </td>
-                        <td>
-                            {% spaceless %}
-                            <b>{{ entry.message|raw }}</b>
-                            {% if entry.source %}
-                            <span class="info-pop pull-right" style="background-color: inherit !important;"
-                                  data-content="{{ _self.trace_info_html(entry.source) }}"
-                                  data-html="true" >
-                                  <i class="fa fa-bug"></i>
-                            </span>
+
+                            {{ entry.message|raw }} <a onclick="$(this).hide(); $('#trace-source-{{ entry.id }}').removeClass('hide');" class="btn btn-default btn-xs"><i class="fa fa-bug"></i> Source</a> <br>
+
+                            <span id="trace-source-{{ entry.id }}" class="hide">
+                            {% if entry.requesturi %}
+                               <span class="dim"><strong>URI:</strong> <code>{{ entry.requesturi }}</code></span><br>
                             {% endif %}
-                            {% endspaceless %}
+                            {% if entry.source %}
+                               <span class="dim"><strong>Source:</strong> <code>{{ entry.source.file }} :: {{ entry.source.line }} </code></span>
+                            {% endif %}
+                            </span>
                         </td>
-                        <td>
-                            <em>{{ macro.userlink(entry.ownerid) }}</em>
-                        </td>
-                        <td>
-                            {{ entry.ip }}
-                        </td>
-                        <td>
+                        <td class="username">
+                            {{ macro.userlink(entry.ownerid) }} / {{ entry.ip }} <br>
                             {{ buic_moment(entry.date) }}
                         </td>
                     </tr>
@@ -128,11 +118,3 @@
     </div>
 
 {% endblock page_main %}
-
-{% macro trace_info_html(source) %}
-    {% if source %}
-        {% for key,value in source %}
-            {{ key }}: {{ value }}<br>
-        {% endfor %}
-    {% endif %}
-{% endmacro %}

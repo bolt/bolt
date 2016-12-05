@@ -32,30 +32,36 @@
                             {# Note: Do not translate / localise this, because people _will_ google for this. #}
 
                             {% block title %}
-                                <h1>Uncaught Exception: {{ exception.class_name|default('unknown') }}</h1>
+                                <h1>Uncaught Exception
+                                    {%- if debug -%}
+                                        : {{ exception.class_name|default('unknown') }}
+                                    {% endif %}.
+                                </h1>
                             {% endblock title %}
 
                             {% block exception %}
                             {% endblock exception %}
 
-                            <p class='exception'>
-                                <tt><abbr title="{{ exception.class_fqn|default('unknown') }}">{{ exception.class_name|default('unknown') }}</abbr></tt> in <tt>{% if debug %}<abbr title="{{ exception.file_path|default('unknown') }}">{% endif %}
-                                {{- exception.file_name|default('unknown') }}{% if debug %}</abbr>{% endif %}</tt> line <tt>
-                                {{- exception.object.line|default('unknown') }}</tt>: <br>
-                                <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
-                            </p>
+                            {% if debug %}
+                                <p class='exception'>
+                                    <tt><abbr title="{{ exception.class_fqn|default('unknown') }}">{{ exception.class_name|default('unknown') }}</abbr></tt> in <tt><abbr title="{{ exception.file_path|default('unknown') }}">
+                                    {{- exception.file_name|default('unknown') }}</abbr></tt> line <tt>
+                                    {{- exception.object.line|default('unknown') }}</tt>: <br>
+                                    <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
+                                </p>
 
-                            {% if debug and exception.snippet -%}
-<pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
-{{- exception.snippet -}}
-</code></pre>
-                            {%- endif %}
+                                {% if exception.snippet -%}
+    <pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
+    {{- exception.snippet -}}
+    </code></pre>
+                                {%- endif %}
 
-                            <p class='exception'>
-                                {# Based on this classic tweet: https://twitter.com/divineomega/status/695744177557106688 #}
-                                {% set query = 'Bolt ' ~ exception.class_name|default('unknown') ~ ' in ' ~ exception.file_name|default('unknown') ~ ' line ' ~ exception.object.line|default('unknown') ~ ': ' ~ exception.object.message|default('unknown') %}
-                                <a class='btn btn-default' href='https://www.google.com/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
-                            </p>
+                                <p class='exception'>
+                                    {# Based on this classic tweet: https://twitter.com/divineomega/status/695744177557106688 #}
+                                    {% set query = 'Bolt ' ~ exception.class_name|default('unknown') ~ ' in ' ~ exception.file_name|default('unknown') ~ ' line ' ~ exception.object.line|default('unknown') ~ ': ' ~ exception.object.message|default('unknown') %}
+                                    <a class='btn btn-default' href='https://www.google.com/search?q={{ query|url_encode }}' target='_blank'>Google this Exception</a>
+                                </p>
+                            {% endif %}
 
                             {% block trace %}
                                 {% if debug %}

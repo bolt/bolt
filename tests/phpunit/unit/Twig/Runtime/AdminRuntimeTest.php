@@ -1,23 +1,23 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\AdminHandler;
+use Bolt\Twig\Runtime\AdminRuntime;
+use Monolog\Logger;
 use Silex\Translator;
 
 /**
- * Class to test Bolt\Twig\Handler\AdminHandler
+ * Class to test Bolt\Twig\Runtime\AdminRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AdminHandlerTest extends BoltUnitTest
+class AdminRuntimeTest extends BoltUnitTest
 {
     public function testBuic()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $this->assertSame('buid-1', $handler->buid());
         $this->assertSame('buid-2', $handler->buid());
@@ -27,7 +27,7 @@ class AdminHandlerTest extends BoltUnitTest
     public function testAddDataEmpty()
     {
         $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $handler->addData('', '');
         $this->assertEmpty($app['jsdata']);
@@ -36,7 +36,7 @@ class AdminHandlerTest extends BoltUnitTest
     public function testAddDataValid()
     {
         $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $handler->addData('drop.bear', 'Johno');
         $this->assertArrayHasKey('drop', $app['jsdata']);
@@ -54,7 +54,7 @@ class AdminHandlerTest extends BoltUnitTest
         ;
         $app['stack'] = $stack;
 
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $handler->testStackable('koala.jpg');
     }
@@ -75,7 +75,7 @@ class AdminHandlerTest extends BoltUnitTest
         ;
         $app['stack'] = $stack;
 
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $handler->stack(['other', 'document']);
         $handler->stack('other, document');
@@ -84,8 +84,7 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testLogLevelString()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->logLevel('debug');
         $this->assertSame('debug', $result);
@@ -93,38 +92,36 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testLogLevelNumeric()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->logLevel(\Monolog\Logger::ALERT);
+        $result = $handler->logLevel(Logger::ALERT);
         $this->assertSame('Alert', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::CRITICAL);
+        $result = $handler->logLevel(Logger::CRITICAL);
         $this->assertSame('Critical', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::DEBUG);
+        $result = $handler->logLevel(Logger::DEBUG);
         $this->assertSame('Debug', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::EMERGENCY);
+        $result = $handler->logLevel(Logger::EMERGENCY);
         $this->assertSame('Emergency', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::ERROR);
+        $result = $handler->logLevel(Logger::ERROR);
         $this->assertSame('Error', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::INFO);
+        $result = $handler->logLevel(Logger::INFO);
         $this->assertSame('Info', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::NOTICE);
+        $result = $handler->logLevel(Logger::NOTICE);
         $this->assertSame('Notice', $result);
 
-        $result = $handler->logLevel(\Monolog\Logger::WARNING);
+        $result = $handler->logLevel(Logger::WARNING);
         $this->assertSame('Warning', $result);
     }
 
     public function testLogLevelInvalid()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->logLevel(42);
         $this->assertSame(42, $result);
@@ -132,37 +129,33 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testTransNoArgs()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans([], 0);
+        $result = $handler->trans();
         $this->assertNull($result);
     }
 
     public function testTransArgsOne()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans(['general.about'], 1);
+        $result = $handler->trans('general.about');
         $this->assertSame('About', $result);
     }
 
     public function testTransArgsTwo()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'Page']], 2);
+        $result = $handler->trans('contenttypes.generic.delete', ['%contenttype%' => 'Page']);
         $this->assertSame('Delete Page', $result);
     }
 
     public function testTransArgsThree()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans(['contenttypes.pages.group.content', [], 'contenttypes'], 3);
+        $result = $handler->trans('contenttypes.pages.group.content', [], 'contenttypes');
         $this->assertSame('Content', $result);
     }
 
@@ -181,43 +174,31 @@ class AdminHandlerTest extends BoltUnitTest
         ;
         $app['translator'] = $trans;
 
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE'], 4);
+        $result = $handler->trans('contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE');
         $this->assertSame('Page löschen', $result);
     }
 
     public function testRandomQuote()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->randomQuote();
         $this->assertRegExp('#<cite>#', $result);
     }
 
-    public function testYmllinkSafe()
-    {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
-
-        $result = $handler->ymllink(' config.yml', true);
-        $this->assertNull($result);
-    }
-
     public function testYmllink()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
-        $result = $handler->ymllink(' config.yml', false);
+        $result = $handler->ymllink(' config.yml');
         $this->assertSame(' <a href="/bolt/file/edit/config/config.yml">config.yml</a>', $result);
     }
 
     public function testHattr()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $attributes = [
             'class'        => 'info-pop fa fa-info-circle',
@@ -233,8 +214,7 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testHclassStringNotRaw()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->hclass('first second', false);
         $this->assertSame(' class="first second"', $result);
@@ -242,8 +222,7 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testHclassStringRaw()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->hclass('first second', true);
         $this->assertSame('first second', $result);
@@ -251,8 +230,7 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testHclassArrayNotRaw()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->hclass(['first', 'second'], false);
         $this->assertSame(' class="first second"', $result);
@@ -260,8 +238,7 @@ class AdminHandlerTest extends BoltUnitTest
 
     public function testHclassArrayRaw()
     {
-        $app = $this->getApp();
-        $handler = new AdminHandler($app);
+        $handler = $this->getAdminRuntime();
 
         $result = $handler->hclass(['first', 'second'], true);
         $this->assertSame('first second', $result);
@@ -279,5 +256,15 @@ class AdminHandlerTest extends BoltUnitTest
             ->setConstructorArgs([$app['filesystem.matcher'], $app['users'], $app['session'], []])
             ->getMock()
             ;
+    }
+
+    /**
+     * @return AdminRuntime
+     */
+    protected function getAdminRuntime()
+    {
+        $app = $this->getApp();
+
+        return new AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);
     }
 }

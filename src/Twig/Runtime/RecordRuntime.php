@@ -1,29 +1,48 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
 use Bolt\Helpers\Excerpt;
-use Silex;
+use Bolt\Pager\PagerManager;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
  *
  * @internal
  */
-class RecordHandler
+class RecordRuntime
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var RequestStack */
+    private $requestStack;
+    /** @var PagerManager */
+    private $pagerManager;
+    /** @var string */
+    private $templatesPath;
+    /** @var array */
+    private $themeTemplateSelect;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param RequestStack $requestStack
+     * @param PagerManager $pagerManager
+     * @param string       $templatesPath
+     * @param array        $themeTemplateSelect
      */
-    public function __construct(Silex\Application $app)
-    {
-        $this->app = $app;
+    public function __construct(
+        RequestStack $requestStack,
+        PagerManager $pagerManager,
+        $templatesPath,
+        array $themeTemplateSelect
+    ) {
+        $this->requestStack = $requestStack;
+        $this->pagerManager = $pagerManager;
+        $this->templatesPath = $templatesPath;
+        $this->themeTemplateSelect = $themeTemplateSelect;
     }
 
     /**
@@ -39,7 +58,7 @@ class RecordHandler
     public function current($content)
     {
         /** @var Request $request */
-        $request = $this->app['request'];
+        $request = $this->requestStack->getCurrentRequest();
         $requestUri = $request->getRequestUri();
         $routeParams = $request->get('_route_params');
 
@@ -161,24 +180,18 @@ class RecordHandler
     /**
      * Lists templates, optionally filtered by $filter.
      *
-     * @param string  $filter
-     * @param boolean $safe
+     * @param string $filter
      *
      * @return array Sorted and possibly filtered templates
      */
-    public function listTemplates($filter = null, $safe = false)
+    public function listTemplates($filter = null)
     {
-        // No need to list templates in safe mode.
-        if ($safe) {
-            return null;
-        }
-
         $files = [];
 
         $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';
         $finder = new Finder();
         $finder->files()
-            ->in($this->app['resources']->getPath('templatespath'))
+            ->in($this->templatesPath)
             ->notName('/^_/')
             ->notPath('node_modules')
             ->notPath('bower_components')
@@ -193,15 +206,10 @@ class RecordHandler
             $files[$name] = $name;
         }
 
-        // Get the active themeconfig
-        $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
-
         // Check: Have we defined names for any of the matched templates?
-        if ($themeConfig) {
-            foreach ($themeConfig as $templateFile) {
-                if (!empty($templateFile['name']) && !empty($templateFile['filename']) && in_array($templateFile['filename'], $files)) {
-                    $files[$templateFile['filename']] = $templateFile['name'];
-                }
+        foreach ((array) $this->themeTemplateSelect as $templateFile) {
+            if (!empty($templateFile['name']) && !empty($templateFile['filename']) && in_array($templateFile['filename'], $files)) {
+                $files[$templateFile['filename']] = $templateFile['name'];
             }
         }
 
@@ -221,12 +229,12 @@ class RecordHandler
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
-        if ($this->app['pager']->isEmptyPager()) {
+        if ($this->pagerManager->isEmptyPager()) {
             // nothing to page.
             return '';
         }
 
-        $thisPager = $this->app['pager']->getPager($pagerName);
+        $thisPager = $this->pagerManager->getPager($pagerName);
 
         $context = [
             'pager' => $thisPager,

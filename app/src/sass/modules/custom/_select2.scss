@@ -30,6 +30,12 @@
         width: 100%;
     }
 
+    // Except tags: Don't fill the entire width with tag selects.
+    .tags-select2 .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        display: inline;
+        width: auto;
+    }
+
     // Push the input line of a multi select into a new line.
     .select2-container--open .select2-search--inline {
         clear: both;

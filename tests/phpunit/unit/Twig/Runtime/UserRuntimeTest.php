@@ -1,20 +1,20 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\UserHandler;
+use Bolt\Twig\Runtime\UserRuntime;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
- * Class to test Bolt\Twig\Handler\UserHandler
+ * Class to test Bolt\Twig\Runtime\UserRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UserHandlerTest extends BoltUnitTest
+class UserRuntimeTest extends BoltUnitTest
 {
     protected function setUp()
     {
@@ -25,7 +25,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserById()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUser(1);
         $this->assertArrayHasKey('id', $result);
@@ -37,7 +37,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserByUsername()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUser('admin');
         $this->assertArrayHasKey('id', $result);
@@ -49,7 +49,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserByEmail()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUser('admin@example.com');
         $this->assertArrayHasKey('id', $result);
@@ -61,7 +61,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdInvalid()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUserId(42);
         $this->assertFalse($result);
@@ -70,7 +70,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdById()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUserId(1);
         $this->assertSame(1, $result);
@@ -79,7 +79,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdByUsername()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUserId('admin');
         $this->assertSame(1, $result);
@@ -88,7 +88,7 @@ class UserHandlerTest extends BoltUnitTest
     public function testGetUserIdByEmail()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->getUserId('admin@example.com');
         $this->assertSame(1, $result);
@@ -97,7 +97,6 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedObject()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
         $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
@@ -105,6 +104,7 @@ class UserHandlerTest extends BoltUnitTest
             ->will($this->returnValue(true))
         ;
         $app['users'] = $users;
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $content = new \Bolt\Legacy\Content($app, []);
         $result = $handler->isAllowed('koala', $content);
@@ -114,7 +114,6 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedArray()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
         $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
@@ -122,6 +121,7 @@ class UserHandlerTest extends BoltUnitTest
             ->will($this->returnValue(true))
         ;
         $app['users'] = $users;
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', []);
         $this->assertTrue($result);
@@ -130,7 +130,6 @@ class UserHandlerTest extends BoltUnitTest
     public function testIsAllowedString()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
         $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
@@ -138,6 +137,7 @@ class UserHandlerTest extends BoltUnitTest
             ->will($this->returnValue(true))
         ;
         $app['users'] = $users;
+        $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', 'clippy');
         $this->assertTrue($result);
@@ -146,9 +146,9 @@ class UserHandlerTest extends BoltUnitTest
     public function testToken()
     {
         $app = $this->getApp();
-        $handler = new UserHandler($app);
         $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
         $app['csrf'] = $tokenManager;
+        $handler = new UserRuntime($app['users'], $app['csrf']);
         $token = $tokenManager->refreshToken('bolt');
 
         $this->assertSame($token->getValue(), $handler->token()->getValue());

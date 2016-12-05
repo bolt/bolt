@@ -136,7 +136,7 @@ class SetcontentTest extends BoltUnitTest
             ->willReturnSelf()
         ;
         $compiler
-            ->expects($this->atLeast(3))
+            ->expects($this->atLeast(1))
             ->method('write')
             ->willReturnSelf()
         ;

@@ -98,22 +98,25 @@
     }
 
     /**
-     * Make sure the sidebar is as long as the document height.
+     * Make sure the sidebar is as long as the content height.
      *
      * @private
      * @function adjustSidebarHeight
      * @memberof Bolt.secmenu
      */
     function adjustSidebarHeight() {
-        $('#navpage-secondary').outerHeight(0);
+        var contentHeight = $('#navpage-content').outerHeight(),
+            sidebarObj = $('#navpage-secondary'),
+            sidebarHeight = sidebarObj.outerHeight(),
+            next = 5000;
 
-        var newHeight = $(document).height() - $('#navpage-secondary').position().top,
-            next = 3000;
-
-        if (newHeight !== $('#navpage-secondary').outerHeight()) {
-            $('#navpage-secondary').outerHeight(newHeight);
-            next = 300;
+        // If the sidebar height doesn't match the content's height, then adjust it. Check back
+        // sooner, so we can adjust again if necessary (the content might still be changing).
+        if (sidebarHeight !== contentHeight) {
+            sidebarObj.outerHeight(contentHeight);
+            next = 500;
         }
+
         window.setTimeout(adjustSidebarHeight, next);
     }
 

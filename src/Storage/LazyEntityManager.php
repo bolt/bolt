@@ -40,10 +40,20 @@ class LazyEntityManager implements EntityManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getRepository($className)
     {
         return $this->getEntityManager()->getRepository($className);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @deprecated will be removed when {{ setcontent }} is cut over.
+     */
+    public function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
+    {
+        return $this->getEntityManager()->legacy()->getContent($textQuery, $parameters, $pager, $whereParameters);
     }
 }
