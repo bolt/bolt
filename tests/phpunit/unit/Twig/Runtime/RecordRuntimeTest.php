@@ -171,8 +171,8 @@ GRINGALET;
         $app['request'] = $request;
         $app['request_stack']->push($request);
         $handler = $this->getRecordRuntime();
-        $content = $this->getMock('\Bolt\Legacy\Content', ['link'], [$app]);
-        $content->expects($this->atLeastOnce())
+        $content = $this->createMock(\Bolt\Legacy\Content::class)
+            ->expects($this->atLeastOnce())
             ->method('link')
             ->will($this->returnValue('/pages/koala'))
         ;
