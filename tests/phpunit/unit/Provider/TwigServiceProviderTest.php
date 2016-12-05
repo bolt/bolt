@@ -3,6 +3,8 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\TwigServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Twig\SafeEnvironment;
+use Twig_Environment;
 
 /**
  * Class to test src/Provider/TwigServiceProvider.
@@ -20,16 +22,12 @@ class TwigServiceProviderTest extends BoltUnitTest
         $app->register(new TwigServiceProvider());
         $app->boot();
 
-        $this->assertInstanceOf('\Pimple', $app['twig.handlers']);
-        $this->assertNotEmpty($app['twig.handlers']->keys());
-
         $this->assertNotEmpty($app['twig.options']['cache'], 'Cache path was not set');
-        $this->assertInstanceOf('\Twig_Environment', $app['twig']);
-        $this->assertTrue($app['twig']->hasExtension('Bolt'), 'Bolt\Twig\TwigExtension was not added to twig environment');
+        $this->assertInstanceOf(Twig_Environment::class, $app['twig']);
+        $this->assertTrue($app['twig']->hasExtension('Bolt'), 'Bolt\Twig\Extension\BoltExtension was not added to twig environment');
         $this->assertContains('bolt', $app['twig.loader.bolt_filesystem']->getNamespaces(), 'bolt namespace was not added to filesystem loader');
 
-        $this->assertInstanceOf('\Bolt\Twig\TwigExtension', $app['safe_twig.bolt_extension']);
-        $this->assertInstanceOf('\Twig_Environment', $app['safe_twig']);
+        $this->assertInstanceOf(SafeEnvironment::class, $app['safe_twig']);
     }
 
     public function testConfigCacheDisabled()

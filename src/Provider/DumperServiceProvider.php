@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Debug\Caster;
+use Bolt\Twig\ArrayAccessSecurityProxy;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -64,6 +65,8 @@ class DumperServiceProvider implements ServiceProviderInterface
             function () {
                 $cloner = new VarCloner();
                 $cloner->addCasters(Caster\FilesystemCasters::getCasters());
+
+                ArrayAccessSecurityProxy::registerCaster($cloner);
 
                 return $cloner;
             }

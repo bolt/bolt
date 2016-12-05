@@ -5,7 +5,7 @@ namespace Bolt\Twig;
 use Bolt\Users;
 use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
-use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
  * Extended to allow dumper to be passed in.
@@ -16,7 +16,7 @@ class DumpExtension extends BaseDumpExtension
 {
     /** @var ClonerInterface */
     private $cloner;
-    /** @var DataDumperInterface */
+    /** @var HtmlDumper */
     private $dumper;
     /** @var Users */
     private $users;
@@ -26,12 +26,12 @@ class DumpExtension extends BaseDumpExtension
     /**
      * Constructor.
      *
-     * @param ClonerInterface     $cloner
-     * @param DataDumperInterface $dumper
-     * @param Users               $users
-     * @param boolean             $debugShowLoggedoff
+     * @param ClonerInterface $cloner
+     * @param HtmlDumper      $dumper
+     * @param Users           $users
+     * @param boolean         $debugShowLoggedoff
      */
-    public function __construct(ClonerInterface $cloner, DataDumperInterface $dumper, Users $users, $debugShowLoggedoff)
+    public function __construct(ClonerInterface $cloner, HtmlDumper $dumper, Users $users, $debugShowLoggedoff)
     {
         parent::__construct($cloner);
         $this->cloner = $cloner;
@@ -66,16 +66,12 @@ class DumpExtension extends BaseDumpExtension
         }
 
         $output = fopen('php://memory', 'r+b');
-        $prevOutput = $this->dumper->setOutput($output);
+        $this->dumper->setCharset($env->getCharset());
 
         foreach ($vars as $value) {
-            $this->dumper->dump($this->cloner->cloneVar($value));
+            $this->dumper->dump($this->cloner->cloneVar($value), $output);
         }
 
-        $this->dumper->setOutput($prevOutput);
-
-        rewind($output);
-
-        return stream_get_contents($output);
+        return stream_get_contents($output, -1, 0);
     }
 }

@@ -201,6 +201,10 @@ class Exception extends Base implements ExceptionControllerInterface
         $loggedOnUser = (bool) $this->app['users']->getCurrentUser() ?: false;
         $showLoggedOff = (bool) $this->app['config']->get('general/debug_show_loggedoff', false);
 
+        // Note: We set this to a high value deliberately. If 'config' is not yet available, the
+        // user can't influence this, so it shouldn't be too low.
+        $traceLimit = (int) $this->app['config']->get('general/debug_trace_argument_limit', 40);
+
         // Grab a section of the file that threw the exception, so we can show it.
         $filePath = $exception ? $exception->getFile() : null;
         $lineNumber = $exception ? $exception->getLine() : null;
@@ -220,13 +224,14 @@ class Exception extends Base implements ExceptionControllerInterface
             'debug'     => ($this->app['debug'] && ($loggedOnUser || $showLoggedOff)),
             'request'   => $request,
             'exception' => [
-                'object'     => $exception,
-                'class_name' => $exception ? (new \ReflectionClass($exception))->getShortName() : null,
-                'class_fqn'  => $exception ? get_class($exception) : null,
-                'file_path'  => $filePath,
-                'file_name'  => basename($filePath),
-                'trace'      => $exception ? $this->getSafeTrace($exception) : null,
-                'snippet'    => $snippet,
+                'object'      => $exception,
+                'class_name'  => $exception ? (new \ReflectionClass($exception))->getShortName() : null,
+                'class_fqn'   => $exception ? get_class($exception) : null,
+                'file_path'   => $filePath,
+                'file_name'   => basename($filePath),
+                'trace'       => $exception ? $this->getSafeTrace($exception) : null,
+                'snippet'     => $snippet,
+                'trace_limit' => $traceLimit,
             ],
         ];
     }

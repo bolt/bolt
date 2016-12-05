@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Version;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -67,8 +68,7 @@ class ConfigListener implements EventSubscriberInterface
         }
 
         // Twig globals
-        $this->setGlobals(false);
-        $this->setGlobals(true);
+        $this->setGlobals();
 
         // Only cache if the config passes checks
         if ($this->app['config']->checkConfig() === false) {
@@ -129,22 +129,15 @@ class ConfigListener implements EventSubscriberInterface
      * globals.
      *
      * This is here as a transitory measure.
-     *
-     * @param bool $safe
-     *
-     * @return array
      */
-    private function setGlobals($safe)
+    private function setGlobals()
     {
         /** @var \Twig_Environment $twig */
-        $twig = $safe ? $this->app['safe_twig'] : $this->app['twig'];
+        $twig = $this->app['twig'];
         /** @var \Bolt\Config $config */
         $config = $this->app['config'];
-        $configVal = $safe ? null : $config;
         /** @var \Bolt\Users $users */
         $users = $this->app['users'];
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-        $resources = $this->app['resources'];
         $zone = null;
         /** @var RequestStack $requestStack */
         $requestStack = $this->app['request_stack'];
@@ -155,23 +148,24 @@ class ConfigListener implements EventSubscriberInterface
         // User calls can cause exceptions that block the exception handler
         try {
             /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-            $usersVal = $safe ? null : $users->getUsers();
+            $usersVal = $users->getUsers();
             $usersCur = $users->getCurrentUser();
+
+            $sandbox = $this->app['twig.extension.sandbox'];
+            $usersVal = array_map(function ($user) use ($sandbox) {
+                return new ArrayAccessSecurityProxy($user, $sandbox, 'User');
+            }, $usersVal);
+            $usersCur = new ArrayAccessSecurityProxy($usersCur, $sandbox, 'User');
         } catch (\Exception $e) {
             $usersVal = null;
             $usersCur = null;
         }
 
-        $twig->addGlobal('bolt_name', Bolt\Version::name());
-        $twig->addGlobal('bolt_version', Bolt\Version::VERSION);
-        $twig->addGlobal('bolt_stable', Bolt\Version::isStable());
         $twig->addGlobal('frontend', $zone === Zone::FRONTEND);
         $twig->addGlobal('backend', $zone === Zone::BACKEND);
         $twig->addGlobal('async', $zone === Zone::ASYNC);
-        $twig->addGlobal('paths', $resources->getPaths());
         $twig->addGlobal('theme', $config->get('theme'));
         $twig->addGlobal('user', $usersCur);
         $twig->addGlobal('users', $usersVal);
-        $twig->addGlobal('config', $configVal);
     }
 }
