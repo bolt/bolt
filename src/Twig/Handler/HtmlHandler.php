@@ -201,23 +201,22 @@ class HtmlHandler
     }
 
     /**
+     * @deprecated since 3.3. To be removed in 4.0.
+     *
      * Formats the given string as Twig in HTML.
      *
-     * Note: this is partially duplicating the template_from_string functionality:
+     * Use template_from_string instead:
      * http://twig.sensiolabs.org/doc/functions/template_from_string.html
      *
-     * We can't use that functionality though, since it requires the Twig_Extension_StringLoader()
-     * extension. If we would use that, when instantiating Twig, it screws up the rendering: Every
-     * template that has a filename that doesn't exist will be rendered as literal string. This
-     * _really_ messes up the 'cascading rendering' of our theme templates.
-     *
-     * @param $snippet
-     * @param array $extravars
+     * @param string $snippet
+     * @param array  $extravars
      *
      * @return string Twig output
      */
     public function twig($snippet, $extravars = [])
     {
-        return $this->app['safe_render']->render($snippet, $extravars)->getContent();
+        $template = $this->app['twig']->createTemplate((string) $snippet);
+
+        return twig_include($this->app['twig'], $extravars, $template, [], true, false, true);
     }
 }

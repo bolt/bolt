@@ -36,6 +36,16 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         return 'Bolt';
     }
 
+    /**
+     * Used by setcontent tag.
+     *
+     * @return \Bolt\Storage\EntityManager
+     */
+    public function getStorage()
+    {
+        return $this->app['storage'];
+    }
+
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
@@ -124,7 +134,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('thumbnail',      [$this, 'thumbnail']),
             new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
-            new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
+            new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe + $deprecated + ['alternative' => 'template_from_string']),
             new \Twig_SimpleFilter('ucfirst',        'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
             new \Twig_SimpleFilter('ymllink',        [$this, 'ymllink'],           $safe),
             // @codingStandardsIgnoreEnd
@@ -149,17 +159,17 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getGlobals()
     {
         return [
-            'bolt_name'    => null,
-            'bolt_version' => null,
-            'bolt_stable'  => null,
+            'bolt_name'    => Bolt\Version::name(),
+            'bolt_version' => Bolt\Version::VERSION,
+            'bolt_stable'  => Bolt\Version::isStable(),
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,
-            'paths'        => null,
+            'paths'        => $this->app['resources']->getPaths(),
             'theme'        => null,
             'user'         => null,
             'users'        => null,
-            'config'       => null,
+            'config'       => $this->app['config'],
         ];
     }
 
