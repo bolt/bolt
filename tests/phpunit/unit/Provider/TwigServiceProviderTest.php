@@ -3,6 +3,7 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\TwigServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Twig\SafeEnvironment;
 
 /**
  * Class to test src/Provider/TwigServiceProvider.
@@ -28,8 +29,7 @@ class TwigServiceProviderTest extends BoltUnitTest
         $this->assertTrue($app['twig']->hasExtension('Bolt'), 'Bolt\Twig\TwigExtension was not added to twig environment');
         $this->assertContains('bolt', $app['twig.loader.bolt_filesystem']->getNamespaces(), 'bolt namespace was not added to filesystem loader');
 
-        $this->assertInstanceOf('\Bolt\Twig\TwigExtension', $app['safe_twig.bolt_extension']);
-        $this->assertInstanceOf('\Twig_Environment', $app['safe_twig']);
+        $this->assertInstanceOf(SafeEnvironment::class, $app['safe_twig']);
     }
 
     public function testConfigCacheDisabled()

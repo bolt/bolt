@@ -3,7 +3,6 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\SetcontentTokenParser;
-use Twig_Compiler;
 use Twig_Environment;
 use Twig_ExpressionParser;
 use Twig_Parser;
@@ -131,7 +130,7 @@ class SetcontentTest extends BoltUnitTest
             ->willReturnSelf()
         ;
         $compiler
-            ->expects($this->atLeast(3))
+            ->expects($this->atLeast(1))
             ->method('write')
             ->willReturnSelf()
         ;

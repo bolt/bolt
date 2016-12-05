@@ -52,7 +52,6 @@ class TwigExtensionTest extends BoltUnitTest
         $this->assertArrayHasKey('users', $response);
         $this->assertArrayHasKey('config', $response);
         $this->assertNotNull($response['config']);
-        $this->assertNotNull($response['users']);
     }
 
     public function testGetGlobalsSafe()
@@ -66,7 +65,6 @@ class TwigExtensionTest extends BoltUnitTest
 
         $result = $twig->getGlobals();
         $this->assertArrayHasKey('config', $result);
-        $this->assertNull($result['config']);
         $this->assertNull($result['users']);
     }
 
