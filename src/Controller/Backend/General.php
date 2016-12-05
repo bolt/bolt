@@ -164,10 +164,10 @@ class General extends BackendBase
 
         if ($request->isMethod('POST') || $request->get('force') == 1) {
             $form->handleRequest($request);
-            $contenttypes = $form->get('contenttypes')->getData();
+            $contentTypes = (array) $form->get('contenttypes')->getData();
 
             try {
-                $content = $this->storage()->preFill($contenttypes);
+                $content = $this->storage()->preFill($contentTypes);
                 $this->flashes()->success($content);
             } catch (RequestException $e) {
                 $msg = "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.";

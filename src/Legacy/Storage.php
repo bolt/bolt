@@ -708,7 +708,8 @@ class Storage
         foreach ($fields as $field => $fieldconfig) {
             if (in_array($fieldconfig['type'], $searchableTypes)) {
                 foreach ($query['words'] as $word) {
-                    $fieldsWhere[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
+                    // Build the LIKE, lowering the searched field to cover case-sensitive database systems
+                    $fieldsWhere[] = sprintf('LOWER(%s.%s) LIKE LOWER(%s)', $table, $field, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
         }

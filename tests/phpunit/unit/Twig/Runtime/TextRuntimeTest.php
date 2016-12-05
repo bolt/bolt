@@ -1,16 +1,16 @@
 <?php
 
-namespace Bolt\Tests\Twig;
+namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Twig\Handler\TextHandler;
+use Bolt\Twig\Runtime\TextRuntime;
 
 /**
- * Class to test Bolt\Twig\Handler\TextHandler
+ * Class to test Bolt\Twig\Runtime\TextRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TextHandlerTest extends BoltUnitTest
+class TextRuntimeTest extends BoltUnitTest
 {
     public function setUp()
     {
@@ -23,7 +23,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testJsonDecode()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $array = [
             'koala'     => 'gum leaves',
@@ -37,7 +37,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeStringNoFormat()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->localeDateTime('2012-06-14 09:07:55');
         $this->assertSame('June 14, 2012 09:07', $result);
@@ -46,7 +46,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeStringWithFormat()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->localeDateTime('2012-06-14 09:07:55', '%Y-%m-%d %H:%M');
         $this->assertSame('2012-06-14 09:07', $result);
@@ -55,7 +55,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeCdo()
     {
         $this->markTestSkipped('Mock of setlocale not working on a long running test.');
-        
+
         $app = $this->getApp();
         $this->php
             ->expects($this->once())
@@ -68,7 +68,7 @@ class TextHandlerTest extends BoltUnitTest
             ->method('error')
         ;
         $app['logger.system'] = $logger;
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->localeDateTime('2012-06-14 09:07:55', '%B %e, %Y %H:%M');
         $this->assertSame('2012-06-14 09:07:55', $result);
@@ -77,7 +77,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeObjectNoFormat()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $dateTime = new \DateTime('2012-06-14 09:07:55');
         $result = $handler->localeDateTime($dateTime);
@@ -87,7 +87,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testLocaleDateTimeObjectWithFormat()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $dateTime = new \DateTime('2012-06-14 09:07:55');
         $result = $handler->localeDateTime($dateTime, '%Y-%m-%d %H:%M');
@@ -97,7 +97,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testPregReplaceNoReplacementNoLimit()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#');
         $this->assertSame('One , two s, three s, four!', $result);
@@ -106,7 +106,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testPregReplaceWithReplacementNoLimit()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#', 'clippy');
         $this->assertSame('One clippy, two clippys, three clippys, four!', $result);
@@ -115,7 +115,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testPregReplaceWithReplacementWithLimit()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#', 'clippy', 2);
         $this->assertSame('One clippy, two clippys, three koalas, four!', $result);
@@ -124,7 +124,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testSafeStringNotStrictNoExtra()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->safeString('Skämt åsido satan vilket uruselt tillvägagångsätt');
         $this->assertSame('Skaemt aasido satan vilket uruselt tillvaegagaangsaett', $result);
@@ -133,7 +133,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testSafeStringWithStrictNoExtra()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->safeString('Skämt åsido satan vilket uruselt tillvägagångsätt', true);
         $this->assertSame('skaemt-aasido-satan-vilket-uruselt-tillvaegagaangsaett', $result);
@@ -142,7 +142,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testSafeStringWithStrictWithExtra()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->safeString('Skämt åsido $@tan vilket uruselt tillvägagångsätt', true, '$');
         $this->assertSame('skaemt-aasido-$attan-vilket-uruselt-tillvaegagaangsaett', $result);
@@ -151,7 +151,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testSlugString()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->slug('Köala & Clippy úp thé trèé');
         $this->assertSame('koeala-clippy-up-the-tree', $result);
@@ -160,7 +160,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testSlugArray()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $slug = ['Köala & Clippy', 'úp thé trèé'];
         $result = $handler->slug($slug);
@@ -170,7 +170,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testTestJsonValid()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $array = ['koala', 'clippy'];
         $result = $handler->testJson(json_encode($array));
@@ -180,7 +180,7 @@ class TextHandlerTest extends BoltUnitTest
     public function testTestJsonInvalid()
     {
         $app = $this->getApp();
-        $handler = new TextHandler($app);
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->testJson('koala');
         $this->assertFalse($result);
