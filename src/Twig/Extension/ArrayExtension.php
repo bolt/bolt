@@ -1,30 +1,46 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Extension;
 
-use Silex;
+use Twig_Extension as Extension;
 
 /**
  * Bolt specific Twig functions and filters that provide array manipulation
  *
  * @internal
  */
-class ArrayHandler
+class ArrayExtension extends Extension
 {
     private $orderOn;
     private $orderAscending;
-    private $orderAscendingSecondary;
     private $orderOnSecondary;
-
-    /** @var \Silex\Application */
-    private $app;
+    private $orderAscendingSecondary;
 
     /**
-     * @param \Silex\Application $app
+     * {@inheritdoc}
      */
-    public function __construct(Silex\Application $app)
+    public function getFunctions()
     {
-        $this->app = $app;
+        $safe = ['is_safe' => ['html']];
+
+        return [
+            // @codingStandardsIgnoreStart
+            new \Twig_SimpleFunction('unique', [$this, 'unique'], $safe),
+            // @codingStandardsIgnoreEnd
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters()
+    {
+        return [
+            // @codingStandardsIgnoreStart
+            new \Twig_SimpleFilter('order',   [$this, 'order']),
+            new \Twig_SimpleFilter('shuffle', [$this, 'shuffle']),
+            // @codingStandardsIgnoreEnd
+        ];
     }
 
     /**
@@ -39,11 +55,11 @@ class ArrayHandler
     public function order($array, $on, $onSecondary = '')
     {
         // Set the 'orderOn' and 'orderAscending', taking into account things like '-datepublish'.
-        list($this->orderOn, $this->orderAscending) = $this->app['storage']->getSortOrder($on);
+        list($this->orderOn, $this->orderAscending) = $this->getSortOrder($on);
 
         // Set the secondary order, if any.
         if (!empty($onSecondary)) {
-            list($this->orderOnSecondary, $this->orderAscendingSecondary) = $this->app['storage']->getSortOrder($onSecondary);
+            list($this->orderOnSecondary, $this->orderAscendingSecondary) = $this->getSortOrder($onSecondary);
         } else {
             $this->orderOnSecondary = false;
             $this->orderAscendingSecondary = false;
@@ -52,6 +68,36 @@ class ArrayHandler
         uasort($array, [$this, 'orderHelper']);
 
         return $array;
+    }
+
+    /**
+     * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
+     * also return the sorting order.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private function getSortOrder($name = '-datepublish')
+    {
+        // If we don't get a string, we can't determine a sort order.
+        if (!is_string($name)) {
+            return false;
+        }
+
+        $parts = explode(' ', $name);
+        $fieldName = $parts[0];
+        $sort = 'ASC';
+        if (isset($parts[1])) {
+            $sort = $parts[1];
+        }
+
+        if ($fieldName[0] === '-') {
+            $fieldName = substr($fieldName, 1);
+            $sort = 'DESC';
+        }
+
+        return [$fieldName, (strtoupper($sort) === 'ASC')];
     }
 
     /**
@@ -67,13 +113,13 @@ class ArrayHandler
         $aVal = $a[$this->orderOn];
         $bVal = $b[$this->orderOn];
 
-        // Check the primary sorting criterium.
+        // Check the primary sorting criterion.
         if ($aVal < $bVal) {
             return !$this->orderAscending;
         } elseif ($aVal > $bVal) {
             return $this->orderAscending;
         } else {
-            // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
+            // Primary criterion is the same. Use the secondary criterion, if it is set. Otherwise return 0.
             if (empty($this->orderOnSecondary)) {
                 return 0;
             }

@@ -1,19 +1,28 @@
 <?php
 
-namespace Bolt\Twig\Handler;
+namespace Bolt\Twig\Runtime;
 
+use Bolt\Config;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Stack;
 use Bolt\Translation\Translator as Trans;
 use Silex;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Bolt specific Twig functions and filters for backend
  *
  * @internal
  */
-class AdminHandler
+class AdminRuntime
 {
+    /** @var Config */
+    private $config;
+    /** @var Stack */
+    private $stack;
+    /** @var UrlGeneratorInterface */
+    private $urlGenerator;
+
     /** @var \Silex\Application */
     private $app;
 
@@ -21,10 +30,22 @@ class AdminHandler
     private $buid = 0;
 
     /**
-     * @param \Silex\Application $app
+     * Constructor.
+     *
+     * @param Config                $config
+     * @param Stack                 $stack
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param Silex\Application     $app
      */
-    public function __construct(Silex\Application $app)
-    {
+    public function __construct(
+        Config $config,
+        Stack $stack,
+        UrlGeneratorInterface $urlGenerator,
+        Silex\Application $app
+    ) {
+        $this->config = $config;
+        $this->stack = $stack;
+        $this->urlGenerator = $urlGenerator;
         $this->app = $app;
     }
 
@@ -59,7 +80,7 @@ class AdminHandler
 
     public function isChangelogEnabled()
     {
-        return $this->app['config']->get('general/changelog/enabled');
+        return $this->config->get('general/changelog/enabled');
     }
 
     /**
@@ -71,7 +92,7 @@ class AdminHandler
      */
     public function testStackable($filename)
     {
-        $stacked = $this->app['stack']->isStackable($filename);
+        $stacked = $this->stack->isStackable($filename);
 
         return $stacked;
     }
@@ -89,7 +110,7 @@ class AdminHandler
             $types = array_filter(array_map('trim', explode(',', $types)));
         }
 
-        $files = $this->app['stack']->getList($types);
+        $files = $this->stack->getList($types);
 
         return $files;
     }
@@ -118,14 +139,16 @@ class AdminHandler
      * Translate using our __().
      *
      * @internal
-     *
-     * @param array   $args
-     * @param integer $numArgs
+     * @internal param array $args
+     * @internal param int   $numArgs
      *
      * @return string Translated content
      */
-    public function trans(array $args, $numArgs)
+    public function trans()
     {
+        $args = func_get_args();
+        $numArgs = func_num_args();
+
         switch ($numArgs) {
             case 4:
                 return Trans::__($args[0], $args[1], $args[2], $args[3]);
@@ -187,21 +210,15 @@ class AdminHandler
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
      *
-     * @param string  $str
-     * @param boolean $safe
+     * @param string $str
      *
      * @return string Resulting string
      */
-    public function ymllink($str, $safe)
+    public function ymllink($str)
     {
-        // There is absolutely no way anyone could possibly need this in a "safe" context
-        if ($safe) {
-            return null;
-        }
-
         $matches = [];
         if (preg_match('/ ([a-z0-9_-]+\.yml)/i', $str, $matches)) {
-            $path = $this->app->generatePath('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
+            $path = $this->urlGenerator->generate('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
             $link = sprintf(' <a href="%s">%s</a>', $path, $matches[1]);
             $str = preg_replace('/ ([a-z0-9_-]+\.yml)/i', $link, $str);
         }
