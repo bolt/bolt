@@ -134,7 +134,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFilter('thumbnail',      [$this, 'thumbnail']),
             new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
-            new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
+            new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe + $deprecated + ['alternative' => 'template_from_string']),
             new \Twig_SimpleFilter('ucfirst',        'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
             new \Twig_SimpleFilter('ymllink',        [$this, 'ymllink'],           $safe),
             // @codingStandardsIgnoreEnd

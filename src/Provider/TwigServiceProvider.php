@@ -85,6 +85,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
                     $twig->addExtension($app['twig.extension.asset']);
                     $twig->addExtension($app['twig.extension.http_foundation']);
+                    $twig->addExtension($app['twig.extension.string_loader']);
 
                     if (isset($app['dump'])) {
                         $twig->addExtension($app['twig.extension.dump']);
@@ -119,6 +120,12 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $app['users'],
                     $app['config']->get('general/debug_show_loggedoff', false)
                 );
+            }
+        );
+
+        $app['twig.extension.string_loader'] = $app->share(
+            function () {
+                return new \Twig_Extension_StringLoader();
             }
         );
 
