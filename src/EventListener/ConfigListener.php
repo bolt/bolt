@@ -138,8 +138,6 @@ class ConfigListener implements EventSubscriberInterface
         $config = $this->app['config'];
         /** @var \Bolt\Users $users */
         $users = $this->app['users'];
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-        $resources = $this->app['resources'];
         $zone = null;
         /** @var RequestStack $requestStack */
         $requestStack = $this->app['request_stack'];
@@ -163,16 +161,11 @@ class ConfigListener implements EventSubscriberInterface
             $usersCur = null;
         }
 
-        $twig->addGlobal('bolt_name', Bolt\Version::name());
-        $twig->addGlobal('bolt_version', Bolt\Version::VERSION);
-        $twig->addGlobal('bolt_stable', Bolt\Version::isStable());
         $twig->addGlobal('frontend', $zone === Zone::FRONTEND);
         $twig->addGlobal('backend', $zone === Zone::BACKEND);
         $twig->addGlobal('async', $zone === Zone::ASYNC);
-        $twig->addGlobal('paths', $resources->getPaths());
         $twig->addGlobal('theme', $config->get('theme'));
         $twig->addGlobal('user', $usersCur);
         $twig->addGlobal('users', $usersVal);
-        $twig->addGlobal('config', $config);
     }
 }

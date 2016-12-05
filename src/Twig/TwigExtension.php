@@ -159,17 +159,17 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getGlobals()
     {
         return [
-            'bolt_name'    => null,
-            'bolt_version' => null,
-            'bolt_stable'  => null,
+            'bolt_name'    => Bolt\Version::name(),
+            'bolt_version' => Bolt\Version::VERSION,
+            'bolt_stable'  => Bolt\Version::isStable(),
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,
-            'paths'        => null,
+            'paths'        => $this->app['resources']->getPaths(),
             'theme'        => null,
             'user'         => null,
             'users'        => null,
-            'config'       => null,
+            'config'       => $this->app['config'],
         ];
     }
 
