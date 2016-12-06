@@ -284,7 +284,7 @@ class ResourceManager
             }
         }
 
-        if (!$this->requestInitialized && in_array($name, ['canonical', 'canonicalurl', 'current', 'currenturl', 'host', 'hosturl', 'root', 'rooturl'])) {
+        if (!$this->requestInitialized && $this->app) {
             $this->initializeRequest($this->app, $this->requestObject);
         }
 
