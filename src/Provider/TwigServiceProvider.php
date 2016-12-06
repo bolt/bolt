@@ -34,7 +34,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 $app['menu'],
                 $app['storage'],
                 $app['request_stack'],
-                $app['twig'],
+                $app['render'],
                 $app['locale']
             );
         };

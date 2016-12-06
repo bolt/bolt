@@ -21,8 +21,6 @@ class ConfigurationFile
      * @param string $siteConfigPath
      *
      * @throws BootException
-     *
-     * @return null
      */
     public static function checkConfigFiles(array $configNames, $rootConfigDir, $siteConfigPath)
     {
@@ -41,8 +39,6 @@ class ConfigurationFile
      * @param string $siteConfigPath
      *
      * @throws BootException
-     *
-     * @return null
      */
     public static function checkConfigFile($configName, $rootConfigDir, $siteConfigPath)
     {
@@ -56,7 +52,7 @@ class ConfigurationFile
 
         if ($fs->exists($configFileFullPath)) {
             if (is_readable($configFileFullPath)) {
-                return null;
+                return;
             }
 
             throw new BootException(sprintf('Unable to read configuration file "%s"', $configFileName));
@@ -68,6 +64,6 @@ class ConfigurationFile
             throw new BootException(sprintf('Unable to create configuration file "%s"', $configFileName));
         }
 
-        return null;
+        return;
     }
 }

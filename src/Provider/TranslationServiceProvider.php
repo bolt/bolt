@@ -21,10 +21,19 @@ class TranslationServiceProvider implements ServiceProviderInterface
             );
         }
 
-        $app['translator.caching'] = true;
-        if ($app['config']->get('general/caching/translations') === false) {
-            $app['translator.caching'] = false;
-        }
+        $previousLocale = $app->raw('locale');
+        $app['locale'] = $app->share(function ($app) use ($previousLocale) {
+            if (($locales = $app['config']->get('general/locale')) !== null) {
+                $locales = (array) $locales;
+                return reset($locales);
+            }
+
+            return $previousLocale;
+        });
+
+        $app['translator.caching'] = function ($app) {
+            return (bool) $app['config']->get('general/caching/translations');
+        };
 
         $app['translator.cache_dir'] = $app->share(function ($app) {
             if ($app['translator.caching'] === false) {
@@ -73,6 +82,15 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
         );
 
+        // for javascript datetime calculations, timezone offset. e.g. "+02:00"
+        $app['timezone_offset'] = date('P');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot(Application $app)
+    {
         $locales = (array) $app['config']->get('general/locale');
 
         // Add fallback locales to list if they are not already there
@@ -85,16 +103,6 @@ class TranslationServiceProvider implements ServiceProviderInterface
         setlocale(LC_ALL, $locales);
 
         $this->setDefaultTimezone($app);
-
-        // for javascript datetime calculations, timezone offset. e.g. "+02:00"
-        $app['timezone_offset'] = date('P');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 
     /**

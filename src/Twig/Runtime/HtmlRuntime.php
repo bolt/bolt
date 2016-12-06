@@ -7,6 +7,7 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
 use Bolt\Menu\MenuBuilder;
+use Bolt\Render;
 use Bolt\Storage\EntityManager;
 use Maid\Maid;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -28,8 +29,8 @@ class HtmlRuntime
     private $em;
     /** @var RequestStack */
     private $requestStack;
-    /** @var \Twig_Environment */
-    private $twig;
+    /** @var Render */
+    private $render;
     /** @var string */
     private $locale;
 
@@ -41,7 +42,7 @@ class HtmlRuntime
      * @param MenuBuilder       $menu
      * @param EntityManager     $em
      * @param RequestStack      $requestStack
-     * @param \Twig_Environment $twig
+     * @param Render            $render
      * @param string            $locale
      */
     public function __construct(
@@ -50,7 +51,7 @@ class HtmlRuntime
         MenuBuilder $menu,
         EntityManager $em,
         RequestStack $requestStack,
-        \Twig_Environment $twig,
+        Render $render,
         $locale
     ) {
         $this->config = $config;
@@ -58,7 +59,7 @@ class HtmlRuntime
         $this->menu = $menu;
         $this->em = $em;
         $this->requestStack = $requestStack;
-        $this->twig = $twig;
+        $this->render = $render;
         $this->locale = $locale;
     }
 
@@ -239,8 +240,6 @@ class HtmlRuntime
      */
     public function twig($snippet, $context = [])
     {
-        $template = $this->twig->createTemplate((string) $snippet);
-
-        return twig_include($this->twig, $context, $template, [], true, false, true);
+        return $this->render->renderSnippet($snippet, $context);
     }
 }

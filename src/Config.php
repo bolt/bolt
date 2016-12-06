@@ -3,9 +3,12 @@
 namespace Bolt;
 
 use Bolt\Controller\Zone;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Exception\ParseException;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
@@ -18,7 +21,6 @@ use InvalidArgumentException;
 use RuntimeException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Class for our config object.
@@ -63,9 +65,6 @@ class Config
 
     /** @var boolean  @deprecated Deprecated since 3.2, to be removed in 4.0 */
     public $notify_update;
-
-    /** @var \Symfony\Component\Yaml\Parser */
-    protected $yamlParser = false;
 
     /** @var array */
     private $exceptions;
@@ -118,46 +117,44 @@ class Config
      */
     private function loadTheme()
     {
-        $this->app['resources']->initializeConfig($this->data);
-
         if ($this->isThemeCacheValid()) {
             return;
         }
         $this->invalidateCache();
 
-        $this->data['theme'] = $this->parseTheme($this->app['resources']->getPath('theme'), $this->data['general']);
+        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+
+        $this->data['theme'] = $this->parseTheme($themeDir, $this->data['general']);
     }
 
     /**
      * Read and parse a YAML configuration file
      *
-     * @param string $filename The name of the YAML file to read
-     * @param string $path     The (optional) path to the YAML file
+     * @param string             $filename  The name of the YAML file to read
+     * @param DirectoryInterface $directory The (optional) directory to the YAML file
      *
      * @return array
      */
-    protected function parseConfigYaml($filename, $path = null)
+    protected function parseConfigYaml($filename, DirectoryInterface $directory = null)
     {
-        // Initialise parser
-        if ($this->yamlParser === false) {
-            $this->yamlParser = new Parser();
-        }
+        $directory = $directory ?: $this->app['filesystem.config']->getDir('');
 
-        // By default we assume that config files are located in app/config/
-        $path = $path ?: $this->app['resources']->getPath('config');
-        $filename = $path . '/' . $filename;
-
-        if (!is_readable($filename)) {
+        try {
+            $file = $directory->get($filename);
+        } catch (FileNotFoundException $e) {
             return [];
         }
 
-        $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
+        if (!$file instanceof ParsableInterface) {
+            throw new \LogicException('File is not parsable.');
+        }
+
+        $yml = $file->parse() ?: [];
 
         // Unset the repeated nodes key after parse
         unset($yml['__nodes']);
 
-        // Invalid, non-existing, or empty files return NULL
-        return $yml ?: [];
+        return $yml;
     }
 
     /**
@@ -458,18 +455,18 @@ class Config
     /**
      * Read and parse the current theme's config.yml configuration file.
      *
-     * @param string $themePath
-     * @param array  $generalConfig
+     * @param DirectoryInterface $themeDir
+     * @param array              $generalConfig
      *
      * @return array
      */
-    protected function parseTheme($themePath, array $generalConfig)
+    protected function parseTheme(DirectoryInterface $themeDir, array $generalConfig)
     {
-        $themeConfig = $this->parseConfigYaml('theme.yml', $themePath);
+        $themeConfig = $this->parseConfigYaml('theme.yml', $themeDir);
 
         /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
         if (empty($themeConfig)) {
-            $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+            $themeConfig = $this->parseConfigYaml('config.yml', $themeDir);
         }
 
         if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {

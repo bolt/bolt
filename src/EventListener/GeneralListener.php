@@ -32,19 +32,6 @@ class GeneralListener implements EventSubscriberInterface
     }
 
     /**
-     * Kernel request listener callback.
-     *
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
-    {
-        $request = $event->getRequest();
-
-        $this->mailConfigCheck($request);
-        $this->gdCheck($request);
-    }
-
-    /**
      * Kernel response listener callback.
      *
      * @param FilterResponseEvent $event
@@ -55,37 +42,6 @@ class GeneralListener implements EventSubscriberInterface
         $response = $event->getResponse();
 
         $this->setFrameOptions($request, $response);
-    }
-
-    /**
-     * No mail transport has been set. We should gently nudge the user to set
-     * the mail configuration.
-     *
-     * @see https://github.com/bolt/bolt/issues/2908
-     *
-     * @param Request $request
-     */
-    protected function mailConfigCheck(Request $request)
-    {
-        if (!$request->hasPreviousSession()) {
-            return;
-        }
-
-        if (!$this->app['config']->get('general/mailoptions') && $this->app['users']->getCurrentuser() && $this->app['users']->isAllowed('files:config')) {
-            $notice = "The mail configuration parameters have not been set up. This may interfere with password resets, and extension functionality. Please set up the 'mailoptions' in config.yml.";
-            $this->app['logger.flash']->configuration(Trans::__($notice));
-        }
-    }
-
-    /**
-     * Check whether or not the GD-library can be used in PHP. Needed for making thumbnails.
-     */
-    protected function gdCheck()
-    {
-        if (!function_exists('imagecreatetruecolor')) {
-            $notice = "The current version of PHP doesn't have the GD library enabled. Without this, Bolt will not be able to generate thumbnails. Please enable <tt>php-gd</tt>, or ask your system-administrator to do so.";
-            $this->app['logger.flash']->configuration(Trans::__($notice));
-        }
     }
 
     /**
@@ -111,7 +67,6 @@ class GeneralListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST  => ['onKernelRequest', 31], // Right after route is matched
             KernelEvents::RESPONSE => 'onResponse',
         ];
     }

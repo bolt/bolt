@@ -126,6 +126,8 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
+        $app = new Application(['resources' => $config]);
+
         $this->assertEquals('/', $config->getUrl('root'));
         $this->assertEquals('/app/', $config->getUrl('app'));
         $this->assertEquals('/extensions/', $config->getUrl('extensions'));
@@ -358,13 +360,12 @@ class ResourceManagerTest extends BoltUnitTest
 
     public function testSetThemePath()
     {
-        $config = new Standard(PHPUNIT_WEBROOT);
-        $theme = ['theme' => 'test'];
-        $config->setThemePath($theme);
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/theme/test'), $config->getPath('theme'));
-        $theme = ['theme' => 'test', 'theme_path' => '/testpath'];
-        $config->setThemePath($theme);
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/testpath/test'), $config->getPath('theme'));
+        $resources = new Standard(PHPUNIT_WEBROOT);
+        $app = new Application(['resources' => $resources]);
+        $app['config']->set('general/theme', 'test');
+        $app['config']->set('general/theme_path', '/testpath');
+
+        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/testpath/test')->string(), $resources->getPath('theme'));
     }
 
     public function testStaticApp()

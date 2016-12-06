@@ -177,7 +177,7 @@ HTML;
             $app['menu'],
             $app['storage'],
             $app['request_stack'],
-            $app['safe_twig'],
+            $app['render'],
             $app['locale']
         );
     }

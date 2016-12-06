@@ -94,7 +94,6 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         return [
             'bolt_name'    => Bolt\Version::name(),
             'bolt_version' => Bolt\Version::VERSION,
-            'bolt_stable'  => Bolt\Version::isStable(),
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,
