@@ -37,25 +37,36 @@ class PathServiceProvider implements ServiceProviderInterface
         if (!isset($app['resources'])) {
             $app['resources'] = $app->share(function ($app) {
                 $resources = new ResourceManager($app);
-                $resources->setApp($app);
-
-                $app['resources.check_files']($resources);
 
                 return $resources;
             });
         }
 
-        // If resources was passed into constructor set app.
+        // Set app and check files.
+        // Either immediately if instance is given or lazily if closure is given.
         $resources = $app->raw('resources');
         if ($resources instanceof ResourceManager) {
             $resources->setApp($app);
 
             $app['resources.check_files']($resources);
+        } else {
+            $app['resources'] = $app->share(
+                $app->extend(
+                    'resources',
+                    function ($resources, $app) {
+                        $resources->setApp($app);
 
-            $app['classloader'] = $app->share(function ($app) {
-                return $app['resources']->getClassLoader();
-            });
+                        $app['resources.check_files']($resources);
+
+                        return $resources;
+                    }
+                )
+            );
         }
+
+        $app['classloader'] = $app->share(function ($app) {
+            return $app['resources']->getClassLoader();
+        });
     }
 
     public function boot(Application $app)

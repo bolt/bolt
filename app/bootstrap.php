@@ -101,28 +101,39 @@ return call_user_func(function () {
         return $config['application'];
     }
 
-    // Use resources from config, or instantiate the class based on mapping above.
-    if ($config['resources'] instanceof ResourceManager) {
-        $resources = $config['resources'];
-    } else {
-        if ($config['resources'] !== null && is_a($config['resources'], ResourceManager::class)) {
-            $resourcesClass = $config['resources'];
+    $resourcesFactory = function () use ($config, $resourcesClass, $rootPath) {
+        // Use resources from config, or instantiate the class based on mapping above.
+        if ($config['resources'] instanceof ResourceManager) {
+            $resources = $config['resources'];
+        } else {
+            if ($config['resources'] !== null && is_a($config['resources'], ResourceManager::class, true)) {
+                $resourcesClass = $config['resources'];
+            }
+
+            /** @var \Bolt\Configuration\ResourceManager $resources */
+            $resources = new $resourcesClass($rootPath);
         }
 
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-        $resources = new $resourcesClass($rootPath);
-    }
+        // Set any non-standard paths
+        foreach ((array) $config['paths'] as $name => $path) {
+            $resources->setPath($name, $path);
+        }
+        if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+            BootException::earlyExceptionMissingLoaderConfig();
+        }
 
-    // Set any non-standard paths
-    foreach ((array) $config['paths'] as $name => $path) {
-        $resources->setPath($name, $path);
-    }
-    if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
-        BootException::earlyExceptionMissingLoaderConfig();
-    }
+        $resources->verify();
 
-    /** @var \Bolt\Configuration\ResourceManager $config */
-    $resources->verify();
+        return $resources;
+    };
+
+    // If resources is already initialized, go ahead and customize it now.
+    // Else define it as a shared service for DI.
+    if ($config['resources'] instanceof ResourceManager) {
+        $resources = $resourcesFactory();
+    } else {
+        $resources = \Pimple::share($resourcesFactory);
+    }
 
     // Create the 'Bolt application'
     $appClass = Application::class;
