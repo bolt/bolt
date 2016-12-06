@@ -59,6 +59,12 @@ class ResourceManager
      */
     private $pathsProxy;
 
+    /** @var bool */
+    private $requestInitialized;
+
+    /** @var bool */
+    private $configInitialized;
+
     /**
      * Constructor initialises on the app root path.
      *
@@ -80,7 +86,10 @@ class ResourceManager
         }
 
         if (!($container instanceof Application) && !empty($container['request'])) {
-            $this->requestObject = $container['request'];
+            try {
+                $this->requestObject = $container['request'];
+            } catch (\RuntimeException $e) {
+            }
         }
 
         $this->setUrl('root', '/');
@@ -210,6 +219,10 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
+        if (!$this->configInitialized && in_array($name, ['theme', 'themepath'])) {
+            $this->initializeConfig();
+        }
+
         if (array_key_exists($name . 'path', $this->paths)) {
             $path = $this->paths[$name . 'path'];
         } elseif (array_key_exists($name, $this->paths)) {
@@ -271,6 +284,14 @@ class ResourceManager
             }
         }
 
+        if (!$this->requestInitialized && $this->app) {
+            $this->initializeRequest($this->app, $this->requestObject);
+        }
+
+        if (!$this->configInitialized && in_array($name, ['theme', 'bolt', 'templates', 'templatespath'])) {
+            $this->initializeConfig();
+        }
+
         if (array_key_exists($name . 'url', $this->urls) && $name !== 'root') {
             return $this->urls[$name . 'url'];
         }
@@ -308,6 +329,10 @@ class ResourceManager
      */
     public function getRequest($name)
     {
+        if (!$this->requestInitialized && in_array($name, ['canonical', 'protocol', 'hostname'])) {
+            $this->initializeRequest($this->app, $this->requestObject);
+        }
+
         if (! array_key_exists($name, $this->request)) {
             throw new \InvalidArgumentException("Request component $name is not available", 1);
         }
@@ -341,7 +366,7 @@ class ResourceManager
     public function initializeRequest(Application $app, Request $request = null)
     {
         if ($request === null) {
-            $request = Request::createFromGlobals();
+            $request = $app['request_stack']->getCurrentRequest() ?: Request::createFromGlobals();
         }
 
         // This is where we set the canonical. Note: The protocol (scheme) defaults to 'http',
@@ -372,7 +397,7 @@ class ResourceManager
             $protocol = 'cli';
         }
 
-        $rootUrl = rtrim($this->getUrl('root'), '/');
+        $rootUrl = rtrim($this->urls['root'], '/');
         if ($rootUrl !== $request->getBasePath()) {
             $this->urlPrefix = $request->getBasePath();
         }
@@ -384,46 +409,40 @@ class ResourceManager
         $this->setUrl('current', $current);
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
-        $this->setUrl('rooturl', sprintf('%s%s/', $this->getRequest('canonical'), $rootUrl));
+        $this->setUrl('rooturl', sprintf('%s%s/', $this->request['canonical'], $rootUrl));
 
-        $url = sprintf('%s%s', $this->getRequest('canonical'), $current);
+        $url = sprintf('%s%s', $this->request['canonical'], $current);
         if (PagerManager::isPagingRequest($request)) {
             $url .= '?' . http_build_query($request->query->all());
         }
         $this->setUrl('canonicalurl', $url);
+
+        $this->requestInitialized = true;
     }
 
     /**
      * Takes a loaded config array and uses it to initialize settings that depend on it.
      *
-     * @param array $config
      */
-    public function initializeConfig($config)
-    {
-        if (is_array($config) && isset($config['general'])) {
-            $this->setThemePath($config['general']);
-        }
-    }
-
-    public function initialize()
-    {
-        $this->initializeRequest($this->app, $this->requestObject);
-        $this->postInitialize();
-    }
-
-    public function postInitialize()
+    public function initializeConfig()
     {
         $this->setThemePath($this->app['config']->get('general'));
 
         $theme = $this->app['config']->get('theme');
         if (isset($theme['template_directory'])) {
-            $this->setPath('templatespath', $this->getPath('theme') . '/' . $this->app['config']->get('theme/template_directory'));
+            $this->setPath('templatespath', $this->paths['themepath'] . '/' . $theme['template_directory']);
         } else {
-            $this->setPath('templatespath', $this->getPath('theme'));
+            $this->setPath('templatespath', $this->paths['themepath']);
         }
 
         $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
         $this->setUrl('bolt', $branding);
+
+        $this->configInitialized = true;
+    }
+
+    public function initialize()
+    {
     }
 
     /**
@@ -441,10 +460,10 @@ class ResourceManager
 
         // See if the user has set a theme path otherwise use the default
         if (!isset($generalConfig['theme_path'])) {
-            $this->setPath('themepath', $this->getPath('themebase') . $themeDir);
+            $this->setPath('themepath', $this->paths['themebase'] . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         } else {
-            $this->setPath('themepath', $this->getPath('rootpath') . $themePath . $themeDir);
+            $this->setPath('themepath', $this->paths['rootpath'] . $themePath . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         }
     }

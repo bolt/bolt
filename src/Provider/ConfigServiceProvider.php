@@ -56,30 +56,13 @@ class ConfigServiceProvider implements ServiceProviderInterface
                 return new ConfigListener($app);
             }
         );
-
-        if (!isset($app['config.pre_boot'])) {
-            $this->preBoot($app['resources']);
-            $app['config.pre_boot'] = true;
-        }
-    }
-
-    /**
-     * Internal pre-boot checks.
-     *
-     * @param ResourceManager $resources
-     */
-    private function preBoot(ResourceManager $resources)
-    {
-        PreBoot\ConfigurationFile::checkConfigFiles(
-            ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
-            $resources->getPath('src/../app/config'),
-            $resources->getPath('config')
-        );
     }
 
     public function boot(Application $app)
     {
         $app['config']->doReplacements();
+
+        $app['config.environment']->checkVersion();
 
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];

@@ -103,13 +103,6 @@ class LoggerServiceProvider implements ServiceProviderInterface
             }
         );
 
-        // If we're not debugging, just send to /dev/null
-        if (!$app['config']->get('general/debuglog/enabled')) {
-            $app['monolog.handler'] = function () {
-                return new NullHandler();
-            };
-        }
-
         $app['logger.debug'] = function () use ($app) {
             return $app['monolog'];
         };

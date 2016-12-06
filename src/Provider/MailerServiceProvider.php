@@ -21,25 +21,24 @@ class MailerServiceProvider implements ServiceProviderInterface
         if (!isset($app['swiftmailer.options'])) {
             $app->register(new SwiftmailerServiceProvider());
         }
-        
-        $options = $app['config']->get('general/mailoptions');
-        if ($options) {
-            $app['swiftmailer.options'] = $options;
-        }
-        
-        $spool = $app['config']->get('general/mailoptions/spool');
-        if ($spool !== null) {
-            $app['swiftmailer.use_spool'] = $spool;
-        }
 
-        if ($app['config']->get('general/mailoptions/transport') === 'mail') {
-            // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
-            $app['swiftmailer.transport'] = $app->share(
-                function () {
-                    return \Swift_MailTransport::newInstance();
-                }
-            );
-        }
+        $app['swiftmailer.options'] = function ($app) {
+            return (array) $app['config']->get('general/mailoptions');
+        };
+
+        $app['swiftmailer.use_spool'] = function ($app) {
+            return (bool) $app['config']->get('general/mailoptions/spool', true);
+        };
+
+        // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
+        $transportFactory = $app->raw('swiftmailer.transport');
+        $app['swiftmailer.transport'] = $app->share(function ($app) use ($transportFactory) {
+            if ($app['config']->get('general/mailoptions/transport') === 'mail') {
+                return \Swift_MailTransport::newInstance();
+            }
+
+            return $transportFactory($app);
+        });
     }
 
     /**

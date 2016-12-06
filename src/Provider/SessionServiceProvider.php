@@ -106,14 +106,18 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function configure(Application $app)
     {
-        $app['session.options'] = $app['config']->get('general/session', []) + [
-            'name'            => 'bolt_session',
-            'restrict_realm'  => true,
-            'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
-            'cookie_domain'   => $app['config']->get('general/cookies_domain'),
-            'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
-            'cookie_httponly' => true,
-        ];
+        $app['session.options'] = function () use ($app) {
+            $config = $app['config'];
+
+            return $config->get('general/session', []) + [
+                'name'            => 'bolt_session',
+                'restrict_realm'  => true,
+                'cookie_lifetime' => $config->get('general/cookies_lifetime'),
+                'cookie_domain'   => $config->get('general/cookies_domain'),
+                'cookie_secure'   => $config->get('general/enforce_ssl'),
+                'cookie_httponly' => true,
+            ];
+        };
     }
 
     protected function registerOptions(Application $app)
