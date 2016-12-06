@@ -42,10 +42,12 @@ class SafeEnvironment extends TwigEnvironmentWrapper
             $this->sandbox->enableSandbox();
         }
 
-        $result = $this->env->render($name, $context);
-
-        if ($weSandboxed) {
-            $this->sandbox->disableSandbox();
+        try {
+            $result = $this->env->render($name, $context);
+        } finally {
+            if ($weSandboxed) {
+                $this->sandbox->disableSandbox();
+            }
         }
 
         return $result;
@@ -62,10 +64,12 @@ class SafeEnvironment extends TwigEnvironmentWrapper
             $this->sandbox->enableSandbox();
         }
 
-        $this->env->display($name, $context);
-
-        if ($weSandboxed) {
-            $this->sandbox->disableSandbox();
+        try {
+            $this->env->display($name, $context);
+        } finally {
+            if ($weSandboxed) {
+                $this->sandbox->disableSandbox();
+            }
         }
     }
 
