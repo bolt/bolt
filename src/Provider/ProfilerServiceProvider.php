@@ -6,10 +6,8 @@ use Bolt\Profiler\BoltDataCollector;
 use Bolt\Profiler\DatabaseDataCollector;
 use Bolt\Profiler\DebugToolbarEnabler;
 use Doctrine\DBAL\Logging\DebugStack;
-use Silex;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Twig_Loader_Filesystem;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
@@ -20,13 +18,16 @@ class ProfilerServiceProvider implements ServiceProviderInterface
     {
         if (!isset($app['profiler'])) {
             $app->register(
-                new Silex\Provider\WebProfilerServiceProvider(),
+                new WebProfilerServiceProvider(),
                 [
-                    'profiler.cache_dir'                => $app['resources']->getPath('cache/profiler'),
                     'web_profiler.debug_toolbar.enable' => false, // We enable it below
                 ]
             );
         }
+
+        $app['profiler.cache_dir'] = function ($app) {
+            return $app['resources']->getPath('cache/profiler');
+        };
 
         $app->register(new DebugToolbarEnabler());
 
@@ -77,6 +78,9 @@ class ProfilerServiceProvider implements ServiceProviderInterface
                 return new DebugStack();
             }
         );
+
+        $app['editlink'] = null;
+        $app['edittitle'] = null;
     }
 
     public function boot(Application $app)

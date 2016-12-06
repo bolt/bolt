@@ -48,7 +48,6 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
      */
     public function register(Application $app)
     {
-        $this->debugLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
     }
 
     /**
@@ -59,6 +58,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
         $this->listener = $app['web_profiler.toolbar.listener'];
         $this->dispatcher = $app['dispatcher'];
         $this->dispatcher->addSubscriber($this);
+        $this->debugLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
     }
 
     /**
