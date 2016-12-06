@@ -267,6 +267,11 @@ class Application extends Silex\Application
                 return new Stopwatch\Stopwatch();
             }
         );
+
+        // Initialize our friendly helpers, if available.
+        if (class_exists('\Bolt\Starter\Provider\StarterProvider')) {
+            $this->register(new \Bolt\Starter\Provider\StarterProvider());
+        }
     }
 
     public function initExtensions()
