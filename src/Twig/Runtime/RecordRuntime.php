@@ -90,12 +90,12 @@ class RecordRuntime
             return true;
         }
 
-        if (!isset($content['contenttype'])) {
+        if (!$content instanceof \Bolt\Legacy\Content || !property_exists($content, 'contenttype')) {
             return false;
         }
 
         // if the current requested page is for the same slug or singularslug.
-        $ct = $content['contenttype'];
+        $ct = $content->contenttype;
         if ($routeParams['contenttypeslug'] === $ct['slug'] || $routeParams['contenttypeslug'] === $ct['singular_slug']) {
             // …and the slugs should match.
             return $routeParams['slug'] === $content['slug'];
