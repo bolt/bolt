@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Asset\Snippet\Snippet;
+use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\RecordHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -167,11 +168,7 @@ GRINGALET;
         $app['request'] = $request;
 
         $handler = new RecordHandler($app);
-        $content = $this->getMock('\Bolt\Legacy\Content', ['link'], [$app]);
-        $content->expects($this->atLeastOnce())
-            ->method('link')
-            ->will($this->returnValue('/pages/koala'))
-        ;
+        $content = new Content($app, 'pages', ['id' => 42, 'slug' => 'koala']);
 
         $result = $handler->current($content);
         $this->assertTrue($result);
@@ -277,60 +274,6 @@ GRINGALET;
         $handler = new RecordHandler($app);
 
         $result = $handler->current('/pages/koala');
-        $this->assertTrue($result);
-    }
-
-    public function testCurrentTheFinalCountdown()
-    {
-        $app = $this->getApp();
-        $app->flush();
-        $this->addDefaultUser($app);
-        $this->addSomeContent();
-        $request = (new Request())->create('/gum-tree/koala');
-        $request->query->set('_route_params', [
-            'zone'            => 'frontend',
-            'slug'            => 'koala',
-            'contenttypeslug' => 'gum-tree',
-        ]);
-        $app['request'] = $request;
-
-        $handler = new RecordHandler($app);
-        $content = [
-            'slug'        => 'koala',
-            'contenttype' => [
-                'slug'          => 'gum-trees',
-                'singular_slug' => 'gum-tree',
-            ],
-        ];
-
-        $result = $handler->current($content);
-        $this->assertTrue($result);
-    }
-
-    public function testCurrentTheFinalCountdownRadioEdit()
-    {
-        $app = $this->getApp();
-        $app->flush();
-        $this->addDefaultUser($app);
-        $this->addSomeContent();
-        $request = (new Request())->create('/gum-trees/koala');
-        $request->query->set('_route_params', [
-            'zone'            => 'frontend',
-            'slug'            => 'koala',
-            'contenttypeslug' => 'gum-trees',
-        ]);
-        $app['request'] = $request;
-
-        $handler = new RecordHandler($app);
-        $content = [
-            'slug'        => 'koala',
-            'contenttype' => [
-                'slug'          => 'gum-trees',
-                'singular_slug' => 'gum-tree',
-            ],
-        ];
-
-        $result = $handler->current($content);
         $this->assertTrue($result);
     }
 
