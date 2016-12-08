@@ -63,12 +63,14 @@
         var contentHeight = $('#navpage-content').outerHeight(),
             sidebarObj = $('#navpage-secondary'),
             sidebarHeight = sidebarObj.outerHeight(),
+            docHeight = $(document).height() - sidebarObj.position().top,
+            newHeight = Math.max(contentHeight, docHeight),
             next = 5000;
 
         // If the sidebar height doesn't match the content's height, then adjust it.  And check back sooner so we can
         // adjust again if necessary (the content might still be changing).
-        if (sidebarHeight !== contentHeight) {
-            sidebarObj.outerHeight(contentHeight);
+        if (sidebarHeight !== newHeight) {
+            sidebarObj.outerHeight(newHeight);
             next = 500;
         }
 
