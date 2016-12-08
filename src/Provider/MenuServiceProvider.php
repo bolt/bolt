@@ -36,8 +36,10 @@ class MenuServiceProvider implements ServiceProviderInterface
                 }
                 $baseUrl .= '/' . trim($app['controller.backend.mount_prefix'], '/');
 
-                $adminMenu = new AdminMenuBuilder(new MenuEntry('root', $baseUrl));
-                $rootEntry = $adminMenu->build($app);
+                $rootEntry = MenuEntry::createRoot($app['url_generator'], $baseUrl);
+
+                $builder = new AdminMenuBuilder();
+                $builder->build($rootEntry);
 
                 return $rootEntry;
             }

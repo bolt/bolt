@@ -4,6 +4,10 @@ namespace Bolt\Tests\Menu;
 
 use Bolt\Menu\MenuEntry;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Class to test src/Menu/MenuEntry.
@@ -14,51 +18,61 @@ class MenuEntryTest extends BoltUnitTest
 {
     public function testCreateRoot()
     {
-        $app = $this->getApp();
-        $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-        $this->assertInstanceOf('Bolt\Menu\MenuEntry', $rootEntry);
+        $rootEntry = $this->createRoot()
+            ->setLabel('Root Entry')
+            ->setIcon('fa:koala')
+        ;
+
+        $this->assertInstanceOf(MenuEntry::class, $rootEntry);
         $this->assertSame('/bolt', $rootEntry->getUri());
         $this->assertSame('root', $rootEntry->getName());
-        $this->assertNull($rootEntry->getIcon());
+        $this->assertSame('Root Entry', $rootEntry->getLabel());
+        $this->assertSame('fa:koala', $rootEntry->getIcon());
         $this->assertSame('everyone', $rootEntry->getPermission());
 
-        $app['config']->set('general/branding/path', '/koala/drop-bear');
-        $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-        $this->assertSame('/koala/drop-bear', $rootEntry->getUri());
+        $rootEntry->setPermission('strict');
+        $this->assertSame('strict', $rootEntry->getPermission());
     }
 
     public function testCreateChild()
     {
-        $app = $this->getApp();
-        $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
+        $rootEntry = $this->createRoot();
+
         $extendEntry = $rootEntry->add(
             (new MenuEntry('dropbear', 'drop-bears'))
-            ->setLabel('Furry Animals')
-            ->setIcon('fa:koala')
-            ->setPermission('strict')
         );
 
         $this->assertSame('/bolt/drop-bears', $extendEntry->getUri());
-        $this->assertSame('dropbear', $extendEntry->getName());
-        $this->assertSame('Furry Animals', $extendEntry->getLabel());
-        $this->assertSame('fa:koala', $extendEntry->getIcon());
-        $this->assertSame('strict', $extendEntry->getPermission());
-        $this->assertSame('/bolt/drop-bears', $extendEntry->getUri());
 
-        $this->assertSame('/bolt/drop-bears', $rootEntry->get('dropbear')->getUri());
-        $this->assertSame('dropbear', $rootEntry->get('dropbear')->getName());
-        $this->assertSame('Furry Animals', $rootEntry->get('dropbear')->getLabel());
-        $this->assertSame('fa:koala', $rootEntry->get('dropbear')->getIcon());
-        $this->assertSame('strict', $rootEntry->get('dropbear')->getPermission());
-        $this->assertSame('/bolt/drop-bears', $rootEntry->get('dropbear')->getUri());
+        $this->assertSame($extendEntry, $rootEntry->get('dropbear'));
+        $this->assertSame($extendEntry, $rootEntry->children()['dropbear']);
+    }
 
-        $firstBorn = $rootEntry->children();
-        $this->assertInstanceOf('Bolt\Menu\MenuEntry', $firstBorn['dropbear']);
-        $this->assertSame('/bolt/drop-bears', $firstBorn['dropbear']->getUri());
-        $this->assertSame('dropbear', $firstBorn['dropbear']->getName());
-        $this->assertSame('Furry Animals', $firstBorn['dropbear']->getLabel());
-        $this->assertSame('fa:koala', $firstBorn['dropbear']->getIcon());
-        $this->assertSame('strict', $firstBorn['dropbear']->getPermission());
-        $this->assertSame('/bolt/drop-bears', $firstBorn['dropbear']->getUri());
+    public function testRoute()
+    {
+        /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+        $urlGenerator = $this->getMock(UrlGeneratorInterface::class);
+        $urlGenerator->expects($this->once())
+            ->method('generate')
+            ->with('route', ['foo' => 'bar'])
+            ->willReturn('/bolt/derp')
+        ;
+
+        $rootEntry = MenuEntry::createRoot($urlGenerator, '');
+
+        $sub = $rootEntry->add(new MenuEntry('sub'))
+            ->setRoute('route', ['foo' => 'bar'])
+        ;
+
+        $this->assertSame('/bolt/derp', $sub->getUri());
+        $this->assertSame('/bolt/derp', $sub->getUri()); // assert generator only called once
+    }
+
+    private function createRoot()
+    {
+        $urlGenerator = new UrlGenerator(new RouteCollection(), new RequestContext());
+        $rootEntry = MenuEntry::createRoot($urlGenerator, '/bolt');
+
+        return $rootEntry;
     }
 }
