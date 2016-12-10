@@ -35,7 +35,7 @@
    snippet has a limited scope. No global variables, etc. #}
 {% macro parsetextfield(key, value, contenttype) %}
     {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
-        {% set value = value|twig %}
+        {% set value = include(template_from_string(value)) %}
     {% endif %}
 
     <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
