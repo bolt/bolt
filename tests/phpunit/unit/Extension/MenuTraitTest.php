@@ -25,7 +25,7 @@ class MenuTraitTest extends BoltUnitTest
         $ext->register($app);
 
         /** @var MenuEntry $extendMenu */
-        $extendMenu = $app['menu.admin']->get('extend');
+        $extendMenu = $app['menu.admin']->get('extensions');
         $this->assertSame('extend', $extendMenu->getName());
         $this->assertSame('Extend', $extendMenu->getLabel());
         $this->assertSame([], $extendMenu->children());
@@ -42,18 +42,18 @@ class MenuTraitTest extends BoltUnitTest
         $ext->setContainer($app);
         $ext->register($app);
         /** @var MenuEntry $extendMenu */
-        $extendMenu = $app['menu.admin']->get('extend');
+        $extendMenu = $app['menu.admin']->get('extensions');
         $children = $extendMenu->children();
 
         $this->assertSame('koala', $children['koala']->getName());
         $this->assertSame('Koalas', $children['koala']->getLabel());
-        $this->assertSame('/bolt/extend/koalas-are-us', $children['koala']->getUri());
+        $this->assertSame('/bolt/extensions/koalas-are-us', $children['koala']->getUri());
         $this->assertSame('fa-thumbs-o-up', $children['koala']->getIcon());
         $this->assertSame('config', $children['koala']->getPermission());
 
         $this->assertSame('Drop Bear', $children['Drop Bear']->getName());
         $this->assertSame('Drop Bear', $children['Drop Bear']->getLabel());
-        $this->assertSame('/bolt/extend/look-up-live', $children['Drop Bear']->getUri());
+        $this->assertSame('/bolt/extensions/look-up-live', $children['Drop Bear']->getUri());
         $this->assertSame('fa-thumbs-o-down', $children['Drop Bear']->getIcon());
         $this->assertSame('dangerous', $children['Drop Bear']->getPermission());
     }
