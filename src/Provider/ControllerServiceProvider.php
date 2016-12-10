@@ -22,7 +22,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         }
         if (!isset($app['controller.backend.extend.mount_prefix'])) {
             $app['controller.backend.extend.mount_prefix'] = function ($app) {
-                return $app['config']->get('general/branding/path') . '/extend';
+                return $app['config']->get('general/branding/path') . '/extensions';
             };
         }
         if (!isset($app['controller.backend.upload.mount_prefix'])) {

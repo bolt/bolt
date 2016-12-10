@@ -1,6 +1,6 @@
 {# Empty array for submenu #}
 {% set sub = [] %}
-{% set extend_menu = app['menu.admin'].get('extend') %}
+{% set extend_menu = app['menu.admin'].get('extensions') %}
 
 {% if isallowed('extensions||extensions:config') %}
 
@@ -8,7 +8,7 @@
     {% set sub = sub|merge([
         {
             icon: extend_menu.icon,
-            label: extend_menu.label,
+            label: (extend_menu.children|length > 0) ? extend_menu.label : __('general.phrase.extensions'),
             link: extend_menu.uri,
             isallowed: extend_menu.permission
         }

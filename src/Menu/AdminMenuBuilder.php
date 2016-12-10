@@ -232,8 +232,8 @@ final class AdminMenuBuilder
     protected function addExtend()
     {
         $this->rootEntry->add(
-            (new MenuEntry('extend', 'extend'))
-                ->setLabel(Trans::__('Extensions overview'))
+            (new MenuEntry('extensions', 'extensions'))
+                ->setLabel(Trans::__('general.phrase.extensions-overview'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
         );

@@ -301,6 +301,7 @@ general.phrase.error-session-data-login: "Unable to retrieve login session data.
 general.phrase.error-translation-file-not-readable: "The translations file '%s' is not readable."
 general.phrase.error-user-name-password-incorrect: "Username or password not correct. Please check your input."
 general.phrase.extensions: "Extensions"
+general.phrase.extensions-overview: "Extensions Overview"
 general.phrase.field: "Field"
 general.phrase.field-fieldname: "Field “%FIELD_NAME%”:"
 general.phrase.file-management: "File Management"

@@ -25,7 +25,7 @@ class Extend extends BackendBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->get('', 'overview')
-            ->bind('extend');
+            ->bind('extensions');
 
         $c->get('/check', 'check')
             ->bind('check');
