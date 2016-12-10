@@ -172,7 +172,7 @@ class Omnisearch
                     'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('general.phrase.extensions'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 6,
-                    'path'        => $this->generatePath('extend'),
+                    'path'        => $this->generatePath('extensions'),
                 ]
             );
             $this->register(
