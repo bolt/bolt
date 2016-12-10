@@ -220,7 +220,7 @@ class Omnisearch
             return;
         }
 
-        $extensionsMenu = $this->app['menu.admin']->get('extend')->children();
+        $extensionsMenu = $this->app['menu.admin']->get('extensions')->children();
         $index = 0;
         /** @var \Bolt\Menu\MenuEntry $extension */
         foreach ($extensionsMenu as $extension) {
