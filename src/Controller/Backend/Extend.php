@@ -303,7 +303,7 @@ class Extend extends BackendBase
     }
 
     /**
-     * The main 'Extend' page.
+     * The main 'Extensions' page.
      *
      * @return \Bolt\Response\TemplateResponse
      */
