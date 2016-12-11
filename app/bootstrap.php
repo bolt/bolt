@@ -157,8 +157,6 @@ return call_user_func(function () {
         }
         if ($service instanceof Silex\ServiceProviderInterface) {
             $app->register($service, $params);
-        } else {
-            // throw error
         }
     }
 
