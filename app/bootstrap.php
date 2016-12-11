@@ -79,6 +79,7 @@ return call_user_func(function () {
         'application' => null,
         'resources'   => null,
         'paths'       => [],
+        'services'    => [],
     ];
 
     if (file_exists($rootPath . '/.bolt.yml')) {
@@ -140,7 +141,24 @@ return call_user_func(function () {
     if ($config['application'] !== null && is_a($config['application'], Silex\Application::class, true)) {
         $appClass = $config['application'];
     }
+    /** @var Silex\Application $app */
     $app = new $appClass(['resources' => $resources]);
+
+    foreach ((array) $config['services'] as $service) {
+        $params = [];
+        if (is_array($service)) {
+            $key = key($service);
+            $params = $service[$key];
+            $service = $key;
+        }
+
+        if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
+            $service = new $service();
+        }
+        if ($service instanceof Silex\ServiceProviderInterface) {
+            $app->register($service, $params);
+        }
+    }
 
     return $app;
 });
