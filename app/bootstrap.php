@@ -145,11 +145,18 @@ return call_user_func(function () {
     $app = new $appClass(['resources' => $resources]);
 
     foreach ((array) $config['services'] as $service) {
+        $params = [];
+        if (is_array($service)) {
+            $key = key($service);
+            $params = $service[$key];
+            $service = $key;
+        }
+
         if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
             $service = new $service();
         }
         if ($service instanceof Silex\ServiceProviderInterface) {
-            $app->register($service);
+            $app->register($service, $params);
         } else {
             // throw error
         }
