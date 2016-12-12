@@ -212,7 +212,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         // Set up the browser
         $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/extend');
+        $I->amOnPage('/bolt/extensions');
 
         $I->see('Currently Installed Extensions', 'h2');
         $I->see('Install a new Extension',        'h2');

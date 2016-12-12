@@ -172,7 +172,7 @@ class Omnisearch
                     'label'       => Trans::__('general.phrase.maintenance') . ' » ' . Trans::__('general.phrase.extensions'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 6,
-                    'path'        => $this->generatePath('extend'),
+                    'path'        => $this->generatePath('extensions'),
                 ]
             );
             $this->register(
@@ -220,7 +220,7 @@ class Omnisearch
             return;
         }
 
-        $extensionsMenu = $this->app['menu.admin']->get('extend')->children();
+        $extensionsMenu = $this->app['menu.admin']->get('extensions')->children();
         $index = 0;
         /** @var \Bolt\Menu\MenuEntry $extension */
         foreach ($extensionsMenu as $extension) {

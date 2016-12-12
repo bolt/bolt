@@ -24,7 +24,7 @@
             {% set nav_files %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endset %}
             {% set nav_trans %}{{ include('@bolt/_nav/_secondary-translations.twig') }}{% endset %}
             {# Link to Extend Bolt #}
-            {% if app['menu.admin'].get('extend').children or isallowed('extensions||extensions:config') %}
+            {% if app['menu.admin'].get('extensions').children or isallowed('extensions||extensions:config') %}
                 {% set nav_extend %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endset %}
             {% else %}
                 {% set nav_extend = '' %}

@@ -212,15 +212,15 @@ final class AdminMenuBuilder
     }
 
     /**
-     * Extend menus.
+     * Extensions menus.
      *
      * @param MenuEntry $root
      */
     protected function addExtend(MenuEntry $root)
     {
         $root->add(
-            (new MenuEntry('extend', 'extend'))
-                ->setLabel(Trans::__('Extend'))
+            (new MenuEntry('extensions', 'extensions'))
+                ->setLabel(Trans::__('general.phrase.extensions-overview'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
         );
