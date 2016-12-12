@@ -153,7 +153,12 @@ class General extends BackendBase
         }
 
         // Create the form
-        $form = $this->createFormBuilder(FormType::class)
+        $options = [
+            'attr' => [
+                'data-bind' => json_encode(['bind' => 'prefill']),
+            ]
+        ];
+        $form = $this->createFormBuilder(FormType::class, [], $options)
             ->add('contenttypes', ChoiceType::class, [
                 'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
                 'choices'  => $choices,
