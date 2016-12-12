@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -220,6 +221,14 @@ class General extends BackendBase
                         new Assert\NotBlank(),
                         new Assert\Length(['min' => 10]),
                     ],
+                ]
+            )
+            ->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label'    => Trans::__('page.edit-locale.button.save'),
+                    'disabled' => !$tr['writeallowed']
                 ]
             )
             ->getForm();
