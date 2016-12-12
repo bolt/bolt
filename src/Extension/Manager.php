@@ -11,6 +11,7 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use Silex\Application;
+use Silex\ServiceProviderInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
@@ -33,6 +34,8 @@ class Manager
     private $flashLogger;
     /** @var Config */
     private $config;
+    /** @var bool */
+    private $booted = false;
     /** @var bool */
     private $loaded = false;
     /** @var bool */
@@ -177,7 +180,6 @@ class Manager
     /**
      * Call register() for each extension.
      *
-     *
      * @param Application $app
      *
      * @throws \RuntimeException
@@ -200,6 +202,34 @@ class Manager
 
         // @deprecated Deprecated since 3.0, to be removed in 4.0.
         $this->app = $app;
+    }
+
+    /**
+     * Call boot() for each extension loader that implements ServiceProviderInterface.
+     *
+     * @internal
+     *
+     * @param Application $app
+     *
+     * @throws \RuntimeException
+     */
+    public function boot(Application $app)
+    {
+        if (!$this->registered) {
+            throw new \RuntimeException('Can not boot extensions prior to completion of registration.');
+        }
+        if ($this->booted) {
+            throw new \RuntimeException('Can not re-boot extensions.');
+        }
+
+        // Boot all extension loaders that are also service providers
+        foreach ($this->extensions as $extension) {
+            $provider = $extension->getInnerExtension();
+            if ($provider instanceof ServiceProviderInterface) {
+                $provider->boot($app);
+            }
+        }
+        $this->booted = true;
     }
 
     /**
