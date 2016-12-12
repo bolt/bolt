@@ -13,7 +13,7 @@
 
 {% set page_hasnav = true %}
 
-{% set page_nav = block('page_nav')|default('NO NAV') %}
+{% set page_nav = block('page_nav') is defined ? block('page_nav') : 'NO NAV' %}
 
 {% block page_plain %}
     {{ data('omnisearch.placeholder', __('general.phrase.find')) }}
@@ -33,11 +33,11 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">
-                        {% if block('page_subtitle') is empty %}
-                            <strong>{{ block('page_title') }}</strong>
-                        {% else %}
+                        {% if block('page_subtitle') is defined %}
                             <strong>{{ block('page_title') }} »</strong>
                             <i style="font-style: normal;">{{ block('page_subtitle') }}</i>
+                        {% else %}
+                            <strong>{{ block('page_title') }}</strong>
                         {% endif %}
 
                         {# optional "showing 1-X of Y" for overview pages. #}
