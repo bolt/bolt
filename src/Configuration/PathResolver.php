@@ -27,7 +27,9 @@ class PathResolver
      */
     public function __construct($root, $paths = [])
     {
-        $this->paths = $paths;
+        foreach ($paths as $name => $path) {
+            $this->define($name, $path);
+        }
 
         $root = Path::canonicalize($root);
 
@@ -46,6 +48,8 @@ class PathResolver
      */
     public function define($name, $path)
     {
+        $name = $this->normalizeName($name);
+
         $this->paths[$name] = $path;
     }
 
@@ -65,6 +69,8 @@ class PathResolver
      */
     public function resolve($path, $absolute = true)
     {
+        $path = $this->normalizeName($path);
+
         if (isset($this->paths[$path])) {
             $path = $this->paths[$path];
         }
@@ -95,6 +101,8 @@ class PathResolver
      */
     public function raw($name)
     {
+        $name = $this->normalizeName($name);
+
         return isset($this->paths[$name]) ? $this->paths[$name] : null;
     }
 
@@ -108,5 +116,26 @@ class PathResolver
         return array_map(function ($path) {
             return $this->resolve($path);
         }, $this->paths);
+    }
+
+    /**
+     * For BC.
+     *
+     * @deprecated since 3.3, will be removed in 4.0.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private function normalizeName($name)
+    {
+        if ($name === 'themebase') {
+            return 'themes';
+        }
+        if ($name === 'extensionsconfig') {
+            return 'extensions_config';
+        }
+
+        return $name;
     }
 }
