@@ -749,10 +749,7 @@ class Storage
         // Build actual where
         $where = [];
 
-        $request    = $this->app['request_stack']->getCurrentRequest();
-        $isFrontend = $request ? Zone::isFrontend($request) : true;
-
-        if ($isFrontend && empty($filter['status'])) {
+        if (empty($filter['status'])) {
             $where[] = sprintf("%s.status = 'published'", $table);
         }
 
