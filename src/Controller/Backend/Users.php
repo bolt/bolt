@@ -555,7 +555,8 @@ class Users extends BackendBase
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip'),
                 ]
-            );
+            )
+        ;
 
         return $form;
     }
