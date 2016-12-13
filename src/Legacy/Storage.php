@@ -695,7 +695,7 @@ class Storage
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null, $implode = false)
     {
         // Add status to fields
-        $fields['status'] = true;
+        $fields['status'] = ['type' => 'status'];
 
         // This could be even more configurable
         // (see also Content->getFieldWeights)
