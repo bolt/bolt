@@ -15,10 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 class Standard extends ResourceManager
 {
     /**
-     * @param ClassLoader|string $loader  ClassLoader or root path
-     * @param Request            $request
+     * @param ClassLoader|string  $loader ClassLoader or root path
+     * @param Request             $request
+     * @param PathResolverFactory $pathResolverFactory
      */
-    public function __construct($loader, Request $request = null)
+    public function __construct($loader, Request $request = null, PathResolverFactory $pathResolverFactory = null)
     {
         $container = new \Pimple();
 
@@ -28,9 +29,12 @@ class Standard extends ResourceManager
             $container['rootpath'] = $loader;
         }
 
+        $container['path_resolver_factory'] = $pathResolverFactory;
         $container['pathmanager'] = new PlatformFileSystemPathFactory();
         $container['request'] = $request;
 
         parent::__construct($container);
+
+        $this->setPath('web', '');
     }
 }
