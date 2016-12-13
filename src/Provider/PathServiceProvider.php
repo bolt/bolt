@@ -42,21 +42,22 @@ class PathServiceProvider implements ServiceProviderInterface
             });
         }
 
-        // Set app and check files.
-        // Either immediately if instance is given or lazily if closure is given.
-        $resources = $app->raw('resources');
-        if ($resources instanceof ResourceManager) {
+        $resourcesSetup = function (ResourceManager $resources) use ($app) {
             $resources->setApp($app);
 
             $app['resources.check_files']($resources);
+        };
+
+        // Run resources setup either immediately if instance is given or lazily if closure is given.
+        $resources = $app->raw('resources');
+        if ($resources instanceof ResourceManager) {
+            $resourcesSetup($resources);
         } else {
             $app['resources'] = $app->share(
                 $app->extend(
                     'resources',
-                    function ($resources, $app) {
-                        $resources->setApp($app);
-
-                        $app['resources.check_files']($resources);
+                    function ($resources) use ($resourcesSetup) {
+                        $resourcesSetup($resources);
 
                         return $resources;
                     }

@@ -104,7 +104,7 @@ return call_user_func(function () {
         return $config['application'];
     }
 
-    $resourcesFactory = function () use ($config, $resourcesClass, $rootPath) {
+    $resourcesFactory = \Pimple::share(function () use ($config, $resourcesClass, $rootPath) {
         // Use resources from config, or instantiate the class based on mapping above.
         if ($config['resources'] instanceof ResourceManager) {
             $resources = $config['resources'];
@@ -128,14 +128,11 @@ return call_user_func(function () {
         $resources->verify();
 
         return $resources;
-    };
+    });
 
     // If resources is already initialized, go ahead and customize it now.
-    // Else define it as a shared service for DI.
     if ($config['resources'] instanceof ResourceManager) {
-        $resources = $resourcesFactory();
-    } else {
-        $resources = \Pimple::share($resourcesFactory);
+        $resources = $resourcesFactory(null);
     }
 
     // Create the 'Bolt application'
