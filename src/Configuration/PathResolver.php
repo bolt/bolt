@@ -69,8 +69,11 @@ class PathResolver
             $path = $this->paths[$path];
         }
 
-        $path = preg_replace_callback('#%(.+)%#', function ($match) {
-            return $this->resolve($match[1], false);
+        $path = preg_replace_callback('#%(.+)%#', function ($match) use ($path) {
+            // absolute if alias is at start of path
+            $absolute = strpos($path, '%' . $match[1] . '%') === 0;
+
+            return $this->resolve($match[1], $absolute);
         }, $path);
 
         if ($absolute && Path::isRelative($path)) {

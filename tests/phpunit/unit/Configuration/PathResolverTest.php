@@ -14,6 +14,9 @@ class PathResolverTest extends \PHPUnit_Framework_TestCase
             'defined path/alias'           => ['web',             '/root/public'],
             'path with variable'           => ['%web%/foo',       '/root/public/foo'],
             'path with variable recursive' => ['%files%/foo.jpg', '/root/public/files/foo.jpg'],
+            'empty path'                   => ['',                '/root'],
+            'empty alias at start'         => ['%empty%/foo',     '/root/foo'],
+            'empty alias in middle'        => ['/derp/%empty%/foo', '/derp/foo'],
         ];
     }
 
@@ -27,6 +30,7 @@ class PathResolverTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = new PathResolver('/root/', [
             'web'   => 'public',
+            'empty' => '',
             'files' => '%web%/files',
         ]);
 
