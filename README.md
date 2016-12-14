@@ -1,5 +1,13 @@
-Bolt
-====
+Bolt 4 (Early Development)
+==========================
+
+---
+### NOTE: This is the v4 development branch:
+  * **Should be considered unstable**
+  * **Not suitable for production use**
+  * **API is not stable and subject to change**
+
+---
 
 Sophisticated, lightweight & simple CMS. Homepage: [Bolt.cm](https://bolt.cm)
 
