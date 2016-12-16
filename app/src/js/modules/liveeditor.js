@@ -50,6 +50,7 @@
             $('#sidebar-live-editor-button, #live-editor-button').bind('click', liveEditor.start);
 
             $('.close-live-editor').bind('click', liveEditor.stop);
+            $('.save-live-editor').bind('click', liveEditor.save);
         } else {
             // If we don't have the features we need
             // Don't let this get used
@@ -181,6 +182,21 @@
     };
 
     /**
+     * Saves within the live editor.
+     *
+     * @private
+     *
+     * @static
+     * @function save
+     * @memberof Bolt.liveEditor
+     */
+    liveEditor.save = function () {
+        liveEditor.extractText();
+
+        $('#savecontinuebutton').click();
+    };
+
+    /**
      * Stops the live editor.
      *
      * @private
@@ -190,6 +206,27 @@
      * @memberof Bolt.liveEditor
      */
     liveEditor.stop = function () {
+        var iframe = $('#live-editor-iframe')[0];
+
+        liveEditor.extractText();
+
+        $(iframe).attr('src', '');
+
+        bolt.liveEditor.active = false;
+        $('body').removeClass('live-editor-active');
+
+        removeEvents();
+    };
+
+    /**
+     * Extract content from text fields
+     *
+     * @public
+     *
+     * @function extractText
+     * @memberof Bolt.liveEditor
+     */
+    liveEditor.extractText = function () {
         var iframe = $('#live-editor-iframe')[0],
             win = iframe.contentWindow || iframe,
             doc = win.document,
@@ -211,13 +248,6 @@
                 field.val(liveEditor.cleanText($(this), fieldType));
             }
         });
-
-        $(iframe).attr('src', '');
-
-        bolt.liveEditor.active = false;
-        $('body').removeClass('live-editor-active');
-
-        removeEvents();
     };
 
     /**
