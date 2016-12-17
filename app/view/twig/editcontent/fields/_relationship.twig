@@ -23,7 +23,7 @@
 
     {% set options = options|merge([{
         value:    item.id,
-        text:     format|twig({'item' : item, 'title' : item.title, 'id' : item.id}),
+        text:     include(template_from_string(format), variables = {'item' : item, 'title' : item.title, 'id' : item.id}, sandboxed = true),
         group:    groupby ? item.values[groupby]|default(false) : false,
         selected: (item.id in relselect) or selectedbyrelation,
     }]) %}

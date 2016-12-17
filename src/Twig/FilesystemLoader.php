@@ -54,7 +54,7 @@ class FilesystemLoader extends \Twig_Loader_Filesystem
     {
         $file = $this->findTemplate($name);
 
-        return new TwigSource($file->read(), $name, $file->getFullPath());
+        return new TwigSource($file->read(), $name);
     }
 
     /**

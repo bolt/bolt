@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <form method="post" id="prefill" class="form-horizontal"{{ macro.attr({_bind: ['prefill']}) }}>
+            {{ form_start(context.form, {'attr': {'class': 'form-horizontal'}}) }}
                 <div id="form">
                     <div class="control-group">
                         <div class="info">
@@ -19,14 +19,9 @@
                         </div>
 
                         <div id="form_contenttypes" style="border-bottom: 1px solid #eee; margin-bottom: 10px; width: 50%">
-                            {% for key,ctype in context.contenttypes %}
+                            {% for field in context.form.contenttypes %}
                                 <div>
-                                    <label>
-                                        <input type="checkbox"
-                                               id="form_contenttypes_{{ loop.index0 }}"
-                                               name="form[contenttypes][]"
-                                               value="{{ key }}">{{ ctype }}
-                                    </label>
+                                    <label>{{ form_widget(field) }}{{ field.vars.label }}</label>
                                 </div>
                             {% endfor %}
                         </div>
@@ -43,7 +38,7 @@
                     <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('general.phrase.database-prefill') }}</button>
                 </div>
 
-            </form>
+            {{ form_end(context.form) }}
 
         </div>
     </div>

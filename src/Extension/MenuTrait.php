@@ -40,7 +40,7 @@ trait MenuTrait
                 'menu.admin',
                 function (MenuEntry $menus) {
                     /** @var MenuEntry $menus */
-                    $extendMenu = $menus->get('extend');
+                    $extendMenu = $menus->get('extensions');
 
                     foreach ($this->registerMenuEntries() as $menuEntry) {
                         if (!$menuEntry instanceof MenuEntry) {
