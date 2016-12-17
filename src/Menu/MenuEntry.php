@@ -2,7 +2,7 @@
 
 namespace Bolt\Menu;
 
-use LogicException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * A menu entry item.
@@ -10,23 +10,51 @@ use LogicException;
  * @internal Do not extend. Backwards compatibility not guaranteed on this class presently.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class MenuEntry
 {
-    /** @var MenuEntry */
+    /** @var MenuEntry|null */
     protected $parent;
     /** @var MenuEntry[] */
-    protected $children;
+    protected $children = [];
+
     /** @var string */
     protected $name;
     /** @var string */
     protected $label;
     /** @var string */
-    protected $uri;
-    /** @var string */
     protected $icon;
     /** @var string */
     protected $permission;
+
+    /** @var string */
+    protected $uri;
+    /** @var string */
+    protected $routeName;
+    /** @var array */
+    protected $routeParams;
+    /** @var string */
+    protected $routeGenerated;
+
+    /** @var UrlGeneratorInterface */
+    protected $urlGenerator;
+
+    /**
+     * Create the root menu entry.
+     *
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param string                $basePath
+     *
+     * @return MenuEntry
+     */
+    public static function createRoot(UrlGeneratorInterface $urlGenerator, $basePath)
+    {
+        $root = new static('root', $basePath);
+        $root->urlGenerator = $urlGenerator;
+
+        return $root;
+    }
 
     /**
      * Constructor.
@@ -34,10 +62,27 @@ class MenuEntry
      * @param string $name
      * @param string $uri
      */
-    public function __construct($name, $uri)
+    public function __construct($name, $uri = '')
     {
         $this->name = $name;
         $this->uri = $uri;
+    }
+
+    /**
+     * Set the uri to be generated with given route name and params.
+     *
+     * @param string $routeName #Route
+     * @param array  $routeParams
+     *
+     * @return MenuEntry
+     */
+    public function setRoute($routeName, $routeParams = [])
+    {
+        $this->routeName = $routeName;
+        $this->routeParams = $routeParams;
+        $this->routeGenerated = null;
+
+        return $this;
     }
 
     /**
@@ -57,11 +102,18 @@ class MenuEntry
      */
     public function getUri()
     {
-        if (strpos($this->uri, '/') === 0) {
+        if ($this->routeName !== null) {
+            if ($this->routeGenerated === null) {
+                $this->routeGenerated = $this->urlGenerator->generate($this->routeName, $this->routeParams);
+            }
+            return $this->routeGenerated;
+        }
+
+        if (strpos($this->uri, '/') === 0 || !$this->parent) {
             return $this->uri;
         }
 
-        return $this->parent ? $this->parent->getUri() . '/' . $this->uri : $this->uri;
+        return $this->parent->getUri() . '/' . $this->uri;
     }
 
     /**
@@ -145,11 +197,11 @@ class MenuEntry
      */
     public function add(MenuEntry $menu)
     {
-        $name = $menu->getName();
-        $menu->setParent($this);
-        $this->children[$name] = $menu;
+        $menu->parent = $this;
+        $menu->urlGenerator = $this->urlGenerator;
+        $this->children[$menu->getName()] = $menu;
 
-        return $this->children[$name];
+        return $menu;
     }
 
     /**
@@ -171,24 +223,6 @@ class MenuEntry
      */
     public function children()
     {
-        return (array) $this->children;
-    }
-
-    /**
-     * Set the menu entry's parent object.
-     *
-     * @param MenuEntry $parent
-     *
-     * @return MenuEntry
-     */
-    public function setParent(MenuEntry $parent)
-    {
-        if ($this->parent !== null) {
-            throw new LogicException('Parent menu association can not be changed after being set.');
-        }
-
-        $this->parent = $parent;
-
-        return $this;
+        return $this->children;
     }
 }

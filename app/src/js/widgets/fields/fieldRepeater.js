@@ -190,7 +190,7 @@
         _renumber: function () {
             var name = this.options.name,
                 nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-                re = new RegExp('^' + nameEsc + '\\\[(#|\\\d)\\\]');
+                re = new RegExp('^' + nameEsc + '\\\[(#|\\\d+)\\\]');
 
             //console.log('_renumber');
             this._ui.slot.find('div.repeater-group').each(function (index, group) {

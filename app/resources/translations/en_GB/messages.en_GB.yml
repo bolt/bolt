@@ -1,10 +1,10 @@
 # app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-11-06 08:42:39 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -73,7 +73,6 @@
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
-"Extend": "Extend"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
 "Extension server returned an error: %errormessage%": "Extension server returned an error: %errormessage%"
@@ -302,7 +301,7 @@ general.phrase.error-session-data-login: "Unable to retrieve login session data.
 general.phrase.error-translation-file-not-readable: "The translations file '%s' is not readable."
 general.phrase.error-user-name-password-incorrect: "Username or password not correct. Please check your input."
 general.phrase.extensions: "Extensions"
-general.phrase.extras: "Extras"
+general.phrase.extensions-overview: "Extensions Overview"
 general.phrase.field: "Field"
 general.phrase.field-fieldname: "Field “%FIELD_NAME%”:"
 general.phrase.file-management: "File Management"
