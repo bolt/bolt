@@ -36,7 +36,7 @@ class AssetServiceProvider implements ServiceProviderInterface
         $app['asset.package_factory'] = $app->protect(
             function ($name) use ($app) {
                 return new PathPackage(
-                    $app['resources']->getUrl($name),
+                    $app['resources']->getUrl($name, false),
                     $app['asset.version_strategy']($name),
                     $app['asset.context']
                 );
