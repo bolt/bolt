@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\Query;
+use Bolt\Storage\Query\QueryConfig;
 use Bolt\Storage\Query\QueryParameterParser;
 use Bolt\Storage\Query\SearchConfig;
 use Bolt\Storage\Query\SearchQuery;
