@@ -42,7 +42,7 @@ class SelectQuery implements QueryInterface
      * @param QueryParameterParser $parser
      * @param QueryConfig $config
      */
-    public function __construct(QueryBuilder $qb, QueryParameterParser $parser, QueryConfig $config)
+    public function __construct(QueryBuilder $qb, QueryParameterParser $parser, QueryConfig $config = null)
     {
         $this->qb = $qb;
         $this->parser = $parser;
