@@ -7,16 +7,46 @@ use Twig_Sandbox_SecurityError as SecurityError;
 use Twig_Sandbox_SecurityNotAllowedFilterError as SecurityNotAllowedFilterError;
 use Twig_Sandbox_SecurityNotAllowedFunctionError as SecurityNotAllowedFunctionError;
 use Twig_Sandbox_SecurityNotAllowedTagError as SecurityNotAllowedTagError;
-use Twig_Sandbox_SecurityPolicy;
+use Twig_Sandbox_SecurityPolicyInterface as SecurityPolicyInterface;
 use Twig_TemplateInterface as TemplateInterface;
 
 /**
  * Security policy enforced in sandbox mode.
  *
  * @author Carson Full <carsonfull@gmail.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
-class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
+class SecurityPolicy implements SecurityPolicyInterface
 {
+    /** @var array */
+    private $allowedTags;
+    /** @var array */
+    private $allowedFilters;
+    /** @var array */
+    private $allowedMethods;
+    /** @var array */
+    private $allowedProperties;
+    /** @var array */
+    private $allowedFunctions;
+
+    /**
+     * Constructor.
+     *
+     * @param array $allowedTags
+     * @param array $allowedFilters
+     * @param array $allowedMethods
+     * @param array $allowedProperties
+     * @param array $allowedFunctions
+     */
+    public function __construct(array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
+    {
+        $this->allowedTags = $allowedTags;
+        $this->allowedFilters = $allowedFilters;
+        $this->setAllowedMethods($allowedMethods);
+        $this->allowedProperties = $allowedProperties;
+        $this->allowedFunctions = $allowedFunctions;
+    }
+
     /**
      * Add tag allowed by this policy.
      *
@@ -25,6 +55,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
     public function addAllowedTag($tag)
     {
         $this->allowedTags[] = $tag;
+    }
+
+    /**
+     * @param array $tags
+     */
+    public function setAllowedTags(array $tags)
+    {
+        $this->allowedTags = $tags;
     }
 
     /**
@@ -38,6 +76,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
     }
 
     /**
+     * @param array $filters
+     */
+    public function setAllowedFilters(array $filters)
+    {
+        $this->allowedFilters = $filters;
+    }
+
+    /**
      * Add function allowed by this policy.
      *
      * @param string $function
@@ -45,6 +91,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
     public function addAllowedFunction($function)
     {
         $this->allowedFunctions[] = $function;
+    }
+
+    /**
+     * @param array $functions
+     */
+    public function setAllowedFunctions(array $functions)
+    {
+        $this->allowedFunctions = $functions;
     }
 
     /**
@@ -62,10 +116,21 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
     }
 
     /**
+     * @param array $methods
+     */
+    public function setAllowedMethods(array $methods)
+    {
+        $this->allowedMethods = [];
+        foreach ($methods as $class => $m) {
+            $this->allowedMethods[$class] = array_map('strtolower', is_array($m) ? $m : [$m]);
+        }
+    }
+
+    /**
      * Add class property allowed by this policy.
      *
      * @param string $class
-     * @param string $method
+     * @param string $property
      */
     public function addAllowedProperty($class, $property)
     {
@@ -73,6 +138,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
             $this->allowedProperties[$class] = [];
         }
         $this->allowedProperties[$class][] = $property;
+    }
+
+    /**
+     * @param array $properties
+     */
+    public function setAllowedProperties(array $properties)
+    {
+        $this->allowedProperties = $properties;
     }
 
     /**
@@ -198,11 +271,11 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
                 case '?':
                     return '.';
                 default:
-                    return '\\'.$matches[0];
+                    return '\\' . $matches[0];
             }
         }, $pattern);
 
-        $expr = '/'.$expr.'/';
+        $expr = '/' . $expr . '/';
         if ($ignoreCase) {
             $expr .= 'i';
         }

@@ -12,6 +12,7 @@ if (version_compare(PHP_VERSION, $minVersion, '<')) {
 
 /** @var \Silex\Application $app */
 $app = require __DIR__ . '/bootstrap.php';
+$app->boot();
 
 /** @var \Symfony\Component\Console\Application $nut Nut Console Application */
 $nut = $app['nut'];

@@ -2,7 +2,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set widget_name = block('fieldset_widget') %}
+{% set widget_name = block('fieldset_widget') is defined ? block('fieldset_widget') : '' %}
 
 {% if not widget_name %}
     {% set data_bolt_widget = '' %}

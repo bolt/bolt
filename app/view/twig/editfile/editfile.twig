@@ -33,11 +33,20 @@
 
             {{ widgets('editfile_below_header', 'backend') }}
 
-            <form method="post" class="form-inline" id="editfile" autocomplete="off">
+            {# Ths "editfile" ID is being used by JavaScript … somewhere #}
+            {{ form_start(context.form, {'attr': {'id': 'editfile', 'class': 'form-inline', 'autocomplete': 'off'}}) }}
                 {{ form_widget(context.form._token) }}
 
                 <div>
-                    <textarea{{ macro.attr(attr_text) }}>{{ context.form.vars.value.contents }}</textarea>
+                    {{ form_widget(context.form.contents,
+                        {
+                            'class': 'CodeMirror-scroll',
+                            'attr': {
+                                'data-bind': {'bind': 'editfile', readonly: context.write_allowed ? false : true}|json_encode,
+                                'style': 'width: 98%; min-height: 350px; white-space: pre; word-wrap: normal; overflow-x: scroll;'
+                            }
+                        })
+                    }}
                 </div>
 
                 <div>
@@ -67,7 +76,7 @@
                 ({{ buic_moment(context.datechanged) }})
             </p>
 
-            </form>
+            {{ form_end(context.form) }}
 
             {{ widgets('editfile_bottom', 'backend') }}
 

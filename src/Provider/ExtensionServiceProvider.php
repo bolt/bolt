@@ -124,7 +124,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['extensions']->addManagedExtensions();
-        $app['extensions']->register($app);
+        /** @var Manager $extensionService */
+        $extensionService = $app['extensions'];
+        $extensionService->addManagedExtensions();
+        $extensionService->register($app);
+        $extensionService->boot($app);
     }
 }
