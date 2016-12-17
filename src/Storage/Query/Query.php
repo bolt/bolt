@@ -28,7 +28,7 @@ class Query
      *
      * @return QueryResultset
      */
-    public function getContent($textquery, $parameters = null)
+    public function getContent($textquery, $parameters = [])
     {
         $this->parser->setQuery($textquery);
         $this->parser->setParameters($parameters);
