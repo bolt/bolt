@@ -4,7 +4,46 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
-- 
+- Change set: [#6083](https://github.com/bolt/bolt/pull/6083)
+  - Updated: PHP requirement now 5.6.0+
+  - Updated: `cocur/slugify` to ^2.0
+  - Updated: `phpunit/phpunit` to ^5.4
+  - Removed: Requirement of Guzzle 5 
+  - Removed: Requirement of RandomLib
+  - Removed: Requirement of Whoops
+  - Removed: Deprecated  v2 `class_alias` declarations
+  - Removed: `Bolt\Application` constant `DEFAULT_LOCALE`
+  - Removed: `$app['bolt_version']` (see: `Bolt\Version`)
+  - Removed: `$app['bolt_name']` (see: `Bolt\Version`)
+  - Removed: `$app['bolt_released']` (see: `Bolt\Version`)
+  - Removed: `$app['bolt_long_version']` (see: `Bolt\Version`)
+  - Removed: `Bolt\Application` function signatures for, and calls to
+    - `checkDatabaseConnection()`
+    - `initMountpoints()`
+    - `beforeHandler()`
+    - `afterHandler()`
+    - `errorHandler()`
+    - `getVersion()`
+    - `generatePath()`
+  - Removed: `Bolt\Cache` function `clearCache()`
+  - Removed: `Bolt\BaseExtension`
+  - Removed: `Bolt\Renderer` functions
+    - `fetchCachedRequest()`
+    - `cacheRequest()`
+    - `cacheDuration()`
+    - `checkCacheConditions()`
+  - Removed: `Storage/Database/Schema/Manager` magic functions
+  - Removed: `Storage/Database/Schema/Manager` constants `INTEGRITY_CHECK_INTERVAL` & `INTEGRITY_CHECK_TS_FILENAME`
+  - Removed: Twig functions
+    - `fancybox` (use `popup`)
+    - `ischangelogenabled` (use `config.get()` instead)
+    - `print` (use `dump`)
+    - `trimtext` (use `excerpt`)
+  - Removed: Twig filters
+    - `fancybox` (use `popup`)
+    - `localdate` (use `localedatetime`)
+    - `trimtext` (use `excerpt`)
+- Updated: Symfony Components to v3. [#6079](https://github.com/bolt/bolt/pull/6079)
 
 Bolt 3.5-dev
 -----------
