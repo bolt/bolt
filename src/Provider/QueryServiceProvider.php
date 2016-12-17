@@ -37,8 +37,14 @@ class QueryServiceProvider implements ServiceProviderInterface
         };
 
         $app['query.select'] = function ($app) {
-            return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
+            return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.config']);
         };
+
+        $app['query.config'] = $app->share(
+            function ($app) {
+                return new QueryConfig($app['config']);
+            }
+        );
 
         $app['query.search'] = function ($app) {
             return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);

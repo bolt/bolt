@@ -32,17 +32,21 @@ class SelectQuery implements QueryInterface
     protected $replacements = [];
     /** @var bool */
     protected $singleFetchMode = false;
+    /** @var QueryConfig */
+    protected $config;
 
     /**
      * Constructor.
      *
-     * @param QueryBuilder         $qb
+     * @param QueryBuilder $qb
      * @param QueryParameterParser $parser
+     * @param QueryConfig $config
      */
-    public function __construct(QueryBuilder $qb, QueryParameterParser $parser)
+    public function __construct(QueryBuilder $qb, QueryParameterParser $parser, QueryConfig $config)
     {
         $this->qb = $qb;
         $this->parser = $parser;
+        $this->config = $config;
     }
 
     /**
