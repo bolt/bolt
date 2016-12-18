@@ -30,7 +30,6 @@ class QueryServiceProvider implements ServiceProviderInterface
             $parser->addService('search', $app['query.search']);
             $parser->addService('search_weighter', $app['query.search_weighter']);
             $parser->addService('search_config', $app['query.search_config']);
-            $parser->addService('query_config', $app['query.config']);
 
             return $parser;
         };
