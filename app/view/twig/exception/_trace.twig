@@ -13,7 +13,7 @@
                 {%- if t.args_safe is not empty -%}
                     {% set index = loop.index %}
                     {%- for arg in t.args_safe -%}
-                        <tt><a href="#trace-arguments-{{index}}" onclick="javascript:$('#trace-arguments-{{index}}').slideDown('fast'); return false;">{{ arg|raw }}</a></tt>{% if not loop.last %}, {% endif %}
+                        <tt><a href="" data-index="{{index}}">{{ arg|raw }}</a></tt>{% if not loop.last %}, {% endif %}
                     {%- endfor -%}
                 {%- endif -%}
                 )
