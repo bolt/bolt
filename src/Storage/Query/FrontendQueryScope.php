@@ -10,7 +10,7 @@ use Bolt\Config;
  *
  * This takes into account default ordering for ContentTypes.
  */
-class QueryConfig
+class FrontendQueryScope implements QueryScopeInterface
 {
     /** @var array|Config */
     protected $config = [];
@@ -74,4 +74,9 @@ class QueryConfig
         }
     }
 
+
+    public function onQueryExecute(QueryInterface $query)
+    {
+        dump($query);
+    }
 }

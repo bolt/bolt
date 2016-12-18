@@ -48,6 +48,8 @@ class ContentQueryParser
     protected $handlers = [];
     /** @var QueryInterface[] */
     protected $services = [];
+    /** @var  QueryScopeInterface */
+    protected $scope;
 
     /**
      * Constructor.
@@ -221,6 +223,16 @@ class ContentQueryParser
                 }
             }
         }
+    }
+
+    public function setScope(QueryScopeInterface $scope)
+    {
+        $this->scope = $scope;
+    }
+
+    public function runScopes(QueryInterface $query)
+    {
+        $this->scope->onQueryExecute($query);
     }
 
     /**
