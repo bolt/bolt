@@ -232,7 +232,9 @@ class ContentQueryParser
 
     public function runScopes(QueryInterface $query)
     {
-        $this->scope->onQueryExecute($query);
+        if ($this->scope !== null) {
+            $this->scope->onQueryExecute($query);
+        }
     }
 
     /**
