@@ -284,7 +284,9 @@ class ContentQueryParser
      */
     public function getDirective($key)
     {
-        return $this->directives[$key];
+        if (array_key_exists($key, $this->directives)) {
+            return $this->directives[$key];
+        }
     }
 
     /**

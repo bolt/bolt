@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Config;
+use Bolt\Storage\Query\Directive\OrderDirective;
 
 /**
  * This class takes an overall config array as input and parses into values
@@ -82,7 +83,8 @@ class FrontendQueryScope implements QueryScopeInterface
         // Setup default ordering of queries on a per-contenttype basis
         $existing = $query->getParameter('order');
         if (!$existing && $this->orderBys[$ct]) {
-            $query->setParameter('order', $this->orderBys[$ct]);
+            $handler = new OrderDirective();
+            $handler($query, $this->orderBys[$ct]);
         }
 
         // Setup status to only published unless otherwise specified
