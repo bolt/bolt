@@ -77,6 +77,19 @@ class FrontendQueryScope implements QueryScopeInterface
 
     public function onQueryExecute(QueryInterface $query)
     {
-        dump($query);
+        $ct = $query->getContentType();
+
+        // Setup default ordering of queries on a per-contenttype basis
+        $existing = $query->getParameter('order');
+        if (!$existing && $this->orderBys[$ct]) {
+            $query->setParameter('order', $this->orderBys[$ct]);
+        }
+
+        // Setup status to only published unless otherwise specified
+        $status = $query->getParameter('status');
+        if (!$status) {
+            $query->setParameter('status', 'published');
+        }
+
     }
 }
