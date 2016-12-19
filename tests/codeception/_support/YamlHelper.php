@@ -108,7 +108,7 @@ class YamlHelper extends \Codeception\Module
      *             change-ownership: [ ]
      * ```
      *
-     * @return string
+     * @return array
      */
     private function getBasePermissions()
     {
@@ -177,11 +177,11 @@ class YamlHelper extends \Codeception\Module
      *
      * @return string
      */
-    public function getUpdatedContenttypes()
+    public function getUpdatedContentTypes()
     {
-        $contenttypes = $this->readYaml('contenttypes.yml');
+        $contentTypes = $this->readYaml('contenttypes.yml');
 
-        $contenttypes['resources'] = [
+        $contentTypes['resources'] = [
             'name'          => 'Resources',
             'singular_name' => 'Resource',
             'fields'        => [
@@ -204,7 +204,7 @@ class YamlHelper extends \Codeception\Module
             'viewless'          => true
         ];
 
-        return $this->getYamlString($contenttypes, 4);
+        return $this->getYamlString($contentTypes, 4);
     }
 
     /**
