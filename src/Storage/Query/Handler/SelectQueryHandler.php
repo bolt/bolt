@@ -38,8 +38,8 @@ class SelectQueryHandler
 
             /** Continue and run the query add the results to the set */
             $query->setParameters($params);
-            $contentQuery->runDirectives($query);
             $contentQuery->runScopes($query);
+            $contentQuery->runDirectives($query);
 
             $result = $repo->queryWith($query);
             if ($result) {
