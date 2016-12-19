@@ -96,6 +96,7 @@ class SelectQuery implements QueryInterface
     public function setParameter($name, $value)
     {
         $this->params[$name] = $value;
+        $this->processFilters();
     }
 
 
