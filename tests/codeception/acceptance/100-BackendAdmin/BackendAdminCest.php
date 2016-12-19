@@ -271,7 +271,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
 
         $yaml = $I->getUpdatedContentTypes();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
         $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
         $I->see('name: Resources');
         $I->see('singular_name: Resource');
