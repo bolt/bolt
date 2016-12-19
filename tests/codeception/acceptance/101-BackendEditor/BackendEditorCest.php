@@ -82,7 +82,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
-        $I->click('Save Page');
+        $I->click('Save Page', "#savecontinuebutton");
         $I->see('The new Page has been saved.');
 
         $I->see('A page I made');
@@ -232,7 +232,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->see('Template', 'a[data-toggle=tab]');
 
         $I->fillField('#templatefields-section_1', 'This is the contact text');
-        $I->click('Save Page');
+        $I->click('Save Page', "#savecontinuebutton");
 
         $I->click('CONTACT PAGE');
         /*
