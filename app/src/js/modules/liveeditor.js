@@ -112,55 +112,70 @@
             jq.find('[data-bolt-field]').each(function () {
                 // Find form field
                 var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
-                    fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
+                    fieldDiv = field.closest('[data-bolt-fieldset]'),
+                    fieldType = fieldDiv.data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
 
-                if (!$(this).data('no-edit') && editableTypes.indexOf(fieldType) !== -1) {
-                    $(this).attr('contenteditable', true);
+                if (!$(this).data('no-edit')) {
+                    if (editableTypes.indexOf(fieldType) !== -1) {
+                        $(this).attr('contenteditable', true);
 
-                    if (fieldType === 'html') {
-                        var editor = cke.inline(this, {
-                            allowedContent: ''
-                        });
-                        var saveData = bolt.utils.debounce(function () {
-                            editor.element.data('src', editor.getData());
-                        }, 500);
-                        editor.on('instanceReady', saveData);
-                        editor.on('change', saveData);
-                    } else {
-                        $(this).on('paste', function (e) {
-                            var content;
-
-                            e.preventDefault();
-                            if (e.originalEvent.clipboardData) {
-                                content = e.originalEvent.clipboardData.getData('text/plain');
-                                doc.execCommand('insertText', false, content);
-                            } else if (win.clipboardData) {
-                                content = win.clipboardData.getData('Text');
-                                if (win.getSelection) {
-                                    win.getSelection().getRangeAt(0).insertNode(doc.createTextNode(content));
-                                }
-                            }
-                        });
-
-                        if (fieldType === 'textarea') {
-                            $(this).on('keypress', function (e) {
-                                if (e.which === 13) {
-                                    e.preventDefault();
-                                    doc.execCommand('insertHTML', false, '<br><br>');
-                                }
+                        if (fieldType === 'html') {
+                            var editor = cke.inline(this, {
+                                allowedContent: ''
                             });
+                            var saveData = bolt.utils.debounce(function () {
+                                editor.element.data('src', editor.getData());
+                            }, 500);
+                            editor.on('instanceReady', saveData);
+                            editor.on('change', saveData);
                         } else {
-                            $(this).on('keypress', function (e) {
-                                return e.which !== 13;
-                            }).on('focus blur', function () {
-                                $(this).html($(this).text());
+                            $(this).on('paste', function (e) {
+                                var content;
+
+                                e.preventDefault();
+                                if (e.originalEvent.clipboardData) {
+                                    content = e.originalEvent.clipboardData.getData('text/plain');
+                                    doc.execCommand('insertText', false, content);
+                                } else if (win.clipboardData) {
+                                    content = win.clipboardData.getData('Text');
+                                    if (win.getSelection) {
+                                        win.getSelection().getRangeAt(0).insertNode(doc.createTextNode(content));
+                                    }
+                                }
                             });
+
+                            if (fieldType === 'textarea') {
+                                $(this).on('keypress', function (e) {
+                                    if (e.which === 13) {
+                                        e.preventDefault();
+                                        doc.execCommand('insertHTML', false, '<br><br>');
+                                    }
+                                });
+                            } else {
+                                $(this).on('keypress', function (e) {
+                                    return e.which !== 13;
+                                }).on('focus blur', function () {
+                                    $(this).html($(this).text());
+                                });
+                            }
                         }
+                    } else {
+                        $(this).click(function () {
+                            fieldDiv.addClass("live-editor-modal");
+                            fieldDiv.closest(".tab-pane").addClass("live-editor-modal-active");
+                            $(field).change(function () {
+                                liveEditor.reload();
+                            });
+                            
+                        });
+
                     }
                 }
             });
+
+            $(".live-editor-modal-done-button").bind("click", liveEditor.closeModal);
         };
 
         $('#live-editor-iframe').on('load', iframeReady);
@@ -219,6 +234,32 @@
     };
 
     /**
+     * Reloads the live editor.
+     *
+     * @private
+     *
+     * @static
+     * @function stop
+     * @memberof Bolt.liveEditor
+     */
+    liveEditor.reload = function () {
+        var iframe = $('#live-editor-iframe')[0];
+
+        liveEditor.extractText();
+
+        // Remember scroll position
+        var scrollTop = $(iframe).contents().scrollTop();
+
+        liveEditor.start();
+
+        // Scroll down and close modal
+        $(iframe).on("load", function () {
+            $(this).contents().scrollTop(scrollTop);
+            //$(".live-editor-modal").removeClass("live-editor-modal");
+        });
+    };
+
+    /**
      * Extract content from text fields
      *
      * @public
@@ -244,7 +285,7 @@
                 if (ckeditor.instances.hasOwnProperty(fieldId)) {
                     ckeditor.instances[fieldId].setData($(this).data('src'));
                 }
-            } else {
+            } else if (editableTypes.indexOf(fieldType) !== -1) {
                 field.val(liveEditor.cleanText($(this), fieldType));
             }
         });
@@ -269,6 +310,22 @@
         }
 
         return element.text();
+    };
+
+    /**
+     * Close any open field modal
+     *
+     * @public
+     *
+     * @static
+     * @function closeModal
+     * @memberof Bolt.liveEditor
+     *
+     * @param {String} selector - Selector to escape
+     */
+    liveEditor.closeModal = function () {
+        $(".live-editor-modal-active").removeClass("live-editor-modal-active");
+        $(".live-editor-modal").removeClass("live-editor-modal");
     };
 
     /**

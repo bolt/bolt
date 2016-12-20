@@ -2,13 +2,13 @@
 
 {% block main %}
 
-    <h1>{{ record.title }}</h1>
+    <h1 data-bolt-field="title">{{ record.title }}</h1>
 
     {{ record.teaser }}
 
     {% if record.image!="" %}
         <a href="{{ image(record.image) }}">
-            <img src="{{ thumbnail(record.image, 740, 560) }}">
+            <img src="{{ thumbnail(record.image, 740, 560) }}" data-bolt-field="image[file]">
         </a>
     {% endif %}
 

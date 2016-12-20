@@ -29,6 +29,11 @@
         </div>
     {% endif %}
 
+    {# TODO: Don't hardcode message #}
+        <div class="live-editor-modal-buttons">
+            <a href="#" class="btn btn-primary pull-right live-editor-modal-done-button">Done</a>
+        </div>
+
     {# Divider #}
     {% if field.separator is defined and field.separator == true %}
         <hr>
