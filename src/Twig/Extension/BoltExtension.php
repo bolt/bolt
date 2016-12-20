@@ -3,8 +3,8 @@
 namespace Bolt\Twig\Extension;
 
 use Bolt;
-use Bolt\Configuration\ResourceManager;
 use Bolt\Config;
+use Bolt\Configuration\ResourceManager;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;

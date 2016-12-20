@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Storage\Database\Schema\Builder;
 use Bolt\Storage\Database\Schema\LazySchemaManager;
 use Bolt\Storage\Database\Schema\Manager;
@@ -103,10 +102,12 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 $acne = new \Pimple();
 
                 foreach (array_keys($contentTypes) as $contentType) {
-                    // @codingStandardsIgnoreStart
                     $tableName = $contentTypes[$contentType]['tablename'];
-                    $acne[$tableName] = $app->share(function () use ($platform, $prefix) { return new Table\ContentType($platform, $prefix); });
-                    // @codingStandardsIgnoreEnd
+                    $acne[$tableName] = $app->share(
+                        function () use ($platform, $prefix) {
+                            return new Table\ContentType($platform, $prefix);
+                        }
+                    );
                 }
 
                 return $acne;
@@ -126,21 +127,27 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 $acne = new \Pimple();
 
                 foreach ($app['schema.base_tables']->keys() as $baseName) {
-                    // @codingStandardsIgnoreStart
-                    $acne[$baseName] = $app->share(function () use ($app, $baseName) { return $app['schema.base_tables'][$baseName]; });
-                    // @codingStandardsIgnoreEnd
+                    $acne[$baseName] = $app->share(
+                        function () use ($app, $baseName) {
+                            return $app['schema.base_tables'][$baseName];
+                        }
+                    );
                 }
 
                 foreach ($app['schema.content_tables']->keys() as $baseName) {
-                    // @codingStandardsIgnoreStart
-                    $acne[$baseName] = $app->share(function () use ($app, $baseName) { return $app['schema.content_tables'][$baseName]; });
-                    // @codingStandardsIgnoreEnd
+                    $acne[$baseName] = $app->share(
+                        function () use ($app, $baseName) {
+                            return $app['schema.content_tables'][$baseName];
+                        }
+                    );
                 }
 
                 foreach ($app['schema.extension_tables']->keys() as $baseName) {
-                    // @codingStandardsIgnoreStart
-                    $acne[$baseName] = $app->share(function () use ($app, $baseName) { return $app['schema.extension_tables'][$baseName]; });
-                    // @codingStandardsIgnoreEnd
+                    $acne[$baseName] = $app->share(
+                        function () use ($app, $baseName) {
+                            return $app['schema.extension_tables'][$baseName];
+                        }
+                    );
                 }
 
                 return $acne;
