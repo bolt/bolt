@@ -26,6 +26,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     /**
      * Store the list of files in the files folder so we can delete any added files after we're done testing
+     *
      * @before
      */
     public function storeFileList()
@@ -35,6 +36,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     /**
      * Remove any files added during the test
+     *
      * @after
      */
     public function restoreFileList()
@@ -67,7 +69,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/folder/create', 'POST', [
             'namespace'  => self::FILESYSTEM,
             'parent'     => '',
-            'foldername' => self::FOLDER_NAME
+            'foldername' => self::FOLDER_NAME,
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
@@ -102,7 +104,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/file/create', 'POST', [
             'namespace'  => self::FILESYSTEM,
             'parentPath' => '',
-            'filename'   => self::FILE_NAME
+            'filename'   => self::FILE_NAME,
         ]));
         $response = $this->controller()->createFile($this->getRequest());
 
@@ -137,7 +139,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
                 $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
                     'namespace' => self::FILESYSTEM,
-                    'filename'  => $filename
+                    'filename'  => $filename,
                 ]));
 
                 $response = $this->controller()->duplicateFile($this->getRequest());
@@ -154,7 +156,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/file/delete', 'POST', [
             'namespace' => 'files',
-            'filename'  => self::FILE_NAME
+            'filename'  => self::FILE_NAME,
         ]));
 
         // The file should still exist before deleting
@@ -182,7 +184,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     {
         $definitions = [
             'file'   => ['old' => self::FILE_NAME, 'new' => self::FILE_NAME_2],
-            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2]
+            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2],
         ];
         foreach ($definitions as $object => $data) {
             $this->createObject($object, $data['old']);
@@ -206,7 +208,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     {
         $definitions = [
             'file'   => ['old' => self::FILE_NAME, 'new' => self::FILE_NAME_2],
-            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2]
+            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2],
         ];
         foreach ($definitions as $object => $data) {
             /*
@@ -248,7 +250,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         // Querying should return all files
         $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
             'term' => $prefix,
-            'ext'  => '.*'
+            'ext'  => '.*',
         ]));
 
         $response = $this->controller()->filesAutoComplete($this->getRequest());
@@ -259,7 +261,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         // Filtering by one extension should return only $count files
         $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
             'term' => $prefix,
-            'ext'  => $extensions[0]
+            'ext'  => $extensions[0],
         ]));
 
         $response = $this->controller()->filesAutoComplete($this->getRequest());
@@ -280,7 +282,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     /**
      * @param string $object The type of the object, either 'file' or 'folder'
-     * @param string $name The name of the new object
+     * @param string $name   The name of the new object
      */
     private function createObject($object, $name)
     {
@@ -288,7 +290,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => 'files',
             'parent'     => '',
             'filename'   => $name,
-            'foldername' => $name
+            'foldername' => $name,
         ]));
         switch ($object) {
             case 'file':
@@ -314,7 +316,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace' => 'files',
             'parent'    => '',
             'oldname'   => $old,
-            'newname'   => $new
+            'newname'   => $new,
         ]));
         switch ($object) {
             case 'file':

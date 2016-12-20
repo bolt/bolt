@@ -101,12 +101,11 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                Blowfish::getPrefix() . '07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi'
+                Blowfish::getPrefix() . '07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi',
             ],
             [
                 '$P$ABCDEFGHIJKLMNOPQRSTUVWXYZ01234',
-            ]
+            ],
         ];
-
     }
 }

@@ -27,7 +27,6 @@ class ResourceManagerTest extends BoltUnitTest
         }
     }
 
-
     public function testConstruction()
     {
         $container = new \Pimple(

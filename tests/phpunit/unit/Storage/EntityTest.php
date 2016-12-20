@@ -22,6 +22,5 @@ class EntityTest extends BoltUnitTest
         $this->assertEquals('BoltFieldExample', $entity->camelize($underscore));
         $this->assertEquals('bolt_field_example', $entity->underscore($camel));
         $this->assertEquals('bolt_field_example', $entity->underscore($camel2));
-
     }
 }

@@ -23,10 +23,10 @@ class ThumbnailUrlTest extends BoltUnitTest
         $urlGenerator->expects($this->once())
             ->method('generate')
             ->with('thumb', [
-                'width' => 200,
+                'width'  => 200,
                 'height' => 200,
                 'action' => 'c',
-                'file' => 'generic-logo.png',
+                'file'   => 'generic-logo.png',
             ])
             ->willReturn('/thumbs/200x200c/generic-logo.png')
         ;

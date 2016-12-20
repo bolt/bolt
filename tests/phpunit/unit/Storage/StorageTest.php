@@ -317,8 +317,8 @@ class StorageTest extends BoltUnitTest
                     'slug'          => 'foo_bars',
                     'singular_slug' => 'foo_bar',
                     'name'          => 'FooBars',
-                    'singular_name' => 'Foo Bar'
-                ]
+                    'singular_name' => 'Foo Bar',
+                ],
             ],
             [
                 [
@@ -326,9 +326,9 @@ class StorageTest extends BoltUnitTest
                     'slug'          => 'things',
                     'singular_slug' => 'thing',
                     'name'          => 'Somethings',
-                    'singular_name' => 'Something'
-                ]
-            ]
+                    'singular_name' => 'Something',
+                ],
+            ],
         ];
     }
 

@@ -93,7 +93,7 @@ class TemplateResponseTest extends BoltUnitTest
                 'message' => 'Clippy is bent out of shape',
                 'code'    => '1555',
                 'trace'   => [],
-            ]
+            ],
         ];
     }
 }

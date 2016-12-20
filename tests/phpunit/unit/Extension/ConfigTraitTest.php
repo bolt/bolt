@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Extension;
 
-use Bolt\Filesystem\Handler\Directory;
 use Bolt\Filesystem\Handler\YamlFile;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\ConfigExtension;
