@@ -71,7 +71,7 @@ class MenuEntry
     /**
      * Set the uri to be generated with given route name and params.
      *
-     * @param string $routeName #Route
+     * @param string $routeName
      * @param array  $routeParams
      *
      * @return MenuEntry
@@ -106,6 +106,7 @@ class MenuEntry
             if ($this->routeGenerated === null) {
                 $this->routeGenerated = $this->urlGenerator->generate($this->routeName, $this->routeParams);
             }
+
             return $this->routeGenerated;
         }
 

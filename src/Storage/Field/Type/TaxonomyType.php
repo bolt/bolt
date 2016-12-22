@@ -36,7 +36,7 @@ class TaxonomyType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
 
         foreach ($query->getFilters() as $filter) {
-            foreach ((array)$filter->getKey() as $filterKey) {
+            foreach ((array) $filter->getKey() as $filterKey) {
                 if ($filterKey == $field) {
                     $this->rewriteQueryFilterParameters($filter, $query, $field, 'slug');
                 }

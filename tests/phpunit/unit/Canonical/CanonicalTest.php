@@ -29,14 +29,16 @@ class CanonicalTest extends BoltUnitTest
     public function testCanonical($override, $uri, $expected)
     {
         $app = $this->getApp(false);
-        $app->match('/drop/bear', function () { return '<html><head></head><body>Koala!</body></html>'; });
+        $app->match('/drop/bear', function () {
+            return '<html><head></head><body>Koala!</body></html>';
+        });
         if ($override !== null) {
             $app['config']->set('general/canonical', $override);
         }
         $request = Request::create($uri);
 
         $url = null;
-        $app->after(function() use (&$url, $app) {
+        $app->after(function () use (&$url, $app) {
             $url = $app['canonical']->getUrl();
         });
 

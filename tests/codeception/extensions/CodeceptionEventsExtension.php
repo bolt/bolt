@@ -5,7 +5,6 @@ use Codeception\Events;
 use Codeception\Util\Fixtures;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Post run clean up

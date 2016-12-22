@@ -120,32 +120,32 @@ class YamlHelper extends \Codeception\Module
             'publish'          => ['developer', 'admin', 'chief-editor'],
             'depublish'        => ['developer', 'admin', 'chief-editor'],
             'delete'           => ['developer', 'admin'],
-            'change-ownership' => ['developer', 'admin']
+            'change-ownership' => ['developer', 'admin'],
         ];
 
         $permissions['contenttype-default'] = [
             'view'             => ['anonymous'],
             'create'           => ['editor'],
             'edit'             => ['editor'],
-            'change-ownership' => ['owner']
+            'change-ownership' => ['owner'],
         ];
 
         $permissions['contenttypes'] = [
             'pages'     => [
                 'create'           => ['editor'],
                 'edit'             => ['editor', 'author'],
-                'change-ownership' => ['owner']
+                'change-ownership' => ['owner'],
             ],
             'entries'   => [
                 'view'             => ['admin'],
-                'create'           => ['admin']
+                'create'           => ['admin'],
             ],
             'showcases' => [
                 'create'           => ['admin'],
                 'edit'             => ['admin', 'editor'],
                 'publish'          => ['admin'],
-                'change-ownership' => []
-            ]
+                'change-ownership' => [],
+            ],
         ];
 
         return $permissions;
@@ -195,13 +195,13 @@ class YamlHelper extends \Codeception\Module
                 ],
                 'body' => [
                     'type'   => 'html',
-                    'height' => '300px'
-                ]
+                    'height' => '300px',
+                ],
             ],
             'default_status'    => 'published',
             'show_on_dashboard' => false,
             'searchable'        => false,
-            'viewless'          => true
+            'viewless'          => true,
         ];
 
         return $this->getYamlString($contenttypes, 4);
