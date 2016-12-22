@@ -201,8 +201,8 @@
                 term = '',
                 value;
 
-            $.each(self._ui.uses, function (i, field) {
-                value = $(field).val();
+            $.each(self.options.uses, function (i, field) {
+                value = $('#' + field).val();
 
                 if (value) {
                     term += (typeof value === 'object' ? value.join(' ') : value) + ' ';
