@@ -78,7 +78,7 @@ class YamlUpdater
      */
     public function change($key, $value, $makeBackup = true)
     {
-        $pattern = str_replace('/', ':.*', $key);
+        $pattern = str_replace('/', ':.*?', $key);
         preg_match_all('/^' . $pattern . '(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
 
         if (count($matches[0]) > 0 && count($matches[1])) {
