@@ -121,17 +121,17 @@ class Manager
             throw new \RuntimeException('Can not add extensions after they are registered.');
         }
 
+
         // Set paths in the extension
-        if ($baseDir !== null) {
-            $extension->setBaseDirectory($baseDir);
-        } else {
-            $extension->setBaseDirectory($this->extFs->getDir($extension->getId()));
+        if ($baseDir === null) {
+            $baseDir = $this->extFs->getDir($extension->getId());
         }
-        if ($webDir !== null) {
-            $extension->setWebDirectory($webDir);
-        } else {
-            $extension->setWebDirectory($this->webFs->getDir($extension->getId()));
+        $extension->setBaseDirectory($baseDir);
+
+        if ($webDir === null) {
+            $webDir = $this->webFs->getDir($extension->getId());
         }
+        $extension->setWebDirectory($webDir);
 
         // Determine if enabled
         $enabled = $this->config->get('extensions/' . $extension->getId(), true);
