@@ -121,7 +121,6 @@ class Manager
             throw new \RuntimeException('Can not add extensions after they are registered.');
         }
 
-
         // Set paths in the extension
         if ($baseDir === null) {
             $baseDir = $this->extFs->getDir($extension->getId());
