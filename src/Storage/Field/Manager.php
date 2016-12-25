@@ -19,7 +19,7 @@ class Manager
         'repeater', 'repeaterblock'
     ];
 
-    protected $dummyFields = ['repeater'];
+    protected $dummyFields = ['repeater', 'repeaterblock'];
 
     public function __construct()
     {
