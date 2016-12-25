@@ -153,6 +153,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'markdown'                         => 'Bolt\Storage\Field\Type\MarkdownType',
             'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
             'repeater'                         => 'Bolt\Storage\Field\Type\RepeaterType',
+            'repeaterblock'                    => 'Bolt\Storage\Field\Type\RepeaterBlockType',
             'select'                           => 'Bolt\Storage\Field\Type\SelectType',
             'selectmultiple'                   => 'Bolt\Storage\Field\Type\SelectMultipleType',
             'slug'                             => 'Bolt\Storage\Field\Type\SlugType',
