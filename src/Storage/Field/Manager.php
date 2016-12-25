@@ -16,7 +16,7 @@ class Manager
     protected $defaults = [
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'hidden', 'html',
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug',
-        'repeater',
+        'repeater', 'repeaterblock'
     ];
 
     protected $dummyFields = ['repeater'];
