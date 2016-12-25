@@ -9,5 +9,11 @@ namespace Bolt\Storage\Field\Type;
  */
 class RepeaterBlockType extends RepeaterType
 {
-
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'repeaterblock';
+    }
 }
