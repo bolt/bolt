@@ -51,7 +51,7 @@ class MenuEntryTest extends BoltUnitTest
     public function testRoute()
     {
         /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
-        $urlGenerator = $this->getMock(UrlGeneratorInterface::class);
+        $urlGenerator = $this->getMockBuilder(UrlGeneratorInterface::class)->getMock();
         $urlGenerator->expects($this->once())
             ->method('generate')
             ->with('route', ['foo' => 'bar'])
