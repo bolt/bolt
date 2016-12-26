@@ -77,6 +77,30 @@ class SelectQuery implements QueryInterface
     }
 
     /**
+     * Getter to allow access to a set parameter
+     * @param $name
+     * @return array|mixed
+     */
+    public function getParameter($name)
+    {
+        if (array_key_exists($name, $this->params)) {
+            return $this->params[$name];
+        }
+    }
+
+    /**
+     * Setter to allow writing to a named parameter
+     * @param $name
+     * @param $value
+     */
+    public function setParameter($name, $value)
+    {
+        $this->params[$name] = $value;
+        $this->processFilters();
+    }
+
+
+    /**
      * Creates a composite expression that adds all the attached
      * filters individual expressions into a combined one.
      *
