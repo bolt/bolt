@@ -156,6 +156,7 @@ class Edit
             'fieldtemplates'   => $this->getTemplateFieldTemplates($contentType, $content),
             'fieldtypes'       => $this->getUsedFieldtypes($contentType, $content, $contextHas),
             'groups'           => $this->createGroupTabs($contentType, $contextHas),
+            'repeaterblocks'   => $this->getRepeaterBlocks($contentType, $content),
             'can'              => $contextCan,
             'has'              => $contextHas,
             'values'           => $contextValues,
@@ -357,7 +358,7 @@ class Edit
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
-            if ($field['type'] === 'repeater') {
+            if ($field['type'] === 'repeater' || $field['type'] === 'repeaterblock') {
                 foreach ($field['fields'] as $rfield) {
                     $fieldtypes[$rfield['type']] = true;
                 }
@@ -377,5 +378,25 @@ class Edit
         }
 
         return array_keys($fieldtypes);
+    }
+
+    /**
+     * Create a list of fields that are 'repeaterblock' type fields this allows us to concatenate the rendering of
+     * the add new blocks.
+     *
+     * @param ContentType $contentType
+     * @param Content $content
+     * @return array
+     */
+    private function getRepeaterBlocks(ContentType $contentType, Content $content)
+    {
+        $blocks = [];
+        foreach ($contentType['fields'] as $field) {
+            if ($field['type'] == 'repeaterblock') {
+                $blocks[] = $field;
+            }
+        }
+
+        return $blocks;
     }
 }
