@@ -57,8 +57,12 @@ class FrontendCest
     {
         $I->wantTo('see that there are no session cookies set.');
 
-        $I->amOnPage('/');
+        $I->resetCookie($this->tokenNames['session']);
 
+        $I->amOnPage('/');
+        $I->dontSeeCookie($this->tokenNames['session']);
+
+        $I->amOnPage('/thumbs/42x42c/koala.jpg');
         $I->dontSeeCookie($this->tokenNames['session']);
     }
 
