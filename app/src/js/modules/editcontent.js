@@ -127,7 +127,7 @@
      * @memberof Bolt.editcontent
      */
     function indicateSavingAction() {
-        $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+        $('#sidebarsavecontinuebutton, #savecontinuebutton, #liveeditorsavecontinuebutton').addClass('disabled');
         $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
         $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
     }
@@ -338,6 +338,10 @@
             if (newrecord) {
                 watchChanges();
 
+                if (bolt.liveEditor.active) {
+                    bolt.liveEditor.stop();
+                }
+
                 // New record. Do a regular post, and expect to be redirected back to this page.
                 $('#editcontent').attr('action', '?returnto=new').submit();
             } else {
@@ -439,7 +443,7 @@
 
                         // Re-enable buttons
                         window.setTimeout(function () {
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton, #liveeditorsavecontinuebutton').removeClass('disabled').blur();
                         }, 1000);
                         window.setTimeout(function () {
                             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-flag');

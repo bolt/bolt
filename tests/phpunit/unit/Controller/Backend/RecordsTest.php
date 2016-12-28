@@ -210,7 +210,7 @@ class RecordsTest extends ControllerUnitTest
             '/bolt/overview/pages',
             'GET',
             [
-                'filter'            => 'Lorem',
+                'filter'          => 'Lorem',
                 'taxonomy-groups' => 'main',
             ]
         ));

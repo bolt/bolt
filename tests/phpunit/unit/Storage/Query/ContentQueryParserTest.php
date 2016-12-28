@@ -187,7 +187,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['filter' => 'test']);
 
         $res = $qb->fetch();
-        $this->assertEquals(5, $res->count(), "Search is not finding all of the items in pages and entries!");
+        $this->assertEquals(5, $res->count(), 'Search is not finding all of the items in pages and entries!');
     }
 
     public function testLatestHandler()

@@ -84,7 +84,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     public function getQueryBuilderMock($connection)
     {
         $exprmock = $this->getMock('Doctrine\DBAL\Query\Expression\ExpressionBuilder', null, [$connection]);
-        $mock = $this->getMock("Doctrine\\DBAL\\Query\\QueryBuilder", ['expr'], [$connection]);
+        $mock = $this->getMock('Doctrine\\DBAL\\Query\\QueryBuilder', ['expr'], [$connection]);
         $mock->expects($this->any())
             ->method('expr')
             ->will($this->returnValue($exprmock));

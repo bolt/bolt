@@ -5,8 +5,6 @@ namespace Bolt\Provider;
 use Bolt;
 use Bolt\Config;
 use Bolt\Configuration\Environment;
-use Bolt\Configuration\PreBoot;
-use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Validation\Validator as ConfigValidator;
 use Bolt\EventListener\ConfigListener;
 use Silex\Application;

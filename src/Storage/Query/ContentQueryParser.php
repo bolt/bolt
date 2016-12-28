@@ -48,6 +48,8 @@ class ContentQueryParser
     protected $handlers = [];
     /** @var QueryInterface[] */
     protected $services = [];
+    /** @var  QueryScopeInterface */
+    protected $scope;
 
     /**
      * Constructor.
@@ -223,6 +225,18 @@ class ContentQueryParser
         }
     }
 
+    public function setScope(QueryScopeInterface $scope)
+    {
+        $this->scope = $scope;
+    }
+
+    public function runScopes(QueryInterface $query)
+    {
+        if ($this->scope !== null) {
+            $this->scope->onQueryExecute($query);
+        }
+    }
+
     /**
      * Gets the object EntityManager
      *
@@ -272,7 +286,9 @@ class ContentQueryParser
      */
     public function getDirective($key)
     {
-        return $this->directives[$key];
+        if (array_key_exists($key, $this->directives)) {
+            return $this->directives[$key];
+        }
     }
 
     /**

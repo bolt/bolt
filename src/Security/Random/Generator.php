@@ -21,7 +21,6 @@ class Generator
      */
     public function generate($length)
     {
-
         return random_bytes($length);
     }
 

@@ -155,7 +155,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'email'       => 'admin@example.com',
             'displayname' => 'Admin',
             'roles'       => ['admin'],
-            'enabled'     => true   ,
+            'enabled'     => true,
         ];
 
         $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));

@@ -198,7 +198,7 @@ HTML;
         $mock->expects($this->any())
             ->method('getVersion')
             ->will($this->returnCallback(
-                function($fileName) {
+                function ($fileName) {
                     return md5($fileName);
                 }
             ))

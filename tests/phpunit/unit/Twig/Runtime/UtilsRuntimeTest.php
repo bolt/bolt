@@ -57,7 +57,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $this->assertNull($result);
     }
 
-
     public function testPrintBacktraceNoSafeDebugOffLoggedoff()
     {
         $app = $this->getApp();
@@ -69,7 +68,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $result = $handler->printBacktrace(5);
         $this->assertNull($result);
     }
-
 
     public function testPrintBacktraceNoSafeDebugOn()
     {
@@ -117,7 +115,6 @@ class UtilsRuntimeTest extends BoltUnitTest
         $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!');
         $this->assertNull($result);
     }
-
 
     public function testPrintFirebugNoSafeDebugOnArrayString()
     {

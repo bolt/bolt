@@ -56,7 +56,6 @@ class LoginTest extends BoltUnitTest
         $this->assertFalse($response);
     }
 
-
     public function testLoginDisabledUsername()
     {
         $app = $this->getApp();

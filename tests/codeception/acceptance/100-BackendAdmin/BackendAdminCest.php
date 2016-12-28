@@ -269,9 +269,9 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $this->setLoginCookies($I);
         $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
 
-        $yaml = $I->getUpdatedContenttypes();
+        $yaml = $I->getUpdatedContentTypes();
         $I->fillField('#form_contents', $yaml);
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
         $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
         $I->see('name: Resources');
         $I->see('singular_name: Resource');
@@ -339,7 +339,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
      *
      * @param \AcceptanceTester $I
      */
-    public function viewAllContenttypesTest(\AcceptanceTester $I)
+    public function viewAllContentTypesTest(\AcceptanceTester $I)
     {
         $I->wantTo('make sure the admin user can view all content types');
 
@@ -398,7 +398,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
      */
     public function editPermissionsTest(\AcceptanceTester $I)
     {
-        $I->wantTo('edit permissions.yml and restrict access to certain Contenttypes');
+        $I->wantTo('edit permissions.yml and restrict access to certain ContentTypes');
 
         // Set up the browser
         $this->setLoginCookies($I);

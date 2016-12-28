@@ -186,7 +186,7 @@ class ContentType extends BaseTable
         if ($this->platform->getName() === 'sqlite') {
             $this->table->addColumn($fieldName, 'json_array', ['default' => '[]']);
         } else {
-            $this->table->addColumn($fieldName, 'json_array', []);
+            $this->table->addColumn($fieldName, 'json_array', ['notnull' => false]);
         }
     }
 

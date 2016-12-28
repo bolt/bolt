@@ -4,9 +4,9 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\EventListener\ConfigListener;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Twig\Extension\BoltExtension;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
-use Bolt\Twig\Extension\BoltExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
