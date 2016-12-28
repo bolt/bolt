@@ -53,6 +53,7 @@ class WorkingSilex extends Silex
     protected function clientRequest($method, $uri, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
     {
         $this->reloadApp();
+
         return parent::clientRequest($method, $uri, $parameters, $files, $server, $content, $changeHistory);
     }
 }

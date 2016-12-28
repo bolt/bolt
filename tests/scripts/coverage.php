@@ -65,7 +65,7 @@ class CoverageComparator
                     $this->xmlfile,
                     '--coverage-php',
                     $output,
-                    $test
+                    $test,
                 ])
             ->getProcess()
             ->setTimeout(0)
@@ -120,7 +120,7 @@ class CoverageComparator
                     }
 
                     $classMethods++;
-                    $classStatements        += $method['executableLines'];
+                    $classStatements += $method['executableLines'];
                     $coveredClassStatements += $method['executedLines'];
                     if ($method['coverage'] == 100) {
                         $coveredMethods++;
@@ -151,17 +151,17 @@ class CoverageComparator
         return [
             'classes'  => [
                 'total'  => $report->getNumClassesAndTraits(),
-                'tested' => $report->getNumTestedClassesAndTraits()
+                'tested' => $report->getNumTestedClassesAndTraits(),
             ],
             'methods'  => [
                 'total'  => $report->getNumMethods(),
-                'tested' => $report->getNumTestedMethods()
+                'tested' => $report->getNumTestedMethods(),
             ],
             'lines'    => [
                 'total'  => $report->getNumExecutableLines(),
-                'tested' => $report->getNumExecutedLines()
+                'tested' => $report->getNumExecutedLines(),
             ],
-            'coverage' => $classCoverage
+            'coverage' => $classCoverage,
         ];
     }
 
@@ -187,7 +187,7 @@ class CoverageComparator
             'classes'  => 0,
             'methods'  => 0,
             'lines'    => 0,
-            'coverage' => []
+            'coverage' => [],
         ];
 
         $deltaBefore = $before['classes']['total'] - $before['classes']['tested'];
@@ -609,7 +609,7 @@ class CoverageCommand
             '<info>php tests/scripts/coverage.php [PR number] [test]</info>',
             '<info>Where:</info>',
             '<info>    [PR number] - GitHub PR number (required)</info>',
-            '<info>    [test]      - Directory or file to limit tests to (optional)</info>'
+            '<info>    [test]      - Directory or file to limit tests to (optional)</info>',
         ], true);
         exit;
     }

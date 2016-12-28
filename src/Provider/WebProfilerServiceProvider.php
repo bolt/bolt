@@ -27,6 +27,7 @@ class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvi
             if (!$app['debug']) {
                 return $dispatcher;
             }
+
             return new TraceableEventDispatcher($dispatcher, $app['stopwatch'], $app['logger']);
         }));
 

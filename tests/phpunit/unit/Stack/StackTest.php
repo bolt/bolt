@@ -138,7 +138,7 @@ class StackTest extends BoltUnitTest
         ]);
 
         $this->assertFiles($this->stack->getList(['image']), [
-            'files://a.jpg'
+            'files://a.jpg',
         ], 'List should only contain image files');
 
         $this->assertFiles($this->stack->getList(['document']), [
@@ -286,7 +286,9 @@ class StackTest extends BoltUnitTest
 
     protected function assertFiles(array $files, array $expected, $message = '')
     {
-        $paths = array_map(function(FileInterface $file) { return $file->getFullPath(); }, $files);
+        $paths = array_map(function (FileInterface $file) {
+            return $file->getFullPath();
+        }, $files);
         $this->assertEquals($expected, $paths, $message);
     }
 }

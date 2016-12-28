@@ -240,6 +240,7 @@ class Content extends Entity
 
     /**
      * @param string|null $contentType
+     *
      * @return Collection\Relations
      */
     public function getRelation($contentType = null)

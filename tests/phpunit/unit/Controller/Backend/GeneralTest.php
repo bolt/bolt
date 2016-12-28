@@ -134,7 +134,7 @@ class GeneralTest extends ControllerUnitTest
             ->method('preFill')
             ->will($this->returnCallback(function () use ($guzzleRequest) {
                 throw new \GuzzleHttp\Exception\RequestException('', $guzzleRequest);
-        }));
+            }));
 
         $this->setService('storage', $store);
 

@@ -43,7 +43,7 @@ class UserManageTest extends BoltUnitTest
 
         $tester->execute(
             [
-                'login'  => 'koala',
+                'login'    => 'koala',
                 '--enable' => null,
             ]
         );
@@ -67,7 +67,7 @@ class UserManageTest extends BoltUnitTest
 
         $tester->execute(
             [
-                'login'  => 'koala',
+                'login'     => 'koala',
                 '--disable' => null,
             ]
         );

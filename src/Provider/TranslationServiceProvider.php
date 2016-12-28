@@ -25,6 +25,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
         $app['locale'] = $app->share(function ($app) use ($previousLocale) {
             if (($locales = $app['config']->get('general/locale')) !== null) {
                 $locales = (array) $locales;
+
                 return reset($locales);
             }
 

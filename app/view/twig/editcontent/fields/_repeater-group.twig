@@ -36,7 +36,7 @@
                     'can':      context.can,
                 }
             } %}
-            <div class="repeater-field">
+            <div class="repeater-field" data-bolt-fieldset="{{ rfield.type }}">
                 {# Prefix #}
                 {% if rcontext.field.prefix is defined and rcontext.field.prefix is not empty %}
                     <div class="prefix">
