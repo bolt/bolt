@@ -6,6 +6,24 @@ Bolt 3.3-dev
 
 - Break: Removed local extension functionality
 
+Bolt 3.2.4
+----------
+
+Released 2016-12-17. Notable changes:
+
+ - Fixed: Backport fix for assets double applying base path. Fixes Assets not loading correctly for installations in subfolders. [#6179](https://github.com/bolt/bolt/pull/6179)
+ - Fixed: Twig_Source path argument [#6171](https://github.com/bolt/bolt/pull/6171)
+ - Fixed: Fix `adjustSidebarHeight` so it's not adjusting when it shouldn't. [#6125](https://github.com/bolt/bolt/pull/6125) [#6150](https://github.com/bolt/bolt/pull/6150)
+ - Fixed: HTML Overflow in system log fixed. [#6148](https://github.com/bolt/bolt/pull/6148)
+ - Fixed: Re-ordering for repeaters when there are more than 10. [#6136](https://github.com/bolt/bolt/pull/6136)
+ - Fixed: Twig `{{ current() }}` function [#6135](https://github.com/bolt/bolt/pull/6135)
+ - Fixed: Fix JSON parse inconsistency. [#6122](https://github.com/bolt/bolt/pull/6122)
+ - Fixed: Fix for [#6115](https://github.com/bolt/bolt/pull/6115): Added a check on $valueSelect to see if it is a string. [#6121](https://github.com/bolt/bolt/pull/6121)
+ - Changed: Nicer listing overview for System Log. [#6113](https://github.com/bolt/bolt/pull/6113)
+ - Updated: Russian langiage file messages.ru.yml updated. [#6111](https://github.com/bolt/bolt/pull/6111)
+ - Fixed: Don't stretch tags to full width [#6112](https://github.com/bolt/bolt/pull/6112)
+
+
 Bolt 3.2.3
 ----------
 
