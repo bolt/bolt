@@ -296,7 +296,13 @@ class Repository implements ObjectRepository
         $metadata = $this->getClassMetadata();
 
         foreach ($metadata->getFieldMappings() as $field) {
-            if (in_array($field['fieldname'], $exclusions)) {
+            $fieldName = $field['fieldname'];
+            if (in_array($fieldName, $exclusions)) {
+                continue;
+            }
+            // Don't add field to the persistence query if it is not an entity
+            // property, and on UPDATE only
+            if (!isset($entity->$fieldName) && $entity->getId() !== null) {
                 continue;
             }
 
