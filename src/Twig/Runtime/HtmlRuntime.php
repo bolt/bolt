@@ -37,13 +37,13 @@ class HtmlRuntime
     /**
      * Constructor.
      *
-     * @param Config            $config
-     * @param \Parsedown        $markdown
-     * @param MenuBuilder       $menu
-     * @param EntityManager     $em
-     * @param RequestStack      $requestStack
-     * @param Render            $render
-     * @param string            $locale
+     * @param Config        $config
+     * @param \Parsedown    $markdown
+     * @param MenuBuilder   $menu
+     * @param EntityManager $em
+     * @param RequestStack  $requestStack
+     * @param Render        $render
+     * @param string        $locale
      */
     public function __construct(
         Config $config,

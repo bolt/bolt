@@ -9,7 +9,6 @@ use Bolt\Provider\PathServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
 {

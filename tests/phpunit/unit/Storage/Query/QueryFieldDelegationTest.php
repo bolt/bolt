@@ -29,8 +29,6 @@ class QueryFieldDelegationTest extends BoltUnitTest
 
         $this->assertEquals($test1count, $test2count);
         $this->assertEquals(2, $test2count);
-
-
     }
 
     public function testRelationFilter()

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
+use Bolt\Storage\Query\QueryScopeInterface;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -31,5 +32,31 @@ class QueryTest extends BoltUnitTest
 
         $results = $app['query']->getContent('pages', ['id' => '<10', 'returnsingle' => true]);
         $this->assertEquals(1, count($results));
+    }
+
+    public function testGetContentByScope()
+    {
+        $app = $this->getApp();
+        $this->addSomeContent();
+
+        $mockScope =  $this->getMock(QueryScopeInterface::class, ['onQueryExecute']);
+        $mockScope->expects($this->once())->method('onQueryExecute');
+
+        $query = $app['query'];
+        $query->addScope('test', $mockScope);
+        $query->getContentByScope('test', 'pages', ['id' => '<10']);
+    }
+
+    public function testGetContentByScopeFiresCorrectly()
+    {
+        $app = $this->getApp();
+        $this->addSomeContent();
+
+        $mockScope =  $this->getMock(QueryScopeInterface::class, ['onQueryExecute']);
+        $mockScope->expects($this->never())->method('onQueryExecute');
+
+        $query = $app['query'];
+        $query->addScope('test', $mockScope);
+        $query->getContentByScope('anothertest', 'pages', ['id' => '<10']);
     }
 }

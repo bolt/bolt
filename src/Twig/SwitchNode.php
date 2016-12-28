@@ -40,13 +40,14 @@ class SwitchNode extends Node
             ->raw(") {\n")
             ->indent()
         ;
-        for ($i = 0; $i < count($this->getNode('cases')); $i += 2) {
+        $cases = $this->getNode('cases');
+        for ($i = 0; $i < count($cases); $i += 2) {
             $compiler
                 ->write('case ')
-                ->subcompile($this->getNode('cases')->getNode($i))
+                ->subcompile($cases->getNode($i))
                 ->raw(":\n")
                 ->indent()
-                ->subcompile($this->getNode('cases')->getNode($i + 1))
+                ->subcompile($cases->getNode($i + 1))
                 ->write('')
                 ->raw("break;\n")
             ;

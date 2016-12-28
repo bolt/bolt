@@ -10,7 +10,7 @@ use Bolt\Twig\Extension\ArrayExtension;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ArrayExtensionTest extends BoltUnitTest
+class ArrayRuntimeTest extends BoltUnitTest
 {
     public function setUp()
     {

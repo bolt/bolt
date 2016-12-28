@@ -271,7 +271,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      * Note, reflection is used to achieve this, it is not ideal, but the CompositeExpression shipped with DBAL chooses
      * to keep the query parts as private and only allow access to the final computed string.
      *
-     * @param Filter $filter
+     * @param Filter         $filter
      * @param QueryInterface $query
      * @param $field
      * @param $column
@@ -284,7 +284,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $reflected->setAccessible(true);
         $originalParts = $reflected->getValue($originalExpression);
         foreach ($originalParts as &$part) {
-            $part = str_replace($query->getContenttype().".".$field, $field.".".$column, $part);
+            $part = str_replace($query->getContenttype() . '.' . $field, $field . '.' . $column, $part);
         }
         $reflected->setValue($originalExpression, $originalParts);
 

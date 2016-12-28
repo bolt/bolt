@@ -5,11 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\DumpExtension;
+use Bolt\Twig\Extension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
-use Bolt\Twig\Extension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
@@ -98,7 +98,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                 ];
             }
         );
-
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
         if (!isset($app['twig.runtime_loader'])) {

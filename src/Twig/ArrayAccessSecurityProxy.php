@@ -105,6 +105,7 @@ class ArrayAccessSecurityProxy implements ArrayAccess, Countable, IteratorAggreg
         if ($this->object instanceof Traversable) {
             return new IteratorIterator($this->object);
         }
+
         return new ArrayIterator($this->object);
     }
 

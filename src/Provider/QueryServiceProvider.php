@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Query\FrontendQueryScope;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryParameterParser;
 use Bolt\Storage\Query\SearchConfig;
@@ -18,6 +19,7 @@ class QueryServiceProvider implements ServiceProviderInterface
     {
         $app['query'] = function ($app) {
             $runner = new Query($app['query.parser']);
+            $runner->addScope('frontend', $app['query.scope.frontend']);
 
             return $runner;
         };
@@ -39,6 +41,12 @@ class QueryServiceProvider implements ServiceProviderInterface
         $app['query.select'] = function ($app) {
             return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
         };
+
+        $app['query.scope.frontend'] = $app->share(
+            function ($app) {
+                return new FrontendQueryScope($app['config']);
+            }
+        );
 
         $app['query.search'] = function ($app) {
             return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);

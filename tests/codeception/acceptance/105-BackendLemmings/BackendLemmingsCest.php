@@ -46,7 +46,7 @@ class BackendLemmingsCest extends AbstractAcceptanceTest
 
         $I->fillField('#form_contents', $yaml);
 
-        $I->click('Save');
+        $I->click('Save', '#saveeditfile');
 
         $I->reloadApp();
 

@@ -59,7 +59,7 @@ trait MagicAttributeTrait
             $var,
             $camelized,
             $underscored,
-            $numericCamel
+            $numericCamel,
         ];
 
         if (strncasecmp($method, 'get', 3) == 0) {

@@ -422,7 +422,6 @@ class ResourceManager
 
     /**
      * Takes a loaded config array and uses it to initialize settings that depend on it.
-     *
      */
     public function initializeConfig()
     {

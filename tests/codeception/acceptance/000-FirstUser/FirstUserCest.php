@@ -11,12 +11,15 @@ class FirstUserCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /**
      * @param \AcceptanceTester $I
      */
     public function _before(\AcceptanceTester $I)
     {
+        $this->tokenNames = Fixtures::get('tokenNames');
         $this->user = Fixtures::get('users');
     }
 
@@ -51,5 +54,9 @@ class FirstUserCest
 
         // We should now be logged in an greeted!
         $I->see('Welcome to your new Bolt site');
+
+        // Check for nom nom
+        $I->seeCookie($this->tokenNames['session']);
+        $I->seeCookie($this->tokenNames['authtoken']);
     }
 }

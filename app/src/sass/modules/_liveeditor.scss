@@ -12,6 +12,16 @@
             color: $btn-danger-color;
         }
     }
+
+    .nav .save-live-editor {
+        @extend .close-live-editor;
+        background-color: $btn-primary-bg;
+        &.disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+    
+    }
 }
 
 .live-editor {
@@ -53,7 +63,8 @@
             display: none;
         }
 
-        .nav .close-live-editor {
+        .nav .close-live-editor,
+        .nav .save-live-editor {
             display: inline-block;
         }
 
