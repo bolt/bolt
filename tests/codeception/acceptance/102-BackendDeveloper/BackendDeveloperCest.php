@@ -141,7 +141,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->fillField('#form_contents', $twig);
 
         // Save it
-        $I->click('Save', '#saveeditlocale');
+        $I->click('Save', '#form_submit');
 
         $I->amOnPage('/bolt/tr');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
@@ -167,7 +167,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->fillField('#form_contents', $twig);
 
         // Save it
-        $I->click('Save', '#saveeditlocale');
+        $I->click('Save', '#form_submit');
 
         $I->amOnPage('/bolt/tr/infos');
         $I->see('Use this field to upload a photo of a kitten', 'textarea');
@@ -195,7 +195,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->fillField('#form_contents', $twig);
 
         // Save it
-        $I->click('Save', '#saveeditlocale');
+        $I->click('Save', '#form_submit');
 
         $I->amOnPage('/bolt/tr/contenttypes');
         $I->see('These are not the Entries you are looking for.', 'textarea');
