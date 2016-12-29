@@ -96,8 +96,8 @@ class ArrayHandler
      */
     private function orderHelper($a, $b)
     {
-        $aVal = $a[$this->order_on];
-        $bVal = $b[$this->order_on];
+        $aVal = is_array($a) ? $a[$this->order_on] : $a->{$this->order_on};
+        $bVal = is_array($b) ? $b[$this->order_on] : $b->{$this->order_on};
 
         // Check the primary sorting criterium.
         if ($aVal < $bVal) {
@@ -110,8 +110,8 @@ class ArrayHandler
                 return 0;
             }
 
-            $aVal = $a[$this->order_on_secondary];
-            $bVal = $b[$this->order_on_secondary];
+            $aVal = is_array($a) ? $a[$this->order_on_secondary] : $a->{$this->order_on_secondary};
+            $bVal = is_array($b) ? $b[$this->order_on_secondary] : $b->{$this->order_on_secondary};
 
             if ($aVal < $bVal) {
                 return !$this->order_ascending_secondary;
