@@ -16,16 +16,15 @@ class PathResolverFactory
     private $rootPath;
 
     /** @var array */
-    private $paths = [
-        'cache'             => 'app/cache',
-        'config'            => 'app/config',
-        'database'          => 'app/database',
-        'extensions'        => 'extensions',
-        'extensions_config' => '%config%/extensions',
-        'web'               => 'public',
-        'files'             => '%web%/files',
-        'themes'            => '%web%/theme',
-    ];
+    private $paths;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->paths = PathResolver::defaultPaths();
+    }
 
     /**
      * @param string $rootPath

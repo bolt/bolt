@@ -20,6 +20,25 @@ class PathResolver
     protected $paths = [];
 
     /**
+     * Default paths for Bolt installation.
+     *
+     * @return array
+     */
+    public static function defaultPaths()
+    {
+        return [
+            'cache'             => 'app/cache',
+            'config'            => 'app/config',
+            'database'          => 'app/database',
+            'extensions'        => 'extensions',
+            'extensions_config' => '%config%/extensions',
+            'web'               => 'public',
+            'files'             => '%web%/files',
+            'themes'            => '%web%/theme',
+        ];
+    }
+
+    /**
      * Constructor.
      *
      * @param string $root  The root path which must be absolute.
