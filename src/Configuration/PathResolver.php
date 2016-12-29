@@ -95,10 +95,16 @@ class PathResolver
         }
 
         $path = preg_replace_callback('#%(.+)%#', function ($match) use ($path) {
-            // absolute if alias is at start of path
-            $absolute = strpos($path, '%' . $match[1] . '%') === 0;
+            $alias = $match[1];
 
-            return $this->resolve($match[1], $absolute);
+            if (!isset($this->paths[$this->normalizeName($alias)])) {
+                throw new \InvalidArgumentException("Failed to resolve path. Alias %$alias% is not defined.");
+            }
+
+            // absolute if alias is at start of path
+            $absolute = strpos($path, "%$alias%") === 0;
+
+            return $this->resolve($alias, $absolute);
         }, $path);
 
         if ($absolute && Path::isRelative($path)) {
