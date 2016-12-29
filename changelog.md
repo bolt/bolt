@@ -1,6 +1,19 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.5
+----------
+
+Released 2016-12-17. Notable changes:
+
+ - Security: Update Swiftmailer to `^5.4.5` per CVE-2016-10074. [#6204](https://github.com/bolt/bolt/pull/6204)
+ - Added: Added "Save" button in Live editor. [#6178](https://github.com/bolt/bolt/pull/6178) [#6182](https://github.com/bolt/bolt/pull/6182)
+ - Fixed: Don't persist unset fields on update. [#6199](https://github.com/bolt/bolt/pull/6199)
+ - Fixed: Fix regex in yamlupdater. [#6197](https://github.com/bolt/bolt/pull/6197)
+ - Fixed: Slug generation with multiple fields respect ordering now. [#6191](https://github.com/bolt/bolt/pull/6191)
+ - Tests: Fix acceptance test checks for session cookies in front-end. [#6198](https://github.com/bolt/bolt/pull/6198)
+ - Tests: Fixed Codeception tests. [#6186](https://github.com/bolt/bolt/pull/6186)
+
 Bolt 3.2.4
 ----------
 
