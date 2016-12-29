@@ -105,5 +105,7 @@ class PathServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $theme = $app['config']->get('general/theme');
+        $app['path_resolver']->define('theme', "%themes%/$theme");
     }
 }
