@@ -231,10 +231,6 @@ class Application extends Silex\Application
             ->register(new Provider\CanonicalServiceProvider())
         ;
 
-        $this['paths'] = $this->share(function () {
-            return $this['resources']->getPaths();
-        });
-
         // Initialize our friendly configuration notice helpers, if available.
         if (class_exists('\Bolt\ConfigurationNotices\Provider\ConfigurationNoticesProvider')) {
             $this->register(new \Bolt\ConfigurationNotices\Provider\ConfigurationNoticesProvider());

@@ -101,6 +101,10 @@ class PathServiceProvider implements ServiceProviderInterface
         $app['classloader'] = $app->share(function ($app) {
             return $app['resources']->getClassLoader();
         });
+
+        $app['paths'] = $app->share(function ($app) {
+            return $app['resources']->getPaths();
+        });
     }
 
     public function boot(Application $app)
