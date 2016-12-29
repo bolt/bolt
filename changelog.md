@@ -1,6 +1,23 @@
 Changelog for Bolt 2.x
 ======================
 
+
+Bolt 2.2.24
+-----------
+
+Released 2016-12-29. Notable changes:
+
+ - Security: Update Swiftmailer to `^5.4.5` per CVE-2016-10074. [#6204](https://github.com/bolt/bolt/pull/6204)
+ - Fixed: `adjustSidebarHeight` so it's longer than content for admin menus [#6145](https://github.com/bolt/bolt/pull/6145)
+ - Fixed: Get the Google Maps API Key correctly. Backported to 2.2.x. [#5844](https://github.com/bolt/bolt/pull/5844)
+ - Fixed: Html snippets are not loaded because of an unexpected cache-control setting [#5398](https://github.com/bolt/bolt/pull/5398)
+ - Fixed: ImageHandler imageInfo method for some rare cases. [#5638](https://github.com/bolt/bolt/pull/5638)
+ - Fixed: Incorrect ownerid when no user is authenticated [#5708](https://github.com/bolt/bolt/pull/5708)
+ - Fixed: Using Html 'base' tag breaks pagination links [#5554](https://github.com/bolt/bolt/pull/5554) [#5346](https://github.com/bolt/bolt/pull/5346)
+ - Updated: Silex to v1.2.5
+ - Updated: Symfony to 2.6.13
+ - Updated: Twig to 1.30.0
+
 Bolt 2.2.23
 -----------
 
