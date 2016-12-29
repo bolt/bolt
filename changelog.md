@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.2.5
 ----------
 
-Released 2016-12-17. Notable changes:
+Released 2016-12-29. Notable changes:
 
  - Security: Update Swiftmailer to `^5.4.5` per CVE-2016-10074. [#6204](https://github.com/bolt/bolt/pull/6204)
  - Added: Added "Save" button in Live editor. [#6178](https://github.com/bolt/bolt/pull/6178) [#6182](https://github.com/bolt/bolt/pull/6182)
