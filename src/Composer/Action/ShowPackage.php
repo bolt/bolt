@@ -38,7 +38,7 @@ final class ShowPackage extends BaseAction
         $io = $this->getIO();
 
         if ($root) {
-            $composerJson = $this->app['resources']->getPath('root/composer.json');
+            $composerJson = $this->app['path_resolver']->resolve('composer.json');
             $composer = Factory::create($io, $composerJson, true);
         } else {
             $composer = $this->getComposer();

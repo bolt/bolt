@@ -103,7 +103,7 @@ class TranslationFile
             ->name('*.twig')
             ->notName('*~')
             ->exclude(['cache', 'config', 'database', 'resources', 'tests', 'bower_components', 'node_modules'])
-            ->in(dirname($this->app['resources']->getPath('themepath')))
+            ->in($this->app['path_resolver']->resolve('themes'))
             ->in($this->app['resources']->getPath('apppath'));
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
