@@ -1,15 +1,6 @@
-{% set repeatfieldvals = context.content.get(contentkey) %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-{% set data_bolt_widget = {
-    fieldRepeater: {
-        minimum: 1,
-        maximum: 0,
-        name:    name,
-    }
-} %}
-
-<fieldset class="bolt-field-repeaterblock" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
+<fieldset class="form-group bolt-field-block">
     <legend class="sr-only">{{ labelkey }}</legend>
     <label class="main col-xs-12">{{ labelkey }}</label>
     {% if 'html' not in context.fieldtypes %}
@@ -24,22 +15,19 @@
     {% endif %}
 
 
-    {% if repeaterfirstrendered is not defined %}
         <div class="block-add">
             <div class="btn-group">
                 <button type="button" class="btn btn-danger">Add New...</button>
                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" role="menu">
                     {% for block in field.fields %}
                         <li class="repeater-add">
-                            <i class="fa fa-plus"></i> Add new {{ block.label }} set
+                            <a><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
-        {% set repeaterfirstrendered = true %}
-    {% endif %}
 </fieldset>
