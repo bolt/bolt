@@ -1,0 +1,46 @@
+<div class="block-group row panel panel-default">
+    <div class="panel-body">
+        {% set defaults = {
+            class:      '',
+            label:      '',
+            variant:    '',
+            default:    null
+        } %}
+        {% for rkey, rfield in field.fields %}
+            {% set rfield = defaults|merge(rfield) %}
+            {% set rcontext = {
+                'key':        name ~ '_' ~ index ~ '_' ~ rkey,
+                'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
+                'contentkey': rkey,
+                'field':      rfield,
+                'labelkey':   rfield.label|default(rkey|ucfirst),
+                'context': {
+                    'content':  content,
+                    'can':      context.can,
+                }
+            } %}
+            <div class="block-field" data-bolt-fieldset="{{ rfield.type }}">
+                {# Prefix #}
+                {% if rcontext.field.prefix is defined and rcontext.field.prefix is not empty %}
+                    <div class="prefix">
+                        {{ rcontext.field.prefix|markdown }}
+                    </div>
+                {% endif %}
+
+                {{ include(context.fields[rfield.type].template, rcontext) }}
+
+                {# Postfix #}
+                {% if rcontext.field.postfix is defined and rcontext.field.postfix is not empty %}
+                    <div class="postfix">
+                        {{ rcontext.field.postfix|markdown }}
+                    </div>
+                {% endif %}
+
+                {# Divider #}
+                {% if rcontext.field.separator is defined and rcontext.field.separator == true %}
+                    <hr>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

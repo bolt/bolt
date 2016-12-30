@@ -14,6 +14,16 @@
         </div>
     {% endif %}
 
+    <div class="block-slot">
+        {% for blockname,block in field.fields %}
+            {% set blockfieldvals = context.content.get(contentkey) %}
+            <script type="text/template" data-block-type="{{ blockname }}">
+                {% set index = '#' %}
+                {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index}) }}
+            </script>
+        {% endfor %}
+    </div>
+
 
         <div class="block-add">
             <div class="btn-group">
@@ -22,9 +32,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    {% for block in field.fields %}
+                    {% for blockname, block in field.fields %}
                         <li class="repeater-add">
-                            <a><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
+                            <a class="add-button" data-block-type="{{ blockname }}"><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
                         </li>
                     {% endfor %}
                 </ul>
