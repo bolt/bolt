@@ -20,8 +20,3 @@ if (!defined('PHPUNIT_ROOT')) {
 if (!defined('PHPUNIT_WEBROOT')) {
     define('PHPUNIT_WEBROOT', dirname(PHPUNIT_ROOT) . '/web-root');
 }
-
-// Path to Nut
-if (!defined('NUT_PATH')) {
-    define('NUT_PATH', realpath(__DIR__ . '/nutty'));
-}
