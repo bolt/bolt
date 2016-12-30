@@ -44,7 +44,7 @@ class SetcontentNode extends Node
             ->write("\$context['")
             ->raw($this->getAttribute('name'))
             ->raw("'] = ")
-            ->raw("\$this->env->getExtension('Bolt')->getStorage()->getContent(")
+            ->raw("\$this->env->getExtension('\\Bolt\\Twig\\Extension\\BoltExtension')->getStorage()->getContent(")
             ->subcompile($this->getAttribute('contenttype'))
             ->raw(', ')
             ->subcompile($arguments)
