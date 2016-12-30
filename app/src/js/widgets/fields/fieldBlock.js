@@ -15,7 +15,7 @@
      * @memberOf jQuery.widget.bolt
      * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldBlock', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldRepeater.prototype */ {
+    $.widget('bolt.fieldBlock', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldBlock.prototype */ {
         /**
          * Default options.
          *
@@ -26,7 +26,7 @@
         },
 
         /**
-         * The constructor of the repeater field widget.
+         * The constructor of the block field widget.
          *
          * @private
          */
@@ -50,11 +50,11 @@
             };
 
             /**
-             * The repeater template.
+             * The block templates.
              *
              * @type {Object}
              * @name _templates
-             * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
+             * @memberOf jQuery.widget.bolt.fieldBlock.prototype
              * @private
              */
             this._templates = $(self.element.find('script[type="text/template"]').html());
