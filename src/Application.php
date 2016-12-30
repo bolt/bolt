@@ -235,9 +235,9 @@ class Application extends Silex\Application
             return $this['resources']->getPaths();
         });
 
-        // Initialize our friendly helpers, if available.
-        if (class_exists('\Bolt\Starter\Provider\StarterProvider')) {
-            $this->register(new \Bolt\Starter\Provider\StarterProvider());
+        // Initialize our friendly configuration notice helpers, if available.
+        if (class_exists('\Bolt\ConfigurationNotices\Provider\ConfigurationNoticesProvider')) {
+            $this->register(new \Bolt\ConfigurationNotices\Provider\ConfigurationNoticesProvider());
         }
     }
 
