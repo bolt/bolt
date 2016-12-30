@@ -41,11 +41,11 @@
              * @memberOf jQuery.widget.bolt.fieldBlock.prototype
              * @private
              *
-             * @property {Object} add  - Add button
+             * @property {Object} add  - Add buttons
              * @property {Object} slot - Group container
              */
             this._ui = {
-                add:  self.element.find('.add-button'),
+                add:  self.element.find('.block-add .add-button'),
                 slot: self.element.find('.block-slot')
             };
 
@@ -53,11 +53,11 @@
              * The repeater template.
              *
              * @type {Object}
-             * @name _template
+             * @name _templates
              * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
              * @private
              */
-            this._template = $(self.element.find('script[type="text/template"]').html());
+            this._templates = $(self.element.find('script[type="text/template"]').html());
 
             // Adjust upper limit.
             if (self.options.maximum === 0) {
@@ -65,8 +65,8 @@
             }
             self._setCount();
 
-            self._ui.add.on('click', function () {
-                self._append();
+            self._ui.add.on('click', function (el) {
+                self._append(el);
             });
         },
 
@@ -77,12 +77,9 @@
          * @function clone
          * @memberof Bolt.fields.block
          */
-        _append: function () {
-            var newSet = this._clone(this._template);
+        _append: function (el) {
+            console.log(el);
 
-            this._ui.slot.append(newSet);
-            this._setCount(1);
-            this._renumber();
             bolt.datetime.init();
             bolt.ckeditor.init();
             init.popOvers();
