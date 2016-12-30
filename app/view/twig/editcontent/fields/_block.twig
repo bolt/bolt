@@ -25,14 +25,14 @@
 
 
     {% if repeaterfirstrendered is not defined %}
-        <div class="repeaterblock-add">
+        <div class="block-add">
             <div class="btn-group">
                 <button type="button" class="btn btn-danger">Add New...</button>
                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    {% for block in context.repeaterblocks %}
+                    {% for block in field.fields %}
                         <li class="repeater-add">
                             <i class="fa fa-plus"></i> Add new {{ block.label }} set
                         </li>
