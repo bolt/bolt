@@ -25,6 +25,8 @@ class Application extends Silex\Application
      */
     public function __construct(array $values = [])
     {
+        parent::__construct();
+
         /** @deprecated since 3.0, to be removed in 4.0. */
         $values['bolt_version'] = Version::VERSION;
         /** @deprecated since 3.0, to be removed in 4.0. */
@@ -37,8 +39,6 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
-        parent::__construct($values);
-
         $this->register(new Provider\DebugServiceProvider());
 
         /*
@@ -49,6 +49,10 @@ class Application extends Silex\Application
          */
         $this->register(new Provider\ExtensionServiceProvider());
 
+        if (isset($values['resources'])) {
+            $this['resources'] = $values['resources'];
+            unset($values['resources']);
+        }
         $this->register(new PathServiceProvider());
 
         $this->initConfig();
@@ -58,6 +62,10 @@ class Application extends Silex\Application
         $this['jsdata'] = [];
 
         $this->initialize();
+
+        foreach ($values as $key => $value) {
+            $this[$key] = $value;
+        }
     }
 
     /**
