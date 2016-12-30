@@ -25,7 +25,6 @@ class Composer extends Standard
         $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'), false);
         $this->setPath('view', realpath(dirname(__DIR__) . '/../app/view'), false);
         $this->setPath('web', 'public');
-        $this->setPath('view', 'public/bolt-public/view', false);
         $this->setUrl('app', '/bolt-public/');
         $this->setUrl('view', '/bolt-public/view/');
     }
