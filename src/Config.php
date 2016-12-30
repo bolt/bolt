@@ -270,6 +270,12 @@ class Config
         if (is_string($value)) {
             $serviceName = substr($value, 1, strlen($value) - 2);
 
+            // First we pass the raw variable name to getenv to see if an environment variable is set
+            $env = getenv($serviceName);
+            if ($env !== false) {
+                return $env;
+            }
+
             if (strpos($serviceName, ':') !== false) {
                 list($serviceName, $params) = explode(':', $serviceName);
             } else {
@@ -277,7 +283,7 @@ class Config
             }
 
             if (!isset($this->app[$serviceName])) {
-                return;
+                return null;
             }
 
             $service = $this->app[$serviceName];
