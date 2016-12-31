@@ -58,12 +58,7 @@
              * @private
              */
             this._templates = $(self.element.find('script[type="text/template"]').html());
-
-            // Adjust upper limit.
-            if (self.options.maximum === 0) {
-                self.options.maximum = Infinity;
-            }
-            self._setCount();
+            
 
             self._ui.add.on('click', function (el) {
                 self._append(el);
