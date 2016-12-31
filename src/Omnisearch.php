@@ -311,11 +311,12 @@ class Omnisearch
             return;
         }
 
-        $finder = new Finder();
-        $finder->files()
-                  ->ignoreVCS(true)
-                  ->notName('*~')
-                  ->in($this->app['resources']->getPath($path));
+        $finder = (new Finder())
+            ->files()
+            ->ignoreVCS(true)
+            ->notName('*~')
+            ->in($this->app['path_resolver']->resolve($path))
+        ;
 
         if ($name) {
             $finder->name($name);
@@ -326,7 +327,7 @@ class Omnisearch
         }
 
         $dirPrefix = '';
-        if ($path === 'theme') {
+        if ($path === 'theme') { // TODO WTF?
             $dirPrefix = ltrim($this->app['config']->get('general/theme') . '/', '/');
         }
         /** @var \Symfony\Component\Finder\SplFileInfo $file */

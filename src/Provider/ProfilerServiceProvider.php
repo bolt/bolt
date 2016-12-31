@@ -26,7 +26,7 @@ class ProfilerServiceProvider implements ServiceProviderInterface
         }
 
         $app['profiler.cache_dir'] = function ($app) {
-            return $app['resources']->getPath('cache/profiler');
+            return $app['path_resolver']->resolve('%cache%/profiler');
         };
 
         $app->register(new DebugToolbarEnabler());

@@ -58,6 +58,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
+        $config->setPathResolver($config->getPathResolverFactory()->create());
 
         try {
             $verifier->checkDir('/non/existent/path');
@@ -75,6 +76,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = new Composer(TEST_ROOT);
         $config->setPath('database', '/path/to/nowhere');
         $verifier = new ComposerChecks($config);
+        $config->setPathResolver($config->getPathResolverFactory()->create());
 
         try {
             $verifier->checkDir('/path/to/nowhere');
@@ -92,6 +94,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $fakeLocation = '/path/to/nowhere';
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
+        $config->setPathResolver($config->getPathResolverFactory()->create());
 
         $app['resources'] = $config;
         ResourceManager::$theApp = $app;

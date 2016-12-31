@@ -171,7 +171,6 @@ class Exception extends Base implements ExceptionControllerInterface
         }
 
         $context['config'] = $this->app['config'];
-        $context['paths'] = $this->app['resources']->getPaths();
         $context['debug'] = $this->app['debug'];
         $context['type'] = $type;
         $context['messages'] = $messages;
@@ -249,7 +248,7 @@ class Exception extends Base implements ExceptionControllerInterface
             return [];
         }
 
-        $rootPath = $this->app['resources']->getPath('root');
+        $rootPath = $this->app['path_resolver']->resolve('root');
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
             $trace[$key]['args_safe'] = $this->getSafeArguments($trace[$key]['args']);

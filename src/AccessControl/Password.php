@@ -22,15 +22,6 @@ class Password
 
     public function __construct(Application $app)
     {
-        /*
-         * $this->app['config']
-         * $this->app['logger.system']
-         * $this->app['logger.flash']
-         * $this->app['mailer']
-         * $this->app['randomgenerator']
-         * $this->app['resources']
-         * $this->app['render']
-         */
         $this->app = $app;
     }
 

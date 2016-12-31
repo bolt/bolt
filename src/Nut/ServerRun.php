@@ -50,7 +50,7 @@ class ServerRun extends BaseCommand
             return 1;
         }
 
-        $webDir = $this->app['resources']->getPath('web');
+        $webDir = $this->app['path_resolver']->resolve('web');
         $router = $webDir . '/index.php';
 
         $io->success(sprintf('Server running on http://%s', $address));

@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests;
 
+use Bolt\Application;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -296,10 +298,10 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         $fs->mirror($this->theme, PHPUNIT_WEBROOT . '/theme/' . $name);
 
         // Set the theme name in config.yml
-        system('php ' . NUT_PATH . ' config:set theme ' . $name);
+        $this->nut("config:set theme $name");
 
         // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
+        $this->nut('cache:clear');
     }
 
     /**
@@ -308,7 +310,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     private function cleanTestEnv()
     {
         // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
+        $this->nut('cache:clear');
 
         // Remove the test database
         if ($this->reset) {
@@ -335,5 +337,19 @@ class BoltListener implements \PHPUnit_Framework_TestListener
 
             echo "\n\033[32mTest timings written out to: " . $file . "\033[0m\n\n";
         }
+    }
+
+    private function nut($command)
+    {
+        $app = new Application([
+            'path_resolver.root' => PHPUNIT_WEBROOT,
+            'path_resolver.paths' => [
+                'web' => '.',
+            ],
+        ]);
+        $nut = $app['nut'];
+        $nut->setAutoExit(false);
+
+        $nut->run(new StringInput($command));
     }
 }
