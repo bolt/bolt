@@ -1,8 +1,8 @@
 {% set labelkey = field.label ?: key|ucfirst %}
 {% set data_bolt_widget = {
-fieldBlock: {
-name:    name,
-}
+    fieldBlock: {
+        name:    name,
+    }
 } %}
 
 <fieldset class="bolt-field-block" data-bolt-widget="{{ data_bolt_widget|json_encode }}">

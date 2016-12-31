@@ -357,9 +357,16 @@ class Edit
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
-            if ($field['type'] === 'repeater' || $field['type'] === 'repeaterblock') {
+            if ($field['type'] === 'repeater') {
                 foreach ($field['fields'] as $rfield) {
                     $fieldtypes[$rfield['type']] = true;
+                }
+            }
+            if ($field['type'] === 'block') {
+                foreach ($field['fields'] as $block) {
+                    foreach ($block['fields'] as $rfield) {
+                        $fieldtypes[$rfield['type']] = true;
+                    }
                 }
             }
         }

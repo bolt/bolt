@@ -104,12 +104,12 @@
             var newTemplate;
 
             $.each(self._templates, function (index, templateItem) {
-
                 if ($(templateItem).data('block-type') === templateType) {
                     newTemplate = $(templateItem).html();
                 }
             });
             var newSet = this._clone(newTemplate);
+            newSet.data('block-type', templateType);
             this._ui.slot.append(newSet);
             this._renumber();
 
@@ -156,14 +156,11 @@
          * @memberof Bolt.fields.block
          */
         _renumber: function () {
-            var name = this.options.name,
-                nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-                re = new RegExp('^' + nameEsc + '\\\[(#|\\\d+)\\\]');
+            var re = new RegExp('^([^\\\[]+\\\[[^\\\]]+\\\]\\\[)([#|\d]+)(\\\].*)$', 'gi');
 
-            console.log(nameEsc);
             this._ui.slot.find('div.block-group').each(function (index, group) {
                 $(group).find('[name]').each(function () {
-                    this.name = this.name.replace(re, name + '[' + index + ']');
+                    this.name = this.name.replace(re, '$1' + index + '$3');
                 });
 
                 if ($(group).is(':first-of-type')) {
