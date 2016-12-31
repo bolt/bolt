@@ -264,7 +264,7 @@ class MetadataDriver implements MappingDriver
                 ],
             ];
 
-            if (in_array($data['type'], ['repeater', 'block'])) {
+            if ($data['type'] == 'repeater') {
                 foreach ($data['fields'] as $rkey => &$value) {
                     $value['fieldname'] = $rkey;
 
@@ -288,6 +288,7 @@ class MetadataDriver implements MappingDriver
             }
         }
     }
+    
 
     /**
      * This is a helper method to get a correct mapping from an array config. It's designed to take raw array config
