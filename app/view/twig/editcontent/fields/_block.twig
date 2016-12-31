@@ -5,7 +5,7 @@ name:    name,
 }
 } %}
 
-<fieldset class="form-group bolt-field-block" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
+<fieldset class="bolt-field-block" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
     <legend class="sr-only">{{ labelkey }}</legend>
     <label class="main col-xs-12">{{ labelkey }}</label>
     {% if 'html' not in context.fieldtypes %}
@@ -38,7 +38,7 @@ name:    name,
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     {% for blockname, block in field.fields %}
-                        <li class="repeater-add">
+                        <li>
                             <a class="add-button" data-block-type="{{ blockname }}"><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
                         </li>
                     {% endfor %}
