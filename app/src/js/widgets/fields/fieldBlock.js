@@ -57,7 +57,7 @@
              * @memberOf jQuery.widget.bolt.fieldBlock.prototype
              * @private
              */
-            this._templates = $(self.element.find('script[type="text/template"]'));
+            this._templates = self.element.find('script[type="text/template"]');
 
 
             self._ui.add.on('click', function (el) {
@@ -76,7 +76,10 @@
             var self = this;
             var templateType = $(el.target).data('block-type');
             var newTemplate;
+            console.log(self._templates);
             $.each(self._templates, function (index, templateItem) {
+                console.log(templateItem);
+                console.log(templateType);
                 if (templateItem.data('block-type') === templateType) {
                     newTemplate = templateItem.html();
                 }
