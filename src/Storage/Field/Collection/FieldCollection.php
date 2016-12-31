@@ -18,6 +18,7 @@ class FieldCollection extends AbstractLazyCollection
     public $references = [];
     protected $em;
     protected $grouping;
+    protected $block;
     protected $toRemove = [];
 
     /**
@@ -71,6 +72,14 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
+     * @param mixed $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+    }
+
+    /**
      * @param mixed $element
      *
      * @return bool
@@ -78,6 +87,7 @@ class FieldCollection extends AbstractLazyCollection
     public function add($element)
     {
         $element->setGrouping($this->grouping);
+        $element->setBlock($this->block);
 
         return parent::add($element);
     }

@@ -16,4 +16,36 @@ class BlockType extends RepeaterType
     {
         return 'block';
     }
+
+    /**
+     * Normalize step ensures that we have correctly hydrated objects at the collection
+     * and entity level.
+     *
+     * @param $entity
+     */
+    public function normalize($entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $outerCollection = $entity->$accessor();
+        if (!$outerCollection instanceof RepeatingFieldCollection) {
+            $collection = new RepeatingFieldCollection($this->em, $this->mapping);
+            $collection->setName($key);
+
+            if (is_array($outerCollection)) {
+                foreach ($outerCollection as $blockName => $block) {
+                    foreach ($block as $fields) {
+                        if (is_array($fields)) {
+                            $collection->addFromArray($fields, $group, $entity);
+                            $collection->setBlock($blockName);
+                        }
+                    }
+                }
+            }
+
+            $setter = 'set' . ucfirst($key);
+            $entity->$setter($collection);
+        }
+    }
 }

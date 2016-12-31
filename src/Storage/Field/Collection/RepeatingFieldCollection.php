@@ -46,13 +46,15 @@ class RepeatingFieldCollection extends ArrayCollection
      * @param array  $fields
      * @param int    $grouping
      * @param object $entity
+     * @param string $block
      *
      * @throws FieldConfigurationException
      */
-    public function addFromArray(array $fields, $grouping = 0, $entity = null)
+    public function addFromArray(array $fields, $grouping = 0, $entity = null, $block = null)
     {
         $collection = new FieldCollection([], $this->em);
         $collection->setGrouping($grouping);
+        $collection->setBlock($block);
         foreach ($fields as $name => $value) {
             $storageTypeHandler = $this->getFieldType($name);
 
@@ -75,6 +77,7 @@ class RepeatingFieldCollection extends ArrayCollection
             }
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
             $field->setGrouping($grouping);
+            $field->setBlock($block);
             $collection->add($field);
         }
 
