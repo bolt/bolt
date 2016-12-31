@@ -264,7 +264,7 @@ class MetadataDriver implements MappingDriver
                 ],
             ];
 
-            if (in_array($data['type'], ['repeater', 'repeaterblock'])) {
+            if (in_array($data['type'], ['repeater', 'block'])) {
                 foreach ($data['fields'] as $rkey => &$value) {
                     $value['fieldname'] = $rkey;
 
