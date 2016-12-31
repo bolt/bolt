@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Form;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider as SilexFormServiceProvider;
 use Silex\ServiceProviderInterface;
@@ -26,6 +27,17 @@ class FormServiceProvider implements ServiceProviderInterface
             function ($app) {
                 return $app['csrf'];
             }
+        );
+
+        $app['form.extensions'] = $app->share(
+            $app->extend(
+                'form.extensions',
+                function ($extensions, $app) {
+                    $extensions[] = new Form\BoltExtension($app);
+
+                    return $extensions;
+                }
+            )
         );
 
         $app['csrf'] = $app->share(
