@@ -29,20 +29,21 @@ name:    name,
         {% endfor %}
     </div>
 
-
-    <div class="block-add">
-        <div class="btn-group">
-            <button type="button" class="btn btn-danger">Add New...</button>
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                {% for blockname, block in field.fields %}
-                    <li class="repeater-add">
-                        <a class="add-button" data-block-type="{{ blockname }}"><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
-                    </li>
-                {% endfor %}
-            </ul>
+    <div class="col-xs-12">
+        <div class="block-add">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">Add New...</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    {% for blockname, block in field.fields %}
+                        <li class="repeater-add">
+                            <a class="add-button" data-block-type="{{ blockname }}"><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </fieldset>
