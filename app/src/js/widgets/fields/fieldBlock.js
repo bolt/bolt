@@ -160,6 +160,7 @@
                 nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
                 re = new RegExp('^' + nameEsc + '\\\[(#|\\\d+)\\\]');
 
+            console.log(nameEsc);
             this._ui.slot.find('div.block-group').each(function (index, group) {
                 $(group).find('[name]').each(function () {
                     this.name = this.name.replace(re, name + '[' + index + ']');

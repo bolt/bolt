@@ -29,8 +29,8 @@
         {% for rkey, rfield in field.fields[block].fields %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {
-            'key':        name ~ '_' ~ index ~ '_' ~ rkey,
-            'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
+            'key':        name ~ '_' ~ block ~ '_' ~ index ~ '_' ~ rkey,
+            'name':       name ~ '[' ~ block ~ '][' ~ index ~ '][' ~ rkey ~ ']',
             'contentkey': rkey,
             'field':      rfield,
             'labelkey':   rfield.label|default(rkey|ucfirst),
