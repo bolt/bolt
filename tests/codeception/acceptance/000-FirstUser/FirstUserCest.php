@@ -44,11 +44,11 @@ class FirstUserCest
         $I->see('Please create the first user');
 
         // Fill in the form and submit
-        $I->fillField('form[username]',              $this->user['admin']['username']);
-        $I->fillField('form[password]',              $this->user['admin']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['admin']['password']);
-        $I->fillField('form[email]',                 $this->user['admin']['email']);
-        $I->fillField('form[displayname]',           $this->user['admin']['displayname']);
+        $I->fillField('user_new[username]',         $this->user['admin']['username']);
+        $I->fillField('user_new[password][first]',  $this->user['admin']['password']);
+        $I->fillField('user_new[password][second]', $this->user['admin']['password']);
+        $I->fillField('user_new[email]',            $this->user['admin']['email']);
+        $I->fillField('user_new[displayname]',      $this->user['admin']['displayname']);
 
         $I->click('button[type=submit]');
 
