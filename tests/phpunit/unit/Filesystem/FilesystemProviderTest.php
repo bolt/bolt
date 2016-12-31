@@ -1,9 +1,6 @@
 <?php
 namespace Bolt\Tests;
 
-use Bolt\Configuration as Config;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
-
 /**
  * Class to test correct operation of Filesystem Service Provider.
  *
@@ -13,14 +10,6 @@ class FilesystemProviderTest extends BoltUnitTest
 {
     public function testAppRegistries()
     {
-        $config = new Config\ResourceManager(
-            new \Pimple(
-                [
-                    'rootpath'    => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory(),
-                ]
-            )
-        );
         $bolt = $this->getApp();
 
         $this->assertNotNull($bolt['filesystem']);
@@ -29,14 +18,6 @@ class FilesystemProviderTest extends BoltUnitTest
 
     public function testDefaultManagers()
     {
-        $config = new Config\ResourceManager(
-            new \Pimple(
-                [
-                    'rootpath'    => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory(),
-                ]
-            )
-        );
         $bolt = $this->getApp();
         $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('root'));
         $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('config'));

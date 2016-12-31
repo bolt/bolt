@@ -31,7 +31,7 @@
         "silex/web-profiler": "1.0.x@dev",
         "siriusphp/upload": "^1.3",
         "stecman/symfony-console-completion": "~0.7",
-        "swiftmailer/swiftmailer": "^5.4",
+        "swiftmailer/swiftmailer": "^5.4.5",
         "symfony/asset": "^3.0",
         "symfony/config": "^3.0",
         "symfony/event-dispatcher": "^3.0",

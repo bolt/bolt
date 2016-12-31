@@ -20,10 +20,10 @@ class Application extends Silex\Application
      */
     public function __construct(array $values = [])
     {
+        parent::__construct($values);
+
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
-
-        parent::__construct($values);
 
         $this->register(new Provider\DebugServiceProvider());
 
@@ -35,6 +35,10 @@ class Application extends Silex\Application
          */
         $this->register(new Provider\ExtensionServiceProvider());
 
+        if (isset($values['resources'])) {
+            $this['resources'] = $values['resources'];
+            unset($values['resources']);
+        }
         $this->register(new PathServiceProvider());
 
         $this->initConfig();
@@ -44,6 +48,10 @@ class Application extends Silex\Application
         $this['jsdata'] = [];
 
         $this->initialize();
+
+        foreach ($values as $key => $value) {
+            $this[$key] = $value;
+        }
     }
 
     /**
@@ -130,7 +138,7 @@ class Application extends Silex\Application
             ->register(new Silex\Provider\HttpCacheServiceProvider())
         ;
         $this['http_cache.cache_dir'] = function () {
-            return $this['resources']->getPath('cache/' . $this['environment'] . '/http');
+            return $this['path_resolver']->resolve('%cache%/' . $this['environment'] . '/http');
         };
         $this['http_cache.options'] = function () {
             return $this['config']->get('general/performance/http_cache/options', []);
@@ -197,10 +205,6 @@ class Application extends Silex\Application
             ->register(new Provider\PagerServiceProvider())
             ->register(new Provider\CanonicalServiceProvider())
         ;
-
-        $this['paths'] = $this->share(function () {
-            return $this['resources']->getPaths();
-        });
 
         // Initialize our friendly helpers, if available.
         if (class_exists('\Bolt\Starter\Provider\StarterProvider')) {

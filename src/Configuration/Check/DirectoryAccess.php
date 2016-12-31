@@ -38,7 +38,7 @@ class DirectoryAccess extends BaseCheck implements ConfigurationCheckInterface
         $fs = new Filesystem();
 
         foreach ($this->options['directories'] as $directory) {
-            $directory = $this->app['resources']->getPath($directory);
+            $directory = $this->app['path_resolver']->resolve($directory);
 
             try {
                 $tmpfile = $directory . '/.check';

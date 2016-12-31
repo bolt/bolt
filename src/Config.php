@@ -15,12 +15,11 @@ use Bolt\Helpers\Str;
 use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
-use Eloquent\Pathogen\PathInterface;
-use Eloquent\Pathogen\RelativePathInterface;
 use InvalidArgumentException;
 use RuntimeException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\PathUtil\Path;
 
 /**
  * Class for our config object.
@@ -270,6 +269,12 @@ class Config
         if (is_string($value)) {
             $serviceName = substr($value, 1, strlen($value) - 2);
 
+            // First we pass the raw variable name to getenv to see if an environment variable is set
+            $env = getenv($serviceName);
+            if ($env !== false) {
+                return $env;
+            }
+
             if (strpos($serviceName, ':') !== false) {
                 list($serviceName, $params) = explode(':', $serviceName);
             } else {
@@ -277,7 +282,7 @@ class Config
             }
 
             if (!isset($this->app[$serviceName])) {
-                return;
+                return null;
             }
 
             $service = $this->app[$serviceName];
@@ -813,32 +818,26 @@ class Config
         }
 
         // Get path from config or use database path
-        if (isset($config['path'])) {
-            $path = $this->app['pathmanager']->create($config['path']);
-            // If path is relative, resolve against root path
-            if ($path instanceof RelativePathInterface) {
-                $path = $path->resolveAgainst($this->app['resources']->getPathObject('root'));
-            }
-        } else {
-            $path = $this->app['resources']->getPathObject('database');
+        $path = isset($config['path']) ? $config['path'] : $this->app['path_resolver']->resolve('database');
+        if (Path::isRelative($path)) {
+            $path = $this->app['path_resolver']->resolve($path);
         }
 
         // If path has filename with extension, use that
-        if ($path->hasExtension()) {
-            $config['path'] = $path->string();
+        if (Path::hasExtension($path)) {
+            $config['path'] = $path;
 
             return $config;
         }
 
         // Use database name for filename
-        /** @var PathInterface $filename */
-        $filename = $this->app['pathmanager']->create(basename($config['dbname']));
-        if (!$filename->hasExtension()) {
-            $filename = $filename->joinExtensions('db');
+        $filename = basename($config['dbname']);
+        if (!Path::hasExtension($filename)) {
+            $filename .= '.db';
         }
 
         // Join filename with database path
-        $config['path'] = $path->joinAtoms($filename)->string();
+        $config['path'] = Path::join($path, $filename);
 
         return $config;
     }

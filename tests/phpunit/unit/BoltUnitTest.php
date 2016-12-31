@@ -8,7 +8,6 @@ use Bolt\AccessControl\Token;
 use Bolt\Application;
 use Bolt\Cache;
 use Bolt\Configuration as Config;
-use Bolt\Configuration\Standard;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Manager;
@@ -16,7 +15,6 @@ use Bolt\Render;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Users;
-use Cocur\Slugify\Slugify;
 use GuzzleHttp\Client;
 use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -82,13 +80,12 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function makeApp()
     {
-        $config = new Standard(TEST_ROOT);
-        $this->setAppPaths($config);
+        $app = new Application();
+        $app['path_resolver.root'] = PHPUNIT_WEBROOT;
+        $app['path_resolver.paths'] = ['web' => '.'];
+        $app['debug'] = false;
 
-        $bolt = new Application(['resources' => $config]);
-        $bolt['session.test'] = true;
-        $bolt['debug'] = false;
-        $bolt['config']->set(
+        $app['config']->set(
             'general/database',
             [
                 'driver'       => 'pdo_sqlite',
@@ -98,28 +95,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'wrapperClass' => '\Bolt\Storage\Database\Connection',
             ]
         );
+        $app['config']->set('general/canonical', 'bolt.dev');
 
-        $bolt['config']->set('general/canonical', 'bolt.dev');
-        $bolt['slugify'] = Slugify::create();
-
-        $this->setAppPaths($bolt['resources']);
-
-        return $bolt;
-    }
-
-    /**
-     * @param Config\ResourceManager $config
-     */
-    protected function setAppPaths($config)
-    {
-        $config->setPath('app', PHPUNIT_WEBROOT . '/app');
-        $config->setPath('config', PHPUNIT_WEBROOT . '/app/config');
-        $config->setPath('cache', PHPUNIT_WEBROOT . '/app/cache');
-        $config->setPath('web', PHPUNIT_WEBROOT . '/');
-        $config->setPath('files', PHPUNIT_WEBROOT . '/files');
-        $config->setPath('themebase', PHPUNIT_WEBROOT . '/theme/');
-        $config->setPath('extensionsconfig', PHPUNIT_WEBROOT . '/config/extensions');
-        $config->setPath('extensions', PHPUNIT_WEBROOT . '/extensions');
+        return $app;
     }
 
     protected function rmdir($dir)

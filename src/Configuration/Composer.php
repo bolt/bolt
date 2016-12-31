@@ -14,22 +14,17 @@ class Composer extends Standard
     /**
      * Constructor initialises on the app root path.
      *
-     * @param string  $path
-     * @param Request $request
+     * @param string              $path
+     * @param Request             $request
+     * @param PathResolverFactory $pathResolverFactory
      */
-    public function __construct($path, Request $request = null)
+    public function __construct($path, Request $request = null, PathResolverFactory $pathResolverFactory = null)
     {
-        parent::__construct($path, $request);
-        $this->setPath('composer', realpath(dirname(__DIR__) . '/../'));
-        $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
-        $this->setPath('view', realpath(dirname(__DIR__) . '/../app/view'));
-        $this->setPath('cache', 'app/cache');
-        $this->setPath('config', 'app/config');
-        $this->setPath('database', 'app/database');
+        parent::__construct($path, $request, $pathResolverFactory);
+        $this->setPath('composer', realpath(dirname(__DIR__) . '/../'), false);
+        $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'), false);
+        $this->setPath('view', realpath(dirname(__DIR__) . '/../app/view'), false);
         $this->setPath('web', 'public');
-        $this->setPath('themebase', 'public/theme');
-        $this->setPath('files', 'public/files');
-        $this->setPath('view', 'public/bolt-public/view');
         $this->setUrl('app', '/bolt-public/');
         $this->setUrl('view', '/bolt-public/view/');
     }
