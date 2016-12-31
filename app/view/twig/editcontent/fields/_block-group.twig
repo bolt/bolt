@@ -1,28 +1,30 @@
 <div class="repeater-group block-group row panel panel-default">
-    <div class="panel-heading row">
-        <div class="col-xs-3">
-            {{ field.label }}
-        </div>
-        <div class="col-xs-9 text-right">
-            <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-default move-up">
-                    <i class="fa fa-arrow-up"></i> {{ __('general.phrase.move-up') }}
-                </button>
-                <button type="button" class="btn btn-sm btn-default  move-down">
-                    <i class="fa fa-arrow-down"></i> {{ __('general.phrase.move-down') }}
-                </button>
-                <button type="button" class="btn btn-sm btn-silent-danger delete-button">
-                    <i class="fa fa-trash"></i> {{ __('general.phrase.delete-set') }}
-                </button>
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3">
+                {{ field.fields[block].label }}
+            </div>
+            <div class="col-xs-9 text-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-default move-up">
+                        <i class="fa fa-arrow-up"></i> {{ __('general.phrase.move-up') }}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default  move-down">
+                        <i class="fa fa-arrow-down"></i> {{ __('general.phrase.move-down') }}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-silent-danger delete-button">
+                        <i class="fa fa-trash"></i> {{ __('general.phrase.delete-set') }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     <div class="panel-body">
         {% set defaults = {
-        class:      '',
-        label:      '',
-        variant:    '',
-        default:    null
+            class:      '',
+            label:      '',
+            variant:    '',
+            default:    null
         } %}
         {% for rkey, rfield in field.fields[block].fields %}
             {% set rfield = defaults|merge(rfield) %}
