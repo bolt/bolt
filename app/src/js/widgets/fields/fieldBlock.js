@@ -76,8 +76,9 @@
             var self = this;
             var templateType = $(el.target).data('block-type');
             var newTemplate;
-
-            $.each(self._templates, function (templateItem) {
+            console.log(self._templates);
+            $.each(self._templates, function (index, templateItem) {
+                console.log(templateItem);
                 if (templateItem.data('block-type') === templateType) {
                     newTemplate = templateItem;
                 }
