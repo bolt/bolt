@@ -24,9 +24,7 @@ class UploadContainerTest extends BoltUnitTest
     {
         parent::setUp();
 
-        $app = $this->getApp();
-
-        $adapter = new NullAdapter(TEST_ROOT);
+        $adapter = new NullAdapter();
         $fs = new Filesystem($adapter);
 
         $this->container = new UploadContainer($fs);

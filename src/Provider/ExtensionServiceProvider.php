@@ -59,7 +59,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         };
         $app['extend.writeable'] = $app->share(
             function () use ($app) {
-                $extensionsPath = $app['resources']->getPath('extensions');
+                $extensionsPath = $app['path_resolver']->resolve('extensions');
 
                 return is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
             }

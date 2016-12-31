@@ -84,7 +84,7 @@ class SystemHandler extends AbstractProcessingHandler
 
             $source = json_encode(
                 [
-                    'file'     => str_replace($this->app['resources']->getPath('root'), '', $backtrace['file']),
+                    'file'     => str_replace($this->app['path_resolver']->resolve('root'), '', $backtrace['file']),
                     'line'     => $backtrace['line'],
                 ]
             );

@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt\Twig\Extension\BoltExtension;
 use Twig_Node as Node;
 use Twig_Node_Expression_Array as NodeExpressionArray;
 
@@ -44,7 +45,7 @@ class SetcontentNode extends Node
             ->write("\$context['")
             ->raw($this->getAttribute('name'))
             ->raw("'] = ")
-            ->raw("\$this->env->getExtension('Bolt')->getStorage()->getContent(")
+            ->raw("\$this->env->getExtension('" . BoltExtension::class . "')->getStorage()->getContent(")
             ->subcompile($this->getAttribute('contenttype'))
             ->raw(', ')
             ->subcompile($arguments)
