@@ -19,4 +19,20 @@ class BoltExtension extends AbstractExtension
     {
         $this->app = $app;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadTypes()
+    {
+        return [
+            // User editing fields
+            new FieldType\UserRoleType($this->app['session'], $this->app['permissions']),
+
+            // Form
+            new FormType\UserEditType(),
+            new FormType\UserNewType(),
+            new FormType\UserProfileType(),
+        ];
+    }
 }

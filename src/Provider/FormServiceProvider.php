@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Form;
+use Bolt\Form\Validator\Constraints\ExistingEntityValidator;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider as SilexFormServiceProvider;
 use Silex\ServiceProviderInterface;
@@ -39,6 +40,17 @@ class FormServiceProvider implements ServiceProviderInterface
                 }
             )
         );
+
+        $app['form.validator.existing_entity'] = $app->share(
+            function ($app) {
+                return new ExistingEntityValidator($app['storage']);
+            }
+        );
+
+        $app['validator.validator_service_ids'] += [
+            ExistingEntityValidator::class => 'form.validator.existing_entity'
+        ];
+
 
         $app['csrf'] = $app->share(
             function ($app) {
