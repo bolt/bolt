@@ -58,7 +58,7 @@
              * @private
              */
             this._templates = $(self.element.find('script[type="text/template"]').html());
-            
+
 
             self._ui.add.on('click', function (el) {
                 self._append(el);
@@ -69,16 +69,56 @@
          * Appends a new empty group.
          *
          * @private
-         * @function clone
+         * @function _append
          * @memberof Bolt.fields.block
          */
         _append: function (el) {
-            console.log(el);
+            var self = this;
+            var templateType = $(el.target).data('block-type');
+            var newTemplate;
+
+            $.each(self._templates, function (templateItem) {
+                if (templateItem.data('block-type') === templateType) {
+                    newTemplate = templateItem;
+                }
+            });
+            var newSet = this._clone(newTemplate);
+            this._ui.slot.append(newSet);
 
             bolt.datetime.init();
             bolt.ckeditor.init();
             init.popOvers();
-        }
+        },
+
+        /**
+         * Clones a template or a repeater and initializes it.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.block
+         *
+         * @param {Object} template
+         * @return {Object}
+         */
+        _clone: function (template) {
+            var cloned = $(template).clone();
+
+            // Replace all id's and corresponding for-attributes.
+            cloned.find('[id]').each(function () {
+                var id = $(this).attr('id'),
+                    nid = bolt.app.buid();
+
+                $(this).attr('id', nid);
+
+                cloned.find('[for="' + id + '"]').each(function () {
+                    $(this).attr('for', nid);
+                });
+            });
+
+            bolt.app.initWidgets(cloned);
+
+            return cloned;
+        },
 
     });
 })(jQuery, Bolt, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
