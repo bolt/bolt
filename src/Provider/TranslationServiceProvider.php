@@ -41,7 +41,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 return null;
             }
 
-            return $app['resources']->getPath('cache/trans');
+            return $app['path_resolver']->resolve('%cache%/trans');
         });
 
         $app['translator'] = $app->share(

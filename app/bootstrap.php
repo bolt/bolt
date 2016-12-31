@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\Composer;
+use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 use Bolt\Debug\ShutdownHandler;
@@ -104,7 +105,15 @@ return call_user_func(function () {
         return $config['application'];
     }
 
-    $resourcesFactory = function () use ($config, $resourcesClass, $rootPath) {
+    $pathResolverFactoryFactory = \Pimple::share(function () use ($rootPath, $config) {
+        $pathResolverFactory = new PathResolverFactory();
+        $pathResolverFactory->setRootPath($rootPath);
+        $pathResolverFactory->addPaths((array) $config['paths']);
+
+        return $pathResolverFactory;
+    });
+
+    $resourcesFactory = \Pimple::share(function () use ($config, $resourcesClass, $rootPath, $pathResolverFactoryFactory) {
         // Use resources from config, or instantiate the class based on mapping above.
         if ($config['resources'] instanceof ResourceManager) {
             $resources = $config['resources'];
@@ -113,9 +122,24 @@ return call_user_func(function () {
                 $resourcesClass = $config['resources'];
             }
 
-            /** @var \Bolt\Configuration\ResourceManager $resources */
-            $resources = new $resourcesClass($rootPath);
+            $passPathResolverFactory = false;
+            if ($resourcesClass === Composer::class || $resourcesClass === Standard::class) {
+                $passPathResolverFactory = true;
+            } else {
+                $r = (new \ReflectionClass($resourcesClass))->getConstructor();
+                if ($r->getNumberOfParameters() > 2 && $r->getParameters()[2]->getClass()->name === PathResolverFactory::class) {
+                    $passPathResolverFactory = true;
+                }
+            }
+
+            if ($passPathResolverFactory) {
+                $pathResolverFactory = $pathResolverFactoryFactory(null);
+                $resources = new $resourcesClass($rootPath, null, $pathResolverFactory);
+            } else {
+                $resources = new $resourcesClass($rootPath);
+            }
         }
+        /** @var \Bolt\Configuration\ResourceManager $resources */
 
         // Set any non-standard paths
         foreach ((array) $config['paths'] as $name => $path) {
@@ -128,14 +152,11 @@ return call_user_func(function () {
         $resources->verify();
 
         return $resources;
-    };
+    });
 
     // If resources is already initialized, go ahead and customize it now.
-    // Else define it as a shared service for DI.
     if ($config['resources'] instanceof ResourceManager) {
-        $resources = $resourcesFactory();
-    } else {
-        $resources = \Pimple::share($resourcesFactory);
+        $resourcesFactory = $resourcesFactory(null);
     }
 
     // Create the 'Bolt application'
@@ -144,7 +165,12 @@ return call_user_func(function () {
         $appClass = $config['application'];
     }
     /** @var Silex\Application $app */
-    $app = new $appClass(['resources' => $resources]);
+    $app = new $appClass([
+        'resources'             => $resourcesFactory,
+        'path_resolver_factory' => $pathResolverFactoryFactory,
+        'path_resolver.root'    => $rootPath,
+        'path_resolver.paths'   => (array) $config['paths'],
+    ]);
 
     foreach ((array) $config['services'] as $service) {
         $params = [];

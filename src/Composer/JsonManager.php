@@ -100,13 +100,12 @@ class JsonManager
      */
     private function setJsonDefaults(array $json)
     {
-        $rootPath = $this->app['resources']->getPath('root');
-        $extensionsPath = $this->app['resources']->getPath('extensions');
-        $srcPath = $this->app['resources']->getPath('src');
-        $webPath = $this->app['resources']->getPath('web');
+        $rootPath = $this->app['path_resolver']->resolve('root');
+        $extensionsPath = $this->app['path_resolver']->resolve('extensions');
+        $webPath = $this->app['path_resolver']->resolve('web');
         $pathToRoot = Path::makeRelative($rootPath, $extensionsPath);
         $pathToWeb = Path::makeRelative($webPath, $extensionsPath);
-        $eventPath = Path::makeRelative($srcPath . '/Composer/EventListener', $extensionsPath);
+        $pathToListeners = Path::makeRelative(__DIR__ . '/EventListener', $extensionsPath);
         /** @deprecated Handle BC on 'stability' key until 4.0 */
         $minimumStability = $this->app['config']->get('general/extensions/stability') ?: $this->app['config']->get('general/extensions/composer/minimum-stability', 'stable');
 
@@ -137,7 +136,7 @@ class JsonManager
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Bolt\\Composer\\EventListener\\' => $eventPath,
+                    'Bolt\\Composer\\EventListener\\' => $pathToListeners,
                     '' => 'local',
                 ],
             ],

@@ -248,7 +248,7 @@ class ScriptHandler
         try {
             $app = static::getApp($event);
 
-            $dir = $app['resources']->getPath($name);
+            $dir = $app['path_resolver']->resolve($name);
             $dir = Path::makeRelative($dir, getcwd());
         } catch (BootException $e) {
             $dir = static::getOption($event, $name . '-dir', $default);

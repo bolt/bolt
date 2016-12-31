@@ -27,18 +27,18 @@
   },
   "dependencies": {
     "babel-preset-es2015": "^6.18.0",
-    "bower": "^1.7.9",
+    "bower": "^1.8.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
+    "gulp-concat": "^2.6.1",
     "gulp-if": "^2.0.2",
     "gulp-load-plugins": "^1.4.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-sass": "^3.0.0",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
-    "js-yaml": "^3.6.1",
-    "yargs": "^6.3.0"
+    "js-yaml": "^3.7.0",
+    "yargs": "^6.5.0"
   }
 }

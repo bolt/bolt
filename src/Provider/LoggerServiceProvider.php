@@ -88,7 +88,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
         };
 
         $app['monolog.logfile'] = function ($app) {
-            return $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename');
+            return $app['path_resolver']->resolve('%cache%/' . $app['config']->get('general/debuglog/filename'));
         };
 
         $app['monolog.handler'] = $app->extend(

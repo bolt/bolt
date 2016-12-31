@@ -65,6 +65,11 @@ class ResourceManager
     /** @var bool */
     private $configInitialized;
 
+    /** @var PathResolver|null */
+    private $pathResolver;
+    /** @var PathResolverFactory */
+    private $pathResolverFactory;
+
     /**
      * Constructor initialises on the app root path.
      *
@@ -79,10 +84,24 @@ class ResourceManager
     {
         $this->pathManager = $container['pathmanager'];
 
+        if (isset($container['path_resolver'])) {
+            $this->pathResolver = $container['path_resolver'];
+        }
+
+        if (isset($container['path_resolver_factory'])) {
+            $this->pathResolverFactory = $container['path_resolver_factory'];
+        }
+        if ($this->pathResolverFactory === null) {
+            $this->pathResolverFactory = new PathResolverFactory();
+        }
+
         if (!empty($container['classloader']) && $container['classloader'] instanceof ClassLoader) {
             $this->root = $this->useLoader($container['classloader']);
         } else {
-            $this->root = $this->setPath('root', $container['rootpath']);
+            $this->root = $this->setPath('root', $container['rootpath'], false);
+        }
+        if (!$this->pathResolverFactory->hasRootPath()) {
+            $this->pathResolverFactory->setRootPath($this->root->string());
         }
 
         if (!($container instanceof Application) && !empty($container['request'])) {
@@ -95,14 +114,14 @@ class ResourceManager
         $this->setUrl('root', '/');
 
         $this->setUrl('app', '/app/');
-        $this->setPath('apppath', 'app');
+        $this->setPath('apppath', '%root%/app', false);
 
         $this->setUrl('extensions', '/extensions/');
-        $this->setPath('extensionsconfig', 'app/config/extensions');
-        $this->setPath('extensionspath', 'extensions');
+        $this->setPath('extensionsconfig', '%config%/extensions', false);
+        $this->setPath('extensionspath', '%root%/extensions', false);
 
         $this->setUrl('files', '/files/');
-        $this->setPath('filespath', 'files');
+        $this->setPath('filespath', '%web%/files', false);
 
         $this->setUrl('async', '/async/');
         $this->setUrl('upload', '/upload/');
@@ -110,13 +129,13 @@ class ResourceManager
         $this->setUrl('theme', '/theme/');
         $this->setUrl('themes', '/theme/'); // Needed for filebrowser. See #5759
 
-        $this->setPath('web', '');
-        $this->setPath('cache', 'app/cache');
-        $this->setPath('config', 'app/config');
-        $this->setPath('src', dirname(__DIR__));
-        $this->setPath('database', 'app/database');
-        $this->setPath('themebase', 'theme');
-        $this->setPath('view', 'app/view');
+        $this->setPath('web', 'public', false);
+        $this->setPath('cache', 'app/cache', false);
+        $this->setPath('config', 'app/config', false);
+        $this->setPath('src', dirname(__DIR__), false);
+        $this->setPath('database', 'app/database', false);
+        $this->setPath('themebase', '%web%/theme', false);
+        $this->setPath('view', 'app/view', false);
         $this->setUrl('view', '/app/view/');
     }
 
@@ -146,6 +165,7 @@ class ResourceManager
     {
         $this->app = $app;
         self::$theApp = $app;
+        $this->pathResolver = $app['path_resolver'];
     }
 
     /**
@@ -153,22 +173,43 @@ class ResourceManager
      *
      * @param string $name
      * @param string $value
+     * @param bool   $applyToResolver
      *
-     * @return \Eloquent\Pathogen\RelativePathInterface|\Eloquent\Pathogen\AbsolutePathInterface
+     * @return AbsolutePathInterface|RelativePathInterface|\Closure
      */
-    public function setPath($name, $value)
+    public function setPath($name, $value, $applyToResolver = true)
     {
-        // If this is a relative path make it relative to root.
-        $path = $this->pathManager->create($value);
-        if ($path instanceof RelativePathInterface) {
-            $path = $path->resolveAgainst($this->paths['root']);
-        }
+        if (strpos($value, '%') !== false) { // contains variable
+            $path = function () use ($value) {
+                if (!$this->pathResolver) {
+                    throw new \LogicException(sprintf('Cannot resolve path "%s" without having a path resolver.', $value));
+                }
 
-        $path = $path->normalize();
+                $path = $this->pathResolver->resolve($value);
+
+                return $this->pathManager->create($path);
+            };
+        } else {
+            // If this is a relative path make it relative to root.
+            $path = $this->pathManager->create($value);
+            if ($path instanceof RelativePathInterface) {
+                $path = $path->resolveAgainst($this->paths['root']);
+            }
+
+            $path = $path->normalize();
+        }
 
         $this->paths[$name] = $path;
         if (strpos($name, 'path') === false) {
             $this->paths[$name . 'path'] = $path;
+        }
+
+        if ($applyToResolver) {
+            if ($this->pathResolver) {
+                $this->pathResolver->define($name, $value);
+            } else {
+                $this->pathResolverFactory->addPaths([$name => $value]);
+            }
         }
 
         return $path;
@@ -231,6 +272,10 @@ class ResourceManager
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
+        if (is_callable($path)) {
+            $path = $path();
+        }
+
         if (!empty($parts)) {
             $path = $path->joinAtomSequence($parts);
         }
@@ -253,6 +298,16 @@ class ResourceManager
         }
 
         return array_key_exists($name, $this->paths) || array_key_exists($name . 'path', $this->paths);
+    }
+
+    public function getPathResolverFactory()
+    {
+        return $this->pathResolverFactory;
+    }
+
+    public function setPathResolver(PathResolver $pathResolver)
+    {
+        $this->pathResolver = $pathResolver;
     }
 
     /**
@@ -425,19 +480,19 @@ class ResourceManager
      */
     public function initializeConfig()
     {
+        $this->configInitialized = true;
+
         $this->setThemePath($this->app['config']->get('general'));
 
         $theme = $this->app['config']->get('theme');
         if (isset($theme['template_directory'])) {
-            $this->setPath('templatespath', $this->paths['themepath'] . '/' . $theme['template_directory']);
+            $this->setPath('templatespath', $this->getPath('theme') . '/' . $theme['template_directory']);
         } else {
-            $this->setPath('templatespath', $this->paths['themepath']);
+            $this->setPath('templatespath', $this->getPath('theme'));
         }
 
         $branding = '/' . trim($this->app['config']->get('general/branding/path'), '/') . '/';
         $this->setUrl('bolt', $branding);
-
-        $this->configInitialized = true;
     }
 
     public function initialize()
@@ -459,10 +514,10 @@ class ResourceManager
 
         // See if the user has set a theme path otherwise use the default
         if (!isset($generalConfig['theme_path'])) {
-            $this->setPath('themepath', $this->paths['themebase'] . $themeDir);
+            $this->setPath('themepath', $this->getPath('themebase') . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         } else {
-            $this->setPath('themepath', $this->paths['rootpath'] . $themePath . $themeDir);
+            $this->setPath('themepath', $this->getPath('root') . $themePath . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         }
     }

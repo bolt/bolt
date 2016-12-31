@@ -49,11 +49,13 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
+        $config->setPathResolver($config->getPathResolverFactory()->create());
+
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), $config->getPath('rootpath'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app'), $config->getPath('apppath'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/extensions'), $config->getPath('extensions'));
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/files'), $config->getPath('filespath'));
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), $config->getPath('web'));
+        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/public/files'), $config->getPath('filespath'));
+        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/public'), $config->getPath('web'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app/cache'), $config->getPath('cache'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app/config'), $config->getPath('config'));
     }
@@ -94,10 +96,12 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
+        $config->setPathResolver($config->getPathResolverFactory()->create());
+
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), $config->getPath('root'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), $config->getPath('rootpath'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app'), $config->getPath('app'));
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/files'), $config->getPath('files'));
+        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/public/files'), $config->getPath('files'));
         $this->assertInstanceOf('Eloquent\Pathogen\PathInterface', $config->getPathObject('root'));
     }
 
@@ -111,6 +115,7 @@ class ResourceManagerTest extends BoltUnitTest
                 ]
             )
         );
+        $config->setPathResolver($config->getPathResolverFactory()->create());
 
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app/cache/test'), $config->getPath('cache/test'));
     }
@@ -175,7 +180,7 @@ class ResourceManagerTest extends BoltUnitTest
         $this->assertEquals($config->getPaths(), $app['resources']->getPaths());
 
         // Test that the Application has initialised the resources, injecting in config values.
-        $this->assertContains(Path::fromString(PHPUNIT_WEBROOT . '/theme')->string(), $config->getPath('theme'));
+        $this->assertContains(Path::fromString(PHPUNIT_WEBROOT . '/public/theme')->string(), $config->getPath('theme'));
         $this->assertNotEmpty($config->getUrl('canonical'));
     }
 
