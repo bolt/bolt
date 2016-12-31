@@ -288,7 +288,7 @@ class MetadataDriver implements MappingDriver
             }
         }
     }
-    
+
 
     /**
      * This is a helper method to get a correct mapping from an array config. It's designed to take raw array config
