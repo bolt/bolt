@@ -7,7 +7,7 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BlockType extends FieldTypeBase
+class BlockType extends RepeaterType
 {
     /**
      * {@inheritdoc}
