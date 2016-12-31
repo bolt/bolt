@@ -1,8 +1,9 @@
 /**
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
+ * @param {Object} cke  - CKEDITOR global or undefined
  */
-(function ($, bolt) {
+(function ($, bolt, cke) {
     'use strict';
 
     /**
@@ -63,6 +64,31 @@
             self._ui.add.on('click', function (el) {
                 self._append(el);
             });
+
+            self.element.on('click', '.delete-button', function () {
+                var setToDelete = $(this).closest('.block-group');
+
+                setToDelete.remove();
+                self._setCount(-1);
+                self._renumber();
+            });
+
+            self.element.on('click', '.move-up', function () {
+                var setToMove = $(this).closest('.block-group');
+
+                setToMove.insertBefore(setToMove.prev('.block-group'));
+                self._renumber();
+                self._resetEditors(setToMove);
+            });
+
+            self.element.on('click', '.move-down', function () {
+                var setToMove = $(this).closest('.block-group');
+
+                setToMove.insertAfter(setToMove.next('.block-group'));
+                self._renumber();
+                self._resetEditors(setToMove);
+            });
+
         },
 
         /**
@@ -85,6 +111,7 @@
             });
             var newSet = this._clone(newTemplate);
             this._ui.slot.append(newSet);
+            this._renumber();
 
             bolt.datetime.init();
             bolt.ckeditor.init();
@@ -92,7 +119,7 @@
         },
 
         /**
-         * Clones a template or a repeater and initializes it.
+         * Clones a template or a block and initializes it.
          *
          * @private
          * @function clone
@@ -119,6 +146,55 @@
             bolt.app.initWidgets(cloned);
 
             return cloned;
+        },
+
+        /**
+         * Renumbers group input names.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.block
+         */
+        _renumber: function () {
+            var name = this.options.name,
+                nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                re = new RegExp('^' + nameEsc + '\\\[(#|\\\d+)\\\]');
+
+            this._ui.slot.find('div.block-group').each(function (index, group) {
+                $(group).find('[name]').each(function () {
+                    this.name = this.name.replace(re, name + '[' + index + ']');
+                });
+
+                if ($(group).is(':first-of-type')) {
+                    $(group).find('.move-up').addClass('disabled');
+                } else {
+                    $(group).find('.move-up').removeClass('disabled');
+                }
+
+                if ($(group).is(':last-of-type')) {
+                    $(group).find('.move-down').addClass('disabled');
+                } else {
+                    $(group).find('.move-down').removeClass('disabled');
+                }
+            });
+        },
+
+        /**
+         * Reset ckeditors within a given context.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.block
+         *
+         * @param {Object} container - jQuery context object
+         */
+        _resetEditors: function (container) {
+            var editors = container.find('.ckeditor');
+
+            editors.each(function (i, editor) {
+                cke.instances[editor.id].destroy();
+                cke.replace(editor.id);
+            });
         },
 
     });
