@@ -80,8 +80,8 @@
             $.each(self._templates, function (index, templateItem) {
                 console.log(templateItem);
                 console.log(templateType);
-                if (templateItem.data('block-type') === templateType) {
-                    newTemplate = templateItem.html();
+                if ($(templateItem).data('block-type') === templateType) {
+                    newTemplate = $(templateItem).html();
                 }
             });
             var newSet = this._clone(newTemplate);
