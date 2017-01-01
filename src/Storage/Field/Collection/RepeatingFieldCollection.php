@@ -56,7 +56,7 @@ class RepeatingFieldCollection extends ArrayCollection
         $collection->setGrouping($grouping);
         $collection->setBlock($block);
         foreach ($fields as $name => $value) {
-            $storageTypeHandler = $this->getFieldType($name);
+            $storageTypeHandler = $this->getFieldType($name, $block);
 
             $field = new FieldValue();
             $field->setName($this->getName());
@@ -212,12 +212,20 @@ class RepeatingFieldCollection extends ArrayCollection
      *
      * @return mixed
      */
-    protected function getFieldType($field)
+    protected function getFieldType($field, $block = null)
     {
+        if ($block !== null) {
+            if (!isset($this->mapping['data']['fields'][$block]['fields'][$field]['fieldtype'])) {
+                throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+            }
+            $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
+        } else {
+            $mapping = $this->mapping['data']['fields'][$field];
+        }
         if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
-        $mapping = $this->mapping['data']['fields'][$field];
+
         $setting = $mapping['fieldtype'];
 
         return $this->em->getFieldManager()->get($setting, $mapping);
