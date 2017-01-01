@@ -75,7 +75,7 @@ class RepeatingFieldCollection extends ArrayCollection
             if ($entity) {
                 $field->setContenttype((string) $entity->contenttype);
             }
-            $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
+            $field->setFieldtype($this->getFieldTypeName($field->getFieldname(), $block));
             $field->setGrouping($grouping);
             $field->setBlock($block);
             $collection->add($field);
