@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
+
 /**
  * This class adds a block collection and handles additional functionality for adding
  * named blocks.
