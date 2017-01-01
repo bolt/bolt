@@ -265,11 +265,13 @@ class ResourceManager
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
         }
 
-        if (!$includeBasePath) {
-            return $this->urls[$name];
+        $url = $this->urls[$name];
+
+        if (!$includeBasePath || strpos($url, 'http') === 0 || strpos($url, '//') === 0) {
+            return $url;
         }
 
-        return $this->urlPrefix . $this->urls[$name];
+        return $this->urlPrefix . $url;
     }
 
     /**
