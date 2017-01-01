@@ -290,7 +290,7 @@ class MetadataDriver implements MappingDriver
      *
      * @param array $fields
      */
-    protected function normalizeFieldTypes(array $fields)
+    protected function normalizeFieldTypes(array &$fields)
     {
         foreach ($fields as $rkey => &$value) {
             $value['fieldname'] = $rkey;
