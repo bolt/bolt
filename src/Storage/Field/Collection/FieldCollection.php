@@ -80,6 +80,15 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
+     * @return string
+     */
+    public function getBlock()
+    {
+        $this->initialize();
+        return $this->first()->getBlock();
+    }
+
+    /**
      * @param mixed $element
      *
      * @return bool

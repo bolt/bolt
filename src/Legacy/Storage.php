@@ -2605,7 +2605,7 @@ class Storage
 
         foreach ($ids as $id) {
             foreach ($contenttype['fields'] as $fieldkey => $field) {
-                if ($field['type'] == 'repeater') {
+                if ($field['type'] == 'repeater' || $field['type'] == 'block') {
                     $collection = new RepeatingFieldCollection($this->app['storage'], $field);
                     try {
                         $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];

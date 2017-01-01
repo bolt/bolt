@@ -26,7 +26,7 @@
                 {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
             </script>
         {% endfor %}
-        
+
         {% set blockfieldvals = context.content.get(contentkey) %}
         {% for index, repeatfieldset in blockfieldvals %}
             {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index, 'block': repeatfieldset.first.block }) }}
