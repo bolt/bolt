@@ -34,8 +34,8 @@ class BlockType extends RepeaterType
             $collection->setName($key);
 
             if (is_array($outerCollection)) {
-                foreach ($outerCollection as $blockName => $block) {
-                    foreach ($block as $fields) {
+                foreach ($outerCollection as $group => $block) {
+                    foreach ($block as $blockName => $fields) {
                         if (is_array($fields)) {
                             $collection->addFromArray($fields, $group, $entity);
                             $collection->setBlock($blockName);
