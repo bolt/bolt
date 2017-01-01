@@ -133,7 +133,7 @@ class FieldCollection extends AbstractLazyCollection
                     function ($errNo, $errStr, $errFile) {},
                     E_WARNING
                 );
-                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname(), $val->getBlock());
                 restore_error_handler();
 
                 // If we do not have a hydrated value returned then we fall back to the one passed in

@@ -28,7 +28,8 @@
             </script>
 
             {% for index, repeatfieldset in blockfieldvals %}
-                {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index}) }}
+                {{ dump(repeatfieldset) }}
+                {# include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index}) #}
             {% endfor %}
 
         {% endfor %}
