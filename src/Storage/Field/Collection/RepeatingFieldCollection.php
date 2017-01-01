@@ -214,16 +214,18 @@ class RepeatingFieldCollection extends ArrayCollection
      */
     protected function getFieldType($field, $block = null)
     {
+        if ($block !== null && !isset($this->mapping['data']['fields'][$block]['fields'][$field]['fieldtype'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+
+        if ($block === null && !isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+
         if ($block !== null) {
-            if (!isset($this->mapping['data']['fields'][$block]['fields'][$field]['fieldtype'])) {
-                throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
-            }
             $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
         } else {
             $mapping = $this->mapping['data']['fields'][$field];
-        }
-        if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
-            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
 
         $setting = $mapping['fieldtype'];
@@ -244,9 +246,10 @@ class RepeatingFieldCollection extends ArrayCollection
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
 
-        if (!isset($this->mapping['data']['fields'][$field]['type'])) {
+        if ($block === null && !isset($this->mapping['data']['fields'][$field]['type'])) {
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
+
         if ($block !== null) {
             $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
         } else {
