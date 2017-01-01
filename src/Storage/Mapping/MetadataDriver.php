@@ -272,6 +272,7 @@ class MetadataDriver implements MappingDriver
                     foreach ($data['fields'] as $block => $fields) {
                         $this->normalizeFieldTypes($fields['fields']);
                     }
+                    $mapping['fieldtype'] = $this->typemap['block'];
                 }
 
                 if ($standalone) {
