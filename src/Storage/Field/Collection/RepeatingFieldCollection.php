@@ -132,7 +132,7 @@ class RepeatingFieldCollection extends ArrayCollection
             $master = $this->getOriginal($entity);
             $master->setValue($entity->getValue());
             $master->setFieldtype($entity->getFieldtype());
-            $master->handleStorage($this->getFieldType($entity->getFieldname()));
+            $master->handleStorage($this->getFieldType($entity->getFieldname(), $entity->getBlock()));
 
             $updated[] = $master;
         }
