@@ -234,16 +234,24 @@ class RepeatingFieldCollection extends ArrayCollection
     /**
      * @param $field
      *
-     * @throws FieldConfigurationException
-     *
+     * @param null $block
      * @return mixed
+     * @throws FieldConfigurationException
      */
-    protected function getFieldTypeName($field)
+    protected function getFieldTypeName($field, $block = null)
     {
+        if ($block !== null && !isset($this->mapping['data']['fields'][$block]['fields'][$field]['type'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+
         if (!isset($this->mapping['data']['fields'][$field]['type'])) {
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
-        $mapping = $this->mapping['data']['fields'][$field];
+        if ($block !== null) {
+            $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
+        } else {
+            $mapping = $this->mapping['data']['fields'][$field];
+        }
 
         return $mapping['type'];
     }
