@@ -1,4 +1,4 @@
-# app/resources/translations/pt/messages.pt.yml – generated on 2016-11-06 08:42:47 Europe/Amsterdam
+# app/resources/translations/pt/messages.pt.yml – generated on 2017-01-02 08:19:00 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  15 unused messages
 #   8 untranslated messages
-#  33 untranslated keyword based messages
-#  84 translations
-# 497 keyword based translations
+#  35 untranslated keyword based messages
+#  83 translations
+# 489 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "Selection:": "Seleção:"
 "field.slug.button.link": "Ligar a:"
@@ -22,6 +22,15 @@
 "page.extend.button.readme": "Informações"
 "page.extend.button.uninstall": "Desinstalar"
 "page.extend.button.versions": "Versões"
+"Extend": "Evoluir"
+"general.phrase.directory-not-found-writable": "A pasta '%s' não pode ser encontrada, ou não é legível."
+"general.phrase.error-local-extension-set-up-incomplete": "Configuração incompleta da extensão local. Por favor, execute o 'Instalar todos os pacotes' na página de extensões."
+"general.phrase.extras": "Extras"
+"general.phrase.path": "Caminho"
+"general.phrase.path-colon": "Caminho:"
+"general.phrase.permissions": "Permissões"
+"page.ckeditor-browse-server.folders": "Pastas"
+"page.file-management.message.folder-access-denied": "Permissões insuficientes na pasta"
 
 #--- 8 untranslated messages --------------------------------------------------
 
@@ -34,13 +43,15 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 33 untranslated keyword based messages -----------------------------------
+#--- 35 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.redirect-detected": # "Redirect detected. Check if you are still logged on."
 "general.phrase.related-content": # "Related content"
@@ -70,7 +81,7 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 84 translations ----------------------------------------------------------
+#--- 83 translations ----------------------------------------------------------
 
 "(default template)": "(tema padrão)"
 "(no category)": "(sem categoria)"
@@ -103,7 +114,6 @@
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"Extend": "Evoluir"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "O pacote de extensão %NAME% tem uma classe base '%CLASS%' que não implementa Bolt-Extension-ExtensionInterface e que ignorada."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "O pacote de extensão %NAME% tem uma classe inválida '%CLASS%' e que foi ignorada."
 "Extension server returned an error: %errormessage%": "O servidor de extensões devolveu um erro: %errormessage%"
@@ -157,7 +167,7 @@
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
-#--- 497 keyword based translations -------------------------------------------
+#--- 489 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -306,7 +316,6 @@ general.phrase.depublish: "Despublicar"
 general.phrase.depublish-date-past: "Data de retirada de publicação está no passado. Se pretende despublicar agora terá de alterar o estatuto"
 general.phrase.deselect-all: "Desmarcar tudo"
 general.phrase.details: "Detalhes"
-general.phrase.directory-not-found-writable: "A pasta '%s' não pode ser encontrada, ou não é legível."
 general.phrase.disable-user-name: "Desativar %username%"
 general.phrase.done-bang: "Concluído!"
 general.phrase.draft: "Rascunho"
@@ -318,13 +327,11 @@ general.phrase.edit-role-permissions: "Editar funções e permissões"
 general.phrase.edited: "e alterado"
 general.phrase.enable-user-name: "Ativar %username%"
 general.phrase.error-cache-clear: "Falha ao limpar a cache. Terá de o fazer manualmente."
-general.phrase.error-local-extension-set-up-incomplete: "Configuração incompleta da extensão local. Por favor, execute o 'Instalar todos os pacotes' na página de extensões."
 general.phrase.error-login-invalid-parameters: "Parâmetros de autenticação inválidos."
 general.phrase.error-send-password-request: "Falha ao enviar o pedido de senha. Por favor, verifique as configurações de email."
 general.phrase.error-translation-file-not-readable: "As traduções em '%s' não são legíveis."
 general.phrase.error-user-name-password-incorrect: "Nome de utilizador/Senha incorretos. Verifique e tente novamente."
 general.phrase.extensions: "Extensões"
-general.phrase.extras: "Extras"
 general.phrase.field: "Campo"
 general.phrase.field-fieldname: "Campo “%FIELD_NAME%”:"
 general.phrase.file-management: "Gerir ficheiros"
@@ -402,11 +409,8 @@ general.phrase.overview-for: "Visão geral sobre"
 general.phrase.owner-colon: "Proprietário:"
 general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "A exibir página %pager_for% %from% - %to% de %count%"
-general.phrase.path: "Caminho"
-general.phrase.path-colon: "Caminho:"
 general.phrase.path-image-file: "Caminho para o ficheiro de imagem"
 general.phrase.permalink: "Endereço permanente"
-general.phrase.permissions: "Permissões"
 general.phrase.please-logon: "Por favor autentique-se."
 general.phrase.please-provide-username: "Por favor, indique um nome de utilizador"
 general.phrase.preview: "Pré-visualizar"
@@ -526,7 +530,6 @@ page.checks.run-email-checks: "Executar verificações de email"
 page.checks.run-php-ext-checks: "Executar verificações de extensão PHP"
 
 page.ckeditor-browse-server.files: "Ficheiros"
-page.ckeditor-browse-server.folders: "Pastas"
 page.ckeditor-browse-server.modified: "Modificado"
 page.ckeditor-browse-server.size: "Tamanho do ficheiro"
 page.ckeditor-browse-server.title: "Ficheiros"
@@ -650,7 +653,6 @@ page.file-management.message.create-file: "Por favor insira um novo nome de fich
 page.file-management.message.create-folder: "Por favor digite um novo nome para a pasta!"
 page.file-management.message.file-not-readable: "O ficheiro não pode ser lido!"
 page.file-management.message.files-in: "Ficheiros em %s"
-page.file-management.message.folder-access-denied: "Permissões insuficientes na pasta"
 page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
 page.file-management.message.save-failed-colon: "Ficheiro '%s' não pode ser guardado:"
 page.file-management.message.save-failed-invalid-form: "Não foi possível guardar o ficheiro '%s' , porque o formulário não está completo ou não é válido."

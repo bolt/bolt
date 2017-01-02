@@ -1,4 +1,4 @@
-# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2016-11-06 08:42:30 Europe/Amsterdam
+# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 08:18:35 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,21 +8,35 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
+#   9 unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
-#  92 translations
-# 525 keyword based translations
+#   7 untranslated keyword based messages
+#  91 translations
+# 517 keyword based translations
 
-#--- 5 untranslated keyword based messages ------------------------------------
+#--- 9 unused messages --------------------------------------------------------
+
+"Extend": "Extender"
+"general.phrase.directory-not-found-writable": "Las carpeta '%s' no se pudo encontrar, o no es legible."
+"general.phrase.error-local-extension-set-up-incomplete": "Configuración de la extensión local incompleta. Por favor ejecute 'Instalar todos los paquetes' en la página de Extensiones."
+"general.phrase.extras": "Extras"
+"general.phrase.path": "Ruta"
+"general.phrase.path-colon": "Ruta"
+"general.phrase.permissions": "Permisos"
+"page.ckeditor-browse-server.folders": "Carpetas"
+"page.file-management.message.folder-access-denied": "Permisos de la carpeta insuficientes"
+
+#--- 7 untranslated keyword based messages ------------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
 
-#--- 92 translations ----------------------------------------------------------
+#--- 91 translations ----------------------------------------------------------
 
 "(default template)": "(plantilla predeterminada)"
 "(no category)": "(sin categoría)"
@@ -57,7 +71,6 @@
 "Everybody": "Todos los usuario"
 "Excerpt": "Extracto"
 "Expand sidebar": "Expandir barra lateral"
-"Extend": "Extender"
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "La clase base '%CLASS%' del paquete de extensión %NAME%  no implementa \\\\Bolt\\\\Extension\\\\ExtensionInterface y ha sido omitido."
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "El paquete de extensión %NAME% tiene una clase '%CLASS%' inválida y ha sido omitido"
 "Extension server returned an error: %errormessage%": "El servidor de extensiones devolvió un error: %errormessage%"
@@ -117,7 +130,7 @@
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
-#--- 525 keyword based translations -------------------------------------------
+#--- 517 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Acciones para %contenttypes%"
 contenttypes.generic.actions-one: "Acciones para %contenttype%"
@@ -267,7 +280,6 @@ general.phrase.depublish: "Quitar publicación"
 general.phrase.depublish-date-past: "La fecha de despublicación está en el pasado. Cambie el estado si desea despublicar ahora"
 general.phrase.deselect-all: "Deseleccionar todo"
 general.phrase.details: "Detalles"
-general.phrase.directory-not-found-writable: "Las carpeta '%s' no se pudo encontrar, o no es legible."
 general.phrase.disable-user-name: "Deshabilitar a %username%"
 general.phrase.done-bang: "¡Hecho!"
 general.phrase.draft: "Borrador"
@@ -279,7 +291,6 @@ general.phrase.edit-role-permissions: "Editar Roles y Permisos"
 general.phrase.edited: "y editado"
 general.phrase.enable-user-name: "Habilitar %username%"
 general.phrase.error-cache-clear: "Fallo al limpiar caché. Debería eliminarla manualmente."
-general.phrase.error-local-extension-set-up-incomplete: "Configuración de la extensión local incompleta. Por favor ejecute 'Instalar todos los paquetes' en la página de Extensiones."
 general.phrase.error-login-invalid-parameters: "Parámetros de inicio de sesión no válidos."
 general.phrase.error-mail-options-not-set: "La configuración 'mailoptions' del email no ha sido definida.  Puede que Bolt sea incapaz de enviar restablecimiento de contraseña."
 general.phrase.error-send-password-request: "No se pudo enviar el pedido de contraseña. Por favor, compruebe los ajustes de correo electrónico."
@@ -287,7 +298,6 @@ general.phrase.error-session-data-login: "No se ha podido recuperar los datos de
 general.phrase.error-translation-file-not-readable: "El archivo de traducción '%s' no se puede leer."
 general.phrase.error-user-name-password-incorrect: "El usuario o contraseña no es correcto. Por favor verifica lo que escribiste."
 general.phrase.extensions: "Extensiones"
-general.phrase.extras: "Extras"
 general.phrase.field: "campo"
 general.phrase.field-fieldname: "Campo “%FIELD_NAME%”:"
 general.phrase.file-management: "Gestión de archivos"
@@ -366,11 +376,8 @@ general.phrase.overview-for: "Listado de"
 general.phrase.owner-colon: "Propietario"
 general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando %pager_for% %from% - %to% de %count%"
-general.phrase.path: "Ruta"
-general.phrase.path-colon: "Ruta"
 general.phrase.path-image-file: "Ruta al archivo de imagen"
 general.phrase.permalink: "Enlace permanente"
-general.phrase.permissions: "Permisos"
 general.phrase.please-logon: "Por favor inicia sesión."
 general.phrase.please-provide-username: "Por favor proporciona un nombre de usuario"
 general.phrase.preview: "Previsualizar"
@@ -494,7 +501,6 @@ page.checks.run-email-checks: "Ejecutar comprobaciones de correo electrónico"
 page.checks.run-php-ext-checks: "Ejecutar comprobaciones de extensión PHP"
 
 page.ckeditor-browse-server.files: "Archivos"
-page.ckeditor-browse-server.folders: "Carpetas"
 page.ckeditor-browse-server.modified: "Modificado"
 page.ckeditor-browse-server.size: "Tamaño del archivo"
 page.ckeditor-browse-server.title: "Archivos"
@@ -637,7 +643,6 @@ page.file-management.message.create-file: "Por favor, ¡introduzca un nuevo nomb
 page.file-management.message.create-folder: "Por favor, ¡introduzca un nuevo nombre de carpeta!"
 page.file-management.message.file-not-readable: "¡El archivo no puede ser leido!"
 page.file-management.message.files-in: "Archivos en %s"
-page.file-management.message.folder-access-denied: "Permisos de la carpeta insuficientes"
 page.file-management.message.folder-not-found: "La carpeta '%s' no se puede encontrar o leer"
 page.file-management.message.save-failed-colon: "El archivo '%s' no puede ser guardado:"
 page.file-management.message.save-failed-invalid-form: "El archivo '%s' no se pudo guardar, porque el formulario no era válido."
