@@ -1,4 +1,4 @@
-# app/resources/translations/it/messages.it.yml – generated on 2017-01-02 08:19:02 Europe/Amsterdam
+# app/resources/translations/it/messages.it.yml – generated on 2017-01-02 16:33:29 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  18 unused messages
 #  71 untranslated messages
-# 321 untranslated keyword based messages
+# 324 untranslated keyword based messages
 #  20 translations
 # 203 keyword based translations
 
@@ -109,7 +109,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 321 untranslated keyword based messages ----------------------------------
+#--- 324 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.template": # "Template"
@@ -305,9 +305,12 @@
 "page.edit-users.activated.no": # "no"
 "page.edit-users.activated.yes": # "yes"
 "page.edit-users.button.save": # "Save user"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
 "page.edit-users.error.username-used": # "This username is already in use. Choose another username."
 "page.edit-users.label.assigned-roles": # "Assigned roles"

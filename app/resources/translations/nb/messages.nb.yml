@@ -1,4 +1,4 @@
-# app/resources/translations/nb/messages.nb.yml – generated on 2017-01-02 08:18:49 Europe/Amsterdam
+# app/resources/translations/nb/messages.nb.yml – generated on 2017-01-02 16:33:14 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  18 unused messages
 #  64 untranslated messages
-# 343 untranslated keyword based messages
+# 346 untranslated keyword based messages
 #  27 translations
 # 181 keyword based translations
 
@@ -102,7 +102,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 343 untranslated keyword based messages ----------------------------------
+#--- 346 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.actions-all": # "Actions for %contenttypes%"
 "contenttypes.generic.actions-one": # "Actions for this %contenttype%"
@@ -315,9 +315,12 @@
 "page.edit-users.activated.yes": # "yes"
 "page.edit-users.button.save": # "Save user"
 "page.edit-users.error.displayname-used": # "This displayname is already in use. Choose another displayname."
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
 "page.edit-users.error.username-used": # "This username is already in use. Choose another username."
 "page.edit-users.label.assigned-roles": # "Assigned roles"

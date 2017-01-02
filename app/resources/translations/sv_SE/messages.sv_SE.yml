@@ -1,4 +1,4 @@
-# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2017-01-02 08:18:38 Europe/Amsterdam
+# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2017-01-02 16:33:04 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  15 unused messages
 #  15 untranslated messages
-#  47 untranslated keyword based messages
+#  50 untranslated keyword based messages
 #  76 translations
 # 477 keyword based translations
 
@@ -50,7 +50,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 47 untranslated keyword based messages -----------------------------------
+#--- 50 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
@@ -81,6 +81,9 @@
 "general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.link-config": # "Edit configuration"
 "page.extend.button.link-marketplace": # "View on marketplace"
 "page.extend.button.link-readme": # "View README"
