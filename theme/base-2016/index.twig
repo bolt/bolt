@@ -2,17 +2,21 @@
 
 {% block main %}
 
-    <h1>{{ record.title }}</h1>
+    {% if record is defined %}
 
-    {# Remove this block if you don't need it anymore. #}
-    {{ include('partials/_fresh_install.twig') }}
+        <h1>{{ record.title }}</h1>
 
-    {{ record.teaser }}
+        {# Remove this block if you don't need it anymore. #}
+        {{ include('partials/_fresh_install.twig') }}
 
-    {{ popup(record.image, 1200, 500) }}
+        {{ record.teaser }}
 
-    {{ record.body }}
+        {{ popup(record.image, 1200, 500) }}
 
-    {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+        {{ record.body }}
+
+        {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+
+    {% endif %}
 
 {% endblock main %}
