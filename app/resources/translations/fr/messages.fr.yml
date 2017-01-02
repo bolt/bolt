@@ -1,4 +1,4 @@
-# app/resources/translations/fr/messages.fr.yml – generated on 2017-01-02 08:18:46 Europe/Amsterdam
+# app/resources/translations/fr/messages.fr.yml – generated on 2017-01-02 16:33:12 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  25 unused messages
 #   4 untranslated messages
-#   6 untranslated keyword based messages
+#   9 untranslated keyword based messages
 #  87 translations
 # 518 keyword based translations
 
@@ -49,7 +49,7 @@
 "Group": #
 "Groups": #
 
-#--- 6 untranslated keyword based messages ------------------------------------
+#--- 9 untranslated keyword based messages ------------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
@@ -57,6 +57,9 @@
 "general.phrase.folder": # "Folder"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 
 #--- 87 translations ----------------------------------------------------------
 

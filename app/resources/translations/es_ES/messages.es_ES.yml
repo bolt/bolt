@@ -1,4 +1,4 @@
-# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 08:18:35 Europe/Amsterdam
+# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 16:33:01 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #   9 unused messages
 #  no untranslated messages
-#   7 untranslated keyword based messages
+#  10 untranslated keyword based messages
 #  91 translations
 # 517 keyword based translations
 
@@ -26,7 +26,7 @@
 "page.ckeditor-browse-server.folders": "Carpetas"
 "page.file-management.message.folder-access-denied": "Permisos de la carpeta insuficientes"
 
-#--- 7 untranslated keyword based messages ------------------------------------
+#--- 10 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
@@ -35,6 +35,9 @@
 "general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 
 #--- 91 translations ----------------------------------------------------------
 

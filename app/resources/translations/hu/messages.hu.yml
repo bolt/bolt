@@ -1,4 +1,4 @@
-# app/resources/translations/hu/messages.hu.yml – generated on 2017-01-02 08:18:37 Europe/Amsterdam
+# app/resources/translations/hu/messages.hu.yml – generated on 2017-01-02 16:33:03 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  15 unused messages
 #  18 untranslated messages
-#  79 untranslated keyword based messages
+#  82 untranslated keyword based messages
 #  73 translations
 # 445 keyword based translations
 
@@ -53,7 +53,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 79 untranslated keyword based messages -----------------------------------
+#--- 82 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -107,7 +107,10 @@
 "nut.version": # "version"
 "page.checks.run-all": # "Run all checks"
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.link-config": # "Edit configuration"
 "page.extend.button.link-marketplace": # "View on marketplace"
 "page.extend.button.link-readme": # "View README"

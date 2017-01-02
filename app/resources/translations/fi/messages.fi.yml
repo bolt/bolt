@@ -1,4 +1,4 @@
-# app/resources/translations/fi/messages.fi.yml – generated on 2017-01-02 08:18:53 Europe/Amsterdam
+# app/resources/translations/fi/messages.fi.yml – generated on 2017-01-02 16:33:17 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  14 unused messages
 #  26 untranslated messages
-# 142 untranslated keyword based messages
+# 145 untranslated keyword based messages
 #  65 translations
 # 382 keyword based translations
 
@@ -60,7 +60,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 142 untranslated keyword based messages ----------------------------------
+#--- 145 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -127,7 +127,10 @@
 "page.checks.run-directory-checks": # "Run directory checks"
 "page.checks.run-email-checks": # "Run email checks"
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.browse-versions": # "Browse Versions"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"

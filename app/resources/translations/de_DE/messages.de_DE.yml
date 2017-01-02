@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2017-01-02 08:18:39 Europe/Amsterdam
+# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2017-01-02 16:33:05 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -10,7 +10,7 @@
 
 #  14 unused messages
 #  15 untranslated messages
-#  73 untranslated keyword based messages
+#  76 untranslated keyword based messages
 #  76 translations
 # 451 keyword based translations
 
@@ -49,7 +49,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 73 untranslated keyword based messages -----------------------------------
+#--- 76 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -84,6 +84,9 @@
 "general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.link-config": # "Edit configuration"
 "page.extend.button.link-marketplace": # "View on marketplace"
 "page.extend.button.link-readme": # "View README"
