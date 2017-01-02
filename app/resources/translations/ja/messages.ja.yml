@@ -1,4 +1,4 @@
-# app/resources/translations/ja/messages.ja.yml – generated on 2016-11-06 08:42:41 Europe/Amsterdam
+# app/resources/translations/ja/messages.ja.yml – generated on 2017-01-02 08:18:51 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
-#  51 untranslated messages
-# 258 untranslated keyword based messages
+#  15 unused messages
+#  50 untranslated messages
+# 257 untranslated keyword based messages
 #  41 translations
-# 272 keyword based translations
+# 267 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "component.changelog-detail.by": #
 "field.slug.button.link": #
@@ -22,8 +22,17 @@
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.extras": #
+"general.phrase.path": "パス"
+"general.phrase.path-colon": "パス："
+"general.phrase.permissions": "パーミッション"
+"page.ckeditor-browse-server.folders": "フォルダ"
+"page.file-management.message.folder-access-denied": "フォルダのパーミッションが不適切です"
 
-#--- 51 untranslated messages -------------------------------------------------
+#--- 50 untranslated messages -------------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -43,7 +52,6 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -77,7 +85,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 258 untranslated keyword based messages ----------------------------------
+#--- 257 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -124,16 +132,14 @@
 "general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.details": # "Details"
-"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.extras": # "Extras"
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
@@ -141,6 +147,7 @@
 "general.phrase.filtering": # "Filtering"
 "general.phrase.find": # "Find"
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -325,8 +332,8 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.file-management.label.create-file": # "Create File"
-"page.file-management.message.create-file": # "Please enter a new file name!"
+"page.file-management.label.create-file": # "Create file"
+"page.file-management.message.create-file": # "Please enter the new file name"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "page.login.cookies-required": # "Note: Cookies are required to log on to Bolt. Please allow cookies."
@@ -382,7 +389,7 @@
 "Video": "動画"
 "You've been logged on successfully.": "正常にログインしました。"
 
-#--- 272 keyword based translations -------------------------------------------
+#--- 267 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "%contenttypes%の操作"
 contenttypes.generic.actions-one: "この%contenttype%の操作"
@@ -535,10 +542,7 @@ general.phrase.overview-for: "一覧"
 general.phrase.owner-colon: "所有者："
 general.phrase.page: "ページ"
 general.phrase.pager-showing-from-to-of: "%page_for%を表示 %from%～%to%件目 / 全 %count% 件"
-general.phrase.path: "パス"
-general.phrase.path-colon: "パス："
 general.phrase.permalink: "パーマリンク"
-general.phrase.permissions: "パーミッション"
 general.phrase.please-logon: "ログオンしてください。"
 general.phrase.please-provide-username: "ユーザー名を入力してください"
 general.phrase.preview: "プレビュー"
@@ -614,7 +618,6 @@ logs.change-log.not-found: "リクエストされた変更ログのエントリ�
 menu.configuration.routing: "ルーティング設定"
 
 page.ckeditor-browse-server.files: "ファイル"
-page.ckeditor-browse-server.folders: "フォルダ"
 page.ckeditor-browse-server.modified: "修正された"
 page.ckeditor-browse-server.size: "ファイルサイズ"
 page.ckeditor-browse-server.title: "ファイル"
@@ -649,7 +652,6 @@ page.file-management.message.access-denied: "このフォルダへのアップ�
 page.file-management.message.create-folder: "新しいフォルダ名を入力してください"
 page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
 page.file-management.message.files-in: "%s の中のファイル"
-page.file-management.message.folder-access-denied: "フォルダのパーミッションが不適切です"
 page.file-management.message.folder-not-found: "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
 page.file-management.message.save-failed-colon: "ファイル '%s' を保存できませんでした："
 page.file-management.message.save-failed-unknown: "何らかの理由でファイル '%s' を保存できませんでした。"

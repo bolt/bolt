@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2016-11-06 08:42:34 Europe/Amsterdam
+# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2017-01-02 08:18:41 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,25 +8,33 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
-#  12 untranslated messages
-#  25 untranslated keyword based messages
+#  14 unused messages
+#  11 untranslated messages
+#  27 untranslated keyword based messages
 #  80 translations
-# 505 keyword based translations
+# 497 keyword based translations
 
-#--- 5 unused messages --------------------------------------------------------
+#--- 14 unused messages -------------------------------------------------------
 
 "Selection:": "Selectie:"
 "page.extend.button.config": "Instellingen"
 "page.extend.button.readme": "Leesmij"
 "page.extend.button.uninstall": "Deinstalleer"
 "page.extend.button.versions": "Versies"
+"Extend": #
+"general.phrase.directory-not-found-writable": "De map '%s' kon niet worden gevonden of is niet schrijfbaar."
+"general.phrase.error-local-extension-set-up-incomplete": "Lokale installatie van extensie is onvolledig. Ga naar de extensie pagina en selecteer 'Alle pakketten installeren'."
+"general.phrase.extras": "Extra's"
+"general.phrase.path": "Pad"
+"general.phrase.path-colon": "Pad:"
+"general.phrase.permissions": "Permissies"
+"page.ckeditor-browse-server.folders": "Mappen"
+"page.file-management.message.folder-access-denied": "Onvoldoende permissies op map"
 
-#--- 12 untranslated messages -------------------------------------------------
+#--- 11 untranslated messages -------------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Extend": #
 "Finding packages that require this one…": #
 "Group": #
 "Groups": #
@@ -37,11 +45,13 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 25 untranslated keyword based messages -----------------------------------
+#--- 27 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
 "general.phrase.related-content": # "Related content"
@@ -148,7 +158,7 @@
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
-#--- 505 keyword based translations -------------------------------------------
+#--- 497 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
@@ -298,7 +308,6 @@ general.phrase.depublish-date-past: "De datum van het opheffen van de publicatie
 general.phrase.depublish-explanation: "Als hier iets is ingevoerd, wordt deze record automatisch gedepubliceerd op deze datum."
 general.phrase.deselect-all: "Deselecteer alles"
 general.phrase.details: "Details"
-general.phrase.directory-not-found-writable: "De map '%s' kon niet worden gevonden of is niet schrijfbaar."
 general.phrase.disable-user-name: "Schakel %username% uit"
 general.phrase.done-bang: "Klaar!"
 general.phrase.draft: "Klad"
@@ -309,7 +318,6 @@ general.phrase.edit-file: "Bewerk bestand"
 general.phrase.edit-role-permissions: "Bewerk Rollen en Permissies"
 general.phrase.edited: "en bewerkt"
 general.phrase.enable-user-name: "Schakel %username% in"
-general.phrase.error-local-extension-set-up-incomplete: "Lokale installatie van extensie is onvolledig. Ga naar de extensie pagina en selecteer 'Alle pakketten installeren'."
 general.phrase.error-login-invalid-parameters: "Onjuiste login parameters."
 general.phrase.error-mail-options-not-set: "De email configuratie 'mailopties' is niet ingesteld. Mogelijk slaagt Bolt er niet in een wachtwoord-reset-email te verzenden."
 general.phrase.error-send-password-request: "Het is mislukt om een wachtwoord-aanvraag te verzenden. Controleer de e-mailinstellingen."
@@ -317,7 +325,6 @@ general.phrase.error-session-data-login: "Het ophalen van loginsessiegegevens is
 general.phrase.error-translation-file-not-readable: "Het vertalingenbestand '%s' is niet leesbaar."
 general.phrase.error-user-name-password-incorrect: "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
 general.phrase.extensions: "Bekijk/installeer extensies"
-general.phrase.extras: "Extra's"
 general.phrase.field: "veld"
 general.phrase.field-fieldname: "Invoerveld \"%FIELD_NAME%\":"
 general.phrase.file-management: "Bestandsbeheer"
@@ -394,11 +401,8 @@ general.phrase.overview-for: "Overzicht van"
 general.phrase.owner-colon: "Eigenaar:"
 general.phrase.page: "Pagina"
 general.phrase.pager-showing-from-to-of: "Toont %pager_for% %from% - %to% van %count%"
-general.phrase.path: "Pad"
-general.phrase.path-colon: "Pad:"
 general.phrase.path-image-file: "Pad naar afbeelding"
 general.phrase.permalink: "Permalink"
-general.phrase.permissions: "Permissies"
 general.phrase.please-logon: "Inloggen, graag."
 general.phrase.please-provide-username: "Geef een gebruikersnaam op"
 general.phrase.preview: "Voorvertoning"
@@ -523,7 +527,6 @@ page.checks.run-email-checks: "E-mail controles uitvoeren"
 page.checks.run-php-ext-checks: "Controleer PHP extensie op fouten"
 
 page.ckeditor-browse-server.files: "Bestanden"
-page.ckeditor-browse-server.folders: "Mappen"
 page.ckeditor-browse-server.modified: "Aangepast"
 page.ckeditor-browse-server.size: "Bestandsgrootte"
 page.ckeditor-browse-server.title: "Bestanden"
@@ -651,7 +654,6 @@ page.file-management.message.create-file: "Voer een nieuwe bestandsnaam in!"
 page.file-management.message.create-folder: "Voer een nieuwe mapnaam in!"
 page.file-management.message.file-not-readable: "Bestand is niet leesbaar!"
 page.file-management.message.files-in: "Bestanden in %s"
-page.file-management.message.folder-access-denied: "Onvoldoende permissies op map"
 page.file-management.message.folder-not-found: "Map '%s' werd niet gevonden, of is niet leesbaar."
 page.file-management.message.save-failed-colon: "Bestand '%s' kon niet worden opgeslagen: "
 page.file-management.message.save-failed-invalid-form: "Het bestand %s kon niet worden opgeslagen omdat het formulier niet juist is ingevuld."
