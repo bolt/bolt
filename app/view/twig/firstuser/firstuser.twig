@@ -4,9 +4,11 @@
 
 {% block page_title __('general.phrase.create-user-first') %}
 
-{% block page_main %}
+{% form_theme context.form with ['form_bolt_layout.twig', _self] %}
+{# Submit icon #}
+{% block button_icon %}<i class="fa fa-sign-in fa-fw"></i> {% endblock button_icon %}
 
-    {% form_theme context.form 'form_bolt_layout.twig' %}
+{% block page_main %}
 
     <p class="first-user">
         {{ __('general.phrase.users-none-create-first-extended') }}
@@ -20,9 +22,6 @@
 
         {{ form_widget(context.form) }}
 
-        <button type="submit" class="btn btn-primary" name="submit" value="login">
-            <i class="fa fa-sign-in fa-fw"></i> {{ __('general.phrase.create-user-first') }}
-        </button>
     {{ form_end(context.form, { 'render_rest': false }) }}
 
     {% if context.note is not empty %}
@@ -39,10 +38,10 @@
         $(function() {
             // Attach and detach the progressbar.
             var el = $('#progress-wrapper').detach()
-            $('#form_password').parent().append(el);
+            $('#user_new_password_first').parent().append(el);
 
             // Initialize complexify, to indicate password strength.
-            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+            $('#user_new_password_first').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
                 var progressBar = $('#complexity-bar');
                 progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
                 progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
