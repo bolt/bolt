@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2016-11-06 08:42:33 Europe/Amsterdam
+# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2017-01-02 08:18:39 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,26 +8,34 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
-#  16 untranslated messages
-#  72 untranslated keyword based messages
+#  14 unused messages
+#  15 untranslated messages
+#  73 untranslated keyword based messages
 #  76 translations
-# 458 keyword based translations
+# 451 keyword based translations
 
-#--- 5 unused messages --------------------------------------------------------
+#--- 14 unused messages -------------------------------------------------------
 
 "Selection:": "Auswahl:"
 "page.extend.button.config": "Konfiguration"
 "page.extend.button.readme": "Readme"
 "page.extend.button.uninstall": "Deinstallieren"
 "page.extend.button.versions": "Versionen"
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.directory-not-found-writable": "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
+"general.phrase.extras": "Extras"
+"general.phrase.path": "Pfad"
+"general.phrase.path-colon": "Pfad"
+"general.phrase.permissions": "Berechtigungen"
+"page.ckeditor-browse-server.folders": "Verzeichnisse"
+"page.file-management.message.folder-access-denied": "Verzeichnisberechtigungen lassen das nicht zu"
 
-#--- 16 untranslated messages -------------------------------------------------
+#--- 15 untranslated messages -------------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Finding packages that require this one…": #
@@ -41,7 +49,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 72 untranslated keyword based messages -----------------------------------
+#--- 73 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -55,8 +63,9 @@
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
 "general.phrase.move-down": # "Move Down"
@@ -195,7 +204,7 @@
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 458 keyword based translations -------------------------------------------
+#--- 451 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"
@@ -336,7 +345,6 @@ general.phrase.depublish: "Depublizieren"
 general.phrase.depublish-date-past: "Das Veröffentlichungsdatum liegt in der Vergangenheit. Verändern Sie den Status, wenn Sie jetzt archivieren möchten"
 general.phrase.deselect-all: "Alle abwählen"
 general.phrase.details: "Details"
-general.phrase.directory-not-found-writable: "Verzeichnis '%s' nicht gefunden oder nicht lesbar"
 general.phrase.disable-user-name: "%username% deaktivieren"
 general.phrase.done-bang: "Fertig!"
 general.phrase.draft: "Entwurf"
@@ -352,7 +360,6 @@ general.phrase.error-send-password-request: "Das Senden der Passwort-Anfrage ist
 general.phrase.error-translation-file-not-readable: "Übersetzungsdatei '%s' nicht lesbar."
 general.phrase.error-user-name-password-incorrect: "Benutzername oder Passwort falsch. Bitte Eingabe überprüfen."
 general.phrase.extensions: "Erweiterungen anzeigen/installieren"
-general.phrase.extras: "Extras"
 general.phrase.field: "Feld"
 general.phrase.field-fieldname: "Feld „%FIELD_NAME%”:"
 general.phrase.file-management: "Dateiverwaltung"
@@ -425,11 +432,8 @@ general.phrase.overview-for: "Übersicht für"
 general.phrase.owner-colon: "Besitzer:"
 general.phrase.page: "Seite"
 general.phrase.pager-showing-from-to-of: "Zeige %pager_for% %from% - %to% von %count%"
-general.phrase.path: "Pfad"
-general.phrase.path-colon: "Pfad"
 general.phrase.path-image-file: "Bildpfad"
 general.phrase.permalink: "Permanenter Link"
-general.phrase.permissions: "Berechtigungen"
 general.phrase.please-logon: "Bitte anmelden."
 general.phrase.please-provide-username: "Bitte geben Sie einen Benutzernamen an"
 general.phrase.preview: "Vorschau"
@@ -544,7 +548,6 @@ page.checks.run-email-checks: "E-Mail-Einstellungen überprüfungen"
 page.checks.run-php-ext-checks: "PHP-Erweiterungen überprüfen"
 
 page.ckeditor-browse-server.files: "Dateien"
-page.ckeditor-browse-server.folders: "Verzeichnisse"
 page.ckeditor-browse-server.modified: "Bearbeitet"
 page.ckeditor-browse-server.size: "Dateigröße"
 page.ckeditor-browse-server.title: "Dateien"
@@ -648,7 +651,6 @@ page.file-management.message.create-file: "Bitte geben Sie einen neuen Dateiname
 page.file-management.message.create-folder: "Bitte geben Sie einen neuen Verzeichnisnamen ein!"
 page.file-management.message.file-not-readable: "Die Datei ist nicht lesbar!"
 page.file-management.message.files-in: "Dateien in %s"
-page.file-management.message.folder-access-denied: "Verzeichnisberechtigungen lassen das nicht zu"
 page.file-management.message.folder-not-found: "Konnte nicht auf '%s' zugreifen."
 page.file-management.message.save-failed-colon: "Die Datei '%s' konnte nicht gespeichert werden:"
 page.file-management.message.save-failed-invalid-form: "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
