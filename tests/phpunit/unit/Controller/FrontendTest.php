@@ -144,12 +144,12 @@ class FrontendTest extends ControllerUnitTest
     public function testCanonicalUrlProvider()
     {
         return [
-            ['http://bolt.dev/', null, false],
-            ['http://bolt.dev/', null, true],
-            ['https://foo.dev/', 'https://foo.dev/', false],
-            ['https://foo.dev/', 'https://foo.dev/', true],
-            ['http://bar.dev/', 'http://bar.dev/', false],
-            ['http://bar.dev/', 'http://bar.dev/', true],
+            ['http://bolt.test/', null, false],
+            ['http://bolt.test/', null, true],
+            ['https://foo.test/', 'https://foo.test/', false],
+            ['https://foo.test/', 'https://foo.test/', true],
+            ['http://bar.test/', 'http://bar.test/', false],
+            ['http://bar.test/', 'http://bar.test/', true],
         ];
     }
 

@@ -274,7 +274,7 @@ class LoginTest extends BoltUnitTest
         $userName = 'admin';
         $salt = 'vinagre';
         $ipAddress = '1.2.3.4';
-        $hostName = 'bolt.dev';
+        $hostName = 'bolt.test';
         $userAgent = 'Bolt PHPUnit tests';
         $cookieOptions = [
             'remoteaddr'   => true,
