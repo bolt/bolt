@@ -176,10 +176,10 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             )
         );
         $app = new Application(['resources' => $config]);
-        $this->assertEquals('cli', $config->getRequest('protocol'));
+        $this->assertEquals('http', $config->getRequest('protocol'));
         $this->assertEquals('bolt.dev', $config->getRequest('hostname'));
         $this->assertEquals('http://bolt.dev/bolt', $config->getUrl('canonical'));
-        $this->assertEquals('cli://bolt.dev', $config->getUrl('host'));
+        $this->assertEquals('http://bolt.dev', $config->getUrl('host'));
         $this->assertEquals('http://bolt.dev/', $config->getUrl('rooturl'));
     }
 

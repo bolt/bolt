@@ -1175,7 +1175,7 @@ class Config
                 ],
             ],
             'liveeditor'                  => true,
-            'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'canonical'                   => null,
             'cookies_use_remoteaddr'      => true,
             'cookies_use_browseragent'    => false,
             'cookies_use_httphost'        => true,
