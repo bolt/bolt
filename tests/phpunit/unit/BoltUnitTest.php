@@ -92,7 +92,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $bolt['config']->set('general/canonical', 'bolt.dev');
+        $bolt['config']->set('general/canonical', 'bolt.test');
         $bolt['slugify'] = Slugify::create();
 
         $this->setAppPaths($bolt['resources']);
