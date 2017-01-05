@@ -197,6 +197,7 @@
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
+"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 64 translations ----------------------------------------------------------

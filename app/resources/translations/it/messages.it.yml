@@ -400,6 +400,7 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.label.create-folder": # "Create folder"
 "page.file-management.message.create-file": # "Please enter a new file name!"
