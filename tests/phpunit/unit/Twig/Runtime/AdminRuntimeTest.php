@@ -44,24 +44,10 @@ class AdminRuntimeTest extends BoltUnitTest
         $this->assertSame('Johno', $app['jsdata']['drop']['bear']);
     }
 
-    public function testIsChangelogEnabled()
-    {
-        $app = $this->getApp();
-        $handler = $this->getAdminRuntime();
-
-        $app['config']->set('general/changelog/enabled', false);
-        $result = $handler->isChangelogEnabled();
-        $this->assertFalse($result);
-
-        $app['config']->set('general/changelog/enabled', true);
-        $result = $handler->isChangelogEnabled();
-        $this->assertTrue($result);
-    }
-
     public function testStackable()
     {
         $app = $this->getApp();
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
+        $stack = $this->getMockStack();
         $stack
             ->expects($this->once())
             ->method('isStackable')
@@ -77,7 +63,7 @@ class AdminRuntimeTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
+        $stack = $this->getMockStack();
         $stack
             ->expects($this->exactly(3))
             ->method('getList')
@@ -176,7 +162,11 @@ class AdminRuntimeTest extends BoltUnitTest
     public function testTransArgsFour()
     {
         $app = $this->getApp();
-        $trans = $this->getMock('Silex\Translator', ['trans'], [$app, $app['translator.message_selector']]);
+        $trans = $this->getMockBuilder(\Silex\Translator::class)
+            ->setMethods(['trans'])
+            ->setConstructorArgs([$app, $app['translator.message_selector']])
+            ->getMock()
+        ;
         $trans
             ->expects($this->atLeastOnce())
             ->method('trans')
@@ -252,6 +242,20 @@ class AdminRuntimeTest extends BoltUnitTest
 
         $result = $handler->hclass(['first', 'second'], true);
         $this->assertSame('first second', $result);
+    }
+
+    /**
+     * @return Stack|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockStack()
+    {
+        $app = $this->getApp();
+
+        return $this->getMockBuilder(Stack::class)
+            ->setMethods([])
+            ->setConstructorArgs([$app['filesystem.matcher'], $app['users'], $app['session'], []])
+            ->getMock()
+            ;
     }
 
     /**

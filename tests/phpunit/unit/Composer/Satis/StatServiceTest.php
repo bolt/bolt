@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
+use Bolt\Composer\Satis\StatService;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -13,12 +14,17 @@ class StatServiceTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $stat = $this->getMock('Bolt\Composer\Satis\StatService', ['recordInstall'], [$app['guzzle.client'], $app['logger.system'], $app['extend.site']]);
+        $stat = $this->getMockBuilder(StatService::class)
+            ->setMethods(['recordInstall'])
+            ->setConstructorArgs([$app['guzzle.client'], $app['logger.system'], $app['extend.site']])
+            ->getMock()
+        ;
         $stat->expects($this->once())
             ->method('recordInstall')
             ->with('mytest', '1.0.0');
 
-        $response = $stat->recordInstall('mytest', '1.0.0');
+        /** @var StatService $stat */
+        $stat->recordInstall('mytest', '1.0.0');
     }
 }
 

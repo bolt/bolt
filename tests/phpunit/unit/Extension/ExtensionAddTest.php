@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Extension;
 
 use Bolt\Tests\Extension\Mock\NormalExtension;
-use Bolt\Tests\Extensions\AbstractExtensionsUnitTest;
+use \Bolt\Tests\Asset\AbstractExtensionsUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

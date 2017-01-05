@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Tests\Extensions;
+namespace Bolt\Tests\Extension;
 
 use Bolt\Asset\Target;
 
@@ -9,7 +9,7 @@ use Bolt\Asset\Target;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SnippetsTest extends AbstractExtensionsUnitTest
+class SnippetsTest extends AbstractExtensionTest
 {
     public $template = <<<HTML
 <html>

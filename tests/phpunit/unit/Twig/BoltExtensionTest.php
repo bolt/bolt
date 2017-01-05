@@ -71,7 +71,7 @@ class BoltExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $users = $this->getMock('Bolt\Users', ['getCurrentUser'], [$app]);
+        $users = $this->getMockUsers(['getCurrentUser']);
         $users
             ->expects($this->atLeastOnce())
             ->method('getCurrentUser')

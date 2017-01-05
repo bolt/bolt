@@ -34,7 +34,7 @@ class StackTest extends BoltUnitTest
     protected function setUp()
     {
         $app = $this->getApp();
-        $this->users = $this->getMock(Users::class, ['getCurrentUser', 'saveUser'], [$app]);
+        $this->users = $this->getMockUsers(['getCurrentUser', 'saveUser']);
         $this->session = new Session(
             new MockArraySessionStorage()
         );

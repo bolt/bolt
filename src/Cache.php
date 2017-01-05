@@ -41,23 +41,6 @@ class Cache extends FilesystemCache
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use flushAll() instead.
-     */
-    public function clearCache()
-    {
-        $this->flushAll();
-
-        return [
-            'successfiles'   => 0,
-            'failedfiles'    => 0,
-            'failed'         => [],
-            'successfolders' => 0,
-            'failedfolders'  => 0,
-            'log'            => '',
-        ];
-    }
-
-    /**
      * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
      *
      * @return bool

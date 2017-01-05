@@ -78,11 +78,6 @@ class AdminRuntime
         $this->app['jsdata'] = $jsdata;
     }
 
-    public function isChangelogEnabled()
-    {
-        return $this->config->get('general/changelog/enabled');
-    }
-
     /**
      * Return whether or not a file is stackable.
      *

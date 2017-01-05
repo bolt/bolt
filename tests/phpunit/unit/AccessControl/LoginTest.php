@@ -26,7 +26,7 @@ class LoginTest extends BoltUnitTest
         $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Login function called with empty username/password combination, or no authentication token.'));
@@ -44,7 +44,7 @@ class LoginTest extends BoltUnitTest
         $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Username or password not correct. Please check your input.'));
@@ -62,13 +62,13 @@ class LoginTest extends BoltUnitTest
         $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['alert'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('alert')
             ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
         $app['logger.system'] = $logger;
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
@@ -93,7 +93,7 @@ class LoginTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $this->addNewUser($app, 'koala', 'Koala', 'editor', false);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
@@ -110,13 +110,13 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('info')
             ->with($this->equalTo("Failed login attempt for 'Admin'."));
         $app['logger.system'] = $logger;
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Username or password not correct. Please check your input.'));
@@ -135,7 +135,7 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
+        $logger = $this->getMockMonolog(['debug']);
         $logger->expects($this->at(0))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
@@ -159,7 +159,7 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Invalid login parameters.'));
@@ -181,7 +181,7 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Invalid login parameters.'));
@@ -215,7 +215,7 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['alert', 'debug'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('alert')
             ->with($this->equalTo('Attempt to login with an invalid token from 1.2.3.4'));
@@ -252,7 +252,7 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->at(0))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
@@ -261,7 +261,7 @@ class LoginTest extends BoltUnitTest
             ->with($this->matchesRegularExpression('#Saving new login token#'));
         $app['logger.system'] = $logger;
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['success']);
+        $logger = $this->getMockFlashLogger();
         $logger->expects($this->at(0))
             ->method('success')
             ->with($this->equalTo('Session resumed.'));

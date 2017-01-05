@@ -68,6 +68,7 @@
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.running-update-all": # "Running updates"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 84 translations ----------------------------------------------------------

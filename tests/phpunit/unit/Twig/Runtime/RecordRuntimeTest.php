@@ -4,6 +4,8 @@ namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Legacy\Content;
+use Bolt\Pager\Pager;
+use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
@@ -366,15 +368,6 @@ GRINGALET;
         $this->assertSame('', $result);
     }
 
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handler = $this->getRecordRuntime();
-
-        $result = $handler->trim($this->original, 87);
-        $this->assertSame($this->excerpt, $result);
-    }
-
     public function testListTemplatesAll()
     {
         $app = $this->getApp();
@@ -453,8 +446,10 @@ GRINGALET;
     public function testPagerEmptyPager()
     {
         $app = $this->getApp();
-
-        $pager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager'], []);
+        $pager = $this->getMockBuilder(PagerManager::class)
+            ->setMethods(['isEmptyPager'])
+            ->getMock()
+        ;
         $pager
             ->expects($this->once())
             ->method('isEmptyPager')
@@ -476,10 +471,14 @@ GRINGALET;
     public function testPager()
     {
         $app = $this->getApp();
+        $manager = $this->getMockBuilder(PagerManager::class)
+            ->setMethods(['isEmptyPager', 'getPager'])
+            ->getMock()
+        ;
 
-        $manager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager', 'getPager'], []);
-
-        $pager = $this->getMock('\Bolt\Pager\Pager');
+        $pager = $this->getMockBuilder(Pager::class)
+            ->getMock()
+        ;
         $pager->for = $pagerName = 'Clippy';
         $pager->totalpages = $surr = 2;
 

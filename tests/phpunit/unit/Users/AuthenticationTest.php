@@ -34,7 +34,7 @@ class AuthenticationTest extends BoltUnitTest
     {
         // Setup test
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
 
         $loginMock->expects($this->once())->method('login')->willReturn(true);
 
@@ -52,7 +52,7 @@ class AuthenticationTest extends BoltUnitTest
     {
         // Setup test
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())->method('login')->willReturn(true);
 
         // Run test

@@ -3,6 +3,7 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\SetcontentTokenParser;
+use Twig_Compiler;
 use Twig_Environment;
 use Twig_ExpressionParser;
 use Twig_Parser;
@@ -112,8 +113,13 @@ class SetcontentTest extends BoltUnitTest
         $this->assertSame('hydrate', $nodes[7]['key']->getAttribute('value'));
         $this->assertFalse($nodes[7]['value']->getAttribute('value'));
 
-        $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'));
-        $compiler = $this->getMock('Twig_Compiler', ['addDebugInfo', 'raw', 'subcompile', 'write'], [$env]);
+        $mockLoader = $this->createMock('Twig_LoaderInterface');
+        $env = new Twig_Environment($mockLoader);
+        $compiler = $this->getMockBuilder(Twig_Compiler::class)
+            ->setMethods(['addDebugInfo', 'raw', 'subcompile', 'write'])
+            ->setConstructorArgs([$env])
+            ->getMock()
+        ;
         $compiler
             ->expects($this->once())
             ->method('addDebugInfo')

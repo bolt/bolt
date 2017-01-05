@@ -109,7 +109,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         );
 
         $app['controller.exception'] = $app->share(
-            function ($app) {
+            function () {
                 return new Controller\Exception();
             }
         );
@@ -141,9 +141,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($this);
-
-        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-        $dispatcher->addListener(ControllerEvents::MOUNT, [$app, 'initMountpoints'], -10);
     }
 
     public function onMountFrontend(MountEvent $event)

@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Configuration\ResourceManager;
+use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class DatabaseTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $checkResponse = new SchemaCheck();
-        $check = $this->getMock('Bolt\Storage\Database\Schema\Manager', ['check'], [$this->getApp()]);
+        $check = $this->getMockSchemaManager(['check']);
         $check->expects($this->atLeastOnce())
             ->method('check')
             ->will($this->returnValue($checkResponse));
@@ -38,7 +39,7 @@ class DatabaseTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $checkResponse = new SchemaCheck();
-        $check = $this->getMock('Bolt\Storage\Database\Schema\Manager', ['update'], [$this->getApp()]);
+        $check = $this->getMockSchemaManager(['update']);
 
         $check->expects($this->any())
             ->method('update')
@@ -70,5 +71,19 @@ class DatabaseTest extends ControllerUnitTest
     protected function controller()
     {
         return $this->getService('controller.backend.database');
+    }
+
+    /**
+     * @param array $methods
+     *
+     * @return Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockSchemaManager(array $methods)
+    {
+        return $this->getMockBuilder(Manager::class)
+            ->setMethods($methods)
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+        ;
     }
 }
