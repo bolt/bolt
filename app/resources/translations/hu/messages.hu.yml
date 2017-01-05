@@ -643,6 +643,7 @@ page.extend.pagetitle: "A %BOLTNAME% kibővítése"
 page.extend.theme.generation.failure: "Nem tudjuk előállítani a témát. Olyan mint ha a téma mappa nem lenne írható. Ellenőrizd a jogokat és próbáld újra!"
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
+page.extend.options: "Bővítmény opciók"
 
 page.file-management.label.create-file: "Fájl létrehozása"
 page.file-management.label.create-folder: "Könyvtár létrehozása"

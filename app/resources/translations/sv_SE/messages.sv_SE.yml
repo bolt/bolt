@@ -89,6 +89,7 @@
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.running-update-all": # "Running updates"
+"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 76 translations ----------------------------------------------------------

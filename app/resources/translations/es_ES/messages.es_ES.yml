@@ -21,6 +21,7 @@
 "general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.extend.options": #
 
 #--- 92 translations ----------------------------------------------------------
 
