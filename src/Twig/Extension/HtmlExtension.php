@@ -24,8 +24,6 @@ class HtmlExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('htmllang',       [Runtime\HtmlRuntime::class, 'htmlLang']),
-            new \Twig_SimpleFunction('ismobileclient', [Runtime\HtmlRuntime::class, 'isMobileClient']),
             new \Twig_SimpleFunction('link',           [Runtime\HtmlRuntime::class, 'link'], $safe),
             new \Twig_SimpleFunction('markdown',       [Runtime\HtmlRuntime::class, 'markdown'], $safe),
             new \Twig_SimpleFunction('menu',           [Runtime\HtmlRuntime::class, 'menu'], $env + $safe),

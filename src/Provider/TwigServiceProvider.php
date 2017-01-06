@@ -33,9 +33,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 $app['markdown'],
                 $app['menu'],
                 $app['storage'],
-                $app['request_stack'],
-                $app['render'],
-                $app['locale']
+                $app['render']
             );
         };
         $app['twig.runtime.bolt_image'] = function ($app) {
@@ -55,7 +53,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Twig\Runtime\RoutingRuntime($app['canonical']);
+            return new Twig\Runtime\RoutingRuntime($app['canonical'], $app['request_stack'], $app['locale']);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
             return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
@@ -66,7 +64,6 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.runtime.bolt_utils'] = function ($app) {
             return new Twig\Runtime\UtilsRuntime(
                 $app['logger.firebug'],
-                $app['request_stack'],
                 $app['debug'],
                 (bool) $app['users']->getCurrentUser() ?: false,
                 $app['config']->get('general/debug_show_loggedoff', false)

@@ -20,7 +20,13 @@ class RoutingExtension extends Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('canonical', [Runtime\RoutingRuntime::class, 'canonical']),
+            // @codingStandardsIgnoreStart
+            new \Twig_SimpleFunction('canonical',      [Runtime\RoutingRuntime::class, 'canonical']),
+            new \Twig_SimpleFunction('htmllang',       [Runtime\RoutingRuntime::class, 'htmlLang']),
+            new \Twig_SimpleFunction('ismobileclient', [Runtime\RoutingRuntime::class, 'isMobileClient']),
+            new \Twig_SimpleFunction('redirect',       [Runtime\RoutingRuntime::class, 'redirect'], ['deprecated' => true]),
+            new \Twig_SimpleFunction('request',        [Runtime\RoutingRuntime::class, 'request']),
+            // @codingStandardsIgnoreEnd
         ];
     }
 

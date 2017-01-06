@@ -2,9 +2,7 @@
 
 namespace Bolt\Twig\Runtime;
 
-use Bolt\Library as Lib;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -16,8 +14,6 @@ class UtilsRuntime
 {
     /** @var LoggerInterface */
     private $firebugLogger;
-    /** @var RequestStack */
-    private $requestsStack;
     /** @var bool */
     private $debug;
     /** @var bool */
@@ -29,15 +25,13 @@ class UtilsRuntime
      * Constructor.
      *
      * @param LoggerInterface $firebugLogger
-     * @param RequestStack    $requestsStack
      * @param bool            $debug
      * @param bool            $isUser
      * @param bool            $showAlways
      */
-    public function __construct(LoggerInterface $firebugLogger, RequestStack $requestsStack, $debug, $isUser, $showAlways)
+    public function __construct(LoggerInterface $firebugLogger, $debug, $isUser, $showAlways)
     {
         $this->firebugLogger = $firebugLogger;
-        $this->requestsStack = $requestsStack;
         $this->debug = $debug;
         $this->isUser = $isUser;
         $this->showAlways = $showAlways;
@@ -88,53 +82,6 @@ class UtilsRuntime
         } elseif (is_string($var)) {
             $this->firebugLogger->info($var, (array) $msg);
         }
-    }
-
-    /**
-     * Redirect the browser to another page.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function redirect($path)
-    {
-        Lib::simpleredirect($path);
-
-        return '';
-    }
-
-    /**
-     * Return the requested parameter from $_REQUEST, $_GET or $_POST.
-     *
-     * @param string  $parameter    The parameter to get
-     * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
-     * @param boolean $stripSlashes Apply stripslashes. Defaults to false.
-     *
-     * @return mixed
-     */
-    public function request($parameter, $from = '', $stripSlashes = false)
-    {
-        $request = $this->requestsStack->getCurrentRequest();
-        if ($request === null) {
-            return null;
-        }
-
-        $from = strtoupper($from);
-
-        if ($from === 'GET') {
-            $value = $request->query->get($parameter, false);
-        } elseif ($from === 'POST') {
-            $value = $request->request->get($parameter, false);
-        } else {
-            $value = $request->get($parameter, false);
-        }
-
-        if ($stripSlashes) {
-            $value = stripslashes($value);
-        }
-
-        return $value;
     }
 
     /**

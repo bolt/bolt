@@ -5,7 +5,6 @@ namespace Bolt\Tests\Twig\Runtime;
 use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\UtilsRuntime;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test Bolt\Twig\Runtime\UtilsRuntime
@@ -167,62 +166,6 @@ class UtilsRuntimeTest extends BoltUnitTest
     }
 
     /**
-     * @runInSeparateProcess
-     * @requires extension xdebug
-     */
-    public function testRedirectNoSafe()
-    {
-        if (phpversion('xdebug') === false) {
-            $this->markTestSkipped('No xdebug support enabled.');
-        }
-
-        $handler = $this->getHandler();
-        $this->expectOutputRegex('/Redirecting to/i');
-
-        $handler->redirect('/clippy/koala');
-        $this->assertContains('location: /clippy/koala', xdebug_get_headers());
-    }
-
-    public function testRequestGet()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->query->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getHandler();
-
-        $result = $handler->request('koala', 'GET', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
-    public function testRequestPost()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->request->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getHandler();
-
-        $result = $handler->request('koala', 'POST', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
-    public function testRequestPatch()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->attributes->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getHandler();
-
-        $result = $handler->request('koala', 'PATCH', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
-    /**
      * @return UtilsRuntime
      */
     protected function getHandler()
@@ -231,7 +174,6 @@ class UtilsRuntimeTest extends BoltUnitTest
 
         return new UtilsRuntime(
             $app['logger.firebug'],
-            $app['request_stack'],
             $app['debug'],
             (bool) $app['users']->getCurrentUser() ?: false,
             $app['config']->get('general/debug_show_loggedoff', false)
