@@ -23,6 +23,20 @@ class RoutingRuntimeTest extends BoltUnitTest
         $this->assertSame('en-Aussie-Mate', $result);
     }
 
+    public function testHtmlLangFromRequest()
+    {
+        $app = $this->getApp();
+        $app['locale'] = 'en_Aussie_Mate';
+        $handler = $this->getRuntime();
+
+        $request = Request::create('/');
+        $request->setLocale('en_American_Bro');
+        $app['request_stack']->push($request);
+
+        $result = $handler->htmlLang();
+        $this->assertSame('en-American-Bro', $result);
+    }
+
     public function userAgentProvider()
     {
         return [

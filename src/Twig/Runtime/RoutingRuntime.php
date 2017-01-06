@@ -53,7 +53,10 @@ class RoutingRuntime
      */
     public function htmlLang()
     {
-        return str_replace('_', '-', $this->locale);
+        $request = $this->requestStack->getCurrentRequest();
+        $locale = $request ? $request->getLocale() : $this->locale;
+
+        return str_replace('_', '-', $locale);
     }
 
     /**
