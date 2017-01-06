@@ -25,7 +25,6 @@ class UtilsExtension extends Extension
         return [
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('backtrace',   [Runtime\UtilsRuntime::class, 'printBacktrace']),
-            new \Twig_SimpleFunction('dump',        [Runtime\UtilsRuntime::class, 'printDump']),
             new \Twig_SimpleFunction('file_exists', [Runtime\UtilsRuntime::class, 'fileExists'], $deprecated),
             new \Twig_SimpleFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
             new \Twig_SimpleFunction('print',       [Runtime\UtilsRuntime::class, 'printDump'], $deprecated + ['alternative' => 'dump']),
