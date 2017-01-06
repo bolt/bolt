@@ -2,76 +2,32 @@
 
 namespace Bolt\Twig\Extension;
 
-use Bolt\Users;
-use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
-use Symfony\Component\VarDumper\Cloner\ClonerInterface;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Bolt\Twig\Runtime\DumpRuntime;
+use Symfony\Bridge\Twig\TokenParser\DumpTokenParser;
 
 /**
- * Extended to allow dumper to be passed in.
+ * Modified version of Twig Bridge's DumpExtension to use runtime loading.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DumpExtension extends BaseDumpExtension
+class DumpExtension extends \Twig_Extension
 {
-    /** @var ClonerInterface */
-    private $cloner;
-    /** @var HtmlDumper */
-    private $dumper;
-    /** @var Users */
-    private $users;
-
-    private $debugShowLoggedoff;
-
-    /**
-     * Constructor.
-     *
-     * @param ClonerInterface $cloner
-     * @param HtmlDumper      $dumper
-     * @param Users           $users
-     * @param boolean         $debugShowLoggedoff
-     */
-    public function __construct(ClonerInterface $cloner, HtmlDumper $dumper, Users $users, $debugShowLoggedoff)
+    public function getFunctions()
     {
-        parent::__construct($cloner);
-        $this->cloner = $cloner;
-        $this->dumper = $dumper;
-        $this->users = $users;
-        $this->debugShowLoggedoff = $debugShowLoggedoff;
+        $options = ['is_safe' => ['html'], 'needs_context' => true, 'needs_environment' => true];
+
+        return [
+            new \Twig_SimpleFunction('dump', [DumpRuntime::class, 'dump'], $options),
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function dump(\Twig_Environment $env, $context)
+    public function getTokenParsers()
     {
-        // Return if 'debug' is `false` in Twig, or there's no logged on user _and_ `debug_show_loggedoff` in
-        // config.yml is `false`.
-        if (!$env->isDebug() || (($this->users->getCurrentUser() === null) && !$this->debugShowLoggedoff)) {
-            return null;
-        }
+        return [new DumpTokenParser()];
+    }
 
-        if (func_num_args() === 2) {
-            $vars = [];
-            foreach ($context as $key => $value) {
-                if (!$value instanceof \Twig_Template) {
-                    $vars[$key] = $value;
-                }
-            }
-
-            $vars = [$vars];
-        } else {
-            $vars = func_get_args();
-            unset($vars[0], $vars[1]);
-        }
-
-        $output = fopen('php://memory', 'r+b');
-        $this->dumper->setCharset($env->getCharset());
-
-        foreach ($vars as $value) {
-            $this->dumper->dump($this->cloner->cloneVar($value), $output);
-        }
-
-        return stream_get_contents($output, -1, 0);
+    public function getName()
+    {
+        return 'dump';
     }
 }

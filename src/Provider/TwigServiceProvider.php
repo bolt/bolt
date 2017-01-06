@@ -71,6 +71,14 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.runtime.bolt_widget'] = function ($app) {
             return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
         };
+        $app['twig.runtime.dump'] = function ($app) {
+            return new Twig\Runtime\DumpRuntime(
+                $app['dumper.cloner'],
+                $app['dumper.html'],
+                $app['users'],
+                $app['config']->get('general/debug_show_loggedoff', false)
+            );
+        };
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
         if (!isset($app['twig.runtimes'])) {
@@ -91,6 +99,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     Twig\Runtime\UserRuntime::class    => 'twig.runtime.bolt_user',
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
+                    Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
                 ];
             }
         );
@@ -157,9 +166,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);
 
-                    if (isset($app['dump'])) {
-                        $twig->addExtension($app['twig.extension.dump']);
-                    }
+                    $twig->addExtension($app['twig.extension.dump']);
 
                     $sandbox = $app['twig.extension.sandbox'];
                     $twig->addExtension($sandbox);
@@ -231,12 +238,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.dump'] = $app->share(
             function ($app) {
-                return new Extension\DumpExtension(
-                    $app['dumper.cloner'],
-                    $app['dumper.html'],
-                    $app['users'],
-                    $app['config']->get('general/debug_show_loggedoff', false)
-                );
+                return new Extension\DumpExtension();
             }
         );
 
