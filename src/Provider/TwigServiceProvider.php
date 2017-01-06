@@ -4,7 +4,6 @@ namespace Bolt\Provider;
 
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
-use Bolt\Twig\DumpExtension;
 use Bolt\Twig\Extension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\RuntimeLoader;
@@ -232,7 +231,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.dump'] = $app->share(
             function ($app) {
-                return new DumpExtension(
+                return new Extension\DumpExtension(
                     $app['dumper.cloner'],
                     $app['dumper.html'],
                     $app['users'],

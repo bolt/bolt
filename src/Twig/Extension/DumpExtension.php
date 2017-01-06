@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Twig;
+namespace Bolt\Twig\Extension;
 
 use Bolt\Users;
 use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
