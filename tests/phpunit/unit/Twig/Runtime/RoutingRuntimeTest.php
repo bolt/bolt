@@ -37,6 +37,7 @@ class RoutingRuntimeTest extends BoltUnitTest
             'Nokia'      => ['Mozilla/5.0 (SymbianOS/9.4; Series60/5.0 Nokia5230/51.0.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.1.33 Mobile Safari/533.4'],
             'Playbook'   => ['Mozilla/5.0 (BlackBerry Playbook; U; it) AppleWebKit/537.36 (KHTML, like Gecko) Version/2.1.0.1917 Mobile Safari/537.36'],
             'Smartphone' => ['Oppo smartphone Profile/MIDP-2.0 Configuration/CLDC-1.1'],
+            'Invalid'    => ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36', false],
         ];
     }
 
@@ -61,15 +62,6 @@ class RoutingRuntimeTest extends BoltUnitTest
         $app['request_stack']->pop();
 
         $this->assertEquals($isMobile, $result, sprintf('User Agent should %shave been identified as a mobile client', !$isMobile ? 'not ' : ''));
-    }
-
-    public function testIsMobileClientInvalid()
-    {
-        $handler = $this->getRuntime();
-
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
-        $result = $handler->isMobileClient();
-        $this->assertFalse($result);
     }
 
     /**
