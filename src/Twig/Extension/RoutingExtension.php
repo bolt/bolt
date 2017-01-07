@@ -25,7 +25,7 @@ class RoutingExtension extends Extension
             new \Twig_SimpleFunction('htmllang',       [Runtime\RoutingRuntime::class, 'htmlLang']),
             new \Twig_SimpleFunction('ismobileclient', [Runtime\RoutingRuntime::class, 'isMobileClient']),
             new \Twig_SimpleFunction('redirect',       [Runtime\RoutingRuntime::class, 'redirect'], ['deprecated' => true]),
-            new \Twig_SimpleFunction('request',        [Runtime\RoutingRuntime::class, 'request']),
+            new \Twig_SimpleFunction('request',        [Runtime\RoutingRuntime::class, 'request'], ['deprecated' => true]),
             // @codingStandardsIgnoreEnd
         ];
     }
