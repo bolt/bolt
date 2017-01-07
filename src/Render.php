@@ -4,10 +4,7 @@ namespace Bolt;
 
 use Bolt\Response\TemplateResponse;
 use Silex;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Environment as Environment;
-use Twig_Template as Template;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.
@@ -24,8 +21,6 @@ class Render
     public $app;
     /** @var boolean */
     public $safe;
-    /** @var string */
-    public $twigKey;
 
     /**
      * Set up the object.
@@ -37,11 +32,6 @@ class Render
     {
         $this->app = $app;
         $this->safe = $safe;
-        if ($safe) {
-            $this->twigKey = 'safe_twig';
-        } else {
-            $this->twigKey = 'twig';
-        }
     }
 
     /**
@@ -57,16 +47,13 @@ class Render
     {
         $this->app['stopwatch']->start('bolt.render', 'template');
 
-        /** @var Environment $twig */
-        $twig = $this->app[$this->twigKey];
-        /** @var Template $template */
-        $template = $twig->resolveTemplate($templateName);
+        $template = $this->app['twig']->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
-            $twig->addGlobal($name, $value);
+            $this->app['twig']->addGlobal($name, $value);
         }
 
-        $html = $template->render($context);
+        $html = twig_include($this->app['twig'], $context, $template, [], true, false, $this->safe);
 
         $response = new TemplateResponse($template, $context, $globals);
         $response->setContent($html);
@@ -87,9 +74,7 @@ class Render
      */
     public function hasTemplate($template)
     {
-        /** @var \Twig_Environment $env */
-        $env = $this->app[$this->twigKey];
-        $loader = $env->getLoader();
+        $loader = $this->app['twig']->getLoader();
 
         /*
          * Twig_ExistsLoaderInterface is getting merged into
