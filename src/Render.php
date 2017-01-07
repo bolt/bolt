@@ -77,9 +77,9 @@ class Render
     }
 
     /**
-     * Check if the template exists.
+     * @deprecated Since 3.3, will be removed in 4.0.
      *
-     * @internal
+     * Check if the template exists.
      *
      * @param string $template The name of the template.
      *
