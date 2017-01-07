@@ -47,20 +47,20 @@ class Render
     /**
      * Render a template, possibly store it in cache. Or, if applicable, return the cached result.
      *
-     * @param string $templateFile Template file name
-     * @param array  $context      Context variables
-     * @param array  $globals      Global variables
+     * @param string|string[] $templateName Template name(s)
+     * @param array           $context      Context variables
+     * @param array           $globals      Global variables
      *
      * @return TemplateResponse
      */
-    public function render($templateFile, $context = [], $globals = [])
+    public function render($templateName, $context = [], $globals = [])
     {
         $this->app['stopwatch']->start('bolt.render', 'template');
 
         /** @var Environment $twig */
         $twig = $this->app[$this->twigKey];
         /** @var Template $template */
-        $template = $twig->loadTemplate($templateFile);
+        $template = $twig->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
             $twig->addGlobal($name, $value);
