@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Twig\Runtime;
 
-use Bolt\Application;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\UtilsRuntime;
 
@@ -13,76 +12,11 @@ use Bolt\Twig\Runtime\UtilsRuntime;
  */
 class UtilsRuntimeTest extends BoltUnitTest
 {
-    /**
-     * Override Symfony's default handler to get the output
-     *
-     * @param Application $app
-     */
-    protected function stubVarDumper(Application $app)
-    {
-        $app['dump'] = $app->protect(
-            function ($var) {
-                return $var;
-            }
-        );
-    }
-
     public function testFileExists()
     {
         $handler = $this->getHandler();
         $result = $handler->fileExists(__FILE__);
         $this->assertTrue($result);
-    }
-
-    public function testPrintBacktraceSafeDebugOn()
-    {
-        $app = $this->getApp();
-        $this->stubVarDumper($app);
-        $app['debug'] = true;
-        $handler = $this->getHandler();
-
-        $result = $handler->printBacktrace(5);
-        $this->assertNull($result);
-    }
-
-    public function testPrintBacktraceNoSafeDebugOff()
-    {
-        $app = $this->getApp();
-        $this->stubVarDumper($app);
-        $app['debug'] = false;
-        $handler = $this->getHandler();
-
-        $result = $handler->printBacktrace(5);
-        $this->assertNull($result);
-    }
-
-    public function testPrintBacktraceNoSafeDebugOffLoggedoff()
-    {
-        $app = $this->getApp();
-        $this->stubVarDumper($app);
-        $app['debug'] = true;
-        $app['config']->set('general/debug_show_loggedoff', false);
-        $handler = $this->getHandler();
-
-        $result = $handler->printBacktrace(5);
-        $this->assertNull($result);
-    }
-
-    public function testPrintBacktraceNoSafeDebugOn()
-    {
-        $app = $this->getApp();
-        $this->stubVarDumper($app);
-        $app['debug'] = true;
-        $app['config']->set('general/debug_show_loggedoff', true);
-
-        $handler = $this->getHandler();
-
-        $result = $handler->printBacktrace(5);
-        $this->assertCount(5, $result);
-        $this->assertArrayHasKey('file', $result[0]);
-        $this->assertArrayHasKey('line', $result[0]);
-        $this->assertArrayHasKey('function', $result[0]);
-        $this->assertArrayHasKey('class', $result[0]);
     }
 
     public function testPrintFirebugSafeDebugOn()
@@ -118,7 +52,6 @@ class UtilsRuntimeTest extends BoltUnitTest
     public function testPrintFirebugNoSafeDebugOnArrayString()
     {
         $app = $this->getApp();
-        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
@@ -135,7 +68,6 @@ class UtilsRuntimeTest extends BoltUnitTest
     public function testPrintFirebugNoSafeDebugOnStringArray()
     {
         $app = $this->getApp();
-        $this->stubVarDumper($app);
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
@@ -152,7 +84,6 @@ class UtilsRuntimeTest extends BoltUnitTest
     public function testPrintFirebugNoSafeDebugOnArrayArray()
     {
         $app = $this->getApp();
-        $this->stubVarDumper($app);
         $app['debug'] = true;
 
         $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);

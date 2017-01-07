@@ -3,7 +3,6 @@
 namespace Bolt\Twig\Runtime;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Bolt specific Twig functions and filters that provide generic utility
@@ -47,22 +46,6 @@ class UtilsRuntime
     public function fileExists($filename)
     {
         return file_exists($filename);
-    }
-
-    /**
-     * Output pretty-printed backtrace.
-     *
-     * @param integer $depth
-     *
-     * @return string|null
-     */
-    public function printBacktrace($depth)
-    {
-        if (!$this->allowDebug()) {
-            return null;
-        }
-
-        return VarDumper::dump(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, $depth));
     }
 
     /**

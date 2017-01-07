@@ -8,6 +8,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
  * Twig Bridge's DumpExtension's runtime logic with custom enabled check.
+ * Also, backtrace function.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -44,9 +45,7 @@ class DumpRuntime
      */
     public function dump(\Twig_Environment $env, $context)
     {
-        // Return if 'debug' is `false` in Twig, or there's no logged on user _and_ `debug_show_loggedoff` in
-        // config.yml is `false`.
-        if (!$env->isDebug() || (($this->users->getCurrentUser() === null) && !$this->debugShowLoggedoff)) {
+        if (!$this->isEnabled($env)) {
             return null;
         }
 
@@ -72,5 +71,33 @@ class DumpRuntime
         }
 
         return stream_get_contents($output, -1, 0);
+    }
+
+    /**
+     * Output pretty-printed backtrace.
+     *
+     * @param \Twig_Environment $env
+     * @param array             $context
+     * @param int               $depth
+     *
+     * @return string|null
+     */
+    public function dumpBacktrace(\Twig_Environment $env, $context, $depth)
+    {
+        if (!$this->isEnabled($env)) {
+            return null;
+        }
+
+        return $this->dump($env, $context, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, $depth));
+    }
+
+    /**
+     * @param \Twig_Environment $env
+     *
+     * @return bool
+     */
+    protected function isEnabled(\Twig_Environment $env)
+    {
+        return $env->isDebug() && ($this->debugShowLoggedoff || $this->users->getCurrentUser() !== null);
     }
 }
