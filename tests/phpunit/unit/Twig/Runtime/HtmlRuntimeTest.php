@@ -101,7 +101,7 @@ HTML;
     {
         $handler = $this->getHtmlRuntime();
 
-        $result = $handler->twig("{{ 'koala'|capitalize }}");
+        $result = $handler->twig($this->getApp()['twig'], "{{ 'koala'|capitalize }}");
         $this->assertSame('Koala', $result);
     }
 
@@ -116,8 +116,7 @@ HTML;
             $app['config'],
             $app['markdown'],
             $app['menu'],
-            $app['storage'],
-            $app['render']
+            $app['storage']
         );
     }
 }

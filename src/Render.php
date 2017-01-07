@@ -110,38 +110,6 @@ class Render
     }
 
     /**
-     * Render snippet inside sandbox.
-     *
-     * Temporary until https://github.com/twigphp/Twig/pull/2282 is figured out.
-     *
-     * @internal
-     *
-     * @param string $snippet
-     * @param array  $context
-     * @param bool   $sandboxed
-     *
-     * @return string
-     */
-    public function renderSnippet($snippet, $context = [], $sandboxed = true)
-    {
-        $template = $this->app['twig']->createTemplate((string) $snippet);
-        $sandbox = $this->app['twig.extension.sandbox'];
-
-        $alreadySandboxed = $sandbox->isSandboxed();
-        if ($sandboxed && !$alreadySandboxed) {
-            $sandbox->enableSandbox();
-        }
-
-        try {
-            return $template->render($context);
-        } finally {
-            if ($sandboxed && !$alreadySandboxed) {
-                $sandbox->disableSandbox();
-            }
-        }
-    }
-
-    /**
      * Retrieve a fully cached page from cache.
      *
      * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache

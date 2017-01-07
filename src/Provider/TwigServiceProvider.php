@@ -31,8 +31,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 $app['config'],
                 $app['markdown'],
                 $app['menu'],
-                $app['storage'],
-                $app['render']
+                $app['storage']
             );
         };
         $app['twig.runtime.bolt_image'] = function ($app) {

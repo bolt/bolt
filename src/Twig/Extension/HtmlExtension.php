@@ -44,7 +44,7 @@ class HtmlExtension extends Extension
             new \Twig_SimpleFilter('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
             new \Twig_SimpleFilter('shy',      [Runtime\HtmlRuntime::class, 'shy'], $safe),
             new \Twig_SimpleFilter('tt',       [Runtime\HtmlRuntime::class, 'decorateTT'], $safe),
-            new \Twig_SimpleFilter('twig',     [Runtime\HtmlRuntime::class, 'twig'], $safe),
+            new \Twig_SimpleFilter('twig',     [Runtime\HtmlRuntime::class, 'twig'], ['needs_environment' => true] + $safe),
             // @codingStandardsIgnoreEnd
         ];
     }

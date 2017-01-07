@@ -222,8 +222,7 @@ class FrontendTest extends ControllerUnitTest
             $app['config'],
             $app['markdown'],
             $app['menu'],
-            $app['storage'],
-            $app['render']
+            $app['storage']
         );
     }
 

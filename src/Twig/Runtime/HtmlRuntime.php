@@ -7,9 +7,9 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
 use Bolt\Menu\MenuBuilder;
-use Bolt\Render;
 use Bolt\Storage\EntityManager;
 use Maid\Maid;
+use Twig_Environment as Environment;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -26,8 +26,6 @@ class HtmlRuntime
     private $menu;
     /** @var EntityManager */
     private $em;
-    /** @var Render */
-    private $render;
 
     /**
      * Constructor.
@@ -36,20 +34,17 @@ class HtmlRuntime
      * @param \Parsedown    $markdown
      * @param MenuBuilder   $menu
      * @param EntityManager $em
-     * @param Render        $render
      */
     public function __construct(
         Config $config,
         \Parsedown $markdown,
         MenuBuilder $menu,
-        EntityManager $em,
-        Render $render
+        EntityManager $em
     ) {
         $this->config = $config;
         $this->markdown = $markdown;
         $this->menu = $menu;
         $this->em = $em;
-        $this->render = $render;
     }
 
     /**
@@ -147,14 +142,14 @@ class HtmlRuntime
     /**
      * Output a menu.
      *
-     * @param \Twig_Environment $env
-     * @param string            $identifier Identifier for a particular menu
-     * @param string            $template   The template to use.
-     * @param array             $params     Extra parameters to pass on to the menu template.
+     * @param Environment $env
+     * @param string      $identifier Identifier for a particular menu
+     * @param string      $template   The template to use.
+     * @param array       $params     Extra parameters to pass on to the menu template.
      *
      * @return string|null
      */
-    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
+    public function menu(Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
     {
         $menu = $this->menu->menu($identifier);
 
@@ -192,13 +187,16 @@ class HtmlRuntime
      * Use template_from_string instead:
      * http://twig.sensiolabs.org/doc/functions/template_from_string.html
      *
-     * @param string $snippet
-     * @param array  $context
+     * @param Environment $env
+     * @param string      $snippet
+     * @param array       $context
      *
      * @return string Twig output
      */
-    public function twig($snippet, $context = [])
+    public function twig(Environment $env, $snippet, $context = [])
     {
-        return $this->render->renderSnippet($snippet, $context);
+        $template = $env->createTemplate((string) $snippet);
+
+        return twig_include($env, $context, $template, [], true, false, true);
     }
 }
