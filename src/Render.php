@@ -146,22 +146,6 @@ class Render
     }
 
     /**
-     * Post-process the rendered HTML: insert the snippets, and stuff.
-     *
-     * @param Request  $request
-     * @param Response $response
-     */
-    public function postProcess(Request $request, Response $response)
-    {
-        /** @var \Bolt\Asset\QueueInterface $queue */
-        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
-            foreach ($this->app['asset.queues'] as $queue) {
-                $queue->process($request, $response);
-            }
-        }
-    }
-
-    /**
      * Retrieve a fully cached page from cache.
      *
      * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
