@@ -11,6 +11,7 @@ use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
 
@@ -110,6 +111,17 @@ class TwigServiceProvider implements ServiceProviderInterface
             };
         }
 
+        /** @deprecated Can be replaced when switch to Silex 2 occurs */
+        $app['twig.app_variable'] = function ($app) {
+            $var = new AppVariable();
+            if (isset($app['request_stack'])) {
+                $var->setRequestStack($app['request_stack']);
+            }
+            $var->setDebug($app['debug']);
+
+            return $var;
+        };
+
         $app['twig.loader.bolt_filesystem'] = $app->share(
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
@@ -173,6 +185,9 @@ class TwigServiceProvider implements ServiceProviderInterface
 
                     /** @deprecated Can be replaced when switch to Silex 2 occurs */
                     $twig->addRuntimeLoader($app['twig.runtime_loader']);
+
+                    /** @deprecated Can be replaced when switch to Silex 2 occurs */
+                    $twig->addGlobal('global', $app['twig.app_variable']);
 
                     return $twig;
                 }
