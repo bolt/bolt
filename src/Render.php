@@ -68,12 +68,8 @@ class Render
 
         $html = $template->render($context);
 
-        $response = new TemplateResponse($html);
-        $response
-            ->setTemplate($template)
-            ->setContext($context)
-            ->setGlobals($globals)
-        ;
+        $response = new TemplateResponse($template, $context, $globals);
+        $response->setContent($html);
 
         $this->app['stopwatch']->stop('bolt.render');
 
