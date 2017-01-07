@@ -7,6 +7,8 @@ use Bolt\Tests\BoltUnitTest;
 /**
  * Class to test src/Composer/Satis/QueryService.
  *
+ * @group slow
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class QueryServiceTest extends BoltUnitTest
