@@ -20,6 +20,7 @@ class DumpExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('backtrace', [DumpRuntime::class, 'dumpBacktrace'], $options),
             new \Twig_SimpleFunction('dump', [DumpRuntime::class, 'dump'], $options),
+            new \Twig_SimpleFunction('print', [DumpRuntime::class, 'dump'], $options + ['deprecated' => true, 'alternative' => 'dump']),
         ];
     }
 

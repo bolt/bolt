@@ -26,7 +26,6 @@ class UtilsExtension extends Extension
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('file_exists', [Runtime\UtilsRuntime::class, 'fileExists'], $deprecated),
             new \Twig_SimpleFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
-            new \Twig_SimpleFunction('print',       [Runtime\UtilsRuntime::class, 'printDump'], $deprecated + ['alternative' => 'dump']),
             // @codingStandardsIgnoreEnd
         ];
     }
