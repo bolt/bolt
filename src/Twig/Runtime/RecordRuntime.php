@@ -178,22 +178,6 @@ class RecordRuntime
     }
 
     /**
-     * Trims the given string to a particular length. Deprecated, use excerpt
-     * instead.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string  $content
-     * @param integer $length  Defaults to 200
-     *
-     * @return string Trimmed output
-     */
-    public function trim($content, $length = 200)
-    {
-        return $this->excerpt($content, $length);
-    }
-
-    /**
      * Lists templates, optionally filtered by $filter.
      *
      * @param string $filter

@@ -366,15 +366,6 @@ GRINGALET;
         $this->assertSame('', $result);
     }
 
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handler = $this->getRecordRuntime();
-
-        $result = $handler->trim($this->original, 87);
-        $this->assertSame($this->excerpt, $result);
-    }
-
     public function testListTemplatesAll()
     {
         $app = $this->getApp();
