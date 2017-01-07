@@ -29,7 +29,7 @@ class RecordExtension extends Extension
             new \Twig_SimpleFunction('excerpt',            [Runtime\RecordRuntime::class, 'excerpt'], $safe),
             new \Twig_SimpleFunction('fields',             [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
             new \Twig_SimpleFunction('listtemplates',      [Runtime\RecordRuntime::class, 'listTemplates']),
-            new \Twig_SimpleFunction('pager',              [Runtime\RecordRuntime::class, 'pager'], $env),
+            new \Twig_SimpleFunction('pager',              [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
             new \Twig_SimpleFunction('trimtext',           [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
             // @codingStandardsIgnoreEnd
         ];

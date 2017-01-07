@@ -492,7 +492,6 @@ GRINGALET;
         $class = '';
 
         $result = $handler->pager($env, $pagerName, $surr, $template, $class);
-        $this->assertInstanceOf('\Twig_Markup', $result);
 
         $this->assertRegExp('#<li ><a href="1">1</a></li>#', (string) $result);
         $this->assertRegExp('#<li ><a href="2">2</a></li>#', (string) $result);
