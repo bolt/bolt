@@ -622,16 +622,7 @@ trait ContentValuesTrait
             return false;
         }
 
-        if ((!$this->contenttype['viewless'])
-            && (!empty($this['templatefields']))
-            && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
-            $template = $this->app['templatechooser']->record($this);
-            if (array_key_exists($template, $templateFieldsConfig)) {
-                return true;
-            }
-        }
-
-        return false;
+        return !$this->contenttype['viewless'] && $this->getTemplateFieldConfig();
     }
 
     /**
@@ -645,17 +636,37 @@ trait ContentValuesTrait
             return '';
         }
 
-        if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
-            $templateChooser = $this->app['templatechooser'];
-            /** @var \Bolt\TemplateChooser $template */
-            $templates = $templateChooser->record($this);
-            foreach ($templates as $template) {
-                if (array_key_exists($template, $templateFieldsConfig)) {
-                    return $templateFieldsConfig[$template];
-                }
-            }
+        if ($config = $this->getTemplateFieldConfig()) {
+            return $config;
         }
 
         return '';
+    }
+
+    private function getTemplateFieldConfig()
+    {
+        if (!$templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
+            return null;
+        }
+
+        /** @var \Bolt\TemplateChooser $templateChooser */
+        $templateChooser = $this->app['templatechooser'];
+        $templates = $templateChooser->record($this);
+        /** @var \Twig_Environment $twig */
+        $twig = $this->app['twig'];
+
+        try {
+            $template = $twig->resolveTemplate($templates);
+        } catch (\Twig_Error_Loader $e) {
+            return null;
+        }
+
+        $name = $template->getSourceContext()->getName();
+
+        if (!array_key_exists($name, $templateFieldsConfig)) {
+            return null;
+        }
+
+        return $templateFieldsConfig[$name];
     }
 }
