@@ -54,7 +54,6 @@ class ResourceManager
 
     /**
      * @deprecated since 3.0, to be removed in 4.0.
-     *
      * @var PathsProxy
      */
     private $pathsProxy;
@@ -465,7 +464,7 @@ class ResourceManager
         $this->setUrl('current', $current);
         $this->setUrl('currenturl', sprintf('%s://%s%s', $canonical['scheme'], $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $canonical['scheme'], $hostname));
-        $this->setUrl('rooturl', sprintf('%s%s/', $this->getRequest('canonical'), $rootUrl));
+        $this->setUrl('rooturl', sprintf('%s%s/', $this->request['canonical'], $rootUrl));
 
         $url = sprintf('%s%s', $this->request['canonical'], $current);
         if (PagerManager::isPagingRequest($request)) {
