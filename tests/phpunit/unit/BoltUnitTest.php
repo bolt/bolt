@@ -81,7 +81,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'wrapperClass' => '\Bolt\Storage\Database\Connection',
             ]
         );
-        $app['config']->set('general/canonical', 'bolt.dev');
 
         return $app;
     }
