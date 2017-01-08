@@ -71,6 +71,7 @@ class NotFoundListener implements EventSubscriberInterface
         if ($this->render->hasTemplate($this->notFoundPage)) {
             try {
                 $this->renderNotFound($event, $this->notFoundPage, []);
+                return;
             } catch (TwigErrorLoader $e) {
                 // Template not found, fall though to see if we can render a
                 // record, failing that let the exception handler take over
