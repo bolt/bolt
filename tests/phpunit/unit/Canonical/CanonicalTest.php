@@ -16,7 +16,7 @@ class CanonicalTest extends BoltUnitTest
     public function provider()
     {
         return [
-            'default'                  => [null, '/drop/bear', 'http://bolt.test/drop/bear'],
+            'default'                  => [null, '/drop/bear', 'http://localhost/drop/bear'],
             'override host'            => ['koala.org.au', '/drop/bear', 'http://koala.org.au/drop/bear'],
             'override host and https'  => ['https://koala.org.au', '/drop/bear', 'https://koala.org.au/drop/bear'],
             'https does not downgrade' => ['koala.org.au', 'https://koala.org.au/drop/bear', 'https://koala.org.au/drop/bear'],
