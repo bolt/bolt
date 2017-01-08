@@ -13,8 +13,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig_Environment as TwigEnvironment;
-use Twig_Error_Loader as TwigErrorLoader;
-use Twig_Error_Runtime as TwigErrorRuntime;
+use Twig_Error_Loader as LoaderError;
+use Twig_Error_Runtime as RuntimeError;
 
 /**
  * Renders the not found page in the event of an HTTP exception
@@ -67,17 +67,14 @@ class NotFoundListener implements EventSubscriberInterface
             return;
         }
 
-        // If $notFoundPage is referencing a template, render it and be done.
-        if ($this->render->hasTemplate($this->notFoundPage)) {
-            try {
-                $this->renderNotFound($event, $this->notFoundPage, []);
-            } catch (TwigErrorLoader $e) {
-                // Template not found, fall though to see if we can render a
-                // record, failing that let the exception handler take over
-            }
+        try {
+            $this->renderNotFound($event, $this->notFoundPage);
+            return;
+        } catch (LoaderError $e) {
+            // Template not found, fall though to see if we can render a
+            // record, failing that let the exception handler take over
         }
 
-        // Next try for referencing DB content.
         $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
         if (!$content instanceof Content || empty($content->id)) {
             return;
@@ -101,18 +98,17 @@ class NotFoundListener implements EventSubscriberInterface
      * Render a not found template.
      *
      * @param GetResponseForExceptionEvent $event
-     * @param string                       $template
+     * @param string|string[]              $template
      * @param array                        $context
      *
      * @throws RuntimeException
      */
-    private function renderNotFound(GetResponseForExceptionEvent $event, $template, array $context)
+    private function renderNotFound(GetResponseForExceptionEvent $event, $template, array $context = [])
     {
         try {
-            $html = $this->twig->render($template, $context);
-            $response = new Response($html, Response::HTTP_NOT_FOUND);
-            $event->setResponse($response);
-        } catch (TwigErrorRuntime $e) {
+            $html = $this->twig->resolveTemplate($template)->render($context);
+            $event->setResponse(new Response($html, Response::HTTP_NOT_FOUND));
+        } catch (RuntimeError $e) {
             throw new RuntimeException('Unable to render 404 page!', null, $e);
         }
     }

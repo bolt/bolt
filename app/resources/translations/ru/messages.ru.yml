@@ -1,20 +1,20 @@
-# app/resources/translations/ru/messages.ru.yml – generated on 2016-11-06 08:42:44 Europe/Amsterdam
+# app/resources/translations/ru/messages.ru.yml – generated on 2017-01-02 16:33:21 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   7 unused messages
+#  16 unused messages
 #  11 untranslated messages
-# 162 untranslated keyword based messages
-#  81 translations
-# 368 keyword based translations
+# 166 untranslated keyword based messages
+#  80 translations
+# 361 keyword based translations
 
-#--- 7 unused messages --------------------------------------------------------
+#--- 16 unused messages -------------------------------------------------------
 
 "component.changelog-detail.by": #
 "The field %field% has been changed to %newValue%": "Значение поля %field% было изменено на %newValue%"
@@ -23,6 +23,15 @@
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"Extend": "Дополнения"
+"general.phrase.directory-not-found-writable": "Папка '%s' не найдена, или недоступна для чтения."
+"general.phrase.extras": "Дополнительно"
+"general.phrase.path": "Путь"
+"general.phrase.path-colon": "Путь:"
+"general.phrase.permissions": "Разрешения"
+"page.ckeditor-browse-server.folders": "Папки"
+"page.file-management.message.folder-access-denied": "Недостаточно прав на чтение папки"
 
 #--- 11 untranslated messages -------------------------------------------------
 
@@ -38,7 +47,7 @@
 "Testing connection to extension server failed: %errormessage%": #
 "The field %field% has been changed to \"%newValue%\"": #
 
-#--- 162 untranslated keyword based messages ----------------------------------
+#--- 166 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -73,15 +82,16 @@
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.full-list-ellipsis": # "Full list …"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
@@ -145,19 +155,19 @@
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
 "page.ckeditor-browse-server.files": # "Files"
 "page.ckeditor-browse-server.title": # "Files"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.label.email": # "Email"
 "page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
 "page.extend.button.info-help": # "More info/help"
-
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
-
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
-
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
 "page.extend.listheader.status": # "Status"
@@ -199,17 +209,15 @@
 "page.extend.message.running-update-all": # "Running updates"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
-
-
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.file-management.label.create-file": # "Создать файл"
+"page.extend.options": #
+"page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
-
 "panel.latest-activity.by": # "by"
 
-#--- 81 translations ----------------------------------------------------------
+#--- 80 translations ----------------------------------------------------------
 
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
@@ -242,7 +250,6 @@
 "Everybody": "Все"
 "Excerpt": "Задержка"
 "Expand sidebar": "Развернуть боковую панель"
-"Extend": "Дополнения"
 "File": "Файл"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Файл '%file%' не может быть загружен (неверный/неразрешенный тип файла). Убедитесь что расширение файла является одним из следующих:"
 "Filelist": "Лист файлов"
@@ -293,7 +300,7 @@
 "You've been logged on successfully.": "Вы успешно вошли."
 "filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
-#--- 368 keyword based translations -------------------------------------------
+#--- 361 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"
@@ -411,7 +418,6 @@ general.phrase.delete-user-name: "Удалить %username%"
 general.phrase.depublication-date-colon: "Дата скрытия:"
 general.phrase.deselect-all: "Отменить выбор всех"
 general.phrase.details: "Сведения"
-general.phrase.directory-not-found-writable: "Папка '%s' не найдена, или недоступна для чтения."
 general.phrase.disable-user-name: "Отключить %username%"
 general.phrase.done-bang: "Готово!"
 general.phrase.draft: "Черновик"
@@ -423,8 +429,8 @@ general.phrase.enable-user-name: "Включить %username%"
 general.phrase.error-translation-file-not-readable: "Перевод '%s' недоступен для чтения."
 general.phrase.error-user-name-password-incorrect: "Имя пользователя или пароль неверный. Попробуйте еще раз."
 general.phrase.extensions: "Просмотр/установка расширений"
-general.phrase.extras: "Дополнительно"
 general.phrase.field: "поле"
+general.phrase.field-fieldname: "Поле “%FIELD_NAME%”:"
 general.phrase.file-management: "Менеджер файлов"
 general.phrase.file-not-readable-following-colon: "Следующие файлы не могут быть прочтены:"
 general.phrase.file-not-writable: "Файл '%s' недоступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
@@ -474,11 +480,8 @@ general.phrase.overview-for: "Обзор для"
 general.phrase.owner-colon: "Владелец:"
 general.phrase.page: "Страница"
 general.phrase.pager-showing-from-to-of: "Показ %pager_for% %from% - %to% из %count%"
-general.phrase.path: "Путь"
-general.phrase.path-colon: "Путь:"
 general.phrase.path-image-file: "Путь до изображения"
 general.phrase.permalink: "Постоянная ссылка"
-general.phrase.permissions: "Разрешения"
 general.phrase.please-logon: "Пожалуйста входите."
 general.phrase.please-provide-username: "Пожалуйста, введите имя пользователя"
 general.phrase.preview: "Предварительный просмотр"
@@ -491,6 +494,7 @@ general.phrase.published-on-colon: "Опубликовано:"
 general.phrase.read-more: "Далее"
 general.phrase.relationships: "Связи"
 general.phrase.rename-foldername: "Переименовать %foldername%"
+general.phrase.required-is-or-match-pattern: "Обязательно для заполнения или должно соответствовать шаблону!"
 general.phrase.return-editing: "назад к редактированию"
 general.phrase.roles: "Роли"
 general.phrase.roles-permissions: "Роли и права доступа"
@@ -501,6 +505,7 @@ general.phrase.saving-ellipsis: "Сохранение …"
 general.phrase.search: "Поиск"
 general.phrase.search-ellipsis: "Поиск …"
 general.phrase.search-for-ellipsis: "Поиск для …"
+general.phrase.search-results-for-variable: "Результаты поиска для<b>%search%</b>."
 general.phrase.select: "Выбор"
 general.phrase.select-all: "Выбрать все"
 general.phrase.select-file: "Выбрать файл …"
@@ -552,9 +557,6 @@ general.phrase.view-on-site: "Просмотреть на сайте"
 general.phrase.view-related: "Посмотреть материалы по теме"
 general.phrase.view-site: "Открыть сайт"
 general.phrase.written-by-on: "Написано <em>%name%</em> от %date%"
-general.phrase.required-is-or-match-pattern: "Обязательно для заполнения или должно соответствовать шаблону!"
-general.phrase.search-results-for-variable: "Результаты поиска для<b>%search%</b>."
-general.phrase.field-fieldname: "Поле “%FIELD_NAME%”:"
 
 generic.noscript.headline: "JavaScript отключен"
 generic.noscript.message: "JavaScript в данный момент отключен. Большинство функционала Bolt не будет работать без него, для лучшего использования мы рекомендуем вам включить JavaScript в настройках вашего браузера."
@@ -563,7 +565,6 @@ logs.change-log: "История изменений"
 logs.change-log.contenttypes.all: "Все сущности"
 logs.change-log.not-found: "История изменений не существует."
 
-page.ckeditor-browse-server.folders: "Папки"
 page.ckeditor-browse-server.modified: "Изменено"
 page.ckeditor-browse-server.size: "Размер файла"
 
@@ -617,32 +618,32 @@ page.edit-users.user-edit: "Редактирование существующе�
 
 page.extend.button.browse-versions: "Обзор версий"
 page.extend.button.install-all: "Установить все пакеты"
-page.extend.button.update-all: "Обновить всё"
-page.extend.button.update-check: "Проверить обновления"
-page.extend.listheader.actions: "Действия"
-page.extend.message.maintenance: "Обслуживание"
 page.extend.button.install-package: "Установить пакет"
 page.extend.button.install-this-version: "Установить эту версию"
-page.extend.pagetitle: "Расширения %BOLTNAME%"
-page.extend.message.updated: "Все в актуальном состоянии!"
-page.extend.message.updating: "Поиск обновлений …"
-page.extend.headline.currently-installed: "Установленные Расширения"
-page.extend.headline.install-new-extension:  "Установить новое Расширение"
-page.extend.headline.installation-complete:  "Установка завершена"
-page.extend.headline.installing-package: "Установка пакета"
-page.extend.headline.latest-version: "Последняя стабильная версия"
-page.extend.headline.stable-versions: "Стабильные версии"
-page.extend.headline.test-versions: "Нестабильные тестовые версии"
-page.extend.button.show-all-versions: "Показать все версии"
-page.extend.button.update-package: "Обновить пакеты"
+page.extend.button.link-config: "Редактирование конфигурации"
+page.extend.button.link-marketplace: "Перейти к сайту Расширений"
 page.extend.button.link-readme: "Посмотреть README"
 page.extend.button.link-repository: "Перейти к репозиторию исходного кода"
 page.extend.button.link-uninstall: "Деинсталлировать Расширение"
 page.extend.button.link-versions: "Установить другую версию"
-page.extend.button.link-marketplace: "Перейти к сайту Расширений"
-page.extend.button.link-config: "Редактирование конфигурации"
-page.extend.listheader.extension: "Расширения"
 page.extend.button.manage: "Управление"
+page.extend.button.show-all-versions: "Показать все версии"
+page.extend.button.update-all: "Обновить всё"
+page.extend.button.update-check: "Проверить обновления"
+page.extend.button.update-package: "Обновить пакеты"
+page.extend.headline.currently-installed: "Установленные Расширения"
+page.extend.headline.install-new-extension: "Установить новое Расширение"
+page.extend.headline.installation-complete: "Установка завершена"
+page.extend.headline.installing-package: "Установка пакета"
+page.extend.headline.latest-version: "Последняя стабильная версия"
+page.extend.headline.stable-versions: "Стабильные версии"
+page.extend.headline.test-versions: "Нестабильные тестовые версии"
+page.extend.listheader.actions: "Действия"
+page.extend.listheader.extension: "Расширения"
+page.extend.message.maintenance: "Обслуживание"
+page.extend.message.updated: "Все в актуальном состоянии!"
+page.extend.message.updating: "Поиск обновлений …"
+page.extend.pagetitle: "Расширения %BOLTNAME%"
 
 page.file-management.label.create-folder: "Создать папку"
 page.file-management.message.access-denied: "Недостаточно прав на загрузку в эту папку."
@@ -650,13 +651,12 @@ page.file-management.message.create-file: "Пожалуйста, введите 
 page.file-management.message.create-folder: "Пожалуйста, введите новое имя папки!"
 page.file-management.message.file-not-readable: "Файл недоступен для чтения!"
 page.file-management.message.files-in: "Файлы в %s"
-page.file-management.message.folder-access-denied: "Недостаточно прав на чтение папки"
 page.file-management.message.folder-not-found: "Папка '%s' не может быть найдена, или недоступна для чтения."
 page.file-management.message.save-failed-colon: "Файл '%s' не может быть сохранён:"
 page.file-management.message.save-failed-unknown: "Файл '%s' по непонятным причинам, не может быть сохранён."
 page.file-management.message.save-success: "Файл '%s' сохранён."
-page.file-management.message.upload-success: "Файл '%file%' успешно загружен."
 page.file-management.message.upload-not-writable: "Невозможно загрузить файлы в дерикторию. Проверьте права доступа к %TARGET%"
+page.file-management.message.upload-success: "Файл '%file%' успешно загружен."
 page.file-management.title: "Файлы"
 
 page.login.button.back: "Вернуться на страницу логина"
@@ -673,15 +673,14 @@ page.login.placeholder.password: "Ваше имя пользователя"
 page.login.title: "Войти в Bolt"
 
 panel.latest-activity.button.more: "Больше активностей"
-panel.latest-activity.logged-in: "Вошел в систему"
-panel.latest-activity.logged-out: "Вышел из системы"
-panel.latest-activity.saved: "Сохранён"
-panel.latest-activity.unknown: "Неизвестно"
 panel.latest-activity.change: "Последние изменения"
 panel.latest-activity.created: "Создано"
 panel.latest-activity.deleted: "Удалено"
+panel.latest-activity.logged-in: "Вошел в систему"
+panel.latest-activity.logged-out: "Вышел из системы"
+panel.latest-activity.saved: "Сохранён"
 panel.latest-activity.system: "Последние активности системы"
-
+panel.latest-activity.unknown: "Неизвестно"
 
 panel.user-actions.button.add: "Добавить нового пользователя"
 

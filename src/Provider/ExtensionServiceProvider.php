@@ -7,10 +7,8 @@ use Bolt\Composer\EventListener\BufferIOListener;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
-use Bolt\Extension\ExtensionQueue;
 use Bolt\Extension\Manager;
 use Composer\IO\BufferIO;
-use Doctrine\Common\Collections\ArrayCollection;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -32,8 +30,6 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             }
         );
 
-
-
         $app['extensions.stats'] = $app->share(
             function ($app) {
                 $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system'], $app['extend.site']);
@@ -43,7 +39,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         );
 
         $app['extend.site'] = function ($app) {
-            return $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
+            return $app['config']->get('general/extensions/site', 'https://market.bolt.cm/');
         };
         $app['extend.repo'] = function ($app) {
             return $app['extend.site'] . 'list.json';

@@ -37,3 +37,22 @@
         </div>
     {% endspaceless %}
 {% endblock choice_widget_expanded %}
+
+{% block button_attributes %} class="btn btn-primary" {% endblock button_attributes %}
+
+{# Button <i> used inside button_widget when set #}
+{%- block button_icon -%}{%- endblock button_icon -%}
+
+{%- block button_widget -%}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+            '%name%': name,
+            '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ block('button_icon') }}{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget -%}

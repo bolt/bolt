@@ -32,6 +32,9 @@ class ExtensionsUninstallTest extends BoltUnitTest
         $this->assertRegExp('/Starting uninstall of test… \[DONE\]/', trim($result));
     }
 
+    /**
+     * @group slow
+     */
     public function testFailed()
     {
         $app = $this->getApp();

@@ -1,4 +1,4 @@
-# app/resources/translations/hu/messages.hu.yml – generated on 2016-11-06 08:42:31 Europe/Amsterdam
+# app/resources/translations/hu/messages.hu.yml – generated on 2017-01-02 16:33:03 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
-#  19 untranslated messages
-#  78 untranslated keyword based messages
+#  15 unused messages
+#  18 untranslated messages
+#  82 untranslated keyword based messages
 #  73 translations
-# 452 keyword based translations
+# 445 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "Selection:": "Kiválasztás:"
 "field.slug.button.link": #
@@ -22,14 +22,22 @@
 "page.extend.button.readme": "Olvass el"
 "page.extend.button.uninstall": "Eltávolítás"
 "page.extend.button.versions": "Verziók"
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.directory-not-found-writable": "A '%s' mappa nem található vagy nem olvasható."
+"general.phrase.extras": "Extrák"
+"general.phrase.path": "Útvonal"
+"general.phrase.path-colon": "Útvonal"
+"general.phrase.permissions": "Engedélyek"
+"page.ckeditor-browse-server.folders": "Könyvtárak"
+"page.file-management.message.folder-access-denied": "A könyvtár-engedélyek elégtelenek"
 
-#--- 19 untranslated messages -------------------------------------------------
+#--- 18 untranslated messages -------------------------------------------------
 
 "Body": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Finding packages that require this one…": #
@@ -45,7 +53,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 78 untranslated keyword based messages -----------------------------------
+#--- 82 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -67,11 +75,12 @@
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
+"general.phrase.folder": # "Folder"
 "general.phrase.id": # "Id"
 "general.phrase.info": # "Info"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -98,7 +107,10 @@
 "nut.version": # "version"
 "page.checks.run-all": # "Run all checks"
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.link-config": # "Edit configuration"
 "page.extend.button.link-marketplace": # "View on marketplace"
 "page.extend.button.link-readme": # "View README"
@@ -202,7 +214,7 @@
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 "filtered by <em>'%filter%'</em>": "szűrés: <em>'%filter%'</em>"
 
-#--- 452 keyword based translations -------------------------------------------
+#--- 445 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Műveletek a(z) %contenttypes% tartalomtípusokhoz"
 contenttypes.generic.actions-one: "Műveletek a(z) %contenttype% tartalomtípushoz"
@@ -334,7 +346,6 @@ general.phrase.depublication-date-colon: "Publikáció visszavonásának dátuma
 general.phrase.depublish-date-past: "A lejárati dátum már elmúlt. Inaktiváláshoz a státuszt állítsd"
 general.phrase.deselect-all: "Összes kiválasztás törlése"
 general.phrase.details: "Részletek"
-general.phrase.directory-not-found-writable: "A '%s' mappa nem található vagy nem olvasható."
 general.phrase.disable-user-name: "%username% érvénytelenítése"
 general.phrase.done-bang: "Kész!"
 general.phrase.draft: "Vázlat"
@@ -349,7 +360,6 @@ general.phrase.error-send-password-request: "A jelszó kérelem küldése meghi�
 general.phrase.error-translation-file-not-readable: "A '%s' nyelvi fájl nem olvasható."
 general.phrase.error-user-name-password-incorrect: "A felhasználónév vagy a jelszó hibás. Ellenőrizd a megadott adatokat."
 general.phrase.extensions: "Kiterjesztések"
-general.phrase.extras: "Extrák"
 general.phrase.field: "mező"
 general.phrase.field-fieldname: "%FIELD_NAME% mező:"
 general.phrase.file-management: "Fájlkezelő"
@@ -416,11 +426,8 @@ general.phrase.overview-for: "Áttekintés:"
 general.phrase.owner-colon: "Tulajdonos:"
 general.phrase.page: "Oldal"
 general.phrase.pager-showing-from-to-of: "%from% - %to% %pager_for% mutatása, összesen %count%"
-general.phrase.path: "Útvonal"
-general.phrase.path-colon: "Útvonal"
 general.phrase.path-image-file: "Képfájl útvonala"
 general.phrase.permalink: "Permalink"
-general.phrase.permissions: "Engedélyek"
 general.phrase.please-logon: "Kérem jelentkezz be!"
 general.phrase.please-provide-username: "Adj meg egy felhasználónevet"
 general.phrase.preview: "Előnézet"
@@ -530,7 +537,6 @@ page.checks.run-directory-checks: "Könyvtár ellenőrzések futtatása"
 page.checks.run-email-checks: "Email-ellenőrzések futtatása"
 
 page.ckeditor-browse-server.files: "Fájlok"
-page.ckeditor-browse-server.folders: "Könyvtárak"
 page.ckeditor-browse-server.modified: "Módosítva"
 page.ckeditor-browse-server.size: "Fájlméret"
 page.ckeditor-browse-server.title: "Fájlok"
@@ -643,6 +649,7 @@ page.extend.pagetitle: "A %BOLTNAME% kibővítése"
 page.extend.theme.generation.failure: "Nem tudjuk előállítani a témát. Olyan mint ha a téma mappa nem lenne írható. Ellenőrizd a jogokat és próbáld újra!"
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
+page.extend.options: "Bővítmény opciók"
 
 page.file-management.label.create-file: "Fájl létrehozása"
 page.file-management.label.create-folder: "Könyvtár létrehozása"
@@ -651,7 +658,6 @@ page.file-management.message.create-file: "Adj meg egy új fájlnevet!"
 page.file-management.message.create-folder: "Adj meg egy új mappanevet!"
 page.file-management.message.file-not-readable: "A fájl nem olvasható!"
 page.file-management.message.files-in: "Fájlok %s-ben"
-page.file-management.message.folder-access-denied: "A könyvtár-engedélyek elégtelenek"
 page.file-management.message.folder-not-found: "A '%s' könyvtár nem található vagy nem olvasható."
 page.file-management.message.save-failed-colon: "A '%s' nevű fájl nem menthető:"
 page.file-management.message.save-failed-invalid-form: "A '%s' fájl nem menthető mert a form érvénytelen."

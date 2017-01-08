@@ -1,4 +1,4 @@
-# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2016-11-06 08:42:32 Europe/Amsterdam
+# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2017-01-02 16:33:04 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
-#  16 untranslated messages
-#  46 untranslated keyword based messages
+#  15 unused messages
+#  15 untranslated messages
+#  50 untranslated keyword based messages
 #  76 translations
-# 484 keyword based translations
+# 477 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "Selection:": "Val:"
 "field.slug.button.link": "Länka till:"
@@ -22,13 +22,21 @@
 "page.extend.button.readme": "Readme"
 "page.extend.button.uninstall": "Avinstallera"
 "page.extend.button.versions": "Versioner"
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.directory-not-found-writable": "Mappen '%s' kunde inte hittas eller är inte läsbar."
+"general.phrase.extras": "Tillägg"
+"general.phrase.path": "Sökväg"
+"general.phrase.path-colon": "Sökväg:"
+"general.phrase.permissions": "Rättigheter"
+"page.ckeditor-browse-server.folders": "Mappar"
+"page.file-management.message.folder-access-denied": "Otillräckliga mapprättigheter"
 
-#--- 16 untranslated messages -------------------------------------------------
+#--- 15 untranslated messages -------------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Finding packages that require this one…": #
@@ -42,7 +50,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 46 untranslated keyword based messages -----------------------------------
+#--- 50 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
@@ -53,7 +61,8 @@
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
 "general.phrase.move-down": # "Move Down"
@@ -72,6 +81,9 @@
 "general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.link-config": # "Edit configuration"
 "page.extend.button.link-marketplace": # "View on marketplace"
 "page.extend.button.link-readme": # "View README"
@@ -89,6 +101,7 @@
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.running-update-all": # "Running updates"
+"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 76 translations ----------------------------------------------------------
@@ -170,7 +183,7 @@
 "You've been logged on successfully.": "Du är nu inloggad."
 "filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 
-#--- 484 keyword based translations -------------------------------------------
+#--- 477 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Åtgärder för %contenttypes%"
 contenttypes.generic.actions-one: "Åtgärder för denna %contenttype%"
@@ -313,7 +326,6 @@ general.phrase.depublish: "Avpublicera"
 general.phrase.depublish-date-past: "Avpubliceringsdatumet har passerat. Ändra status om du vill avpublicera nu"
 general.phrase.deselect-all: "Avmarkera alla"
 general.phrase.details: "Information"
-general.phrase.directory-not-found-writable: "Mappen '%s' kunde inte hittas eller är inte läsbar."
 general.phrase.disable-user-name: "Deaktivera %username%"
 general.phrase.done-bang: "klart!"
 general.phrase.draft: "Utkast"
@@ -331,7 +343,6 @@ general.phrase.error-session-data-login: "Det gick inte att hämta sessionsdata.
 general.phrase.error-translation-file-not-readable: "Översättningsfilen '%s' är inte läsbar."
 general.phrase.error-user-name-password-incorrect: "Användarnamnet eller lösenordet är inte korrekt."
 general.phrase.extensions: "Tillägg"
-general.phrase.extras: "Tillägg"
 general.phrase.field: "Fält"
 general.phrase.field-fieldname: "Fältet \"%FIELD_NAME%\":"
 general.phrase.file-management: "Filhantering"
@@ -404,11 +415,8 @@ general.phrase.overview-for: "Överblick för"
 general.phrase.owner-colon: "Ägare:"
 general.phrase.page: "Sida"
 general.phrase.pager-showing-from-to-of: "Visar %pager_for% %from% - %to% av %count%"
-general.phrase.path: "Sökväg"
-general.phrase.path-colon: "Sökväg:"
 general.phrase.path-image-file: "Sökväg till bildfilen"
 general.phrase.permalink: "Permalänk"
-general.phrase.permissions: "Rättigheter"
 general.phrase.please-logon: "Vänligen logga in."
 general.phrase.please-provide-username: "Vänligen skriv in ett användarnamn"
 general.phrase.preview: "Förhandsgranska"
@@ -523,7 +531,6 @@ page.checks.run-email-checks: "Kör e-postkontroll"
 page.checks.run-php-ext-checks: "Kör PHP tilläggskontroll"
 
 page.ckeditor-browse-server.files: "Filer"
-page.ckeditor-browse-server.folders: "Mappar"
 page.ckeditor-browse-server.modified: "Modifierad"
 page.ckeditor-browse-server.size: "Filstorlek"
 page.ckeditor-browse-server.title: "Filer"
@@ -649,7 +656,6 @@ page.file-management.message.create-file: "Välj ett nytt filnamn!"
 page.file-management.message.create-folder: "Välj ett nytt mappnamn!"
 page.file-management.message.file-not-readable: "Filen är inte läsbar!"
 page.file-management.message.files-in: "Filer i %s"
-page.file-management.message.folder-access-denied: "Otillräckliga mapprättigheter"
 page.file-management.message.folder-not-found: "Mappen '%s' kunde inte hittas, eller är inte läsbar."
 page.file-management.message.save-failed-colon: "Fil '%s' kunde inte sparas:"
 page.file-management.message.save-failed-invalid-form: "Filen '%s' kunde inte sparas, eftersom formuläret inte var giltigt."

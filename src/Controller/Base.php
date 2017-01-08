@@ -65,7 +65,7 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Renders a template
      *
-     * @param string $template Template name
+     * @param string|string[] $template Template name(s)
      * @param array  $context  Context variables
      * @param array  $globals  Global variables
      *

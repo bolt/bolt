@@ -1,28 +1,37 @@
-# app/resources/translations/pt_BR/messages.pt_BR.yml – generated on 2016-11-06 08:42:45 Europe/Amsterdam
+# app/resources/translations/pt_BR/messages.pt_BR.yml – generated on 2017-01-02 16:33:23 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
-#  45 untranslated messages
-# 215 untranslated keyword based messages
+#  14 unused messages
+#  44 untranslated messages
+# 218 untranslated keyword based messages
 #  47 translations
-# 315 keyword based translations
+# 309 keyword based translations
 
-#--- 5 unused messages --------------------------------------------------------
+#--- 14 unused messages -------------------------------------------------------
 
 "field.slug.button.link": #
 "page.extend.button.config": #
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.extras": #
+"general.phrase.directory-not-found-writable": "A pasta '%s' não pode ser encontrada, ou não é legível."
+"general.phrase.path": "Caminho"
+"general.phrase.path-colon": "Caminho"
+"general.phrase.permissions": "Permissões"
+"page.ckeditor-browse-server.folders": "Pastas"
+"page.file-management.message.folder-access-denied": "Permissões insuficientes na pasta"
 
-#--- 45 untranslated messages -------------------------------------------------
+#--- 44 untranslated messages -------------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
@@ -38,7 +47,6 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -70,7 +78,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 215 untranslated keyword based messages ----------------------------------
+#--- 218 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.template": # "Template"
@@ -108,17 +116,17 @@
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.extras": # "Extras"
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.keyword-ellipsis": # "Keyword …"
 "general.phrase.live-edit": # "Live Edit"
@@ -183,8 +191,11 @@
 "page.edit-users.activated.no": # "no"
 "page.edit-users.activated.yes": # "yes"
 "page.edit-users.button.save": # "Save user"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
 "page.edit-users.error.username-used": # "This username is already in use. Choose another username."
 "page.edit-users.label.assigned-roles": # "Assigned roles"
@@ -279,6 +290,7 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
@@ -338,7 +350,7 @@
 "View (saved version) on site": "Visualizar (versão salva) no site"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 
-#--- 315 keyword based translations -------------------------------------------
+#--- 309 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -453,7 +465,6 @@ general.phrase.delete-user-name: "Excluir %username%"
 general.phrase.depublication-date-colon: "Date de Despublicação"
 general.phrase.deselect-all: "Deselecionar todos"
 general.phrase.details: "Detalhes"
-general.phrase.directory-not-found-writable: "A pasta '%s' não pode ser encontrada, ou não é legível."
 general.phrase.disable-user-name: "Desabilitar %username%"
 general.phrase.done-bang: "Pronto!"
 general.phrase.draft: "Rascunho"
@@ -518,11 +529,8 @@ general.phrase.overview-for: "Visualização para"
 general.phrase.owner-colon: "Criador"
 general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando página %pager_for% %from% - %to% de %count%"
-general.phrase.path: "Caminho"
-general.phrase.path-colon: "Caminho"
 general.phrase.path-image-file: "Caminho para o arquivo de imagem"
 general.phrase.permalink: "Link permanente"
-general.phrase.permissions: "Permissões"
 general.phrase.please-logon: "Por favor, faça seu login"
 general.phrase.please-provide-username: "Por favor, forneça um nome de usuário"
 general.phrase.preview: "Pré-visualizar"
@@ -605,7 +613,6 @@ logs.change-log.contenttypes.all: "Todos tipos de conteúdo"
 logs.change-log.not-found: "O registro não existe no registro de alterações."
 
 page.ckeditor-browse-server.files: "Arquivos"
-page.ckeditor-browse-server.folders: "Pastas"
 page.ckeditor-browse-server.modified: "Modificado"
 page.ckeditor-browse-server.size: "Tamanho do arquivo"
 page.ckeditor-browse-server.title: "Arquivos"
@@ -647,7 +654,6 @@ page.file-management.message.create-file: "Por favor insira um novo nome de arqu
 page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
 page.file-management.message.file-not-readable: "Arquivo não pode ser lido!"
 page.file-management.message.files-in: "Arquivos em %s"
-page.file-management.message.folder-access-denied: "Permissões insuficientes na pasta"
 page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
 page.file-management.message.save-failed-colon: "Arquivo '%s' não pode ser salvo:"
 page.file-management.message.save-failed-unknown: "Arquivo '%s' não pode ser salvo por alguma razão."

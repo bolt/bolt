@@ -1,20 +1,20 @@
-# app/resources/translations/nb/messages.nb.yml – generated on 2016-11-06 08:42:40 Europe/Amsterdam
+# app/resources/translations/nb/messages.nb.yml – generated on 2017-01-02 16:33:14 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   9 unused messages
-#  65 untranslated messages
-# 345 untranslated keyword based messages
+#  18 unused messages
+#  64 untranslated messages
+# 346 untranslated keyword based messages
 #  27 translations
-# 185 keyword based translations
+# 181 keyword based translations
 
-#--- 9 unused messages --------------------------------------------------------
+#--- 18 unused messages -------------------------------------------------------
 
 "component.changelog-detail.field": #
 "component.changelog-detail.value-new": #
@@ -25,8 +25,17 @@
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.extras": #
+"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"general.phrase.path": "Sti"
+"general.phrase.path-colon": "Sti:"
+"general.phrase.permissions": "Rettigheter"
+"page.ckeditor-browse-server.folders": "Mapper"
 
-#--- 65 untranslated messages -------------------------------------------------
+#--- 64 untranslated messages -------------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -49,7 +58,6 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -94,7 +102,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 345 untranslated keyword based messages ----------------------------------
+#--- 346 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.actions-all": # "Actions for %contenttypes%"
 "contenttypes.generic.actions-one": # "Actions for this %contenttype%"
@@ -177,17 +185,15 @@
 "general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.details": # "Details"
-"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
 "general.phrase.draft": # "Draft"
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.extras": # "Extras"
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.field": # "Field"
 "general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
@@ -196,6 +202,7 @@
 "general.phrase.filtering": # "Filtering"
 "general.phrase.find": # "Find"
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
 "general.phrase.info": # "Info"
@@ -308,9 +315,12 @@
 "page.edit-users.activated.yes": # "yes"
 "page.edit-users.button.save": # "Save user"
 "page.edit-users.error.displayname-used": # "This displayname is already in use. Choose another displayname."
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
 "page.edit-users.error.username-used": # "This username is already in use. Choose another username."
 "page.edit-users.label.assigned-roles": # "Assigned roles"
@@ -412,14 +422,14 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.label.create-folder": # "Create folder"
-"page.file-management.message.create-file": # "Please enter a new file name!"
-"page.file-management.message.create-folder": # "Please enter a new folder name!"
-"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"page.file-management.message.create-file": # "Please enter the new file name"
+"page.file-management.message.create-folder": # "Please enter the new folder name"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
-"page.file-management.title": # "Files"
+"page.file-management.title": # "File Management"
 "page.login.button.back": # "Back to login"
 "page.login.button.forgot-password": # "I forgot my password …"
 "page.login.button.log-on": # "Log on"
@@ -472,7 +482,7 @@
 "Title": "Tittel"
 "You've been logged on successfully.": "Du er vellykket logget ut."
 
-#--- 185 keyword based translations -------------------------------------------
+#--- 181 keyword based translations -------------------------------------------
 
 contenttypes.generic.group.relations: "Relasjoner"
 contenttypes.generic.group.taxonomy: "Taksonomi"
@@ -583,10 +593,7 @@ general.phrase.overview: "Oversikt"
 general.phrase.overview-for: "Oversikt for"
 general.phrase.owner-colon: "Eier:"
 general.phrase.pager-showing-from-to-of: "Viser %pager_for% %from% - %to% av %count%"
-general.phrase.path: "Sti"
-general.phrase.path-colon: "Sti:"
 general.phrase.permalink: "Permanent lenke"
-general.phrase.permissions: "Rettigheter"
 general.phrase.please-logon: "Logg på."
 general.phrase.please-provide-username: "Oppgi et brukernavn"
 general.phrase.preview: "Forhåndsvis"
@@ -646,7 +653,6 @@ logs.change-log: "Endringslogg"
 logs.change-log.contenttypes.all: "Alle innholdstyper"
 logs.change-log.not-found: "Den forespurte oppføringen i endringsloggen fins ikke."
 
-page.ckeditor-browse-server.folders: "Mapper"
 page.ckeditor-browse-server.modified: "Endret"
 
 page.dashboard.title: "Dashbord"
