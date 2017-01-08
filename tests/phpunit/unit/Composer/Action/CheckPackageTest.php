@@ -5,6 +5,8 @@ namespace Bolt\Tests\Composer\Action;
 /**
  * Class to test src/Composer/Action/CheckPackage.
  *
+ * @group slow
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class CheckPackageTest extends ActionUnitTest

@@ -20,23 +20,26 @@ class TemplateResponse extends Response
     protected $globals = [];
 
     /**
+     * Constructor.
+     *
+     * @param Template $template
+     * @param array    $context
+     * @param array    $globals
+     */
+    public function __construct(Template $template, array $context = [], array $globals = [])
+    {
+        parent::__construct();
+        $this->template = $template;
+        $this->context = $context;
+        $this->globals = $globals;
+    }
+
+    /**
      * @return Template
      */
     public function getTemplate()
     {
         return $this->template;
-    }
-
-    /**
-     * @param Template $template
-     *
-     * @return TemplateResponse
-     */
-    public function setTemplate(Template $template)
-    {
-        $this->template = $template;
-
-        return $this;
     }
 
     /**
@@ -48,34 +51,10 @@ class TemplateResponse extends Response
     }
 
     /**
-     * @param array $context
-     *
-     * @return TemplateResponse
-     */
-    public function setContext(array $context)
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getGlobals()
     {
         return $this->globals;
-    }
-
-    /**
-     * @param array $globals
-     *
-     * @return TemplateResponse
-     */
-    public function setGlobals(array $globals)
-    {
-        $this->globals = $globals;
-
-        return $this;
     }
 }

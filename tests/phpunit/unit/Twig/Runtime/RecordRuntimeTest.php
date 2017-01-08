@@ -366,15 +366,6 @@ GRINGALET;
         $this->assertSame('', $result);
     }
 
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handler = $this->getRecordRuntime();
-
-        $result = $handler->trim($this->original, 87);
-        $this->assertSame($this->excerpt, $result);
-    }
-
     public function testListTemplatesAll()
     {
         $app = $this->getApp();
@@ -501,7 +492,6 @@ GRINGALET;
         $class = '';
 
         $result = $handler->pager($env, $pagerName, $surr, $template, $class);
-        $this->assertInstanceOf('\Twig_Markup', $result);
 
         $this->assertRegExp('#<li ><a href="1">1</a></li>#', (string) $result);
         $this->assertRegExp('#<li ><a href="2">2</a></li>#', (string) $result);

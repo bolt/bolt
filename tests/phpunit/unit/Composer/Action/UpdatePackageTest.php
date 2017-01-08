@@ -6,6 +6,8 @@ use Bolt\Composer\Action\UpdatePackage;
 /**
  * Class to test src/Composer/Action/UpdatePackage.
  *
+ * @group slow
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class UpdatePackageTest extends ActionUnitTest

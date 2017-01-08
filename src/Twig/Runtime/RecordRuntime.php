@@ -174,23 +174,7 @@ class RecordRuntime
             'skip_uses'      => $skip_uses,
         ];
 
-        return new \Twig_Markup($env->render($template, $context), 'utf-8');
-    }
-
-    /**
-     * Trims the given string to a particular length. Deprecated, use excerpt
-     * instead.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string  $content
-     * @param integer $length  Defaults to 200
-     *
-     * @return string Trimmed output
-     */
-    public function trim($content, $length = 200)
-    {
-        return $this->excerpt($content, $length);
+        return $env->render($template, $context);
     }
 
     /**
@@ -264,7 +248,7 @@ class RecordRuntime
             $template = '@bolt/components/pager.twig';
         }
 
-        return new \Twig_Markup($env->render($template, $context), 'utf-8');
+        return $env->render($template, $context);
     }
 
     /**

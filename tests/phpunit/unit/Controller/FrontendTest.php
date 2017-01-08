@@ -6,6 +6,7 @@ use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Response\TemplateResponse;
+use Bolt\TemplateChooser;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,7 +139,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create($expected));
         $app['request_context']->fromRequest($this->getRequest());
 
-        $templates = $this->getMock('Bolt\TemplateChooser', ['record'], [$this->getApp()]);
+        $templates = $this->getMock(TemplateChooser::class, ['record'], [$app['config']]);
         $templates->expects($this->any())
             ->method('record')
             ->will($this->returnValue('index.twig'));
@@ -221,10 +222,7 @@ class FrontendTest extends ControllerUnitTest
             $app['config'],
             $app['markdown'],
             $app['menu'],
-            $app['storage'],
-            $app['request_stack'],
-            $app['render'],
-            $app['locale']
+            $app['storage']
         );
     }
 
@@ -296,7 +294,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages'));
         $this->controller()->listing($this->getRequest(), 'pages/test');
 
-        $templates = $this->getMock('Bolt\TemplateChooser', ['record'], [$this->getApp()]);
+        $templates = $this->getMock(TemplateChooser::class, ['record'], [$this->getApp()['config']]);
         $templates
             ->expects($this->any())
             ->method('record')

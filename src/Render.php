@@ -4,10 +4,7 @@ namespace Bolt;
 
 use Bolt\Response\TemplateResponse;
 use Silex;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Environment as Environment;
-use Twig_Template as Template;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.
@@ -24,8 +21,6 @@ class Render
     public $app;
     /** @var boolean */
     public $safe;
-    /** @var string */
-    public $twigKey;
 
     /**
      * Set up the object.
@@ -37,43 +32,31 @@ class Render
     {
         $this->app = $app;
         $this->safe = $safe;
-        if ($safe) {
-            $this->twigKey = 'safe_twig';
-        } else {
-            $this->twigKey = 'twig';
-        }
     }
 
     /**
      * Render a template, possibly store it in cache. Or, if applicable, return the cached result.
      *
-     * @param string $templateFile Template file name
-     * @param array  $context      Context variables
-     * @param array  $globals      Global variables
+     * @param string|string[] $templateName Template name(s)
+     * @param array           $context      Context variables
+     * @param array           $globals      Global variables
      *
      * @return TemplateResponse
      */
-    public function render($templateFile, $context = [], $globals = [])
+    public function render($templateName, $context = [], $globals = [])
     {
         $this->app['stopwatch']->start('bolt.render', 'template');
 
-        /** @var Environment $twig */
-        $twig = $this->app[$this->twigKey];
-        /** @var Template $template */
-        $template = $twig->loadTemplate($templateFile);
+        $template = $this->app['twig']->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
-            $twig->addGlobal($name, $value);
+            $this->app['twig']->addGlobal($name, $value);
         }
 
-        $html = $template->render($context);
+        $html = twig_include($this->app['twig'], $context, $template, [], true, false, $this->safe);
 
-        $response = new TemplateResponse($html);
-        $response
-            ->setTemplate($template)
-            ->setContext($context)
-            ->setGlobals($globals)
-        ;
+        $response = new TemplateResponse($template, $context, $globals);
+        $response->setContent($html);
 
         $this->app['stopwatch']->stop('bolt.render');
 
@@ -81,9 +64,9 @@ class Render
     }
 
     /**
-     * Check if the template exists.
+     * @deprecated Since 3.3, will be removed in 4.0.
      *
-     * @internal
+     * Check if the template exists.
      *
      * @param string $template The name of the template.
      *
@@ -91,9 +74,7 @@ class Render
      */
     public function hasTemplate($template)
     {
-        /** @var \Twig_Environment $env */
-        $env = $this->app[$this->twigKey];
-        $loader = $env->getLoader();
+        $loader = $this->app['twig']->getLoader();
 
         /*
          * Twig_ExistsLoaderInterface is getting merged into
@@ -111,54 +92,6 @@ class Render
         }
 
         return true;
-    }
-
-    /**
-     * Render snippet inside sandbox.
-     *
-     * Temporary until https://github.com/twigphp/Twig/pull/2282 is figured out.
-     *
-     * @internal
-     *
-     * @param string $snippet
-     * @param array  $context
-     * @param bool   $sandboxed
-     *
-     * @return string
-     */
-    public function renderSnippet($snippet, $context = [], $sandboxed = true)
-    {
-        $template = $this->app['twig']->createTemplate((string) $snippet);
-        $sandbox = $this->app['twig.extension.sandbox'];
-
-        $alreadySandboxed = $sandbox->isSandboxed();
-        if ($sandboxed && !$alreadySandboxed) {
-            $sandbox->enableSandbox();
-        }
-
-        try {
-            return $template->render($context);
-        } finally {
-            if ($sandboxed && !$alreadySandboxed) {
-                $sandbox->disableSandbox();
-            }
-        }
-    }
-
-    /**
-     * Post-process the rendered HTML: insert the snippets, and stuff.
-     *
-     * @param Request  $request
-     * @param Response $response
-     */
-    public function postProcess(Request $request, Response $response)
-    {
-        /** @var \Bolt\Asset\QueueInterface $queue */
-        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
-            foreach ($this->app['asset.queues'] as $queue) {
-                $queue->process($request, $response);
-            }
-        }
     }
 
     /**
