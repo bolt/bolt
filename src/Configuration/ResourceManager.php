@@ -53,6 +53,12 @@ class ResourceManager
     protected $pathManager;
 
     /**
+     * @deprecated since 3.0, to be removed in 4.0.
+     * @var PathsProxy
+     */
+    private $pathsProxy;
+
+    /**
      * Constructor initialises on the app root path.
      *
      * @param \ArrayAccess $container ArrayAccess compatible DI container that must contain one of:
@@ -305,18 +311,19 @@ class ResourceManager
     }
 
     /**
-     * Returns merged array of Urls, Paths and current request.
+     * Just don't use this.
      *
-     * However $this->paths can be either mixed array elements of String or Path
-     * getPaths() will convert them string to provide homogeneous type result.
+     * @deprecated since 3.0, to be removed in 4.0.
      *
-     * @return string[] array of merged strings
+     * @return PathsProxy
      */
     public function getPaths()
     {
-        $paths = array_map('strval', $this->paths);
+        if ($this->pathsProxy === null) {
+            $this->pathsProxy = new PathsProxy($this);
+        }
 
-        return array_merge($paths, $this->urls, $this->request);
+        return $this->pathsProxy;
     }
 
     /**
