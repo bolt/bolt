@@ -390,14 +390,14 @@ hash_strength: 10
 # headers:
 #     x_frame_options: true
 
-# Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can
+# Bolt uses market.bolt.cm to fetch it's extensions by default. You can
 # change that URL here.
 #
 # Do not change this, unless you know what you're doing, and understand the
-# associated risks. If you use 'http://extensions.bolt.cm', Bolt will not use
+# associated risks. If you use 'http://market.bolt.cm', Bolt will not use
 # SSL, increasing the risk for a MITM attacks.
 # extensions:
-#     site: 'https://extensions.bolt.cm/'
+#     site: 'https://market.bolt.cm/'
 #     enabled: true
 #     composer:
 #         minimum-stability: stable      # Either 'stable', 'beta', or 'dev'. Setting 'dev' will allow you to install dev-master versions of extensions.
