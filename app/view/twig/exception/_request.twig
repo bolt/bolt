@@ -43,7 +43,7 @@
 </table>
 
 
-{% for bag in bags if (attribute(request, bag) is defined) and (attribute(request, bag).all is not empty)%}
+{% for bag in bags if (attribute(request, bag)|default()) and (attribute(request, bag).all is not empty)%}
 
     {% set values = attribute(request, bag).all %}
 
