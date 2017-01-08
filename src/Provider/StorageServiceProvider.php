@@ -112,7 +112,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $field = new TemplateFieldsType(
                     $mapping,
                     $app['storage'],
-                    $app['templatechooser']
+                    $app['templatechooser'],
+                    $app['twig']
                 );
 
                 return $field;

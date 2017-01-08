@@ -1,10 +1,10 @@
 # app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 16:33:01 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -38,6 +38,7 @@
 "page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
+"page.extend.options": #
 
 #--- 91 translations ----------------------------------------------------------
 

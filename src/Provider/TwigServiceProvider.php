@@ -4,7 +4,6 @@ namespace Bolt\Provider;
 
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
-use Bolt\Twig\DumpExtension;
 use Bolt\Twig\Extension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\RuntimeLoader;
@@ -12,6 +11,7 @@ use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
 
@@ -32,10 +32,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 $app['config'],
                 $app['markdown'],
                 $app['menu'],
-                $app['storage'],
-                $app['request_stack'],
-                $app['render'],
-                $app['locale']
+                $app['storage']
             );
         };
         $app['twig.runtime.bolt_image'] = function ($app) {
@@ -55,7 +52,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Twig\Runtime\RoutingRuntime($app['canonical']);
+            return new Twig\Runtime\RoutingRuntime($app['canonical'], $app['request_stack'], $app['locale']);
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
             return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
@@ -66,7 +63,6 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.runtime.bolt_utils'] = function ($app) {
             return new Twig\Runtime\UtilsRuntime(
                 $app['logger.firebug'],
-                $app['request_stack'],
                 $app['debug'],
                 (bool) $app['users']->getCurrentUser() ?: false,
                 $app['config']->get('general/debug_show_loggedoff', false)
@@ -74,6 +70,14 @@ class TwigServiceProvider implements ServiceProviderInterface
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
             return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        };
+        $app['twig.runtime.dump'] = function ($app) {
+            return new Twig\Runtime\DumpRuntime(
+                $app['dumper.cloner'],
+                $app['dumper.html'],
+                $app['users'],
+                $app['config']->get('general/debug_show_loggedoff', false)
+            );
         };
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
@@ -95,6 +99,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     Twig\Runtime\UserRuntime::class    => 'twig.runtime.bolt_user',
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
+                    Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
                 ];
             }
         );
@@ -105,6 +110,17 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new RuntimeLoader($app, $app['twig.runtimes']);
             };
         }
+
+        /** @deprecated Can be replaced when switch to Silex 2 occurs */
+        $app['twig.app_variable'] = function ($app) {
+            $var = new AppVariable();
+            if (isset($app['request_stack'])) {
+                $var->setRequestStack($app['request_stack']);
+            }
+            $var->setDebug($app['debug']);
+
+            return $var;
+        };
 
         $app['twig.loader.bolt_filesystem'] = $app->share(
             function ($app) {
@@ -161,9 +177,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);
 
-                    if (isset($app['dump'])) {
-                        $twig->addExtension($app['twig.extension.dump']);
-                    }
+                    $twig->addExtension($app['twig.extension.dump']);
 
                     $sandbox = $app['twig.extension.sandbox'];
                     $twig->addExtension($sandbox);
@@ -171,6 +185,9 @@ class TwigServiceProvider implements ServiceProviderInterface
 
                     /** @deprecated Can be replaced when switch to Silex 2 occurs */
                     $twig->addRuntimeLoader($app['twig.runtime_loader']);
+
+                    /** @deprecated Can be replaced when switch to Silex 2 occurs */
+                    $twig->addGlobal('global', $app['twig.app_variable']);
 
                     return $twig;
                 }
@@ -235,12 +252,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.dump'] = $app->share(
             function ($app) {
-                return new DumpExtension(
-                    $app['dumper.cloner'],
-                    $app['dumper.html'],
-                    $app['users'],
-                    $app['config']->get('general/debug_show_loggedoff', false)
-                );
+                return new Extension\DumpExtension();
             }
         );
 

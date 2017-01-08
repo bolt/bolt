@@ -135,7 +135,7 @@ class AccessCheckerTest extends BoltUnitTest
         $userName = 'koala';
         $salt = 'vinagre';
         $ipAddress = '8.8.8.8';
-//         $hostName = 'bolt.dev';
+//         $hostName = 'bolt.test';
         $userAgent = 'Bolt PHPUnit tests';
 //         $cookieOptions = [
 //             'remoteaddr'   => true,
