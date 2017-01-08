@@ -295,6 +295,7 @@ class FrontendTest extends ControllerUnitTest
      **/
     public function testPreview()
     {
+        $app = $this->getApp();
         $this->setRequest(Request::create('/pages'));
         $this->controller()->listing($this->getRequest(), 'pages/test');
 
