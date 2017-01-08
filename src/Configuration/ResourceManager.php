@@ -54,7 +54,6 @@ class ResourceManager
 
     /**
      * @deprecated since 3.0, to be removed in 4.0.
-     *
      * @var PathsProxy
      */
     private $pathsProxy;
