@@ -40,7 +40,7 @@ Quick Start
 
 #### Windows
 
-Download and install the MSI from [Yarn's site](https://yarnpkg.com/latest.msi).
+Download and install the MSI from [Yarn's site](https://yarnpkg.com/).
 Direct link: [latest.msi](https://yarnpkg.com/latest.msi).
 
 ### Install required components:
