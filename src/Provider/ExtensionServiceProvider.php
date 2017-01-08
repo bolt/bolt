@@ -38,7 +38,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
+        $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://market.bolt.cm/');
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend.urls'] = [
             'list' => 'list.json',
