@@ -6,6 +6,8 @@ use Bolt\Composer\Action\ShowPackage;
 /**
  * Class to test src/Composer/Action/ShowPackage.
  *
+ * @group slow
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class ShowPackageTest extends ActionUnitTest

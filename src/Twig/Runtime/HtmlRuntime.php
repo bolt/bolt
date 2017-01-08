@@ -7,10 +7,9 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
 use Bolt\Menu\MenuBuilder;
-use Bolt\Render;
 use Bolt\Storage\EntityManager;
 use Maid\Maid;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Twig_Environment as Environment;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -27,12 +26,6 @@ class HtmlRuntime
     private $menu;
     /** @var EntityManager */
     private $em;
-    /** @var RequestStack */
-    private $requestStack;
-    /** @var Render */
-    private $render;
-    /** @var string */
-    private $locale;
 
     /**
      * Constructor.
@@ -41,26 +34,17 @@ class HtmlRuntime
      * @param \Parsedown    $markdown
      * @param MenuBuilder   $menu
      * @param EntityManager $em
-     * @param RequestStack  $requestStack
-     * @param Render        $render
-     * @param string        $locale
      */
     public function __construct(
         Config $config,
         \Parsedown $markdown,
         MenuBuilder $menu,
-        EntityManager $em,
-        RequestStack $requestStack,
-        Render $render,
-        $locale
+        EntityManager $em
     ) {
         $this->config = $config;
         $this->markdown = $markdown;
         $this->menu = $menu;
         $this->em = $em;
-        $this->requestStack = $requestStack;
-        $this->render = $render;
-        $this->locale = $locale;
     }
 
     /**
@@ -99,36 +83,6 @@ class HtmlRuntime
         );
 
         return $output;
-    }
-
-    /**
-     * Returns the language value for in tags where the language attribute is
-     * required. The underscore '_' in the locale will be replaced with a
-     * hyphen '-'.
-     *
-     * @return string
-     */
-    public function htmlLang()
-    {
-        return str_replace('_', '-', $this->locale);
-    }
-
-    /**
-     * Check if the page is viewed on a mobile device.
-     *
-     * @return boolean
-     */
-    public function isMobileClient()
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
-            return false;
-        }
-
-        return preg_match(
-            '/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
-            $request->headers->get('User-Agent')
-        );
     }
 
     /**
@@ -188,14 +142,14 @@ class HtmlRuntime
     /**
      * Output a menu.
      *
-     * @param \Twig_Environment $env
-     * @param string            $identifier Identifier for a particular menu
-     * @param string            $template   The template to use.
-     * @param array             $params     Extra parameters to pass on to the menu template.
+     * @param Environment $env
+     * @param string      $identifier Identifier for a particular menu
+     * @param string      $template   The template to use.
+     * @param array       $params     Extra parameters to pass on to the menu template.
      *
      * @return string|null
      */
-    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
+    public function menu(Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [])
     {
         $menu = $this->menu->menu($identifier);
 
@@ -233,13 +187,16 @@ class HtmlRuntime
      * Use template_from_string instead:
      * http://twig.sensiolabs.org/doc/functions/template_from_string.html
      *
-     * @param string $snippet
-     * @param array  $context
+     * @param Environment $env
+     * @param string      $snippet
+     * @param array       $context
      *
      * @return string Twig output
      */
-    public function twig($snippet, $context = [])
+    public function twig(Environment $env, $snippet, $context = [])
     {
-        return $this->render->renderSnippet($snippet, $context);
+        $template = $env->createTemplate((string) $snippet);
+
+        return twig_include($env, $context, $template, [], true, false, true);
     }
 }

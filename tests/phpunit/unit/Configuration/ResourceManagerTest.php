@@ -195,11 +195,11 @@ class ResourceManagerTest extends BoltUnitTest
             )
         );
         $app = new Application(['resources' => $config]);
-        $this->assertEquals('cli', $config->getRequest('protocol'));
-        $this->assertEquals('bolt.dev', $config->getRequest('hostname'));
-        $this->assertEquals('http://bolt.dev/bolt', $config->getUrl('canonical'));
-        $this->assertEquals('cli://bolt.dev', $config->getUrl('host'));
-        $this->assertEquals('http://bolt.dev/', $config->getUrl('rooturl'));
+        $this->assertEquals('http', $config->getRequest('protocol'));
+        $this->assertEquals('bolt.test', $config->getRequest('hostname'));
+        $this->assertEquals('http://bolt.test/bolt', $config->getUrl('canonical'));
+        $this->assertEquals('http://bolt.test', $config->getUrl('host'));
+        $this->assertEquals('http://bolt.test/', $config->getUrl('rooturl'));
     }
 
     /**
@@ -236,7 +236,7 @@ class ResourceManagerTest extends BoltUnitTest
             [],
             [],
             [
-                'HTTP_HOST'       => 'test.dev',
+                'HTTP_HOST'       => 'test.test',
                 'SERVER_PROTOCOL' => 'https',
             ]
         );
@@ -251,7 +251,7 @@ class ResourceManagerTest extends BoltUnitTest
         );
         new Application(['resources' => $config]);
         $this->assertEquals('https', $config->getRequest('protocol'));
-        $this->assertEquals('test.dev', $config->getRequest('hostname'));
+        $this->assertEquals('test.test', $config->getRequest('hostname'));
     }
 
     public function testNonRootDirectory()

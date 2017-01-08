@@ -6,6 +6,8 @@ use Bolt\Composer\Action\SearchPackage;
 /**
  * Class to test src/Composer/Action/SearchPackage.
  *
+ * @group slow
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class SearchPackageTest extends ActionUnitTest

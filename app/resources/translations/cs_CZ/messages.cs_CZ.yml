@@ -1,4 +1,4 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2016-11-06 08:42:36 Europe/Amsterdam
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2017-01-02 16:33:10 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -8,13 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
-#  12 untranslated messages
-#  90 untranslated keyword based messages
+#  15 unused messages
+#  11 untranslated messages
+#  95 untranslated keyword based messages
 #  80 translations
-# 440 keyword based translations
+# 432 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "Selection:": "Výběr:"
 "page.extend.button.config": #
@@ -22,12 +22,20 @@
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
 "field.slug.button.link": "Odkaz na:"
+"Extend": #
+"general.phrase.directory-not-found-writable": "Složka '%s' není k nalezení nebo nelze přečíst."
+"general.phrase.error-local-extension-set-up-incomplete": "Lokální instalace rozšíření není kompletní. Spusťte prosím 'Instalovat všechny balíčky' na stránce Rozšíření."
+"general.phrase.extras": "Doplňky"
+"general.phrase.path": "Cesta"
+"general.phrase.path-colon": "Cesta:"
+"general.phrase.permissions": "Oprávnění"
+"page.ckeditor-browse-server.folders": "Složky"
+"page.file-management.message.folder-access-denied": "Nemáte dostatečné oprávnění k této složce"
 
-#--- 12 untranslated messages -------------------------------------------------
+#--- 11 untranslated messages -------------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Extend": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Finding packages that require this one…": #
 "Html": #
@@ -38,7 +46,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 90 untranslated keyword based messages -----------------------------------
+#--- 95 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -49,6 +57,8 @@
 "general.phrase.change-log": # "Change Log"
 "general.phrase.delete": # "Delete"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
+"general.phrase.extensions-overview": # "Extensions Overview"
+"general.phrase.folder": # "Folder"
 "general.phrase.info": # "Info"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.live-edit": # "Live Edit"
@@ -64,6 +74,9 @@
 "general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.label.email": # "Email"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
 "page.extend.button.info-help": # "More info/help"
@@ -128,6 +141,7 @@
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "permissions.roles.label.anonymous": # "Anonymous"
 
@@ -214,7 +228,7 @@
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
 
-#--- 440 keyword based translations -------------------------------------------
+#--- 432 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Akce pro %contenttypes%"
 contenttypes.generic.actions-one: "Akce pro %contenttype%"
@@ -356,7 +370,6 @@ general.phrase.depublish: "Odpublikovat"
 general.phrase.depublish-date-past: "Datum expirace je v minulosti. Pokud chcete nyní zrušit publikování, změňte status článku na nevydáno nebo koncept."
 general.phrase.deselect-all: "Odznačit vše"
 general.phrase.details: "Podrobnosti"
-general.phrase.directory-not-found-writable: "Složka '%s' není k nalezení nebo nelze přečíst."
 general.phrase.disable-user-name: "Zablokovat %username%"
 general.phrase.done-bang: "Hotovo!"
 general.phrase.draft: "Koncept"
@@ -368,7 +381,6 @@ general.phrase.edit-role-permissions: "Upravit uživatelské role a oprávnění
 general.phrase.edited: "a upraveno"
 general.phrase.enable-user-name: "Povolit %username%"
 general.phrase.error-cache-clear: "Vymazání vyrovnávací paměti selhalo. Musíte ji vymazat ručně."
-general.phrase.error-local-extension-set-up-incomplete: "Lokální instalace rozšíření není kompletní. Spusťte prosím 'Instalovat všechny balíčky' na stránce Rozšíření."
 general.phrase.error-login-invalid-parameters: "Neplatné parametry přihlášení."
 general.phrase.error-mail-options-not-set: "Dosud nebyly nakonfigurovány hodnoty emailu 'mailoptions'. Bolt pravděpodobně nebude moci odeslat odkaz na resetování hesla."
 general.phrase.error-send-password-request: "Nepodařilo se odeslat heslo. Zkontrolujte prosím nasavení emailu."
@@ -376,7 +388,6 @@ general.phrase.error-session-data-login: "Nelze získat session informace o zalo
 general.phrase.error-translation-file-not-readable: "Soubor s překladem '%s' není čitelný."
 general.phrase.error-user-name-password-incorrect: "Uživatelské jméno nebo heslo není správně."
 general.phrase.extensions: "Zobrazit / Instalovat Rozšíření"
-general.phrase.extras: "Doplňky"
 general.phrase.field: "pole"
 general.phrase.field-fieldname: "Pole “%FIELD_NAME%”:"
 general.phrase.file-management: "Správa souborů"
@@ -450,11 +461,8 @@ general.phrase.overview-for: "Přehled"
 general.phrase.owner-colon: "Vlastník:"
 general.phrase.page: "Strana"
 general.phrase.pager-showing-from-to-of: "Zobrazuji %pager_for% %from% - %to% z %count%"
-general.phrase.path: "Cesta"
-general.phrase.path-colon: "Cesta:"
 general.phrase.path-image-file: "Cesta k souboru obrázku"
 general.phrase.permalink: "Trvalý odkaz"
-general.phrase.permissions: "Oprávnění"
 general.phrase.please-logon: "Přihlašte se, prosím."
 general.phrase.please-provide-username: "Vyplňte uživatelské jméno, prosím"
 general.phrase.preview: "Náhled"
@@ -571,7 +579,6 @@ page.checks.run-email-checks: "Spustit ověření emailu"
 page.checks.run-php-ext-checks: "Spustit PHP ověření rozšíření"
 
 page.ckeditor-browse-server.files: "Soubory"
-page.ckeditor-browse-server.folders: "Složky"
 page.ckeditor-browse-server.modified: "Upraveno"
 page.ckeditor-browse-server.size: "Velikost souboru"
 page.ckeditor-browse-server.title: "Soubory"
@@ -650,7 +657,6 @@ page.file-management.message.create-file: "Zadejte prosím nové jméno souboru!
 page.file-management.message.create-folder: "Zadejte prosím nové jméno složky!"
 page.file-management.message.file-not-readable: "Soubor není čitelný!"
 page.file-management.message.files-in: "Soubory v %s"
-page.file-management.message.folder-access-denied: "Nemáte dostatečné oprávnění k této složce"
 page.file-management.message.folder-not-found: "Složku '%s' nelze nalézt nebo není přístupná ke čtení."
 page.file-management.message.save-failed-colon: "Soubor '%s' nelze uložit:"
 page.file-management.message.save-failed-invalid-form: "Soubor '%s' nelze uložit, formulář je neplatný."

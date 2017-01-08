@@ -1,20 +1,20 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-11-06 08:42:39 Europe/Amsterdam
+# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2017-01-02 16:33:13 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
+#  22 unused messages
 #   4 untranslated messages
 #  no untranslated keyword based messages
-#  88 translations
-# 530 keyword based translations
+#  87 translations
+# 527 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
+#--- 22 unused messages -------------------------------------------------------
 
 "Alas, no about!": "Alas, no about!"
 "Chapter": "Chapter"
@@ -31,6 +31,13 @@
 "Search …": "Search …"
 "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Database' and select 'Add sample Records' to automatically generate this Block.\""
 "Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
+"general.phrase.directory-not-found-writable": "The folder '%s' could not be found, or is not readable."
+"general.phrase.error-local-extension-set-up-incomplete": "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.path": "Path"
+"general.phrase.path-colon": "Path:"
+"general.phrase.permissions": "Permissions"
+"page.ckeditor-browse-server.folders": "Folders"
+"page.file-management.message.folder-access-denied": "Folder permissions insufficient"
 
 #--- 4 untranslated messages --------------------------------------------------
 
@@ -39,7 +46,7 @@
 "Group": #
 "Groups": #
 
-#--- 88 translations ----------------------------------------------------------
+#--- 87 translations ----------------------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
@@ -129,7 +136,7 @@
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 530 keyword based translations -------------------------------------------
+#--- 527 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -281,7 +288,6 @@ general.phrase.depublish-date-past: "Depublish date is in the past. Change the s
 general.phrase.depublish-explanation: "If set, the record will be automatically depublished on the given date."
 general.phrase.deselect-all: "Deselect all"
 general.phrase.details: "Details"
-general.phrase.directory-not-found-writable: "The folder '%s' could not be found, or is not readable."
 general.phrase.disable-user-name: "Disable %username%"
 general.phrase.done-bang: "Done!"
 general.phrase.draft: "Draft"
@@ -293,7 +299,6 @@ general.phrase.edit-role-permissions: "Edit Roles and Permissions"
 general.phrase.edited: "and edited"
 general.phrase.enable-user-name: "Enable %username%"
 general.phrase.error-cache-clear: "Failed to clear cache. You should delete it manually."
-general.phrase.error-local-extension-set-up-incomplete: "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 general.phrase.error-login-invalid-parameters: "Invalid login parameters."
 general.phrase.error-mail-options-not-set: "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 general.phrase.error-send-password-request: "Failed to send password request. Please check the email settings."
@@ -381,11 +386,8 @@ general.phrase.overview-for: "Overview for"
 general.phrase.owner-colon: "Owner:"
 general.phrase.page: "Page"
 general.phrase.pager-showing-from-to-of: "Showing %pager_for% %from% - %to% of %count%"
-general.phrase.path: "Path"
-general.phrase.path-colon: "Path:"
 general.phrase.path-image-file: "Path to image file"
 general.phrase.permalink: "Permalink"
-general.phrase.permissions: "Permissions"
 general.phrase.please-logon: "Please log on."
 general.phrase.please-provide-username: "Please provide a username"
 general.phrase.preview: "Preview"
@@ -514,7 +516,6 @@ page.checks.run-email-checks: "Run email checks"
 page.checks.run-php-ext-checks: "Run PHP extension checks"
 
 page.ckeditor-browse-server.files: "Files"
-page.ckeditor-browse-server.folders: "Folders"
 page.ckeditor-browse-server.modified: "Modified"
 page.ckeditor-browse-server.size: "Filesize"
 page.ckeditor-browse-server.title: "Files"
@@ -539,9 +540,12 @@ page.edit-users.activated.no: "no"
 page.edit-users.activated.yes: "yes"
 page.edit-users.button.save: "Save user"
 page.edit-users.error.displayname-used: "This displayname is already in use. Choose another displayname."
+page.edit-users.error.email-invalid: "This email address is not valid."
 page.edit-users.error.email-used: "This email address is already in use. Choose another email address."
 page.edit-users.error.password-different-displayname: "Password must not be a part of the display name."
+page.edit-users.error.password-different-email: "Password must not match the email address."
 page.edit-users.error.password-different-username: "Password must not match the username."
+page.edit-users.error.password-long: "This value is too long. It should have 128 characters or less."
 page.edit-users.error.password-mismatch: "Passwords must match."
 page.edit-users.error.password-short: "This value is too short. It should have 6 characters or more."
 page.edit-users.error.username-used: "This username is already in use. Choose another username."
@@ -649,6 +653,7 @@ page.extend.pagetitle: "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 page.extend.theme.generation.missing.name: "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: "Theme successfully generated. You can now edit it directly from your theme folder."
+page.extend.options: "Extension Options"
 
 page.file-management.label.create-file: "Create file"
 page.file-management.label.create-folder: "Create folder"
@@ -657,7 +662,6 @@ page.file-management.message.create-file: "Please enter the new file name"
 page.file-management.message.create-folder: "Please enter the new folder name"
 page.file-management.message.file-not-readable: "File is not readable!"
 page.file-management.message.files-in: "Files in %s"
-page.file-management.message.folder-access-denied: "Folder permissions insufficient"
 page.file-management.message.folder-not-found: "Folder '%s' could not be found, or is not readable."
 page.file-management.message.save-failed-colon: "File '%s' could not be saved:"
 page.file-management.message.save-failed-invalid-form: "File '%s' could not be saved, because the form wasn't valid."

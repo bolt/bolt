@@ -7,6 +7,7 @@ use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\QuerySet;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
+use Twig_Environment as TwigEnvironment;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -16,18 +17,15 @@ use Doctrine\DBAL\Types\Type;
  */
 class TemplateFieldsType extends FieldTypeBase
 {
-    public $mapping;
-    public $em;
     public $chooser;
+    /** @var TwigEnvironment */
+    private $twig;
 
-    public function __construct(array $mapping = [], EntityManager $em, TemplateChooser $chooser = null)
+    public function __construct(array $mapping, EntityManager $em, TemplateChooser $chooser, TwigEnvironment $twig)
     {
-        $this->mapping = $mapping;
+        parent::__construct($mapping, $em);
         $this->chooser = $chooser;
-        $this->em = $em;
-        if ($em) {
-            $this->setPlatform($em->createQueryBuilder()->getConnection()->getDatabasePlatform());
-        }
+        $this->twig = $twig;
     }
 
     /**
@@ -102,6 +100,8 @@ class TemplateFieldsType extends FieldTypeBase
     protected function buildMetadata($entity, $rawData = null)
     {
         $template = $this->chooser->record($entity, $rawData);
+        $template = $this->twig->resolveTemplate($template)->getSourceContext()->getName();
+
         $metadata = new ClassMetadata(get_class($entity));
 
         if (isset($this->mapping['config'][$template])) {

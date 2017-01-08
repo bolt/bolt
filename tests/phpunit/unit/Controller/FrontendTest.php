@@ -119,12 +119,12 @@ class FrontendTest extends ControllerUnitTest
     public function testCanonicalUrlProvider()
     {
         return [
-            ['http://bolt.dev/', null, false],
-            ['http://bolt.dev/', null, true],
-            ['https://foo.dev/', 'https://foo.dev/', false],
-            ['https://foo.dev/', 'https://foo.dev/', true],
-            ['http://bar.dev/', 'http://bar.dev/', false],
-            ['http://bar.dev/', 'http://bar.dev/', true],
+            ['http://bolt.test/', null, false],
+            ['http://bolt.test/', null, true],
+            ['https://foo.test/', 'https://foo.test/', false],
+            ['https://foo.test/', 'https://foo.test/', true],
+            ['http://bar.test/', 'http://bar.test/', false],
+            ['http://bar.test/', 'http://bar.test/', true],
         ];
     }
 
@@ -141,7 +141,7 @@ class FrontendTest extends ControllerUnitTest
 
         $templates = $this->getMockBuilder(TemplateChooser::class)
             ->setMethods(['record'])
-            ->setConstructorArgs([$this->getApp()])
+            ->setConstructorArgs([$app['config']])
             ->getMock()
         ;
         $templates->expects($this->any())
@@ -226,10 +226,7 @@ class FrontendTest extends ControllerUnitTest
             $app['config'],
             $app['markdown'],
             $app['menu'],
-            $app['storage'],
-            $app['request_stack'],
-            $app['render'],
-            $app['locale']
+            $app['storage']
         );
     }
 
@@ -303,7 +300,7 @@ class FrontendTest extends ControllerUnitTest
 
         $templates = $this->getMockBuilder(TemplateChooser::class)
             ->setMethods(['record'])
-            ->setConstructorArgs([$this->getApp()])
+            ->setConstructorArgs([$app['config']])
             ->getMock()
         ;
         $templates

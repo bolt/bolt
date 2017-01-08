@@ -2,6 +2,11 @@
 default:
     - watch
 
+build:
+    - updateLib
+    - prepareCkeditor
+    - updateBolt
+
 # UPDATE BOLT TASK:  Creates Bolts own css and js files
 updateBolt:
     - sass:boltCss

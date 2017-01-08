@@ -12,7 +12,7 @@ class TemplateChooserServiceProvider implements ServiceProviderInterface
     {
         $app['templatechooser'] = $app->share(
             function ($app) {
-                $chooser = new TemplateChooser($app);
+                $chooser = new TemplateChooser($app['config']);
 
                 return $chooser;
             }

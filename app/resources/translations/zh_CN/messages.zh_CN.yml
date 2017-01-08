@@ -1,28 +1,37 @@
-# app/resources/translations/zh_CN/messages.zh_CN.yml – generated on 2016-11-06 08:42:37 Europe/Amsterdam
+# app/resources/translations/zh_CN/messages.zh_CN.yml – generated on 2017-01-02 16:33:11 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
-#  43 untranslated messages
-# 195 untranslated keyword based messages
+#  14 unused messages
+#  42 untranslated messages
+# 199 untranslated keyword based messages
 #  49 translations
-# 335 keyword based translations
+# 328 keyword based translations
 
-#--- 5 unused messages --------------------------------------------------------
+#--- 14 unused messages -------------------------------------------------------
 
 "field.slug.button.link": #
 "page.extend.button.config": #
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.directory-not-found-writable": "无法找到文件夹 '%s'，或者它不可读。"
+"general.phrase.extras": "附加功能"
+"general.phrase.path": "路径"
+"general.phrase.path-colon": "路径:"
+"general.phrase.permissions": "权限"
+"page.ckeditor-browse-server.folders": "文件夹"
+"page.file-management.message.folder-access-denied": "文件夹权限不足"
 
-#--- 43 untranslated messages -------------------------------------------------
+#--- 42 untranslated messages -------------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
@@ -39,7 +48,6 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -68,7 +76,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 195 untranslated keyword based messages ----------------------------------
+#--- 199 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -104,16 +112,17 @@
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -178,8 +187,11 @@
 "page.checks.run-directory-checks": # "Run directory checks"
 "page.checks.run-email-checks": # "Run email checks"
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.label.email": # "Email"
 "page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
@@ -254,6 +266,7 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
@@ -318,7 +331,7 @@
 "View (saved version) on site": "观看站点中(保存的版本)"
 "You've been logged on successfully.": "你已成功登录。"
 
-#--- 335 keyword based translations -------------------------------------------
+#--- 328 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "对%contenttypes%的操作"
 contenttypes.generic.actions-one: "对%contenttype%的操作"
@@ -434,7 +447,6 @@ general.phrase.delete-user-name: "删除 %username%"
 general.phrase.depublication-date-colon: "撤除日期："
 general.phrase.deselect-all: "取消全选"
 general.phrase.details: "详情"
-general.phrase.directory-not-found-writable: "无法找到文件夹 '%s'，或者它不可读。"
 general.phrase.disable-user-name: "禁用 %username%"
 general.phrase.done-bang: "完成!"
 general.phrase.draft: "草稿"
@@ -446,7 +458,6 @@ general.phrase.enable-user-name: "启用 %username%"
 general.phrase.error-translation-file-not-readable: "翻译文件 '%s' 不可读取。"
 general.phrase.error-user-name-password-incorrect: "用户名或密码不正确，请检查输入。"
 general.phrase.extensions: "查看/安装扩展"
-general.phrase.extras: "附加功能"
 general.phrase.field: "字段"
 general.phrase.file-management: "文件管理"
 general.phrase.file-not-readable-following-colon: "不能读取以下文件："
@@ -498,11 +509,8 @@ general.phrase.overview-for: "概览"
 general.phrase.owner-colon: "所有者："
 general.phrase.page: "页面"
 general.phrase.pager-showing-from-to-of: "显示 %count% 条记录中的 %from% 到 %to% 条%pager_for%记录"
-general.phrase.path: "路径"
-general.phrase.path-colon: "路径:"
 general.phrase.path-image-file: "图像文件路径"
 general.phrase.permalink: "永久链接"
-general.phrase.permissions: "权限"
 general.phrase.please-logon: "请登录。"
 general.phrase.please-provide-username: "请提供一个用户名"
 general.phrase.preview: "预览"
@@ -583,7 +591,6 @@ logs.change-log.contenttypes.all: "所有内容格式"
 logs.change-log.not-found: "所请求的 changelog 条目不存在。"
 
 page.ckeditor-browse-server.files: "文件"
-page.ckeditor-browse-server.folders: "文件夹"
 page.ckeditor-browse-server.modified: "已修改"
 page.ckeditor-browse-server.size: "文件大小"
 page.ckeditor-browse-server.title: "文件"
@@ -649,7 +656,6 @@ page.file-management.message.create-file: "请输入新文件名"
 page.file-management.message.create-folder: "请输入新文件夹名"
 page.file-management.message.file-not-readable: "文件不可读取！"
 page.file-management.message.files-in: "%s 中的文件"
-page.file-management.message.folder-access-denied: "文件夹权限不足"
 page.file-management.message.folder-not-found: "找不到 '%s' 文件夹，或者该文件夹不可读。"
 page.file-management.message.save-failed-colon: "无法保存文件 '%s'："
 page.file-management.message.save-failed-unknown: "由于某种原因，文件 '%s' 不能保存。"

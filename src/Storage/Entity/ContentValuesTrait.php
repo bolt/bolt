@@ -646,9 +646,13 @@ trait ContentValuesTrait
         }
 
         if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
-            $template = $this->app['templatechooser']->record($this);
-            if (array_key_exists($template, $templateFieldsConfig)) {
-                return $templateFieldsConfig[$template];
+            $templateChooser = $this->app['templatechooser'];
+            /** @var \Bolt\TemplateChooser $template */
+            $templates = $templateChooser->record($this);
+            foreach ($templates as $template) {
+                if (array_key_exists($template, $templateFieldsConfig)) {
+                    return $templateFieldsConfig[$template];
+                }
             }
         }
 

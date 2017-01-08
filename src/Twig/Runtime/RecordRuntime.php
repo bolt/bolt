@@ -174,7 +174,7 @@ class RecordRuntime
             'skip_uses'      => $skip_uses,
         ];
 
-        return new \Twig_Markup($env->render($template, $context), 'utf-8');
+        return $env->render($template, $context);
     }
 
     /**
@@ -248,7 +248,7 @@ class RecordRuntime
             $template = '@bolt/components/pager.twig';
         }
 
-        return new \Twig_Markup($env->render($template, $context), 'utf-8');
+        return $env->render($template, $context);
     }
 
     /**

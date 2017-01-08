@@ -115,7 +115,7 @@
                     '%NAME%': ext.name,
                     '%VERSION%': ext.version,
                     '%BASEURL%': bolt.data('extend.baseurl'),
-                    '%MARKETPLACE_URL%': 'https://extensions.bolt.cm/view/' + ext.name,
+                    '%MARKETPLACE_URL%': 'https://market.bolt.cm/view/' + ext.name,
                     '%REPOSITORY_URL%': ext.repositoryLink
                 };
                 if (ext.status === 'installed' && ext.type !== 'composer-plugin') {

@@ -47,8 +47,6 @@
 
                 {{ form_widget(context.form) }}
 
-                <input type="submit" value="{{ __('page.edit-users.button.save') }}" name="submit" class="btn btn-primary">
-
             {{ form_end(context.form) }}
 
             {{ widgets('edituser_bottom', 'backend') }}
@@ -67,12 +65,13 @@
 
     <script type="text/javascript">
         $(function() {
+            var passwordElements = '#user_edit_password_first, #user_profile_password_first';
             // Attach and detach the progressbar.
-            var el = $('#progress-wrapper').detach()
-            $('#form_password').parent().append(el);
+            var el = $('#progress-wrapper').detach();
+            $(passwordElements).parent().append(el);
 
             // Initialize complexify, to indicate password strength.
-            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+            $(passwordElements).complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
                 var progressBar = $('#complexity-bar');
                 progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
                 progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));

@@ -1,26 +1,27 @@
 <?php
 
-namespace Bolt\Twig;
+namespace Bolt\Twig\Runtime;
 
 use Bolt\Users;
-use Symfony\Bridge\Twig\Extension\DumpExtension as BaseDumpExtension;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
- * Extended to allow dumper to be passed in.
+ * Twig Bridge's DumpExtension's runtime logic with custom enabled check.
+ * Also, backtrace function.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DumpExtension extends BaseDumpExtension
+class DumpRuntime
 {
     /** @var ClonerInterface */
     private $cloner;
     /** @var HtmlDumper */
     private $dumper;
+
     /** @var Users */
     private $users;
-
+    /** @var bool */
     private $debugShowLoggedoff;
 
     /**
@@ -33,7 +34,6 @@ class DumpExtension extends BaseDumpExtension
      */
     public function __construct(ClonerInterface $cloner, HtmlDumper $dumper, Users $users, $debugShowLoggedoff)
     {
-        parent::__construct($cloner);
         $this->cloner = $cloner;
         $this->dumper = $dumper;
         $this->users = $users;
@@ -45,9 +45,7 @@ class DumpExtension extends BaseDumpExtension
      */
     public function dump(\Twig_Environment $env, $context)
     {
-        // Return if 'debug' is `false` in Twig, or there's no logged on user _and_ `debug_show_loggedoff` in
-        // config.yml is `false`.
-        if (!$env->isDebug() || (($this->users->getCurrentUser() === null) && !$this->debugShowLoggedoff)) {
+        if (!$this->isEnabled($env)) {
             return null;
         }
 
@@ -73,5 +71,33 @@ class DumpExtension extends BaseDumpExtension
         }
 
         return stream_get_contents($output, -1, 0);
+    }
+
+    /**
+     * Output pretty-printed backtrace.
+     *
+     * @param \Twig_Environment $env
+     * @param array             $context
+     * @param int               $depth
+     *
+     * @return string|null
+     */
+    public function dumpBacktrace(\Twig_Environment $env, $context, $depth)
+    {
+        if (!$this->isEnabled($env)) {
+            return null;
+        }
+
+        return $this->dump($env, $context, debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, $depth));
+    }
+
+    /**
+     * @param \Twig_Environment $env
+     *
+     * @return bool
+     */
+    protected function isEnabled(\Twig_Environment $env)
+    {
+        return $env->isDebug() && ($this->debugShowLoggedoff || $this->users->getCurrentUser() !== null);
     }
 }

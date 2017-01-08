@@ -1,28 +1,37 @@
-# app/resources/translations/fi/messages.fi.yml – generated on 2016-11-06 08:42:42 Europe/Amsterdam
+# app/resources/translations/fi/messages.fi.yml – generated on 2017-01-02 16:33:17 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
-#  27 untranslated messages
-# 141 untranslated keyword based messages
+#  14 unused messages
+#  26 untranslated messages
+# 145 untranslated keyword based messages
 #  65 translations
-# 389 keyword based translations
+# 382 keyword based translations
 
-#--- 5 unused messages --------------------------------------------------------
+#--- 14 unused messages -------------------------------------------------------
 
 "field.slug.button.link": #
 "page.extend.button.config": #
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.directory-not-found-writable": "Kansiota '%s' ei löydy tai sitä ei voida lukea."
+"general.phrase.extras": "Extrat"
+"general.phrase.path": "Polku"
+"general.phrase.path-colon": "Polku"
+"general.phrase.permissions": "Oikeudet"
+"page.ckeditor-browse-server.folders": "Hakemistot"
+"page.file-management.message.folder-access-denied": "Puutteeliset kansion oikeudet"
 
-#--- 27 untranslated messages -------------------------------------------------
+#--- 26 untranslated messages -------------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -32,7 +41,6 @@
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -52,7 +60,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 141 untranslated keyword based messages ----------------------------------
+#--- 145 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -76,13 +84,14 @@
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
+"general.phrase.folder": # "Folder"
 "general.phrase.info": # "Info"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.meta": # "Meta"
@@ -118,7 +127,10 @@
 "page.checks.run-directory-checks": # "Run directory checks"
 "page.checks.run-email-checks": # "Run email checks"
 "page.checks.run-php-ext-checks": # "Run PHP extension checks"
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.browse-versions": # "Browse Versions"
 "page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
@@ -193,6 +205,7 @@
 "page.extend.message.updating": # "Searching for available updates …"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
@@ -264,7 +277,7 @@
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 "filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 
-#--- 389 keyword based translations -------------------------------------------
+#--- 382 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Sisältötyyppien toiminnot"
 contenttypes.generic.actions-one: "Tämän sisältötyypin toiminnot"
@@ -393,7 +406,6 @@ general.phrase.depublication-date-colon: "Arkistointipäiväys"
 general.phrase.depublish-date-past: "Arkistointipäiväys on menneisyydessä. Vaihda tila jos haluat arkistoida nyt."
 general.phrase.deselect-all: "Poista valinnat"
 general.phrase.details: "Yksityiskohdat"
-general.phrase.directory-not-found-writable: "Kansiota '%s' ei löydy tai sitä ei voida lukea."
 general.phrase.disable-user-name: "Sulje %username%"
 general.phrase.done-bang: "Valmis!"
 general.phrase.draft: "Luonnos"
@@ -407,7 +419,6 @@ general.phrase.error-send-password-request: "Salasananpyynnön lähetys ei onnis
 general.phrase.error-translation-file-not-readable: "Käännöstiedostoa '%s' ei voida lukea."
 general.phrase.error-user-name-password-incorrect: "Käyttäjätunnus tai salasana väärin. Ole hyvä ja tarkista tiedot."
 general.phrase.extensions: "Laajennukset"
-general.phrase.extras: "Extrat"
 general.phrase.field: "Kenttä"
 general.phrase.field-fieldname: "Kenttä “%FIELD_NAME%”:"
 general.phrase.file-management: "Tiedostohallinta"
@@ -471,11 +482,8 @@ general.phrase.overview-for: "Yleiskatsaus:"
 general.phrase.owner-colon: "Omistaja"
 general.phrase.page: "Sivu"
 general.phrase.pager-showing-from-to-of: "Näytetään sivu %pager_for% (%from% - %to% / %count%)"
-general.phrase.path: "Polku"
-general.phrase.path-colon: "Polku"
 general.phrase.path-image-file: "Kuvatiedoston polku"
 general.phrase.permalink: "Pysyvä linkki"
-general.phrase.permissions: "Oikeudet"
 general.phrase.please-logon: "Ole hyvä ja kirjaudu sisään"
 general.phrase.please-provide-username: "Anna käyttäjätunnus"
 general.phrase.preview: "Esikatselu"
@@ -577,7 +585,6 @@ logs.system-log.trimmed: "Järjestelmälogi karsittiin."
 menu.configuration.routing: "Reititys asetettu"
 
 page.ckeditor-browse-server.files: "Tiedostot"
-page.ckeditor-browse-server.folders: "Hakemistot"
 page.ckeditor-browse-server.modified: "Muokattu"
 page.ckeditor-browse-server.size: "Tiedostokoko"
 page.ckeditor-browse-server.title: "Tiedostot"
@@ -644,7 +651,6 @@ page.file-management.message.create-file: "Anna uusi tiedoston nimi!"
 page.file-management.message.create-folder: "Anna uusi kansion nimi!"
 page.file-management.message.file-not-readable: "Tiedostoa ei voida lukea."
 page.file-management.message.files-in: "Tiedostot sijainnissa %s"
-page.file-management.message.folder-access-denied: "Puutteeliset kansion oikeudet"
 page.file-management.message.folder-not-found: "Hakemistoa '%s' ei löydy tai sitä ei voida lukea."
 page.file-management.message.save-failed-colon: "Tiedostoa '%s' ei voida tallentaa:"
 page.file-management.message.save-failed-invalid-form: "Tiedostoa '%s' ei voitu tallentaa, koska lomake oli virheellinen."

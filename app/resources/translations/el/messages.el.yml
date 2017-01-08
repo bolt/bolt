@@ -1,20 +1,20 @@
-# app/resources/translations/el/messages.el.yml – generated on 2016-11-06 08:42:35 Europe/Amsterdam
+# app/resources/translations/el/messages.el.yml – generated on 2017-01-02 16:33:09 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
-#  72 untranslated messages
-# 344 untranslated keyword based messages
+#  15 unused messages
+#  71 untranslated messages
+# 345 untranslated keyword based messages
 #  20 translations
-# 186 keyword based translations
+# 182 keyword based translations
 
-#--- 6 unused messages --------------------------------------------------------
+#--- 15 unused messages -------------------------------------------------------
 
 "component.changelog-pager.page": #
 "field.slug.button.link": #
@@ -22,8 +22,17 @@
 "page.extend.button.readme": #
 "page.extend.button.uninstall": #
 "page.extend.button.versions": #
+"Extend": #
+"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
+"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
+"general.phrase.extras": #
+"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"general.phrase.path": "Διαδρομή"
+"general.phrase.path-colon": "Διαδρομή:"
+"general.phrase.permissions": "Δικαιώματα"
+"page.ckeditor-browse-server.folders": "Κατάλογοι"
 
-#--- 72 untranslated messages -------------------------------------------------
+#--- 71 untranslated messages -------------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -45,7 +54,6 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
-"Extend": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Extension server returned an error: %errormessage%": #
@@ -98,7 +106,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 344 untranslated keyword based messages ----------------------------------
+#--- 345 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.created": # "This %contenttype% was created"
 "contenttypes.generic.group.meta": # "Meta"
@@ -175,17 +183,15 @@
 "general.phrase.depublish-date-past": # "Depublish date is in the past. Change the status if you want to depublish now."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.details": # "Details"
-"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
 "general.phrase.duplicate-set": # "Duplicate Set"
 "general.phrase.edit-role-permissions": # "Edit Roles and Permissions"
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
 "general.phrase.error-login-invalid-parameters": # "Invalid login parameters."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-send-password-request": # "Failed to send password request. Please check the email settings."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
 "general.phrase.error-translation-file-not-readable": # "The translations file '%s' is not readable."
-"general.phrase.extras": # "Extras"
+"general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.field-fieldname": # "Field “%FIELD_NAME%”:"
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
@@ -195,6 +201,7 @@
 "general.phrase.filtering": # "Filtering"
 "general.phrase.find": # "Find"
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
+"general.phrase.folder": # "Folder"
 "general.phrase.full-list-ellipsis": # "Full list …"
 "general.phrase.hints-colon": # "Hints:"
 "general.phrase.id": # "Id"
@@ -309,9 +316,12 @@
 "page.edit-users.activated.yes": # "yes"
 "page.edit-users.button.save": # "Save user"
 "page.edit-users.error.displayname-used": # "This displayname is already in use. Choose another displayname."
+"page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
 "page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
 "page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
 "page.edit-users.error.username-used": # "This username is already in use. Choose another username."
 "page.edit-users.label.assigned-roles": # "Assigned roles"
@@ -412,11 +422,11 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
+"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.label.create-folder": # "Create folder"
-"page.file-management.message.create-file": # "Please enter a new file name!"
-"page.file-management.message.create-folder": # "Please enter a new folder name!"
-"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
+"page.file-management.message.create-file": # "Please enter the new file name"
+"page.file-management.message.create-folder": # "Please enter the new folder name"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "page.login.button.back": # "Back to login"
@@ -468,7 +478,7 @@
 "Title": "Τίτλος"
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
 
-#--- 186 keyword based translations -------------------------------------------
+#--- 182 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ενέργειες για %contenttypes%"
 contenttypes.generic.actions-one: "Ενέργεις για %contenttype%"
@@ -581,10 +591,7 @@ general.phrase.overview: "Σύνοψη"
 general.phrase.overview-for: "Σύνοψη για"
 general.phrase.owner-colon: "Ιδιοκτήτης:"
 general.phrase.pager-showing-from-to-of: "Εμφάνιση %pager_for% %from% - %to% απο %count%"
-general.phrase.path: "Διαδρομή"
-general.phrase.path-colon: "Διαδρομή:"
 general.phrase.permalink: "Μόνιμος Συνδεσμος"
-general.phrase.permissions: "Δικαιώματα"
 general.phrase.please-provide-username: "Παρακαλώ καταχωρήστε ένα όνομα χρήστη"
 general.phrase.preview: "Προεπισκόπηση"
 general.phrase.profile: "Προφίλ"
@@ -643,7 +650,6 @@ general.phrase.written-by-on: "Γράφτηκε απο τον <em>%name%</em> σ
 logs.change-log: "Αρχείο αλλαγών"
 logs.change-log.contenttypes.all: "Ολοι οι τύποι"
 
-page.ckeditor-browse-server.folders: "Κατάλογοι"
 page.ckeditor-browse-server.modified: "Τροποποιήθηκε"
 
 page.edit-file.title.edit: "Επεξερφασία αρχείου"

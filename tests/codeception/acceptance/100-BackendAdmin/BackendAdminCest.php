@@ -43,18 +43,18 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              $this->user['author']['username']);
-        $I->fillField('form[password]',              $this->user['author']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['author']['password']);
-        $I->fillField('form[email]',                 $this->user['author']['email']);
-        $I->fillField('form[displayname]',           $this->user['author']['displayname']);
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         $this->user['author']['username']);
+        $I->fillField('user_edit[password][first]',  $this->user['author']['password']);
+        $I->fillField('user_edit[password][second]', $this->user['author']['password']);
+        $I->fillField('user_edit[email]',            $this->user['author']['email']);
+        $I->fillField('user_edit[displayname]',      $this->user['author']['displayname']);
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "editor" role
-        $I->checkOption('#form_roles_1');
+        $I->checkOption('#user_edit_roles_1');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is successful?
         $I->see("User {$this->user['author']['displayname']} has been saved");
@@ -77,18 +77,18 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              $this->user['editor']['username']);
-        $I->fillField('form[password]',              $this->user['editor']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['editor']['password']);
-        $I->fillField('form[email]',                 $this->user['editor']['email']);
-        $I->fillField('form[displayname]',           $this->user['editor']['displayname']);
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         $this->user['editor']['username']);
+        $I->fillField('user_edit[password][first]',  $this->user['editor']['password']);
+        $I->fillField('user_edit[password][second]', $this->user['editor']['password']);
+        $I->fillField('user_edit[email]',            $this->user['editor']['email']);
+        $I->fillField('user_edit[displayname]',      $this->user['editor']['displayname']);
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "editor" role
-        $I->checkOption('#form_roles_0');
+        $I->checkOption('#user_edit_roles_0');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is successful?
         $I->see("User {$this->user['editor']['displayname']} has been saved");
@@ -111,18 +111,18 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              $this->user['manager']['username']);
-        $I->fillField('form[password]',              $this->user['manager']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['manager']['password']);
-        $I->fillField('form[email]',                 $this->user['manager']['email']);
-        $I->fillField('form[displayname]',           $this->user['manager']['displayname']);
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         $this->user['manager']['username']);
+        $I->fillField('user_edit[password][first]',  $this->user['manager']['password']);
+        $I->fillField('user_edit[password][second]', $this->user['manager']['password']);
+        $I->fillField('user_edit[email]',            $this->user['manager']['email']);
+        $I->fillField('user_edit[displayname]',      $this->user['manager']['displayname']);
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "chief-editor" role
-        $I->checkOption('#form_roles_1');
+        $I->checkOption('#user_edit_roles_1');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is successful?
         $I->see("User {$this->user['manager']['displayname']} has been saved");
@@ -145,18 +145,18 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              $this->user['developer']['username']);
-        $I->fillField('form[password]',              $this->user['developer']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['developer']['password']);
-        $I->fillField('form[email]',                 $this->user['developer']['email']);
-        $I->fillField('form[displayname]',           $this->user['developer']['displayname']);
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         $this->user['developer']['username']);
+        $I->fillField('user_edit[password][first]',  $this->user['developer']['password']);
+        $I->fillField('user_edit[password][second]', $this->user['developer']['password']);
+        $I->fillField('user_edit[email]',            $this->user['developer']['email']);
+        $I->fillField('user_edit[displayname]',      $this->user['developer']['displayname']);
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "developer" role
-        $I->checkOption('#form_roles_3');
+        $I->checkOption('#user_edit_roles_3');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is successful?
         $I->see("User {$this->user['developer']['displayname']} has been saved");
@@ -179,18 +179,18 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              $this->user['lemmings']['username']);
-        $I->fillField('form[password]',              $this->user['lemmings']['password']);
-        $I->fillField('form[password_confirmation]', $this->user['lemmings']['password']);
-        $I->fillField('form[email]',                 $this->user['lemmings']['email']);
-        $I->fillField('form[displayname]',           $this->user['lemmings']['displayname']);
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         $this->user['lemmings']['username']);
+        $I->fillField('user_edit[password][first]',  $this->user['lemmings']['password']);
+        $I->fillField('user_edit[password][second]', $this->user['lemmings']['password']);
+        $I->fillField('user_edit[email]',            $this->user['lemmings']['email']);
+        $I->fillField('user_edit[displayname]',      $this->user['lemmings']['displayname']);
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "admin" role
-        $I->checkOption('#form_roles_2');
+        $I->checkOption('#user_edit_roles_2');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is successful?
         $I->see("User {$this->user['lemmings']['displayname']} has been saved");
@@ -213,23 +213,23 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('Create a new user account');
 
         // Fill in form
-        $I->fillField('form[username]',              'derpaderp');
-        $I->fillField('form[password]',              'DerpADerp');
-        $I->fillField('form[password_confirmation]', 'DerpADerp');
-        $I->fillField('form[email]',                 'derpaderp');
-        $I->fillField('form[displayname]',           'Derpy Derpaderp');
-        $I->selectOption('form[enabled]',            1);
+        $I->fillField('user_edit[username]',         'derpaderp');
+        $I->fillField('user_edit[password][first]',  'DerpADerp');
+        $I->fillField('user_edit[password][second]', 'DerpADerp');
+        $I->fillField('user_edit[email]',            'derpaderp');
+        $I->fillField('user_edit[displayname]',      'Derpy Derpaderp');
+        $I->selectOption('user_edit[enabled]',       1);
 
         // Add the "admin" role
-        $I->checkOption('#form_roles_2');
+        $I->checkOption('#user_edit_roles_2');
 
         // Submit
-        $I->click('input[type=submit]');
+        $I->click('#user_edit button[type=submit]');
 
         // Save is *not* successful?
         $I->see('Password must not match the username.');
         $I->see('Password must not be a part of the display name.');
-        $I->see('This value is not a valid email address.');
+        $I->see('This email address is not valid');
     }
 
     /**
