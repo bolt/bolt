@@ -1,10 +1,10 @@
 # app/resources/translations/id/messages.id.yml – generated on 2017-01-02 08:18:34 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -461,7 +461,8 @@
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.file-management.label.create-file": # "Create file"
+"page.extend.options": #
+"page.file-management.label.create-file": # "Create File"
 "page.file-management.label.create-folder": # "Create folder"
 "page.file-management.message.create-file": # "Please enter the new file name"
 "page.file-management.message.create-folder": # "Please enter the new folder name"

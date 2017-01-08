@@ -11,7 +11,7 @@
          syntaxCheck="false"
         >
     <php>
-        <server name="HTTP_HOST" value="bolt.dev" />
+        <server name="HTTP_HOST" value="bolt.test" />
         <server name="REQUEST_URI" value="/bolt" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
