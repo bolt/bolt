@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Database\Schema\Table;
 
 /**
@@ -6,7 +7,7 @@ namespace Bolt\Storage\Database\Schema\Table;
  *
  * @author Carlos Pérez <mrcarlosdev@gmail.com>
  */
-class Invitations extends BaseTable
+class Invitation extends BaseTable
 {
     /**
      * {@inheritdoc}
@@ -14,10 +15,11 @@ class Invitations extends BaseTable
     protected function addColumns()
     {
         // @codingStandardsIgnoreStart
-        $this->table->addColumn('id',             'integer',    ['autoincrement' => true]);
-        $this->table->addColumn('token',          'string',     ['length' => 128]);
-        $this->table->addColumn('expiration',     'datetime',   ['notnull' => false, 'default' => null]);
-        $this->table->addColumn('roles',          'json_array', []);
+        $this->table->addColumn('id',         'integer',    ['autoincrement' => true]);
+        $this->table->addColumn('ownerid',    'integer',    ['notnull' => false]);
+        $this->table->addColumn('token',      'string',     ['length' => 128]);
+        $this->table->addColumn('expiration', 'datetime',   ['notnull' => false, 'default' => null]);
+        $this->table->addColumn('roles',      'json_array', []);
         // @codingStandardsIgnoreEnd
     }
 
@@ -26,7 +28,6 @@ class Invitations extends BaseTable
      */
     protected function addIndexes()
     {
-
     }
 
     /**

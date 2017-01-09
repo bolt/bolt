@@ -4,10 +4,10 @@ namespace Bolt\Storage\Entity;
 /**
  * Entity for Invitations.
  */
-class Invitations extends Entity
+class Invitation extends Entity
 {
     /** @var int */
-    protected $id;
+    protected $ownerid;
     /** @var string */
     protected $token;
     /** @var \DateTime */
@@ -18,17 +18,17 @@ class Invitations extends Entity
     /**
      * @return int
      */
-    public function getId()
+    public function getOwnerid()
     {
-        return $this->id;
+        return $this->ownerid;
     }
 
     /**
-     * @param int $id
+     * @param int $ownerid
      */
-    public function setId($id)
+    public function setOwnerid($ownerid)
     {
-        $this->id = $id;
+        $this->ownerid = $ownerid;
     }
 
     /**
