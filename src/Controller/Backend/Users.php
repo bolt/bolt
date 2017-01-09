@@ -5,6 +5,7 @@ use Bolt\AccessControl\Permissions;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Form\FormType;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\InvitationRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -53,9 +54,11 @@ class Users extends BackendBase
      */
     public function admin()
     {
-        $currentuser = $this->getUser();
+        $currentUser = $this->getUser();
         $users = $this->users()->getUsers();
         $sessions = $this->accessControl()->getActiveSessions();
+        /** @var InvitationRepository $inviteRepo */
+        $inviteRepo = $this->getRepository(Entity\Invitation::class);
 
         foreach ($users as $name => $user) {
             if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
@@ -64,9 +67,10 @@ class Users extends BackendBase
         }
 
         $context = [
-            'currentuser' => $currentuser,
+            'currentuser' => $currentUser,
             'users'       => $users,
             'sessions'    => $sessions,
+            'invitations' => $inviteRepo->findAll(),
         ];
 
         return $this->render('@bolt/users/users.twig', $context);
@@ -216,41 +220,41 @@ class Users extends BackendBase
      * @param Request $request
      * @param String $code The invitation code provided
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function invitation(Request $request, $code)
     {
-        // Get Repository of available invitations
-        $invitationsRepository = $this->getRepository('Bolt\Storage\Entity\Invitations');
-
+        /** @var \Bolt\Storage\Repository\InvitationRepository $repo */
+        $repo = $this->getRepository(Entity\Invitation::class);
+        $invitation = $repo->getInviteByToken($code);
         // Check if the invitation code exists and it is still available
-        $invitation = $invitationsRepository->findOneBy(array('token' => $code));
-
-        if ((!$invitation) || (new \DateTime() > new \DateTime($invitation[0]->expiration))) {
-            return $this->render('@bolt/invitation/invitationfail.twig');
+        if (!$invitation) {
+            return $this->render('@bolt/invitation/redeem_invalid.twig');
         }
 
-        $tokenEntity = new Entity\Invitations($invitation[0]);
+        $form = $this->createFormBuilder(FormType\InviteRedeemType::class, new Entity\Users())
+            ->getForm()
+            ->handleRequest($request)
+        ;
 
-        // Get an empty user
-        $userEntity = new Entity\Users();
+        if ($form->isValid()) {
+            $userEntity = $form->getData();
+            $userEntity->setEnabled(true);
+            $userEntity->setRoles($invitation->getRoles());
+            $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
 
-        // Set the roles of the invitation code
-        $userEntity->setRoles($tokenEntity->getRoles());
+            if ($saved) {
+                $repo->delete($invitation);
+                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
+                $this->app['logger.system']->info(
+                    Trans::__('page.edit-users.log.user-updated', ['%user%' => $userEntity->getDisplayname()]),
+                    ['event' => 'security']
+                );
+            } else {
+                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));
+            }
 
-        // Get the form
-        $form = Users::getUserForm($userEntity, true);
-
-        // Set the validation
-        $form = $this->setUserFormValidation($form, true);
-
-        /** @var \Symfony\Component\Form\Form */
-        $form = $form->getForm();
-
-        // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form, true)) {
-            $invitationsRepository->delete($invitation);
-            return $response;
+            return $this->redirectToRoute('login');
         }
 
         $context = [
@@ -259,7 +263,7 @@ class Users extends BackendBase
             'sitename' => $this->getOption('general/sitename'),
         ];
 
-        return $this->render('@bolt/invitation/invitation.twig', $context);
+        return $this->render('@bolt/invitation/redeem.twig', $context);
     }
 
     /**
@@ -359,7 +363,7 @@ class Users extends BackendBase
         if ($form->isValid()) {
             $userEntity = $form->getData();
             $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $userEntity->getDisplayname()]), ['event' => 'security']);
-            if ($this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity)) {
+            if ($this->getRepository(Entity\Users::class)->save($userEntity)) {
                 $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
             } else {
                 $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));
