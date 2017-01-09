@@ -265,10 +265,10 @@ class MetadataDriver implements MappingDriver
             ];
 
             if (in_array($data['type'], ['repeater','block'])) {
-                if ($data['type'] == 'repeater') {
+                if ($data['type'] === 'repeater') {
                     $this->normalizeFieldTypes($data['fields']);
                 }
-                if ($data['type'] == 'block') {
+                if ($data['type'] === 'block') {
                     foreach ($data['fields'] as $block => &$fields) {
                         $this->normalizeFieldTypes($fields['fields']);
                     }
