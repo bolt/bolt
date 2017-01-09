@@ -5,7 +5,7 @@
 {% block page_nav 'Settings/Configuration' %}
 
 {% block page_title %}
-    {{ __('page.invitation.title.link') }}
+    {{ __('page.invitation.create.title') }}
 {% endblock page_title %}
 
 {% block page_main %}
@@ -16,16 +16,25 @@
     <div class="col-md-9">
 
         <p style="max-width: 500px;">
-            {{ __('page.invitation.share-options.text') }}
+            {{ __('page.invitation.share.intro') }}
         </p>
 
-        <form method="post" class="form-horizontal" action="{{ url('homepage') }}bolt/users/invite/share/{{ context.code }}">
+        <div class="form-group ">
+            <label class="col-sm-2 control-label required" for="invite_share_link">{{ __('page.invitation.share.share-link') }}</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
+                <input type="text" id="invite_share_link" disabled="disabled" class="form-control wide" value="{{ context.link }}">
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary">{{ __('page.invitation.button.copy-clipboard') }}</button>
+            </div>
+        </div>
+
+
+        {{ form_start(context.form, { 'attr': { 'class': 'form-horizontal' } }) }}
 
             {{ form_widget(context.form) }}
 
-            <input type="submit" id="SendEmail" value="{{ __('page.invitation.share-options.send-email') }}" name="submit" class="btn btn-primary">
-
-        </form>
+        {{ form_end(context.form) }}
 
     </div>
 
@@ -34,56 +43,5 @@
     </aside>
 
 </div>
-
-
-
-<script type="text/javascript">
-    //Copy url invitation code to clipboard
-    function copyToClipboard(elem) {
-        // create hidden text element, if it doesn't already exist
-        var targetId = "_hiddenCopyText_";
-        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-        var origSelectionStart, origSelectionEnd;
-
-        // can just use the original source element for the selection and copy
-        target = elem;
-        origSelectionStart = elem.selectionStart;
-        origSelectionEnd = elem.selectionEnd;
-
-        // select the content
-        var currentFocus = document.activeElement;
-        target.focus();
-        target.setSelectionRange(0, target.value.length);
-
-        // copy the selection
-        var succeed;
-        try {
-            succeed = document.execCommand("copy");
-        } catch(e) {
-            succeed = false;
-        }
-        // restore original focus
-        if (currentFocus && typeof currentFocus.focus === "function") {
-            currentFocus.focus();
-        }
-
-        if (isInput) {
-            // restore prior selection
-            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-        } else {
-            // clear temporary content
-            target.textContent = "";
-        }
-        return succeed;
-    }
-
-    $( document ).ready(function() {
-        //Copy button: invitation code to clipboard
-        document.getElementById("form_copy").addEventListener("click", function() {
-            copyToClipboard(document.getElementById("form_invitationLink"), "msg");
-        });
-    });
-
-</script>
 
 {% endblock page_main %}

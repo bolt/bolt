@@ -2,17 +2,19 @@
 
 {% extends '@bolt/_base/_page-no_nav.twig' %}
 
-{% block page_title __('page.invitation.title') %}
+{% block page_title __('page.invitation.redeem.title') %}
+
+{% form_theme context.form with ['form_bolt_layout.twig', _self] %}
+
+{% block button_icon %}<i class="fa fa-sign-in fa-fw"></i> {% endblock button_icon %}
 
 {% block page_main %}
 
-    {% form_theme context.form 'form_bolt_layout.twig' %}
-
     <h1 style="text-align: center;">
-        {{ __('page.invitation.title') }}
+        {{ __('page.invitation.redeem.title') }}
     </h1>
 
-    <form method="post" class="form-horizontal submitspinner" autocomplete="off">
+    {{ form_start(context.form, { 'attr': { 'class': 'form-horizontal submitspinner', 'autocomplete': 'off' } }) }}
         {# Google Chrome, Firefox, MS edge all require this trick to prevent password fields from auto-filling.
            @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
         <input type="text" style="display:none;" />
@@ -20,10 +22,7 @@
 
         {{ form_widget(context.form) }}
 
-        <button type="submit" class="btn btn-primary" name="submit" value="login">
-            <i class="fa fa-sign-in fa-fw"></i> {{ __('page.invitation.create-button') }}
-        </button>
-    </form>
+    {{ form_end(context.form) }}
 
     <div class="progress" id="progress-wrapper">
         <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0;"></div>
@@ -33,10 +32,10 @@
         $(function() {
             // Attach and detach the progressbar.
             var el = $('#progress-wrapper').detach()
-            $('#form_password').parent().append(el);
+            $('#user_profile_password_first').parent().append(el);
 
             // Initialize complexify, to indicate password strength.
-            $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+            $('#user_profile_password_first').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
                 var progressBar = $('#complexity-bar');
                 progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
                 progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
