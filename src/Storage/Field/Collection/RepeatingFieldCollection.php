@@ -46,15 +46,17 @@ class RepeatingFieldCollection extends ArrayCollection
      * @param array  $fields
      * @param int    $grouping
      * @param object $entity
+     * @param string $block
      *
      * @throws FieldConfigurationException
      */
-    public function addFromArray(array $fields, $grouping = 0, $entity = null)
+    public function addFromArray(array $fields, $grouping = 0, $entity = null, $block = null)
     {
         $collection = new FieldCollection([], $this->em);
         $collection->setGrouping($grouping);
+        $collection->setBlock($block);
         foreach ($fields as $name => $value) {
-            $storageTypeHandler = $this->getFieldType($name);
+            $storageTypeHandler = $this->getFieldType($name, $block);
 
             $field = new FieldValue();
             $field->setName($this->getName());
@@ -73,8 +75,9 @@ class RepeatingFieldCollection extends ArrayCollection
             if ($entity) {
                 $field->setContenttype((string) $entity->contenttype);
             }
-            $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
+            $field->setFieldtype($this->getFieldTypeName($field->getFieldname(), $block));
             $field->setGrouping($grouping);
+            $field->setBlock($block);
             $collection->add($field);
         }
 
@@ -129,7 +132,7 @@ class RepeatingFieldCollection extends ArrayCollection
             $master = $this->getOriginal($entity);
             $master->setValue($entity->getValue());
             $master->setFieldtype($entity->getFieldtype());
-            $master->handleStorage($this->getFieldType($entity->getFieldname()));
+            $master->handleStorage($this->getFieldType($entity->getFieldname(), $entity->getBlock()));
 
             $updated[] = $master;
         }
@@ -209,12 +212,22 @@ class RepeatingFieldCollection extends ArrayCollection
      *
      * @return mixed
      */
-    protected function getFieldType($field)
+    protected function getFieldType($field, $block = null)
     {
-        if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
+        if ($block !== null && !isset($this->mapping['data']['fields'][$block]['fields'][$field]['fieldtype'])) {
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
-        $mapping = $this->mapping['data']['fields'][$field];
+
+        if ($block === null && !isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+
+        if ($block !== null) {
+            $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
+        } else {
+            $mapping = $this->mapping['data']['fields'][$field];
+        }
+
         $setting = $mapping['fieldtype'];
 
         return $this->em->getFieldManager()->get($setting, $mapping);
@@ -223,16 +236,25 @@ class RepeatingFieldCollection extends ArrayCollection
     /**
      * @param $field
      *
-     * @throws FieldConfigurationException
-     *
+     * @param null $block
      * @return mixed
+     * @throws FieldConfigurationException
      */
-    protected function getFieldTypeName($field)
+    protected function getFieldTypeName($field, $block = null)
     {
-        if (!isset($this->mapping['data']['fields'][$field]['type'])) {
+        if ($block !== null && !isset($this->mapping['data']['fields'][$block]['fields'][$field]['type'])) {
             throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
-        $mapping = $this->mapping['data']['fields'][$field];
+
+        if ($block === null && !isset($this->mapping['data']['fields'][$field]['type'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+
+        if ($block !== null) {
+            $mapping = $this->mapping['data']['fields'][$block]['fields'][$field];
+        } else {
+            $mapping = $this->mapping['data']['fields'][$field];
+        }
 
         return $mapping['type'];
     }

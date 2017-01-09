@@ -20,6 +20,8 @@ class FieldValue extends Entity
     protected $fieldname;
     /** @var string */
     protected $fieldtype;
+    /** @var string */
+    protected $block;
 
     /** @var mixed */
     protected $value;
