@@ -20,10 +20,18 @@
      */
     var liveEditor = {};
 
-    var editableTypes = [
+    var contentEditableTypes = [
         'text',
         'html',
         'textarea'
+    ];
+
+    // Content types that won't autoreload on changes in modal
+    var modalForceReloadTypes = [
+        'markdown',
+        'checkbox',
+        'imagelist',
+        'filelist'
     ];
 
     /**
@@ -51,6 +59,7 @@
 
             $('.close-live-editor').bind('click', liveEditor.stop);
             $('.save-live-editor').bind('click', liveEditor.save);
+            $(".live-editor-modal-done-button").bind("click", liveEditor.closeModal);
         } else {
             // If we don't have the features we need
             // Don't let this get used
@@ -82,6 +91,14 @@
             e.preventDefault();
         };
 
+        var preventSubmit = function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                liveEditor.closeModal();
+                return false;
+            }
+        };
+
         var iframeReady = function () {
             var iframe = $('#live-editor-iframe')[0],
                 win = iframe.contentWindow || iframe,
@@ -111,14 +128,15 @@
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function () {
                 // Find form field
-                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
-                    fieldDiv = field.closest('[data-bolt-fieldset]'),
+                var escapedField = liveEditor.escapejQuery($(this).data('bolt-field')),
+                    fields = $('#editcontent *[name=' + escapedField + '], #editcontent *[name^=' + escapedField + '\\[]'),
+                    fieldDiv = fields.closest('[data-bolt-fieldset]'),
                     fieldType = fieldDiv.data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
 
                 if (!$(this).data('no-edit')) {
-                    if (editableTypes.indexOf(fieldType) !== -1) {
+                    if (contentEditableTypes.indexOf(fieldType) !== -1) {
                         $(this).attr('contenteditable', true);
 
                         if (fieldType === 'html') {
@@ -164,18 +182,18 @@
                     } else {
                         $(this).click(function () {
                             fieldDiv.addClass("live-editor-modal");
-                            fieldDiv.closest(".tab-pane").addClass("live-editor-modal-active");
-                            $(field).change(function () {
-                                liveEditor.reload();
-                            });
-                            
+                            fieldDiv.closest(".field-group").addClass("live-editor-modal-active");
+                            fields.off('change keyup', liveEditor.handleModalEvent);
+                            fields.on('change keyup', liveEditor.handleModalEvent);
+                            if(modalForceReloadTypes.indexOf(fieldType) !== -1) {
+                                liveEditor.modalChanged = true;
+                            }
                         });
 
                     }
                 }
             });
 
-            $(".live-editor-modal-done-button").bind("click", liveEditor.closeModal);
         };
 
         $('#live-editor-iframe').on('load', iframeReady);
@@ -190,9 +208,12 @@
         $('#editcontent').attr('action', '').attr('target', '_self');
         $('#editcontent *[name=_live-editor-preview]').val('');
 
+        $('#editcontent input').on('keyup keypress', preventSubmit);
+
         removeEvents = function () {
             $('#live-editor-iframe').off('load', iframeReady);
             $('#navpage-primary .navbar-header a').off('click', preventClick);
+            $('#editcontent input').off('keyup keypress', preventSubmit);
         };
     };
 
@@ -219,6 +240,9 @@
      * @static
      * @function stop
      * @memberof Bolt.liveEditor
+     *
+     * @param {Function} onLoadCallback - callback to run when iframe is 
+     * reloaded
      */
     liveEditor.stop = function () {
         var iframe = $('#live-editor-iframe')[0];
@@ -239,24 +263,28 @@
      * @private
      *
      * @static
-     * @function stop
+     * @function reload
      * @memberof Bolt.liveEditor
      */
-    liveEditor.reload = function () {
-        var iframe = $('#live-editor-iframe')[0];
-
-        liveEditor.extractText();
+    liveEditor.reload = function (onLoadCallback) {
+        liveEditor.modalChanged = false;
+        var iframe = $('#live-editor-iframe');
 
         // Remember scroll position
-        var scrollTop = $(iframe).contents().scrollTop();
+        var scrollTop = iframe.contents().scrollTop();
 
+        liveEditor.stop();
         liveEditor.start();
 
-        // Scroll down and close modal
-        $(iframe).on("load", function () {
+        // Scroll down and run callback
+        var onLoad = function () {
             $(this).contents().scrollTop(scrollTop);
-            //$(".live-editor-modal").removeClass("live-editor-modal");
-        });
+            if (onLoadCallback) {
+                onLoadCallback();
+                iframe.off('load', onLoad);
+            }
+        };
+        iframe.on("load", onLoad);
     };
 
     /**
@@ -285,7 +313,7 @@
                 if (ckeditor.instances.hasOwnProperty(fieldId)) {
                     ckeditor.instances[fieldId].setData($(this).data('src'));
                 }
-            } else if (editableTypes.indexOf(fieldType) !== -1) {
+            } else if (contentEditableTypes.indexOf(fieldType) !== -1) {
                 field.val(liveEditor.cleanText($(this), fieldType));
             }
         });
@@ -313,19 +341,52 @@
     };
 
     /**
+     * Handle changes of modal values
+     *
+     * @public
+     *
+     * @static
+     * @param {Object} evt - the event object
+     * @function handleModalEvent
+     * @memberof Bolt.liveEditor
+     *
+     * @param {String} selector - Selector to escape
+     */
+    liveEditor.handleModalEvent = function (evt) {
+        if (evt.type === 'change') {
+            liveEditor.modalChanged = true;
+            // Give the Done button some time to reload first if pressed
+            setTimeout(function () {
+                if (liveEditor.modalChanged === true) {
+                    liveEditor.reload(null);
+                }
+            }, 150);
+        } else if (evt.type === 'keyup') {
+            liveEditor.modalChanged = true;
+        }
+    
+    };
+
+    /**
      * Close any open field modal
      *
      * @public
      *
      * @static
+     * @param {Boolean} preventReload - is reloading of the Live editor allowed?
      * @function closeModal
      * @memberof Bolt.liveEditor
-     *
-     * @param {String} selector - Selector to escape
      */
     liveEditor.closeModal = function () {
-        $(".live-editor-modal-active").removeClass("live-editor-modal-active");
-        $(".live-editor-modal").removeClass("live-editor-modal");
+        console.log("closeModal: modalChanged:" + liveEditor.modalChanged);
+        if (liveEditor.modalChanged === true) {
+            $(".live-editor-modal-done-button").addClass("disabled");
+            liveEditor.reload(liveEditor.closeModal);
+        } else {
+            $(".live-editor-modal-active").removeClass("live-editor-modal-active");
+            $(".live-editor-modal").removeClass("live-editor-modal");
+            $(".live-editor-modal-done-button").removeClass("disabled");
+        }
     };
 
     /**
@@ -358,6 +419,14 @@
      * @type {string}
      */
     liveEditor.slug = null;
+
+    /**
+     * If the values inside a modal has changed
+     *
+     * @private
+     * @type {Boolean}
+     */
+    liveEditor.modalChanged = false;
 
     bolt.liveEditor = liveEditor;
 })(Bolt || {}, jQuery, window, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);

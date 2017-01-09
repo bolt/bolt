@@ -136,6 +136,10 @@
         .live-editor-modal-buttons {
             display: block;
             padding-top: 20px;
+            .disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
         }
     }
 }
