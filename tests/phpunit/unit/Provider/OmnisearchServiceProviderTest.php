@@ -17,6 +17,5 @@ class OmnisearchServiceProviderTest extends BoltUnitTest
         $provider = new OmnisearchServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Omnisearch', $app['omnisearch']);
-        $app->boot();
     }
 }
