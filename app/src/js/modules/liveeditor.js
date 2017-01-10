@@ -378,7 +378,6 @@
      * @memberof Bolt.liveEditor
      */
     liveEditor.closeModal = function () {
-        console.log("closeModal: modalChanged:" + liveEditor.modalChanged);
         if (liveEditor.modalChanged === true) {
             $(".live-editor-modal-done-button").addClass("disabled");
             liveEditor.reload(liveEditor.closeModal);
