@@ -48,6 +48,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
         $verifier->checks();
 
         $app->boot();
+        $app->flush();
 
         return $app;
     }
