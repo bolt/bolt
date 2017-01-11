@@ -33,16 +33,17 @@ class UrlGeneratorFragmentWrapper implements UrlGeneratorInterface, Configurable
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        $fragment = null;
-        if (isset($parameters['#'])) {
+        $fragment = isset($parameters['_fragment']) ? $parameters['_fragment'] : null;
+        unset($parameters['_fragment']);
+        if ($fragment === null && isset($parameters['#'])) {
             $fragment = $parameters['#'];
-            unset($parameters['#']);
         }
+        unset($parameters['#']);
 
         $url = $this->wrapped->generate($name, $parameters, $referenceType);
 
         if (!empty($fragment)) {
-            $url .= '#' . $fragment;
+            $url .= '#' . strtr(rawurlencode($fragment), ['%2F' => '/', '%3F' => '?']);
         }
 
         return $url;
