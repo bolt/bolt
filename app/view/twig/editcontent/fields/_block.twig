@@ -1,0 +1,53 @@
+{% set labelkey = field.label ?: key|ucfirst %}
+{% set data_bolt_widget = {
+    fieldBlock: {
+        name:    name,
+    }
+} %}
+
+<fieldset class="bolt-field-block" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
+    <legend class="sr-only">{{ labelkey }}</legend>
+    <label class="main col-xs-12">{{ labelkey }}</label>
+    {% if 'html' not in context.fieldtypes %}
+        {{ include('@bolt/editcontent/fielddata/_html.twig') }}
+    {% endif %}
+
+    {# Prefix #}
+    {% if field.prefix is defined and field.prefix is not empty %}
+        <div class="prefix">
+            {{ field.prefix|markdown }}
+        </div>
+    {% endif %}
+
+    <div class="block-slot">
+        {% for blockname,block in field.fields %}
+            <script type="text/template" data-block-type="{{ blockname }}">
+                {% set index = '#' %}
+                {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
+            </script>
+        {% endfor %}
+
+        {% set blockfieldvals = context.content.get(contentkey) %}
+        {% for index, repeatfieldset in blockfieldvals %}
+            {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index, 'block': repeatfieldset.first.block }) }}
+        {% endfor %}
+    </div>
+
+    <div class="col-xs-12">
+        <div class="block-add">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">Add New...</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    {% for blockname, block in field.fields %}
+                        <li>
+                            <a class="add-button" data-block-type="{{ blockname }}"><i class="fa fa-plus"></i> Add new {{ block.label }} set</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</fieldset>

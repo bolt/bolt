@@ -311,7 +311,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $redis = new \Redis();
                     foreach ($connections as $conn) {
                         $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
-                        call_user_func_array([$redis, $conn['persistant'] ? 'pconnect' : 'connect'], $params);
+                        call_user_func_array([$redis, $conn['persistent'] ? 'pconnect' : 'connect'], $params);
                         if (!empty($conn['password'])) {
                             $redis->auth($conn['password']);
                         }

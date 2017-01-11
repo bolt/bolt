@@ -19,6 +19,7 @@ class FieldValue extends BaseTable
         $this->table->addColumn('content_id',       'integer',      []);
         $this->table->addColumn('name',             'string',       ['length' => 64, 'default' => '']);
         $this->table->addColumn('grouping',         'integer',      ['default' => 0]);
+        $this->table->addColumn('block',            'string',       ['length' => 64, 'notnull' => false]);
         $this->table->addColumn('fieldname',        'string',       []);
         $this->table->addColumn('fieldtype',        'string',       []);
         $this->table->addColumn('value_string',     'string',       ['length' => 255, 'notnull' => false]);

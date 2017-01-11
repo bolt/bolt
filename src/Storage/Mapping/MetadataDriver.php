@@ -264,19 +264,15 @@ class MetadataDriver implements MappingDriver
                 ],
             ];
 
-            if ($data['type'] === 'repeater') {
-                foreach ($data['fields'] as $rkey => &$value) {
-                    $value['fieldname'] = $rkey;
-
-                    if ($value['type'] === 'select' && isset($value['multiple']) && $value['multiple'] === true) {
-                        $value['type'] = 'selectmultiple';
+            if (in_array($data['type'], ['repeater','block'])) {
+                if ($data['type'] === 'repeater') {
+                    $this->normalizeFieldTypes($data['fields']);
+                }
+                if ($data['type'] === 'block') {
+                    foreach ($data['fields'] as $block => &$fields) {
+                        $this->normalizeFieldTypes($fields['fields']);
                     }
-
-                    if (isset($this->typemap[$value['type']])) {
-                        $value['fieldtype'] = $this->typemap[$value['type']];
-                    } else {
-                        $value['fieldtype'] = $this->typemap['text'];
-                    }
+                    $mapping['fieldtype'] = $this->typemap['block'];
                 }
 
                 if ($standalone) {
@@ -288,6 +284,29 @@ class MetadataDriver implements MappingDriver
             }
         }
     }
+
+    /**
+     * Internal method to fix or patch any field mappings
+     *
+     * @param array $fields
+     */
+    protected function normalizeFieldTypes(array &$fields)
+    {
+        foreach ($fields as $rkey => &$value) {
+            $value['fieldname'] = $rkey;
+
+            if ($value['type'] === 'select' && isset($value['multiple']) && $value['multiple'] === true) {
+                $value['type'] = 'selectmultiple';
+            }
+
+            if (isset($this->typemap[$value['type']])) {
+                $value['fieldtype'] = $this->typemap[$value['type']];
+            } else {
+                $value['fieldtype'] = $this->typemap['text'];
+            }
+        }
+    }
+
 
     /**
      * This is a helper method to get a correct mapping from an array config. It's designed to take raw array config

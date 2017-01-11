@@ -18,6 +18,7 @@ class FieldCollection extends AbstractLazyCollection
     public $references = [];
     protected $em;
     protected $grouping;
+    protected $block;
     protected $toRemove = [];
 
     /**
@@ -71,6 +72,23 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
+     * @param mixed $block
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBlock()
+    {
+        $this->initialize();
+        return $this->first()->getBlock();
+    }
+
+    /**
      * @param mixed $element
      *
      * @return bool
@@ -78,6 +96,7 @@ class FieldCollection extends AbstractLazyCollection
     public function add($element)
     {
         $element->setGrouping($this->grouping);
+        $element->setBlock($this->block);
 
         return parent::add($element);
     }
@@ -102,6 +121,16 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
+     * Overrides the default array access method and passes on to the get method
+     * @param mixed $offset
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
      * Handles the conversion of references to entities.
      */
     protected function doInitialize()
@@ -123,7 +152,8 @@ class FieldCollection extends AbstractLazyCollection
                     function ($errNo, $errStr, $errFile) {},
                     E_WARNING
                 );
-                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                $block = !empty($val->getBlock()) ? $val->getBlock() : null;
+                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname(), $block);
                 restore_error_handler();
 
                 // If we do not have a hydrated value returned then we fall back to the one passed in
