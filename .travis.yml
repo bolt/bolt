@@ -53,15 +53,15 @@ script:
   # PHPUnit
   - php -d memory_limit=2G ./vendor/bin/phpunit
   # Codeception set up (PHP >5.3)
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build ; fi
+  - ./vendor/codeception/codeception/codecept build
   # Codeception Sqlite run (PHP >5.3)
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  - ./vendor/codeception/codeception/codecept run
   # Codeception MySQL run (PHP >5.3)
   - ./tests/travis/test-db-config mysql
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  - ./vendor/codeception/codeception/codecept run
   # Codeception PostgreSQL run (PHP >5.3)
   - ./tests/travis/test-db-config postgres
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
+  - ./vendor/codeception/codeception/codecept run
 
 # Cache directories
 cache:
