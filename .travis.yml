@@ -20,6 +20,7 @@ addons:
   postgresql: "9.3"
 
 before_install:
+  # Workaround for IPv6 problems connection to packagist.org
   - sudo sh -c "echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf"
   # Set up HHVM
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini ; fi
@@ -37,8 +38,6 @@ before_script:
   - composer self-update || true
 #  - composer global require hirak/prestissimo:^0.2
   - composer install --prefer-dist
-  # Set up permissions
-  - chmod -R 777 app/database/ app/cache/ app/config/ extensions/ files/ theme/
   # Set up MySQL
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
   - mysql -e "CREATE USER 'bolt_travis'@'localhost' IDENTIFIED BY 'bolt_travis';" -u root
@@ -64,10 +63,8 @@ script:
   - ./tests/travis/test-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
 
-after_script:
+# Cache directories
+cache:
+  directories:
+    - $COMPOSER_CACHE_DIR
 
-# cache vendor dirs
-#cache:
-#  directories:
-#    - vendor
-#    - $COMPOSER_CACHE_DIR
