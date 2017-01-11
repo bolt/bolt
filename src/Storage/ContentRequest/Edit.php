@@ -362,6 +362,13 @@ class Edit
                     $fieldtypes[$rfield['type']] = true;
                 }
             }
+            if ($field['type'] === 'block') {
+                foreach ($field['fields'] as $block) {
+                    foreach ($block['fields'] as $rfield) {
+                        $fieldtypes[$rfield['type']] = true;
+                    }
+                }
+            }
         }
 
         if ($has['relations'] || $has['incoming_relations']) {
@@ -378,4 +385,5 @@ class Edit
 
         return array_keys($fieldtypes);
     }
+
 }

@@ -137,6 +137,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Doctrine\DBAL\Types\TextType'     => 'Bolt\Storage\Field\Type\TextAreaType',
             'Doctrine\DBAL\Types\DateType'     => 'Bolt\Storage\Field\Type\DateType',
             'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Storage\Field\Type\DateTimeType',
+            'block'                            => 'Bolt\Storage\Field\Type\BlockType',
             'checkbox'                         => 'Bolt\Storage\Field\Type\CheckboxType',
             'date'                             => 'Bolt\Storage\Field\Type\DateType',
             'datetime'                         => 'Bolt\Storage\Field\Type\DateTimeType',

@@ -194,7 +194,7 @@ class Builder
      *
      * @return FieldValue|bool
      */
-    public function getHydratedValue($value, $field, $subField = null)
+    public function getHydratedValue($value, $field, $subField = null, $block = null)
     {
         $fields = $this->getFields();
 
@@ -204,8 +204,14 @@ class Builder
             }
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
 
-            if ($subField !== null) {
+            if ($subField !== null && $block === null) {
                 $subMapping = $mapping['data']['fields'][$subField];
+                $fieldType = $this->fieldManager->get($subMapping['fieldtype'], $subMapping);
+                $field = $subField;
+            }
+
+            if ($block !== null) {
+                $subMapping = $mapping['data']['fields'][$block]['fields'][$subField];
                 $fieldType = $this->fieldManager->get($subMapping['fieldtype'], $subMapping);
                 $field = $subField;
             }

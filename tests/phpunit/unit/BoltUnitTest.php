@@ -72,6 +72,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
             if ($boot) {
                 $this->app->boot();
+                $this->app->flush();
             }
         }
 
