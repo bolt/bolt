@@ -289,5 +289,7 @@ class RepeatingFieldCollection extends ArrayCollection
         foreach ($this as $collection => $vals) {
             $output[$collection] = $vals->serialize();
         }
+
+        return $output;
     }
 }
