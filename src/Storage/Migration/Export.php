@@ -83,7 +83,7 @@ class Export extends AbstractMigration
     private function exportContenttypeRecords($contenttype, $last)
     {
         // Get all the records for the contenttype
-        $records = $this->app['storage']->getContent($contenttype);
+        $records = $this->app['query']->getContent($contenttype);
         $data = [];
 
         // If we're on the last Contenttype, we want to know when we've got the
@@ -101,7 +101,7 @@ class Export extends AbstractMigration
                 $last = true;
             }
 
-            $values = $record->getValues();
+            $values = $record->toArray();
             unset($values['id']);
             $data[$contenttype] = $values;
 
