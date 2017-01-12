@@ -101,7 +101,7 @@ class Export extends AbstractMigration
             }
 
             $values = [];
-            $repo = $app['storage']->getRepository($contenttype);
+            $repo = $this->app['storage']->getRepository($contenttype);
             $metadata = $repo->getClassMetadata();
             foreach ($metadata->getFieldMappings() as $field) {
                 $fieldName = $field['fieldname'];
