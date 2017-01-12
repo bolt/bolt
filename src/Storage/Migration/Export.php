@@ -107,9 +107,10 @@ class Export extends AbstractMigration
             foreach ($metadata->getFieldMappings() as $field) {
                 $fieldName = $field['fieldname'];
                 $val = $record->$fieldName;
-                if ($val instanceof Collection) {
+                if (is_callable([$val, 'serialize'])) {
                     $val = $val->serialize();
                 }
+
                 $values[$fieldName] = $val;
             }
 

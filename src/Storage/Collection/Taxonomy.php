@@ -6,13 +6,14 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 
 /**
  * This class stores an array collection of Taxonomy Entities
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Taxonomy extends ArrayCollection
+class Taxonomy extends ArrayCollection implements Serializable
 {
     public $config;
 
@@ -218,4 +219,5 @@ class Taxonomy extends ArrayCollection
 
         return $output;
     }
+
 }
