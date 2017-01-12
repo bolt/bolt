@@ -1191,7 +1191,7 @@ class Config
                     'options' => [],
                 ],
                 'timed_records' => [
-                    'interval' => 3660,
+                    'interval' => 3600,
                     'use_cron' => false,
                 ],
             ],
