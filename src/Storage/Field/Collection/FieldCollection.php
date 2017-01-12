@@ -138,4 +138,16 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     {
         return parent::getIterator();
     }
+
+    public function serialize()
+    {
+        $output = [];
+        $this->initialize();
+
+        foreach ($this->collection as $field) {
+            $output[$field->getFieldname()] = $field->getValue();
+        }
+
+        return $output;
+    }
 }

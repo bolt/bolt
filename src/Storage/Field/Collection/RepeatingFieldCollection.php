@@ -285,6 +285,9 @@ class RepeatingFieldCollection extends ArrayCollection
 
     public function serialize()
     {
-        return $this->flatten();
+        $output = [];
+        foreach ($this as $collection => $vals) {
+            $output[$collection] = $vals->serialize();
+        }
     }
 }
