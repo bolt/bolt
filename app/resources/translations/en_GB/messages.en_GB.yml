@@ -177,6 +177,7 @@ contenttypes.generic.wrong-use-field: "In the ContentType for '%contenttype%', t
 
 contenttypes.record.comment-add-colon: "Add a comment:"
 
+field.block.label.add-new: "Add new..."
 field.block.label.add-set: "Add new %label% set"
 
 field.general.allowed-filetypes: "Allowed file types are:"
