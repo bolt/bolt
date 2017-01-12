@@ -90,8 +90,7 @@ class Export extends AbstractMigration
         // last record so we can close off if need be
         if ($last) {
             $last = false;
-            $keys = array_keys($records);
-            $end  = end($keys);
+            $end  = count($records);
         } else {
             $end = null;
         }
