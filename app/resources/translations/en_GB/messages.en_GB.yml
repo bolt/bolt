@@ -177,6 +177,8 @@ contenttypes.generic.wrong-use-field: "In the ContentType for '%contenttype%', t
 
 contenttypes.record.comment-add-colon: "Add a comment:"
 
+field.block.label.add-set: "Add new %label% set"
+
 field.general.allowed-filetypes: "Allowed file types are:"
 field.general.select-from-server: "Select from server"
 field.general.stack: "Stack"
@@ -193,6 +195,8 @@ field.image.label.alt: "Alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Preview"
+
+field.repeater.label.add-set: "Add new %label% set"
 
 field.slug.button.edit: "Edit"
 field.slug.button.generate: "Generate from:"
