@@ -282,4 +282,9 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         return new FieldCollection();
     }
+
+    public function serialize()
+    {
+        return $this->flatten();
+    }
 }
