@@ -8,7 +8,7 @@
     <title>Uncaught Exception: {{ exception.class_name|default('unknown') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
-    {% if debug and exception.snippet %}
+    {% if debug and exception.snippet is defined %}
         <link rel="stylesheet" href="{{ asset('css/bolt_exception.css', 'bolt') }}">
         <script src="{{ asset('js/jquery-2.2.4.min.js', 'bolt') }}" defer></script>
         <script src="{{ asset('js/bolt_exception.js', 'bolt') }}" defer></script>
@@ -45,7 +45,7 @@
                                 <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
                             </p>
 
-                            {% if debug and exception.snippet -%}
+                            {% if debug and exception.snippet is defined -%}
 <pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
 {{- exception.snippet -}}
 </code></pre>

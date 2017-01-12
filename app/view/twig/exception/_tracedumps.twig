@@ -1,5 +1,5 @@
 <div style="display: none;">
-{% for t in exception.trace %}
+{% for t in exception.trace|default() %}
 
     {% if t.args_safe is not empty %}
     <div id='arguments-{{loop.index}}' class='trace-arguments-placeholder'>
