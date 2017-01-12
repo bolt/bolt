@@ -100,7 +100,15 @@ class Export extends AbstractMigration
                 $last = true;
             }
 
-            $values = $record->toArray();
+            $values = [];
+            $repo = $app['storage']->getRepository($contenttype);
+            $metadata = $repo->getClassMetadata();
+            foreach ($metadata->getFieldMappings() as $field) {
+                $fieldName = $field['fieldname'];
+                $values[$fieldName] = $record->$fieldName;
+            }
+
+
             unset($values['id']);
             $data[$contenttype] = $values;
 
