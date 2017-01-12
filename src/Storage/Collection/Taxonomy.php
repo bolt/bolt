@@ -208,4 +208,14 @@ class Taxonomy extends ArrayCollection
             }
         }
     }
+
+    public function serialize()
+    {
+        $output = [];
+        foreach ($this as $k => $existing) {
+            $output[$existing->getTaxonomytype()] = $existing->getSlug();
+        }
+
+        return $output;
+    }
 }

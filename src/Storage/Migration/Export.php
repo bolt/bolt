@@ -108,7 +108,7 @@ class Export extends AbstractMigration
                 $fieldName = $field['fieldname'];
                 $val = $record->$fieldName;
                 if ($val instanceof Collection) {
-                    $val = $val->toArray();
+                    $val = $val->serialize();
                 }
                 $values[$fieldName] = $val;
             }
