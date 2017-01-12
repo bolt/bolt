@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Migration;
 
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
@@ -105,7 +106,11 @@ class Export extends AbstractMigration
             $metadata = $repo->getClassMetadata();
             foreach ($metadata->getFieldMappings() as $field) {
                 $fieldName = $field['fieldname'];
-                $values[$fieldName] = $record->$fieldName;
+                $val = $record->$fieldName;
+                if ($val instanceof Collection) {
+                    $val = $val->toArray();
+                }
+                $values[$fieldName] = $val;
             }
 
 
