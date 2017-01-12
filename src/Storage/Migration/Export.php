@@ -116,6 +116,7 @@ class Export extends AbstractMigration
 
 
             unset($values['id']);
+            $values['_id'] = spl_object_hash($record);
             $data[$contenttype] = $values;
 
             $this->writeMigrationFile($data, $last, true);

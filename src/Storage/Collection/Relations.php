@@ -213,4 +213,14 @@ class Relations extends ArrayCollection
 
         return $collection;
     }
+
+    public function serialize()
+    {
+        $output = [];
+        foreach ($this as $k => $existing) {
+            $output[$existing->getToContenttype()][] = spl_object_hash($existing);
+        }
+        
+        return $output;
+    }
 }
