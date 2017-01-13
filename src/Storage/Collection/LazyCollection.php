@@ -19,8 +19,7 @@ class LazyCollection extends AbstractLazyCollection
      * Allows adding an entity proxy class
      *
      * @param EntityProxy $element
-     *
-     * @return
+     * @return bool
      */
     public function add($element)
     {
