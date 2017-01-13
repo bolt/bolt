@@ -51,7 +51,7 @@ trait MagicAttributeTrait
 
     public function __call($method, $arguments)
     {
-        $var = lcfirst(str_replace(['get', 'set', 'serialize'], '', $method));
+        $var = lcfirst(preg_replace('/^(get|set|serialize)/i', '', $method));
         $underscored = $this->underscore($var);
         $camelized = $this->camelize($var);
         $numericCamel = $this->underscore(preg_replace('/([a-z])([\d])/', '$1_$2', $var));
