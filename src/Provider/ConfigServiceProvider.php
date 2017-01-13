@@ -45,7 +45,12 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
         $app['config.validator'] = $app->share(
             function ($app) {
-                $validator = new ConfigValidator($app['controller.exception'], $app['config'], $app['resources']);
+                $validator = new ConfigValidator(
+                    $app['controller.exception'],
+                    $app['config'],
+                    $app['resources'],
+                    $app['logger.flash']
+                );
 
                 return $validator;
             }
