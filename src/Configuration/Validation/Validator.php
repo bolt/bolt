@@ -7,6 +7,7 @@ use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller;
 use Bolt\Exception\BootException;
+use Bolt\Logger\FlashLoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,6 +33,8 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     private $configManager;
     /** @var ResourceManager */
     private $resourceManager;
+    /** @var FlashLoggerInterface */
+    private $flashLogger;
     /** @var array */
     private $check = [
         self::CHECK_CONFIG       => Configuration::class,
@@ -48,13 +51,19 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * @param Controller\Exception $exceptionController
      * @param Config               $config
      * @param ResourceManager      $resourceManager
+     * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(Controller\Exception $exceptionController, Config $config, ResourceManager $resourceManager)
-    {
+    public function __construct(
+        Controller\Exception $exceptionController,
+        Config $config,
+        ResourceManager $resourceManager,
+        FlashLoggerInterface $flashLogger
+    ) {
         parent::__construct($resourceManager);
         $this->exceptionController = $exceptionController;
         $this->configManager = $config;
         $this->resourceManager = $resourceManager;
+        $this->flashLogger = $flashLogger;
     }
 
     /**
@@ -144,6 +153,9 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         }
         if ($validator instanceof ConfigAwareInterface) {
             $validator->setConfig($this->configManager);
+        }
+        if ($validator instanceof FlashLoggerAwareInterface) {
+            $validator->setFlashLogger($this->flashLogger);
         }
 
         return $validator;

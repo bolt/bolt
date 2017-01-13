@@ -6,6 +6,7 @@ use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Validation\Validator;
 use Bolt\Controller;
+use Bolt\Logger\FlashLogger;
 use PHPUnit_Extension_FunctionMocker;
 
 /**
@@ -25,6 +26,8 @@ abstract class AbstractValidationTest extends \PHPUnit_Framework_TestCase
     protected $config;
     /** @var ResourceManager */
     protected $resourceManager;
+    /** @var FlashLogger */
+    protected $flashLogger;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_filesystem;
@@ -61,11 +64,13 @@ abstract class AbstractValidationTest extends \PHPUnit_Framework_TestCase
         $this->extensionController = $this->prophesize(Controller\Exception::class);
         $this->config = $this->prophesize(Config::class);
         $this->resourceManager = $this->prophesize(ResourceManager::class);
+        $this->flashLogger = $this->prophesize(FlashLogger::class);
 
         $this->validator = new Validator(
             $this->extensionController->reveal(),
             $this->config->reveal(),
-            $this->resourceManager->reveal()
+            $this->resourceManager->reveal(),
+            $this->flashLogger->reveal()
         );
     }
 
