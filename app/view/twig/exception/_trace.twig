@@ -1,7 +1,7 @@
 <h2>Stack trace</h2>
 
 <table class="table table-striped table-hover table-condensed">
-{% for t in exception.trace %}
+{% for t in exception.trace|default() %}
     <tr>
         <th># {{ loop.index }} </th>
         <td>
