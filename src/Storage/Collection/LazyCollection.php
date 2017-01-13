@@ -33,7 +33,7 @@ class LazyCollection extends ArrayCollection
         $output = [];
         foreach ($this as $element) {
             $proxy = $element->getProxy();
-            $output[] = spl_object_hash($proxy);
+            $output[] = $proxy->getContenttype() . '/' . $proxy->getSlug();
         }
 
         return $output;
