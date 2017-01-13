@@ -25,11 +25,16 @@ class LazyCollection extends ArrayCollection
         return parent::add($element);
     }
 
+    /**
+     *  Force loads the proxy objects and returns the real objects
+     */
     public function serialize()
     {
         $output = [];
         foreach ($this as $element) {
             $output[] = $element->getProxy();
         }
+
+        return $output;
     }
 }
