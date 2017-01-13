@@ -205,13 +205,8 @@ class Relations extends ArrayCollection
         if ($this->em === null) {
             throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on ' . __CLASS__);
         }
-        $collection = new LazyCollection();
-        $proxies = $this->getField($offset);
-        foreach ($proxies as $proxy) {
-            $collection->add(new EntityProxy($proxy->to_contenttype, $proxy->to_id, $this->em));
-        }
 
-        return $collection;
+        return $this->getField($offset);
     }
 
     public function serialize()

@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Collection;
 
 use Bolt\Storage\EntityProxy;
-use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -13,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class LazyCollection extends AbstractLazyCollection
+class LazyCollection extends ArrayCollection
 {
     /**
      * Allows adding an entity proxy class
@@ -23,12 +22,7 @@ class LazyCollection extends AbstractLazyCollection
      */
     public function add($element)
     {
-        return $this->collection->add($element);
-    }
-
-    protected function doInitialize()
-    {
-
+        return parent::add($element);
     }
 
     public function serialize()
