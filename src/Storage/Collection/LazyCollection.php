@@ -23,13 +23,19 @@ class LazyCollection extends AbstractLazyCollection
      */
     public function add($element)
     {
-        $this->initialize();
-
         return $this->collection->add($element);
     }
 
     protected function doInitialize()
     {
-        $this->collection = new ArrayCollection();
+
+    }
+
+    public function serialize()
+    {
+        $output = [];
+        foreach ($this as $element) {
+            $output[] = $element->getProxy();
+        }
     }
 }
