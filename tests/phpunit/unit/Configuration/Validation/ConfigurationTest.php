@@ -24,7 +24,7 @@ class ConfigurationTest extends AbstractValidationTest
     public function testConfigurationInvalid()
     {
         $this->config->getExceptions()->willReturn(['Koala detected … check for drop bear!']);
-        $this->extensionController->systemCheck(Validator::CHECK_CONFIG, ['Koala detected … check for drop bear!'])->shouldBeCalled();
+        $this->flashLogger->error('Koala detected … check for drop bear!')->shouldBeCalled();
 
         $this->validator->check(Validator::CHECK_CONFIG);
     }
