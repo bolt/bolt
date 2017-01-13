@@ -50,7 +50,7 @@
                                     <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
                                 </p>
 
-                                {% if exception.snippet -%}
+                                {% if exception.snippet|default() -%}
     <pre class='line-numbers' data-start='{{ max(exception.object.line - 5, 1) }}' data-line='6'><code class='language-php'>
     {{- exception.snippet -}}
     </code></pre>
