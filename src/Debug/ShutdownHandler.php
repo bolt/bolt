@@ -15,23 +15,22 @@ use Symfony\Component\Debug;
  */
 class ShutdownHandler
 {
+    public static $errorLevels;
+
     /**
      * Set the handlers.
+     *
+     * NOTE:
+     * CLI uses a custom output handler & must NOT call Debug::enable() as this
+     * breaks Codeception redirect handling under some circumstances.
      *
      * @param bool $debug
      */
     public static function register($debug = true)
     {
-        $errorLevels = error_reporting();
-        if ($debug) {
-            $errorLevels |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
-            Debug\DebugClassLoader::enable();
-        }
+        self::$errorLevels = error_reporting();
 
-        if (PHP_SAPI !== 'cli') {
-            Debug\ErrorHandler::register()->throwAt($errorLevels, true);
-            Debug\ExceptionHandler::register($debug);
-        } else {
+        if (PHP_SAPI === 'cli') {
             $consoleHandler = function (\Exception $e) {
                 $app = new Application('Bolt CLI', Version::VERSION);
                 $output = new ConsoleOutput(OutputInterface::VERBOSITY_DEBUG);
@@ -39,6 +38,14 @@ class ShutdownHandler
                 ob_clean();
             };
             Debug\ExceptionHandler::register($debug)->setHandler($consoleHandler);
+
+            return;
         }
+
+        if ($debug) {
+            self::$errorLevels |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
+        }
+        Debug\Debug::enable(self::$errorLevels, true);
+        Debug\ExceptionHandler::register($debug);
     }
 }
