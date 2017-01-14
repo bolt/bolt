@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Query;
 
+use Bolt\Storage\Entity\Content;
+
 class Query
 {
     /** @var ContentQueryParser */
@@ -21,14 +23,14 @@ class Query
      * getContent based on a 'human readable query'.
      *
      * Used by the twig command {% setcontent %} but also directly.
-     * For reference refer to @link https://docs.bolt.cm/templates/content-fetching
+     * For reference refer to @link https://docs.bolt.cm/templating/content-fetching
      *
      * @param string $textquery
-     * @param string $parameters
+     * @param array $parameters
      *
-     * @return QueryResultset
+     * @return QueryResultset|Content|null
      */
-    public function getContent($textquery, $parameters = null)
+    public function getContent($textquery, array $parameters = [])
     {
         $this->parser->setQuery($textquery);
         $this->parser->setParameters($parameters);

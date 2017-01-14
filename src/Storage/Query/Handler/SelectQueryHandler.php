@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query\Handler;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Query\SelectQuery;
@@ -15,7 +16,7 @@ class SelectQueryHandler
     /**
      * @param ContentQueryParser $contentQuery
      *
-     * @return QueryResultset
+     * @return QueryResultset|Content|null
      */
     public function __invoke(ContentQueryParser $contentQuery)
     {

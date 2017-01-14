@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Directive\HydrateDirective;
@@ -102,7 +103,7 @@ class ContentQueryParser
      *
      * @param array $params
      */
-    public function setParameters($params)
+    public function setParameters(array $params)
     {
         $this->params = $params;
     }
@@ -395,7 +396,7 @@ class ContentQueryParser
     /**
      * Runs the query and fetches the results.
      *
-     * @return QueryResultset
+     * @return QueryResultset|Content|null
      */
     public function fetch()
     {
