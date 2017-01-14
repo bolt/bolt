@@ -213,7 +213,7 @@ class Taxonomy extends ArrayCollection
     {
         $output = [];
         foreach ($this as $k => $existing) {
-            $output[] = $existing->getSlug();
+            $output[] = ['slug' => $existing->getSlug(), 'name' => $existing->getName()];
         }
 
         return $output;
