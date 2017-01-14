@@ -107,8 +107,8 @@ class TemplateChooser
         }
 
         // Fifth candidate: Theme-specific config.yml file.
-        if ($this->config->get('theme/record_template')) {
-            $templates[] = $this->config->get('theme/record_template');
+        if ($template = $this->config->get('theme/record_template')) {
+            $templates[] = $template;
         }
 
         // Sixth candidate: global config.yml
@@ -138,8 +138,8 @@ class TemplateChooser
         $templates[] = $contenttype['slug'] . '.twig';
 
         // Third candidate: Theme-specific config.yml file.
-        if ($this->config->get('theme/listing_template')) {
-            $templates[] = $this->config->get('theme/listing_template');
+        if ($template = $this->config->get('theme/listing_template')) {
+            $templates[] = $template;
         }
 
         // Fourth candidate: Global config.yml
@@ -160,13 +160,13 @@ class TemplateChooser
         $templates = [];
 
         // First candidate: defined specifically in the taxonomy
-        if ($this->config->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
-            $templates[] = $this->config->get('taxonomy/' . $taxonomyslug . '/listing_template');
+        if ($template = $this->config->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
+            $templates[] = $template;
         }
 
         // Second candidate: Theme-specific config.yml file.
-        if ($this->config->get('theme/listing_template')) {
-            $templates[] = $this->config->get('theme/listing_template');
+        if ($template = $this->config->get('theme/listing_template')) {
+            $templates[] = $template;
         }
 
         // Third candidate: Global config.yml
@@ -185,13 +185,13 @@ class TemplateChooser
         $templates = [];
 
         // First candidate: specific search setting in global config.
-        if ($this->config->get('theme/search_results_template')) {
-            $templates[] = $this->config->get('theme/search_results_template');
+        if ($template = $this->config->get('theme/search_results_template')) {
+            $templates[] = $template;
         }
 
         // Second candidate: specific search setting in global config.
-        if ($this->config->get('general/search_results_template')) {
-            $templates[] = $this->config->get('general/search_results_template');
+        if ($template = $this->config->get('general/search_results_template')) {
+            $templates[] = $template;
         }
 
         // Third candidate: listing config setting.
@@ -210,8 +210,8 @@ class TemplateChooser
         $templates = [];
 
         // First candidate: Theme-specific config.
-        if ($this->config->get('theme/maintenance_template')) {
-            $templates[] = $this->config->get('theme/maintenance_template');
+        if ($template = $this->config->get('theme/maintenance_template')) {
+            $templates[] = $template;
         }
 
         // Second candidate: global config.
