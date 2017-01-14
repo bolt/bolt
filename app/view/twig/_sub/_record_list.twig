@@ -24,7 +24,7 @@
             data-bolt-widget="buicListing"
             data-contenttype="{{ contenttype.slug }}"
             data-contenttype-name="{{ contenttype.singular_name }}"
-            data-bolt_csrf_token="{{ token() }}"
+            data-bolt_csrf_token="{{ csrf_token('bolt') }}"
             data-action-url="{{ path('contentaction', app.request.query.all) }}"
         >
     {% endif %}
