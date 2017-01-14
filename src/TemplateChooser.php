@@ -114,6 +114,9 @@ class TemplateChooser
         // Sixth candidate: global config.yml
         $templates[] = $this->config->get('general/record_template');
 
+        // Seventh candidate: fallback to 'record.twig'
+        $templates[] = 'record.twig';
+
         return $templates;
     }
 
@@ -144,6 +147,9 @@ class TemplateChooser
 
         // Fourth candidate: Global config.yml
         $templates[] = $this->config->get('general/listing_template');
+
+        // Fifth candidate: fallback to 'listing.twig'
+        $templates[] = 'listing.twig';
 
         return $templates;
     }
