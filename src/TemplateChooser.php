@@ -32,10 +32,14 @@ class TemplateChooser
         $templates = [];
 
         // First candidate: Theme-specific config.yml file.
-        $templates[] = $this->config->get('theme/homepage_template');
+        if ($template = $this->config->get('theme/homepage_template')) {
+            $templates[] = $template;
+        }
 
         // Second candidate: Global config.yml file.
-        $templates[] = $this->config->get('general/homepage_template');
+        if ($template = $this->config->get('general/homepage_template')) {
+            $templates[] = $template;
+        }
 
         if (empty($content)) {
             // Fallback if no content: index.twig
