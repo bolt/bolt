@@ -34,11 +34,17 @@ class DebugServiceProvider implements ServiceProviderInterface
 
         $app['debug.debug_handlers_listener'] = $app->share(
             function ($app) {
+                $errorLevels = $app['config']->get(
+                    $app['debug'] ?
+                    'general/debug_error_level' :
+                    'general/production_error_level'
+                );
+
                 return new DebugHandlersListener(
                     null,
                     $app['logger'],
-                    ShutdownHandler::$errorLevels, // Levels
-                    ShutdownHandler::$errorLevels, // Throw at
+                    $errorLevels, // Levels
+                    $errorLevels, // Throw at
                     true, // Scream
                     $app['debug.file_link_formatter']
                 );
@@ -57,11 +63,6 @@ class DebugServiceProvider implements ServiceProviderInterface
             ShutdownHandler::register(false);
         } else {
             $app['dispatcher']->addSubscriber($app['debug.debug_handlers_listener']);
-        }
-
-        $errorLevel = $app['config']->get($app['debug'] ? 'general/debug_error_level' : 'production_error_level');
-        if ($errorLevel !== null) {
-            error_reporting($errorLevel);
         }
     }
 }

@@ -15,8 +15,6 @@ use Symfony\Component\Debug;
  */
 class ShutdownHandler
 {
-    public static $errorLevels;
-
     /**
      * Set the handlers.
      *
@@ -28,8 +26,6 @@ class ShutdownHandler
      */
     public static function register($debug = true)
     {
-        self::$errorLevels = error_reporting();
-
         if (PHP_SAPI === 'cli') {
             $consoleHandler = function (\Exception $e) {
                 $app = new Application('Bolt CLI', Version::VERSION);
@@ -42,10 +38,7 @@ class ShutdownHandler
             return;
         }
 
-        if ($debug) {
-            self::$errorLevels |= E_RECOVERABLE_ERROR | E_USER_ERROR | E_DEPRECATED | E_USER_DEPRECATED;
-        }
-        Debug\Debug::enable(self::$errorLevels, true);
+        Debug\Debug::enable();
         Debug\ExceptionHandler::register($debug);
     }
 }
