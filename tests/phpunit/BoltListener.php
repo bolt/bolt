@@ -30,8 +30,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     protected $timer;
     /** @var array */
     protected $tracker = [];
-    /** @var string */
-    protected $currentSuite;
+    /** @var string[] */
+    protected $currentSuite = [];
     /** @var boolean */
     protected $reset;
 
@@ -234,7 +234,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         /** @var \PHPUnit_Framework_TestCase $test */
         $name = $test->getName();
-        $this->tracker[$this->currentSuite . '::' . $name] = $time;
+        $suite = end($this->currentSuite);
+        $this->tracker[$suite . '::' . $name] = $time;
     }
 
     /**
@@ -246,7 +247,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        $this->currentSuite = $suite->getName();
+        array_push($this->currentSuite, $suite->getName());
     }
 
     /**
@@ -258,7 +259,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        unset($this->currentSuite);
+        array_pop($this->currentSuite);
     }
 
     /**
