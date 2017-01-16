@@ -449,6 +449,7 @@ trait ContentValuesTrait
     public function setFromPost($values, $contenttype)
     {
         $values = Input::cleanPostedData($values);
+        $values += ['status' => 'draft'];
 
         if (!$this->id) {
             // this is a new record: current user becomes the owner.
