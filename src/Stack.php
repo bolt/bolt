@@ -258,7 +258,7 @@ class Stack implements \Countable, \IteratorAggregate
                 // Guess it doesn't exist anymore or we can't find it, remove from list.
                 return null;
             }
-        }, $paths));
+        }, (array) $paths));
 
         $files = array_slice($files, 0, self::MAX_ITEMS);
 

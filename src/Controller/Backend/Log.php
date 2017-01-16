@@ -128,6 +128,7 @@ class Log extends BackendBase
                 'title'   => Trans::__('logs.change-log.contenttypes.all'),
                 'entries' => $this->changeLogRepository()->getChangeLog($queryOptions),
                 'count'   => $this->changeLogRepository()->countChangeLog(),
+                'content' => null,
             ];
         } else {
             $contenttype = $this->getContentType($contenttype);

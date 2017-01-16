@@ -107,7 +107,8 @@ class AdminRuntime
     public function stack($types = [])
     {
         if (is_string($types)) {
-            $types = array_filter(array_map('trim', explode(',', $types)));
+            $types = explode(',', $types) ?: [];
+            $types = array_filter(array_map('trim', $types));
         }
 
         $files = $this->stack->getList($types);
