@@ -23,6 +23,14 @@ class TwigServiceProvider implements ServiceProviderInterface
             $app->register(new \Silex\Provider\TwigServiceProvider());
         }
 
+        // Set authentication providers before security extension is invoked.
+        $factory = $app->raw('twig');
+        $app['twig'] = $app->share(function ($app) use ($factory) {
+            $app['security.firewall'];
+
+            return $factory($app);
+        });
+
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
             return new Twig\Runtime\AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);

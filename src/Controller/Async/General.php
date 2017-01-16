@@ -367,7 +367,7 @@ class General extends AsyncBase
         // Iterate over the items, pick the first news-item that
         // applies and the first alert we need to show
         foreach ($fetchedNewsItems as $item) {
-            $type = ($item->type === 'alert') ? 'alert' : 'information';
+            $type = isset($item->type) ? $item->type : 'information';
             if (!isset($news[$type])
                 && (empty($item->target_version) || Bolt\Version::compare($item->target_version, '>'))
             ) {
