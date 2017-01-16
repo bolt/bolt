@@ -22,6 +22,8 @@ class NutServiceProvider implements ServiceProviderInterface
 
                 $console->addCommands($app['nut.commands']);
 
+                $console->setDispatcher($app['dispatcher']);
+
                 return $console;
             }
         );

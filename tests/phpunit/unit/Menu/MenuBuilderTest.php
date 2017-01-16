@@ -192,6 +192,7 @@ class MenuBuilderTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::createFromGlobals();
 
+        $contentMock = null;
         if (false !== $content) {
             $contentMock = $this->getMockBuilder(Content::class)
                 ->setMethods(['getContent', 'link'])

@@ -125,6 +125,9 @@ trait ContentValuesTrait
         // add the fields for this contenttype,
         if (is_array($contenttype)) {
             foreach ($contenttype['fields'] as $field => $property) {
+                if (!isset($this->values[$field])) {
+                    continue;
+                }
                 switch ($property['type']) {
                     // Set the slug, while we're at it
                     case 'slug':
@@ -449,6 +452,7 @@ trait ContentValuesTrait
     public function setFromPost($values, $contenttype)
     {
         $values = Input::cleanPostedData($values);
+        $values += ['status' => 'draft'];
 
         if (!$this->id) {
             // this is a new record: current user becomes the owner.

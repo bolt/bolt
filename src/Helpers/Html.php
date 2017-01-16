@@ -113,7 +113,7 @@ class Html
         }
 
         // If we forgot the second element in the array, substitute the first for it.
-        if (empty(strip_tags($providedby[1]))) {
+        if (empty($providedby[1]) || empty(strip_tags($providedby[1]))) {
             $providedby[1] = $providedby[0];
         }
 

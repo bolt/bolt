@@ -67,8 +67,8 @@ class RecordRuntime
             return true;
         }
 
-        if (is_array($content) && isset($content['link'])) {
-            $linkToCheck = $content['link'];
+        if (is_array($content)) {
+            $linkToCheck = isset($content['link']) ? $content['link'] : null;
         } elseif ($content instanceof \Bolt\Legacy\Content) {
             $linkToCheck = $content->link();
         } else {
@@ -161,7 +161,8 @@ class RecordRuntime
         }
 
         if (!is_array($exclude)) {
-            $exclude = array_map('trim', explode(',', $exclude));
+            $exclude = explode(',', $exclude) ?: [];
+            $exclude = array_map('trim', $exclude);
         }
 
         $context = [

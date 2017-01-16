@@ -228,7 +228,7 @@ class LogChangeRepository extends BaseLogRepository
     protected function setLimitOrder(QueryBuilder $query, array $options)
     {
         if (isset($options['order'])) {
-            $query->orderBy($options['order'], $options['direction']);
+            $query->orderBy($options['order'], isset($options['direction']) ? $options['direction'] : null);
         }
         if (isset($options['limit'])) {
             $query->setMaxResults(intval($options['limit']));

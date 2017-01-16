@@ -1263,7 +1263,7 @@ class Storage
             // like 'page/random/4'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
             $dboptions = $this->app['config']->get('general/database');
-            $metaParameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
+            $metaParameters['order'] = isset($dboptions['randomfunction']) ? $dboptions['randomfunction'] : null; // 'RAND()' or 'RANDOM()'
             if (!isset($metaParameters['limit'])) {
                 $metaParameters['limit'] = $match[2];
             }

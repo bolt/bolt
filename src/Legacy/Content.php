@@ -271,9 +271,10 @@ class Content implements \ArrayAccess
 
         $operator = $asc ? '<' : '>';
         $order = $asc ? ' DESC' : ' ASC';
+        $value = isset($this->values[$field]) ? $this->values[$field] : null;
 
         $params = [
-            $field         => $operator . $this->values[$field],
+            $field         => $operator . $value,
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
@@ -302,9 +303,10 @@ class Content implements \ArrayAccess
 
         $operator = $asc ? '>' : '<';
         $order = $asc ? ' ASC' : ' DESC';
+        $value = isset($this->values[$field]) ? $this->values[$field] : null;
 
         $params = [
-            $field         => $operator . $this->values[$field],
+            $field         => $operator . $value,
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
