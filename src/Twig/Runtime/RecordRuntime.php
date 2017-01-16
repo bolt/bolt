@@ -161,7 +161,8 @@ class RecordRuntime
         }
 
         if (!is_array($exclude)) {
-            $exclude = array_map('trim', explode(',', $exclude));
+            $exclude = explode(',', $exclude) ?: [];
+            $exclude = array_map('trim', $exclude);
         }
 
         $context = [
