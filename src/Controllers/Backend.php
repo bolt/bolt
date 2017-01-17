@@ -121,6 +121,7 @@ class Backend implements ControllerProviderInterface
         $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
+            ->value('checkUserRoleHierarchy', 'true')
             ->method('GET|POST')
             ->bind('useredit');
 
@@ -140,6 +141,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
             ->before(array($this, 'before'))
+            ->value('checkUserRoleHierarchy', 'true')
             ->method('POST')
             ->bind('useraction');
 
@@ -1146,7 +1148,10 @@ class Backend implements ControllerProviderInterface
         $roles = array();
 
         foreach ($allRoles as $roleName => $role) {
-            $roles[$roleName] = $role['label'];
+            // Checking what roles the current user can manipulate
+            if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
+                $roles[$roleName] = $role['label'];
+            }
         }
 
         // If we're creating the first user, we should make sure that we can only create
@@ -1476,6 +1481,12 @@ class Backend implements ControllerProviderInterface
         if (!$user) {
             $app['session']->getFlashBag()->set('error', 'No such user.');
 
+            return Lib::redirect('users');
+        }
+        
+        if ($app['users']->currentuser['id'] == $user['id']) {
+            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
+            
             return Lib::redirect('users');
         }
 
@@ -1936,6 +1947,8 @@ class Backend implements ControllerProviderInterface
         $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        $id = $request->attributes->get('id');
+        
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('info', Trans::__('Please log on.'));
 
@@ -1944,7 +1957,23 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
 
             return Lib::redirect('dashboard');
+        } elseif (!is_null($request->attributes->get('checkUserRoleHierarchy')) && $app['users']->getUser($id)) {
+            $user = $app['users']->getUser($id);
+            
+            $roleAccessCheck = false;
+            foreach ($user['roles'] as $roleName) {
+                if ($app['permissions']->checkPermission($app['users']->currentuser['roles'], "users:roles-hierarchy:{$roleName}")) {
+                    $roleAccessCheck = true;
+                }
+            }
+            
+            if (!$roleAccessCheck) {
+                $app['session']->getFlashBag()->set('error', Trans::__('You do not have the right privileges to view that page.'));
+
+                return Lib::redirect('dashboard');
+            }
         }
+        
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
     }
