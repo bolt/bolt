@@ -6,10 +6,50 @@ Bolt 3.4-dev
 
 - 
 
-Bolt 3.3-dev
------------
+Bolt 3.3.0 beta 1
+-----------------
 
-- Break: Removed local extension functionality
+Released: 2016-01-XX. Notable changes:
+
+ - Added: Add scoping for new storage `getContent` queries. [#6188](https://github.com/bolt/bolt/pull/6188)
+ - Added: Adding security service provider. [#6231](https://github.com/bolt/bolt/pull/6231)
+ - Added: Allow services in `.bolt` bootstrap config. [#6155](https://github.com/bolt/bolt/pull/6155)
+ - Added: Local Extension Replacement. [#6170](https://github.com/bolt/bolt/pull/6170)
+ - Added: New "Configuration Notices" extensions helps catching a lot common oversights or misconfigurations. [webpage](https://github.com/bolt/configuration-notices)
+ - Added: Path Resolver. [#6166](https://github.com/bolt/bolt/pull/6166)
+ - Added: Replacing RandomLib. [#6021](https://github.com/bolt/bolt/pull/6021)
+ - Change: Add limit to trace, show less data when not logged in. [#6130](https://github.com/bolt/bolt/pull/6130)
+ - Change: Boot extension registered service providers - Fixes "Paths to extensions added pages don't work" [#6157](https://github.com/bolt/bolt/pull/6157)
+ - Change: Bunch of maintenance work on `base-2016`: Updating Foundation to 6.3, etc. [#6185](https://github.com/bolt/bolt/pull/6185)
+ - Change: changing 'Extends' menu to 'Extensions'. [#6156](https://github.com/bolt/bolt/pull/6156)
+ - Change: Deprecation and associated clean ups. [#6159](https://github.com/bolt/bolt/pull/6159)
+ - Change: Extension Nut command registration. [#6176](https://github.com/bolt/bolt/pull/6176)
+ - Change: More Symfony deprecations: Replace BoltResponse. [#6058](https://github.com/bolt/bolt/pull/6058)
+ - Change: Rebuild translation files. [#6217](https://github.com/bolt/bolt/pull/6217)
+ - Change: Remove advanced performance settings from default config. [#6028](https://github.com/bolt/bolt/pull/6028)
+ - Change: Replace deprecated `|twig` filters with `template_from_string`. [#6153](https://github.com/bolt/bolt/pull/6153)
+ - Change: Twig runtime loader. [#6127](https://github.com/bolt/bolt/pull/6127)
+ - Change: Twig Sandbox: This replaces safe_twig with Twig's Sandbox extension. [#6131](https://github.com/bolt/bolt/pull/6131)
+ - Changed: Change name from Starter to ConfigurationNotices. [#6207](https://github.com/bolt/bolt/pull/6207)
+ - Fixed: BC fix to ensure sandbox is disabled after exception is thrown. [#6134](https://github.com/bolt/bolt/pull/6134)
+ - Fixed: Broken links in "Extra" menu  - Fix menu urls and integrate url generator. [#6139](https://github.com/bolt/bolt/pull/6139) [#6142](https://github.com/bolt/bolt/pull/6142)
+ - Fixed: Check `file_uploads` ini directive for allowed uploads. [#5973](https://github.com/bolt/bolt/pull/5973)
+ - Fixed: Don't handle onclick in HTML, but rather in JS, when we're sure dependencies have loaded. [#6184](https://github.com/bolt/bolt/pull/6184)
+ - Fixed: Don't set homepage template to `null`, if theme.yml is not present. [#6253](https://github.com/bolt/bolt/pull/6253)
+ - Fixed: Fix sandbox not being disabled when exception is thrown. [#6132](https://github.com/bolt/bolt/pull/6132)
+ - Fixed: Fix twig `ismobileclient()` to _actually_ not use super global. [#6124](https://github.com/bolt/bolt/pull/6124)
+ - Fixed: Incoming relation was not displayed when relation is empty. [#6117](https://github.com/bolt/bolt/pull/6117)
+ - Fixed: Make content search case insensitive on every platform. [#6110](https://github.com/bolt/bolt/pull/6110) [#6109](https://github.com/bolt/bolt/pull/6109)
+ - Fixed: Make repeater fields live editable. [#6173](https://github.com/bolt/bolt/pull/6173)
+ - Fixed: Minor updates to base-2016 [#6210](https://github.com/bolt/bolt/pull/6210)
+ - Fixed: Performance issue fixing in `ContentRelationTrait` [#6108](https://github.com/bolt/bolt/pull/6108)
+ - Fixed: Resolve template for template fields. [#6237](https://github.com/bolt/bolt/pull/6237)
+ - Fixed: This ensures no DI services/parameters are retrieved until boot time.
+ - Fixed: Timed publish tweak. [#5680](https://github.com/bolt/bolt/pull/5680)
+ - Fixed: Updating and tweaking the build process. [#6233](https://github.com/bolt/bolt/pull/6233)
+ - Tests: Deprecation - `getMock` to `getMockBuilder`. [#6201](https://github.com/bolt/bolt/pull/6201)
+ - Tests: PHP 7.1 fix. [#6085](https://github.com/bolt/bolt/pull/6085)
+ - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
 
 Bolt 3.2.5
 ----------
