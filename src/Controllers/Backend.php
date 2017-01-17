@@ -1084,10 +1084,12 @@ class Backend implements ControllerProviderInterface
      */
     public function users(Silex\Application $app)
     {
+        $currentuser = $app['users']->getCurrentUser();
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
         $context = array(
+            'currentuser' => $currentuser,
             'users' => $users,
             'sessions' => $sessions
         );
@@ -1476,6 +1478,13 @@ class Backend implements ControllerProviderInterface
         if (!$user) {
             $app['session']->getFlashBag()->set('error', 'No such user.');
 
+            return Lib::redirect('users');
+        }
+        
+        $currentuser = $app['users']->getCurrentUser();
+        
+        if ($currentuser['id'] == $user['id']) {
+            $app['session']->getFlashBag()->set('error', 'You cannot ' . $action . ' yourself.');
             return Lib::redirect('users');
         }
 
