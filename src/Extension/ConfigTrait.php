@@ -45,7 +45,11 @@ trait ConfigTrait
         $app = $this->getContainer();
         foreach ((array) $this->registerFields() as $fieldClass) {
             if ($fieldClass instanceof FieldInterface) {
-                $app['config']->getFields()->addField($fieldClass);
+                $app['storage.typemap'] = array_merge(
+                    $app['storage.typemap'],
+                    [$fieldClass->getName() => get_class($fieldClass)]
+                );
+                $app['storage.field_manager']->addFieldType($fieldClass->getName(), $fieldClass);
             }
         }
     }
