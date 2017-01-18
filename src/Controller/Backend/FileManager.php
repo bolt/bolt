@@ -386,6 +386,9 @@ class FileManager extends BackendBase
         if ($filesystem->has($basename . '.yml')) {
             $filegroup[] = basename($basename . '.yml');
         }
+        if (isset($_SERVER['ENVIRONMENT']) && $filesystem->has($basename . '_'.$_SERVER['ENVIRONMENT'].'.yml')) {
+            $filegroup[] = basename($basename . '_'.$_SERVER['ENVIRONMENT'].'.yml');
+        }
         if ($filesystem->has($basename . '_local.yml')) {
             $filegroup[] = basename($basename . '_local.yml');
         }

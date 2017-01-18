@@ -91,6 +91,15 @@ trait ConfigTrait
         $this->addConfig($file);
 
         $localFile = new YamlFile();
+
+        if(isset($_SERVER['ENVIRONMENT']))
+        {
+            $file->getParent()->getFile($file->getFilename('.yml') . '_'.$_SERVER['ENVIRONMENT'].'.yml', $localFile);
+            if ($localFile->exists()) {
+                $this->addConfig($localFile);
+            }
+        }
+
         $file->getParent()->getFile($file->getFilename('.yml') . '_local.yml', $localFile);
         if ($localFile->exists()) {
             $this->addConfig($localFile);

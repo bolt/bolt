@@ -322,6 +322,12 @@ class Config
         // Read the config and merge it. (note: We use temp variables to prevent
         // "Only variables should be passed by reference")
         $tempconfig = $this->parseConfigYaml('config.yml');
+        if(isset($_SERVER['ENVIRONMENT']))
+        {
+            $tempconfigenvironment = $this->parseConfigYaml('config_'.$_SERVER['ENVIRONMENT'].'.yml');
+            $tempconfig = Arr::mergeRecursiveDistinct($tempconfig, $tempconfigenvironment);
+        }
+
         $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
         $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
 
