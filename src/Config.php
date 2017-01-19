@@ -321,14 +321,14 @@ class Config
     {
         // Read the config and merge it. (note: We use temp variables to prevent
         // "Only variables should be passed by reference")
-        $tempconfig = $this->parseConfigYaml('config.yml');
+        $tempConfig = $this->parseConfigYaml('config.yml');
         if (getenv('ENVIRONMENT')) {
-            $tempconfigenvironment = $this->parseConfigYaml('config_'.getenv('ENVIRONMENT').'.yml');
-            $tempconfig = Arr::mergeRecursiveDistinct($tempconfig, $tempconfigenvironment);
+            $tempConfigEnvironment = $this->parseConfigYaml('config_'.getenv('ENVIRONMENT').'.yml');
+            $tempConfig = Arr::mergeRecursiveDistinct($tempConfig, $tempConfigEnvironment);
         }
 
-        $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
-        $general = Arr::mergeRecursiveDistinct($tempconfig, $tempconfiglocal);
+        $tempConfiGlocal = $this->parseConfigYaml('config_local.yml');
+        $general = Arr::mergeRecursiveDistinct($tempConfig, $tempConfiGlocal);
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
