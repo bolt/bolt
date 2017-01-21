@@ -126,7 +126,7 @@ For example, take a look at one of the simpler templates, `record.twig`:
 
         <h1>{{ record.title }}</h1>
 
-        {{ fields() }}
+        {{ fields(template = 'partials/_sub_fields.twig') }}
 
         {{ include('partials/_recordfooter.twig', { 'record': record }) }}
 
@@ -360,7 +360,7 @@ npm run-script build
 This will build the files that you can deploy, or put into your versioning
 system.
 
-The build process has been tested on NPM 3.7.3 and Node v5.8.0. If you do not
+The build process has been tested on NPM 3.10 and Node v7.2. If you do not
 have the correct versions you can use [n](https://www.npmjs.com/package/n) to
 manage your Node and NPM versions:
 
@@ -371,7 +371,7 @@ sudo n stable
 
 And then go through the above steps again.
 
-If you're interested to learn more about the process these two tutorials on
+If you're interested to learn more about the process, these two tutorials on
 Gulp (which is what we use under the hood) might be of interest to you:
 
  - https://markgoodyear.com/2014/01/getting-started-with-gulp/
