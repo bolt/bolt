@@ -438,15 +438,17 @@ GRINGALET;
             ],
             'clippy' => [
                 'name'     => 'Clippy',
-                'filename' => 'anotherextrafields.twig',
+                'filename' => 'styleguide.twig',
             ],
         ]);
         $handler = new RecordHandler($app);
 
         $result = $handler->listTemplates('*extra*', false);
         $this->assertArrayHasKey('extrafields.twig', $result);
-        $this->assertArrayHasKey('anotherextrafields.twig', $result);
         $this->assertContains('Koala', $result);
+
+        $result = $handler->listTemplates('*styleguide*', false);
+        $this->assertArrayHasKey('styleguide.twig', $result);
         $this->assertContains('Clippy', $result);
 
         $this->assertArrayNotHasKey('entry.twig', $result);
