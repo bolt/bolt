@@ -1614,12 +1614,11 @@ class Storage
             $objects[$row['id']] = $this->getContentObject($contenttype, $row);
         }
 
-        $this->getRepeaters($objects);
-
         if ($getTaxoAndRel) {
             // Make sure all content has their taxonomies and relations
             $this->getTaxonomy($objects);
             $this->getRelation($objects);
+            $this->getRepeaters($objects);
         }
 
         return $objects;
