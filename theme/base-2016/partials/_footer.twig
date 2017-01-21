@@ -17,8 +17,8 @@
 
 </footer>
 
-{# Extensions and copypasta gleaned from other sources tend to cause multiple
-   Jquery includes. We only include it here, if not done so already. #}
+{# Extensions and copypasta gleaned from other sources tend to cause multiple jQuery
+   includes. We only include it here conditionally, if not done so already. #}
 <script>window.jQuery || document.write("<script src='{{ asset('js/jquery.min.js', 'theme') }}'><\/script>");</script>
 <script src="{{ asset('js/foundation.js', 'theme') }}"></script>
 <script src="{{ asset('js/app.js', 'theme') }}"></script>
