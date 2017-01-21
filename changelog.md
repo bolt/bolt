@@ -1,6 +1,31 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.6
+----------
+
+Released 2017-01-22. Notable changes:
+
+ - Change: Switch extensions.bolt.cm to market.bolt.cm. [#6234](https://github.com/bolt/bolt/pull/6234)
+ - Fixed: `.dev` is an actual TLD, so use `.test` for testing instead. [#6223](https://github.com/bolt/bolt/pull/6223)
+ - Fixed: Adding some fallbacks for the "Exception" template.  [#6249](https://github.com/bolt/bolt/pull/6249)
+ - Fixed: Backport PathsProxy to 3.2: This fixes urlPrefix (base path) not being used in paths array. [#6235](https://github.com/bolt/bolt/pull/6235)
+ - Fixed: Check if record is defined for base-2016 homepage. [#6213](https://github.com/bolt/bolt/pull/6213)
+ - Fixed: Fix `Notice: Undefined index: persistant` when using redis for sessions. [#6241](https://github.com/bolt/bolt/pull/6241)
+ - Fixed: Fix derp in NotFoundListener. [#6236](https://github.com/bolt/bolt/pull/6236)
+ - Fixed: Fix extend page pre-release version display. [#6279](https://github.com/bolt/bolt/pull/6279)
+ - Fixed: Fix HTTPS detection for canonical url. [#6209](https://github.com/bolt/bolt/pull/6209)
+ - Fixed: Fix label translate in 'Extend' template. [#6226](https://github.com/bolt/bolt/pull/6226)
+ - Fixed: Fix magic attribute parsing to avoid removing parts of field. [#6246](https://github.com/bolt/bolt/pull/6246)
+ - Fixed: Flash logging configuration validation failures. [#6250](https://github.com/bolt/bolt/pull/6250)
+ - Fixed: Handling of fragment in URL generator. [#6227](https://github.com/bolt/bolt/pull/6227)
+ - Fixed: Set a default as request will not exists on CLI. [#6232](https://github.com/bolt/bolt/pull/6232)
+ - Fixed: Set a default on user display name. [#6266](https://github.com/bolt/bolt/pull/6266)
+ - Fixed: Update LICENSE to say 2017. [#6221](https://github.com/bolt/bolt/pull/6221)
+ - Fixed: Wrong canonical url with a sub-folder url. Only prepend base path if url is a path. [#6212](https://github.com/bolt/bolt/pull/6212)
+ - Update: All Symfony components updated to 2.8.16.
+ - Update: Updates to base-2016 for Bolt 3.2 [#6281](https://github.com/bolt/bolt/pull/6281)
+
 Bolt 3.2.5
 ----------
 
