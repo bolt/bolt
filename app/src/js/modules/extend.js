@@ -468,19 +468,17 @@
 
         $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + ext, function (data) {
 
-            var devpacks = data.dev;
-            var stablepacks = data.stable;
+            var devPacks = data.dev;
+            var betaPacks = data.beta;
+            var rcPacks = data.RC;
+            var stablePacks = data.stable;
 
-            if (devpacks.length > 0) {
-                find('.dev-version-container .installed-version-item').html('');
-                find('.dev-version-container .installed-version-item')
-                    .append(buildVersionTable(devpacks));
-            }
+            find('.dev-version-container .installed-version-item').html('');
 
-            if (stablepacks.length > 0) {
+            if (stablePacks.length > 0) {
                 find('.stable-version-container .installed-version-item').html('');
                 find('.stable-version-container .installed-version-item')
-                    .append(buildVersionTable(stablepacks));
+                    .append(buildVersionTable(stablePacks));
 
                 find('.latest-version-container .installed-version-item').html('');
                 find('.latest-version-container .installed-version-item')
@@ -489,6 +487,21 @@
                 find('.install-latest-container').show();
             } else {
                 find('.install-version-container').show();
+            }
+
+            if (rcPacks.length > 0) {
+                find('.dev-version-container .installed-version-item')
+                    .append(buildVersionTable(rcPacks));
+            }
+
+            if (betaPacks.length > 0) {
+                find('.dev-version-container .installed-version-item')
+                    .append(buildVersionTable(betaPacks));
+            }
+
+            if (devPacks.length > 0) {
+                find('.dev-version-container .installed-version-item')
+                    .append(buildVersionTable(devPacks));
             }
 
             find('#installModal .loader').hide();
