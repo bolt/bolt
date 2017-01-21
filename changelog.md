@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.2.6
 ----------
 
-Released 2017-01-XX. Notable changes:
+Released 2017-01-22. Notable changes:
 
  - Change: Switch extensions.bolt.cm to market.bolt.cm. [#6234](https://github.com/bolt/bolt/pull/6234)
  - Fixed: `.dev` is an actual TLD, so use `.test` for testing instead. [#6223](https://github.com/bolt/bolt/pull/6223)
@@ -23,7 +23,7 @@ Released 2017-01-XX. Notable changes:
  - Fixed: Set a default on user display name. [#6266](https://github.com/bolt/bolt/pull/6266)
  - Fixed: Update LICENSE to say 2017. [#6221](https://github.com/bolt/bolt/pull/6221)
  - Fixed: Wrong canonical url with a sub-folder url. Only prepend base path if url is a path. [#6212](https://github.com/bolt/bolt/pull/6212)
- - Update: All symfony components updated to 2.8.16.
+ - Update: All Symfony components updated to 2.8.16.
  - Update: Updates to base-2016 for Bolt 3.2 [#6281](https://github.com/bolt/bolt/pull/6281)
 
 Bolt 3.2.5
