@@ -150,6 +150,11 @@ class Stack
     {
         $this->initialize();
 
+        // Shortcut if the stack is empty.
+        if (empty($this->items)) {
+            return [];
+        }
+
         // Make sure typefilter is an array, if passed something like "image, document"
         if (!empty($typefilter)) {
             $typefilter = array_map('trim', explode(',', $typefilter));
