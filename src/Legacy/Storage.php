@@ -2455,7 +2455,7 @@ class Storage
 
             if (!empty($currentvalues)) {
                 $currentsortorder = $currentvalues[0]['sortorder'];
-                $currentvalues = Arr::makeValuePairs($currentvalues, 'id', 'slug');
+                $currentvalues = Arr::column($currentvalues, 'slug', 'id');
             } else {
                 $currentsortorder = 0;
                 $currentvalues = [];

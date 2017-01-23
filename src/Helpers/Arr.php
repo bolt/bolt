@@ -138,22 +138,16 @@ class Arr
      * @param string $value
      *
      * @return array
+     *
+     * @deprecated since 3.3, to be removed in 4.0. Use {@see array_column} or {@see Arr::column} instead.
      */
     public static function makeValuePairs($array, $key, $value)
     {
-        $tempArray = [];
-
-        if (is_array($array)) {
-            foreach ($array as $item) {
-                if (empty($key)) {
-                    $tempArray[] = $item[$value];
-                } else {
-                    $tempArray[$item[$key]] = $item[$value];
-                }
-            }
+        if (!is_array($array)) {
+            return [];
         }
 
-        return $tempArray;
+        return Arr::column($array, $value, $key);
     }
 
     /**

@@ -12,7 +12,7 @@ use Bolt\Tests\BoltUnitTest;
  */
 class ArrTest extends BoltUnitTest
 {
-    public function testMakeValuePairs()
+    public function testLegacyMakeValuePairs()
     {
         $test = [
             ['id' => 1, 'value' => 1],
