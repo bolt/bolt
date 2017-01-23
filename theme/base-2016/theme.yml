@@ -50,15 +50,6 @@ templatefields:
             label: Section 2
         image:
             type: image
-    anotherextrafields.twig:
-        markdown:
-            type: markdown
-            label: A markdown field
-        geolocation:
-            type: geolocation
-            label: A geolocation field
-        image:
-            type: image
 
 # Templates can be named for display in the template selector, to allow editors
 # to pick from easier to understand names.
@@ -66,8 +57,6 @@ templateselect:
     templates:
         - name: 'Template with extra fields'
           filename: 'extrafields.twig'
-        - name: 'Another template with extra fields'
-          filename: 'anotherextrafields.twig'
 
 # Aliases can be set to restrict images to a specific set of available
 # resolutions or to decouple image sizes from template files.
