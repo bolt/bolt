@@ -273,7 +273,11 @@ trait ContentValuesTrait
             $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
             $newFieldType->mapping['fieldname'] = $key;
             $entity = new Content();
-            $newFieldType->hydrate([$key => $value], $entity);
+            // Note: Extensions _should_ implement \Bolt\Storage\Field\Type\FieldTypeInterface,
+            // but if they don't, 'hydrate' doesn't exist.
+            if (method_exists($newFieldType, 'hydrate')) {
+                $newFieldType->hydrate([$key => $value], $entity);
+            }
             $value = $entity->$key;
         }
 
