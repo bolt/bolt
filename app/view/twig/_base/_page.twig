@@ -115,6 +115,7 @@
         },
     },
     stackAddUrl: path('stack/add'),
+    contentActionUrl: path('contentaction', app.request.query.all),
     google_api_key: config.get('general/google_api_key'),
 } %}
 <script src="{{ asset('js/bolt.js', 'bolt') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
