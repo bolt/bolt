@@ -58,6 +58,9 @@ class SnippetListener implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
+        if ($response->isRedirection() || $response->isEmpty() || $response->isInformational()) {
+            return;
+        }
         if (strpos($response->headers->get('Content-Type'), 'text/html') === false) {
             return;
         }
@@ -91,12 +94,13 @@ class SnippetListener implements EventSubscriberInterface
         ;
         $queue->add($generatorSnippet);
 
-        $canonicalUrl = $this->canonical->getUrl();
-        $canonicalSnippet = (new Snippet())
-            ->setLocation(Target::END_OF_HEAD)
-            ->setCallback($this->encode('<link rel="canonical" href="%s">', $canonicalUrl))
-        ;
-        $queue->add($canonicalSnippet);
+        if ($canonicalUrl = $this->canonical->getUrl()) {
+            $canonicalSnippet = (new Snippet())
+                ->setLocation(Target::END_OF_HEAD)
+                ->setCallback($this->encode('<link rel="canonical" href="%s">', $canonicalUrl))
+            ;
+            $queue->add($canonicalSnippet);
+        }
 
         if ($favicon = $this->config->get('general/favicon')) {
             $faviconUrl = $this->packages->getUrl($favicon, 'theme');
