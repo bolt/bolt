@@ -47,7 +47,8 @@
 
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-fw fa-user"></i> <span>{{ user.displayname|excerpt(16) }}</span> <i class="fa fa-caret-down"></i>
+            {# FIXME DTO: When the session hits the check timer, the user object can be empty #}
+            <i class="fa fa-fw fa-user"></i> <span>{{ user.displayname|default()|excerpt(16) }}</span> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user" role="menu" >
             <li>
