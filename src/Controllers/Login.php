@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Controllers;
 
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -44,6 +46,7 @@ class Login implements Silex\ControllerProviderInterface
      */
     public function postLogin(Silex\Application $app, Request $request)
     {
+        $event = new AccessControlEvent($request);
         switch ($request->get('action')) {
             case 'login':
                 // Log in, if credentials are correct.
@@ -53,9 +56,11 @@ class Login implements Silex\ControllerProviderInterface
                     $app['logger.system']->info('Logged in: ' . $request->get('username'), array('event' => 'authentication'));
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+                    $app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event);
 
                     return Lib::redirect($redirect['route'], $redirect['params']);
                 }
+                $app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event);
 
                 return $this->getLogin($app, $request);
 
@@ -66,6 +71,7 @@ class Login implements Silex\ControllerProviderInterface
                     $app['users']->session->getFlashBag()->add('error', Trans::__('Please provide a username', array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
+                    $app['dispatcher']->dispatch(AccessControlEvents::RESET_REQUEST, $event);
 
                     return Lib::redirect('login');
                 }
