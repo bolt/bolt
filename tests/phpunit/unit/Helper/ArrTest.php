@@ -12,7 +12,7 @@ use Bolt\Tests\BoltUnitTest;
  */
 class ArrTest extends BoltUnitTest
 {
-    public function testMakeValuePairs()
+    public function testLegacyMakeValuePairs()
     {
         $test = [
             ['id' => 1, 'value' => 1],
@@ -132,5 +132,47 @@ class ArrTest extends BoltUnitTest
     {
         $this->assertFalse(Arr::isIndexed('derp'));
         $this->assertFalse(Arr::isAssociative('derp'));
+    }
+
+    public function testColumn()
+    {
+        $data = [
+            new TestColumn('foo', 'bar'),
+            new TestColumn('hello', 'world'),
+            ['id' => '5', 'value' => 'asdf'],
+        ];
+
+        $result = Arr::column($data, 'id');
+        $this->assertEquals(['foo', 'hello', '5'], $result);
+
+        $result = Arr::column($data, 'value', 'id');
+        $expected = [
+            'foo'   => 'bar',
+            'hello' => 'world',
+            '5'     => 'asdf',
+        ];
+        $this->assertEquals($expected, $result);
+    }
+}
+
+class TestColumn
+{
+    public $id;
+    private $value;
+
+    public function __construct($id, $value)
+    {
+        $this->id = $id;
+        $this->value = $value;
+    }
+
+    public function __isset($name)
+    {
+        return $name === 'value';
+    }
+
+    public function __get($name)
+    {
+        return $this->value;
     }
 }
