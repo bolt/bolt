@@ -31,6 +31,8 @@ class RepeaterType extends FieldTypeBase
         $boltname = $metadata->getBoltName();
         $table = $this->mapping['tables']['field_value'];
 
+        $from = $query->getQueryPart('from');
+
         if (isset($from[0]['alias'])) {
             $alias = $from[0]['alias'];
         } else {
