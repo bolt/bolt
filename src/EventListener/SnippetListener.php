@@ -91,12 +91,13 @@ class SnippetListener implements EventSubscriberInterface
         ;
         $queue->add($generatorSnippet);
 
-        $canonicalUrl = $this->canonical->getUrl();
-        $canonicalSnippet = (new Snippet())
-            ->setLocation(Target::END_OF_HEAD)
-            ->setCallback($this->encode('<link rel="canonical" href="%s">', $canonicalUrl))
-        ;
-        $queue->add($canonicalSnippet);
+        if ($canonicalUrl = $this->canonical->getUrl()) {
+            $canonicalSnippet = (new Snippet())
+                ->setLocation(Target::END_OF_HEAD)
+                ->setCallback($this->encode('<link rel="canonical" href="%s">', $canonicalUrl))
+            ;
+            $queue->add($canonicalSnippet);
+        }
 
         if ($favicon = $this->config->get('general/favicon')) {
             $faviconUrl = $this->packages->getUrl($favicon, 'theme');
