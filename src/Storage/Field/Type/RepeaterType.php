@@ -28,9 +28,16 @@ class RepeaterType extends FieldTypeBase
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
+        $boltname = $metadata->getBoltName();
         $table = $this->mapping['tables']['field_value'];
 
-        $subQuery = '(SELECT '.$this->getPlatformGroupConcat($query). ' FROM '. $table .' f) as '.$field;
+        if (isset($from[0]['alias'])) {
+            $alias = $from[0]['alias'];
+        } else {
+            $alias = $from[0]['table'];
+        }
+
+        $subQuery = '(SELECT '.$this->getPlatformGroupConcat($query). " FROM $table f WHERE f.content_id = $alias.id AND contenttype='$boltname' AND f.name = '$field') as $field";
         $query->addSelect($subQuery);
     }
 
