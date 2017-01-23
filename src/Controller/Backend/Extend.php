@@ -271,7 +271,7 @@ class Extend extends BackendBase
     public function installInfo(Request $request)
     {
         $package = $request->get('package');
-        $versions = ['dev' => [], 'stable' => []];
+        $versions = ['dev' => [], 'beta' => [], 'RC' => [], 'stable' => []];
 
         try {
             $info = $this->app['extend.info']->info($package, Bolt\Version::forComposer());

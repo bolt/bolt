@@ -28,25 +28,10 @@ class RepeaterType extends FieldTypeBase
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
-        $boltname = $metadata->getBoltName();
+        $table = $this->mapping['tables']['field_value'];
 
-        $from = $query->getQueryPart('from');
-
-        if (isset($from[0]['alias'])) {
-            $alias = $from[0]['alias'];
-        } else {
-            $alias = $from[0]['table'];
-        }
-
-        $dummy = 'f_' . $field;
-
-        $query->addSelect($this->getPlatformGroupConcat($field, $query))
-            ->leftJoin(
-                $alias,
-                $this->mapping['tables']['field_value'],
-                $dummy,
-                $dummy . ".content_id = $alias.id AND " . $dummy . ".contenttype='$boltname' AND " . $dummy . ".name = '$field'"
-            );
+        $subQuery = '(SELECT '.$this->getPlatformGroupConcat($query). ' FROM '. $table .' f) as '.$field;
+        $query->addSelect($subQuery);
     }
 
     public function persist(QuerySet $queries, $entity)
@@ -180,25 +165,21 @@ class RepeaterType extends FieldTypeBase
     /**
      * Get platform specific group_concat token for provided column
      *
-     * @param string       $alias
      * @param QueryBuilder $query
      *
      * @return string
      */
-    protected function getPlatformGroupConcat($alias, QueryBuilder $query)
+    protected function getPlatformGroupConcat(QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
 
-        $field = $this->mapping['fieldname'];
-        $dummy = 'f_' . $field;
-
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', " . $dummy . '.name, ' . $dummy . '.grouping, ' . $dummy . ".id)) as $alias";
+                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', 'f.name, f.grouping, f.id'))";
             case 'sqlite':
-                return 'GROUP_CONCAT(DISTINCT ' . $dummy . ".name||'_'||" . $dummy . ".grouping||'_'||" . $dummy . ".id) as $alias";
+                return "GROUP_CONCAT(DISTINCT f.name||'_'||f.grouping||'_'||f.id)";
             case 'postgresql':
-                return 'string_agg(' . $dummy . ".name||'_'||" . $dummy . ".grouping||'_'||" . $dummy . ".id, ',' ORDER BY " . $dummy . ".grouping) as $alias";
+                return "string_agg(concat_ws('_', f.name,f.grouping,f.id), ',' ORDER BY f.grouping)";
         }
     }
 
