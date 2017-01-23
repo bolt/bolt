@@ -175,7 +175,7 @@ class RepeaterType extends FieldTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', 'f.name, f.grouping, f.id'))";
+                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', f.name, f.grouping, f.id))";
             case 'sqlite':
                 return "GROUP_CONCAT(DISTINCT f.name||'_'||f.grouping||'_'||f.id)";
             case 'postgresql':
