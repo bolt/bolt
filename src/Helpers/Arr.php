@@ -71,6 +71,65 @@ class Arr
     }
 
     /**
+     * Return the values from a single column in the input array, identified by the $columnKey.
+     *
+     * Optionally, an $indexKey may be provided to index the values in the returned array by the
+     * values from the $indexKey column in the input array.
+     *
+     * This supports objects which was added in PHP 7.0. This method can be dropped when support for PHP 5.x is dropped.
+     *
+     * @param array           $input A list of arrays or objects from which to pull a column of values.
+     * @param string|int      $columnKey The column of values to return.
+     * @param string|int|null $indexKey The column to use as the index/keys for the returned array.
+     *
+     * @return array
+     */
+    public static function column(array $input, $columnKey, $indexKey = null)
+    {
+        if (PHP_MAJOR_VERSION > 5) {
+            return array_column($input, $columnKey, $indexKey);
+        }
+
+        $output = [];
+
+        foreach ($input as $row) {
+            $key = $value = null;
+            $keySet = $valueSet = false;
+
+            if ($indexKey !== null) {
+                if (is_array($row) && array_key_exists($indexKey, $row)) {
+                    $keySet = true;
+                    $key = (string) $row[$indexKey];
+                } elseif (is_object($row) && isset($row->{$indexKey})) {
+                    $keySet = true;
+                    $key = (string) $row->{$indexKey};
+                }
+            }
+
+            if ($columnKey === null) {
+                $valueSet = true;
+                $value = $row;
+            } elseif (is_array($row) && array_key_exists($columnKey, $row)) {
+                $valueSet = true;
+                $value = $row[$columnKey];
+            } elseif (is_object($row) && isset($row->{$columnKey})) {
+                $valueSet = true;
+                $value = $row->{$columnKey};
+            }
+
+            if ($valueSet) {
+                if ($keySet) {
+                    $output[$key] = $value;
+                } else {
+                    $output[] = $value;
+                }
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Make a simple array consisting of key=>value pairs, that can be used
      * in select-boxes in forms.
      *
