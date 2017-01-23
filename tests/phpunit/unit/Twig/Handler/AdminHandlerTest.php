@@ -291,6 +291,19 @@ class AdminHandlerTest extends BoltUnitTest
         $this->assertSame(' <a href="/bolt/file/edit/config/config.yml">config.yml</a>', $result);
     }
 
+    public function testYmlLinkMultiple()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $input = 'Please check your contenttypes.yml and your theme.yml file.';
+        $expected = 'Please check your <a href="/bolt/file/edit/config/contenttypes.yml">contenttypes.yml</a> ' .
+                    'and your <a href="/bolt/file/edit/config/theme.yml">theme.yml</a> file.';
+
+        $result = $handler->ymllink($input, false);
+        $this->assertSame($expected, $result);
+    }
+
     public function testHattr()
     {
         $app = $this->getApp();
