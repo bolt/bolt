@@ -68,7 +68,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.default_image'] = $app->share(function ($app) {
-            $matcher = new Matcher($app['filesystem'], ['view', 'app', 'themes', 'files']);
+            $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
             try {
                 return $matcher->getImage($app['config']->get('general/thumbnails/notfound_image'));
             } catch (FileNotFoundException $e) {
@@ -77,7 +77,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.error_image'] = $app->share(function ($app) {
-            $matcher = new Matcher($app['filesystem'], ['view', 'app', 'themes', 'files']);
+            $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
             try {
                 return $matcher->getImage($app['config']->get('general/thumbnails/error_image'));
             } catch (FileNotFoundException $e) {

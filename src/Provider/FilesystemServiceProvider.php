@@ -57,13 +57,15 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // Use for anything that's supposed to be in core:
                         // src files, our twig templates, our js & css files, our translations, etc.
                         'bolt'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt'))),
-
-                        // User's root directory
+                        // Root directory. Not configurable.
                         'root'       => new Filesystem(new Local($app['path_resolver']->resolve('root'))),
+
                         // User's web root
                         'web'        => new Filesystem(new Local($app['path_resolver']->resolve('web'))),
                         // User's files directory
                         'files'      => new Filesystem(new Local($app['path_resolver']->resolve('files'))),
+                        // User's synced bolt assets directory
+                        'bolt_assets'=> new Filesystem(new Local($app['path_resolver']->resolve('bolt_assets'))),
                         // User's config directory
                         'config'     => $app['filesystem.config'],
                         // User's themes directory
@@ -77,7 +79,7 @@ class FilesystemServiceProvider implements ServiceProviderInterface
 
                         // Deprecated. Use specific filesystem instead.
                         'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
-                        // Deprecated. Use bolt://app/view instead.
+                        // Deprecated. Use bolt_assets filesystem instead.
                         'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
                         // Deprecated. Use specific filesystem instead.
                         'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
