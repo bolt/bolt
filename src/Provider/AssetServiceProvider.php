@@ -114,7 +114,8 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $queue = new Asset\File\Queue(
                     $app['asset.injector'],
-                    $app['asset.packages']
+                    $app['asset.packages'],
+                    $app['config']
                 );
 
                 return $queue;
@@ -125,9 +126,7 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $queue = new Asset\Snippet\Queue(
                     $app['asset.injector'],
-                    $app['cache'],
-                    $app['config'],
-                    $app['resources']
+                    $app['cache']
                 );
 
                 return $queue;
