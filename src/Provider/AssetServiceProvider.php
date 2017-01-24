@@ -9,6 +9,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
+use Webmozart\PathUtil\Path;
 
 /**
  * HTML asset service providers.
@@ -60,8 +61,12 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.package_factory'] = $app->protect(
             function ($name) use ($app) {
+                $path = $app['path_resolver']->resolve($name);
+                $web = $app['path_resolver']->resolve('web');
+                $basePath = Path::makeRelative($path, $web);
+
                 return new PathPackage(
-                    $app['resources']->getUrl($name, false),
+                    $basePath,
                     $app['asset.version_strategy']($name),
                     $app['asset.context']
                 );
