@@ -16,6 +16,7 @@ Released: 2016-01-XX. Notable changes:
  - Added: Replacing RandomLib. [#6021](https://github.com/bolt/bolt/pull/6021)
  - Change: Add limit to trace, show less data when not logged in. [#6130](https://github.com/bolt/bolt/pull/6130)
  - Change: Boot extension registered service providers - Fixes "Paths to extensions added pages don't work" [#6157](https://github.com/bolt/bolt/pull/6157)
+ - Change: Bumped PostgreSQL minimum version to 9.1. (for MySQL we require version 5.5 or up, and almost any SQLite 3 will do).
  - Change: Bunch of maintenance work on `base-2016`: Updating Foundation to 6.3, etc. [#6185](https://github.com/bolt/bolt/pull/6185)
  - Change: changing 'Extends' menu to 'Extensions'. [#6156](https://github.com/bolt/bolt/pull/6156)
  - Change: Deprecation and associated clean ups. [#6159](https://github.com/bolt/bolt/pull/6159)
@@ -31,15 +32,26 @@ Released: 2016-01-XX. Notable changes:
  - Fixed: Broken links in "Extra" menu  - Fix menu urls and integrate url generator. [#6139](https://github.com/bolt/bolt/pull/6139) [#6142](https://github.com/bolt/bolt/pull/6142)
  - Fixed: Check `file_uploads` ini directive for allowed uploads. [#5973](https://github.com/bolt/bolt/pull/5973)
  - Fixed: Don't handle onclick in HTML, but rather in JS, when we're sure dependencies have loaded. [#6184](https://github.com/bolt/bolt/pull/6184)
+ - Fixed: Don't hydrate extension fields that haven't implemented it. [#6274](https://github.com/bolt/bolt/pull/6274)
  - Fixed: Don't set homepage template to `null`, if theme.yml is not present. [#6253](https://github.com/bolt/bolt/pull/6253)
+ - Fixed: Don't throw exception if stack is empty (or updating from an older version). [#6284](https://github.com/bolt/bolt/pull/6284)
+ - Fixed: Fix `ymlink` twig filter for multiple matches. [#6290](https://github.com/bolt/bolt/pull/6290)
+ - Fixed: Fix extend page pre-release version display. [#6279](https://github.com/bolt/bolt/pull/6279)
+ - Fixed: Fix incorrect join aliased `content_id` to `id`. [#6286](https://github.com/bolt/bolt/pull/6286)
+ - Fixed: Fix not being able to delete records from dashboard. [#6289](https://github.com/bolt/bolt/pull/6289)
  - Fixed: Fix sandbox not being disabled when exception is thrown. [#6132](https://github.com/bolt/bolt/pull/6132)
+ - Fixed: Fix snippets on redirection. [#6288](https://github.com/bolt/bolt/pull/6288)
+ - Fixed: Fix to incorrect Extension Field Initialisation. [#6271](https://github.com/bolt/bolt/pull/6271)
  - Fixed: Fix twig `ismobileclient()` to _actually_ not use super global. [#6124](https://github.com/bolt/bolt/pull/6124)
  - Fixed: Incoming relation was not displayed when relation is empty. [#6117](https://github.com/bolt/bolt/pull/6117)
  - Fixed: Make content search case insensitive on every platform. [#6110](https://github.com/bolt/bolt/pull/6110) [#6109](https://github.com/bolt/bolt/pull/6109)
  - Fixed: Make repeater fields live editable. [#6173](https://github.com/bolt/bolt/pull/6173)
  - Fixed: Make sure the Bolt nub has no background or border in the debug toolbar. [#6268](https://github.com/bolt/bolt/pull/6268)
  - Fixed: Minor updates to base-2016 [#6210](https://github.com/bolt/bolt/pull/6210)
+ - Fixed: Move the `getRepeaters` call into the nohydrate block. [#6283](https://github.com/bolt/bolt/pull/6283)
+ - Fixed: Optimise Queries for Repeater Fields. [#6280](https://github.com/bolt/bolt/pull/6280)
  - Fixed: Performance issue fixing in `ContentRelationTrait` [#6108](https://github.com/bolt/bolt/pull/6108)
+ - Fixed: Remove array_column; doesn't work for PHP 5.5/5.6. [#6278](https://github.com/bolt/bolt/pull/6278) [#6287](https://github.com/bolt/bolt/pull/6287)
  - Fixed: Resolve template for template fields. [#6237](https://github.com/bolt/bolt/pull/6237)
  - Fixed: This ensures no DI services/parameters are retrieved until boot time.
  - Fixed: Timed publish tweak. [#5680](https://github.com/bolt/bolt/pull/5680)
@@ -47,6 +59,7 @@ Released: 2016-01-XX. Notable changes:
  - Tests: Deprecation - `getMock` to `getMockBuilder`. [#6201](https://github.com/bolt/bolt/pull/6201)
  - Tests: PHP 7.1 fix. [#6085](https://github.com/bolt/bolt/pull/6085)
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
+Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
 
 Bolt 3.2.6
 ----------
