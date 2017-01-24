@@ -56,7 +56,7 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // Bolt's project directory. Not configurable.
                         // Use for anything that's supposed to be in core:
                         // src files, our twig templates, our js & css files, our translations, etc.
-                        'bolt'       => new Filesystem(new Local(__DIR__ . '/../../')),
+                        'bolt'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt'))),
 
                         // User's root directory
                         'root'       => new Filesystem(new Local($app['path_resolver']->resolve('root'))),

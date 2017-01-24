@@ -27,10 +27,15 @@ class PathServiceProvider implements ServiceProviderInterface
 
         $app['path_resolver'] = $app->share(
             function ($app) {
-                return $app['path_resolver_factory']
+                $resolver = $app['path_resolver_factory']
                     ->addPaths($app['path_resolver.paths'])
                     ->create()
                 ;
+
+                // Bolt's project directory. Not configurable.
+                $resolver->define('bolt', __DIR__ . '/../../');
+
+                return $resolver;
             }
         );
         $app['path_resolver.root'] = '';
