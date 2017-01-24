@@ -259,7 +259,7 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
-        if (!$this->configInitialized && in_array($name, ['theme', 'themepath'])) {
+        if (!$this->configInitialized && in_array($name, ['theme', 'themepath', 'templates', 'templatespath'])) {
             $this->initializeConfig();
         }
 
