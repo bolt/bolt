@@ -275,14 +275,20 @@ class RecordRuntime
             if (is_array($fieldName)) {
                 $row = [];
                 foreach ($fieldName as $fn) {
-                    $row[] = isset($c->values[$fn]) ? $c->values[$fn] : null;
+                    if ($fn === 'contenttype') {
+                        $element = $c->contenttype['slug'] . '/' . $element;
+                        $row[]   = $c->contenttype['singular_name'];
+                    } else {
+                        $row[] = isset($c->values[$fn]) ? $c->values[$fn] : null;
+                    }
                 }
                 $retval[$element] = $row;
+            } else if ($fieldName === 'contenttype') {
+                $retval[$element] = $c->contenttype['singular_name'];
             } elseif (isset($c->values[$fieldName])) {
                 $retval[$element] = $c->values[$fieldName];
             }
         }
-
         return $retval;
     }
 }
