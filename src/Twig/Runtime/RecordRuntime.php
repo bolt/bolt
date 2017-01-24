@@ -255,14 +255,15 @@ class RecordRuntime
     /**
      * Return a selected field from a contentset.
      *
-     * @param array        $content    A Bolt record array
-     * @param array|string $fieldName  Name of a field, or array of field names to return from each record
-     * @param boolean      $startempty Whether or not the array should start with an empty element
-     * @param string       $keyName    Name of the key in the array
+     * @param array        $content     A Bolt record array
+     * @param array|string $fieldName   Name of a field, or array of field names to return from each record
+     * @param boolean      $startempty  Whether or not the array should start with an empty element
+     * @param string       $keyName     Name of the key in the array
+     * @param string|null  $contentType ContentType string used by the select field
      *
      * @return array
      */
-    public function selectField($content, $fieldName, $startempty = false, $keyName = 'id')
+    public function selectField($content, $fieldName, $startempty = false, $keyName = 'id', $contentType = null)
     {
         $retval = $startempty ? [] : ['' => ''];
 
@@ -271,13 +272,21 @@ class RecordRuntime
         }
 
         foreach ($content as $c) {
-            $element = $c->values[$keyName];
+            if (is_string($contentType) && $contentType !== '') {
+                $contentType = explode(',', $contentType);
+            }
+
+            if (is_array($contentType) && count($contentType) > 1) {
+                $element = $c->contenttype['slug'] . '/' . $c->values[$keyName];
+            } else {
+                $element = $c->values[$keyName];
+            }
+
             if (is_array($fieldName)) {
                 $row = [];
                 foreach ($fieldName as $fn) {
                     if ($fn === 'contenttype') {
-                        $element = $c->contenttype['slug'] . '/' . $element;
-                        $row[]   = $c->contenttype['singular_name'];
+                        $row[] = $c->contenttype['singular_name'];
                     } else {
                         $row[] = isset($c->values[$fn]) ? $c->values[$fn] : null;
                     }
