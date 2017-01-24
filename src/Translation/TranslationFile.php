@@ -56,7 +56,7 @@ class TranslationFile
         $path = '/resources/translations/' . $locale . '/' . $domain . '.' . $locale . '.yml';
 
         // If long locale dir doesn't exists try short locale and return it if that exists
-        if (strlen($locale) == 5 && !is_dir($this->app['resources']->getPath('apppath' . $path))) {
+        if (strlen($locale) == 5 && !is_dir($this->app['path_resolver']->resolve('%root%/app' . $path))) {
             $paths = $this->buildPath($domain, substr($locale, 0, 2));
 
             if (is_dir($paths[0])) {
@@ -65,7 +65,7 @@ class TranslationFile
         }
 
         return [
-            $this->app['resources']->getPath('apppath' . $path),
+            $this->app['path_resolver']->resolve('%root%/app' . $path),
             'app' . $path,
         ];
     }
