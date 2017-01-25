@@ -2,10 +2,12 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Configuration\Composer;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\PreBoot\ConfigurationFile;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Exception\BootException;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -56,6 +58,10 @@ class PathServiceProvider implements ServiceProviderInterface
                 return;
             }
             $initialized = true;
+
+            if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+                BootException::earlyExceptionMissingLoaderConfig();
+            }
 
             ConfigurationFile::checkConfigFiles(
                 ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
