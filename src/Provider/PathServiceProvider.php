@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\PreBoot\ConfigurationFile;
 use Bolt\Configuration\ResourceManager;
@@ -108,7 +109,9 @@ class PathServiceProvider implements ServiceProviderInterface
         });
 
         $app['paths'] = $app->share(function ($app) {
-            return $app['resources']->getPaths();
+            return new LazyPathsProxy(function () use ($app) {
+                return $app['resources'];
+            });
         });
     }
 
