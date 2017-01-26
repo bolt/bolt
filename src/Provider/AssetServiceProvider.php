@@ -24,38 +24,16 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $packages = new Packages();
 
-                $packages->addPackage('bolt', $app['asset.package.bolt']);
+                $bolt = $app['asset.package_factory']('bolt_assets');
+                $packages->addPackage('bolt', $bolt);
+                $packages->addPackage('bolt_assets', $bolt); // For FS plugin
+
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
                 $packages->addPackage('themes', $app['asset.package_factory']('themes'));
 
                 return $packages;
-            }
-        );
-
-        $app['asset.package.bolt'] = $app->share(
-            function ($app) {
-                /*
-                 * This is technically the wrong directory as our composer script handler
-                 * copies the assets to the project's web directory. But since this is
-                 * just to check the file's last modified time for versioning it will do fine.
-                 */
-                $boltViewDir = $app['filesystem']->getDir('bolt://app/view');
-
-                /*
-                 * Remove app/view from path as AssetUrl plugin will include it.
-                 * This is because "bolt" FS points to bolt's root dir, but
-                 * "bolt" asset package points to "bolt_root_dir/app/view".
-                 *
-                 * This works with composer installs as well.
-                 */
-                return new Asset\UnprefixedPathPackage(
-                    $boltViewDir->getPath() . '/',
-                    $app['resources']->getUrl('view', false),
-                    $app['asset.version_strategy']($boltViewDir),
-                    $app['asset.context']
-                );
             }
         );
 

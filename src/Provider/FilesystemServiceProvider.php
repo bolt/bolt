@@ -112,5 +112,7 @@ class FilesystemServiceProvider implements ServiceProviderInterface
     {
         // Add url plugin here to prevent circular dependency.
         $app['filesystem']->addPlugin($app['filesystem.plugin.url']);
+        // "bolt" filesystem cannot use the "bolt" asset package.
+        $app['filesystem']->getFilesystem('bolt')->addPlugin(new Plugin\NoAssetUrl());
     }
 }
