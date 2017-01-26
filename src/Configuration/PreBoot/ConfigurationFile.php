@@ -63,7 +63,5 @@ class ConfigurationFile
         } catch (IOException $e) {
             throw new BootException(sprintf('Unable to create configuration file "%s"', $configFileName));
         }
-
-        return;
     }
 }

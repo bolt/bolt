@@ -39,10 +39,12 @@ class ScriptHandler
             return;
         }
 
+        $assetDir = static::getDir($event, 'bolt_assets', $webDir . '/bolt-public/view');
+
         $filesystem = new Filesystem();
 
         $originDir = __DIR__ . '/../../app/view/';
-        $targetDir = $webDir . '/bolt-public/view/';
+        $targetDir = rtrim($assetDir, '/') . '/';
 
         $event->getIO()->writeError(sprintf('Installing assets to <info>%s</info>', rtrim($targetDir, '/')));
         foreach (['css', 'fonts', 'img', 'js'] as $dir) {
@@ -291,14 +293,29 @@ class ScriptHandler
      */
     protected static function getOption(Event $event, $key, $default = null)
     {
-        $key = 'bolt-' . $key;
-
-        if ($value = getenv(strtoupper(str_replace('-', '_', $key)))) {
+        if ($value = static::getEnvOption($key)) {
             return $value;
+        }
+
+        $key = strtolower(str_replace('_', '-', $key));
+
+        if (strpos($key, 'bolt-') !== false) {
+            $key = 'bolt-' . $key;
         }
 
         $extra = $event->getComposer()->getPackage()->getExtra();
 
         return isset($extra[$key]) ? $extra[$key] : $default;
+    }
+
+    protected static function getEnvOption($key)
+    {
+        $key = strtoupper(str_replace('-', '_', $key));
+
+        if (strpos($key, 'BOLT_') !== false) {
+            $key = 'BOLT_' . $key;
+        }
+
+        return getenv($key);
     }
 }

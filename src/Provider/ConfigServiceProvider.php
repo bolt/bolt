@@ -26,12 +26,12 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
         $app['config.environment'] = $app->share(
             function ($app) {
-                $appPath = $app['resources']->getPath('app');
-                $viewPath = $app['resources']->getPath('view');
+                $boltPath = $app['path_resolver']->resolve('bolt');
+                $boltAssetsPath = $app['path_resolver']->resolve('bolt_assets');
 
                 $environment = new Environment(
-                    $appPath,
-                    $viewPath,
+                    $boltPath,
+                    $boltAssetsPath,
                     $app['cache'],
                     $app['extend.action'],
                     Bolt\Version::VERSION

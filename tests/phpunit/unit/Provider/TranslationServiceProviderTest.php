@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Application;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Provider\TranslationServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Filesystem\Filesystem;
@@ -44,7 +44,7 @@ class TranslationServiceProviderTest extends BoltUnitTest
     public function testShortLocaleFallback()
     {
         $app = $this->makeApp();
-        $this->initializeFakeTranslationFiles('xx', 'general.about: "So very about"', $app['resources']);
+        $this->initializeFakeTranslationFiles('xx', 'general.about: "So very about"', $app['path_resolver']);
         $this->registerTranslationServiceWithCachingDisabled($app);
         $app->initialize();
         $app['locale'] = 'xx_XX';
@@ -55,7 +55,7 @@ class TranslationServiceProviderTest extends BoltUnitTest
     public function testTranslationLoadingOverride()
     {
         $app = $this->makeApp();
-        $this->initializeFakeTranslationFiles('en_GB', 'general.about: "Not so about"', $app['resources']);
+        $this->initializeFakeTranslationFiles('en_GB', 'general.about: "Not so about"', $app['path_resolver']);
         $this->registerTranslationServiceWithCachingDisabled($app);
         $app->initialize();
         $app->boot();
@@ -78,16 +78,16 @@ class TranslationServiceProviderTest extends BoltUnitTest
     }
 
     /**
-     * @param string          $locale
-     * @param string          $fileContent
-     * @param ResourceManager $resources
+     * @param string       $locale
+     * @param string       $fileContent
+     * @param PathResolver $pathResolver
      */
-    protected function initializeFakeTranslationFiles($locale, $fileContent, ResourceManager $resources)
+    protected function initializeFakeTranslationFiles($locale, $fileContent, PathResolver $pathResolver)
     {
-        $fakeAppRoot        = $resources->getPath('cache');
+        $fakeAppRoot = $pathResolver->resolve('cache');
+        $pathResolver->define('root', $fakeAppRoot);
         $fakeTranslationDir = "{$fakeAppRoot}/app/resources/translations/{$locale}";
         (new Filesystem())->mkdir($fakeTranslationDir);
         file_put_contents("{$fakeTranslationDir}/messages.{$locale}.yml", $fileContent);
-        $resources->setPath('root', $fakeAppRoot);
     }
 }

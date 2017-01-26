@@ -1167,8 +1167,8 @@ class Config
                 'default_image'     => [1000, 750],
                 'quality'           => 75,
                 'cropping'          => 'crop',
-                'notfound_image'    => 'bolt://app/view/img/default_notfound.png',
-                'error_image'       => 'bolt://app/view/img/default_error.png',
+                'notfound_image'    => 'bolt_assets://img/default_notfound.png',
+                'error_image'       => 'bolt_assets://img/default_error.png',
                 'only_aliases'      => false,
             ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
@@ -1225,7 +1225,7 @@ class Config
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = $this->app['resources']->getPath('app/theme_defaults');
+        $twigpath[] = $this->app['resources']->getPath('src/../app/theme_defaults');
 
         return $twigpath;
     }
