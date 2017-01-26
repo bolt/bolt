@@ -53,7 +53,7 @@ class Render
 
         $html = twig_include($this->app['twig'], $context, $template, [], true, false, $this->safe);
 
-        $response = new TemplateResponse($template, $context, $globals);
+        $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
         $response->setContent($html);
 
         return $response;

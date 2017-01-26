@@ -33,10 +33,10 @@ class ExtendTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/extend'));
         $response = $this->controller()->overview();
-        $this->assertEquals('@bolt/extend/extend.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('@bolt/extend/extend.twig', $response->getTemplateName());
 
         $response = $this->controller()->installPackage();
-        $this->assertEquals('@bolt/extend/_action-modal.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('@bolt/extend/_action-modal.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/', 'GET', ['package' => 'bolt/theme-2014']));
         /** @var \Bolt\Controller\Backend\Extend|\PHPUnit_Framework_MockObject_MockObject $controller */
