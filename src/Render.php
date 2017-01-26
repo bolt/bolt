@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
  * - Fetches pages or template (partials) from cache
  *
  * @author Bob den Otter, bob@twokings.nl
+ *
+ * @deprecated Since 3.3, will be removed in 4.0.
  */
 class Render
 {
@@ -42,6 +44,8 @@ class Render
      * @param array           $globals      Global variables
      *
      * @return TemplateResponse
+     *
+     * @deprecated Since 3.3, will be removed in 4.0.
      */
     public function render($templateName, $context = [], $globals = [])
     {
