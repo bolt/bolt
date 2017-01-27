@@ -28,16 +28,16 @@
 
 {# Add library locale files #}
 {% for lib in ['datepicker', 'moment', 'select2'] %}
-    {% if app.filesystem.has("bolt://app/view/js/locale/#{lib}#{page_locale_long}.min.js") %}
+    {% if app.filesystem.has("bolt_assets://js/locale/#{lib}#{page_locale_long}.min.js") %}
         {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_long}.min.js", 'bolt')]) %}
-    {% elseif page_locale_short != 'en' and app.filesystem.has("bolt://app/view/js/locale/#{lib}#{page_locale_short}.min.js") %}
+    {% elseif page_locale_short != 'en' and app.filesystem.has("bolt_assets://js/locale/#{lib}#{page_locale_short}.min.js") %}
         {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_short}.min.js", 'bolt')]) %}
     {% endif %}
 {% endfor %}
 
 {# Determine locale include for ckeditor #}
 {% set page_locale_long_bcp47 = page_locale_long|replace({'_': '-'})|lower %}
-{% if app.filesystem.has("bolt://app/view/js/locale/ckeditor#{page_locale_long_bcp47}.js") %}
+{% if app.filesystem.has("bolt_assets://js/locale/ckeditor#{page_locale_long_bcp47}.js") %}
     {% set ckeditor_lang = page_locale_long_bcp47 %}
 {% else %}
     {% set ckeditor_lang = page_locale_short %}
@@ -115,6 +115,7 @@
         },
     },
     stackAddUrl: path('stack/add'),
+    contentActionUrl: path('contentaction', app.request.query.all),
     google_api_key: config.get('general/google_api_key'),
 } %}
 <script src="{{ asset('js/bolt.js', 'bolt') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>

@@ -23,7 +23,7 @@ class Composer extends Standard
         parent::__construct($path, $request, $pathResolverFactory);
         $this->setPath('composer', realpath(dirname(__DIR__) . '/../'), false);
         $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'), false);
-        $this->setPath('view', realpath(dirname(__DIR__) . '/../app/view'), false);
+        $this->setPath('view', '%web%/bolt-public/view');
         $this->setPath('web', 'public');
         $this->setUrl('app', '/bolt-public/');
         $this->setUrl('view', '/bolt-public/view/');

@@ -46,4 +46,15 @@ class CanonicalTest extends BoltUnitTest
 
         $this->assertEquals($expected, $url);
     }
+
+    public function testNullForUnmatchedRoute()
+    {
+        $app = $this->getApp(false);
+
+        $app['request_stack']->push(Request::create('/_nope/_no_route'));
+
+        $url = $app['canonical']->getUrl();
+
+        $this->assertNull($url);
+    }
 }

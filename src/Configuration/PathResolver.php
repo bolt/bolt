@@ -35,6 +35,7 @@ class PathResolver
             'web'               => 'public',
             'files'             => '%web%/files',
             'themes'            => '%web%/theme',
+            'bolt_assets'       => '%web%/bolt-public/view',
         ];
     }
 
@@ -159,6 +160,9 @@ class PathResolver
         }
         if ($name === 'extensionsconfig') {
             return 'extensions_config';
+        }
+        if ($name === 'view') {
+            return 'bolt_assets';
         }
 
         return $name;

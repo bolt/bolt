@@ -373,18 +373,19 @@ HTML;
 
     public function testAddJquery()
     {
-        $app = $this->makeApp();
-        $app->initialize();
-
         $app = $this->getApp();
         $app['config']->set('general/add_jquery', true);
         $response = new Response($this->template);
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $app['asset.queue.file']->process($this->getRequest(), $response);
         $this->assertContains('js/jquery', $response->getContent());
+    }
 
+    public function testDoNotAddJquery()
+    {
+        $app = $this->getApp();
         $app['config']->set('general/add_jquery', false);
         $response = new Response($this->template);
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $app['asset.queue.file']->process($this->getRequest(), $response);
         $this->assertNotContains('js/jquery', $response->getContent());
     }
 
@@ -394,8 +395,8 @@ HTML;
         $app->initialize();
         $app['config']->set('general/add_jquery', true);
         $response = new Response($this->template);
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
-        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $app['asset.queue.file']->process($this->getRequest(), $response);
     }
 
     public function testSnippetsWorkWithBadHtml()

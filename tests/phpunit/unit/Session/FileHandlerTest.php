@@ -21,7 +21,7 @@ class FileHandlerTest extends BoltUnitTest
     public function setUp()
     {
         $app = $this->getApp();
-        $this->savePath = $app['resources']->getPath('cache');
+        $this->savePath = $app['path_resolver']->resolve('cache');
         $this->sessionName = 'george';
         $this->sessionFile = $this->savePath . '/' . $this->sessionName . '.sess';
     }

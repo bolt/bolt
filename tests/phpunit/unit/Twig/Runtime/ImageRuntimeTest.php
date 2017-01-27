@@ -18,7 +18,7 @@ class ImageRuntimeTest extends BoltUnitTest
     protected function setUp()
     {
         $app = $this->getApp();
-        $files = $app['resources']->getPath('filespath');
+        $files = $app['path_resolver']->resolve('files');
         $fs = new Filesystem();
         $fs->copy(PHPUNIT_ROOT . '/resources/generic-logo.png', $files . '/generic-logo.png', true);
     }
