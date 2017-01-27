@@ -45,8 +45,6 @@ class Render
      */
     public function render($templateName, $context = [], $globals = [])
     {
-        $this->app['stopwatch']->start('bolt.render', 'template');
-
         $template = $this->app['twig']->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
@@ -57,8 +55,6 @@ class Render
 
         $response = new TemplateResponse($template, $context, $globals);
         $response->setContent($html);
-
-        $this->app['stopwatch']->stop('bolt.render');
 
         return $response;
     }
