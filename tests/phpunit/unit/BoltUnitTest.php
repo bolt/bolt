@@ -236,7 +236,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $app = $this->getApp();
         if ($path === null) {
-            $path = $app['resources']->getPath('cache');
+            $path = $app['path_resolver']->resolve('cache');
         }
 
         $params = [

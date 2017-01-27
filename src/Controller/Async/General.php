@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Async controller for general async routes.
@@ -250,16 +251,16 @@ class General extends AsyncBase
      */
     public function readme($filename)
     {
-        $filename = $this->resources()->getPath("extensions/$filename");
-
         // Don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
+            throw new NotFoundHttpException('Not Found');
         }
-        if (!is_readable($filename)) {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
+
+        try {
+            $readme = $this->filesystem()->read('extensions://' . $filename);
+        } catch (Bolt\Filesystem\Exception\IOException $e) {
+            throw new NotFoundHttpException('Not Found');
         }
-        $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
         $html = $this->app['markdown']->text($readme);

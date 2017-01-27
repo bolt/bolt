@@ -31,7 +31,7 @@ class SetupSync extends BaseCommand
         /** @var \Bolt\Configuration\Environment $environment */
         $environment = $this->app['config.environment'];
 
-        $response = $environment->syncView();
+        $response = $environment->syncAssets();
         if ($response === null) {
             $output->writeln('<info>​Directory synchronisation succeeded​.</info>');
         } else {

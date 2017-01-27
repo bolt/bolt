@@ -119,8 +119,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
         // Directories to look for translation file(s)
         $transDirs = array_unique(
             [
-                $app['resources']->getPath("app/resources/translations/{$locale}"),
-                $app['resources']->getPath("root/app/resources/translations/{$locale}"),
+                $app['path_resolver']->resolve("%bolt%/app/resources/translations/{$locale}"),
+                $app['path_resolver']->resolve("%root%/app/resources/translations/{$locale}"), // Will be done better in v3.4
             ]
         );
 

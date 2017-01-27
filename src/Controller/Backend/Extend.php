@@ -4,6 +4,8 @@ namespace Bolt\Controller\Backend;
 
 use Bolt;
 use Bolt\Exception\PackageManagerException;
+use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
 use Composer\Package\PackageInterface;
 use Silex\Application;
@@ -155,36 +157,35 @@ class Extend extends BackendBase
      */
     public function generateTheme(Request $request)
     {
-        $theme = $request->get('theme');
-        $newName = $request->get('name');
+        $theme = $request->query->get('theme');
+        $newName = $request->query->get('name');
 
         if (empty($theme)) {
             return new Response(Trans::__('page.extend.theme.generation.missing.name'));
         }
 
-        if (! $newName) {
+        if (!$newName) {
             $newName = basename($theme);
         }
 
-        $source = $this->resources()->getPath('extensions/vendor/' . $theme);
-        $destination = $this->resources()->getPath('themebase/' . $newName);
-        if (is_dir($source)) {
-            $filesystem = new Filesystem();
-            try {
-                $filesystem->mkdir($destination);
-                $filesystem->mirror($source, $destination);
-
-                if (file_exists($destination . '/config.yml.dist')) {
-                    $filesystem->copy($destination . '/config.yml.dist', $destination . '/config.yml');
-                }
-
-                return new Response(Trans::__('page.extend.theme.generation.success'));
-            } catch (\Exception $e) {
-                return new Response(Trans::__('page.extend.theme.generation.failure'));
-            }
+        $source = $this->filesystem()->getDir('extensions://vendor/' . $theme);
+        if (!$source->exists()) {
+            return $this->getJsonException(new PackageManagerException(Trans::__('page.extend.message.invalid-theme-source-dir', ['%SOURCE%', $source])));
         }
 
-        return $this->getJsonException(new PackageManagerException(Trans::__('page.extend.message.invalid-theme-source-dir', ['%SOURCE%', $source])));
+        try {
+            $this->filesystem()->mirror('extensions://vendor/' . $theme, 'themes://' . $newName);
+
+            try {
+                $this->filesystem()->copy("themes://$newName/config.yml.dist", "themes://$newName/config.yml");
+            } catch (FileNotFoundException $e) {
+                // Ignore if there's no dist file
+            }
+        } catch (IOException $e) {
+            return new Response(Trans::__('page.extend.theme.generation.failure'));
+        }
+
+        return new Response(Trans::__('page.extend.theme.generation.success'));
     }
 
     /**
@@ -435,14 +436,12 @@ class Extend extends BackendBase
      */
     private function getRenderContext()
     {
-        $extensionsPath = $this->resources()->getPath('extensions');
-
         return [
             'messages'       => $this->app['extend.manager']->getMessages(),
             'enabled'        => $this->app['extend.enabled'],
             'writeable'      => $this->app['extend.writeable'],
             'online'         => $this->app['extend.online'],
-            'extensionsPath' => $extensionsPath,
+            'extensionsPath' => $this->app['path_resolver']->resolve('extensions'),
             'site'           => $this->app['extend.site'],
         ];
     }

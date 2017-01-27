@@ -145,9 +145,6 @@ return call_user_func(function () {
         foreach ((array) $config['paths'] as $name => $path) {
             $resources->setPath($name, $path);
         }
-        if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
-            BootException::earlyExceptionMissingLoaderConfig();
-        }
 
         $resources->verify();
 

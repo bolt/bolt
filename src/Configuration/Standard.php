@@ -36,5 +36,6 @@ class Standard extends ResourceManager
         parent::__construct($container);
 
         $this->setPath('web', '');
+        $this->setPath('view', 'app/view');
     }
 }

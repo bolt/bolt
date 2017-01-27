@@ -60,6 +60,9 @@ class Canonical implements EventSubscriberInterface
         if (($request = $this->requestStack->getCurrentRequest()) === null) {
             return null;
         }
+        if (!$request->attributes->get('_route')) {
+            return null;
+        }
 
         return $this->urlGenerator->generate(
             $request->attributes->get('_route'),
