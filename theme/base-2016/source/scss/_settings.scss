@@ -104,8 +104,8 @@ $block-grid-max: 8;
 // 4. Base Typography
 // ------------------
 
-$header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-family: 'Noto Sans', $body-font-family;
+$header-font-weight: 700;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-color: inherit;
@@ -412,11 +412,11 @@ $mediaobject-image-width-stacked: 100%;
 $menu-margin: 0;
 $menu-margin-nested: 1rem;
 $menu-item-padding: 0.7rem 1rem;
-$menu-item-color-active: $white;
+$menu-item-color-active: $light-gray;
 $menu-item-background-active: get-color(primary);
 $menu-icon-spacing: 0.25rem;
-$menu-item-background-hover: $light-gray;
-$menu-border: $light-gray;
+$menu-item-background-hover: $white;
+$menu-border: $white;
 
 // 23. Meter
 // ---------
@@ -613,7 +613,7 @@ $tooltip-radius: $global-radius;
 // -----------
 
 $topbar-padding: 0.5rem;
-$topbar-background: $light-gray;
+$topbar-background: $white;
 $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
 $topbar-input-width: 200px;
