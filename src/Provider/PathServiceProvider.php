@@ -2,9 +2,12 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Configuration\Composer;
+use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\PreBoot\ConfigurationFile;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Exception\BootException;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -27,10 +30,15 @@ class PathServiceProvider implements ServiceProviderInterface
 
         $app['path_resolver'] = $app->share(
             function ($app) {
-                return $app['path_resolver_factory']
+                $resolver = $app['path_resolver_factory']
                     ->addPaths($app['path_resolver.paths'])
                     ->create()
                 ;
+
+                // Bolt's project directory. Not configurable.
+                $resolver->define('bolt', __DIR__ . '/../../');
+
+                return $resolver;
             }
         );
         $app['path_resolver.root'] = '';
@@ -50,6 +58,10 @@ class PathServiceProvider implements ServiceProviderInterface
                 return;
             }
             $initialized = true;
+
+            if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+                BootException::earlyExceptionMissingLoaderConfig();
+            }
 
             ConfigurationFile::checkConfigFiles(
                 ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
@@ -103,7 +115,9 @@ class PathServiceProvider implements ServiceProviderInterface
         });
 
         $app['paths'] = $app->share(function ($app) {
-            return $app['resources']->getPaths();
+            return new LazyPathsProxy(function () use ($app) {
+                return $app['resources'];
+            });
         });
     }
 

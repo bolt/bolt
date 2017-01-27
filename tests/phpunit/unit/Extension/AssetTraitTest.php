@@ -149,8 +149,7 @@ class AssetTraitTest extends BoltUnitTest
             ->willReturn(true)
         ;
 
-        $dir = $app['filesystem']->getDir('extensions://');
-        $dir->setPath('local/bolt/koala');
+        $dir = $app['filesystem']->getDir('extensions://local/bolt/koala');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);

@@ -9,6 +9,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
+use Webmozart\PathUtil\Path;
 
 /**
  * HTML asset service providers.
@@ -23,7 +24,10 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $packages = new Packages();
 
-                $packages->addPackage('bolt', $app['asset.package.bolt']);
+                $bolt = $app['asset.package_factory']('bolt_assets');
+                $packages->addPackage('bolt', $bolt);
+                $packages->addPackage('bolt_assets', $bolt); // For FS plugin
+
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
@@ -33,35 +37,14 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['asset.package.bolt'] = $app->share(
-            function ($app) {
-                /*
-                 * This is technically the wrong directory as our composer script handler
-                 * copies the assets to the project's web directory. But since this is
-                 * just to check the file's last modified time for versioning it will do fine.
-                 */
-                $boltViewDir = $app['filesystem']->getDir('bolt://app/view');
-
-                /*
-                 * Remove app/view from path as AssetUrl plugin will include it.
-                 * This is because "bolt" FS points to bolt's root dir, but
-                 * "bolt" asset package points to "bolt_root_dir/app/view".
-                 *
-                 * This works with composer installs as well.
-                 */
-                return new Asset\UnprefixedPathPackage(
-                    $boltViewDir->getPath() . '/',
-                    $app['resources']->getUrl('view', false),
-                    $app['asset.version_strategy']($boltViewDir),
-                    $app['asset.context']
-                );
-            }
-        );
-
         $app['asset.package_factory'] = $app->protect(
             function ($name) use ($app) {
+                $path = $app['path_resolver']->resolve($name);
+                $web = $app['path_resolver']->resolve('web');
+                $basePath = Path::makeRelative($path, $web);
+
                 return new PathPackage(
-                    $app['resources']->getUrl($name, false),
+                    $basePath,
                     $app['asset.version_strategy']($name),
                     $app['asset.context']
                 );
@@ -114,7 +97,8 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $queue = new Asset\File\Queue(
                     $app['asset.injector'],
-                    $app['asset.packages']
+                    $app['asset.packages'],
+                    $app['config']
                 );
 
                 return $queue;
@@ -125,9 +109,7 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $queue = new Asset\Snippet\Queue(
                     $app['asset.injector'],
-                    $app['cache'],
-                    $app['config'],
-                    $app['resources']
+                    $app['cache']
                 );
 
                 return $queue;

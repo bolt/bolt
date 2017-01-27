@@ -57,7 +57,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             function () use ($app) {
                 $extensionsPath = $app['path_resolver']->resolve('extensions');
 
-                return is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
+                return is_dir($extensionsPath) && is_writable($extensionsPath);
             }
         );
 

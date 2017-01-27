@@ -217,14 +217,16 @@ class AdminRuntime
      */
     public function ymllink($str)
     {
-        $matches = [];
-        if (preg_match('/ ([a-z0-9_-]+\.yml)/i', $str, $matches)) {
-            $path = $this->urlGenerator->generate('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
-            $link = sprintf(' <a href="%s">%s</a>', $path, $matches[1]);
-            $str = preg_replace('/ ([a-z0-9_-]+\.yml)/i', $link, $str);
-        }
+        return preg_replace_callback(
+            '/ ([a-z0-9_-]+\.yml)/i',
+            function ($matches) {
+                $path = $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
+                $link = sprintf(' <a href="%s">%s</a>', $path, $matches[1]);
 
-        return $str;
+                return $link;
+            },
+            $str
+        );
     }
 
     /**

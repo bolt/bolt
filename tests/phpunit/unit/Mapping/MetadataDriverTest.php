@@ -21,7 +21,7 @@ class MetadataDriverTest extends BoltUnitTest
     public function testInitialize()
     {
         $app = $this->getApp();
-        $map = new MetadataDriver($app['schema'], $app['storage.config.contenttypes'], $app['storage.config.taxonomy'], $app['storage.typemap']);
+        $map = new MetadataDriver($app['schema'], $app['storage.config.contenttypes'], $app['storage.config.taxonomy'], $app['storage.typemap'], $app['storage.namingstrategy']);
         $map->initialize();
         $metadata = $map->loadMetadataForClass('Bolt\Storage\Entity\Users');
         $this->assertNotNull($metadata);

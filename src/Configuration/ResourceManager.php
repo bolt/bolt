@@ -134,7 +134,7 @@ class ResourceManager
         $this->setPath('src', dirname(__DIR__), false);
         $this->setPath('database', 'app/database', false);
         $this->setPath('themebase', '%web%/theme', false);
-        $this->setPath('view', 'app/view', false);
+        $this->setPath('view', '%web%/bolt-public/view', false);
         $this->setUrl('view', '/app/view/');
     }
 
@@ -259,7 +259,7 @@ class ResourceManager
             $name = array_shift($parts);
         }
 
-        if (!$this->configInitialized && in_array($name, ['theme', 'themepath'])) {
+        if (!$this->configInitialized && in_array($name, ['theme', 'themepath', 'templates', 'templatespath'])) {
             $this->initializeConfig();
         }
 
