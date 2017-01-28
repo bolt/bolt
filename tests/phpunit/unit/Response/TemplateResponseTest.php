@@ -23,7 +23,7 @@ class TemplateResponseTest extends BoltUnitTest
 
         $this->assertInstanceOf(TemplateResponse::class, $response);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('error.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('error.twig', $response->getTemplateName());
         $this->assertEquals($context, $response->getContext());
         $this->assertEquals($globals, $response->getGlobals());
     }

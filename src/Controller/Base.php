@@ -2,6 +2,7 @@
 namespace Bolt\Controller;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Response\TemplateResponse;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
@@ -66,14 +67,26 @@ abstract class Base implements ControllerProviderInterface
      * Renders a template
      *
      * @param string|string[] $template Template name(s)
-     * @param array  $context  Context variables
-     * @param array  $globals  Global variables
+     * @param array           $context  Context variables
+     * @param array           $globals  Global variables
      *
      * @return \Bolt\Response\TemplateResponse
      */
     protected function render($template, array $context = [], array $globals = [])
     {
-        return $this->app['render']->render($template, $context, $globals);
+        $twig = $this->app['twig'];
+
+        $template = $twig->resolveTemplate($template);
+
+        foreach ($globals as $name => $value) {
+            $twig->addGlobal($name, $value);
+        }
+        $globals = $twig->getGlobals();
+
+        $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
+        $response->setContent($template->render($context));
+
+        return $response;
     }
 
     /**

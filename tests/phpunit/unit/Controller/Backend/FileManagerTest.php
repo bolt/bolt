@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +20,10 @@ class FileManagerTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/bolt/file/edit/config/config.yml'));
 
+        /** @var TemplateResponse $response */
         $response = $this->controller()->edit($this->getRequest(), 'config', 'config.yml');
 
-        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplateName());
     }
 
     public function testManage()
