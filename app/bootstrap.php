@@ -8,7 +8,6 @@ use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
-use Bolt\Extension\ExtensionInterface;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 
@@ -82,7 +81,6 @@ return call_user_func(function () {
         'resources'   => null,
         'paths'       => [],
         'services'    => [],
-        'extensions'  => [],
     ];
 
     if (file_exists($rootPath . '/.bolt.yml')) {
@@ -184,26 +182,6 @@ return call_user_func(function () {
             $app->register($service, $params);
         }
 
-    }
-
-    $extensionArray = [];
-    foreach ((array) $config['extensions'] as $extensionClass) {
-        if (is_string($extensionClass) && is_a($extensionClass, ExtensionInterface::class, true)) {
-            $extensionClass = new $extensionClass();
-        }
-        if ($extensionClass instanceof ExtensionInterface) {
-            $extensionArray[] = $extensionClass;
-        }
-    }
-
-    if (count($extensionArray)) {
-        $app['extensions'] = $app->share(
-            $app->extend('extensions', function ($extensions) use ($extensionArray) {
-                foreach ($extensionArray as $ext) {
-                    $extensions->add($ext);
-                }
-            })
-        );
     }
 
     return $app;
