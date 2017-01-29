@@ -319,6 +319,8 @@ class Save
                     $formValues[$key] = [];
                 } elseif ($values['type'] === 'checkbox') {
                     $formValues[$key] = 0;
+                } elseif ($values['type'] === 'repeater' || $values['type'] === 'block') {
+                    $formValues[$key] = [];
                 }
             }
         }
