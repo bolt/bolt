@@ -3,7 +3,6 @@
 namespace Bolt\Response;
 
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Template as Template;
 
 /**
  * Template based response.
@@ -12,8 +11,8 @@ use Twig_Template as Template;
  */
 class TemplateResponse extends Response
 {
-    /** @var Template */
-    protected $template;
+    /** @var string */
+    protected $templateName;
     /** @var array */
     protected $context = [];
     /** @var array */
@@ -22,24 +21,24 @@ class TemplateResponse extends Response
     /**
      * Constructor.
      *
-     * @param Template $template
-     * @param array    $context
-     * @param array    $globals
+     * @param string $templateName
+     * @param array  $context
+     * @param array  $globals
      */
-    public function __construct(Template $template, array $context = [], array $globals = [])
+    public function __construct($templateName, array $context = [], array $globals = [])
     {
         parent::__construct();
-        $this->template = $template;
+        $this->templateName = $templateName;
         $this->context = $context;
         $this->globals = $globals;
     }
 
     /**
-     * @return Template
+     * @return string
      */
-    public function getTemplate()
+    public function getTemplateName()
     {
-        return $this->template;
+        return $this->templateName;
     }
 
     /**
