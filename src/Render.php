@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
  * - Fetches pages or template (partials) from cache
  *
  * @author Bob den Otter, bob@twokings.nl
+ *
+ * @deprecated Since 3.3, will be removed in 4.0.
  */
 class Render
 {
@@ -42,23 +44,22 @@ class Render
      * @param array           $globals      Global variables
      *
      * @return TemplateResponse
+     *
+     * @deprecated Since 3.3, will be removed in 4.0.
      */
     public function render($templateName, $context = [], $globals = [])
     {
-        $this->app['stopwatch']->start('bolt.render', 'template');
-
         $template = $this->app['twig']->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
             $this->app['twig']->addGlobal($name, $value);
         }
+        $globals = $this->app['twig']->getGlobals();
 
         $html = twig_include($this->app['twig'], $context, $template, [], true, false, $this->safe);
 
-        $response = new TemplateResponse($template, $context, $globals);
+        $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
         $response->setContent($html);
-
-        $this->app['stopwatch']->stop('bolt.render');
 
         return $response;
     }
