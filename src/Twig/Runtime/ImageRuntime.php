@@ -265,7 +265,7 @@ class ImageRuntime
      */
     private function getThumbnailUri(Thumbnail $thumb)
     {
-        if ($thumb->getFileName() == null) {
+        if ($thumb->getFileName() === null) {
             return false;
         }
 

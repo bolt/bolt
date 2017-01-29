@@ -41,7 +41,8 @@ class SwitchNode extends Node
             ->indent()
         ;
         $cases = $this->getNode('cases');
-        for ($i = 0; $i < count($cases); $i += 2) {
+        $count = count($cases);
+        for ($i = 0; $i < $count; $i += 2) {
             $compiler
                 ->write('case ')
                 ->subcompile($cases->getNode($i))
