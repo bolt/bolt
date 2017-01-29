@@ -9,27 +9,20 @@ use Silex\ServiceProviderInterface;
 class PagerServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given app.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
+     * {@inheritdoc}
      */
     public function register(Application $app)
     {
         // the provider
         $app['pager'] = $app->share(
-            function () use ($app) {
+            function () {
                 return new PagerManager();
             }
         );
     }
 
     /**
-     * Bootstraps the application.
-     *
-     * This method is called after all services are registered
-     * and should be used for "dynamic" configuration (whenever
-     * a service must be requested).
+     * {@inheritdoc}
      */
     public function boot(Application $app)
     {
