@@ -18,7 +18,6 @@ class FrontendQueryScope implements QueryScopeInterface
     /** @var array */
     protected $orderBys = [];
 
-
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -75,7 +74,6 @@ class FrontendQueryScope implements QueryScopeInterface
         }
     }
 
-
     public function onQueryExecute(QueryInterface $query)
     {
         $ct = $query->getContentType();
@@ -92,6 +90,5 @@ class FrontendQueryScope implements QueryScopeInterface
         if (!$status) {
             $query->setParameter('status', 'published');
         }
-
     }
 }

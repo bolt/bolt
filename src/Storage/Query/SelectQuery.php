@@ -78,7 +78,9 @@ class SelectQuery implements QueryInterface
 
     /**
      * Getter to allow access to a set parameter
+     *
      * @param $name
+     *
      * @return array|mixed
      */
     public function getParameter($name)
@@ -90,6 +92,7 @@ class SelectQuery implements QueryInterface
 
     /**
      * Setter to allow writing to a named parameter
+     *
      * @param $name
      * @param $value
      */
@@ -98,7 +101,6 @@ class SelectQuery implements QueryInterface
         $this->params[$name] = $value;
         $this->processFilters();
     }
-
 
     /**
      * Creates a composite expression that adds all the attached

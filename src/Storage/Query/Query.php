@@ -44,7 +44,7 @@ class Query
      * Used by the twig command {% setcontent %} but also directly.
      * For reference refer to @link https://docs.bolt.cm/templates/content-fetching
      *
-     * @param string $textquery
+     * @param string       $textquery
      * @param array|string $parameters
      *
      * @return QueryResultset
@@ -60,7 +60,8 @@ class Query
     /**
      * @param string $scopeName
      * @param string $textquery
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return QueryResultset
      */
     public function getContentByScope($scopeName, $textquery, $parameters = [])

@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Field\Collection;
 
-use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;

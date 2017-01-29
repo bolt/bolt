@@ -176,7 +176,6 @@ class Manager
             }
             $this->addManagedExtension($descriptor);
         }
-
     }
 
     /**
