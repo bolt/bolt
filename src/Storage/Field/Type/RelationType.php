@@ -131,7 +131,7 @@ class RelationType extends FieldTypeBase
             function ($query, $result, $id) use ($repo, $collection, $toDelete, $inverseCollection) {
                 foreach ($collection as $entity) {
                     $entity->from_id = $id;
-                    $repo->save($entity, $silenceEvents = true);
+                    $repo->save($entity, true);
                 }
 
                 foreach ($inverseCollection as $entity) {
