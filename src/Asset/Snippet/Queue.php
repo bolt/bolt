@@ -29,8 +29,8 @@ class Queue implements QueueInterface
     /**
      * Constructor.
      *
-     * @param Injector        $injector
-     * @param CacheProvider   $cache
+     * @param Injector      $injector
+     * @param CacheProvider $cache
      */
     public function __construct(
         Injector $injector,
