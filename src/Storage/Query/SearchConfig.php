@@ -156,10 +156,10 @@ class SearchConfig
     {
         $info = $this->config->get('contenttypes/' . $contentType);
         if ($info) {
-            if (array_key_exists('viewless', $info) && $info['viewless'] == true) {
+            if (array_key_exists('viewless', $info) && $info['viewless'] === true) {
                 return true;
             }
-            if (array_key_exists('searchable', $info) && $info['searchable'] == false) {
+            if (array_key_exists('searchable', $info) && $info['searchable'] === false) {
                 return true;
             }
         }
