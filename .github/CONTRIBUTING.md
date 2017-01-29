@@ -136,7 +136,7 @@ right though to a released and maintained Bolt.
 
  1. Open an RFC [issue](https://github.com/bolt/bolt/issues/new) following these criteria:
      * Prefix the title with "[RFC]"
-     * Breifely describe the use case
+     * Briefly describe the use case
      * If requireing new libraries, a brief justification of why that one was chosen
  3. Be assigned a "sponsor" from the core team
  4. Submit the PR

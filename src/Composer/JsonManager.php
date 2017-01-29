@@ -137,7 +137,6 @@ class JsonManager
             'autoload' => [
                 'psr-4' => [
                     'Bolt\\Composer\\EventListener\\' => $pathToListeners,
-                    '' => 'local',
                 ],
             ],
             'scripts' => [

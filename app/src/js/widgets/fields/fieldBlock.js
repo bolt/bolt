@@ -69,7 +69,6 @@
                 var setToDelete = $(this).closest('.block-group');
 
                 setToDelete.remove();
-                self._setCount(-1);
                 self._renumber();
             });
 

@@ -3,6 +3,7 @@ namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\AccessControl\Password;
 use Bolt\Logger\FlashLogger;
+use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,8 +78,9 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(false));
         $this->setService('access_control.login', $loginMock);
 
-        $this->checkTwigForTemplate($this->getApp(), '@bolt/login/login.twig');
-        $this->controller()->postLogin($this->getRequest());
+        /** @var TemplateResponse $response */
+        $response = $this->controller()->postLogin($this->getRequest());
+        $this->assertEquals('@bolt/login/login.twig', $response->getTemplateName());
 
         // Test missing data fails
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'fake']));
@@ -86,8 +88,8 @@ class AuthenticationTest extends ControllerUnitTest
         $this->controller()->postLogin($this->getRequest());
 
         $this->setRequest(Request::create('/bolt/login', 'POST', []));
-        $this->checkTwigForTemplate($this->getApp(), 'error.twig');
-        $this->controller()->postLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
+        $this->assertEquals('error.twig', $response->getTemplateName());
     }
 
     public function testLoginSuccess()

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Application;
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
@@ -46,7 +47,7 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->about();
 
-        $this->assertEquals('@bolt/about/about.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('@bolt/about/about.twig', $response->getTemplateName());
     }
 
     public function testClearCache()
@@ -63,40 +64,38 @@ class GeneralTest extends ControllerUnitTest
 
         $this->setService('cache', $cache);
         $this->setRequest(Request::create('/bolt/clearcache'));
-        $this->checkTwigForTemplate($this->getApp(), '@bolt/clearcache/clearcache.twig');
 
-        $this->controller()->clearCache();
-        $this->assertNotEmpty($this->getFlashBag()->get('error'));
+        /** @var Application $app */
+        $app = $this->getApp();
+        $flashes = $this->getMock(FlashLogger::class);
+        $app['logger.flash'] = $flashes;
+
+        $flashes->expects($this->once())
+            ->method('error');
+
+        $flashes->expects($this->once())
+            ->method('success');
+
+        $response = $this->controller()->clearCache();
+        $this->assertEquals('@bolt/clearcache/clearcache.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/bolt/clearcache'));
-        $this->checkTwigForTemplate($this->getApp(), '@bolt/clearcache/clearcache.twig');
 
-        $this->controller()->clearCache();
-        $this->assertNotEmpty($this->getFlashBag()->get('success'));
+        $response = $this->controller()->clearCache();
+        $this->assertEquals('@bolt/clearcache/clearcache.twig', $response->getTemplateName());
     }
 
     public function testDashboard()
     {
-        $render = $this->getMockRender($this->getApp());
-        $phpunit = $this;
-        $testHandler = function ($template, $context) use ($phpunit) {
-            $phpunit->assertEquals('@bolt/dashboard/dashboard.twig', $template);
-            $phpunit->assertNotEmpty($context['context']);
-            $phpunit->assertArrayHasKey('latest', $context['context']);
-            $phpunit->assertArrayHasKey('suggestloripsum', $context['context']);
-
-            return new Response();
-        };
-
-        $render->expects($this->atLeastOnce())
-            ->method('render')
-            ->will($this->returnCallback($testHandler));
-        $this->allowLogin($this->getApp());
-
-        $this->setService('render', $render);
-
         $this->setRequest(Request::create('/bolt'));
-        $this->controller()->dashboard();
+
+        $response = $this->controller()->dashboard();
+
+        $this->assertEquals('@bolt/dashboard/dashboard.twig', $response->getTemplateName());
+        $context = $response->getContext();
+        $this->assertArrayHasKey('context', $context);
+        $this->assertArrayHasKey('latest', $context['context']);
+        $this->assertArrayHasKey('suggestloripsum', $context['context']);
     }
 
     public function testOmnisearch()
@@ -104,9 +103,9 @@ class GeneralTest extends ControllerUnitTest
         $this->allowLogin($this->getApp());
 
         $this->setRequest(Request::create('/bolt/omnisearch', 'GET', ['q' => 'test']));
-        $this->checkTwigForTemplate($this->getApp(), '@bolt/omnisearch/omnisearch.twig');
 
-        $this->controller()->omnisearch($this->getRequest());
+        $response = $this->controller()->omnisearch($this->getRequest());
+        $this->assertEquals('@bolt/omnisearch/omnisearch.twig', $response->getTemplateName());
     }
 
     public function testPrefill()
@@ -157,7 +156,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof TemplateResponse, 'Response is not instance of TemplateResponse');
-        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplate()->getTemplateName());
+        $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplateName());
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
 

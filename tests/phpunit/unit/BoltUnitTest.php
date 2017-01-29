@@ -161,18 +161,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['users']->users = [];
     }
 
-    protected function checkTwigForTemplate(Application $app, $testTemplate)
-    {
-        $render = $this->getMockRender($app);
-
-        $render->expects($this->atLeastOnce())
-            ->method('render')
-            ->with($this->equalTo($testTemplate))
-            ->will($this->returnValue(new Response()));
-
-        $app['render'] = $render;
-    }
-
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
