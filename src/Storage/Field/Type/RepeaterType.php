@@ -63,7 +63,7 @@ class RepeaterType extends FieldTypeBase
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {
                 foreach ($collection as $entity) {
                     $entity->content_id = $id;
-                    $repo->save($entity, $silenceEvents = true);
+                    $repo->save($entity, true);
                 }
 
                 foreach ($toDelete as $entity) {
@@ -231,7 +231,7 @@ class RepeaterType extends FieldTypeBase
                 function ($query, $result, $id) use ($repo, $fieldValue) {
                     if ($result === 1 && $id) {
                         $fieldValue->setContent_id($id);
-                        $repo->save($fieldValue, $silenceEvents = true);
+                        $repo->save($fieldValue, true);
                     }
                 }
             );
@@ -269,7 +269,7 @@ class RepeaterType extends FieldTypeBase
             $queries->onResult(
                 function ($query, $result, $id) use ($repo, $fieldValue) {
                     if ($result === 1) {
-                        $repo->save($fieldValue, $silenceEvents = true);
+                        $repo->save($fieldValue, true);
                     }
                 }
             );
