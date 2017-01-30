@@ -12,6 +12,7 @@ use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -94,10 +95,37 @@ class Repository implements ObjectRepository
     public function find($id)
     {
         $qb = $this->getLoadQuery();
-        $result = $qb->where($this->getAlias() . '.id = :id')
-            ->setParameter('id', $id)
-            ->execute()
-            ->fetch();
+        
+        // Hard fix to working Bolt with PostgreSQL database.
+        // Function string_agg required string values to use, but table `bolt_relations`
+        // contains integer fields for identifiers. Therefore database generate error.
+        // This fix is not some beauty and needs to ideas.
+        try {
+            $result = $qb->where($this->getAlias() . '.id = :id')
+                ->setParameter('id', $id)
+                ->execute()
+                ->fetch();
+        } catch (DriverException $e) {
+            if ($e->getCode() === 0 && $e->getErrorCode() === 7 && (int) $e->getSQLState() === 42883) {
+                $qb->where($this->getAlias() . '.id = :id')
+                    ->setParameter('id', $id);
+                
+                $replace = [
+                    'string_agg(incomingrelation.id, \',\') as _incomingrelation_id' => 'string_agg(incomingrelation.id::character varying, \',\') as _incomingrelation_id',
+                    'string_agg(incomingrelation.from_id, \',\') as _incomingrelation_fromid' => 'string_agg(incomingrelation.from_id::character varying, \',\') as _incomingrelation_fromid',
+                ];
+                
+                $sql = str_replace(array_keys($replace), array_values($replace), $qb->getSQL());
+                
+                $stmt = $this->em->getConnection()->prepare($sql);
+                $stmt->bindParam('id', $id);
+                $stmt->execute();
+                
+                $result = $stmt->fetch();
+            } else {
+                throw $e;
+            }
+        }
 
         if ($result) {
             return $this->hydrate($result, $qb);
