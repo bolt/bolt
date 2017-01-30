@@ -82,6 +82,7 @@ return call_user_func(function () {
         'resources'   => null,
         'paths'       => [],
         'services'    => [],
+        'extensions'  => [],
     ];
 
     if (file_exists($rootPath . '/.bolt.yml')) {
