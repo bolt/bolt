@@ -133,10 +133,10 @@ trait ConfigTrait
     private function copyDistFile(YamlFile $file)
     {
         $app = $this->getContainer();
-        $filesystem = $app['filesystem']->getFilesystem('extensions');
 
         /** @var YamlFile $distFile */
-        $distFile = $filesystem->get(sprintf('%s/config/config.yml.dist', $this->getBaseDirectory()->getPath()), new YamlFile());
+        $distFile = $this->getBaseDirectory()->get('/config/config.yml.dist', new YamlFile());
+
         if (!$distFile->exists()) {
             throw new \RuntimeException(sprintf('No config.yml.dist file found at extensions://%s', $this->getBaseDirectory()->getPath()));
         }
