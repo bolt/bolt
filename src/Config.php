@@ -659,7 +659,7 @@ class Config
             if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
                 if (empty($field['extensions'])) {
                     $field['extensions'] = array_intersect(
-                        ['gif', 'jpg', 'jpeg', 'png'],
+                        $generalConfig['accept_image_file_types'],
                         $acceptableFileTypes
                     );
                 }
