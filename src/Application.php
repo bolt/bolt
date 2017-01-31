@@ -73,6 +73,10 @@ class Application extends Silex\Application
      */
     public function run(Request $request = null)
     {
+        if (!$this->booted) {
+            $this->boot();
+        }
+
         if ($this['config']->get('general/caching/request')) {
             $this['http_cache']->run($request);
         } else {
