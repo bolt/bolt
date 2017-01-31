@@ -11,9 +11,9 @@
   "dependencies": {
     "foundation-sites": "~6.3.0",
     "motion-ui": "~1.2.2",
-    "what-input": "~4.0.6",
+    "what-input": "~4.0.4",
     "magnific-popup": "^1.1.0",
-    "jquery": "~2.2.4"
+    "jquery": "~3.1.1"
   },
   "ignore": [
     "**/.*",
@@ -24,6 +24,7 @@
   ],
   "private": true,
   "resolutions": {
-    "what-input": "~4.0.6"
+    "what-input": "~4.0.4",
+    "jquery": "~3.1.1"
   }
 }
