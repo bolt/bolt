@@ -52,35 +52,39 @@ class PathServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['resources.check_files'] = $app->protect(function (ResourceManager $resources) use ($app) {
-            static $initialized;
-            if ($initialized) {
-                return;
-            }
-            $initialized = true;
+        $app['resources.check_files'] = $app->protect(
+            function (ResourceManager $resources) {
+                static $initialized;
+                if ($initialized) {
+                    return;
+                }
+                $initialized = true;
 
-            if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
-                BootException::earlyExceptionMissingLoaderConfig();
-            }
+                if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
+                    BootException::earlyExceptionMissingLoaderConfig();
+                }
 
-            ConfigurationFile::checkConfigFiles(
-                ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
-                $resources->getPath('src/../app/config'),
-                $resources->getPath('config')
-            );
-        });
+                ConfigurationFile::checkConfigFiles(
+                    ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
+                    $resources->getPath('src/../app/config'),
+                    $resources->getPath('config')
+                );
+            }
+        );
 
         if (!isset($app['resources'])) {
-            $app['resources'] = $app->share(function ($app) {
-                $resources = new ResourceManager(new \ArrayObject([
-                    'rootpath'              => $app['path_resolver.root'],
-                    'path_resolver'         => $app['path_resolver'],
-                    'path_resolver_factory' => $app['path_resolver_factory'],
-                    'pathmanager'           => $app['pathmanager'],
-                ]));
+            $app['resources'] = $app->share(
+                function ($app) {
+                    $resources = new ResourceManager(new \ArrayObject([
+                        'rootpath'              => $app['path_resolver.root'],
+                        'path_resolver'         => $app['path_resolver'],
+                        'path_resolver_factory' => $app['path_resolver_factory'],
+                        'pathmanager'           => $app['pathmanager'],
+                    ]));
 
-                return $resources;
-            });
+                    return $resources;
+                }
+            );
         }
 
         $resourcesSetup = function (ResourceManager $resources) use ($app) {

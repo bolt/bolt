@@ -3,8 +3,8 @@
 namespace Bolt\Provider;
 
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Silex\Provider\SecurityServiceProvider as SilexSecurityServiceProvider;
+use Silex\ServiceProviderInterface;
 
 /**
  * Bolt security service provider.

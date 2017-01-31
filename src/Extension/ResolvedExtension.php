@@ -18,7 +18,7 @@ class ResolvedExtension
     protected $innerExtension;
     /** @var bool */
     protected $enabled;
-    /** @var PackageDescriptor */
+    /** @var PackageDescriptor|null */
     protected $descriptor;
 
     /**
@@ -62,6 +62,16 @@ class ResolvedExtension
     }
 
     /**
+     * Returns the extension vendor.
+     *
+     * @return string
+     */
+    public function getVendor()
+    {
+        return $this->innerExtension->getVendor();
+    }
+
+    /**
      * Returns the extension hman friendly name.
      *
      * @return string
@@ -82,28 +92,9 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extension's directory path relative to the extension root.
-     *
-     * @return string
-     */
-    public function getRelativePath()
-    {
-        return $this->descriptor->getPath();
-    }
-
-    /**
-     * Return the extension's base URL.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-    }
-
-    /**
      * Return the extension's package descriptor.
      *
-     * @return PackageDescriptor
+     * @return PackageDescriptor|null
      */
     public function getDescriptor()
     {
@@ -117,7 +108,7 @@ class ResolvedExtension
      *
      * @return ResolvedExtension
      */
-    public function setDescriptor($descriptor)
+    public function setDescriptor(PackageDescriptor $descriptor = null)
     {
         $this->descriptor = $descriptor;
 
@@ -125,13 +116,13 @@ class ResolvedExtension
     }
 
     /**
-     * Return the extension's install type, either 'composer' or 'local'.
+     * Returns whether the extension is managed by Bolt or the user has added it.
      *
-     * @return string
+     * @return bool
      */
-    public function getInstallType()
+    public function isManaged()
     {
-        return $this->descriptor->getType();
+        return (bool) $this->descriptor;
     }
 
     /**
@@ -165,6 +156,6 @@ class ResolvedExtension
      */
     public function isValid()
     {
-        return $this->descriptor->isValid();
+        return $this->descriptor ? $this->descriptor->isValid() : true;
     }
 }

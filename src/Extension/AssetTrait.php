@@ -162,6 +162,10 @@ trait AssetTrait
             throw new \RuntimeException('Extension file assets must have a path set.');
         }
 
+        if ($asset->getPackageName()) {
+            return;
+        }
+
         if ($this->isAbsoluteUrl($path)) {
             // Set asset to a package, since there is no default.
             // It doesn't matter which since it is absolute.
