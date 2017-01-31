@@ -9,6 +9,7 @@ use Bolt\Configuration\Standard;
 use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
+use LogicException;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 
@@ -186,27 +187,22 @@ return call_user_func(function () {
 
     }
 
-    $extensionArray = [];
-    foreach ((array)$config['extensions'] as $extensionClass) {
-        if (is_string($extensionClass)) {
-            $extensionClass = new $extensionClass();
-        }
-        if ($extensionClass instanceof ExtensionInterface) {
-            $extensionArray[] = $extensionClass;
-        }
-    }
-
-    if (count($extensionArray)) {
-        $app['extensions'] = $app->share(
-            $app->extend('extensions', function ($extensions) use ($extensionArray) {
-                foreach ($extensionArray as $ext) {
-                    $extensions->add($ext);
+    $app['extensions'] = $app->share(
+        $app->extend('extensions', function ($extensions) use ($config) {
+            foreach ((array)$config['extensions'] as $extensionClass) {
+                if (is_string($extensionClass) && class_exists($extensionClass, true)) {
+                    $extensionClass = new $extensionClass();
+                } else {
+                    throw new LogicException(sprintf('Unable to load extension class %s', $extensionClass));
                 }
+                if ($extensionClass instanceof ExtensionInterface) {
+                    $extensions->add($extensionClass);
+                }
+            }
 
-                return $extensions;
-            })
-        );
-    }
+            return $extensions;
+        })
+    );
 
     return $app;
 });
