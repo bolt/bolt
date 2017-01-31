@@ -157,7 +157,7 @@ class General extends BackendBase
         $options = [
             'attr' => [
                 'data-bind' => json_encode(['bind' => 'prefill']),
-            ]
+            ],
         ];
         $form = $this->createFormBuilder(FormType::class, [], $options)
             ->add('contenttypes', ChoiceType::class, [
@@ -228,7 +228,7 @@ class General extends BackendBase
                 SubmitType::class,
                 [
                     'label'    => Trans::__('page.edit-locale.button.save'),
-                    'disabled' => !$tr['writeallowed']
+                    'disabled' => !$tr['writeallowed'],
                 ]
             )
             ->getForm();

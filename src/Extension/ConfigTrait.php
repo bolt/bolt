@@ -2,7 +2,6 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Config;
 use Bolt\Filesystem\Exception\RuntimeException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\YamlFile;

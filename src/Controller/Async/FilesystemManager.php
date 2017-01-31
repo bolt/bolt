@@ -78,8 +78,12 @@ class FilesystemManager extends AsyncBase
             $it = [];
         }
 
-        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
-        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
+        $files = array_filter($it, function (HandlerInterface $handler) {
+            return $handler->isFile();
+        });
+        $directories = array_filter($it, function (HandlerInterface $handler) {
+            return $handler->isDir();
+        });
 
         $context = [
             'directory'    => $directory,
