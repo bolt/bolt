@@ -349,12 +349,12 @@ class PackageManager
      */
     private function linkConfig(ResolvedExtension $extension)
     {
-        $configFileName = sprintf('extensions/%s.%s.yml', strtolower($extension->getInnerExtension()->getName()), strtolower($extension->getInnerExtension()->getVendor()));
-        if ($this->app['filesystem']->getFilesystem('config')->has($configFileName)) {
-            return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => $configFileName]);
+        $file = $this->app['filesystem']->getFile(strtolower("extensions_config://{$extension->getName()}.{$extension->getVendor()}.yml"));
+        if ($file->exists()) {
+            return $this->app['url_generator']->generate('fileedit', ['namespace' => $file->getMountPoint(), 'file' => $file->getPath()]);
         }
 
-        return;
+        return null;
     }
 
     /**

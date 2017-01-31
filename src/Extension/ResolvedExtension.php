@@ -62,6 +62,16 @@ class ResolvedExtension
     }
 
     /**
+     * Returns the extension vendor.
+     *
+     * @return string
+     */
+    public function getVendor()
+    {
+        return $this->innerExtension->getVendor();
+    }
+
+    /**
      * Returns the extension hman friendly name.
      *
      * @return string
