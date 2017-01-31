@@ -92,15 +92,6 @@ class ResolvedExtension
     }
 
     /**
-     * Return the extension's base URL.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-    }
-
-    /**
      * Return the extension's package descriptor.
      *
      * @return PackageDescriptor|null
