@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Async;
 
 use Bolt;
+use Bolt\Extension\ExtensionInterface;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,9 +43,18 @@ class General extends AsyncBase
         $c->get('/omnisearch', 'omnisearch')
             ->bind('omnisearch');
 
-        $c->get('/readme/{filename}', 'readme')
-            ->assert('filename', '.+')
-            ->bind('readme');
+        $c->get('/readme/{extension}', 'readme')
+            ->assert('extension', '.+')
+            ->bind('readme')
+            ->convert('extension', function ($id) {
+                $extension = $this->extensions()->get($id);
+                if ($extension === null) {
+                    throw new NotFoundHttpException('Not Found');
+                }
+
+                return $extension;
+            })
+        ;
 
         $c->get('/populartags/{taxonomytype}', 'popularTags')
             ->bind('populartags');
@@ -245,19 +255,25 @@ class General extends AsyncBase
     /**
      * Render an extension's README.md file.
      *
-     * @param string $filename
+     * @param ExtensionInterface $extension
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function readme($filename)
+    public function readme(ExtensionInterface $extension)
     {
-        // Don't allow viewing of anything but "readme.md" files.
-        if (strtolower(basename($filename)) != 'readme.md') {
+        $file = null;
+        foreach (['README.md', 'readme.md'] as $possibleName) {
+            $file = $extension->getBaseDirectory()->getFile($possibleName);
+            if ($file->exists()) {
+                break;
+            }
+        }
+        if ($file === null) {
             throw new NotFoundHttpException('Not Found');
         }
 
         try {
-            $readme = $this->filesystem()->read('extensions://' . $filename);
+            $readme = $file->read();
         } catch (Bolt\Filesystem\Exception\IOException $e) {
             throw new NotFoundHttpException('Not Found');
         }
