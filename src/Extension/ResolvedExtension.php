@@ -82,16 +82,6 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extension's directory path relative to the extension root.
-     *
-     * @return string
-     */
-    public function getRelativePath()
-    {
-        return $this->descriptor->getPath();
-    }
-
-    /**
      * Return the extension's package descriptor.
      *
      * @return PackageDescriptor|null
