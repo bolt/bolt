@@ -62,7 +62,8 @@ class Query
     /**
      * @param string $scopeName
      * @param string $textquery
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return QueryResultset
      */
     public function getContentByScope($scopeName, $textquery, $parameters = [])

@@ -115,7 +115,7 @@ class Environment
      */
     protected function syncAssetsDirectory($dir)
     {
-        $source = $this->boltPath . 'app/view/' . $dir;
+        $source = $this->boltPath . '/app/view/' . $dir;
         $target = $this->boltAssetsPath . '/' . $dir;
 
         // Mirror source and destination, overwrite existing file and clean up removed files

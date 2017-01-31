@@ -4,12 +4,15 @@ namespace Bolt\Extension;
 
 use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
+use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
+use ReflectionClass;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
@@ -123,7 +126,11 @@ class Manager
 
         // Set paths in the extension
         if ($baseDir === null) {
-            $baseDir = $this->extFs->getDir($extension->getId());
+            // If there is no base dir we just default to the same directory as the extension class is in.
+            $reflector = new ReflectionClass($extension);
+            $fs = new Filesystem(new Local(dirname($reflector->getFileName())));
+
+            $baseDir = $fs->getDir('/');
         }
         $extension->setBaseDirectory($baseDir);
 
@@ -176,7 +183,6 @@ class Manager
             }
             $this->addManagedExtension($descriptor);
         }
-
     }
 
     /**

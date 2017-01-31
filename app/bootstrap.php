@@ -8,6 +8,8 @@ use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
 use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
+use Bolt\Extension\ExtensionInterface;
+use LogicException;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 
@@ -81,6 +83,7 @@ return call_user_func(function () {
         'resources'   => null,
         'paths'       => [],
         'services'    => [],
+        'extensions'  => [],
     ];
 
     if (file_exists($rootPath . '/.bolt.yml')) {
@@ -183,6 +186,23 @@ return call_user_func(function () {
         }
 
     }
+
+    $app['extensions'] = $app->share(
+        $app->extend('extensions', function ($extensions) use ($config) {
+            foreach ((array)$config['extensions'] as $extensionClass) {
+                if (is_string($extensionClass) && class_exists($extensionClass, true)) {
+                    $extensionClass = new $extensionClass();
+                } else {
+                    throw new LogicException(sprintf('Unable to load extension class %s', $extensionClass));
+                }
+                if ($extensionClass instanceof ExtensionInterface) {
+                    $extensions->add($extensionClass);
+                }
+            }
+
+            return $extensions;
+        })
+    );
 
     return $app;
 });

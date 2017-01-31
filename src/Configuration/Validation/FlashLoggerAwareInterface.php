@@ -2,7 +2,6 @@
 
 namespace Bolt\Configuration\Validation;
 
-use Bolt\Config;
 use Bolt\Logger\FlashLoggerInterface;
 
 /**

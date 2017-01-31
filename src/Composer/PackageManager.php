@@ -330,20 +330,9 @@ class PackageManager
      */
     private function linkReadMe(ResolvedExtension $extension)
     {
-        $readme = null;
-        $filesystem = $this->app['filesystem']->getFilesystem('extensions');
-
-        if ($filesystem->has(sprintf('%s/README.md', $extension->getRelativePath()))) {
-            $readme = $extension->getRelativePath() . '/README.md';
-        } elseif ($filesystem->has(sprintf('%s/readme.md', $extension->getRelativePath()))) {
-            $readme = $extension->getRelativePath() . '/readme.md';
-        }
-
-        if (!$readme) {
-            return;
-        }
-
-        return $this->app['url_generator']->generate('readme', ['filename' => $readme]);
+        return $this->app['url_generator']->generate('readme', [
+            'extension' => $extension->getId(),
+        ]);
     }
 
     /**
@@ -355,12 +344,12 @@ class PackageManager
      */
     private function linkConfig(ResolvedExtension $extension)
     {
-        $configFileName = sprintf('extensions/%s.%s.yml', strtolower($extension->getInnerExtension()->getName()), strtolower($extension->getInnerExtension()->getVendor()));
-        if ($this->app['filesystem']->getFilesystem('config')->has($configFileName)) {
-            return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => $configFileName]);
+        $file = $this->app['filesystem']->getFile(strtolower("extensions_config://{$extension->getName()}.{$extension->getVendor()}.yml"));
+        if ($file->exists()) {
+            return $this->app['url_generator']->generate('fileedit', ['namespace' => $file->getMountPoint(), 'file' => $file->getPath()]);
         }
 
-        return;
+        return null;
     }
 
     /**

@@ -136,7 +136,7 @@ class TaxonomyType extends FieldTypeBase
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {
                 foreach ($collection as $entity) {
                     $entity->content_id = $id;
-                    $repo->save($entity, $silenceEvents = true);
+                    $repo->save($entity, true);
                 }
 
                 foreach ($toDelete as $entity) {

@@ -78,9 +78,9 @@ class Arr
      *
      * This supports objects which was added in PHP 7.0. This method can be dropped when support for PHP 5.x is dropped.
      *
-     * @param array           $input A list of arrays or objects from which to pull a column of values.
+     * @param array           $input     A list of arrays or objects from which to pull a column of values.
      * @param string|int      $columnKey The column of values to return.
-     * @param string|int|null $indexKey The column to use as the index/keys for the returned array.
+     * @param string|int|null $indexKey  The column to use as the index/keys for the returned array.
      *
      * @return array
      */
@@ -147,7 +147,7 @@ class Arr
             return [];
         }
 
-        return Arr::column($array, $value, $key);
+        return self::column($array, $value, $key);
     }
 
     /**

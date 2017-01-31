@@ -61,7 +61,8 @@ trait ContentRouteTrait
      */
     public function isHome()
     {
-        $homepage = $this->app['config']->get('theme/homepage') ?: $this->app['config']->get('general/homepage');
+        $config = $this->app['config'];
+        $homepage = $config->get('theme/homepage') ?: $config->get('general/homepage');
         $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
         $uriSlug = $this->contenttype['singular_slug'] . '/' . $this->get('slug');
 
@@ -84,7 +85,7 @@ trait ContentRouteTrait
         }
 
         // No links for records that are 'viewless'
-        if (isset($this->contenttype['viewless']) && $this->contenttype['viewless'] == true) {
+        if (isset($this->contenttype['viewless']) && $this->contenttype['viewless'] === true) {
             return null;
         }
 

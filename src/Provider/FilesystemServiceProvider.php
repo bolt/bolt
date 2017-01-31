@@ -56,26 +56,28 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // Bolt's project directory. Not configurable.
                         // Use for anything that's supposed to be in core:
                         // src files, our twig templates, our js & css files, our translations, etc.
-                        'bolt'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt'))),
+                        'bolt'              => new Filesystem(new Local($app['path_resolver']->resolve('bolt'))),
                         // Root directory. Not configurable.
-                        'root'       => new Filesystem(new Local($app['path_resolver']->resolve('root'))),
+                        'root'              => new Filesystem(new Local($app['path_resolver']->resolve('root'))),
 
                         // User's web root
-                        'web'        => new Filesystem(new Local($app['path_resolver']->resolve('web'))),
+                        'web'               => new Filesystem(new Local($app['path_resolver']->resolve('web'))),
                         // User's files directory
-                        'files'      => new Filesystem(new Local($app['path_resolver']->resolve('files'))),
+                        'files'             => new Filesystem(new Local($app['path_resolver']->resolve('files'))),
                         // User's synced bolt assets directory
-                        'bolt_assets'=> new Filesystem(new Local($app['path_resolver']->resolve('bolt_assets'))),
+                        'bolt_assets'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt_assets'))),
                         // User's config directory
-                        'config'     => $app['filesystem.config'],
+                        'config'            => $app['filesystem.config'],
                         // User's themes directory
-                        'themes'     => $app['filesystem.themes'],
+                        'themes'            => $app['filesystem.themes'],
                         // User's currently selected theme directory
-                        'theme'      => $app['filesystem.theme'],
+                        'theme'             => $app['filesystem.theme'],
                         // User's extension directory
-                        'extensions' => new Filesystem(new Local($app['path_resolver']->resolve('extensions'))),
+                        'extensions'        => new Filesystem(new Local($app['path_resolver']->resolve('extensions'))),
+                        // User's extension config directory
+                        'extensions_config' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_config'))),
                         // User's cache directory
-                        'cache'      => $app['filesystem.cache'],
+                        'cache'             => $app['filesystem.cache'],
 
                         // Deprecated. Use specific filesystem instead.
                         'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),

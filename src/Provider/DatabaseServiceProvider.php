@@ -62,7 +62,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 
         $app['db.query_cache'] = $app->share(
             function ($app) {
-                $cache = ($app['config']->get('general/caching/database') == true) ? $app['cache'] : new ArrayCache();
+                $cache = $app['config']->get('general/caching/database') === true ? $app['cache'] : new ArrayCache();
 
                 return $cache;
             }
