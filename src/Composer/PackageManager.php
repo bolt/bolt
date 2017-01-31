@@ -335,20 +335,9 @@ class PackageManager
      */
     private function linkReadMe(ResolvedExtension $extension)
     {
-        $readme = null;
-        $filesystem = $this->app['filesystem']->getFilesystem('extensions');
-
-        if ($filesystem->has(sprintf('%s/README.md', $extension->getRelativePath()))) {
-            $readme = $extension->getRelativePath() . '/README.md';
-        } elseif ($filesystem->has(sprintf('%s/readme.md', $extension->getRelativePath()))) {
-            $readme = $extension->getRelativePath() . '/readme.md';
-        }
-
-        if (!$readme) {
-            return;
-        }
-
-        return $this->app['url_generator']->generate('readme', ['filename' => $readme]);
+        return $this->app['url_generator']->generate('readme', [
+            'extension' => $extension->getId(),
+        ]);
     }
 
     /**
