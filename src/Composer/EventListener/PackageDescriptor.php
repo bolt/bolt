@@ -18,8 +18,6 @@ final class PackageDescriptor implements JsonSerializable
     /** @var string */
     protected $name;
     /** @var string */
-    protected $type;
-    /** @var string */
     protected $class;
     /** @var string */
     protected $path;
@@ -34,17 +32,15 @@ final class PackageDescriptor implements JsonSerializable
      * Constructor.
      *
      * @param string $name
-     * @param string $type
      * @param string $class
      * @param string $path
      * @param string $webPath
      * @param string $constraint
      * @param bool   $valid
      */
-    public function __construct($name, $type, $class, $path, $webPath, $constraint, $valid)
+    public function __construct($name, $class, $path, $webPath, $constraint, $valid)
     {
         $this->name = $name;
-        $this->type = $type;
         $this->class = $class;
         $this->path = $path;
         $this->webPath = $webPath;
@@ -58,14 +54,6 @@ final class PackageDescriptor implements JsonSerializable
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -121,12 +109,11 @@ final class PackageDescriptor implements JsonSerializable
     public static function parse(Composer $composer, $webPath, $path, array $jsonData)
     {
         $name = $jsonData['name'];
-        $type = strpos($path, 'vendor') === 0 ? 'composer' : 'local';
         $class = self::parseClass($jsonData);
         $constraint = self::parseConstraint($jsonData);
         $valid = self::parseValid($composer, $class, $constraint);
 
-        return new self($name, $type, $class, $path, $webPath, $constraint, $valid);
+        return new self($name, $class, $path, $webPath, $constraint, $valid);
     }
 
     /**
@@ -140,7 +127,6 @@ final class PackageDescriptor implements JsonSerializable
     {
         return new self(
             $data['name'],
-            $data['type'],
             $data['class'],
             $data['path'],
             $data['webPath'],
@@ -156,7 +142,6 @@ final class PackageDescriptor implements JsonSerializable
     {
         return [
             'name'       => $this->name,
-            'type'       => $this->type,
             'path'       => $this->path,
             'webPath'    => $this->webPath,
             'class'      => $this->class,

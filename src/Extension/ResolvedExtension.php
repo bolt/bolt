@@ -125,13 +125,13 @@ class ResolvedExtension
     }
 
     /**
-     * Return the extension's install type, either 'composer' or 'local'.
+     * Returns whether the extension is managed by Bolt or the user has added it.
      *
-     * @return string
+     * @return bool
      */
-    public function getInstallType()
+    public function isManaged()
     {
-        return $this->descriptor->getType();
+        return (bool) $this->descriptor;
     }
 
     /**
