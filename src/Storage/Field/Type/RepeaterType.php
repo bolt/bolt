@@ -39,7 +39,7 @@ class RepeaterType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
-        $subQuery = '(SELECT '.$this->getPlatformGroupConcat($query). " FROM $table f WHERE f.content_id = $alias.id AND f.contenttype='$boltname' AND f.name = '$field') as $field";
+        $subQuery = '(SELECT ' . $this->getPlatformGroupConcat($query) . " FROM $table f WHERE f.content_id = $alias.id AND f.contenttype='$boltname' AND f.name = '$field') as $field";
         $query->addSelect($subQuery);
     }
 
@@ -63,7 +63,7 @@ class RepeaterType extends FieldTypeBase
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {
                 foreach ($collection as $entity) {
                     $entity->content_id = $id;
-                    $repo->save($entity, $silenceEvents = true);
+                    $repo->save($entity, true);
                 }
 
                 foreach ($toDelete as $entity) {
@@ -76,6 +76,17 @@ class RepeaterType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
+        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
+        $collection->setName($key);
+
+        // If there isn't anything set yet then we just return an empty collection
+        if (!isset($data[$key])) {
+            $this->set($entity, $collection);
+
+            return;
+        }
+
+        // This block separately handles JSON content for Templatefields
         if (isset($data[$key]) && $this->isJson($data[$key])) {
             $originalMapping[$key]['fields'] = $this->mapping['fields'];
             $originalMapping[$key]['type'] = 'repeater';
@@ -96,6 +107,7 @@ class RepeaterType extends FieldTypeBase
             return;
         }
 
+        // Final block handles values stored in the DB and creates a lazy collection
         $vals = array_filter(explode(',', $data[$key]));
         $values = [];
         foreach ($vals as $fieldKey) {
@@ -105,9 +117,6 @@ class RepeaterType extends FieldTypeBase
             $field = join('_', $split);
             $values[$field][$group][] = $id;
         }
-
-        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
-        $collection->setName($key);
 
         if (isset($values[$key]) && count($values[$key])) {
             foreach ($values[$key] as $group => $refs) {
@@ -231,7 +240,7 @@ class RepeaterType extends FieldTypeBase
                 function ($query, $result, $id) use ($repo, $fieldValue) {
                     if ($result === 1 && $id) {
                         $fieldValue->setContent_id($id);
-                        $repo->save($fieldValue, $silenceEvents = true);
+                        $repo->save($fieldValue, true);
                     }
                 }
             );
@@ -269,7 +278,7 @@ class RepeaterType extends FieldTypeBase
             $queries->onResult(
                 function ($query, $result, $id) use ($repo, $fieldValue) {
                     if ($result === 1) {
-                        $repo->save($fieldValue, $silenceEvents = true);
+                        $repo->save($fieldValue, true);
                     }
                 }
             );

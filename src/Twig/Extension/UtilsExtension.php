@@ -19,7 +19,6 @@ class UtilsExtension extends Extension
      */
     public function getFunctions()
     {
-        $safe = ['is_safe' => ['html']];
         $deprecated = ['deprecated' => true];
 
         return [

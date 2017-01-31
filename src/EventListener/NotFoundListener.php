@@ -69,6 +69,7 @@ class NotFoundListener implements EventSubscriberInterface
 
         try {
             $this->renderNotFound($event, $this->notFoundPage);
+
             return;
         } catch (LoaderError $e) {
             // Template not found, fall though to see if we can render a

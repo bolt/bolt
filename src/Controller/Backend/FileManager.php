@@ -158,8 +158,12 @@ class FileManager extends BackendBase
         }
 
         $it = $directory->getContents();
-        $files = array_filter($it, function(HandlerInterface $handler) { return $handler->isFile(); });
-        $directories = array_filter($it, function(HandlerInterface $handler) { return $handler->isDir(); });
+        $files = array_filter($it, function (HandlerInterface $handler) {
+            return $handler->isFile();
+        });
+        $directories = array_filter($it, function (HandlerInterface $handler) {
+            return $handler->isDir();
+        });
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.
