@@ -15,6 +15,7 @@ var PATHS = {
   //  '!src/assets/{img,js,scss}/**/*'
   //],
   sass: [
+    'bower_components',
     'bower_components/foundation-sites/scss',
     'bower_components/motion-ui/src/'
   ],
