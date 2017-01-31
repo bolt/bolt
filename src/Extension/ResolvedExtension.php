@@ -18,7 +18,7 @@ class ResolvedExtension
     protected $innerExtension;
     /** @var bool */
     protected $enabled;
-    /** @var PackageDescriptor */
+    /** @var PackageDescriptor|null */
     protected $descriptor;
 
     /**
@@ -103,7 +103,7 @@ class ResolvedExtension
     /**
      * Return the extension's package descriptor.
      *
-     * @return PackageDescriptor
+     * @return PackageDescriptor|null
      */
     public function getDescriptor()
     {
@@ -117,7 +117,7 @@ class ResolvedExtension
      *
      * @return ResolvedExtension
      */
-    public function setDescriptor($descriptor)
+    public function setDescriptor(PackageDescriptor $descriptor = null)
     {
         $this->descriptor = $descriptor;
 
@@ -165,6 +165,6 @@ class ResolvedExtension
      */
     public function isValid()
     {
-        return $this->descriptor->isValid();
+        return $this->descriptor ? $this->descriptor->isValid() : true;
     }
 }
