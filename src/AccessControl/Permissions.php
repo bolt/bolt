@@ -311,8 +311,11 @@ class Permissions
     private function checkRoleGlobalPermission($roleName, $permissionName)
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
-        if (!is_array($roles)) {
-            $this->app['logger.system']->addInfo("Configuration error: $permissionName is not granted to any roles.", ['event' => 'authentication']);
+        if (!is_array($roles) && $roleName !== self::ROLE_ROOT) {
+            $this->app['logger.system']->addInfo(
+                "Configuration error: Permission '$permissionName' is not granted to any roles. You should add a role for this permission to <tt>permissions.yml</tt>.",
+                ['event' => 'authentication']
+            );
 
             return false;
         }
