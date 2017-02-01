@@ -60,16 +60,15 @@ class DebugServiceProvider implements ServiceProviderInterface
             return;
         }
 
-        $previousDebug = $app->raw('debug');
-
         // Debug value that's not based on config service, so exception handler can be registered with minimal logic.
-        $app['debug.early'] = $previousDebug;
+        $app['debug.early'] = true;
         // Whether $this->boot() has happened
         $app['debug.initialized'] = false;
 
         // Use `debug.early` if booting, then use `debug` from config if given.
         // Feel free to override this value to skip this logic.
         // For example, you can set this based on an environment variable.
+        $previousDebug = $app->raw('debug');
         $app['debug'] = function ($app) use ($previousDebug) {
             if (!$app['debug.initialized']) {
                 return $app['debug.early'];
