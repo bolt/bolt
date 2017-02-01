@@ -24,5 +24,12 @@ fieldset.bolt-field-repeater {
         &:first-of-type {
             margin-top: 0;
         }
+
+        // Reset styles for last field since this is in its own panel
+        &:last-of-type {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 15px;
+        }
     }
 }
