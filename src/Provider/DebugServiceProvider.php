@@ -20,15 +20,46 @@ use Symfony\Component\HttpKernel\EventListener\DebugHandlersListener;
  * This should be registered first, so that the handlers can be registered
  * before other boot logic happens and services are invoked.
  *
+ * 1. There is no error / exception handlers during app creation and registration stage. This is a very small window,
+ *    since closures are just being registered (no logic). Extensions are not loaded either.
+ * 2. App Boot
+ *   2.a. Debug 1st phase: Error & exception handlers are registered (if enabled) based on `debug.early`'s value.
+ *        There should be no logic required to get this value.
+ *   2.b. Extensions 1st phase: Extensions are registered.
+ *   2.c. Debug 2nd phase: The "real" `debug` value is retrieved from config, which means all the logic to setup config
+ *        is ran. This is where everything starts happening. Then the handlers are re-registered if their configuration
+ *        has changed.
+ *   2.d. Extensions 2nd phase: Extensions are booted.
+ *   2.e. App continues to boot everything else.
+ * 3. Kernel Request
+ *   3.a. Our early exception handler is replaced with either the HttpKernel or Console App exception handling.
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class DebugServiceProvider implements ServiceProviderInterface
 {
+    /** @var bool */
+    private $firstPhase;
+
+    /**
+     * Constructor.
+     *
+     * @param bool $firstPhase
+     */
+    public function __construct($firstPhase = true)
+    {
+        $this->firstPhase = $firstPhase;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function register(Application $app)
     {
+        if (!$this->firstPhase) {
+            return;
+        }
+
         $previousDebug = $app->raw('debug');
 
         // Debug value that's not based on config service, so exception handler can be registered with minimal logic.
@@ -185,21 +216,20 @@ class DebugServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
-        $app['dispatcher']->addSubscriber($app['debug.handlers_listener']);
+        if ($this->firstPhase) {
+            $app['dispatcher']->addSubscriber($app['debug.handlers_listener']);
 
-        $level = $app['debug.error_handler.reporting_level'];
-        if ($level !== null) {
-            error_reporting($level);
-        }
+            $level = $app['debug.error_handler.reporting_level'];
+            if ($level !== null) {
+                error_reporting($level);
+            }
 
-        // Register handlers with `debug.early` value
-        $this->registerHandlers($app);
+            // Register handlers with `debug.early` value
+            $this->registerHandlers($app);
+        } else {
+            $app['debug.initialized'] = true;
 
-        // If real `debug` (which could take lots of logic to get to)
-        // is different than `debug.early` then re-register with correct value.
-        $previousDebug = $app['debug'];
-        $app['debug.initialized'] = true;
-        if ($app['debug'] !== $previousDebug) {
+            // Register again which will make changes to handlers if parameters have changed.
             $this->registerHandlers($app);
         }
     }

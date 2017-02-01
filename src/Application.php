@@ -39,6 +39,7 @@ class Application extends Silex\Application
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
 
+        // Debug 1st phase: Register early error & exception handlers
         $this->register(new Provider\DebugServiceProvider());
 
         /*
@@ -46,8 +47,16 @@ class Application extends Silex\Application
          * but since it is the first SP to boot it acts like a
          * late registration. However, services needed by Extension
          * Manager cannot be modified.
+         *
+         * Extension 1st phase: Run extension's DI registration code.
          */
         $this->register(new Provider\ExtensionServiceProvider());
+
+        // Debug 2nd phase: Modify handlers with values from config
+        $this->register(new Provider\DebugServiceProvider(false));
+
+        // Extension 2nd phase: Run extension's boot code.
+        $this->register(new Provider\ExtensionServiceProvider(false));
 
         if (isset($values['resources'])) {
             $this['resources'] = $values['resources'];
