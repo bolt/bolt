@@ -70,7 +70,7 @@
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;
-            config.extraPlugins = 'codemirror';
+            config.extraPlugins += (config.extraPlugins?',':'')+'codemirror'; // Allow to add extra plugin from default CKEDITOR.config.
 
             config.toolbar = list(
                 [                 { name: 'styles',      items: list( [                 'Format'        ],
