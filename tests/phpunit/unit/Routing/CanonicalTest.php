@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Tests\Canonical;
+namespace Bolt\Tests\Routing;
 
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Canonical;
+use Bolt\Routing\Canonical;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

@@ -64,9 +64,6 @@ return call_user_func(function () {
         BootException::earlyExceptionComposer();
     }
 
-    // Register handlers early
-    ShutdownHandler::register();
-
     /*
      * Load initialization config needed to bootstrap application.
      *
