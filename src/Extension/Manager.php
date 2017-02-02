@@ -14,7 +14,6 @@ use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use ReflectionClass;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
@@ -232,8 +231,7 @@ class Manager
 
         // Boot all extension loaders that are also service providers
         foreach ($this->extensions as $extension) {
-            $provider = $extension->getInnerExtension();
-            if ($provider instanceof ServiceProviderInterface) {
+            foreach ($extension->getInnerExtension()->getServiceProviders() as $provider) {
                 $provider->boot($app);
             }
         }
