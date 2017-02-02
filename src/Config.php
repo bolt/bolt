@@ -330,7 +330,7 @@ class Config
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
-            if(is_array($general['wysiwyg']['ck']['contentsCss'])) {
+            if (is_array($general['wysiwyg']['ck']['contentsCss'])) {
                 array_unshift($general['wysiwyg']['ck']['contentsCss'], '', '');
                 unset($general['wysiwyg']['ck']['contentsCss'][0], $general['wysiwyg']['ck']['contentsCss'][1]);
             } else {
