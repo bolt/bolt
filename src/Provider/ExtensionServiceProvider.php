@@ -12,10 +12,31 @@ use Composer\IO\BufferIO;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
+/**
+ * 1st phase: Registers our services. Registers extensions on boot.
+ * 2nd phase: Boots extensions on boot.
+ */
 class ExtensionServiceProvider implements ServiceProviderInterface
 {
+    /** @var bool */
+    private $firstPhase;
+
+    /**
+     * Constructor.
+     *
+     * @param bool $firstPhase
+     */
+    public function __construct($firstPhase = true)
+    {
+        $this->firstPhase = $firstPhase;
+    }
+
     public function register(Application $app)
     {
+        if (!$this->firstPhase) {
+            return;
+        }
+
         $app['extensions'] = $app->share(
             function ($app) {
                 $loader = new Manager(
@@ -125,9 +146,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        /** @var Manager $extensionService */
-        $extensionService = $app['extensions'];
-        $extensionService->register($app);
-        $extensionService->boot($app);
+        if ($this->firstPhase) {
+            $app['extensions']->register($app);
+        } else {
+            $app['extensions']->boot($app);
+        }
     }
 }
