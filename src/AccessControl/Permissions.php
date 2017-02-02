@@ -69,7 +69,7 @@ class Permissions
     {
         // Log the message if enabled
         if ($this->app['config']->get('general/debug_permission_audit_mode', false)) {
-            $this->app['logger.system']->addInfo($msg, ['event' => 'authentication']);
+            $this->app['logger.system']->info($msg, ['event' => 'authentication']);
         }
     }
 
@@ -312,7 +312,13 @@ class Permissions
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
-            $this->app['logger.system']->addInfo("Configuration error: $permissionName is not granted to any roles.", ['event' => 'authentication']);
+            // We log it, unless the permission name is 'root'.
+            if ($roleName !== self::ROLE_ROOT) {
+                $this->app['logger.system']->info(
+                    "Configuration error: Permission '$permissionName' is not granted to any roles. You should add a role for this permission to <tt>permissions.yml</tt>.",
+                    ['event' => 'authentication']
+                );
+            }
 
             return false;
         }
