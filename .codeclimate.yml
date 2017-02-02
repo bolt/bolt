@@ -1,0 +1,30 @@
+engines:
+    duplication:
+        enabled: true
+        config:
+           languages:
+               php:
+                   mass_threshold: 32
+    phpcodesniffer:
+        enabled: true
+    config:
+        standard: "ruleset.xml"
+
+prepare:
+    fetch:
+        - url: "https://raw.githubusercontent.com/bolt/codingstyle/master/PhpCodeSniffer/Bolt/ruleset.xml"
+          path: "ruleset.xml"
+
+ratings:
+    paths:
+         - "**.php"
+
+exclude_paths:
+    - app/cache/
+    - app/resources/
+    - app/src/lib/
+    - app/view/
+    - extensions/
+    - files/
+    - tests/
+    - theme/base-2016/js/
