@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Routing;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
