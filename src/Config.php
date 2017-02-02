@@ -330,9 +330,14 @@ class Config
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
-            $general['wysiwyg']['ck']['contentsCss'] = [
-                1 => $general['wysiwyg']['ck']['contentsCss'],
-            ];
+            if(is_array($general['wysiwyg']['ck']['contentsCss'])) {
+                array_unshift($general['wysiwyg']['ck']['contentsCss'], '', '');
+                unset($general['wysiwyg']['ck']['contentsCss'][0], $general['wysiwyg']['ck']['contentsCss'][1]);
+            } else {
+                $general['wysiwyg']['ck']['contentsCss'] = [
+                    2 => $general['wysiwyg']['ck']['contentsCss'],
+                ];
+            }
         }
 
         // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
@@ -1251,15 +1256,6 @@ class Config
     public function setCKPath()
     {
         $app = $this->app['resources']->getUrl('app');
-
-        // Make sure the paths for CKeditor config are always set correctly.
-        $this->set(
-            'general/wysiwyg/ck/contentsCss',
-            [
-                $app . 'view/css/ckeditor-contents.css',
-                $app . 'view/css/ckeditor.css',
-            ]
-        );
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'recordbrowser/');
         $this->set(
             'general/wysiwyg/filebrowser/imageBrowseUrl',
