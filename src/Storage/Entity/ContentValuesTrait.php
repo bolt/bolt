@@ -487,8 +487,21 @@ trait ContentValuesTrait
                     }
                 }
 
-                $this->taxonomy[$taxonomytype] = $value;
+                $taxonomyOptions = $this->app['config']->get('taxonomy/' . $taxonomytype . '/options');
+
+                if ($taxonomyOptions && is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        if (isset($taxonomyOptions[$v])) {
+                            $this->setTaxonomy($taxonomytype, $v, $taxonomyOptions[$v], $k);
+                        }
+                    }
+                } else if ($taxonomyOptions && isset($taxonomyOptions[$value])) {
+                    $this->setTaxonomy($taxonomytype, $value, $taxonomyOptions[$value], 0);
+                } else {
+                    $this->setTaxonomy($taxonomytype, $value, $value, 0);
+                }
             }
+
             unset($values['taxonomy']);
             unset($values['taxonomy-order']);
         }
