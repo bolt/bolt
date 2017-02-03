@@ -7,6 +7,8 @@ use Bolt\Security\Random\Generator;
 /**
  * Generates session IDs.
  *
+ * @deprecated Deprecated since 3.3, to be removed in 4.0. Use \Bolt\Session\Generator\NativeGenerator
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class RandomGenerator implements GeneratorInterface
@@ -22,7 +24,7 @@ class RandomGenerator implements GeneratorInterface
      * @param Generator $generator
      * @param integer   $length
      */
-    public function __construct(Generator $generator, $length = 32)
+    public function __construct($generator, $length = 32)
     {
         $this->generator = $generator;
         $this->length = $length;
