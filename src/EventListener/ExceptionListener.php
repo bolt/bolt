@@ -5,10 +5,6 @@ use Bolt\Config;
 use Bolt\Controller;
 use Bolt\Exception\BootException;
 use Bolt\Request\ProfilerAwareTrait;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,9 +20,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterface
+class ExceptionListener implements EventSubscriberInterface
 {
-    use LoggerAwareTrait;
     use ProfilerAwareTrait;
 
     /** @var Config */
@@ -39,13 +34,11 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
      *
      * @param Config               $config
      * @param Controller\Exception $exceptionController
-     * @param LoggerInterface      $logger
      */
-    public function __construct(Config $config, Controller\Exception $exceptionController, LoggerInterface $logger)
+    public function __construct(Config $config, Controller\Exception $exceptionController)
     {
         $this->config = $config;
         $this->exceptionController = $exceptionController;
-        $this->setLogger($logger);
     }
 
     /**
@@ -84,13 +77,6 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
         if ($exception instanceof HttpExceptionInterface) {
             $statusCode = $exception->getStatusCode();
         }
-
-        // Log the error message
-        $level = LogLevel::CRITICAL;
-        if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() < 500) {
-            $level = LogLevel::WARNING;
-        }
-        $this->logger->log($level, $message, ['event' => 'exception', 'exception' => $exception]);
 
         // Get and send the response
         if ($this->isJsonRequest($event->getRequest())) {

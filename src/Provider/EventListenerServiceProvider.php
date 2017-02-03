@@ -31,8 +31,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             function ($app) {
                 return new Listener\ExceptionListener(
                     $app['config'],
-                    $app['controller.exception'],
-                    $app['logger.system']
+                    $app['controller.exception']
                 );
             }
         );
@@ -45,6 +44,12 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['templatechooser'],
                     $app['twig']
                 );
+            }
+        );
+
+        $app['listener.system_logger'] = $app->share(
+            function ($app) {
+                return new Listener\SystemLoggerListener($app['logger.system']);
             }
         );
 
@@ -107,6 +112,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             'general',
             'exception',
             'not_found',
+            'system_logger',
             'snippet',
             'redirect',
             'flash_logger',
