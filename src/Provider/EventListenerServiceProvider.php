@@ -43,8 +43,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
                     $app['storage.legacy'],
                     $app['templatechooser'],
-                    $app['twig'],
-                    $app['render']
+                    $app['twig']
                 );
             }
         );
