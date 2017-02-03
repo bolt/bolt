@@ -7,8 +7,8 @@ engines:
                    mass_threshold: 32
     phpcodesniffer:
         enabled: true
-    config:
-        standard: "ruleset.xml"
+        config:
+            standard: "ruleset.xml"
 
 prepare:
     fetch:
