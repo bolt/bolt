@@ -36,6 +36,12 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['listener.exception_json'] = $app->share(
+            function () {
+                return new Listener\ExceptionToJsonListener();
+            }
+        );
+
         $app['listener.not_found'] = $app->share(
             function ($app) {
                 return new Listener\NotFoundListener(
@@ -111,6 +117,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $listeners = [
             'general',
             'exception',
+            'exception_json',
             'not_found',
             'system_logger',
             'snippet',

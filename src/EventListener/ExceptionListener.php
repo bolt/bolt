@@ -7,8 +7,6 @@ use Bolt\Exception\BootException;
 use Bolt\Request\ProfilerAwareTrait;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -71,24 +69,13 @@ class ExceptionListener implements EventSubscriberInterface
         }
 
         $exception = $event->getException();
-        $message = $exception->getMessage();
 
         $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         if ($exception instanceof HttpExceptionInterface) {
             $statusCode = $exception->getStatusCode();
         }
 
-        // Get and send the response
-        if ($this->isJsonRequest($event->getRequest())) {
-            $response = new JsonResponse(
-                [
-                    'success'   => false,
-                    'errorType' => get_class($exception),
-                    'code'      => $statusCode,
-                    'message'   => $message,
-                ]
-            );
-        } elseif ($this->config->get('general/debug_error_use_symfony')) {
+        if ($this->config->get('general/debug_error_use_symfony')) {
             return null;
         } else {
             $response = $this->exceptionController->kernelException($event);
@@ -111,17 +98,5 @@ class ExceptionListener implements EventSubscriberInterface
                 ['onKernelException', -8],
             ],
         ];
-    }
-
-    /**
-     * Checks if the request content type is JSON.
-     *
-     * @param Request $request
-     *
-     * @return bool
-     */
-    protected function isJsonRequest(Request $request)
-    {
-        return strpos($request->headers->get('Content-Type'), 'application/json') === 0;
     }
 }
