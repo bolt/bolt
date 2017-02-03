@@ -87,7 +87,8 @@ class NotFoundListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::EXCEPTION => ['onKernelException', 512],
+            // After loggers at -4, but before default at -8
+            KernelEvents::EXCEPTION => ['onKernelException', -6],
         ];
     }
 
