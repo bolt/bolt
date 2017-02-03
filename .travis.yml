@@ -51,7 +51,15 @@ before_script:
 script:
   ## Default install tests
   # PHPUnit
-  - php -d memory_limit=2G ./vendor/bin/phpunit
+  - |
+    export PHPUNIT_CMD="php -d memory_limit=2G ./vendor/bin/phpunit"
+    if [[ $TRAVIS_EVENT_TYPE == "cron" ]] ; then
+        composer require codeclimate/php-test-reporter:dev-master@dev
+        $PHPUNIT_CMD --coverage-text --coverage-clover .coverage/clover/clover.xml --coverage-html .coverage/html/
+        ./vendor/bin/test-reporter --coverage-report .coverage/clover/clover.xml
+    else
+        $PHPUNIT_CMD
+    fi
   # Codeception set up (PHP >5.3)
   - ./vendor/codeception/codeception/codecept build
   # Codeception Sqlite run (PHP >5.3)
