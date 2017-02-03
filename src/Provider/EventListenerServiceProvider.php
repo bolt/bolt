@@ -30,7 +30,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.exception'] = $app->share(
             function ($app) {
                 return new Listener\ExceptionListener(
-                    $app['config'],
                     $app['controller.exception']
                 );
             }
@@ -116,7 +115,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $listeners = [
             'general',
-            'exception',
             'exception_json',
             'not_found',
             'system_logger',
@@ -131,6 +129,10 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             if (isset($app['listener.' . $name])) {
                 $dispatcher->addSubscriber($app['listener.' . $name]);
             }
+        }
+
+        if (isset($app['listener.exception']) && !$app['config']->get('general/debug_error_use_symfony')) {
+            $dispatcher->addSubscriber($app['listener.exception']);
         }
     }
 }

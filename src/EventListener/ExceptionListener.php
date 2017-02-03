@@ -22,20 +22,16 @@ class ExceptionListener implements EventSubscriberInterface
 {
     use ProfilerAwareTrait;
 
-    /** @var Config */
-    private $config;
     /** @var Controller\Exception */
     protected $exceptionController;
 
     /**
      * Constructor.
      *
-     * @param Config               $config
      * @param Controller\Exception $exceptionController
      */
-    public function __construct(Config $config, Controller\Exception $exceptionController)
+    public function __construct(Controller\Exception $exceptionController)
     {
-        $this->config = $config;
         $this->exceptionController = $exceptionController;
     }
 
@@ -75,11 +71,7 @@ class ExceptionListener implements EventSubscriberInterface
             $statusCode = $exception->getStatusCode();
         }
 
-        if ($this->config->get('general/debug_error_use_symfony')) {
-            return null;
-        } else {
-            $response = $this->exceptionController->kernelException($event);
-        }
+        $response = $this->exceptionController->kernelException($event);
 
         $response->setStatusCode($statusCode);
         $event->setResponse($response);
