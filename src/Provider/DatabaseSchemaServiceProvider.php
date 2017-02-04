@@ -9,6 +9,7 @@ use Bolt\Storage\Database\Schema\Table;
 use Bolt\Storage\Database\Schema\Timer;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Bolt database storage service provider.
@@ -17,7 +18,7 @@ use Pimple\ServiceProviderInterface;
  */
 class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['schema'] = 
             function ($app) {
@@ -230,9 +231,5 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 );
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

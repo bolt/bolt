@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Silex\Application;
 use Silex\Provider\SwiftmailerServiceProvider;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * SwiftMailer integration.
@@ -16,7 +17,7 @@ class MailerServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['swiftmailer.options'])) {
             $app->register(new SwiftmailerServiceProvider());
@@ -39,12 +40,5 @@ class MailerServiceProvider implements ServiceProviderInterface
 
             return $transportFactory($app);
         };
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 }

@@ -10,10 +10,11 @@ use Bolt\EventListener\ConfigListener;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Pimple\Container;
 
 class ConfigServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['config'] = 
             function ($app) {
@@ -61,7 +62,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
         ;
     }
 
-    public function boot(Application $app)
+    public function boot(Container $container, EventDispatcherInterface $eventDispatcher)
     {
         $app['config']->doReplacements();
 

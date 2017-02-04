@@ -8,13 +8,14 @@ use Bolt\Profiler\DebugToolbarEnabler;
 use Doctrine\DBAL\Logging\DebugStack;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
  */
 class ProfilerServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['profiler'])) {
             $app->register(

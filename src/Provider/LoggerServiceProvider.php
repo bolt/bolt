@@ -13,6 +13,7 @@ use Monolog\Logger;
 use Silex\Application;
 use Silex\Provider\MonologServiceProvider;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Monolog provider for Bolt system logging entries.
@@ -21,7 +22,7 @@ use Pimple\ServiceProviderInterface;
  */
 class LoggerServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // System log
         $app['logger.system'] = 
@@ -106,9 +107,5 @@ class LoggerServiceProvider implements ServiceProviderInterface
         $app['logger.debug'] = function () use ($app) {
             return $app['monolog'];
         };
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

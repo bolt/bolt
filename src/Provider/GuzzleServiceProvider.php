@@ -6,10 +6,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class GuzzleServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['guzzle.base_url'] = '/';
 
@@ -39,9 +40,5 @@ class GuzzleServiceProvider implements ServiceProviderInterface
                 return $client;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

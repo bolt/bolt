@@ -10,6 +10,7 @@ use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
 use Webmozart\PathUtil\Path;
+use Pimple\Container;
 
 /**
  * HTML asset service providers.
@@ -18,7 +19,7 @@ use Webmozart\PathUtil\Path;
  */
 class AssetServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['asset.packages'] = 
             function ($app) {
@@ -137,9 +138,5 @@ class AssetServiceProvider implements ServiceProviderInterface
                 ];
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

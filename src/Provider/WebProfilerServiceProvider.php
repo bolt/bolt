@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Silex\Application;
 use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
+use Pimple\Container;
 
 /**
  * Only use TraceableEventDispatcher and Profiler if $app['debug'] is true.
@@ -12,7 +13,7 @@ use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
  */
 class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvider
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // Store previous dispatcher.
         $dispatcherFactory = $app->raw('dispatcher');

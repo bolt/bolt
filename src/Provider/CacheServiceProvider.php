@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Cache;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['cache'] = 
             function (Application $app) {
@@ -27,9 +28,5 @@ class CacheServiceProvider implements ServiceProviderInterface
                 return $cache;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

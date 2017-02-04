@@ -11,6 +11,7 @@ use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Register thumbnails service.
@@ -22,7 +23,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['thumbnails'])) {
             $app->register(new Thumbs\ServiceProvider());

@@ -6,10 +6,11 @@ use Bolt\EventListener as Listener;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Pimple\Container;
 
 class EventListenerServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['listener.access_control'] = 
             function ($app) {

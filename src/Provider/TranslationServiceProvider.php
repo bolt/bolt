@@ -7,10 +7,11 @@ use Silex;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
+use Pimple\Container;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['translator'])) {
             $app->register(

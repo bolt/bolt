@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Users;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class UsersServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['users'] = 
             function ($app) {
@@ -17,9 +18,5 @@ class UsersServiceProvider implements ServiceProviderInterface
                 return $users;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

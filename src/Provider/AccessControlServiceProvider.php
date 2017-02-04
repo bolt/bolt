@@ -7,10 +7,11 @@ use PasswordLib\Password\Factory as PasswordFactory;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Pimple\Container;
 
 class AccessControlServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['access_control.cookie.options'] = 
             function () use ($app) {
@@ -79,9 +80,5 @@ class AccessControlServiceProvider implements ServiceProviderInterface
                 return $name;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

@@ -10,6 +10,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
+use Pimple\Container;
 
 /**
  * DI for Symfony's VarDumper.
@@ -21,7 +22,7 @@ class DumperServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['dump'] = $app->protect(
             function ($var) use ($app) {
@@ -71,12 +72,5 @@ class DumperServiceProvider implements ServiceProviderInterface
                 return $cloner;
             }
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 }

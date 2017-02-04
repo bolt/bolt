@@ -8,10 +8,11 @@ use LogicException;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Console\Command\Command;
+use Pimple\Container;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['nut'] = 
             function ($app) {
@@ -111,9 +112,5 @@ class NutServiceProvider implements ServiceProviderInterface
                 ;
             }
         );
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

@@ -8,6 +8,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Pimple\Container;
 
 /**
  * Enables debug toolbar if applicable
@@ -46,7 +47,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
     }
 

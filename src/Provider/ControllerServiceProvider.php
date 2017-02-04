@@ -7,10 +7,11 @@ use Bolt\Events\MountEvent;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Pimple\Container;
 
 class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['controller.backend.mount_prefix'])) {
             $app['controller.backend.mount_prefix'] = function ($app) {

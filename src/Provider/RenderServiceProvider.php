@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Render;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class RenderServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['render'] = 
             function ($app) {
@@ -21,9 +22,5 @@ class RenderServiceProvider implements ServiceProviderInterface
                 return new Render($app, true);
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

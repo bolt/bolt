@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Routing\Canonical;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Canonical service provider.
@@ -13,7 +14,7 @@ use Pimple\ServiceProviderInterface;
  */
 class CanonicalServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['canonical'] = 
             function ($app) {

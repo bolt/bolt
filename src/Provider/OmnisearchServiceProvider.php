@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Omnisearch;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class OmnisearchServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['omnisearch'] = 
             function ($app) {
@@ -17,9 +18,5 @@ class OmnisearchServiceProvider implements ServiceProviderInterface
                 return $omnisearch;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

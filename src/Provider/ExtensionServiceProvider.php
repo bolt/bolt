@@ -11,6 +11,7 @@ use Bolt\Extension\Manager;
 use Composer\IO\BufferIO;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * 1st phase: Registers our services. Registers extensions on boot.
@@ -31,7 +32,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $this->firstPhase = $firstPhase;
     }
 
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!$this->firstPhase) {
             return;

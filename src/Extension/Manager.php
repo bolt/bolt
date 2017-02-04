@@ -15,6 +15,7 @@ use Bolt\Translation\LazyTranslator as Trans;
 use ReflectionClass;
 use Silex\Application;
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use Pimple\Container;
 
 /**
  * Class to manage loading of extensions.
@@ -191,7 +192,7 @@ class Manager
      *
      * @throws \RuntimeException
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if ($this->registered) {
             throw new \RuntimeException('Can not re-register extensions.');

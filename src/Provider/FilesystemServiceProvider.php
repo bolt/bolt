@@ -9,13 +9,14 @@ use Bolt\Filesystem\Matcher;
 use Bolt\Filesystem\Plugin;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
  */
 class FilesystemServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // These can be called early
         $app['filesystem.config'] = function ($app) {

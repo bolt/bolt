@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\Storage\Prefill;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class PrefillServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['prefill'] = 
             function ($app) {
@@ -17,9 +18,5 @@ class PrefillServiceProvider implements ServiceProviderInterface
                 return $prefill;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

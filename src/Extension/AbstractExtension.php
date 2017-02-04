@@ -4,7 +4,7 @@ namespace Bolt\Extension;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Helpers\Str;
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * Defined some base functionality for extensions.
@@ -55,7 +55,6 @@ abstract class AbstractExtension implements ExtensionInterface
 
         return $this->baseDirectory;
     }
-
     /**
      * {@inheritdoc}
      */

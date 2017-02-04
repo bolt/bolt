@@ -13,10 +13,11 @@ use Silex\Application;
 use Silex\Route;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Pimple\Container;
 
 class RoutingServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['controllers_factory'] = function ($app) {
             return new ControllerCollection($app['route_factory']);

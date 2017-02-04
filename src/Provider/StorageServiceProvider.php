@@ -19,10 +19,11 @@ use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Repository;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class StorageServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['storage.legacy'] = 
             function ($app) {

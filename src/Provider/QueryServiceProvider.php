@@ -12,10 +12,11 @@ use Bolt\Storage\Query\SearchWeighter;
 use Bolt\Storage\Query\SelectQuery;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class QueryServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['query'] = function ($app) {
             $runner = new Query($app['query.parser']);
@@ -63,9 +64,5 @@ class QueryServiceProvider implements ServiceProviderInterface
                 return new SearchWeighter($app['query.search_config']);
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

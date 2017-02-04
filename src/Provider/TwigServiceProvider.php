@@ -14,10 +14,11 @@ use Pimple\ServiceProviderInterface;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
+use Pimple\Container;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
@@ -292,13 +293,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
             }
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 
     protected function registerSandbox(Application $app)

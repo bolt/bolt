@@ -7,6 +7,7 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Database provider.
@@ -16,7 +17,7 @@ use Pimple\ServiceProviderInterface;
  */
 class DatabaseServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['db'])) {
             $app->register(new \Silex\Provider\DoctrineServiceProvider());
@@ -86,9 +87,5 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                 }
             )
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

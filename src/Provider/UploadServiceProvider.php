@@ -7,6 +7,7 @@ use Bolt\Filesystem\UploadContainer;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Sirius\Upload\Handler as UploadHandler;
+use Pimple\Container;
 
 /**
  * Class to handle uploads
@@ -16,7 +17,7 @@ use Sirius\Upload\Handler as UploadHandler;
  */
 class UploadServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // This exposes the main upload object as a service
         $app['upload'] = 
@@ -67,9 +68,5 @@ class UploadServiceProvider implements ServiceProviderInterface
         $app['upload.prefix'] = date('Y-m') . '/';
 
         $app['upload.overwrite'] = false;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

@@ -10,6 +10,7 @@ use Pimple\ServiceProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use Pimple\Container;
 
 /**
  * Register form services
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  */
 class FormServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['form.factory'])) {
             $app->register(new SilexFormServiceProvider());
@@ -70,9 +71,5 @@ class FormServiceProvider implements ServiceProviderInterface
                 return new SessionTokenStorage($app['session']);
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

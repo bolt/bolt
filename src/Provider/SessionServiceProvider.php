@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use Pimple\Container;
 
 /**
  * Because screw PHP core.
@@ -29,7 +30,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  */
 class SessionServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['session'] = 
             function ($app) {
@@ -190,7 +191,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 return $options;
             }
-        );
+        ;
     }
 
     protected function registerHandlers(Application $app)

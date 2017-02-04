@@ -11,10 +11,11 @@ use Bolt\Exception\BootException;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class PathServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // @deprecated
         if (!isset($app['path_resolver_factory'])) {

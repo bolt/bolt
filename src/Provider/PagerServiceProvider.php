@@ -5,13 +5,14 @@ namespace Bolt\Provider;
 use Bolt\Pager\PagerManager;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class PagerServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // the provider
         $app['pager'] = 
@@ -19,12 +20,5 @@ class PagerServiceProvider implements ServiceProviderInterface
                 return new PagerManager();
             }
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 }

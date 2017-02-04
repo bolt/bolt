@@ -6,10 +6,11 @@ use Bolt\Cron;
 use Silex;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Pimple\Container;
 
 class CronServiceProvider implements ServiceProviderInterface
 {
-    public function register(Silex\Application $app)
+    public function register(Container $app)
     {
         $app['cron'] = 
             function ($app) {
@@ -18,9 +19,5 @@ class CronServiceProvider implements ServiceProviderInterface
                 return $cron;
             }
         ;
-    }
-
-    public function boot(Silex\Application $app)
-    {
     }
 }

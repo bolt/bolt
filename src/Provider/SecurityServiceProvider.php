@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Silex\Application;
 use Silex\Provider\SecurityServiceProvider as SilexSecurityServiceProvider;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Bolt security service provider.
@@ -16,7 +17,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['security.firewalls'] = 
             function ($app) {
@@ -59,12 +60,5 @@ class SecurityServiceProvider implements ServiceProviderInterface
         );
 
         $app->register(new SilexSecurityServiceProvider());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 }

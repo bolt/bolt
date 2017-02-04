@@ -7,13 +7,14 @@ use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['menu'] = 
             function ($app) {
@@ -44,12 +45,5 @@ class MenuServiceProvider implements ServiceProviderInterface
                 return $rootEntry;
             }
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
     }
 }

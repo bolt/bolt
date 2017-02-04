@@ -5,10 +5,11 @@ namespace Bolt\Provider;
 use Bolt\TemplateChooser;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class TemplateChooserServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         $app['templatechooser'] = 
             function ($app) {
@@ -17,9 +18,5 @@ class TemplateChooserServiceProvider implements ServiceProviderInterface
                 return $chooser;
             }
         ;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }
