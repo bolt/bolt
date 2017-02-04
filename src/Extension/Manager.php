@@ -16,6 +16,7 @@ use ReflectionClass;
 use Silex\Application;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Class to manage loading of extensions.

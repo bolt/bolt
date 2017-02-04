@@ -12,8 +12,9 @@ use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class PathServiceProvider implements ServiceProviderInterface
+class PathServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

@@ -11,8 +11,9 @@ use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class ConfigServiceProvider implements ServiceProviderInterface
+class ConfigServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {
@@ -62,7 +63,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
         ;
     }
 
-    public function boot(Container $container, EventDispatcherInterface $eventDispatcher)
+    public function boot(Application $app)
     {
         $app['config']->doReplacements();
 

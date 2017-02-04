@@ -9,11 +9,12 @@ use Doctrine\DBAL\Logging\DebugStack;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ProfilerServiceProvider implements ServiceProviderInterface
+class ProfilerServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

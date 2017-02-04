@@ -7,15 +7,13 @@ use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Pimple\Container;
-use Silex\Api\BootableProviderInterface;
 
 /**
  * Generic base class for Bolt extensions.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension implements BootableProviderInterface, EventSubscriberInterface
+abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface, EventSubscriberInterface
 {
     use AssetTrait;
     use ConfigTrait;
@@ -29,7 +27,7 @@ abstract class SimpleExtension extends AbstractExtension implements BootableProv
     /**
      * {@inheritdoc}
      */
-    final public function register(Container $app)
+    final public function register(Application $app)
     {
         $this->extendConfigService();
         $this->extendTwigService();
@@ -79,9 +77,8 @@ abstract class SimpleExtension extends AbstractExtension implements BootableProv
     /**
      * {@inheritdoc}
      */
-    public function boot(Container $app, EventDispatcherInterface $eventDispatcher)
+    public function boot(Application $app)
     {
-        // TODO: Use Silex ED
         $this->container = $app;
         $this->container['dispatcher']->addSubscriber($this);
         $this->subscribe($this->container['dispatcher']);

@@ -8,8 +8,9 @@ use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class TranslationServiceProvider implements ServiceProviderInterface
+class TranslationServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

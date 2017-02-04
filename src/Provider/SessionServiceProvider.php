@@ -22,13 +22,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Because screw PHP core.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionServiceProvider implements ServiceProviderInterface
+class SessionServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

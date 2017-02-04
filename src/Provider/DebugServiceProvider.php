@@ -14,6 +14,7 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpKernel\EventListener\DebugHandlersListener;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Configure Error & Exception Handlers, DebugClassLoader, and debug value.
@@ -37,7 +38,7 @@ use Pimple\Container;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DebugServiceProvider implements ServiceProviderInterface
+class DebugServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /** @var bool */
     private $firstPhase;

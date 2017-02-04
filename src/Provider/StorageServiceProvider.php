@@ -20,8 +20,9 @@ use Bolt\Storage\Repository;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class StorageServiceProvider implements ServiceProviderInterface
+class StorageServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

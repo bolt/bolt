@@ -9,13 +9,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Enables debug toolbar if applicable
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberInterface
+class DebugToolbarEnabler implements ServiceProviderInterface, BootableProviderInterface, EventSubscriberInterface
 {
     /** @var WebDebugToolbarListener */
     protected $listener;

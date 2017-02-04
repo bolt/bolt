@@ -14,8 +14,9 @@ use Silex\Route;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class RoutingServiceProvider implements ServiceProviderInterface
+class RoutingServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

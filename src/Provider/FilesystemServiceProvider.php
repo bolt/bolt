@@ -10,11 +10,12 @@ use Bolt\Filesystem\Plugin;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
  */
-class FilesystemServiceProvider implements ServiceProviderInterface
+class FilesystemServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

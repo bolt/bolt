@@ -8,8 +8,9 @@ use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
+class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface, BootableProviderInterface
 {
     public function register(Container $app)
     {

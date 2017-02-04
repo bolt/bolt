@@ -12,12 +12,13 @@ use Composer\IO\BufferIO;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * 1st phase: Registers our services. Registers extensions on boot.
  * 2nd phase: Boots extensions on boot.
  */
-class ExtensionServiceProvider implements ServiceProviderInterface
+class ExtensionServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /** @var bool */
     private $firstPhase;

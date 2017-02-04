@@ -12,13 +12,14 @@ use Bolt\Thumbs\ImageResource;
 use Silex\Application;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Register thumbnails service.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ThumbnailsServiceProvider implements ServiceProviderInterface
+class ThumbnailsServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /**
      * {@inheritdoc}
