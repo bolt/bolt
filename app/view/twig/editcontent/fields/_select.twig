@@ -34,6 +34,19 @@
     {% set selection = [ selection ] %}
 {% endif %}
 
+{# if we have (sorted) options present already, make sure their order is
+   maintained. We do this by first selecting the current values, and then
+   merging that with the entire array of values. See #6332. #}
+{% if option.sortable %}
+    {% set leadingvalues = [] %}
+    {% for key, sel in selection %}
+        {% for value_key, value_sel in values if value_sel == sel %}
+            {% set leadingvalues = leadingvalues|merge({ (value_key): value_sel}) %}
+        {% endfor %}
+    {% endfor %}
+    {% set values = unique(leadingvalues, values) %}
+{% endif %}
+
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
 {% set onlyids = selection|first in values|keys %}
 
