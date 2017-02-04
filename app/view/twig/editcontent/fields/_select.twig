@@ -44,7 +44,7 @@
             {% set leadingvalues = leadingvalues|merge({ (value_key): value_sel}) %}
         {% endfor %}
     {% endfor %}
-    {% set values = unique(leadingvalues, values)%}
+    {% set values = unique(leadingvalues, values) %}
 {% endif %}
 
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
