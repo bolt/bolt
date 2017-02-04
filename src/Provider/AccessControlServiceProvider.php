@@ -23,12 +23,6 @@ class AccessControlServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['access_control.hash.strength'] = $app->share(
-            function () use ($app) {
-                return max($app['config']->get('general/hash_strength'), 8);
-            }
-        );
-
         $app['access_control'] = $app->share(
             function ($app) {
                 $tracker = new AccessControl\AccessChecker(
