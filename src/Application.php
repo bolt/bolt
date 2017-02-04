@@ -43,6 +43,7 @@ class Application extends Silex\Application
 
         // Extension 2nd phase: Run extension's boot code.
         $this->register(new Provider\ExtensionServiceProvider(false));
+        $this->register(new Silex\Provider\LocaleServiceProvider());
 
         if (isset($values['resources'])) {
             $this['resources'] = $values['resources'];
