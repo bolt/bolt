@@ -48,7 +48,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
             }
         ;
 
-        $app['security.access_rules'] = $app->share(
+        $app['security.access_rules'] = 
             function ($app) {
                 $boltPath = $app['config']->get('general/branding/path');
 
@@ -57,7 +57,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
                     ['^/.+$', 'ROLE_USER'],
                 ];
             }
-        );
+        ;
 
         $app->register(new SilexSecurityServiceProvider());
     }

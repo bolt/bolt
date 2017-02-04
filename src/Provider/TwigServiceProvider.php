@@ -20,6 +20,23 @@ class TwigServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
+        // Twig options
+        $app['twig.options'] = function () use ($app) {
+            $options = [];
+
+            // Should we cache or not?
+            if ($app['config']->get('general/caching/templates')) {
+                $key = hash('md5', $app['config']->get('general/theme'));
+                $options['cache'] = $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/twig/' . $key);
+            }
+
+            if (($strict = $app['config']->get('general/strict_variables')) !== null) {
+                $options['strict_variables'] = $strict;
+            }
+
+            return $options;
+        };
+
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
         }
@@ -270,23 +287,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new \Twig_Extension_StringLoader();
             }
         ;
-
-        // Twig options
-        $app['twig.options'] = function () use ($app) {
-            $options = [];
-
-            // Should we cache or not?
-            if ($app['config']->get('general/caching/templates')) {
-                $key = hash('md5', $app['config']->get('general/theme'));
-                $options['cache'] = $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/twig/' . $key);
-            }
-
-            if (($strict = $app['config']->get('general/strict_variables')) !== null) {
-                $options['strict_variables'] = $strict;
-            }
-
-            return $options;
-        };
 
         $app['safe_twig'] = 
             function ($app) {

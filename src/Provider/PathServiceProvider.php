@@ -92,7 +92,9 @@ class PathServiceProvider implements ServiceProviderInterface, BootableProviderI
         $resourcesSetup = function (ResourceManager $resources) use ($app) {
             // This is to sync service if ResourceManager is created without the factory passed in.
             // In most cases it is so this technically doesn't change anything.
-            $app['path_resolver_factory'] = $resources->getPathResolverFactory();
+
+            // TODO: This ...
+            //$app['path_resolver_factory'] = $resources->getPathResolverFactory();
 
             $resources->setApp($app);
 

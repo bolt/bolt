@@ -78,7 +78,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 $prefix = $app['schema.prefix'];
 
                 // @codingStandardsIgnoreStart
-                return new \Pimple([
+                return new Container([
                     'authtoken'   => function () use ($platform, $prefix) { return new Table\AuthToken($platform, $prefix); },
                     'cron'        => function () use ($platform, $prefix) { return new Table\Cron($platform, $prefix); },
                     'field_value' => function () use ($platform, $prefix) { return new Table\FieldValue($platform, $prefix); },
@@ -100,7 +100,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 $prefix = $app['schema.prefix'];
 
                 $contentTypes = $app['config']->get('contenttypes');
-                $acne = new \Pimple();
+                $acne = new Container();
 
                 foreach (array_keys($contentTypes) as $contentType) {
                     $tableName = $contentTypes[$contentType]['tablename'];
@@ -118,14 +118,14 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
         // Schemas (empty) of the extension tables
         $app['schema.extension_tables'] = 
             function (Application $app) {
-                return new \Pimple([]);
+                return new Container([]);
             }
         ;
 
         // Combined schemas of all Bolt tables.
         $app['schema.tables'] = 
             function (Application $app) {
-                $acne = new \Pimple();
+                $acne = new Container();
 
                 foreach ($app['schema.base_tables']->keys() as $baseName) {
                     $acne[$baseName] = 
@@ -157,7 +157,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 
         $app['schema.builder'] = 
             function ($app) {
-                return new \Pimple([
+                return new Container([
                     'base'       => 
                         function () use ($app) {
                             return new Builder\BaseTables(

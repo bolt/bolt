@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Routing;
 
+use Pimple\Container;
+
 /**
  * Handles resolving callbacks from routing.yml that specify a class name
  *
@@ -21,7 +23,7 @@ class CallbackResolver extends \Silex\CallbackResolver
      *                          mapped to their service name as values
      *                          Ex: 'Bolt\Controller\Frontend' => 'controller.frontend'
      */
-    public function __construct(\Pimple $app, array $classmap)
+    public function __construct(Container $app, array $classmap)
     {
         $this->app = $app;
         $this->classmap = $classmap;

@@ -7,6 +7,7 @@ use Bolt\Storage\Database\Schema\Manager;
 use Doctrine\DBAL\Connection;
 use Pimple;
 use Psr\Log\LoggerInterface;
+use Pimple\Container;
 
 /**
  * Base class for Bolt's table builders.
@@ -41,7 +42,7 @@ abstract class BaseBuilder
      * @param LoggerInterface      $systemLog
      * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(Connection $connection, Manager $manager, Pimple $tables, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
+    public function __construct(Connection $connection, Manager $manager, Container $tables, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
     {
         $this->connection = $connection;
         $this->manager = $manager;

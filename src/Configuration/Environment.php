@@ -8,6 +8,7 @@ use Bolt\Exception\PackageManagerException;
 use Pimple;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Pimple\Container;
 
 /**
  * Environment set up and management class.
@@ -46,7 +47,7 @@ class Environment
      * @param Pimple $actions
      * @param string $boltVersion
      */
-    public function __construct($boltPath, $boltAssetsPath, Cache $cache, Pimple $actions, $boltVersion)
+    public function __construct($boltPath, $boltAssetsPath, Cache $cache, Container $actions, $boltVersion)
     {
         $this->filesystem = new Filesystem();
         $this->boltPath = $boltPath;

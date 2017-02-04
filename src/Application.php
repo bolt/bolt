@@ -6,7 +6,7 @@ use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
+use Cocur\Slugify\Bridge\Silex2\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -187,7 +187,7 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Silex\Provider\HttpFragmentServiceProvider())
-            ->register(new Silex\Provider\UrlGeneratorServiceProvider())
+            ->register(new Silex\Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing

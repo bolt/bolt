@@ -111,7 +111,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface, BootableProv
         // Actions
         $app['extend.action'] = 
             function (Application $app) {
-                return new \Pimple(
+                return new Container(
                     [
                         // @codingStandardsIgnoreStart
                         'autoload'  => function () use ($app) { return new Action\DumpAutoload($app); },

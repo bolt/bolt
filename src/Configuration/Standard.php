@@ -5,6 +5,7 @@ namespace Bolt\Configuration;
 use Composer\Autoload\ClassLoader;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Symfony\Component\HttpFoundation\Request;
+use Pimple\Container;
 
 /**
  * Left as a blank extension of ResourceManager for now, this semantically
@@ -21,7 +22,7 @@ class Standard extends ResourceManager
      */
     public function __construct($loader, Request $request = null, PathResolverFactory $pathResolverFactory = null)
     {
-        $container = new \Pimple();
+        $container = new Container();
 
         if ($loader instanceof ClassLoader) {
             $container['classloader'] = $loader;

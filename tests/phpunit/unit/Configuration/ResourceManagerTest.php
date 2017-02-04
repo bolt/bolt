@@ -8,6 +8,7 @@ use Bolt\Tests\BoltUnitTest;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
 use Symfony\Component\HttpFoundation\Request;
+use Pimple\Container;
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
@@ -29,7 +30,7 @@ class ResourceManagerTest extends BoltUnitTest
 
     public function testConstruction()
     {
-        $container = new \Pimple(
+        $container = new Container(
             [
                 'rootpath'    => PHPUNIT_WEBROOT,
                 'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -42,7 +43,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testDefaultPaths()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -67,7 +68,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testExceptionGetPath($path)
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -89,7 +90,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testShortAliasedPaths()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -108,7 +109,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testRelativePathCreation()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -123,7 +124,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testDefaultUrls()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -147,7 +148,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testExceptionGetUrl($url)
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -168,7 +169,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testBoltAppSetup()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -187,7 +188,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testDefaultRequest()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -209,7 +210,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testExceptionGetRequest($request)
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -241,7 +242,7 @@ class ResourceManagerTest extends BoltUnitTest
             ]
         );
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
@@ -270,7 +271,7 @@ class ResourceManagerTest extends BoltUnitTest
         );
 
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
@@ -290,7 +291,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testConfigDrivenUrls()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -304,7 +305,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testConfigDrivenUrlsWithBrandingOverride()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
@@ -333,7 +334,7 @@ class ResourceManagerTest extends BoltUnitTest
         );
 
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
@@ -350,7 +351,7 @@ class ResourceManagerTest extends BoltUnitTest
     public function testFindRelativePath()
     {
         $config = new ResourceManager(
-            new \Pimple(
+            new Container(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory(),
