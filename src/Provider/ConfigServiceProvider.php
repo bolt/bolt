@@ -8,23 +8,23 @@ use Bolt\Configuration\Environment;
 use Bolt\Configuration\Validation\Validator as ConfigValidator;
 use Bolt\EventListener\ConfigListener;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConfigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['config'] = $app->share(
+        $app['config'] = 
             function ($app) {
                 $config = new Config($app);
                 $config->initialize();
 
                 return $config;
             }
-        );
+        ;
 
-        $app['config.environment'] = $app->share(
+        $app['config.environment'] = 
             function ($app) {
                 $boltPath = $app['path_resolver']->resolve('bolt');
                 $boltAssetsPath = $app['path_resolver']->resolve('bolt_assets');
@@ -39,9 +39,9 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
                 return $environment;
             }
-        );
+        ;
 
-        $app['config.validator'] = $app->share(
+        $app['config.validator'] = 
             function ($app) {
                 $validator = new ConfigValidator(
                     $app['controller.exception'],
@@ -52,13 +52,13 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
                 return $validator;
             }
-        );
+        ;
 
-        $app['config.listener'] = $app->share(
+        $app['config.listener'] = 
             function ($app) {
                 return new ConfigListener($app);
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

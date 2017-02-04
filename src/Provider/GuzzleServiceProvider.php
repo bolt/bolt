@@ -5,7 +5,7 @@ namespace Bolt\Provider;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class GuzzleServiceProvider implements ServiceProviderInterface
 {
@@ -13,22 +13,22 @@ class GuzzleServiceProvider implements ServiceProviderInterface
     {
         $app['guzzle.base_url'] = '/';
 
-        $app['guzzle.api_version'] = $app->share(
+        $app['guzzle.api_version'] = 
             function () {
                 return version_compare(Client::VERSION, '6.0.0', '>=') ? 6 : 5;
             }
-        );
+        ;
 
         if (!isset($app['guzzle.handler_stack'])) {
-            $app['guzzle.handler_stack'] = $app->share(
+            $app['guzzle.handler_stack'] = 
                 function () {
                     return HandlerStack::create();
                 }
-            );
+            ;
         }
 
         // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
-        $app['guzzle.client'] = $app->share(
+        $app['guzzle.client'] = 
             function () use ($app) {
                 $options = [
                     'base_uri' => $app['guzzle.base_url'],
@@ -38,7 +38,7 @@ class GuzzleServiceProvider implements ServiceProviderInterface
 
                 return $client;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

@@ -11,7 +11,7 @@ use Bolt\Routing\UrlGeneratorFragmentWrapper;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
 use Silex\Route;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class RoutingServiceProvider implements ServiceProviderInterface
@@ -22,29 +22,29 @@ class RoutingServiceProvider implements ServiceProviderInterface
             return new ControllerCollection($app['route_factory']);
         };
 
-        $app['controllers'] = $app->share(
+        $app['controllers'] = 
             function ($app) {
                 return new RootControllerCollection($app, $app['dispatcher'], $app['route_factory']);
             }
-        );
+        ;
 
-        $app['url_matcher'] = $app->share(
+        $app['url_matcher'] = 
             function ($app) {
                 return new UrlMatcher($app['routes'], $app['request_context']);
             }
-        );
+        ;
 
-        $app['resolver'] = $app->share(
+        $app['resolver'] = 
             function ($app) {
                 return new ControllerResolver($app, $app['logger']);
             }
-        );
+        ;
 
-        $app['callback_resolver'] = $app->share(
+        $app['callback_resolver'] = 
             function ($app) {
                 return new CallbackResolver($app, $app['controller.classmap']);
             }
-        );
+        ;
 
         $app['route_factory'] = $app->extend(
             'route_factory',
@@ -57,16 +57,16 @@ class RoutingServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['url_generator'] = $app->share(
+        $app['url_generator'] = 
             $app->extend(
                 'url_generator',
                 function ($urlGenerator) {
                     return new UrlGeneratorFragmentWrapper($urlGenerator);
                 }
             )
-        );
+        ;
 
-        $app['url_generator.lazy'] = $app->share(
+        $app['url_generator.lazy'] = 
             function ($app) {
                 return new LazyUrlGenerator(
                     function () use ($app) {
@@ -74,7 +74,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
                     }
                 );
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

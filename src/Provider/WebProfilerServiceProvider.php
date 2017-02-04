@@ -23,20 +23,20 @@ class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvi
         $app['dispatcher'] = $dispatcherFactory;
 
         // Try again, but only if app['debug'] is true.
-        $app['dispatcher'] = $app->share($app->extend('dispatcher', function ($dispatcher, $app) {
+        $app['dispatcher'] = $app->extend('dispatcher', function ($dispatcher, $app) {
             if (!$app['debug']) {
                 return $dispatcher;
             }
 
             return new TraceableEventDispatcher($dispatcher, $app['stopwatch'], $app['logger']);
-        }));
+        });
 
-        $app['profiler'] = $app->share($app->extend('profiler', function ($profiler, $app) {
+        $app['profiler'] = $app->extend('profiler', function ($profiler, $app) {
             if (!$app['debug']) {
                 $profiler->disable();
             }
 
             return $profiler;
-        }));
+        });
     }
 }

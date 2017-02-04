@@ -5,14 +5,14 @@ namespace Bolt\Provider;
 use Bolt\AccessControl;
 use PasswordLib\Password\Factory as PasswordFactory;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class AccessControlServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['access_control.cookie.options'] = $app->share(
+        $app['access_control.cookie.options'] = 
             function () use ($app) {
                 return [
                     'remoteaddr'   => $app['config']->get('general/cookies_use_remoteaddr', true),
@@ -21,15 +21,15 @@ class AccessControlServiceProvider implements ServiceProviderInterface
                     'lifetime'     => $app['config']->get('general/cookies_lifetime', 1209600),
                 ];
             }
-        );
+        ;
 
-        $app['access_control.hash.strength'] = $app->share(
+        $app['access_control.hash.strength'] = 
             function () use ($app) {
                 return max($app['config']->get('general/hash_strength'), 8);
             }
-        );
+        ;
 
-        $app['access_control'] = $app->share(
+        $app['access_control'] = 
             function ($app) {
                 $tracker = new AccessControl\AccessChecker(
                     $app['storage.lazy'],
@@ -45,9 +45,9 @@ class AccessControlServiceProvider implements ServiceProviderInterface
 
                 return $tracker;
             }
-        );
+        ;
 
-        $app['access_control.login'] = $app->share(
+        $app['access_control.login'] = 
             function ($app) {
                 $login = new AccessControl\Login(
                     $app
@@ -55,30 +55,30 @@ class AccessControlServiceProvider implements ServiceProviderInterface
 
                 return $login;
             }
-        );
+        ;
 
-        $app['access_control.password'] = $app->share(
+        $app['access_control.password'] = 
             function ($app) {
                 $password = new AccessControl\Password($app);
 
                 return $password;
             }
-        );
+        ;
 
-        $app['password_factory'] = $app->share(
+        $app['password_factory'] = 
             function () {
                 return new PasswordFactory();
             }
-        );
+        ;
 
-        $app['token.authentication.name'] = $app->share(
+        $app['token.authentication.name'] = 
             function ($app) {
                 $request = $app['request_stack']->getCurrentRequest() ?: Request::createFromGlobals();
                 $name = 'bolt_authtoken_' . md5($request->getHttpHost() . $request->getBaseUrl());
 
                 return $name;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

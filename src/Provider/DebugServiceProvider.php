@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Version;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,6 +13,7 @@ use Symfony\Component\Debug\DebugClassLoader;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpKernel\EventListener\DebugHandlersListener;
+use Pimple\Container;
 
 /**
  * Configure Error & Exception Handlers, DebugClassLoader, and debug value.
@@ -54,7 +55,7 @@ class DebugServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!$this->firstPhase) {
             return;
@@ -82,17 +83,17 @@ class DebugServiceProvider implements ServiceProviderInterface
         };
 
         // Separate so it's only called once.
-        $app['debug.from_config'] = $app->share(function ($app) {
+        $app['debug.from_config'] = function ($app) {
             return $app['config']->get('general/debug');
-        });
+        };
 
         if (!isset($app['environment'])) {
-            $app['environment'] = $app->share(function ($app) {
+            $app['environment'] = function ($app) {
                 return $app['debug'] ? 'development' : 'production';
-            });
+            };
         }
 
-        $app['debug.handlers_listener'] = $app->share(
+        $app['debug.handlers_listener'] = 
             function ($app) {
                 $errorLevels = $app['config']->get(
                     $app['debug'] ?
@@ -109,7 +110,7 @@ class DebugServiceProvider implements ServiceProviderInterface
                     $app['code.file_link_format']
                 );
             }
-        );
+        ;
 
         // Enable handlers for web and cli, but not test runners since they have their own.
         $app['debug.error_handler.enabled'] =

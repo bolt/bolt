@@ -37,7 +37,7 @@ trait StorageTrait
     {
         $app = $this->getContainer();
 
-        $app['storage'] = $app->share(
+        $app['storage'] = 
             $app->extend(
                 'storage',
                 function ($entityManager) use ($app) {
@@ -55,7 +55,7 @@ trait StorageTrait
                     return $entityManager;
                 }
             )
-        );
+        ;
     }
 
     /** @return Container */

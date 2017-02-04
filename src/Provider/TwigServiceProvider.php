@@ -10,7 +10,7 @@ use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
@@ -25,11 +25,11 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Set authentication providers before security extension is invoked.
         $factory = $app->raw('twig');
-        $app['twig'] = $app->share(function ($app) use ($factory) {
+        $app['twig'] = function ($app) use ($factory) {
             $app['security.firewall'];
 
             return $factory($app);
-        });
+        };
 
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
@@ -130,7 +130,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return $var;
         };
 
-        $app['twig.loader.bolt_filesystem'] = $app->share(
+        $app['twig.loader.bolt_filesystem'] = 
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
 
@@ -147,10 +147,10 @@ class TwigServiceProvider implements ServiceProviderInterface
 
                 return $loader;
             }
-        );
+        ;
 
         // Insert our filesystem loader before native one
-        $app['twig.loader'] = $app->share(
+        $app['twig.loader'] = 
             function ($app) {
                 return new \Twig_Loader_Chain(
                     [
@@ -160,12 +160,12 @@ class TwigServiceProvider implements ServiceProviderInterface
                     ]
                 );
             }
-        );
+        ;
 
         $this->registerSandbox($app);
 
         // Add the Bolt Twig Extension.
-        $app['twig'] = $app->share(
+        $app['twig'] = 
             $app->extend(
                 'twig',
                 function (\Twig_Environment $twig, $app) {
@@ -200,7 +200,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     return $twig;
                 }
             )
-        );
+        ;
 
         $app['twig.extension.bolt'] = function ($app) {
             return new Extension\BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
@@ -246,29 +246,29 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Extension\WidgetExtension();
         };
 
-        $app['twig.extension.asset'] = $app->share(
+        $app['twig.extension.asset'] = 
             function ($app) {
                 return new AssetExtension($app['asset.packages'], $app['twig.extension.http_foundation']);
             }
-        );
+        ;
 
-        $app['twig.extension.http_foundation'] = $app->share(
+        $app['twig.extension.http_foundation'] = 
             function ($app) {
                 return new HttpFoundationExtension($app['request_stack'], $app['request_context']);
             }
-        );
+        ;
 
-        $app['twig.extension.dump'] = $app->share(
+        $app['twig.extension.dump'] = 
             function ($app) {
                 return new Extension\DumpExtension();
             }
-        );
+        ;
 
-        $app['twig.extension.string_loader'] = $app->share(
+        $app['twig.extension.string_loader'] = 
             function () {
                 return new \Twig_Extension_StringLoader();
             }
-        );
+        ;
 
         // Twig options
         $app['twig.options'] = function () use ($app) {
@@ -287,11 +287,11 @@ class TwigServiceProvider implements ServiceProviderInterface
             return $options;
         };
 
-        $app['safe_twig'] = $app->share(
+        $app['safe_twig'] = 
             function ($app) {
                 return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
             }
-        );
+        ;
     }
 
     /**
@@ -303,13 +303,13 @@ class TwigServiceProvider implements ServiceProviderInterface
 
     protected function registerSandbox(Application $app)
     {
-        $app['twig.extension.sandbox'] = $app->share(
+        $app['twig.extension.sandbox'] = 
             function ($app) {
                 return new \Twig_Extension_Sandbox($app['twig.sandbox.policy']);
             }
-        );
+        ;
 
-        $app['twig.sandbox.policy'] = $app->share(
+        $app['twig.sandbox.policy'] = 
             function ($app) {
                 return new SecurityPolicy(
                     $app['twig.sandbox.policy.tags'],
@@ -319,9 +319,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $app['twig.sandbox.policy.functions']
                 );
             }
-        );
+        ;
 
-        $app['twig.sandbox.policy.tags'] = $app->share(
+        $app['twig.sandbox.policy.tags'] = 
             function () {
                 return [
                     // Core
@@ -340,9 +340,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                     'trans_default_domain',
                 ];
             }
-        );
+        ;
 
-        $app['twig.sandbox.policy.functions'] = $app->share(
+        $app['twig.sandbox.policy.functions'] = 
             function () {
                 return [
                     // Core
@@ -409,9 +409,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                     'path',
                 ];
             }
-        );
+        ;
 
-        $app['twig.sandbox.policy.filters'] = $app->share(
+        $app['twig.sandbox.policy.filters'] = 
             function () {
                 return [
                     // Core
@@ -484,7 +484,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     'transchoice',
                 ];
             }
-        );
+        ;
 
         $app['twig.sandbox.policy.methods'] = [];
         $app['twig.sandbox.policy.properties'] = [];

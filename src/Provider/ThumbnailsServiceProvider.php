@@ -10,7 +10,7 @@ use Bolt\Filesystem\Matcher;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 /**
  * Register thumbnails service.
@@ -28,12 +28,12 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             $app->register(new Thumbs\ServiceProvider());
         }
 
-        $app['thumbnails.creator'] = $app->share($app->extend('thumbnails.creator', function ($creator, $app) {
+        $app['thumbnails.creator'] = $app->extend('thumbnails.creator', function ($creator, $app) {
             ImageResource::setNormalizeJpegOrientation($app['config']->get('general/thumbnails/exif_orientation', true));
             ImageResource::setQuality($app['config']->get('general/thumbnails/quality', 80));
 
             return $creator;
-        }));
+        });
 
         $app['thumbnails.filesystems'] = [
             'files',
@@ -44,7 +44,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             return $app['config']->get('general/thumbnails/save_files');
         };
 
-        $app['thumbnails.filesystem_cache'] = $app->share(function ($app) {
+        $app['thumbnails.filesystem_cache'] = function ($app) {
             if ($app['thumbnails.save_files'] === false) {
                 return null;
             }
@@ -53,37 +53,37 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             }
 
             return $app['filesystem']->getFilesystem('web');
-        });
+        };
 
         $app['thumbnails.caching'] = function ($app) {
             return $app['config']->get('general/caching/thumbnails');
         };
 
-        $app['thumbnails.cache'] = $app->share(function ($app) {
+        $app['thumbnails.cache'] = function ($app) {
             if ($app['thumbnails.caching'] === false) {
                 return null;
             }
 
             return $app['cache'];
-        });
+        };
 
-        $app['thumbnails.default_image'] = $app->share(function ($app) {
+        $app['thumbnails.default_image'] = function ($app) {
             $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
             try {
                 return $matcher->getImage($app['config']->get('general/thumbnails/notfound_image'));
             } catch (FileNotFoundException $e) {
                 return new Image();
             }
-        });
+        };
 
-        $app['thumbnails.error_image'] = $app->share(function ($app) {
+        $app['thumbnails.error_image'] = function ($app) {
             $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
             try {
                 return $matcher->getImage($app['config']->get('general/thumbnails/error_image'));
             } catch (FileNotFoundException $e) {
                 return new Image();
             }
-        });
+        };
 
         $app['thumbnails.default_imagesize'] = function ($app) {
             return $app['config']->get('general/thumbnails/default_image');

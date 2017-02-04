@@ -5,7 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Debug\Caster;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
@@ -43,25 +43,25 @@ class DumperServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['dumper'] = $app->share(
+        $app['dumper'] = 
             function ($app) {
                 return PHP_SAPI === 'cli' ? $app['dumper.cli'] : $app['dumper.html'];
             }
-        );
+        ;
 
-        $app['dumper.cli'] = $app->share(
+        $app['dumper.cli'] = 
             function () {
                 return new CliDumper();
             }
-        );
+        ;
 
-        $app['dumper.html'] = $app->share(
+        $app['dumper.html'] = 
             function () {
                 return new HtmlDumper();
             }
-        );
+        ;
 
-        $app['dumper.cloner'] = $app->share(
+        $app['dumper.cloner'] = 
             function () {
                 $cloner = new VarCloner();
                 $cloner->addCasters(Caster\FilesystemCasters::getCasters());
@@ -70,7 +70,7 @@ class DumperServiceProvider implements ServiceProviderInterface
 
                 return $cloner;
             }
-        );
+        ;
     }
 
     /**

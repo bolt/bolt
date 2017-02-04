@@ -11,7 +11,7 @@ use Bolt\Storage\Query\SearchQuery;
 use Bolt\Storage\Query\SearchWeighter;
 use Bolt\Storage\Query\SelectQuery;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class QueryServiceProvider implements ServiceProviderInterface
 {
@@ -42,27 +42,27 @@ class QueryServiceProvider implements ServiceProviderInterface
             return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
         };
 
-        $app['query.scope.frontend'] = $app->share(
+        $app['query.scope.frontend'] = 
             function ($app) {
                 return new FrontendQueryScope($app['config']);
             }
-        );
+        ;
 
         $app['query.search'] = function ($app) {
             return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);
         };
 
-        $app['query.search_config'] = $app->share(
+        $app['query.search_config'] = 
             function ($app) {
                 return new SearchConfig($app['config']);
             }
-        );
+        ;
 
-        $app['query.search_weighter'] = $app->share(
+        $app['query.search_weighter'] = 
             function ($app) {
                 return new SearchWeighter($app['query.search_config']);
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

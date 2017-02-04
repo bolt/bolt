@@ -4,19 +4,19 @@ namespace Bolt\Provider;
 
 use ParsedownExtra as Markdown;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class MarkdownServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['markdown'] = $app->share(
+        $app['markdown'] = 
             function () {
                 $markdown = new Markdown();
 
                 return $markdown;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

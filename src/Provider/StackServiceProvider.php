@@ -4,13 +4,13 @@ namespace Bolt\Provider;
 
 use Bolt\Stack;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class StackServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['stack'] = $app->share(
+        $app['stack'] = 
             function ($app) {
                 $stack = new Stack(
                     $app['filesystem.matcher'],
@@ -21,7 +21,7 @@ class StackServiceProvider implements ServiceProviderInterface
 
                 return $stack;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

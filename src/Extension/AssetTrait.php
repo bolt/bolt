@@ -42,7 +42,7 @@ trait AssetTrait
         /** @var Application $app */
         $app = $this->getContainer();
 
-        $app['asset.queue.file'] = $app->share(
+        $app['asset.queue.file'] = 
             $app->extend(
                 'asset.queue.file',
                 function ($queue) {
@@ -57,9 +57,9 @@ trait AssetTrait
                     return $queue;
                 }
             )
-        );
+        ;
 
-        $app['asset.queue.snippet'] = $app->share(
+        $app['asset.queue.snippet'] = 
             $app->extend(
                 'asset.queue.snippet',
                 function ($queue) {
@@ -74,9 +74,9 @@ trait AssetTrait
                     return $queue;
                 }
             )
-        );
+        ;
 
-        $app['asset.queue.widget'] = $app->share(
+        $app['asset.queue.widget'] = 
             $app->extend(
                 'asset.queue.widget',
                 function ($queue) {
@@ -91,7 +91,7 @@ trait AssetTrait
                     return $queue;
                 }
             )
-        );
+        ;
     }
 
     /**

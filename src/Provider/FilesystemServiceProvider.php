@@ -8,7 +8,7 @@ use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Matcher;
 use Bolt\Filesystem\Plugin;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
@@ -18,38 +18,38 @@ class FilesystemServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         // These can be called early
-        $app['filesystem.config'] = $app->share(function ($app) {
+        $app['filesystem.config'] = function ($app) {
             $fs = new Filesystem(new Local($app['path_resolver']->resolve('config')));
             $fs->setMountPoint('config');
 
             return $fs;
-        });
+        };
 
-        $app['filesystem.cache'] = $app->share(function ($app) {
+        $app['filesystem.cache'] = function ($app) {
             $fs = new Filesystem(new Local($app['path_resolver']->resolve('cache')));
             $fs->setMountPoint('cache');
 
             return $fs;
-        });
+        };
 
-        $app['filesystem.themes'] = $app->share(function ($app) {
+        $app['filesystem.themes'] = function ($app) {
             $fs = new Filesystem(new Local($app['path_resolver']->resolve('themes')));
             $fs->setMountPoint('themes');
 
             return $fs;
-        });
+        };
 
         // Calling this before boot … all bets are off … and if Bolt breaks, you get to keep both pieces!
         // @TODO :fire: this when the new configuration loading lands
-        $app['filesystem.theme'] = $app->share(function ($app) {
+        $app['filesystem.theme'] = function ($app) {
             $fs = new Filesystem(new Local($app['path_resolver']->resolve('%themes%/' . $app['config']->get('general/theme'))));
             $fs->setMountPoint('theme');
 
             return $fs;
-        });
+        };
 
         // Don't call this until boot.
-        $app['filesystem'] = $app->share(
+        $app['filesystem'] = 
             function ($app) {
                 $manager = new Manager(
                     [
@@ -97,15 +97,15 @@ class FilesystemServiceProvider implements ServiceProviderInterface
 
                 return $manager;
             }
-        );
+        ;
 
         $app['filesystem.plugin.url'] = function () use ($app) {
             return new Plugin\AssetUrl($app['asset.packages']);
         };
 
-        $app['filesystem.matcher'] = $app->share(function ($app) {
+        $app['filesystem.matcher'] = function ($app) {
             return new Matcher($app['filesystem'], $app['filesystem.matcher.mount_points']);
-        });
+        };
 
         $app['filesystem.matcher.mount_points'] = ['files', 'themes', 'theme'];
     }

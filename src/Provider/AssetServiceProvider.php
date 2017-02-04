@@ -5,7 +5,7 @@ use Bolt\Asset;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
@@ -20,7 +20,7 @@ class AssetServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['asset.packages'] = $app->share(
+        $app['asset.packages'] = 
             function ($app) {
                 $packages = new Packages();
 
@@ -35,7 +35,7 @@ class AssetServiceProvider implements ServiceProviderInterface
 
                 return $packages;
             }
-        );
+        ;
 
         $app['asset.package_factory'] = $app->protect(
             function ($name) use ($app) {
@@ -60,17 +60,17 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['asset.context'] = $app->share(
+        $app['asset.context'] = 
             function () use ($app) {
                 return new RequestStackContext($app['request_stack']);
             }
-        );
+        ;
 
         $app['asset.salt.factory'] = function () use ($app) {
             return $app['randomgenerator']->generateString(10);
         };
 
-        $app['asset.salt'] = $app->share(
+        $app['asset.salt'] = 
             function ($app) {
                 $file = $app['filesystem']->getFile('cache://.assetsalt');
 
@@ -83,17 +83,17 @@ class AssetServiceProvider implements ServiceProviderInterface
 
                 return $salt;
             }
-        );
+        ;
 
-        $app['asset.injector'] = $app->share(
+        $app['asset.injector'] = 
             function () {
                 $snippets = new Asset\Injector();
 
                 return $snippets;
             }
-        );
+        ;
 
-        $app['asset.queue.file'] = $app->share(
+        $app['asset.queue.file'] = 
             function ($app) {
                 $queue = new Asset\File\Queue(
                     $app['asset.injector'],
@@ -103,9 +103,9 @@ class AssetServiceProvider implements ServiceProviderInterface
 
                 return $queue;
             }
-        );
+        ;
 
-        $app['asset.queue.snippet'] = $app->share(
+        $app['asset.queue.snippet'] = 
             function ($app) {
                 $queue = new Asset\Snippet\Queue(
                     $app['asset.injector'],
@@ -114,9 +114,9 @@ class AssetServiceProvider implements ServiceProviderInterface
 
                 return $queue;
             }
-        );
+        ;
 
-        $app['asset.queue.widget'] = $app->share(
+        $app['asset.queue.widget'] = 
             function ($app) {
                 $queue = new Asset\Widget\Queue(
                     $app['asset.injector'],
@@ -126,9 +126,9 @@ class AssetServiceProvider implements ServiceProviderInterface
 
                 return $queue;
             }
-        );
+        ;
 
-        $app['asset.queues'] = $app->share(
+        $app['asset.queues'] = 
             function ($app) {
                 return [
                     $app['asset.queue.file'],
@@ -136,7 +136,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                     $app['asset.queue.widget'],
                 ];
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

@@ -4,13 +4,13 @@ namespace Bolt\Provider;
 
 use Bolt\Cache;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['cache'] = $app->share(
+        $app['cache'] = 
             function (Application $app) {
                 try {
                     $cache = new Cache(
@@ -26,7 +26,7 @@ class CacheServiceProvider implements ServiceProviderInterface
 
                 return $cache;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

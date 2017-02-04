@@ -4,14 +4,14 @@ namespace Bolt\Provider;
 
 use Bolt\EventListener as Listener;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventListenerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['listener.access_control'] = $app->share(
+        $app['listener.access_control'] = 
             function ($app) {
                 return new Listener\AccessControlListener(
                     $app['filesystem'],
@@ -19,15 +19,15 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['storage.lazy']
                 );
             }
-        );
+        ;
 
-        $app['listener.general'] = $app->share(
+        $app['listener.general'] = 
             function ($app) {
                 return new Listener\GeneralListener($app);
             }
-        );
+        ;
 
-        $app['listener.exception'] = $app->share(
+        $app['listener.exception'] = 
             function ($app) {
                 return new Listener\ExceptionListener(
                     $app['config'],
@@ -35,9 +35,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['logger.system']
                 );
             }
-        );
+        ;
 
-        $app['listener.not_found'] = $app->share(
+        $app['listener.not_found'] = 
             function ($app) {
                 return new Listener\NotFoundListener(
                     $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
@@ -47,7 +47,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['render']
                 );
             }
-        );
+        ;
 
         /*
          * Creating the actual url generator flushes all controllers.
@@ -55,7 +55,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
          * RedirectListener doesn't use the url generator until kernel.response
          * (way after controllers have been added).
          */
-        $app['listener.redirect'] = $app->share(
+        $app['listener.redirect'] = 
             function ($app) {
                 return new Listener\RedirectListener(
                     $app['session'],
@@ -64,24 +64,24 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['access_control']
                 );
             }
-        );
+        ;
 
-        $app['listener.flash_logger'] = $app->share(
+        $app['listener.flash_logger'] = 
             function ($app) {
                 $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
                 $profilerPrefix = isset($app['profiler.mount_prefix']) ? $app['profiler.mount_prefix'] : null;
 
                 return new Listener\FlashLoggerListener($app['logger.flash'], $debug, $profilerPrefix);
             }
-        );
+        ;
 
-        $app['listener.pager'] = $app->share(
+        $app['listener.pager'] = 
             function ($app) {
                 return new Listener\PagerListener($app['pager']);
             }
-        );
+        ;
 
-        $app['listener.snippet'] = $app->share(
+        $app['listener.snippet'] = 
             function ($app) {
                 return new Listener\SnippetListener(
                     $app['asset.queues'],
@@ -90,13 +90,13 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['config']
                 );
             }
-        );
+        ;
 
-        $app['listener.zone_guesser'] = $app->share(
+        $app['listener.zone_guesser'] = 
             function ($app) {
                 return new Listener\ZoneGuesser($app);
             }
-        );
+        ;
     }
 
     public function boot(Application $app)

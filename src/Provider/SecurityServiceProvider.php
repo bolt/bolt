@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Silex\Application;
 use Silex\Provider\SecurityServiceProvider as SilexSecurityServiceProvider;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 /**
  * Bolt security service provider.
@@ -18,7 +18,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
-        $app['security.firewalls'] = $app->share(
+        $app['security.firewalls'] = 
             function ($app) {
                 $boltPath = $app['config']->get('general/branding/path');
 
@@ -45,7 +45,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
                     ],
                 ];
             }
-        );
+        ;
 
         $app['security.access_rules'] = $app->share(
             function ($app) {

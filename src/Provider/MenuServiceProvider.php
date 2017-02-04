@@ -6,7 +6,7 @@ use Bolt\Menu\AdminMenuBuilder;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
@@ -15,18 +15,18 @@ class MenuServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
-        $app['menu'] = $app->share(
+        $app['menu'] = 
             function ($app) {
                 $builder = new MenuBuilder($app);
 
                 return $builder;
             }
-        );
+        ;
 
         /**
          * @internal Backwards compatibility not guaranteed on this provider presently.
          */
-        $app['menu.admin'] = $app->share(
+        $app['menu.admin'] = 
             function ($app) {
                 // This service should not be invoked until request cycle since it depends
                 // on url generation and request base path. Probably should be refactored somehow.
@@ -43,7 +43,7 @@ class MenuServiceProvider implements ServiceProviderInterface
 
                 return $rootEntry;
             }
-        );
+        ;
     }
 
     /**

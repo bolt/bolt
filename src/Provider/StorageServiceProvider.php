@@ -18,25 +18,25 @@ use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Repository;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 
 class StorageServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['storage.legacy'] = $app->share(
+        $app['storage.legacy'] = 
             function ($app) {
                 return new Storage($app);
             }
-        );
+        ;
 
-        $app['storage.legacy_service'] = $app->share(
+        $app['storage.legacy_service'] = 
             function ($app) {
                 return new ContentLegacyService($app);
             }
-        );
+        ;
 
-        $app['storage.lazy'] = $app->share(
+        $app['storage.lazy'] = 
             function ($app) {
                 return new LazyEntityManager(
                     function () use ($app) {
@@ -44,9 +44,9 @@ class StorageServiceProvider implements ServiceProviderInterface
                     }
                 );
             }
-        );
+        ;
 
-        $app['storage'] = $app->share(
+        $app['storage'] = 
             function ($app) {
                 $storage = new EntityManager(
                     $app['db'],
@@ -68,7 +68,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $storage;
             }
-        );
+        ;
 
         $app['storage.content_repository'] = $app->protect(
             function ($classMetadata) use ($app) {
@@ -80,7 +80,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.field_sanitiser'] = $app->share(
+        $app['storage.field_sanitiser'] = 
             function ($app) {
                 $allowedTags = $app['config']->get('general/htmlcleaner/allowed_tags', []);
                 $allowedAttributes = $app['config']->get('general/htmlcleaner/allowed_attributes', []);
@@ -88,9 +88,9 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return new Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
             }
-        );
+        ;
 
-        $app['storage.field_manager'] = $app->share(
+        $app['storage.field_manager'] = 
             function ($app) {
                 $manager = new FieldManager($app['storage.typemap'], $app['config'], $app['storage.field_sanitiser']);
 
@@ -102,7 +102,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $manager;
             }
-        );
+        ;
 
         // This uses a class name as the field types can optionally be injected
         // as services but the field manager only knows the class name, so we
@@ -120,13 +120,13 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.entity_builder'] = $app->share(
+        $app['storage.entity_builder'] = 
             function ($app) {
                 $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);
 
                 return $builder;
             }
-        );
+        ;
 
         $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
 
@@ -174,7 +174,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
-        $app['storage.metadata'] = $app->share(
+        $app['storage.metadata'] = 
             function ($app) {
                 $meta = new MetadataDriver(
                     $app['schema'],
@@ -186,19 +186,19 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $meta;
             }
-        );
+        ;
 
-        $app['storage.config.contenttypes'] = $app->share(
+        $app['storage.config.contenttypes'] = 
             function ($app) {
                 return new ConfigurationValueProxy($app['config'], 'contenttypes');
             }
-        );
+        ;
 
-        $app['storage.config.taxonomy'] = $app->share(
+        $app['storage.config.taxonomy'] = 
             function ($app) {
                 return new ConfigurationValueProxy($app['config'], 'taxonomy');
             }
-        );
+        ;
 
         $app['storage.relations_collection'] = $app->protect(
             function () use ($app) {
@@ -212,7 +212,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.collection_manager'] = $app->share(
+        $app['storage.collection_manager'] = 
             function ($app) {
                 $manager = new Collection\CollectionManager();
                 $manager->setHandler('Bolt\Storage\Entity\Relations', $app['storage.relations_collection']);
@@ -220,9 +220,9 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $manager;
             }
-        );
+        ;
 
-        $app['storage.request.edit'] = $app->share(
+        $app['storage.request.edit'] = 
             function ($app) {
                 $cr = new ContentRequest\Edit(
                     $app['storage'],
@@ -235,17 +235,17 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $cr;
             }
-        );
+        ;
 
-        $app['storage.request.listing'] = $app->share(
+        $app['storage.request.listing'] = 
             function ($app) {
                 $cr = new ContentRequest\Listing($app['storage'], $app['config']);
 
                 return $cr;
             }
-        );
+        ;
 
-        $app['storage.request.modify'] = $app->share(
+        $app['storage.request.modify'] = 
             function ($app) {
                 $cr = new ContentRequest\Modify(
                     $app['storage'],
@@ -256,9 +256,9 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $cr;
             }
-        );
+        ;
 
-        $app['storage.request.save'] = $app->share(
+        $app['storage.request.save'] = 
             function ($app) {
                 $cr = new ContentRequest\Save(
                     $app['storage'],
@@ -272,9 +272,9 @@ class StorageServiceProvider implements ServiceProviderInterface
 
                 return $cr;
             }
-        );
+        ;
 
-        $app['storage.listener'] = $app->share(
+        $app['storage.listener'] = 
             function () use ($app) {
                 return new StorageEventListener(
                     $app['storage.event_processor.timed'],
@@ -286,9 +286,9 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['config']->get('general/performance/timed_records/use_cron', false)
                 );
             }
-        );
+        ;
 
-        $app['storage.event_processor.timed'] = $app->share(
+        $app['storage.event_processor.timed'] = 
             function ($app) {
                 $contentTypes = array_keys($app['config']->get('contenttypes', []));
                 $interval = $app['config']->get('general/performance/timed_records/interval');
@@ -302,15 +302,15 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $interval
                 );
             }
-        );
+        ;
 
-        $app['storage.namingstrategy'] = $app->share(
+        $app['storage.namingstrategy'] = 
             function ($app) {
                 $strategy = new NamingStrategy($app['config']->get('general/database/prefix', null));
 
                 return $strategy;
             }
-        );
+        ;
     }
 
     public function boot(Application $app)
