@@ -40,7 +40,7 @@ before_install:
 before_script:
   # Set up Composer
   - composer self-update || true
-#  - composer global require hirak/prestissimo:^0.2
+  - composer global require hirak/prestissimo:~0.3
   - composer install --prefer-dist
   # Set up MySQL
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
@@ -57,7 +57,7 @@ script:
   # PHPUnit
   - |
     export PHPUNIT_CMD="php -d memory_limit=2G ./vendor/bin/phpunit"
-    if [[ $TRAVIS_EVENT_TYPE == "cron" ]] ; then
+    if [[ $TRAVIS_EVENT_TYPE == "cron" && $TRAVIS_PHP_VERSION =~ ^7 ]] ; then
         composer require codeclimate/php-test-reporter:dev-master@dev
         $PHPUNIT_CMD --coverage-text --coverage-clover .coverage/clover/clover.xml --coverage-html .coverage/html/
         ./vendor/bin/test-reporter --coverage-report .coverage/clover/clover.xml
