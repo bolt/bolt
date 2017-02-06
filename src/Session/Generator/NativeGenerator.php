@@ -29,6 +29,6 @@ class NativeGenerator implements GeneratorInterface
      */
     public function generateId()
     {
-        return random_bytes($this->length);
+        return substr(bin2hex(random_bytes($this->length)), 0, $this->length);
     }
 }

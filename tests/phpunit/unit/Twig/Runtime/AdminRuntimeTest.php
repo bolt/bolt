@@ -6,7 +6,6 @@ use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\AdminRuntime;
 use Monolog\Logger;
-use Silex\Translator;
 
 /**
  * Class to test Bolt\Twig\Runtime\AdminRuntime

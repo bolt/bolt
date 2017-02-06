@@ -172,7 +172,15 @@ GRINGALET;
         $app['request_stack']->push($request);
 
         $handler = $this->getRecordRuntime();
-        $content = new Content($app, 'pages', ['id' => 42, 'slug' => 'koala']);
+        $content = $this->getMockBuilder(Content::class)
+            ->setMethods(['link'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
+        $content->expects($this->atLeastOnce())
+            ->method('link')
+            ->will($this->returnValue('/pages/koala'))
+        ;
 
         $result = $handler->current($content);
         $this->assertTrue($result);

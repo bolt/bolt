@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\AccessChecker;
@@ -19,7 +20,6 @@ use GuzzleHttp\Client;
 use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject;
 use Swift_Mailer;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;

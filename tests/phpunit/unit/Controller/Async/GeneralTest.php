@@ -3,10 +3,8 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Controller\Zone;
-use Bolt\Logger\Manager;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,7 +33,7 @@ class GeneralTest extends ControllerUnitTest
         $request = $this->getRequest();
         $request->cookies->set($app['token.authentication.name'], 'dropbear');
 
-        $kernel = $this->createMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
 
         $this->assertEquals('async', Zone::get($request));

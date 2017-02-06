@@ -46,6 +46,6 @@ class Generator
      */
     public function generateString($length)
     {
-        return substr(bin2hex(random_bytes($length)), 1, $length);
+        return substr(bin2hex(random_bytes($length)), 0, $length);
     }
 }
