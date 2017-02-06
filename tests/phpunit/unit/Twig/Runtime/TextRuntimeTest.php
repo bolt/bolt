@@ -62,7 +62,7 @@ class TextRuntimeTest extends BoltUnitTest
             ->method('setlocale')
             ->will($this->returnValue(false))
         ;
-        $logger = $this->getMock('Monolog\Logger', ['error'], ['dropbear']);
+        $logger = $this->getMockMonolog();
         $logger
             ->expects($this->once())
             ->method('error')

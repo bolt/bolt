@@ -40,7 +40,7 @@ class UsersTest extends ControllerUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
+        $perms = $this->getMockPermissions();
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
@@ -64,7 +64,7 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($user));
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
+        $perms = $this->getMockPermissions();
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
@@ -139,7 +139,7 @@ class UsersTest extends ControllerUnitTest
 
     public function testModifyBadCsrf()
     {
-        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf = $this->getMockCsrfTokenManager();
         $csrf->expects($this->any())
             ->method('isTokenValid')
             ->will($this->returnValue(false));
@@ -157,7 +157,7 @@ class UsersTest extends ControllerUnitTest
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf = $this->getMockCsrfTokenManager();
         $csrf->expects($this->any())
             ->method('isTokenValid')
             ->will($this->returnValue(true));
@@ -219,7 +219,7 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
         $editor = $this->getService('users')->getUser('editor');
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
+        $perms = $this->getMockPermissions();
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(false));
@@ -239,13 +239,13 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf = $this->getMockCsrfTokenManager();
         $csrf->expects($this->any())
             ->method('isTokenValid')
             ->will($this->returnValue(true));
         $this->setService('csrf', $csrf);
 
-        $users = $this->getMock('Bolt\Users', ['setEnabled', 'deleteUser'], [$this->getApp()]);
+        $users = $this->getMockUsers(['setEnabled', 'deleteUser']);
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));
@@ -312,7 +312,7 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($user));
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
+        $perms = $this->getMockPermissions();
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));

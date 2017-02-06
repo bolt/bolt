@@ -46,15 +46,25 @@ class StorageTest extends BoltUnitTest
 
         $fields = $app['config']->get('contenttypes/fakes/fields');
 
-        $mock = $this->getMock('Bolt\Legacy\Content', [], [$app], 'Fakes');
+        $mock = $this->getMockBuilder(Content::class)
+            ->setMethods([])
+            ->setConstructorArgs([$app])
+            ->setMockClassName('Fakes')
+            ->getMock()
+        ;
         $content = $storage->getContentObject(['class' => 'Fakes', 'fields' => $fields]);
         $this->assertInstanceOf('Fakes', $content);
         $this->assertInstanceOf('Bolt\Legacy\Content', $content);
 
         // Test that a class not instanceof Bolt\Legacy\Content fails
-        $mock = $this->getMock('stdClass', null, [], 'Failing');
+        $mock = $this->getMockBuilder(\stdClass::class)
+            ->setMethods(null)
+            ->setConstructorArgs([])
+            ->setMockClassName('Failing')
+            ->getMock()
+        ;
         $this->setExpectedException('Exception', 'Failing does not extend \Bolt\Legacy\Content.');
-        $content = $storage->getContentObject(['class' => 'Failing', 'fields' => $fields]);
+        $storage->getContentObject(['class' => 'Failing', 'fields' => $fields]);
     }
 
     public function testPreFill()

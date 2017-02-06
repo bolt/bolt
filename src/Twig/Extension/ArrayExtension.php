@@ -165,12 +165,7 @@ class ArrayExtension extends Extension
     public function unique($arr1, $arr2)
     {
         $merged = array_unique(array_merge($arr1, $arr2), SORT_REGULAR);
-        $compiled = [];
 
-        foreach ($merged as $val) {
-            $compiled[$val[0]] = $val;
-        }
-
-        return $compiled;
+        return $merged;
     }
 }

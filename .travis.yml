@@ -23,11 +23,15 @@ before_install:
   # Workaround for IPv6 problems connection to packagist.org
   - sudo sh -c "echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf"
   # Set up HHVM
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'hhvm.jit = false' >> /etc/hhvm/php.ini ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo sh -c 'echo RUN_AS_USER=\"travis\"  >> /etc/default/hhvm' ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo sh -c 'echo RUN_AS_GROUP=\"travis\" >> /etc/default/hhvm' ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then sudo service hhvm restart ; sleep 1 ; fi
+  - |
+    if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then
+        echo 'xdebug.enable = On' >> /etc/hhvm/php.ini
+        echo 'hhvm.jit = false' >> /etc/hhvm/php.ini
+        sudo sh -c 'echo RUN_AS_USER=\"travis\"  >> /etc/default/hhvm'
+        sudo sh -c 'echo RUN_AS_GROUP=\"travis\" >> /etc/default/hhvm'
+        sudo service hhvm restart
+        sleep 1
+    fi
   # Start SMTP listener
   - sudo python -m smtpd -n -c DebuggingServer localhost:25 2>&1 > /dev/null &
   # Increase PHP memory limit. Required for Composer & PHPUnit.
@@ -36,7 +40,7 @@ before_install:
 before_script:
   # Set up Composer
   - composer self-update || true
-#  - composer global require hirak/prestissimo:^0.2
+  - composer global require hirak/prestissimo:~0.3
   - composer install --prefer-dist
   # Set up MySQL
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
@@ -51,7 +55,15 @@ before_script:
 script:
   ## Default install tests
   # PHPUnit
-  - php -d memory_limit=2G ./vendor/bin/phpunit
+  - |
+    export PHPUNIT_CMD="php -d memory_limit=2G ./vendor/bin/phpunit"
+    if [[ $TRAVIS_EVENT_TYPE == "cron" && $TRAVIS_PHP_VERSION =~ ^7 ]] ; then
+        composer require codeclimate/php-test-reporter:dev-master@dev
+        $PHPUNIT_CMD --coverage-text --coverage-clover .coverage/clover/clover.xml --coverage-html .coverage/html/
+        ./vendor/bin/test-reporter --coverage-report .coverage/clover/clover.xml
+    else
+        $PHPUNIT_CMD
+    fi
   # Codeception set up (PHP >5.3)
   - ./vendor/codeception/codeception/codecept build
   # Codeception Sqlite run (PHP >5.3)

@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Composer\Satis\QueryService;
+use Bolt\Controller\Backend\Extend;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,8 +41,10 @@ class ExtendTest extends ControllerUnitTest
         $this->assertEquals('@bolt/extend/_action-modal.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/', 'GET', ['package' => 'bolt/theme-2014']));
-        /** @var \Bolt\Controller\Backend\Extend|\PHPUnit_Framework_MockObject_MockObject $controller */
-        $controller = $this->getMock('Bolt\Controller\Backend\Extend', ['installInfo', 'packageInfo', 'check']);
+        $controller = $this->getMockBuilder(Extend::class)
+            ->setMethods(['installInfo', 'packageInfo', 'check'])
+            ->getMock()
+        ;
         $controller->expects($this->any())
             ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
@@ -94,7 +98,13 @@ class ExtendTest extends ControllerUnitTest
     public function testInstallInfo()
     {
         $this->getApp()->flush();
-        $mockInfo = $this->getMock('Bolt\Composer\Satis\QueryService', ['info'], [], 'MockInfoService', false);
+        $mockInfo = $this->getMockBuilder(QueryService::class)
+            ->setMethods(['info'])
+            ->setConstructorArgs([$this->getApp()])
+            ->setMockClassName('MockInfoService')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
         $mockInfo->expects($this->once())
             ->method('info')
             ->will($this->returnValue($this->packageInfoProvider()));

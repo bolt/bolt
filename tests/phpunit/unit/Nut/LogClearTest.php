@@ -4,6 +4,7 @@ namespace Bolt\Tests\Nut;
 use Bolt\Nut\LogClear;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -20,7 +21,10 @@ class LogClearTest extends BoltUnitTest
         $command = new LogClear($app);
         $tester = new CommandTester($command);
 
-        $helper = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        $helper = $this->getMockBuilder(QuestionHelper::class)
+            ->setMethods(['ask'])
+            ->getMock()
+        ;
         $helper->expects($this->once())
             ->method('ask')
             ->will($this->returnValue(true));
