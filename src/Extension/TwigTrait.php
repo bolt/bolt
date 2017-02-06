@@ -94,7 +94,7 @@ trait TwigTrait
     {
         $app = $this->getContainer();
 
-        $app['twig'] = $app->share(
+        $app['twig'] = 
             $app->extend(
                 'twig',
                 function ($twig) {
@@ -103,7 +103,7 @@ trait TwigTrait
                     return $twig;
                 }
             )
-        );
+        ;
     }
 
     /**

@@ -4,23 +4,20 @@ namespace Bolt\Provider;
 
 use Bolt\Cron;
 use Silex;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Pimple\Container;
 
 class CronServiceProvider implements ServiceProviderInterface
 {
-    public function register(Silex\Application $app)
+    public function register(Container $app)
     {
-        $app['cron'] = $app->share(
+        $app['cron'] = 
             function ($app) {
                 $cron = new Cron($app, new BufferedOutput());
 
                 return $cron;
             }
-        );
-    }
-
-    public function boot(Silex\Application $app)
-    {
+        ;
     }
 }

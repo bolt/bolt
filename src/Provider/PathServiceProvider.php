@@ -10,25 +10,27 @@ use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\BootException;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
+use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class PathServiceProvider implements ServiceProviderInterface
+class PathServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // @deprecated
         if (!isset($app['path_resolver_factory'])) {
-            $app['path_resolver_factory'] = $app->share(
+            $app['path_resolver_factory'] = 
                 function ($app) {
                     return (new PathResolverFactory())
                         ->setRootPath($app['path_resolver.root'])
                         ->addPaths($app['path_resolver.paths'])
                     ;
                 }
-            );
+            ;
         }
 
-        $app['path_resolver'] = $app->share(
+        $app['path_resolver'] = 
             function ($app) {
                 $resolver = $app['path_resolver_factory']
                     ->addPaths($app['path_resolver.paths'])
@@ -40,17 +42,17 @@ class PathServiceProvider implements ServiceProviderInterface
 
                 return $resolver;
             }
-        );
+        ;
         $app['path_resolver.root'] = '';
         $app['path_resolver.paths'] = [];
 
-        $app['pathmanager'] = $app->share(
+        $app['pathmanager'] = 
             function () {
                 $filesystempath = new PlatformFileSystemPathFactory();
 
                 return $filesystempath;
             }
-        );
+        ;
 
         $app['resources.check_files'] = $app->protect(
             function (ResourceManager $resources) {
@@ -73,7 +75,7 @@ class PathServiceProvider implements ServiceProviderInterface
         );
 
         if (!isset($app['resources'])) {
-            $app['resources'] = $app->share(
+            $app['resources'] = 
                 function ($app) {
                     $resources = new ResourceManager(new \ArrayObject([
                         'rootpath'              => $app['path_resolver.root'],
@@ -84,13 +86,15 @@ class PathServiceProvider implements ServiceProviderInterface
 
                     return $resources;
                 }
-            );
+            ;
         }
 
         $resourcesSetup = function (ResourceManager $resources) use ($app) {
             // This is to sync service if ResourceManager is created without the factory passed in.
             // In most cases it is so this technically doesn't change anything.
-            $app['path_resolver_factory'] = $resources->getPathResolverFactory();
+
+            // TODO: This ...
+            //$app['path_resolver_factory'] = $resources->getPathResolverFactory();
 
             $resources->setApp($app);
 
@@ -102,7 +106,7 @@ class PathServiceProvider implements ServiceProviderInterface
         if ($resources instanceof ResourceManager) {
             $resourcesSetup($resources);
         } else {
-            $app['resources'] = $app->share(
+            $app['resources'] = 
                 $app->extend(
                     'resources',
                     function ($resources) use ($resourcesSetup) {
@@ -111,18 +115,18 @@ class PathServiceProvider implements ServiceProviderInterface
                         return $resources;
                     }
                 )
-            );
+            ;
         }
 
-        $app['classloader'] = $app->share(function ($app) {
+        $app['classloader'] = function ($app) {
             return $app['resources']->getClassLoader();
-        });
+        };
 
-        $app['paths'] = $app->share(function ($app) {
+        $app['paths'] = function ($app) {
             return new LazyPathsProxy(function () use ($app) {
                 return $app['resources'];
             });
-        });
+        };
     }
 
     public function boot(Application $app)

@@ -12,7 +12,8 @@ use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use Silex\Application;
 use Silex\Provider\MonologServiceProvider;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Monolog provider for Bolt system logging entries.
@@ -21,10 +22,10 @@ use Silex\ServiceProviderInterface;
  */
 class LoggerServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // System log
-        $app['logger.system'] = $app->share(
+        $app['logger.system'] = 
             function ($app) {
                 $log = new Logger('logger.system');
                 $log->pushHandler($app['monolog.handler']);
@@ -32,20 +33,20 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
                 return $log;
             }
-        );
+        ;
 
         // Changelog
-        $app['logger.change'] = $app->share(
+        $app['logger.change'] = 
             function ($app) {
                 $log = new Logger('logger.change');
                 $log->pushHandler(new RecordChangeHandler($app));
 
                 return $log;
             }
-        );
+        ;
 
         // Firebug
-        $app['logger.firebug'] = $app->share(
+        $app['logger.firebug'] = 
             function ($app) {
                 $log = new Logger('logger.firebug');
                 $handler = new FirePHPHandler();
@@ -54,19 +55,19 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
                 return $log;
             }
-        );
+        ;
 
         // System log
-        $app['logger.flash'] = $app->share(
+        $app['logger.flash'] = 
             function ($app) {
                 $log = new FlashLogger();
 
                 return $log;
             }
-        );
+        ;
 
         // Manager
-        $app['logger.manager'] = $app->share(
+        $app['logger.manager'] = 
             function ($app) {
                 $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
                 $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
@@ -74,7 +75,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
                 return $mgr;
             }
-        );
+        ;
 
         $app->register(
             new MonologServiceProvider(),
@@ -106,9 +107,5 @@ class LoggerServiceProvider implements ServiceProviderInterface
         $app['logger.debug'] = function () use ($app) {
             return $app['monolog'];
         };
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

@@ -25,7 +25,7 @@ trait TranslationTrait
     {
         $app = $this->getContainer();
 
-        $app['translator'] = $app->share(
+        $app['translator'] = 
             $app->extend(
                 'translator',
                 function ($translator) {
@@ -40,7 +40,7 @@ trait TranslationTrait
                     return $translator;
                 }
             )
-        );
+        ;
     }
 
     /**

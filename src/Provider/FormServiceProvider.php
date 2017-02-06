@@ -6,10 +6,11 @@ use Bolt\Form;
 use Bolt\Form\Validator\Constraints\ExistingEntityValidator;
 use Silex\Application;
 use Silex\Provider\FormServiceProvider as SilexFormServiceProvider;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use Pimple\Container;
 
 /**
  * Register form services
@@ -18,19 +19,19 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  */
 class FormServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['form.factory'])) {
             $app->register(new SilexFormServiceProvider());
         }
 
-        $app['form.csrf_provider'] = $app->share(
+        $app['form.csrf_provider'] = 
             function ($app) {
                 return $app['csrf'];
             }
-        );
+        ;
 
-        $app['form.extensions'] = $app->share(
+        $app['form.extensions'] = 
             $app->extend(
                 'form.extensions',
                 function ($extensions, $app) {
@@ -39,40 +40,36 @@ class FormServiceProvider implements ServiceProviderInterface
                     return $extensions;
                 }
             )
-        );
+        ;
 
-        $app['form.validator.existing_entity'] = $app->share(
+        $app['form.validator.existing_entity'] = 
             function ($app) {
                 return new ExistingEntityValidator($app['storage']);
             }
-        );
+        ;
 
         $app['validator.validator_service_ids'] += [
             ExistingEntityValidator::class => 'form.validator.existing_entity'
         ];
 
 
-        $app['csrf'] = $app->share(
+        $app['csrf'] = 
             function ($app) {
                 return new CsrfTokenManager($app['csrf.generator'], $app['csrf.storage']);
             }
-        );
+        ;
 
-        $app['csrf.generator'] = $app->share(
+        $app['csrf.generator'] = 
             function ($app) {
                 return new UriSafeTokenGenerator($app['csrf.generator.entropy']);
             }
-        );
+        ;
         $app['csrf.generator.entropy'] = 256;
 
-        $app['csrf.storage'] = $app->share(
+        $app['csrf.storage'] = 
             function ($app) {
                 return new SessionTokenStorage($app['session']);
             }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+        ;
     }
 }

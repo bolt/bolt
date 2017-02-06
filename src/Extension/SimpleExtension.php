@@ -4,7 +4,7 @@ namespace Bolt\Extension;
 
 use Bolt\Events\ControllerEvents;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -44,11 +44,11 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      *
      * Example:
      * <pre>
-     *   $app['koala'] = $app->share(
+     *   $app['koala'] = 
      *       function ($app) {
      *           return new Koala($app['drop.bear']);
      *       }
-     *   );
+     *   ;
      * </pre>
      *
      * @param Application $app

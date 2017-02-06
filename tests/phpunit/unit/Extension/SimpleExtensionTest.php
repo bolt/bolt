@@ -47,7 +47,7 @@ class SimpleExtensionTest extends BoltUnitTest
 
         $providers = $ext->getServiceProviders();
         $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $providers[0]);
-        $this->assertInstanceOf('Silex\ServiceProviderInterface', $providers[0]);
+        $this->assertInstanceOf('Pimple\ServiceProviderInterface', $providers[0]);
         $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface', $providers[0]);
     }
 

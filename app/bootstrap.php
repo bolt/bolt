@@ -10,7 +10,7 @@ use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
-use Silex;
+use Pimple;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -103,15 +103,15 @@ return call_user_func(function () {
         return $config['application'];
     }
 
-    $pathResolverFactoryFactory = \Pimple::share(function () use ($rootPath, $config) {
+    $pathResolverFactoryFactory = function () use ($rootPath, $config) {
         $pathResolverFactory = new PathResolverFactory();
         $pathResolverFactory->setRootPath($rootPath);
         $pathResolverFactory->addPaths((array) $config['paths']);
 
         return $pathResolverFactory;
-    });
+    };
 
-    $resourcesFactory = \Pimple::share(function () use ($config, $resourcesClass, $rootPath, $pathResolverFactoryFactory) {
+    $resourcesFactory = function () use ($config, $resourcesClass, $rootPath, $pathResolverFactoryFactory) {
         // Use resources from config, or instantiate the class based on mapping above.
         if ($config['resources'] instanceof ResourceManager) {
             $resources = $config['resources'];
@@ -147,7 +147,7 @@ return call_user_func(function () {
         $resources->verify();
 
         return $resources;
-    });
+    };
 
     // If resources is already initialized, go ahead and customize it now.
     if ($config['resources'] instanceof ResourceManager) {
@@ -175,16 +175,16 @@ return call_user_func(function () {
             $service = $key;
         }
 
-        if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
+        if (is_string($service) && is_a($service, Pimple\ServiceProviderInterface::class, true)) {
             $service = new $service();
         }
-        if ($service instanceof Silex\ServiceProviderInterface) {
+        if ($service instanceof Pimple\ServiceProviderInterface) {
             $app->register($service, $params);
         }
 
     }
 
-    $app['extensions'] = $app->share(
+    $app['extensions'] = 
         $app->extend('extensions', function ($extensions) use ($config) {
             foreach ((array)$config['extensions'] as $extensionClass) {
                 if (is_string($extensionClass) && class_exists($extensionClass, true)) {
@@ -199,7 +199,7 @@ return call_user_func(function () {
 
             return $extensions;
         })
-    );
+    ;
 
     return $app;
 });

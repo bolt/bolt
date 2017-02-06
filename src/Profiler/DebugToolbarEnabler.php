@@ -2,19 +2,21 @@
 namespace Bolt\Profiler;
 
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Enables debug toolbar if applicable
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberInterface
+class DebugToolbarEnabler implements ServiceProviderInterface, BootableProviderInterface, EventSubscriberInterface
 {
     /** @var WebDebugToolbarListener */
     protected $listener;
@@ -46,7 +48,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
     }
 

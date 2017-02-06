@@ -6,14 +6,15 @@ use Bolt\Nut;
 use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\Console\Command\Command;
+use Pimple\Container;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['nut'] = $app->share(
+        $app['nut'] = 
             function ($app) {
                 $console = new NutApplication();
 
@@ -26,9 +27,9 @@ class NutServiceProvider implements ServiceProviderInterface
 
                 return $console;
             }
-        );
+        ;
 
-        $app['nut.commands'] = $app->share(
+        $app['nut.commands'] = 
             function ($app) {
                 return [
                     new Nut\CacheClear($app),
@@ -60,7 +61,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserRoleRemove($app),
                 ];
             }
-        );
+        ;
 
         /**
          * This is a shortcut to add commands to nut lazily.
@@ -88,7 +89,7 @@ class NutServiceProvider implements ServiceProviderInterface
          */
         $app['nut.commands.add'] = $app->protect(
             function ($commandsToAdd) use ($app) {
-                $app['nut.commands'] = $app->share(
+                $app['nut.commands'] = 
                     $app->extend(
                         'nut.commands',
                         function ($existingCommands, $app) use ($commandsToAdd) {
@@ -108,12 +109,8 @@ class NutServiceProvider implements ServiceProviderInterface
                             return $existingCommands;
                         }
                     )
-                );
+                ;
             }
         );
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

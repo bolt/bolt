@@ -87,10 +87,6 @@ class Extend extends BackendBase
         return parent::before($request, $app, 'extensions');
     }
 
-    public function boot(Application $app)
-    {
-    }
-
     /**
      * Check a package.
      *

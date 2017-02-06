@@ -35,7 +35,7 @@ trait MenuTrait
     {
         $app = $this->getContainer();
 
-        $app['menu.admin'] = $app->share(
+        $app['menu.admin'] = 
             $app->extend(
                 'menu.admin',
                 function (MenuEntry $menus) {
@@ -60,7 +60,7 @@ trait MenuTrait
                     return $menus;
                 }
             )
-        );
+        ;
     }
 
     /**

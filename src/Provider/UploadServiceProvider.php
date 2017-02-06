@@ -5,8 +5,9 @@ namespace Bolt\Provider;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\UploadContainer;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Sirius\Upload\Handler as UploadHandler;
+use Pimple\Container;
 
 /**
  * Class to handle uploads
@@ -16,10 +17,10 @@ use Sirius\Upload\Handler as UploadHandler;
  */
 class UploadServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // This exposes the main upload object as a service
-        $app['upload'] = $app->share(
+        $app['upload'] = 
             function () use ($app) {
                 $allowedExtensions = $app['config']->get('general/accept_file_types');
                 $uploadHandler = new UploadHandler($app['upload.container']);
@@ -43,12 +44,12 @@ class UploadServiceProvider implements ServiceProviderInterface
 
                 return $uploadHandler;
             }
-        );
+        ;
 
         // This exposes the file container as a configurable object please refer to:
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
-        $app['upload.container'] = $app->share(
+        $app['upload.container'] = 
             function () use ($app) {
                 /** @var Filesystem $filesystem */
                 $filesystem = $app['filesystem']->getFilesystem($app['upload.namespace']);
@@ -56,7 +57,7 @@ class UploadServiceProvider implements ServiceProviderInterface
 
                 return $container;
             }
-        );
+        ;
 
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files
         // Note, if you want to provide an alternative namespace, you must set a path on the $app['resources']
@@ -67,9 +68,5 @@ class UploadServiceProvider implements ServiceProviderInterface
         $app['upload.prefix'] = date('Y-m') . '/';
 
         $app['upload.overwrite'] = false;
-    }
-
-    public function boot(Application $app)
-    {
     }
 }

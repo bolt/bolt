@@ -14,24 +14,26 @@ use Bolt\Session\SessionStorage;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Uri;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
 /**
  * Because screw PHP core.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionServiceProvider implements ServiceProviderInterface
+class SessionServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['session'] = $app->share(
+        $app['session'] = 
             function ($app) {
                 return new Session(
                     $app['session.storage'],
@@ -39,9 +41,9 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $app['session.bag.flash']
                 );
             }
-        );
+        ;
 
-        $app['session.storage'] = $app->share(
+        $app['session.storage'] = 
             function ($app) {
                 $options = $app['session.options_bag'];
 
@@ -54,30 +56,30 @@ class SessionServiceProvider implements ServiceProviderInterface
                     $app['session.serializer']
                 );
             }
-        );
+        ;
 
-        $app['session.listener'] = $app->share(
+        $app['session.listener'] = 
             function ($app) {
                 return new SessionListener($app['session'], $app['session.options_bag']);
             }
-        );
+        ;
 
         $this->registerOptions($app);
 
         $this->registerHandlers($app);
 
-        $app['session.generator'] = $app->share(
+        $app['session.generator'] = 
             function () use ($app) {
                 return new NativeGenerator($app['session.generator.bytes_length']);
             }
-        );
+        ;
         $app['session.generator.bytes_length'] = 32;
 
-        $app['session.serializer'] = $app->share(
+        $app['session.serializer'] = 
             function () {
                 return new NativeSerializer();
             }
-        );
+        ;
 
         $app['session.bag.attribute'] = function () {
             return new AttributeBag();
@@ -125,11 +127,11 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.options'] = [];
         $app['session.options.import_from_ini'] = true;
 
-        $app['session.options_bag'] = $app->share(
+        $app['session.options_bag'] = 
             function () use ($app) {
                 /*
                  * This does two things.
-                 * 1) Merges options together. Precedence is as follows:
+                 * 1 Merges options together. Precedence is as follows:
                  *    - Options from session.options
                  *    - Options from ini (if enabled with "session.options.import_from_ini")
                  *    - Options hardcoded below
@@ -190,7 +192,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 return $options;
             }
-        );
+        ;
     }
 
     protected function registerHandlers(Application $app)

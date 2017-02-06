@@ -6,7 +6,7 @@ use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
+use Silex\Api\ControllerProviderInterface;
 use Silex\Route;
 
 /**

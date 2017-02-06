@@ -6,7 +6,8 @@ use Bolt\EventListener\DoctrineListener;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * Database provider.
@@ -16,7 +17,7 @@ use Silex\ServiceProviderInterface;
  */
 class DatabaseServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['db'])) {
             $app->register(new \Silex\Provider\DoctrineServiceProvider());
@@ -26,7 +27,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             return $app['config']->get('general/database');
         };
 
-        $app['db.config'] = $app->share(
+        $app['db.config'] = 
             $app->extend(
                 'db.config',
                 function ($config) use ($app) {
@@ -35,16 +36,16 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     return $config;
                 }
             )
-        );
+        ;
 
-        $app['db.doctrine_listener'] = $app->share(
+        $app['db.doctrine_listener'] = 
             function ($app) {
                 return new DoctrineListener($app['logger.system'], $app['controller.exception']);
             }
-        );
+        ;
 
         // For each database connection add this class as an event subscriber
-        $app['dbs.event_manager'] = $app->share(
+        $app['dbs.event_manager'] = 
             $app->extend(
                 'dbs.event_manager',
                 function ($managers) use ($app) {
@@ -58,25 +59,25 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     return $managers;
                 }
             )
-        );
+        ;
 
-        $app['db.query_cache'] = $app->share(
+        $app['db.query_cache'] = 
             function ($app) {
                 $cache = $app['config']->get('general/caching/database') === true ? $app['cache'] : new ArrayCache();
 
                 return $cache;
             }
-        );
+        ;
 
-        $app['db.query_cache_profile'] = $app->share(
+        $app['db.query_cache_profile'] = 
             function ($app) {
                 $lifetime = $app['config']->get('general/caching/duration') ?: 0;
 
                 return new QueryCacheProfile($lifetime, 'bolt.db', $app['db.query_cache']);
             }
-        );
+        ;
 
-        $app['db'] = $app->share(
+        $app['db'] = 
             $app->extend(
                 'db',
                 function ($db) use ($app) {
@@ -85,10 +86,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     return $db;
                 }
             )
-        );
-    }
-
-    public function boot(Application $app)
-    {
+        ;
     }
 }

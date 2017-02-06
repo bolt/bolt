@@ -36,7 +36,7 @@ trait DatabaseSchemaTrait
     {
         $app = $this->getContainer();
 
-        $app['schema.extension_tables'] = $app->share(
+        $app['schema.extension_tables'] = 
             $app->extend(
                 'schema.extension_tables',
                 function (Container $tables) use ($app) {
@@ -51,7 +51,7 @@ trait DatabaseSchemaTrait
                     return $tables;
                 }
             )
-        );
+        ;
     }
 
     /** @return Container */

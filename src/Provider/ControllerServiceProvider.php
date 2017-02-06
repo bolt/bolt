@@ -5,12 +5,14 @@ use Bolt\Controller;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Pimple\Container;
+use Silex\Api\BootableProviderInterface;
 
-class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
+class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['controller.backend.mount_prefix'])) {
             $app['controller.backend.mount_prefix'] = function ($app) {
@@ -31,104 +33,104 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             };
         }
 
-        $app['controller.backend.authentication'] = $app->share(
+        $app['controller.backend.authentication'] = 
             function () {
                 return new Controller\Backend\Authentication();
             }
-        );
-        $app['controller.backend.extend'] = $app->share(
+        ;
+        $app['controller.backend.extend'] = 
             function () {
                 return new Controller\Backend\Extend();
             }
-        );
-        $app['controller.backend.database'] = $app->share(
+        ;
+        $app['controller.backend.database'] = 
             function () {
                 return new Controller\Backend\Database();
             }
-        );
-        $app['controller.backend.file_manager'] = $app->share(
+        ;
+        $app['controller.backend.file_manager'] = 
             function () {
                 return new Controller\Backend\FileManager();
             }
-        );
-        $app['controller.backend.general'] = $app->share(
+        ;
+        $app['controller.backend.general'] = 
             function () {
                 return new Controller\Backend\General();
             }
-        );
-        $app['controller.backend.log'] = $app->share(
+        ;
+        $app['controller.backend.log'] = 
             function () {
                 return new Controller\Backend\Log();
             }
-        );
-        $app['controller.backend.records'] = $app->share(
+        ;
+        $app['controller.backend.records'] = 
             function () {
                 return new Controller\Backend\Records();
             }
-        );
-        $app['controller.backend.upload'] = $app->share(
+        ;
+        $app['controller.backend.upload'] = 
             function () {
                 return new Controller\Backend\Upload();
             }
-        );
-        $app['controller.backend.users'] = $app->share(
+        ;
+        $app['controller.backend.users'] = 
             function () {
                 return new Controller\Backend\Users();
             }
-        );
+        ;
 
-        $app['controller.async.general'] = $app->share(
+        $app['controller.async.general'] = 
             function () {
                 return new Controller\Async\General();
             }
-        );
-        $app['controller.async.filesystem_manager'] = $app->share(
+        ;
+        $app['controller.async.filesystem_manager'] = 
             function () {
                 return new Controller\Async\FilesystemManager();
             }
-        );
-        $app['controller.async.records'] = $app->share(
+        ;
+        $app['controller.async.records'] = 
             function () {
                 return new Controller\Async\Records();
             }
-        );
-        $app['controller.async.stack'] = $app->share(
+        ;
+        $app['controller.async.stack'] = 
             function () {
                 return new Controller\Async\Stack();
             }
-        );
-        $app['controller.async.system_checks'] = $app->share(
+        ;
+        $app['controller.async.system_checks'] = 
             function () {
                 return new Controller\Async\SystemChecks();
             }
-        );
-        $app['controller.async.widget'] = $app->share(
+        ;
+        $app['controller.async.widget'] = 
             function () {
                 return new Controller\Async\Widget();
             }
-        );
+        ;
 
-        $app['controller.exception'] = $app->share(
+        $app['controller.exception'] = 
             function () {
                 return new Controller\Exception();
             }
-        );
+        ;
 
-        $app['controller.frontend'] = $app->share(
+        $app['controller.frontend'] = 
             function () {
                 return new Controller\Frontend();
             }
-        );
-        $app['controller.requirement'] = $app->share(
+        ;
+        $app['controller.requirement'] = 
             function ($app) {
                 return new Controller\Requirement($app['config']);
             }
-        );
-        $app['controller.requirement.deprecated'] = $app->share(
+        ;
+        $app['controller.requirement.deprecated'] = 
             function ($app) {
                 return new Controller\Routing($app['config']);
             }
-        );
+        ;
 
         $app['controller.classmap'] = [
             'Bolt\\Controllers\\Frontend' => 'controller.frontend',
