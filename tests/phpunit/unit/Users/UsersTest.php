@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Users;
 
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Users;
 
 /**
  * Class to test correct operation of src/Users.
@@ -34,7 +35,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserById()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users = $this->getMockUsers();
 
         // Run test
         $result = $users->getUser(2);
@@ -51,7 +52,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownId()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users = $this->getMockUsers();
 
         // Run test
         $result = $users->getUser(0);
@@ -66,7 +67,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUsername()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users = $this->getMockUsers();
 
         // Run test
         $result = $users->getUser('editor');
@@ -83,7 +84,7 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownUsername()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users = $this->getMockUsers();
 
         // Run test
         $result = $users->getUser('anotheruser');

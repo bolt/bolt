@@ -14,7 +14,11 @@ class BaseFieldTest extends BoltUnitTest
     public function testFieldSetup()
     {
         /** @var Base $field */
-        $field = $this->getMock('Bolt\Storage\Field\Base', null, ['test', 'test.twig']);
+        $field = $this->getMockBuilder(Base::class)
+            ->setMethods(null)
+            ->setConstructorArgs(['test', 'test.twig'])
+            ->getMock()
+        ;
         $this->assertEquals('test', $field->getName());
         $this->assertEquals('test.twig', $field->getTemplate());
 

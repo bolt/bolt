@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Session\Generator\RandomGenerator;
+use Bolt\Session\Generator\NativeGenerator;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
 use Bolt\Session\Handler\MemcacheHandler;
@@ -68,7 +68,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.generator'] = $app->share(
             function () use ($app) {
-                return new RandomGenerator($app['randomgenerator'], $app['session.generator.bytes_length']);
+                return new NativeGenerator($app['session.generator.bytes_length']);
             }
         );
         $app['session.generator.bytes_length'] = 32;

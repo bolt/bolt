@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Filesystem\FilePermissions;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -42,7 +43,11 @@ class FileManagerTest extends ControllerUnitTest
         $this->assertEquals([], $context['files']);
 
         // Try and upload a file
-        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', ['allowedUpload'], [$app['config']]);
+        $perms = $this->getMockBuilder(FilePermissions::class)
+            ->setMethods(['allowedUpload'])
+            ->setConstructorArgs([$app['config']])
+            ->getMock()
+        ;
         $perms->expects($this->any())
             ->method('allowedUpload')
             ->will($this->returnValue(true));

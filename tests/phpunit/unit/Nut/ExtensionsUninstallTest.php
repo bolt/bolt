@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Nut;
 
+use Bolt\Composer\PackageManager;
 use Bolt\Nut\ExtensionsUninstall;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -17,7 +18,11 @@ class ExtensionsUninstallTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock('Bolt\Composer\PackageManager', ['removePackage'], [$app]);
+        $runner = $this->getMockBuilder(PackageManager::class)
+            ->setMethods(['removePackage'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $runner->expects($this->any())
             ->method('removePackage')
             ->will($this->returnValue(0));
@@ -39,7 +44,11 @@ class ExtensionsUninstallTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock('Bolt\Composer\PackageManager', ['removePackage'], [$app]);
+        $runner = $this->getMockBuilder(PackageManager::class)
+            ->setMethods(['removePackage'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $runner->expects($this->any())
             ->method('removePackage')
             ->will($this->returnValue(1));

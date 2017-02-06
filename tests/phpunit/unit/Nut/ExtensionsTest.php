@@ -22,7 +22,11 @@ class ExtensionsTest extends BoltUnitTest
         $testPackage->setDescription('An extension');
         $testPackage->setType('bolt-extension');
 
-        $runner = $this->getMock(PackageManager::class, ['showPackage'], [$app]);
+        $runner = $this->getMockBuilder(PackageManager::class)
+            ->setMethods(['showPackage'])
+            ->setConstructorArgs([$app])
+            ->getMock()
+        ;
         $runner->expects($this->any())
             ->method('showPackage')
             ->will($this->returnValue(['test' => ['package' => $testPackage]]));

@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\AccessControl\Password;
 use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
@@ -24,7 +25,7 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
@@ -47,7 +48,7 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
@@ -70,7 +71,7 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
@@ -94,7 +95,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testLoginSuccess()
     {
         $app = $this->getApp();
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')
             ->will($this->returnValue(true));
@@ -113,19 +114,14 @@ class AuthenticationTest extends ControllerUnitTest
         $dispatcher = $this->getService('swiftmailer.transport.eventdispatcher');
         $this->setService('swiftmailer.transport', new \Swift_Transport_NullTransport($dispatcher));
 
-        $app = $this->getApp();
         $this->setSessionUser(new Entity\Users());
-        $loginMock = $this->getLoginMock($app);
+        $loginMock = $this->getMockLogin();
         $loginMock->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
         $this->setService('access_control.login', $loginMock);
 
-        $passwordMock = $this->getMock(
-            'Bolt\AccessControl\Password',
-            ['resetPasswordRequest'],
-            [$app]
-        );
+        $passwordMock = $this->getMockPassword(['resetPasswordRequest']);
         $passwordMock->expects($this->once())
             ->method('resetPasswordRequest')
             ->with($this->equalTo('admin'))
@@ -151,7 +147,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testLogout()
     {
         $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['revokeSession']);
+        $authentication = $this->getMockAccessChecker($app, ['revokeSession']);
         $authentication->expects($this->once())
             ->method('revokeSession')
             ->will($this->returnValue(true));
@@ -165,12 +161,7 @@ class AuthenticationTest extends ControllerUnitTest
 
     public function testResetPassword()
     {
-        $app = $this->getApp();
-        $passwordMock = $this->getMock(
-            'Bolt\AccessControl\Password',
-            ['resetPasswordConfirm'],
-            [$app]
-        );
+        $passwordMock = $this->getMockPassword(['resetPasswordConfirm']);
         $passwordMock->expects($this->once())
             ->method('resetPasswordConfirm')
             ->will($this->returnValue(true));
@@ -188,5 +179,19 @@ class AuthenticationTest extends ControllerUnitTest
     protected function controller()
     {
         return $this->getService('controller.backend.authentication');
+    }
+
+    /**
+     * @param array $methods
+     *
+     * @return Password|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockPassword(array $methods)
+    {
+        return $this->getMockBuilder(Password::class)
+            ->setMethods($methods)
+            ->setConstructorArgs([$this->getApp()])
+            ->getMock()
+            ;
     }
 }

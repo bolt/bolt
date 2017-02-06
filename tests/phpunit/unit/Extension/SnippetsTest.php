@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Asset\Target;
+use Bolt\Tests\Asset\AbstractExtensionsUnitTest;
 
 /**
  * Class to test correct operation and locations of extensions.

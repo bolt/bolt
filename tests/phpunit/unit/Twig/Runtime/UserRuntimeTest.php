@@ -97,7 +97,7 @@ class UserRuntimeTest extends BoltUnitTest
     public function testIsAllowedObject()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')
@@ -114,7 +114,7 @@ class UserRuntimeTest extends BoltUnitTest
     public function testIsAllowedArray()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')
@@ -130,7 +130,7 @@ class UserRuntimeTest extends BoltUnitTest
     public function testIsAllowedString()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users = $this->getMockUsers();
         $users
             ->expects($this->atLeastOnce())
             ->method('isAllowed')
