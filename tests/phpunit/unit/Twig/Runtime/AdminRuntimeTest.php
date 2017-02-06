@@ -6,7 +6,6 @@ use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\AdminRuntime;
 use Monolog\Logger;
-use Silex\Translator;
 
 /**
  * Class to test Bolt\Twig\Runtime\AdminRuntime
@@ -61,7 +60,7 @@ class AdminRuntimeTest extends BoltUnitTest
     public function testStackable()
     {
         $app = $this->getApp();
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
+        $stack = $this->getMockStack();
         $stack
             ->expects($this->once())
             ->method('isStackable')
@@ -77,7 +76,7 @@ class AdminRuntimeTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $stack = $this->getMock(Stack::class, [], [$app['filesystem.matcher'], $app['users'], $app['session'], []]);
+        $stack = $this->getMockStack();
         $stack
             ->expects($this->exactly(3))
             ->method('getList')
@@ -176,7 +175,11 @@ class AdminRuntimeTest extends BoltUnitTest
     public function testTransArgsFour()
     {
         $app = $this->getApp();
-        $trans = $this->getMock('Silex\Translator', ['trans'], [$app, $app['translator.message_selector']]);
+        $trans = $this->getMockBuilder(\Silex\Translator::class)
+            ->setMethods(['trans'])
+            ->setConstructorArgs([$app, $app['translator.message_selector']])
+            ->getMock()
+        ;
         $trans
             ->expects($this->atLeastOnce())
             ->method('trans')
@@ -274,5 +277,19 @@ class AdminRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
 
         return new AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);
+    }
+
+    /**
+     * @return Stack|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getMockStack()
+    {
+        $app = $this->getApp();
+
+        return $this->getMockBuilder(Stack::class)
+            ->setMethods([])
+            ->setConstructorArgs([$app['filesystem.matcher'], $app['users'], $app['session'], []])
+            ->getMock()
+            ;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Logger\Manager;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,10 +28,7 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
-
+        $log = $this->getMockLoggerManager();
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -163,7 +161,11 @@ class LogTest extends ControllerUnitTest
 
         $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
         $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
+        $log = $this->getMockBuilder(Manager::class)
+            ->setMethods(['clear', 'trim'])
+            ->setConstructorArgs([$this->getApp(), $changeRepository, $systemRepository])
+            ->getMock()
+        ;
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));

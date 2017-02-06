@@ -1,5 +1,6 @@
 <?php
-namespace Bolt\Tests\Extensions;
+
+namespace Bolt\Tests\Asset;
 
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Filesystem\Filesystem;
@@ -23,7 +24,7 @@ abstract class AbstractExtensionsUnitTest extends BoltUnitTest
             ->mockFunction('file_get_contents')
             ->getMock();
 
-        $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Tests\Extensions\Mock')
+        $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Tests\Asset\Mock')
             ->mockFunction('file_get_contents')
             ->getMock();
     }

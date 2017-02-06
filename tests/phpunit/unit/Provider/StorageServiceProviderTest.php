@@ -1,7 +1,10 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Legacy\Storage;
 use Bolt\Provider\StorageServiceProvider;
+use Bolt\Storage\EntityManager;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -16,8 +19,8 @@ class StorageServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new StorageServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Storage\EntityManager', $app['storage']);
-        $this->assertInstanceOf('Bolt\Storage', $app['storage.legacy']);
+        $this->assertInstanceOf(EntityManager::class, $app['storage']);
+        $this->assertInstanceOf(Storage::class, $app['storage.legacy']);
         $app->boot();
     }
 }

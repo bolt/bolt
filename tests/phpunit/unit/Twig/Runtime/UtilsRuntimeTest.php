@@ -55,7 +55,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
-        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
         ->method('info');
         $app['logger.firebug'] = $logger;
@@ -71,7 +71,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $app['debug'] = true;
         $app['config']->set('general/debug_show_loggedoff', true);
 
-        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('info');
         $app['logger.firebug'] = $logger;
@@ -86,7 +86,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $app = $this->getApp();
         $app['debug'] = true;
 
-        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger = $this->getMockMonolog();
         $logger->expects($this->never())
             ->method('info');
         $app['logger.firebug'] = $logger;
