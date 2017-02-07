@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
-use Bolt\Exception\Configuration\Validation\System\SafeModeValidationException;
 
 /**
  * Safe mode validation tests.
@@ -15,7 +14,7 @@ use Bolt\Exception\Configuration\Validation\System\SafeModeValidationException;
 class SafeModeTest extends AbstractValidationTest
 {
     /**
-     * @expectedException SafeModeValidationException
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\SafeModeValidationException
      */
     public function testSafeModeEnabled()
     {

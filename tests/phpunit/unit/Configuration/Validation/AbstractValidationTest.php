@@ -4,9 +4,11 @@ namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\Validation;
 use Bolt\Configuration\Validation\Validator;
 use Bolt\Logger\FlashLogger;
 use PHPUnit_Extension_FunctionMocker;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Abstract validation tests.
@@ -15,7 +17,7 @@ use PHPUnit_Extension_FunctionMocker;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-abstract class AbstractValidationTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractValidationTest extends PHPUnit_Framework_TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -72,5 +74,17 @@ abstract class AbstractValidationTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         PHPUnit_Extension_FunctionMocker::tearDown();
+    }
+
+    /**
+     * @return Validation\Database
+     */
+    protected function getDatabaseValidator()
+    {
+        $validator = new Validation\Database();
+        $validator->setConfig($this->config->reveal());
+        $validator->setResourceManager($this->resourceManager->reveal());
+
+        return $validator;
     }
 }

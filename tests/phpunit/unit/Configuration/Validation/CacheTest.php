@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
-use Bolt\Exception\Configuration\Validation\System\CacheValidationException;
 
 /**
  * Cache validation tests.
@@ -31,7 +30,7 @@ class CacheTest extends AbstractValidationTest
     }
 
     /**
-     * @expectedException CacheValidationException
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\CacheValidationException
      */
     public function testCacheDirectoryIsNotDirectory()
     {
@@ -49,7 +48,7 @@ class CacheTest extends AbstractValidationTest
     }
 
     /**
-     * @expectedException CacheValidationException
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\CacheValidationException
      */
     public function testCacheDirectoryNotWritable()
     {

@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
-use Bolt\Exception\Configuration\Validation\System\MagicQuotesValidationException;
 
 /**
  * Magic quotes validation tests.
@@ -15,7 +14,7 @@ use Bolt\Exception\Configuration\Validation\System\MagicQuotesValidationExceptio
 class MagicQuotesTest extends AbstractValidationTest
 {
     /**
-     * @expectedException MagicQuotesValidationException
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\MagicQuotesValidationException
      */
     public function testMagicQuotesEnabled()
     {

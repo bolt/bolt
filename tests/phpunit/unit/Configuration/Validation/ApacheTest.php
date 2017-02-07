@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
-use Bolt\Exception\Configuration\Validation\System\ApacheValidationException;
 
 /**
  * Apache validation tests.
@@ -28,7 +27,7 @@ class ApacheTest extends AbstractValidationTest
     }
 
     /**
-     * @expectedException ApacheValidationException
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\ApacheValidationException
      */
     public function testApacheChecksInvalid()
     {
