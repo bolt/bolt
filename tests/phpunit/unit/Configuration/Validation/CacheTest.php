@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
+use Bolt\Exception\Configuration\Validation\System\CacheValidationException;
 
 /**
  * Cache validation tests.
@@ -15,30 +16,29 @@ class CacheTest extends AbstractValidationTest
 {
     public function testCacheDirectoryIsValid()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_CACHE)->shouldNotBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('is_dir')
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
         $this->_validation
             ->expects($this->once())
             ->method('is_writable')
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
 
         $this->validator->check(Validator::CHECK_CACHE);
     }
 
+    /**
+     * @expectedException CacheValidationException
+     */
     public function testCacheDirectoryIsNotDirectory()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => null])->shouldBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('is_dir')
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
         $this->_validation
             ->expects($this->never())
@@ -48,10 +48,11 @@ class CacheTest extends AbstractValidationTest
         $this->validator->check(Validator::CHECK_CACHE);
     }
 
+    /**
+     * @expectedException CacheValidationException
+     */
     public function testCacheDirectoryNotWritable()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => null])->shouldBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('is_dir')

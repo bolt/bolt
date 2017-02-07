@@ -58,8 +58,6 @@ class ConfigListener implements EventSubscriberInterface
      * Normal functions.
      *
      * @param GetResponseEvent $event
-     *
-     * @return null
      */
     public function onRequest(GetResponseEvent $event)
     {
@@ -72,23 +70,16 @@ class ConfigListener implements EventSubscriberInterface
 
         // Only cache if the config passes checks
         if ($this->app['config']->checkConfig() === false) {
-            return null;
+            return;
         }
 
         // Final thing we do, if we're still standing, is to save our
         // configuration to cache
         if (!$this->app['config']->get('general/caching/config')) {
-            return null;
+            return;
         }
 
-        try {
-            $this->app['config']->cacheConfig();
-        } catch (IOException $e) {
-            $response = $this->app['controller.exception']->genericException($e);
-            $event->setResponse($response);
-        }
-
-        return null;
+        $this->app['config']->cacheConfig();
     }
 
     /**

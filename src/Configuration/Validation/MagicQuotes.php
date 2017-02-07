@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration\Validation;
 
-use Bolt\Controller\ExceptionControllerInterface;
+use Bolt\Exception\Configuration\Validation\System\MagicQuotesValidationException;
 
 /**
  * Magic quotes validation check.
@@ -14,20 +14,10 @@ class MagicQuotes implements ValidationInterface
     /**
      * {@inheritdoc}
      */
-    public function check(ExceptionControllerInterface $exceptionController)
+    public function check()
     {
         if (get_magic_quotes_gpc()) {
-            return $exceptionController->systemCheck(Validator::CHECK_MAGIC_QUOTES);
+            throw new MagicQuotesValidationException();
         }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isTerminal()
-    {
-        return true;
     }
 }

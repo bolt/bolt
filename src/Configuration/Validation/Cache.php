@@ -3,7 +3,7 @@
 namespace Bolt\Configuration\Validation;
 
 use Bolt\Configuration\ResourceManager;
-use Bolt\Controller\ExceptionControllerInterface;
+use Bolt\Exception\Configuration\Validation\System\CacheValidationException;
 
 /**
  * Cache validation check.
@@ -18,25 +18,15 @@ class Cache implements ValidationInterface, ResourceManagerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function check(ExceptionControllerInterface $exceptionController)
+    public function check()
     {
         $path = $this->resourceManager->getPath('cache');
         if (!is_dir($path)) {
-            return $exceptionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => $path]);
+            throw new CacheValidationException($path);
         }
         if (!is_writable($path)) {
-            return $exceptionController->systemCheck(Validator::CHECK_CACHE, [], ['path' => $path]);
+            throw new CacheValidationException($path);
         }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isTerminal()
-    {
-        return true;
     }
 
     /**

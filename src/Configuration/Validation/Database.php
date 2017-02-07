@@ -4,8 +4,11 @@ namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Controller;
-use Bolt\Controller\ExceptionControllerInterface;
+use Bolt\Exception\Configuration\Validation\Database\MissingDatabaseExtensionException;
+use Bolt\Exception\Configuration\Validation\Database\DatabaseParameterException;
+use Bolt\Exception\Configuration\Validation\Database\InsecureDatabaseException;
+use Bolt\Exception\Configuration\Validation\Database\SqlitePathException;
+use Bolt\Exception\Configuration\Validation\Database\UnsupportedDatabaseException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -24,48 +27,37 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
     /**
      * {@inheritdoc}
      */
-    public function check(ExceptionControllerInterface $exceptionController)
+    public function check()
     {
-        /** @var Controller\Exception $exceptionController */
-
         $dbConfig = $this->config->get('general/database');
         $driver = $dbConfig['driver'];
 
         if ($driver === 'pdo_sqlite') {
-            return $this->doDatabaseSqliteCheck($exceptionController, $dbConfig);
+            $this->doDatabaseSqliteCheck($dbConfig);
+            return;
         }
 
         if (!in_array($driver, ['pdo_mysql', 'pdo_pgsql'])) {
-            return $exceptionController->databaseDriver('unsupported', null, $driver);
+            throw new UnsupportedDatabaseException($driver);
         }
 
         if ($driver === 'pdo_mysql' && extension_loaded('pdo_mysql') === false) {
-            return $exceptionController->databaseDriver('missing', 'MySQL', 'pdo_mysql');
+            throw new MissingDatabaseExtensionException($driver);
         }
 
         if ($driver === 'pdo_pgsql' && extension_loaded('pdo_pgsql') === false) {
-            return $exceptionController->databaseDriver('missing', 'PostgreSQL', 'pdo_pgsql');
+            throw new MissingDatabaseExtensionException($driver);
         }
 
         if (empty($dbConfig['dbname'])) {
-            return $exceptionController->databaseDriver('parameter', null, $driver, 'databasename');
+            throw new DatabaseParameterException('databasename', $driver);
         }
         if (empty($dbConfig['user'])) {
-            return $exceptionController->databaseDriver('parameter', null, $driver, 'username');
+            throw new DatabaseParameterException('username', $driver);
         }
         if (empty($dbConfig['password']) && ($dbConfig['user'] === 'root')) {
-            return $exceptionController->databaseDriver('insecure', null, $driver);
+            throw new InsecureDatabaseException($driver);
         }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isTerminal()
-    {
-        return true;
     }
 
     /**
@@ -84,15 +76,15 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
         $this->config = $config;
     }
 
-    protected function doDatabaseSqliteCheck(Controller\Exception $exceptionController, array $dbConfig)
+    protected function doDatabaseSqliteCheck(array $dbConfig)
     {
         if (extension_loaded('pdo_sqlite') === false) {
-            return $exceptionController->databaseDriver('missing', 'SQLite', 'pdo_sqlite');
+            throw new MissingDatabaseExtensionException('pdo_sqlite');
         }
 
         // If in-memory connection, skip path checks
         if (isset($dbConfig['memory']) && $dbConfig['memory'] === true) {
-            return null;
+            return;
         }
 
         $fs = new Filesystem();
@@ -103,10 +95,10 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
             try {
                 $fs->touch($file);
             } catch (IOException $e) {
-                return $exceptionController->databasePath('file', $file, 'is not writable');
+                throw SqlitePathException::fileNotWritable($file);
             }
 
-            return null;
+            return;
         }
 
         // If the file isn't present, make sure the directory
@@ -122,19 +114,17 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
                 $this->config->initialize();
 
                 if (!$fs->exists($dir)) {
-                    return $exceptionController->databasePath('folder', $dir, 'does not exist');
+                    throw SqlitePathException::folderMissing($dir);
                 }
             } else {
-                return $exceptionController->databasePath('folder', $dir, 'does not exist');
+                throw SqlitePathException::folderMissing($dir);
             }
         }
 
         try {
             $fs->touch($dir);
         } catch (IOException $e) {
-            return $exceptionController->databasePath('folder', $dir, 'is not writable');
+            throw SqlitePathException::folderNotWritable($dir);
         }
-
-        return null;
     }
 }

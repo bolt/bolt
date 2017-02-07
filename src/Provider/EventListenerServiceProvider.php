@@ -30,7 +30,15 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.exception'] = $app->share(
             function ($app) {
                 return new Listener\ExceptionListener(
-                    $app['controller.exception']
+                    $app['twig'],
+                    $app['path_resolver']->resolve('root'),
+                    $app['filesystem']->getDir('cache://exception/' . $app['environment']),
+                    $app['slugify'],
+                    $app['debug'],
+                    $app['config'],
+                    $app['users'],
+                    $app['session'],
+                    $app['request_stack']
                 );
             }
         );

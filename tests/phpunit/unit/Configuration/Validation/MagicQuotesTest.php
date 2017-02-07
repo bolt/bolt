@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Configuration\Validation\Validator;
+use Bolt\Exception\Configuration\Validation\System\MagicQuotesValidationException;
 
 /**
  * Magic quotes validation tests.
@@ -13,10 +14,11 @@ use Bolt\Configuration\Validation\Validator;
  */
 class MagicQuotesTest extends AbstractValidationTest
 {
+    /**
+     * @expectedException MagicQuotesValidationException
+     */
     public function testMagicQuotesEnabled()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_MAGIC_QUOTES)->shouldBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('get_magic_quotes_gpc')
@@ -27,8 +29,6 @@ class MagicQuotesTest extends AbstractValidationTest
 
     public function testMagicQuotesDisabled()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_MAGIC_QUOTES)->shouldNotBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('get_magic_quotes_gpc')
