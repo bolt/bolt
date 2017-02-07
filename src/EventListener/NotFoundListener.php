@@ -31,25 +31,21 @@ class NotFoundListener implements EventSubscriberInterface
     protected $templateChooser;
     /** @var TwigEnvironment */
     private $twig;
-    /** @var Render */
-    protected $render;
 
     /**
-     * NotFoundListener constructor.
+     * Constructor.
      *
      * @param string          $notFoundPage
      * @param Storage         $storage
      * @param TemplateChooser $templateChooser
      * @param TwigEnvironment $twig
-     * @param Render          $render
      */
-    public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, TwigEnvironment $twig, Render $render)
+    public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, TwigEnvironment $twig)
     {
         $this->notFoundPage = $notFoundPage;
         $this->storage = $storage;
         $this->templateChooser = $templateChooser;
         $this->twig = $twig;
-        $this->render = $render;
     }
 
     /**
@@ -91,7 +87,8 @@ class NotFoundListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::EXCEPTION => ['onKernelException', 512],
+            // After loggers at -4, but before default at -8
+            KernelEvents::EXCEPTION => ['onKernelException', -6],
         ];
     }
 

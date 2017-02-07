@@ -13,10 +13,11 @@ use Bolt\Configuration\Validation\Validator;
  */
 class SafeModeTest extends AbstractValidationTest
 {
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\System\SafeModeValidationException
+     */
     public function testSafeModeEnabled()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_SAFE_MODE)->shouldBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('ini_get')
@@ -27,8 +28,6 @@ class SafeModeTest extends AbstractValidationTest
 
     public function testSafeModeDisabled()
     {
-        $this->extensionController->systemCheck(Validator::CHECK_SAFE_MODE)->shouldNotBeCalled();
-
         $this->_validation
             ->expects($this->once())
             ->method('ini_get')

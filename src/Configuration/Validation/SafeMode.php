@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration\Validation;
 
-use Bolt\Controller\ExceptionControllerInterface;
+use Bolt\Exception\Configuration\Validation\System\SafeModeValidationException;
 
 /**
  * Safe mode validation check.
@@ -14,25 +14,15 @@ class SafeMode implements ValidationInterface
     /**
      * {@inheritdoc}
      */
-    public function check(ExceptionControllerInterface $exceptionController)
+    public function check()
     {
         $safeMode = ini_get('safe_mode');
         if (is_string($safeMode)) {
-            $safeMode = $safeMode == '1' || strtolower($safeMode) === 'on' ? 1 : 0;
+            $safeMode = $safeMode == '1' || strtolower($safeMode) === 'on';
         }
 
         if ($safeMode) {
-            return $exceptionController->systemCheck(Validator::CHECK_SAFE_MODE);
+            throw new SafeModeValidationException();
         }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isTerminal()
-    {
-        return true;
     }
 }
