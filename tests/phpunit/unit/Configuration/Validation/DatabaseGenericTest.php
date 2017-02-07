@@ -11,17 +11,23 @@ namespace Bolt\Tests\Configuration\Validation;
  */
 class DatabaseGenericTest extends AbstractValidationTest
 {
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\UnsupportedDatabaseException
+     * @expectedExceptionMessage pdo_koala was selected as the database type, but it is not supported.
+     */
     public function testInvalidPlatform()
     {
         $databaseConfig = [
             'driver'   => 'pdo_koala',
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('unsupported', null, 'pdo_koala')->shouldBeCalled();
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\DatabaseParameterException
+     * @expectedExceptionMessage There is no 'databasename' set for your database.
+     */
     public function testInvalidDbName()
     {
         $databaseConfig = [
@@ -29,17 +35,13 @@ class DatabaseGenericTest extends AbstractValidationTest
             'dbname'   => null,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('parameter', null, 'pdo_pgsql', 'databasename')->shouldBeCalled();
-
-        $this->_validation
-            ->expects($this->once())
-            ->method('extension_loaded')
-            ->will($this->returnValue(true))
-        ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\DatabaseParameterException
+     * @expectedExceptionMessage There is no 'username' set for your database.
+     */
     public function testInvalidDbUser()
     {
         $databaseConfig = [
@@ -48,17 +50,13 @@ class DatabaseGenericTest extends AbstractValidationTest
             'user'     => null,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('parameter', null, 'pdo_pgsql', 'username')->shouldBeCalled();
-
-        $this->_validation
-            ->expects($this->once())
-            ->method('extension_loaded')
-            ->will($this->returnValue(true))
-        ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\InsecureDatabaseException
+     * @expectedExceptionMessage You're using the root user without a password. You are insecure.
+     */
     public function testInvalidDbRootUser()
     {
         $databaseConfig = [
@@ -68,14 +66,6 @@ class DatabaseGenericTest extends AbstractValidationTest
             'password' => null,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('insecure', null, 'pdo_pgsql')->shouldBeCalled();
-
-        $this->_validation
-            ->expects($this->once())
-            ->method('extension_loaded')
-            ->will($this->returnValue(true))
-        ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 }

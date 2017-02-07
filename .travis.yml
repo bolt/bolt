@@ -41,15 +41,6 @@ before_script:
   - composer self-update || true
   - composer global require hirak/prestissimo:~0.3
   - composer install --prefer-dist
-  # Set up MySQL
-  - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
-  - mysql -e "CREATE USER 'bolt_travis'@'localhost' IDENTIFIED BY 'bolt_travis';" -u root
-  - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
-  - mysql -e "FLUSH PRIVILEGES;" -u root
-  # Set up PostgreSQL
-  - psql -c "CREATE DATABASE bolt_travis;" -U postgres || true
-  - psql -c "CREATE USER bolt_travis WITH PASSWORD 'bolt_travis';" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
 
 script:
   ## Default install tests
@@ -63,16 +54,13 @@ script:
     else
         $PHPUNIT_CMD
     fi
-  # Codeception set up (PHP >5.3)
+  # Database platform
+  - ./tests/scripts/dbsetup.sh
+  - $PHPUNIT_CMD tests/phpunit/database/
+  # Codeception
   - ./vendor/codeception/codeception/codecept build
-  # Codeception Sqlite run (PHP >5.3)
   - ./vendor/codeception/codeception/codecept run
-  # Codeception MySQL run (PHP >5.3)
-  - ./tests/travis/test-db-config mysql
-  - ./vendor/codeception/codeception/codecept run
-  # Codeception PostgreSQL run (PHP >5.3)
-  - ./tests/travis/test-db-config postgres
-  - ./vendor/codeception/codeception/codecept run
+#  - ./vendor/bin/bolt-test-reporter --codeception-failures tests/codeception/_output app/cache/codeception-run*
 
 # Cache directories
 cache:

@@ -61,6 +61,11 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @param bool $boot
+     *
+     * @return Application
+     */
     protected function getApp($boot = true)
     {
         if (!$this->app) {
@@ -68,7 +73,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $this->app->initialize();
 
             $verifier = new Config\Validation\Validator(
-                $this->app['controller.exception'],
                 $this->app['config'],
                 $this->app['resources'],
                 $this->app['logger.flash']
@@ -84,6 +88,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $this->app;
     }
 
+    /**
+     * @return Application
+     */
     protected function makeApp()
     {
         $app = new Application();
