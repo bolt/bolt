@@ -60,6 +60,11 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @param bool $boot
+     *
+     * @return Application
+     */
     protected function getApp($boot = true)
     {
         if (!$this->app) {
@@ -82,6 +87,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $this->app;
     }
 
+    /**
+     * @return Application
+     */
     protected function makeApp()
     {
         $app = new Application();
