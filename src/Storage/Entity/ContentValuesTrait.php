@@ -476,7 +476,7 @@ trait ContentValuesTrait
         }
 
         // Make sure we have a proper status.
-        if (!in_array($values['status'], ['published', 'timed', 'held', 'draft'])) {
+        if (!isset($values['status']) || (isset($values['status']) && !in_array($values['status'], ['published', 'timed', 'held', 'draft']))) {
             if ($this['status']) {
                 $values['status'] = $this['status'];
             } else {

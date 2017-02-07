@@ -2,10 +2,8 @@
 
 namespace Bolt\EventListener;
 
-use Bolt\Controller;
 use Bolt\Events\FailedConnectionEvent;
-use Bolt\Exception\BootException;
-use Bolt\Helpers\Str;
+use Bolt\Exception\Database\DatabaseConnectionException;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
@@ -22,13 +20,14 @@ class DoctrineListener implements EventSubscriber
 {
     use LoggerAwareTrait;
 
-    /** @var Controller\Exception */
-    private $exceptionController;
-
-    public function __construct(LoggerInterface $logger, Controller\Exception $exceptionController)
+    /**
+     * Constructor.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
     {
         $this->setLogger($logger);
-        $this->exceptionController = $exceptionController;
     }
 
     /**
@@ -36,22 +35,14 @@ class DoctrineListener implements EventSubscriber
      *
      * @param FailedConnectionEvent $args
      *
-     * @throws BootException
+     * @throws DatabaseConnectionException
      */
     public function failConnect(FailedConnectionEvent $args)
     {
         $e = $args->getException();
         $this->logger->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
 
-        /*
-         * Using Driver here since Platform may try to connect
-         * to the database, which has failed since we are here.
-         */
-        $platform = $args->getDriver()->getName();
-        $platform = Str::replaceFirst('pdo_', '', $platform);
-        $response = $this->exceptionController->databaseConnect($platform, $e);
-
-        throw new BootException($e->getMessage(), $e->getCode(), $e, $response);
+        throw new DatabaseConnectionException($args->getDriver()->getName(), $e->getMessage(), $e);
     }
 
     /**

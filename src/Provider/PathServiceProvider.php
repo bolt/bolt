@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Configuration\Composer;
+use Bolt\Configuration\ForwardToPathResolver;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\PreBoot\ConfigurationFile;
@@ -75,7 +76,7 @@ class PathServiceProvider implements ServiceProviderInterface
         if (!isset($app['resources'])) {
             $app['resources'] = $app->share(
                 function ($app) {
-                    $resources = new ResourceManager(new \ArrayObject([
+                    $resources = new ForwardToPathResolver(new \ArrayObject([
                         'rootpath'              => $app['path_resolver.root'],
                         'path_resolver'         => $app['path_resolver'],
                         'path_resolver_factory' => $app['path_resolver_factory'],

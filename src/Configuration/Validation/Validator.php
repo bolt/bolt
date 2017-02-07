@@ -5,10 +5,8 @@ namespace Bolt\Configuration\Validation;
 use Bolt\Config;
 use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Controller;
 use Bolt\Exception\BootException;
 use Bolt\Logger\FlashLoggerInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * System validator.
@@ -27,8 +25,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     const CHECK_MAGIC_QUOTES = 'magic-quotes';
     const CHECK_SAFE_MODE = 'safe-mode';
 
-    /** @var Controller\Exception */
-    private $exceptionController;
     /** @var Config */
     private $configManager;
     /** @var ResourceManager */
@@ -48,19 +44,16 @@ class Validator extends LowlevelChecks implements ValidatorInterface
     /**
      * Constructor.
      *
-     * @param Controller\Exception $exceptionController
      * @param Config               $config
      * @param ResourceManager      $resourceManager
      * @param FlashLoggerInterface $flashLogger
      */
     public function __construct(
-        Controller\Exception $exceptionController,
         Config $config,
         ResourceManager $resourceManager,
         FlashLoggerInterface $flashLogger
     ) {
         parent::__construct($resourceManager);
-        $this->exceptionController = $exceptionController;
         $this->configManager = $config;
         $this->resourceManager = $resourceManager;
         $this->flashLogger = $flashLogger;
@@ -107,7 +100,7 @@ class Validator extends LowlevelChecks implements ValidatorInterface
 
         return $this
             ->getValidator($className, $checkName)
-            ->check($this->exceptionController)
+            ->check()
         ;
     }
 
@@ -121,16 +114,11 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         }
 
         foreach ($this->check as $checkName => $className) {
-            $response = $this
+            $this
                 ->getValidator($className, $checkName)
-                ->check($this->exceptionController)
+                ->check()
             ;
-            if ($response instanceof Response) {
-                return $response;
-            }
         }
-
-        return null;
     }
 
     /**

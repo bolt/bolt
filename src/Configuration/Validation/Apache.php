@@ -4,7 +4,7 @@ namespace Bolt\Configuration\Validation;
 
 use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Controller\ExceptionControllerInterface;
+use Bolt\Exception\Configuration\Validation\System\ApacheValidationException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,7 +26,7 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
      *
      * {@inheritdoc}
      */
-    public function check(ExceptionControllerInterface $exceptionController)
+    public function check()
     {
         $request = Request::createFromGlobals();
         $serverSoftware = $request->server->get('SERVER_SOFTWARE', '');
@@ -34,23 +34,15 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
         /** @var LowlevelChecks $verifier */
         $verifier = $this->resourceManager->getVerifier();
         if ($verifier && $verifier->disableApacheChecks === true || !$isApache) {
-            return null;
+            return;
         }
 
         $path = $this->resourceManager->getPath('web/.htaccess');
         if (is_readable($path)) {
-            return null;
+            return;
         }
 
-        return $exceptionController->systemCheck(Validator::CHECK_APACHE);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isTerminal()
-    {
-        return true;
+        throw new ApacheValidationException();
     }
 
     /**
