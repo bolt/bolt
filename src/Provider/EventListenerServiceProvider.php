@@ -30,10 +30,22 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.exception'] = $app->share(
             function ($app) {
                 return new Listener\ExceptionListener(
+                    $app['twig'],
+                    $app['path_resolver']->resolve('root'),
+                    $app['filesystem']->getDir('cache://exception/' . $app['environment']),
+                    $app['slugify'],
+                    $app['debug'],
                     $app['config'],
-                    $app['controller.exception'],
-                    $app['logger.system']
+                    $app['users'],
+                    $app['session'],
+                    $app['request_stack']
                 );
+            }
+        );
+
+        $app['listener.exception_json'] = $app->share(
+            function () {
+                return new Listener\ExceptionToJsonListener();
             }
         );
 
@@ -43,9 +55,14 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                     $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
                     $app['storage.legacy'],
                     $app['templatechooser'],
-                    $app['twig'],
-                    $app['render']
+                    $app['twig']
                 );
+            }
+        );
+
+        $app['listener.system_logger'] = $app->share(
+            function ($app) {
+                return new Listener\SystemLoggerListener($app['logger.system']);
             }
         );
 
@@ -106,8 +123,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $listeners = [
             'general',
-            'exception',
+            'exception_json',
             'not_found',
+            'system_logger',
             'snippet',
             'redirect',
             'flash_logger',
@@ -119,6 +137,10 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             if (isset($app['listener.' . $name])) {
                 $dispatcher->addSubscriber($app['listener.' . $name]);
             }
+        }
+
+        if (isset($app['listener.exception']) && !$app['config']->get('general/debug_error_use_symfony')) {
+            $dispatcher->addSubscriber($app['listener.exception']);
         }
     }
 }

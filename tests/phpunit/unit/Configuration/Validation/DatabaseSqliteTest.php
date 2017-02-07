@@ -11,21 +11,17 @@ namespace Bolt\Tests\Configuration\Validation;
  */
 class DatabaseSqliteTest extends AbstractValidationTest
 {
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\SqlitePathException
+     */
     public function testSqliteExtensionNotLoaded()
     {
         $databaseConfig = [
             'driver' => 'pdo_sqlite',
+            'path'   => PHPUNIT_WEBROOT . '/app/database/bolt.db',
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('missing', 'SQLite', 'pdo_sqlite')->shouldBeCalled();
-
-        $this->_validation
-            ->expects($this->once())
-            ->method('extension_loaded')
-            ->will($this->returnValue(false))
-        ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
     public function testSqliteValidInMemoryParameter()
@@ -35,15 +31,7 @@ class DatabaseSqliteTest extends AbstractValidationTest
             'memory' => true,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databaseDriver('missing', 'SQLite', 'pdo_sqlite')->shouldNotBeCalled();
-
-        $this->_validation
-            ->expects($this->once())
-            ->method('extension_loaded')
-            ->will($this->returnValue(true))
-        ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
     public function testSqliteFileExistsWritable()
@@ -54,7 +42,6 @@ class DatabaseSqliteTest extends AbstractValidationTest
             'path'   => $file,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databasePath('file', $file, 'is not writable')->shouldNotBeCalled();
 
         $this->_filesystem
             ->expects($this->once())
@@ -75,10 +62,12 @@ class DatabaseSqliteTest extends AbstractValidationTest
             ->method('extension_loaded')
             ->will($this->returnValue(true))
         ;
-
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\SqlitePathException
+     */
     public function testSqliteFileExistsNotWritable()
     {
         $file = 'app/database/bolt.db';
@@ -88,7 +77,6 @@ class DatabaseSqliteTest extends AbstractValidationTest
             'path'   => $file,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databasePath('file', $file, 'is not writable')->shouldBeCalled();
 
         $this->_filesystem
             ->expects($this->at(0))
@@ -108,7 +96,7 @@ class DatabaseSqliteTest extends AbstractValidationTest
             ->will($this->returnValue(true))
         ;
 
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
     public function testSqliteFileNotExistsDirectoryWritable()
@@ -120,7 +108,6 @@ class DatabaseSqliteTest extends AbstractValidationTest
             'path'   => $file,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databasePath('folder', $dir, 'is not writable')->shouldNotBeCalled();
 
         $this->_filesystem
             ->expects($this->at(0))
@@ -149,9 +136,12 @@ class DatabaseSqliteTest extends AbstractValidationTest
             ->will($this->returnValue(true))
         ;
 
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\SqlitePathException
+     */
     public function testSqliteFileNotExistsDirectoryNotWritable()
     {
         $file = 'app/database/bolt.db';
@@ -161,7 +151,6 @@ class DatabaseSqliteTest extends AbstractValidationTest
             'path'   => $file,
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
-        $this->extensionController->databasePath('folder', $dir, 'is not writable')->shouldBeCalled();
 
         $this->_filesystem
             ->expects($this->at(0))
@@ -182,9 +171,12 @@ class DatabaseSqliteTest extends AbstractValidationTest
             ->will($this->returnValue(true))
         ;
 
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 
+    /**
+     * @expectedException \Bolt\Exception\Configuration\Validation\Database\SqlitePathException
+     */
     public function testSqliteFileNotExistsDirectoryWritableCacheReset()
     {
         $file = 'app/database/bolt.db';
@@ -223,6 +215,6 @@ class DatabaseSqliteTest extends AbstractValidationTest
             ->will($this->returnValue(true))
         ;
 
-        $this->validator->check('database');
+        $this->getDatabaseValidator()->check();
     }
 }

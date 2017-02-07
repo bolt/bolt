@@ -90,7 +90,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Bolt\\Tests\\": "tests/phpunit/unit"
+            "Bolt\\Tests\\": "tests/phpunit/unit",
+            "Bolt\\Tests\\Database\\": "tests/phpunit/database"
         }
     },
     "bin": [
