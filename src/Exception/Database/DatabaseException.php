@@ -16,7 +16,7 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface
      * @param Exception|null $previous
      * @param int            $code
      */
-    public function __construct($driver, $message = "", Exception $previous = null, $code = 0)
+    public function __construct($driver, $message = '', Exception $previous = null, $code = 0)
     {
         parent::__construct($message, $code, $previous);
         $this->driver = $driver;

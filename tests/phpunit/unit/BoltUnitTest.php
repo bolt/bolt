@@ -67,7 +67,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $this->app->initialize();
 
             $verifier = new Config\Validation\Validator(
-                $this->app['controller.exception'],
                 $this->app['config'],
                 $this->app['resources'],
                 $this->app['logger.flash']

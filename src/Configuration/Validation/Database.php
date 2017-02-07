@@ -4,9 +4,9 @@ namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Exception\Configuration\Validation\Database\MissingDatabaseExtensionException;
 use Bolt\Exception\Configuration\Validation\Database\DatabaseParameterException;
 use Bolt\Exception\Configuration\Validation\Database\InsecureDatabaseException;
+use Bolt\Exception\Configuration\Validation\Database\MissingDatabaseExtensionException;
 use Bolt\Exception\Configuration\Validation\Database\SqlitePathException;
 use Bolt\Exception\Configuration\Validation\Database\UnsupportedDatabaseException;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -34,6 +34,7 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
 
         if ($driver === 'pdo_sqlite') {
             $this->doDatabaseSqliteCheck($dbConfig);
+
             return;
         }
 
