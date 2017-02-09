@@ -1039,6 +1039,13 @@ class Config
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
                         $passed = false;
                     }
+                    if (in_array($relKey, array_keys($ct['fields']))) {
+                        $error = Trans::__(
+                            'general.phrase.clashing-relation',
+                            ['%contenttype%' => $key, '%relation%' => $relKey]
+                        );
+                        $this->app['logger.flash']->error($error);
+                    }
                 }
             }
 
