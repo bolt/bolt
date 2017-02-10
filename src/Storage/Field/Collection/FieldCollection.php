@@ -98,6 +98,32 @@ class FieldCollection extends AbstractLazyCollection
                 return $field->getValue();
             }
         }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($offset)
+    {
+        $this->initialize();
+
+        foreach ($this->collection as $field) {
+            if ($field->getFieldname() === $offset) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
     }
 
     /**
