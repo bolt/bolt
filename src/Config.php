@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Helpers\Arr;
@@ -659,7 +660,7 @@ class Config
             if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
                 if (empty($field['extensions'])) {
                     $field['extensions'] = array_intersect(
-                        ['gif', 'jpg', 'jpeg', 'png'],
+                        Image\Type::getExtensions(),
                         $acceptableFileTypes
                     );
                 }
@@ -1027,6 +1028,13 @@ class Config
 
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
                         $passed = false;
+                    }
+                    if (in_array($relKey, array_keys($ct['fields']))) {
+                        $error = Trans::__(
+                            'general.phrase.clashing-relation',
+                            ['%contenttype%' => $key, '%relation%' => $relKey]
+                        );
+                        $this->app['logger.flash']->error($error);
                     }
                 }
             }

@@ -127,7 +127,11 @@ class Manager
         if ($baseDir === null) {
             // If there is no base dir we just default to the same directory as the extension class is in.
             $reflector = new ReflectionClass($extension);
-            $fs = new Filesystem(new Local(dirname($reflector->getFileName())));
+            $dir = dirname($reflector->getFileName());
+            if (basename($dir) === 'src') {
+                $dir = dirname($dir);
+            }
+            $fs = new Filesystem(new Local($dir));
 
             $baseDir = $fs->getDir('/');
         }
