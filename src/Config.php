@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Exception\ParseException;
+use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
@@ -664,7 +665,7 @@ class Config
             if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
                 if (empty($field['extensions'])) {
                     $field['extensions'] = array_intersect(
-                        ['gif', 'jpg', 'jpeg', 'png'],
+                        Image\Type::getExtensions(),
                         $acceptableFileTypes
                     );
                 }
