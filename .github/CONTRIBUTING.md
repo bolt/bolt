@@ -81,7 +81,7 @@ security issues that you may have discovered.
 We get a lot of feature requests for Bolt, and we can't do them all, even if we
 wanted to. In fact, since Bolt is designed to be 'simple, sophisticated and
 straightforward', not all feature requests might be a good fit for Bolt. Be sure
-to read [our manifesto](https://docs.bolt.cm/manifesto) to get an idea of our
+to read [our manifesto](https://docs.bolt.cm/other/manifesto) to get an idea of our
 goals and values.
 
 If you're proposing an idea, with the intent to work on it yourself, please open
