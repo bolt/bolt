@@ -64,6 +64,29 @@ Released: 2016-01-XX. Notable changes:
 Bolt 3.2.6
 ----------
 
+Released 2017-02-11. Notable changes:
+
+ - Added: Allow "direct" access to fields from FieldCollection in Twig [#6368](https://github.com/bolt/bolt/pull/6368)
+ - Added: Placeholder text in textarea [#6285](https://github.com/bolt/bolt/pull/6285)
+ - Added: Support SVGs in thumbnails. [#6374](https://github.com/bolt/bolt/pull/6374)
+ - Added: warning when relation name clashes with field name [#6373](https://github.com/bolt/bolt/pull/6373)
+ - Change: Clarify message in system log, and don't log the message for user root. Resolves "Configuration error: root is not granted to any roles" [#6339](https://github.com/bolt/bolt/pull/6339)
+ - Change: Minor tweaks to fix some regressions in the base-2016 theme. [#6297](https://github.com/bolt/bolt/pull/6297)
+ - Change: Move the getRepeaters call into the nohydrate block [#6283](https://github.com/bolt/bolt/pull/6283)
+ - Documentation: Move "3rd party install" & "test instructions" to docs [#6313](https://github.com/bolt/bolt/pull/6313)
+ - Fixed: `mcrypt` deprecation warning [#6375](https://github.com/bolt/bolt/pull/6375)
+ - Fixed: `ymlink` twig filter for multiple matches. [#6290](https://github.com/bolt/bolt/pull/6290)
+ - Fixed: bug causing missing incoming relations [#6312](https://github.com/bolt/bolt/pull/6312)
+ - Fixed: Don't throw exception if stack is empty (or updating from an older version) [#6284](https://github.com/bolt/bolt/pull/6284)
+ - Fixed: Handle empty repeaters in Templatefields [#6328](https://github.com/bolt/bolt/pull/6328)
+ - Fixed: Taxonomy links broken on entry preview, because `record.taxonomy` data is different. [#6293](https://github.com/bolt/bolt/pull/6293)
+ - Fixed: Updating NPM dependencies, make build work again. [#6330](https://github.com/bolt/bolt/pull/6330)
+ - Fixes: broken link in contributing doc. [#6367](https://github.com/bolt/bolt/pull/6367)
+ - Fixes: Status not passed to `$values` error [#6360](https://github.com/bolt/bolt/pull/6360)
+
+Bolt 3.2.6
+----------
+
 Released 2017-01-22. Notable changes:
 
  - Change: Switch extensions.bolt.cm to market.bolt.cm. [#6234](https://github.com/bolt/bolt/pull/6234)
