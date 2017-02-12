@@ -5,6 +5,7 @@ namespace Bolt\Storage\Field\Collection;
 use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Field\Type\FieldTypeBase;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -33,7 +34,15 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param FieldCollection $collection
+     * {@inheritdoc}
+     */
+    protected function createFrom(array $elements)
+    {
+        return new static($this->em, $this->mapping, $elements);
+    }
+
+    /**
+     * @param FieldCollectionInterface $collection
      *
      * @return bool
      */
@@ -51,7 +60,7 @@ class RepeatingFieldCollection extends ArrayCollection
      */
     public function addFromArray(array $fields, $grouping = 0, $entity = null)
     {
-        $collection = new FieldCollection([], $this->em);
+        $collection = new FieldCollection();
         $collection->setGrouping($grouping);
         foreach ($fields as $name => $value) {
             $storageTypeHandler = $this->getFieldType($name);
@@ -87,7 +96,7 @@ class RepeatingFieldCollection extends ArrayCollection
      */
     public function addFromReferences(array $ids, $grouping = 0)
     {
-        $collection = new FieldCollection($ids, $this->em);
+        $collection = new LazyFieldCollection($ids, $this->em);
         $collection->setGrouping($grouping);
         $this->add($collection);
     }
@@ -207,7 +216,7 @@ class RepeatingFieldCollection extends ArrayCollection
      *
      * @throws FieldConfigurationException
      *
-     * @return mixed
+     * @return FieldTypeBase
      */
     protected function getFieldType($field)
     {
@@ -239,6 +248,6 @@ class RepeatingFieldCollection extends ArrayCollection
 
     public function getEmptySet()
     {
-        return new FieldCollection([], $this->em);
+        return new FieldCollection();
     }
 }

@@ -2,6 +2,8 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Entity\FieldValue;
+use Bolt\Storage\Field\Collection\FieldCollectionInterface;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,9 +53,9 @@ class FieldLoadTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage\Field\Collection\RepeatingFieldCollection', $record->repeater);
         $this->assertEquals(2, count($record->repeater));
         foreach ($record->repeater as $collection) {
-            $this->assertInstanceOf('Bolt\Storage\Field\Collection\FieldCollection', $collection);
+            $this->assertInstanceOf(FieldCollectionInterface::class, $collection);
             foreach ($collection as $fieldValue) {
-                $this->assertInstanceOf('Bolt\Storage\Entity\FieldValue', $fieldValue);
+                $this->assertInstanceOf(FieldValue::class, $fieldValue);
             }
         }
     }
