@@ -1,4 +1,4 @@
-​​[Prefix your issue title with either [BUG] or [RFC]. If you have a question, consider if it should be on our forum at http://discuss.bolt.cm instead.]
+[Prefix your issue title with either [BUG] or [RFC]. If you have a question, consider if it should be on our forum at http://discuss.bolt.cm instead.]
 
 A brief description of the issue goes here. If you haven't yet done so, please
 read the 'contributing guidelines' thoroughly. 
@@ -23,8 +23,8 @@ If you're filing a bug, please describe how to reproduce it. Include as much
 relevant information as possible, such as:
 ​
  1. **Bug summary**: 
-    * Write a short summary of the bug​​
-    * Try to pinpoint it as muc​​h a possible
+    * Write a short summary of the bug
+    * Try to pinpoint it as much as possible
     * Try to state the _actual problem_, and not just what you _think_ the 
       solution might be.
  2. **Specifics**:
