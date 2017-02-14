@@ -1,10 +1,17 @@
-[Prefix your issue title with either [BUG] or [RFC]. If you have a question, consider if it should be on our forum at http://discuss.bolt.cm instead.]
+Prefix your issue title with either [BUG] or [RFC]. If you open an [RFC] it is
+expected that you are willing to help out in the implementation of said feature
+request.
+
+This issue tracker is NOT for support questions. If you have a question, please
+join us in the community, on one of our social platforms like Slack, IRC or the
+forum: http://bolt.cm/community.
+
+-----------
 
 A brief description of the issue goes here. If you haven't yet done so, please
 read the 'contributing guidelines' thoroughly. 
 
 See: https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
-
 
 Details
 -------
