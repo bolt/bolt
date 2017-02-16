@@ -6,6 +6,7 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Legacy\Content;
 use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
+use Bolt\Routing\Canonical;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
@@ -481,10 +482,6 @@ GRINGALET;
     public function testPager()
     {
         $app = $this->getApp();
-        $manager = $this->getMockBuilder(PagerManager::class)
-            ->setMethods(['isEmptyPager', 'getPager'])
-            ->getMock()
-        ;
 
         $pager = $this->getMockBuilder(Pager::class)
             ->getMock()
@@ -492,6 +489,22 @@ GRINGALET;
         $pager->for = $pagerName = 'Clippy';
         $pager->totalpages = $surr = 2;
 
+        $canonical = $this->getMockBuilder(Canonical::class)
+            ->setMethods(['getUrl'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $canonical
+            ->expects($this->atLeastOnce())
+            ->method('getUrl')
+            ->will($this->returnValue('1'))
+        ;
+        $app['canonical'] = $canonical;
+
+        $manager = $this->getMockBuilder(PagerManager::class)
+            ->setMethods(['isEmptyPager', 'getPager'])
+            ->getMock()
+        ;
         $manager
             ->expects($this->atLeastOnce())
             ->method('isEmptyPager')
@@ -511,8 +524,8 @@ GRINGALET;
 
         $result = $handler->pager($env, $pagerName, $surr, $template, $class);
 
-        $this->assertRegExp('#<li ><a href="1">1</a></li>#', (string) $result);
-        $this->assertRegExp('#<li ><a href="2">2</a></li>#', (string) $result);
+        $this->assertRegExp('#<a href="1"#', (string) $result);
+        $this->assertRegExp('#<a href="2"#', (string) $result);
     }
 
     public function testSelectFieldEmptyContentStartEmpty()

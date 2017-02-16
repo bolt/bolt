@@ -239,13 +239,13 @@ class RecordRuntime
 
         $context = [
             'pager' => $thisPager,
-            'surr'  => $surr,
+            'surr'  => $surr, // @deprecated
+            'surround' => $surr,
             'class' => $class,
         ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
         if ($template === 'backend') {
-            $context = ['context' => $context];
             $template = '@bolt/components/pager.twig';
         }
 
