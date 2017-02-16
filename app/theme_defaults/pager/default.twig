@@ -1,19 +1,19 @@
 {% extends 'pager/_base.twig' %}
 
 {% block list %}
-    <div class="pagination text-center {{ class|default }}">
+    <div class="pagination pagination-centered {{ class|default }}">
         <ul class="pagination">
             {{ block('items') }}
         </ul>
     </div>
 {% endblock %}
 
-{% block prev_label '←' %}
-{% block next_label '→' %}
+{% block prev_label '‹' %}
+{% block next_label '›' %}
 {% block first_label '« ' ~ page %}
 {% block last_label page ~ ' »' %}
 
-{% block item %}
+{%- block item -%}
     <li{% if active %} class="active"{% endif %}>
         <a
             {%- if not active %} href="{{ link }}"{% endif -%}
@@ -22,7 +22,7 @@
             {{- label|raw -}}
         </a>
     </li>
-{% endblock %}
+{%- endblock -%}
 
 {% block collapsed_item %}
     <li class="disabled"><a>…</a></li>

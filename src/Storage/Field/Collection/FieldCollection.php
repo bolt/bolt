@@ -146,16 +146,6 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
-     * Overrides the default array access method and passes on to the get method
-     * @param mixed $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    /**
      * Handles the conversion of references to entities.
      */
     protected function doInitialize()
