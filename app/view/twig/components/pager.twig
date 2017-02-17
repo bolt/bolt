@@ -1,48 +1,33 @@
-{% set link = context.pager.makelink() %}
+{% extends 'pager/default.twig' %}
 
-{% if context.pager.totalpages|default(0) > 1 %}
+{% block list %}
     <div style="text-align: center">
         <ul class="pagination pagination-centered">
-            {# Showing {{ context.pager.for }} {{ context.pager.showingFrom }} - {{ context.pager.showingTo }} of {{ context.pager.count }} #}
+            {# Showing {{ for }} {{ showingFrom }} - {{ showingTo }} of {{ count }} #}
             <li><span>{{ __('general.phrase.pager-showing-from-to-of', {
-                    '%pager_for%': context.pager.for,
-                    '%from%': context.pager.showingFrom,
-                    '%to%': context.pager.showingTo,
-                    '%count%': context.pager.count})
+                    '%pager_for%': pager.for,
+                    '%from%': pager.showingFrom,
+                    '%to%': pager.showingTo,
+                    '%count%': pager.count})
                 }}</span>
             </li>
-
-            {# 'first' and 'prev' #}
-            {% if context.pager.current > 1 %}
-                <li><a href="{{ link }}{{ context.pager.current - 1 }}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
-            {% endif %}
-
-            {% if context.pager.current > context.surr+1 %}
-                <li><a href="{{ link }}{{ 1 }}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
-            {% endif %}
-
-            {# start with '...' if there are more than context.surr+1 before currentpage. #}
-            {% if context.pager.current > context.surr + 2 %}
-                <li class="disabled"><a href="#">...</a></li>
-            {% endif %}
-
-            {% for i in max(1, context.pager.current - context.surr) .. min(context.pager.current + context.surr, context.pager.totalpages) %}
-                <li {% if i == context.pager.current %}class="active"{% endif %}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
-            {% endfor %}
-
-            {# end with '...' if there are more than context.surr+1 after currentpage. #}
-            {% if context.pager.current < (context.pager.totalpages - context.surr - 1) %}
-                <li class="disabled"><a href="#">...</a></li>
-            {% endif %}
-
-            {# 'next' and 'last' #}
-            {% if context.pager.current < context.pager.totalpages - context.surr %}
-                <li><a href="{{ link }}{{ context.pager.totalpages }}">{{ context.pager.totalpages }} <i class="fa fa-double-angle-right" style="font-weight: bold;"></i></a></li>
-            {% endif %}
-
-            {% if context.pager.current < context.pager.totalpages %}
-                <li><a href="{{ link }}{{ context.pager.current + 1 }}"><i class="fa fa-angle-right" style="font-weight: bold;"></i></a></li>
-            {% endif %}
+            {{ block('items') }}
         </ul>
     </div>
-{% endif %}
+{% endblock %}
+
+{%- block prev_label -%}
+    <i class="fa fa-angle-left" style="font-weight: bold;"></i>
+{%- endblock -%}
+
+{%- block next_label -%}
+    <i class="fa fa-angle-right" style="font-weight: bold;"></i>
+{%- endblock -%}
+
+{%- block first_label -%}
+    <i class="fa fa-angle-double-left" style="font-weight: bold;"></i> {{ page }}
+{%- endblock -%}
+
+{%- block last_label -%}
+    {{ page }} <i class="fa fa-angle-double-right" style="font-weight: bold;"></i>
+{%- endblock -%}

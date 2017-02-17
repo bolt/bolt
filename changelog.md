@@ -71,10 +71,10 @@ Released: 2016-01-XX. Notable changes:
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
 
-Bolt 3.2.6
+Bolt 3.2.7
 ----------
 
-Released 2017-02-11. Notable changes:
+Released 2017-02-13. Notable changes:
 
  - Added: Allow "direct" access to fields from FieldCollection in Twig [#6368](https://github.com/bolt/bolt/pull/6368)
  - Added: Placeholder text in textarea [#6285](https://github.com/bolt/bolt/pull/6285)
@@ -83,6 +83,7 @@ Released 2017-02-11. Notable changes:
  - Change: Clarify message in system log, and don't log the message for user root. Resolves "Configuration error: root is not granted to any roles" [#6339](https://github.com/bolt/bolt/pull/6339)
  - Change: Minor tweaks to fix some regressions in the base-2016 theme. [#6297](https://github.com/bolt/bolt/pull/6297)
  - Change: Move the getRepeaters call into the nohydrate block [#6283](https://github.com/bolt/bolt/pull/6283)
+ - Change: Refactor lazy logic out of FieldCollection [#6371](https://github.com/bolt/bolt/pull/6371)
  - Documentation: Move "3rd party install" & "test instructions" to docs [#6313](https://github.com/bolt/bolt/pull/6313)
  - Fixed: `mcrypt` deprecation warning [#6375](https://github.com/bolt/bolt/pull/6375)
  - Fixed: `ymlink` twig filter for multiple matches. [#6290](https://github.com/bolt/bolt/pull/6290)
