@@ -4,6 +4,7 @@ namespace Bolt\Storage;
 use Bolt\Config;
 use Bolt\Storage\Field\Sanitiser\SanitiserAwareInterface;
 use Bolt\Storage\Field\Sanitiser\SanitiserInterface;
+use Bolt\Storage\Field\Type\FieldTypeBase;
 
 /**
  * Uses a typemap to construct an instance of a Field
@@ -52,7 +53,7 @@ class FieldManager
      * @param $class
      * @param $mapping
      *
-     * @return mixed
+     * @return FieldTypeBase
      */
     public function get($class, $mapping)
     {
