@@ -147,6 +147,10 @@ class TextHandler
      */
     public function ucfirst($str)
     {
+        if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
+            return mb_strtoupper(mb_substr($str, 0, 1)) . mb_substr($str, 1);
+        }
+        
         return ucfirst($str);
     }
 }
