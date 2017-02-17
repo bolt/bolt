@@ -5,79 +5,77 @@ namespace Bolt\Provider;
 use Bolt;
 use Bolt\Nut;
 use LogicException;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Bridge;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 
-class NutServiceProvider implements ServiceProviderInterface
+class NutServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['nut'] = $app->share(
-            function ($app) {
-                $console = new ConsoleApplication();
+        $app['nut'] = function ($app) {
+            $console = new ConsoleApplication();
 
-                $console->setName('Bolt console tool - Nut');
-                $console->setVersion(Bolt\Version::VERSION);
+            $console->setName('Bolt console tool - Nut');
+            $console->setVersion(Bolt\Version::VERSION);
 
-                $console->getHelperSet()->set(new Nut\Helper\ContainerHelper($app));
+            $console->getHelperSet()->set(new Nut\Helper\ContainerHelper($app));
 
-                $console->addCommands($app['nut.commands']);
+            $console->addCommands($app['nut.commands']);
 
-                $console->setDispatcher($app['dispatcher']);
+            $console->setDispatcher($app['dispatcher']);
 
-                return $console;
-            }
-        );
+            return $console;
+        };
 
-        $app['nut.command.twig_debug'] = $app->share(function () { return new Bridge\Twig\Command\DebugCommand(); });
-        $app['nut.command.twig_lint'] = $app->share(function () { return new Bridge\Twig\Command\LintCommand(); });
+        $app['nut.command.twig_debug'] = function () { return new Bridge\Twig\Command\DebugCommand(); };
+        $app['nut.command.twig_lint'] = function () { return new Bridge\Twig\Command\LintCommand(); };
 
-        $app['nut.commands'] = $app->share(
-            function ($app) {
-                return [
-                    new Nut\CacheClear(),
-                    new Nut\ConfigGet(),
-                    new Nut\ConfigSet(),
-                    new Nut\CronRunner(),
-                    new Nut\DatabaseCheck(),
-                    new Nut\DatabaseExport(),
-                    new Nut\DatabaseImport(),
-                    new Nut\DatabasePrefill(),
-                    new Nut\DatabaseRepair(),
-                    new Nut\Extensions(),
-                    new Nut\ExtensionsDumpAutoload(),
-                    new Nut\ExtensionsInstall(),
-                    new Nut\ExtensionsSetup(),
-                    new Nut\ExtensionsUninstall(),
-                    new Nut\ExtensionsUpdate(),
-                    new Nut\Info(),
-                    new Nut\Init(),
-                    new Nut\LogClear(),
-                    new Nut\LogTrim(),
-                    new Nut\PimpleDump(),
-                    new Nut\ServerRun(),
-                    new Nut\SetupRun(),
-                    new Nut\SetupSync(),
-                    new Nut\TestRunner(),
-                    new Nut\UserAdd(),
-                    new Nut\UserManage(),
-                    new Nut\UserResetPassword(),
-                    new Nut\UserRoleAdd(),
-                    new Nut\UserRoleRemove(),
-                    new Nut\DebugEvents(),
-                    new Nut\DebugServiceProviders(),
-                    new Nut\DebugRouter(),
-                    new Nut\RouterMatch(),
-                    new CompletionCommand(),
-                    $app['nut.command.twig_debug'],
-                    $app['nut.command.twig_lint'],
-                ];
-            }
-        );
+        $app['nut.commands'] = function ($app) {
+            return [
+                new Nut\CacheClear(),
+                new Nut\ConfigGet(),
+                new Nut\ConfigSet(),
+                new Nut\CronRunner(),
+                new Nut\DatabaseCheck(),
+                new Nut\DatabaseExport(),
+                new Nut\DatabaseImport(),
+                new Nut\DatabasePrefill(),
+                new Nut\DatabaseRepair(),
+                new Nut\Extensions(),
+                new Nut\ExtensionsDumpAutoload(),
+                new Nut\ExtensionsInstall(),
+                new Nut\ExtensionsSetup(),
+                new Nut\ExtensionsUninstall(),
+                new Nut\ExtensionsUpdate(),
+                new Nut\Info(),
+                new Nut\Init(),
+                new Nut\LogClear(),
+                new Nut\LogTrim(),
+                new Nut\PimpleDump(),
+                new Nut\ServerRun(),
+                new Nut\SetupRun(),
+                new Nut\SetupSync(),
+                new Nut\TestRunner(),
+                new Nut\UserAdd(),
+                new Nut\UserManage(),
+                new Nut\UserResetPassword(),
+                new Nut\UserRoleAdd(),
+                new Nut\UserRoleRemove(),
+                new Nut\DebugEvents(),
+                new Nut\DebugServiceProviders(),
+                new Nut\DebugRouter(),
+                new Nut\RouterMatch(),
+                new CompletionCommand(),
+                $app['nut.command.twig_debug'],
+                $app['nut.command.twig_lint'],
+            ];
+        };
 
         /**
          * This is a shortcut to add commands to nut lazily.
@@ -105,26 +103,24 @@ class NutServiceProvider implements ServiceProviderInterface
          */
         $app['nut.commands.add'] = $app->protect(
             function ($commandsToAdd) use ($app) {
-                $app['nut.commands'] = $app->share(
-                    $app->extend(
-                        'nut.commands',
-                        function ($existingCommands, $app) use ($commandsToAdd) {
-                            if (is_callable($commandsToAdd)) {
-                                $commandsToAdd = $commandsToAdd($app);
-                            }
-                            $commandsToAdd = is_array($commandsToAdd) ? $commandsToAdd : [$commandsToAdd];
-                            foreach ($commandsToAdd as $command) {
-                                if (!$command instanceof Command) {
-                                    throw new LogicException(
-                                        'Nut commands must be instances of \Symfony\Component\Console\Command\Command'
-                                    );
-                                }
-                                $existingCommands[] = $command;
-                            }
-
-                            return $existingCommands;
+                $app['nut.commands'] = $app->extend(
+                    'nut.commands',
+                    function ($existingCommands, $app) use ($commandsToAdd) {
+                        if (is_callable($commandsToAdd)) {
+                            $commandsToAdd = $commandsToAdd($app);
                         }
-                    )
+                        $commandsToAdd = is_array($commandsToAdd) ? $commandsToAdd : [$commandsToAdd];
+                        foreach ($commandsToAdd as $command) {
+                            if (!$command instanceof Command) {
+                                throw new LogicException(
+                                    'Nut commands must be instances of \Symfony\Component\Console\Command\Command'
+                                );
+                            }
+                            $existingCommands[] = $command;
+                        }
+
+                        return $existingCommands;
+                    }
                 );
             }
         );

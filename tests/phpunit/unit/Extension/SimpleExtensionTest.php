@@ -6,7 +6,7 @@ use Bolt\Events\ControllerEvents;
 use Bolt\Extension\AbstractExtension;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\NormalExtension;
-use Silex\ServiceProviderInterface;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

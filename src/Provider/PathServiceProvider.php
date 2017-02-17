@@ -3,27 +3,27 @@
 namespace Bolt\Provider;
 
 use Bolt\Configuration\PathResolver;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
-class PathServiceProvider implements ServiceProviderInterface
+class PathServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['path_resolver'] = $app->share(
-            function ($app) {
-                $resolver = new PathResolver($app['path_resolver.root'], PathResolver::defaultPaths());
+        $app['path_resolver'] = function ($app) {
+            $resolver = new PathResolver($app['path_resolver.root'], PathResolver::defaultPaths());
 
-                foreach ($app['path_resolver.paths'] as $name => $path) {
-                    $resolver->define($name, $path);
-                }
-
-                // Bolt's project directory. Not configurable.
-                $resolver->define('bolt', __DIR__ . '/../../');
-
-                return $resolver;
+            foreach ($app['path_resolver.paths'] as $name => $path) {
+                $resolver->define($name, $path);
             }
-        );
+
+            // Bolt's project directory. Not configurable.
+            $resolver->define('bolt', __DIR__ . '/../../');
+
+            return $resolver;
+        };
         $app['path_resolver.root'] = '';
         $app['path_resolver.paths'] = [];
     }

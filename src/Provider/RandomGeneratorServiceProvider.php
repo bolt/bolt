@@ -3,21 +3,15 @@
 namespace Bolt\Provider;
 
 use Bolt\Security\Random\Generator;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class RandomGeneratorServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['randomgenerator'] = $app->share(
-            function () {
-                return new Generator();
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+        $app['randomgenerator'] = function () {
+            return new Generator();
+        };
     }
 }

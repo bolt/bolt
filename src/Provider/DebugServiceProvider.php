@@ -3,9 +3,11 @@
 namespace Bolt\Provider;
 
 use Bolt\Version;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +39,7 @@ use Symfony\Component\HttpKernel\EventListener\DebugHandlersListener;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DebugServiceProvider implements ServiceProviderInterface
+class DebugServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /** @var bool */
     private $firstPhase;
@@ -55,7 +57,7 @@ class DebugServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!$this->firstPhase) {
             return;
@@ -83,14 +85,14 @@ class DebugServiceProvider implements ServiceProviderInterface
         };
 
         // Separate so it's only called once.
-        $app['debug.from_config'] = $app->share(function ($app) {
+        $app['debug.from_config'] = function ($app) {
             return $app['config']->get('general/debug');
-        });
+        };
 
         if (!isset($app['environment'])) {
-            $app['environment'] = $app->share(function ($app) {
+            $app['environment'] = function ($app) {
                 return $app['debug'] ? 'development' : 'production';
-            });
+            };
         }
 
         // Thrown and logged errors in an integer bit field of E_* constants
@@ -115,9 +117,9 @@ class DebugServiceProvider implements ServiceProviderInterface
                 && !function_exists('codecept_debug')
             );
 
-        $app['error_handler'] = $app->share(function () {
+        $app['error_handler'] = function () {
             return new ErrorHandler(new BufferingLogger());
-        });
+        };
 
         // Exception Handler is registered when this service is invoked if enabled.
         // This is only for bootstrapping. The real one gets set on kernel request / console command event.
@@ -165,11 +167,9 @@ class DebugServiceProvider implements ServiceProviderInterface
         };
 
         // Listener to set the exception handler from HttpKernel or Console App.
-        $app['debug.handlers_listener'] = $app->share(
-            function () {
-                return new DebugHandlersListener(null);
-            }
-        );
+        $app['debug.handlers_listener'] = function () {
+            return new DebugHandlersListener(null);
+        };
 
         $app['debug.class_loader.enabled'] = function ($app) {
             return $app['debug'];

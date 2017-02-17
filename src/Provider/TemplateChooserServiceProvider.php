@@ -3,23 +3,17 @@
 namespace Bolt\Provider;
 
 use Bolt\TemplateChooser;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class TemplateChooserServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['templatechooser'] = $app->share(
-            function ($app) {
-                $chooser = new TemplateChooser($app['config']);
+        $app['templatechooser'] = function ($app) {
+            $chooser = new TemplateChooser($app['config']);
 
-                return $chooser;
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+            return $chooser;
+        };
     }
 }

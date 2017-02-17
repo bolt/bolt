@@ -3,23 +3,17 @@
 namespace Bolt\Provider;
 
 use Bolt\Users;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class UsersServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['users'] = $app->share(
-            function ($app) {
-                $users = new Users($app);
+        $app['users'] = function ($app) {
+            $users = new Users($app);
 
-                return $users;
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+            return $users;
+        };
     }
 }
