@@ -2,36 +2,40 @@
 
 namespace Bolt\Storage\Field\Collection;
 
-use Bolt\Storage\EntityManager;
-use Doctrine\Common\Collections\AbstractLazyCollection;
+use Bolt\Storage\Entity\FieldValue;
 use Doctrine\Common\Collections\ArrayCollection;
+use Webmozart\Assert\Assert;
 
 /**
- *  This class is used by lazily loaded field values. It stores a reference to an array of rows and
- *  fetches from the database on demand.
+ * A mapping of FieldValues.
  *
- *  @author Ross Riley <riley.ross@gmail.com>
+ * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
-class FieldCollection extends AbstractLazyCollection
+class FieldCollection extends ArrayCollection implements FieldCollectionInterface
 {
-    public $references = [];
-    protected $em;
+    /** @var int */
     protected $grouping;
     protected $block;
     protected $toRemove = [];
 
     /**
-     * @param array              $references
-     * @param EntityManager|null $em
+     * Constructor.
+     *
+     * @param FieldValue[] $elements
      */
-    public function __construct(array $references = [], EntityManager $em = null)
+    public function __construct(array $elements = [])
     {
-        $this->references = $references;
-        $this->em = $em;
+        parent::__construct([]);
+
+        foreach ($elements as $value) {
+            $this->add($value);
+        }
     }
 
     /**
-     * @return array
+     *
+     * {@inheritdoc}
      */
     public function getNew()
     {
@@ -47,7 +51,7 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getExisting()
     {
@@ -63,11 +67,29 @@ class FieldCollection extends AbstractLazyCollection
     }
 
     /**
-     * @param mixed $grouping
+     * {@inheritdoc}
+     */
+    public function get($key)
+    {
+        $result = parent::get($key);
+
+        if ($result instanceof FieldValue) {
+            $result = $result->getValue();
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function setGrouping($grouping)
     {
         $this->grouping = $grouping;
+
+        foreach ($this as $entity) {
+            $entity->setGrouping($grouping);
+        }
     }
 
     /**
@@ -83,106 +105,38 @@ class FieldCollection extends AbstractLazyCollection
      */
     public function getBlock()
     {
-        $this->initialize();
         return $this->first()->getBlock();
     }
 
     /**
-     * @param mixed $element
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function add($element)
+    public function add($value)
     {
-        $element->setGrouping($this->grouping);
-        $element->setBlock($this->block);
+        Assert::isInstanceOf($value, FieldValue::class);
 
-        return parent::add($element);
-    }
+        $this->set($value->getFieldname(), $value);
 
-    /**
-     * Helper method to get the value for a specific field
-     * this is compatible with content.get(contentkey) calls from twig.
-     *
-     * @param $key
-     *
-     * @return mixed
-     */
-    public function get($key)
-    {
-        $this->initialize();
-
-        foreach ($this->collection as $field) {
-            if ($field->getFieldname() == $key) {
-                return $field->getValue();
-            }
-        }
-
-        return null;
+        return true;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function offsetExists($offset)
+    public function set($key, $value)
     {
-        $this->initialize();
+        Assert::isInstanceOf($value, FieldValue::class);
 
-        foreach ($this->collection as $field) {
-            if ($field->getFieldname() === $offset) {
-                return true;
-            }
-        }
+        $value->setGrouping($this->grouping);
 
-        return false;
+        parent::set($key, $value);
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Iterator|FieldValue[]
      */
-    public function offsetGet($offset)
+    public function getIterator()
     {
-        return $this->get($offset);
-    }
-
-    /**
-     * Handles the conversion of references to entities.
-     */
-    protected function doInitialize()
-    {
-        $objects = [];
-        if ($this->references) {
-            $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
-            $instances = $repo->findBy(['id' => $this->references]);
-
-            foreach ((array) $instances as $val) {
-                $fieldtype = $val->getFieldtype();
-                $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
-                $type = $field->getStorageType();
-                $typeCol = 'value_' . $type->getName();
-
-                // Because there's a potential for custom fields that use json storage to 'double hydrate' this causes
-                // json_decode to throw a warning. Here we prevent that by replacing the error handler.
-                set_error_handler(
-                    function ($errNo, $errStr, $errFile) {},
-                    E_WARNING
-                );
-                $block = !empty($val->getBlock()) ? $val->getBlock() : null;
-                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname(), $block);
-                restore_error_handler();
-
-                // If we do not have a hydrated value returned then we fall back to the one passed in
-                if ($hydratedVal) {
-                    $val->setValue($hydratedVal);
-                } else {
-                    $val->setValue($val->$typeCol);
-                }
-
-                $objects[$val->getFieldname()] = $val;
-            }
-        }
-
-        $this->collection = new ArrayCollection($objects);
-        $this->em = null;
+        return parent::getIterator();
     }
 }
