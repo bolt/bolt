@@ -41,6 +41,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     public function getNew()
     {
         $this->initialize();
+
         return $this->collection->getNew();
     }
 
@@ -50,6 +51,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     public function getExisting()
     {
         $this->initialize();
+
         return $this->collection->getExisting();
     }
 
