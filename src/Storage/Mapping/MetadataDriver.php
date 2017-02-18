@@ -498,14 +498,25 @@ class MetadataDriver implements MappingDriver
         return $type;
     }
 
-    public function getFieldMetadata($contenttype, $column, $field = null)
+    /**
+     * @param string $contentType
+     * @param string $column
+     * @param string $field
+     *
+     * @return array
+     */
+    public function getFieldMetadata($contentType, $column, $field = null)
     {
         if ($field !== null) {
-            if (isset($this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field])) {
-                $metadata = $this->metadata[$contenttype]['fields'][$column]['data']['fields'][$field];
+            if (isset($this->metadata[$contentType]['fields'][$column]['data']['fields'][$field])) {
+                $metadata = $this->metadata[$contentType]['fields'][$column]['data']['fields'][$field];
+            } else {
+                throw new \RuntimeException(sprintf('No metadata set for field type %s', $field));
             }
-        } elseif (isset($this->metadata[$contenttype]['fields'][$column])) {
-            $metadata = $this->metadata[$contenttype]['fields'][$column];
+        } elseif (isset($this->metadata[$contentType]['fields'][$column])) {
+            $metadata = $this->metadata[$contentType]['fields'][$column];
+        } else {
+            throw new \RuntimeException(sprintf('%s metadata does not contain a definition for the field %s', $contentType, $column));
         }
 
         return $metadata;
