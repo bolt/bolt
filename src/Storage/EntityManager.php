@@ -6,6 +6,7 @@ use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Exception\StorageException;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
@@ -127,8 +128,6 @@ class EntityManager implements EntityManagerInterface
      * Set an entity builder instance.
      *
      * @param Entity\Builder $builder
-     *
-     * @return Entity\Builder
      */
     public function setEntityBuilder(Entity\Builder $builder)
     {
@@ -176,7 +175,7 @@ class EntityManager implements EntityManagerInterface
     /**
      * Shorthand access method to create collection. Consults aliases to allow short names.
      *
-     * @param $className
+     * @param string|Entity\Entity $className
      *
      * @return mixed
      */
@@ -195,8 +194,8 @@ class EntityManager implements EntityManagerInterface
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
      *
-     * @param string $className The class name of the object to find.
-     * @param mixed  $id        The identity of the object to find.
+     * @param string         $className Class name of the object to find.
+     * @param integer|string $id        Identity of the object to find.
      *
      * @return object The found object.
      */
@@ -285,7 +284,7 @@ class EntityManager implements EntityManagerInterface
          * the content repository, but in time this should be a metadata level
          * configuration.
          */
-        if ($this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
+        if ($this->getMapper()->resolveClassName($className) === Entity\Content::class) {
             return $this->getDefaultRepositoryFactory($classMetadata);
         }
 
@@ -420,11 +419,11 @@ class EntityManager implements EntityManagerInterface
      * Magic call method acts as a catchall proxy to the legacy repository
      *
      * @param string $method
-     * @param string $args
+     * @param array  $args
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    public function __call($method, array $args)
     {
         //$this->getLogger()->warning('[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.');
         return call_user_func_array([$this->legacy(), $method], $args);

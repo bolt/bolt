@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
@@ -17,10 +18,19 @@ use Twig_Environment as TwigEnvironment;
  */
 class TemplateFieldsType extends FieldTypeBase
 {
+    /** @var TemplateChooser */
     public $chooser;
     /** @var TwigEnvironment */
     private $twig;
 
+    /**
+     * Constructor.
+     *
+     * @param array           $mapping
+     * @param EntityManager   $em
+     * @param TemplateChooser $chooser
+     * @param TwigEnvironment $twig
+     */
     public function __construct(array $mapping, EntityManager $em, TemplateChooser $chooser, TwigEnvironment $twig)
     {
         parent::__construct($mapping, $em);
@@ -33,12 +43,18 @@ class TemplateFieldsType extends FieldTypeBase
      */
     public function hydrate($data, $entity)
     {
+        /** @var string $key */
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
         $value = $type->convertToPHPValue($data[$key], $this->getPlatform());
         $this->set($entity, $value, $data);
     }
 
+    /**
+     * @param object $entity
+     * @param mixed  $value
+     * @param mixed  $rawData
+     */
     public function set($entity, $value, $rawData = null)
     {
         $key = $this->mapping['fieldname'];
@@ -54,6 +70,9 @@ class TemplateFieldsType extends FieldTypeBase
         $entity->$key = $templatefieldsEntity;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
@@ -76,12 +95,18 @@ class TemplateFieldsType extends FieldTypeBase
         $qb->setParameter($key, $value);
     }
 
-    protected function serialize($input, $metadata)
+    /**
+     * @param string        $input
+     * @param ClassMetadata $metadata
+     *
+     * @return array
+     */
+    protected function serialize($input, ClassMetadata $metadata)
     {
         $output = [];
         foreach ($metadata->getFieldMappings() as $field) {
-            $fieldobj = $this->em->getFieldManager()->get($field['fieldtype'], $field);
-            $type = $fieldobj->getStorageType();
+            $fieldObj = $this->em->getFieldManager()->get($field['fieldtype'], $field);
+            $type = $fieldObj->getStorageType();
             $key = $field['fieldname'];
 
             // Hack … remove soon
@@ -97,6 +122,12 @@ class TemplateFieldsType extends FieldTypeBase
         return $output;
     }
 
+    /**
+     * @param object     $entity
+     * @param array|null $rawData
+     *
+     * @return ClassMetadata
+     */
     protected function buildMetadata($entity, $rawData = null)
     {
         $template = $this->chooser->record($entity, $rawData);

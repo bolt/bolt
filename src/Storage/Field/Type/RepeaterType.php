@@ -2,9 +2,11 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\FieldConfigurationException;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
+use Bolt\Storage\Repository\FieldValueRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 
@@ -73,8 +75,12 @@ class RepeaterType extends FieldTypeBase
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function hydrate($data, $entity)
     {
+        /** @var string $key */
         $key = $this->mapping['fieldname'];
         $collection = new RepeatingFieldCollection($this->em, $this->mapping);
         $collection->setName($key);
@@ -204,13 +210,14 @@ class RepeaterType extends FieldTypeBase
     /**
      * Get existing fields for this record.
      *
-     * @param mixed $entity
+     * @param object $entity
      *
      * @return array
      */
     protected function getExistingFields($entity)
     {
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
+        /** @var FieldValueRepository $repo */
+        $repo = $this->em->getRepository(Entity\FieldValue::class);
 
         return $repo->getExistingFields($entity->getId(), $entity->getContenttype(), $this->mapping['fieldname']);
     }
@@ -220,7 +227,7 @@ class RepeaterType extends FieldTypeBase
      *
      * @param QuerySet $queries
      * @param array    $changes
-     * @param $entity
+     * @param object   $entity
      */
     protected function addToInsertQuery(QuerySet $queries, $changes, $entity)
     {
@@ -262,9 +269,8 @@ class RepeaterType extends FieldTypeBase
      *
      * @param QuerySet $queries
      * @param array    $changes
-     * @param $entity
      */
-    protected function addToUpdateQuery(QuerySet $queries, $changes, $entity)
+    protected function addToUpdateQuery(QuerySet $queries, $changes)
     {
         foreach ($changes as $fieldValue) {
             $repo = $this->em->getRepository(get_class($fieldValue));
@@ -286,11 +292,11 @@ class RepeaterType extends FieldTypeBase
     }
 
     /**
-     * @param $field
+     * @param string $field
      *
      * @throws FieldConfigurationException
      *
-     * @return mixed
+     * @return FieldTypeBase
      */
     protected function getFieldType($field)
     {

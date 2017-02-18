@@ -142,7 +142,7 @@ class Queue implements QueueInterface
      * @param string $location Location (e.g. 'dashboard_aside_top')
      * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
-     * @return boolean
+     * @return integer
      */
     public function countItemsInQueue($location, $zone = Zone::FRONTEND)
     {

@@ -15,12 +15,15 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class RepeatingFieldCollection extends ArrayCollection
 {
+    /** @var EntityManager */
     protected $em;
+    /** @var array */
     protected $mapping;
+    /** @var string */
     protected $name;
 
     /**
-     * RepeatingFieldCollection constructor.
+     * Constructor.
      *
      * @param EntityManager $em
      * @param array         $mapping
@@ -201,6 +204,9 @@ class RepeatingFieldCollection extends ArrayCollection
         $this->name = $name;
     }
 
+    /**
+     * @return array
+     */
     public function flatten()
     {
         $flat = [];
@@ -212,7 +218,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param $field
+     * @param string $field
      *
      * @throws FieldConfigurationException
      *
@@ -230,7 +236,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param $field
+     * @param string $field
      *
      * @throws FieldConfigurationException
      *
@@ -246,6 +252,9 @@ class RepeatingFieldCollection extends ArrayCollection
         return $mapping['type'];
     }
 
+    /**
+     * @return FieldCollection
+     */
     public function getEmptySet()
     {
         return new FieldCollection();

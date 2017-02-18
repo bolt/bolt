@@ -4,7 +4,6 @@ namespace Bolt\EventListener;
 
 use Bolt;
 use Bolt\Controller\Zone;
-use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Version;
