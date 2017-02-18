@@ -212,10 +212,10 @@ class MetadataDriver implements MappingDriver
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey && isset($this->contenttypes[$contentKey])) {
-            $this->setRelations($contentKey, $className, $table);
+            $this->setRelations($contentKey, $className);
             $this->setIncomingRelations($contentKey, $className);
-            $this->setTaxonomies($contentKey, $className, $table);
-            $this->setTemplatefields($contentKey, $className, $table);
+            $this->setTaxonomies($contentKey, $className);
+            $this->setTemplatefields($contentKey, $className);
             $this->setRepeaters($contentKey, $className);
         }
 
@@ -305,9 +305,8 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $contentKey
      * @param string $className
-     * @param Table  $table
      */
-    public function setRelations($contentKey, $className, $table)
+    public function setRelations($contentKey, $className)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
             return;
@@ -333,8 +332,8 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @param $contentKey
-     * @param $className
+     * @param string $contentKey
+     * @param string $className
      */
     public function setIncomingRelations($contentKey, $className)
     {
@@ -356,9 +355,8 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $contentKey
      * @param string $className
-     * @param Table  $table
      */
-    public function setTaxonomies($contentKey, $className, $table)
+    public function setTaxonomies($contentKey, $className)
     {
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
             return;
@@ -390,9 +388,8 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $contentKey
      * @param string $className
-     * @param Table  $table
      */
-    public function setTemplatefields($contentKey, $className, $table)
+    public function setTemplatefields($contentKey, $className)
     {
         if (!isset($this->contenttypes[$contentKey]['templatefields'])) {
             return;
@@ -469,6 +466,7 @@ class MetadataDriver implements MappingDriver
      */
     public function getFieldTypeFor($name, $column, $field = null)
     {
+        $type = null;
         if ($column instanceof Column) {
             if ($column->getType()) {
                 $type = get_class($column->getType());
