@@ -226,7 +226,6 @@ abstract class Base implements ControllerProviderInterface
     protected function validateCsrfToken($value = null, $id = 'bolt')
     {
         if (!$this->isCsrfTokenValid($value, $id)) {
-            //$this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
             $this->abort(Response::HTTP_BAD_REQUEST, Trans::__('general.phrase.something-went-wrong'));
         }
     }
