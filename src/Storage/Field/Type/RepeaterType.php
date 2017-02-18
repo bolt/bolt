@@ -205,6 +205,8 @@ class RepeaterType extends FieldTypeBase
             case 'postgresql':
                 return "string_agg(concat_ws('_', f.name,f.grouping,f.id), ',' ORDER BY f.grouping)";
         }
+
+        throw new \RuntimeException(sprintf('Configured database platform "%s" is not supported.', $platform));
     }
 
     /**
