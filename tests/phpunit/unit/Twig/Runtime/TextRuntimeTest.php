@@ -12,9 +12,12 @@ use Bolt\Twig\Runtime\TextRuntime;
  */
 class TextRuntimeTest extends BoltUnitTest
 {
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    public $phpMock;
+
     public function setUp()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Handler')
+        $this->phpMock = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Runtime')
             ->mockFunction('setlocale')
             ->getMock()
         ;
@@ -52,16 +55,18 @@ class TextRuntimeTest extends BoltUnitTest
         $this->assertSame('2012-06-14 09:07', $result);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testLocaleDateTimeCdo()
     {
-        $this->markTestSkipped('Mock of setlocale not working on a long running test.');
-
-        $app = $this->getApp();
-        $this->php
-            ->expects($this->once())
+        $this->phpMock
+            ->expects($this->any())
             ->method('setlocale')
             ->will($this->returnValue(false))
         ;
+
+        $app = $this->getApp();
         $logger = $this->getMockMonolog();
         $logger
             ->expects($this->once())
