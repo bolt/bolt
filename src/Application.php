@@ -119,9 +119,6 @@ class Application extends Silex\Application
 
         // Initialize debugging
         $this->initDebugging();
-
-        // Initialize enabled extensions before executing handlers.
-        $this->initExtensions();
     }
 
     /**
@@ -227,13 +224,6 @@ class Application extends Silex\Application
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function initExtensions()
-    {
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function mount($prefix, $controllers)
@@ -252,17 +242,5 @@ class Application extends Silex\Application
         }
 
         return $this;
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string $name
-     *
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return isset($this[$name]);
     }
 }
