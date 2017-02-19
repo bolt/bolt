@@ -4,6 +4,9 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Removed: Bolt\Exception\LowlevelException
+- Removed: Bolt\Exception\LowlevelException
+- Removed: Bolt\Session\Generator\RandomGenerator
 - Change set: [#6083](https://github.com/bolt/bolt/pull/6083)
   - Updated: PHP requirement now 5.6.0+
   - Updated: `cocur/slugify` to ^2.0
