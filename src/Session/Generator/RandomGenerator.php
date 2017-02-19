@@ -35,6 +35,8 @@ class RandomGenerator implements GeneratorInterface
      */
     public function generateId()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __CLASS__), E_USER_DEPRECATED);
+
         return $this->generator->generateString($this->length);
     }
 }

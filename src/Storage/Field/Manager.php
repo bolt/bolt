@@ -31,21 +31,26 @@ class Manager
 
     public function addField(FieldInterface $field)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
         $this->fields[$field->getName()] = $field;
     }
 
     public function addDummyField($field)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
         $this->dummyFields[] = $field;
     }
 
     public function fields()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->fields;
     }
 
     public function getField($name)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
         if ($this->has($name)) {
             return $this->fields[$name];
         } else {
@@ -55,6 +60,7 @@ class Manager
 
     public function getDatabaseField($field)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
         if (in_array($field, $this->dummyFields)) {
             return false;
         }
@@ -64,6 +70,8 @@ class Manager
 
     public function has($field)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \Bolt\Storage\FieldManager instead.', __METHOD__), E_USER_DEPRECATED);
+
         return isset($this->fields[$field]) || in_array($field, $this->dummyFields);
     }
 }

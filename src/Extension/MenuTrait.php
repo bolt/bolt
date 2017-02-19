@@ -75,6 +75,8 @@ trait MenuTrait
      */
     final protected function addMenuEntry($label, $path, $icon = null, $permission = null)
     {
+        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0. Use registerMenuEntries() instead.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+
         $this->menuEntries[] = (new MenuEntry($label, $path))
             ->setLabel($label)
             ->setIcon($icon)

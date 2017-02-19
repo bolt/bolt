@@ -131,6 +131,15 @@ class ScriptHandler
         static::installAssets($event, false);
     }
 
+    /**
+     * @param Event  $event
+     * @param string $name
+     * @param string $defaultInSkeleton
+     * @param string $prefix
+     * @param bool   $chmod
+     *
+     * @return string
+     */
     protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '', $chmod = true)
     {
         $default = static::getOption($event, $name . '-dir', $defaultInSkeleton);

@@ -11,6 +11,6 @@ class ApacheValidationException extends AbstractSystemValidationException
      */
     public function __construct()
     {
-        parent::__construct(Validator::CHECK_APACHE, "There is no .htaccess file in your webroot.");
+        parent::__construct(Validator::CHECK_APACHE, 'There is no .htaccess file in your webroot.');
     }
 }

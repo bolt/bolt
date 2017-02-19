@@ -326,6 +326,8 @@ class Manager
      */
     protected function getApp()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Inject the required services directly into your own service constructor as required.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->app;
     }
 }

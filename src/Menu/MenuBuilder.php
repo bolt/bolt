@@ -110,10 +110,8 @@ class MenuBuilder
         $param = !empty($item['param']) ? $item['param'] : [];
 
         if (isset($item['add'])) {
-            $this->app['logger.system']->warning(
-                Trans::__('Menu item property "add" is deprecated. Use "#" under "param" instead.'),
-                ['event' => 'deprecated']
-            );
+            @trigger_error('Menu item property "add" is deprecated. Use "#" under "param" instead.', E_USER_DEPRECATED);
+
             $add = $item['add'];
             if (!empty($add) && $add[0] !== '?') {
                 $add = '?' . $add;

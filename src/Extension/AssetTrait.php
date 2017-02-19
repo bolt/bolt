@@ -137,6 +137,8 @@ trait AssetTrait
      */
     protected function addJquery()
     {
+        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+
         $this->getContainer()['config']->set('general/add_jquery', true);
     }
 
@@ -147,6 +149,8 @@ trait AssetTrait
      */
     protected function disableJquery()
     {
+        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+
         $this->getContainer()['config']->set('general/add_jquery', false);
     }
 

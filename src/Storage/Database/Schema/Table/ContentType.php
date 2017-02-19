@@ -153,6 +153,8 @@ class ContentType extends BaseTable
      */
     private function columnDecimal($fieldName)
     {
+        @trigger_error('The "decimal" field type is deprecated and will be removed in version 4.', E_USER_DEPRECATED);
+
         $this->table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
     }
 

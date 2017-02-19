@@ -16,6 +16,7 @@ use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 use ReflectionProperty;
+use Traversable;
 
 /**
  * This is an abstract class for a field type that handles
@@ -27,11 +28,20 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 {
     use CaseTransformTrait;
 
+    /** @var string[] */
     public $mapping;
 
+    /** @var EntityManager */
     protected $em;
+    /** @var AbstractPlatform */
     protected $platform;
 
+    /**
+     * Constructor.
+     *
+     * @param array              $mapping
+     * @param EntityManager|null $em
+     */
     public function __construct(array $mapping = [], EntityManager $em = null)
     {
         $this->mapping = $mapping;
@@ -185,6 +195,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getStorageOptions()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return [];
     }
 
@@ -209,13 +221,15 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getTemplate()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return '@bolt/editcontent/fields/_' . $this->getName() . '.twig';
     }
 
     /**
      * Check if a value is a JSON string.
      *
-     * @param mixed $value
+     * @param string $value
      *
      * @return boolean
      */
@@ -224,17 +238,23 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         if (!is_string($value)) {
             return false;
         }
-        
+
         // This handles an inconsistency in the result from the JSON parser across 5.x and 7.x of PHP
         if ($value === '') {
             return false;
         }
-        
+
         json_decode($value);
 
         return json_last_error() === JSON_ERROR_NONE;
     }
 
+    /**
+     * @param Traversable $data
+     * @param string      $field
+     *
+     * @return array
+     */
     protected function normalizeData($data, $field)
     {
         $normalized = [];
@@ -263,7 +283,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         return $compiled;
     }
 
-    /** This method does an in-place modification of a generic contenttype.field query to the format actually used
+    /**
+     * This method does an in-place modification of a generic contenttype.field query to the format actually used
      * in the raw sql category. For instance a simple query might say `entries.tags = 'movies'` but now we are in the
      * context of entries the actual SQL fragment needs to be `tags.slug = 'movies'`. We don't know this until we
      * drill down to the individual field types so this rewrites the SQL fragment just before the query gets sent.
@@ -273,8 +294,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      *
      * @param Filter         $filter
      * @param QueryInterface $query
-     * @param $field
-     * @param $column
+     * @param string         $field
+     * @param string         $column
      */
     protected function rewriteQueryFilterParameters(Filter $filter, QueryInterface $query, $field, $column)
     {
@@ -284,7 +305,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $reflected->setAccessible(true);
         $originalParts = $reflected->getValue($originalExpression);
         foreach ($originalParts as &$part) {
-            $part = str_replace($query->getContenttype() . '.' . $field, $field . '.' . $column, $part);
+            /** @var \Bolt\Storage\Query\SelectQuery $query */
+            $part = str_replace($query->getContentType() . '.' . $field, $field . '.' . $column, $part);
         }
         $reflected->setValue($originalExpression, $originalParts);
 
