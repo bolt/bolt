@@ -54,6 +54,8 @@ class LazyEntityManager implements EntityManagerInterface
      */
     public function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
     {
+        @trigger_error("Accessing \$app['storage']->getContent() is deprecated and will be removed in version 4.0.", E_USER_DEPRECATED);
+
         return $this->getEntityManager()->legacy()->getContent($textQuery, $parameters, $pager, $whereParameters);
     }
 }

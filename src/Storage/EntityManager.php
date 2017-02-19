@@ -424,7 +424,8 @@ class EntityManager implements EntityManagerInterface
      */
     public function __call($method, array $args)
     {
-        //$this->getLogger()->warning('[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.');
+        @trigger_error(sprintf("Accessing \$app['storage']->%s() is deprecated and will be removed in version 4.0.", $method), E_USER_DEPRECATED);
+
         return call_user_func_array([$this->legacy(), $method], $args);
     }
 
@@ -441,6 +442,8 @@ class EntityManager implements EntityManagerInterface
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
+        @trigger_error("Accessing \$app['storage']->getContent() is deprecated and will be removed in version 4.0.", E_USER_DEPRECATED);
+
         return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
 }

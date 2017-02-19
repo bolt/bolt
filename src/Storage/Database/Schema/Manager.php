@@ -55,7 +55,7 @@ class Manager implements SchemaManagerInterface
      */
     public function __call($name, $args)
     {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed, integrity checker function: ' . $name, ['event' => 'deprecated']);
+        @trigger_error(sprintf('An extension called an invalid, or removed, integrity checker function: %s', $name), E_USER_DEPRECATED);
     }
 
     /**
@@ -65,7 +65,7 @@ class Manager implements SchemaManagerInterface
      */
     public function __get($name)
     {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed integrity, checker property: ' . $name, ['event' => 'deprecated']);
+        @trigger_error(sprintf('An extension accessed an invalid, or removed, integrity checker property: %s', $name), E_USER_DEPRECATED);
     }
 
     /**
