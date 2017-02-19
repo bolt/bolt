@@ -46,7 +46,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
         // Firebug
         $app['logger.firebug'] = $app->share(
-            function ($app) {
+            function () {
                 $log = new Logger('logger.firebug');
                 $handler = new FirePHPHandler();
                 $handler->setFormatter(new WildfireFormatter());
@@ -58,7 +58,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 
         // System log
         $app['logger.flash'] = $app->share(
-            function ($app) {
+            function () {
                 $log = new FlashLogger();
 
                 return $log;
