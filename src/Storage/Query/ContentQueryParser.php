@@ -283,20 +283,22 @@ class ContentQueryParser
      *
      * @param string $key
      *
-     * @return string
+     * @return string|null
      */
     public function getDirective($key)
     {
         if (array_key_exists($key, $this->directives)) {
             return $this->directives[$key];
         }
+
+        return null;
     }
 
     /**
      * Sets a directive for the named key.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string         $key
+     * @param string|boolean $value
      */
     public function setDirective($key, $value)
     {

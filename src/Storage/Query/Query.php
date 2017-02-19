@@ -22,7 +22,7 @@ class Query
     }
 
     /**
-     * @param $name
+     * @param string              $name
      * @param QueryScopeInterface $scope
      */
     public function addScope($name, QueryScopeInterface $scope)
@@ -31,13 +31,17 @@ class Query
     }
 
     /**
-     * @return QueryScopeInterface
+     * @param string $name
+     *
+     * @return QueryScopeInterface|null
      */
     public function getScope($name)
     {
         if (array_key_exists($name, $this->scopes)) {
             return $this->scopes[$name];
         }
+
+        return null;
     }
 
     /**
@@ -64,7 +68,7 @@ class Query
      * @param string $textquery
      * @param array  $parameters
      *
-     * @return QueryResultset
+     * @return QueryResultset|null
      */
     public function getContentByScope($scopeName, $textquery, $parameters = [])
     {
@@ -75,5 +79,7 @@ class Query
 
             return $this->parser->fetch();
         }
+
+        return null;
     }
 }

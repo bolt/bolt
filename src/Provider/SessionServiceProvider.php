@@ -29,6 +29,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  */
 class SessionServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function register(Application $app)
     {
         $app['session'] = $app->share(
@@ -94,6 +97,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->configure($app);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function boot(Application $app)
     {
         $app['dispatcher']->addSubscriber($app['session.listener']);
@@ -120,6 +126,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         };
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerOptions(Application $app)
     {
         $app['session.options'] = [];
@@ -193,6 +202,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerHandlers(Application $app)
     {
         $app['session.handler_factory'] = $app->protect(
@@ -211,6 +223,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->registerRedisHandler($app);
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerFilesHandler(Application $app)
     {
         $app['session.handler_factory.files'] = $app->protect(
@@ -220,6 +235,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerFilesystemHandler(Application $app)
     {
         $app['session.handler_factory.filesystem'] = $app->protect(
@@ -231,6 +249,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerMemcacheHandler(Application $app)
     {
         $app['session.handler_factory.backing_memcache'] = $app->protect(
@@ -303,6 +324,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * @param Application $app
+     */
     protected function registerRedisHandler(Application $app)
     {
         $app['session.handler_factory.backing_redis'] = $app->protect(
@@ -350,6 +374,14 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * @param array   $options
+     * @param string  $defaultHost
+     * @param integer $defaultPort
+     * @param string  $defaultScheme
+     *
+     * @return array
+     */
     protected function parseConnections($options, $defaultHost, $defaultPort, $defaultScheme = 'tcp')
     {
         if (isset($options['host']) || isset($options['port'])) {

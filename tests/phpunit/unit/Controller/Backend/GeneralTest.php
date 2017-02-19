@@ -11,7 +11,6 @@ use Bolt\Tests\Controller\ControllerUnitTest;
 use Prophecy\Argument\Token\StringContainsToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -67,7 +66,7 @@ class GeneralTest extends ControllerUnitTest
 
         /** @var Application $app */
         $app = $this->getApp();
-        $flashes = $this->getMock(FlashLogger::class);
+        $flashes = $this->createMock(FlashLogger::class);
         $app['logger.flash'] = $flashes;
 
         $flashes->expects($this->once())

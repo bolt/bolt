@@ -258,7 +258,7 @@ class ImageRuntime
      *
      * @param Thumbnail $thumb
      *
-     * @return mixed
+     * @return string
      */
     private function getThumbnailUri(Thumbnail $thumb)
     {
@@ -284,7 +284,7 @@ class ImageRuntime
      * @param mixed  $filename
      * @param string $alias
      *
-     * @return mixed
+     * @return string
      */
     private function getAliasedUri($filename, $alias)
     {
@@ -306,6 +306,11 @@ class ImageRuntime
         );
     }
 
+    /**
+     * @param string $alias
+     *
+     * @return bool
+     */
     private function isAlias($alias)
     {
         return (bool) $this->config->get('theme/thumbnails/aliases/' . $alias, false);

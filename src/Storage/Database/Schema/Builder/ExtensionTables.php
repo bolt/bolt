@@ -75,6 +75,8 @@ class ExtensionTables extends BaseBuilder
      */
     public function addTable(callable $generator)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $this->tableGenerators[] = $generator;
     }
 
@@ -85,6 +87,8 @@ class ExtensionTables extends BaseBuilder
      */
     public function addPrefix($prefix)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $this->prefix = $prefix;
     }
 }

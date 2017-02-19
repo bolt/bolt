@@ -12,8 +12,8 @@ abstract class AbstractSystemValidationException extends ValidationException
     /**
      * Constructor.
      *
-     * @param string         $type
-     * @param string         $message
+     * @param string $type
+     * @param string $message
      */
     public function __construct($type, $message = '')
     {
