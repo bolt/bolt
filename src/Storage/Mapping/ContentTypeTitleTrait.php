@@ -20,6 +20,8 @@ trait ContentTypeTitleTrait
      */
     protected function getTitleColumnName($contentType)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __CLASS__), E_USER_DEPRECATED);
+
         $fields = $contentType['fields'];
         $names = [
             // EN

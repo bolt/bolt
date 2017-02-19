@@ -44,6 +44,8 @@ trait NutTrait
      */
     protected function addConsoleCommand(Command $command)
     {
+        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0. Use registerNutCommands() instead.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+
         $app = $this->getContainer();
         $app['nut.commands.add']($command);
     }

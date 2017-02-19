@@ -169,7 +169,7 @@ class Excerpt
      * @param string       $fulltext
      * @param integer      $relLength
      *
-     * @return mixed|string
+     * @return string
      */
     private function extractRelevant($words, $fulltext, $relLength = 300)
     {

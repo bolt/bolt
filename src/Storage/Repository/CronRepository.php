@@ -14,7 +14,7 @@ class CronRepository extends Repository
      *
      * @param $interimName
      *
-     * @return \Bolt\Storage\Entity\Cron
+     * @return \Bolt\Storage\Entity\Cron|false
      */
     public function getNextRunTime($interimName)
     {

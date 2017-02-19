@@ -73,6 +73,8 @@ class Users
      */
     public function isValidSession()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $request = Request::createFromGlobals();
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
         if ($authCookie === null) {
@@ -87,6 +89,8 @@ class Users
      */
     public function checkValidSession()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $request = Request::createFromGlobals();
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
         if ($authCookie === null) {
@@ -101,6 +105,8 @@ class Users
      */
     public function getAntiCSRFToken()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->app['csrf']->getToken('bolt')->getValue();
     }
 
@@ -109,6 +115,8 @@ class Users
      */
     public function checkAntiCSRFToken($token = '')
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         if (empty($token)) {
             $token = $this->app['request']->get('bolt_csrf_token');
         }
@@ -128,6 +136,8 @@ class Users
      */
     public function getActiveSessions()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->app['access_control']->getActiveSessions();
     }
 
@@ -279,6 +289,8 @@ class Users
      */
     public function getCurrentUsername()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->getCurrentUserProperty('username');
     }
 
@@ -556,6 +568,8 @@ class Users
      */
     public function updateUserLogin($user)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->app['access_control']->updateUserLogin($user);
     }
 }

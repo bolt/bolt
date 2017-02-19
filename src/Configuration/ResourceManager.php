@@ -163,6 +163,8 @@ class ResourceManager
      */
     public function setApp(Application $app)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $this->app = $app;
         self::$theApp = $app;
         $this->pathResolver = $app['path_resolver'];
@@ -179,6 +181,8 @@ class ResourceManager
      */
     public function setPath($name, $value, $applyToResolver = true)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \$app[\'path_resolver\'] instead.', __METHOD__), E_USER_DEPRECATED);
+
         if (strpos($value, '%') !== false) { // contains variable
             $path = function () use ($value) {
                 if (!$this->pathResolver) {
@@ -232,6 +236,8 @@ class ResourceManager
      */
     public function getPath($name)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \$app[\'path_resolver\'] instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->getPathObject($name)->string();
     }
 
@@ -292,6 +298,7 @@ class ResourceManager
      */
     public function hasPath($name)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \$app[\'path_resolver\'] instead.', __METHOD__), E_USER_DEPRECATED);
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
             $name = array_shift($parts);
@@ -406,6 +413,7 @@ class ResourceManager
      */
     public function getPaths()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \$app[\'path_resolver\'] instead.', __METHOD__), E_USER_DEPRECATED);
         if ($this->pathsProxy === null) {
             $this->pathsProxy = new PathsProxy($this);
         }
@@ -581,6 +589,7 @@ class ResourceManager
      */
     public static function getApp()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
         if (! static::$theApp) {
             $trace = debug_backtrace(false);
             $trace = $trace[0]['file'] . '::' . $trace[0]['line'];
@@ -601,6 +610,8 @@ class ResourceManager
      */
     public function findRelativePath($frompath, $topath)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use \$app[\'path_resolver\'] instead.', __METHOD__), E_USER_DEPRECATED);
+
         $filesystem = new Filesystem();
         $relative = $filesystem->makePathRelative($topath, $frompath);
 

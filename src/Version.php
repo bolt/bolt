@@ -70,6 +70,8 @@ final class Version
      */
     public static function name()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         if (strpos(static::VERSION, ' ') === false) {
             return null;
         }

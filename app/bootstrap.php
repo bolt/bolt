@@ -31,8 +31,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 return call_user_func(function () {
     // Use UTF-8 for all multi-byte functions
-    mb_internal_encoding('UTF-8');
-    mb_http_output('UTF-8');
+    \mb_internal_encoding('UTF-8');
+    \mb_http_output('UTF-8');
 
     // Resolve Bolt-root
     $boltRootPath = realpath(__DIR__ . '/..');

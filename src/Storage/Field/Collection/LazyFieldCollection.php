@@ -41,6 +41,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     public function getNew()
     {
         $this->initialize();
+
         return $this->collection->getNew();
     }
 
@@ -50,6 +51,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     public function getExisting()
     {
         $this->initialize();
+
         return $this->collection->getExisting();
     }
 
@@ -76,10 +78,14 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
         if ($this->references) {
             $repo = $this->em->getRepository(FieldValue::class);
             $instances = $repo->findBy(['id' => $this->references]);
+            if ($instances === false) {
+                return;
+            }
 
-            foreach ((array) $instances as $val) {
-                $fieldtype = $val->getFieldtype();
-                $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
+            /** @var FieldValue $val */
+            foreach ($instances as $val) {
+                $fieldType = $val->getFieldType();
+                $field = $this->em->getFieldManager()->getFieldFor($fieldType);
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
 
@@ -89,7 +95,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
                     function ($errNo, $errStr, $errFile) {},
                     E_WARNING
                 );
-                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldname());
+                $hydratedVal = $this->em->getEntityBuilder($val->getContenttype())->getHydratedValue($val->$typeCol, $val->getName(), $val->getFieldName());
                 restore_error_handler();
 
                 // If we do not have a hydrated value returned then we fall back to the one passed in
