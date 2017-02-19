@@ -185,6 +185,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getStorageOptions()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return [];
     }
 
@@ -209,6 +211,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getTemplate()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return '@bolt/editcontent/fields/_' . $this->getName() . '.twig';
     }
 

@@ -79,6 +79,8 @@ class Content extends Entity
      */
     public function getSortorder()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->sortorder;
     }
 
@@ -87,6 +89,8 @@ class Content extends Entity
      */
     public function setSortorder($sortorder)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $this->sortorder = $sortorder;
     }
 
@@ -289,6 +293,8 @@ class Content extends Entity
      */
     public function getGroup()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->group;
     }
 
@@ -297,6 +303,8 @@ class Content extends Entity
      */
     public function setGroup($group)
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+
         $this->group = $group;
     }
 

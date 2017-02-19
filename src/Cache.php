@@ -45,6 +45,8 @@ class Cache extends FilesystemCache
      */
     public function clearCache()
     {
+        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use flushAll() instead.', __METHOD__));
+
         $this->flushAll();
 
         return [
