@@ -64,8 +64,8 @@ class TemplateChooser
      * Refactor note: Using a FQCN for the hint here as a `use` statement causes
      * a fatal in the unit tests… 'cause PHP and class_alias() versus namespaces.
      *
-     * @param \Bolt\Legacy\Content $record
-     * @param array                $data
+     * @param object $record
+     * @param array  $data
      *
      * @return string[]
      */

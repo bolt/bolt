@@ -57,6 +57,9 @@ class FieldValue extends Entity
         $this->value = $value;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return (string) $this->getValue();
@@ -76,6 +79,46 @@ class FieldValue extends Entity
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contenttype;
+    }
+
+    /**
+     * @return int
+     */
+    public function getContentId()
+    {
+        return $this->content_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGrouping()
+    {
+        return $this->grouping;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName()
+    {
+        return $this->fieldname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldType()
+    {
+        return $this->fieldtype;
     }
 
     /**

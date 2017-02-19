@@ -170,19 +170,19 @@ class ExceptionListener implements EventSubscriberInterface
 
         if ($exception instanceof DatabaseConnectionException) {
             $context += [
-                'type' => 'connect',
+                'type'     => 'connect',
                 'platform' => $exception->getPlatform(),
             ];
         } elseif ($exception instanceof SqlitePathException) {
             $context += [
-                'type' => 'path',
+                'type'    => 'path',
                 'subtype' => $exception->getType(),
-                'path' => $exception->getPath(),
-                'error' => $exception->getError(),
+                'path'    => $exception->getPath(),
+                'error'   => $exception->getError(),
             ];
         } elseif ($exception instanceof AbstractDatabaseValidationException) {
             $context += [
-                'type' => 'driver',
+                'type'    => 'driver',
                 'subtype' => $exception->getSubType(),
             ];
             if ($exception instanceof DatabaseParameterException) {
@@ -190,7 +190,7 @@ class ExceptionListener implements EventSubscriberInterface
             }
         } elseif ($exception instanceof MissingDatabaseExtensionException) {
             $context += [
-                'type' => 'driver',
+                'type'    => 'driver',
                 'subtype' => 'missing',
             ];
         }

@@ -503,7 +503,7 @@ trait ContentValuesTrait
                             $this->setTaxonomy($taxonomytype, $v, $taxonomyOptions[$v], $k);
                         }
                     }
-                } else if ($taxonomyOptions && isset($taxonomyOptions[$value])) {
+                } elseif ($taxonomyOptions && isset($taxonomyOptions[$value])) {
                     $this->setTaxonomy($taxonomytype, $value, $taxonomyOptions[$value], 0);
                 } else {
                     $this->setTaxonomy($taxonomytype, $value, $value, 0);
