@@ -30,6 +30,12 @@
 
             {{ include('@bolt/users/_sessions.twig') }}
 
+            {% if context.invitations %}
+                <h2><strong>Pending Invitations</strong></h2>
+
+                {{ include('@bolt/users/_invitations.twig') }}
+            {% endif %}
+
             {{ widgets('users_bottom', 'backend') }}
 
         </div>

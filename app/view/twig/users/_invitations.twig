@@ -1,0 +1,34 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
+<div class="table-responsive">
+    <table class="table table-striped dashboardlisting">
+        <thead>
+            <tr>
+                <th>Creator</th>
+                <th>Token</th>
+                <th>Expiration</th>
+                <th>Roles</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for invitation in context.invitations %}
+                {% set user = app.users.user(invitation.ownerid) %}
+                <tr>
+                    <td>
+                        {{ user.displayname }}
+                    </td>
+                    <td>
+                        <a href="{{ path('invitation', { 'code': invitation.token }) }}">{{ invitation.token }}</a>
+                    </td>
+                    <td>
+                        {{ buic_moment(invitation.expiration) }}
+                    </td>
+                    <td>
+                        {{ invitation.roles|join(', ') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

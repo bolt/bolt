@@ -80,6 +80,7 @@ global:
     translation: [ developer ]
     useraction: [ admin, developer ] # enable/disable/delete
     useredit: [ admin, developer ] # user settings
+    useredit:invitation: [ admin, developer ]
     users: [ admin, developer ] # view user overview
     roles: [ admin, developer ] # view the roles overview
     maintenance-mode: [ everyone ] # view the frontend when in maintenance mode

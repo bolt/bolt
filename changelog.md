@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.4-dev
 -----------
 
-- 
+- Added: Ability to create users via an unique invitation URL 
 
 Bolt 3.3.0 beta 1
 -----------------

@@ -1,0 +1,57 @@
+{# Page: NavSecondary > Configuration > Users > Invite #}
+
+{% extends '@bolt/_base/_page-nav.twig' %}
+
+{% block page_nav 'Settings/Configuration' %}
+
+{% block page_title %}
+    {{ __('page.invitation.create.title') }}
+{% endblock page_title %}
+
+{% form_theme context.form with ['form_bolt_layout.twig', _self] %}
+
+{% block datetime_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}
+            {{ block('field_widget') }}
+        {% else %}
+            {{ form_errors(form.date) }}
+            {{ form_errors(form.time) }}
+            <div class="datetime-container">
+                <div>
+                    <div>
+                        {{ form_widget(form.date, { 'attr': { 'class': 'form-control datepicker' } }) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_widget(form.time, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock datetime_widget %}
+
+{% block page_main %}
+
+    <div class="row">
+        <div class="col-md-9">
+
+            <p style="max-width: 500px;">
+                {{ __('page.invitation.generate.intro') }}
+            </p>
+
+            {{ form_start(context.form, { 'attr': { 'class': 'form-horizontal' } }) }}
+
+            {{ form_widget(context.form) }}
+
+            {{ form_end(context.form) }}
+
+        </div>
+
+        <aside class="col-md-3">
+            {{ include('@bolt/edituser/_aside.twig') }}
+        </aside>
+
+    </div>
+
+{% endblock page_main %}

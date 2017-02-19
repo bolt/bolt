@@ -44,6 +44,7 @@ class MetadataDriver implements MappingDriver
         'bolt_relations'   => 'Bolt\Storage\Entity\Relations',
         'bolt_taxonomy'    => 'Bolt\Storage\Entity\Taxonomy',
         'bolt_users'       => 'Bolt\Storage\Entity\Users',
+        'bolt_invitation'  => 'Bolt\Storage\Entity\Invitation',
     ];
 
     /** @var array */
