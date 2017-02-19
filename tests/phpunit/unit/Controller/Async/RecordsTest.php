@@ -1,8 +1,11 @@
 <?php
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\AccessControl\Permissions;
+use Bolt\Storage\Entity\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Class to test correct operation of src/Controller/Async/Records.
@@ -13,106 +16,101 @@ class RecordsTest extends ControllerUnitTest
 {
     public function testDelete()
     {
-        $this->markTestSkipped('TODO');
+        $this->addSomeContent();
+        $csrf = $this->getMockBuilder(CsrfTokenManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['isTokenValid'])
+            ->getMock()
+        ;
+        $csrf->expects($this->atLeastOnce())
+            ->method('isTokenValid')
+            ->willReturn(true)
+        ;
+        $this->setService('csrf', $csrf);
 
-        $this->setRequest(Request::create('/bolt/deletecontent/pages/4'));
-        $response = $this->controller()->modify($this->getRequest(), 'pages', 4);
+        $request = Request::create('/async/content/action');
+        $request->setMethod('POST');
+        $request->attributes->add([
+            'contenttype' => 'pages',
+            'actions' => [
+                'showcases' => [
+                    1 => ['delete' => null],
+                ]
+            ]
+        ]);
+
+        $this->setRequest($request);
+        $this->assertInstanceOf(Entity::class, $this->getService('storage')->getRepository('showcases')->findOneBy(['id' => 1]));
 
         // This one should fail for permissions
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $this->controller()->action($this->getRequest());
         $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/denied/', $err[0]);
+        $this->assertRegExp('/could not be modified/', $err[0]);
 
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions = $this->getMockBuilder(Permissions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['isAllowed'])
+            ->getMock()
+        ;
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        // This one should get killed by the anti CSRF check
-        $response = $this->controller()->modify($this->getRequest(), 'pages', 4);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('info');
-        $this->assertRegExp('/could not be deleted/', $err[0]);
+        $this->controller()->action($this->getRequest());
 
-        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
-            ->will($this->returnValue(true));
-        $this->setService('users', $users);
-
-        $response = $this->controller()->modify($this->getRequest(), 'pages', 4);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('info');
-        $this->assertRegExp('/has been deleted/', $err[0]);
+        $this->assertFalse($this->getService('storage')->getRepository('showcases')->findOneBy(['id' => 1]));
     }
 
     public function testModify()
     {
-        $this->markTestSkipped('TODO');
+        $this->addSomeContent();
+        $csrf = $this->getMockBuilder(CsrfTokenManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['isTokenValid'])
+            ->getMock()
+        ;
+        $csrf->expects($this->atLeastOnce())
+            ->method('isTokenValid')
+            ->willReturn(true)
+        ;
+        $this->setService('csrf', $csrf);
 
-        // Try status switches
-        $this->setRequest(Request::create('/bolt/content/held/pages/3'));
+        $request = Request::create('/async/content/action');
+        $request->setMethod('POST');
+        $request->attributes->add([
+            'contenttype' => 'pages',
+            'actions' => [
+                'showcases' => [
+                    1 => ['modify' => ['title' => 'Drop Bear Attacks']],
+                ]
+            ]
+        ]);
 
-        // This one should fail for lack of permission
-        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
+        $this->setRequest($request);
+        $entityA = $this->getService('storage')->getRepository('showcases')->findOneBy(['id' => 1]);
+        $this->assertInstanceOf(Entity::class, $entityA);
+        $this->assertNotEquals('Drop Bear Attacks', $entityA->getTitle());
+
+        // This one should fail for permissions
+        $this->controller()->action($this->getRequest());
         $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/right privileges/', $err[0]);
+        $this->assertRegExp('/could not be modified/', $err[0]);
 
-        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken', 'isContentStatusTransitionAllowed'], [$this->getApp()]);
-        $this->setService('users', $users);
-
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions = $this->getMockBuilder(Permissions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['isAllowed'])
+            ->getMock()
+        ;
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        // This one should fail for the second permission check `isContentStatusTransitionAllowed`
-        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/right privileges/', $err[0]);
+        $this->controller()->action($this->getRequest());
 
-        $this->getService('users')->expects($this->any())
-            ->method('isContentStatusTransitionAllowed')
-            ->will($this->returnValue(true));
-
-        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('info');
-        $this->assertRegExp('/has been changed/', $err[0]);
-
-        // Test an invalid action fails
-        $this->setRequest(Request::create('/bolt/content/fake/pages/3'));
-        $this->controller()->modify($this->getRequest(), 'fake', 'pages', 3);
-        $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/No such action/', $err[0]);
-
-        // Test that any save error gets reported
-        $this->setRequest(Request::create('/bolt/content/held/pages/3'));
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
-        $permissions->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(false));
-        $this->setService('permissions', $permissions);
-
-        // Test that we can't depublish "held" a record
-        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/You do not have the right privileges to depublish that record./', $err[0]);
-
-        // Test the delete proxy action
-        // Note that the response will be 'could not be deleted'. Since this just
-        // passes on the the deleteContent method that is enough to indicate that
-        // the work of this method is done.
-        $this->setRequest(Request::create('/bolt/content/delete/pages/3'));
-        $response = $this->controller()->modify($this->getRequest(), 'delete', 'pages', 3);
-        $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('error');
-        $this->assertRegExp('/Permission denied/', (string) $err[0]);
+        $entityB = $this->getService('storage')->getRepository('showcases')->findOneBy(['id' => 1]);
+        $this->assertSame('Drop Bear Attacks', $entityB->getTitle());
     }
 
     /**
