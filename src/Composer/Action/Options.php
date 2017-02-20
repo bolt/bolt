@@ -19,9 +19,8 @@ class Options extends ParameterBag
      *
      * @param JsonFile $composerJson
      * @param array    $composerOverrides
-     * @param bool     $setDefaults
      */
-    public function __construct(JsonFile $composerJson, array $composerOverrides, $setDefaults = true)
+    public function __construct(JsonFile $composerJson, array $composerOverrides)
     {
         parent::__construct($composerOverrides);
         /** @var Filesystem $extensionFs */

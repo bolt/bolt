@@ -17,6 +17,9 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class FilesystemCasters extends AbstractCasterProvider
 {
+    /**
+     * @return array
+     */
     protected static function defineCasters()
     {
         return [
@@ -31,6 +34,15 @@ class FilesystemCasters extends AbstractCasterProvider
         ];
     }
 
+    /**
+     * @param HandlerInterface $handler
+     * @param array            $a
+     * @param Stub             $stub
+     * @param bool             $isNested
+     * @param int              $filter
+     *
+     * @return array
+     */
     public static function castHandler(HandlerInterface $handler, array $a, Stub $stub, $isNested, $filter = 0)
     {
         // Populate lazy loaded properties
@@ -69,6 +81,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param FileInterface $file
+     * @param array         $a
+     * @param Stub          $stub
+     * @param bool          $isNested
+     * @param int           $filter
+     *
+     * @return array
+     */
     public static function castFile(FileInterface $file, array $a, Stub $stub, $isNested, $filter = 0)
     {
         if ($file->exists()) {
@@ -83,6 +104,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param DirectoryInterface $directory
+     * @param array              $a
+     * @param Stub               $stub
+     * @param bool               $isNested
+     * @param int                $filter
+     *
+     * @return array
+     */
     public static function castDirectory(DirectoryInterface $directory, array $a, Stub $stub, $isNested, $filter = 0)
     {
         $a[Caster::PREFIX_VIRTUAL . 'root'] = $directory->isRoot();
@@ -90,6 +120,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param Image $image
+     * @param array $a
+     * @param Stub  $stub
+     * @param bool  $isNested
+     * @param int   $filter
+     *
+     * @return array
+     */
     public static function castImage(Image $image, array $a, Stub $stub, $isNested, $filter = 0)
     {
         try {
@@ -100,6 +139,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param Image\Info $info
+     * @param array      $a
+     * @param Stub       $stub
+     * @param bool       $isNested
+     * @param int        $filter
+     *
+     * @return array
+     */
     public static function castImageInfo(Image\Info $info, array $a, Stub $stub, $isNested, $filter = 0)
     {
         $a[Caster::PREFIX_VIRTUAL . 'width'] = $info->getWidth();
@@ -108,6 +156,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param Image\Type $type
+     * @param array      $a
+     * @param Stub       $stub
+     * @param bool       $isNested
+     * @param int        $filter
+     *
+     * @return array
+     */
     public static function castImageType(Image\Type $type, array $a, Stub $stub, $isNested, $filter = 0)
     {
         unset($a["\0Bolt\\Filesystem\\Handler\\Image\\Type\0name"]);
@@ -120,6 +177,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param Image\Dimensions $dimensions
+     * @param array            $a
+     * @param Stub             $stub
+     * @param bool             $isNested
+     * @param int              $filter
+     *
+     * @return array
+     */
     public static function castDimensions(Image\Dimensions $dimensions, array $a, Stub $stub, $isNested, $filter = 0)
     {
         $stub->class .= sprintf(' "%s"', (string) $dimensions);
@@ -127,6 +193,15 @@ class FilesystemCasters extends AbstractCasterProvider
         return $a;
     }
 
+    /**
+     * @param Image\Exif $exif
+     * @param array      $a
+     * @param Stub       $stub
+     * @param bool       $isNested
+     * @param int        $filter
+     *
+     * @return array|mixed
+     */
     public static function castImageExif(Image\Exif $exif, array $a, Stub $stub, $isNested, $filter = 0)
     {
         $a = $a[Caster::PREFIX_PROTECTED . 'data'];
