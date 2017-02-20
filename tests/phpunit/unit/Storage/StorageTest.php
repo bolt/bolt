@@ -228,7 +228,7 @@ class StorageTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);
-        $storage = new StorageMock($app);
+        $storage = new Mock\StorageMock($app);
 
         // Test sorting is pulled from contenttype when not specified
         $app['config']->set('contenttypes/entries/sort', '-id');
@@ -247,7 +247,7 @@ class StorageTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);
-        $storage = new StorageMock($app);
+        $storage = new Mock\StorageMock($app);
 
         // Test returnsingle will set limit to 1
         $storage->getContent('entries', ['returnsingle' => true]);
@@ -351,22 +351,5 @@ class StorageTest extends BoltUnitTest
             ->setConstructorArgs([$db->getParams(), $db->getDriver(), $db->getConfiguration(), $db->getEventManager()])
             ->enableOriginalConstructor()
         ;
-    }
-}
-
-class StorageMock extends Storage
-{
-    public $queries = [];
-
-    protected function tableExists($name)
-    {
-        return true;
-    }
-
-    protected function executeGetContentQueries($decoded)
-    {
-        $this->queries[] = $decoded;
-
-        return parent::executeGetContentQueries($decoded);
     }
 }
