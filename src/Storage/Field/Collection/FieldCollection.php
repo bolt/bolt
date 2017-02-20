@@ -34,7 +34,6 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     }
 
     /**
-     *
      * {@inheritdoc}
      */
     public function getNew()

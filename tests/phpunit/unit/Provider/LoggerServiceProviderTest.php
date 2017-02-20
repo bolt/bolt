@@ -1,8 +1,11 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Logger;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to test src/Provider/NutServiceProvider.
@@ -16,10 +19,10 @@ class LoggerServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new LoggerServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Psr\Log\LoggerInterface', $app['logger.system']);
-        $this->assertInstanceOf('Psr\Log\LoggerInterface', $app['logger.change']);
-        $this->assertInstanceOf('Psr\Log\LoggerInterface', $app['logger.firebug']);
-        $this->assertInstanceOf('Bolt\Logger\Manager', $app['logger.manager']);
+        $this->assertInstanceOf(LoggerInterface::class, $app['logger.system']);
+        $this->assertInstanceOf(LoggerInterface::class, $app['logger.change']);
+        $this->assertInstanceOf(LoggerInterface::class, $app['logger.firebug']);
+        $this->assertInstanceOf(Logger\Manager::class, $app['logger.manager']);
 
         $app->boot();
     }

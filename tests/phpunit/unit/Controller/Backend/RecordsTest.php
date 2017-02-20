@@ -1,12 +1,10 @@
 <?php
+
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
-use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Records.
@@ -39,14 +37,14 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
+        $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
 
         // Test creation
         $this->setRequest(Request::create('/bolt/editcontent/pages'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
+        $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
         $this->assertNull($context['context']['content']->id);
 
         // Test that non-existent throws a redirect

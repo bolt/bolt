@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis\QueryService;
 use Bolt\Controller\Backend\Extend;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -25,7 +26,7 @@ class ExtendTest extends ControllerUnitTest
         $this->assertNotEmpty($this->getService('extend.site'));
         $this->assertNotEmpty($this->getService('extend.repo'));
 
-        $this->assertInstanceOf('Bolt\Composer\PackageManager', $this->getService('extend.manager'));
+        $this->assertInstanceOf(PackageManager::class, $this->getService('extend.manager'));
     }
 
     public function testMethodsReturnTemplates()

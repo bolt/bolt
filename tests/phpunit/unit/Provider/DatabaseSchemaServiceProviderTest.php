@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Storage\Database\Schema;
 use Bolt\Provider\DatabaseSchemaServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,7 +18,7 @@ class DatabaseSchemaServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new DatabaseSchemaServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Storage\Database\Schema\Manager', $app['schema']);
+        $this->assertInstanceOf(Schema\Manager::class, $app['schema']);
         $app->boot();
     }
 }

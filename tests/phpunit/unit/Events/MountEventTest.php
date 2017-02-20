@@ -6,7 +6,6 @@ use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
 use Silex\Route;
 
 /**
@@ -22,8 +21,8 @@ class MountEventTest extends BoltUnitTest
         $controllers = new ControllerCollection(new Route('/'));
         $mountEvent = new MountEvent($app, $controllers);
 
-        $this->assertInstanceOf('Bolt\Events\MountEvent', $mountEvent);
-        $this->assertInstanceOf('Silex\Application', $mountEvent->getApp());
+        $this->assertInstanceOf(MountEvent::class, $mountEvent);
+        $this->assertInstanceOf(Application::class, $mountEvent->getApp());
     }
 
     public function testMount()
@@ -68,10 +67,10 @@ class MountEventTest extends BoltUnitTest
             ->method('mount')
         ;
 
-        $this->setExpectedException('LogicException', 'The method "Bolt\Tests\Events\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\ClippyKoala"');
+        $this->setExpectedException('LogicException', 'The method "Bolt\Tests\Events\Mock\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\Mock\ClippyKoala"');
 
         $mountEvent = new MountEvent($app, $controllers);
-        $mountEvent->mount('/', new ControllerMock($route));
+        $mountEvent->mount('/', new Mock\ControllerMock($route));
     }
 
     /**
@@ -89,16 +88,4 @@ class MountEventTest extends BoltUnitTest
             ->getMock()
         ;
     }
-}
-
-class ControllerMock implements ControllerProviderInterface
-{
-    public function connect(Application $app)
-    {
-        return new ClippyKoala();
-    }
-}
-
-class ClippyKoala
-{
 }

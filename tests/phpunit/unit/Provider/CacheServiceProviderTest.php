@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Cache;
 use Bolt\Provider\CacheServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,7 +18,7 @@ class CacheServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new CacheServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Cache', $app['cache']);
+        $this->assertInstanceOf(Cache::class, $app['cache']);
         $app->boot();
     }
 }

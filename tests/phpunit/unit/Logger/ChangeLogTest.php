@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Logger;
 
+use Bolt\Storage\Entity;
 use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,6 +108,6 @@ class ChangeLogTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        return $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        return $app['storage']->getRepository(Entity\LogChange::class);
     }
 }

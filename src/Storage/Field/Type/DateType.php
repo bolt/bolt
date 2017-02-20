@@ -3,6 +3,7 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\QueryParseException;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
@@ -23,7 +24,7 @@ class DateType extends FieldTypeBase
     public function __construct(array $mapping = [], EntityManager $em = null)
     {
         parent::__construct($mapping, $em);
-        Type::overrideType(Type::DATE, 'Bolt\Storage\Mapping\Type\CarbonDateType');
+        Type::overrideType(Type::DATE, Mapping\Type\CarbonDateType::class);
     }
 
     /**
@@ -33,6 +34,8 @@ class DateType extends FieldTypeBase
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
+     *
+     * @throws QueryParseException
      *
      * @return void
      */
