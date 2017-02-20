@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Tests\Provider;
 
+use Bolt\Menu\MenuBuilder;
+use Bolt\Menu\MenuEntry;
 use Bolt\Provider\MenuServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,8 +18,8 @@ class MenuServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new MenuServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Menu\MenuBuilder', $app['menu']);
-        $this->assertInstanceOf('Bolt\Menu\MenuEntry', $app['menu.admin']);
+        $this->assertInstanceOf(MenuBuilder::class, $app['menu']);
+        $this->assertInstanceOf(MenuEntry::class, $app['menu.admin']);
         $app->boot();
     }
 }

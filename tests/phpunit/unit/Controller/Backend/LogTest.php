@@ -1,7 +1,9 @@
 <?php
+
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Logger\Manager;
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -67,7 +69,7 @@ class LogTest extends ControllerUnitTest
         $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 1);
 
         $context = $response->getContext();
-        $this->assertInstanceOf('Bolt\Storage\Entity\LogChange', $context['context']['entry']);
+        $this->assertInstanceOf(Entity\LogChange::class, $context['context']['entry']);
 
         // Test non-existing entry
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
@@ -159,8 +161,8 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $this->getService('storage')->getRepository(Entity\LogChange::class);
+        $systemRepository = $this->getService('storage')->getRepository(Entity\LogSystem::class);
         $log = $this->getMockBuilder(Manager::class)
             ->setMethods(['clear', 'trim'])
             ->setConstructorArgs([$this->getApp(), $changeRepository, $systemRepository])

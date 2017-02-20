@@ -1,7 +1,9 @@
 <?php
+
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\QueryParameterParser;
+use Bolt\Exception\QueryParseException;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -77,7 +79,7 @@ class QueryParameterParserTest extends BoltUnitTest
         $this->assertEquals('(id > :id_1) AND (id <= :id_2)', $filter->getExpression());
         $this->assertEquals(['id_1' => '29', 'id_2' => '37'], $filter->getParameters());
 
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $this->setExpectedException(QueryParseException::class);
         $p = new QueryParameterParser($expr);
         $filter = $p->getFilter('ownerid', '>1||<4 && <56');
     }
@@ -101,7 +103,7 @@ class QueryParameterParserTest extends BoltUnitTest
     public function testMissingBuilderError()
     {
         $p = new QueryParameterParser();
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $this->setExpectedException(QueryParseException::class);
         $filter = $p->getFilter('username ||| email', 'tester');
     }
 

@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Cron;
 use Bolt\Provider\CronServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,7 +18,7 @@ class CronServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new CronServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Cron', $app['cron']);
+        $this->assertInstanceOf(Cron::class, $app['cron']);
         $app->boot();
     }
 }

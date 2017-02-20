@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Config;
 use Bolt\Provider\ConfigServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,7 +18,7 @@ class ConfigServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new ConfigServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Config', $app['config']);
+        $this->assertInstanceOf(Config::class, $app['config']);
         $app->boot();
     }
 }
