@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping;
 use Bolt\Storage\QuerySet;
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Type;
@@ -20,7 +21,7 @@ class DateTimeType extends DateType
     public function __construct(array $mapping = [], EntityManager $em = null)
     {
         parent::__construct($mapping, $em);
-        Type::overrideType(Type::DATETIME, 'Bolt\Storage\Mapping\Type\CarbonDateTimeType');
+        Type::overrideType(Type::DATETIME, Mapping\Type\CarbonDateTimeType::class);
     }
 
     /**

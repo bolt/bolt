@@ -13,6 +13,7 @@ use Monolog\Logger;
 use Silex\Application;
 use Silex\Provider\MonologServiceProvider;
 use Silex\ServiceProviderInterface;
+use Bolt\Storage\Entity;
 
 /**
  * Monolog provider for Bolt system logging entries.
@@ -68,8 +69,8 @@ class LoggerServiceProvider implements ServiceProviderInterface
         // Manager
         $app['logger.manager'] = $app->share(
             function ($app) {
-                $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-                $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+                $changeRepository = $app['storage']->getRepository(Entity\LogChange::class);
+                $systemRepository = $app['storage']->getRepository(Entity\LogSystem::class);
                 $mgr = new Manager($app, $changeRepository, $systemRepository);
 
                 return $mgr;

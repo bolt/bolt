@@ -86,10 +86,10 @@ class RelationType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $data = $this->normalizeData($data, $field);
         if (!count($entity->getRelation())) {
-            $entity->setRelation($this->em->createCollection('Bolt\Storage\Entity\Relations'));
+            $entity->setRelation($this->em->createCollection(Entity\Relations::class));
         }
 
-        $fieldRels = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $fieldRels = $this->em->createCollection(Entity\Relations::class);
         foreach ($data as $relData) {
             $rel = [];
             $rel['id'] = $relData['id'];
@@ -117,13 +117,13 @@ class RelationType extends FieldTypeBase
         $existingDB = $this->getExistingRelations($entity) ?: [];
         $existingInverse = $this->getInverseRelations($entity) ?: [];
 
-        $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $collection = $this->em->createCollection(Entity\Relations::class);
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($relations);
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\Relations');
+        $repo = $this->em->getRepository(Entity\Relations::class);
 
         // If we have bidirectional relations we need to delete the old inverted relations
-        $inverseCollection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $inverseCollection = $this->em->createCollection(Entity\Relations::class);
         $inverseCollection->setFromDatabaseValues($existingInverse);
 
         // Add a listener to the main query save that sets the from ID on save and then saves the relations
