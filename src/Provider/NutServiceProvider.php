@@ -50,6 +50,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\Init($app),
                     new Nut\LogClear($app),
                     new Nut\LogTrim($app),
+                    new Nut\PimpleDumpCommand($app),
                     new Nut\ServerRun($app),
                     new Nut\SetupSync($app),
                     new Nut\TestRunner($app),
