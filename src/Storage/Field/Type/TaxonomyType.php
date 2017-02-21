@@ -15,7 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TaxonomyType extends FieldTypeBase
+class TaxonomyType extends JoinTypeBase
 {
     /**
      * Taxonomy fields allows queries on the parameters passed in.

@@ -14,7 +14,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class RelationType extends FieldTypeBase
+class RelationType extends JoinTypeBase
 {
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
