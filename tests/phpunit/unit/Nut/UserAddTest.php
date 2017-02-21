@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Nut;
 
+use Bolt\AccessControl\PasswordHashManager;
 use Bolt\Nut\UserAdd;
 use Bolt\Tests\BoltUnitTest;
-use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -36,8 +36,8 @@ class UserAddTest extends BoltUnitTest
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
         $userEntity = $repo->getUser('test');
         $userAuth = $repo->getUserAuthData($userEntity->getId());
-        $crypt = new PasswordLib();
-        $auth = $crypt->verifyPasswordHash('testPass', $userAuth->getPassword());
+        $crypt = new PasswordHashManager();
+        $auth = $crypt->verifyHash('testPass', $userAuth->getPassword());
         $this->assertTrue($auth);
     }
 
