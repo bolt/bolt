@@ -1,19 +1,18 @@
 <?php
+
 namespace Bolt\EventListener;
 
+use Bolt\AccessControl\PasswordHashManager;
 use Bolt\AccessControl\Permissions;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
-use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Request\ProfilerAwareTrait;
 use Bolt\Storage\Database\Schema;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EventProcessor;
 use Bolt\Translation\Translator as Trans;
-use PasswordLib\Password\Factory as PasswordFactory;
-use PasswordLib\Password\Implementation as Password;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -32,8 +31,8 @@ class StorageEventListener implements EventSubscriberInterface
     protected $urlGenerator;
     /** @var \Bolt\Logger\FlashLoggerInterface */
     protected $loggerFlash;
-    /** @var PasswordFactory */
-    protected $passwordFactory;
+    /** @var PasswordHashManager */
+    protected $passwordHash;
     /** @var integer */
     protected $hashStrength;
     /** @var bool */
@@ -46,7 +45,7 @@ class StorageEventListener implements EventSubscriberInterface
      * @param Schema\SchemaManagerInterface $schemaManager
      * @param UrlGeneratorInterface         $urlGenerator
      * @param FlashLoggerInterface          $loggerFlash
-     * @param PasswordFactory               $passwordFactory
+     * @param PasswordHashManager           $passwordHash
      * @param integer                       $hashStrength
      * @param bool                          $timedRecordsEnabled
      */
@@ -55,7 +54,7 @@ class StorageEventListener implements EventSubscriberInterface
         Schema\SchemaManagerInterface $schemaManager,
         UrlGeneratorInterface $urlGenerator,
         FlashLoggerInterface $loggerFlash,
-        PasswordFactory $passwordFactory,
+        PasswordHashManager $passwordHash,
         $hashStrength,
         $timedRecordsEnabled
     ) {
@@ -63,7 +62,7 @@ class StorageEventListener implements EventSubscriberInterface
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
         $this->loggerFlash = $loggerFlash;
-        $this->passwordFactory = $passwordFactory;
+        $this->passwordHash = $passwordHash;
         $this->hashStrength = $hashStrength;
         $this->timedRecordsEnabled = $timedRecordsEnabled;
     }
@@ -161,34 +160,11 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function passwordHash(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getPassword() !== null) {
-            $usersEntity->setPassword($this->getValidHash($usersEntity->getPassword()));
+        $password = $usersEntity->getPassword();
+        if ($password !== null) {
+            $hash = $this->passwordHash->createHash($password);
+            $usersEntity->setPassword($hash);
         }
-    }
-
-    /**
-     * Return a valid hash for a password, of if the password is already hashed
-     * just return as is.
-     *
-     * @param string $password
-     *
-     * @throws AccessControlException
-     *
-     * @return string
-     */
-    private function getValidHash($password)
-    {
-        if (Password\Blowfish::detect($password)) {
-            return $password;
-        }
-        if (Password\PHPASS::detect($password)) {
-            return $password;
-        }
-        if (strlen($password) < 6) {
-            throw new AccessControlException('Can not save a password with a length shorter than 6 characters!');
-        }
-
-        return $this->passwordFactory->createHash($password, '$2y$');
     }
 
     public static function getSubscribedEvents()

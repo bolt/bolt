@@ -6,12 +6,12 @@ use Bolt\AccessControl\Token\Token;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
 use Bolt\Exception\AccessControlException;
+use Bolt\Exception\PasswordHashException;
+use Bolt\Exception\PasswordLegacyHashException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
-use PasswordLib\Password\Factory;
-use PasswordLib\Password\Implementation\Blowfish;
 use Silex\Application;
 
 /**
@@ -21,7 +21,7 @@ use Silex\Application;
  */
 class Login extends AccessChecker
 {
-    /** @var Factory */
+    /** @var PasswordHashManager */
     protected $passwordFactory;
     /** @var string */
     protected $authTokenName;
@@ -44,7 +44,7 @@ class Login extends AccessChecker
             $app['randomgenerator'],
             $app['access_control.cookie.options']
         );
-        $this->passwordFactory = $app['password_factory'];
+        $this->passwordFactory = $app['password_hash.manager'];
         $this->authTokenName = $app['token.authentication.name'];
     }
 
@@ -111,21 +111,22 @@ class Login extends AccessChecker
             return $this->loginFailed($userEntity);
         }
 
-        $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
+        try {
+            $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
+        } catch (PasswordLegacyHashException $e) {
+            $this->flashLogger->error(Trans::__('general.phrase.login-password-legacy'));
+
+            return false;
+        } catch (PasswordHashException $e) {
+            $this->flashLogger->error(Trans::__('general.phrase.login-password-hash-failure'));
+
+            return false;
+        }
+
         if (!$isValid) {
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
             return $this->loginFailed($userEntity);
-        }
-
-        // Rehash password if not using Blowfish algorithm
-        if (!Blowfish::detect($userAuth->getPassword())) {
-            $userEntity->setPassword($this->passwordFactory->createHash($password, '$2y$'));
-            try {
-                $this->getRepositoryUsers()->update($userEntity);
-            } catch (NotNullConstraintViolationException $e) {
-                // Database needs updating
-            }
         }
 
         $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());

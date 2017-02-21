@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\AccessControl;
 
 use Bolt\Events\AccessControlEvents;
@@ -125,7 +126,7 @@ class Password
 
         // Generate shadow password and hash
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
-        $shadowPasswordHash = $this->app['password_factory']->createHash($shadowPassword, '$2y$');
+        $shadowPasswordHash = $this->app['password_hash.manager']->createHash($shadowPassword, '$2y$');
 
         // Generate shadow token and hash
         $shadowToken = $this->app['randomgenerator']->generateString(32);

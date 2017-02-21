@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\AccessControl;
-use PasswordLib\Password\Factory as PasswordFactory;
+use Bolt\AccessControl\PasswordHashManager;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,9 +65,20 @@ class AccessControlServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['password_factory'] = $app->share(
+        /** @deprecated Deprecated since 4.0-dev to be removed BEFORE 4.0.0 is released */
+        $app['password_hash.algorithm'] = PASSWORD_DEFAULT;
+        /** @deprecated Deprecated since 4.0-dev to be removed BEFORE 4.0.0 is released */
+        $app['password_hash.options'] = $app->share(
             function () {
-                return new PasswordFactory();
+                return [
+                    'cost' => 8,
+                ];
+            }
+        );
+        /** @deprecated Deprecated since 4.0-dev to be removed BEFORE 4.0.0 is released */
+        $app['password_hash.manager'] = $app->share(
+            function ($app) {
+                return new PasswordHashManager($app['password_hash.algorithm'], $app['password_hash.options']);
             }
         );
 
