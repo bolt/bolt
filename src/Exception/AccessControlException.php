@@ -2,9 +2,11 @@
 
 namespace Bolt\Exception;
 
+use RuntimeException;
+
 /**
  * Access exceptions.
  */
-class AccessControlException extends \Exception
+class AccessControlException extends RuntimeException
 {
 }
