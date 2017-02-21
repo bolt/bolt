@@ -93,7 +93,7 @@ abstract class JoinTypeBase extends FieldTypeBase
             $reflected2->setValue($originalExpression, 'OR');
             foreach ($query->getWhereParametersFor($field) as $paramKey => $paramValue) {
                 $query->getQueryBuilder()->andHaving($platform->getConcatExpression("','",'_'.$field.'_'.$column,"','"). " LIKE(".':_having_'.$paramKey.")");
-                $query->getQueryBuilder()->setParameter('_having_'.$paramKey, "%,$paramValue,%");
+                $query->getQueryBuilder()->setParameter('_having_'.str_replace("_", "", $paramKey), "%,$paramValue,%");
             }
         }
 
