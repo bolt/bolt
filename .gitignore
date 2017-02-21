@@ -9,6 +9,7 @@ extensions/*
 thumbs/
 vendor/
 phpunit.xml
+pimple.json
 theme/*
 !theme/base-*
 !theme/default
@@ -62,5 +63,4 @@ Vagrantfile
 .project
 /bolt.log
 coverage.xml
-pimple.json
 dump.php
