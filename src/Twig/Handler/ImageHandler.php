@@ -264,12 +264,12 @@ class ImageHandler
     /**
      * Get the thumbnail relative URI, using an alias.
      *
-     * @param mixed  $filename
+     * @param mixed  $fileName
      * @param string $alias
      *
      * @return mixed
      */
-    private function getAliasedUri($filename, $alias)
+    private function getAliasedUri($fileName, $alias)
     {
         if ($fileName === null) {
             return false;
@@ -280,15 +280,15 @@ class ImageHandler
         }
 
         // If we're passing in an image as array, instead of a single filename.
-        if (is_array($filename) && isset($filename['file'])) {
-            $filename = $filename['file'];
+        if (is_array($fileName) && isset($fileName['file'])) {
+            $fileName = $fileName['file'];
         }
 
         return $this->app['url_generator']->generate(
             'thumb_alias',
             [
                 'alias'  => $alias,
-                'file'   => $filename,
+                'file'   => $fileName,
             ]
         );
     }
