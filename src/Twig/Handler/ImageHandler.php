@@ -41,7 +41,7 @@ class ImageHandler
     {
         //Check if it's an alias as the only parameter after $filename
         if ($width && !$height && !$crop && $this->isAlias($width)) {
-            return $this->getAliasedUri($filename, $width);
+            return $this->getAliasedUri($fileName, $width);
         }
 
         if ($width || $height) {
@@ -271,6 +271,10 @@ class ImageHandler
      */
     private function getAliasedUri($filename, $alias)
     {
+        if ($fileName === null) {
+            return false;
+        }
+
         if (!$this->isAlias($alias)) {
             return false;
         }
