@@ -91,6 +91,7 @@ abstract class JoinTypeBase extends FieldTypeBase
         if ($originalExpression->getType() === 'AND') {
             $platform = $query->getQueryBuilder()->getConnection()->getDatabasePlatform();
             $reflected2->setValue($originalExpression, 'OR');
+            $reflected->setValue($originalExpression, []);
             foreach ($query->getWhereParametersFor($field) as $paramKey => $paramValue) {
                 $query->getQueryBuilder()->andHaving($platform->getConcatExpression("','",'_'.$field.'_'.str_replace("_", "" ,$column), "','"). " LIKE(".':_having_'.$paramKey.")");
                 $query->getQueryBuilder()->setParameter('_having_'.$paramKey, "%,$paramValue,%");
