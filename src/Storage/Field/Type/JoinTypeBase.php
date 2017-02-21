@@ -4,7 +4,9 @@ namespace Bolt\Storage\Field\Type;
 use Bolt\Storage\Query\Filter;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
+use Doctrine\Common\Collections\Expr\CompositeExpression;
 use Doctrine\DBAL\Types\Type;
+use ReflectionProperty;
 
 /**
  * This is an abstract class that field types dealing with join/association functionality can extend.
