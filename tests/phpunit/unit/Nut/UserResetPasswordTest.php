@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Tests\Nut;
 
+use Bolt\AccessControl\PasswordHashManager;
 use Bolt\Nut\UserResetPassword;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
-use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -54,15 +54,15 @@ class UserResetPasswordTest extends BoltUnitTest
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
         $userEntity = $repo->getUser('koala');
         $userAuth = $repo->getUserAuthData($userEntity->getId());
-        $crypt = new PasswordLib();
+        $crypt = new PasswordHashManager();
 
         // Check the old password isn't valid
-        $auth = $crypt->verifyPasswordHash('GumL3@ve$', $userAuth->getPassword());
+        $auth = $crypt->verifyHash('GumL3@ve$', $userAuth->getPassword());
         $this->assertFalse($auth);
 
         // Check the new password is valid
         $bits = explode(' ', trim($result));
-        $auth = $crypt->verifyPasswordHash($bits[5], $userAuth->getPassword());
+        $auth = $crypt->verifyHash($bits[5], $userAuth->getPassword());
         $this->assertTrue($auth);
     }
 }

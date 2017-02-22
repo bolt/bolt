@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Provider;
 
 use Bolt\Configuration\ConfigurationValueProxy;
@@ -281,7 +282,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['schema.lazy'],
                     $app['url_generator.lazy'],
                     $app['logger.flash'],
-                    $app['password_factory'],
+                    $app['password_hash.manager'],
                     $app['access_control.hash.strength'],
                     $app['config']->get('general/performance/timed_records/use_cron', false)
                 );

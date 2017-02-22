@@ -2,11 +2,11 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Password;
+use Bolt\AccessControl\PasswordHashManager;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Carbon\Carbon;
-use PasswordLib\PasswordLib;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -42,8 +42,8 @@ class PasswordTest extends BoltUnitTest
         $userEntity = $repo->getUser('admin');
         $userAuth = $repo->getUserAuthData($userEntity->getId());
 
-        $crypt = new PasswordLib();
-        $compare = $crypt->verifyPasswordHash($newPass, $userAuth->getPassword());
+        $crypt = new PasswordHashManager();
+        $compare = $crypt->verifyHash($newPass, $userAuth->getPassword());
 
         $this->assertTrue($compare);
         $this->assertEmpty($userEntity->getShadowpassword());
