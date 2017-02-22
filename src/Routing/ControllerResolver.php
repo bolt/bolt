@@ -2,6 +2,7 @@
 
 namespace Bolt\Routing;
 
+use Bolt\Extension\ExtensionInterface;
 use Silex;
 
 /**
@@ -22,7 +23,7 @@ class ControllerResolver extends Silex\ControllerResolver
     protected function instantiateController($class)
     {
         $refCls = new \ReflectionClass($class);
-        if ($refCls->implementsInterface('\Bolt\Extension\ExtensionInterface')) {
+        if ($refCls->implementsInterface(ExtensionInterface::class)) {
             /** @var \Bolt\Extension\ResolvedExtension[] $extensions */
             $extensions = $this->app['extensions']->all();
 

@@ -304,7 +304,7 @@ class Users extends BackendBase
         if ($form->isValid()) {
             $userEntity = $form->getData();
             $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $userEntity->getDisplayname()]), ['event' => 'security']);
-            if ($this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity)) {
+            if ($this->getRepository(Entity\Users::class)->save($userEntity)) {
                 $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
             } else {
                 $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Controller;
 
 use Bolt\AccessControl\Token\Token;
@@ -312,7 +313,7 @@ abstract class Base implements ControllerProviderInterface
             return false;
         }
         /** @var Repository\UsersRepository $repo */
-        $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->storage()->getRepository(Entity\Users::class);
 
         return $repo->getUser($userId);
     }

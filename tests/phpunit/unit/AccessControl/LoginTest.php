@@ -4,6 +4,8 @@ namespace Bolt\Tests;
 use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Token;
 use Bolt\Events\AccessControlEvent;
+use Bolt\Exception\AccessControlException;
+use Bolt\Storage\Entity;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,7 +36,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Invalid login parameters.');
+        $this->setExpectedException(AccessControlException::class, 'Invalid login parameters.');
         $login->login(null, null, new AccessControlEvent(new Request()));
     }
 
@@ -74,7 +76,7 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
         $app['logger.flash'] = $logger;
 
-        $entityName = 'Bolt\Storage\Entity\Users';
+        $entityName = Entity\Users::class;
         $repo = $app['storage']->getRepository($entityName);
         $userEntity = $repo->getUser('admin');
         $userEntity->setEnabled(false);
@@ -187,7 +189,7 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Invalid login parameters.'));
         $app['logger.flash'] = $logger;
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
         $entityAuthtoken->setUsername('admin');
         $entityAuthtoken->setToken('abc123');
@@ -224,7 +226,7 @@ class LoginTest extends BoltUnitTest
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
         $app['logger.system'] = $logger;
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
         $entityAuthtoken->setUsername('admin');
         $entityAuthtoken->setToken('abc123');
@@ -283,7 +285,7 @@ class LoginTest extends BoltUnitTest
 
         $token = (string) new Token\Generator($userName, $salt, $ipAddress, $hostName, $userAgent, $cookieOptions);
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
         $entityAuthtoken->setUsername($userName);
         $entityAuthtoken->setToken($token);

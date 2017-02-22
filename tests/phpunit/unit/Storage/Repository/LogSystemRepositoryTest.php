@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Storage\Repository;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Psr\Log\LogLevel;
 
@@ -16,7 +18,7 @@ class LogSystemRepositoryTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $em = $app['storage'];
-        $repo = $em->getRepository('Bolt\Storage\Entity\LogSystem');
+        $repo = $em->getRepository(Entity\LogSystem::class);
 
         $queryTrimLog = $repo->queryTrimLog(7);
         $this->assertEquals(

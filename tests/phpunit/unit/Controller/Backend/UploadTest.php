@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,7 +131,7 @@ class UploadTest extends ControllerUnitTest
         ));
 
         // Not properly implemented as yet, this will need to be revisited on implementation
-        $this->setExpectedException('Bolt\Filesystem\Exception\FileNotFoundException', 'File not found at path: logo.png');
+        $this->setExpectedException(FileNotFoundException::class, 'File not found at path: logo.png');
         $this->controller()->uploadNamespace($this->getRequest(), 'files');
     }
 
@@ -171,29 +173,6 @@ class UploadTest extends ControllerUnitTest
 
         return $this->getRequest();
     }
-
-//     protected function getApp($boot = true)
-//     {
-//         $bolt = parent::getApp();
-
-//         return $this->authApp($bolt);
-//     }
-
-//     protected function authApp(Application $bolt)
-//     {
-//         $users = $this->getMock('Bolt\Users', ['isValidSession', 'isAllowed'], [$bolt]);
-//         $users->expects($this->any())
-//             ->method('isValidSession')
-//             ->will($this->returnValue(true));
-
-//         $users->expects($this->any())
-//             ->method('isAllowed')
-//             ->will($this->returnValue(true));
-
-//         $bolt['users'] = $users;
-
-//         return $bolt;
-//     }
 
     /**
      * @return \Bolt\Controller\Backend\Upload

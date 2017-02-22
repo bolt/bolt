@@ -1,7 +1,9 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\TemplateChooserServiceProvider;
+use Bolt\TemplateChooser;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -16,7 +18,7 @@ class TemplateChooserServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new TemplateChooserServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\TemplateChooser', $app['templatechooser']);
+        $this->assertInstanceOf(TemplateChooser::class, $app['templatechooser']);
         $app->boot();
     }
 }

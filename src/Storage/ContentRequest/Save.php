@@ -74,9 +74,9 @@ class Save
      * Do the save for a POSTed record.
      *
      * @param array   $formValues
-     * @param array   $contenttype  The contenttype data
-     * @param integer $id           The record ID
-     * @param boolean $new          If TRUE this is a new record
+     * @param array   $contentType The contenttype data
+     * @param integer $id          The record ID
+     * @param boolean $new         If TRUE this is a new record
      * @param string  $returnTo
      * @param string  $editReferrer
      *
@@ -84,9 +84,9 @@ class Save
      *
      * @return Response
      */
-    public function action(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
+    public function action(array $formValues, array $contentType, $id, $new, $returnTo, $editReferrer)
     {
-        $contentTypeSlug = $contenttype['slug'];
+        $contentTypeSlug = $contentType['slug'];
         $repo = $this->em->getRepository($contentTypeSlug);
 
         // If we have an ID now, this is an existing record
@@ -95,7 +95,7 @@ class Save
             $oldContent = clone $content;
             $oldStatus = $content['status'];
         } else {
-            $content = $repo->create(['contenttype' => $contentTypeSlug, 'status' => $contenttype['default_status']]);
+            $content = $repo->create(['contenttype' => $contentTypeSlug, 'status' => $contentType['default_status']]);
             $oldContent = null;
             $oldStatus = 'draft';
         }
@@ -110,14 +110,14 @@ class Save
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
-        $this->setPostedValues($content, $formValues, $contenttype);
+        $this->setPostedValues($content, $formValues, $contentType);
         $this->setTransitionStatus($content, $contentTypeSlug, $id, $oldStatus);
 
         // Get the associated record change comment
         $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
 
         // Save the record
-        return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
+        return $this->saveContentRecord($content, $oldContent, $contentType, $new, $comment, $returnTo, $editReferrer);
     }
 
     /**
@@ -126,12 +126,12 @@ class Save
      * We act as if a status *transition* were requested and fallback to the old
      * status otherwise.
      *
-     * @param Entity\Entity $content
-     * @param string        $contentTypeSlug
-     * @param integer       $id
-     * @param string        $oldStatus
+     * @param Entity\Content $content
+     * @param string         $contentTypeSlug
+     * @param integer        $id
+     * @param string         $oldStatus
      */
-    private function setTransitionStatus(Entity\Entity $content, $contentTypeSlug, $id, $oldStatus)
+    private function setTransitionStatus(Entity\Content $content, $contentTypeSlug, $id, $oldStatus)
     {
         $canTransition = $this->users->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contentTypeSlug, $id);
         if (!$canTransition) {
@@ -200,7 +200,7 @@ class Save
      */
     private function setPostedRelations(Entity\Content $content, $formValues)
     {
-        $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $related = $this->em->createCollection(Entity\Relations::class);
         $related->setFromPost($formValues, $content);
         $content->setRelation($related);
     }
@@ -213,7 +213,7 @@ class Save
      */
     private function setPostedTaxonomies(Entity\Content $content, $formValues)
     {
-        $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $taxonomies = $this->em->createCollection(Entity\Taxonomy::class);
         $taxonomies->setFromPost($formValues, $content);
         $content->setTaxonomy($taxonomies);
     }

@@ -62,7 +62,7 @@ class Cron extends Event
     {
         $this->app = $app;
         $this->output = $output;
-        $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Cron');
+        $this->repository = $this->app['storage']->getRepository(Entity\Cron::class);
     }
 
     /**

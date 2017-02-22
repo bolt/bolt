@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\SessionServiceProvider;

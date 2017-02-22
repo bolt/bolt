@@ -72,7 +72,7 @@ class WidgetRuntimeTest extends BoltUnitTest
         $result = $handler->getWidgets();
         $this->assertCount(1, $result);
 
-        $this->assertInstanceOf('Bolt\Asset\Widget\Widget', reset($result));
+        $this->assertInstanceOf(Widget::class, reset($result));
     }
 
     public function testHasWidgets()

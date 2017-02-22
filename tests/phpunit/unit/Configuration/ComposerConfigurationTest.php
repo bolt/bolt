@@ -62,7 +62,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir('/non/existent/path');
-            $this->fail('Bolt\Exception\BootException not thrown');
+            $this->fail(sprintf('%s not thrown', BootException::class));
         } catch (BootException $e) {
             $message = strip_tags($e->getMessage());
             $this->assertRegExp("/The default folder \/non\/existent\/path doesn't exist/", $message);
@@ -80,7 +80,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir('/path/to/nowhere');
-            $this->fail('Bolt\Exception\BootException not thrown');
+            $this->fail(sprintf('%s not thrown', BootException::class));
         } catch (BootException $e) {
             $message = strip_tags($e->getMessage());
             $this->assertRegExp("/The default folder \/path\/to\/nowhere doesn't exist/", $message);
@@ -117,7 +117,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
 
         try {
             $verifier->checkDir($fakeLocation);
-            $this->fail('Bolt\Exception\BootException not thrown');
+            $this->fail(sprintf('%s not thrown', BootException::class));
         } catch (BootException $e) {
             $message = strip_tags($e->getMessage());
             $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the web server is using/", $message);

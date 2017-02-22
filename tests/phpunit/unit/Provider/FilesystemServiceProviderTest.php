@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Filesystem;
 use Bolt\Provider\FilesystemServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -17,7 +19,7 @@ class FilesystemServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
 
         $app->register(new FilesystemServiceProvider());
-        $this->assertInstanceOf('Bolt\Filesystem\Manager', $app['filesystem']);
+        $this->assertInstanceOf(Filesystem\Manager::class, $app['filesystem']);
 
         $app->boot();
     }

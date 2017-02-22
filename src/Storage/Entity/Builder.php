@@ -16,7 +16,7 @@ class Builder
      *
      * @var string
      */
-    protected $class = 'Bolt\Storage\Entity\Content';
+    protected $class = Content::class;
     protected $classMetadata;
 
     protected $metadata;

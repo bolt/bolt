@@ -74,6 +74,7 @@
         "phpunit/php-code-coverage": "^2.0",
         "phpunit/phpunit": "^4.8",
         "sebastian/phpcpd": "^2.0",
+        "sorien/silex-pimple-dumper": "^1.0",
         "squizlabs/php_codesniffer": "^2.0",
         "symfony/phpunit-bridge": "^2.8"
     },

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Tests\BoltUnitTest;
 
@@ -153,7 +154,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['returnsingle' => true]);
         $res = $qb->fetch();
 
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $res);
+        $this->assertInstanceOf(Entity\Content::class, $res);
     }
 
     public function testFirstHandler()
@@ -280,6 +281,6 @@ class ContentQueryParserTest extends BoltUnitTest
 
         $this->expectOutputString('SELECT pages.* FROM bolt_pages pages WHERE pages.id = :id_1');
         $res = $qb->fetch();
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $res);
+        $this->assertInstanceOf(Entity\Content::class, $res);
     }
 }

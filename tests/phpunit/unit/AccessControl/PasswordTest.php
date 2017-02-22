@@ -25,7 +25,7 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
+        $entityName = Entity\Users::class;
         /** @var Repository\UsersRepository $repo */
         $repo = $app['storage']->getRepository($entityName);
 
