@@ -259,7 +259,7 @@ class TwigServiceProvider implements ServiceProviderInterface
         );
 
         $app['twig.extension.dump'] = $app->share(
-            function ($app) {
+            function () {
                 return new Extension\DumpExtension();
             }
         );

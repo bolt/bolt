@@ -2,10 +2,7 @@
 
 namespace Bolt\Tests;
 
-use Bolt\AccessControl\AccessChecker;
 use Bolt\AccessControl\Token\Token;
-use Bolt\Exception\AccessControlException;
-use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,15 +21,15 @@ class AccessCheckerTest extends BoltUnitTest
     public function testLoadAccessControl()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
     }
 
     public function testIsValidSessionNoCookie()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
-        $this->setExpectedException(AccessControlException::class, 'Can not validate session with an empty token.');
+        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Can not validate session with an empty token.');
 
         $response = $accessControl->isValidSession(null);
     }
@@ -57,7 +54,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -83,7 +80,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -96,16 +93,13 @@ class AccessCheckerTest extends BoltUnitTest
         $ipAddress = '8.8.8.8';
         $userAgent = 'Bolt PHPUnit tests';
 
-        $logger = $this->getMockBuilder(FlashLogger::class)
-            ->setMethods(['info', 'has'])
-            ->getMock()
-        ;
-        $logger
-            ->expects($this->atLeastOnce())
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
+        $logger->expects($this->atLeastOnce())
             ->method('info')
-            ->with($this->equalTo('You have been logged out.'))
-        ;
+            ->with($this->equalTo('You have been logged out.'));
         $app['logger.flash'] = $logger;
+
+        $app->boot();
 
         $userEntity = new Entity\Users();
         $tokenEntity = new Entity\Authtoken();
@@ -126,7 +120,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -168,7 +162,7 @@ class AccessCheckerTest extends BoltUnitTest
         $tokenEntity->setIp($ipAddress);
         $tokenEntity->setUseragent('Bolt PHPUnit tests');
 
-        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
+        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
         $repo->save($tokenEntity);
 
         $token = new Token($userEntity, $tokenEntity);
@@ -182,20 +176,19 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf(AccessChecker::class, $accessControl);
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
-        $mockAuth =$this->getMockBuilder(Entity\Authtoken::class)
-            ->setMethods(['getToken'])
-            ->getMock()
+        $mockAuth = $this->getMock('Bolt\Storage\Entity\Authtoken', ['getToken']);
+        $mockAuth
             ->expects($this->once())
             ->method('getToken');
-        $app['storage']->setRepository(Entity\Authtoken::class, $mockAuth);
+        $app['storage']->setRepository('Bolt\Storage\Entity\Authtoken', $mockAuth);
 
-        $mockUser = $this->getMockUsers();
+        $mockUser = $this->getMock('Bolt\Storage\Entity\Users', ['getUser']);
         $mockUser
             ->expects($this->never())
             ->method('getUser');
-        $app['storage']->setRepository(Entity\Users::class, $mockUser);
+        $app['storage']->setRepository('Bolt\Storage\Entity\Users', $mockUser);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);

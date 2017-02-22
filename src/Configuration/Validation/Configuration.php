@@ -16,18 +16,6 @@ class Configuration implements ValidationInterface, ConfigAwareInterface, FlashL
     private $config;
     /** @var FlashLoggerInterface */
     private $flashLogger;
-    /** @var string */
-    private $baseName;
-
-    /**
-     * Constructor.
-     *
-     * @param string $baseName
-     */
-    public function __construct($baseName)
-    {
-        $this->baseName = $baseName;
-    }
 
     /**
      * {@inheritdoc}
