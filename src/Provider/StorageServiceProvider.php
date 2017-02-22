@@ -182,6 +182,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage.typemap'],
                     $app['storage.namingstrategy']
                 );
+                $meta->setGeneralConfig($app['config']);
 
                 return $meta;
             }
