@@ -465,6 +465,11 @@ class MetadataDriver implements MappingDriver
 
         $config = $this->contenttypes[$contentKey]['templatefields'];
 
+        foreach ($config as &$template) {
+            foreach ($template['fields'] as &$field) {
+                $this->postProcessField($field);
+            }
+        }
         $mapping = [
             'fieldname' => 'templatefields',
             'type'      => 'json_array',
