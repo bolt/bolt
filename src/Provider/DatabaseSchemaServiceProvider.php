@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Storage\Database\Schema\Builder;
+use Bolt\Storage\Database\Schema\Comparison;
 use Bolt\Storage\Database\Schema\LazySchemaManager;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\Table;
@@ -209,9 +210,9 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
         $app['schema.comparator.factory'] = $app->protect(
             function () use ($app) {
                 $platforms = [
-                    'mysql'      => '\\Bolt\\Storage\\Database\\Schema\\Comparison\\MySql',
-                    'postgresql' => '\\Bolt\\Storage\\Database\\Schema\\Comparison\\PostgreSql',
-                    'sqlite'     => '\\Bolt\\Storage\\Database\\Schema\\Comparison\\Sqlite',
+                    'mysql'      => Comparison\MySql::class,
+                    'postgresql' => Comparison\PostgreSql::class,
+                    'sqlite'     => Comparison\Sqlite::class,
                 ];
                 $platformName = $app['db']->getDatabasePlatform()->getName();
 

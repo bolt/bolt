@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Storage\Repository;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -15,7 +17,7 @@ class LogChangeRepositoryTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $em = $app['storage'];
-        $repo = $em->getRepository('Bolt\Storage\Entity\LogChange');
+        $repo = $em->getRepository(Entity\LogChange::class);
 
         $query = $repo->queryTrimLog(7);
         $this->assertEquals(

@@ -285,7 +285,6 @@ class EntityManager implements EntityManagerInterface
             }
         }
 
-
         /*
          * The metadata driver can also attempt to resolve an alias for us.
          * For now we are hardcoding the link between a content entity and
@@ -300,7 +299,7 @@ class EntityManager implements EntityManagerInterface
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
          */
-        if ($repo === null  && in_array($className, $this->getMapper()->getUnmapped())) {
+        if ($repo === null && in_array($className, $this->getMapper()->getUnmapped())) {
             $repo = $this->getDefaultRepositoryFactory($classMetadata);
         }
 

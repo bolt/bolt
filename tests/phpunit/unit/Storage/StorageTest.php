@@ -1,6 +1,9 @@
 <?php
+
 namespace Bolt\Tests\Storage;
 
+use Bolt\Exception\StorageException;
+use Bolt\Legacy;
 use Bolt\Events\StorageEvents;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
@@ -33,7 +36,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $content = $storage->getContentObject('pages');
-        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
+        $this->assertInstanceOf(Legacy\Content::class, $content);
 
         // Fake it until we make it… to the end of the test suite.
         $contentType = $app['config']->get('contenttypes/pages');
@@ -54,7 +57,7 @@ class StorageTest extends BoltUnitTest
         ;
         $content = $storage->getContentObject(['class' => 'Fakes', 'fields' => $fields]);
         $this->assertInstanceOf('Fakes', $content);
-        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
+        $this->assertInstanceOf(Legacy\Content::class, $content);
 
         // Test that a class not instanceof Bolt\Legacy\Content fails
         $mock = $this->getMockBuilder(\stdClass::class)
@@ -92,7 +95,7 @@ class StorageTest extends BoltUnitTest
 
         // Test missing contenttype handled
         $content = new Content($app);
-        $this->setExpectedException('Bolt\Exception\StorageException', 'Contenttype is required for saveContent');
+        $this->setExpectedException(StorageException::class, 'Contenttype is required for saveContent');
         $this->assertFalse($storage->saveContent($content));
 
         // Test dispatcher is called pre-save and post-save
@@ -120,7 +123,7 @@ class StorageTest extends BoltUnitTest
         $storage = new Storage($app);
 
         // Test delete fails on missing params
-        $this->setExpectedException('Bolt\Exception\StorageException', 'Contenttype is required for deleteContent');
+        $this->setExpectedException(StorageException::class, 'Contenttype is required for deleteContent');
         $this->assertFalse($storage->deleteContent('', 999));
 
         $content = $storage->getContent('showcases/1');
@@ -163,7 +166,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $showcase = $storage->getEmptyContent('showcase');
-        $this->assertInstanceOf('Bolt\Legacy\Content', $showcase);
+        $this->assertInstanceOf(Legacy\Content::class, $showcase);
         $this->assertEquals('showcases', $showcase->contenttype['slug']);
     }
 
@@ -225,7 +228,7 @@ class StorageTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);
-        $storage = new StorageMock($app);
+        $storage = new Mock\StorageMock($app);
 
         // Test sorting is pulled from contenttype when not specified
         $app['config']->set('contenttypes/entries/sort', '-id');
@@ -244,7 +247,7 @@ class StorageTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);
-        $storage = new StorageMock($app);
+        $storage = new Mock\StorageMock($app);
 
         // Test returnsingle will set limit to 1
         $storage->getContent('entries', ['returnsingle' => true]);
@@ -348,22 +351,5 @@ class StorageTest extends BoltUnitTest
             ->setConstructorArgs([$db->getParams(), $db->getDriver(), $db->getConfiguration(), $db->getEventManager()])
             ->enableOriginalConstructor()
         ;
-    }
-}
-
-class StorageMock extends Storage
-{
-    public $queries = [];
-
-    protected function tableExists($name)
-    {
-        return true;
-    }
-
-    protected function executeGetContentQueries($decoded)
-    {
-        $this->queries[] = $decoded;
-
-        return parent::executeGetContentQueries($decoded);
     }
 }

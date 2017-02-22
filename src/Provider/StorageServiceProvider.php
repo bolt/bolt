@@ -8,11 +8,10 @@ use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
-use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EventProcessor;
-use Bolt\Storage\Field\Sanitiser;
-use Bolt\Storage\Field\Type\TemplateFieldsType;
+use Bolt\Storage\Field;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\LazyEntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -87,7 +86,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $allowedAttributes = $app['config']->get('general/htmlcleaner/allowed_attributes', []);
                 $allowedWyswig = $app['config']->get('general/wysiwyg', []);
 
-                return new Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
+                return new Field\Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
             }
         );
 
@@ -108,9 +107,9 @@ class StorageServiceProvider implements ServiceProviderInterface
         // This uses a class name as the field types can optionally be injected
         // as services but the field manager only knows the class name, so we
         // use this to look up if there ss a service registered
-        $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
+        $app[Field\Type\TemplateFieldsType::class] = $app->protect(
             function ($mapping) use ($app) {
-                $field = new TemplateFieldsType(
+                $field = new Field\Type\TemplateFieldsType(
                     $mapping,
                     $app['storage'],
                     $app['templatechooser'],
@@ -123,56 +122,56 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.entity_builder'] = $app->share(
             function ($app) {
-                $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);
+                $builder = new Entity\Builder($app['storage.metadata'], $app['storage.field_manager']);
 
                 return $builder;
             }
         );
 
-        $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
+        $app['storage.repository.default'] = Repository\ContentRepository::class;
 
         $app['storage.typemap'] = [
-            'Doctrine\DBAL\Types\StringType'   => 'Bolt\Storage\Field\Type\TextType',
-            'Doctrine\DBAL\Types\IntegerType'  => 'Bolt\Storage\Field\Type\IntegerType',
-            'Doctrine\DBAL\Types\FloatType'    => 'Bolt\Storage\Field\Type\FloatType',
-            'Doctrine\DBAL\Types\TextType'     => 'Bolt\Storage\Field\Type\TextAreaType',
-            'Doctrine\DBAL\Types\DateType'     => 'Bolt\Storage\Field\Type\DateType',
-            'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Storage\Field\Type\DateTimeType',
-            'block'                            => 'Bolt\Storage\Field\Type\BlockType',
-            'checkbox'                         => 'Bolt\Storage\Field\Type\CheckboxType',
-            'date'                             => 'Bolt\Storage\Field\Type\DateType',
-            'datetime'                         => 'Bolt\Storage\Field\Type\DateTimeType',
-            'file'                             => 'Bolt\Storage\Field\Type\FileType',
-            'filelist'                         => 'Bolt\Storage\Field\Type\FileListType',
-            'float'                            => 'Bolt\Storage\Field\Type\FloatType',
-            'geolocation'                      => 'Bolt\Storage\Field\Type\GeolocationType',
-            'hidden'                           => 'Bolt\Storage\Field\Type\HiddenType',
-            'html'                             => 'Bolt\Storage\Field\Type\HtmlType',
-            'image'                            => 'Bolt\Storage\Field\Type\ImageType',
-            'imagelist'                        => 'Bolt\Storage\Field\Type\ImageListType',
-            'incomingrelation'                 => 'Bolt\Storage\Field\Type\IncomingRelationType',
-            'integer'                          => 'Bolt\Storage\Field\Type\IntegerType',
-            'markdown'                         => 'Bolt\Storage\Field\Type\MarkdownType',
-            'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
-            'repeater'                         => 'Bolt\Storage\Field\Type\RepeaterType',
-            'select'                           => 'Bolt\Storage\Field\Type\SelectType',
-            'selectmultiple'                   => 'Bolt\Storage\Field\Type\SelectMultipleType',
-            'slug'                             => 'Bolt\Storage\Field\Type\SlugType',
-            'taxonomy'                         => 'Bolt\Storage\Field\Type\TaxonomyType',
-            'templatefields'                   => 'Bolt\Storage\Field\Type\TemplateFieldsType',
-            'templateselect'                   => 'Bolt\Storage\Field\Type\TemplateSelectType',
-            'text'                             => 'Bolt\Storage\Field\Type\TextType',
-            'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',
-            'video'                            => 'Bolt\Storage\Field\Type\VideoType',
+            'Doctrine\DBAL\Types\StringType'   => Field\Type\TextType::class,
+            'Doctrine\DBAL\Types\IntegerType'  => Field\Type\IntegerType::class,
+            'Doctrine\DBAL\Types\FloatType'    => Field\Type\FloatType::class,
+            'Doctrine\DBAL\Types\TextType'     => Field\Type\TextAreaType::class,
+            'Doctrine\DBAL\Types\DateType'     => Field\Type\DateType::class,
+            'Doctrine\DBAL\Types\DateTimeType' => Field\Type\DateTimeType::class,
+            'block'                            => Field\Type\BlockType::class,
+            'checkbox'                         => Field\Type\CheckboxType::class,
+            'date'                             => Field\Type\DateType::class,
+            'datetime'                         => Field\Type\DateTimeType::class,
+            'file'                             => Field\Type\FileType::class,
+            'filelist'                         => Field\Type\FileListType::class,
+            'float'                            => Field\Type\FloatType::class,
+            'geolocation'                      => Field\Type\GeolocationType::class,
+            'hidden'                           => Field\Type\HiddenType::class,
+            'html'                             => Field\Type\HtmlType::class,
+            'image'                            => Field\Type\ImageType::class,
+            'imagelist'                        => Field\Type\ImageListType::class,
+            'incomingrelation'                 => Field\Type\IncomingRelationType::class,
+            'integer'                          => Field\Type\IntegerType::class,
+            'markdown'                         => Field\Type\MarkdownType::class,
+            'relation'                         => Field\Type\RelationType::class,
+            'repeater'                         => Field\Type\RepeaterType::class,
+            'select'                           => Field\Type\SelectType::class,
+            'selectmultiple'                   => Field\Type\SelectMultipleType::class,
+            'slug'                             => Field\Type\SlugType::class,
+            'taxonomy'                         => Field\Type\TaxonomyType::class,
+            'templatefields'                   => Field\Type\TemplateFieldsType::class,
+            'templateselect'                   => Field\Type\TemplateSelectType::class,
+            'text'                             => Field\Type\TextType::class,
+            'textarea'                         => Field\Type\TextAreaType::class,
+            'video'                            => Field\Type\VideoType::class,
         ];
 
         $app['storage.repositories'] = [
-            'Bolt\Storage\Entity\Authtoken'  => 'Bolt\Storage\Repository\AuthtokenRepository',
-            'Bolt\Storage\Entity\Cron'       => 'Bolt\Storage\Repository\CronRepository',
-            'Bolt\Storage\Entity\FieldValue' => 'Bolt\Storage\Repository\FieldValueRepository',
-            'Bolt\Storage\Entity\LogChange'  => 'Bolt\Storage\Repository\LogChangeRepository',
-            'Bolt\Storage\Entity\LogSystem'  => 'Bolt\Storage\Repository\LogSystemRepository',
-            'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
+            Entity\Authtoken::class  => Repository\AuthtokenRepository::class,
+            Entity\Cron::class       => Repository\CronRepository::class,
+            Entity\FieldValue::class => Repository\FieldValueRepository::class,
+            Entity\LogChange::class  => Repository\LogChangeRepository::class,
+            Entity\LogSystem::class  => Repository\LogSystemRepository::class,
+            Entity\Users::class      => Repository\UsersRepository::class,
         ];
 
         $app['storage.metadata'] = $app->share(
@@ -216,8 +215,8 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
                 $manager = new Collection\CollectionManager();
-                $manager->setHandler('Bolt\Storage\Entity\Relations', $app['storage.relations_collection']);
-                $manager->setHandler('Bolt\Storage\Entity\Taxonomy', $app['storage.taxonomy_collection']);
+                $manager->setHandler(Entity\Relations::class, $app['storage.relations_collection']);
+                $manager->setHandler(Entity\Taxonomy::class, $app['storage.taxonomy_collection']);
 
                 return $manager;
             }

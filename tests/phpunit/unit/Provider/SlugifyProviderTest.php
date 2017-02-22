@@ -1,8 +1,10 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
 use Bolt\Tests\BoltUnitTest;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
+use Cocur\Slugify\Slugify;
 
 /**
  * Class to test Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider used in $app['slugify']
@@ -16,7 +18,7 @@ class SlugifyProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new SlugifyServiceProvider();
         $app->register($provider);
-        $this->assertInstanceOf('Cocur\Slugify\Slugify', $app['slugify']);
+        $this->assertInstanceOf(Slugify::class, $app['slugify']);
         $app->boot();
 
         $slug = 'This is a title';

@@ -15,7 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TaxonomyType extends FieldTypeBase
+class TaxonomyType extends JoinTypeBase
 {
     /**
      * Taxonomy fields allows queries on the parameters passed in.
@@ -98,10 +98,10 @@ class TaxonomyType extends FieldTypeBase
 
         $data = $this->normalizeData($data, $taxName);
         if (!count($entity->getTaxonomy())) {
-            $entity->setTaxonomy($this->em->createCollection('Bolt\Storage\Entity\Taxonomy'));
+            $entity->setTaxonomy($this->em->createCollection(Entity\Taxonomy::class));
         }
 
-        $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $fieldTaxonomy = $this->em->createCollection(Entity\Taxonomy::class);
         foreach ($data as $tax) {
             $tax['content_id'] = $entity->getId();
             $tax['contenttype'] = (string) $entity->getContenttype();
@@ -127,10 +127,10 @@ class TaxonomyType extends FieldTypeBase
         // Fetch existing taxonomies
         $existingDB = $this->getExistingTaxonomies($entity) ?: [];
         $collection = $this->em->getCollectionManager()
-            ->create('Bolt\Storage\Entity\Taxonomy');
+            ->create(Entity\Taxonomy::class);
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
+        $repo = $this->em->getRepository(Entity\Taxonomy::class);
 
         $queries->onResult(
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {

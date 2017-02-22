@@ -28,8 +28,8 @@ class FileHandlerTest extends BoltUnitTest
 
     public function testConstructor()
     {
-        $this->assertClassHasAttribute('savePath', 'Bolt\Session\Handler\FileHandler');
-        $this->assertClassHasAttribute('fs',       'Bolt\Session\Handler\FileHandler');
+        $this->assertClassHasAttribute('savePath', FileHandler::class);
+        $this->assertClassHasAttribute('fs',       FileHandler::class);
 
         $fsh = new FileHandler($this->savePath);
 

@@ -139,7 +139,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                 $composerJson = $app['filesystem']->getFile('extensions://composer.json');
                 $composerOverrides = $app['config']->get('general/extensions/composer', []);
 
-                return new Action\Options($composerJson, $composerOverrides, true);
+                return new Action\Options($composerJson, $composerOverrides);
             }
         );
     }

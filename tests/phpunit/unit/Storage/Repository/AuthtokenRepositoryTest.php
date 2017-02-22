@@ -1,6 +1,8 @@
 <?php
+
 namespace Bolt\Tests\Storage\Repository;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -15,7 +17,7 @@ class AuthtokenRepositoryTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $em = $app['storage'];
-        $repo = $em->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repo = $em->getRepository(Entity\Authtoken::class);
 
         $query1 = $repo->getUserTokenQuery('user', 'ip', 'agent');
         $this->assertEquals('SELECT * FROM bolt_authtoken WHERE (username = :username) AND (ip = :ip) AND (useragent = :useragent)', $query1->getSql());

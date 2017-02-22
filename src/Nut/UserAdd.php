@@ -36,7 +36,7 @@ class UserAdd extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var \Bolt\Storage\Repository\UsersRepository $repo */
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->app['storage']->getRepository(Entity\Users::class);
         $user = new Entity\Users([
             'username'    => $input->getArgument('username'),
             'password'    => $input->getArgument('password'),
@@ -65,7 +65,7 @@ class UserAdd extends BaseCommand
 
         // Boot all service providers manually as, we're not handling a request
         $this->app->boot();
-        $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($user);
+        $this->app['storage']->getRepository(Entity\Users::class)->save($user);
         $this->auditLog(__CLASS__, "User created: {$user->getUsername()}");
         $output->writeln("<info>Successfully created user: {$user->getUsername()}</info>");
     }

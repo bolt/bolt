@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
+use Bolt\Exception\QueryParseException;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -70,7 +71,7 @@ class SearchQueryTest extends BoltUnitTest
         $filter = 'main other';
         $query = $app['query.search'];
         $query->setContentType('blocks');
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $this->setExpectedException(QueryParseException::class);
         $query->setSearch($filter);
     }
 
@@ -80,7 +81,7 @@ class SearchQueryTest extends BoltUnitTest
         $filter = 'main other';
         $query = $app['query.search'];
         $query->setContentType('nonexistent');
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $this->setExpectedException(QueryParseException::class);
         $query->setSearch($filter);
     }
 }

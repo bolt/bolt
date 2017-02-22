@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
+use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Query\QueryScopeInterface;
 use Bolt\Tests\BoltUnitTest;
 
@@ -19,10 +20,10 @@ class QueryTest extends BoltUnitTest
 
         $results = $app['query']->getContent('pages', ['id' => '<10']);
 
-        $this->assertInstanceOf('Bolt\Storage\Query\QueryResultset', $results);
+        $this->assertInstanceOf(QueryResultset::class, $results);
 
         $results = $app['query']->getContent('pages', ['datepublish' => '>now || !last week', 'datedepublish' => '<1 year ago']);
-        $this->assertInstanceOf('Bolt\Storage\Query\QueryResultset', $results);
+        $this->assertInstanceOf(QueryResultset::class, $results);
     }
 
     public function testGetContentReturnSingle()

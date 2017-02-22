@@ -1,8 +1,12 @@
 <?php
+
 namespace Bolt\Tests\Provider;
 
+use Bolt\Profiler\BoltDataCollector;
+use Bolt\Profiler\DatabaseDataCollector;
 use Bolt\Provider\ProfilerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Doctrine\DBAL;
 
 /**
  * Class to test src/Provider/DatabaseProfilerServiceProvider.
@@ -27,13 +31,13 @@ class ProfilerServiceProviderTest extends BoltUnitTest
         $collectors = $app['data_collectors'];
         $this->assertArrayHasKey('bolt', $collectors);
         $this->assertArrayHasKey('db', $collectors);
-        $this->assertInstanceOf('Bolt\Profiler\BoltDataCollector', $collectors['bolt']->__invoke($app));
-        $this->assertInstanceOf('Bolt\Profiler\DatabaseDataCollector', $collectors['db']->__invoke($app));
+        $this->assertInstanceOf(BoltDataCollector::class, $collectors['bolt']->__invoke($app));
+        $this->assertInstanceOf(DatabaseDataCollector::class, $collectors['db']->__invoke($app));
 
         $this->assertNotEmpty($app['twig.loader.bolt_filesystem']->getPaths('BoltProfiler'));
 
         $logger = $app['db.logger'];
-        $this->assertInstanceOf('Doctrine\DBAL\Logging\DebugStack', $logger);
+        $this->assertInstanceOf(DBAL\Logging\DebugStack::class, $logger);
 
         $app->boot();
 

@@ -1,9 +1,13 @@
 <?php
+
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Collection;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\Field\Collection\FieldCollectionInterface;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,8 +43,8 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $record->taxonomy['categories']);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $record->taxonomy['tags']);
+        $this->assertInstanceOf(Collection\Taxonomy::class, $record->taxonomy['categories']);
+        $this->assertInstanceOf(Collection\Taxonomy::class, $record->taxonomy['tags']);
     }
 
     public function testRepeaterLoad()
@@ -50,7 +54,7 @@ class FieldLoadTest extends BoltUnitTest
         $this->addSomeFields();
         $repo = $em->getRepository('showcases');
         $record = $repo->find(1);
-        $this->assertInstanceOf('Bolt\Storage\Field\Collection\RepeatingFieldCollection', $record->repeater);
+        $this->assertInstanceOf(RepeatingFieldCollection::class, $record->repeater);
         $this->assertEquals(2, count($record->repeater));
         foreach ($record->repeater as $collection) {
             $this->assertInstanceOf(FieldCollectionInterface::class, $collection);
@@ -66,13 +70,13 @@ class FieldLoadTest extends BoltUnitTest
         $em = $app['storage'];
         $repo = $em->getRepository('pages');
         $record = $repo->find(3);
-        $tax = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $tax = $em->createCollection(Entity\Taxonomy::class);
         $tax->setFromPost(['groups' => ['main']], $record);
         $record->setTaxonomy($tax);
         $repo->save($record);
         $recordSaved = $repo->find(3);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->taxonomy['groups']);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->getGroups());
+        $this->assertInstanceOf(Collection\Taxonomy::class, $recordSaved->taxonomy['groups']);
+        $this->assertInstanceOf(Collection\Taxonomy::class, $recordSaved->getGroups());
         $this->assertEquals(1, count($recordSaved->getGroups()));
     }
 

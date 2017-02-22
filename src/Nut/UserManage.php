@@ -36,8 +36,8 @@ class UserManage extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var \Bolt\Storage\Repository\UsersRepository $repo */
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
-        
+        $repo = $this->app['storage']->getRepository(Entity\Users::class);
+
         $userLogin = $input->getArgument('login');
         $userEntity = $this->getUser($repo, $userLogin);
         if ($userEntity === false) {
@@ -78,7 +78,7 @@ class UserManage extends BaseCommand
      * @param UsersRepository $repo
      * @param string          $userLogin
      *
-     * @return Entity\Users
+     * @return Entity\Users|false
      */
     protected function getUser(UsersRepository $repo, $userLogin)
     {

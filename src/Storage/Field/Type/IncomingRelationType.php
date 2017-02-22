@@ -58,7 +58,7 @@ class IncomingRelationType extends RelationType
         $data = $this->normalizeData($data, $field);
 
         if (!$entity->getRelation()) {
-            $entity->setRelation($this->em->createCollection('Bolt\Storage\Entity\Relations'));
+            $entity->setRelation($this->em->createCollection(Entity\Relations::class));
         }
 
         foreach ($data as $relData) {

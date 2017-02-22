@@ -250,10 +250,11 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * @param string $field
+     * @param null   $block
      *
-     * @param null $block
-     * @return mixed
      * @throws FieldConfigurationException
+     *
+     * @return mixed
      */
     protected function getFieldTypeName($field, $block = null)
     {

@@ -200,7 +200,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
     {
         $accessCheckerMock = $this->getMock(
-            'Bolt\AccessControl\AccessChecker',
+            AccessChecker::class,
             $functions,
             [
                 $app['storage.lazy'],
@@ -226,7 +226,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
      */
     protected function getLoginMock($app, $functions = ['login'])
     {
-        $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
+        $loginMock = $this->getMock(Login::class, $functions, [$app]);
 
         return $loginMock;
     }
@@ -245,7 +245,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $app['filesystem'],
         ];
 
-        $cache = $this->getMock('Bolt\Cache', ['flushAll'], $params);
+        $cache = $this->getMock(Cache::class, ['flushAll'], $params);
 
         return $cache;
     }
@@ -418,8 +418,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function getMockLoggerManager($methods = ['clear', 'error', 'info', 'trim'])
     {
         $app = $this->getApp();
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $this->getService('storage')->getRepository(Entity\LogChange::class);
+        $systemRepository = $this->getService('storage')->getRepository(Entity\LogSystem::class);
 
         return $this->getMockBuilder(Manager::class)
             ->setMethods($methods)

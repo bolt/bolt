@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\ContentType;
@@ -60,7 +61,7 @@ class TemplateFieldsType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $metadata = $this->buildMetadata($entity, $rawData);
 
-        $builder = $this->em->getEntityBuilder('Bolt\Storage\Entity\TemplateFields');
+        $builder = $this->em->getEntityBuilder(Entity\TemplateFields::class);
         $builder->setClassMetadata($metadata);
         $templatefieldsEntity = $builder->createFromDatabaseValues($value);
 
