@@ -88,7 +88,7 @@ abstract class JoinTypeBase extends FieldTypeBase
         }
         $reflected->setValue($originalExpression, $originalParts);
 
-        if ($originalExpression->getType() === 'AND') {
+        if ($originalExpression->getType() === 'AND' && count($originalParts) > 1) {
             $platform = $query->getQueryBuilder()->getConnection()->getDatabasePlatform();
             $reflected2->setValue($originalExpression, 'OR');
             $reflected->setValue($originalExpression, [1]);
