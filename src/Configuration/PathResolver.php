@@ -27,9 +27,10 @@ class PathResolver
     public static function defaultPaths()
     {
         return [
-            'cache'             => 'app/cache',
-            'config'            => 'app/config',
-            'database'          => 'app/database',
+            'app'               => 'app',
+            'cache'             => '%app%/cache',
+            'config'            => '%app%/config',
+            'database'          => '%app%/database',
             'extensions'        => 'extensions',
             'extensions_config' => '%config%/extensions',
             'web'               => 'public',
