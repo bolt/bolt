@@ -27,13 +27,14 @@ class PathResolver
     public static function defaultPaths()
     {
         return [
-            'app'               => 'app',
+            'site'              => '.',
+            'app'               => '%site%/app',
             'cache'             => '%app%/cache',
             'config'            => '%app%/config',
             'database'          => '%app%/database',
-            'extensions'        => 'extensions',
+            'extensions'        => '%site%/extensions',
             'extensions_config' => '%config%/extensions',
-            'web'               => 'public',
+            'web'               => '%site%/public',
             'files'             => '%web%/files',
             'themes'            => '%web%/theme',
             'bolt_assets'       => '%web%/bolt-public/view',
