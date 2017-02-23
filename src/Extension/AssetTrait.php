@@ -7,6 +7,7 @@ use Bolt\Asset\File\FileAssetInterface;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Helpers\Deprecated;
 use Pimple as Container;
 use Silex\Application;
 
@@ -137,7 +138,7 @@ trait AssetTrait
      */
     protected function addJquery()
     {
-        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+        Deprecated::method(3.0);
 
         $this->getContainer()['config']->set('general/add_jquery', true);
     }
@@ -149,7 +150,7 @@ trait AssetTrait
      */
     protected function disableJquery()
     {
-        @trigger_error(sprintf('%s::%s is deprecated and will be removed in version 4.0.', get_called_class(), __FUNCTION__), E_USER_DEPRECATED);
+        Deprecated::method(3.0);
 
         $this->getContainer()['config']->set('general/add_jquery', false);
     }

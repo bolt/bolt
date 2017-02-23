@@ -2,7 +2,10 @@
 
 namespace Bolt\Session\Generator;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Security\Random\Generator;
+
+Deprecated::cls(RandomGenerator::class, 3.3, NativeGenerator::class);
 
 /**
  * Generates session IDs.
@@ -35,8 +38,6 @@ class RandomGenerator implements GeneratorInterface
      */
     public function generateId()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __CLASS__), E_USER_DEPRECATED);
-
         return $this->generator->generateString($this->length);
     }
 }

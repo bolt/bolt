@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Database\Schema\Builder;
 use Bolt\Storage\Database\Schema\LazySchemaManager;
 use Bolt\Storage\Database\Schema\Manager;
@@ -60,10 +61,9 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             }
         );
 
-        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
         $app['integritychecker'] = $app->share(
             function ($app) {
-                @trigger_error("Accessing \$app['integritychecker'] is deprecated and will be removed in version 4.0. Use \$app['schema'] instead.", E_USER_DEPRECATED);
+                Deprecated::service('integritychecker', 3.0, 'schema');
 
                 return $app['schema'];
             }

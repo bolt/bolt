@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
@@ -192,7 +193,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getStorageOptions()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return [];
     }
@@ -218,7 +219,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getTemplate()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return '@bolt/editcontent/fields/_' . $this->getName() . '.twig';
     }

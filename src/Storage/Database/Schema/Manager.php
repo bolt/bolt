@@ -4,6 +4,7 @@ namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Events\SchemaEvent;
 use Bolt\Events\SchemaEvents;
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
@@ -55,7 +56,7 @@ class Manager implements SchemaManagerInterface
      */
     public function __call($name, $args)
     {
-        @trigger_error(sprintf('An extension called an invalid, or removed, integrity checker function: %s', $name), E_USER_DEPRECATED);
+        Deprecated::raw("An extension called an invalid, or removed, integrity checker function: $name. This will throw a fatal error in 4.0.");
     }
 
     /**
@@ -65,7 +66,7 @@ class Manager implements SchemaManagerInterface
      */
     public function __get($name)
     {
-        @trigger_error(sprintf('An extension accessed an invalid, or removed, integrity checker property: %s', $name), E_USER_DEPRECATED);
+        Deprecated::raw("An extension accessed an invalid, or removed, integrity checker property: $name. This will throw a fatal error in 4.0.");
     }
 
     /**

@@ -10,6 +10,7 @@ use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Helpers\Deprecated;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use ReflectionClass;
@@ -326,7 +327,7 @@ class Manager
      */
     protected function getApp()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Inject the required services directly into your own service constructor as required.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.0, 'Inject the required services directly into your own service constructor as required.');
 
         return $this->app;
     }

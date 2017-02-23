@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Trait for mapping a ContentType 'title' to a column name.
  *
@@ -20,7 +22,7 @@ trait ContentTypeTitleTrait
      */
     protected function getTitleColumnName($contentType)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __CLASS__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         $fields = $contentType['fields'];
         $names = [
