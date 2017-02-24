@@ -119,7 +119,7 @@ class MenuBuilder
 
             parse_str(parse_url($add, PHP_URL_QUERY), $query);
             $param = array_merge($param, $query);
-            $param['#'] = parse_url($add, PHP_URL_FRAGMENT);
+            $param['_fragment'] = parse_url($add, PHP_URL_FRAGMENT);
         }
 
         return $this->app['url_generator']->generate($item['route'], $param);

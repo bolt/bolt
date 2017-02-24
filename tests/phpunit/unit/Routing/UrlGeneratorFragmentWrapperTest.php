@@ -36,6 +36,21 @@ class UrlGeneratorFragmentWrapperTest extends BoltUnitTest
      */
     public function testUrlGenerationWithFragment($generator)
     {
+        $path = $generator->generate('foo', ['_fragment' => 'bolt']);
+        $this->assertSame('/foo/bar#bolt', $path);
+        $path = $generator->generate('foo', ['hello' => 'world', '_fragment' => 'bolt']);
+        $this->assertSame('/foo/bar?hello=world#bolt', $path);
+    }
+
+    /**
+     * @deprecated To be removed in v4 with related change in \Bolt\Routing\UrlGeneratorFragmentWrapper::generate
+     *
+     * @depends testUrlGeneratorInterface
+     *
+     * @param UrlGeneratorInterface $generator
+     */
+    public function testUrlGenerationWithFragmentLegacy($generator)
+    {
         $path = $generator->generate('foo', ['#' => 'bolt']);
         $this->assertSame('/foo/bar#bolt', $path);
         $path = $generator->generate('foo', ['hello' => 'world', '#' => 'bolt']);

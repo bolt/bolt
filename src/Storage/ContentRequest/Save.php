@@ -285,7 +285,7 @@ class Save
                         [
                             'contenttypeslug' => $contentType['slug'],
                             'id'              => $id,
-                            '#'               => $returnTo,
+                            '_fragment'       => $returnTo,
                         ]
                     )
                 );
@@ -295,7 +295,7 @@ class Save
                         'editcontent',
                         [
                             'contenttypeslug' => $contentType['slug'],
-                            '#'               => $returnTo,
+                            '_fragment'       => $returnTo,
                         ]
                     )
                 );
