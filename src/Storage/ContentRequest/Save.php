@@ -11,6 +11,7 @@ use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Carbon\Carbon;
+use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,6 +41,8 @@ class Save
     protected $loggerFlash;
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
+    /** @var Slugify */
+    private $slugify;
 
     /**
      * Constructor function.
@@ -51,6 +54,7 @@ class Save
      * @param LoggerInterface       $loggerSystem
      * @param FlashLoggerInterface  $loggerFlash
      * @param UrlGeneratorInterface $urlGenerator
+     * @param Slugify               $slugify
      */
     public function __construct(
         EntityManager $em,
@@ -59,7 +63,8 @@ class Save
         LoggerInterface $loggerChange,
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        Slugify $slugify = null
     ) {
         $this->em = $em;
         $this->config = $config;
@@ -68,15 +73,16 @@ class Save
         $this->loggerSystem = $loggerSystem;
         $this->loggerFlash = $loggerFlash;
         $this->urlGenerator = $urlGenerator;
+        $this->slugify = $slugify;
     }
 
     /**
      * Do the save for a POSTed record.
      *
      * @param array   $formValues
-     * @param array   $contenttype  The contenttype data
-     * @param integer $id           The record ID
-     * @param boolean $new          If TRUE this is a new record
+     * @param array   $contentType The ContentType data
+     * @param integer $id          The record ID
+     * @param boolean $new         If TRUE this is a new record
      * @param string  $returnTo
      * @param string  $editReferrer
      *
@@ -84,9 +90,9 @@ class Save
      *
      * @return Response
      */
-    public function action(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
+    public function action(array $formValues, array $contentType, $id, $new, $returnTo, $editReferrer)
     {
-        $contentTypeSlug = $contenttype['slug'];
+        $contentTypeSlug = $contentType['slug'];
         $repo = $this->em->getRepository($contentTypeSlug);
 
         // If we have an ID now, this is an existing record
@@ -95,7 +101,7 @@ class Save
             $oldContent = clone $content;
             $oldStatus = $content['status'];
         } else {
-            $content = $repo->create(['contenttype' => $contentTypeSlug, 'status' => $contenttype['default_status']]);
+            $content = $repo->create(['contenttype' => $contentTypeSlug, 'status' => $contentType['default_status']]);
             $oldContent = null;
             $oldStatus = 'draft';
         }
@@ -110,14 +116,14 @@ class Save
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
-        $this->setPostedValues($content, $formValues, $contenttype);
+        $this->setPostedValues($content, $formValues, $contentType);
         $this->setTransitionStatus($content, $contentTypeSlug, $id, $oldStatus);
 
         // Get the associated record change comment
         $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
 
         // Save the record
-        return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
+        return $this->saveContentRecord($content, $oldContent, $contentType, $new, $comment, $returnTo, $editReferrer);
     }
 
     /**
@@ -187,6 +193,19 @@ class Save
                 $content->set($name, empty($value) ? null : $value);
             }
         }
+        foreach ($contentType['fields'] as $fieldName => $data) {
+            if ($data['type'] !== 'slug' || !isset($formValues[$fieldName])) {
+                continue;
+            }
+            if ($this->slugify !== null) {
+                $snail = $this->slugify->slugify($formValues[$fieldName]);
+            } else {
+                // @deprecated Required for BC overrides
+                $snail = Slugify::create()->slugify($formValues[$fieldName]);
+            }
+            $content->set($fieldName, $snail);
+        }
+
         $this->setPostedRelations($content, $formValues);
         $this->setPostedTaxonomies($content, $formValues);
     }
