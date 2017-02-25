@@ -3,8 +3,11 @@
 namespace Bolt\Legacy;
 
 use Bolt\Extension\SimpleExtension;
+use Bolt\Helpers\Deprecated;
 use Composer\Json\JsonFile;
 use Silex\Application;
+
+Deprecated::cls(BaseExtension::class, 3.0, SimpleExtension::class);
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.
@@ -25,8 +28,6 @@ abstract class BaseExtension extends SimpleExtension
      */
     public function __construct(Application $app)
     {
-        @trigger_error(sprintf('%s is extending the deprecated %s class that will be removed in version 4.0. Use \Bolt\Extension\SimpleExtension instead.', get_called_class(), __CLASS__), E_USER_DEPRECATED);
-
         $this->app = $app;
 
         $this->extensionConfig = null;

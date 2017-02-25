@@ -6,6 +6,7 @@ use Bolt\Filesystem\AggregateFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Legacy\Deprecation;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**
@@ -45,7 +46,7 @@ class Cache extends FilesystemCache
      */
     public function clearCache()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use flushAll() instead.', __METHOD__), E_USER_DEPRECATED);
+        Deprecation::method(3.0, 'flushAll');
 
         $this->flushAll();
 

@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Schema\Builder;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
@@ -75,7 +76,7 @@ class ExtensionTables extends BaseBuilder
      */
     public function addTable(callable $generator)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         $this->tableGenerators[] = $generator;
     }
@@ -87,7 +88,7 @@ class ExtensionTables extends BaseBuilder
      */
     public function addPrefix($prefix)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         $this->prefix = $prefix;
     }

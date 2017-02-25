@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Asset;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Bolt Snippet target location.
  *
@@ -79,7 +81,8 @@ class Target
      */
     public function listAll()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
+
         $reflection = new \ReflectionClass($this);
 
         return $reflection->getConstants();

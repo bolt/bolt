@@ -2,6 +2,7 @@
 
 namespace Bolt\Menu;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -110,7 +111,7 @@ class MenuBuilder
         $param = !empty($item['param']) ? $item['param'] : [];
 
         if (isset($item['add'])) {
-            @trigger_error('Menu item property "add" is deprecated. Use "#" under "param" instead.', E_USER_DEPRECATED);
+            Deprecated::warn('Menu item property "add"', null, 'Use "#" under "param" instead.');
 
             $add = $item['add'];
             if (!empty($add) && $add[0] !== '?') {
