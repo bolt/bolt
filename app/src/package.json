@@ -13,7 +13,7 @@
     },
     "devDependencies": {
         "autoprefixer": "~6.7.2",
-        "blueimp-file-upload": "9.16.0",
+        "blueimp-file-upload": "9.17.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
         "css-mqpacker": "~5.0.1",
