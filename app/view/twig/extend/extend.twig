@@ -100,6 +100,7 @@
             {# Modal for readmes  #}
             {{ include('@bolt/extend/_readme.twig') }}
 
+            <hr>
             {% if context.local|length %}
                 <section class="installed-container">
                     <h2>{{ __('page.extend.headline.currently-installed-local') }}</h2>
