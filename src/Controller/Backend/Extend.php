@@ -447,6 +447,7 @@ class Extend extends BackendBase
             'online'         => $this->app['extend.online'],
             'extensionsPath' => $this->app['path_resolver']->resolve('extensions'),
             'site'           => $this->app['extend.site'],
+            'local'          => $this->app['extensions']->local(),
         ];
     }
 
