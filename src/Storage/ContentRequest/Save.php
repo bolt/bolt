@@ -4,6 +4,7 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
 use Bolt\Exception\AccessControlException;
+use Bolt\Helpers\Arr;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity;
@@ -11,6 +12,7 @@ use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Carbon\Carbon;
+use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,6 +42,8 @@ class Save
     protected $loggerFlash;
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
+    /** @var Slugify */
+    private $slugify;
 
     /**
      * Constructor function.
@@ -51,6 +55,7 @@ class Save
      * @param LoggerInterface       $loggerSystem
      * @param FlashLoggerInterface  $loggerFlash
      * @param UrlGeneratorInterface $urlGenerator
+     * @param Slugify               $slugify
      */
     public function __construct(
         EntityManager $em,
@@ -59,7 +64,8 @@ class Save
         LoggerInterface $loggerChange,
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        Slugify $slugify = null
     ) {
         $this->em = $em;
         $this->config = $config;
@@ -68,13 +74,14 @@ class Save
         $this->loggerSystem = $loggerSystem;
         $this->loggerFlash = $loggerFlash;
         $this->urlGenerator = $urlGenerator;
+        $this->slugify = $slugify;
     }
 
     /**
      * Do the save for a POSTed record.
      *
      * @param array   $formValues
-     * @param array   $contentType The contenttype data
+     * @param array   $contentType The ContentType data
      * @param integer $id          The record ID
      * @param boolean $new         If TRUE this is a new record
      * @param string  $returnTo
@@ -184,9 +191,22 @@ class Save
             if ($name === 'relation' || $name === 'taxonomy') {
                 continue;
             } else {
-                $content->set($name, empty($value) ? null : $value);
+                $content->set($name, (empty($value) || Arr::isEmptyArray($value)) ? null : $value);
             }
         }
+        foreach ($contentType['fields'] as $fieldName => $data) {
+            if ($data['type'] !== 'slug' || !isset($formValues[$fieldName])) {
+                continue;
+            }
+            if ($this->slugify !== null) {
+                $snail = $this->slugify->slugify($formValues[$fieldName]);
+            } else {
+                // @deprecated Required for BC overrides
+                $snail = Slugify::create()->slugify($formValues[$fieldName]);
+            }
+            $content->set($fieldName, $snail);
+        }
+
         $this->setPostedRelations($content, $formValues);
         $this->setPostedTaxonomies($content, $formValues);
     }
@@ -266,7 +286,7 @@ class Save
                         [
                             'contenttypeslug' => $contentType['slug'],
                             'id'              => $id,
-                            '#'               => $returnTo,
+                            '_fragment'       => $returnTo,
                         ]
                     )
                 );
@@ -276,7 +296,7 @@ class Save
                         'editcontent',
                         [
                             'contenttypeslug' => $contentType['slug'],
-                            '#'               => $returnTo,
+                            '_fragment'       => $returnTo,
                         ]
                     )
                 );

@@ -2,6 +2,9 @@
 
 namespace Bolt\Helpers;
 
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+
 class Arr
 {
     /**
@@ -143,7 +146,8 @@ class Arr
      */
     public static function makeValuePairs($array, $key, $value)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use array_column() or Arr::column()', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.3, 'Use array_column() or Arr::column() instead.');
+
         if (!is_array($array)) {
             return [];
         }
@@ -164,7 +168,8 @@ class Arr
      */
     public static function mergeRecursiveDistinct(array &$array1, array &$array2)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use array_replace_recursive() or Arr::replaceRecursive()', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.3, 'Use array_replace_recursive() or Arr::replaceRecursive() instead.');
+
         $merged = $array1;
 
         foreach ($array2 as $key => &$value) {
@@ -198,7 +203,7 @@ class Arr
      */
     public static function isIndexedArray(array $arr)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Use Arr::isIndexed() or Arr::isAssociative()', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.3, 'Use Arr::isIndexed() or Arr::isAssociative() instead.');
 
         foreach ($arr as $key => $val) {
             if ($key !== (int) $key) {
@@ -207,5 +212,21 @@ class Arr
         }
 
         return true;
+    }
+
+    public static function isEmptyArray($input)
+    {
+        if (!is_array($input)) {
+            return false;
+        }
+        $empty = true;
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::LEAVES_ONLY) as $key => $value) {
+            $empty = (empty($value) && $value !== '0' && $value !== 0);
+            if (!$empty) {
+                return false;
+            }
+        }
+
+        return $empty;
     }
 }

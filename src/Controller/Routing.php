@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Controller;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement} instead.
  */
@@ -11,7 +13,7 @@ class Routing extends Requirement
      */
     public function getAnyContentTypeRequirement()
     {
-        $this->deprecationNotice(__FUNCTION__, 'anyContentType');
+        $this->deprecationWarn(__FUNCTION__, 'anyContentType');
 
         return $this->anyContentType();
     }
@@ -21,7 +23,7 @@ class Routing extends Requirement
      */
     public function getPluralContentTypeRequirement()
     {
-        $this->deprecationNotice(__FUNCTION__, 'pluralContentTypes');
+        $this->deprecationWarn(__FUNCTION__, 'pluralContentTypes');
 
         return $this->pluralContentTypes();
     }
@@ -31,7 +33,7 @@ class Routing extends Requirement
      */
     public function getAnyTaxonomyTypeRequirement()
     {
-        $this->deprecationNotice(__FUNCTION__, 'anyTaxonomyType');
+        $this->deprecationWarn(__FUNCTION__, 'anyTaxonomyType');
 
         return $this->anyTaxonomyType();
     }
@@ -41,7 +43,7 @@ class Routing extends Requirement
      */
     public function getPluralTaxonomyTypeRequirement()
     {
-        $this->deprecationNotice(__FUNCTION__, 'pluralTaxonomyTypes');
+        $this->deprecationWarn(__FUNCTION__, 'pluralTaxonomyTypes');
 
         return $this->pluralTaxonomyTypes();
     }
@@ -56,7 +58,7 @@ class Routing extends Requirement
      */
     public function getTaxonomyRequirement($taxonomyName, $emptyValue = 'none')
     {
-        $this->deprecationNotice(__FUNCTION__, 'singleTaxonomy');
+        $this->deprecationWarn(__FUNCTION__, 'singleTaxonomy');
 
         return $this->singleTaxonomy($taxonomyName, $emptyValue);
     }
@@ -67,15 +69,12 @@ class Routing extends Requirement
      *
      * @internal
      */
-    private function deprecationNotice($old, $new)
+    private function deprecationWarn($old, $new)
     {
-        @trigger_error(
-            sprintf(
-                'The app/config/routing.yml routing requirement parameter "Bolt\Controllers\Routing::%s" is deprecated and will be removed in version 4.0. Use "controller.requirement:%s" instead',
-                $old,
-                $new
-            ),
-            E_USER_DEPRECATED
+        Deprecated::warn(
+            "The app/config/routing.yml routing requirement parameter 'Bolt\\Controllers\\Routing::$old'",
+            3.0,
+            "Use 'controller.requirement:$new' instead."
         );
     }
 }

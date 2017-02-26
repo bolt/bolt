@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
@@ -79,7 +80,7 @@ class Content extends Entity
      */
     public function getSortorder()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return $this->sortorder;
     }
@@ -89,7 +90,7 @@ class Content extends Entity
      */
     public function setSortorder($sortorder)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         $this->sortorder = $sortorder;
     }
@@ -293,7 +294,7 @@ class Content extends Entity
      */
     public function getGroup()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return $this->group;
     }
@@ -303,7 +304,7 @@ class Content extends Entity
      */
     public function setGroup($group)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         $this->group = $group;
     }

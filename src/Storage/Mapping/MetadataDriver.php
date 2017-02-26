@@ -1,8 +1,11 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Config;
 use Bolt\Configuration\ConfigurationValueProxy;
 use Bolt\Exception\StorageException;
+use Bolt\Filesystem\Handler\Image;
+use Bolt\Helpers\Arr;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
@@ -53,6 +56,8 @@ class MetadataDriver implements MappingDriver
     protected $namingStrategy;
     /** @var array */
     protected $aliases = [];
+    /** @var array */
+    protected $generalConfig;
 
     /**
      * Keeps a reference of which metadata is not mapped to
@@ -286,9 +291,72 @@ class MetadataDriver implements MappingDriver
                 }
 
                 $this->metadata[$className]['fields'][$key] = $mapping;
+                foreach ((array)$data['fields'] as &$field) {
+                    $this->postProcessField($field);
+                }
+
                 $this->metadata[$className]['fields'][$key]['data'] = $data;
             }
         }
+    }
+
+
+    /**
+     * This is a patch method that reproduces some of the setup that happens for standard fields in Bolt/Config
+     * in future versions this will be handled by the individual mapping classes but remains here until they are able
+     * to take over completely.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     * @param array $field
+     */
+    protected function postProcessField(array $field)
+    {
+        // We can only do this post-processing if the General Config has been setup and passed in.
+        if (!$this->generalConfig instanceof Config) {
+            return;
+        }
+        $acceptableFileTypes = $this->generalConfig->get('general/accept_file_types');
+
+        // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
+        if ($field['type'] == 'file' || $field['type'] == 'filelist') {
+            if (empty($field['extensions'])) {
+                $field['extensions'] = $acceptableFileTypes;
+            }
+
+            $field['extensions'] = (array) $field['extensions'];
+        }
+
+        // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
+        if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
+            if (empty($field['extensions'])) {
+                $field['extensions'] = array_intersect(
+                    Image\Type::getExtensions(),
+                    $acceptableFileTypes
+                );
+            }
+
+            $field['extensions'] = (array) $field['extensions'];
+        }
+
+        // Make indexed arrays into associative for select fields
+        // e.g.: [ 'yes', 'no' ] => { 'yes': 'yes', 'no': 'no' }
+        if ($field['type'] === 'select' && isset($field['values']) && Arr::isIndexed($field['values'])) {
+            $field['values'] = array_combine($field['values'], $field['values']);
+        }
+
+
+    }
+
+    /**
+     * This is a patch method that allows the general app config to be injected into this class. It is only to be used
+     * for providing Backwards Compatibility and will be removed once the general mapping config is ready to take over.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     * @param $config
+     */
+    public function setGeneralConfig($config)
+    {
+        $this->generalConfig = $config;
     }
 
     /**
@@ -426,6 +494,11 @@ class MetadataDriver implements MappingDriver
 
         $config = $this->contenttypes[$contentKey]['templatefields'];
 
+        foreach ($config as &$template) {
+            foreach ($template['fields'] as &$field) {
+                $this->postProcessField($field);
+            }
+        }
         $mapping = [
             'fieldname' => 'templatefields',
             'type'      => 'json_array',

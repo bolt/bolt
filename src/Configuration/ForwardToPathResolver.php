@@ -18,6 +18,7 @@ class ForwardToPathResolver extends ResourceManager
     {
         parent::__construct($container);
         $paths = [
+            'app',
             'cache',
             'config',
             'database',
