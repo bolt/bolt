@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Bolt's current version.
  *
@@ -70,7 +72,7 @@ final class Version
      */
     public static function name()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.0);
 
         if (strpos(static::VERSION, ' ') === false) {
             return null;

@@ -5,11 +5,45 @@ Bolt 3.4-dev
 -----------
 
 - 
+Bolt 3.3.0 beta 2
+-----------------
+
+Released: 2017-02-22. Notable changes:
+
+ - Added: Add support for extension definition in bolt.yml file [#6324](https://github.com/bolt/bolt/pull/6324)
+ - Added: Adding the Pimple dumper as a require-dev & Nut command [#6402](https://github.com/bolt/bolt/pull/6402)
+ - Added: Create / Update .codeclimate.yml [#6351](https://github.com/bolt/bolt/pull/6351) [#6345](https://github.com/bolt/bolt/pull/6345)
+ - Change: Add sub and super to default allowed tags [#6362](https://github.com/bolt/bolt/pull/6362)
+ - Change: Core deprecation notice logging [#6389](https://github.com/bolt/bolt/pull/6389)
+ - Change: Deprecate Render [#6310](https://github.com/bolt/bolt/pull/6310)
+ - Change: DI Error & Exception Handlers [#6341](https://github.com/bolt/bolt/pull/6341)
+ - Change: Force mbstring functions call on root namespace [#6385](https://github.com/bolt/bolt/pull/6385)
+ - Change: Random randomness [#6350](https://github.com/bolt/bolt/pull/6350)
+ - Change: Remove bolt.render stopwatch event [#6304](https://github.com/bolt/bolt/pull/6304)
+ - Change: Rework links, badges & grammar in README [#6390](https://github.com/bolt/bolt/pull/6390)
+ - Fixed: Add Backwards compatibility binding to extend overview page [#6335](https://github.com/bolt/bolt/pull/6335)
+ - Fixed: Base Directory Fixes for Local Extensions [#6327](https://github.com/bolt/bolt/pull/6327)
+ - Fixed: Decouple exceptions from exception handling [#6361](https://github.com/bolt/bolt/pull/6361)
+ - Fixed: Fix AND lookups on relationship/join searches [#6401](https://github.com/bolt/bolt/pull/6401)
+ - Fixed: Fix booting extension's service providers [#6340](https://github.com/bolt/bolt/pull/6340)
+ - Fixed: Fix bug causing missing incoming relations [#6312](https://github.com/bolt/bolt/pull/6312)
+ - Fixed: Fix bugs with PathResolver/ResourceManager [#6303](https://github.com/bolt/bolt/pull/6303)
+ - Fixed: Fix determining base path for dev extensions in src folder [#6365](https://github.com/bolt/bolt/pull/6365)
+ - Fixed: Fix for maintaining key association in `{{ unique() }}` [#6354](https://github.com/bolt/bolt/pull/6354)
+ - Fixed: Fix for setups using different database prefix [#6300](https://github.com/bolt/bolt/pull/6300)
+ - Fixed: Handle empty repeaters in Templatefields [#6328](https://github.com/bolt/bolt/pull/6328)
+ - Fixed: Maintain order for multiple-select fields. [#6355](https://github.com/bolt/bolt/pull/6355)
+ - Fixed: Reset styles for last field in repeater since its in its own panel [#6338](https://github.com/bolt/bolt/pull/6338)
+ - Fixed: Sync PathResolver paths to ResourceManager without bootstrap [#6364](https://github.com/bolt/bolt/pull/6364)
+ - Tests: Back-port of deprecations work [#6356](https://github.com/bolt/bolt/pull/6356)
+ - Tests: Re-enable skipped and incomplete tests [#6393](https://github.com/bolt/bolt/pull/6393)
+ - Tests: Restore last incomplete unit test [#6397](https://github.com/bolt/bolt/pull/6397)
+ - Tests: Travis cron code coverage [#6358](https://github.com/bolt/bolt/pull/6358)
 
 Bolt 3.3.0 beta 1
 -----------------
 
-Released: 2016-01-XX. Notable changes:
+"Released": 2017-01-24. Notable changes:
 
  - Added: Add scoping for new storage `getContent` queries. [#6188](https://github.com/bolt/bolt/pull/6188)
  - Added: Adding security service provider. [#6231](https://github.com/bolt/bolt/pull/6231)

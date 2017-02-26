@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Legacy bridge for ContentType array access.
  *
@@ -23,7 +25,7 @@ class ContentType implements \ArrayAccess
      */
     public function __construct($boltname, array $contentType)
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __CLASS__), E_USER_DEPRECATED);
+        Deprecated::cls(static::class);
 
         $this->boltname = $boltname;
         $this->contentType = $contentType;

@@ -182,6 +182,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage.typemap'],
                     $app['storage.namingstrategy']
                 );
+                $meta->setGeneralConfig($app['config']);
 
                 return $meta;
             }
@@ -266,7 +267,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.change'],
                     $app['logger.system'],
                     $app['logger.flash'],
-                    $app['url_generator.lazy']
+                    $app['url_generator.lazy'],
+                    $app['slugify']
                 );
 
                 return $cr;

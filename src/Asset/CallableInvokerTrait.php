@@ -34,7 +34,7 @@ trait CallableInvokerTrait
             return call_user_func($callback);
         }
 
-        if (Arr::isIndexedArray($callbackArguments)) {
+        if (Arr::isIndexed($callbackArguments)) {
             return call_user_func_array($callback, (array) $callbackArguments);
         }
 

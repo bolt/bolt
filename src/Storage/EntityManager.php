@@ -4,6 +4,7 @@ namespace Bolt\Storage;
 
 use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Exception\StorageException;
+use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -451,7 +452,7 @@ class EntityManager implements EntityManagerInterface
      */
     public function __call($method, array $args)
     {
-        @trigger_error(sprintf("Accessing \$app['storage']->%s() is deprecated and will be removed in version 4.0.", $method), E_USER_DEPRECATED);
+        Deprecated::method(null, static::class . '::' . $method);
 
         return call_user_func_array([$this->legacy(), $method], $args);
     }
@@ -469,7 +470,7 @@ class EntityManager implements EntityManagerInterface
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        @trigger_error("Accessing \$app['storage']->getContent() is deprecated and will be removed in version 4.0.", E_USER_DEPRECATED);
+        Deprecated::method();
 
         return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
     }

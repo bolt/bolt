@@ -8,6 +8,7 @@ use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
+use Bolt\Helpers\Deprecated;
 use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,7 +54,7 @@ class Queue implements QueueInterface
         $this->render = $render;
 
         if ($render instanceof Render) {
-            @trigger_error('Passing Bolt\Render to the widget queue constructor is deprecated since 3.3, use Twig_Environment instead.', E_USER_DEPRECATED);
+            Deprecated::warn('Passing Bolt\Render to the widget queue constructor', 3.3, 'Pass in Twig_Environment instead.');
         }
     }
 
