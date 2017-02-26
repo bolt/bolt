@@ -60,7 +60,7 @@ class Import extends AbstractMigration
             $filename = (string) $file['file'];
 
             // Our import arrays should be indexed, if not we have a problem
-            if (!Arr::isIndexedArray($this->data)) {
+            if (!Arr::isIndexed($this->data)) {
                 $this->setError(true)->setErrorMessage("File '$filename' has an invalid import format!");
                 continue;
             }

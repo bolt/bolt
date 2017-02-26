@@ -165,7 +165,7 @@ abstract class BaseLogRepository extends Repository
         foreach ($options as $columnName => $option) {
             if (empty($options[$columnName])) {
                 continue;
-            } elseif (Arr::isIndexedArray($options)) {
+            } elseif (Arr::isIndexed($options)) {
                 $key = $parentColumnName . '_' . $columnName;
                 $orX->add("$parentColumnName = :$key");
                 $qb->setParameter($key, $option);
