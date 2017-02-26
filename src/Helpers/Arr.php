@@ -107,8 +107,11 @@ class Arr
             return false;
         }
         $empty = true;
-        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::CATCH_GET_CHILD) as $key => $value) {
-            $empty = empty($value);
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::LEAVES_ONLY) as $key => $value) {
+            $empty = (empty($value) && $value !== '0' && $value !== 0);
+            if (!$empty) {
+                return false;
+            }
         }
 
         return $empty;
