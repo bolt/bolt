@@ -2,6 +2,9 @@
 
 namespace Bolt\Helpers;
 
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+
 class Arr
 {
     /**
@@ -96,5 +99,21 @@ class Arr
         }
 
         return true;
+    }
+
+    public static function isEmptyArray($input)
+    {
+        if (!is_array($input)) {
+            return false;
+        }
+        $empty = true;
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::LEAVES_ONLY) as $key => $value) {
+            $empty = (empty($value) && $value !== '0' && $value !== 0);
+            if (!$empty) {
+                return false;
+            }
+        }
+
+        return $empty;
     }
 }
