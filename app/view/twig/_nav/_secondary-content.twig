@@ -4,12 +4,12 @@
     {% if isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
             icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
-            label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.slug}),
+            label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.name}),
             link: path('overview', {'contenttypeslug': slug})
         } %}
         {% set sub_new = {
             icon: 'fa:plus',
-            label: __('contenttypes.generic.new', {'%contenttype%': slug}),
+            label: __('contenttypes.generic.new', {'%contenttype%': contenttype.singular_name}),
             link: path('editcontent', {'contenttypeslug': slug}),
             isallowed: 'contenttype:' ~ slug ~ ':create'
         } %}

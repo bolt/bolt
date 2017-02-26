@@ -4,6 +4,7 @@ namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Events\SchemaEvent;
 use Bolt\Events\SchemaEvents;
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;

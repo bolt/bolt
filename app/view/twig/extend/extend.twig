@@ -100,6 +100,34 @@
             {# Modal for readmes  #}
             {{ include('@bolt/extend/_readme.twig') }}
 
+            <hr>
+            {% if context.local|length %}
+                <section class="installed-container">
+                    <h2>{{ __('page.extend.headline.currently-installed-local') }}</h2>
+                    <div class="installed-list">
+                        <div class="local-list-items">
+                            <table class="table-striped dashboardlisting">
+                                <thead>
+                                <tr>
+                                    <th>{{ __('page.extend.listheader.name') }}</th>
+                                    <th>{{ __('page.extend.listheader.class') }}</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for classname, ext in context.local %}
+                                    <tr>
+                                        <td class="id"><strong>{{ ext.name }}</strong></td>
+                                        <td><code>{{ classname }}</code></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
         </div>
 
         <aside class="col-md-3">

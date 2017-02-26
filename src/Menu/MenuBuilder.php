@@ -2,6 +2,7 @@
 
 namespace Bolt\Menu;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -110,7 +111,7 @@ class MenuBuilder
         $param = !empty($item['param']) ? $item['param'] : [];
 
         if (isset($item['add'])) {
-            @trigger_error('Menu item property "add" is deprecated. Use "#" under "param" instead.', E_USER_DEPRECATED);
+            Deprecated::warn('Menu item property "add"', null, 'Use "#" under "param" instead.');
 
             $add = $item['add'];
             if (!empty($add) && $add[0] !== '?') {
@@ -119,7 +120,7 @@ class MenuBuilder
 
             parse_str(parse_url($add, PHP_URL_QUERY), $query);
             $param = array_merge($param, $query);
-            $param['#'] = parse_url($add, PHP_URL_FRAGMENT);
+            $param['_fragment'] = parse_url($add, PHP_URL_FRAGMENT);
         }
 
         return $this->app['url_generator']->generate($item['route'], $param);

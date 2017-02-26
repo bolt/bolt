@@ -10,6 +10,7 @@ use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Helpers\Deprecated;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use ReflectionClass;
@@ -69,6 +70,24 @@ class Manager
     public function all()
     {
         return $this->extensions;
+    }
+
+    /**
+     * Get all loaded extensions that don't have a composer descriptor.
+     *
+     * @return ResolvedExtension[]
+     */
+    public function local()
+    {
+        $local = [];
+
+        foreach ($this->all() as $extension) {
+            if ($extension->getDescriptor() === null) {
+                $local[get_class($extension->getInnerExtension())] = $extension;
+            }
+        }
+
+        return $local;
     }
 
     /**
@@ -326,7 +345,7 @@ class Manager
      */
     protected function getApp()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0. Inject the required services directly into your own service constructor as required.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method(3.0, 'Inject the required services directly into your own service constructor as required.');
 
         return $this->app;
     }

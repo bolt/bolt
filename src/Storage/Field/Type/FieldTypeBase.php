@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
@@ -99,7 +100,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
             $value = $this->getSanitiser()->sanitise($value, $isWysiwyg);
         }
 
-        $type = $this->getStorageType();
+        $type = $this->getStorageTypeObject();
 
         if (null !== $value) {
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
@@ -117,7 +118,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
-        $type = $this->getStorageType();
+        $type = $this->getStorageTypeObject();
         $val = isset($data[$key]) ? $data[$key] : null;
         if ($val !== null) {
             $value = $type->convertToPHPValue($val, $this->getPlatform());
@@ -187,12 +188,28 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
+     * Helper method to bridge compatibility between old and new Field interfaces. Previously a string storage
+     * type was allowed whereas new behaviour is to expect a Type object.
+     *
+     * @return Type
+     */
+    protected function getStorageTypeObject()
+    {
+        $type = $this->getStorageType();
+        if (is_string($type)) {
+            $type = Type::getType($type);
+        }
+
+        return $type;
+    }
+
+    /**
      * @deprecated
      * Here to maintain compatibility with the old interface
      */
     public function getStorageOptions()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return [];
     }
@@ -218,7 +235,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     public function getTemplate()
     {
-        @trigger_error(sprintf('%s is deprecated and will be removed in version 4.0.', __METHOD__), E_USER_DEPRECATED);
+        Deprecated::method();
 
         return '@bolt/editcontent/fields/_' . $this->getName() . '.twig';
     }
@@ -245,6 +262,4 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 
         return json_last_error() === JSON_ERROR_NONE;
     }
-
-
 }

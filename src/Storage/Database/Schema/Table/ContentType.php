@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Database\Schema\Table;
 
+use Bolt\Helpers\Deprecated;
+
 class ContentType extends BaseTable
 {
     /** @var array Mapping of field type to column type function */
@@ -153,7 +155,7 @@ class ContentType extends BaseTable
      */
     private function columnDecimal($fieldName)
     {
-        @trigger_error('The "decimal" field type is deprecated and will be removed in version 4.', E_USER_DEPRECATED);
+        Deprecated::warn('The "decimal" field type');
 
         $this->table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
     }
