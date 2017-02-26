@@ -42,7 +42,7 @@ trait StorageTrait
                 'storage',
                 function ($entityManager) use ($app) {
                     foreach ($this->registerRepositoryMappings() as $alias => $map) {
-                        if (Arr::isIndexedArray($map)) {
+                        if (Arr::isIndexed($map)) {
                             // Usually caused by [entity, repo] instead of [entity => repo]
                             throw new \RuntimeException(sprintf('Repository mapping for %s `%s` is not an associative array.', __CLASS__, $alias));
                         }
