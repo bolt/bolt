@@ -4,6 +4,7 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
 use Bolt\Exception\AccessControlException;
+use Bolt\Helpers\Arr;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity;
@@ -184,7 +185,7 @@ class Save
             if ($name === 'relation' || $name === 'taxonomy') {
                 continue;
             } else {
-                $content->set($name, empty($value) ? null : $value);
+                $content->set($name, (empty($value) || Arr::isEmptyArray($value)) ? null : $value);
             }
         }
         $this->setPostedRelations($content, $formValues);
