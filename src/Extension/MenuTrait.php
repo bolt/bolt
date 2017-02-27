@@ -64,27 +64,6 @@ trait MenuTrait
         );
     }
 
-    /**
-     * Add a menu option to backend menu.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerMenuEntries() instead.
-     *
-     * @param string $label
-     * @param string $path
-     * @param string $icon
-     * @param string $permission
-     */
-    final protected function addMenuEntry($label, $path, $icon = null, $permission = null)
-    {
-        Deprecated::method(null, 'registerMenuEntries');
-
-        $this->menuEntries[] = (new MenuEntry($label, $path))
-            ->setLabel($label)
-            ->setIcon($icon)
-            ->setPermission($permission)
-        ;
-    }
-
     /** @return Container */
     abstract protected function getContainer();
 }

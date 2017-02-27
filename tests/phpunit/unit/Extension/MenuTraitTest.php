@@ -50,11 +50,5 @@ class MenuTraitTest extends BoltUnitTest
         $this->assertSame('/bolt/extensions/koalas-are-us', $children['koala']->getUri());
         $this->assertSame('fa-thumbs-o-up', $children['koala']->getIcon());
         $this->assertSame('config', $children['koala']->getPermission());
-
-        $this->assertSame('Drop Bear', $children['Drop Bear']->getName());
-        $this->assertSame('Drop Bear', $children['Drop Bear']->getLabel());
-        $this->assertSame('/bolt/extensions/look-up-live', $children['Drop Bear']->getUri());
-        $this->assertSame('fa-thumbs-o-down', $children['Drop Bear']->getIcon());
-        $this->assertSame('dangerous', $children['Drop Bear']->getPermission());
     }
 }
