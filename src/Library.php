@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Configuration\ResourceManager;
+use Bolt\Helpers\Deprecated;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -63,6 +64,8 @@ class Library
      */
     public static function getExtension($filename)
     {
+        Deprecated::method(3.0, 'Use pathinfo() instead.');
+
         $pos = strrpos($filename, '.');
         if ($pos === false) {
             return '';
