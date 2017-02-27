@@ -88,16 +88,4 @@ class UserRuntime
 
         return $this->users->isAllowed($what, $contenttype, $contentid);
     }
-
-    /**
-     * Get a simple Anti-CSRF-like token.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use Symfony forms instead.
-     *
-     * @return CsrfToken
-     */
-    public function token()
-    {
-        return $this->csrfTokenManager->getToken('bolt');
-    }
 }

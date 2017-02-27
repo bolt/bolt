@@ -26,7 +26,6 @@ class UserExtension extends Extension
             new \Twig_SimpleFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
             new \Twig_SimpleFunction('getuserid', [Runtime\UserRuntime::class, 'getUserId']),
             new \Twig_SimpleFunction('isallowed', [Runtime\UserRuntime::class, 'isAllowed']),
-            new \Twig_SimpleFunction('token',     [Runtime\UserRuntime::class, 'token'], $deprecated + ['alternative' => 'csrf_token']),
             // @codingStandardsIgnoreEnd
         ];
     }
