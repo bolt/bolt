@@ -16,8 +16,6 @@ class ContentType extends BaseTable
         'datetime'       => 'columnDateTime',
         // Float
         'float'          => 'columnFloat',
-        // Decimal
-        'number'         => 'columnDecimal',
         // Integer
         'integer'        => 'columnInteger',
         // String, 256, empty default
@@ -144,20 +142,6 @@ class ContentType extends BaseTable
     private function columnDateTime($fieldName)
     {
         $this->table->addColumn($fieldName, 'datetime', ['notnull' => false]);
-    }
-
-    /**
-     * Add a column for decimals.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string $fieldName
-     */
-    private function columnDecimal($fieldName)
-    {
-        Deprecated::warn('The "decimal" field type');
-
-        $this->table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
     }
 
     /**
