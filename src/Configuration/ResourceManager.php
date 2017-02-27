@@ -529,6 +529,8 @@ class ResourceManager
             $this->setPath('themepath', $this->getPath('themebase') . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         } else {
+            Deprecated::warn('Config option "theme_path"', 3.3, 'Modify the "themes" path in .bolt.yml instead.');
+
             $this->setPath('themepath', $this->getPath('root') . $themePath . $themeDir);
             $this->setUrl('theme', $themeUrl . $themeDir . '/');
         }
