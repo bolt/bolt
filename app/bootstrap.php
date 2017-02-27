@@ -6,7 +6,6 @@ use Bolt\Configuration\Composer;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
-use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
