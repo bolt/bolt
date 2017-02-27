@@ -78,23 +78,6 @@ class RoutingRuntimeTest extends BoltUnitTest
         $this->assertEquals($isMobile, $result, sprintf('User Agent should %shave been identified as a mobile client', !$isMobile ? 'not ' : ''));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @requires extension xdebug
-     */
-    public function testRedirectNoSafe()
-    {
-        if (phpversion('xdebug') === false) {
-            $this->markTestSkipped('No xdebug support enabled.');
-        }
-
-        $handler = $this->getRuntime();
-        $this->expectOutputRegex('/Redirecting to/i');
-
-        $handler->redirect('/clippy/koala');
-        $this->assertContains('location: /clippy/koala', xdebug_get_headers());
-    }
-
     public function testRequestGet()
     {
         $app = $this->getApp();

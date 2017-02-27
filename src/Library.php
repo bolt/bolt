@@ -90,69 +90,6 @@ class Library
     }
 
     /**
-     * Simple wrapper for $app['url_generator']->generate().
-     *
-     * @param string $path
-     * @param array  $param
-     * @param string $add
-     *
-     * @return string
-     */
-    public static function path($path, $param = [], $add = '')
-    {
-        $app = ResourceManager::getApp();
-
-        if (!empty($add) && $add[0] != '?') {
-            $add = '?' . $add;
-        }
-
-        if (empty($param)) {
-            $param = [];
-        }
-
-        return $app['url_generator']->generate($path, $param) . $add;
-    }
-
-    /**
-     * Simple wrapper for $app->redirect($app['url_generator']->generate());.
-     *
-     * @param string $path
-     * @param array  $param
-     * @param string $add
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public static function redirect($path, $param = [], $add = '')
-    {
-        return ResourceManager::getApp()->redirect(self::path($path, $param, $add));
-    }
-
-    /**
-     * Create a simple redirect to a page / path.
-     *
-     * @param string $path
-     * @param bool   $abort
-     *
-     * @return string
-     */
-    public static function simpleredirect($path, $abort = false)
-    {
-        $app = ResourceManager::getApp();
-
-        if (empty($path)) {
-            $path = '/';
-        }
-        header("location: $path");
-        echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
-        echo "<script>window.setTimeout(function () { window.location='$path'; }, 500);</script>";
-        if (!$abort) {
-            return $path;
-        }
-
-        $app->abort(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
-    }
-
-    /**
      * Leniently decode a serialized compound data structure, detecting whether
      * it's dealing with JSON-encoded data or a PHP-serialized string.
      *

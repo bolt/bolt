@@ -142,15 +142,4 @@ class UserRuntimeTest extends BoltUnitTest
         $result = $handler->isAllowed('koala', 'clippy');
         $this->assertTrue($result);
     }
-
-    public function testToken()
-    {
-        $app = $this->getApp();
-        $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
-        $app['csrf'] = $tokenManager;
-        $handler = new UserRuntime($app['users'], $app['csrf']);
-        $token = $tokenManager->refreshToken('bolt');
-
-        $this->assertSame($token->getValue(), $handler->token()->getValue());
-    }
 }

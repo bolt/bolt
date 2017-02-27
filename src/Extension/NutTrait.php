@@ -36,21 +36,6 @@ trait NutTrait
         $app['nut.commands.add']($this->registerNutCommands($app));
     }
 
-    /**
-     * Add a console command.
-     *
-     * @param Command $command
-     *
-     * @deprecated since 3.0, will be removed in 4.0. Use registerNutCommands() instead.
-     */
-    protected function addConsoleCommand(Command $command)
-    {
-        Deprecated::method(3.0, 'registerNutCommands');
-
-        $app = $this->getContainer();
-        $app['nut.commands.add']($command);
-    }
-
     /** @return Container */
     abstract protected function getContainer();
 }

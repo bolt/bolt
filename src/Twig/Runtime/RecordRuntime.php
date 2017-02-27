@@ -222,13 +222,13 @@ class RecordRuntime
      *
      * @param \Twig_Environment $env
      * @param string            $pagerName
-     * @param integer           $surr
+     * @param integer           $surround
      * @param string            $template  The template to apply
      * @param string            $class
      *
      * @return string The rendered pager HTML
      */
-    public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
+    public function pager(\Twig_Environment $env, $pagerName = '', $surround = 4, $template = '_sub_pager.twig', $class = '')
     {
         if ($this->pagerManager->isEmptyPager()) {
             // nothing to page.
@@ -238,10 +238,9 @@ class RecordRuntime
         $thisPager = $this->pagerManager->getPager($pagerName);
 
         $context = [
-            'pager' => $thisPager,
-            'surr'  => $surr, // @deprecated
-            'surround' => $surr,
-            'class' => $class,
+            'pager'    => $thisPager,
+            'surround' => $surround,
+            'class'    => $class,
         ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */

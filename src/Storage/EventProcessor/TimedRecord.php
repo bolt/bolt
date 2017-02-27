@@ -121,14 +121,8 @@ class TimedRecord
         }
 
         $types = [
-            'timed' => [
-                'target' => 'published',
-                'legacy' => 'publish',
-            ],
-            'hold' => [
-                'target' => 'held',
-                'legacy' => 'depublish',
-            ],
+            'timed' => ['target' => 'published'],
+            'hold' => ['target' => 'held'],
         ];
 
         try {
@@ -139,7 +133,7 @@ class TimedRecord
         /** @var Content $content */
         foreach ($records as $content) {
             $content->set('status', $types[$type]['target']);
-            $this->save($contentRepo, $content, $type, $types[$type]['legacy']);
+            $this->save($contentRepo, $content, $type);
         }
     }
 
@@ -149,13 +143,12 @@ class TimedRecord
      * @param ContentRepository $contentRepo
      * @param Content           $content
      * @param string            $type
-     * @param string            $legacyType
      */
-    private function save(ContentRepository $contentRepo, Content $content, $type, $legacyType)
+    private function save(ContentRepository $contentRepo, Content $content, $type)
     {
         try {
             $contentRepo->save($content);
-            $this->dispatch($content, $type, $legacyType);
+            $this->dispatch($content, $type);
         } catch (DBALException $e) {
             $contentTypeName = $contentRepo->getClassMetadata()->getBoltName();
             $message = "Timed update of records for $contentTypeName failed: " . $e->getMessage();
@@ -169,19 +162,12 @@ class TimedRecord
      *
      * @param Content $content
      * @param string  $type
-     * @param string  $legacyType
      */
-    private function dispatch(Content $content, $type, $legacyType)
+    private function dispatch(Content $content, $type)
     {
         $event = new StorageEvent($content, ['contenttype' => $content->getContenttype(), 'create' => false]);
         try {
             $this->dispatcher->dispatch("timed.$type", $event);
-        } catch (\Exception $e) {
-            $this->systemLogger->critical(sprintf('Dispatch handling failed for %s.', $content->getContenttype()), ['event' => 'exception', 'exception' => $e]);
-        }
-        try {
-            /** @deprecated Deprecated since 3.1, to be removed in 4.0. */
-            $this->dispatcher->dispatch("timed.$legacyType", $event);
         } catch (\Exception $e) {
             $this->systemLogger->critical(sprintf('Dispatch handling failed for %s.', $content->getContenttype()), ['event' => 'exception', 'exception' => $e]);
         }

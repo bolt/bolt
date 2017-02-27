@@ -78,20 +78,6 @@ class RoutingRuntime
     }
 
     /**
-     * Redirect the browser to another page.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function redirect($path)
-    {
-        Library::simpleredirect($path);
-
-        return '';
-    }
-
-    /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST.
      *
      * @param string  $parameter    The parameter to get

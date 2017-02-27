@@ -16,14 +16,6 @@ class MenuExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    protected function registerServices(Application $app)
-    {
-        $this->addMenuEntry('Drop Bear', 'look-up-live', 'fa-thumbs-o-down', 'dangerous');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function registerMenuEntries()
     {
         return [

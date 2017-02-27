@@ -144,7 +144,6 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Provider\TwigServiceProvider())
-            ->register(new Provider\RenderServiceProvider())
             ->register(new Silex\Provider\HttpCacheServiceProvider())
         ;
         $this['http_cache.cache_dir'] = function () {
