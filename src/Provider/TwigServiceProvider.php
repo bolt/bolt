@@ -56,7 +56,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\RecordRuntime(
                 $app['request_stack'],
                 $app['pager'],
-                $app['resources']->getPath('templatespath'),
+                $app['filesystem']->getDir('theme://' . $app['config']->get('theme/template_directory')),
                 $app['config']->get('theme/templateselect/templates', [])
             );
         };
