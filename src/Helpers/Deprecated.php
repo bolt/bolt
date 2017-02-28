@@ -101,7 +101,7 @@ class Deprecated
         $message = $subject . ' is deprecated';
 
         if ($since !== null) {
-            $message .= " since $since";
+            $message .= sprintf(" since %.1f", $since);
         }
 
         $version = Version::VERSION;
