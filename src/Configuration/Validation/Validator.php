@@ -4,7 +4,7 @@ namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
 use Bolt\Configuration\LowlevelChecks;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Exception\BootException;
 use Bolt\Logger\FlashLoggerInterface;
 
@@ -27,8 +27,8 @@ class Validator extends LowlevelChecks implements ValidatorInterface
 
     /** @var Config */
     private $configManager;
-    /** @var ResourceManager */
-    private $resourceManager;
+    /** @var PathResolver */
+    private $pathResolver;
     /** @var FlashLoggerInterface */
     private $flashLogger;
     /** @var array */
@@ -45,18 +45,21 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * Constructor.
      *
      * @param Config               $config
-     * @param ResourceManager      $resourceManager
+     * @param PathResolver         $pathResolver
      * @param FlashLoggerInterface $flashLogger
+     * @param bool                 $disableApacheChecks
      */
     public function __construct(
         Config $config,
-        ResourceManager $resourceManager,
-        FlashLoggerInterface $flashLogger
+        PathResolver $pathResolver,
+        FlashLoggerInterface $flashLogger,
+        $disableApacheChecks = false
     ) {
-        parent::__construct($resourceManager);
+        parent::__construct($pathResolver);
         $this->configManager = $config;
-        $this->resourceManager = $resourceManager;
+        $this->pathResolver = $pathResolver;
         $this->flashLogger = $flashLogger;
+        $this->disableApacheChecks = $disableApacheChecks;
     }
 
     /**
@@ -136,8 +139,8 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         if (!$validator instanceof ValidationInterface) {
             throw new BootException(sprintf('System validator was given a validation class %s that does not implement %s', $className, ValidationInterface::class));
         }
-        if ($validator instanceof ResourceManagerAwareInterface) {
-            $validator->setResourceManager($this->resourceManager);
+        if ($validator instanceof PathResolverAwareInterface) {
+            $validator->setPathResolver($this->pathResolver);
         }
         if ($validator instanceof ConfigAwareInterface) {
             $validator->setConfig($this->configManager);

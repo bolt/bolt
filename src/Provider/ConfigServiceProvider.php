@@ -45,8 +45,9 @@ class ConfigServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $validator = new ConfigValidator(
                     $app['config'],
-                    $app['resources'],
-                    $app['logger.flash']
+                    $app['path_resolver'],
+                    $app['logger.flash'],
+                    $app['resources']->getVerifier()->disableApacheChecks // :fire:
                 );
 
                 return $validator;

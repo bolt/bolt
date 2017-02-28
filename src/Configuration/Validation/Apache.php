@@ -3,7 +3,7 @@
 namespace Bolt\Configuration\Validation;
 
 use Bolt\Configuration\LowlevelChecks;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Exception\Configuration\Validation\System\ApacheValidationException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Apache implements ValidationInterface, ResourceManagerAwareInterface
+class Apache implements ValidationInterface, PathResolverAwareInterface
 {
-    /** @var ResourceManager */
-    private $resourceManager;
+    /** @var PathResolver */
+    private $pathResolver;
 
     /**
      * This check looks for the presence of the .htaccess file inside the web directory.
@@ -31,13 +31,11 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
         $request = Request::createFromGlobals();
         $serverSoftware = $request->server->get('SERVER_SOFTWARE', '');
         $isApache = strpos($serverSoftware, 'Apache') !== false;
-        /** @var LowlevelChecks $verifier */
-        $verifier = $this->resourceManager->getVerifier();
-        if ($verifier && $verifier->disableApacheChecks === true || !$isApache) {
+        if (!$isApache) {
             return;
         }
 
-        $path = $this->resourceManager->getPath('web/.htaccess');
+        $path = $this->pathResolver->resolve('%web%/.htaccess');
         if (is_readable($path)) {
             return;
         }
@@ -48,8 +46,8 @@ class Apache implements ValidationInterface, ResourceManagerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setResourceManager(ResourceManager $resourceManager)
+    public function setPathResolver(PathResolver $pathResolver)
     {
-        $this->resourceManager = $resourceManager;
+        $this->pathResolver = $pathResolver;
     }
 }

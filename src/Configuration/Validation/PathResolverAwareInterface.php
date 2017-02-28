@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration\Validation;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 
 /**
  * Interface for validation checks that require ResourceManager.
@@ -13,10 +13,10 @@ use Bolt\Configuration\ResourceManager;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-interface ResourceManagerAwareInterface
+interface PathResolverAwareInterface
 {
     /**
-     * @param ResourceManager $resourceManager
+     * @param PathResolver $pathResolver
      */
-    public function setResourceManager(ResourceManager $resourceManager);
+    public function setPathResolver(PathResolver $pathResolver);
 }

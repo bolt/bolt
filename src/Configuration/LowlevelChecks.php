@@ -214,7 +214,7 @@ class LowlevelChecks implements ValidatorInterface
     public function doDatabaseCheck()
     {
         $validator = new Validation\Database();
-        $validator->setResourceManager($this->config);
+        $validator->setPathResolver($this->config->app['path_resolver']);
         $validator->setConfig($this->config->app['config']);
         $validator->check();
     }
