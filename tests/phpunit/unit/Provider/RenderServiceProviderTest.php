@@ -7,6 +7,8 @@ use Bolt\Tests\BoltUnitTest;
 /**
  * Class to test src/Provider/RenderServiceProvider.
  *
+ * @group legacy
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class RenderServiceProviderTest extends BoltUnitTest
