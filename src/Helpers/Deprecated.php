@@ -44,6 +44,10 @@ class Deprecated
         if ($method === null) {
             $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
             $function = $caller['function'];
+            if ($function === '__construct') {
+                static::cls($caller['class'], $since, $suggest);
+                return;
+            }
             if (in_array($function, ['__call', '__callStatic', '__set', '__get', '__isset', '__unset'], true)) {
                 $caller = debug_backtrace(false, 2)[1]; // with args
                 $caller['function'] = $caller['args'][0];

@@ -50,6 +50,9 @@ class DeprecatedTest extends TestCase
         $this->assertDeprecation('isset(Bolt\Tests\Helper\TestDeprecatedClass::magic) is deprecated and will be removed in %d.0.');
         unset($cls->magic);
         $this->assertDeprecation('unset(Bolt\Tests\Helper\TestDeprecatedClass::magic) is deprecated and will be removed in %d.0.');
+
+        new TestDeprecatedClass(true);
+        $this->assertDeprecation('Bolt\Tests\Helper\TestDeprecatedClass is deprecated and will be removed in %d.0.');
     }
 
     public function testClass()
@@ -120,6 +123,13 @@ class DeprecatedTest extends TestCase
 
 class TestDeprecatedClass
 {
+    public function __construct($deprecatedClass = false)
+    {
+        if ($deprecatedClass) {
+            Deprecated::method();
+        }
+    }
+
     public static function foo()
     {
         Deprecated::method();
