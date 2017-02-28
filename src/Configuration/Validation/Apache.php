@@ -2,7 +2,6 @@
 
 namespace Bolt\Configuration\Validation;
 
-use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\PathResolver;
 use Bolt\Exception\Configuration\Validation\System\ApacheValidationException;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +19,6 @@ class Apache implements ValidationInterface, PathResolverAwareInterface
     /**
      * This check looks for the presence of the .htaccess file inside the web directory.
      * It is here only as a convenience check for users that install the basic version of Bolt.
-     *
-     * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
-     * inside your bootstrap.php file, just before the call to $config->verify().
      *
      * {@inheritdoc}
      */

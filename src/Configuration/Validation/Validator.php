@@ -3,7 +3,6 @@
 namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
-use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\PathResolver;
 use Bolt\Exception\BootException;
 use Bolt\Logger\FlashLoggerInterface;
@@ -16,7 +15,7 @@ use Bolt\Logger\FlashLoggerInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Validator extends LowlevelChecks implements ValidatorInterface
+class Validator implements ValidatorInterface
 {
     const CHECK_APACHE = 'apache';
     const CHECK_CACHE = 'cache';
@@ -47,19 +46,15 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * @param Config               $config
      * @param PathResolver         $pathResolver
      * @param FlashLoggerInterface $flashLogger
-     * @param bool                 $disableApacheChecks
      */
     public function __construct(
         Config $config,
         PathResolver $pathResolver,
-        FlashLoggerInterface $flashLogger,
-        $disableApacheChecks = false
+        FlashLoggerInterface $flashLogger
     ) {
-        parent::__construct($pathResolver);
         $this->configManager = $config;
         $this->pathResolver = $pathResolver;
         $this->flashLogger = $flashLogger;
-        $this->disableApacheChecks = $disableApacheChecks;
     }
 
     /**
@@ -95,10 +90,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      */
     public function check($checkName)
     {
-        if ($this->disableApacheChecks && $checkName === 'apache') {
-            return null;
-        }
-
         $className = $this->check[$checkName];
 
         return $this
@@ -112,10 +103,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      */
     public function checks()
     {
-        if ($this->disableApacheChecks) {
-            unset($this->check['apache']);
-        }
-
         foreach ($this->check as $checkName => $className) {
             $this
                 ->getValidator($className, $checkName)

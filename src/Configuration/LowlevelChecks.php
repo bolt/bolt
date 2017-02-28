@@ -1,16 +1,16 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Configuration\Validation\ValidatorInterface;
 use Bolt\Exception\BootException;
+use Bolt\Helpers\Deprecated;
 
 /**
  * @deprecated Deprecated since 3.1, to be removed in 4.0.
  */
-class LowlevelChecks implements ValidatorInterface
+class LowlevelChecks
 {
     public $config;
-    public $disableApacheChecks = false;
+    private $disableApacheChecks = false;
 
     public $checks = [
         'magicQuotes',
@@ -49,39 +49,20 @@ class LowlevelChecks implements ValidatorInterface
         $this->mysqlLoaded = extension_loaded('pdo_mysql');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function check($checkName)
+    public function __get($property)
     {
+        return $this->$property;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checks()
+    public function __set($property, $value)
     {
-    }
+        if ($this->config && $property === 'disableApacheChecks' && $value === true) {
+            Deprecated::method(3.3, 'Extend "config.validator" service and remove the apache check there.');
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($checkName, $className, $prepend = false)
-    {
-    }
+            $this->config->disableApacheChecks();
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function has($checkName)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($checkName)
-    {
+        $this->$property = $value;
     }
 
     /**
