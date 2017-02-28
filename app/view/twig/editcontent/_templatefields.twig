@@ -17,7 +17,7 @@
                 {% endif %}
 
                 {# Fields #}
-                {% set templatelabelkey = templatefield.label ?: templatekey|ucfirst %}
+                {% set templatelabelkey = templatefield.label ?: templatekey|capitalize %}
 
                 {% include context.fields[templatefield.type].template with {
                     field: templatefield,
