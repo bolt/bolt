@@ -4,6 +4,7 @@ namespace Bolt\Twig\Runtime;
 
 use Bolt\Asset\Widget\Queue;
 use Bolt\Controller\Zone;
+use Twig_Environment as Environment;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -14,32 +15,29 @@ class WidgetRuntime
 {
     /** @var Queue */
     private $widgetQueue;
-    /** @var bool */
-    private $strictVariables;
 
     /**
      * Constructor.
      *
      * @param Queue $widgetQueue
-     * @param bool  $strictVariables
      */
-    public function __construct(Queue $widgetQueue, $strictVariables)
+    public function __construct(Queue $widgetQueue)
     {
         $this->widgetQueue = $widgetQueue;
-        $this->strictVariables = $strictVariables;
     }
 
     /**
      * Return the number of widgets in the queue for a given type / location.
      *
-     * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
+     * @param Environment $env
+     * @param string      $location Location (e.g. 'dashboard_aside_top')
+     * @param string      $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
-     * @return integer
+     * @return int
      */
-    public function countWidgets($location = null, $zone = Zone::FRONTEND)
+    public function countWidgets(Environment $env, $location = null, $zone = Zone::FRONTEND)
     {
-        if ($location === null && $this->strictVariables === true) {
+        if ($location === null && $env->isStrictVariables()) {
             throw new \InvalidArgumentException('countwidgets() requires a location, none given');
         }
 
@@ -59,14 +57,15 @@ class WidgetRuntime
     /**
      * Check if a type / location has widgets in the queue.
      *
-     * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
+     * @param Environment $env
+     * @param string      $location Location (e.g. 'dashboard_aside_top')
+     * @param string      $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasWidgets($location = null, $zone = Zone::FRONTEND)
+    public function hasWidgets(Environment $env, $location = null, $zone = Zone::FRONTEND)
     {
-        if ($location === null && $this->strictVariables === true) {
+        if ($location === null && $env->isStrictVariables()) {
             throw new \InvalidArgumentException('haswidgets() requires a location, none given');
         }
 
@@ -76,15 +75,16 @@ class WidgetRuntime
     /**
      * Renders a particular widget type on the given location.
      *
-     * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
-     * @param string $wrapper
+     * @param Environment $env
+     * @param string      $location Location (e.g. 'dashboard_aside_top')
+     * @param string      $zone     Either Zone::FRONTEND or Zone::BACKEND
+     * @param string      $wrapper
      *
      * @return string|\Twig_Markup
      */
-    public function widgets($location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
+    public function widgets(Environment $env, $location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
     {
-        if ($location === null && $this->strictVariables === true) {
+        if ($location === null && $env->isStrictVariables()) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');
         }
 

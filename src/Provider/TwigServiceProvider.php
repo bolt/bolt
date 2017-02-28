@@ -77,7 +77,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget']);
         };
         $app['twig.runtime.dump'] = function ($app) {
             return new Twig\Runtime\DumpRuntime(
