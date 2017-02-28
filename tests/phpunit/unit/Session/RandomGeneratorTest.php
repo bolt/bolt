@@ -7,6 +7,8 @@ use Bolt\Tests\BoltUnitTest;
 /**
  * Class to test src/Session/Generator/RandomGenerator.
  *
+ * @group legacy
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class RandomGeneratorTest extends BoltUnitTest
