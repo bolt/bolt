@@ -67,7 +67,7 @@ class SetcontentTest extends BoltUnitTest
             new Twig_Token(Twig_Token::BLOCK_END_TYPE, '', 98),
             new Twig_Token(Twig_Token::EOF_TYPE, '', 99),
         ];
-        $twigTokenStream = new Twig_TokenStream($streamTokens, 'clippy.twig');
+        $twigTokenStream = new Twig_TokenStream($streamTokens, new \Twig_Source(null, 'clippy.twig'));
 
         $twigParser = new TwigParserMock($app['twig']);
         $twigParser->setStream($twigTokenStream);
