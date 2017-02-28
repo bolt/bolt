@@ -164,8 +164,6 @@ class ResourceManager
      */
     public function setApp(Application $app)
     {
-        Deprecated::method(3.0);
-
         $this->app = $app;
         self::$theApp = $app;
         $this->pathResolver = $app['path_resolver'];
@@ -182,8 +180,6 @@ class ResourceManager
      */
     public function setPath($name, $value, $applyToResolver = true)
     {
-        Deprecated::method(3.3, PathResolver::class . '::define');
-
         if (strpos($value, '%') !== false) { // contains variable
             $path = function () use ($value) {
                 if (!$this->pathResolver) {
@@ -237,8 +233,6 @@ class ResourceManager
      */
     public function getPath($name)
     {
-        Deprecated::method(3.3, PathResolver::class . '::resolve');
-
         return $this->getPathObject($name)->string();
     }
 
@@ -592,7 +586,8 @@ class ResourceManager
      */
     public static function getApp()
     {
-        Deprecated::method(3.0);
+        // Deprecated after Translator & Content doesn't need it
+        // Deprecated::method(3.0);
 
         if (! static::$theApp) {
             $trace = debug_backtrace(false);
