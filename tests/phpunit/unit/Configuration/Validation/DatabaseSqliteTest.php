@@ -187,7 +187,7 @@ class DatabaseSqliteTest extends AbstractValidationTest
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
         $this->config->initialize()->shouldBeCalled();
-        $this->resourceManager->getPath('cache/config-cache.json')->shouldBeCalled();
+        $this->pathResolver->resolve('%cache%/config-cache.json')->shouldBeCalled();
 
         $this->_filesystem
             ->expects($this->at(0))
