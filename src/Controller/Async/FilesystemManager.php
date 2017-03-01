@@ -325,6 +325,7 @@ class FilesystemManager extends AsyncBase
     public function renameFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
@@ -333,9 +334,9 @@ class FilesystemManager extends AsyncBase
         }
 
         try {
-            $this->filesystem()->rename(sprintf('%s://%s', $namespace, $oldName), $newName);
+            $this->filesystem()->rename(sprintf('%s://%s/%s', $namespace, $parentPath, $oldName), sprintf('%s/%s', $parentPath, $newName));
 
-            return $this->json($newName, Response::HTTP_OK);
+            return $this->json(sprintf('%s/%s', $parentPath, $newName), Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
             $this->logException($msg, $e);
