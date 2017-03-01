@@ -2,6 +2,9 @@
 
 namespace Bolt\Storage\ContentRequest;
 
+
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use Bolt\Config;
 use Bolt\Exception\AccessControlException;
 use Bolt\Helpers\Arr;
@@ -191,7 +194,7 @@ class Save
             if ($name === 'relation' || $name === 'taxonomy') {
                 continue;
             } else {
-                $content->set($name, (empty($value) || Arr::isEmptyArray($value)) ? null : $value);
+                $content->set($name, (empty($value) || $this->isEmptyArray($value)) ? null : $value);
             }
         }
         foreach ($contentType['fields'] as $fieldName => $data) {
@@ -434,5 +437,28 @@ class Save
         $generator = $this->urlGenerator;
 
         return $generator->generate($name, $params, $referenceType);
+    }
+
+    /**
+     * Check wether an array is empty and if it is the value of the repeater is set to null.
+     *
+     * @param array $input
+     *
+     * @return bool
+     */
+    private function isEmptyArray($input)
+    {
+        if (!is_array($input)) {
+            return false;
+        }
+        $empty = true;
+        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::LEAVES_ONLY) as $key => $value) {
+            $empty = (empty($value) && $value !== '0' && $value !== 0);
+            if (!$empty) {
+                return false;
+            }
+        }
+
+        return $empty;
     }
 }
