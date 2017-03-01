@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Legacy\AppSingleton;
 use Silex\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -77,7 +77,7 @@ trait ContentRouteTrait
     public function getRouteNameAndParams()
     {
         if (empty($this->app)) {
-            $this->app = ResourceManager::getApp();
+            $this->app = AppSingleton::get();
         }
 
         if (empty($this->id)) {

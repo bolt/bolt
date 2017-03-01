@@ -3,6 +3,7 @@
 namespace Bolt\Configuration;
 
 use Bolt\Helpers\Deprecated;
+use Bolt\Legacy\AppSingleton;
 use Bolt\Pager\PagerManager;
 use Composer\Autoload\ClassLoader;
 use Eloquent\Pathogen\AbsolutePathInterface;
@@ -27,13 +28,6 @@ class ResourceManager
 
     /** @var string */
     public $urlPrefix = '';
-
-    /**
-     * @var \Silex\Application
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public static $theApp;
 
     /** @var \Eloquent\Pathogen\AbsolutePathInterface */
     protected $root;
@@ -166,7 +160,7 @@ class ResourceManager
     public function setApp(Application $app)
     {
         $this->app = $app;
-        self::$theApp = $app;
+        AppSingleton::set($app);
         $this->pathResolver = $app['path_resolver'];
 
         // if RM is passed directly into Application c.v.a won't be set
@@ -614,14 +608,7 @@ class ResourceManager
         // Deprecated after Translator & Content doesn't need it
         // Deprecated::method(3.0);
 
-        if (! static::$theApp) {
-            $trace = debug_backtrace(false);
-            $trace = $trace[0]['file'] . '::' . $trace[0]['line'];
-            $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", $trace);
-            throw new \RuntimeException($message);
-        }
-
-        return static::$theApp;
+        return AppSingleton::get();
     }
 
     /**

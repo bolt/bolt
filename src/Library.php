@@ -2,9 +2,11 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Legacy\AppSingleton;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Bolt\Helpers\Deprecated;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -114,7 +116,7 @@ class Library
     {
         Deprecated::method(3.0, UrlGeneratorInterface::class . '::generate');
 
-        $app = ResourceManager::getApp();
+        $app = AppSingleton::get();
 
         if (!empty($add) && $add[0] != '?') {
             $add = '?' . $add;
@@ -142,7 +144,7 @@ class Library
     {
         Deprecated::method(3.0);
 
-        return ResourceManager::getApp()->redirect(self::path($path, $param, $add));
+        return new RedirectResponse(self::path($path, $param, $add));
     }
 
     /**
@@ -159,8 +161,6 @@ class Library
     {
         Deprecated::method(3.0);
 
-        $app = ResourceManager::getApp();
-
         if (empty($path)) {
             $path = '/';
         }
@@ -171,7 +171,7 @@ class Library
             return $path;
         }
 
-        $app->abort(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
+        throw new HttpException(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
     }
 
     /**
