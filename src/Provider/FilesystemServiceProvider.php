@@ -19,38 +19,6 @@ class FilesystemServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        // These can be called early
-        $app['filesystem.config'] = $app->share(function ($app) {
-            $fs = new Filesystem(new Local($app['path_resolver']->resolve('config')));
-            $fs->setMountPoint('config');
-
-            return $fs;
-        });
-
-        $app['filesystem.cache'] = $app->share(function ($app) {
-            $fs = new Filesystem(new Local($app['path_resolver']->resolve('cache')));
-            $fs->setMountPoint('cache');
-
-            return $fs;
-        });
-
-        $app['filesystem.themes'] = $app->share(function ($app) {
-            $fs = new Filesystem(new Local($app['path_resolver']->resolve('themes')));
-            $fs->setMountPoint('themes');
-
-            return $fs;
-        });
-
-        // Calling this before boot … all bets are off … and if Bolt breaks, you get to keep both pieces!
-        // @TODO :fire: this when the new configuration loading lands
-        $app['filesystem.theme'] = $app->share(function ($app) {
-            $fs = new Filesystem(new Local($app['path_resolver']->resolve('%themes%/' . $app['config']->get('general/theme'))));
-            $fs->setMountPoint('theme');
-
-            return $fs;
-        });
-
-        // Don't call this until boot.
         $app['filesystem'] = $app->share(
             function ($app) {
                 $manager = new Manager(
@@ -69,17 +37,15 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // User's synced bolt assets directory
                         'bolt_assets'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt_assets'))),
                         // User's config directory
-                        'config'            => $app['filesystem.config'],
+                        'config'            => new Filesystem(new Local($app['path_resolver']->resolve('config'))),
                         // User's themes directory
-                        'themes'            => $app['filesystem.themes'],
-                        // User's currently selected theme directory
-                        'theme'             => $app['filesystem.theme'],
+                        'themes'            => new Filesystem(new Local($app['path_resolver']->resolve('themes'))),
                         // User's extension directory
                         'extensions'        => new Filesystem(new Local($app['path_resolver']->resolve('extensions'))),
                         // User's extension config directory
                         'extensions_config' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_config'))),
                         // User's cache directory
-                        'cache'             => $app['filesystem.cache'],
+                        'cache'             => new Filesystem(new Local($app['path_resolver']->resolve('cache'))),
 
                         'app'     => new LazyFilesystem(function () use ($app) {
                             Deprecated::warn('The "app" filesystem', 3.3, 'Use a filesystem at a more specific mount point instead.');
@@ -101,7 +67,6 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         new Plugin\HasUrl(),
                         new Plugin\Parents(),
                         new Plugin\ToJs(),
-                        new Plugin\Authorized($app['filepermissions']),
                         new Plugin\ThumbnailUrl($app['url_generator.lazy']),
                     ]
                 );
@@ -109,6 +74,18 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                 return $manager;
             }
         );
+
+        // Separated to prevent circular dependency.
+        // config depends on filesystem, so filesystem cannot depend on config
+        $app['filesystem.theme'] = $app->share(function ($app) {
+            $fs = new Filesystem(new Local($app['path_resolver']->resolve('%themes%/' . $app['config']->get('general/theme'))));
+
+            return $fs;
+        });
+
+        $app['filesystem.plugin.authorized'] = function () use ($app) {
+            return new Plugin\Authorized($app['filepermissions']);
+        };
 
         $app['filesystem.plugin.url'] = function () use ($app) {
             return new Plugin\AssetUrl($app['asset.packages']);
@@ -123,9 +100,17 @@ class FilesystemServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $filesystem = $app['filesystem'];
+
+        // User's currently selected theme directory.
+        // Add theme filesystem here to prevent circular dependency.
+        $filesystem->mountFilesystem('theme', $app['filesystem.theme']);
+
+        // Add authorized plugin here to prevent circular dependency.
+        $filesystem->addPlugin($app['filesystem.plugin.authorized']);
         // Add url plugin here to prevent circular dependency.
-        $app['filesystem']->addPlugin($app['filesystem.plugin.url']);
+        $filesystem->addPlugin($app['filesystem.plugin.url']);
         // "bolt" filesystem cannot use the "bolt" asset package.
-        $app['filesystem']->getFilesystem('bolt')->addPlugin(new Plugin\NoAssetUrl());
+        $filesystem->getFilesystem('bolt')->addPlugin(new Plugin\NoAssetUrl());
     }
 }

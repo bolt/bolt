@@ -135,14 +135,9 @@ class TwigServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
 
-                $themePath = 'theme://' . $app['config']->get('theme/template_directory');
-
-                $loader->addPath($themePath, 'theme');
                 $loader->addPath('bolt://app/theme_defaults', 'theme');
                 $loader->addPath('bolt://app/view/twig', 'bolt');
 
-                /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-                $loader->addPath($themePath);
                 $loader->addPath('bolt://app/theme_defaults');
                 $loader->addPath('bolt://app/view/twig');
 
@@ -302,6 +297,10 @@ class TwigServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
+        // Add path here since "theme" filesystem isn't mounted until boot.
+        $themePath = 'theme://' . $app['config']->get('theme/template_directory');
+        $app['twig.loader.bolt_filesystem']->addPath($themePath, 'theme');
+        $app['twig.loader.bolt_filesystem']->addPath($themePath);
     }
 
     protected function registerSandbox(Application $app)

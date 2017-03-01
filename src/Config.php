@@ -93,7 +93,7 @@ class Config
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        $this->cacheFile = $this->app['filesystem.cache']->getFile('config-cache.json');
+        $this->cacheFile = $this->app['filesystem']->getFile('cache://config-cache.json');
 
         $data = $this->loadCache();
         if ($data === null) {
@@ -122,7 +122,7 @@ class Config
         }
         $this->invalidateCache();
 
-        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+        $themeDir = $this->app['filesystem']->getDir('themes://' . $this->get('general/theme'));
 
         $this->data['theme'] = $this->parseTheme($themeDir, $this->data['general']);
     }
@@ -137,7 +137,7 @@ class Config
      */
     protected function parseConfigYaml($filename, DirectoryInterface $directory = null)
     {
-        $directory = $directory ?: $this->app['filesystem.config']->getDir('');
+        $directory = $directory ?: $this->app['filesystem']->getDir('config://');
 
         try {
             $file = $directory->get($filename);
@@ -1300,7 +1300,7 @@ class Config
         $cachedConfigTimestamp = $this->cacheFile->getTimestamp();
 
         /** @var \Bolt\Filesystem\Filesystem $configFs */
-        $configFs = $this->app['filesystem.config'];
+        $configFs = $this->app['filesystem']->getFilesystem('config');
 
         $configFiles = [
             'config.yml',
@@ -1336,7 +1336,7 @@ class Config
             return false;
         }
 
-        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+        $themeDir = $this->app['filesystem']->getDir('themes://' . $this->get('general/theme'));
 
         // Check the timestamp for the theme's configuration file
         $timestampTheme = 0;
