@@ -4,9 +4,11 @@ namespace Bolt\Provider;
 
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\LazyFilesystem;
 use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Matcher;
 use Bolt\Filesystem\Plugin;
+use Bolt\Helpers\Deprecated;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -79,12 +81,21 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         // User's cache directory
                         'cache'             => $app['filesystem.cache'],
 
-                        // Deprecated. Use specific filesystem instead.
-                        'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
-                        // Deprecated. Use bolt_assets filesystem instead.
-                        'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
-                        // Deprecated. Use specific filesystem instead.
-                        'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
+                        'app'     => new LazyFilesystem(function () use ($app) {
+                            Deprecated::warn('The "app" filesystem', 3.3, 'Use a filesystem at a more specific mount point instead.');
+
+                            return new Filesystem(new Local($app['resources']->getPath('app')));
+                        }),
+                        'view'    => new LazyFilesystem(function () use ($app) {
+                            Deprecated::warn('The "view" filesystem', 3.3, 'Use "bolt_assets" filesystem instead.');
+
+                            return new Filesystem(new Local($app['resources']->getPath('view')));
+                        }),
+                        'default' => new LazyFilesystem(function () use ($app) {
+                            Deprecated::warn('The "default" filesystem', 3.3, 'Use a filesystem at a more specific mount point instead.');
+
+                            return new Filesystem(new Local($app['resources']->getPath('files')));
+                        }),
                     ],
                     [
                         new Plugin\HasUrl(),
