@@ -140,7 +140,7 @@ return call_user_func(function () {
 
         // Set any non-standard paths
         foreach ((array) $config['paths'] as $name => $path) {
-            $resources->setPath($name, $path);
+            $resources->setPath($name, $path, false);
         }
 
         $resources->verify();
@@ -164,6 +164,7 @@ return call_user_func(function () {
         'path_resolver_factory' => $pathResolverFactoryFactory,
         'path_resolver.root'    => $rootPath,
         'path_resolver.paths'   => (array) $config['paths'],
+        'resources.bootstrap'   => $config['resources'] !== null,
     ]);
 
     foreach ((array) $config['services'] as $service) {

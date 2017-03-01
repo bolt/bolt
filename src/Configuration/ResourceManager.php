@@ -78,6 +78,21 @@ class ResourceManager
      */
     public function __construct(\ArrayAccess $container)
     {
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        foreach ($trace as $frame) {
+            if (in_array($frame['file'], [__DIR__ . '/ForwardToPathResolver.php', __DIR__ . '/ResourceManager.php', __DIR__ . '/Standard.php', __DIR__ . '/Composer.php'])) {
+                continue;
+            }
+            if ($frame['file'] === dirname(dirname(__DIR__)) . '/app/bootstrap.php') {
+                break;
+            }
+            if ($frame['file'] === dirname(__DIR__) . '/Provider/PathServiceProvider.php') {
+                break;
+            }
+
+            Deprecated::cls(static::class, 3.3);
+        }
+
         $this->pathManager = $container['pathmanager'];
 
         if (isset($container['path_resolver'])) {
@@ -142,6 +157,10 @@ class ResourceManager
      */
     public function useLoader(ClassLoader $loader)
     {
+        if ($this->callerNotSelf()) {
+            Deprecated::method(3.3);
+        }
+
         $this->classLoader = $loader;
         $loaderPath = dirname($loader->findFile('Composer\\Autoload\\ClassLoader'));
         // Remove last vendor/* off loaderPath to get our root path
@@ -191,6 +210,10 @@ class ResourceManager
      */
     public function setPath($name, $value, $applyToResolver = true)
     {
+        if ($applyToResolver && $this->callerNotSelfOrChild()) {
+            Deprecated::method(3.3, 'Use Bolt\Filesystem (recommended) or PathResolver::resolve instead.');
+        }
+
         if (strpos($value, '%') !== false) { // contains variable
             $path = function () use ($value) {
                 if (!$this->pathResolver) {
@@ -244,6 +267,10 @@ class ResourceManager
      */
     public function getPath($name)
     {
+        if ($this->callerNotSelfOrPathsProxy()) {
+            Deprecated::method(3.3, 'Use Bolt\Filesystem (recommended) or PathResolver::resolve instead.');
+        }
+
         return $this->getPathObject($name)->string();
     }
 
@@ -264,6 +291,10 @@ class ResourceManager
      */
     public function getPathObject($name)
     {
+        if ($this->callerNotSelf()) {
+            Deprecated::method(3.3, 'Use Bolt\Filesystem (recommended) or PathResolver::resolve instead.');
+        }
+
         $name = str_replace('\\', '/', $name);
 
         $parts = [];
@@ -332,6 +363,10 @@ class ResourceManager
      */
     public function setUrl($name, $value)
     {
+        if ($this->callerNotSelfOrChild()) {
+            Deprecated::method(3.3, 'Use UrlGenerator or Asset Packages instead.');
+        }
+
         $this->urls[$name] = $value;
     }
 
@@ -347,7 +382,9 @@ class ResourceManager
      */
     public function getUrl($name, $includeBasePath = true)
     {
-        Deprecated::method(3.3, 'Use UrlGenerator or Asset Packages instead.');
+        if ($this->callerNotSelfOrPathsProxy()) {
+            Deprecated::method(3.3, 'Use UrlGenerator or Asset Packages instead.');
+        }
 
         if (($name === 'canonical' || $name === 'canonicalurl') && isset($this->app['canonical'])) {
             if ($url = $this->app['canonical']->getUrl()) {
@@ -404,7 +441,9 @@ class ResourceManager
      */
     public function getRequest($name)
     {
-        Deprecated::method(3.3, 'Use Request object in request cycle instead.');
+        if ($this->callerNotSelfOrPathsProxy()) {
+            Deprecated::method(3.3, 'Use Request object in request cycle instead.');
+        }
 
         if (!$this->requestInitialized && in_array($name, ['canonical', 'protocol', 'hostname'])) {
             $this->initializeRequest($this->app, $this->requestObject);
@@ -426,7 +465,7 @@ class ResourceManager
      */
     public function getPaths()
     {
-        Deprecated::method(3.3, PathResolver::class . '::resolve');
+        Deprecated::method(3.0);
 
         if ($this->pathsProxy === null) {
             $this->pathsProxy = new PathsProxy($this);
@@ -568,6 +607,8 @@ class ResourceManager
      */
     public function getVerifier()
     {
+        Deprecated::method(3.3);
+
         if (! $this->verifier) {
             $verifier = new LowlevelChecks($this);
             $this->verifier = $verifier;
@@ -583,6 +624,8 @@ class ResourceManager
      */
     public function setVerifier($verifier)
     {
+        Deprecated::method(3.3);
+
         $this->verifier = $verifier;
     }
 
@@ -593,6 +636,8 @@ class ResourceManager
      */
     public function getClassLoader()
     {
+        Deprecated::method(3.3);
+
         return $this->classLoader;
     }
 
@@ -605,8 +650,7 @@ class ResourceManager
      */
     public static function getApp()
     {
-        // Deprecated after Translator & Content doesn't need it
-        // Deprecated::method(3.0);
+        Deprecated::method(3.0);
 
         return AppSingleton::get();
     }
@@ -627,5 +671,33 @@ class ResourceManager
         $relative = $filesystem->makePathRelative($topath, $frompath);
 
         return $relative;
+    }
+
+    private function callerNotSelfOrPathsProxy($index = 1)
+    {
+        if (!$this->callerNotSelf($index + 1)) {
+            return true;
+        }
+
+        return $this->callerNot(['PathsProxy', 'LazyPathsProxy'], $index + 1);
+    }
+
+    private function callerNotSelfOrChild($index = 1)
+    {
+        return $this->callerNot(['ResourceManager', 'Standard', 'Composer'], $index + 1);
+    }
+
+    private function callerNotSelf($index = 1)
+    {
+        return $this->callerNot(['ResourceManager'], $index + 1);
+    }
+
+    private function callerNot(array $files, $index = 1)
+    {
+        $files = array_map(function ($file) { return __DIR__ . '/' . $file . '.php'; }, $files);
+
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $index + 1)[$index];
+
+        return !in_array($caller['file'], $files);
     }
 }

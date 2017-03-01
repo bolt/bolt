@@ -40,6 +40,8 @@ class LowlevelChecks
      */
     public function __construct($config = null)
     {
+        Deprecated::cls(static::class, 3.1);
+
         $this->config = $config;
         $this->magicQuotes = get_magic_quotes_gpc();
         $this->safeMode = ini_get('safe_mode');
