@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Configuration\Composer;
 use Bolt\Configuration\ForwardToPathResolver;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
@@ -60,10 +59,6 @@ class PathServiceProvider implements ServiceProviderInterface
                     return;
                 }
                 $initialized = true;
-
-                if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
-                    BootException::earlyExceptionMissingLoaderConfig();
-                }
 
                 ConfigurationFile::checkConfigFiles(
                     ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
@@ -128,7 +123,15 @@ class PathServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $resolver = $app['path_resolver'];
+
         $theme = $app['config']->get('general/theme');
-        $app['path_resolver']->define('theme', "%themes%/$theme");
+        $resolver->define('theme', "%themes%/$theme");
+
+        if (!file_exists($resolver->resolve('web')) &&
+            (!file_exists($resolver->resolve('.bolt.yml')) || !file_exists($resolver->resolve('.bolt.php')))
+        ) {
+            BootException::earlyExceptionMissingLoaderConfig();
+        }
     }
 }
