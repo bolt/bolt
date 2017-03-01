@@ -72,6 +72,18 @@ var init = {
                             }
                         );
                     },
+                    "Tab": function(cm) {
+                        if (cm.somethingSelected()) {
+                            cm.indentSelection("add");
+                        } else {
+                            cm.replaceSelection(cm.getOption("indentWithTabs")? "\t":
+                            Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
+                        }
+                    },
+                    "Ctrl-S": function() {
+                         $('#saveeditfile').click();
+                    },
+                    "Ctrl-H": "replaceAll",
                 },
                 tabSize: 4,
                 indentUnit: 4,
