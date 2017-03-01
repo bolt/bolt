@@ -142,7 +142,14 @@ class Config
         try {
             $file = $directory->get($filename);
         } catch (FileNotFoundException $e) {
-            return [];
+            // Copy in dist files if applicable
+            $distFiles = ['config.yml', 'contenttypes.yml', 'menu.yml', 'permissions.yml', 'routing.yml', 'taxonomy.yml'];
+            if ($directory->getMountPoint() !== 'config' || !in_array($filename, $distFiles)) {
+                return [];
+            }
+
+            $this->app['filesystem']->copy("bolt://app/config/$filename.dist", "config://$filename");
+            $file = $directory->get($filename);
         }
 
         if (!$file instanceof ParsableInterface) {

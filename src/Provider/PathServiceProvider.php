@@ -5,7 +5,6 @@ namespace Bolt\Provider;
 use Bolt\Configuration\ForwardToPathResolver;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
-use Bolt\Configuration\PreBoot\ConfigurationFile;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\BootException;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
@@ -52,22 +51,6 @@ class PathServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['resources.check_files'] = $app->protect(
-            function (ResourceManager $resources) {
-                static $initialized;
-                if ($initialized) {
-                    return;
-                }
-                $initialized = true;
-
-                ConfigurationFile::checkConfigFiles(
-                    ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
-                    $resources->getPath('src/../app/config'),
-                    $resources->getPath('config')
-                );
-            }
-        );
-
         if (!isset($app['resources'])) {
             $app['resources'] = $app->share(
                 function ($app) {
@@ -89,8 +72,6 @@ class PathServiceProvider implements ServiceProviderInterface
             $app['path_resolver_factory'] = $resources->getPathResolverFactory();
 
             $resources->setApp($app);
-
-            $app['resources.check_files']($resources);
         };
 
         // Run resources setup either immediately if instance is given or lazily if closure is given.
