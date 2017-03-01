@@ -11,7 +11,6 @@ use Bolt\Configuration as Config;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Manager;
-use Bolt\Render;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Users;
@@ -451,20 +450,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $this->getMockBuilder(Permissions::class)
             ->setMethods($methods)
             ->setConstructorArgs([$this->getApp()])
-            ->getMock()
-        ;
-    }
-
-    /**
-     * @param Application $app
-     *
-     * @return Render|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMockRender(Application $app)
-    {
-        return $this->getMockBuilder(Render::class)
-            ->setMethods(['render'])
-            ->setConstructorArgs([$app])
             ->getMock()
         ;
     }

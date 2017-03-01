@@ -1,5 +1,5 @@
 {% set repeatfieldvals = context.content.get(contentkey) %}
-{% set labelkey = field.label ?: key|ucfirst %}
+{% set labelkey = field.label ?: key|capitalize %}
 
 {% set data_bolt_widget = {
     fieldRepeater: {

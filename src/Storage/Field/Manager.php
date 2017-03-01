@@ -1,9 +1,6 @@
 <?php
 namespace Bolt\Storage\Field;
 
-use Bolt\Helpers\Deprecated;
-use Bolt\Storage\FieldManager;
-
 /**
  * Class to manage instances of fields and instantiate the defaults.
  *
@@ -34,29 +31,21 @@ class Manager
 
     public function addField(FieldInterface $field)
     {
-        Deprecated::method(null, FieldManager::class);
-
         $this->fields[$field->getName()] = $field;
     }
 
     public function addDummyField($field)
     {
-        Deprecated::method(null, FieldManager::class);
-
         $this->dummyFields[] = $field;
     }
 
     public function fields()
     {
-        Deprecated::method(null, FieldManager::class);
-
         return $this->fields;
     }
 
     public function getField($name)
     {
-        Deprecated::method(null, FieldManager::class);
-
         if ($this->has($name)) {
             return $this->fields[$name];
         } else {
@@ -66,8 +55,6 @@ class Manager
 
     public function getDatabaseField($field)
     {
-        Deprecated::method(null, FieldManager::class);
-
         if (in_array($field, $this->dummyFields)) {
             return false;
         }
@@ -77,8 +64,6 @@ class Manager
 
     public function has($field)
     {
-        Deprecated::method(null, FieldManager::class);
-
         return isset($this->fields[$field]) || in_array($field, $this->dummyFields);
     }
 }

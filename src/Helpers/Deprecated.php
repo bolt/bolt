@@ -32,11 +32,6 @@ class Deprecated
      */
     public static function method($since = null, $suggest = '', $method = null)
     {
-        if ($method === null) {
-            $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
-            $method = (isset($caller['class']) ? $caller['class'] . '::' : '') . $caller['function'];
-        }
-
         // Shortcut for suggested method
         if ($suggest && preg_match('/\s/', $suggest) === 0) {
             // Append () if it is a method/function (not a class)
@@ -44,6 +39,28 @@ class Deprecated
                 $suggest .= '()';
             }
             $suggest = "Use $suggest instead.";
+        }
+
+        if ($method === null) {
+            $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
+            $function = $caller['function'];
+            if ($function === '__construct') {
+                static::cls($caller['class'], $since, $suggest);
+                return;
+            }
+            if (in_array($function, ['__call', '__callStatic', '__set', '__get', '__isset', '__unset'], true)) {
+                $caller = debug_backtrace(false, 2)[1]; // with args
+                $caller['function'] = $caller['args'][0];
+            }
+            $method = (isset($caller['class']) ? $caller['class'] . '::' : '') . $caller['function'];
+            if ($function === '__isset' || $function === '__unset') {
+                static::warn(substr($function, 2) . "($method)", $since, $suggest);
+                return;
+            }
+            if ($function === '__set' || $function === '__get') {
+                static::warn(strtoupper($function{2}) . "etting $method", $since, $suggest);
+                return;
+            }
         }
 
         static::warn($method . '()', $since, $suggest);
@@ -101,7 +118,7 @@ class Deprecated
         $message = $subject . ' is deprecated';
 
         if ($since !== null) {
-            $message .= " since $since";
+            $message .= sprintf(" since %.1f", $since);
         }
 
         $version = Version::VERSION;

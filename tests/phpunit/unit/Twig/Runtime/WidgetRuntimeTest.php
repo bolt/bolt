@@ -16,7 +16,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testCountWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -24,14 +24,14 @@ class WidgetRuntimeTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $count = $handler->countWidgets('gum-tree', 'frontend');
+        $count = $handler->countWidgets($app['twig'], 'gum-tree', 'frontend');
         $this->assertSame(1, $count);
     }
 
     public function testCountWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -39,14 +39,14 @@ class WidgetRuntimeTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $count = $handler->countWidgets();
+        $count = $handler->countWidgets($app['twig']);
         $this->assertSame(0, $count);
     }
 
     public function testCountWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -55,13 +55,13 @@ class WidgetRuntimeTest extends BoltUnitTest
 
         $this->setExpectedException('InvalidArgumentException', 'countwidgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
-        $handler->countWidgets();
+        $handler->countWidgets($app['twig']);
     }
 
     public function testGetWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -78,9 +78,9 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testHasWidgets()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
 
-        $this->assertFalse($handler->hasWidgets('gum-tree', 'frontend'));
+        $this->assertFalse($handler->hasWidgets($app['twig'], 'gum-tree', 'frontend'));
 
         $widget = (new Widget())
             ->setZone('frontend')
@@ -90,13 +90,13 @@ class WidgetRuntimeTest extends BoltUnitTest
 
         $app['asset.queue.widget']->add($widget);
 
-        $this->assertTrue($handler->hasWidgets('gum-tree', 'frontend'));
+        $this->assertTrue($handler->hasWidgets($app['twig'], 'gum-tree', 'frontend'));
     }
 
     public function testHasWidgetsNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -104,13 +104,13 @@ class WidgetRuntimeTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $this->assertFalse($handler->hasWidgets());
+        $this->assertFalse($handler->hasWidgets($app['twig']));
     }
 
     public function testHasWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -119,13 +119,13 @@ class WidgetRuntimeTest extends BoltUnitTest
 
         $this->setExpectedException('InvalidArgumentException', 'haswidgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
-        $handler->hasWidgets();
+        $handler->hasWidgets($app['twig']);
     }
 
     public function testWidget()
     {
         $app = $this->getApp();
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -134,7 +134,7 @@ class WidgetRuntimeTest extends BoltUnitTest
 
         $app['asset.queue.widget']->add($widget);
 
-        $result = $handler->widgets('gum-tree', 'frontend');
+        $result = $handler->widgets($app['twig'], 'gum-tree', 'frontend');
         $this->assertRegExp('#<div class="widgetholder widgetholder-gum-tree">#', (string) $result);
         $this->assertRegExp('#<blink>Drop Bear Warning!</blink>#', (string) $result);
     }
@@ -142,7 +142,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     public function testWidgetNoLocationDefault()
     {
         $app = $this->getStrictVariablesApp(false);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -150,14 +150,14 @@ class WidgetRuntimeTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $result = $handler->widgets();
+        $result = $handler->widgets($app['twig']);
         $this->assertNull($result);
     }
 
     public function testWidgetNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
-        $handler = new WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+        $handler = new WidgetRuntime($app['asset.queue.widget']);
         $widget = (new Widget())
             ->setZone('frontend')
             ->setLocation('gum-tree')
@@ -166,7 +166,7 @@ class WidgetRuntimeTest extends BoltUnitTest
 
         $this->setExpectedException('InvalidArgumentException', 'widgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
-        $handler->widgets();
+        $handler->widgets($app['twig']);
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Bolt;
 
-use Bolt\Helpers\Deprecated;
-
 /**
  * Bolt's current version.
  *
@@ -72,8 +70,6 @@ final class Version
      */
     public static function name()
     {
-        Deprecated::method(3.0);
-
         if (strpos(static::VERSION, ' ') === false) {
             return null;
         }

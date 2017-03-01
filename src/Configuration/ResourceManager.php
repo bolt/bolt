@@ -164,8 +164,6 @@ class ResourceManager
      */
     public function setApp(Application $app)
     {
-        Deprecated::method(3.0);
-
         $this->app = $app;
         self::$theApp = $app;
         $this->pathResolver = $app['path_resolver'];
@@ -182,8 +180,6 @@ class ResourceManager
      */
     public function setPath($name, $value, $applyToResolver = true)
     {
-        Deprecated::method(3.3, PathResolver::class . '::define');
-
         if (strpos($value, '%') !== false) { // contains variable
             $path = function () use ($value) {
                 if (!$this->pathResolver) {
@@ -237,8 +233,6 @@ class ResourceManager
      */
     public function getPath($name)
     {
-        Deprecated::method(3.3, PathResolver::class . '::resolve');
-
         return $this->getPathObject($name)->string();
     }
 
@@ -342,6 +336,8 @@ class ResourceManager
      */
     public function getUrl($name, $includeBasePath = true)
     {
+        Deprecated::method(3.3, 'Use UrlGenerator or Asset Packages instead.');
+
         if (($name === 'canonical' || $name === 'canonicalurl') && isset($this->app['canonical'])) {
             if ($url = $this->app['canonical']->getUrl()) {
                 return $url;
@@ -381,6 +377,8 @@ class ResourceManager
      */
     public function setRequest($name, $value)
     {
+        Deprecated::method(3.3, 'Use Request object in request cycle instead.');
+
         $this->request[$name] = $value;
     }
 
@@ -395,6 +393,8 @@ class ResourceManager
      */
     public function getRequest($name)
     {
+        Deprecated::method(3.3, 'Use Request object in request cycle instead.');
+
         if (!$this->requestInitialized && in_array($name, ['canonical', 'protocol', 'hostname'])) {
             $this->initializeRequest($this->app, $this->requestObject);
         }
@@ -462,16 +462,16 @@ class ResourceManager
             $canonical['scheme'] = 'https';
         }
 
-        $this->setRequest('canonical', sprintf('%s://%s', $canonical['scheme'], $canonical['host']));
+        $this->request['canonical'] = sprintf('%s://%s', $canonical['scheme'], $canonical['host']);
 
         $rootUrl = rtrim($this->urls['root'], '/');
         if ($rootUrl !== $request->getBasePath()) {
             $this->urlPrefix = $request->getBasePath();
         }
 
-        $this->setRequest('protocol', $canonical['scheme']);
+        $this->request['protocol'] = $canonical['scheme'];
         $hostname = $request->server->get('HTTP_HOST', 'localhost');
-        $this->setRequest('hostname', $hostname);
+        $this->request['hostname'] = $hostname;
         $current = $request->getBasePath() . $request->getPathInfo();
         $this->setUrl('current', $current);
         $this->setUrl('currenturl', sprintf('%s://%s%s', $canonical['scheme'], $hostname, $current));
@@ -594,7 +594,8 @@ class ResourceManager
      */
     public static function getApp()
     {
-        Deprecated::method(3.0);
+        // Deprecated after Translator & Content doesn't need it
+        // Deprecated::method(3.0);
 
         if (! static::$theApp) {
             $trace = debug_backtrace(false);

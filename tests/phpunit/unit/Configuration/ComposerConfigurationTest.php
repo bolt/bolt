@@ -9,6 +9,8 @@ use Bolt\Exception\BootException;
 /**
  * Class to test correct operation and locations of composer configuration.
  *
+ * @group legacy
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  *
  * @runTestsInSeparateProcesses

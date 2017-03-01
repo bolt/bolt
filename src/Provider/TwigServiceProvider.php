@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\Extension;
@@ -77,7 +78,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget']);
         };
         $app['twig.runtime.dump'] = function ($app) {
             return new Twig\Runtime\DumpRuntime(
@@ -289,6 +290,8 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['safe_twig'] = $app->share(
             function ($app) {
+                Deprecated::service('safe_twig', 3.3, 'Use "twig" service with sandbox enabled instead.');
+
                 return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
             }
         );

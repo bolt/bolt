@@ -9,6 +9,8 @@ use Symfony\Component\Debug\DebugClassLoader;
 /**
  * Class to test correct operation and locations of composer configuration.
  *
+ * @group legacy
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
