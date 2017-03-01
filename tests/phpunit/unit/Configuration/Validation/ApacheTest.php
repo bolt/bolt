@@ -40,17 +40,4 @@ class ApacheTest extends AbstractValidationTest
 
         $this->validator->check(Validator::CHECK_APACHE);
     }
-
-    public function testApacheCheckCanBeDisabled()
-    {
-        $_SERVER['SERVER_SOFTWARE'] = 'Apache 1.0';
-
-        $this->_validation
-            ->expects($this->never())
-            ->method('is_readable');
-
-        $this->validator->disableApacheChecks = true;
-
-        $this->validator->check(Validator::CHECK_APACHE);
-    }
 }

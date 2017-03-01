@@ -2,7 +2,6 @@
 
 namespace Bolt\Configuration;
 
-use Bolt\Configuration\Validation\ValidatorInterface;
 use Bolt\Helpers\Deprecated;
 use Bolt\Pager\PagerManager;
 use Composer\Autoload\ClassLoader;
@@ -70,6 +69,8 @@ class ResourceManager
     private $pathResolver;
     /** @var PathResolverFactory */
     private $pathResolverFactory;
+
+    private $disableApacheChecks;
 
     /**
      * Constructor initialises on the app root path.
@@ -167,6 +168,22 @@ class ResourceManager
         $this->app = $app;
         self::$theApp = $app;
         $this->pathResolver = $app['path_resolver'];
+
+        // if RM is passed directly into Application c.v.a won't be set
+        // but if called later then we don't want to override the value if someone else has changed it,
+        // unless disableApacheChecks has been called.
+        $default = true;
+        if (isset($this->app['config.validator.apache_enabled'])) {
+            $default = $this->app['config.validator.apache_enabled'];
+        }
+        $this->app['config.validator.apache_enabled'] = function () use ($default) {
+            return $this->disableApacheChecks ? false : $default;
+        };
+    }
+
+    public function disableApacheChecks()
+    {
+        $this->disableApacheChecks = true;
     }
 
     /**
@@ -553,7 +570,7 @@ class ResourceManager
     /**
      * Get the LowlevelChecks object.
      *
-     * @return ValidatorInterface
+     * @return LowlevelChecks
      */
     public function getVerifier()
     {
@@ -568,7 +585,7 @@ class ResourceManager
     /**
      * Set the LowlevelChecks object.
      *
-     * @param ValidatorInterface|null $verifier
+     * @param LowlevelChecks|null $verifier
      */
     public function setVerifier($verifier)
     {

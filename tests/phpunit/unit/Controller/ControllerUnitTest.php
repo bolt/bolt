@@ -47,7 +47,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
 
         $verifier = new Validator(
             $app['config'],
-            $app['resources'],
+            $app['path_resolver'],
             $app['logger.flash']
         );
         $verifier->checks();
