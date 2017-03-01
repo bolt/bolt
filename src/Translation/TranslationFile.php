@@ -139,7 +139,6 @@ class TranslationFile
             ->name('*.php')
             ->notName('*~')
             ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
-            ->in($this->app['resources']->getPath('apppath'))
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
