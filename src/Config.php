@@ -11,6 +11,7 @@ use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Helpers\Arr;
+use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator;
@@ -1220,6 +1221,8 @@ class Config
      */
     public function getTwigPath()
     {
+        Deprecated::method(3.3);
+
         $themepath = $this->app['resources']->getPath('templatespath');
 
         $twigpath = [];
@@ -1404,6 +1407,8 @@ class Config
      */
     public function getTimestamp($when)
     {
+        Deprecated::method(3.3);
+
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($when, new \DateTimeZone($timezone)), 'Y-m-d H:i:s');
 
@@ -1417,6 +1422,8 @@ class Config
      */
     public function getCurrentTimestamp()
     {
+        Deprecated::method(3.3);
+
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
@@ -1443,6 +1450,8 @@ class Config
      */
     public function getWhichEnd()
     {
+        Deprecated::method(3.0);
+
         $zone = $this->determineZone();
         $this->app['end'] = $zone; // This is also deprecated
 
