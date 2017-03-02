@@ -6,7 +6,6 @@ use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Permissions;
 use Bolt\AccessControl\Token;
 use Bolt\Application;
-use Bolt\Cache;
 use Bolt\Configuration as Config;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
@@ -14,6 +13,7 @@ use Bolt\Logger\Manager;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Users;
+use Doctrine\Common\Cache\VoidCache;
 use GuzzleHttp\Client;
 use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -334,27 +334,12 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param null $path
-     *
-     * @return Cache|PHPUnit_Framework_MockObject_MockObject
+     * @return VoidCache|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getMockCache($path = null)
+    protected function getMockCache()
     {
-        $app = $this->getApp();
-        if ($path === null) {
-            $path = $app['resources']->getPath('cache');
-        }
-
-        $params = [
-            $path,
-            Cache::EXTENSION,
-            0002,
-            $app['filesystem'],
-        ];
-
-        return $this->getMockBuilder(Cache::class)
+        return $this->getMockBuilder(VoidCache::class)
             ->setMethods(['flushAll'])
-            ->setConstructorArgs($params)
             ->getMock()
         ;
     }
