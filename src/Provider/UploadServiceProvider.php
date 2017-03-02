@@ -59,8 +59,7 @@ class UploadServiceProvider implements ServiceProviderInterface
         );
 
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files
-        // Note, if you want to provide an alternative namespace, you must set a path on the $app['resources']
-        // service
+        // Note, this must be a name of a mounted filesystem (see FilesystemServiceProvider)
         $app['upload.namespace'] = 'files';
 
         // This gets prepended to all file saves, can be reset to "" or add your own closure for more complex ones.

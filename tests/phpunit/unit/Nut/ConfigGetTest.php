@@ -39,7 +39,6 @@ class ConfigGetTest extends BoltUnitTest
 
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
-        $app['resources']->setPath('config', PHPUNIT_ROOT . '/resources');
         $tester->execute(['key' => 'sitename']);
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
     }

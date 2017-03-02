@@ -349,32 +349,6 @@ class Config
         // Merge the array with the defaults. Setting the required values that aren't already set.
         $general = Arr::replaceRecursive($this->defaultConfig, $general);
 
-        // Make sure the cookie_domain for the sessions is set properly.
-        if (empty($general['cookies_domain'])) {
-            $request = Request::createFromGlobals();
-            if ($request->server->get('HTTP_HOST', false)) {
-                $hostSegments = explode(':', $request->server->get('HTTP_HOST'));
-                $hostname = reset($hostSegments);
-            } elseif ($request->server->get('SERVER_NAME', false)) {
-                $hostname = $request->server->get('SERVER_NAME');
-            } else {
-                $hostname = '';
-            }
-
-            // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if ((strpos($hostname, '.') > 0) && preg_match('/[a-z0-9]/i', $hostname)) {
-                if (preg_match('/^www[0-9]*./', $hostname)) {
-                    $general['cookies_domain'] = '.' . preg_replace('/^www[0-9]*./', '', $hostname);
-                } else {
-                    $general['cookies_domain'] = '.' . $hostname;
-                }
-                // Make sure we don't have consecutive '.'-s in the cookies_domain.
-                $general['cookies_domain'] = str_replace('..', '.', $general['cookies_domain']);
-            } else {
-                $general['cookies_domain'] = '';
-            }
-        }
-
         // Make sure Bolt's mount point is OK:
         $general['branding']['path'] = '/' . Str::makeSafe($general['branding']['path']);
 

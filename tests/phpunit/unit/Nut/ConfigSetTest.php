@@ -40,7 +40,6 @@ class ConfigSetTest extends BoltUnitTest
 
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);
-        $app['resources']->setPath('config', PHPUNIT_ROOT . '/resources');
         $tester->execute(['key' => 'nonexistent', 'value' => 'test']);
         $this->assertEquals("The key 'nonexistent' was not found in config.yml.\n", $tester->getDisplay());
     }

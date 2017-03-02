@@ -27,7 +27,7 @@ class CacheClearTest extends BoltUnitTest
     public function testWithFailures()
     {
         $app = $this->getApp();
-        $app['cache'] = $this->getMockCache(null, false);
+        $app['cache'] = $this->getMockCache(false);
         $command = new CacheClear($app);
         $tester = new CommandTester($command);
 
@@ -36,9 +36,9 @@ class CacheClearTest extends BoltUnitTest
         $this->assertRegExp('/Failed to clear cache/', $result);
     }
 
-    protected function getMockCache($path = null, $flushResult = true)
+    protected function getMockCache($flushResult = true)
     {
-        $cache = parent::getMockCache($path);
+        $cache = parent::getMockCache();
         $cache->expects($this->once())
             ->method('flushAll')
             ->will($this->returnValue($flushResult))
