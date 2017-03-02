@@ -22,7 +22,7 @@ class BoltExtensionTest extends BoltUnitTest
     public function testTwigInterface()
     {
         $app = $this->getApp();
-        $twig = new BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
+        $twig = new BoltExtension($app['storage.lazy'], $app['config']);
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
@@ -46,7 +46,6 @@ class BoltExtensionTest extends BoltUnitTest
         $this->assertArrayHasKey('frontend', $response);
         $this->assertArrayHasKey('backend', $response);
         $this->assertArrayHasKey('async', $response);
-        $this->assertArrayHasKey('paths', $response);
         $this->assertArrayHasKey('theme', $response);
         $this->assertArrayHasKey('user', $response);
         $this->assertArrayHasKey('users', $response);
@@ -60,7 +59,7 @@ class BoltExtensionTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $app['request'] = $request;
         $app['request_stack']->push($request);
-        $twig = new BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
+        $twig = new BoltExtension($app['storage.lazy'], $app['config']);
 
         $result = $twig->getGlobals();
         $this->assertArrayHasKey('config', $result);
@@ -95,7 +94,7 @@ class BoltExtensionTest extends BoltUnitTest
     public function testGetTokenParsers()
     {
         $app = $this->getApp();
-        $twig = new BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
+        $twig = new BoltExtension($app['storage.lazy'], $app['config']);
 
         $result = $twig->getTokenParsers();
         $this->assertInstanceOf(SetcontentTokenParser::class, $result[0]);

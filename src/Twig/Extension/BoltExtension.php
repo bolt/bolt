@@ -4,7 +4,6 @@ namespace Bolt\Twig\Extension;
 
 use Bolt;
 use Bolt\Config;
-use Bolt\Configuration\PathsProxy;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
@@ -18,21 +17,17 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     private $em;
     /** @var Config */
     private $config;
-    /** @var PathsProxy */
-    private $paths;
 
     /**
      * Constructor.
      *
      * @param EntityManagerInterface $em
      * @param Config                 $config
-     * @param PathsProxy             $paths
      */
-    public function __construct(EntityManagerInterface $em, Config $config, PathsProxy $paths)
+    public function __construct(EntityManagerInterface $em, Config $config)
     {
         $this->em = $em;
         $this->config = $config;
-        $this->paths = $paths;
     }
 
     /**
@@ -97,7 +92,6 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,
-            'paths'        => $this->paths,
             'theme'        => null,
             'user'         => null,
             'users'        => null,
