@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\PathResolverFactory;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
@@ -95,14 +94,6 @@ return call_user_func(function () {
         return $config['application'];
     }
 
-    $pathResolverFactoryFactory = \Pimple::share(function () use ($rootPath, $config) {
-        $pathResolverFactory = new PathResolverFactory();
-        $pathResolverFactory->setRootPath($rootPath);
-        $pathResolverFactory->addPaths((array) $config['paths']);
-
-        return $pathResolverFactory;
-    });
-
     // Create the 'Bolt application'
     $appClass = Application::class;
     if ($config['application'] !== null && is_a($config['application'], Silex\Application::class, true)) {
@@ -110,9 +101,8 @@ return call_user_func(function () {
     }
     /** @var Silex\Application $app */
     $app = new $appClass([
-        'path_resolver_factory' => $pathResolverFactoryFactory,
-        'path_resolver.root'    => $rootPath,
-        'path_resolver.paths'   => (array) $config['paths'],
+        'path_resolver.root'  => $rootPath,
+        'path_resolver.paths' => (array) $config['paths'],
     ]);
 
     foreach ((array) $config['services'] as $service) {

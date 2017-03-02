@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Configuration\PathResolverFactory;
+use Bolt\Configuration\PathResolver;
 use Bolt\Exception\BootException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -11,24 +11,13 @@ class PathServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        // @deprecated
-        if (!isset($app['path_resolver_factory'])) {
-            $app['path_resolver_factory'] = $app->share(
-                function ($app) {
-                    return (new PathResolverFactory())
-                        ->setRootPath($app['path_resolver.root'])
-                        ->addPaths($app['path_resolver.paths'])
-                    ;
-                }
-            );
-        }
-
         $app['path_resolver'] = $app->share(
             function ($app) {
-                $resolver = $app['path_resolver_factory']
-                    ->addPaths($app['path_resolver.paths'])
-                    ->create()
-                ;
+                $resolver = new PathResolver($app['path_resolver.root'], PathResolver::defaultPaths());
+
+                foreach ($app['path_resolver.paths'] as $name => $path) {
+                    $resolver->define($name, $path);
+                }
 
                 // Bolt's project directory. Not configurable.
                 $resolver->define('bolt', __DIR__ . '/../../');
