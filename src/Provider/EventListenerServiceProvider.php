@@ -119,6 +119,12 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['listener.template_view'] = $app->share(
+            function ($app) {
+                return new Listener\TemplateViewListener($app['twig']);
+            }
+        );
+
         $app['listener.zone_guesser'] = $app->share(
             function ($app) {
                 return new Listener\ZoneGuesser($app);
@@ -140,6 +146,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             'snippet',
             'redirect',
             'flash_logger',
+            'template_view',
             'zone_guesser',
             'pager',
         ];
