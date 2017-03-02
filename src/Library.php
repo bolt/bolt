@@ -2,8 +2,12 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Legacy\AppSingleton;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Bolt\Helpers\Deprecated;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class for Bolt's generic library functions.
@@ -54,12 +58,16 @@ class Library
     /**
      * Gets the extension (if any) of a filename.
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $filename
      *
      * @return string
      */
     public static function getExtension($filename)
     {
+        Deprecated::method(3.0, 'Use pathinfo() instead.');
+
         $pos = strrpos($filename, '.');
         if ($pos === false) {
             return '';
@@ -73,12 +81,16 @@ class Library
     /**
      * Encodes a filename, for use in thumbnails, magnific popup, etc.
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $filename
      *
      * @return string
      */
     public static function safeFilename($filename)
     {
+        Deprecated::method(3.0);
+
         $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
         $filename = str_replace('%2F', '/', $filename);
 
@@ -92,6 +104,8 @@ class Library
     /**
      * Simple wrapper for $app['url_generator']->generate().
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $path
      * @param array  $param
      * @param string $add
@@ -100,7 +114,9 @@ class Library
      */
     public static function path($path, $param = [], $add = '')
     {
-        $app = ResourceManager::getApp();
+        Deprecated::method(3.0, UrlGeneratorInterface::class . '::generate');
+
+        $app = AppSingleton::get();
 
         if (!empty($add) && $add[0] != '?') {
             $add = '?' . $add;
@@ -116,6 +132,8 @@ class Library
     /**
      * Simple wrapper for $app->redirect($app['url_generator']->generate());.
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $path
      * @param array  $param
      * @param string $add
@@ -124,11 +142,15 @@ class Library
      */
     public static function redirect($path, $param = [], $add = '')
     {
-        return ResourceManager::getApp()->redirect(self::path($path, $param, $add));
+        Deprecated::method(3.0);
+
+        return new RedirectResponse(self::path($path, $param, $add));
     }
 
     /**
      * Create a simple redirect to a page / path.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string $path
      * @param bool   $abort
@@ -137,7 +159,7 @@ class Library
      */
     public static function simpleredirect($path, $abort = false)
     {
-        $app = ResourceManager::getApp();
+        Deprecated::method(3.0);
 
         if (empty($path)) {
             $path = '/';
@@ -149,7 +171,7 @@ class Library
             return $path;
         }
 
-        $app->abort(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
+        throw new HttpException(Response::HTTP_SEE_OTHER, "Redirecting to '$path'.");
     }
 
     /**

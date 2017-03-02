@@ -2,6 +2,7 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Helpers\Deprecated;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -30,6 +31,8 @@ class Composer extends Standard
 
     public function getVerifier()
     {
+        Deprecated::method(3.3);
+
         if (! $this->verifier) {
             $this->verifier = new ComposerChecks($this);
         }

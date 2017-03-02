@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Legacy\AppSingleton;
 use Silex\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -32,7 +32,7 @@ trait ContentRouteTrait
         $perm = 'contenttype:' . $this->contenttype['slug'] . ':edit:' . $this->id;
 
         if ($this->app['users']->isAllowed($perm)) {
-            return $this->app->generatePath('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ]);
+            return $this->app['url_generator']->generate('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ]);
         } else {
             return false;
         }
@@ -77,7 +77,7 @@ trait ContentRouteTrait
     public function getRouteNameAndParams()
     {
         if (empty($this->app)) {
-            $this->app = ResourceManager::getApp();
+            $this->app = AppSingleton::get();
         }
 
         if (empty($this->id)) {

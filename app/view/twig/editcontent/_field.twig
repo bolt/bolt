@@ -11,7 +11,7 @@
     {% endif %}
 
     {# Fields #}
-    {% set labelkey = field.label ?: key|ucfirst %}
+    {% set labelkey = field.label ?: key|capitalize %}
 
     {# Temporary approach until v4. @see https://github.com/bolt/bolt/issues/5237 #}
     {% set templatename = context.fields[field.type].template %}

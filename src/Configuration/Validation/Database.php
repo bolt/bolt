@@ -3,7 +3,7 @@
 namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Exception\Configuration\Validation\Database\DatabaseParameterException;
 use Bolt\Exception\Configuration\Validation\Database\InsecureDatabaseException;
 use Bolt\Exception\Configuration\Validation\Database\MissingDatabaseExtensionException;
@@ -17,10 +17,10 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Database implements ValidationInterface, ResourceManagerAwareInterface, ConfigAwareInterface
+class Database implements ValidationInterface, PathResolverAwareInterface, ConfigAwareInterface
 {
-    /** @var ResourceManager */
-    private $resourceManager;
+    /** @var PathResolver */
+    private $pathResolver;
     /** @var Config */
     private $config;
 
@@ -64,9 +64,9 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
     /**
      * {@inheritdoc}
      */
-    public function setResourceManager(ResourceManager $resourceManager)
+    public function setPathResolver(PathResolver $pathResolver)
     {
-        $this->resourceManager = $resourceManager;
+        $this->pathResolver = $pathResolver;
     }
 
     /**
@@ -109,7 +109,7 @@ class Database implements ValidationInterface, ResourceManagerAwareInterface, Co
             // At this point, it is possible that the site has been moved and
             // the configured Sqlite database file path is no longer relevant
             // to the site's root path
-            $cacheJson = $this->resourceManager->getPath('cache/config-cache.json');
+            $cacheJson = $this->pathResolver->resolve('%cache%/config-cache.json');
             if ($fs->exists($cacheJson)) {
                 $fs->remove($cacheJson);
                 $this->config->initialize();

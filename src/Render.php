@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Response\TemplateResponse;
 use Silex;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Render
 {
-    public $app;
+    private $app;
     /** @var boolean */
-    public $safe;
+    private $safe;
 
     /**
      * Set up the object.
@@ -32,8 +33,24 @@ class Render
      */
     public function __construct(Silex\Application $app, $safe = false)
     {
+        Deprecated::method(3.3);
+
         $this->app = $app;
         $this->safe = $safe;
+    }
+
+    public function __get($property)
+    {
+        Deprecated::method(3.3);
+
+        return $this->$property;
+    }
+
+    public function __set($property, $value)
+    {
+        Deprecated::method(3.3);
+
+        $this->$property = $value;
     }
 
     /**
@@ -49,6 +66,8 @@ class Render
      */
     public function render($templateName, $context = [], $globals = [])
     {
+        Deprecated::method(3.3);
+
         $template = $this->app['twig']->resolveTemplate($templateName);
 
         foreach ($globals as $name => $value) {
@@ -75,6 +94,8 @@ class Render
      */
     public function hasTemplate($template)
     {
+        Deprecated::method(3.3);
+
         $loader = $this->app['twig']->getLoader();
 
         /*
@@ -104,6 +125,8 @@ class Render
      */
     public function fetchCachedRequest()
     {
+        Deprecated::method(3.3);
+
         $response = false;
         if ($this->checkCacheConditions('request', true)) {
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
@@ -139,6 +162,8 @@ class Render
      */
     public function cacheRequest(Response $response)
     {
+        Deprecated::method(3.3);
+
         if ($this->checkCacheConditions('request')) {
             $html = $response->getContent();
 
@@ -158,6 +183,8 @@ class Render
      */
     public function cacheDuration()
     {
+        Deprecated::method(3.3);
+
         // in minutes.
         $duration = $this->app['config']->get('general/caching/duration', 10);
 
@@ -177,6 +204,8 @@ class Render
      */
     public function checkCacheConditions($type = 'template', $checkoverride = false)
     {
+        Deprecated::method(3.3);
+
         // Do not cache in "safe" mode: we don't want to accidentally bleed
         // sensitive data from a previous unsafe run.
         if ($this->safe) {

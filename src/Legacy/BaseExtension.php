@@ -3,11 +3,8 @@
 namespace Bolt\Legacy;
 
 use Bolt\Extension\SimpleExtension;
-use Bolt\Helpers\Deprecated;
 use Composer\Json\JsonFile;
 use Silex\Application;
-
-Deprecated::cls(BaseExtension::class, 3.0, SimpleExtension::class);
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.

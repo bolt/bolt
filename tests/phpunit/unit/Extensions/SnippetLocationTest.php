@@ -11,7 +11,7 @@ use Bolt\Tests\BoltUnitTest;
  */
 class SnippetLocationTest extends BoltUnitTest
 {
-    public function testSetup()
+    public function testLegacyListAll()
     {
         $app = $this->getApp();
         $location = new Location();

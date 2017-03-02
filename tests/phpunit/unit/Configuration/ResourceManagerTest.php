@@ -12,21 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
  *
+ * @group legacy
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class ResourceManagerTest extends BoltUnitTest
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $app = $this->getApp();
-        $filesystem = $app['filesystem'];
-        if ($filesystem->has('config://config.yml')) {
-            $filesystem->delete('config://config.yml');
-        }
-    }
-
     public function testConstruction()
     {
         $container = new \Pimple(

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Configuration\ResourceManager;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -46,7 +45,6 @@ class DatabaseTest extends ControllerUnitTest
             ->will($this->returnValue($checkResponse));
 
         $this->setService('schema', $check);
-        ResourceManager::$theApp = $this->getApp();
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST'));
         $response = $this->controller()->update($this->getRequest());
