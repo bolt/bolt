@@ -6,10 +6,9 @@ use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
-use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Adapter\Memory;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
-use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Manager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\AssetExtension;
@@ -94,91 +93,56 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $dir = $app['filesystem']->getDir('extensions://');
-        $dir->setPath('local/bolt/koala');
+        $filesystem = new Manager([
+            'theme' => new Filesystem(new Memory()),
+            'web' => new Filesystem(new Memory()),
+        ]);
+        $app['filesystem'] = $filesystem;
 
         $ext = new AssetExtension();
-        $ext->setAssets([new JavaScript('test.js')]);
+        $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
-        $ext->setBaseDirectory($dir);
+        $ext->setWebDirectory($filesystem->getDir('web://extensions/local/bolt/koala'));
 
-        $mockFile = $this->getMockBuilder(File::class)
-            ->setMethods(['exists', 'getPath'])
-            ->getMock()
-        ;
-        $mockFile
-            ->method('exists')
-            ->willReturn(true)
-        ;
-        $mockFile
-            ->method('getPath')
-            ->willReturn('/extensions/local/bolt/koala/test.js')
-        ;
-        $mockDir = $this->getMockBuilder(Directory::class)
-            ->setMethods(['getFile'])
-            ->getMock()
-        ;
-        $mockDir
-            ->method('getFile')
-            ->willReturn($mockFile)
-        ;
-        $ext->setWebDirectory($mockDir);
-
-        //$app['filesystem'] = $mock;
         $ext->register($app);
+
+        $filesystem->put('web://extensions/local/bolt/koala/js/test.js', '');
 
         $fileQueue = $app['asset.queue.file']->getQueue();
 
+        /** @var JavaScript $queued */
         $queued = reset($fileQueue['javascript']);
-        $this->assertInstanceOf('Bolt\Asset\File\JavaScript', $queued);
-        $this->assertSame('/extensions/local/bolt/koala/test.js', $queued->getFileName());
+        $this->assertInstanceOf(JavaScript::class, $queued);
+        $this->assertSame('extensions/local/bolt/koala/js/test.js', $queued->getFileName());
+        $this->assertSame('extensions', $queued->getPackageName());
     }
 
     public function testRegisterValidAssetsThemePath()
     {
         $app = $this->getApp();
 
-        $mockParams = [
-            'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
-            'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
-            'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
-            'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
-            'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
-            'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
-            'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
-            'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
-            'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
-            'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
-            'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
-        ];
-        $mock = $this->getMockBuilder(Manager::class)
-            ->setMethods(['has'])
-            ->setConstructorArgs([$mockParams])
-            ->getMock()
-        ;
-        $mock->expects($this->any())
-            ->method('has')
-            ->willReturn(true)
-        ;
+        $filesystem = new Manager([
+            'theme' => new Filesystem(new Memory()),
+            'web' => new Filesystem(new Memory()),
+        ]);
+        $app['filesystem'] = $filesystem;
 
-        $dir = $app['filesystem']->getDir('extensions://local/bolt/koala');
+        $filesystem->put('theme://js/test.js', '');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
-        $ext->setBaseDirectory($dir);
+        $ext->setWebDirectory($filesystem->getDir('web://bolt/koala'));
 
-        $webDir = $app['filesystem']->getDir('extensions://');
-        $ext->setWebDirectory($webDir);
-
-        $app['filesystem'] = $mock;
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
 
+        /** @var JavaScript $queued */
         $queued = reset($fileQueue['javascript']);
-        $this->assertInstanceOf('Bolt\Asset\File\JavaScript', $queued);
+        $this->assertInstanceOf(JavaScript::class, $queued);
         $this->assertSame('js/test.js', $queued->getFileName());
+        $this->assertSame('theme', $queued->getPackageName());
     }
 
     public function testRegisterInvalidAssets()

@@ -18,17 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResourceManagerTest extends BoltUnitTest
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $app = $this->getApp();
-        $filesystem = $app['filesystem'];
-        if ($filesystem->has('config://config.yml')) {
-            $filesystem->delete('config://config.yml');
-        }
-    }
-
     public function testConstruction()
     {
         $container = new \Pimple(

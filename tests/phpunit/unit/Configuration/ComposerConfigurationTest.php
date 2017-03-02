@@ -3,7 +3,6 @@ namespace Bolt\Tests\Configuration;
 
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
-use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\BootException;
 
 /**
@@ -99,7 +98,6 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
         $config->setPathResolver($config->getPathResolverFactory()->create());
 
         $app['resources'] = $config;
-        ResourceManager::$theApp = $app;
 
         // Check we get an exception if the directory isn't writable
         $this->php

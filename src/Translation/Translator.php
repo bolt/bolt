@@ -2,7 +2,7 @@
 
 namespace Bolt\Translation;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Legacy\AppSingleton;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 /**
@@ -45,7 +45,7 @@ class Translator
      */
     private static function trans($key, array $params = [], $domain = 'messages', $locale = null, $default = null)
     {
-        $app = ResourceManager::getApp();
+        $app = AppSingleton::get();
 
         // Handle default parameter
         if (isset($params['DEFAULT'])) {
@@ -97,7 +97,7 @@ class Translator
 
         $name = self::trans($key, [], 'contenttypes', $locale);
         if ($name === $key) {
-            $app = ResourceManager::getApp();
+            $app = AppSingleton::get();
 
             $name = $app['config']->get('contenttypes/' . $contenttype . ($singular ? '/singular_name' : '/name'));
             if (empty($name)) {
@@ -134,7 +134,7 @@ class Translator
 
         // Try to get a real translation from contenttypes.xx_XX.yml
         $trans = self::trans($key, $encParams, 'contenttypes', $locale, false);
-        $app = ResourceManager::getApp();
+        $app = AppSingleton::get();
         $localeFallbacks = $app['locale_fallbacks'];
         $transFallback = self::trans($key, $encParams, 'contenttypes', reset($localeFallbacks), false);
 

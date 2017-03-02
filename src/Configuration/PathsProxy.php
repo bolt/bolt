@@ -2,6 +2,8 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Bolt\Configuration\ResourceManager::getPaths() is proxied here, which used to return a simple array.
  *
@@ -39,6 +41,13 @@ class PathsProxy implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
+        Deprecated::warn(
+            "\$app['paths']['$offset'] in PHP and {{ paths.$offset }} in Twig",
+            3.0,
+            'Instead use UrlGenerator or Asset Packages for urls, and Bolt\Filesystem (recommended)' .
+            ' or PathResolver::resolve for filesystem paths.'
+        );
+
         try {
             return $this->resources->getRequest($offset);
         } catch (\InvalidArgumentException $e) {
@@ -62,7 +71,7 @@ class PathsProxy implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        throw new \LogicException('Use Bolt\Configuration\ResourceManager::setUrl() or setPath() instead.');
+        throw new \LogicException('You cannot change urls or paths.');
     }
 
     /**

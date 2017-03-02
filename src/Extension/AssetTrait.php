@@ -190,7 +190,7 @@ trait AssetTrait
 
         $themeFile = $app['filesystem']->getFile(sprintf('theme://%s', $path));
         if ($themeFile->exists()) {
-            $asset->setPackageName('theme')->setPath($path);
+            $asset->setPackageName('theme');
 
             return;
         }

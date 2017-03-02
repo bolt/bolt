@@ -2,7 +2,10 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Excerpt;
+use Bolt\Helpers\Str;
 use Bolt\Pager\PagerManager;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -20,28 +23,28 @@ class RecordRuntime
     private $requestStack;
     /** @var PagerManager */
     private $pagerManager;
-    /** @var string */
-    private $templatesPath;
+    /** @var DirectoryInterface */
+    private $templatesDir;
     /** @var array */
     private $themeTemplateSelect;
 
     /**
      * Constructor.
      *
-     * @param RequestStack $requestStack
-     * @param PagerManager $pagerManager
-     * @param string       $templatesPath
-     * @param array        $themeTemplateSelect
+     * @param RequestStack       $requestStack
+     * @param PagerManager       $pagerManager
+     * @param DirectoryInterface $templatesDir
+     * @param array              $themeTemplateSelect
      */
     public function __construct(
         RequestStack $requestStack,
         PagerManager $pagerManager,
-        $templatesPath,
+        DirectoryInterface $templatesDir,
         array $themeTemplateSelect
     ) {
         $this->requestStack = $requestStack;
         $this->pagerManager = $pagerManager;
-        $this->templatesPath = $templatesPath;
+        $this->templatesDir = $templatesDir;
         $this->themeTemplateSelect = $themeTemplateSelect;
     }
 
@@ -190,9 +193,10 @@ class RecordRuntime
         $files = [];
 
         $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';
-        $finder = new Finder();
-        $finder->files()
-            ->in($this->templatesPath)
+
+        /** @var Finder|FileInterface[] $finder */
+        $finder = $this->templatesDir->find()
+            ->files()
             ->notName('/^_/')
             ->notPath('node_modules')
             ->notPath('bower_components')
@@ -203,7 +207,7 @@ class RecordRuntime
         ;
 
         foreach ($finder as $file) {
-            $name = $file->getRelativePathname();
+            $name = Str::replaceFirst($this->templatesDir->getFullPath(), '', $file->getFullPath());
             $files[$name] = $name;
         }
 
