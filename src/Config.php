@@ -1196,40 +1196,6 @@ class Config
     }
 
     /**
-     * Build an array of Twig paths.
-     *
-     * @return string[]
-     */
-    public function getTwigPath()
-    {
-        Deprecated::method(3.3);
-
-        $themepath = $this->app['resources']->getPath('templatespath');
-
-        $twigpath = [];
-
-        if (file_exists($themepath)) {
-            $twigpath[] = $themepath;
-        } else {
-            // If the template path doesn't exist, flash error on the dashboard.
-            $relativethemepath = basename($this->get('general/theme'));
-            $theme = $this->get('theme');
-            if (isset($theme['template_directory'])) {
-                $relativethemepath .= '/' . $this->get('theme/template_directory');
-            }
-
-            $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
-            $this->app['logger.flash']->danger($error);
-        }
-
-        // We add these later, because the order is important: By having theme/ourtheme first,
-        // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = $this->app['resources']->getPath('src/../app/theme_defaults');
-
-        return $twigpath;
-    }
-
-    /**
      * @deprecated Deprecated since 3.3, to be removed in 4.0.
      */
     public function setCKPath()

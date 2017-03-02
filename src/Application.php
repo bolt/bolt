@@ -48,10 +48,6 @@ class Application extends Silex\Application
         // Extension 2nd phase: Run extension's boot code.
         $this->register(new Provider\ExtensionServiceProvider(false));
 
-        if (isset($values['resources'])) {
-            $this['resources'] = $values['resources'];
-            unset($values['resources']);
-        }
         $this->register(new PathServiceProvider());
 
         $this->initConfig();
