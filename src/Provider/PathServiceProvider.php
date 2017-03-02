@@ -4,8 +4,6 @@ namespace Bolt\Provider;
 
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Exception\BootException;
-use Bolt\Helpers\Deprecated;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -40,16 +38,6 @@ class PathServiceProvider implements ServiceProviderInterface
         );
         $app['path_resolver.root'] = '';
         $app['path_resolver.paths'] = [];
-
-        $app['pathmanager'] = $app->share(
-            function () {
-                Deprecated::service('pathmanager', 3.3, 'filesystem');
-
-                $filesystempath = new PlatformFileSystemPathFactory();
-
-                return $filesystempath;
-            }
-        );
     }
 
     public function boot(Application $app)

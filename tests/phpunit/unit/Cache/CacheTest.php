@@ -4,7 +4,6 @@ namespace Bolt\Tests\Cache;
 
 use Bolt\Cache;
 use Bolt\Tests\BoltUnitTest;
-use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 class CacheTest extends BoltUnitTest
 {
@@ -22,8 +21,7 @@ class CacheTest extends BoltUnitTest
     public function setUp()
     {
         $app = $this->getApp();
-        $path = new PlatformFileSystemPathFactory();
-        $this->workspace = $path->createTemporaryPath();
+        $this->workspace = sys_get_temp_dir() . '/' . uniqid('', true);
         mkdir($this->workspace, 0777, true);
         $this->workspace = realpath($this->workspace);
         $this->cache = new Cache(
