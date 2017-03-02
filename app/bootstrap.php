@@ -2,10 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\Composer;
 use Bolt\Configuration\PathResolverFactory;
-use Bolt\Configuration\ResourceManager;
-use Bolt\Configuration\Standard;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
@@ -21,8 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  * - Figure out root path
  * - Bring in the autoloader
  * - Load initialization config from .bolt file
- * - Load and verify configuration
- * - Initialize the application
+ * - Configure paths, services, and extensions
  *
  * @throws BootException
  *
@@ -36,16 +32,14 @@ return call_user_func(function () {
     // Resolve Bolt-root
     $boltRootPath = realpath(__DIR__ . '/..');
 
-    // Look for the autoloader in known positions relative to the Bolt-root,
-    // and autodetect an appropriate configuration class based on this
-    // information. (autoload.php path maps to a configuration class)
+    // Look for the autoloader in known positions relative to Bolt's root
     $autodetectionMappings = [
-        $boltRootPath . '/vendor/autoload.php' => [Standard::class, $boltRootPath],
-        $boltRootPath . '/../../autoload.php'  => [Composer::class, $boltRootPath . '/../../..'],
+        $boltRootPath . '/vendor/autoload.php' => $boltRootPath,
+        $boltRootPath . '/../../autoload.php'  => $boltRootPath . '/../../..',
     ];
 
     $error = true;
-    foreach ($autodetectionMappings as $autoloadPath => list($resourcesClass, $rootPath)) {
+    foreach ($autodetectionMappings as $autoloadPath => $rootPath) {
         if (!file_exists($autoloadPath)) {
             continue;
         }
@@ -76,7 +70,6 @@ return call_user_func(function () {
      */
     $config = [
         'application' => null,
-        'resources'   => null,
         'paths'       => [],
         'services'    => [],
         'extensions'  => [],
@@ -110,49 +103,6 @@ return call_user_func(function () {
         return $pathResolverFactory;
     });
 
-    $resourcesFactory = \Pimple::share(function () use ($config, $resourcesClass, $rootPath, $pathResolverFactoryFactory) {
-        // Use resources from config, or instantiate the class based on mapping above.
-        if ($config['resources'] instanceof ResourceManager) {
-            $resources = $config['resources'];
-        } else {
-            if ($config['resources'] !== null && is_a($config['resources'], ResourceManager::class, true)) {
-                $resourcesClass = $config['resources'];
-            }
-
-            $passPathResolverFactory = false;
-            if ($resourcesClass === Composer::class || $resourcesClass === Standard::class) {
-                $passPathResolverFactory = true;
-            } else {
-                $r = (new \ReflectionClass($resourcesClass))->getConstructor();
-                if ($r->getNumberOfParameters() > 2 && $r->getParameters()[2]->getClass()->name === PathResolverFactory::class) {
-                    $passPathResolverFactory = true;
-                }
-            }
-
-            if ($passPathResolverFactory) {
-                $pathResolverFactory = $pathResolverFactoryFactory(null);
-                $resources = new $resourcesClass($rootPath, null, $pathResolverFactory);
-            } else {
-                $resources = new $resourcesClass($rootPath);
-            }
-        }
-        /** @var \Bolt\Configuration\ResourceManager $resources */
-
-        // Set any non-standard paths
-        foreach ((array) $config['paths'] as $name => $path) {
-            $resources->setPath($name, $path, false);
-        }
-
-        $resources->verify();
-
-        return $resources;
-    });
-
-    // If resources is already initialized, go ahead and customize it now.
-    if ($config['resources'] instanceof ResourceManager) {
-        $resourcesFactory = $resourcesFactory(null);
-    }
-
     // Create the 'Bolt application'
     $appClass = Application::class;
     if ($config['application'] !== null && is_a($config['application'], Silex\Application::class, true)) {
@@ -160,11 +110,9 @@ return call_user_func(function () {
     }
     /** @var Silex\Application $app */
     $app = new $appClass([
-        'resources'             => $resourcesFactory,
         'path_resolver_factory' => $pathResolverFactoryFactory,
         'path_resolver.root'    => $rootPath,
         'path_resolver.paths'   => (array) $config['paths'],
-        'resources.bootstrap'   => $config['resources'] !== null,
     ]);
 
     foreach ((array) $config['services'] as $service) {

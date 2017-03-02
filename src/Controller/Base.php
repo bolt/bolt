@@ -443,12 +443,4 @@ abstract class Base implements ControllerProviderInterface
     {
         return $this->app['db']->createQueryBuilder();
     }
-
-    /**
-     * @return \Bolt\Configuration\ResourceManager
-     */
-    protected function resources()
-    {
-        return $this->app['resources'];
-    }
 }
