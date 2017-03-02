@@ -176,7 +176,7 @@ class GeneralTest extends ControllerUnitTest
         $this->assertTrue($response instanceof RedirectResponse);
         $this->assertTrue($response->isRedirect('/bolt/tr/contenttypes/en_CY'));
 
-        $this->rmdir($this->getService('resources')->getPath('app/resources/translations/en_CY'));
+        $this->rmdir($this->getService('path_resolver')->resolve('%app%/resources/translations/en_CY'));
 
         // Check that YML parse errors get caught
         $this->setRequest(Request::create(

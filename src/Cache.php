@@ -6,7 +6,6 @@ use Bolt\Filesystem\AggregateFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
-use Bolt\Legacy\Deprecation;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**
