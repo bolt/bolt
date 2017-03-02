@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Legacy\AppSingleton;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
@@ -26,6 +27,9 @@ class Application extends Silex\Application
     public function __construct(array $values = [])
     {
         parent::__construct();
+
+        /** @deprecated since 3.3, to be removed in 4.0. */
+        AppSingleton::set($this);
 
         /** @deprecated since 3.0, to be removed in 4.0. */
         $values['bolt_version'] = Version::VERSION;

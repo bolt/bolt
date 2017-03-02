@@ -137,7 +137,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
              * @var \SplFileInfo $fileInfo
              */
             foreach ($iterator as $fileInfo) {
-                $ext = Lib::getExtension((string) $fileInfo);
+                $ext = pathinfo($fileInfo, PATHINFO_EXTENSION);
                 if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'], true)) {
                     continue;
                 }

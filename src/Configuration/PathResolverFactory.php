@@ -73,7 +73,7 @@ class PathResolverFactory
      */
     public function addPaths(array $paths)
     {
-        $this->paths = $paths + $this->paths;
+        $this->paths = array_replace($this->paths, $paths);
 
         return $this;
     }

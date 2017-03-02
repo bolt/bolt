@@ -4,7 +4,6 @@ namespace Bolt\EventListener;
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
-use Bolt\Render;
 use Bolt\TemplateChooser;
 use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

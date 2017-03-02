@@ -2,7 +2,7 @@
 
 namespace Bolt\Logger\Handler;
 
-use Bolt\DeepDiff;
+use Bolt\Helpers\Arr;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
@@ -166,7 +166,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $data = [];
         switch ($context['action']) {
             case 'UPDATE':
-                $diff = DeepDiff::diff($context['old'], $context['new']);
+                $diff = Arr::deepDiff($context['old'], $context['new']);
                 foreach ($diff as $item) {
                     list($k, $old, $new) = $item;
                     if (isset($context['new'][$k])) {

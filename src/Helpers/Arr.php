@@ -2,9 +2,6 @@
 
 namespace Bolt\Helpers;
 
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
-
 class Arr
 {
     /**
@@ -133,6 +130,44 @@ class Arr
     }
 
     /**
+     * @internal This may be removed at any point.
+     *
+     * @param array $a
+     * @param array $b
+     *
+     * @return array [key, left, right][]
+     */
+    public static function deepDiff(array $a, array $b)
+    {
+        if (empty($a)) {
+            $a = [];
+        }
+        if (empty($b)) {
+            $b = [];
+        }
+        $keys = array_keys($a + $b);
+        $result = [];
+
+        foreach ($keys as $k) {
+            if (empty($a[$k])) {
+                $l = null;
+            } else {
+                $l = $a[$k];
+            }
+            if (empty($b[$k])) {
+                $r = null;
+            } else {
+                $r = $b[$k];
+            }
+            if ($l != $r) {
+                $result[] = [$k, $l, $r];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Make a simple array consisting of key=>value pairs, that can be used
      * in select-boxes in forms.
      *
@@ -212,21 +247,5 @@ class Arr
         }
 
         return true;
-    }
-
-    public static function isEmptyArray($input)
-    {
-        if (!is_array($input)) {
-            return false;
-        }
-        $empty = true;
-        foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($input), RecursiveIteratorIterator::LEAVES_ONLY) as $key => $value) {
-            $empty = (empty($value) && $value !== '0' && $value !== 0);
-            if (!$empty) {
-                return false;
-            }
-        }
-
-        return $empty;
     }
 }

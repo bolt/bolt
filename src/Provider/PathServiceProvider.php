@@ -2,19 +2,20 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Configuration\Composer;
 use Bolt\Configuration\ForwardToPathResolver;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
-use Bolt\Configuration\PreBoot\ConfigurationFile;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Exception\BootException;
+use Bolt\Helpers\Deprecated;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class PathServiceProvider implements ServiceProviderInterface
 {
+    private $deprecatedResources = false;
+
     public function register(Application $app)
     {
         // @deprecated
@@ -47,29 +48,11 @@ class PathServiceProvider implements ServiceProviderInterface
 
         $app['pathmanager'] = $app->share(
             function () {
+                Deprecated::service('pathmanager', 3.3, 'filesystem');
+
                 $filesystempath = new PlatformFileSystemPathFactory();
 
                 return $filesystempath;
-            }
-        );
-
-        $app['resources.check_files'] = $app->protect(
-            function (ResourceManager $resources) {
-                static $initialized;
-                if ($initialized) {
-                    return;
-                }
-                $initialized = true;
-
-                if (!file_exists($resources->getPath('web')) && $resources instanceof Composer) {
-                    BootException::earlyExceptionMissingLoaderConfig();
-                }
-
-                ConfigurationFile::checkConfigFiles(
-                    ['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'],
-                    $resources->getPath('src/../app/config'),
-                    $resources->getPath('config')
-                );
             }
         );
 
@@ -80,7 +63,7 @@ class PathServiceProvider implements ServiceProviderInterface
                         'rootpath'              => $app['path_resolver.root'],
                         'path_resolver'         => $app['path_resolver'],
                         'path_resolver_factory' => $app['path_resolver_factory'],
-                        'pathmanager'           => $app['pathmanager'],
+                        'pathmanager'           => new PlatformFileSystemPathFactory(), // Created here so we don't trigger false positive warning
                     ]));
 
                     return $resources;
@@ -94,19 +77,21 @@ class PathServiceProvider implements ServiceProviderInterface
             $app['path_resolver_factory'] = $resources->getPathResolverFactory();
 
             $resources->setApp($app);
-
-            $app['resources.check_files']($resources);
         };
 
         // Run resources setup either immediately if instance is given or lazily if closure is given.
         $resources = $app->raw('resources');
         if ($resources instanceof ResourceManager) {
+            $this->deprecatedResources = true;
+
             $resourcesSetup($resources);
         } else {
             $app['resources'] = $app->share(
                 $app->extend(
                     'resources',
                     function ($resources) use ($resourcesSetup) {
+                        Deprecated::service('resources', 3.3);
+
                         $resourcesSetup($resources);
 
                         return $resources;
@@ -116,6 +101,8 @@ class PathServiceProvider implements ServiceProviderInterface
         }
 
         $app['classloader'] = $app->share(function ($app) {
+            Deprecated::service('classloader', 3.3);
+
             return $app['resources']->getClassLoader();
         });
 
@@ -128,7 +115,26 @@ class PathServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        if ($this->deprecatedResources) {
+            Deprecated::warn('Passing a ResourceManager configuration into Application via "resources"', 3.3, 'Set custom paths with $app["path_resolver.paths"] instead.');
+        }
+        if (isset($app['resources.bootstrap']) && $app['resources.bootstrap']) {
+            Deprecated::warn(
+                'Specifying a ResourceManager configuration via the "resources" option in .bolt.yml/php',
+                3.3,
+                'Use "paths" instead.'
+            );
+        }
+
+        $resolver = $app['path_resolver'];
+
         $theme = $app['config']->get('general/theme');
-        $app['path_resolver']->define('theme', "%themes%/$theme");
+        $resolver->define('theme', "%themes%/$theme");
+
+        if (!file_exists($resolver->resolve('web')) &&
+            (!file_exists($resolver->resolve('.bolt.yml')) || !file_exists($resolver->resolve('.bolt.php')))
+        ) {
+            BootException::earlyExceptionMissingLoaderConfig();
+        }
     }
 }

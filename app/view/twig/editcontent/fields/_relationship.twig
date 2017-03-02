@@ -45,7 +45,7 @@
 {% block fieldset_type 'relationship' %}
 {% block fieldset_widget 'fieldRelationship' %}
 
-{% block fieldset_label_text  relation.label|default(relcontenttype|ucfirst) %}
+{% block fieldset_label_text  relation.label|default(relcontenttype|capitalize) %}
 {% block fieldset_label_class 'col-sm-4' %}
 
 {% block fieldset_controls %}

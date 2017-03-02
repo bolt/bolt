@@ -20,7 +20,6 @@ class Timer
     /** @var boolean */
     protected $expired;
 
-    const CHECK_TIMESTAMP_FILE = 'dbcheck.ts';
     const CHECK_INTERVAL = 1800;
 
     /**

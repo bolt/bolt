@@ -101,7 +101,7 @@ class FilePermissions
             return false;
         }
         // only whitelisted extensions
-        $extension = strtolower(Lib::getExtension($originalFilename));
+        $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
         return in_array($extension, $allowedExtensions);

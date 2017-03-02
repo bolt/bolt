@@ -2,8 +2,6 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Helpers\Deprecated;
-
 /**
  * Lazy-loading EntityManager.
  *
@@ -56,8 +54,6 @@ class LazyEntityManager implements EntityManagerInterface
      */
     public function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
     {
-        Deprecated::method();
-
         return $this->getEntityManager()->legacy()->getContent($textQuery, $parameters, $pager, $whereParameters);
     }
 }

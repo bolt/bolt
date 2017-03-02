@@ -6,7 +6,6 @@ use Bolt\Configuration\Composer;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\Standard;
-use Bolt\Debug\ShutdownHandler;
 use Bolt\Exception\BootException;
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
@@ -141,7 +140,7 @@ return call_user_func(function () {
 
         // Set any non-standard paths
         foreach ((array) $config['paths'] as $name => $path) {
-            $resources->setPath($name, $path);
+            $resources->setPath($name, $path, false);
         }
 
         $resources->verify();
@@ -165,6 +164,7 @@ return call_user_func(function () {
         'path_resolver_factory' => $pathResolverFactoryFactory,
         'path_resolver.root'    => $rootPath,
         'path_resolver.paths'   => (array) $config['paths'],
+        'resources.bootstrap'   => $config['resources'] !== null,
     ]);
 
     foreach ((array) $config['services'] as $service) {

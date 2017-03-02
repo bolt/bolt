@@ -3,8 +3,7 @@
 namespace Bolt\Configuration\Validation;
 
 use Bolt\Config;
-use Bolt\Configuration\LowlevelChecks;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Exception\BootException;
 use Bolt\Logger\FlashLoggerInterface;
 
@@ -16,7 +15,7 @@ use Bolt\Logger\FlashLoggerInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Validator extends LowlevelChecks implements ValidatorInterface
+class Validator implements ValidatorInterface
 {
     const CHECK_APACHE = 'apache';
     const CHECK_CACHE = 'cache';
@@ -27,8 +26,8 @@ class Validator extends LowlevelChecks implements ValidatorInterface
 
     /** @var Config */
     private $configManager;
-    /** @var ResourceManager */
-    private $resourceManager;
+    /** @var PathResolver */
+    private $pathResolver;
     /** @var FlashLoggerInterface */
     private $flashLogger;
     /** @var array */
@@ -45,17 +44,16 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      * Constructor.
      *
      * @param Config               $config
-     * @param ResourceManager      $resourceManager
+     * @param PathResolver         $pathResolver
      * @param FlashLoggerInterface $flashLogger
      */
     public function __construct(
         Config $config,
-        ResourceManager $resourceManager,
+        PathResolver $pathResolver,
         FlashLoggerInterface $flashLogger
     ) {
-        parent::__construct($resourceManager);
         $this->configManager = $config;
-        $this->resourceManager = $resourceManager;
+        $this->pathResolver = $pathResolver;
         $this->flashLogger = $flashLogger;
     }
 
@@ -92,10 +90,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      */
     public function check($checkName)
     {
-        if ($this->disableApacheChecks && $checkName === 'apache') {
-            return null;
-        }
-
         $className = $this->check[$checkName];
 
         return $this
@@ -109,10 +103,6 @@ class Validator extends LowlevelChecks implements ValidatorInterface
      */
     public function checks()
     {
-        if ($this->disableApacheChecks) {
-            unset($this->check['apache']);
-        }
-
         foreach ($this->check as $checkName => $className) {
             $this
                 ->getValidator($className, $checkName)
@@ -136,8 +126,8 @@ class Validator extends LowlevelChecks implements ValidatorInterface
         if (!$validator instanceof ValidationInterface) {
             throw new BootException(sprintf('System validator was given a validation class %s that does not implement %s', $className, ValidationInterface::class));
         }
-        if ($validator instanceof ResourceManagerAwareInterface) {
-            $validator->setResourceManager($this->resourceManager);
+        if ($validator instanceof PathResolverAwareInterface) {
+            $validator->setPathResolver($this->pathResolver);
         }
         if ($validator instanceof ConfigAwareInterface) {
             $validator->setConfig($this->configManager);
