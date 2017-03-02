@@ -31,7 +31,7 @@ class MenuTraitTest extends BoltUnitTest
         $this->assertSame([], $extendMenu->children());
     }
 
-    public function testMenuAdds()
+    public function testLegacyMenuAdds()
     {
         $app = $this->getApp();
 

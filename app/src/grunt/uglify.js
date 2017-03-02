@@ -50,15 +50,21 @@ module.exports = {
             ext: '.min.js',
             cwd: '<%= path.src.lib %>/codemirror',
             src: [
+                'overlay.js',
                 'clike.js',
                 'css.js',
                 'htmlmixed.js',
+                'htmltwig.js',
                 'javascript.js',
                 'markdown.js',
                 'matchbrackets.js',
+                'twig.js',
                 'php.js',
                 'xml.js',
-                'yaml.js'
+                'yaml.js',
+                'fold/foldcode.js',
+                'fold/foldgutter.js',
+                'fold/indent-fold.js'
             ],
             dest: '<%= path.dest.js %>/ckeditor/plugins/codemirror/plugins'
         }]

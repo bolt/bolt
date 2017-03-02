@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\Extension;
@@ -55,7 +56,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\RecordRuntime(
                 $app['request_stack'],
                 $app['pager'],
-                $app['resources']->getPath('templatespath'),
+                $app['filesystem']->getDir('theme://' . $app['config']->get('theme/template_directory')),
                 $app['config']->get('theme/templateselect/templates', [])
             );
         };
@@ -77,7 +78,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_widget'] = function ($app) {
-            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget'], $app['twig.options']['strict_variables']);
+            return new Twig\Runtime\WidgetRuntime($app['asset.queue.widget']);
         };
         $app['twig.runtime.dump'] = function ($app) {
             return new Twig\Runtime\DumpRuntime(
@@ -134,14 +135,9 @@ class TwigServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
 
-                $themePath = 'theme://' . $app['config']->get('theme/template_directory');
-
-                $loader->addPath($themePath, 'theme');
                 $loader->addPath('bolt://app/theme_defaults', 'theme');
                 $loader->addPath('bolt://app/view/twig', 'bolt');
 
-                /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-                $loader->addPath($themePath);
                 $loader->addPath('bolt://app/theme_defaults');
                 $loader->addPath('bolt://app/view/twig');
 
@@ -289,6 +285,8 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['safe_twig'] = $app->share(
             function ($app) {
+                Deprecated::service('safe_twig', 3.3, 'Use "twig" service with sandbox enabled instead.');
+
                 return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
             }
         );
@@ -299,6 +297,10 @@ class TwigServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
+        // Add path here since "theme" filesystem isn't mounted until boot.
+        $themePath = 'theme://' . $app['config']->get('theme/template_directory');
+        $app['twig.loader.bolt_filesystem']->addPath($themePath, 'theme');
+        $app['twig.loader.bolt_filesystem']->addPath($themePath);
     }
 
     protected function registerSandbox(Application $app)

@@ -2,8 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\ResourceManager;
-use Symfony\Component\HttpFoundation\Response;
+use Bolt\Helpers\Deprecated;
 
 /**
  * Class for Bolt's generic library functions.
@@ -54,12 +53,16 @@ class Library
     /**
      * Gets the extension (if any) of a filename.
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $filename
      *
      * @return string
      */
     public static function getExtension($filename)
     {
+        Deprecated::method(3.0, 'Use pathinfo() instead.');
+
         $pos = strrpos($filename, '.');
         if ($pos === false) {
             return '';
@@ -73,12 +76,16 @@ class Library
     /**
      * Encodes a filename, for use in thumbnails, magnific popup, etc.
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param string $filename
      *
      * @return string
      */
     public static function safeFilename($filename)
     {
+        Deprecated::method(3.0);
+
         $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
         $filename = str_replace('%2F', '/', $filename);
 

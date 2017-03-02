@@ -12,7 +12,7 @@ use Bolt\Tests\BoltUnitTest;
  */
 class ManagerTest extends BoltUnitTest
 {
-    public function testManagerDefaultsSetup()
+    public function testLegacyManagerDefaultsSetup()
     {
         $manager = new Manager();
         $this->assertTrue($manager->has('text'));
@@ -35,7 +35,7 @@ class ManagerTest extends BoltUnitTest
         $this->assertTrue($manager->has('slug'));
     }
 
-    public function testAddingFetchingfields()
+    public function testLegacyAddingFetchingfields()
     {
         /** @var Base $field */
         $field = $this->getMockBuilder(Base::class)

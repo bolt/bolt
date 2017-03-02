@@ -604,11 +604,6 @@ GRINGALET;
     {
         $app = $this->getApp();
 
-        return new RecordRuntime(
-            $app['request_stack'],
-            $app['pager'],
-            $app['resources']->getPath('templatespath'),
-            $app['config']->get('theme/templateselect/templates', [])
-        );
+        return $app['twig.runtime.bolt_record'];
     }
 }

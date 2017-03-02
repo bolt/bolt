@@ -8,15 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class to test src/Library.
  *
+ * @group legacy
+ *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class BoltLibraryTest extends BoltUnitTest
 {
-    protected function tearDown()
-    {
-        parent::tearDown();
-    }
-
     public function testFormatFilesize()
     {
         $b = 300;

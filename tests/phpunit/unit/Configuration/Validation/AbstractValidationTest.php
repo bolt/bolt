@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Configuration\Validation;
 
 use Bolt\Config;
-use Bolt\Configuration\ResourceManager;
+use Bolt\Configuration\PathResolver;
 use Bolt\Configuration\Validation;
 use Bolt\Configuration\Validation\Validator;
 use Bolt\Logger\FlashLogger;
@@ -23,8 +23,8 @@ abstract class AbstractValidationTest extends PHPUnit_Framework_TestCase
     protected $validator;
     /** @var Config */
     protected $config;
-    /** @var ResourceManager */
-    protected $resourceManager;
+    /** @var PathResolver */
+    protected $pathResolver;
     /** @var FlashLogger */
     protected $flashLogger;
 
@@ -61,12 +61,12 @@ abstract class AbstractValidationTest extends PHPUnit_Framework_TestCase
         ;
 
         $this->config = $this->prophesize(Config::class);
-        $this->resourceManager = $this->prophesize(ResourceManager::class);
+        $this->pathResolver = $this->prophesize(PathResolver::class);
         $this->flashLogger = $this->prophesize(FlashLogger::class);
 
         $this->validator = new Validator(
             $this->config->reveal(),
-            $this->resourceManager->reveal(),
+            $this->pathResolver->reveal(),
             $this->flashLogger->reveal()
         );
     }
@@ -83,7 +83,7 @@ abstract class AbstractValidationTest extends PHPUnit_Framework_TestCase
     {
         $validator = new Validation\Database();
         $validator->setConfig($this->config->reveal());
-        $validator->setResourceManager($this->resourceManager->reveal());
+        $validator->setPathResolver($this->pathResolver->reveal());
 
         return $validator;
     }

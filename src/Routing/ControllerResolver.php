@@ -3,6 +3,7 @@
 namespace Bolt\Routing;
 
 use Bolt\Extension\ExtensionInterface;
+use Bolt\Helpers\Deprecated;
 use Silex;
 
 /**
@@ -24,6 +25,8 @@ class ControllerResolver extends Silex\ControllerResolver
     {
         $refCls = new \ReflectionClass($class);
         if ($refCls->implementsInterface(ExtensionInterface::class)) {
+            Deprecated::warn('Using Extension class name', 3.3, 'Use controller object in route definition or make the controller a service and use the service name instead.');
+
             /** @var \Bolt\Extension\ResolvedExtension[] $extensions */
             $extensions = $this->app['extensions']->all();
 

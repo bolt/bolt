@@ -115,6 +115,66 @@ class ArrTest extends BoltUnitTest
         ];
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @dataProvider deepDiffProvider
+     */
+    public function testDeepDiff($a, $b, $expected)
+    {
+        $actual = Arr::deepDiff($a, $b);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function deepDiffProvider()
+    {
+        return [
+            'No features at all' => [
+                [],
+                [],
+                [],
+            ],
+            'Feature one stays the same' => [
+                ['feature one' => 'old feature'],
+                ['feature one' => 'old feature'],
+                [],
+            ],
+            'Feature one gets removed' => [
+                ['feature one' => 'old feature'],
+                [],
+                [
+                    ['feature one', 'old feature', null],
+                ],
+            ],
+            'Feature one gets added' => [
+                [],
+                ['feature one' => 'new feature'],
+                [
+                    ['feature one', null, 'new feature'],
+                ],
+            ],
+            'Feature one gets updated' => [
+                ['feature one' => 'old feature one'],
+                ['feature one' => 'new feature one'],
+                [
+                    ['feature one', 'old feature one', 'new feature one'],
+                ],
+            ],
+            'Multi feature one & two get updated' => [
+                [
+                    'feature one' => 'old feature one',
+                    'feature two' => 'old feature two',
+                ],
+                [
+                    'feature one' => 'new feature one',
+                    'feature two' => 'new feature two',
+                ],
+                [
+                    ['feature one', 'old feature one', 'new feature one'],
+                    ['feature two', 'old feature two', 'new feature two'],
+                ],
+            ],
+        ];
+    }
 }
 
 class TestColumn

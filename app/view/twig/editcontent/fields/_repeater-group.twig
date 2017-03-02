@@ -30,7 +30,7 @@
                 'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
                 'contentkey': rkey,
                 'field':      rfield,
-                'labelkey':   rfield.label|default(rkey|ucfirst),
+                'labelkey':   rfield.label|default(rkey|capitalize),
                 'context': {
                     'content':  content,
                     'can':      context.can,

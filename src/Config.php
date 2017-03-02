@@ -11,6 +11,7 @@ use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Helpers\Arr;
+use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Storage\Database;
@@ -94,7 +95,7 @@ class Config
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        $this->cacheFile = $this->app['filesystem.cache']->getFile('config-cache.json');
+        $this->cacheFile = $this->app['filesystem']->getFile('cache://config-cache.json');
 
         $data = $this->loadCache();
         if ($data === null) {
@@ -123,7 +124,7 @@ class Config
         }
         $this->invalidateCache();
 
-        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+        $themeDir = $this->app['filesystem']->getDir('themes://' . $this->get('general/theme'));
 
         $this->data['theme'] = $this->parseTheme($themeDir, $this->data['general']);
     }
@@ -138,12 +139,19 @@ class Config
      */
     protected function parseConfigYaml($filename, DirectoryInterface $directory = null)
     {
-        $directory = $directory ?: $this->app['filesystem.config']->getDir('');
+        $directory = $directory ?: $this->app['filesystem']->getDir('config://');
 
         try {
             $file = $directory->get($filename);
         } catch (FileNotFoundException $e) {
-            return [];
+            // Copy in dist files if applicable
+            $distFiles = ['config.yml', 'contenttypes.yml', 'menu.yml', 'permissions.yml', 'routing.yml', 'taxonomy.yml'];
+            if ($directory->getMountPoint() !== 'config' || !in_array($filename, $distFiles)) {
+                return [];
+            }
+
+            $this->app['filesystem']->copy("bolt://app/config/$filename.dist", "config://$filename");
+            $file = $directory->get($filename);
         }
 
         if (!$file instanceof ParsableInterface) {
@@ -1220,6 +1228,8 @@ class Config
      */
     public function getTwigPath()
     {
+        Deprecated::method(3.3);
+
         $themepath = $this->app['resources']->getPath('templatespath');
 
         $twigpath = [];
@@ -1307,7 +1317,7 @@ class Config
         $cachedConfigTimestamp = $this->cacheFile->getTimestamp();
 
         /** @var \Bolt\Filesystem\Filesystem $configFs */
-        $configFs = $this->app['filesystem.config'];
+        $configFs = $this->app['filesystem']->getFilesystem('config');
 
         $configFiles = [
             'config.yml',
@@ -1343,7 +1353,7 @@ class Config
             return false;
         }
 
-        $themeDir = $this->app['filesystem.themes']->getDir($this->get('general/theme'));
+        $themeDir = $this->app['filesystem']->getDir('themes://' . $this->get('general/theme'));
 
         // Check the timestamp for the theme's configuration file
         $timestampTheme = 0;
@@ -1404,6 +1414,8 @@ class Config
      */
     public function getTimestamp($when)
     {
+        Deprecated::method(3.3);
+
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($when, new \DateTimeZone($timezone)), 'Y-m-d H:i:s');
 
@@ -1417,6 +1429,8 @@ class Config
      */
     public function getCurrentTimestamp()
     {
+        Deprecated::method(3.3);
+
         $timezone = $this->get('general/timezone');
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
@@ -1443,6 +1457,8 @@ class Config
      */
     public function getWhichEnd()
     {
+        Deprecated::method(3.0);
+
         $zone = $this->determineZone();
         $this->app['end'] = $zone; // This is also deprecated
 

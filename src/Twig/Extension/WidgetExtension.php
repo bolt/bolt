@@ -20,13 +20,14 @@ class WidgetExtension extends Extension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
+        $env = ['needs_environment' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('countwidgets', [Runtime\WidgetRuntime::class, 'countWidgets'], $safe),
+            new \Twig_SimpleFunction('countwidgets', [Runtime\WidgetRuntime::class, 'countWidgets'], $safe + $env),
             new \Twig_SimpleFunction('getwidgets',   [Runtime\WidgetRuntime::class, 'getWidgets'], $safe),
-            new \Twig_SimpleFunction('haswidgets',   [Runtime\WidgetRuntime::class, 'hasWidgets'], $safe),
-            new \Twig_SimpleFunction('widgets',      [Runtime\WidgetRuntime::class, 'widgets'], $safe),
+            new \Twig_SimpleFunction('haswidgets',   [Runtime\WidgetRuntime::class, 'hasWidgets'], $safe + $env),
+            new \Twig_SimpleFunction('widgets',      [Runtime\WidgetRuntime::class, 'widgets'], $safe + $env),
             // @codingStandardsIgnoreEnd
         ];
     }

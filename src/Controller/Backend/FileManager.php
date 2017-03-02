@@ -363,22 +363,29 @@ class FileManager extends BackendBase
             case 'twig':
             case 'html':
             case 'htm':
-                return ['xml', 'javascript', 'css', 'htmlmixed'];
+                $plugins = ['overlay', 'htmltwig', 'xml', 'javascript', 'css', 'htmlmixed', 'twig'];
+                break;
             case 'php':
-                return ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'];
+                $plugins = ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'];
+                break;
             case 'yml':
             case 'yaml':
-                return ['yaml'];
+                $plugins = ['yaml'];
+                break;
             case 'md':
             case 'markdown':
-                return ['markdown'];
+                $plugins = ['markdown'];
+                break;
             case 'css':
             case 'less':
-                return ['css'];
+                $plugins = ['css'];
+                break;
             case 'js':
-                return ['javascript'];
+                $plugins = ['javascript'];
+                break;
             default:
-                return [];
+                $plugins = [];
         }
+        return array_merge($plugins, ['fold/foldcode', 'fold/foldgutter', 'fold/indent-fold']);
     }
 }

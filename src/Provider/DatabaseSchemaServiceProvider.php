@@ -203,7 +203,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 
         $app['schema.timer'] = $app->share(
             function ($app) {
-                return new Timer($app['filesystem.cache']->getFile(Timer::CHECK_TIMESTAMP_FILE));
+                return new Timer($app['filesystem']->getFile('cache://dbcheck.ts'));
             }
         );
 

@@ -436,7 +436,7 @@ class Users
     public function checkForRoot()
     {
         // Don't check for root, if we're not logged in.
-        if ($this->getCurrentUsername() === false) {
+        if ($this->getCurrentUser() === false) {
             return false;
         }
 
@@ -457,7 +457,7 @@ class Users
         $this->app['logger.flash']->info(Trans::__('general.phrase.missing-root-jackpot'));
 
         // If we reach this point, there is no user 'root'. We promote the current user.
-        return $this->addRole($this->getCurrentUsername(), 'root');
+        return $this->addRole($this->getCurrentUser(), 'root');
     }
 
     /**
