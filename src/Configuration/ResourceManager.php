@@ -80,6 +80,9 @@ class ResourceManager
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         foreach ($trace as $frame) {
+            // The debug backtrace shows filename and lineno of calling script. In case function is called from inside
+            // internal function (may be as callback) no filename and lineno may be set. — dmitry@php.net
+            $frame += ['file' => null];
             if (in_array($frame['file'], [__DIR__ . '/ForwardToPathResolver.php', __DIR__ . '/ResourceManager.php', __DIR__ . '/Standard.php', __DIR__ . '/Composer.php'])) {
                 continue;
             }
