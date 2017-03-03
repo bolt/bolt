@@ -96,6 +96,26 @@ Bolt 3.3.0 beta 1
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
 
+Bolt 3.2.8
+----------
+
+Released 2017-03-03. Notable changes:
+
+ - Change: Force mbstring functions call on root namespace [#6385](https://github.com/bolt/bolt/pull/6385)
+ - Change: Mark `Arr::isEmptyArray()` as `@internal` [#6434](https://github.com/bolt/bolt/pull/6434)
+ - Change: Remove default value for `cookies_domain` [#6440](https://github.com/bolt/bolt/pull/6440)
+ - Fixed: Add "extension" to list of contexts [#6384](https://github.com/bolt/bolt/pull/6384)
+ - Fixed: Don't require outgoing relations to show incoming relations [#6433](https://github.com/bolt/bolt/pull/6433)
+ - Fixed: Don't save an empty repeater block [#6421](https://github.com/bolt/bolt/pull/6421)
+ - Fixed: Ensure `config-cache.json` gets flushed [#6445](https://github.com/bolt/bolt/pull/6445)
+ - Fixed: Failsafe for missing filename in `ImageHandler.php` [#6400](https://github.com/bolt/bolt/pull/6400)
+ - Fixed: Fix "Wrong Name in Sub-Navigation for Content" [#6417](https://github.com/bolt/bolt/pull/6417)
+ - Fixed: Fix renaming files in sub-subfolders [#6435](https://github.com/bolt/bolt/pull/6435)
+ - Fixed: Generated `cookies_domain` config is cached [#6431](https://github.com/bolt/bolt/pull/6431)
+ - Fixed: Lock select2 at 4.0.0 [#6415](https://github.com/bolt/bolt/pull/6415)
+ - Fixed: Skip the field setup if there is no longer a mapping for it [#6380](https://github.com/bolt/bolt/pull/6380)
+ - Tests: [Scrutinizer] Remove unused metrics [#6446](https://github.com/bolt/bolt/pull/6446)
+
 Bolt 3.2.7
 ----------
 
