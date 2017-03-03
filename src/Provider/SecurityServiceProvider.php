@@ -18,6 +18,8 @@ class SecurityServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
+        $app->register(new SilexSecurityServiceProvider());
+
         $app['security.firewalls'] = $app->share(
             function ($app) {
                 $boltPath = $app['config']->get('general/branding/path');
@@ -33,7 +35,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
                     ],
                     'default' => [
                         'pattern'   => '^/.*$',
-                        'anonymous' => true,
+                        'security' => false,
                         'form'      => [
                             'login_path' => $boltPath . '/login',
                             'check_path' => $boltPath . '/login_check',
@@ -53,12 +55,9 @@ class SecurityServiceProvider implements ServiceProviderInterface
 
                 return [
                     ['^' . $boltPath . '/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
-                    ['^/.+$', 'ROLE_USER'],
                 ];
             }
         );
-
-        $app->register(new SilexSecurityServiceProvider());
     }
 
     /**
