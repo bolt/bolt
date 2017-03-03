@@ -68,6 +68,13 @@ class Cache extends FilesystemCache
         $result = parent::doFlush();
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
+            try {
+                // Clear our cached configuration
+                $this->filesystem->getFilesystem('cache')->delete('config-cache.json');
+            } catch (Filesystem\Exception\FileNotFoundException $e) {
+                // Ç'est la vie
+            }
+
             // Clear our own cache folder.
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
