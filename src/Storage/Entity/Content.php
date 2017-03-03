@@ -3,6 +3,7 @@ namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Mapping;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
 
@@ -14,6 +15,7 @@ class Content extends Entity
     use ContentRouteTrait;
     use ContentTypeTitleTrait;
 
+    /** @var string|Mapping\ContentType */
     protected $contenttype;
     /** @var ContentLegacyService */
     protected $_legacy;
@@ -339,21 +341,33 @@ class Content extends Entity
         return $this->$fieldName;
     }
 
+    /**
+     * @return string|Mapping\ContentType
+     */
     public function getContenttype()
     {
         return $this->contenttype;
     }
 
+    /**
+     * @param string|Mapping\ContentType $value
+     */
     public function setContenttype($value)
     {
         $this->contenttype = $value;
     }
 
+    /**
+     * @return array
+     */
     public function getTemplatefields()
     {
         return $this->templatefields ?: [];
     }
 
+    /**
+     * @param array $value
+     */
     public function setTemplatefields($value)
     {
         $this->templatefields = $value;
