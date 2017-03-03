@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\FieldConfigurationException;
@@ -25,7 +26,7 @@ class RepeaterType extends FieldTypeBase
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
      *
-     * @return void
+     * @return QueryBuilder|null
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -153,7 +154,7 @@ class RepeaterType extends FieldTypeBase
      * Normalize step ensures that we have correctly hydrated objects at the collection
      * and entity level.
      *
-     * @param $entity
+     * @param object $entity
      */
     public function normalize($entity)
     {
