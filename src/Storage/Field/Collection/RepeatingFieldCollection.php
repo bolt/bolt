@@ -192,7 +192,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -200,7 +200,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {

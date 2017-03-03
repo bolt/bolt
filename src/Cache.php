@@ -6,6 +6,7 @@ use Bolt\Filesystem\AggregateFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Helpers\Deprecated;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**
@@ -45,7 +46,7 @@ class Cache extends FilesystemCache
      */
     public function clearCache()
     {
-        Deprecation::method(3.0, 'flushAll');
+        Deprecated::method(3.0, 'flushAll');
 
         $this->flushAll();
 
@@ -70,6 +71,13 @@ class Cache extends FilesystemCache
         $result = parent::doFlush();
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
+            try {
+                // Clear our cached configuration
+                $this->filesystem->getFilesystem('cache')->delete('config-cache.json');
+            } catch (Filesystem\Exception\FileNotFoundException $e) {
+                // Ç'est la vie
+            }
+
             // Clear our own cache folder.
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
