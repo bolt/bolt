@@ -9,6 +9,7 @@ use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\Repository\ContentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
@@ -179,7 +180,7 @@ class EntityManager implements EntityManagerInterface
      *
      * @param string|Entity\Entity $className
      *
-     * @return mixed
+     * @return ArrayCollection
      */
     public function createCollection($className)
     {

@@ -317,6 +317,11 @@ class ScriptHandler
         return isset($extra[$key]) ? $extra[$key] : $default;
     }
 
+    /**
+     * @param string $key
+     *
+     * @return array|false|string
+     */
     protected static function getEnvOption($key)
     {
         $key = strtoupper(str_replace('-', '_', $key));

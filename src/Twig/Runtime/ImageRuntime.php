@@ -281,8 +281,8 @@ class ImageRuntime
     /**
      * Get the thumbnail relative URI, using an alias.
      *
-     * @param mixed  $fileName
-     * @param string $alias
+     * @param string|null $fileName
+     * @param string      $alias
      *
      * @return string
      */
