@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Manager;

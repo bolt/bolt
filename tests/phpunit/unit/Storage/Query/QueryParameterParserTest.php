@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\QueryParameterParser;

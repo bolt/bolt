@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset;
 
 use Bolt\Helpers\Str;

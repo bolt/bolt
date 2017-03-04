@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Logger;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;

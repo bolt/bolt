@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\AccessChecker;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\Asset\Snippet\Snippet;

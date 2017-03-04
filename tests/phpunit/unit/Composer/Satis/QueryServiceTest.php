@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Composer\Satis;
 
 use Bolt\Composer\Satis\QueryService;

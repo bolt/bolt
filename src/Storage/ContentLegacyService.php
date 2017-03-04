@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage;
 
 use Bolt\Storage\Mapping\ContentType;
