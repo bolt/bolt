@@ -2598,7 +2598,11 @@ class Storage
 
         // Get the contenttype from first $content
         $first = reset($content);
-        $contenttypeslug = $first->contenttype['slug'];
+        // Try with the key first, if this isn't available then fall back to using the slug
+        $contenttypeslug = $first->contenttype['key'];
+        if ($contenttypeslug === null) {
+            $contenttypeslug = $first->contenttype['slug'];
+        }
         $contenttype = $this->getContentType($contenttypeslug);
         $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
 
