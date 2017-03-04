@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Storage\Repository;
 
 use Bolt\Tests\BoltUnitTest;

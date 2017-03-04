@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Field;
 
 use Bolt\Storage\Field\Base;

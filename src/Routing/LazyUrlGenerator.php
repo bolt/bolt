@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Routing;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Users;
 
 use Bolt\Events\AccessControlEvent;

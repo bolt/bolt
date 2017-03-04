@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Translation;
 
 use Bolt\Tests\BoltUnitTest;

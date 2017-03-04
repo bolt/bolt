@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Composer\Action;
 
 use Bolt\Composer\Action\UpdatePackage;

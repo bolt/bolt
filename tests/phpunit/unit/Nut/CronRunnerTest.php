@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\CronRunner;

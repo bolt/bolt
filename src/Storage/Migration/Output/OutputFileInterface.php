@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Migration\Output;
 
 use Bolt\Storage\Migration\Export;

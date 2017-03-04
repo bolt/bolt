@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Content;
 
 use Bolt\Legacy\Content;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Session;
 
 use Bolt\Session\OptionsBag;

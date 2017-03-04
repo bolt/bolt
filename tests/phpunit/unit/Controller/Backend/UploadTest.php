@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Tests\Controller\ControllerUnitTest;

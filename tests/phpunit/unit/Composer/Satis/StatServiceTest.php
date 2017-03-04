@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Composer\Satis\StatService;

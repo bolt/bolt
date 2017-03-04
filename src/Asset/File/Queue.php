@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\File;
 
 use Bolt\Asset\AssetSortTrait;
