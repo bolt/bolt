@@ -262,7 +262,9 @@ class Repository implements ObjectRepository
         $metadata = $this->getClassMetadata();
         foreach ($metadata->getFieldMappings() as $field) {
             $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
-            $fieldtype->load($query, $metadata);
+            if ($fieldtype instanceof FieldTypeInterface) {
+                $fieldtype->load($query, $metadata);
+            }
         }
     }
 
@@ -279,7 +281,9 @@ class Repository implements ObjectRepository
 
         foreach ($metadata->getFieldMappings() as $field) {
             $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
-            $fieldtype->query($query, $metadata);
+            if ($fieldtype instanceof FieldTypeInterface) {
+                $fieldtype->query($query, $metadata);
+            }
         }
     }
 
