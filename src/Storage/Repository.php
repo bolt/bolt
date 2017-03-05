@@ -8,6 +8,7 @@ use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Entity\Entity;
+use Bolt\Storage\Field\Type\FieldTypeInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -307,7 +308,9 @@ class Repository implements ObjectRepository
             }
 
             $field = $this->getFieldManager()->get($field['fieldtype'], $field);
-            $field->persist($queries, $entity);
+            if ($field instanceof FieldTypeInterface) {
+                $field->persist($queries, $entity);
+            }
         }
     }
 

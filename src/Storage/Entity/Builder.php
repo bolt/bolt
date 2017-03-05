@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\Field\Type\FieldTypeInterface;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -162,7 +163,9 @@ class Builder
         // set fields
         foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
-            call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
+            if ($fieldType instanceof FieldTypeInterface) {
+                call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
+            }
         }
 
         return $entity;
