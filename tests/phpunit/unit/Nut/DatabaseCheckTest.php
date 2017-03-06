@@ -41,7 +41,6 @@ class DatabaseCheckTest extends BoltUnitTest
             }
         );
 
-        $app->boot();
         $command = new DatabaseCheck($app);
         $tester = new CommandTester($command);
         $tester->execute([]);
