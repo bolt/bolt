@@ -1,6 +1,27 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 beta 3
+-----------------
+
+Released: 2017-03-08. Notable changes:
+
+ - Added: Allow an initial number to be passed in the repeater field config [#6459](https://github.com/bolt/bolt/pull/6459)
+ - Added: Feature list "local extensions" on Extensions screen [#6419](https://github.com/bolt/bolt/pull/6419)
+ - Change: Change app path to always be user directory [#6409](https://github.com/bolt/bolt/pull/6409)
+ - Change: Change Symfony Security to use lazy url generator. [#6428](https://github.com/bolt/bolt/pull/6428)
+ - Change: Remove default value for cookies_domain [#6440](https://github.com/bolt/bolt/pull/6440)
+ - Change: Replace ResourceManager with PathResolver in the configuration validators [#6429](https://github.com/bolt/bolt/pull/6429)
+ - Deprecation: Deprecated ResourceManager Completely [#6439](https://github.com/bolt/bolt/pull/6439), [#6441](https://github.com/bolt/bolt/pull/6441)
+ - Deprecation: Various deprecation updates [#6432](https://github.com/bolt/bolt/pull/6432), [#6427](https://github.com/bolt/bolt/pull/6427), [#6424](https://github.com/bolt/bolt/pull/6424), [#6422](https://github.com/bolt/bolt/pull/6422), [#6414](https://github.com/bolt/bolt/pull/6414), [#6410](https://github.com/bolt/bolt/pull/6410)
+ - Fixed: [3.3] Use correct class for deprecation notice [#6444](https://github.com/bolt/bolt/pull/6444)
+ - Fixed: Ensure fields are using new interface before calling methods [#6458](https://github.com/bolt/bolt/pull/6458) (fixes [#6420](https://github.com/bolt/bolt/pull/6420), [#6273](https://github.com/bolt/bolt/pull/6273))
+ - Fixed: Fix to allow extension interface backwards compatibility [#6418](https://github.com/bolt/bolt/pull/6418)
+ - Fixed: links in 'node_modules' no longer break "list templates" in backend. [#6460](https://github.com/bolt/bolt/pull/6460)
+ - Fixed: Register Silex provider first, and don't authenticate base route [#6449](https://github.com/bolt/bolt/pull/6449)
+ - Fixed: Slugify slugs on edit save [#6411](https://github.com/bolt/bolt/pull/6411), [#6408](https://github.com/bolt/bolt/pull/6408)
+ - Tests: [Scrutinizer] Remove unused metrics [#6446](https://github.com/bolt/bolt/pull/6446)
+
 Bolt 3.3.0 beta 2
 -----------------
 
