@@ -2,7 +2,12 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Session\Generator\NativeGenerator;
+use Bolt\Session\Handler\Factory\MemcachedFactory;
+use Bolt\Session\Handler\Factory\MemcacheFactory;
+use Bolt\Session\Handler\Factory\PredisFactory;
+use Bolt\Session\Handler\Factory\RedisFactory;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
 use Bolt\Session\Handler\MemcacheHandler;
@@ -12,11 +17,8 @@ use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\Uri;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -216,7 +218,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerHandlers(Application $app)
     {
         $app['session.handler_factory'] = $app->protect(
-            function ($handler, $options) use ($app) {
+            function ($handler, OptionsBag $options) use ($app) {
                 $key = 'session.handler_factory.' . $handler;
                 if (isset($app[$key])) {
                     return $app[$key]($options);
@@ -263,70 +265,49 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerMemcacheHandler(Application $app)
     {
         $app['session.handler_factory.backing_memcache'] = $app->protect(
-            function ($connections) {
-                $memcache = new \Memcache();
-
-                foreach ($connections as $conn) {
-                    $args = [
-                        $conn['host'] ?: 'localhost',
-                        $conn['port'] ?: 11211,
-                        $conn['persistent'] ?: false,
-                    ];
-                    if ($conn['weight'] > 0) {
-                        $args[] = $conn['weight'];
-                        if ($conn['timeout'] > 1) {
-                            $args[] = $conn['timeout'];
-                        }
-                    }
-                    call_user_func_array([$memcache, 'addServer'], $args);
-                    if ($conn['weight'] <= 0 && $conn['timeout'] > 1) {
-                        $memcache->setServerParams($args[0], $args[1], $conn['timeout']);
-                    }
-                }
-
-                return $memcache;
+            function (OptionsBag $options) {
+                return (new MemcacheFactory())->create($options);
             }
         );
 
         $app['session.handler_factory.backing_memcached'] = $app->protect(
-            function ($connections) {
-                $memcache = new \Memcached();
-
-                foreach ($connections as $conn) {
-                    $memcache->addServer(
-                        $conn['host'] ?: 'localhost',
-                        $conn['port'] ?: 11211,
-                        $conn['weight'] ?: 0
-                    );
-                }
-
-                return $memcache;
+            function (OptionsBag $options) {
+                return (new MemcachedFactory())->create($options);
             }
         );
 
         $app['session.handler_factory.memcache'] = $app->protect(
-            function ($options, $key = 'memcache') use ($app) {
-                $connections = $this->parseConnections($options, 'localhost', 11211);
-                $memcache = $app['session.handler_factory.backing_' . $key]($connections);
+            function (OptionsBag $options, $key = 'memcache') use ($app) {
+                $memcache = $app['session.handler_factory.backing_' . $key]($options);
 
-                $handlerOptions = [];
+                $handlerOptions = new OptionsBag($options->get('options', []));
+
+                $memcacheOptions = [];
                 if (isset($options['expiretime'])) {
-                    $handlerOptions['expiretime'] = $options['expiretime'];
+                    Deprecated::warn('Specifying "expiretime" directly in session config', 3.3, 'Move it under the "options" key.');
+
+                    $memcacheOptions['expiretime'] = $options['expiretime'];
+                } elseif (isset($handlerOptions['expiretime'])) {
+                    $memcacheOptions['expiretime'] = $handlerOptions['expiretime'];
                 }
                 if (isset($options['prefix'])) {
-                    $handlerOptions['prefix'] = $options['prefix'];
+                    Deprecated::warn('Specifying "prefix" directly in session config', 3.3, 'Move it under the "options" key.');
+
+                    $memcacheOptions['prefix'] = $options['prefix'];
+                } elseif (isset($handlerOptions['prefix'])) {
+                    $memcacheOptions['prefix'] = $handlerOptions['prefix'];
                 }
 
                 if ($key === 'memcache') {
-                    return new MemcacheHandler($memcache, $handlerOptions);
+                    return new MemcacheHandler($memcache, $memcacheOptions);
                 } else {
-                    return new MemcachedHandler($memcache, $handlerOptions);
+                    return new MemcachedHandler($memcache, $memcacheOptions);
                 }
             }
         );
 
         $app['session.handler_factory.memcached'] = $app->protect(
-            function ($options) use ($app) {
+            function (OptionsBag $options) use ($app) {
                 return $app['session.handler_factory.memcache']($options, 'memcached');
             }
         );
@@ -338,132 +319,31 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerRedisHandler(Application $app)
     {
         $app['session.handler_factory.backing_redis'] = $app->protect(
-            function ($connections) {
-                if (class_exists('Redis')) {
-                    $redis = new \Redis();
-                    foreach ($connections as $conn) {
-                        $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
-                        call_user_func_array([$redis, $conn['persistent'] ? 'pconnect' : 'connect'], $params);
-                        if (!empty($conn['password'])) {
-                            $redis->auth($conn['password']);
-                        }
-                        if ($conn['database'] > 0) {
-                            $redis->select($conn['database']);
-                        }
-                        if (!empty($conn['prefix'])) {
-                            $redis->setOption(\Redis::OPT_PREFIX, $conn['prefix']);
-                        }
-                    }
-                } elseif (class_exists('Predis\Client')) {
-                    $params = [];
-                    $options = [];
-                    foreach ($connections as $conn) {
-                        $params[] = $conn;
-                        if (!empty($conn['prefix'])) {
-                            $options['prefix'] = $conn['prefix'];
-                        }
-                    }
-                    $redis = new \Predis\Client($params, $options);
-                } else {
-                    throw new \RuntimeException('Neither Redis nor Predis\Client exist');
-                }
-
-                return $redis;
+            function (OptionsBag $options) use ($app) {
+                return (new RedisFactory())->create($options);
             }
         );
 
         $app['session.handler_factory.redis'] = $app->protect(
-            function ($options) use ($app) {
-                $connections = $this->parseConnections($options, 'localhost', 6379);
-                $redis = $app['session.handler_factory.backing_redis']($connections);
+            function (OptionsBag $options) use ($app) {
+                $redis = $app['session.handler_factory.backing_redis']($options);
 
                 return new RedisHandler($redis, $options['gc_maxlifetime']);
             }
         );
-    }
 
-    /**
-     * @param array   $options
-     * @param string  $defaultHost
-     * @param integer $defaultPort
-     * @param string  $defaultScheme
-     *
-     * @return array
-     */
-    protected function parseConnections($options, $defaultHost, $defaultPort, $defaultScheme = 'tcp')
-    {
-        if (isset($options['host']) || isset($options['port'])) {
-            $options['connections'][] = $options;
-        } elseif ($options['connection']) {
-            $options['connections'][] = $options['connection'];
-        }
-
-        /** @var ParameterBag[] $toParse */
-        $toParse = [];
-        if (isset($options['connections'])) {
-            foreach ((array) $options['connections'] as $alias => $conn) {
-                if (is_string($conn)) {
-                    $conn = ['host' => $conn];
-                }
-                $conn += [
-                    'scheme' => $defaultScheme,
-                    'host'   => $defaultHost,
-                    'port'   => $defaultPort,
-                ];
-                $conn = new ParameterBag($conn);
-
-                if ($conn->has('password')) {
-                    $conn->set('pass', $conn->get('password'));
-                    $conn->remove('password');
-                }
-                $conn->set('uri', Uri::fromParts($conn->all()));
-
-                $toParse[] = $conn;
+        $app['session.handler_factory.backing_predis'] = $app->protect(
+            function (OptionsBag $options) use ($app) {
+                return (new PredisFactory())->create($options);
             }
-        } else {
-            $connections = isset($options['save_path']) ? (array) explode(',', $options['save_path']) : [];
-            if (empty($connections)) {
-                $connections[] = $defaultHost . ':' . $defaultPort;
+        );
+
+        $app['session.handler_factory.predis'] = $app->protect(
+            function (OptionsBag $options) use ($app) {
+                $redis = $app['session.handler_factory.backing_predis']($options);
+
+                return new RedisHandler($redis, $options['gc_maxlifetime']);
             }
-            foreach ($connections as $conn) {
-                // Default scheme if not given so parse_url works correctly.
-                if (!preg_match('~^\w+://.+~', $conn)) {
-                    $conn = $defaultScheme . '://' . $conn;
-                }
-
-                $uri = new Uri($conn);
-
-                $connBag = new ParameterBag();
-                $connBag->set('uri', $uri);
-                $connBag->add(Psr7\parse_query($uri->getQuery()));
-
-                $toParse[] = $connBag;
-            }
-        }
-
-        $connections = [];
-        foreach ($toParse as $conn) {
-            /** @var Uri $uri */
-            $uri = $conn->get('uri');
-
-            $parts = explode(':', $uri->getUserInfo(), 2);
-            $password = isset($parts[1]) ? $parts[1] : null;
-
-            $connections[] = [
-                'scheme'     => $uri->getScheme(),
-                'host'       => $uri->getHost(),
-                'port'       => $uri->getPort(),
-                'path'       => $uri->getPath(),
-                'alias'      => $conn->get('alias'),
-                'prefix'     => $conn->get('prefix'),
-                'password'   => $password,
-                'database'   => $conn->get('database'),
-                'persistent' => $conn->get('persistent'),
-                'weight'     => $conn->get('weight'),
-                'timeout'    => $conn->get('timeout'),
-            ];
-        }
-
-        return $connections;
+        );
     }
 }
