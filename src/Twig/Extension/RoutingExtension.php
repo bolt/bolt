@@ -4,7 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFunction as TwigFunction;
+use Twig_Function as TwigFunction;
 
 /**
  * Routing functionality Twig extension.
@@ -29,13 +29,5 @@ class RoutingExtension extends Extension
             new TwigFunction('request',        [Runtime\RoutingRuntime::class, 'request'], ['deprecated' => true]),
             // @codingStandardsIgnoreEnd
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return [];
     }
 }

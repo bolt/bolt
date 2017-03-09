@@ -4,8 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleFunction as TwigFunction;
+use Twig_Filter as TwigFilter;
+use Twig_Function as TwigFunction;
 
 /**
  * HTML functionality Twig extension.

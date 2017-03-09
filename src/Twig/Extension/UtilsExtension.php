@@ -4,7 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFunction as TwigFunction;
+use Twig_Function as TwigFunction;
 
 /**
  * General-purpose utility functionality Twig extension.
@@ -28,13 +28,5 @@ class UtilsExtension extends Extension
             new TwigFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
             // @codingStandardsIgnoreEnd
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return [];
     }
 }
