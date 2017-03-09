@@ -143,28 +143,22 @@ class SessionServiceProvider implements ServiceProviderInterface
                  *    - Options from ini (if enabled with "session.options.import_from_ini")
                  *    - Options hardcoded below
                  * 2) Converts options to an OptionsBag instance
+                 *
+                 * These defaults are limited to those that are useful and secure.
                  */
                 $defaults = [
                     'save_handler'    => 'files',
                     'save_path'       => '/tmp',
                     'name'            => 'PHPSESSID',
                     'lazy_write'      => true,
-                    //'auto_start' => false,
-                    //'serialize_handler' => null,
                     'gc_probability'  => 1,
                     'gc_divisor'      => 1000,
                     'gc_maxlifetime'  => 1440,
-                    //'referer_check' => '',
-                    //'use_strict_mode' => false,
                     'cookie_lifetime' => 0,
                     'cookie_path'     => '/',
                     'cookie_domain'   => null,
                     'cookie_secure'   => false,
                     'cookie_httponly' => false,
-                    // TODO Do started native sessions force "nocache" header in response?
-                    // We don't have a way to force that, should we?
-                    //'cache_limiter' => 'nocache',
-                    //'cache_expire'  => 180,
                     'restrict_realm'  => false,
                 ];
 
