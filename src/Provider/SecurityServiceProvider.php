@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Silex\Application;
 use Silex\Provider\SecurityServiceProvider as SilexSecurityServiceProvider;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Security\Http\HttpUtils;
 
 /**
  * Bolt security service provider.
@@ -58,6 +59,11 @@ class SecurityServiceProvider implements ServiceProviderInterface
                 ];
             }
         );
+
+        // Use lazy url generator
+        $app['security.http_utils'] = $app->share(function ($app) {
+            return new HttpUtils($app['url_generator.lazy'], $app['url_matcher']);
+        });
     }
 
     /**

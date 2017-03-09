@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Library;
 
 use Bolt\Library;

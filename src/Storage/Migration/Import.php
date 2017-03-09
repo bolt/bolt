@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Migration;
 
 use Bolt\Helpers\Arr;

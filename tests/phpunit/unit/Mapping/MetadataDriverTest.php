@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Mapping;
 
 use Bolt\Storage\Entity;

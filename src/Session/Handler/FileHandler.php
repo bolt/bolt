@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Session\Handler;
 
 use Psr\Log\LoggerInterface;

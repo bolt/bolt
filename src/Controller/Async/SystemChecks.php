@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Controller\Async;
 
 use Silex\ControllerCollection;

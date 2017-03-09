@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Entity;
 
 use Symfony\Component\Routing\Exception\RouteNotFoundException;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Events;
 
 final class ControllerEvents

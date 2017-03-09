@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Extensions\TestVendor\TestExt;
 
 class GumLeaves

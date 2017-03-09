@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Profiler;
 
 use Bolt\Helpers\Html;

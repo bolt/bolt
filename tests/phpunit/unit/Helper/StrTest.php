@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Str;

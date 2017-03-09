@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
