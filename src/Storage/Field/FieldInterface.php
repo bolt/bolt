@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Field;
 
 use Doctrine\DBAL\DBALException;

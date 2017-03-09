@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Controller;
 
 use Bolt\Helpers\Deprecated;

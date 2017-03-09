@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Mapping;
 
 use Bolt\Exception\StorageException;

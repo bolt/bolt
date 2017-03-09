@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Cache;
 
 class FooObject

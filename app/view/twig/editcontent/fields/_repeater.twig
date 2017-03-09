@@ -3,7 +3,7 @@
 
 {% set data_bolt_widget = {
     fieldRepeater: {
-        minimum: 1,
+        minimum: field.initial|default(1),
         maximum: field.limit|default(0),
         name:    name,
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\CallableInvokerTrait;

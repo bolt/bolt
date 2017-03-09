@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\Snippet;
 
 use Bolt\Asset\AssetInterface;

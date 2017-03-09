@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
