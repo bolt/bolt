@@ -7,6 +7,7 @@ use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
 use Bolt\Session\Handler\MemcacheHandler;
 use Bolt\Session\Handler\RedisHandler;
+use Bolt\Session\IniBag;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
@@ -165,8 +166,21 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $options = new OptionsBag($defaults);
 
                 if ($app['session.options.import_from_ini']) {
+                    $ini = new IniBag('session');
                     foreach ($options as $key => $value) {
-                        $options[$key] = ini_get('session.' . $key);
+                        if (!$ini->has($key)) {
+                            continue;
+                        }
+
+                        if (is_int($value)) {
+                            $value = $ini->getInt($key);
+                        } elseif (is_bool($value)) {
+                            $value = $ini->getBoolean($key);
+                        } else {
+                            $value = $ini->get($key);
+                        }
+
+                        $options[$key] = $value;
                     }
                 }
 
