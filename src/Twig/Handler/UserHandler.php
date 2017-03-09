@@ -69,9 +69,12 @@ class UserHandler
         $contenttype = null;
         $contentid = null;
         if ($content instanceof \Bolt\Legacy\Content) {
-            // It's a content record
+            // It's a Legacy content record
             $contenttype = $content;
             $contentid = $content['id'];
+        } elseif ($content instanceof \Bolt\Storage\Mapping\ContentType) {
+            // It's non-legacy content record.
+            $contenttype = (string) $content;
         } elseif (is_array($content)) {
             // It's a contenttype
             $contenttype = $content;
