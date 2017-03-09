@@ -31,9 +31,6 @@ class SessionStorage implements SessionStorageInterface
     /** @var boolean */
     protected $started = false;
 
-    /** @var boolean */
-    protected $closed = false;
-
     /** @var SessionBagInterface[] */
     protected $bags;
 
@@ -186,15 +183,14 @@ class SessionStorage implements SessionStorageInterface
      */
     public function save()
     {
-        if (!$this->started || $this->closed) {
-            throw new \RuntimeException('Trying to save a session that was not started yet or was already closed');
+        if (!$this->started) {
+            throw new \RuntimeException('Trying to save a session that was not started yet.');
         }
 
         $this->write();
 
         $this->handler->close();
 
-        $this->closed = true;
         $this->started = false;
     }
 
@@ -344,7 +340,6 @@ class SessionStorage implements SessionStorageInterface
         }
 
         $this->started = true;
-        $this->closed = false;
     }
 
     protected function collectGarbage()
