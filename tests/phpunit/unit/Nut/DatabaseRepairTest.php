@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\DatabaseRepair;
@@ -40,7 +41,6 @@ class DatabaseRepairTest extends BoltUnitTest
             }
         );
 
-        $app->boot();
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);
 

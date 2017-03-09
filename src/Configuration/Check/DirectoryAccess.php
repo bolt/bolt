@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Configuration\Check;
 
 use Symfony\Component\Filesystem\Exception\IOException;

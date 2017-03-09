@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Tests\Controller\ControllerUnitTest;

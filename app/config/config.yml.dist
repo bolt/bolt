@@ -31,7 +31,10 @@ theme: base-2016
 # This can be done as [nl_NL, Dutch_Netherlands] when specifying multiple
 # locales, ensure the first is a standard locale.
 locale: en_GB
-#timezone: UTC
+
+# Set the timezone to be used on the website. For a list of valid timezone 
+# settings, see: http://php.net/manual/en/timezones.php
+# timezone: UTC
 
 # Set maintenance mode on or off.
 #

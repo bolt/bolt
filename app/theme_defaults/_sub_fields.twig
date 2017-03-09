@@ -38,7 +38,7 @@
         {% set value = include(template_from_string(value), sandboxed = true) %}
     {% endif %}
 
-    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
+    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value }}</div>
 {% endmacro %}
 
 {% macro imagelistfield(images) %}

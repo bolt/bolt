@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Migration\Input;
 
 use Bolt\Storage\Migration\Import;

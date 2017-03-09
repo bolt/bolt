@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Events;
 
 use Bolt\Events\StorageEvent;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\EventListener;
 
 use Bolt\AccessControl\AccessChecker;

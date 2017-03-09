@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Repository;
 
 use Bolt\Storage\Entity;

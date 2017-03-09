@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Mocks;
 
 use Doctrine\DBAL\Driver\Statement;

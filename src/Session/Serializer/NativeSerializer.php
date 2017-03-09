@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Session\Serializer;
 
 class NativeSerializer implements SerializerInterface

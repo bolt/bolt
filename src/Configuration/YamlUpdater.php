@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Configuration;
 
 use Bolt\Filesystem\Exception\IOException;
