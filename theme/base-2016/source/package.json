@@ -32,13 +32,13 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.0",
     "gulp-if": "^2.0.2",
-    "gulp-load-plugins": "^1.4.0",
-    "gulp-minify-css": "^1.2.4",
+    "gulp-load-plugins": "^1.5.0",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.0",
-    "gulp-uglify": "^2.0.1",
-    "js-yaml": "^3.7.0",
-    "yargs": "^6.6.0"
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.1.0",
+    "js-yaml": "^3.8.2",
+    "yargs": "^7.0.1"
   }
 }
