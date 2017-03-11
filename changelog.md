@@ -4,6 +4,16 @@ Changelog for Bolt 3.x
 Bolt 3.2.8
 ----------
 
+Released 2017-03-12. Notable changes:
+
+ - Change: Maintenance on Base 2016. Replaced `gulp-minify-css` for `cssnano` in base-2016 theme. [#6469](https://github.com/bolt/bolt/pull/6469) [#6461](https://github.com/bolt/bolt/pull/6461)
+ - Change: Update `config.yml` with timezone info. [#6464](https://github.com/bolt/bolt/pull/6464)
+ - Fixed: Missing "Delete" button appears when it should. [#6468](https://github.com/bolt/bolt/pull/6468)
+ - Fixed: Raw should only be used on user data when intended. [#6463](https://github.com/bolt/bolt/pull/6463)
+
+Bolt 3.2.8
+----------
+
 Released 2017-03-03. Notable changes:
 
  - Change: Force mbstring functions call on root namespace [#6385](https://github.com/bolt/bolt/pull/6385)
