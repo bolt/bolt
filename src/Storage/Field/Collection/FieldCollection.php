@@ -129,7 +129,7 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
      */
     public function getFieldType($fieldName)
     {
-        $field = $this->get($fieldName);
+        $field = parent::get($fieldName);
         if ($field) {
             return $field->getFieldType();
         }
