@@ -1,7 +1,7 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.2.8
+Bolt 3.2.9
 ----------
 
 Released 2017-03-12. Notable changes:
