@@ -135,4 +135,14 @@ class FieldValue extends Entity
         $typeCol = 'value_' . $type->getName();
         $this->$typeCol = $this->getValue();
     }
+
+    /** Alias to the standard get method that matches compatibility with the Legacy content entity
+     *  This can be removed once the deprecation of legacy content is complete.
+     * 
+     * @return mixed
+     */
+    public function getDecodedValue()
+    {
+        return $this->getValue();
+    }
 }

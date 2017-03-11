@@ -120,4 +120,18 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     {
         return parent::getIterator();
     }
+
+    /**
+     * Returns the type of a given $fieldName
+     *
+     * @param $fieldName
+     * @return string|null
+     */
+    public function getFieldType($fieldName)
+    {
+        $field = $this->get($fieldName);
+        if ($field) {
+            return $field->getFieldType();
+        }
+    }
 }
