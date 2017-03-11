@@ -30,15 +30,9 @@
 
 {# SECTION 2: MACROS #}
 
-{# If 'allowtwig' is true for this field, we'll need to parse it as
-   Twig here. Note, that we're doing this inside a macro, so the
-   snippet has a limited scope. No global variables, etc. #}
-{% macro parsetextfield(key, value, contenttype) %}
-    {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
-        {% set value = value|twig %}
-    {% endif %}
-
-    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value }}</div>
+{# Output a text-like field with the wrapper for live editing. #}
+{% macro textfield(object, key) %}
+    <div data-bolt-field="{{key}}">{{ object.decodedValue(key) }}</div>
 {% endmacro %}
 
 {% macro imagelistfield(images) %}
@@ -52,17 +46,15 @@
 {% endmacro %}
 
 {# Macro for "basic" fields like HTML, Markdown, Textarea and Text #}
-{% macro commonfields(key, value, fieldtype, contenttype) %}
+{% macro commonfield(object, key) %}
         {% import _self as macro %}
 
-        {# HTML, Textarea, Text fields #}
-        {% if fieldtype in ['html', 'textarea', 'text'] %}
-            {{ macro.parsetextfield(key, value, contenttype) }}
-        {% endif %}
+        {% set fieldtype = object.fieldtype(key) %}
+        {% set value = object.get(key) %}
 
-        {# Markdown fields #}
-        {% if fieldtype == "markdown" %}
-            {{ macro.parsetextfield(key, value|markdown, contenttype) }}
+        {# HTML, Textarea, Text and Markdown fields #}
+        {% if fieldtype in ['html', 'textarea', 'text', 'markdown'] %}
+            {{ macro.textfield(object, key) }}
         {% endif %}
 
         {# Image fields #}
@@ -80,7 +72,11 @@
 {% endmacro %}
 
 {# Macro for other field types, like Geo, Select, Checkbox and others. #}
-{% macro extendedfields(key, value, fieldtype) %}
+{% macro extendedfield(object, key) %}
+        {% import _self as macro %}
+
+        {% set fieldtype = object.fieldtype(key) %}
+        {% set value = object.get(key) %}
 
         {# Geolocation field #}
         {% if fieldtype == "geolocation" and value.latitude is defined %}
@@ -128,54 +124,30 @@
     {# Fields that are considered 'common': 'html', 'markdown', 'textarea',
        'text', 'image', 'video' and 'imagelist' #}
     {% if common == true %}
-
-        {% set fieldtype = record.fieldtype(key) %}
-        {{ macro.commonfields(key, value, fieldtype, record.contenttype) }}
-
+        {{ macro.commonfield(record, key) }}
     {% endif %}
 
     {# The rest of the built-in fieldtypes #}
     {% if extended == true %}
-
-        {% set fieldtype = record.fieldtype(key) %}
-        {{ macro.extendedfields(key, value, fieldtype) }}
-
+        {{ macro.extendedfield(record, key) }}
     {% endif %}
 
     {# Finally, the repeaters #}
     {% if repeaters == true and record.fieldtype(key) == "repeater" %}
-
         {% for repeater in value %}
-
-            {% for repeaterfield in repeater %}
-
-                {% set fieldtype = repeaterfield.getFieldtype() %}
-                {% set value = repeaterfield.getValue() %}
-                {{ macro.commonfields('', value, fieldtype, record.contenttype) }}
-                {{ macro.extendedfields('', value, fieldtype) }}
-
+            {% for key, repeaterfield in repeater %}
+                {{ macro.commonfield(repeater, key) }}
+                {{ macro.extendedfield(repeater, key) }}
             {% endfor %}
-
         {% endfor %}
-
     {% endif %}
 
 {% endfor %}
 
-{# We do the same for the templatefields, if set and not empty. #}
-{% set templatefields = record.values.templatefields.values|default() %}
-{% if templatefields is defined and templatefields is not empty %}
-
-    {# Note: This needs to be expanded upon!! For better detection the 'virtual'
-       contenttype for the templatefields should know about the types of fields. #}
-    {% set templatefieldsfieldtypes = attribute(record.contenttype.templatefields|first, 'fields') %}
-
-    {% for key, value in templatefields if (key not in omittedkeys) %}
-
-        {% set fieldtype = attribute(attribute(templatefieldsfieldtypes, key), 'type')  %}
-        {{ macro.commonfields(key, value, fieldtype, record.contenttype) }}
-        {{ macro.extendedfields(key, value, fieldtype) }}
-
+{# We do the same for the templatefields, if there are any. #}
+{% if record.templatefields %}
+    {% for key, value in record.templatefields.values if (key not in omittedkeys) %}
+        {{ macro.commonfield(record.templatefields, key) }}
+        {{ macro.extendedfield(record.templatefields, key) }}
     {% endfor %}
-
 {% endif %}
