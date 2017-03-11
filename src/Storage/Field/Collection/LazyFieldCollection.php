@@ -81,6 +81,20 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     }
 
     /**
+     *  Alias to the standard get method that matches compatibility with the Legacy content entity.
+     *  This can be removed once the deprecation of legacy content is complete.
+     *
+     * @param $fieldName
+     * @return mixed
+     */
+    public function getDecodedValue($fieldName)
+    {
+        $this->initialize();
+
+        return $this->collection->getDecodedValue($fieldName);
+    }
+
+    /**
      * Handles the conversion of references to entities.
      */
     protected function doInitialize()
