@@ -39,7 +39,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/');
         $app['request'] = $request;
         $app['request_stack']->push($request);
@@ -55,7 +54,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/clippy-inc');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -76,7 +74,6 @@ GRINGALET;
         $app->flush();
         $app['config']->set('general/homepage', '/');
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -102,7 +99,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -122,7 +118,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -142,7 +137,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -162,7 +156,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -192,7 +185,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -212,7 +204,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala?page=42');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -232,7 +223,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -253,7 +243,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -276,7 +265,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
@@ -296,7 +284,6 @@ GRINGALET;
         $app = $this->getApp();
         $app->flush();
         $this->addDefaultUser($app);
-        $this->addSomeContent();
         $request = (new Request())->create('/gum-tree/koala');
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
