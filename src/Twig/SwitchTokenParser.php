@@ -5,9 +5,9 @@ namespace Bolt\Twig;
 use Twig_Error_Syntax as TwigSyntaxError;
 use Twig_Node as Node;
 use Twig_Token as Token;
-use Twig_TokenParser as Parser;
+use Twig_TokenParser as TokenParser;
 
-/*
+/**
  * Adapted from code originally in Twig/extensions.
  *
  * Usage:
@@ -25,7 +25,7 @@ use Twig_TokenParser as Parser;
  *
  * @see: https://gist.github.com/maxgalbu/9409182
  */
-class SwitchTokenParser extends Parser
+class SwitchTokenParser extends TokenParser
 {
     /**
      * Parses a token and returns a node.
