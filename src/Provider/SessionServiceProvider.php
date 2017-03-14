@@ -10,6 +10,7 @@ use Bolt\Session\Handler\Factory\PredisFactory;
 use Bolt\Session\Handler\Factory\RedisFactory;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\FilesystemHandler;
+use Bolt\Session\Handler\MemcachedHandler;
 use Bolt\Session\Handler\MemcacheHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\IniBag;
@@ -22,7 +23,6 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler as MemcachedHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
