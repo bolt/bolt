@@ -3,7 +3,7 @@ var $    = require('gulp-load-plugins')();
 var argv = require('yargs').argv;
 
 // Check for --production flag
-var isProduction = !!(argv.production);
+var PRODUCTION = !!(argv.production);
 
 // Browsers to target when prefixing CSS.
 var COMPATIBILITY = ['last 2 versions', 'ie >= 9'];
@@ -53,7 +53,7 @@ var PATHS = {
 // Combine JavaScript into one file
 // In production, the file is minified
 gulp.task('javascript', function() {
-  var uglify = $.if(isProduction, $.uglify()
+  var uglify = $.if(PRODUCTION, $.uglify()
     .on('error', function (e) {
       console.log(e);
     }));
@@ -63,14 +63,12 @@ gulp.task('javascript', function() {
     .pipe($.babel())
     .pipe($.concat('foundation.js'))
     .pipe(uglify)
-    .pipe($.if(!isProduction, $.sourcemaps.write()))
+    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest('../js'));
 });
 
 // Compile Foundation Sass into CSS. In production, the CSS is compressed
 gulp.task('foundation-sass', function() {
-
-  var minifycss = $.if(isProduction, $.minifyCss());
 
   return gulp.src('scss/foundation.scss')
     .pipe($.sourcemaps.init())
@@ -81,15 +79,13 @@ gulp.task('foundation-sass', function() {
     .pipe($.autoprefixer({
       browsers: COMPATIBILITY
     }))
-    .pipe(minifycss)
-    .pipe($.if(!isProduction, $.sourcemaps.write()))
+    .pipe($.if(PRODUCTION, $.cssnano()))
+    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest('../css'));
 });
 
 // Compile Theme Sass into CSS. Not compressed.
 gulp.task('theme-sass', function() {
-
-  var minifycss = $.if(isProduction, $.minifyCss());
 
   return gulp.src('scss/theme.scss')
     .pipe($.sourcemaps.init())
@@ -101,8 +97,8 @@ gulp.task('theme-sass', function() {
       browsers: COMPATIBILITY
     }))
     // If you _do_ want to compress this file on 'production', uncomment the the lines below.
-    // .pipe(minifycss)
-    // .pipe($.if(!isProduction, $.sourcemaps.write()))
+    // .pipe($.if(PRODUCTION, $.cssnano()))
+    // .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest('../css'));
 });
 
