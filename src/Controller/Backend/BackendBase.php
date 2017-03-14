@@ -5,7 +5,10 @@ use Bolt\Controller\Base;
 use Bolt\Controller\Zone;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
+use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -202,34 +205,22 @@ abstract class BackendBase extends Base
      */
     private function checkFirstUser(Application $app, $route)
     {
-        // If we have a valid, logged in user, we're going to assume we can skip this (expensive) test.
-        if ($app['users']->getCurrentUser() !== null) {
-            return true;
-        }
+        /** @var UsersRepository $repo */
+        $repo = $app['storage']->getRepository(Entity\Users::class);
+        try {
+            $userCount = $repo->count();
+        } catch (TableNotFoundException $e) {
+            $app['schema']->update();
+            $app['logger.flash']->info(Trans::__('general.phrase.users-none-create-first'));
 
-        // Check the database users table exists
-        $tableExists = $app['schema']->hasUserTable();
-
-        // Test if we have a valid users in our table
-        $userCount = 0;
-        if ($tableExists) {
-            $userCount = $this->users()->hasUsers();
+            return $this->redirectToRoute('userfirst');
         }
 
         // If the users table is present, but there are no users, and we're on
         // /bolt/userfirst, we let the user stay, because they need to set up
         // the first user.
-        if ($tableExists && $userCount === 0 && $route === 'userfirst') {
-            return null;
-        }
-
-        // If there are no users in the users table, or the table doesn't exist.
-        // Repair the DB, and let's add a new user.
-        if (!$tableExists || $userCount === 0) {
-            $app['schema']->update();
-            $app['logger.flash']->info(Trans::__('general.phrase.users-none-create-first'));
-
-            return $this->redirectToRoute('userfirst');
+        if ($userCount === 0) {
+            return $route === 'userfirst' ? null : $this->redirectToRoute('userfirst');
         }
 
         return true;
