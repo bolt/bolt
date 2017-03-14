@@ -299,8 +299,8 @@ class TwigServiceProvider implements ServiceProviderInterface
     {
         // Add path here since "theme" filesystem isn't mounted until boot.
         $themePath = 'theme://' . $app['config']->get('theme/template_directory');
-        $app['twig.loader.bolt_filesystem']->addPath($themePath, 'theme');
-        $app['twig.loader.bolt_filesystem']->addPath($themePath);
+        $app['twig.loader.bolt_filesystem']->prependPath($themePath, 'theme');
+        $app['twig.loader.bolt_filesystem']->prependPath($themePath);
     }
 
     protected function registerSandbox(Application $app)

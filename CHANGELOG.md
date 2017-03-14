@@ -177,6 +177,16 @@ Bolt 3.3.0 beta 1
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
 
+Bolt 3.2.9
+----------
+
+Released 2017-03-12. Notable changes:
+
+ - Change: Maintenance on Base 2016. Replaced `gulp-minify-css` for `cssnano` in base-2016 theme. [#6469](https://github.com/bolt/bolt/pull/6469) [#6461](https://github.com/bolt/bolt/pull/6461)
+ - Change: Update `config.yml` with timezone info. [#6464](https://github.com/bolt/bolt/pull/6464)
+ - Fixed: Missing "Delete" button appears when it should. [#6468](https://github.com/bolt/bolt/pull/6468)
+ - Fixed: Raw should only be used on user data when intended. [#6463](https://github.com/bolt/bolt/pull/6463)
+
 Bolt 3.2.8
 ----------
 

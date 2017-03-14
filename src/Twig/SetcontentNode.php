@@ -3,6 +3,7 @@
 namespace Bolt\Twig;
 
 use Bolt\Twig\Extension\BoltExtension;
+use Twig_Compiler as Compiler;
 use Twig_Node as Node;
 use Twig_Node_Expression_Array as NodeExpressionArray;
 
@@ -36,7 +37,7 @@ class SetcontentNode extends Node
     /**
      * {@inheritdoc}
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $arguments = $this->getAttribute('arguments');
 

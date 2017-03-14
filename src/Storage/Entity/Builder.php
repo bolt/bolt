@@ -140,7 +140,9 @@ class Builder
                 call_user_func_array($handler, [$entity, $data[$key]]);
             } else {
                 $val = isset($data[$key]) ? $data[$key] : null;
-                call_user_func_array([$fieldType, 'set'], [$entity, $val]);
+                if ($fieldType instanceof FieldTypeInterface) {
+                    call_user_func_array([$fieldType, 'set'], [$entity, $val]);
+                }
             }
         }
 
