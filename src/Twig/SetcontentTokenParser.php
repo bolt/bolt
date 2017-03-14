@@ -2,26 +2,31 @@
 
 namespace Bolt\Twig;
 
+use Twig_Node_Expression_Array as NodeExpressionArray;
+use Twig_Node_Expression_Constant as NodeExpressionConstant;
+use Twig_Token as Token;
+use Twig_TokenParser as TokenParser;
+
 /**
- * TWig setcontent token parser.
+ * Twig {{ setcontent }} token parser.
  *
  * @author Bob den Otter <bob@twokings.nl>
  */
-class SetcontentTokenParser extends \Twig_TokenParser
+class SetcontentTokenParser extends TokenParser
 {
     /**
      * {@inheritdoc}
      */
-    public function parse(\Twig_Token $token)
+    public function parse(Token $token)
     {
         $lineno = $token->getLine();
 
-        $arguments = new \Twig_Node_Expression_Array([], $lineno);
+        $arguments = new NodeExpressionArray([], $lineno);
         $whereArguments = [];
 
         // name - the new variable with the results
-        $name = $this->parser->getStream()->expect(\Twig_Token::NAME_TYPE)->getValue();
-        $this->parser->getStream()->expect(\Twig_Token::OPERATOR_TYPE, '=');
+        $name = $this->parser->getStream()->expect(Token::NAME_TYPE)->getValue();
+        $this->parser->getStream()->expect(Token::OPERATOR_TYPE, '=');
 
         // ContentType, or simple expression to content.
         $contentType = $this->parser->getExpressionParser()->parseExpression();
@@ -30,68 +35,68 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
         do {
             // where parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'where')) {
                 $this->parser->getStream()->next();
                 $whereArguments = ['wherearguments' => $this->parser->getExpressionParser()->parseExpression()];
             }
 
             // limit parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'limit')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'limit')) {
                 $this->parser->getStream()->next();
                 $limit = $this->parser->getExpressionParser()->parseExpression();
-                $arguments->addElement($limit, new \Twig_Node_Expression_Constant('limit', $lineno));
+                $arguments->addElement($limit, new NodeExpressionConstant('limit', $lineno));
             }
 
             // order / orderby parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'order') ||
-                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'order') ||
+                $this->parser->getStream()->test(Token::NAME_TYPE, 'orderby')) {
                 $this->parser->getStream()->next();
                 $order = $this->parser->getExpressionParser()->parseExpression();
-                $arguments->addElement($order, new \Twig_Node_Expression_Constant('order', $lineno));
+                $arguments->addElement($order, new NodeExpressionConstant('order', $lineno));
             }
 
             // paging / allowpaging parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
-                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'paging') ||
+                $this->parser->getStream()->test(Token::NAME_TYPE, 'allowpaging')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('paging', $lineno)
+                    new NodeExpressionConstant(true, $lineno),
+                    new NodeExpressionConstant('paging', $lineno)
                 );
             }
 
             // printquery parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'printquery')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('printquery', $lineno)
+                    new NodeExpressionConstant(true, $lineno),
+                    new NodeExpressionConstant('printquery', $lineno)
                 );
             }
 
             // returnsingle parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'returnsingle')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'returnsingle')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('returnsingle', $lineno)
+                    new NodeExpressionConstant(true, $lineno),
+                    new NodeExpressionConstant('returnsingle', $lineno)
                 );
             }
 
             // nohydrate parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'nohydrate')) {
+            if ($this->parser->getStream()->test(Token::NAME_TYPE, 'nohydrate')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new \Twig_Node_Expression_Constant(false, $lineno),
-                    new \Twig_Node_Expression_Constant('hydrate', $lineno)
+                    new NodeExpressionConstant(false, $lineno),
+                    new NodeExpressionConstant('hydrate', $lineno)
                 );
             }
 
             // Make sure we don't get stuck in a loop, if a token can't be parsed.
             $counter++;
-        } while (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE) && ($counter < 10));
+        } while (!$this->parser->getStream()->test(Token::BLOCK_END_TYPE) && ($counter < 10));
 
-        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
+        $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
         return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
     }

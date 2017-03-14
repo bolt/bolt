@@ -7,7 +7,7 @@ trait DatabaseExceptionTrait
     /** @var string */
     protected $driver;
 
-    private static $driverNames = [
+    protected static $driverNames = [
         'pdo_mysql'   => 'MySQL',
         'mysql'       => 'MySQL',
         'mysql2'      => 'MySQL',
