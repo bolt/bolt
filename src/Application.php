@@ -27,7 +27,7 @@ class Application extends Silex\Application
         AppSingleton::set($this);
 
         /** @internal Parameter to track a deprecated PHP version */
-        $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
+        $values['deprecated.php'] = version_compare(PHP_VERSION, '7.0.0', '<');
 
         // Debug 1st phase: Register early error & exception handlers
         $this->register(new Provider\DebugServiceProvider());
