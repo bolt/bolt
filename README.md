@@ -6,6 +6,7 @@ Bolt 4 (Early Development)
   * **Should be considered unstable**
   * **Not suitable for production use**
   * **API is not stable and subject to change**
+  * **PHP 7 is now the minimum requirement** 
 
 ---
 
