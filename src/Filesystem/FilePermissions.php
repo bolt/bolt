@@ -89,6 +89,7 @@ class FilePermissions
      * @throws IOException
      *
      * @return bool
+     * @throws \Bolt\Exception\FilesystemException
      */
     public function allowedUpload($originalFilename)
     {
