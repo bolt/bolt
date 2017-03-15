@@ -81,7 +81,13 @@ class SessionServiceProvider implements ServiceProviderInterface
                 return new NativeGenerator($app['session.generator.bytes_length']);
             }
         );
-        $app['session.generator.bytes_length'] = 32;
+        $app['session.generator.bytes_length'] = $app->share(
+            function ($app) {
+                $options = $app['session.options_bag'];
+
+                return $options->getInt('sid_length', 32);
+            }
+        );
 
         $app['session.serializer'] = $app->share(
             function () {
@@ -166,6 +172,8 @@ class SessionServiceProvider implements ServiceProviderInterface
                     'cookie_domain'   => null,
                     'cookie_secure'   => false,
                     'cookie_httponly' => false,
+                    'sid_length'      => 32,
+
                     'restrict_realm'  => false,
                 ];
 
