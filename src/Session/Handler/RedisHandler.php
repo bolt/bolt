@@ -10,7 +10,7 @@ use Redis;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
+class RedisHandler extends AbstractHandler implements LazyWriteHandlerInterface
 {
     /** @var Redis|Predis */
     protected $redis;
@@ -35,14 +35,6 @@ class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterfac
     /**
      * {@inheritdoc}
      */
-    public function open($savePath, $sessionName)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function read($sessionId)
     {
         if ($data = $this->redis->get($sessionId)) {
@@ -50,14 +42,6 @@ class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterfac
         }
 
         return '';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function gc($maxlifetime)
-    {
-        return true;
     }
 
     /**
@@ -86,13 +70,5 @@ class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterfac
     public function updateTimestamp($sessionId, $data)
     {
         $this->redis->expire($sessionId, $this->ttl);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function close()
-    {
-        return true;
     }
 }
