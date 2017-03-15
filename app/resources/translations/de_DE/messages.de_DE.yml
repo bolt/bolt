@@ -254,7 +254,7 @@ field.markdown.label.preview: "Vorschau"
 field.slug.button.edit: "Bearbeiten"
 field.slug.button.generate: "Generiere von:"
 field.slug.button.lock: "Sperren"
-field.slug.message.warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
+field.slug.message.warning: "Änderungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
 field.slug.permalink: "Permanenter Link"
 field.slug.unique-alias: "Eindeutiger Alias"
 
