@@ -49,16 +49,20 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage'] = $app->share(
             function ($app) {
-                $options = $app['session.options_bag'];
-
-                $handler = $app['session.handler_factory']($options['save_handler'], $options);
-
                 return new SessionStorage(
-                    $options,
-                    $handler,
+                    $app['session.options_bag'],
+                    $app['session.handler'],
                     $app['session.generator'],
                     $app['session.serializer']
                 );
+            }
+        );
+
+        $app['session.handler'] = $app->share(
+            function ($app) {
+                $options = $app['session.options_bag'];
+
+                return $app['session.handler_factory']($options['save_handler'], $options);
             }
         );
 
