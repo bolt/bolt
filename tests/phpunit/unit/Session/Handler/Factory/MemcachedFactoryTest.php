@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @requires extension memcached
- * @requires extension memcached 2.0.0
+ * @requires extension memcached 3.0
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -109,20 +109,6 @@ class MemcachedFactoryTest extends TestCase
                 ]
             ],
 
-            // deprecated
-            'connection at root' => [
-                [
-                    'host' => '10.0.0.1',
-                    'port' => 11212,
-                ],
-                [
-                    [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
-                    ]
-                ]
-            ],
-
             'connections strings' => [
                 [
                     'connections' => [
@@ -178,20 +164,6 @@ class MemcachedFactoryTest extends TestCase
             'save path host' => [
                 [
                     'save_path' => 'host1:11212:2',
-                ],
-                [
-                    [
-                        'host' => 'host1',
-                        'port' => 11212,
-                        'weight' => 2,
-                    ]
-                ]
-            ],
-
-            // for v2 of extension. support will be removed once PHP 5 support is dropped.
-            'save path with persistent id' => [
-                [
-                    'save_path' => 'PERSISTENT=foo host1:11212:2',
                 ],
                 [
                     [
@@ -370,105 +342,6 @@ class MemcachedFactoryTest extends TestCase
                     'prefix' => 'sessions:',
                 ]
             ],
-
-            'v2 options from user are ignored if v3 are specified as well' => [
-                [
-                    'options' => [
-                        'remove_failed' => false,
-                        'remove_failed_servers' => true,
-
-                        'persistent' => true,
-                        'binary_protocol' => true,
-                        'consistent_hash' => true,
-                        'server_failure_limit' => 5,
-                        'randomize_replica_read' => true,
-                        'number_of_replicas' => 5,
-                        'connect_timeout' => 50,
-                        'sasl_username' => 'admin',
-                        'sasl_password' => 'password',
-                    ],
-                ],
-                [
-                ],
-                [
-                    'remove_failed_servers' => true,
-
-                    'persistent' => true,
-                    'binary_protocol' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => 5,
-                    'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'username' => 'admin',
-                    'password' => 'password',
-                ]
-            ],
-
-            'v2 options from user are replaced with v3 options' => [
-                [
-                    'options' => [
-                        'remove_failed' => true,
-
-                        'persistent' => true,
-                        'binary_protocol' => true,
-                        'consistent_hash' => true,
-                        'server_failure_limit' => 5,
-                        'randomize_replica_read' => true,
-                        'number_of_replicas' => 5,
-                        'connect_timeout' => 50,
-                        'username' => 'admin',
-                        'password' => 'password',
-                    ],
-                ],
-                [
-                ],
-                [
-                    'remove_failed_servers' => true,
-
-                    'persistent' => true,
-                    'binary_protocol' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => 5,
-                    'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'username' => 'admin',
-                    'password' => 'password',
-                ]
-            ],
-
-            'v2 options are defaulted from ini' => [
-                [
-                    'options' => [
-                        'persistent' => true,
-                        'consistent_hash' => true,
-                        'server_failure_limit' => 5,
-                        'randomize_replica_read' => true,
-                        'number_of_replicas' => 5,
-                        'connect_timeout' => 50,
-                        'sasl_username' => 'admin',
-                        'sasl_password' => 'password',
-                    ],
-                ],
-                [
-                    'remove_failed' => true,
-                    'binary' => true,
-                ],
-                [
-                    'remove_failed_servers' => true,
-                    'binary_protocol' => true,
-
-                    'persistent' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => 5,
-                    'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'username' => 'admin',
-                    'password' => 'password',
-                ]
-            ],
         ];
     }
 
@@ -502,9 +375,9 @@ class MemcachedFactoryTest extends TestCase
         return [
             'save path' => [
                 [
-                    'save_path' => 'PERSISTENT=foo host1:11212:2',
+                    'save_path' => 'host1:11212:2',
                 ],
-                'foo'
+                'memc-session:host1:11212:2'
             ],
 
             'persistent_id option' => [

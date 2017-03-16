@@ -2,7 +2,6 @@
 
 namespace Bolt\Session\Handler\Factory;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Session\IniBag;
 use Bolt\Session\OptionsBag;
 use InvalidArgumentException;
@@ -12,8 +11,6 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Factory for creating Memcached instances from Session options and memcached ini options.
- *
- * We will support v2.0 of the extension until support for PHP 5 is dropped.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -35,8 +32,8 @@ class MemcachedFactory extends AbstractFactory
         if (!extension_loaded('memcached')) {
             throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is not installed and enabled.');
         }
-        if (version_compare(phpversion('memcached'), '2.0.0', '<')) {
-            throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is too old. Version 2.0.0 or higher is required.');
+        if (version_compare(phpversion('memcached'), '3.0', '<')) {
+            throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is too old. Version 3.0.0 or higher is required.');
         }
 
         $this->ini = $ini ?: new IniBag('memcached', 'sess_');
@@ -142,23 +139,6 @@ class MemcachedFactory extends AbstractFactory
             'sasl_password' => 'string',
             'prefix' => 'string',
         ];
-        $v2IniKeys = [
-            'remove_failed_servers' => ['remove_failed', 'bool'],
-            'binary_protocol'       => ['binary', 'bool'],
-        ];
-
-        // If user specified v2 option, warn and replace with new name
-        foreach ($v2IniKeys as $new => list($old, $type)) {
-            if ($options->has($old)) {
-                Deprecated::warn("Memcached option \"$old\"", 3.3, "Use \"$new\" instead.");
-
-                if (!$options->has($new)) {
-                    $options->set($new, $options->get($old));
-                }
-
-                $options->remove($old);
-            }
-        }
 
         // Merge ini values in as defaults.
         foreach ($iniKeys as $key => $type) {
@@ -171,20 +151,6 @@ class MemcachedFactory extends AbstractFactory
                     $value = $this->ini->get($key);
                 }
                 $options[$key] = $value;
-            }
-        }
-
-        // Merge v2 ini values in as defaults.
-        foreach ($v2IniKeys as $new => list($old, $type)) {
-            if (!$options->has($new) && $this->ini->has($old)) {
-                if ($type === 'bool') {
-                    $value = $this->ini->getBoolean($old);
-                } elseif ($type === 'int') {
-                    $value = $this->ini->getInt($old);
-                } else {
-                    $value = $this->ini->get($old);
-                }
-                $options[$new] = $value;
             }
         }
 
@@ -204,7 +170,7 @@ class MemcachedFactory extends AbstractFactory
     /**
      * Parse the Persistent ID from save_path and sets it on options.
      *
-     * 1. Given in save_path "PERSISTENT=foo"
+     * 1. Determined by save_path
      * 2. Given in options via "persistent_id"
      * 3. Determined automatically based on current connections and options.
      *
@@ -218,22 +184,8 @@ class MemcachedFactory extends AbstractFactory
     {
         // Try based on save_path.
         $savePath = $sessionOptions['save_path'];
-        $savePath = trim($savePath); // Just in case.
         if ($savePath) {
-            // v3.0 uses save path for ID (from what I can tell)
-            $persistentId = 'memc-session:' . $savePath;
-
-            // v2.0 uses "PERSISTENT=foo servers", so parse that.
-            if (strpos($savePath, 'PERSISTENT=') === 0) {
-                $end = strpos($savePath, ' ');
-                if ($end === false) {
-                    throw new InvalidArgumentException('Unable to parse session save_path');
-                }
-
-                $persistentId = substr($savePath, 11, $end - 11);
-            }
-
-            return $persistentId;
+            return 'memc-session:' . $savePath;
         }
 
         // Try based on specified value in options.
@@ -254,24 +206,6 @@ class MemcachedFactory extends AbstractFactory
         $hash = hash('sha256', join(',', $hashParts));
 
         return $hash;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function parseConnectionsFromSavePath($savePath)
-    {
-        // v2.0 uses "PERSISTENT=foo servers", so remove that.
-        if (strpos($savePath, 'PERSISTENT=') === 0) {
-            $end = strpos($savePath, ' ');
-            if ($end === false) {
-                throw new InvalidArgumentException('Unable to parse session save_path');
-            }
-
-            $savePath = substr($savePath, $end + 1);
-        }
-
-        return parent::parseConnectionsFromSavePath($savePath);
     }
 
     /**
