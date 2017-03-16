@@ -276,56 +276,27 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     protected function registerMemcacheHandler(Application $app)
     {
-        // @deprecated
-        $app['session.handler_factory.backing_memcache'] = $app->protect(
-            function (OptionsBag $options) {
-                return (new MemcacheFactory())->create($options);
-            }
-        );
-
         $app['session.handler_factory.backing_memcached'] = $app->protect(
             function (OptionsBag $options) {
                 return (new MemcachedFactory())->create($options);
             }
         );
 
-        $app['session.handler_factory.memcache'] = $app->protect(
-            function (OptionsBag $options, $key = 'memcache') use ($app) {
-                if ($key === 'memcache') {
-                    Deprecated::warn('"memcache" session handler', 3.3, 'Use "memcached" instead.');
-                }
-
-                $memcache = $app['session.handler_factory.backing_' . $key]($options);
+        $app['session.handler_factory.memcached'] = $app->protect(
+            function (OptionsBag $options) use ($app) {
+                $memcached = $app['session.handler_factory.backing_memcached']($options);
 
                 $handlerOptions = new OptionsBag($options->get('options', []));
 
                 $memcacheOptions = [];
-                if (isset($options['expiretime'])) {
-                    Deprecated::warn('Specifying "expiretime" directly in session config', 3.3, 'Move it under the "options" key.');
-
-                    $memcacheOptions['expiretime'] = $options['expiretime'];
-                } elseif (isset($handlerOptions['expiretime'])) {
+                if (isset($handlerOptions['expiretime'])) {
                     $memcacheOptions['expiretime'] = $handlerOptions['expiretime'];
                 }
-                if (isset($options['prefix'])) {
-                    Deprecated::warn('Specifying "prefix" directly in session config', 3.3, 'Move it under the "options" key.');
-
-                    $memcacheOptions['prefix'] = $options['prefix'];
-                } elseif (isset($handlerOptions['prefix'])) {
+                if (isset($handlerOptions['prefix'])) {
                     $memcacheOptions['prefix'] = $handlerOptions['prefix'];
                 }
 
-                if ($key === 'memcache') {
-                    return new MemcacheHandler($memcache, $memcacheOptions);
-                } else {
-                    return new MemcachedHandler($memcache, $memcacheOptions);
-                }
-            }
-        );
-
-        $app['session.handler_factory.memcached'] = $app->protect(
-            function (OptionsBag $options) use ($app) {
-                return $app['session.handler_factory.memcache']($options, 'memcached');
+                return new MemcachedHandler($memcached, $memcacheOptions);
             }
         );
     }
