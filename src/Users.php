@@ -216,9 +216,7 @@ class Users
      */
     public function hasUsers()
     {
-        $rows = $this->getRepository()->hasUsers();
-
-        return $rows ? (integer) $rows['count'] : 0;
+        return $this->getRepository()->count();
     }
 
     /**

@@ -90,6 +90,21 @@ class Repository implements ObjectRepository
     }
 
     /**
+     * Return the number of rows used in this repository table.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $qb = $this->getLoadQuery()
+            ->select('COUNT(' . $this->getAlias() . '.id) as count')
+        ;
+        $result = $qb->execute()->fetchColumn(0);
+
+        return (int) $result;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function find($id)

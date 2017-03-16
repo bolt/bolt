@@ -91,6 +91,7 @@ class AccessCheckerTest extends BoltUnitTest
     public function testIsValidSessionGenerateToken()
     {
         $app = $this->getApp(false);
+        $this->addDefaultUser($app);
 
         $ipAddress = '8.8.8.8';
         $userAgent = 'Bolt PHPUnit tests';
