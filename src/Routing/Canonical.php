@@ -25,7 +25,7 @@ class Canonical implements EventSubscriberInterface
     /** @var RequestContext */
     protected $requestContext;
     /** @var UrlGeneratorInterface */
-    protected $urlGenerator;
+    private $urlGenerator;
     /** @var string|null An optional scheme/host override. */
     private $override;
 
@@ -47,6 +47,14 @@ class Canonical implements EventSubscriberInterface
         $this->requestContext = $requestContext;
         $this->urlGenerator = $urlGenerator;
         $this->override = $override;
+    }
+
+    /**
+     * @param UrlGeneratorInterface $urlGenerator
+     */
+    public function setUrlGenerator(UrlGeneratorInterface $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
