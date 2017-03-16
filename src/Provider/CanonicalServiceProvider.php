@@ -18,9 +18,8 @@ class CanonicalServiceProvider implements ServiceProviderInterface
         $app['canonical'] = $app->share(
             function ($app) {
                 return new Canonical(
-                    $app['request_stack'],
-                    $app['request_context'],
                     $app['url_generator'],
+                    $app['config']->get('general/force_ssl'),
                     $app['config']->get('general/canonical')
                 );
             }
