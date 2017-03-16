@@ -74,7 +74,7 @@ class RedisFactoryTest extends TestCase
                         'retry_interval' => 500,
                         'weight' => 3,
                         'database' => 4,
-                        'auth' => 'secret', // deprecated
+                        'password' => 'secret',
                     ],
                     'options' => [
                         'prefix' => 'foo',
@@ -121,30 +121,6 @@ class RedisFactoryTest extends TestCase
                 ]
             ],
 
-            // deprecated
-            'connection at root' => [
-                [
-                    'host' => 'redis.test',
-                    'port' => 6380,
-                    'timeout' => 34.0,
-                    'persistent' => true,
-                    'password' => 'secret',
-                    'database' => 4,
-                    'prefix' => 'foo',
-                ],
-                [
-                    [
-                        'host' => 'redis.test',
-                        'port' => 6380,
-                        'timeout' => 34.0,
-                        'persistent' => true,
-                        'password' => 'secret',
-                        'database' => 4,
-                        'prefix' => 'foo',
-                    ]
-                ]
-            ],
-
             'connections strings' => [
                 [
                     'connections' => [
@@ -179,7 +155,7 @@ class RedisFactoryTest extends TestCase
                             'retry_interval' => 500,
                             'weight' => 3,
                             'database' => 4,
-                            'auth' => 'secret', // deprecated
+                            'password' => 'secret',
                         ],
                         [
                             'host' => '10.0.0.2',
