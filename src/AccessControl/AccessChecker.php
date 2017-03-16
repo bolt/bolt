@@ -151,7 +151,7 @@ class AccessChecker
         try {
             // Only show this flash if there are users in the system.
             // Not when we're about to get redirected to the "first users" screen.
-            if ($this->getRepositoryUsers()->hasUsers()) {
+            if ($this->getRepositoryUsers()->count() > 0) {
                 $this->flashLogger->info(Trans::__('general.phrase.access-denied-logged-out'));
             }
         } catch (TableNotFoundException $e) {
