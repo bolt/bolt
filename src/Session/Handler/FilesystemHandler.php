@@ -11,7 +11,7 @@ use Bolt\Filesystem\Handler\FileInterface;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class FilesystemHandler implements \SessionHandlerInterface
+class FilesystemHandler extends AbstractHandler
 {
     /** @var DirectoryInterface */
     protected $directory;
@@ -75,19 +75,5 @@ class FilesystemHandler implements \SessionHandlerInterface
             /** @var $file FileInterface */
             $file->delete();
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function open($savePath, $sessionName)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function close()
-    {
     }
 }
