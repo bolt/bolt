@@ -158,6 +158,8 @@ class UsersRepository extends Repository
     /**
      * Check to see if there are users in the user table.
      *
+     * @deprecated Deprecated since 3.3. To be removed in v4.0.
+     *
      * @return integer
      */
     public function hasUsers()
@@ -168,6 +170,8 @@ class UsersRepository extends Repository
     }
 
     /**
+     * @deprecated Deprecated since 3.3. To be removed in v4.0.
+     *
      * @return QueryBuilder
      */
     public function hasUsersQuery()

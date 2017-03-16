@@ -32,8 +32,17 @@ before_install:
     fi
   # Start SMTP listener
   - sudo python -m smtpd -n -c DebuggingServer localhost:25 2>&1 > /dev/null &
-  # Increase PHP memory limit. Required for Composer & PHPUnit.
-  - echo "memory_limit=2G" ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Add Redis & Memcached extensions
+  - |
+    if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then
+        echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+        echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    fi
+  # Memcache to be removed in Bolt v4
+  - |
+    if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then
+        echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    fi
 
 before_script:
   # Set up Composer
@@ -65,4 +74,3 @@ script:
 cache:
   directories:
     - $COMPOSER_CACHE_DIR
-

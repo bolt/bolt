@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FileHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
+class FileHandler extends AbstractHandler implements LazyWriteHandlerInterface
 {
     /** @var integer */
     protected $depth;
@@ -69,22 +69,6 @@ class FileHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
         $this->depth = $depth;
         $this->mode = $mode;
         $this->savePath = $savePath;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function open($savePath, $sessionName)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function close()
-    {
-        return true;
     }
 
     /**
