@@ -33,7 +33,7 @@ class MemcachedFactory extends AbstractFactory
     public function __construct(ParameterBag $ini = null, $class = Memcached::class)
     {
         if (!extension_loaded('memcached')) {
-            throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is not installed and enabled. Install the extension or try the "memcache" session handler instead.');
+            throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is not installed and enabled.');
         }
         if (version_compare(phpversion('memcached'), '2.0.0', '<')) {
             throw new RuntimeException('Unable to use "memcached" session handler as memcached extension is too old. Version 2.0.0 or higher is required.');

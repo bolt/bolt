@@ -276,6 +276,7 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     protected function registerMemcacheHandler(Application $app)
     {
+        // @deprecated
         $app['session.handler_factory.backing_memcache'] = $app->protect(
             function (OptionsBag $options) {
                 return (new MemcacheFactory())->create($options);
@@ -290,6 +291,10 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.handler_factory.memcache'] = $app->protect(
             function (OptionsBag $options, $key = 'memcache') use ($app) {
+                if ($key === 'memcache') {
+                    Deprecated::warn('"memcache" session handler', 3.3, 'Use "memcached" instead.');
+                }
+
                 $memcache = $app['session.handler_factory.backing_' . $key]($options);
 
                 $handlerOptions = new OptionsBag($options->get('options', []));
