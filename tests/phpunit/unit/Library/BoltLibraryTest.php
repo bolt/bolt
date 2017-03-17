@@ -4,7 +4,6 @@ namespace Bolt\Tests\Library;
 
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Library.
