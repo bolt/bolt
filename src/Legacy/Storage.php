@@ -2381,7 +2381,7 @@ class Storage
         }
 
         // Get the contenttype from first $content
-        $first = $content[util::array_first_key($content)];
+        $first = reset($content);
         $config = $first->contenttype;
         $contenttype = (isset($config['key'])) ? $config['key'] : $config['slug'];
 
