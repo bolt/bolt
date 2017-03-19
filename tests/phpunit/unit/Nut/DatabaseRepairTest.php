@@ -26,19 +26,25 @@ class DatabaseRepairTest extends BoltUnitTest
 
     public function testUpdateSchema()
     {
-        $tester = $this->executeChanged([]);
+        $tester = $this->getTester();
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Created table `bolt_newcontent`/', $result);
     }
 
     public function testUpdateSchemaDumpSql()
     {
-        $tester = $this->executeChanged(['--dump-sql']);
+        $this->resetDb();
+        $tester = $this->getTester();
+        $tester->execute(['--dump-sql' => true]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/CREATE TABLE bolt_newcontent/', $result);
     }
 
-    private function executeChanged(array $arguments)
+    /**
+     * @return CommandTester
+     */
+    private function getTester()
     {
         $app = $this->getApp(false);
         $app['config']->set('contenttypes/newcontent', [
