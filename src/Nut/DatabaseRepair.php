@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 class DatabaseRepair extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -24,32 +24,36 @@ class DatabaseRepair extends BaseCommand
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('dump-sql')) {
-            return $this->dumpSql($output);
+            $this->dumpSql($output);
+
+            return $output->writeln(sprintf('<comment>%sDatabase SQL above was NOT applied to your database.</comment>', PHP_EOL));
         }
 
         $response = $this->app['schema']->update();
-
         if (!$response->hasResponses()) {
-            $output->writeln('<info>Your database is already up to date.</info>');
-        } else {
-            $output->writeln('<comment>Modifications made to the database:</comment>');
-            foreach ($response->getResponseStrings() as $messages) {
-                $output->writeln('<info> - ' . $messages . '</info>');
-            }
-            $output->writeln('<info>Your database is now up to date.</info>');
-
-            $this->auditLog(__CLASS__, 'Database updated');
+            return $output->writeln('<info>Your database is already up to date.</info>');
         }
+
+        $output->writeln('<comment>Modifications made to the database:</comment>');
+        foreach ($response->getResponseStrings() as $messages) {
+            $output->writeln('<info> - ' . $messages . '</info>');
+        }
+        $this->auditLog(__CLASS__, 'Database updated');
+
+        return $output->writeln('<info>Your database is now up to date.</info>');
     }
 
+    /**
+     * @param OutputInterface $output
+     */
     private function dumpSql(OutputInterface $output)
     {
-        $check = $this->app['schema']->check();
+        $this->app['schema']->check();
 
         $context = [
             'alters'  => $this->app['schema.comparator']->getAlters(),
