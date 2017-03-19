@@ -22,7 +22,8 @@ class DatabaseExport extends BaseCommand
             ->setDescription('[EXPERIMENTAL] Export the database records to a YAML or JSON file.')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
             ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
-            ->addOption('file',           'f', InputOption::VALUE_REQUIRED, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
+            ->addOption('file',           'f', InputOption::VALUE_OPTIONAL, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
+            ->addOption('directory',      'd', InputOption::VALUE_OPTIONAL, 'A destination directory. The command will automatically generate filenames.')
         ;
     }
 
@@ -33,13 +34,20 @@ class DatabaseExport extends BaseCommand
 
         // Check if export file can be created
         $file = $input->getOption('file');
-        if (empty($file)) {
-            throw new \RuntimeException('The --file option is required.');
+        $directory = $input->getOption('directory');
+        if (empty($file) && empty($directory)) {
+            throw new \RuntimeException('One of the --file or --directory options is required.');
         }
 
         // See if we're going to continue
         if ($this->checkContinue($input, $output) === false) {
             return;
+        }
+
+        // If we are using the directory option, then we create the file and verify.
+        if (empty($file) && isset($directory)) {
+            $prefix = date('YmdHis');
+            $file = rtrim($directory, '/').'/'.$prefix.'.yml';
         }
 
         // Get the Bolt Export migration object
