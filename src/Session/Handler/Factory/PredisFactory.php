@@ -2,7 +2,6 @@
 
 namespace Bolt\Session\Handler\Factory;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Session\OptionsBag;
 use Predis;
 
@@ -49,12 +48,6 @@ class PredisFactory extends AbstractFactory
     protected function parseOptions(OptionsBag $sessionOptions)
     {
         $options = $sessionOptions->get('options', []);
-
-        if ($sessionOptions->get('prefix')) {
-            Deprecated::warn('Specifying "prefix" directly in session config', 3.3, 'Move it under the "options" key.');
-
-            $options['prefix'] = $sessionOptions->get('prefix');
-        }
 
         return $options;
     }

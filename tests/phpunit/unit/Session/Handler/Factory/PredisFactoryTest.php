@@ -110,45 +110,6 @@ class PredisFactoryTest extends TestCase
                     'prefix' => 'foo',
                 ]
             ],
-
-            'with prefix at root' => [
-                [
-                    'connection' => [],
-                    'prefix' => 'foo',
-                ],
-                [],
-                [
-                    'prefix' => 'foo',
-                ]
-            ],
-
-            // deprecated
-            'at root' => [
-                [
-                    'scheme' => 'tcp',
-                    'host' => 'redis.test',
-                    'port' => 6380,
-                    'timeout' => 34.0,
-                    'persistent' => true,
-                    'password' => 'secret',
-                    'database' => 4,
-                    'prefix' => 'foo',
-                ],
-                [
-                    [
-                        'scheme' => 'tcp',
-                        'host' => 'redis.test',
-                        'port' => 6380,
-                        'timeout' => 34.0,
-                        'persistent' => true,
-                        'password' => 'secret',
-                        'database' => 4,
-                    ]
-                ],
-                [
-                    'prefix' => 'foo',
-                ]
-            ],
         ];
     }
 

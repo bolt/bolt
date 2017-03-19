@@ -2,7 +2,6 @@
 
 namespace Bolt\Session\Handler\Factory;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Session\OptionsBag;
 use InvalidArgumentException;
 use Redis;
@@ -122,10 +121,6 @@ class RedisFactory extends AbstractFactory
         $options = new OptionsBag($sessionOptions->get('options', []));
         if ($options->has('prefix')) {
             $prefix = $options->get('prefix');
-        } elseif ($sessionOptions->has('prefix')) {
-            Deprecated::warn('Specifying "prefix" directly in session config', 3.3, 'Move it under the "options" key.');
-
-            $prefix = $sessionOptions->get('prefix');
         }
 
         foreach ($connections as $connection) {
@@ -186,10 +181,6 @@ class RedisFactory extends AbstractFactory
 
         $item = new OptionsBag($item);
 
-        if ($prefix = $item->get('prefix')) {
-            Deprecated::warn('Specifying "prefix" under the "connection(s)" key', 3.3, 'Move it under the "options" key.');
-        }
-
         $conn = new OptionsBag([
             'host' => $item->get('host') ?: '127.0.0.1',
             'port' => $item->getInt('port') ?: 6379,
@@ -198,19 +189,13 @@ class RedisFactory extends AbstractFactory
             'retry_interval' => $item->getInt('retry_interval', 0),
             'weight' => $item->getInt('weight', 1),
             'database' => $item->getInt('database', 0),
-            'prefix' => $prefix,
+            'prefix' => $item->get('prefix'),
             'password' => $item->get('password'),
         ]);
 
         if ($item['path']) {
             $conn['host'] = $item['path'];
             $conn['port'] = 0;
-        }
-
-        if ($item['auth']) { // Not sure if needed for BC
-            Deprecated::warn('Connection key "auth"', 3.3, 'Use "password" instead.');
-
-            $conn['password'] = $item['auth'];
         }
 
         return $conn;

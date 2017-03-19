@@ -2,7 +2,6 @@
 
 namespace Bolt\Session\Handler\Factory;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Session\OptionsBag;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\UriInterface;
@@ -65,10 +64,6 @@ abstract class AbstractFactory
             $connections = $options->get('connections');
         } elseif ($options->has('connection')) {
             $connections = [$options->get('connection')];
-        } elseif ($options->has('host') || $options->has('port')) {
-            Deprecated::warn('Specifying "host" and other options directly in session config', 3.3, 'Move them under the "connection" key.');
-
-            $connections = [$options->all()];
         } else {
             $connections = [[]];
         }
