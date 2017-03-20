@@ -1,15 +1,16 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\PasswordHashManager;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * PasswordHash test
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class PasswordHashTest extends \PHPUnit_Framework_TestCase
+class PasswordHashTest extends TestCase
 {
     public function testCreateHash()
     {

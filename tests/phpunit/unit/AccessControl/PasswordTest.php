@@ -1,12 +1,13 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\Password;
 use Bolt\AccessControl\PasswordHashManager;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
+use Bolt\Tests\BoltUnitTest;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -1,12 +1,13 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Token;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
+use Bolt\Tests\BoltUnitTest;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
