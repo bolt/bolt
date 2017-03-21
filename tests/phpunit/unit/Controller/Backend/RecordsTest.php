@@ -78,6 +78,10 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('', $new['ownerid']);
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage Something went wrong
+     */
     public function testEditCSRF()
     {
         $csrf = $this->getMockCsrfTokenManager();
@@ -93,7 +97,6 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Something went wrong');
         $this->controller()->edit($this->getRequest(), 'showcases', 3);
     }
 

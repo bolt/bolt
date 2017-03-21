@@ -27,14 +27,16 @@ class AccessCheckerTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
     }
 
+    /**
+     * @expectedException        \Bolt\Exception\AccessControlException
+     * @expectedExceptionMessage Can not validate session with an empty token.
+     */
     public function testIsValidSessionNoCookie()
     {
         $accessControl = $this->getAccessControl();
         $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
-        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Can not validate session with an empty token.');
-
-        $response = $accessControl->isValidSession(null);
+        $accessControl->isValidSession(null);
     }
 
     /**

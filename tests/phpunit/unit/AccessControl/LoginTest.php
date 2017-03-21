@@ -21,6 +21,10 @@ class LoginTest extends BoltUnitTest
         $this->resetDb();
     }
 
+    /**
+     * @expectedException        \Bolt\Exception\AccessControlException
+     * @expectedExceptionMessage Invalid login parameters.
+     */
     public function testLoginNoCredentials()
     {
         $app = $this->getApp();
@@ -35,8 +39,6 @@ class LoginTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $login = new Login($app);
-
-        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Invalid login parameters.');
         $login->login(null, null, new AccessControlEvent(new Request()));
     }
 

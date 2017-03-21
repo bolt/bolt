@@ -145,6 +145,10 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame('theme', $queued->getPackageName());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Bolt\Tests\Extension\Mock\AssetExtension::registerAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: string
+     */
     public function testRegisterInvalidAssets()
     {
         $app = $this->getApp();
@@ -160,10 +164,13 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setBaseDirectory($dir);
         $ext->register($app);
 
-        $this->setExpectedException('InvalidArgumentException', 'Bolt\Tests\Extension\Mock\AssetExtension::registerAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: string');
         $app['asset.queue.file']->getQueue();
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Extension file assets must have a path set.
+     */
     public function testRegisterInvalidPathAssets()
     {
         $app = $this->getApp();
@@ -179,7 +186,6 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setBaseDirectory($dir);
         $ext->register($app);
 
-        $this->setExpectedException('RuntimeException', 'Extension file assets must have a path set.');
         $app['asset.queue.file']->getQueue();
     }
 }

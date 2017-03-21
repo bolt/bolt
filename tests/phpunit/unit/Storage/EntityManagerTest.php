@@ -58,10 +58,18 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
+        $this->assertInstanceOf('Bolt\Storage\Repository\ContentRepository', $repo);
+    }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unable to handle unmapped data without a defaultRepositoryFactory set
+     */
+    public function testGetDefaultRepositoryFactoryNotSet()
+    {
+        $app = $this->getApp();
         // The first check should work, this one should fail because the factory has not been set.
-        $this->setExpectedException('RuntimeException');
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = $em->getRepository('showcases');
+        $em->getRepository('showcases');
     }
 }

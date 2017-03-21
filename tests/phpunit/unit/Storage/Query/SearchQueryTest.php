@@ -64,23 +64,27 @@ class SearchQueryTest extends BoltUnitTest
         $this->assertEquals('%ipsum%', $params['groups_2']);
     }
 
+    /**
+     * @expectedException \Bolt\Exception\QueryParseException
+     */
     public function testContenttypeFailure()
     {
         $app = $this->getApp();
         $filter = 'main other';
         $query = $app['query.search'];
         $query->setContentType('blocks');
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
         $query->setSearch($filter);
     }
 
+    /**
+     * @expectedException \Bolt\Exception\QueryParseException
+     */
     public function testMissingContenttypeFailure()
     {
         $app = $this->getApp();
         $filter = 'main other';
         $query = $app['query.search'];
         $query->setContentType('nonexistent');
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
         $query->setSearch($filter);
     }
 }

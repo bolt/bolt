@@ -41,6 +41,10 @@ class MountEventTest extends BoltUnitTest
         $mountEvent->mount('/', $controllers);
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.
+     */
     public function testMountInvalidCollection()
     {
         $app = $this->getApp();
@@ -52,11 +56,14 @@ class MountEventTest extends BoltUnitTest
             ->method('mount')
         ;
 
-        $this->setExpectedException('LogicException', 'The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.');
         $mountEvent = new MountEvent($app, $controllers);
         $mountEvent->mount('/', $route);
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The method "Bolt\Tests\Events\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\ClippyKoala"
+     */
     public function testMountInvalidCollectionConnect()
     {
         $app = $this->getApp();
@@ -67,8 +74,6 @@ class MountEventTest extends BoltUnitTest
             ->expects($this->never())
             ->method('mount')
         ;
-
-        $this->setExpectedException('LogicException', 'The method "Bolt\Tests\Events\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\ClippyKoala"');
 
         $mountEvent = new MountEvent($app, $controllers);
         $mountEvent->mount('/', new ControllerMock($route));

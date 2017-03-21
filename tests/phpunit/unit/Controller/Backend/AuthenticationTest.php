@@ -63,15 +63,9 @@ class AuthenticationTest extends ControllerUnitTest
         $this->assertTrue($response->isRedirect('/bolt'));
     }
 
-    public function testPostLoginFailures()
+    public function testPostLoginFailure()
     {
-        $this->setRequest(Request::create('/bolt/login', 'POST', [
-            'action'   => 'login',
-            'username' => 'test',
-            'password' => 'pass',
-        ]));
-
-        $app = $this->getApp();
+        $this->getApp();
         $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')
@@ -79,23 +73,21 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(false));
         $this->setService('access_control.login', $loginMock);
 
+        $request = Request::create('/bolt/login', 'POST', [
+            'action'   => 'login',
+            'username' => 'test',
+            'password' => 'pass',
+        ]);
+
+        $this->setRequest($request);
         /** @var TemplateResponse $response */
-        $response = $this->controller()->postLogin($this->getRequest());
+        $response = $this->controller()->postLogin($request);
         $this->assertEquals('@bolt/login/login.twig', $response->getTemplateName());
-
-        // Test missing data fails
-        $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'fake']));
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Invalid request');
-        $this->controller()->postLogin($this->getRequest());
-
-        $this->setRequest(Request::create('/bolt/login', 'POST', []));
-        $response = $this->controller()->postLogin($this->getRequest());
-        $this->assertEquals('error.twig', $response->getTemplateName());
     }
 
     public function testLoginSuccess()
     {
-        $app = $this->getApp();
+        $this->getApp();
         $loginMock = $this->getMockLogin();
         $loginMock->expects($this->once())
             ->method('login')

@@ -77,10 +77,18 @@ class QueryParameterParserTest extends BoltUnitTest
         $filter = $p->getFilter('id', '>29 && <=37');
         $this->assertEquals('(id > :id_1) AND (id <= :id_2)', $filter->getExpression());
         $this->assertEquals(['id_1' => '29', 'id_2' => '37'], $filter->getParameters());
+    }
 
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
+    /**
+     * @expectedException \Bolt\Exception\QueryParseException
+     */
+    public function testCompositeOrAndInvalid()
+    {
+        $app = $this->getApp();
+        $expr = $app['storage']->createExpressionBuilder();
+
         $p = new QueryParameterParser($expr);
-        $filter = $p->getFilter('ownerid', '>1||<4 && <56');
+        $p->getFilter('ownerid', '>1||<4 && <56');
     }
 
     public function testComplexOr()
@@ -99,11 +107,13 @@ class QueryParameterParserTest extends BoltUnitTest
         $this->assertEquals(['username_1' => 'tester', 'email_2' => 'faker'], $filter->getParameters());
     }
 
+    /**
+     * @expectedException \Bolt\Exception\QueryParseException
+     */
     public function testMissingBuilderError()
     {
         $p = new QueryParameterParser();
-        $this->setExpectedException('Bolt\Exception\QueryParseException');
-        $filter = $p->getFilter('username ||| email', 'tester');
+        $p->getFilter('username ||| email', 'tester');
     }
 
     public function testAddingCustomMatcher()

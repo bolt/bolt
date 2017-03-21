@@ -38,18 +38,21 @@ class PathResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $resolver->resolve($path));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Failed to resolve path. Alias %nope% is not defined.
+     */
     public function testUndefinedAliasFails()
     {
-        $this->setExpectedException(\InvalidArgumentException::class, 'Failed to resolve path. Alias %nope% is not defined.');
-
         $resolver = new PathResolver('/root/');
         $resolver->resolve('%nope%/foo/bar');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testRelativeRootFails()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
-
         new PathResolver('foo');
     }
 

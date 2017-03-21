@@ -27,6 +27,10 @@ class SimpleExtensionTest extends BoltUnitTest
         $mock->register($app);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Drop Bear Alert!
+     */
     public function testSubscribe()
     {
         $app = $this->getApp();
@@ -37,7 +41,6 @@ class SimpleExtensionTest extends BoltUnitTest
         $listeners = $app['dispatcher']->getListeners('dropbear.sighting');
         $this->assertInstanceOf('Bolt\Tests\Extension\Mock\NormalExtension', $listeners[0][0]);
 
-        $this->setExpectedException('RuntimeException', 'Drop Bear Alert!');
         $app['dispatcher']->dispatch('dropbear.sighting');
     }
 

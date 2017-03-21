@@ -230,6 +230,10 @@ class FrontendTest extends ControllerUnitTest
         );
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage not found
+     */
     public function testNoRecord()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
@@ -240,15 +244,13 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue(false));
         $this->setService('storage', $storage);
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-
-        $response = $this->controller()->record($this->getRequest(), 'pages');
-
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->controller()->record($this->getRequest(), 'pages');
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage not found
+     */
     public function testRecordNoTemplate()
     {
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
@@ -259,15 +261,13 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue(false));
         $this->setService('storage', $storage);
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-
-        $response = $this->controller()->record($this->getRequest(), 'pages');
-
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->controller()->record($this->getRequest(), 'pages');
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage not found
+     */
     public function testViewlessRecord()
     {
         $this->setRequest(Request::create('/pages/test'));
@@ -281,13 +281,7 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue($contentType));
         $this->setService('storage', $storage);
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
-
-        $response = $this->controller()->record($this->getRequest(), 'pages', 'test');
-
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->controller()->record($this->getRequest(), 'pages', 'test');
     }
 
     /**
@@ -327,6 +321,10 @@ class FrontendTest extends ControllerUnitTest
         $this->assertNotEmpty($response->getGlobals());
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage not found
+     */
     public function testViewlessListing()
     {
         $this->setRequest(Request::create('/'));
@@ -339,7 +337,6 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue($contentType));
         $this->setService('storage', $storage);
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not found');
         $response = $this->controller()->listing($this->getRequest(), 'pages');
         $this->assertTrue($response instanceof TemplateResponse);
     }
@@ -358,11 +355,13 @@ class FrontendTest extends ControllerUnitTest
         $this->assertFalse($response);
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage No slug
+     */
     public function testNoContent404()
     {
         $this->setRequest(Request::create('/tags/fake'));
-
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'No slug');
 
         $response = $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
         $this->assertTrue($response instanceof TemplateResponse);
@@ -389,7 +388,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('index.twig', $response->getTemplateName());
-//$this->assertNotEmpty($response->getGlobals());
     }
 
     /**
