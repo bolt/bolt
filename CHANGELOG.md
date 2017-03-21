@@ -4,12 +4,31 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
-- Removed: Bolt\Configuration\ResourceManager
-- Removed: Bolt\Configuration\Standard
-- Removed: Bolt\Configuration\Composer
-- Removed: Bolt\Exception\LowlevelException
-- Removed: Bolt\Exception\LowLevelDatabaseException
-- Removed: Bolt\Session\Generator\RandomGenerator
+- Removed `Bolt\DeepDiff` (see: `Arr::deepDiff`)
+- Removed: Support for Memcache as a session store
+- Updated: Memcached 3.0.0+ required for Memcached session store
+- Updated: PHP requirement now 7.0+
+- Removed: `paragonie/random_compat` library requirement
+- Removed: `Bolt\Configuration\ResourceManager`
+- Removed: `Bolt\Configuration\Standard`
+- Removed: `Bolt\Configuration\Composer`
+- Removed: `Bolt\Exception\LowlevelException`
+- Removed: `Bolt\Exception\LowLevelDatabaseException`
+- Removed: `Bolt\Session\Generator\RandomGenerator`
+- Change set: [#6423](https://github.com/bolt/bolt/pull/6423)
+  - Removed: `Bolt\Renderer`
+  - Removed: "username" from ContentType table (deprecated since v0.51)
+  - Removed: "decimal" ContentType field type
+  - Removed: `path()`, `redirect()`, and `simpleredirect()` from `Bolt\Library`
+  - Removed: Twig `{{ token() }}` function
+  - Removed: Deprecated variable `surr` from Twig {{ pager }} function
+  - Removed: Drop BC use of composer stability option. Use `"extensions": {"composer": {"minimum-stability": "stable" }}`
+  - Removed: Legacy handling from `Bolt\Storage\EventProcessor\TimedRecord`
+  - Removed: `makeValuePairs()`, `mergeRecursiveDistinct()` & `isIndexedArray()` from `Bolt\Helpers\Arr`
+  - Removed: `Bolt\Extension\NutTrait::addConsoleCommand`
+  - Removed: `Bolt\Extension\MenuTrait::addMenuEntry()`
+  - Removed: `Bolt\Response\BoltResponse`
+  - Removed: `Bolt\Asset\Target::listAll()`
 - Change set: [#6083](https://github.com/bolt/bolt/pull/6083)
   - Updated: PHP requirement now 5.6.0+
   - Updated: `cocur/slugify` to ^2.0

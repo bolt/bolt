@@ -33,7 +33,6 @@
         "jdorn/sql-formatter": "^1.2",
         "monolog/monolog": "^1.21",
         "nesbot/carbon": "^1.21",
-        "paragonie/random_compat": "^1.4",
         "php": "^7.0",
         "silex/silex": "^1.3",
         "silex/web-profiler": "1.0.x-dev#2c5df830c864bec709307e706176771b57440be5@dev",
