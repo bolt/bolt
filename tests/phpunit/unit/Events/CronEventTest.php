@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Events;
 
-use Bolt\Cache;
 use Bolt\Events\CronEvent;
 use Bolt\Events\CronEvents;
 use Bolt\Tests\BoltUnitTest;

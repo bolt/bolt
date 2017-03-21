@@ -10,10 +10,11 @@ use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EventProcessor\TimedRecord;
 use PasswordLib\Password\Factory as PasswordFactory;
 use PasswordLib\Password\Implementation\Blowfish;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
+class StorageEventListenerTest extends TestCase
 {
     /** @var Users */
     private $user;

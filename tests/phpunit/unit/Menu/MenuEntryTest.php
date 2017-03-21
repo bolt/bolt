@@ -4,6 +4,7 @@ namespace Bolt\Tests\Menu;
 
 use Bolt\Menu\MenuEntry;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
@@ -50,7 +51,7 @@ class MenuEntryTest extends BoltUnitTest
 
     public function testRoute()
     {
-        /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+        /** @var UrlGeneratorInterface|MockObject $urlGenerator */
         $urlGenerator = $this->getMockBuilder(UrlGeneratorInterface::class)->getMock();
         $urlGenerator->expects($this->once())
             ->method('generate')

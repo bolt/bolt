@@ -4,6 +4,7 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 /**
  * Class to test src/Provider/PathServiceProvider.
@@ -17,7 +18,7 @@ class PathServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new PathServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory', $app['pathmanager']);
+        $this->assertInstanceOf(PlatformFileSystemPathFactory::class, $app['pathmanager']);
         $app->boot();
     }
 }

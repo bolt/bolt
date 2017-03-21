@@ -4,13 +4,14 @@ namespace Bolt\Tests\Configuration;
 
 use Bolt\Configuration\LowlevelChecks;
 use Bolt\Configuration\Standard;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class to test correct operation and locations of composer configuration.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ConfigVerificationTest extends \PHPUnit_Framework_TestCase
+class ConfigVerificationTest extends TestCase
 {
     public function testInitWithVerifier()
     {

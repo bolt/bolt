@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Provider;
 
-use Bolt\Storage\Database\Schema;
 use Bolt\Provider\DatabaseSchemaServiceProvider;
+use Bolt\Storage\Database\Schema;
 use Bolt\Tests\BoltUnitTest;
 
 /**

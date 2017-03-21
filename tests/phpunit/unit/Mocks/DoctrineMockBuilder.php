@@ -3,14 +3,16 @@
 namespace Bolt\Tests\Mocks;
 
 use Doctrine\DBAL;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Mock Builder for Doctrine objects
  */
-class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
+class DoctrineMockBuilder extends TestCase
 {
     /**
-     * @return \Doctrine\DBAL\Platforms\AbstractPlatform|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Doctrine\DBAL\Platforms\AbstractPlatform|MockObject
      */
     public function getDatabasePlatformMock()
     {
@@ -34,7 +36,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Doctrine\DBAL\Connection|MockObject
      */
     public function getConnectionMock()
     {
@@ -104,7 +106,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $returnValue
      *
-     * @return \Doctrine\DBAL\Driver\Statement|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Doctrine\DBAL\Driver\Statement|MockObject
      */
     public function getStatementMock($returnValue = 1)
     {
@@ -129,7 +131,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
      * @param string $class   The class name
      * @param array  $methods The available methods
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     protected function getAbstractMock($class, array $methods)
     {

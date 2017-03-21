@@ -2,10 +2,12 @@
 
 namespace Bolt\Tests\Mocks;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Mock Builder for Doctrine objects
  */
-class LoripsumMock extends \PHPUnit_Framework_TestCase
+class LoripsumMock extends TestCase
 {
     public function get($request)
     {

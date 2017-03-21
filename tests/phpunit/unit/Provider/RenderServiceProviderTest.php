@@ -3,8 +3,8 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\RenderServiceProvider;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Render;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Provider/RenderServiceProvider.

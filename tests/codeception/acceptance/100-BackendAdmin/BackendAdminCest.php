@@ -327,7 +327,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->fillField('#slug',  'not-found');
         $I->fillField('#body',  $body);
 
-        $I->click('Save Resource', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('Well, this is kind of embarrassing!');
         $I->see('You have what we call in the business, a 404.');
@@ -384,11 +384,11 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->see('New Showcase');
         $I->click('New Showcase');
 
-        $I->fillField('#title',  'Showcase');
-
-        $I->click('Save Showcase', '#savecontinuebutton');
+        $I->fillField('#title', 'A Strange Drop Bear');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The new Showcase has been saved.');
+        $I->seeLink('A Strange Drop Bear', '/bolt/editcontent/showcases/');
     }
 
     /**

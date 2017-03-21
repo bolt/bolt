@@ -43,6 +43,10 @@ class WidgetRuntimeTest extends BoltUnitTest
         $this->assertSame(0, $count);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage countwidgets() requires a location, none given
+     */
     public function testCountWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
@@ -53,7 +57,6 @@ class WidgetRuntimeTest extends BoltUnitTest
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
 
-        $this->setExpectedException('InvalidArgumentException', 'countwidgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
         $handler->countWidgets($app['twig']);
     }
@@ -107,6 +110,10 @@ class WidgetRuntimeTest extends BoltUnitTest
         $this->assertFalse($handler->hasWidgets($app['twig']));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage haswidgets() requires a location, none given
+     */
     public function testHasWidgetsNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
@@ -117,7 +124,6 @@ class WidgetRuntimeTest extends BoltUnitTest
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
 
-        $this->setExpectedException('InvalidArgumentException', 'haswidgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
         $handler->hasWidgets($app['twig']);
     }
@@ -154,6 +160,10 @@ class WidgetRuntimeTest extends BoltUnitTest
         $this->assertNull($result);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage widgets() requires a location, none given
+     */
     public function testWidgetNoLocationStrict()
     {
         $app = $this->getStrictVariablesApp(true);
@@ -164,7 +174,6 @@ class WidgetRuntimeTest extends BoltUnitTest
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
 
-        $this->setExpectedException('InvalidArgumentException', 'widgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
         $handler->widgets($app['twig']);
     }

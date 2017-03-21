@@ -43,7 +43,7 @@ class Records extends BackendBase
      * @param string  $contenttypeslug The content type slug
      * @param integer $id              The content ID
      *
-     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function edit(Request $request, $contenttypeslug, $id)
     {

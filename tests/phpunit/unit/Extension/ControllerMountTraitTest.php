@@ -6,6 +6,7 @@ use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\ControllerMountExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class to test Bolt\Extension\ControllerMountTrait
@@ -39,7 +40,7 @@ class ControllerMountTraitTest extends BoltUnitTest
     /**
      * @param array $methods
      *
-     * @return MountEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @return MountEvent|MockObject
      */
     protected function getMockMountEvent($methods = ['mount'])
     {

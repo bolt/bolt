@@ -1,9 +1,10 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\Filesystem;
 
-use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Manager;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test correct operation of Filesystem Service Provider.
