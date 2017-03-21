@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit\Framework\Assert;
 
 /**
  * Class to test src/Storage/Repository.
@@ -21,7 +22,7 @@ class RepositoryTest extends BoltUnitTest
         $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
-        $this->assertSame($em, \PHPUnit_Framework_Assert::readAttribute($repo, 'em'));
+        $this->assertSame($em, Assert::readAttribute($repo, 'em'));
     }
 
     public function testGetTableName()

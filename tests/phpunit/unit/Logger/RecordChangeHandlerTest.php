@@ -6,6 +6,7 @@ use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Monolog\Logger;
+use PHPUnit\Framework\Assert;
 
 /**
  * Class to test src/Logger/Handler/RecordChangeHandler.
@@ -39,7 +40,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 'comment'     => 'foo',
             ]
         );
-        $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
+        $this->assertEquals('bolt_log_change', Assert::readAttribute($handler, 'tablename'));
     }
 
     public function testHandle()

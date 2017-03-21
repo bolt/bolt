@@ -5,6 +5,7 @@ namespace Bolt\Tests\Controller\Backend;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,7 +76,7 @@ class DatabaseTest extends ControllerUnitTest
     /**
      * @param array $methods
      *
-     * @return Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @return Manager|MockObject
      */
     protected function getMockSchemaManager(array $methods)
     {

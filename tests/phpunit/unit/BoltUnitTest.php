@@ -17,7 +17,8 @@ use Bolt\Users;
 use Doctrine\Common\Cache\VoidCache;
 use GuzzleHttp\Client;
 use Monolog\Logger;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -29,7 +30,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
+abstract class BoltUnitTest extends TestCase
 {
     private $app;
 
@@ -251,7 +252,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
      * @param \Silex\Application $app
      * @param array              $methods Defaults to ['isValidSession']
      *
-     * @return \Bolt\AccessControl\AccessChecker|PHPUnit_Framework_MockObject_MockObject
+     * @return \Bolt\AccessControl\AccessChecker|MockObject
      */
     protected function getMockAccessChecker($app, $methods = ['isValidSession'])
     {
@@ -276,7 +277,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return VoidCache|PHPUnit_Framework_MockObject_MockObject
+     * @return VoidCache|MockObject
      */
     protected function getMockCache()
     {
@@ -289,7 +290,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return CsrfTokenManager|PHPUnit_Framework_MockObject_MockObject
+     * @return CsrfTokenManager|MockObject
      */
     protected function getMockCsrfTokenManager($methods = ['isTokenValid'])
     {
@@ -301,7 +302,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Client|\PHPUnit_Framework_MockObject_MockObject
+     * @return Client|MockObject
      */
     protected function getMockGuzzleClient()
     {
@@ -314,7 +315,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return FlashLogger|PHPUnit_Framework_MockObject_MockObject
+     * @return FlashLogger|MockObject
      */
     protected function getMockFlashLogger($methods = ['danger', 'error', 'success'])
     {
@@ -327,7 +328,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods Defaults to ['login']
      *
-     * @return PHPUnit_Framework_MockObject_MockObject A mocked \Bolt\AccessControl\Login
+     * @return MockObject A mocked \Bolt\AccessControl\Login
      */
     protected function getMockLogin($methods = ['login'])
     {
@@ -341,7 +342,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return Manager|PHPUnit_Framework_MockObject_MockObject
+     * @return Manager|MockObject
      */
     protected function getMockLoggerManager($methods = ['clear', 'error', 'info', 'trim'])
     {
@@ -359,7 +360,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return Logger|PHPUnit_Framework_MockObject_MockObject
+     * @return Logger|MockObject
      */
     protected function getMockMonolog($methods = ['alert', 'clear', 'debug', 'error', 'info'])
     {
@@ -373,7 +374,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return Permissions|PHPUnit_Framework_MockObject_MockObject
+     * @return Permissions|MockObject
      */
     protected function getMockPermissions($methods = ['isAllowed', 'isAllowedToManipulate'])
     {
@@ -387,7 +388,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Swift_Mailer
+     * @return MockObject|Swift_Mailer
      */
     protected function getMockSwiftMailer($methods = ['send'])
     {
@@ -401,7 +402,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return Storage|PHPUnit_Framework_MockObject_MockObject
+     * @return Storage|MockObject
      */
     protected function getMockStorage($methods = ['getContent', 'getContentType', 'getTaxonomyType'])
     {
@@ -415,7 +416,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $methods
      *
-     * @return Users|PHPUnit_Framework_MockObject_MockObject
+     * @return Users|MockObject
      */
     protected function getMockUsers($methods = ['getUsers', 'isAllowed'])
     {

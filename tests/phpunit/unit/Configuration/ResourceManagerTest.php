@@ -8,6 +8,7 @@ use Bolt\Configuration\Standard;
 use Bolt\Tests\BoltUnitTest;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -28,7 +29,7 @@ class ResourceManagerTest extends BoltUnitTest
             ]
         );
         $config = new ResourceManager($container);
-        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), \PHPUnit_Framework_Assert::readAttribute($config, 'root'));
+        $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), Assert::readAttribute($config, 'root'));
     }
 
     public function testDefaultPaths()

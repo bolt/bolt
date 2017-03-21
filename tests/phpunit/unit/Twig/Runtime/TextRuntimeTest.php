@@ -4,6 +4,7 @@ namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\TextRuntime;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class to test Bolt\Twig\Runtime\TextRuntime
@@ -12,7 +13,7 @@ use Bolt\Twig\Runtime\TextRuntime;
  */
 class TextRuntimeTest extends BoltUnitTest
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     public $phpMock;
 
     public function setUp()

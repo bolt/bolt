@@ -4,6 +4,7 @@ namespace Bolt\Tests\Events;
 
 use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -84,7 +85,7 @@ class MountEventTest extends BoltUnitTest
      *
      * @param Route $route
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|ControllerCollection
+     * @return MockObject|ControllerCollection
      */
     protected function getMockControllerCollection($methods = ['connect', 'mount'], Route $route)
     {

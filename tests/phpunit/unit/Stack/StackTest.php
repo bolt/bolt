@@ -7,6 +7,7 @@ use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\Memory\MemoryAdapter;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -22,7 +23,7 @@ class StackTest extends BoltUnitTest
     private $stack;
     /** @var Filesystem\FilesystemInterface */
     private $filesystem;
-    /** @var \Bolt\Users|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Bolt\Users|MockObject */
     private $users;
     /** @var SessionInterface */
     private $session;

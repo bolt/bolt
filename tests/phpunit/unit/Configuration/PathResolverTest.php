@@ -3,8 +3,9 @@
 namespace Bolt\Tests\Configuration;
 
 use Bolt\Configuration\PathResolver;
+use PHPUnit\Framework\TestCase;
 
-class PathResolverTest extends \PHPUnit_Framework_TestCase
+class PathResolverTest extends TestCase
 {
     public function pathResolutionProvider()
     {

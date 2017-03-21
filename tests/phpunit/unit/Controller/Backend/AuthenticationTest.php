@@ -7,6 +7,7 @@ use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -177,7 +178,7 @@ class AuthenticationTest extends ControllerUnitTest
     /**
      * @param array $methods
      *
-     * @return Password|\PHPUnit_Framework_MockObject_MockObject
+     * @return Password|MockObject
      */
     protected function getMockPassword(array $methods)
     {
