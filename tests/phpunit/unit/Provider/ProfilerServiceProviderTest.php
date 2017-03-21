@@ -6,7 +6,7 @@ use Bolt\Profiler\BoltDataCollector;
 use Bolt\Profiler\DatabaseDataCollector;
 use Bolt\Provider\ProfilerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
-use Doctrine\DBAL;
+use Doctrine\DBAL\Logging\DebugStack;
 
 /**
  * Class to test src/Provider/DatabaseProfilerServiceProvider.
@@ -37,7 +37,7 @@ class ProfilerServiceProviderTest extends BoltUnitTest
         $this->assertNotEmpty($app['twig.loader.bolt_filesystem']->getPaths('BoltProfiler'));
 
         $logger = $app['db.logger'];
-        $this->assertInstanceOf(DBAL\Logging\DebugStack::class, $logger);
+        $this->assertInstanceOf(DebugStack::class, $logger);
 
         $app->boot();
 

@@ -7,6 +7,7 @@ use Bolt\Filesystem\Handler\Directory;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\BasicExtension;
 use Bolt\Tests\Extension\Mock\Extension;
+use Silex\Application;
 
 /**
  * Class to test Bolt\Extension\AbstractExtension
@@ -30,7 +31,7 @@ class AbstractExtensionTest extends BoltUnitTest
         $ext = new BasicExtension();
         $ext->setContainer($this->getApp());
 
-        $this->assertInstanceOf('Silex\Application', $ext->getContainer());
+        $this->assertInstanceOf(Application::class, $ext->getContainer());
     }
 
     public function testBaseDirectory()

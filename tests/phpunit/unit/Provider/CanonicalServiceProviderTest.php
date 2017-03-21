@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Provider;
 
-use Bolt\Routing\Canonical;
 use Bolt\Provider\CanonicalServiceProvider;
+use Bolt\Routing\Canonical;
 use Bolt\Tests\BoltUnitTest;
 
 /**

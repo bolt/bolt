@@ -1,12 +1,13 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Token;
 use Bolt\Events\AccessControlEvent;
-use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\UsersRepository;
+use Bolt\Tests\BoltUnitTest;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,6 +23,10 @@ class LoginTest extends BoltUnitTest
         $this->resetDb();
     }
 
+    /**
+     * @expectedException        \Bolt\Exception\AccessControlException
+     * @expectedExceptionMessage Invalid login parameters.
+     */
     public function testLoginNoCredentials()
     {
         $app = $this->getApp();
@@ -36,8 +41,6 @@ class LoginTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $login = new Login($app);
-
-        $this->setExpectedException(AccessControlException::class, 'Invalid login parameters.');
         $login->login(null, null, new AccessControlEvent(new Request()));
     }
 
@@ -77,8 +80,8 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
         $app['logger.flash'] = $logger;
 
-        $entityName = Entity\Users::class;
-        $repo = $app['storage']->getRepository($entityName);
+        /** @var UsersRepository $repo */
+        $repo = $app['storage']->getRepository(Entity\Users::class);
         $userEntity = $repo->getUser('admin');
         $userEntity->setEnabled(false);
         $repo->save($userEntity);

@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Composer\Satis\StatService;
-use \Bolt\Extension;
+use Bolt\Extension;
 use Bolt\Provider\ExtensionServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 

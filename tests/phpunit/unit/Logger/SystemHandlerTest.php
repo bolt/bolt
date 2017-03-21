@@ -6,6 +6,7 @@ use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Monolog\Logger;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -28,7 +29,7 @@ class SystemHandlerTest extends BoltUnitTest
 
         $log->pushHandler($handler);
         $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
-        $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
+        $this->assertEquals('bolt_log_system', Assert::readAttribute($handler, 'tablename'));
     }
 
     public function testHandle()

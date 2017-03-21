@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -79,6 +80,10 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('', $new['ownerid']);
     }
 
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage Something went wrong
+     */
     public function testEditCSRF()
     {
         $csrf = $this->getMockCsrfTokenManager();
@@ -94,7 +99,6 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Something went wrong');
         $this->controller()->edit($this->getRequest(), 'showcases', 3);
     }
 
@@ -173,7 +177,7 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $returned = json_decode($response->getContent());
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals($original['title'], $returned->title);
     }
 

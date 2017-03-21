@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Asset;
 
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Extension_FunctionMocker as FunctionMocker;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -16,7 +17,7 @@ abstract class AbstractExtensionsUnitTest extends BoltUnitTest
 {
     public function setup()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt')
+        $this->php = FunctionMocker::start($this, 'Bolt')
             ->mockFunction('file_exists')
             ->mockFunction('is_readable')
             ->mockFunction('is_dir')
@@ -24,14 +25,14 @@ abstract class AbstractExtensionsUnitTest extends BoltUnitTest
             ->mockFunction('file_get_contents')
             ->getMock();
 
-        $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Tests\Asset\Mock')
+        $this->php2 = FunctionMocker::start($this, 'Bolt\Tests\Asset\Mock')
             ->mockFunction('file_get_contents')
             ->getMock();
     }
 
     public function tearDown()
     {
-        \PHPUnit_Extension_FunctionMocker::tearDown();
+        FunctionMocker::tearDown();
 
         $fs = new Filesystem();
         if ($fs->exists(PHPUNIT_WEBROOT . '/app/cache/config-cache.json')) {

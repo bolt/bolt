@@ -5,6 +5,7 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Application;
 use Bolt\Configuration\Standard;
 use Composer\Autoload\ClassLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Debug\DebugClassLoader;
 
 /**
@@ -14,7 +15,7 @@ use Symfony\Component\Debug\DebugClassLoader;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
+class StandardConfigurationTest extends TestCase
 {
     public function testInitWithClassloader()
     {

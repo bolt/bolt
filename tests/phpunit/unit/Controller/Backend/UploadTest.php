@@ -111,6 +111,10 @@ class UploadTest extends ControllerUnitTest
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @expectedException \Bolt\Filesystem\Exception\FileNotFoundException
+     * @expectedExceptionMessage File not found at path: logo.png
+     */
     public function testMultipleHandlerParsing()
     {
         $this->getApp()->flush();
@@ -131,7 +135,6 @@ class UploadTest extends ControllerUnitTest
         ));
 
         // Not properly implemented as yet, this will need to be revisited on implementation
-        $this->setExpectedException(FileNotFoundException::class, 'File not found at path: logo.png');
         $this->controller()->uploadNamespace($this->getRequest(), 'files');
     }
 

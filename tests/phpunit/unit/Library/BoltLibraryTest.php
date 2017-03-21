@@ -4,6 +4,7 @@ namespace Bolt\Tests\Library;
 
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -96,7 +97,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app['request'] = $request;
 
         $response = Library::redirect('login');
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
         $this->assertTrue($response->isRedirect(), "Response isn't a valid redirect condition.");
     }
@@ -135,12 +136,13 @@ class BoltLibraryTest extends BoltUnitTest
 
     /**
      * @runInSeparateProcess
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     * @expectedExceptionMessage Redirecting to '/test2'.
      */
     public function testSimpleRedirectAbort()
     {
-        $app = $this->getApp();
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', "Redirecting to '/test2'.");
+        $this->getApp();
         $this->expectOutputString("<p>Redirecting to <a href='/test2'>/test2</a>.</p><script>window.setTimeout(function () { window.location='/test2'; }, 500);</script>");
-        $redirect = Library::simpleredirect('/test2', true);
+        Library::simpleredirect('/test2', true);
     }
 }

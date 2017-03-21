@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Extension;
 
-use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\Handler\YamlFile;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\ConfigExtension;
@@ -144,6 +143,10 @@ class ConfigTraitTest extends BoltUnitTest
         $this->assertSame(['blame' => 'gnomes'], $conf);
     }
 
+    /**
+     * @expectedException \Bolt\Filesystem\Exception\ParseException
+     * @expectedExceptionMessage A YAML file cannot contain tabs as indentation
+     */
     public function testConfigFileInvalidYaml()
     {
         $app = $this->getApp();
@@ -162,8 +165,6 @@ class ConfigTraitTest extends BoltUnitTest
         $method->setAccessible(true);
 
         $ext->setContainer($app);
-
-        $this->setExpectedException(ParseException::class, 'A YAML file cannot contain tabs as indentation');
 
         $conf = $method->invoke($ext);
         $this->assertSame(['blame' => 'gnomes'], $conf);
