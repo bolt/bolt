@@ -24,7 +24,7 @@ class UrlGeneratorFragmentWrapperTest extends BoltUnitTest
         $parent = new UrlGenerator($collection, new RequestContext());
         $generator = new UrlGeneratorFragmentWrapper($parent);
 
-        $this->assertInstanceOf('\Symfony\Component\Routing\Generator\UrlGeneratorInterface', $generator);
+        $this->assertInstanceOf(UrlGeneratorInterface::class, $generator);
 
         return $generator;
     }

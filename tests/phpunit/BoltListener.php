@@ -3,6 +3,10 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit_Framework_Test as Test;
+use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_TestSuite as TestSuite;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -11,7 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BoltListener implements \PHPUnit_Framework_TestListener
+class BoltListener extends BaseTestListener
 {
     /** @var array */
     protected $configs = [
@@ -38,7 +42,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     /**
      * Called on init of PHPUnit exectution.
      *
-     * @see PHPUnit_Util_Configuration
+     * @see \PHPUnit_Util_Configuration
      *
      * @param array   $configs Location of configuration files
      * @param bool    $theme   Location of the theme
@@ -147,117 +151,28 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * An error occurred.
-     *
-     * @see PHPUnit_Framework_TestListener::addError()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     * @param \Exception              $e
-     * @param float                   $time
+     * {@inheritdoc}
      */
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function endTest(Test $test, $time)
     {
-    }
-
-    /**
-     * A failure occurred.
-     *
-     * @see PHPUnit_Framework_TestListener::addFailure()
-     *
-     * @param \PHPUnit_Framework_Test                 $test
-     * @param \PHPUnit_Framework_AssertionFailedError $e
-     * @param float                                   $time
-     */
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
-    {
-    }
-
-    /**
-     * A test was incomplete.
-     *
-     * @see PHPUnit_Framework_TestListener::addIncompleteTest()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     * @param \Exception              $e
-     * @param float                   $time
-     */
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
-    {
-    }
-
-    /**
-     * A test  is deemed risky.
-     *
-     * @see PHPUnit_Framework_TestListener::addRiskyTest()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     * @param \Exception              $e
-     * @param float                   $time
-     */
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
-    {
-    }
-
-    /**
-     * Test has been skipped.
-     *
-     * @see PHPUnit_Framework_TestListener::addSkippedTest()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     * @param \Exception              $e
-     * @param float                   $time
-     */
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
-    {
-    }
-
-    /**
-     * A test started.
-     *
-     * @see PHPUnit_Framework_TestListener::startTest()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     */
-    public function startTest(\PHPUnit_Framework_Test $test)
-    {
-    }
-
-    /**
-     * A test ended.
-     *
-     * @see PHPUnit_Framework_TestListener::endTest()
-     *
-     * @param \PHPUnit_Framework_Test $test
-     * @param float                   $time
-     */
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
-    {
-        /** @var \PHPUnit_Framework_TestCase $test */
+        /** @var TestCase $test */
         $name = $test->getName();
         $suite = end($this->currentSuite);
         $this->tracker[$suite . '::' . $name] = $time;
     }
 
     /**
-     * A test suite started.
-     *
-     * @see PHPUnit_Framework_TestListener::startTestSuite()
-     *
-     * @param \PHPUnit_Framework_TestSuite $suite
+     * {@inheritdoc}
      */
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         array_push($this->currentSuite, $suite->getName());
     }
 
     /**
-     * A test suite ended.
-     *
-     * @see PHPUnit_Framework_TestListener::endTestSuite()
-     *
-     * @param \PHPUnit_Framework_TestSuite $suite
+     * {@inheritdoc}
      */
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
         array_pop($this->currentSuite);
     }

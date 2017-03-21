@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests\Provider;
 
+use Bolt\Composer\Satis\StatService;
+use Bolt\Extension;
 use Bolt\Provider\ExtensionServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -17,8 +19,8 @@ class ExtensionServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new ExtensionServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Extensions', $app['extensions']);
-        $this->assertInstanceOf('Bolt\Composer\Satis\StatService', $app['extensions.stats']);
+        $this->assertInstanceOf(Extension\Manager::class, $app['extensions']);
+        $this->assertInstanceOf(StatService::class, $app['extensions.stats']);
         $app->boot();
     }
 }

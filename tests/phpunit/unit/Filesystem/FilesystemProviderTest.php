@@ -1,6 +1,10 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\Filesystem;
+
+use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Manager;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test correct operation of Filesystem Service Provider.
@@ -14,13 +18,13 @@ class FilesystemProviderTest extends BoltUnitTest
         $bolt = $this->getApp();
 
         $this->assertNotNull($bolt['filesystem']);
-        $this->assertInstanceOf('Bolt\\Filesystem\\Manager', $bolt['filesystem']);
+        $this->assertInstanceOf(Manager::class, $bolt['filesystem']);
     }
 
     public function testDefaultManagers()
     {
         $bolt = $this->getApp();
-        $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('root'));
-        $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('config'));
+        $this->assertInstanceOf(Filesystem::class, $bolt['filesystem']->getFilesystem('root'));
+        $this->assertInstanceOf(Filesystem::class, $bolt['filesystem']->getFilesystem('config'));
     }
 }

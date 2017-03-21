@@ -2,8 +2,13 @@
 
 namespace Bolt\Tests\Storage;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Storage\Mock\TestRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
+use PHPUnit\Framework\Assert;
 
 /**
  * Class to test src/Storage/EntityManager.
@@ -16,8 +21,8 @@ class EntityManagerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $em = $app['storage'];
-        $this->assertSame($app['db'], \PHPUnit_Framework_Assert::readAttribute($em, 'conn'));
-        $this->assertSame($app['dispatcher'], \PHPUnit_Framework_Assert::readAttribute($em, 'eventManager'));
+        $this->assertSame($app['db'], Assert::readAttribute($em, 'conn'));
+        $this->assertSame($app['dispatcher'], Assert::readAttribute($em, 'eventManager'));
     }
 
     public function testCreateQueryBuilder()
@@ -26,7 +31,7 @@ class EntityManagerTest extends BoltUnitTest
         $em = $app['storage'];
 
         $qb = $em->createQueryBuilder();
-        $this->assertInstanceOf('Doctrine\DBAL\Query\QueryBuilder', $qb);
+        $this->assertInstanceOf(QueryBuilder::class, $qb);
     }
 
     public function testGetRepository()
@@ -34,9 +39,9 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
 
-        $repo = $em->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $em->getRepository(Entity\Users::class);
 
-        $this->assertInstanceOf('Bolt\Storage\Repository', $repo);
+        $this->assertInstanceOf(Repository::class, $repo);
     }
 
     public function testGetRepositoryWithAliases()
@@ -44,13 +49,12 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
 
-        $customRepoClass = 'Bolt\Tests\Storage\Mock\TestRepository';
-        $em->setRepository('Bolt\Storage\Entity\Users', $customRepoClass);
-        $em->addEntityAlias('test', 'Bolt\Storage\Entity\Users');
+        $em->setRepository(Entity\Users::class, TestRepository::class);
+        $em->addEntityAlias('test', Entity\Users::class);
 
         $repo = $em->getRepository('test');
 
-        $this->assertInstanceOf('Bolt\Tests\Storage\Mock\TestRepository', $repo);
+        $this->assertInstanceOf(TestRepository::class, $repo);
     }
 
     public function testGetDefaultRepositoryFactory()
@@ -58,10 +62,18 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
+        $this->assertInstanceOf(Repository\ContentRepository::class, $repo);
+    }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Unable to handle unmapped data without a defaultRepositoryFactory set
+     */
+    public function testGetDefaultRepositoryFactoryNotSet()
+    {
+        $app = $this->getApp();
         // The first check should work, this one should fail because the factory has not been set.
-        $this->setExpectedException('RuntimeException');
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
-        $repo = $em->getRepository('showcases');
+        $em->getRepository('showcases');
     }
 }

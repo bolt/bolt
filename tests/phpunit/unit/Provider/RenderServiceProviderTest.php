@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\RenderServiceProvider;
+use Bolt\Render;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -19,8 +20,8 @@ class RenderServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $app->register(new RenderServiceProvider());
 
-        $this->assertInstanceOf('Bolt\Render', $app['render']);
-        $this->assertInstanceOf('Bolt\Render', $app['safe_render']);
+        $this->assertInstanceOf(Render::class, $app['render']);
+        $this->assertInstanceOf(Render::class, $app['safe_render']);
 
         $app->boot();
     }

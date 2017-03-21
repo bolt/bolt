@@ -6,6 +6,7 @@ use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\AdminRuntime;
 use Monolog\Logger;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class to test Bolt\Twig\Runtime\AdminRuntime
@@ -280,7 +281,7 @@ class AdminRuntimeTest extends BoltUnitTest
     }
 
     /**
-     * @return Stack|\PHPUnit_Framework_MockObject_MockObject
+     * @return Stack|MockObject
      */
     protected function getMockStack()
     {

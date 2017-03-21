@@ -2,14 +2,12 @@
 
 namespace Bolt\Tests\Stack;
 
-use Bolt\Exception\FileNotStackableException;
 use Bolt\Filesystem;
-use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Stack;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Users;
 use League\Flysystem\Memory\MemoryAdapter;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -25,7 +23,7 @@ class StackTest extends BoltUnitTest
     private $stack;
     /** @var Filesystem\FilesystemInterface */
     private $filesystem;
-    /** @var \Bolt\Users|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Bolt\Users|MockObject */
     private $users;
     /** @var SessionInterface */
     private $session;
@@ -260,21 +258,27 @@ class StackTest extends BoltUnitTest
         $this->assertNull($removed, 'Add methods removed parameter should be optional and null if no file was removed off stack');
     }
 
+    /**
+     * @expectedException \Bolt\Exception\FileNotStackableException
+     */
     public function testAddExistingFile()
     {
-        $this->setExpectedException(FileNotStackableException::class);
         $this->stack->add('d.doc');
     }
 
+    /**
+     * @expectedException \Bolt\Exception\FileNotStackableException
+     */
     public function testAddUnacceptableFile()
     {
-        $this->setExpectedException(FileNotStackableException::class);
         $this->stack->add('evil.exe');
     }
 
+    /**
+     * @expectedException \Bolt\Filesystem\Exception\FileNotFoundException
+     */
     public function testAddNonExistentFile()
     {
-        $this->setExpectedException(FileNotFoundException::class);
         $this->stack->add('non_existent_file');
     }
 

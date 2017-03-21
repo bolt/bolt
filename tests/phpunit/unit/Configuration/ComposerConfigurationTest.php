@@ -5,6 +5,9 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
 use Bolt\Exception\BootException;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Extension_FunctionMocker as FunctionMocker;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -15,11 +18,14 @@ use Bolt\Exception\BootException;
  *
  * @runTestsInSeparateProcesses
  */
-class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
+class ComposerConfigurationTest extends TestCase
 {
+    /** @var MockObject */
+    protected $php;
+
     public function setup()
     {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Configuration')
+        $this->php = FunctionMocker::start($this, 'Bolt\Configuration')
             ->mockFunction('is_writable')
             ->mockFunction('is_dir')
             ->getMock();

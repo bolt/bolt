@@ -3,6 +3,8 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Collection\Taxonomy;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +31,7 @@ class FieldSaveTest extends BoltUnitTest
             $this->assertNotEmpty($entry->slug);
         }
 
-        $newRels = $em->createCollection('Bolt\Storage\Entity\Relations');
+        $newRels = $em->createCollection(Entity\Relations::class);
         $record->setRelation($newRels);
         $em->save($record);
 
@@ -46,10 +48,10 @@ class FieldSaveTest extends BoltUnitTest
 
         $record = $repo->find(1);
 
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $record->taxonomy['categories']);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $record->taxonomy['tags']);
+        $this->assertInstanceOf(Taxonomy::class, $record->taxonomy['categories']);
+        $this->assertInstanceOf(Taxonomy::class, $record->taxonomy['tags']);
 
-        $taxonomy = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $taxonomy = $em->createCollection(Entity\Taxonomy::class);
         $taxonomy->setFromPost(['categories' => []], $record);
         $record->setTaxonomy($taxonomy);
         $repo->save($record);
@@ -58,19 +60,19 @@ class FieldSaveTest extends BoltUnitTest
         $record1 = $repo->find(1);
         $this->assertEquals(0, count($record1->taxonomy['categories']));
     }
-    
+
     public function testEntityCreateTaxonomySave()
     {
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
-        
+
         $newEntity = $repo->create(['title' => 'Testing', 'slug' => 'testing', 'status' => 'published']);
-        $taxonomy = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $taxonomy = $em->createCollection(Entity\Taxonomy::class);
         $taxonomy->setFromPost(['categories' => ['news', 'events']], $newEntity);
         $newEntity->setTaxonomy($taxonomy);
         $repo->save($newEntity);
-        
+
         $savedEntity = $repo->find($newEntity->getId());
         $this->assertEquals(2, count($savedEntity->getCategories()));
     }

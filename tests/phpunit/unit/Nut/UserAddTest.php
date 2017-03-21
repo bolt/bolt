@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserAdd;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -34,7 +35,7 @@ class UserAddTest extends BoltUnitTest
         $this->assertEquals('Successfully created user: test', trim($result));
 
         // Test that the saved value matches the hash
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $app['storage']->getRepository(Entity\Users::class);
         $userEntity = $repo->getUser('test');
         $userAuth = $repo->getUserAuthData($userEntity->getId());
         $crypt = new PasswordLib();

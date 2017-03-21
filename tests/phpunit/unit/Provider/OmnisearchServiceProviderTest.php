@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Provider;
 
+use Bolt\Omnisearch;
 use Bolt\Provider\OmnisearchServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -17,6 +18,6 @@ class OmnisearchServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new OmnisearchServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Omnisearch', $app['omnisearch']);
+        $this->assertInstanceOf(Omnisearch::class, $app['omnisearch']);
     }
 }

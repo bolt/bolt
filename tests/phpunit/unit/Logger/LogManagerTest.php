@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Manager;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,14 +55,21 @@ class LogManagerTest extends BoltUnitTest
         $log->trim('change');
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid log type requested: invalid
+     */
     public function testInvalid()
     {
         $app = $this->getApp();
         $log = $this->getLogManager($app);
-        $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->trim('invalid');
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid log type requested: invalid
+     */
     public function testClear()
     {
         $app = $this->getApp();
@@ -80,7 +88,6 @@ class LogManagerTest extends BoltUnitTest
         $log->clear('system');
         $log->clear('change');
 
-        $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->clear('invalid');
     }
 
@@ -132,11 +139,14 @@ class LogManagerTest extends BoltUnitTest
         $log->getActivity('change', 10);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Invalid log type requested: invalid
+     */
     public function testGetActivityInvalid()
     {
         $app = $this->getApp();
         $log = $this->getLogManager($app);
-        $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->getActivity('invalid', 10);
     }
 
@@ -169,8 +179,8 @@ class LogManagerTest extends BoltUnitTest
      */
     protected function getLogManager($app)
     {
-        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $app['storage']->getRepository(Entity\LogChange::class);
+        $systemRepository = $app['storage']->getRepository(Entity\LogSystem::class);
 
         return new Manager($app, $changeRepository, $systemRepository);
     }

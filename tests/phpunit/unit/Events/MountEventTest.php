@@ -4,6 +4,7 @@ namespace Bolt\Tests\Events;
 
 use Bolt\Events\MountEvent;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -22,8 +23,8 @@ class MountEventTest extends BoltUnitTest
         $controllers = new ControllerCollection(new Route('/'));
         $mountEvent = new MountEvent($app, $controllers);
 
-        $this->assertInstanceOf('Bolt\Events\MountEvent', $mountEvent);
-        $this->assertInstanceOf('Silex\Application', $mountEvent->getApp());
+        $this->assertInstanceOf(MountEvent::class, $mountEvent);
+        $this->assertInstanceOf(Application::class, $mountEvent->getApp());
     }
 
     public function testMount()
@@ -41,6 +42,10 @@ class MountEventTest extends BoltUnitTest
         $mountEvent->mount('/', $controllers);
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.
+     */
     public function testMountInvalidCollection()
     {
         $app = $this->getApp();
@@ -52,11 +57,14 @@ class MountEventTest extends BoltUnitTest
             ->method('mount')
         ;
 
-        $this->setExpectedException('LogicException', 'The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.');
         $mountEvent = new MountEvent($app, $controllers);
         $mountEvent->mount('/', $route);
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The method "Bolt\Tests\Events\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\ClippyKoala"
+     */
     public function testMountInvalidCollectionConnect()
     {
         $app = $this->getApp();
@@ -68,18 +76,15 @@ class MountEventTest extends BoltUnitTest
             ->method('mount')
         ;
 
-        $this->setExpectedException('LogicException', 'The method "Bolt\Tests\Events\ControllerMock::connect" must return a "ControllerCollection" instance. Got: "Bolt\Tests\Events\ClippyKoala"');
-
         $mountEvent = new MountEvent($app, $controllers);
         $mountEvent->mount('/', new ControllerMock($route));
     }
 
     /**
      * @param array $methods
-     *
      * @param Route $route
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|ControllerCollection
+     * @return MockObject|ControllerCollection
      */
     protected function getMockControllerCollection($methods = ['connect', 'mount'], Route $route)
     {
@@ -87,7 +92,7 @@ class MountEventTest extends BoltUnitTest
             ->setMethods($methods)
             ->setConstructorArgs([$route])
             ->getMock()
-        ;
+            ;
     }
 }
 

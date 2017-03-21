@@ -4,6 +4,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserRoleAdd;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -51,7 +52,7 @@ class UserRoleAddTest extends BoltUnitTest
 
     protected function getUserMockWithReturns($hasRole = false, $addRole = true)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject $users */
+        /** @var MockObject $users */
         $users = $this->getMockUsers(['hasRole', 'addRole']);
         $users->expects($this->any())
             ->method('hasRole')

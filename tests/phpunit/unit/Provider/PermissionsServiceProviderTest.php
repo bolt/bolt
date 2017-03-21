@@ -18,7 +18,7 @@ class PermissionsServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new PermissionsServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\AccessControl\Permissions', $app['permissions']);
+        $this->assertInstanceOf(Permissions::class, $app['permissions']);
         $app->boot();
     }
 }

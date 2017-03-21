@@ -1,8 +1,9 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\Token\Generator;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Test for AccessControl\Token\Generator

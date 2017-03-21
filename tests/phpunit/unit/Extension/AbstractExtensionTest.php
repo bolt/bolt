@@ -2,10 +2,12 @@
 
 namespace Bolt\Tests\Extension;
 
+use Bolt\Extension\AbstractExtension;
 use Bolt\Filesystem\Handler\Directory;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\BasicExtension;
 use Bolt\Tests\Extension\Mock\Extension;
+use Silex\Application;
 
 /**
  * Class to test Bolt\Extension\AbstractExtension
@@ -16,12 +18,12 @@ class AbstractExtensionTest extends BoltUnitTest
 {
     public function testClassProperties()
     {
-        $this->assertClassHasAttribute('container', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('baseDirectory', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('webDirectory', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('name', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('vendor', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('namespace', 'Bolt\Extension\AbstractExtension');
+        $this->assertClassHasAttribute('container', AbstractExtension::class);
+        $this->assertClassHasAttribute('baseDirectory', AbstractExtension::class);
+        $this->assertClassHasAttribute('webDirectory', AbstractExtension::class);
+        $this->assertClassHasAttribute('name', AbstractExtension::class);
+        $this->assertClassHasAttribute('vendor', AbstractExtension::class);
+        $this->assertClassHasAttribute('namespace', AbstractExtension::class);
     }
 
     public function testContainer()
@@ -29,7 +31,7 @@ class AbstractExtensionTest extends BoltUnitTest
         $ext = new BasicExtension();
         $ext->setContainer($this->getApp());
 
-        $this->assertInstanceOf('Silex\Application', $ext->getContainer());
+        $this->assertInstanceOf(Application::class, $ext->getContainer());
     }
 
     public function testBaseDirectory()
@@ -41,8 +43,8 @@ class AbstractExtensionTest extends BoltUnitTest
         $ext = new BasicExtension();
         $ext->setWebDirectory($webDir);
 
-        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->setBaseDirectory($dir));
-        $this->assertInstanceOf('Bolt\Filesystem\Handler\Directory', $ext->getBaseDirectory());
+        $this->assertInstanceOf(AbstractExtension::class, $ext->setBaseDirectory($dir));
+        $this->assertInstanceOf(Directory::class, $ext->getBaseDirectory());
         $this->assertSame(__DIR__, $ext->getBaseDirectory()->getPath());
     }
 
@@ -53,7 +55,7 @@ class AbstractExtensionTest extends BoltUnitTest
         $ext = new BasicExtension();
         $ext->setWebDirectory($webDir);
 
-        $this->assertInstanceOf('Bolt\Filesystem\Handler\Directory', $ext->getWebDirectory());
+        $this->assertInstanceOf(Directory::class, $ext->getWebDirectory());
     }
 
     public function testGetId()

@@ -11,9 +11,6 @@ use Bolt\Tests\BoltUnitTest;
  **/
 class CreateUsersTest extends BoltUnitTest
 {
-    /**
-     * @see \PHPUnit_Framework_TestCase::setUp
-     */
     protected function setUp()
     {
         $this->resetDb();
