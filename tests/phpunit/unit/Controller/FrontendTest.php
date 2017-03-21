@@ -139,6 +139,10 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create($expected));
         $app['request_context']->fromRequest($this->getRequest());
 
+        $kernel = $this->createMock(HttpKernelInterface::class);
+        $event = new GetResponseEvent($kernel, $this->getRequest(), HttpKernelInterface::MASTER_REQUEST);
+        $app['canonical']->onRequest($event);
+
         $templates = $this->getMockBuilder(TemplateChooser::class)
             ->setMethods(['record'])
             ->setConstructorArgs([$app['config']])
@@ -179,6 +183,10 @@ class FrontendTest extends ControllerUnitTest
         $storage->expects($this->at(1))
             ->method('getContent')
             ->will($this->returnValue($content1));
+
+        $kernel = $this->createMock(HttpKernelInterface::class);
+        $event = new GetResponseEvent($kernel, $this->getRequest(), HttpKernelInterface::MASTER_REQUEST);
+        $app['canonical']->onRequest($event);
 
         // Route for /page/5 instead of /page/foo
         $this->controller()->record($this->getRequest(), 'pages', 5);
