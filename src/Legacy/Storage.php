@@ -2382,7 +2382,8 @@ class Storage
 
         // Get the contenttype from first $content
         $first = reset($content);
-        $contenttype = $first->contenttype['slug'];
+        $config = $first->contenttype;
+        $contenttype = (isset($config['key'])) ? $config['key'] : $config['slug'];
 
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
