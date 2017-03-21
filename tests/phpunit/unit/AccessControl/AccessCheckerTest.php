@@ -1,11 +1,12 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\AccessChecker;
 use Bolt\AccessControl\Token\Token;
 use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
+use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
