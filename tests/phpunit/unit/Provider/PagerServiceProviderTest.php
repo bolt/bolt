@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Provider;
 
+use Bolt\Pager\PagerManager;
 use Bolt\Provider\PagerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class PagerServiceProviderTest extends BoltUnitTest
         $provider = new PagerServiceProvider($app);
         $app->register($provider);
 
-        $this->assertInstanceOf('Bolt\Pager\PagerManager', $app['pager']);
+        $this->assertInstanceOf(PagerManager::class, $app['pager']);
 
         $app->boot();
     }

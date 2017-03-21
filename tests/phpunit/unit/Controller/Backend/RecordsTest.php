@@ -2,7 +2,9 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -36,14 +38,14 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
+        $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
 
         // Test creation
         $this->setRequest(Request::create('/bolt/editcontent/pages'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
+        $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
         $this->assertNull($context['context']['content']->id);
 
         // Test that non-existent throws a redirect
@@ -175,7 +177,7 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $returned = json_decode($response->getContent());
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals($original['title'], $returned->title);
     }
 

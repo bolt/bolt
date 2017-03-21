@@ -83,10 +83,10 @@ class AssetTraitTest extends BoltUnitTest
         $snippetQueue = $app['asset.queue.snippet']->getQueue();
         $widgetQueue = $app['asset.queue.widget']->getQueue();
 
-        $this->assertInstanceOf('Bolt\Asset\File\JavaScript', reset($fileQueue['javascript']));
-        $this->assertInstanceOf('Bolt\Asset\File\Stylesheet', reset($fileQueue['stylesheet']));
-        $this->assertInstanceOf('Bolt\Asset\Snippet\Snippet', reset($snippetQueue));
-        $this->assertInstanceOf('Bolt\Asset\Widget\Widget', reset($widgetQueue));
+        $this->assertInstanceOf(JavaScript::class, reset($fileQueue['javascript']));
+        $this->assertInstanceOf(Stylesheet::class, reset($fileQueue['stylesheet']));
+        $this->assertInstanceOf(Snippet::class, reset($snippetQueue));
+        $this->assertInstanceOf(Widget::class, reset($widgetQueue));
     }
 
     public function testRegisterValidAssetsExtensionPath()

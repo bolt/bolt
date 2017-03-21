@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Mapping;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Tests\BoltUnitTest;
 use PHPUnit\Framework\Assert;
@@ -25,7 +26,7 @@ class MetadataDriverTest extends BoltUnitTest
         $app = $this->getApp();
         $map = new MetadataDriver($app['schema'], $app['storage.config.contenttypes'], $app['storage.config.taxonomy'], $app['storage.typemap'], $app['storage.namingstrategy']);
         $map->initialize();
-        $metadata = $map->loadMetadataForClass('Bolt\Storage\Entity\Users');
+        $metadata = $map->loadMetadataForClass(Entity\Users::class);
         $this->assertNotNull($metadata);
         $this->assertEquals('bolt_users', $metadata->getTableName());
         $field = $metadata->getFieldMapping('id');

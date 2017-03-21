@@ -4,6 +4,7 @@ namespace Bolt\Tests\Library;
 
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -96,7 +97,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app['request'] = $request;
 
         $response = Library::redirect('login');
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
         $this->assertTrue($response->isRedirect(), "Response isn't a valid redirect condition.");
     }

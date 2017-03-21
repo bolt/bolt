@@ -4,6 +4,7 @@ namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Entity\AuthToken;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -19,7 +20,7 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
     }
 
     public function testStringCast()
@@ -28,7 +29,7 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken(['token' => 'cookies']);
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
         $this->assertSame('cookies', (string) $token);
     }
 
@@ -38,14 +39,14 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
         $this->assertTrue($token->isEnabled());
 
         $userEntity = new Entity\Users(['enabled' => false]);
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
         $this->assertFalse($token->isEnabled());
     }
 
@@ -56,8 +57,8 @@ class TokenTokenTest extends BoltUnitTest
         $token = new Token($userEntity, $tokenEntity);
         $user = $token->getUser();
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
-        $this->assertInstanceOf('Bolt\Storage\Entity\Users', $user);
+        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(Entity\Users::class, $user);
         $this->assertSame('koala', $user->getUsername());
     }
 
@@ -67,14 +68,14 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
 
         $userEntity = new Entity\Users(['username' => 'clippy']);
         $token->setUser($userEntity);
 
         $user = $token->getUser();
 
-        $this->assertInstanceOf('Bolt\Storage\Entity\Users', $user);
+        $this->assertInstanceOf(Entity\Users::class, $user);
         $this->assertSame('clippy', $user->getUsername());
     }
 
@@ -85,8 +86,8 @@ class TokenTokenTest extends BoltUnitTest
         $token = new Token($userEntity, $tokenEntity);
         $authToken = $token->getToken();
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
-        $this->assertInstanceOf('Bolt\Storage\Entity\AuthToken', $authToken);
+        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(AuthToken::class, $authToken);
         $this->assertSame('gum-leaves', $authToken->getToken());
     }
 
@@ -96,7 +97,7 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken(['token' => 'gum-leaves']);
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
 
         $tokenEntity = new Entity\Authtoken(['token' => 'cookies']);
         $token->setToken($tokenEntity);
@@ -113,7 +114,7 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
 
         $checked = $token->getChecked();
         $this->assertGreaterThan(time() - 1, $checked);
@@ -126,7 +127,7 @@ class TokenTokenTest extends BoltUnitTest
         $tokenEntity = new Entity\Authtoken();
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf(Token::class, $token);
 
         $token->setChecked();
         $checked = $token->getChecked();

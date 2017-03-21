@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -44,7 +45,7 @@ class UsersTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 1);
         $context = $response->getContext();
         $this->assertEquals('edit', $context['context']['kind']);
-        $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
+        $this->assertInstanceOf(FormView::class, $context['context']['form']);
         $this->assertEquals('Admin', $context['context']['displayname']);
 
         // Test that an empty user gives a create form

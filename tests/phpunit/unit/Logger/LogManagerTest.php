@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\Manager;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -178,8 +179,8 @@ class LogManagerTest extends BoltUnitTest
      */
     protected function getLogManager($app)
     {
-        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $app['storage']->getRepository(Entity\LogChange::class);
+        $systemRepository = $app['storage']->getRepository(Entity\LogSystem::class);
 
         return new Manager($app, $changeRepository, $systemRepository);
     }

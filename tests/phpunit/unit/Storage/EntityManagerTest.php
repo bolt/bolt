@@ -2,8 +2,12 @@
 
 namespace Bolt\Tests\Storage;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Storage\Mock\TestRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -27,7 +31,7 @@ class EntityManagerTest extends BoltUnitTest
         $em = $app['storage'];
 
         $qb = $em->createQueryBuilder();
-        $this->assertInstanceOf('Doctrine\DBAL\Query\QueryBuilder', $qb);
+        $this->assertInstanceOf(QueryBuilder::class, $qb);
     }
 
     public function testGetRepository()
@@ -35,9 +39,9 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
 
-        $repo = $em->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $em->getRepository(Entity\Users::class);
 
-        $this->assertInstanceOf('Bolt\Storage\Repository', $repo);
+        $this->assertInstanceOf(Repository::class, $repo);
     }
 
     public function testGetRepositoryWithAliases()
@@ -45,13 +49,12 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
 
-        $customRepoClass = 'Bolt\Tests\Storage\Mock\TestRepository';
-        $em->setRepository('Bolt\Storage\Entity\Users', $customRepoClass);
-        $em->addEntityAlias('test', 'Bolt\Storage\Entity\Users');
+        $em->setRepository(Entity\Users::class, TestRepository::class);
+        $em->addEntityAlias('test', Entity\Users::class);
 
         $repo = $em->getRepository('test');
 
-        $this->assertInstanceOf('Bolt\Tests\Storage\Mock\TestRepository', $repo);
+        $this->assertInstanceOf(TestRepository::class, $repo);
     }
 
     public function testGetDefaultRepositoryFactory()
@@ -59,7 +62,7 @@ class EntityManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
-        $this->assertInstanceOf('Bolt\Storage\Repository\ContentRepository', $repo);
+        $this->assertInstanceOf(Repository\ContentRepository::class, $repo);
     }
 
     /**

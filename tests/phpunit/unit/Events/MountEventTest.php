@@ -23,8 +23,8 @@ class MountEventTest extends BoltUnitTest
         $controllers = new ControllerCollection(new Route('/'));
         $mountEvent = new MountEvent($app, $controllers);
 
-        $this->assertInstanceOf('Bolt\Events\MountEvent', $mountEvent);
-        $this->assertInstanceOf('Silex\Application', $mountEvent->getApp());
+        $this->assertInstanceOf(MountEvent::class, $mountEvent);
+        $this->assertInstanceOf(Application::class, $mountEvent->getApp());
     }
 
     public function testMount()
@@ -82,7 +82,6 @@ class MountEventTest extends BoltUnitTest
 
     /**
      * @param array $methods
-     *
      * @param Route $route
      *
      * @return MockObject|ControllerCollection
@@ -93,7 +92,7 @@ class MountEventTest extends BoltUnitTest
             ->setMethods($methods)
             ->setConstructorArgs([$route])
             ->getMock()
-        ;
+            ;
     }
 }
 

@@ -8,6 +8,7 @@ use Bolt\Configuration\Standard;
 use Bolt\Tests\BoltUnitTest;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Eloquent\Pathogen\FileSystem\PlatformFileSystemPath as Path;
+use Eloquent\Pathogen\PathInterface;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -95,7 +96,7 @@ class ResourceManagerTest extends BoltUnitTest
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT), $config->getPath('rootpath'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/app'), $config->getPath('app'));
         $this->assertEquals(Path::fromString(PHPUNIT_WEBROOT . '/public/files'), $config->getPath('files'));
-        $this->assertInstanceOf('Eloquent\Pathogen\PathInterface', $config->getPathObject('root'));
+        $this->assertInstanceOf(PathInterface::class, $config->getPathObject('root'));
     }
 
     public function testRelativePathCreation()

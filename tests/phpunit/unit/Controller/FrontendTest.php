@@ -9,6 +9,7 @@ use Bolt\Response\TemplateResponse;
 use Bolt\TemplateChooser;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Runtime\HtmlRuntime;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -34,7 +35,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
 
         $request = $this->getRequest();
-        $kernel = $this->createMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $kernel = $this->createMock(HttpKernelInterface::class);
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
 
         $this->assertEquals('frontend', Zone::get($request));
@@ -439,7 +440,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->before($this->getRequest());
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals('/bolt/userfirst', $response->getTargetUrl());
     }
 

@@ -24,7 +24,7 @@ class AccessCheckerTest extends BoltUnitTest
     public function testLoadAccessControl()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
     }
 
     /**
@@ -34,7 +34,7 @@ class AccessCheckerTest extends BoltUnitTest
     public function testIsValidSessionNoCookie()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $accessControl->isValidSession(null);
     }
@@ -59,7 +59,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -85,7 +85,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);

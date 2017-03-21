@@ -37,7 +37,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $content = $storage->getContentObject('pages');
-        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
+        $this->assertInstanceOf(Content::class, $content);
 
         // Fake it until we make it… to the end of the test suite.
         $contentType = $app['config']->get('contenttypes/pages');
@@ -58,7 +58,7 @@ class StorageTest extends BoltUnitTest
         ;
         $content = $storage->getContentObject(['class' => 'Fakes', 'fields' => $fields]);
         $this->assertInstanceOf('Fakes', $content);
-        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
+        $this->assertInstanceOf(Content::class, $content);
 
         // Test that a class not instanceof Bolt\Legacy\Content fails
         $mock = $this->getMockBuilder(\stdClass::class)
@@ -132,7 +132,7 @@ class StorageTest extends BoltUnitTest
         $app['request'] = Request::create('/');
         $storage = new Storage($app);
 
-        $content = $storage->getEmptyContent('showcases');;
+        $content = $storage->getEmptyContent('showcases');
         $content->setValues([
             'title'  => 'koala',
             'slug'   => 'Kenny',
@@ -203,7 +203,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $showcase = $storage->getEmptyContent('showcase');
-        $this->assertInstanceOf('Bolt\Legacy\Content', $showcase);
+        $this->assertInstanceOf(Content::class, $showcase);
         $this->assertEquals('showcases', $showcase->contenttype['slug']);
     }
 
