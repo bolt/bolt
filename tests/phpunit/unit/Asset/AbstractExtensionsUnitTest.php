@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Asset;
 
 use Bolt\Tests\BoltUnitTest;
-use PHPUnit_Extension_FunctionMocker as FunctionMocker;
+use PHPUnit\Extension\FunctionMocker;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

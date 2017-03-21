@@ -4,7 +4,7 @@ namespace Bolt\Tests\Response;
 
 use Bolt\Collection\Bag;
 use Bolt\Response\TemplateView;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>

@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Session;
 
 use Bolt\Session\IniBag;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * IniBag Tests

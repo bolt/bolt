@@ -8,7 +8,7 @@ use Bolt\Configuration\Validation;
 use Bolt\Configuration\Validation\Validator;
 use Bolt\Logger\FlashLogger;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Extension_FunctionMocker as FunctionMocker;
+use PHPUnit\Extension\FunctionMocker;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**

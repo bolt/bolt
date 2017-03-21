@@ -5,7 +5,7 @@ namespace Bolt\Tests\Session\Handler\Factory;
 use Bolt\Session\Handler\Factory\RedisFactory;
 use Bolt\Session\OptionsBag;
 use Bolt\Tests\Session\Handler\Factory\Mock\MockRedis;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Redis;
 
 /**

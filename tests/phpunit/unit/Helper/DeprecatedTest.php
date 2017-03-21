@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Helper;
 
 use Bolt\Helpers\Deprecated;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>

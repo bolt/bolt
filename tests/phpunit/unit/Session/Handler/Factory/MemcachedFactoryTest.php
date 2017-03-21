@@ -6,7 +6,7 @@ use Bolt\Session\Handler\Factory\MemcachedFactory;
 use Bolt\Session\OptionsBag;
 use Bolt\Tests\Session\Handler\Factory\Mock\MockMemcached;
 use Memcached;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
