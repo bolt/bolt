@@ -10,9 +10,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $app = new Application();
 
-        $this->arrayHasKey($app, 'bolt_version');
-        $this->arrayHasKey($app, 'bolt_name');
-        $this->arrayHasKey($app, 'bolt_released');
-        $this->arrayHasKey($app, 'bolt_long_version');
+        $this->assertArrayHasKey('bolt_version', $app);
+        $this->assertArrayHasKey('bolt_name', $app);
+        $this->assertArrayHasKey('bolt_released', $app);
+        $this->assertArrayHasKey('bolt_long_version', $app);
     }
 }
