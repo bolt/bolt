@@ -48,4 +48,22 @@ interface FieldCollectionInterface extends Collection
      * @return \Iterator|FieldValue[]
      */
     public function getIterator();
+
+    /**
+     * Returns the type of a given $fieldName
+     *
+     * @param $fieldName
+     * @return string|null
+     */
+    public function getFieldType($fieldName);
+
+    /**
+     * Alias to the standard get method that matches compatibility with the Legacy
+     * content entity. This can be refactored to something better, once the
+     * deprecation of legacy content is complete.
+     *
+     * @param $fieldName
+     * @return mixed
+     */
+    public function getDecodedValue($fieldName);
 }
