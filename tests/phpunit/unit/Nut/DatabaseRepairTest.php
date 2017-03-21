@@ -14,7 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class DatabaseRepairTest extends BoltUnitTest
 {
-    public function testRunNormal()
+    public function testSchemaUpToDate()
     {
         $app = $this->getApp();
         $command = new DatabaseRepair($app);
@@ -25,7 +25,27 @@ class DatabaseRepairTest extends BoltUnitTest
         $this->assertEquals('Your database is already up to date.', trim($result));
     }
 
-    public function testRunChanged()
+    public function testUpdateSchema()
+    {
+        $tester = $this->getTester();
+        $tester->execute([]);
+        $result = $tester->getDisplay();
+        $this->assertRegExp('/Created table `bolt_newcontent`/', $result);
+    }
+
+    public function testUpdateSchemaDumpSql()
+    {
+        $this->resetDb();
+        $tester = $this->getTester();
+        $tester->execute(['--dump-sql' => true]);
+        $result = $tester->getDisplay();
+        $this->assertRegExp('/CREATE TABLE bolt_newcontent/', $result);
+    }
+
+    /**
+     * @return CommandTester
+     */
+    private function getTester()
     {
         $app = $this->getApp(false);
         $app['config']->set('contenttypes/newcontent', [
@@ -44,8 +64,6 @@ class DatabaseRepairTest extends BoltUnitTest
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);
 
-        $tester->execute([]);
-        $result = $tester->getDisplay();
-        $this->assertRegExp('/Created table `bolt_newcontent`/', $result);
+        return $tester;
     }
 }

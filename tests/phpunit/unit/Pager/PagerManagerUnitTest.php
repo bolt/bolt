@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Pager;
 
+use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -101,7 +102,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $expected = [];
         $expected['page_some'] = $this->createPager($base);
         $expected['page_some']->setManager($manager);
-        $this->assertEquals($expected, \PHPUnit_Framework_Assert::readAttribute($manager, 'pagers'));
+        $this->assertEquals($expected, Assert::readAttribute($manager, 'pagers'));
     }
 
     public function testOffsetGet()

@@ -39,7 +39,7 @@ class BackendAuthorCest extends AbstractAcceptanceTest
         $I->see('Edit', 'a');
         $I->click('Edit', 'a');
 
-        $I->click('Save Page', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The changes to the Page have been saved.');
     }

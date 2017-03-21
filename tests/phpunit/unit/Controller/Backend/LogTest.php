@@ -70,9 +70,16 @@ class LogTest extends ControllerUnitTest
 
         $context = $response->getContext();
         $this->assertInstanceOf(Entity\LogChange::class, $context['context']['entry']);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
+     */
+    public function testChangeRecordNonExisting()
+    {
+        $this->getService('config')->set('general/changelog/enabled', true);
 
         // Test non-existing entry
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
         $this->setRequest(Request::create('/bolt/changelog/pages/1/100'));
         $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 100);
         $response->getContext();

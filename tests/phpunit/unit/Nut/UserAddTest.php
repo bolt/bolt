@@ -4,9 +4,9 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\AccessControl\PasswordHashManager;
 use Bolt\Nut\UserAdd;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
-use Bolt\Storage\Entity;
 
 /**
  * Class to test src/Nut/UserAdd.

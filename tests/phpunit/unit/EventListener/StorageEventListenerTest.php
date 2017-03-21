@@ -9,10 +9,10 @@ use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\SchemaManagerInterface;
 use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EventProcessor\TimedRecord;
-use Prophecy\Argument;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
+class StorageEventListenerTest extends TestCase
 {
     /** @var Users */
     private $user;

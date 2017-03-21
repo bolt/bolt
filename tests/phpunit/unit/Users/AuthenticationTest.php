@@ -18,9 +18,6 @@ class AuthenticationTest extends BoltUnitTest
      */
     private $user;
 
-    /**
-     * @see \PHPUnit_Framework_TestCase::setUp
-     */
     protected function setUp()
     {
         $this->resetDb();
@@ -34,7 +31,7 @@ class AuthenticationTest extends BoltUnitTest
     public function testLoginWithUsername()
     {
         // Setup test
-        $app = $this->getApp();
+        $this->getApp();
         $loginMock = $this->getMockLogin();
 
         $loginMock->expects($this->once())->method('login')->willReturn(true);

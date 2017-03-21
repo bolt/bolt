@@ -4,6 +4,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserRoleRemove;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -52,7 +53,7 @@ class UserRoleRemoveTest extends BoltUnitTest
 
     protected function getUserMockWithReturns($remove = false, $has = false)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject $users */
+        /** @var MockObject $users */
         $users = $this->getMockUsers(['hasRole', 'removeRole']);
         $users->expects($this->any())
             ->method('removeRole')

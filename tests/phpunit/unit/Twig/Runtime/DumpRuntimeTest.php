@@ -5,6 +5,7 @@ namespace Bolt\Tests\Twig\Runtime;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\DumpRuntime;
 use Bolt\Users;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
@@ -52,7 +53,7 @@ class DumpRuntimeTest extends BoltUnitTest
             ->method('getCurrentUser')
             ->willReturn($hasUser ? true : null);
 
-        /** @var DumpRuntime|\PHPUnit_Framework_MockObject_MockObject $runtime */
+        /** @var DumpRuntime|MockObject $runtime */
         $runtime = $this->getMockBuilder(DumpRuntime::class)
             ->setMethods(['dump'])
             ->setConstructorArgs([

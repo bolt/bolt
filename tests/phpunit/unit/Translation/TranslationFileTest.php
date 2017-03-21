@@ -4,6 +4,7 @@ namespace Bolt\Tests\Translation;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Translation\TranslationFile;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -17,7 +18,7 @@ class TranslationFileTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $tr = new TranslationFile($app, 'translations', 'en_GB');
-        $this->assertEquals('translations', \PHPUnit_Framework_Assert::readAttribute($tr, 'domain'));
+        $this->assertEquals('translations', Assert::readAttribute($tr, 'domain'));
     }
 
     public function testPath()

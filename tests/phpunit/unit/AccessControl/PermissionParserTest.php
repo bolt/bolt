@@ -1,10 +1,11 @@
 <?php
 
-namespace Bolt\Tests;
+namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\PermissionParser;
+use PHPUnit\Framework\TestCase;
 
-class PermissionParserTest extends \PHPUnit_Framework_TestCase
+class PermissionParserTest extends TestCase
 {
     /**
      * @dataProvider lexProvider

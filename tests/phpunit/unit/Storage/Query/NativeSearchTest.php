@@ -4,6 +4,7 @@ namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Storage\Query\Adapter\PostgresSearch;
 use Bolt\Tests\BoltUnitTest;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 
 /**
  * Class to test src/Storage/Query/QueryTest.
@@ -36,7 +37,7 @@ class NativeSearchTest extends BoltUnitTest
             ],
             $query->getQueryPart('from')
         );
-        $this->assertInstanceOf('Doctrine\DBAL\Query\Expression\CompositeExpression', $query->getQueryPart('where'));
+        $this->assertInstanceOf(CompositeExpression::class, $query->getQueryPart('where'));
         $this->assertEquals(['score DESC'], $query->getQueryPart('orderBy'));
     }
 }

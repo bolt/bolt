@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Logger;
 
+use Bolt\Legacy;
 use Bolt\Storage\Entity;
-use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,7 +20,7 @@ class ChangeLogTest extends BoltUnitTest
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
         $this->addSomeContent();
-        $storage = new Storage($app);
+        $storage = new Legacy\Storage($app);
 
         $content = $storage->getContentObject('pages');
         $content['contentid'] = 1;
@@ -71,20 +71,21 @@ class ChangeLogTest extends BoltUnitTest
         //$all = $this->getLogChangeRepository()->getChangeLogByContentType('pages', []);
 
         $log = $this->getLogChangeRepository()->getChangeLogEntry('pages', 1, 1, '=');
-        $this->assertInstanceOf('\Bolt\Storage\Entity\LogChange', $log);
+        $this->assertInstanceOf(Entity\LogChange::class, $log);
     }
 
     public function testGetNextChangeLogEntry()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        $storage = new Storage($app);
+        $storage = new Legacy\Storage($app);
 
         // To generate an extra changelog we fetch and save a content item
         // For now we need to mock the request object.
         $app['request'] = Request::create('/');
+        /** @var Legacy\Content $content */
         $content = $storage->getContent('pages/1');
-        $this->assertInstanceOf('\Bolt\Legacy\Content', $content);
+        $this->assertInstanceOf(Legacy\Content::class, $content);
 
         $content->setValues(['status' => 'draft', 'ownerid' => 99]);
         $storage->saveContent($content, 'Test Suite Update');

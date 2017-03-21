@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Provider;
 
+use Bolt\Configuration\PathResolver;
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -17,6 +18,8 @@ class PathServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new PathServiceProvider($app);
         $app->register($provider);
-        $app->boot();
+
+        $this->assertSame('', $app['path_resolver.root']);
+        $this->assertSame([], $app['path_resolver.paths']);
     }
 }

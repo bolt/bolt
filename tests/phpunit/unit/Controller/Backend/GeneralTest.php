@@ -9,6 +9,7 @@ use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Prophecy\Argument\Token\StringContainsToken;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -113,7 +114,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->prefill($this->getRequest());
         $context = $response->getContext();
         $this->assertEquals(4, count($context['context']['contenttypes']));
-        $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
+        $this->assertInstanceOf(FormView::class, $context['context']['form']);
 
         // Test the post
         $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));

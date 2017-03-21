@@ -24,17 +24,19 @@ class AccessCheckerTest extends BoltUnitTest
     public function testLoadAccessControl()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
     }
 
+    /**
+     * @expectedException        \Bolt\Exception\AccessControlException
+     * @expectedExceptionMessage Can not validate session with an empty token.
+     */
     public function testIsValidSessionNoCookie()
     {
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
-        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Can not validate session with an empty token.');
-
-        $response = $accessControl->isValidSession(null);
+        $accessControl->isValidSession(null);
     }
 
     /**
@@ -57,7 +59,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
@@ -83,7 +85,7 @@ class AccessCheckerTest extends BoltUnitTest
         $app['session']->set('authentication', $token);
 
         $accessControl = $this->getAccessControl();
-        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+        $this->assertInstanceOf(AccessChecker::class, $accessControl);
 
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);

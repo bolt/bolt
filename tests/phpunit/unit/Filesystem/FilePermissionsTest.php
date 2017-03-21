@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Tests\FilePermissions;
+namespace Bolt\Tests\Filesystem;
 
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilePermissions;

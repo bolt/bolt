@@ -40,7 +40,7 @@ class BackendManagerCest extends AbstractAcceptanceTest
 
         $I->selectOption('#statusselect', 'published');
 
-        $I->click('Save', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The changes to the Page have been saved.');
     }
@@ -63,7 +63,7 @@ class BackendManagerCest extends AbstractAcceptanceTest
 
         $I->selectOption('#statusselect', 'published');
 
-        $I->click('Save', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The changes to the Page have been saved.');
     }
@@ -85,7 +85,7 @@ class BackendManagerCest extends AbstractAcceptanceTest
 
         $I->selectOption('#statusselect', 'published');
 
-        $I->click('Save', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The changes to the Page have been saved.');
     }

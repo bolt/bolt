@@ -82,7 +82,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
-        $I->click('Save Page', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
         $I->see('The new Page has been saved.');
 
         $I->see('A page I made');
@@ -159,7 +159,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#teaser', $teaser);
         $I->fillField('#body',   $body);
 
-        $I->click('Save Page', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->see('The new Page has been saved.');
         $I->see("Easy for editors, and a developer's dream cms");
@@ -188,7 +188,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#slug',        'contact');
         $I->selectOption('#template', 'extrafields.twig');
 
-        $I->click('Save Page', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
         $I->see('The new Page has been saved.');
         $I->click('Contact Page');
 
@@ -196,7 +196,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->see('Template', 'a[data-toggle=tab]');
 
         $I->fillField('#templatefields-section_1', 'This is the contact text');
-        $I->click('Save Page', '#savecontinuebutton');
+        $I->submitForm('#editcontent', []);
 
         $I->click('Contact Page');
         /*

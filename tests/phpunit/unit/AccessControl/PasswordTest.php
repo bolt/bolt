@@ -27,9 +27,8 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = Entity\Users::class;
         /** @var Repository\UsersRepository $repo */
-        $repo = $app['storage']->getRepository($entityName);
+        $repo = $app['storage']->getRepository(Entity\Users::class);
 
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
@@ -57,9 +56,8 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
         /** @var Repository\UsersRepository $repo */
-        $repo = $app['storage']->getRepository($entityName);
+        $repo = $app['storage']->getRepository(Entity\Users::class);
 
         $shadowToken = $app['randomgenerator']->generateString(32);
         $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
@@ -86,9 +84,8 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
         /** @var Repository\UsersRepository $repo */
-        $repo = $app['storage']->getRepository($entityName);
+        $repo = $app['storage']->getRepository(Entity\Users::class);
 
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
@@ -116,9 +113,8 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
         /** @var Repository\UsersRepository $repo */
-        $repo = $app['storage']->getRepository($entityName);
+        $repo = $app['storage']->getRepository(Entity\Users::class);
 
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
@@ -146,9 +142,8 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Storage\Entity\Users';
         /** @var Repository\UsersRepository $repo */
-        $repo = $app['storage']->getRepository($entityName);
+        $repo = $app['storage']->getRepository(Entity\Users::class);
 
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())

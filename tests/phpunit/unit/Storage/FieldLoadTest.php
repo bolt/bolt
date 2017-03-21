@@ -5,7 +5,6 @@ namespace Bolt\Tests\Storage;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\Field\Collection\FieldCollectionInterface;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Tests\BoltUnitTest;
@@ -59,7 +58,7 @@ class FieldLoadTest extends BoltUnitTest
         foreach ($record->repeater as $collection) {
             $this->assertInstanceOf(FieldCollectionInterface::class, $collection);
             foreach ($collection as $fieldValue) {
-                $this->assertInstanceOf(FieldValue::class, $fieldValue);
+                $this->assertInstanceOf(Entity\FieldValue::class, $fieldValue);
             }
         }
     }
