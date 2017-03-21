@@ -4,6 +4,7 @@ namespace Bolt\Storage\Field\Collection;
 
 use Bolt\Storage\Entity\FieldValue;
 use Doctrine\Common\Collections\ArrayCollection;
+use ParsedownExtra as Markdown;
 use Webmozart\Assert\Assert;
 
 /**
@@ -137,15 +138,29 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     }
 
     /**
-     *  Alias to the standard get method that matches compatibility with the Legacy content entity.
-     *  This can be removed once the deprecation of legacy content is complete.
+     * Alias to the standard get method that matches compatibility with the Legacy
+     * content entity. This can be refactored to something better, once the
+     * deprecation of legacy content is complete.
      *
      * @param $fieldName
      * @return mixed
      */
     public function getDecodedValue($fieldName)
     {
-        return $this->get($fieldName);
+        $fieldType = $this->getFieldType($fieldName);
+
+        $value = $this->get($fieldName);
+
+        if ($fieldType == 'markdown') {
+            $markdown = new Markdown();
+            $value = $markdown->text($value);
+        }
+
+        if (in_array($fieldType, ['markdown', 'html', 'text', 'textarea'])) {
+            $value = new \Twig_Markup($value, 'UTF-8');
+        }
+
+        return $value;
     }
 
 }
