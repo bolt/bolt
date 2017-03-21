@@ -52,17 +52,20 @@ interface FieldCollectionInterface extends Collection
     /**
      * Returns the type of a given $fieldName
      *
-     * @param $fieldName
+     * @param string $fieldName
+     *
      * @return string|null
      */
     public function getFieldType($fieldName);
 
     /**
-     * Alias to the standard get method that matches compatibility with the Legacy
-     * content entity. This can be refactored to something better, once the
+     * Returns the rendered version of a value for Twig.
+     *
+     * This can be refactored to something better, once the
      * deprecation of legacy content is complete.
      *
-     * @param $fieldName
+     * @param string $fieldName
+     *
      * @return mixed
      */
     public function getDecodedValue($fieldName);

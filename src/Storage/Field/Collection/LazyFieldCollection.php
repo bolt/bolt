@@ -67,10 +67,8 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
         }
     }
 
-    /** Returns the type of a given $fieldName
-     *
-     * @param $fieldName
-     * @return string|null
+    /**
+     * {@inheritdoc}
      */
     public function getFieldType($fieldName)
     {
@@ -80,12 +78,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     }
 
     /**
-     * Alias to the standard get method that matches compatibility with the Legacy
-     * content entity. This can be refactored to something better, once the
-     * deprecation of legacy content is complete.
-     *
-     * @param $fieldName
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getDecodedValue($fieldName)
     {

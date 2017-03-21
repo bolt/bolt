@@ -132,6 +132,8 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
         if ($field) {
             return $field->getFieldType();
         }
+
+        return null;
     }
 
     /**
@@ -139,16 +141,21 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
      */
     public function getDecodedValue($fieldName)
     {
-        $fieldType = $this->getFieldType($fieldName);
+        $field = parent::get($fieldName);
 
-        $value = $this->get($fieldName);
+        if (!$field instanceof FieldValue) {
+            return null;
+        }
 
-        if ($fieldType == 'markdown') {
+        $fieldType = $field->getFieldType();
+        $value = $field->getValue();
+
+        if ($fieldType === 'markdown') {
             $markdown = new Markdown();
             $value = $markdown->text($value);
         }
 
-        if (in_array($fieldType, ['markdown', 'html', 'text', 'textarea'])) {
+        if (in_array($fieldType, ['markdown', 'html', 'text', 'textarea'], true)) {
             $value = new \Twig_Markup($value, 'UTF-8');
         }
 
