@@ -135,4 +135,5 @@ class FieldValue extends Entity
         $typeCol = 'value_' . $type->getName();
         $this->$typeCol = $this->getValue();
     }
+
 }
