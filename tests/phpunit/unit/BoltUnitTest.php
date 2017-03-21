@@ -193,65 +193,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['access_control'] = $auth;
     }
 
-    /**
-     * @param \Silex\Application $app
-     * @param array              $functions Defaults to ['isValidSession']
-     *
-     * @return \Bolt\AccessControl\AccessChecker|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
-    {
-        $accessCheckerMock = $this->getMock(
-            'Bolt\AccessControl\AccessChecker',
-            $functions,
-            [
-                $app['storage.lazy'],
-                $app['request_stack'],
-                $app['session'],
-                $app['dispatcher'],
-                $app['logger.flash'],
-                $app['logger.system'],
-                $app['permissions'],
-                $app['randomgenerator'],
-                $app['access_control.cookie.options'],
-            ]
-        );
-
-        return $accessCheckerMock;
-    }
-
-    /**
-     * @param \Silex\Application $app
-     * @param array              $functions Defaults to ['login']
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject A mocked \Bolt\AccessControl\Login
-     */
-    protected function getLoginMock($app, $functions = ['login'])
-    {
-        $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
-
-        return $loginMock;
-    }
-
-    protected function getCacheMock($path = null)
-    {
-        $app = $this->getApp();
-        if ($path === null) {
-            $path = $app['path_resolver']->resolve('cache');
-        }
-
-        $params = [
-            $path,
-            \Bolt\Cache::EXTENSION,
-            0002,
-            $app['filesystem'],
-        ];
-
-        $cache = $this->getMock('Bolt\Cache', ['flushAll'], $params);
-
-        return $cache;
-    }
-
     protected function removeCSRF($app)
     {
         // Symfony forms need a CSRF token so we have to mock this too

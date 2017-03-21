@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Users;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Users;
 
 /**
  * Class to test correct operation of src/Users.
@@ -17,9 +16,6 @@ class UsersTest extends BoltUnitTest
      */
     private $user;
 
-    /**
-     * @see \PHPUnit_Framework_TestCase::setUp
-     */
     protected function setUp()
     {
         $this->resetDb();
@@ -31,7 +27,7 @@ class UsersTest extends BoltUnitTest
     }
 
     /**
-     * @covers Bolt\Users::getUser
+     * @covers \Bolt\Users::getUser
      */
     public function testGetUserById()
     {
@@ -48,7 +44,7 @@ class UsersTest extends BoltUnitTest
     }
 
     /**
-     * @covers Bolt\Users::getUser
+     * @covers \Bolt\Users::getUser
      */
     public function testGetUserByUnknownId()
     {
@@ -63,7 +59,7 @@ class UsersTest extends BoltUnitTest
     }
 
     /**
-     * @covers Bolt\Users::getUser
+     * @covers \Bolt\Users::getUser
      */
     public function testGetUserByUsername()
     {
@@ -80,7 +76,7 @@ class UsersTest extends BoltUnitTest
     }
 
     /**
-     * @covers Bolt\Users::getUser
+     * @covers \Bolt\Users::getUser
      */
     public function testGetUserByUnknownUsername()
     {

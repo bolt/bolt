@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Storage;
 
-use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 
 /**
