@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Tests\Mapping;
+namespace Bolt\Tests\Storage\Mapping;
 
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Tests\BoltUnitTest;
