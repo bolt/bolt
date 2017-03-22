@@ -202,7 +202,6 @@ class Import extends AbstractMigration
         foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
             if (is_a($field['fieldtype'], 'Bolt\Storage\Field\Type\RelationType', true)) {
                 if (count($values[$field['fieldname']])) {
-
                     $this->relationQueue[$contenttypeslug . '/' . $values['slug']] = array_merge(
                         (array) $this->relationQueue[$contenttypeslug][$values['slug']],
                         $values[$field['fieldname']]
