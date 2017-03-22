@@ -61,6 +61,8 @@ interface FieldCollectionInterface extends Collection
     /**
      * Returns the rendered version of a value for Twig.
      *
+     * @internal
+     *
      * This can be refactored to something better, once the
      * deprecation of legacy content is complete.
      *
@@ -68,5 +70,5 @@ interface FieldCollectionInterface extends Collection
      *
      * @return mixed
      */
-    public function getDecodedValue($fieldName);
+    public function getRenderedValue($fieldName);
 }

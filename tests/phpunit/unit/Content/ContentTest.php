@@ -67,6 +67,25 @@ class ContentTest extends BoltUnitTest
     {
     }
 
+    public function testGetRenderedValue()
+    {
+        $app = $this->getApp();
+        $mockContent =$this->getMockBuilder(Content::class)
+            ->setConstructorArgs([$app, 'pages'])
+            ->setMethods(['getDecodedValue'])
+            ->getMock()
+        ;
+        $mockContent
+            ->expects($this->atLeastOnce())
+            ->method('getDecodedValue')
+            ->with('title')
+        ;
+
+        /** @var \Bolt\Legacy\Content $mockContent */
+        $mockContent->setValue('title', 'koala');
+        $mockContent->getRenderedValue('title');
+    }
+
     public function testpreParse()
     {
     }

@@ -193,6 +193,18 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * @internal Forward comparability for to forward legacy calls to getDecodedValue()
+     *
+     * @param string $fieldName
+     *
+     * @return mixed
+     */
+    public function getRenderedValue($fieldName)
+    {
+        return $this->getDecodedValue($fieldName);
+    }
+
+    /**
      * If passed snippet contains Twig tags, parse the string as Twig, and return the results.
      *
      * @param string  $snippet

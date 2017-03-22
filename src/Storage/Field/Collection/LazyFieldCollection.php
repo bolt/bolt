@@ -80,11 +80,11 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     /**
      * {@inheritdoc}
      */
-    public function getDecodedValue($fieldName)
+    public function getRenderedValue($fieldName)
     {
         $this->initialize();
 
-        return $this->collection->getDecodedValue($fieldName);
+        return $this->collection->getRenderedValue($fieldName);
     }
 
     /**

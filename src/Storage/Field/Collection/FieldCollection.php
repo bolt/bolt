@@ -139,7 +139,7 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     /**
      * {@inheritdoc}
      */
-    public function getDecodedValue($fieldName)
+    public function getRenderedValue($fieldName)
     {
         $field = parent::get($fieldName);
 

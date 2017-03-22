@@ -32,7 +32,7 @@
 
 {# Output a text-like field with the wrapper for live editing. #}
 {% macro textfield(object, key) %}
-    <div data-bolt-field="{{key}}">{{ object.decodedValue(key) }}</div>
+    <div data-bolt-field="{{key}}">{{ object.renderedValue(key) }}</div>
 {% endmacro %}
 
 {% macro imagelistfield(images) %}
