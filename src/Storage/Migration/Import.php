@@ -256,7 +256,7 @@ class Import extends AbstractMigration
             $related = $this->app['storage']->createCollection('Bolt\Storage\Entity\Relations');
             $related->setFromPost($relations, $entity);
             $entity->setRelation($related);
-            $entity->save();
+            $this->app['storage']->save($entity);
         }
     }
 }
