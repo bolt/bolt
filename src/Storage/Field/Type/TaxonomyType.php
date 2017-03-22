@@ -260,8 +260,7 @@ class TaxonomyType extends JoinTypeBase
             $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
             $taxonomies->setFromPost($collection, $entity);
 
-            $setter = 'set' . ucfirst($key);
-            $entity->$setter($taxonomies);
+            $entity->getTaxonomy()->update($taxonomies);
         }
     }
 }
