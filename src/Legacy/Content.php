@@ -226,16 +226,9 @@ class Content implements \ArrayAccess
 
         $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
 
-        try {
-            $template = $this->app['twig']->createTemplate((string) $snippet);
+        $template = $this->app['twig']->createTemplate((string) $snippet);
 
-            return twig_include($this->app['twig'], $this->getTemplateContext(), $template, [], true, false, true);
-        } catch (\Twig_Error $e) {
-            $message = sprintf('Rendering a record Twig snippet failed: %s', $e->getRawMessage());
-            $this->app['logger.system']->critical($message, ['event' => 'exception', 'exception' => $e]);
-
-            return $message;
-        }
+        return twig_include($this->app['twig'], $this->getTemplateContext(), $template, [], true, false, true);
     }
 
     public function getTemplateContext()
