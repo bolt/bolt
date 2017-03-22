@@ -24,6 +24,7 @@ class TemplateFields extends Entity
     public function serialize()
     {
         $fields = $this->getContenttype()->getFields();
+        $values = [];
         foreach ($fields as $field) {
             $fieldName = $field['fieldname'];
             $val = $this->$fieldName;
