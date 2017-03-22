@@ -30,7 +30,7 @@ class DatabaseExport extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>\n");
+        $output->writeln("<error>\n\nWARNING! This command operates on the current database, taking a backup is advised before export.\n</error>\n");
 
         // Check if export file can be created
         $file = $input->getOption('file');

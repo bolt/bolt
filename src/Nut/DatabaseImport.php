@@ -31,7 +31,7 @@ class DatabaseImport extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING THIS IS AN EXPERIMENTAL FEATURE\n</error>\n");
+        $output->writeln("<error>\n\nWARNING! This command may overwrite or replace data in the current database.\n</error>\n");
 
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
