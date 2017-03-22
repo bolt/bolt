@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Migration;
 
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
@@ -83,15 +84,14 @@ class Export extends AbstractMigration
     private function exportContenttypeRecords($contenttype, $last)
     {
         // Get all the records for the contenttype
-        $records = $this->app['storage']->getContent($contenttype);
+        $records = $this->app['query']->getContent($contenttype);
         $data = [];
 
         // If we're on the last Contenttype, we want to know when we've got the
         // last record so we can close off if need be
         if ($last) {
             $last = false;
-            $keys = array_keys($records);
-            $end  = end($keys);
+            $end  = count($records) -1;
         } else {
             $end = null;
         }
@@ -101,8 +101,25 @@ class Export extends AbstractMigration
                 $last = true;
             }
 
-            $values = $record->getValues();
+            $values = [];
+            $repo = $this->app['storage']->getRepository($contenttype);
+            $metadata = $repo->getClassMetadata();
+            foreach ($metadata->getFieldMappings() as $field) {
+                $fieldName = $field['fieldname'];
+                $val = $record->$fieldName;
+                if (in_array($field['type'], ['date','datetime'])) {
+                    $val = (string)$record->$fieldName;
+                }
+                if (is_callable([$val, 'serialize'])) {
+                    $val = $val->serialize();
+                }
+
+                $values[$fieldName] = $val;
+            }
+
+
             unset($values['id']);
+            $values['_id'] = $record->getContenttype() . '/' . $record->getSlug();
             $data[$contenttype] = $values;
 
             $this->writeMigrationFile($data, $last, true);

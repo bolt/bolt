@@ -81,4 +81,14 @@ class EntityProxy
 
         return $this->proxy->$attribute = $value;
     }
+
+    /**
+     * @return object
+     */
+    public function getProxy()
+    {
+        $this->load();
+
+        return $this->proxy;
+    }
 }

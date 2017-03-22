@@ -120,6 +120,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $taxonomy = $entity->getTaxonomy()
             ->getField($field);
@@ -239,5 +240,30 @@ class TaxonomyType extends JoinTypeBase
             ->fetchAll();
 
         return $result ?: [];
+    }
+
+    /**
+     * Normalize step ensures that we have correctly hydrated collection objects before we try and save
+     *
+     * @param $entity
+     */
+    public function normalize($entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $collection = $entity->$accessor();
+        if (!$collection instanceof Collection\Taxonomy) {
+            if (!is_array($collection)) {
+                return;
+            }
+            if (!array_key_exists($key, $collection)) {
+                $collection = [$key => $collection];
+            }
+            $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+            $taxonomies->setFromPost($collection, $entity);
+
+            $entity->getTaxonomy()->update($taxonomies);
+        }
     }
 }
