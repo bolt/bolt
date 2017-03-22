@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Migration;
 
 use Bolt\Helpers\Arr;
+use Bolt\Storage\Repository;
 
 /**
  * Database records import class
@@ -13,6 +14,8 @@ class Import extends AbstractMigration
 {
     /** @var array $data */
     protected $data;
+
+    protected $relationQueue = [];
 
     /**
      * Set the migration files.
@@ -189,10 +192,17 @@ class Import extends AbstractMigration
         $values = Arr::replaceRecursive($values, $meta);
 
         // Create and save the content
+        /** @var Repository $repo */
         $repo = $this->app['storage']->getRepository($contenttypeslug);
         $record = $repo->create(['contenttype' => $contenttypeslug, 'status' => $status]);
 
         $record->setValues($values);
+
+        foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
+            if (is_a($field['fieldtype'], 'Bolt\Storage\Field\Type\RelationType', true)) {
+                $this->relationQueue[$contenttypeslug][$values['slug']] = $record[$field['fieldname']];
+            }
+        }
 
         if ($repo->save($record) === false) {
             $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
@@ -221,5 +231,16 @@ class Import extends AbstractMigration
         }
 
         return false;
+    }
+
+    /**
+     *   Since relations can't be processed until we are sure all the individual records are saved this goes
+     *   through the queue after an import and links up all the related ones.
+     */
+    protected function processRelationQueue()
+    {
+        foreach ($this->relationQueue as $relation) {
+
+        }
     }
 }
