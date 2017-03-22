@@ -90,7 +90,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function importRecords($filename)
+    protected function importRecords($filename)
     {
         foreach ($this->data as $data) {
             // Test that we've at the least of an array
@@ -122,7 +122,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function checkContentTypesValid($filename, $contenttypeslug)
+    protected function checkContentTypesValid($filename, $contenttypeslug)
     {
         if (isset($this->contenttypes[$contenttypeslug])) {
             return true;
@@ -150,7 +150,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function insertRecord($filename, $contenttypeslug, array $values)
+    protected function insertRecord($filename, $contenttypeslug, array $values)
     {
         // Determine a/the slug
         $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127);
@@ -213,7 +213,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function isRecordUnique($contenttypeslug, $slug)
+    protected function isRecordUnique($contenttypeslug, $slug)
     {
         $record = $this->app['storage']->getContent("$contenttypeslug/$slug");
         if (empty($record)) {
