@@ -253,7 +253,7 @@ class Import extends AbstractMigration
                 $relation = $this->app['query']->getContent($linkKey);
                 $relations[(string)$relation->getContentType()][] = $relation->getId();
             }
-            $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+            $related = $this->app['storage']->createCollection('Bolt\Storage\Entity\Relations');
             $related->setFromPost($relations, $entity);
             $entity->setRelation($related);
             $entity->save();
