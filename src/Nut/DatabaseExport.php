@@ -19,7 +19,7 @@ class DatabaseExport extends BaseCommand
     {
         $this
             ->setName('database:export')
-            ->setDescription('[EXPERIMENTAL] Export the database records to a YAML or JSON file.')
+            ->setDescription('Export the database records to a YAML or JSON file.')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
             ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more contenttypes to export records for.')
             ->addOption('file',           'f', InputOption::VALUE_OPTIONAL, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
