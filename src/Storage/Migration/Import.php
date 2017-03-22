@@ -115,6 +115,7 @@ class Import extends AbstractMigration
                 $this->insertRecord($filename, $contenttypeslug, $values);
             }
         }
+        $this->processRelationQueue();
     }
 
     /**
@@ -200,7 +201,13 @@ class Import extends AbstractMigration
 
         foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
             if (is_a($field['fieldtype'], 'Bolt\Storage\Field\Type\RelationType', true)) {
-                $this->relationQueue[$contenttypeslug][$values['slug']] = $record[$field['fieldname']];
+                if (count($values[$field['fieldname']])) {
+
+                    $this->relationQueue[$contenttypeslug . '/' . $values['slug']] = array_merge(
+                        (array) $this->relationQueue[$contenttypeslug][$values['slug']],
+                        $values[$field['fieldname']]
+                    );
+                }
             }
         }
 
@@ -239,8 +246,17 @@ class Import extends AbstractMigration
      */
     protected function processRelationQueue()
     {
-        foreach ($this->relationQueue as $relation) {
-
+        foreach ($this->relationQueue as $source => $links) {
+            $entity = $this->app['query']->getContent($source);
+            $relations = [];
+            foreach ($links as $linkKey) {
+                $relation = $this->app['query']->getContent($linkKey);
+                $relations[(string)$relation->getContentType()][] = $relation->getId();
+            }
+            $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+            $related->setFromPost($relations, $entity);
+            $entity->setRelation($related);
+            $entity->save();
         }
     }
 }
