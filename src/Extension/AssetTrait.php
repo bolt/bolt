@@ -196,7 +196,7 @@ trait AssetTrait
         }
 
         $message = sprintf(
-            "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
+            "Couldn't add file asset '%s': File does not exist in either %s or %s directories. Make sure the file exists in either of these locations, either by Syncing assets or by placing the file there manually.",
             $path,
             $this->getWebDirectory()->getFullPath(),
             $themeFile->getFullPath()
