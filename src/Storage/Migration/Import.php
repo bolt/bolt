@@ -17,6 +17,8 @@ class Import extends AbstractMigration
 
     protected $relationQueue = [];
 
+    protected $allowOverwrite = false;
+
     /**
      * Set the migration files.
      *
@@ -84,6 +86,11 @@ class Import extends AbstractMigration
     public function setData(array $data)
     {
         $this->data = $data;
+    }
+
+    public function setAllowOverwrite($option)
+    {
+        $this->allowOverwrite = $option;
     }
 
     /**
@@ -231,6 +238,9 @@ class Import extends AbstractMigration
      */
     protected function isRecordUnique($contenttypeslug, $slug)
     {
+        if ($this->allowOverwrite) {
+            return true;
+        }
         $record = $this->app['storage']->getContent("$contenttypeslug/$slug");
         if (empty($record)) {
             return true;
