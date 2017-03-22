@@ -162,11 +162,7 @@ class Import extends AbstractMigration
         }
 
         // Get a status
-        if (isset($values['status'])) {
-            $status = $values['status'];
-        } else {
-            $status = $this->contenttypes[$contenttypeslug]['default_status'];
-        }
+        $status = isset($values['status']) ? $values['status'] : $this->contenttypes[$contenttypeslug]['default_status'];
 
         // Transform the 'publish' action to a 'published' status
         $status = $status === 'publish' ? 'published' : $status;
@@ -178,25 +174,32 @@ class Import extends AbstractMigration
             return false;
         }
 
+        // If not given a publish date, set it to now
+        if (!isset($values['datepublish'])) {
+            $values['datepublish'] = $status == 'published' ? date('Y-m-d H:i:s') : null;
+        }
+
         // Set up default meta
         $meta = [
             'slug'        => $slug,
-            'datecreated' => date('Y-m-d H:i:s'),
-            'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
+            'datecreated' => (isset($values['datecreated'])) ? $values['datecreated'] : date('Y-m-d H:i:s'),
             'ownerid'     => 1,
         ];
 
         $values = Arr::replaceRecursive($values, $meta);
 
-        $record = $this->app['storage']->getEmptyContent($contenttypeslug);
+        // Create and save the content
+        $repo = $this->app['storage']->getRepository($contenttypeslug);
+        $record = $repo->create(['contenttype' => $contenttypeslug, 'status' => $status]);
+
         $record->setValues($values);
 
-        if ($this->app['storage']->saveContent($record) === false) {
+        if ($repo->save($record) === false) {
             $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
 
             return false;
         } else {
-            $this->setNotice(true)->setNoticeMessage("Imported record with title: {$values['title']}.");
+            $this->setNotice(true)->setNoticeMessage("Imported record to {$contenttypeslug} with title: {$values['title']}.");
 
             return true;
         }
