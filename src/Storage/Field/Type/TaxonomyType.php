@@ -254,6 +254,9 @@ class TaxonomyType extends JoinTypeBase
 
         $collection = $entity->$accessor();
         if (!$collection instanceof Collection\Taxonomy) {
+            if (!array_key_exists($key, $collection)) {
+                $collection = [$key => $collection];
+            }
             $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
             $taxonomies->setFromPost($collection, $entity);
 
