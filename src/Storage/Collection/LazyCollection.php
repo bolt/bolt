@@ -20,7 +20,7 @@ class LazyCollection extends AbstractLazyCollection
      *
      * @param EntityProxy $element
      *
-     * @return
+     * @return bool
      */
     public function add($element)
     {

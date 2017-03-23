@@ -163,7 +163,7 @@ class LogChangeRepository extends BaseLogRepository
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Bolt\Storage\Entity\LogChange
+     * @return \Bolt\Storage\Entity\LogChange|false
      */
     public function getChangeLogEntry($contenttype, $contentid, $id, $cmpOp)
     {

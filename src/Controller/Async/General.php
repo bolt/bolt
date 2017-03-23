@@ -440,10 +440,10 @@ class General extends AsyncBase
      */
     private function getLastmodifiedByContentLog($contenttypeslug, $contentid)
     {
-        // Get the proper contenttype.
+        // Get the proper ContentType.
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // get the changelog for the requested contenttype.
+        // get the changelog for the requested ContentType.
         $options = ['limit' => 5, 'order' => 'date', 'direction' => 'DESC'];
 
         if (intval($contentid) == 0) {
@@ -477,10 +477,10 @@ class General extends AsyncBase
      */
     private function getLastmodifiedSimple($contenttypeslug)
     {
-        // Get the proper contenttype.
+        // Get the proper ContentType.
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // Get the 'latest' from the requested contenttype.
+        // Get the 'latest' from the requested ContentType.
         $latest = $this->getContent($contenttype['slug'], ['limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false]);
 
         $context = [

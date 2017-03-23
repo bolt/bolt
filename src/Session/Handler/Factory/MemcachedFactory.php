@@ -100,13 +100,13 @@ class MemcachedFactory extends AbstractFactory
         }
 
         $memcached->setOptions([
-            Memcached::OPT_BINARY_PROTOCOL => $binary,
-            Memcached::OPT_LIBKETAMA_COMPATIBLE => $options->getBoolean('consistent_hash'),
-            Memcached::OPT_SERVER_FAILURE_LIMIT => $options->getInt('server_failure_limit'),
-            Memcached::OPT_NUMBER_OF_REPLICAS => $options->getInt('number_of_replicas'),
+            Memcached::OPT_BINARY_PROTOCOL        => $binary,
+            Memcached::OPT_LIBKETAMA_COMPATIBLE   => $options->getBoolean('consistent_hash'),
+            Memcached::OPT_SERVER_FAILURE_LIMIT   => $options->getInt('server_failure_limit'),
+            Memcached::OPT_NUMBER_OF_REPLICAS     => $options->getInt('number_of_replicas'),
             Memcached::OPT_RANDOMIZE_REPLICA_READ => $options->getBoolean('randomize_replica_read'),
-            Memcached::OPT_REMOVE_FAILED_SERVERS => $options->getBoolean('remove_failed_servers'),
-            Memcached::OPT_CONNECT_TIMEOUT => $options->getInt('connect_timeout'),
+            Memcached::OPT_REMOVE_FAILED_SERVERS  => $options->getBoolean('remove_failed_servers'),
+            Memcached::OPT_CONNECT_TIMEOUT        => $options->getInt('connect_timeout'),
         ]);
 
         if ($needsAuth) {
@@ -130,17 +130,17 @@ class MemcachedFactory extends AbstractFactory
         $options = new OptionsBag($sessionOptions->get('options', []));
 
         $iniKeys = [
-            'persistent' => 'bool',
-            'binary_protocol' => 'bool',
-            'consistent_hash' => 'bool',
-            'server_failure_limit' => 'int',
-            'remove_failed_servers' => 'bool',
+            'persistent'             => 'bool',
+            'binary_protocol'        => 'bool',
+            'consistent_hash'        => 'bool',
+            'server_failure_limit'   => 'int',
+            'remove_failed_servers'  => 'bool',
             'randomize_replica_read' => 'bool',
-            'number_of_replicas' => 'int',
-            'connect_timeout' => 'int',
-            'sasl_username' => 'string',
-            'sasl_password' => 'string',
-            'prefix' => 'string',
+            'number_of_replicas'     => 'int',
+            'connect_timeout'        => 'int',
+            'sasl_username'          => 'string',
+            'sasl_password'          => 'string',
+            'prefix'                 => 'string',
         ];
         $v2IniKeys = [
             'remove_failed_servers' => ['remove_failed', 'bool'],
@@ -322,8 +322,8 @@ class MemcachedFactory extends AbstractFactory
         $item = new OptionsBag($item);
 
         $conn = new OptionsBag([
-            'host' => $item->get('host') ?: '127.0.0.1',
-            'port' => $item->getInt('port') ?: 11211,
+            'host'   => $item->get('host') ?: '127.0.0.1',
+            'port'   => $item->getInt('port') ?: 11211,
             'weight' => $item->getInt('weight', 1),
         ]);
 

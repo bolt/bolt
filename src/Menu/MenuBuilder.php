@@ -85,7 +85,7 @@ class MenuBuilder
      */
     private function menuHelper($item)
     {
-        // recurse into submenu's
+        // recurse into submenus
         if (isset($item['submenu']) && is_array($item['submenu'])) {
             $item['submenu'] = $this->menuHelper($item['submenu']);
         }

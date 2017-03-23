@@ -1051,9 +1051,9 @@ class Storage
      *
      * @param string $taxonomyslug
      * @param string $name
-     * @param string $parameters
+     * @param array  $parameters
      *
-     * @return array
+     * @return array|false
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = [])
     {

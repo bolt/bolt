@@ -13,8 +13,8 @@ trait EntityArrayAccessTrait
     /**
      * @see ArrayAccess::offsetSet
      *
-     * @param $offset
-     * @param $value
+     * @param string $offset
+     * @param string $value
      */
     public function offsetSet($offset, $value)
     {
@@ -25,7 +25,9 @@ trait EntityArrayAccessTrait
     /**
      * @see ArrayAccess::offsetExists
      *
-     * @param $offset
+     * @param string $offset
+     *
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -49,7 +51,7 @@ trait EntityArrayAccessTrait
     /**
      * @see ArrayAccess::offsetGet
      *
-     * @param $offset
+     * @param string $offset
      */
     public function offsetGet($offset)
     {

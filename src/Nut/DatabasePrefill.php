@@ -16,7 +16,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class DatabasePrefill extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -24,12 +24,12 @@ class DatabasePrefill extends BaseCommand
             ->setName('database:prefill')
             ->setDescription('Pre-fill the database Lorem Ipsum records')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of Contentypes to pre-fill. If this argument is empty, all Contenttypes are used.')
+            ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of ContenTypes to pre-fill. If this argument is empty, all ContentTypes are used.')
         ;
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -42,9 +42,9 @@ class DatabasePrefill extends BaseCommand
             }
         }
 
-        $contenttypes = $input->getArgument('contenttypes');
+        $contentTypes = $input->getArgument('contenttypes');
 
-        $this->app['storage']->preFill((array) $contenttypes);
+        $this->app['storage']->preFill((array) $contentTypes);
 
         $this->auditLog(__CLASS__, 'Database pre-filled');
         $output->writeln('<info>Database pre-filled</info>');

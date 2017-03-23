@@ -28,7 +28,7 @@ class Extend extends BackendBase
     {
         $c->get('', 'overview')
             ->bind('extensions');
-        
+
         // Allows BC with 3.2 and earlier, to be removed in 4.0
         $c->get('', 'overview')
             ->bind('extend');
@@ -296,7 +296,7 @@ class Extend extends BackendBase
     /**
      * Package install chooser modal.
      *
-     * @return \Bolt\Response\TemplateResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function installPackage()
     {
@@ -310,7 +310,7 @@ class Extend extends BackendBase
     /**
      * The main 'Extensions' page.
      *
-     * @return \Bolt\Response\TemplateResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function overview()
     {

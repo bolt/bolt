@@ -23,7 +23,7 @@ class Records extends AsyncBase
     }
 
     /**
-     * Perform an action on a Contenttype record.
+     * Perform an action on a ContentType record.
      *
      * The action part of the POST request should take the form:
      * [

@@ -240,7 +240,7 @@ abstract class BaseAction
     }
 
     /**
-     * Determine the minimum requried stability.
+     * Determine the minimum reburied stability.
      *
      * @return string
      */

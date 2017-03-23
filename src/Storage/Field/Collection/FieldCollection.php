@@ -161,5 +161,4 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
 
         return $value;
     }
-
 }

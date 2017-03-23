@@ -18,6 +18,11 @@ class FrontendQueryScope implements QueryScopeInterface
     /** @var array */
     protected $orderBys = [];
 
+    /**
+     * Constructor.
+     *
+     * @param Config $config
+     */
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -44,7 +49,6 @@ class FrontendQueryScope implements QueryScopeInterface
      * Get the config of one given field for a given content type.
      *
      * @param string $contentType
-     * @param string $field
      *
      * @return array|false
      */
@@ -60,8 +64,6 @@ class FrontendQueryScope implements QueryScopeInterface
     /**
      * Iterates over the main config and delegates weighting to both
      * searchable columns and searchable taxonomies.
-     *
-     * @return void
      */
     protected function parseContenttypes()
     {
@@ -74,6 +76,9 @@ class FrontendQueryScope implements QueryScopeInterface
         }
     }
 
+    /**
+     * @param QueryInterface $query
+     */
     public function onQueryExecute(QueryInterface $query)
     {
         $ct = $query->getContentType();

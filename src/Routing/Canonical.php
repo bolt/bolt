@@ -151,7 +151,7 @@ class Canonical implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['onRequest', 31], // Right after RouterListener
+            KernelEvents::REQUEST        => ['onRequest', 31], // Right after RouterListener
             KernelEvents::FINISH_REQUEST => 'onFinishRequest',
         ];
     }
