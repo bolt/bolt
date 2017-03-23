@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -211,6 +212,8 @@ class RelationType extends JoinTypeBase
      * @param string       $alias
      * @param QueryBuilder $query
      *
+     * @throws StorageException
+     *
      * @return string
      */
     protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
@@ -224,5 +227,7 @@ class RelationType extends JoinTypeBase
             case 'postgresql':
                 return "string_agg($column" . "::character varying, ',') as $alias";
         }
+
+        throw new StorageException(sprintf('Unsupported platform: %s', $platform));
     }
 }
