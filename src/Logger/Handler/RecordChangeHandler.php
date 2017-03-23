@@ -2,6 +2,7 @@
 
 namespace Bolt\Logger\Handler;
 
+use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -80,32 +81,10 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         // Get the context data
         $data = $this->getData($context);
+        $title = $context['new'] ? $context['new']['title'] : $context['old']['title'];
+        unset($data['bolt_csrf_token']);
 
-        if ($context['old'] instanceof \Bolt\Legacy\Content || $context['new'] instanceof \Bolt\Legacy\Content) {
-            // Get the ContentType
-            $contenttype = $context['contenttype'];
-            if (!is_array($contenttype)) {
-                $contenttype = $this->app['storage']->getContentType($contenttype);
-            }
-
-            // Get the content object.
-            $values = $context['new'] ?: $context['old'];
-            $content = $this->getContentObject($contenttype, $values);
-
-            $title = $content->getTitle();
-            if (empty($title)) {
-                /** @var \Bolt\Legacy\Content $content */
-                $content = $this->app['storage']->getContent($context['contenttype'] . '/' . $context['id']);
-                $title = $content->getTitle();
-            }
-
-            $contenttype = $context['contenttype'];
-        } else {
-            $title = $context['new'] ? $context['new']['title'] : $context['old']['title'];
-            unset($data['bolt_csrf_token']);
-
-            $contenttype = $context['contenttype'];
-        }
+        $contenttype = $context['contenttype'];
 
         // Don't store datechanged, or records that are only datechanged
         unset($data['datechanged']);
@@ -192,29 +171,35 @@ class RecordChangeHandler extends AbstractProcessingHandler
     /**
      * Get the content object.
      *
+     * @deprecated Deprecated since 3.3. To be removed in v4.
+     *
      * @param array $contenttype
      * @param array $values
      *
-     * @return \Bolt\Legacy\Content
+     * @throws StorageException
+     *
+     * @return Content
      */
     protected function getContentObject(array $contenttype, array $values)
     {
-        if (!empty($contenttype['class'])) {
-            if (class_exists($contenttype['class'])) {
-                $content = new $contenttype['class']($this->app, $contenttype, $values);
-
-                if (!($content instanceof Content)) {
-                    throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
-                }
-
-                return $content;
-            }
-
-            $msg = sprintf('The ContentType %s has an invalid class specified. Unable to log the changes to its records', $contenttype['slug'], $contenttype['class']);
-            $this->app['logger.system']->error($msg, ['event' => 'content']);
-        } else {
+        if (empty($contenttype['class'])) {
             return new Content($this->app, $contenttype, $values);
         }
+
+        if (class_exists($contenttype['class'])) {
+            $content = new $contenttype['class']($this->app, $contenttype, $values);
+
+            if (!($content instanceof Content)) {
+                throw new StorageException($contenttype['class'] . ' does not extend \\Bolt\\Content.');
+            }
+
+            return $content;
+        }
+
+        $msg = sprintf('The ContentType %s has an invalid class specified. Unable to log the changes to its records', $contenttype['slug'], $contenttype['class']);
+        $this->app['logger.system']->error($msg, ['event' => 'content']);
+
+        throw new StorageException($msg);
     }
 
     /**
