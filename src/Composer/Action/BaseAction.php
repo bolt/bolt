@@ -5,7 +5,6 @@ namespace Bolt\Composer\Action;
 use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
-use Composer\Package\PackageInterface;
 use Composer\Package\Version\VersionParser;
 use Composer\Package\Version\VersionSelector;
 use Composer\Repository\ComposerRepository;
@@ -187,7 +186,7 @@ abstract class BaseAction
      *
      * @throws \InvalidArgumentException
      *
-     * @return PackageInterface|array
+     * @return string|array
      */
     protected function findBestVersionForPackage($packageName, $targetPackageVersion = null, $returnArray = false)
     {

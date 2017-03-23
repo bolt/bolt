@@ -3,7 +3,6 @@
 namespace Bolt\Legacy;
 
 use Bolt\Storage\Entity;
-use Maid\Maid;
 use Silex;
 
 /**

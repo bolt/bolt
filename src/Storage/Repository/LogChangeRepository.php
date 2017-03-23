@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Repository;
 
-use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
