@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -94,16 +94,17 @@ class Users extends BackendBase
         }
 
         // Get the base form
-        $form = $this->getUserForm($userEntity, true);
+        $formBuilder = $this->getUserForm($userEntity, true);
 
         // Get the extra editable fields
-        $form = $this->getUserEditFields($form, $id);
+        $formBuilder = $this->getUserEditFields($formBuilder, $id);
 
         // Set the validation
-        $form = $this->setUserFormValidation($form, true);
+        $formBuilder = $this->setUserFormValidation($formBuilder, true);
 
         // Generate the form
-        $form = $form->getForm();
+        /** @var \Symfony\Component\Form\Form $form */
+        $form = $formBuilder->getForm();
 
         $currentUser = $this->getUser();
 
@@ -175,13 +176,13 @@ class Users extends BackendBase
         $userEntity->setRoles([Permissions::ROLE_ROOT]);
 
         // Get the form
-        $form = $this->getUserForm($userEntity, true);
+        $formBuilder = $this->getUserForm($userEntity, true);
 
         // Set the validation
-        $form = $this->setUserFormValidation($form, true);
+        $formBuilder = $this->setUserFormValidation($formBuilder, true);
 
-        /** @var \Symfony\Component\Form\Form */
-        $form = $form->getForm();
+        /** @var \Symfony\Component\Form\Form $form */
+        $form = $formBuilder->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST') && $response = $this->firstPost($request, $form)) {
@@ -368,6 +369,7 @@ class Users extends BackendBase
             $this->flashes()->clear();
             $this->flashes()->success(Trans::__('general.bolt-welcome-new-site', ['%USER%' => $userEntity->getDisplayname()]));
 
+            /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
             $response = $this->setAuthenticationCookie($request, $this->redirectToRoute('dashboard'), (string) $token);
 
             return $response;
@@ -388,7 +390,7 @@ class Users extends BackendBase
      * @param Entity\Users $user
      * @param boolean      $addusername
      *
-     * @return \Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilderInterface
      */
     private function getUserForm(Entity\Users $user, $addusername = false)
     {
@@ -492,12 +494,12 @@ class Users extends BackendBase
     /**
      * Get the editable fields for the user form.
      *
-     * @param FormBuilder $form
-     * @param integer     $id
+     * @param FormBuilderInterface $form
+     * @param integer              $id
      *
-     * @return \Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilderInterface
      */
-    private function getUserEditFields(FormBuilder $form, $id)
+    private function getUserEditFields(FormBuilderInterface $form, $id)
     {
         $enabledOptions = [
             Trans::__('page.edit-users.activated.yes') => 1,
@@ -571,12 +573,12 @@ class Users extends BackendBase
      *   * Email is unique
      *   * Displaynames are unique
      *
-     * @param FormBuilder $form
-     * @param boolean     $addusername
+     * @param FormBuilderInterface $form
+     * @param boolean              $addusername
      *
-     * @return \Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilderInterface
      */
-    private function setUserFormValidation(FormBuilder $form, $addusername = false)
+    private function setUserFormValidation(FormBuilderInterface $form, $addusername = false)
     {
         $users = $this->users();
         $form->addEventListener(
