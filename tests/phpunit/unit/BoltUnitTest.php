@@ -347,8 +347,8 @@ abstract class BoltUnitTest extends TestCase
     protected function getMockLoggerManager($methods = ['clear', 'error', 'info', 'trim'])
     {
         $app = $this->getApp();
-        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $this->getService('storage')->getRepository(Entity\LogChange::class);
+        $systemRepository = $this->getService('storage')->getRepository(Entity\LogSystem::class);
 
         return $this->getMockBuilder(Manager::class)
             ->setMethods($methods)
