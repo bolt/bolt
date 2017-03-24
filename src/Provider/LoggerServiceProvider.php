@@ -6,6 +6,7 @@ use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Manager;
+use Bolt\Storage\Entity;
 use Monolog\Formatter\WildfireFormatter;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\NullHandler;
@@ -68,8 +69,8 @@ class LoggerServiceProvider implements ServiceProviderInterface
         // Manager
         $app['logger.manager'] = $app->share(
             function ($app) {
-                $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-                $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+                $changeRepository = $app['storage']->getRepository(Entity\LogChange::class);
+                $systemRepository = $app['storage']->getRepository(Entity\LogSystem::class);
                 $mgr = new Manager($app, $changeRepository, $systemRepository);
 
                 return $mgr;

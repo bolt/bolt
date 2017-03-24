@@ -302,7 +302,7 @@ class Users extends BackendBase
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user->getDisplayname()]), ['event' => 'security']);
 
                 $user = new Entity\Users($form->getData());
-                if ($this->getRepository('Bolt\Storage\Entity\Users')->save($user)) {
+                if ($this->getRepository(Entity\Users::class)->save($user)) {
                     $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
                 } else {
                     $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));
@@ -660,7 +660,7 @@ class Users extends BackendBase
             $userEntity->setRoles($this->users()->filterManipulatableRoles($userEntity->getId(), $userEntity->getRoles()));
         }
 
-        $saved = $this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+        $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
         if ($saved) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
             $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstUser);

@@ -4,6 +4,9 @@ namespace Bolt\Controller\Async;
 
 use Bolt;
 use Bolt\Extension\ExtensionInterface;
+use Bolt\Filesystem;
+use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,9 +96,12 @@ class General extends AsyncBase
             'direction' => 'DESC',
         ];
 
+        /** @var Repository\LogChangeRepository $repo */
+        $repo = $this->storage()->getRepository(Entity\LogChange::class);
+
         $context = [
             'contenttype' => $contenttype,
-            'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype, $options),
+            'entries'     => $repo->getChangeLogByContentType($contenttype, $options),
         ];
 
         return $this->render('@bolt/components/panel-change-record.twig', ['context' => $context]);
@@ -275,7 +281,7 @@ class General extends AsyncBase
 
         try {
             $readme = $file->read();
-        } catch (Bolt\Filesystem\Exception\IOException $e) {
+        } catch (Filesystem\Exception\IOException $e) {
             throw new NotFoundHttpException('Not Found');
         }
 
@@ -453,7 +459,9 @@ class General extends AsyncBase
             $options['contentid'] = intval($contentid);
         }
 
-        $changelog = $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype['slug'], $options);
+        /** @var Repository\LogChangeRepository $repo */
+        $repo = $this->storage()->getRepository(Entity\LogChange::class);
+        $changelog = $repo->getChangeLogByContentType($contenttype['slug'], $options);
 
         $context = [
             'changelog'   => $changelog,

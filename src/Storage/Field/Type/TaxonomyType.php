@@ -131,7 +131,7 @@ class TaxonomyType extends JoinTypeBase
             ->create('Bolt\Storage\Entity\Taxonomy');
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
+        $repo = $this->em->getRepository(Entity\Taxonomy::class);
 
         $queries->onResult(
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {

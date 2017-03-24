@@ -43,7 +43,7 @@ class Users
     private function getRepository()
     {
         if ($this->repository === null) {
-            $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+            $this->repository = $this->app['storage']->getRepository(Entity\Users::class);
         }
 
         return $this->repository;
@@ -162,7 +162,7 @@ class Users
         $userName = $user->getUsername();
         if ($result = $this->getRepository()->delete($user)) {
             /** @var Repository\AuthtokenRepository $authtokenRepository */
-            $authtokenRepository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+            $authtokenRepository = $this->app['storage']->getRepository(Entity\Authtoken::class);
             $authtokenRepository->deleteTokens($userName);
         }
 
