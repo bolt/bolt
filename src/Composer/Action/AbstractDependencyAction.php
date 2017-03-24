@@ -149,7 +149,7 @@ abstract class AbstractDependencyAction extends BaseAction
      *
      * @param array $results
      *
-     * @return array
+     * @return Dependency[]
      */
     private function getDependencies(array $results)
     {

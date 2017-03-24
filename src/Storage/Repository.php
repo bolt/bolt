@@ -152,7 +152,7 @@ class Repository implements ObjectRepository
      * @param array $criteria The criteria.
      * @param array $orderBy
      *
-     * @return object The object.
+     * @return object|false The object.
      */
     public function findOneBy(array $criteria, array $orderBy = null)
     {
@@ -204,8 +204,10 @@ class Repository implements ObjectRepository
     /**
      * Method to hydrate and return a QueryBuilder query.
      *
+     * @param QueryBuilder $query
+     *
      * @return array Entity
-     **/
+     */
     public function findWith(QueryBuilder $query)
     {
         $this->load($query);
@@ -221,8 +223,10 @@ class Repository implements ObjectRepository
     /**
      * Method to hydrate and return a single QueryBuilder result.
      *
-     * @return Entity | false
-     **/
+     * @param QueryBuilder $query
+     *
+     * @return Entity|false
+     */
     public function findOneWith(QueryBuilder $query)
     {
         $this->load($query);

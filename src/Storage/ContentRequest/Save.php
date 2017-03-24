@@ -2,12 +2,8 @@
 
 namespace Bolt\Storage\ContentRequest;
 
-
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
 use Bolt\Config;
 use Bolt\Exception\AccessControlException;
-use Bolt\Helpers\Arr;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity;
@@ -17,6 +13,8 @@ use Bolt\Users;
 use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,9 +82,9 @@ class Save
      * Do the save for a POSTed record.
      *
      * @param array   $formValues
-     * @param array   $contentType The ContentType data
-     * @param integer $id          The record ID
-     * @param boolean $new         If TRUE this is a new record
+     * @param array   $contentType  The ContentType data
+     * @param integer $id           The record ID
+     * @param boolean $new          If TRUE this is a new record
      * @param string  $returnTo
      * @param string  $editReferrer
      *

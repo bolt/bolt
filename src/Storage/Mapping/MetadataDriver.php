@@ -285,15 +285,16 @@ class MetadataDriver implements MappingDriver
                 }
 
                 $this->metadata[$className]['fields'][$key] = $mapping;
-                foreach ((array)$data['fields'] as &$field) {
+                foreach ((array) $data['fields'] as &$field) {
                     $this->postProcessField($field);
                 }
 
                 $this->metadata[$className]['fields'][$key]['data'] = $data;
             }
         }
-    }
 
+        return null;
+    }
 
     /**
      * This is a patch method that reproduces some of the setup that happens for standard fields in Bolt/Config
@@ -301,6 +302,7 @@ class MetadataDriver implements MappingDriver
      * to take over completely.
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param array $field
      */
     protected function postProcessField(array $field)
@@ -337,8 +339,6 @@ class MetadataDriver implements MappingDriver
         if ($field['type'] === 'select' && isset($field['values']) && Arr::isIndexed($field['values'])) {
             $field['values'] = array_combine($field['values'], $field['values']);
         }
-
-
     }
 
     /**
@@ -346,6 +346,7 @@ class MetadataDriver implements MappingDriver
      * for providing Backwards Compatibility and will be removed once the general mapping config is ready to take over.
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @param $config
      */
     public function setGeneralConfig($config)

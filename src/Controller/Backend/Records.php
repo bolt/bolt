@@ -3,7 +3,6 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Exception\InvalidRepositoryException;
-use Bolt\Storage\ContentRequest\Listing;
 use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;

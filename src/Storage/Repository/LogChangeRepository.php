@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Repository;
 
-use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -164,7 +163,7 @@ class LogChangeRepository extends BaseLogRepository
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Bolt\Storage\Entity\LogChange
+     * @return \Bolt\Storage\Entity\LogChange|false
      */
     public function getChangeLogEntry($contenttype, $contentid, $id, $cmpOp)
     {

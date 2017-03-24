@@ -93,7 +93,6 @@ abstract class AbstractFactory
         if ($uri && stripos($uri, 'unix://') === 0) {
             // parse_url() doesn't like "unix:///foo", but parses "unix:/foo" fine.
             $uri = str_ireplace('unix://', 'unix:', $uri);
-
         } elseif ($uri && $uri[0] !== '/' && !preg_match('#^\w+://?.+#', $uri)) {
             // If no scheme given and path exists and isn't absolute, assume tcp scheme is wanted.
             // This allows both "127.0.0.1" and "/foo.sock" to work without specifying scheme.

@@ -14,7 +14,6 @@ use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
-use Traversable;
 
 /**
  * This is an abstract class for a field type that handles

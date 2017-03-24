@@ -7,6 +7,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * A Repository class that handles storage operations for the log tables.
@@ -39,7 +40,7 @@ abstract class BaseLogRepository extends Repository
         $qb = $this->createQueryBuilder();
         $qb->delete($this->getTableName())
              ->where('date < :date')
-             ->setParameter('date', $period, \Doctrine\DBAL\Types\Type::DATETIME);
+             ->setParameter('date', $period, Type::DATETIME);
 
         return $qb;
     }
@@ -196,9 +197,7 @@ abstract class BaseLogRepository extends Repository
     }
 
     /**
-     * Creates a query builder instance namespaced to this repository
-     *
-     * @return QueryBuilder
+     * {@inheritdoc}
      */
     public function createQueryBuilder($alias = null)
     {

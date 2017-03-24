@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Library as Lib;
 use Silex;
 use Silex\Application;
 use Silex\ServiceProviderInterface;

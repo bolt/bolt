@@ -81,20 +81,22 @@ class SelectQuery implements QueryInterface
      *
      * @param $name
      *
-     * @return array|mixed
+     * @return array|null
      */
     public function getParameter($name)
     {
         if (array_key_exists($name, $this->params)) {
             return $this->params[$name];
         }
+
+        return null;
     }
 
     /**
      * Setter to allow writing to a named parameter
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed  $value
      */
     public function setParameter($name, $value)
     {

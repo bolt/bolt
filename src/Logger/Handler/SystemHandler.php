@@ -2,6 +2,7 @@
 
 namespace Bolt\Logger\Handler;
 
+use Bolt\AccessControl\Token\Token;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Silex\Application;
@@ -94,8 +95,9 @@ class SystemHandler extends AbstractProcessingHandler
 
         // Only get a user session if it's started
         if ($this->app['session']->isStarted()) {
-            $user = $this->app['session']->get('authentication');
-            $user = $user ? $user->getUser()->toArray() : null;
+            /** @var Token $sessionAuth */
+            $sessionAuth = $this->app['session']->get('authentication');
+            $user = $sessionAuth ? $sessionAuth->getUser()->toArray() : null;
         }
 
         // Get request data if available

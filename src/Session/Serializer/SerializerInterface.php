@@ -14,11 +14,11 @@ interface SerializerInterface
     public function serialize($data);
 
     /**
-     * Unserializes session data from string
+     * Un-serializes session data from string
      *
      * @param string $data Serialized data
      *
-     * @throws \RuntimeException If unserialization fails
+     * @throws \RuntimeException If un-serialization fails
      *
      * @return array Session data
      */

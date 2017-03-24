@@ -9,27 +9,27 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *
  * PRE_SAVE (preSave)
  * - Available:
- *   - Content obejct
+ *   - Content object
  * - Notes:
  *   - Do not call saveContent()
  *
  * POST_SAVE (postSave)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Safe to call saveContent()
  *
  * PRE_DELETE (preDelete)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Do not call saveContent()
  *
  * POST_DELETE (postDelete)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Do not call saveContent()

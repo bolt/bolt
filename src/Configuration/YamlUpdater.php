@@ -98,7 +98,7 @@ class YamlUpdater
      * Make sure the value is escaped as a yaml value.
      *
      * array('one', 'two', 'three') => [ one, two, three ]
-     * "usin' quotes" => 'usin'' quotes
+     * Rock 'n Roll => 'Rock ''n Roll'
      *
      * @param string $value
      *
@@ -120,7 +120,7 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      *
-     * @param boolean $makebackup Back up the file before commiting changes to it
+     * @param boolean $makebackup Back up the file before committing changes to it
      *
      * @throws IOException
      *
