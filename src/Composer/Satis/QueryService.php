@@ -79,7 +79,7 @@ class QueryService
         $uri = rtrim(rtrim($this->site, '/') . '/' . ltrim($url, '/') . '?' . http_build_query($params), '?');
 
         try {
-            $result = $this->client->get($uri, ['timeout' => 10])->getBody(true);
+            $result = $this->client->get($uri, ['timeout' => 10])->getBody();
 
             return ($this->format === 'json') ? json_decode($result) : (string) $result;
         } catch (\Exception $e) {

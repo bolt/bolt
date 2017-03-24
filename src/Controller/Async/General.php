@@ -354,7 +354,7 @@ class General extends AsyncBase
         $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
         try {
-            $fetchedNewsData = (string) $this->app['guzzle.client']->get($source, $options)->getBody(true);
+            $fetchedNewsData = (string) $this->app['guzzle.client']->get($source, $options)->getBody();
         } catch (RequestException $e) {
             $this->app['logger.system']->error(
                 'Error occurred during newsfeed fetch',
