@@ -193,8 +193,8 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Invalid login parameters.'));
         $app['logger.flash'] = $logger;
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
+        $entityAuthtoken = new Entity\Authtoken();
         $entityAuthtoken->setUsername('admin');
         $entityAuthtoken->setToken('abc123');
         $entityAuthtoken->setSalt('vinagre');
@@ -230,8 +230,8 @@ class LoginTest extends BoltUnitTest
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
         $app['logger.system'] = $logger;
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
+        $entityAuthtoken = new Entity\Authtoken();
         $entityAuthtoken->setUsername('admin');
         $entityAuthtoken->setToken('abc123');
         $entityAuthtoken->setSalt('vinagre');
@@ -289,8 +289,8 @@ class LoginTest extends BoltUnitTest
 
         $token = (string) new Token\Generator($userName, $salt, $ipAddress, $hostName, $userAgent, $cookieOptions);
 
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $repo = $app['storage']->getRepository(Entity\Authtoken::class);
+        $entityAuthtoken = new Entity\Authtoken();
         $entityAuthtoken->setUsername($userName);
         $entityAuthtoken->setToken($token);
         $entityAuthtoken->setSalt($salt);

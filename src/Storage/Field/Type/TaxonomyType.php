@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -130,7 +131,7 @@ class TaxonomyType extends JoinTypeBase
             ->create('Bolt\Storage\Entity\Taxonomy');
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
+        $repo = $this->em->getRepository(Entity\Taxonomy::class);
 
         $queries->onResult(
             function ($query, $result, $id) use ($repo, $collection, $toDelete) {
@@ -162,6 +163,8 @@ class TaxonomyType extends JoinTypeBase
      * @param string       $alias
      * @param QueryBuilder $query
      *
+     * @throws StorageException
+     *
      * @return string
      */
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
@@ -178,6 +181,8 @@ class TaxonomyType extends JoinTypeBase
             case 'postgresql':
                 return "string_agg($column" . "::character varying, ',' ORDER BY $order) as $alias";
         }
+
+        throw new StorageException(sprintf('Unsupported platform: %s', $platform));
     }
 
     protected function getGroup(Collection\Taxonomy $taxonomy)

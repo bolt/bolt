@@ -87,7 +87,7 @@ class AccessControlListener implements EventSubscriberInterface
     private function deleteAuthtokens(Entity\Users $user)
     {
         /** @var \Bolt\Storage\Repository\AuthtokenRepository $repo */
-        $repo = $this->em->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repo = $this->em->getRepository(Entity\Authtoken::class);
         $repo->deleteTokens($user->getUsername());
     }
 

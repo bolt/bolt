@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserManage;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -52,7 +53,7 @@ class UserManageTest extends BoltUnitTest
         $this->assertSame('Enabled user: koala', trim($result));
 
         /** @var UsersRepository $repo */
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $app['storage']->getRepository(Entity\Users::class);
         $userEntity = $repo->getUser('koala');
         $this->assertTrue($userEntity->getEnabled());
     }
@@ -77,7 +78,7 @@ class UserManageTest extends BoltUnitTest
         $this->assertSame('Disabled user: koala', trim($result));
 
         /** @var UsersRepository $repo */
-        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $app['storage']->getRepository(Entity\Users::class);
         $userEntity = $repo->getUser('koala');
         $this->assertFalse($userEntity->getEnabled());
     }

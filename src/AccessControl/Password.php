@@ -38,7 +38,7 @@ class Password
         $password = false;
 
         /** @var UsersRepository $repo */
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->app['storage']->getRepository(Entity\Users::class);
         if ($userEntity = $repo->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
@@ -47,7 +47,7 @@ class Password
             $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
 
-            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+            $this->app['storage']->getRepository(Entity\Users::class)->save($userEntity);
 
             $this->app['logger.system']->info(
                 "Password for user '{$userEntity->getUsername()}' was reset via Nut.",
@@ -73,7 +73,7 @@ class Password
         $tokenHash = md5($token . '-' . str_replace('.', '-', $remoteIP));
 
         /** @var UsersRepository $repo */
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->app['storage']->getRepository(Entity\Users::class);
         if ($userEntity = $repo->getUserShadowAuth($tokenHash)) {
             $userAuth = $repo->getUserAuthData($userEntity->getId());
             // Update entries
@@ -82,7 +82,7 @@ class Password
             $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
 
-            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+            $this->app['storage']->getRepository(Entity\Users::class)->save($userEntity);
 
             $this->app['logger.flash']->clear();
             $this->app['logger.flash']->success(Trans::__('general.access-control.reset-successful'));
@@ -111,7 +111,7 @@ class Password
     public function resetPasswordRequest($username, $remoteIP, Event $event)
     {
         /** @var UsersRepository $repo */
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->app['storage']->getRepository(Entity\Users::class);
         /** @var Entity\Users $userEntity */
         $userEntity = $repo->getUser($username);
 
@@ -137,7 +137,7 @@ class Password
         $userEntity->setShadowtoken($shadowTokenHash);
         $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
 
-        $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+        $this->app['storage']->getRepository(Entity\Users::class)->save($userEntity);
 
         $mailoptions = $this->app['config']->get('general/mailoptions'); // PHP 5.4 compatibility
         if (empty($mailoptions)) {
