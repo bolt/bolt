@@ -46,7 +46,7 @@
     preview: {
         'alt':          'Preview',
         'height':       preview_h,
-        'src':          image.file is not empty ? image.file|thumbnail(preview_w, preview_h, 'b') : app.paths.app ~ 'view/img/default_empty_4x3.png',
+        'src':          image.file|default('') is not empty ? image.file|thumbnail(preview_w, preview_h, 'b') : app.paths.app ~ 'view/img/default_empty_4x3.png',
         'width':        preview_w,
     },
 } %}
