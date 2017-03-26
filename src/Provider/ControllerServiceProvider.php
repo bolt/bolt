@@ -121,7 +121,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         );
 
         $app['controller.classmap'] = [
-            'Bolt\\Controllers\\Frontend' => 'controller.frontend',
         ];
     }
 
