@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
@@ -55,15 +56,11 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.default_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
-
-            return $finder->find($app['config']->get('general/thumbnails/notfound_image'));
+            return $this->findDefaultImage($app, 'notfound');
         });
 
         $app['thumbnails.error_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
-
-            return $finder->find($app['config']->get('general/thumbnails/error_image'));
+            return $this->findDefaultImage($app, 'error');
         });
 
         $app['thumbnails.default_imagesize'] = $app['config']->get('general/thumbnails/default_image');
@@ -89,5 +86,34 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             $app = $event->getApp();
             $event->mount($app['controller.thumbnails.mount_prefix'], $app['controller.thumbnails']);
         });
+    }
+
+    /**
+     * @param Application $app
+     * @param string      $name
+     *
+     * @return Image
+     */
+    private function findDefaultImage(Application $app, $name)
+    {
+        $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
+
+        $configKey = "thumbnails/{$name}_image";
+        $default = $app['config']->get("general/$configKey");
+
+        $image = $finder->find($default);
+
+        if (!$image->getFilesystem()) {
+            throw new FileNotFoundException(
+                sprintf(
+                    'Unable to locate %s image for thumbnails. Looked for: "%s". Please update "%s" in config.yml.',
+                    $name,
+                    $default,
+                    $configKey
+                )
+            );
+        }
+
+        return $image;
     }
 }
