@@ -68,6 +68,26 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getFieldType($fieldName)
+    {
+        $this->initialize();
+
+        return $this->collection->getFieldType($fieldName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRenderedValue($fieldName)
+    {
+        $this->initialize();
+
+        return $this->collection->getRenderedValue($fieldName);
+    }
+
+    /**
      * Handles the conversion of references to entities.
      */
     protected function doInitialize()

@@ -137,7 +137,7 @@ class General extends BackendBase
     }
 
     /**
-     * Generate Lorem Ipsum records in the database for given Contenttypes.
+     * Generate Lorem Ipsum records in the database for given ContentTypes.
      *
      * @param Request $request The Symfony Request
      *
@@ -145,7 +145,7 @@ class General extends BackendBase
      */
     public function prefill(Request $request)
     {
-        // Determine the Contenttypes that we're doing the prefill for
+        // Determine the ContentTypes that we're doing the prefill for
         $choices = [];
         foreach ($this->getOption('contenttypes') as $key => $contentType) {
             $nameKey = 'contenttypes.' . $key . '.name.plural';
@@ -256,7 +256,7 @@ class General extends BackendBase
      * Get the latest records for viewable contenttypes that a user has access
      * to.
      *
-     * When there are no Contenttype records we will suggest to create some
+     * When there are no ContentType records we will suggest to create some
      * dummy content.
      *
      * @param integer $limit

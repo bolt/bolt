@@ -2,6 +2,8 @@
 
 namespace Bolt\Events;
 
+use Bolt\Legacy;
+use Bolt\Storage\Entity;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -9,27 +11,27 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *
  * PRE_SAVE (preSave)
  * - Available:
- *   - Content obejct
+ *   - Content object
  * - Notes:
  *   - Do not call saveContent()
  *
  * POST_SAVE (postSave)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Safe to call saveContent()
  *
  * PRE_DELETE (preDelete)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Do not call saveContent()
  *
  * POST_DELETE (postDelete)
  * - Available:
- *   - Content obejct
+ *   - Content object
  *   - ID
  * - Notes:
  *   - Do not call saveContent()
@@ -37,26 +39,18 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class StorageEvent extends GenericEvent
 {
-    /**
-     * @var \Bolt\Legacy\Content|array
-     */
+    /** @var Legacy\Content|Entity\Content|array */
     protected $subject;
-
-    /**
-     * @var array
-     */
-    protected $arguments;
 
     /**
      * Instantiate generic Storage Event.
      *
-     * @param \Bolt\Legacy\Content|array $subject   A Content object that is being saved or deleted
-     * @param array                      $arguments Arguments to store in the event.
+     * @param Legacy\Content|Entity\Content|array $subject   Content object
+     * @param array                               $arguments
      */
     public function __construct($subject = null, array $arguments = [])
     {
-        $this->subject = $subject;
-        $this->arguments = $arguments;
+        parent::__construct($subject, $arguments);
     }
 
     /**
@@ -70,7 +64,7 @@ class StorageEvent extends GenericEvent
     }
 
     /**
-     * Return the record contenttype.
+     * Return the record's ContentType name.
      *
      * @return string
      */
@@ -80,6 +74,8 @@ class StorageEvent extends GenericEvent
         if ($contentType !== null && isset($contentType['slug'])) {
             return $contentType['slug'];
         }
+
+        return null;
     }
 
     /**

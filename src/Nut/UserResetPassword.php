@@ -14,7 +14,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class UserResetPassword extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -27,7 +27,7 @@ class UserResetPassword extends BaseCommand
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -50,5 +50,7 @@ class UserResetPassword extends BaseCommand
         } else {
             $output->writeln("<error>Error no such user {$username}</error>");
         }
+
+        return !(bool) $password;
     }
 }

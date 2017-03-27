@@ -3,6 +3,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -193,7 +194,7 @@ class Log extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\Repository\LogChangeRepository
+     * @return Repository\LogChangeRepository|Repository
      */
     protected function changeLogRepository()
     {
@@ -201,7 +202,7 @@ class Log extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\Repository\LogSystemRepository
+     * @return Repository\LogSystemRepository|Repository
      */
     protected function systemLogRepository()
     {

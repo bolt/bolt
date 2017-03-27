@@ -15,7 +15,7 @@
     {{ record.body }}
 
     {# If there are repeaters, we should output them. #}
-    {{ fields(common = false, extended = false, repeaters = true) }}
+    {{ fields(template = 'partials/_sub_fields.twig', common = false, repeaters = true) }}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
     {{ dump(record) }}

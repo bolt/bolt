@@ -6,6 +6,7 @@ use Bolt\EventListener\DoctrineListener;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Silex\Application;
+use Silex\Provider\DoctrineServiceProvider;
 use Silex\ServiceProviderInterface;
 
 /**
@@ -19,7 +20,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         if (!isset($app['db'])) {
-            $app->register(new \Silex\Provider\DoctrineServiceProvider());
+            $app->register(new DoctrineServiceProvider());
         }
 
         $app['db.options'] = function ($app) {

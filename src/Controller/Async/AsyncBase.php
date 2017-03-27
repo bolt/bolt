@@ -29,6 +29,8 @@ abstract class AsyncBase extends Base
     /**
      * Middleware function to do some tasks that should be done for all
      * asynchronous requests.
+     *
+     * @param Request $request
      */
     public function before(Request $request)
     {

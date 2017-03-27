@@ -288,7 +288,7 @@ class Injector
      * @param boolean $matchRemainder TRUE matches the remainder of the line, not just the tag - (.*)
      * @param boolean $matchAll       TRUE returns all matched instances - preg_match_all()
      *
-     * @return string[]
+     * @return string[]|false
      */
     private function getMatches($rawHtml, $htmlTag, $matchRemainder, $matchAll)
     {
@@ -301,6 +301,8 @@ class Injector
         } elseif (!$matchAll && preg_match($regex, $rawHtml, $matches)) {
             return $matches;
         }
+
+        return false;
     }
 
     /**

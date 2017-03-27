@@ -67,7 +67,7 @@ class Edit
      * Do the edit form for a record.
      *
      * @param Content     $content     A content record
-     * @param ContentType $contentType The contenttype data
+     * @param ContentType $contentType The ContentType data
      * @param boolean     $duplicate   If TRUE create a duplicate record
      *
      * @return array

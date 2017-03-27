@@ -16,7 +16,7 @@ class AuthtokenRepository extends Repository
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return \Bolt\Storage\Entity\Authtoken
+     * @return \Bolt\Storage\Entity\Authtoken|false
      */
     public function getUserToken($username, $ip, $useragent = null)
     {
@@ -49,7 +49,7 @@ class AuthtokenRepository extends Repository
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return \Bolt\Storage\Entity\Authtoken
+     * @return \Bolt\Storage\Entity\Authtoken|false
      */
     public function getToken($token, $ip, $useragent = null)
     {
@@ -143,9 +143,7 @@ class AuthtokenRepository extends Repository
     }
 
     /**
-     * Creates a query builder instance namespaced to this repository
-     *
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * {@inheritdoc}
      */
     public function createQueryBuilder($alias = null)
     {

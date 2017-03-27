@@ -10,7 +10,6 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Backend controller for user maintenance routes.
@@ -181,8 +180,6 @@ class Users extends BackendBase
                 if ($login && $token) {
                     $this->flashes()->clear();
                     $this->flashes()->success(Trans::__('general.bolt-welcome-new-site', ['%USER%' => $userEntity->getDisplayname()]));
-
-
 
                     /** @var RedirectResponse $response */
                     $response = $this->setAuthenticationCookie($request, $this->redirectToRoute('dashboard'), (string) $token);

@@ -73,24 +73,6 @@ class Manager
     }
 
     /**
-     * Get all loaded extensions that don't have a composer descriptor.
-     *
-     * @return ResolvedExtension[]
-     */
-    public function local()
-    {
-        $local = [];
-
-        foreach ($this->all() as $extension) {
-            if ($extension->getDescriptor() === null) {
-                $local[get_class($extension->getInnerExtension())] = $extension;
-            }
-        }
-
-        return $local;
-    }
-
-    /**
      * Get an installed extension class.
      *
      * @param string|null $id The extension ID or composer name

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class LogClear extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -25,7 +25,7 @@ class LogClear extends BaseCommand
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -43,5 +43,7 @@ class LogClear extends BaseCommand
 
         $this->auditLog(__CLASS__, 'System system & change logs cleared');
         $output->writeln('<info>System & change logs cleared!</info>');
+
+        return true;
     }
 }

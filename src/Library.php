@@ -2,9 +2,9 @@
 
 namespace Bolt;
 
+use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Bolt\Helpers\Deprecated;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

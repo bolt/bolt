@@ -4,13 +4,13 @@ namespace Bolt\Controller\Backend;
 
 use Bolt;
 use Bolt\Exception\PackageManagerException;
+use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
 use Composer\Package\PackageInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class Extend extends BackendBase
     {
         $c->get('', 'overview')
             ->bind('extensions');
-        
+
         // Allows BC with 3.2 and earlier, to be removed in 4.0
         $c->get('', 'overview')
             ->bind('extend');
@@ -296,7 +296,7 @@ class Extend extends BackendBase
     /**
      * Package install chooser modal.
      *
-     * @return \Bolt\Response\TemplateResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function installPackage()
     {
@@ -310,7 +310,7 @@ class Extend extends BackendBase
     /**
      * The main 'Extensions' page.
      *
-     * @return \Bolt\Response\TemplateResponse
+     * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\JsonResponse
      */
     public function overview()
     {
@@ -440,6 +440,13 @@ class Extend extends BackendBase
      */
     private function getRenderContext()
     {
+        $bundled = array_filter(
+            $this->app['extensions']->all(),
+            function (ResolvedExtension $ext) {
+                return $ext->isBundled();
+            }
+        );
+
         return [
             'messages'       => $this->app['extend.manager']->getMessages(),
             'enabled'        => $this->app['extend.enabled'],
@@ -447,7 +454,7 @@ class Extend extends BackendBase
             'online'         => $this->app['extend.online'],
             'extensionsPath' => $this->app['path_resolver']->resolve('extensions'),
             'site'           => $this->app['extend.site'],
-            'local'          => $this->app['extensions']->local(),
+            'bundled'        => $bundled,
         ];
     }
 

@@ -4,9 +4,8 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\Query\Filter;
 use Bolt\Storage\Query\QueryInterface;
-use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
-use Doctrine\DBAL\Types\Type;
+use Traversable;
 use ReflectionProperty;
 
 /**
@@ -17,7 +16,6 @@ use ReflectionProperty;
  */
 abstract class JoinTypeBase extends FieldTypeBase
 {
-
     /**
      * This method takes the flat underscore separated key->value data that comes from the query result
      * and turns it into a properly structured array. The second part of the method also removes duplicate
@@ -94,8 +92,8 @@ abstract class JoinTypeBase extends FieldTypeBase
             $reflected2->setValue($originalExpression, 'OR');
             $reflected->setValue($originalExpression, [1]);
             foreach ($query->getWhereParametersFor($field) as $paramKey => $paramValue) {
-                $query->getQueryBuilder()->andHaving($platform->getConcatExpression("','", '_'.$field.'_'.str_replace("_", "", $column), "','"). " LIKE(".':_having_'.$paramKey.")");
-                $query->getQueryBuilder()->setParameter('_having_'.$paramKey, "%,$paramValue,%");
+                $query->getQueryBuilder()->andHaving($platform->getConcatExpression("','", '_' . $field . '_' . str_replace('_', '', $column), "','") . ' LIKE(' . ':_having_' . $paramKey . ')');
+                $query->getQueryBuilder()->setParameter('_having_' . $paramKey, "%,$paramValue,%");
             }
         }
 

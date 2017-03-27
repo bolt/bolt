@@ -24,7 +24,7 @@ use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
  */
 trait ContentValuesTrait
 {
-    /** @var boolean Whether this is a "real" contenttype or an embedded ones */
+    /** @var boolean Whether this is a "real" ContentType or an embedded ones */
     protected $isRootType;
 
     /**
@@ -561,6 +561,8 @@ trait ContentValuesTrait
 
     /**
      * Get the title, name, caption or subject.
+     *
+     * @param bool $allowBasicTags
      *
      * @return string
      */

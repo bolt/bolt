@@ -115,5 +115,7 @@ class TableModifier
                 ['%TABLE%' => $tableName, '%ERROR%' => $e->getMessage()]
             ));
         }
+
+        return null;
     }
 }
