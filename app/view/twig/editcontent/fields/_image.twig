@@ -37,7 +37,7 @@
 
     upload: {
         'accept':       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        'data-url':     url('upload', { 'handler': option.upload }, true),
+        'data-url':     path('upload', { 'handler': option.upload }),
         'id':           'fileupload-' ~ key,
         'name':         'files[]',
         'type':         'file',
@@ -47,7 +47,7 @@
         'alt':          'Preview',
         'data-default-url': asset('img/default_empty_4x3.png', 'bolt'),
         'height':       preview_h,
-        'src':          image.file is not empty ? image.file|thumbnail(preview_w, preview_h, 'b') : asset('img/default_empty_4x3.png', 'bolt'),
+        'src':          image.file|default('') is not empty ? image.file|thumbnail(preview_w, preview_h, 'b') : asset('img/default_empty_4x3.png', 'bolt'),
         'width':        preview_w,
     },
 } %}

@@ -230,7 +230,7 @@ class PagerManager implements \ArrayAccess
     /**
      * @param mixed $contextId
      *
-     * @return Pager
+     * @return Pager|false
      */
     public function offsetGet($contextId)
     {

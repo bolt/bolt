@@ -78,9 +78,9 @@ class MemcacheFactory extends AbstractFactory
         $query = $this->parseQuery($uri);
 
         $conn = new OptionsBag([
-            'weight' => $query->getInt('weight', 1),
-            'persistent' => $query->getBoolean('persistent'),
-            'timeout' => $query->getInt('timeout', 1),
+            'weight'         => $query->getInt('weight', 1),
+            'persistent'     => $query->getBoolean('persistent'),
+            'timeout'        => $query->getInt('timeout', 1),
             'retry_interval' => $query->getInt('retry_interval', 0),
         ]);
 
@@ -116,11 +116,11 @@ class MemcacheFactory extends AbstractFactory
         $item = new OptionsBag($item);
 
         $conn = new OptionsBag([
-            'host' => $item->get('host') ?: '127.0.0.1',
-            'port' => $item->getInt('port') ?: 11211,
-            'weight' => $item->getInt('weight', 1),
-            'persistent' => $item->getBoolean('persistent', false),
-            'timeout' => $item->getInt('timeout', 1),
+            'host'           => $item->get('host') ?: '127.0.0.1',
+            'port'           => $item->getInt('port') ?: 11211,
+            'weight'         => $item->getInt('weight', 1),
+            'persistent'     => $item->getBoolean('persistent', false),
+            'timeout'        => $item->getInt('timeout', 1),
             'retry_interval' => $item->getInt('retry_interval', 0),
         ]);
 

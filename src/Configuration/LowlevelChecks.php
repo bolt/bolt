@@ -191,7 +191,7 @@ class LowlevelChecks
     }
 
     /**
-     * Perform the check for the database folder. We do this seperately, because it can only
+     * Perform the check for the database folder. We do this separately, because it can only
      * be done _after_ the other checks, since we need to have the $config, to see if we even
      * _need_ to do this check.
      */

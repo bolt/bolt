@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DatabaseCheck extends BaseCommand
 {
     /**
-     * @see \Symfony\Component\Console\Command\Command::configure()
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -27,7 +27,7 @@ class DatabaseCheck extends BaseCommand
     }
 
     /**
-     * @see \Symfony\Component\Console\Command\Command::execute()
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

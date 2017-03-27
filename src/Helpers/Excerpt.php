@@ -198,7 +198,7 @@ class Excerpt
 
         $relText = substr($fulltext, $startPos, $relLength);
 
-        // check to ensure we dont snip the last word if thats the match
+        // check to ensure we don't snip the last word if that's the match
         if ($startPos + $relLength < $textlength) {
             $relText = substr($relText, 0, strrpos($relText, ' ')) . $indicator; // remove last word
         }

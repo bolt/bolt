@@ -185,25 +185,29 @@ class UsersRepository extends Repository
     /**
      * Get user based on password reset notification.
      *
+     * @param string $shadowToken
+     *
      * @return Entity\Users|false
      */
-    public function getUserShadowAuth($shadowtoken)
+    public function getUserShadowAuth($shadowToken)
     {
-        $query = $this->getUserShadowAuthQuery($shadowtoken);
+        $query = $this->getUserShadowAuthQuery($shadowToken);
 
         return $this->findOneWith($query);
     }
 
     /**
+     * @param string $shadowToken
+     *
      * @return QueryBuilder
      */
-    public function getUserShadowAuthQuery($shadowtoken)
+    public function getUserShadowAuthQuery($shadowToken)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
             ->where('shadowtoken = :shadowtoken')
             ->andWhere('shadowvalidity > :shadowvalidity')
-            ->setParameter('shadowtoken', $shadowtoken)
+            ->setParameter('shadowtoken', $shadowToken)
             ->setParameter('shadowvalidity', date('Y-m-d H:i:s'));
 
         return $qb;

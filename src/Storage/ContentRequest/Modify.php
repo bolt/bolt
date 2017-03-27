@@ -106,7 +106,7 @@ class Modify
         if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
             $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
-            return;
+            return false;
         }
 
         return $repo->delete($entity);

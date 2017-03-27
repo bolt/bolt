@@ -101,9 +101,9 @@
             {{ include('@bolt/extend/_readme.twig') }}
 
             <hr>
-            {% if context.local|length %}
+            {% if context.bundled %}
                 <section class="installed-container">
-                    <h2>{{ __('page.extend.headline.currently-installed-local') }}</h2>
+                    <h2>{{ __('page.extend.headline.bundled') }}</h2>
                     <div class="installed-list">
                         <div class="local-list-items">
                             <table class="table-striped dashboardlisting">
@@ -115,10 +115,10 @@
                                 </thead>
 
                                 <tbody>
-                                {% for classname, ext in context.local %}
+                                {% for ext in context.bundled %}
                                     <tr>
-                                        <td class="id"><strong>{{ ext.name }}</strong></td>
-                                        <td><code>{{ classname }}</code></td>
+                                        <td class="id"><strong>{{ ext.displayName }}</strong></td>
+                                        <td><code>{{ ext.className }}</code></td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

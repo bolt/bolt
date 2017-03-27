@@ -20,6 +20,11 @@ trait ContentRelationTrait
 {
     /**
      * Alias for getRelation()
+     *
+     * @param string|null $filterContentType
+     * @param array       $options
+     *
+     * @return \Bolt\Legacy\Content[]
      */
     public function related($filterContentType = null, $options = [])
     {
@@ -32,7 +37,7 @@ trait ContentRelationTrait
      * @param string $filterContentType ContentType to filter returned results on
      * @param array  $options           A set of 'WHERE' options to apply to the filter
      *
-     * Backward compatability note:
+     * Backward compatibility note:
      * The $options parameter used to be $filterid, an integer.
      *
      * @return \Bolt\Legacy\Content[]

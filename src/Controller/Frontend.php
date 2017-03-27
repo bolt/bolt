@@ -7,7 +7,6 @@ use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
-use Bolt\Legacy\Content;
 use Bolt\Response\TemplateResponse;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -134,7 +133,7 @@ class Frontend extends ConfigurableBase
     {
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // If the contenttype is 'viewless', don't show the record page.
+        // If the ContentType is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
 
@@ -315,8 +314,6 @@ class Frontend extends ConfigurableBase
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
             $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
-
-            return;
         }
 
         $template = $this->templateChooser()->taxonomy($taxonomyslug);
@@ -342,9 +339,9 @@ class Frontend extends ConfigurableBase
      *
      * @see https://github.com/bolt/bolt/pull/2310
      *
-     * @param Content $content
-     * @param string  $slug
-     * @param array   $taxonomy
+     * @param array|false $content
+     * @param string      $slug
+     * @param array       $taxonomy
      *
      * @return boolean
      */

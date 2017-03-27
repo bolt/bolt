@@ -4,6 +4,7 @@ namespace Bolt\Controller\Async;
 
 use Bolt;
 use Bolt\Extension\ExtensionInterface;
+use Bolt\Filesystem;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use GuzzleHttp\Exception\RequestException;
@@ -95,9 +96,12 @@ class General extends AsyncBase
             'direction' => 'DESC',
         ];
 
+        /** @var Repository\LogChangeRepository $repo */
+        $repo = $this->storage()->getRepository(Entity\LogChange::class);
+
         $context = [
             'contenttype' => $contenttype,
-            'entries'     => $this->storage()->getRepository(Entity\LogChange::class)->getChangeLogByContentType($contenttype, $options),
+            'entries'     => $repo->getChangeLogByContentType($contenttype, $options),
         ];
 
         return $this->render('@bolt/components/panel-change-record.twig', ['context' => $context]);
@@ -277,7 +281,7 @@ class General extends AsyncBase
 
         try {
             $readme = $file->read();
-        } catch (Bolt\Filesystem\Exception\IOException $e) {
+        } catch (Filesystem\Exception\IOException $e) {
             throw new NotFoundHttpException('Not Found');
         }
 
@@ -356,7 +360,7 @@ class General extends AsyncBase
         $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
         try {
-            $fetchedNewsData = (string) $this->app['guzzle.client']->get($source, $options)->getBody(true);
+            $fetchedNewsData = (string) $this->app['guzzle.client']->get($source, $options)->getBody();
         } catch (RequestException $e) {
             $this->app['logger.system']->error(
                 'Error occurred during newsfeed fetch',
@@ -442,10 +446,10 @@ class General extends AsyncBase
      */
     private function getLastmodifiedByContentLog($contenttypeslug, $contentid)
     {
-        // Get the proper contenttype.
+        // Get the proper ContentType.
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // get the changelog for the requested contenttype.
+        // get the changelog for the requested ContentType.
         $options = ['limit' => 5, 'order' => 'date', 'direction' => 'DESC'];
 
         if (intval($contentid) == 0) {
@@ -481,10 +485,10 @@ class General extends AsyncBase
      */
     private function getLastmodifiedSimple($contenttypeslug)
     {
-        // Get the proper contenttype.
+        // Get the proper ContentType.
         $contenttype = $this->getContentType($contenttypeslug);
 
-        // Get the 'latest' from the requested contenttype.
+        // Get the 'latest' from the requested ContentType.
         $latest = $this->getContent($contenttype['slug'], ['limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false]);
 
         $context = [

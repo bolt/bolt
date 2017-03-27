@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -120,6 +121,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $taxonomy = $entity->getTaxonomy()
             ->getField($field);
@@ -162,6 +164,8 @@ class TaxonomyType extends JoinTypeBase
      * @param string       $alias
      * @param QueryBuilder $query
      *
+     * @throws StorageException
+     *
      * @return string
      */
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
@@ -178,6 +182,8 @@ class TaxonomyType extends JoinTypeBase
             case 'postgresql':
                 return "string_agg($column" . "::character varying, ',' ORDER BY $order) as $alias";
         }
+
+        throw new StorageException(sprintf('Unsupported platform: %s', $platform));
     }
 
     protected function getGroup(Collection\Taxonomy $taxonomy)
@@ -239,5 +245,30 @@ class TaxonomyType extends JoinTypeBase
             ->fetchAll();
 
         return $result ?: [];
+    }
+
+    /**
+     * Normalize step ensures that we have correctly hydrated collection objects before we try and save
+     *
+     * @param $entity
+     */
+    public function normalize($entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $collection = $entity->$accessor();
+        if (!$collection instanceof Collection\Taxonomy) {
+            if (!is_array($collection)) {
+                return;
+            }
+            if (!array_key_exists($key, $collection)) {
+                $collection = [$key => $collection];
+            }
+            $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+            $taxonomies->setFromPost($collection, $entity);
+
+            $entity->getTaxonomy()->update($taxonomies);
+        }
     }
 }

@@ -66,7 +66,7 @@ class JsonManager
                 $this->app['extend.writeable'] = false;
                 $this->app['extend.online'] = false;
 
-                return;
+                return null;
             }
         }
 

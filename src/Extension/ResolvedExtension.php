@@ -72,13 +72,23 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extension hman friendly name.
+     * Returns the extension human friendly name.
      *
      * @return string
      */
     public function getDisplayName()
     {
         return $this->innerExtension->getDisplayName();
+    }
+
+    /**
+     * Returns the extension class name.
+     *
+     * @return string
+     */
+    public function getClassName()
+    {
+        return get_class($this->innerExtension);
     }
 
     /**
@@ -116,13 +126,23 @@ class ResolvedExtension
     }
 
     /**
-     * Returns whether the extension is managed by Bolt or the user has added it.
+     * Returns whether the extension is managed by Bolt. This is the opposite of "bundled".
      *
      * @return bool
      */
     public function isManaged()
     {
         return (bool) $this->descriptor;
+    }
+
+    /**
+     * Returns whether the extension is bundled by user. This is the opposite of "managed".
+     *
+     * @return bool
+     */
+    public function isBundled()
+    {
+        return !$this->isManaged();
     }
 
     /**

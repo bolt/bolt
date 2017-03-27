@@ -43,6 +43,9 @@ class Taxonomy extends ArrayCollection
             }
             foreach ($values as $val) {
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
+                if (is_array($val) && isset($val['slug'])) {
+                    $val = $val['slug'];
+                }
                 if (isset($this->config[$field]['options'][$val])) {
                     $name = $this->config[$field]['options'][$val];
                 } else {
@@ -208,4 +211,15 @@ class Taxonomy extends ArrayCollection
             }
         }
     }
+
+    public function serialize()
+    {
+        $output = [];
+        foreach ($this as $k => $existing) {
+            $output[] = ['slug' => $existing->getSlug(), 'name' => $existing->getName()];
+        }
+
+        return $output;
+    }
+
 }

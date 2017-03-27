@@ -48,4 +48,27 @@ interface FieldCollectionInterface extends Collection
      * @return \Iterator|FieldValue[]
      */
     public function getIterator();
+
+    /**
+     * Returns the type of a given $fieldName
+     *
+     * @param string $fieldName
+     *
+     * @return string|null
+     */
+    public function getFieldType($fieldName);
+
+    /**
+     * Returns the rendered version of a value for Twig.
+     *
+     * @internal
+     *
+     * This can be refactored to something better, once the
+     * deprecation of legacy content is complete.
+     *
+     * @param string $fieldName
+     *
+     * @return mixed
+     */
+    public function getRenderedValue($fieldName);
 }

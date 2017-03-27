@@ -81,7 +81,7 @@ class CallbackResolver extends \Silex\CallbackResolver
      *
      * @param string $name
      *
-     * @return array A callable array
+     * @return callable A callable array
      */
     public function convertCallback($name)
     {

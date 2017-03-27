@@ -38,7 +38,7 @@ class DateType extends FieldTypeBase
      *
      * @throws QueryParseException
      *
-     * @return void
+     * @return \Doctrine\DBAL\Query\QueryBuilder|null
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {

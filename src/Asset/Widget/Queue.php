@@ -59,7 +59,7 @@ class Queue implements QueueInterface
     }
 
     /**
-     * Add a wiget to the queue.
+     * Add a widget to the queue.
      *
      * @param WidgetAssetInterface $widget
      */
