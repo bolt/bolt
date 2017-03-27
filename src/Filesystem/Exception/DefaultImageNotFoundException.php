@@ -13,6 +13,6 @@ class DefaultImageNotFoundException extends FileNotFoundException
      */
     public function __construct($message, $path, \Exception $previous = null)
     {
-        IOException::__construct($message, $path, $previous);
+        IOException::__construct($message, $path, 0, $previous);
     }
 }
