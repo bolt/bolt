@@ -141,12 +141,12 @@ class RedisFactory extends AbstractFactory
         $query = $this->parseQuery($uri);
 
         $conn = new OptionsBag([
-            'password' => $query->get('auth'),
-            'database' => $query->getInt('database', 0),
-            'weight' => $query->getInt('weight', 1),
-            'persistent' => $query->getBoolean('persistent'),
-            'prefix' => $query->get('prefix'),
-            'timeout' => (float) $query->get('timeout', 86400.0),
+            'password'       => $query->get('auth'),
+            'database'       => $query->getInt('database', 0),
+            'weight'         => $query->getInt('weight', 1),
+            'persistent'     => $query->getBoolean('persistent'),
+            'prefix'         => $query->get('prefix'),
+            'timeout'        => (float) $query->get('timeout', 86400.0),
             'retry_interval' => $query->getInt('retry_interval', 0),
         ]);
 
@@ -182,15 +182,15 @@ class RedisFactory extends AbstractFactory
         $item = new OptionsBag($item);
 
         $conn = new OptionsBag([
-            'host' => $item->get('host') ?: '127.0.0.1',
-            'port' => $item->getInt('port') ?: 6379,
-            'persistent' => $item->getBoolean('persistent', false),
-            'timeout' => (float) $item->get('timeout', 86400.0),
+            'host'           => $item->get('host') ?: '127.0.0.1',
+            'port'           => $item->getInt('port') ?: 6379,
+            'persistent'     => $item->getBoolean('persistent', false),
+            'timeout'        => (float) $item->get('timeout', 86400.0),
             'retry_interval' => $item->getInt('retry_interval', 0),
-            'weight' => $item->getInt('weight', 1),
-            'database' => $item->getInt('database', 0),
-            'prefix' => $item->get('prefix'),
-            'password' => $item->get('password'),
+            'weight'         => $item->getInt('weight', 1),
+            'database'       => $item->getInt('database', 0),
+            'prefix'         => $item->get('prefix'),
+            'password'       => $item->get('password'),
         ]);
 
         if ($item['path']) {

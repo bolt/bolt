@@ -38,8 +38,8 @@ class Str
     }
 
     /**
-     * Replace the first occurence of a string only. Behaves like str_replace, but
-     * replaces _only_ the _first_ occurence.
+     * Replace the first occurrence of a string only. Behaves like str_replace, but
+     * replaces _only_ the _first_ occurrence.
      *
      * @see http://stackoverflow.com/a/2606638
      *

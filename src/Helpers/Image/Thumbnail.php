@@ -56,8 +56,8 @@ class Thumbnail
         // After v1.5.1 we store image data as an array
         if (is_array($fileName)) {
             $rawFileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : null);
-            isset($fileName['title']) ? $this->title = $fileName['title'] : $rawFileName;
-            isset($fileName['alt']) ? $this->altTitle = $fileName['alt'] : $rawFileName;
+            $this->title = isset($fileName['title']) ? $fileName['title'] : $this->title;
+            $this->altTitle = isset($fileName['alt']) ? $fileName['alt'] : $this->altTitle;
             $fileName = $rawFileName;
         }
         $this->fileName = $fileName;

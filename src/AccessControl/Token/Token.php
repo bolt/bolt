@@ -91,7 +91,7 @@ class Token
     }
 
     /**
-     * Get time of last check against datebase.
+     * Get time of last check against database.
      *
      * @return integer
      */

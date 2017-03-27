@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt;
+use Bolt\Composer\Package\Dependency;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Translation\Translator as Trans;
@@ -135,7 +136,7 @@ class PackageManager
      * @param string $packageName
      * @param string $constraint
      *
-     * @return
+     * @return Dependency[]|null
      */
     public function dependsPackage($packageName, $constraint)
     {
@@ -144,6 +145,8 @@ class PackageManager
 
     /**
      * Dump fresh autoloader.
+     *
+     * @return integer 0 on success or a positive error code on failure
      */
     public function dumpAutoload()
     {
@@ -166,7 +169,7 @@ class PackageManager
      * @param string $packageName
      * @param string $constraint
      *
-     * @return
+     * @return Dependency[]|null
      */
     public function prohibitsPackage($packageName, $constraint)
     {
@@ -241,7 +244,7 @@ class PackageManager
      * Initialise a new JSON file.
      *
      * @param string $file File to initialise
-     * @param array  $data Data to be added as JSON paramter/value pairs
+     * @param array  $data Data to be added as JSON parameter/value pairs
      */
     public function initJson($file, array $data = [])
     {

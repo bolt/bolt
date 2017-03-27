@@ -23,6 +23,7 @@ trait AssetSortTrait
         array_walk(
             $assets,
             function (&$v, $k) {
+                /** @var AssetInterface $v */
                 $v = [$v->getPriority(), $k, $v];
             }
         );

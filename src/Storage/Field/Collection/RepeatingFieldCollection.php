@@ -282,4 +282,14 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         return new FieldCollection();
     }
+
+    public function serialize()
+    {
+        $output = [];
+        foreach ($this as $collection => $vals) {
+            $output[$collection] = $vals->serialize();
+        }
+
+        return $output;
+    }
 }

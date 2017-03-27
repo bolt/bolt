@@ -34,6 +34,10 @@ final class Version
     /**
      * Compares a version to Bolt's version.
      *
+     * Note: Be sure to include the `.z` number in the version given, as omitting it can give inconsistent results.
+     * For example, if the current version is `3.3.0`, `compare('3.3', '>=')` returns false. In reality you want
+     * the check to return true for this case, and `compare('3.3.0', '>=')` _does_ return true.
+     *
      * @param string $version  The version to compare.
      * @param string $operator The comparison operator: <, <=, >, >=, ==, !=
      *

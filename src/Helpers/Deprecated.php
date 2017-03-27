@@ -46,6 +46,7 @@ class Deprecated
             $function = $caller['function'];
             if ($function === '__construct') {
                 static::cls($caller['class'], $since, $suggest);
+
                 return;
             }
             if (in_array($function, ['__call', '__callStatic', '__set', '__get', '__isset', '__unset'], true)) {
@@ -55,10 +56,12 @@ class Deprecated
             $method = (isset($caller['class']) ? $caller['class'] . '::' : '') . $caller['function'];
             if ($function === '__isset' || $function === '__unset') {
                 static::warn(substr($function, 2) . "($method)", $since, $suggest);
+
                 return;
             }
             if ($function === '__set' || $function === '__get') {
                 static::warn(strtoupper($function{2}) . "etting $method", $since, $suggest);
+
                 return;
             }
         }
@@ -118,11 +121,11 @@ class Deprecated
         $message = $subject . ' is deprecated';
 
         if ($since !== null) {
-            $message .= sprintf(" since %.1f", $since);
+            $message .= sprintf(' since %.1f', $since);
         }
 
         $version = Version::VERSION;
-        $message .= sprintf(" and will be removed in %s.0.", $version{0} + 1);
+        $message .= sprintf(' and will be removed in %s.0.', $version{0} + 1);
 
         if ($suggest) {
             $message .= ' ' . $suggest;

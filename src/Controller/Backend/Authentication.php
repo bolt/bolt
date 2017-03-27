@@ -73,7 +73,7 @@ class Authentication extends BackendBase
      *
      * @param Request $request The Symfony Request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response|RedirectResponse
      */
     public function postLogin(Request $request)
     {

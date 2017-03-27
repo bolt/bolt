@@ -3,7 +3,6 @@
 namespace Bolt\Legacy;
 
 use Bolt\Storage\Entity;
-use Maid\Maid;
 use Silex;
 
 /**
@@ -190,6 +189,18 @@ class Content implements \ArrayAccess
         }
 
         return $value;
+    }
+
+    /**
+     * @internal Forward comparability for to forward legacy calls to getDecodedValue()
+     *
+     * @param string $fieldName
+     *
+     * @return mixed
+     */
+    public function getRenderedValue($fieldName)
+    {
+        return $this->getDecodedValue($fieldName);
     }
 
     /**

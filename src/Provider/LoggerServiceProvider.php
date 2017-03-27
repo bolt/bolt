@@ -6,6 +6,7 @@ use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Manager;
+use Bolt\Storage\Entity;
 use Monolog\Formatter\WildfireFormatter;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\NullHandler;

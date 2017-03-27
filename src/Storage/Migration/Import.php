@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Migration;
 
 use Bolt\Helpers\Arr;
+use Bolt\Storage\Repository;
 
 /**
  * Database records import class
@@ -13,6 +14,10 @@ class Import extends AbstractMigration
 {
     /** @var array $data */
     protected $data;
+
+    protected $relationQueue = [];
+
+    protected $allowOverwrite = false;
 
     /**
      * Set the migration files.
@@ -83,6 +88,11 @@ class Import extends AbstractMigration
         $this->data = $data;
     }
 
+    public function setAllowOverwrite($option)
+    {
+        $this->allowOverwrite = $option;
+    }
+
     /**
      * Import records from an import file
      *
@@ -90,7 +100,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function importRecords($filename)
+    protected function importRecords($filename)
     {
         foreach ($this->data as $data) {
             // Test that we've at the least of an array
@@ -112,6 +122,7 @@ class Import extends AbstractMigration
                 $this->insertRecord($filename, $contenttypeslug, $values);
             }
         }
+        $this->processRelationQueue();
     }
 
     /**
@@ -122,7 +133,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function checkContentTypesValid($filename, $contenttypeslug)
+    protected function checkContentTypesValid($filename, $contenttypeslug)
     {
         if (isset($this->contenttypes[$contenttypeslug])) {
             return true;
@@ -150,7 +161,7 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function insertRecord($filename, $contenttypeslug, array $values)
+    protected function insertRecord($filename, $contenttypeslug, array $values)
     {
         // Determine a/the slug
         $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127);
@@ -162,11 +173,7 @@ class Import extends AbstractMigration
         }
 
         // Get a status
-        if (isset($values['status'])) {
-            $status = $values['status'];
-        } else {
-            $status = $this->contenttypes[$contenttypeslug]['default_status'];
-        }
+        $status = isset($values['status']) ? $values['status'] : $this->contenttypes[$contenttypeslug]['default_status'];
 
         // Transform the 'publish' action to a 'published' status
         $status = $status === 'publish' ? 'published' : $status;
@@ -178,25 +185,44 @@ class Import extends AbstractMigration
             return false;
         }
 
+        // If not given a publish date, set it to now
+        if (!isset($values['datepublish'])) {
+            $values['datepublish'] = $status == 'published' ? date('Y-m-d H:i:s') : null;
+        }
+
         // Set up default meta
         $meta = [
             'slug'        => $slug,
-            'datecreated' => date('Y-m-d H:i:s'),
-            'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
+            'datecreated' => (isset($values['datecreated'])) ? $values['datecreated'] : date('Y-m-d H:i:s'),
             'ownerid'     => 1,
         ];
 
         $values = Arr::replaceRecursive($values, $meta);
 
-        $record = $this->app['storage']->getEmptyContent($contenttypeslug);
+        // Create and save the content
+        /** @var Repository $repo */
+        $repo = $this->app['storage']->getRepository($contenttypeslug);
+        $record = $repo->create(['contenttype' => $contenttypeslug, 'status' => $status]);
+
         $record->setValues($values);
 
-        if ($this->app['storage']->saveContent($record) === false) {
+        foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
+            if (is_a($field['fieldtype'], 'Bolt\Storage\Field\Type\RelationType', true)) {
+                if (count($values[$field['fieldname']])) {
+                    $this->relationQueue[$contenttypeslug . '/' . $values['slug']] = array_merge(
+                        (array) $this->relationQueue[$contenttypeslug][$values['slug']],
+                        $values[$field['fieldname']]
+                    );
+                }
+            }
+        }
+
+        if ($repo->save($record) === false) {
             $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
 
             return false;
         } else {
-            $this->setNotice(true)->setNoticeMessage("Imported record with title: {$values['title']}.");
+            $this->setNotice(true)->setNoticeMessage("Imported record to {$contenttypeslug} with title: {$values['title']}.");
 
             return true;
         }
@@ -210,13 +236,36 @@ class Import extends AbstractMigration
      *
      * @return boolean
      */
-    private function isRecordUnique($contenttypeslug, $slug)
+    protected function isRecordUnique($contenttypeslug, $slug)
     {
+        if ($this->allowOverwrite) {
+            return true;
+        }
         $record = $this->app['storage']->getContent("$contenttypeslug/$slug");
         if (empty($record)) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     *   Since relations can't be processed until we are sure all the individual records are saved this goes
+     *   through the queue after an import and links up all the related ones.
+     */
+    protected function processRelationQueue()
+    {
+        foreach ($this->relationQueue as $source => $links) {
+            $entity = $this->app['query']->getContent($source);
+            $relations = [];
+            foreach ($links as $linkKey) {
+                $relation = $this->app['query']->getContent($linkKey);
+                $relations[(string)$relation->getContentType()][] = $relation->getId();
+            }
+            $related = $this->app['storage']->createCollection('Bolt\Storage\Entity\Relations');
+            $related->setFromPost($relations, $entity);
+            $entity->setRelation($related);
+            $this->app['storage']->save($entity);
+        }
     }
 }

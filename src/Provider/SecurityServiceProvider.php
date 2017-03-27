@@ -36,7 +36,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
                     ],
                     'default' => [
                         'pattern'   => '^/.*$',
-                        'security' => false,
+                        'security'  => false,
                         'form'      => [
                             'login_path' => $boltPath . '/login',
                             'check_path' => $boltPath . '/login_check',

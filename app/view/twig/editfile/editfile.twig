@@ -61,7 +61,7 @@
                     </a>
 
                   <div class="relatedfiles">
-                    {% if context.related|length > 1 %}
+                    {% if context.related|length > 0 %}
                       {{ __("page.edit-file.note-related") }}
                       {% for file in context.related %}
                           <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', {'namespace': file.mountPoint, 'file': file.path}) }}">{{ file.filename }}</a>

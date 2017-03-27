@@ -80,6 +80,26 @@ Bolt 3.4-dev
 
 - 
 
+Bolt 3.3.0 beta 4
+-----------------
+
+Released: 2017-03-22. Notable changes:
+
+ - Added: Add extra PHP module requirements to `composer.json` [#6490](https://github.com/bolt/bolt/pull/6490)
+ - Added: Add option to only dump the SQL migration statements with the `database:update` command. [#6496](https://github.com/bolt/bolt/pull/6496)
+ - Added: Allow Canonical Url to be overridden [#6500](https://github.com/bolt/bolt/pull/6500)
+ - Added: API compatibility with legacy content objects: Added `.renderedvalue()` to consistently get values. [#6473](https://github.com/bolt/bolt/pull/6473)
+ - Change: Renamed "Local Extensions" to "Bundled Extensions" [#6502](https://github.com/bolt/bolt/pull/6502)
+ - Change: Update `config.yml` timezone info [#6464](https://github.com/bolt/bolt/pull/6464)
+ - Fixed: Add an interface check around the set method [#6471](https://github.com/bolt/bolt/pull/6471)
+ - Fixed: First check user: Changing Database settings not resetting session [#6481](https://github.com/bolt/bolt/pull/6481) [#6483](https://github.com/bolt/bolt/pull/6483)
+ - Fixed: Fix frontend taxonomy lookups where key is different to `slug` [#6495](https://github.com/bolt/bolt/pull/6495)
+ - Fixed: Fix/clean up `_sub_fields.twig` for `{{ fields() }}` [#6474](https://github.com/bolt/bolt/pull/6474)
+ - Fixed: Missing "Delete" button appears when it should. [#6468](https://github.com/bolt/bolt/pull/6468)
+ - Fixed: prepending theme path instead of appending, fixing template priority order. [#6480](https://github.com/bolt/bolt/pull/6480)
+ - Fixed: Session Handlers Phase II [#6484](https://github.com/bolt/bolt/pull/6484)
+ - Fixed: Update `DatabaseExceptionTrait.php` [#6470](https://github.com/bolt/bolt/pull/6470)
+
 Bolt 3.3.0 beta 3
 -----------------
 
