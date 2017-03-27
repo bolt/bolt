@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
-use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Exception\DefaultImageNotFoundException;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
@@ -99,18 +99,19 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
 
         $configKey = "thumbnails/{$name}_image";
-        $default = $app['config']->get("general/$configKey");
+        $path = $app['config']->get("general/$configKey");
 
-        $image = $finder->find($default);
+        $image = $finder->find($path);
 
         if (!$image->getFilesystem()) {
-            throw new FileNotFoundException(
+            throw new DefaultImageNotFoundException(
                 sprintf(
                     'Unable to locate %s image for thumbnails. Looked for: "%s". Please update "%s" in config.yml.',
                     $name,
-                    $default,
+                    $path,
                     $configKey
-                )
+                ),
+                $path
             );
         }
 
