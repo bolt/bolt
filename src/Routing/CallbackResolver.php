@@ -11,27 +11,20 @@ class CallbackResolver extends \Silex\CallbackResolver
 {
     /** @var \Pimple $app */
     protected $app;
-    /** @var array $classmap */
-    protected $classmap;
 
     /**
      * CallbackResolver Constructor.
      *
      * @param \Pimple $app
-     * @param array   $classmap An array of class names as keys
-     *                          mapped to their service name as values
-     *                          Ex: 'Bolt\Controller\Frontend' => 'controller.frontend'
      */
-    public function __construct(\Pimple $app, array $classmap)
+    public function __construct(\Pimple $app)
     {
         $this->app = $app;
-        $this->classmap = $classmap;
         parent::__construct($app);
     }
 
     /**
-     * Returns true if the string is a valid service method representation or if
-     * the string/array references a class contained in the resolver's classmap.
+     * Returns true if the string is a valid service method representation.
      *
      * @param string $name
      *
@@ -56,9 +49,6 @@ class CallbackResolver extends \Silex\CallbackResolver
             return false; // Can't handle this, maybe already callable
         }
 
-        if (isset($this->classmap[$cls])) {
-            return true; // Will use service definition
-        }
         if (!class_exists($cls) || !method_exists($cls, $method)) {
             return false; // Can't handle this
         }
@@ -101,12 +91,6 @@ class CallbackResolver extends \Silex\CallbackResolver
             $method = end($parts);
         } else {
             return parent::convertCallback($name);
-        }
-
-        if (isset($this->classmap[$cls])) {
-            $service = $this->classmap[$cls];
-
-            return parent::convertCallback("$service:$method");
         }
 
         return [$this->instantiateClass($cls), $method];

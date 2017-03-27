@@ -42,7 +42,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
 
         $app['callback_resolver'] = $app->share(
             function ($app) {
-                return new CallbackResolver($app, $app['controller.classmap']);
+                return new CallbackResolver($app);
             }
         );
 

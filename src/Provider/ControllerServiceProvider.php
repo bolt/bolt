@@ -119,9 +119,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
                 return new Controller\Requirement($app['config']);
             }
         );
-
-        $app['controller.classmap'] = [
-        ];
     }
 
     public function boot(Application $app)
