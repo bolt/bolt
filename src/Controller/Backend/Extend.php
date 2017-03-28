@@ -29,10 +29,6 @@ class Extend extends BackendBase
         $c->get('', 'overview')
             ->bind('extensions');
 
-        // Allows BC with 3.2 and earlier, to be removed in 4.0
-        $c->get('', 'overview')
-            ->bind('extend');
-
         $c->get('/check', 'check')
             ->bind('check');
 

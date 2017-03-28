@@ -211,9 +211,6 @@ class Manager
             }
         }
         $this->registered = true;
-
-        // @deprecated Deprecated since 3.0, to be removed in 4.0.
-        $this->app = $app;
     }
 
     /**
@@ -318,17 +315,5 @@ class Manager
         }
 
         return $exists;
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @internal Do not use! For legacy support only.
-     */
-    protected function getApp()
-    {
-        Deprecated::method(3.0, 'Inject the required services directly into your own service constructor as required.');
-
-        return $this->app;
     }
 }

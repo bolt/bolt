@@ -119,16 +119,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
                 return new Controller\Requirement($app['config']);
             }
         );
-        $app['controller.requirement.deprecated'] = $app->share(
-            function ($app) {
-                return new Controller\Routing($app['config']);
-            }
-        );
-
-        $app['controller.classmap'] = [
-            'Bolt\\Controllers\\Frontend' => 'controller.frontend',
-            'Bolt\\Controllers\\Routing'  => 'controller.requirement.deprecated',
-        ];
     }
 
     public function boot(Application $app)

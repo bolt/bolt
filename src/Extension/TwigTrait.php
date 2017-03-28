@@ -207,13 +207,11 @@ trait TwigTrait
     /**
      * Add a Twig Function.
      *
-     * @internal Will be made private in 4.0. Use registerTwigFunctions() instead.
-     *
      * @param string          $name
      * @param string|callable $callback
      * @param array           $options
      */
-    protected function addTwigFunction($name, $callback, $options = [])
+    private function addTwigFunction($name, $callback, $options = [])
     {
         // If we pass a callback as a simple string, we need to turn it into an array.
         if (is_string($callback) && method_exists($this, $callback)) {
@@ -236,13 +234,11 @@ trait TwigTrait
     /**
      * Add a Twig Filter.
      *
-     * @internal Will be made private in 4.0. Use registerTwigFilters() instead.
-     *
      * @param string          $name
      * @param string|callable $callback
      * @param array           $options
      */
-    protected function addTwigFilter($name, $callback, $options = [])
+    private function addTwigFilter($name, $callback, $options = [])
     {
         // If we pass a callback as a simple string, we need to turn it into an array.
         if (is_string($callback) && method_exists($this, $callback)) {
