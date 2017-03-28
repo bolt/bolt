@@ -1,22 +1,26 @@
 <div class="repeater-group row panel panel-default">
     <div class="panel-heading text-right">
-        <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-default move-up">
-                <i class="fa fa-arrow-up"></i> {{ __('general.phrase.move-up') }}
-            </button>
-            <button type="button" class="btn btn-sm btn-default  move-down">
-                <i class="fa fa-arrow-down"></i> {{ __('general.phrase.move-down') }}
-            </button>
-            <button type="button" class="btn btn-sm btn-default duplicate-button">
-                <i class="fa fa-copy"></i> {{ __('general.phrase.duplicate-set') }}
-            </button>
-            <button type="button" class="btn btn-sm btn-silent-danger delete-button">
-                <i class="fa fa-trash"></i> {{ __('general.phrase.delete-set') }}
-            </button>
+            <div class="pull-left">
+                <a href="#" class="expand"><i class="fa fa-plus-square"></i><i class="fa fa-minus-square hidden"></i></a>
+                <a href="#" class="expand">{{ content|first }}</a>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default move-up" data-toggle="tooltip" data-placement="left" title="{{ __('general.phrase.move-up') }}">
+                    <i class="fa fa-arrow-up"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-default  move-down" data-toggle="tooltip" data-placement="left" title="{{ __('general.phrase.move-down') }}">
+                    <i class="fa fa-arrow-down"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-default duplicate-button" data-toggle="tooltip" data-placement="left" title="{{ __('general.phrase.duplicate-set') }}">
+                    <i class="fa fa-copy"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-silent-danger delete-button" data-toggle="tooltip" data-placement="left" title="{{ __('general.phrase.delete-set') }}">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
         </div>
-    </div>
 
-    <div class="panel-body">
+        <div class="panel-body collapse">
         {% set defaults = {
             class:      '',
             label:      '',
