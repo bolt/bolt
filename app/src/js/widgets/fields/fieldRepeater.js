@@ -126,6 +126,22 @@
                 self._resetEditors(setToMove);
             });
 
+            self.element.on('click', '.expand', function (e) {
+                var setToExpand = $(this).closest('.repeater-group');
+                e.preventDefault();
+
+                setToExpand.find('.panel-body').toggleClass('collapse');
+                setToExpand.find('.expand i').toggleClass('hidden');
+            });
+
+            // Sortable repeaters
+            self.element.find('.repeater-slot').sortable({
+                cursor: "move",
+                stop: function () {
+                    self._renumber();
+                }
+            });
+
             // Add initial groups until minimum number is reached.
             while (self._count < self.options.minimum) {
                 self._append();
@@ -143,6 +159,7 @@
             var newSet = this._clone(this._template);
 
             this._ui.slot.append(newSet);
+            newSet.find('.panel-body').removeClass('collapse');
             this._setCount(1);
             this._renumber();
             bolt.datetime.init();
