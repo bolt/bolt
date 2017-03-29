@@ -59,10 +59,9 @@ class LowlevelChecks
 
     public function __set($property, $value)
     {
-        if ($this->config && $property === 'disableApacheChecks' && $value === true) {
-            Deprecated::method(3.3, 'Extend "config.validator" service and remove the apache check there.');
-
-            $this->config->disableApacheChecks();
+        if ($property === 'disableApacheChecks' && $value === true) {
+            $this->disableApacheChecks();
+            return;
         }
 
         $this->$property = $value;
@@ -205,7 +204,12 @@ class LowlevelChecks
 
     public function disableApacheChecks()
     {
+        Deprecated::method(3.3, 'Extend "config.validator" service and remove the apache check there.');
+
         $this->disableApacheChecks = true;
+        if ($this->config) {
+            $this->config->disableApacheChecks();
+        }
     }
 
     /**
