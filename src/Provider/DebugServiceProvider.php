@@ -208,6 +208,11 @@ class DebugServiceProvider implements ServiceProviderInterface
         $app['debug.class_loader.enabled'] = function ($app) {
             return $app['debug'];
         };
+
+        // Added by WebProviderServiceProvider
+        if (!isset($app['code.file_link_format'])) {
+            $app['code.file_link_format'] = null;
+        }
     }
 
     /**
