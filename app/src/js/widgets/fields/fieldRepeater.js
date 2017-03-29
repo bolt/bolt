@@ -246,10 +246,10 @@
 
             if (this._count >= this.options.maximum) {
                 this._ui.add.addClass('disabled');
-                this.element.find('.duplicate-button').addClass('disabled');
+                this._ui.add.prop('disabled', 'disabled');
             } else {
                 this._ui.add.removeClass('disabled');
-                this.element.find('.duplicate-button').removeClass('disabled');
+                this._ui.add.prop('disabled', false);
             }
 
             if (this._count <= this.options.minimum) {
