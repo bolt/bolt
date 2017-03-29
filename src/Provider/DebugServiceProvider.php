@@ -216,8 +216,6 @@ class DebugServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         if ($this->firstPhase) {
-            $app['dispatcher']->addSubscriber($app['debug.handlers_listener']);
-
             $level = $app['debug.error_handler.reporting_level'];
             if ($level !== null) {
                 error_reporting($level);
@@ -227,6 +225,10 @@ class DebugServiceProvider implements ServiceProviderInterface
             $this->registerHandlers($app);
         } else {
             $app['debug.initialized'] = true;
+
+            // Can be subscribed regardless of enabled, because it won't do anything
+            // if there is no error handler or exception handler registered.
+            $app['dispatcher']->addSubscriber($app['debug.handlers_listener']);
 
             // Register again which will make changes to handlers if parameters have changed.
             $this->registerHandlers($app);
