@@ -168,15 +168,19 @@ class DebugServiceProvider implements ServiceProviderInterface
             return $app['debug'] ? -1 : null;
         };
 
-        // Exception Handler is registered when this service is invoked if enabled is true.
-        // This is only for bootstrapping. The real one gets set on kernel request event.
+        // Exception Handler is registered when this service is invoked if enabled.
+        // This is only for bootstrapping. The real one gets set on kernel request / console command event.
         $app['debug.exception_handler'] = function ($app) {
             // memoize handler, meaning the same handler is used for every call,
             // unless arguments change then a new one is created.
             static $handler;
             static $args;
 
-            $newArgs = [$app['debug'], $app['charset'], $app['code.file_link_format']];
+            $newArgs = [
+                $debug = $app['debug'],
+                $charset = $app['charset'],
+                $fileLinkFormat = $app['code.file_link_format'],
+            ];
 
             if ($newArgs !== $args) {
                 $args = $newArgs;
@@ -188,11 +192,15 @@ class DebugServiceProvider implements ServiceProviderInterface
             }
 
             if ($app['debug.error_handler.enabled']) {
-                $handler = ExceptionHandler::register($app['debug'], $app['charset'], $app['code.file_link_format']);
+                // Register the ExceptionHandler on the ErrorHandler as well.
+                $handler = ExceptionHandler::register($debug, $charset, $fileLinkFormat);
             } else {
-                $handler = new ExceptionHandler($app['debug'], $app['charset'], $app['code.file_link_format']);
+                $handler = new ExceptionHandler($debug, $charset, $fileLinkFormat);
             }
 
+            // The ExceptionHandler by default renders HTML. If we are on CLI, change it to render for CLI.
+            // Remember this is only in effect until the the console command event is dispatched,
+            // where that console app is used instead.
             if (PHP_SAPI === 'cli') {
                 $handler->setHandler(function ($e) {
                     $app = new ConsoleApplication('Bolt CLI', Version::VERSION);
