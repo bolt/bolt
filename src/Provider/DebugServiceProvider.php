@@ -93,7 +93,7 @@ class DebugServiceProvider implements ServiceProviderInterface
         }
 
         // Thrown errors in an integer bit field of E_* constants
-        $app['debug.error_handler.throw_at'] = function ($app) {
+        $app['error_handler.throw_at'] = function ($app) {
             if ($app['debug']) {
                 return $app['config']->get('general/debug_error_level', E_ALL);
             } else {
@@ -102,27 +102,27 @@ class DebugServiceProvider implements ServiceProviderInterface
         };
 
         // Logged errors in an integer bit field of E_* constants.
-        $app['debug.error_handler.log_at'] = E_ALL; // TODO Should this be the same as throw_at? Previously it was via config env_error_level.
+        $app['error_handler.log_at'] = E_ALL; // TODO Should this be the same as throw_at? Previously it was via config env_error_level.
         // Note: If not logging all errors, there's potential for a memory leak for long running processes.
         // Errors "not logged" will continue to build up in the bootstrap BufferingLogger.
         // To fix this do `$handler->setDefaultLogger(new NullLogger(), null, true)` after the event listener
         // below runs its configure method.
 
         // Enable handlers for web and cli, but not test runners since they have their own.
-        $app['debug.error_handler.enabled'] =
-        $app['debug.exception_handler.enabled'] =
+        $app['error_handler.enabled'] =
+        $app['exception_handler.enabled'] =
             PHP_SAPI !== 'cli' || (
                 !defined('PHPUNIT_COMPOSER_INSTALL')
                 && !function_exists('codecept_debug')
             );
 
-        $app['debug.error_handler'] = $app->share(function () {
+        $app['error_handler'] = $app->share(function () {
             return new ErrorHandler(new BufferingLogger());
         });
 
         // Exception Handler is registered when this service is invoked if enabled.
         // This is only for bootstrapping. The real one gets set on kernel request / console command event.
-        $app['debug.exception_handler'] = function ($app) {
+        $app['exception_handler.early'] = function ($app) {
             // memoize handler, meaning the same handler is used for every call,
             // unless arguments change then a new one is created.
             static $handler;
@@ -143,7 +143,7 @@ class DebugServiceProvider implements ServiceProviderInterface
                 return $handler;
             }
 
-            if ($app['debug.error_handler.enabled']) {
+            if ($app['error_handler.enabled']) {
                 // Register the ExceptionHandler on the ErrorHandler as well.
                 $handler = ExceptionHandler::register($debug, $charset, $fileLinkFormat);
             } else {
@@ -171,7 +171,7 @@ class DebugServiceProvider implements ServiceProviderInterface
                 return new DebugHandlersListener(
                     null, // null to use HttpKernel or Console App exception handler
                     $app['logger'],
-                    $app['debug.error_handler.log_at'],
+                    $app['error_handler.log_at'],
                     null, // Throw at is already applied.
                     true, // Log silenced errors
                     $app['code.file_link_format']
@@ -195,7 +195,7 @@ class DebugServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         if ($this->firstPhase) {
-            if ($app['debug.error_handler.enabled']) {
+            if ($app['error_handler.enabled']) {
                 // Report all errors since it has its own logging / throwing errors logic.
                 error_reporting(E_ALL);
 
@@ -227,8 +227,8 @@ class DebugServiceProvider implements ServiceProviderInterface
             DebugClassLoader::enable();
         }
 
-        if ($app['debug.error_handler.enabled']) {
-            $handler = $app['debug.error_handler'];
+        if ($app['error_handler.enabled']) {
+            $handler = $app['error_handler'];
             if ($this->firstPhase) {
                 ErrorHandler::register($handler);
                 // Set throw at value based on `debug.early` value during 1st phase.
@@ -236,12 +236,12 @@ class DebugServiceProvider implements ServiceProviderInterface
                 $handler->throwAt($app['debug'] ? E_ALL : 0, true);
             } else {
                 // Set throw at value based on config value during 2nd phase.
-                $handler->throwAt($app['debug.error_handler.throw_at'], true);
+                $handler->throwAt($app['error_handler.throw_at'], true);
             }
         }
 
-        if ($app['debug.exception_handler.enabled']) {
-            $app['debug.exception_handler']; // Invoke to register
+        if ($app['exception_handler.enabled']) {
+            $app['exception_handler.early']; // Invoke to register
         }
     }
 }
