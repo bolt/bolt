@@ -2,6 +2,9 @@
 
 namespace Bolt\Tests\Extension;
 
+use Bolt\Filesystem\Adapter\Memory;
+use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\TwigExtension;
 use Bolt\Twig\FilesystemLoader;
@@ -14,13 +17,20 @@ use Twig_Loader_Array as ArrayLoader;
  */
 class TwigTraitTest extends BoltUnitTest
 {
+    /** @var DirectoryInterface */
+    private $baseDir;
+
+    protected function setUp()
+    {
+        $fs = new Filesystem(new Memory());
+        $this->baseDir = $fs->getDir('vendor/unit/test');
+    }
+
     public function testTwigExtension()
     {
         $app = $this->getApp(false);
         $ext = new TwigExtension();
-        $baseDir = $app['filesystem']->getDir('extensions://');
-        $baseDir->setPath('local/bolt/twig');
-        $ext->setBaseDirectory($baseDir);
+        $ext->setBaseDirectory($this->baseDir);
         $ext->setContainer($app);
         $ext->register($app);
         $app->boot();
@@ -41,9 +51,7 @@ TWIG;
         $app['twig']->setLoader($loader);
 
         $ext = new TwigExtension();
-        $baseDir = $app['filesystem']->getDir('extensions://');
-        $baseDir->setPath('local/bolt/twig');
-        $ext->setBaseDirectory($baseDir);
+        $ext->setBaseDirectory($this->baseDir);
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -60,17 +68,16 @@ TWIG;
     {
         $app = $this->getApp();
         $ext = new TwigExtension();
-        $filesystem = $app['filesystem']->getFilesystem('extensions');
 
-        $baseDir = $filesystem->getDir('extensions://');
-        $baseDir->setPath('vendor/unit/test');
-        $ext->setBaseDirectory($baseDir);
+        $ext->setBaseDirectory($this->baseDir);
         $ext->setContainer($app);
         $ext->register($app);
         $app->boot();
 
-        $filesystem->createDir('vendor/unit/test/koala');
-        $filesystem->createDir('vendor/unit/test/dropbear');
+        $dropbear = $this->baseDir->getDir('dropbear');
+        $koala = $this->baseDir->getDir('koala');
+        $dropbear->create();
+        $koala->create();
 
         $boltLoaderMock = $this->getMockBuilder(FilesystemLoader::class)
             ->disableOriginalConstructor()
@@ -80,12 +87,12 @@ TWIG;
         $boltLoaderMock
             ->expects($this->atLeastOnce())
             ->method('prependDir')
-            ->with($filesystem->getDir('vendor/unit/test/dropbear'), 'Marsupial')
+            ->with($dropbear, 'Marsupial')
         ;
         $boltLoaderMock
             ->expects($this->atLeastOnce())
             ->method('addDir')
-            ->with($filesystem->getDir('vendor/unit/test/koala'))
+            ->with($koala)
         ;
         $app['twig.loader.bolt_filesystem'] = $boltLoaderMock;
 

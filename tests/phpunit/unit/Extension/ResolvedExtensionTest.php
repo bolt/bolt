@@ -20,15 +20,12 @@ class ResolvedExtensionTest extends BoltUnitTest
     protected $extension;
     /** @var ResolvedExtension */
     protected $resolvedExtension;
-    /** @var Directory */
-    protected $baseDir;
 
     public function setUp()
     {
         parent::setUp();
         $this->extension = new Mock\NormalExtension();
-        $this->baseDir = new Directory(null, PHPUNIT_WEBROOT . '/extensions/vendor/bolt/normal');
-        $this->extension->setBaseDirectory($this->baseDir);
+        $this->extension->setBaseDirectory(new Directory());
         $this->resolvedExtension = new ResolvedExtension($this->extension);
     }
 
@@ -68,8 +65,8 @@ class ResolvedExtensionTest extends BoltUnitTest
     public function testGetBaseDirectory()
     {
         $this->assertSame(
-            $this->extension->getBaseDirectory()->getPath(),
-            $this->resolvedExtension->getBaseDirectory()->getPath()
+            $this->extension->getBaseDirectory(),
+            $this->resolvedExtension->getBaseDirectory()
         );
     }
 
@@ -87,8 +84,8 @@ class ResolvedExtensionTest extends BoltUnitTest
         return new PackageDescriptor(
             'bolt/normal',
             Mock\NormalExtension::class,
-            $this->baseDir,
-            $this->baseDir->getPath() . '/web',
+            'extensions/vendor/bolt/normal',
+            'extensions/vendor/bolt/normal/web',
             '^3.0',
             true
         );

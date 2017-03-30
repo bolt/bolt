@@ -17,9 +17,6 @@ class DatabaseSchemaTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = new DatabaseSchemaExtension();
-        $baseDir = $app['filesystem']->getDir('extensions://');
-        $baseDir->setPath('local/bolt/databaseschema');
-        $ext->setBaseDirectory($baseDir);
         $ext->setContainer($app);
         $ext->register($app);
         $app->boot();
@@ -30,9 +27,6 @@ class DatabaseSchemaTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = new DatabaseSchemaExtension();
-        $baseDir = $app['filesystem']->getDir('extensions://');
-        $baseDir->setPath('local/bolt/databaseschema');
-        $ext->setBaseDirectory($baseDir);
         $ext->setContainer($app);
         $ext->register($app);
 
