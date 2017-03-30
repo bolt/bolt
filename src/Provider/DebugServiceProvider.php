@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Version;
+use Psr\Log\LoggerInterface;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -103,10 +104,10 @@ class DebugServiceProvider implements ServiceProviderInterface
 
         // Logged errors in an integer bit field of E_* constants.
         $app['error_handler.log_at'] = E_ALL; // TODO Should this be the same as throw_at? Previously it was via config env_error_level.
-        // Note: If not logging all errors, there's potential for a memory leak for long running processes.
-        // Errors "not logged" will continue to build up in the bootstrap BufferingLogger.
-        // To fix this do `$handler->setDefaultLogger(new NullLogger(), null, true)` after the event listener
-        // below runs its configure method.
+
+        $app['error_handler.logger'] = function ($app) {
+            return $app['logger'];
+        };
 
         // Enable handlers for web and cli, but not test runners since they have their own.
         $app['error_handler.enabled'] =
@@ -165,17 +166,10 @@ class DebugServiceProvider implements ServiceProviderInterface
             return $handler;
         };
 
-        // Listener to register logger with error handler and set real exception handler
+        // Listener to set the exception handler from HttpKernel or Console App.
         $app['debug.handlers_listener'] = $app->share(
-            function ($app) {
-                return new DebugHandlersListener(
-                    null, // null to use HttpKernel or Console App exception handler
-                    $app['logger'],
-                    $app['error_handler.log_at'],
-                    null, // Throw at is already applied.
-                    true, // Log silenced errors
-                    $app['code.file_link_format']
-                );
+            function () {
+                return new DebugHandlersListener(null);
             }
         );
 
@@ -237,11 +231,67 @@ class DebugServiceProvider implements ServiceProviderInterface
             } else {
                 // Set throw at value based on config value during 2nd phase.
                 $handler->throwAt($app['error_handler.throw_at'], true);
+
+                $this->configureLogger($handler, $app['error_handler.logger'], $app['error_handler.log_at']);
             }
         }
 
         if ($app['exception_handler.enabled']) {
             $app['exception_handler.early']; // Invoke to register
+        }
+    }
+
+    /**
+     * Configure the error handler to log types given to the logger given and to ignore all types not specified.
+     *
+     * It's important that the BufferingLogger is completely replaced for all error types with either a real logger
+     * or null, otherwise a memory leak could occur.
+     *
+     * @param ErrorHandler    $handler
+     * @param LoggerInterface $logger
+     * @param array|int       $loggedAt An array map of E_* to LogLevel::* or an integer bit field of E_* constants
+     */
+    private function configureLogger(ErrorHandler $handler, LoggerInterface $logger, $loggedAt)
+    {
+        // Set real logger for the levels specified.
+        $handler->setDefaultLogger($logger, $loggedAt);
+
+        // For all the levels not logged, tell the handler not to log them.
+        $notLoggedLevels = [];
+        $defaults = [
+            E_DEPRECATED        => null,
+            E_USER_DEPRECATED   => null,
+            E_NOTICE            => null,
+            E_USER_NOTICE       => null,
+            E_STRICT            => null,
+            E_WARNING           => null,
+            E_USER_WARNING      => null,
+            E_COMPILE_WARNING   => null,
+            E_CORE_WARNING      => null,
+            E_USER_ERROR        => null,
+            E_RECOVERABLE_ERROR => null,
+            E_COMPILE_ERROR     => null,
+            E_PARSE             => null,
+            E_ERROR             => null,
+            E_CORE_ERROR        => null,
+        ];
+        if (is_array($loggedAt)) {
+            $notLoggedLevels = array_diff_key($defaults, $loggedAt);
+        } else {
+            if ($loggedAt === 0) { // shortcut for no logging.
+                $notLoggedLevels = $defaults;
+            } elseif ($loggedAt === E_ALL) { // shortcut for all logging.
+                // Do nothing. Leave notLoggedLevels empty.
+            } else {
+                foreach ($defaults as $type => $logger) {
+                    if (!($loggedAt & $type)) {
+                        $notLoggedLevels[$type] = null;
+                    }
+                }
+            }
+        }
+        if ($notLoggedLevels) {
+            $handler->setLoggers($notLoggedLevels);
         }
     }
 }
