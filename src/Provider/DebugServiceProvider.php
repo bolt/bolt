@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\EventListener\DebugHandlersListener;
  * 1. There is no error / exception handlers during app creation and registration stage. This is a very small window,
  *    since closures are just being registered (no logic). Extensions are not loaded either.
  * 2. App Boot
- *   2.a. Debug 1st phase: Error & exception handlers are registered (if enabled) based on `debug.early`'s value.
+ *   2.a. Debug 1st phase: Error & exception handlers are registered based on `debug.early`'s value.
  *        There should be no logic required to get this value.
  *   2.b. Extensions 1st phase: Extensions are registered.
  *   2.c. Debug 2nd phase: The "real" `debug` value is retrieved from config, which means all the logic to setup config
@@ -92,20 +92,31 @@ class DebugServiceProvider implements ServiceProviderInterface
             });
         }
 
+        // Thrown errors in an integer bit field of E_* constants
+        $app['debug.error_handler.throw_at'] = function ($app) {
+            if ($app['debug']) {
+                return $app['config']->get('general/debug_error_level', E_ALL);
+            } else {
+                return $app['config']->get('general/production_error_level', 0);
+            }
+        };
+
+        // Logged errors in an integer bit field of E_* constants.
+        $app['debug.error_handler.log_at'] = E_ALL; // TODO Should this be the same as throw_at? Previously it was via config env_error_level.
+        // Note: If not logging all errors, there's potential for a memory leak for long running processes.
+        // Errors "not logged" will continue to build up in the bootstrap BufferingLogger.
+        // To fix this do `$handler->setDefaultLogger(new NullLogger(), null, true)` after the event listener
+        // below runs its configure method.
+
+        // Listener to register logger with error handler and set real exception handler
         $app['debug.handlers_listener'] = $app->share(
             function ($app) {
-                $errorLevels = $app['config']->get(
-                    $app['debug'] ?
-                    'general/debug_error_level' :
-                    'general/production_error_level'
-                );
-
                 return new DebugHandlersListener(
-                    null, // HttpKernel or Console App exception handler
+                    null, // null to use HttpKernel or Console App exception handler
                     $app['logger'],
-                    $errorLevels, // Levels
-                    $errorLevels, // Throw at
-                    true, // Scream
+                    $app['debug.error_handler.log_at'],
+                    null, // Throw at is already applied.
+                    true, // Log silenced errors
                     $app['code.file_link_format']
                 );
             }
@@ -119,54 +130,9 @@ class DebugServiceProvider implements ServiceProviderInterface
                 && !function_exists('codecept_debug')
             );
 
-        // Error Handler is registered when this service is invoked if enabled is true.
-        $app['debug.error_handler'] = function ($app) {
-            // memoize handler, meaning the same handler is used for every call,
-            // unless arguments change then a new one is created.
-            /** @var ErrorHandler|null $handler */
-            static $handler;
-            /** @var bool $displayErrors */
-            static $displayErrors;
-
-            $newDisplayErrors = $app['debug.error_handler.display_errors'];
-            if ($newDisplayErrors !== $displayErrors) {
-                $displayErrors = $newDisplayErrors;
-
-                // If the handler has already been created, but the display_errors value has changed:
-                // revert throwAt call (below) and return the same handler.
-                if ($handler !== null) {
-                    $handler->throwAt(-1 & 0x1FFF, true);
-
-                    return $handler;
-                }
-            } elseif ($handler !== null) { // return same handler if created
-                return $handler;
-            }
-
-            $handler = new ErrorHandler(new BufferingLogger());
-
-            if ($app['debug.error_handler.enabled']) {
-                ErrorHandler::register($handler);
-
-                if (!$displayErrors) {
-                    // Don't convert any errors to exceptions.
-                    // has to be after register() as it resets the level.
-                    $handler->throwAt(0, true);
-                }
-            }
-
-            return $handler;
-        };
-
-        // If debug, throw errors, else just log the error.
-        $app['debug.error_handler.display_errors'] = function ($app) {
-            return $app['debug'];
-        };
-
-        // If debug, report all errors, else leave it unchanged.
-        $app['debug.error_handler.reporting_level'] = function ($app) {
-            return $app['debug'] ? -1 : null;
-        };
+        $app['debug.error_handler'] = $app->share(function () {
+            return new ErrorHandler(new BufferingLogger());
+        });
 
         // Exception Handler is registered when this service is invoked if enabled.
         // This is only for bootstrapping. The real one gets set on kernel request / console command event.
@@ -229,9 +195,16 @@ class DebugServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         if ($this->firstPhase) {
-            $level = $app['debug.error_handler.reporting_level'];
-            if ($level !== null) {
-                error_reporting($level);
+            if ($app['debug.error_handler.enabled']) {
+                // Report all errors since it has its own logging / throwing errors logic.
+                error_reporting(E_ALL);
+
+                // Disable built-in PHP error displaying logic. Errors are:
+                // 1. Logged to the logger.
+                // 2. Converted to an exception and thrown to the user that way.
+                // Both of these are regardless of HTML or CLI output.
+                // This makes the built-in display_errors redundant.
+                ini_set('display_errors', 0);
             }
 
             // Register handlers with `debug.early` value
@@ -255,7 +228,16 @@ class DebugServiceProvider implements ServiceProviderInterface
         }
 
         if ($app['debug.error_handler.enabled']) {
-            $app['debug.error_handler']; // Invoke to register
+            $handler = $app['debug.error_handler'];
+            if ($this->firstPhase) {
+                ErrorHandler::register($handler);
+                // Set throw at value based on `debug.early` value during 1st phase.
+                // (Has to be after register() as that resets the level.)
+                $handler->throwAt($app['debug'] ? E_ALL : 0, true);
+            } else {
+                // Set throw at value based on config value during 2nd phase.
+                $handler->throwAt($app['debug.error_handler.throw_at'], true);
+            }
         }
 
         if ($app['debug.exception_handler.enabled']) {
