@@ -108,20 +108,6 @@ class DebugServiceProvider implements ServiceProviderInterface
         // To fix this do `$handler->setDefaultLogger(new NullLogger(), null, true)` after the event listener
         // below runs its configure method.
 
-        // Listener to register logger with error handler and set real exception handler
-        $app['debug.handlers_listener'] = $app->share(
-            function ($app) {
-                return new DebugHandlersListener(
-                    null, // null to use HttpKernel or Console App exception handler
-                    $app['logger'],
-                    $app['debug.error_handler.log_at'],
-                    null, // Throw at is already applied.
-                    true, // Log silenced errors
-                    $app['code.file_link_format']
-                );
-            }
-        );
-
         // Enable handlers for web and cli, but not test runners since they have their own.
         $app['debug.error_handler.enabled'] =
         $app['debug.exception_handler.enabled'] =
@@ -178,6 +164,20 @@ class DebugServiceProvider implements ServiceProviderInterface
 
             return $handler;
         };
+
+        // Listener to register logger with error handler and set real exception handler
+        $app['debug.handlers_listener'] = $app->share(
+            function ($app) {
+                return new DebugHandlersListener(
+                    null, // null to use HttpKernel or Console App exception handler
+                    $app['logger'],
+                    $app['debug.error_handler.log_at'],
+                    null, // Throw at is already applied.
+                    true, // Log silenced errors
+                    $app['code.file_link_format']
+                );
+            }
+        );
 
         $app['debug.class_loader.enabled'] = function ($app) {
             return $app['debug'];
