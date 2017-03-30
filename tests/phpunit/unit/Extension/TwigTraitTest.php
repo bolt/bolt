@@ -4,6 +4,7 @@ namespace Bolt\Tests\Extension;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\TwigExtension;
+use Bolt\Twig\FilesystemLoader;
 use Twig_Loader_Array as ArrayLoader;
 
 /**
@@ -53,5 +54,41 @@ TWIG;
         $this->assertRegExp('/Function dropbear kenny koala/', $html);
         $this->assertRegExp('/Filter koala KENNY KOALA/', $html);
         $this->assertRegExp('/Filter dropbear KENNY KOALA/', $html);
+    }
+
+    public function testPathAddition()
+    {
+        $app = $this->getApp();
+        $ext = new TwigExtension();
+        $filesystem = $app['filesystem']->getFilesystem('extensions');
+
+        $baseDir = $filesystem->getDir('extensions://');
+        $baseDir->setPath('vendor/unit/test');
+        $ext->setBaseDirectory($baseDir);
+        $ext->setContainer($app);
+        $ext->register($app);
+        $app->boot();
+
+        $filesystem->createDir('vendor/unit/test/koala');
+        $filesystem->createDir('vendor/unit/test/dropbear');
+
+        $boltLoaderMock = $this->getMockBuilder(FilesystemLoader::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['prependDir', 'addDir'])
+            ->getMock()
+        ;
+        $boltLoaderMock
+            ->expects($this->atLeastOnce())
+            ->method('prependDir')
+            ->with($filesystem->getDir('vendor/unit/test/dropbear'), 'Marsupial')
+        ;
+        $boltLoaderMock
+            ->expects($this->atLeastOnce())
+            ->method('addDir')
+            ->with($filesystem->getDir('vendor/unit/test/koala'))
+        ;
+        $app['twig.loader.bolt_filesystem'] = $boltLoaderMock;
+
+        $app['twig']->getExtensions();
     }
 }
