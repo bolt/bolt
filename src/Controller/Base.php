@@ -3,7 +3,9 @@
 namespace Bolt\Controller;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Helpers\Deprecated;
 use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
@@ -71,7 +73,7 @@ abstract class Base implements ControllerProviderInterface
      * @param array           $context  Context variables
      * @param array           $globals  Global variables
      *
-     * @return \Bolt\Response\TemplateResponse
+     * @return TemplateResponse|TemplateView
      */
     protected function render($template, array $context = [], array $globals = [])
     {
@@ -83,6 +85,16 @@ abstract class Base implements ControllerProviderInterface
             $twig->addGlobal($name, $value);
         }
         $globals = $twig->getGlobals();
+
+        if ($this->getOption('compatibility/template_view', false)) {
+            return new TemplateView($template->getTemplateName(), $context);
+        }
+        Deprecated::warn(
+            'Returning a TemplateResponse from Bolt\Controller\Base::render',
+            3.3,
+            'Be sure no Response methods are used from return value and then set "compatibility/template_view"' .
+            ' to true in config.yml. This changes render() to return a TemplateView instead.'
+        );
 
         $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
         $response->setContent($template->render($context));
