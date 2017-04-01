@@ -2,6 +2,7 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Config;
 use Bolt\Events\FailedConnectionEvent;
 use Bolt\Exception\Database\DatabaseConnectionException;
 use Doctrine\Common\EventSubscriber;
@@ -20,13 +21,17 @@ class DoctrineListener implements EventSubscriber
 {
     use LoggerAwareTrait;
 
+    /** @var Config */
+    private $config;
+
     /**
      * Constructor.
      *
      * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(Config $config, LoggerInterface $logger)
     {
+        $this->config = $config;
         $this->setLogger($logger);
     }
 
@@ -65,13 +70,10 @@ class DoctrineListener implements EventSubscriber
              */
             $db->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
-            // Set utf8 on names and connection, as all tables have this charset. We don't
-            // also do 'SET CHARACTER SET utf8', because it will actually reset the
-            // character_set_connection and collation_connection to @@character_set_database
-            // and @@collation_database respectively.
-            // see: http://stackoverflow.com/questions/1566602/is-set-character-set-utf8-necessary
-            $db->executeQuery('SET NAMES utf8');
-            $db->executeQuery('SET CHARACTER_SET_CONNECTION = utf8');
+            // Set database character set & collation as configured
+            $charset   = $this->config->get('general/database/charset');
+            $collation = $this->config->get('general/database/collate');
+            $db->executeQuery(sprintf('SET NAMES %s COLLATE %s', $charset, $collation));
 
             // Increase group_concat_max_len to 100000. By default, MySQL
             // sets this to a low value – 1024 – which causes issues with
