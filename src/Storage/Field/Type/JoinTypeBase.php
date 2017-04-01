@@ -120,7 +120,7 @@ abstract class JoinTypeBase extends FieldTypeBase
                 $collection->setFromPost($related, $entity);
             }
 
-            $entity->setTaxonomy($collection);
+            return $collection;
         }
     }
 }

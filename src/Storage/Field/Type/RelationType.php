@@ -245,11 +245,11 @@ class RelationType extends JoinTypeBase
      *
      *   `$entity->setRelation(['pages'=>['1', '2']]);`
      *
-     * @param $entity
+     * @param Entity\Content $entity
      */
     protected function normalize($entity)
     {
-        $this->normalizeFromPost($entity, Relations::class, Entity\Relations::class);
-
+        $collection = $this->normalizeFromPost($entity, Relations::class, Entity\Relations::class);
+        $entity->setRelation($collection);
     }
 }
