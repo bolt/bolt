@@ -253,7 +253,11 @@ class RelationType extends JoinTypeBase
 
         $outerCollection = $entity->$accessor();
         if (!$outerCollection instanceof Relations) {
-            $collection = new Relations([], $this->em);
+            $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+
+            if (is_string($outerCollection)) {
+                $outerCollection = [$outerCollection];
+            }
 
             if (is_array($outerCollection)) {
                 $related = [
