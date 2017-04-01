@@ -111,6 +111,7 @@ class RelationType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $relations = $entity->getRelation()
             ->getField($field);
@@ -229,5 +230,39 @@ class RelationType extends JoinTypeBase
         }
 
         throw new StorageException(sprintf('Unsupported platform: %s', $platform));
+    }
+
+    /**
+     * The normalize method takes care of any pre-persist cleaning up.
+     *
+     * For relations that allows us to support non standard data formats such as arrays that allow this style
+     * data setting to work...
+     *
+     *   `$entity->setPages(['1', '2']);`
+     *
+     *    or
+     *
+     *   `$entity->setRelation(['pages'=>['1', '2']]);`
+     *
+     * @param $entity
+     */
+    protected function normalize($entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $outerCollection = $entity->$accessor();
+        if (!$outerCollection instanceof Relations) {
+            $collection = new Relations([], $this->em);
+
+            if (is_array($outerCollection)) {
+                $related = [
+                    $key => $outerCollection
+                ];
+                $collection->setFromPost($related, $entity);
+            }
+
+            $entity->setRelation($collection);
+        }
     }
 }
