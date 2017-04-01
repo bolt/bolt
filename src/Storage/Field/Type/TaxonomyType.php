@@ -262,25 +262,6 @@ class TaxonomyType extends JoinTypeBase
      */
     public function normalize($entity)
     {
-        $key = $this->mapping['fieldname'];
-        $accessor = 'get' . ucfirst($key);
-
-        $outerCollection = $entity->$accessor();
-        if (!$outerCollection instanceof Taxonomy) {
-            $collection = $this->em->createCollection(Entity\Taxonomy::class);
-
-            if (is_string($outerCollection)) {
-                $outerCollection = [$outerCollection];
-            }
-
-            if (is_array($outerCollection)) {
-                $taxonomy = [
-                    $key => $outerCollection
-                ];
-                $collection->setFromPost($taxonomy, $entity);
-            }
-
-            $entity->setTaxonomy($collection);
-        }
+        $this->normalizeFromPost($entity, Collection\Taxonomy::class, Entity\Taxonomy::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\StorageException;
+use Bolt\Storage\Collection\Relations;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -248,25 +249,7 @@ class RelationType extends JoinTypeBase
      */
     protected function normalize($entity)
     {
-        $key = $this->mapping['fieldname'];
-        $accessor = 'get' . ucfirst($key);
+        $this->normalizeFromPost($entity, Relations::class, Entity\Relations::class);
 
-        $outerCollection = $entity->$accessor();
-        if (!$outerCollection instanceof Relations) {
-            $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
-
-            if (is_string($outerCollection)) {
-                $outerCollection = [$outerCollection];
-            }
-
-            if (is_array($outerCollection)) {
-                $related = [
-                    $key => $outerCollection
-                ];
-                $collection->setFromPost($related, $entity);
-            }
-
-            $entity->setRelation($collection);
-        }
     }
 }

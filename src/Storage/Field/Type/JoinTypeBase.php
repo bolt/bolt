@@ -99,4 +99,28 @@ abstract class JoinTypeBase extends FieldTypeBase
 
         $filter->setExpression($originalExpression);
     }
+
+    public function normalizeFromPost($entity, $collection, $target)
+    {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $outerCollection = $entity->$accessor();
+        if (!$outerCollection instanceof $collection) {
+            $collection = $this->em->createCollection($target);
+
+            if (is_string($outerCollection)) {
+                $outerCollection = [$outerCollection];
+            }
+
+            if (is_array($outerCollection)) {
+                $related = [
+                    $key => $outerCollection
+                ];
+                $collection->setFromPost($related, $entity);
+            }
+
+            $entity->setTaxonomy($collection);
+        }
+    }
 }
