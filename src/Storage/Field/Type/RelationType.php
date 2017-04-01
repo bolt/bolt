@@ -247,9 +247,11 @@ class RelationType extends JoinTypeBase
      *
      * @param Entity\Content $entity
      */
-    protected function normalize($entity)
+    public function normalize($entity)
     {
         $collection = $this->normalizeFromPost($entity, Relations::class, Entity\Relations::class);
-        $entity->setRelation($collection);
+        if ($collection) {
+            $entity->setRelation($collection);
+        }
     }
 }

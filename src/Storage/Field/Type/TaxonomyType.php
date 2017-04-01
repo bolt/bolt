@@ -121,6 +121,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $taxonomy = $entity->getTaxonomy()
             ->getField($field);
@@ -263,6 +264,8 @@ class TaxonomyType extends JoinTypeBase
     public function normalize($entity)
     {
         $collection = $this->normalizeFromPost($entity, Collection\Taxonomy::class, Entity\Taxonomy::class);
-        $entity->setTaxonomy($collection);
+        if ($collection) {
+            $entity->setTaxonomy($collection);
+        }
     }
 }
