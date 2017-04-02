@@ -22,8 +22,24 @@ addons:
 before_install:
   - sudo sh -c "echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf"
   - sudo add-apt-repository -y ppa:nginx/stable
+  # NodeJS
+  - sudo add-apt-repository -y -r ppa:chris-lea/node.js
+  - sudo rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list
+  - sudo rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list.save
+  - wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add -
+  - export NODE_VERSION=node_5.x
+  - export DISTRO="$(lsb_release -s -c)"
+  - echo "deb https://deb.nodesource.com/$NODE_VERSION $DISTRO main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  # For Nginx
   - sudo apt-get update
   - sudo apt-get install nginx
+  # NodeJS
+  - sudo apt-get remove --purge node nodejs npm
+  - sudo apt-get install nodejs
+  - sudo npm update -g grunt
+  - npm update npm
+  - curl -sL https://deb.nodesource.com/test | bash -
+  - nvm use system
   # Set up HHVM
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'xdebug.enable = On' >> /etc/hhvm/php.ini ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then echo 'hhvm.jit = false' >> /etc/hhvm/php.ini ; fi
@@ -114,6 +130,14 @@ script:
   # Codeception PostgreSQL run (PHP >5.3)
   # - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
   # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  #
+  # NPM & Grunt
+  - git reset --hard HEAD
+  - pushd app/src
+  - npm install
+  - grunt updateBolt
+  - grunt updateLib
+  - popd
 
 after_script:
 
