@@ -263,7 +263,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function normalize($entity)
     {
-        $collection = $this->normalizeFromPost($entity, Collection\Taxonomy::class, Entity\Taxonomy::class);
+        $collection = $this->normalizeFromPost($entity, Entity\Taxonomy::class);
         if ($collection) {
             $entity->setTaxonomy($collection);
         }

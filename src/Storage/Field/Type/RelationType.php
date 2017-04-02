@@ -249,7 +249,7 @@ class RelationType extends JoinTypeBase
      */
     public function normalize($entity)
     {
-        $collection = $this->normalizeFromPost($entity, Relations::class, Entity\Relations::class);
+        $collection = $this->normalizeFromPost($entity, Entity\Relations::class);
         if ($collection) {
             $entity->setRelation($collection);
         }

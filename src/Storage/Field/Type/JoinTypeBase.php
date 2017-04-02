@@ -4,6 +4,7 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\Query\Filter;
 use Bolt\Storage\Query\QueryInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Traversable;
 use ReflectionProperty;
@@ -100,13 +101,13 @@ abstract class JoinTypeBase extends FieldTypeBase
         $filter->setExpression($originalExpression);
     }
 
-    public function normalizeFromPost($entity, $collection, $target)
+    public function normalizeFromPost($entity, $target)
     {
         $key = $this->mapping['fieldname'];
         $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
-        if (!$outerCollection instanceof $collection) {
+        if (!$outerCollection instanceof Collection) {
             $collection = $this->em->createCollection($target);
 
             if (is_string($outerCollection)) {
