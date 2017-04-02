@@ -101,8 +101,12 @@ abstract class JoinTypeBase extends FieldTypeBase
         $filter->setExpression($originalExpression);
     }
 
-    public function normalizeFromPost($outerCollection, $target, $entity, $field)
+    public function normalizeFromPost($entity, $target)
     {
+        $key = $this->mapping['fieldname'];
+        $accessor = 'get' . ucfirst($key);
+
+        $outerCollection = $entity->$accessor();
         if (!$outerCollection instanceof Collection) {
             $collection = $this->em->createCollection($target);
 
@@ -112,7 +116,7 @@ abstract class JoinTypeBase extends FieldTypeBase
 
             if (is_array($outerCollection)) {
                 $related = [
-                    $field => $outerCollection
+                    $key => $outerCollection
                 ];
                 $collection->setFromPost($related, $entity);
             }
