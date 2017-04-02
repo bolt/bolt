@@ -107,6 +107,9 @@ abstract class JoinTypeBase extends FieldTypeBase
         $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
+        if ($outerCollection === null) {
+            return;
+        }
         if (!$outerCollection instanceof Collection) {
             $collection = $this->em->createCollection($target);
 
