@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Storage\Prefill;
+use Bolt\Storage\Database\Prefill;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -12,7 +12,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
     {
         $app['prefill'] = $app->share(
             function ($app) {
-                $prefill = new Prefill($app['guzzle.client']);
+                $prefill = new Prefill\ApiClient($app['guzzle.client']);
 
                 return $prefill;
             }

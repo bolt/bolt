@@ -1,14 +1,15 @@
 <?php
 
-namespace Bolt\Storage;
+namespace Bolt\Storage\Database\Prefill;
 
 use GuzzleHttp\Client;
 
 /**
- * Handles Fetching Prefill Content from an API service.
+ * Handles fetching prefill text content from an API service.
  */
-class Prefill
+class ApiClient
 {
+    /** @var Client */
     protected $client;
 
     /**
