@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\StorageException;
+use Bolt\Storage\Collection\Relations;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -111,6 +112,7 @@ class RelationType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $relations = $entity->getRelation()
             ->getField($field);
@@ -229,5 +231,27 @@ class RelationType extends JoinTypeBase
         }
 
         throw new StorageException(sprintf('Unsupported platform: %s', $platform));
+    }
+
+    /**
+     * The normalize method takes care of any pre-persist cleaning up.
+     *
+     * For relations that allows us to support non standard data formats such as arrays that allow this style
+     * data setting to work...
+     *
+     *   `$entity->setPages(['1', '2']);`
+     *
+     *    or
+     *
+     *   `$entity->setRelation(['pages'=>['1', '2']]);`
+     *
+     * @param Entity\Content $entity
+     */
+    public function normalize($entity)
+    {
+        $collection = $this->normalizeFromPost($entity, Entity\Relations::class);
+        if ($collection) {
+            $entity->setRelation($collection);
+        }
     }
 }

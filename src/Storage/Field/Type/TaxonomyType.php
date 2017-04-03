@@ -121,6 +121,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function persist(QuerySet $queries, $entity)
     {
+        $this->normalize($entity);
         $field = $this->mapping['fieldname'];
         $taxonomy = $entity->getTaxonomy()
             ->getField($field);
@@ -244,5 +245,27 @@ class TaxonomyType extends JoinTypeBase
             ->fetchAll();
 
         return $result ?: [];
+    }
+
+    /**
+     * The normalize method takes care of any pre-persist cleaning up.
+     *
+     * For taxonomies that allows us to support non standard data formats such as arrays and strings that allow this
+     * data setting to work...
+     *
+     *   `$entity->setCategories(['news', 'events']);`
+     *
+     *    or
+     *
+     *   `$entity->setCategories('news');`
+     *
+     * @param Entity\Content $entity
+     */
+    public function normalize($entity)
+    {
+        $collection = $this->normalizeFromPost($entity, Entity\Taxonomy::class);
+        if ($collection) {
+            $entity->setTaxonomy($collection);
+        }
     }
 }
