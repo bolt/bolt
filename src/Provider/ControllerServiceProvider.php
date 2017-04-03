@@ -125,6 +125,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             }
         );
 
+        /** @deprecated Deprecated since 3.3, to be removed in 4.0. */
         $app['controller.classmap'] = [
             'Bolt\\Controllers\\Frontend' => 'controller.frontend',
             'Bolt\\Controllers\\Routing'  => 'controller.requirement.deprecated',

@@ -21,8 +21,6 @@ class Validator implements ValidatorInterface
     const CHECK_CACHE = 'cache';
     const CHECK_CONFIG = 'configuration';
     const CHECK_DATABASE = 'database';
-    const CHECK_MAGIC_QUOTES = 'magic-quotes';
-    const CHECK_SAFE_MODE = 'safe-mode';
 
     /** @var Config */
     private $configManager;
@@ -34,8 +32,6 @@ class Validator implements ValidatorInterface
     private $check = [
         self::CHECK_CONFIG       => Configuration::class,
         self::CHECK_DATABASE     => Database::class,
-        self::CHECK_MAGIC_QUOTES => MagicQuotes::class,
-        self::CHECK_SAFE_MODE    => SafeMode::class,
         self::CHECK_CACHE        => Cache::class,
         self::CHECK_APACHE       => Apache::class,
     ];

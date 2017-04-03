@@ -37,25 +37,24 @@ class AbstractExtensionTest extends BoltUnitTest
     public function testBaseDirectory()
     {
         $app = $this->getApp();
-        $webDir = $app['filesystem']->getDir('extensions://');
-        $dir = new Directory();
-        $dir->setPath(__DIR__);
+        $baseDir = $app['filesystem']->getDir('extensions://foo/bar');
         $ext = new BasicExtension();
-        $ext->setWebDirectory($webDir);
 
-        $this->assertInstanceOf(AbstractExtension::class, $ext->setBaseDirectory($dir));
+        $this->assertInstanceOf(AbstractExtension::class, $ext->setBaseDirectory($baseDir));
         $this->assertInstanceOf(Directory::class, $ext->getBaseDirectory());
-        $this->assertSame(__DIR__, $ext->getBaseDirectory()->getPath());
+        $this->assertSame('extensions://foo/bar', $ext->getBaseDirectory()->getFullPath());
     }
 
-    public function testRelativeUrl()
+    public function testWebDirectory()
     {
         $app = $this->getApp();
-        $webDir = new Directory($app['filesystem']->getFilesystem('extensions'));
+        $webDir = $app['filesystem']->getDir('web://extensions/foo/bar');
         $ext = new BasicExtension();
         $ext->setWebDirectory($webDir);
 
+        $this->assertInstanceOf(AbstractExtension::class, $ext->setWebDirectory($webDir));
         $this->assertInstanceOf(Directory::class, $ext->getWebDirectory());
+        $this->assertSame('web://extensions/foo/bar', $ext->getWebDirectory()->getFullPath());
     }
 
     public function testGetId()

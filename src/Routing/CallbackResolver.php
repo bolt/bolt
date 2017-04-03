@@ -2,6 +2,8 @@
 
 namespace Bolt\Routing;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Handles resolving callbacks from routing.yml that specify a class name
  *
@@ -11,7 +13,10 @@ class CallbackResolver extends \Silex\CallbackResolver
 {
     /** @var \Pimple $app */
     protected $app;
-    /** @var array $classmap */
+    /**
+     * @deprecated Deprecated since 3.3, to be removed in 4.0.
+     * @var array $classmap
+     */
     protected $classmap;
 
     /**
@@ -21,6 +26,7 @@ class CallbackResolver extends \Silex\CallbackResolver
      * @param array   $classmap An array of class names as keys
      *                          mapped to their service name as values
      *                          Ex: 'Bolt\Controller\Frontend' => 'controller.frontend'
+     *                          Deprecated since 3.3, to be removed in 4.0.
      */
     public function __construct(\Pimple $app, array $classmap)
     {
@@ -56,6 +62,7 @@ class CallbackResolver extends \Silex\CallbackResolver
             return false; // Can't handle this, maybe already callable
         }
 
+        /** @deprecated Deprecated since 3.3, to be removed in 4.0. */
         if (isset($this->classmap[$cls])) {
             return true; // Will use service definition
         }
@@ -103,7 +110,9 @@ class CallbackResolver extends \Silex\CallbackResolver
             return parent::convertCallback($name);
         }
 
+        /** @deprecated Deprecated since 3.3, to be removed in 4.0. */
         if (isset($this->classmap[$cls])) {
+            Deprecated::warn(sprintf('Mapping routes to legacy controllers such as "%s"', $cls), 3.3);
             $service = $this->classmap[$cls];
 
             return parent::convertCallback("$service:$method");

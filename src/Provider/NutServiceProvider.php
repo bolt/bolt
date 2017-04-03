@@ -60,6 +60,9 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserResetPassword($app),
                     new Nut\UserRoleAdd($app),
                     new Nut\UserRoleRemove($app),
+                    new Nut\DebugEvents($app),
+                    new Nut\DebugServiceRegistration($app),
+                    new Nut\DebugRoutes($app),
                 ];
             }
         );
