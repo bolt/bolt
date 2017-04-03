@@ -237,6 +237,8 @@ class DebugServiceProvider implements ServiceProviderInterface
     {
         if ($app['debug.class_loader.enabled']) {
             DebugClassLoader::enable();
+        } else {
+            DebugClassLoader::disable();
         }
 
         if ($app['debug.error_handler.enabled']) {

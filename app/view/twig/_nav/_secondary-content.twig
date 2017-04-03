@@ -1,3 +1,5 @@
+{% import '@bolt/_nav/_macros.twig' as nav %}
+
 {% set definedSubs = [] %}
 
 {% for slug, contenttype in app.config.get('contenttypes')  %}

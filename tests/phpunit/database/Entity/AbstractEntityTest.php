@@ -130,6 +130,8 @@ abstract class AbstractEntityTest extends BoltUnitTest
             $app['config']->set('general/database/dbname', 'bolt_unit_test');
             $app['config']->set('general/database/user', 'bolt_unit_test');
             $app['config']->set('general/database/password', 'bolt_unit_test');
+            $app['config']->set('general/database/charset', 'utf8');
+            $app['config']->set('general/database/collate', 'utf8_general_ci');
             $app->boot();
             $app['schema']->update();
 
