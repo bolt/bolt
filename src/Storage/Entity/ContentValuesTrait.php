@@ -5,7 +5,6 @@ namespace Bolt\Storage\Entity;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Legacy;
-use Bolt\Library as Lib;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 
 /**
@@ -236,8 +235,8 @@ trait ContentValuesTrait
         // Check if the value need to be unserialized.
         if (is_string($value) && substr($value, 0, 2) === 'a:') {
             try {
-                $unserdata = Lib::smartUnserialize($value);
-            } catch (\Exception $e) {
+                $unserdata = \GuzzleHttp\json_decode($value, true);
+            } catch (\InvalidArgumentException $e) {
                 $unserdata = false;
             }
 
@@ -298,8 +297,8 @@ trait ContentValuesTrait
             if ((is_string($value)) || (is_array($value))) {
                 if (is_string($value)) {
                     try {
-                        $unserdata = Lib::smartUnserialize($value);
-                    } catch (\Exception $e) {
+                        $unserdata = \GuzzleHttp\json_decode($value, true);
+                    } catch (\InvalidArgumentException $e) {
                         $unserdata = false;
                     }
                 } else {
@@ -370,8 +369,8 @@ trait ContentValuesTrait
             if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key === 'templatefields')) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) === 'a:' || $value[0] === '[' || $value[0] === '{')) {
                     try {
-                        $unserdata = Lib::smartUnserialize($value);
-                    } catch (\Exception $e) {
+                        $unserdata = \GuzzleHttp\json_decode($value, true);
+                    } catch (\InvalidArgumentException $e) {
                         $unserdata = false;
                     }
 

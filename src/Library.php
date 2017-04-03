@@ -95,27 +95,4 @@ class Library
 
         return $filename;
     }
-
-    /**
-     * Leniently decode a serialized compound data structure, detecting whether
-     * it's dealing with JSON-encoded data or a PHP-serialized string.
-     *
-     * @param string $str
-     * @param bool   $assoc
-     *
-     * @return mixed
-     */
-    public static function smartUnserialize($str, $assoc = true)
-    {
-        if ($str[0] === '{' || $str[0] === '[') {
-            $data = json_decode($str, $assoc);
-            if ($data !== false) {
-                return $data;
-            }
-        } else {
-            $data = unserialize($str);
-
-            return $data;
-        }
-    }
 }
