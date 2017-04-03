@@ -1,6 +1,20 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.10
+-----------
+
+Released 2017-04-03. Notable changes:
+
+ - Added: Docs in code for Version compare `\Bolt\Version::compare()`. [#6520](https://github.com/bolt/bolt/pull/6520)
+ - Added: Helpful exception when default thumbnail images are not found [#6522](https://github.com/bolt/bolt/pull/6522)
+ - Fixed: Changing Database Settings Not Resetting Session. First check user [#6483](https://github.com/bolt/bolt/pull/6483) [#6481](https://github.com/bolt/bolt/pull/6481)
+ - Fixed: Fix frontend taxonomy lookups where `key` is different to `slug` [#6495](https://github.com/bolt/bolt/pull/6495)
+ - Fixed: Force saving of repeaters, even when empty [#6518](https://github.com/bolt/bolt/pull/6518)
+ - Fixed: Image `alt` and `title` without `file` breaks admin page. Ensure default for image.file in preview [#6512](https://github.com/bolt/bolt/pull/6512) [#6511](https://github.com/bolt/bolt/pull/6511)
+ - Fixed: Uploading of images now works, even if current domain name is not equal to the canonical. Use `path()` for ajaxy uploads instead of `url()`. [#6515](https://github.com/bolt/bolt/pull/6515)
+ - Updated: Translation updates for `de_DE`. [#6493](https://github.com/bolt/bolt/pull/6493)
+
 Bolt 3.2.9
 ----------
 
