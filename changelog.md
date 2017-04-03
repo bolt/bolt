@@ -2,6 +2,26 @@ Changelog for Bolt 3.x
 ======================
 
 
+Bolt 3.3.0 beta 5
+-----------------
+
+Released: 2017-04-03. Notable changes:
+
+ - Added: Added `app/nut` Commands to query views into system operations. [#6531](https://github.com/bolt/bolt/pull/6531)
+ - Change: Clarify error message for missing assets in extensions. [#6505](https://github.com/bolt/bolt/pull/6505)
+ - Change: Helpful exception when default thumbnail images are not found. [#6522](https://github.com/bolt/bolt/pull/6522)
+ - Change: Improve relation and taxonomy normalisation. [#6535](https://github.com/bolt/bolt/pull/6535)
+ - Change: Removed safe mode and magic quotes checks [#6529](https://github.com/bolt/bolt/pull/6529)
+ - Deprecation: Add deprecation notices for `$app['controller.classmap']`. [#6526](https://github.com/bolt/bolt/pull/6526)
+ - Fixed: Button to toggle between `config` and `config_local` in 3.3 was missing. Related has items when its count is greater than zero. [#6516](https://github.com/bolt/bolt/pull/6516) [#6513](https://github.com/bolt/bolt/pull/6513)
+ - Fixed: Disable the class loader if not specifically enabled during boot. [#6534](https://github.com/bolt/bolt/pull/6534)
+ - Fixed: Ensure default for `image.file` in preview. [#6512](https://github.com/bolt/bolt/pull/6512)
+ - Fixed: Fix `LowlevelChecks::disableApacheChecks()` not passing value to ResourceManager. [#6528](https://github.com/bolt/bolt/pull/6528)
+ - Fixed: Force saving of repeaters, even when empty. [#6518](https://github.com/bolt/bolt/pull/6518)
+ - Fixed: Import macros where they are actually used, silencing Deprecation notices. [#6532](https://github.com/bolt/bolt/pull/6532)
+ - Fixed: Set database character set & collation as configured. For MySQL. [#6533](https://github.com/bolt/bolt/pull/6533)
+ - Tests: Extension coverage. [#6521](https://github.com/bolt/bolt/pull/6521)
+
 Bolt 3.3.0 beta 4
 -----------------
 
