@@ -23,6 +23,9 @@
         </div>
     {% endif %}
 
+    {# This ensures that an empty value is always submitted even if there are no subsequent repeater sets #}
+    <input type="hidden" name="{{ name }}[]">
+
     <div class="repeater-slot">
         <script type="text/template">
             {% set index = '#' %}
