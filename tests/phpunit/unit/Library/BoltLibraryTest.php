@@ -37,14 +37,4 @@ class BoltLibraryTest extends BoltUnitTest
         $empty = '/path/to/noext';
         $this->assertEquals('', Library::getExtension($empty));
     }
-
-    public function testSafeFilename()
-    {
-        $abs = '/etc/passwd';
-        $this->assertEquals('etc/passwd', Library::safeFilename($abs));
-
-        // Test urlparams get encoded
-        $urlparams = '%2F..%2F..%2Fsecretfile.txt';
-        $this->assertEquals('%252F..%252F..%252Fsecretfile.txt', Library::safeFilename($urlparams));
-    }
 }

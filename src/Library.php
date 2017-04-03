@@ -72,27 +72,4 @@ class Library
             return $ext;
         }
     }
-
-    /**
-     * Encodes a filename, for use in thumbnails, magnific popup, etc.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string $filename
-     *
-     * @return string
-     */
-    public static function safeFilename($filename)
-    {
-        Deprecated::method(3.0);
-
-        $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
-        $filename = str_replace('%2F', '/', $filename);
-
-        if (substr($filename, 0, 1) == '/') {
-            $filename = substr($filename, 1);
-        }
-
-        return $filename;
-    }
 }
