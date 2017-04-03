@@ -28,13 +28,4 @@ class BoltLibraryTest extends BoltUnitTest
         $fix = Library::formatFilesize($m);
         $this->assertEquals('1.00 MiB', $fix);
     }
-
-    public function testGetExtension()
-    {
-        $file = 'picture-of-kittens.jpg';
-        $this->assertEquals('jpg', Library::getExtension($file));
-
-        $empty = '/path/to/noext';
-        $this->assertEquals('', Library::getExtension($empty));
-    }
 }

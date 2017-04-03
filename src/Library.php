@@ -49,27 +49,4 @@ class Library
             return round($size);
         }
     }
-
-    /**
-     * Gets the extension (if any) of a filename.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @param string $filename
-     *
-     * @return string
-     */
-    public static function getExtension($filename)
-    {
-        Deprecated::method(3.0, 'Use pathinfo() instead.');
-
-        $pos = strrpos($filename, '.');
-        if ($pos === false) {
-            return '';
-        } else {
-            $ext = substr($filename, $pos + 1);
-
-            return $ext;
-        }
-    }
 }
