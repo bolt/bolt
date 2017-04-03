@@ -863,7 +863,7 @@ class Config
         $validKeys = [
             'user', 'password', 'host', 'port', 'dbname', 'charset',      // common
             'path', 'memory',                                             // Qqlite
-            'unix_socket', 'driverOptions',                               // MySql
+            'unix_socket', 'driverOptions', 'collate',                    // MySql
             'sslmode',                                                    // PostgreSQL
             'servicename', 'service', 'pooled', 'instancename', 'server', // Oracle
             'persistent',                                                 // SQL Anywhere

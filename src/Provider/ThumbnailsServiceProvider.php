@@ -4,8 +4,9 @@ namespace Bolt\Provider;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Filesystem\Exception\DefaultImageNotFoundException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
-use Bolt\Filesystem\Handler\Image;
+use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Matcher;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
@@ -68,21 +69,11 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.default_image'] = $app->share(function ($app) {
-            $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
-            try {
-                return $matcher->getImage($app['config']->get('general/thumbnails/notfound_image'));
-            } catch (FileNotFoundException $e) {
-                return new Image();
-            }
+            return $this->findDefaultImage($app, 'notfound');
         });
 
         $app['thumbnails.error_image'] = $app->share(function ($app) {
-            $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
-            try {
-                return $matcher->getImage($app['config']->get('general/thumbnails/error_image'));
-            } catch (FileNotFoundException $e) {
-                return new Image();
-            }
+            return $this->findDefaultImage($app, 'error');
         });
 
         $app['thumbnails.default_imagesize'] = function ($app) {
@@ -114,5 +105,36 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             $app = $event->getApp();
             $event->mount($app['controller.thumbnails.mount_prefix'], $app['controller.thumbnails']);
         });
+    }
+
+    /**
+     * @param Application $app
+     * @param string      $name
+     *
+     * @return ImageInterface
+     */
+    private function findDefaultImage(Application $app, $name)
+    {
+        $matcher = new Matcher($app['filesystem'], ['web', 'bolt_assets', 'themes', 'files']);
+
+        $configKey = "thumbnails/{$name}_image";
+        $path = $app['config']->get("general/$configKey");
+
+        try {
+            $image = $matcher->getImage($path);
+        } catch (FileNotFoundException $e) {
+            throw new DefaultImageNotFoundException(
+                sprintf(
+                    'Unable to locate %s image for thumbnails. Looked for: "%s". Please update "%s" in config.yml.',
+                    $name,
+                    $path,
+                    $configKey
+                ),
+                $path,
+                $e
+            );
+        }
+
+        return $image;
     }
 }
