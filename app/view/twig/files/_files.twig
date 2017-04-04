@@ -64,7 +64,7 @@
                     <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
                         <b>{{ file.sizeformatted(true, true) }}</b></span>,
                     {{ buic_moment(file.timestamp) }}
-                    {% if file.image %}
+                    {% if file.image and file.size > 0 %}
                         <div class="image-dimensions">{{ file.width }}<span class="times">×</span>{{ file.height }} px</div>
                     {% endif %}
                 </td>
