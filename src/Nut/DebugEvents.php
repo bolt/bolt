@@ -4,6 +4,7 @@ namespace Bolt\Nut;
 
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,7 +23,7 @@ class DebugEvents extends BaseCommand
     {
         $this
             ->setName('debug:events')
-            ->setDescription('Events, and target callable, debug dumper.')
+            ->setDescription('Dumps event listeners.')
             ->addOption('sort-callable', null, InputOption::VALUE_NONE, 'Sort events in order of callable name.')
         ;
     }
@@ -33,10 +34,13 @@ class DebugEvents extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = new Table($output);
+        $rightAligned = new TableStyle();
+        $rightAligned->setPadType(STR_PAD_LEFT);
         $table->setHeaders([
-            [new TableCell('Events, and target callable', ['colspan' => 3])],
-            ['Event Name', 'Priority', 'Callable'],
+            [new TableCell('Event names, target callable listeners, and their priority', ['colspan' => 3])],
+            ['Event Name', 'Callable', 'Priority'],
         ]);
+        $table->setColumnStyle(2, $rightAligned);
         $dispatcher = $this->app['dispatcher'];
         $listeners = $dispatcher->getListeners();
 
@@ -57,11 +61,11 @@ class DebugEvents extends BaseCommand
                 if (is_array($callable)) {
                     $table->addRow([
                         $eventName,
-                        $priority,
                         sprintf('%s::%s()', get_class($callable[0]), $callable[1]),
+                        $priority,
                     ]);
                 } else {
-                    $table->addRow([$eventName, $priority, get_class($callable)]);
+                    $table->addRow([$eventName, get_class($callable), $priority]);
                 }
             }
         }

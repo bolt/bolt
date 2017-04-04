@@ -25,7 +25,7 @@ class DebugServiceProviders extends BaseCommand
         $this
             ->setName('debug:service-providers')
             ->setAliases(['debug:providers'])
-            ->setDescription('Service provider registration order debug dumper.')
+            ->setDescription('Dumps service providers and their order.')
             ->addOption('sort-class', null, InputOption::VALUE_NONE, 'Sort by provider class names.')
         ;
     }

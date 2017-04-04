@@ -37,7 +37,7 @@ class DebugRoutes extends BaseCommand
     {
         $table = new Table($output);
         $table->setHeaders([
-            [new TableCell('System routes', ['colspan' => 3])],
+            [new TableCell('Routes', ['colspan' => 3])],
             ['Route Name', 'Path', 'Method(s)']
         ]);
         $routes = (array) $this->app['routes']->getIterator();
