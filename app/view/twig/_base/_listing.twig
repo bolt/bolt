@@ -29,7 +29,7 @@
 extended:       not compact,
 has_groupname:  content.group.name is defined,
 nextgroup:      new_group|default(false),
-unordered:      request('order') == '',
+unordered:      global.request.get('order') == '',
 first:          loop.first,
 last:           loop.last
 }%}
