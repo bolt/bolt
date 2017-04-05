@@ -76,9 +76,12 @@ class Cache extends FilesystemCache
             }
 
             // Clear our own cache folder.
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/composer'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/exception'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/profiler'));
+            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/trans'));
 
             // Clear the thumbs folder.
             $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));
