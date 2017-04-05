@@ -76,7 +76,6 @@ class Cache extends FilesystemCache
             }
 
             // Clear our own cache folder.
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/composer'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/exception'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
