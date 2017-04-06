@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Silex\Route;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +36,6 @@ class DebugRoutes extends BaseCommand
     {
         $table = new Table($output);
         $table->setHeaders([
-            [new TableCell('Routes', ['colspan' => 3])],
             ['Route Name', 'Path', 'Method(s)']
         ]);
         $routes = (array) $this->app['routes']->getIterator();

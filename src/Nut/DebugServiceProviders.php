@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Silex\Application;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,7 +39,6 @@ class DebugServiceProviders extends BaseCommand
         $rightAligned->setPadType(STR_PAD_LEFT);
 
         $table->setHeaders([
-            [new TableCell('Service Providers', ['colspan' => 2])],
             ['Provider Class Name', 'Order']
         ]);
         $table->setColumnStyle(1, $rightAligned);
