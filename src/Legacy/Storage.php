@@ -217,9 +217,11 @@ class Storage
                     $content[$field] = rand(0, 1);
                     break;
                 case 'float':
+                    $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
+                    break;
                 case 'number': // number is deprecated
                 case 'integer':
-                    $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
+                    $content[$field] = (int) rand(-1000, 1000) + (rand(0, 1000) / 1000);
                     break;
             }
         }
