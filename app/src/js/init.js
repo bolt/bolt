@@ -63,7 +63,7 @@ var init = {
                 },
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
                 extraKeys: {
-                    "Ctrl-Q": function(cm){
+                    "Ctrl-Q": function (cm) {
                         cm.foldCode(
                             cm.getCursor(),
                             {
@@ -72,16 +72,16 @@ var init = {
                             }
                         );
                     },
-                    "Tab": function(cm) {
+                    "Tab": function (cm) {
                         if (cm.somethingSelected()) {
                             cm.indentSelection("add");
                         } else {
-                            cm.replaceSelection(cm.getOption("indentWithTabs")? "\t":
+                            cm.replaceSelection(cm.getOption("indentWithTabs") ? "\t" :
                             Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
                         }
                     },
-                    "Ctrl-S": function() {
-                         $('#saveeditfile').click();
+                    "Ctrl-S": function () {
+                        $('#saveeditfile').click();
                     },
                     "Ctrl-H": "replaceAll",
                 },
