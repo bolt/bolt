@@ -2,18 +2,39 @@
 
 namespace Bolt\Tests\Mocks;
 
-use PHPUnit\Framework\TestCase;
+use Bolt\Storage\Database\Prefill\ApiClient;
 
 /**
  * Mock Builder for Doctrine objects
  */
-class LoripsumMock extends TestCase
+class LoripsumMock extends ApiClient
 {
-    public function get($request)
+    protected $short = [
+        '<p>Ecce aliud simile dissimile. </p>',
+        '<p>Beatus sibi videtur esse moriens. </p>',
+        '<p>Contineo me ab exemplis. </p>',
+        '<p>Dicimus aliquem hilare vivere; </p>',
+        '<p>Quare attende, quaeso. </p>',
+        '<p>Quis non odit sordidos, vanos, leves, futtiles? </p>',
+        '<p>Idemne, quod iucunde? </p>',
+        '<p>Sumenda potius quam expetenda. </p>',
+        '<p>Quo modo? </p>',
+        '<p>Sed ille, ut dixi, vitiose. </p>',
+    ];
+    protected $current;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+    }
+
+    public function get($request, $base = null)
     {
         switch ($request) {
             case '/1/veryshort':
-                return '<p>Ecce aliud simile dissimile. </p>';
+                return $this->getShort();
 
             case '/medium/decorate/link/1':
                 return "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <b>Non semper, inquam;</b> <a href='http://loripsum.net/' target='_blank'>Quae duo sunt, unum facit.</a> <b>Ecce aliud simile dissimile.</b> Duo Reges: constructio interrete. Nam et complectitur verbis, quod vult, et dicit plane, quod intellegam; </p>";
@@ -48,5 +69,14 @@ class LoripsumMock extends TestCase
 
 ';
         }
+    }
+
+    private function getShort()
+    {
+        if (empty($this->current)) {
+            $this->current = $this->short;
+        }
+
+        return array_pop($this->current);
     }
 }
