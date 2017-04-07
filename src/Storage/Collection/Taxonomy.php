@@ -30,7 +30,11 @@ class Taxonomy extends ArrayCollection
         }
     }
 
-    public function setFromPost($formValues, $entity)
+    /**
+     * @param array          $formValues
+     * @param Entity\Content $entity
+     */
+    public function setFromPost(array $formValues, Entity\Content $entity)
     {
         if (isset($formValues['taxonomy'])) {
             $flatVals = $formValues['taxonomy'];

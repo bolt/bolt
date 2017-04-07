@@ -3,7 +3,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\StorageException;
-use Bolt\Storage\Collection\Relations;
+use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -236,8 +236,8 @@ class RelationType extends JoinTypeBase
     /**
      * The normalize method takes care of any pre-persist cleaning up.
      *
-     * For relations that allows us to support non standard data formats such as arrays that allow this style
-     * data setting to work...
+     * For relations that allows us to support non standard data formats such
+     * as arrays that allow this style data setting to work...
      *
      *   `$entity->setPages(['1', '2']);`
      *
@@ -249,6 +249,7 @@ class RelationType extends JoinTypeBase
      */
     public function normalize($entity)
     {
+        /** @var Collection\Relations $collection */
         $collection = $this->normalizeFromPost($entity, Entity\Relations::class);
         if ($collection) {
             $entity->setRelation($collection);

@@ -250,8 +250,8 @@ class TaxonomyType extends JoinTypeBase
     /**
      * The normalize method takes care of any pre-persist cleaning up.
      *
-     * For taxonomies that allows us to support non standard data formats such as arrays and strings that allow this
-     * data setting to work...
+     * For taxonomies that allows us to support non standard data formats such
+     * as arrays that allow this style data setting to work...
      *
      *   `$entity->setCategories(['news', 'events']);`
      *
@@ -263,6 +263,7 @@ class TaxonomyType extends JoinTypeBase
      */
     public function normalize($entity)
     {
+        /** @var Collection\Taxonomy $collection */
         $collection = $this->normalizeFromPost($entity, Entity\Taxonomy::class);
         if ($collection) {
             $entity->setTaxonomy($collection);
