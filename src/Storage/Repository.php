@@ -97,6 +97,7 @@ class Repository implements ObjectRepository
     {
         $qb = $this->getLoadQuery()
             ->select('COUNT(' . $this->getAlias() . '.id) as count')
+            ->resetQueryParts(['groupBy', 'join'])
         ;
         $result = $qb->execute()->fetchColumn(0);
 
