@@ -18,19 +18,37 @@ class Arr
      *  - Null values from second array do not replace lists or associative arrays in first
      *    (they do still replace scalar values).
      *
-     * @param array $array1
-     * @param array $array2
+     * This method converts all traversable objects at any level to arrays in the return value.
+     *
+     * @param Traversable|array $array1
+     * @param Traversable|array $array2
      *
      * @return array The combined array
      */
-    public static function replaceRecursive(array $array1, array $array2)
+    public static function replaceRecursive($array1, $array2)
     {
+        Assert::allIsTraversable([$array1, $array2]);
+
+        if ($array1 instanceof Traversable) {
+            $array1 = iterator_to_array($array1);
+        }
+        if ($array2 instanceof Traversable) {
+            $array2 = iterator_to_array($array2);
+        }
+
         $merged = $array1;
 
         foreach ($array2 as $key => $value) {
-            if (is_array($value) && static::isAssociative($value) && isset($merged[$key]) && is_array($merged[$key])) {
+            if ($value instanceof Traversable) {
+                $value = iterator_to_array($value);
+            }
+            if (is_array($value) && static::isAssociative($value) && isset($merged[$key]) && is_iterable($merged[$key])) {
                 $merged[$key] = static::replaceRecursive($merged[$key], $value);
-            } elseif ($value === null && isset($merged[$key]) && is_array($merged[$key])) {
+            } elseif ($value === null && isset($merged[$key]) && is_iterable($merged[$key])) {
+                // Convert iterable to array to be consistent.
+                if ($merged[$key] instanceof Traversable) {
+                    $merged[$key] = iterator_to_array($merged[$key]);
+                }
                 continue;
             } else {
                 $merged[$key] = $value;

@@ -89,6 +89,28 @@ class ArrTest extends BoltUnitTest
                 ['a' => 'derp'],
                 ['a' => 'derp'],
             ],
+            'traversable'                             => [
+                new \ArrayObject([
+                    'a' => new \ArrayObject([
+                        'foo' => 'bar',
+                        'hello' => 'world',
+                        'dont override' => new \ArrayObject(['for reals']),
+                    ])
+                ]),
+                new \ArrayObject([
+                    'a' => new \ArrayObject([
+                        'foo' => 'baz',
+                        'dont override' => null
+                    ])
+                ]),
+                [
+                    'a' => [
+                        'foo' => 'baz', // replaced value
+                        'hello' => 'world', // untouched pair
+                        'dont override' => ['for reals'] // null didn't overwrite list
+                    ]
+                ],
+            ],
         ];
     }
 
