@@ -2,8 +2,6 @@
 
 namespace Bolt;
 
-use Bolt\Helpers\Deprecated;
-
 /**
  * Class for Bolt's generic library functions.
  *
@@ -13,40 +11,4 @@ use Bolt\Helpers\Deprecated;
  */
 class Library
 {
-    /**
-     * Format a filesize like '10.3 KiB' or '2.5 MiB'.
-     *
-     * @param integer $size
-     *
-     * @return string
-     */
-    public static function formatFilesize($size)
-    {
-        if ($size > 1024 * 1024) {
-            return sprintf('%0.2f MiB', ($size / 1024 / 1024));
-        } elseif ($size > 1024) {
-            return sprintf('%0.2f KiB', ($size / 1024));
-        } else {
-            return $size . ' B';
-        }
-    }
-
-    /**
-     * Convert a size string, such as 5M to bytes.
-     *
-     * @param string $size
-     *
-     * @return double
-     */
-    public static function filesizeToBytes($size)
-    {
-        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
-        $size = preg_replace('/[^0-9\.]/', '', $size);
-
-        if ($unit) {
-            return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-        } else {
-            return round($size);
-        }
-    }
 }

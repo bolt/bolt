@@ -5,6 +5,7 @@ namespace Bolt\Tests\Filesystem;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilePermissions;
 use Bolt\Tests\BoltUnitTest;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class to test src/FilePermissions.
@@ -44,5 +45,38 @@ class FilePermissionsTest extends BoltUnitTest
         }
 
         $this->assertTrue($fp->allowedUpload($okFile));
+    }
+
+    public function providerFormatFilesize()
+    {
+        return [
+            [1, '1 B'],
+            [300, '300 B'],
+            [1027, '1.00 KiB'],
+            [2345, '2.29 KiB'],
+            [1048577, '1.00 MiB'],
+            [2293867, '2.19 MiB'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerFormatFilesize
+     */
+    public function testFormatFilesize($size, $expected)
+    {
+        /** @var FilePermissions|MockObject $filePermissions */
+        $filePermissions = $this->getMockBuilder(FilePermissions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getMaxUploadSize'])
+            ->getMock()
+        ;
+
+        $filePermissions
+            ->expects($this->once())
+            ->method('getMaxUploadSize')
+            ->willReturn($size)
+        ;
+        $fix = $filePermissions->getMaxUploadSizeNice();
+        $this->assertEquals($expected, $fix);
     }
 }

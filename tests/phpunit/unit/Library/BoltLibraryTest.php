@@ -14,18 +14,4 @@ use Bolt\Tests\BoltUnitTest;
  */
 class BoltLibraryTest extends BoltUnitTest
 {
-    public function testFormatFilesize()
-    {
-        $b = 300;
-        $fix = Library::formatFilesize($b);
-        $this->assertEquals('300 B', $fix);
-
-        $k = 1027;
-        $fix = Library::formatFilesize($k);
-        $this->assertEquals('1.00 KiB', $fix);
-
-        $m = 1048577;
-        $fix = Library::formatFilesize($m);
-        $this->assertEquals('1.00 MiB', $fix);
-    }
 }
