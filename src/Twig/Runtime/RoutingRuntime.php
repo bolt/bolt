@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Runtime;
 
-use Bolt\Library;
 use Bolt\Routing\Canonical;
 use Symfony\Component\HttpFoundation\RequestStack;
 
