@@ -5,6 +5,7 @@ namespace Bolt\Helpers;
 use ArrayAccess;
 use InvalidArgumentException;
 use RuntimeException;
+use Traversable;
 use Webmozart\Assert\Assert;
 
 class Arr
@@ -44,13 +45,13 @@ class Arr
      *
      * Note: Empty arrays are.
      *
-     * @param array $array
+     * @param Traversable|array $array
      *
      * @return bool
      */
     public static function isIndexed($array)
     {
-        if (!is_array($array)) {
+        if (!is_iterable($array)) {
             return false;
         }
 
@@ -62,12 +63,15 @@ class Arr
      *
      * Note: Empty arrays are not.
      *
-     * @param array $array
+     * @param Traversable|array  $array
      *
      * @return bool
      */
     public static function isAssociative($array)
     {
+        if ($array instanceof Traversable) {
+            $array = iterator_to_array($array);
+        }
         if (!is_array($array) || $array === []) {
             return false;
         }

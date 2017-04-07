@@ -127,6 +127,10 @@ class ArrTest extends BoltUnitTest
     {
         $this->assertEquals($indexed, Arr::isIndexed($array));
         $this->assertEquals(!$indexed, Arr::isAssociative($array));
+
+        $traversable = new \ArrayObject($array);
+        $this->assertEquals($indexed, Arr::isIndexed($traversable));
+        $this->assertEquals(!$indexed, Arr::isAssociative($traversable));
     }
 
     public function testNonArraysAreNotIndexedOrAssociative()
