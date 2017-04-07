@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Storage;
 
-use Bolt\Exception\StorageException;
 use Bolt\Legacy;
 use Bolt\Events\StorageEvents;
 use Bolt\Legacy\Content;
@@ -74,16 +73,15 @@ class StorageTest extends BoltUnitTest
 
     public function testPreFill()
     {
+        $this->resetDb();
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 
-        $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
         $output = $storage->prefill(['showcases']);
         $this->assertRegExp('#Added#', $output);
-        $this->assertRegExp('#Done#', $output);
 
         $output = $storage->prefill();
         $this->assertRegExp('#Skipped#', $output);

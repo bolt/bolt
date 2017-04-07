@@ -43,9 +43,6 @@ class Storage
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
 
-    /** @var array */
-    private $preferredTitles = [];
-
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -92,220 +89,40 @@ class Storage
      * Only fill the contenttypes passed as parameters
      * If the parameters is empty, only fill empty tables
      *
-     * @see preFillSingle
+     * @see \Bolt\Storage\Database\\Prefill
      *
-     * @param array $contenttypes
+     * @param array $contentTypes
      *
      * @return string
      */
-    public function preFill($contenttypes = [])
+    public function preFill($contentTypes = [])
     {
+        if (empty($contentTypes)) {
+            $contentTypes = $this->app['config']->get('contenttypes');
+            $contentTypeNames = array_keys($contentTypes);
+        } else {
+            $contentTypeNames = (array) $contentTypes;
+        }
+
+        /** @var \Bolt\Storage\Database\Prefill\Builder $builder */
+        $builder = $this->app['prefill.builder'];
+        $results = $builder->build($contentTypeNames, 5);
+
         $output = '';
-
-        // Get a list of images.
-        $images = $this->app['filesystem']
-            ->find()
-            ->in('files://')
-            ->name('/\.jpe?g$/')
-            ->name('*.png')
-            ->toArray()
-        ;
-
-        // Set the 'Preferred titles' for filling the 'blocks' contenttype.
-        $this->preferredTitles = ['About Us', 'Address', 'Search Teaser', '404 Not Found'];
-
-        $emptyOnly = empty($contenttypes);
-
-        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
-            $tablename = $this->getContenttypeTablename($contenttype);
-            if ($emptyOnly && $this->hasRecords($tablename)) {
-                $output .= Trans::__('Skipped <tt>%key%</tt> (already has records)', ['%key%' => $key]) . "<br>\n";
-                continue;
-            } elseif (!in_array($key, $contenttypes) && !$emptyOnly) {
-                $output .= Trans::__('Skipped <tt>%key%</tt> (not checked)', ['%key%' => $key]) . "<br>\n";
-                continue;
-            }
-
-            $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
-
-            for ($i = 1; $i <= $amount; $i++) {
-                $output .= $this->preFillSingle($key, $contenttype, $images);
+        foreach ((array) $results['created'] as $contentTypeName => $titles) {
+            foreach ($titles as $title) {
+                $output .= Trans::__(
+                    "Added to <tt>%key%</tt> '%title%'",
+                    ['%key%' => $contentTypeName, '%title%' => $title['title']]
+                );
+                $output .= "<br>\n";
             }
         }
-
-        $output .= "<br>\n\n" . Trans::__('general.phrase.done-bang');
+        foreach ((array) $results['errors'] as $errors) {
+            $output .= $errors;
+        }
 
         return $output;
-    }
-
-    /**
-     * Add a record with dummy content.
-     *
-     * @see preFill
-     *
-     * @param string $key
-     * @param array  $contenttype
-     * @param array  $images
-     *
-     * @return string
-     */
-    private function preFillSingle($key, $contenttype, $images)
-    {
-        $content = [];
-        $title = '';
-
-        $content['contenttype'] = $key;
-        $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
-        $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
-        $content['datedepublish'] = null;
-
-        $username = array_rand($this->app['users']->getUsers(), 1);
-        $user = $this->app['users']->getUser($username);
-
-        $content['ownerid'] = $user['id'];
-        $content['status'] = 'published';
-        shuffle($images);
-
-        foreach ($contenttype['fields'] as $field => $values) {
-            switch ($values['type']) {
-                case 'text':
-                    if ($contenttype['slug'] === 'blocks' && $field === 'title') {
-                        // Special case: if we're prefilling a 'blocks' contenttype add some
-                        // sensible titles to get started.
-                        $content[$field] = $this->getBlocksTitle();
-                    } else if (strpos($field, 'link') !== false) {
-                        // Another special case: If the field contains 'link', we guess it'll be used
-                        // as a link, so don't prefill it with "text", but leave it blank instead.
-                        $content[$field] = '';
-                    } else {
-                        $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
-                    }
-
-                    if (empty($title)) {
-                        $title = $content[$field];
-                    }
-                    break;
-                case 'image':
-                    // Get a random image
-                    if (!empty($images)) {
-                        $image = next($images);
-                        $content[$field]['file'] = $image->getPath();
-                    }
-                    break;
-                case 'html':
-                case 'textarea':
-                case 'markdown':
-                    if (in_array($field, ['teaser', 'introduction', 'excerpt', 'intro', 'content'])) {
-                        $params = '/medium/decorate/link/1';
-                    } else {
-                        $params = '/medium/decorate/link/ol/ul/3';
-                    }
-
-                    $content[$field] = trim($this->app['prefill']->get($params));
-                    if ($values['type'] == "markdown") {
-                        $content[$field] = strip_tags($content[$field]);
-                    }
-                    break;
-                case 'datetime':
-                    $content[$field] = date('Y-m-d H:i:s', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
-                    break;
-                case 'date':
-                    $content[$field] = date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
-                    break;
-                case 'checkbox':
-                    $content[$field] = rand(0, 1);
-                    break;
-                case 'float':
-                    $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
-                    break;
-                case 'number': // number is deprecated
-                case 'integer':
-                    $content[$field] = (int) rand(-1000, 1000) + (rand(0, 1000) / 1000);
-                    break;
-            }
-        }
-
-        $contentobject = $this->getContentObject($contenttype);
-        $contentobject->setValues($content);
-
-        // After we initially filled the content object, we get the title to set the slug.
-        $slug = $this->app['slugify']->slugify($contentobject->getTitle());
-        $contentobject->setValue('slug', $slug);
-
-        if (!empty($contenttype['taxonomy'])) {
-            foreach ($contenttype['taxonomy'] as $taxonomy) {
-                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/options')) {
-                    $options = $this->app['config']->get('taxonomy/' . $taxonomy . '/options');
-                    $key = array_rand($options);
-                    $contentobject->setTaxonomy($taxonomy, $key, $options[$key], rand(1, 1000));
-                }
-                if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == 'tags') {
-                    $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
-                }
-            }
-        }
-
-        $this->saveContent($contentobject);
-
-        $output = Trans::__(
-            "Added to <tt>%key%</tt> '%title%'",
-            ['%key%' => $key, '%title%' => $contentobject->getTitle()]
-        ) . "<br>\n";
-
-        return $output;
-    }
-
-    /**
-     * Get an array of random tags
-     *
-     * @param integer $num
-     *
-     * @return string[]
-     */
-    private function getSomeRandomTags($num = 5)
-    {
-        $tags = ['action', 'adult', 'adventure', 'alpha', 'animals', 'animation', 'anime', 'architecture', 'art',
-            'astronomy', 'baby', 'batshitinsane', 'biography', 'biology', 'book', 'books', 'business', 'business',
-            'camera', 'cars', 'cats', 'cinema', 'classic', 'comedy', 'comics', 'computers', 'cookbook', 'cooking',
-            'crime', 'culture', 'dark', 'design', 'digital', 'documentary', 'dogs', 'drama', 'drugs', 'education',
-            'environment', 'evolution', 'family', 'fantasy', 'fashion', 'fiction', 'film', 'fitness', 'food',
-            'football', 'fun', 'gaming', 'gift', 'health', 'hip', 'historical', 'history', 'horror', 'humor',
-            'illustration', 'inspirational', 'internet', 'journalism', 'kids', 'language', 'law', 'literature', 'love',
-            'magic', 'math', 'media', 'medicine', 'military', 'money', 'movies', 'mp3', 'murder', 'music', 'mystery',
-            'news', 'nonfiction', 'nsfw', 'paranormal', 'parody', 'philosophy', 'photography', 'photos', 'physics',
-            'poetry', 'politics', 'post-apocalyptic', 'privacy', 'psychology', 'radio', 'relationships', 'research',
-            'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
-            'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
-            'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
-            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies',
-        ];
-
-        shuffle($tags);
-
-        $picked = array_slice($tags, 0, $num);
-
-        return $picked;
-    }
-
-    /**
-     * Get the title for a 'Block' contenttype. Check if the desired ones aren't present in the
-     * database yet, and return them in order.
-     *
-     * @return string
-     */
-    private function getBlocksTitle()
-    {
-        $title = array_shift($this->preferredTitles);
-
-        // Prevent 'Fatal error: Uncaught Error: Cannot pass parameter 3 by reference in …'
-        $pager = [];
-
-        // If we're out of preferredTitles or if the record already exists.
-        if ($title === null || $this->getContent('blocks', '', $pager, ['title' => $title])) {
-            $title = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
-        }
-
-        return $title;
     }
 
     /**
@@ -2758,7 +2575,7 @@ class Storage
      * @param string  $contenttypeslug
      * @param boolean $fulluri
      * @param boolean $allowempty
-     * @param boolean $slugfield
+     * @param string  $slugfield
      *
      * @return string
      */

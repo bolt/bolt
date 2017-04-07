@@ -20,3 +20,4 @@ class_alias('\Bolt\Legacy\Storage', '\Bolt\Storage');
 class_alias('\Bolt\Storage\Field\Base', '\Bolt\Field\Base');
 class_alias('\Bolt\Storage\Field\FieldInterface', '\Bolt\Field\FieldInterface');
 class_alias('\Bolt\Storage\Field\Manager', '\Bolt\Field\Manager');
+class_alias('\Bolt\Storage\Database\Prefill\ApiClient', '\Bolt\Storage\Prefill');
