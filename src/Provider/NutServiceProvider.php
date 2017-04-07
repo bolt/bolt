@@ -61,7 +61,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserRoleAdd($app),
                     new Nut\UserRoleRemove($app),
                     new Nut\DebugEvents($app),
-                    new Nut\DebugServiceRegistration($app),
+                    new Nut\DebugServiceProviders($app),
                     new Nut\DebugRoutes($app),
                 ];
             }
