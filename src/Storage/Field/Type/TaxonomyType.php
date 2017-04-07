@@ -248,27 +248,25 @@ class TaxonomyType extends JoinTypeBase
     }
 
     /**
-     * Normalize step ensures that we have correctly hydrated collection objects before we try and save
+     * The normalize method takes care of any pre-persist cleaning up.
      *
-     * @param $entity
+     * For taxonomies that allows us to support non standard data formats such
+     * as arrays that allow this style data setting to work...
+     *
+     *   `$entity->setCategories(['news', 'events']);`
+     *
+     *    or
+     *
+     *   `$entity->setCategories('news');`
+     *
+     * @param Entity\Content $entity
      */
     public function normalize($entity)
     {
-        $key = $this->mapping['fieldname'];
-        $accessor = 'get' . ucfirst($key);
-
-        $collection = $entity->$accessor();
-        if (!$collection instanceof Collection\Taxonomy) {
-            if (!is_array($collection)) {
-                return;
-            }
-            if (!array_key_exists($key, $collection)) {
-                $collection = [$key => $collection];
-            }
-            $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
-            $taxonomies->setFromPost($collection, $entity);
-
-            $entity->getTaxonomy()->update($taxonomies);
+        /** @var Collection\Taxonomy $collection */
+        $collection = $this->normalizeFromPost($entity, Entity\Taxonomy::class);
+        if ($collection) {
+            $entity->setTaxonomy($collection);
         }
     }
 }
