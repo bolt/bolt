@@ -23,9 +23,9 @@ class DebugRoutes extends BaseCommand
         $this
             ->setName('debug:routes')
             ->setDescription('System route debug dumper.')
-            ->addOption('sort-bind', null, InputOption::VALUE_NONE, 'Sort in order of bind name (default).')
+            ->addOption('sort-route', null, InputOption::VALUE_NONE, 'Sort in order of route name (default).')
             ->addOption('sort-pattern', null, InputOption::VALUE_NONE, 'Sort in order of URI patterns.')
-            ->addOption('sort-methods', null, InputOption::VALUE_NONE, 'Sort in order of HTTP method grouping allowed.')
+            ->addOption('sort-method', null, InputOption::VALUE_NONE, 'Sort in order of HTTP method grouping allowed.')
         ;
     }
 
@@ -36,19 +36,17 @@ class DebugRoutes extends BaseCommand
     {
         $table = new Table($output);
         $table->setHeaders([
-            'Bind name',
-            'Path matching parameter',
-            'Method(s)',
+            ['Route Name', 'Path', 'Method(s)']
         ]);
         $routes = (array) $this->app['routes']->getIterator();
 
-        if ($input->getOption('sort-bind')) {
-            $routes = $this->sortBind($routes);
+        if ($input->getOption('sort-route')) {
+            $routes = $this->sortRotues($routes);
         }
         if ($input->getOption('sort-pattern')) {
             $routes = $this->sortPattern($routes);
         }
-        if ($input->getOption('sort-methods')) {
+        if ($input->getOption('sort-method')) {
             $routes = $this->sortMethods($routes);
         }
 
@@ -64,13 +62,13 @@ class DebugRoutes extends BaseCommand
     }
 
     /**
-     * Sort routes by their binding name.
+     * Sort routes by their route binding name.
      *
      * @param Route[] $routes
      *
      * @return Route[]
      */
-    private function sortBind(array $routes)
+    private function sortRotues(array $routes)
     {
         ksort($routes);
 

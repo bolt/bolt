@@ -32,11 +32,29 @@ final class Version
     }
 
     /**
-     * Compares a version to Bolt's version.
+     * Compares a semantic version (x.y.z) against Bolt's version, given a
+     * specified comparison operator.
      *
-     * Note: Be sure to include the `.z` number in the version given, as omitting it can give inconsistent results.
-     * For example, if the current version is `3.3.0`, `compare('3.3', '>=')` returns false. In reality you want
-     * the check to return true for this case, and `compare('3.3.0', '>=')` _does_ return true.
+     * Note 1:
+     * Be sure to include the `.z` number in the version given, as
+     * omitting it can give inconsistent results.
+     *
+     * e.g. If the version of Bolt was '3.2.0' (or greater), then:
+     *     `Version::compare('3.2', '>=');`
+     * is NOT equal to, or greater than, Bolt's version.
+     *
+     * Note 2:
+     * Pre-release versions, such as 3.2.0-beta1, are considered lower
+     * than their final release counterparts (like 2.3.0). As you may notice,
+     * the difference being that Bolt '3.2.0-beta1' is considered LOWER than
+     * the `compare($version)` value of '3.2.0'.
+     *
+     * e.g. If the version of Bolt was '3.2.0 beta 1', then:
+     *     `Version::compare('3.2.0', '>=');`
+     * is equal to, or greater than, Bolt's version.
+     *
+     * @see http://semver.org/ For an explanation on semantic versioning.
+     * @see http://php.net/manual/en/function.version-compare.php#refsect1-function.version-compare-notes Notes on version_compare
      *
      * @param string $version  The version to compare.
      * @param string $operator The comparison operator: <, <=, >, >=, ==, !=
