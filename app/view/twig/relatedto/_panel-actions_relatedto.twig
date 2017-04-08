@@ -24,15 +24,15 @@
     {% endif %}
 
     {# TODO: add filtering
-    {% if app.request.query.get('filter') or app.request.query.get('order') %}
+    {% if global.request.query.get('filter') or global.request.query.get('order') %}
         <a class="btn" href="?">{{ __('general.phrase.clear-filter-sort') }}</a>
     {% endif %}
 
     <form class="form-inline" style="margin-top:15px;">
-        <input type="hidden" value="{{ app.request.query.get('show') }}" name="show">
-        <input type="text" class="form-control" value="{{ app.request.query.get('filter') }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.filtering') }}">
+        <input type="hidden" value="{{ global.request.query.get('show') }}" name="show">
+        <input type="text" class="form-control" value="{{ global.request.query.get('filter') }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.filtering') }}">
         <button type="submit" class="btn">{{ __('general.phrase.filter') }}</button>
-        {% if app.request.query.get('filter') %}<p><a href="?">{{ __('general.phrase.clear-filter') }}</a></p>{% endif %}
+        {% if global.request.query.get('filter') %}<p><a href="?">{{ __('general.phrase.clear-filter') }}</a></p>{% endif %}
     </form>
     #}
 

@@ -18,7 +18,7 @@
 {% block page_plain %}
     {{ data('omnisearch.placeholder', __('general.phrase.find')) }}
 
-    <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
+    <div id="navpage-wrapper"{% if global.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
             <div class="container-fluid">
                 {{ include('@bolt/_nav/_primary.twig') }}
