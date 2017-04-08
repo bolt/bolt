@@ -235,7 +235,7 @@ class General extends BackendBase
             ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             if ($response = $this->saveTranslationFile($data['contents'], $tr)) {
                 return $response;
