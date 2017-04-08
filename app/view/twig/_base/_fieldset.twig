@@ -22,7 +22,7 @@
     for:    block('fieldset_label_for'),
 } %}
 
-{% if block('fieldset_label_info') %}
+{% if block('fieldset_label_info') is defined %}
     {% set field_info = buic_info(block('fieldset_label_text'), block('fieldset_label_info')) %}
 {% endif %}
 
