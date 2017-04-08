@@ -294,23 +294,19 @@ class Users extends BackendBase
         /** @var \Symfony\Component\Form\Form */
         $form = $form->getForm();
 
-        // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST')) {
-            $form->submit($request->get($form->getName()));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user->getDisplayname()]), ['event' => 'security']);
 
-            if ($form->isValid()) {
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user->getDisplayname()]), ['event' => 'security']);
-
-                $user = new Entity\Users($form->getData());
-                if ($this->getRepository(Entity\Users::class)->save($user)) {
-                    $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
-                } else {
-                    $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));
-                }
-
-                return $this->redirectToRoute('profile');
+            $user = new Entity\Users($form->getData());
+            if ($this->getRepository(Entity\Users::class)->save($user)) {
+                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
+            } else {
+                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));
             }
-        }
+
+            return $this->redirectToRoute('profile');
+        };
 
         $context = [
             'kind'        => 'profile',
