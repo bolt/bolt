@@ -56,14 +56,13 @@ class UserRoleType extends AbstractType
 
         $resolver->setDefaults(
             [
-                'label'             => Trans::__('page.edit-users.label.assigned-roles'),
-                'attr'              => [],
-                'constraints'       => [],
-                'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
-                'choices'           => $roles,
-                'choice_attr'       => $this->getRoleAccessCallback(),
-                'expanded'          => true,
-                'multiple'          => true,
+                'label'       => Trans::__('page.edit-users.label.assigned-roles'),
+                'attr'        => [],
+                'constraints' => [],
+                'choices'     => $roles,
+                'choice_attr' => $this->getRoleAccessCallback(),
+                'expanded'    => true,
+                'multiple'    => true,
             ]
         );
     }

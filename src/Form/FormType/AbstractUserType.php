@@ -225,11 +225,10 @@ abstract class AbstractUserType extends AbstractType
                 'enabled',
                 ChoiceType::class,
                 [
-                    'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
-                    'choices'           => $enabledOptions,
-                    'expanded'          => false,
-                    'constraints'       => new Assert\Choice(array_values($enabledOptions)),
-                    'label'             => Trans::__('page.edit-users.label.user-enabled'),
+                    'choices'     => $enabledOptions,
+                    'expanded'    => false,
+                    'constraints' => new Assert\Choice(array_values($enabledOptions)),
+                    'label'       => Trans::__('page.edit-users.label.user-enabled'),
                 ] + $options
             )
         ;
