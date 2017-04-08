@@ -4,11 +4,12 @@
 
 {% block page_title __('general.phrase.create-user-first') %}
 
-{% form_theme context.form with ['form_bolt_layout.twig', _self] %}
 {# Submit icon #}
 {% block button_icon %}<i class="fa fa-sign-in fa-fw"></i> {% endblock button_icon %}
 
 {% block page_main %}
+
+    {% form_theme context.form with ['form_bolt_layout.twig', _self] %}
 
     <p class="first-user">
         {{ __('general.phrase.users-none-create-first-extended') }}
