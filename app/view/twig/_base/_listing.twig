@@ -76,7 +76,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
 {% if local.row_header %}
     {# Deprecated #}
     {% set params = {} %}
-    {% for key, val in app.request.query.all if key != 'order' %}
+    {% for key, val in global.request.query.all if key != 'order' %}
         {% set params = params|merge({(key): val}) %}
     {% endfor %}
     {% set link = '?' ~ params|url_encode ~ (params|length ? '&' : '') ~ 'order=' %}

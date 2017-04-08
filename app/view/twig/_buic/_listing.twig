@@ -2,14 +2,14 @@
     {% set paramname = paramname|default('order') %}
 
     {% set params = {} %}
-    {% for key, val in app.request.query.all if key != paramname %}
+    {% for key, val in global.request.query.all if key != paramname %}
         {% set params = params|merge({(key): val}) %}
     {% endfor %}
 
-    {% if app.request.query.get(paramname) == id %}
+    {% if global.request.query.get(paramname) == id %}
         {% set class = 'order-asc' %}
         {% set params = params|merge({(paramname): '-' ~ id}) %}
-    {% elseif app.request.query.get(paramname) == '-' ~ id %}
+    {% elseif global.request.query.get(paramname) == '-' ~ id %}
         {% set class = 'order-desc' %}
     {% else %}
         {% set class = 'order-none' %}

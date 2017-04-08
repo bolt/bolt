@@ -2,7 +2,7 @@
 
     <form method="get" action="/search" id="searchform" enctype="text/plain">
 
-        <input type="text" name="search" value="{{ app.request.get('search') }}" placeholder="{{ __('general.phrase.search-for-ellipsis') }}" >
+        <input type="text" name="search" value="{{ global.request.get('search') }}" placeholder="{{ __('general.phrase.search-for-ellipsis') }}" >
         <input type="submit" name="submit" value="{{ __('general.phrase.search') }}" >
 
     </form>
