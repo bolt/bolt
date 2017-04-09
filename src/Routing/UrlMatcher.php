@@ -2,7 +2,7 @@
 
 namespace Bolt\Routing;
 
-use Silex;
+use Silex\Provider\Routing\RedirectableUrlMatcher;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  * This additionally checks for a route without a trailing slash and redirects
  * to it.
  */
-class UrlMatcher extends Silex\RedirectableUrlMatcher
+class UrlMatcher extends RedirectableUrlMatcher
 {
     public function match($pathinfo)
     {
