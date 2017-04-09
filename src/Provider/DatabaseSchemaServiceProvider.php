@@ -62,14 +62,6 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['integritychecker'] = $app->share(
-            function ($app) {
-                Deprecated::service('integritychecker', 3.0, 'schema');
-
-                return $app['schema'];
-            }
-        );
-
         // Schemas of the Bolt base tables.
         $app['schema.base_tables'] = $app->share(
             function (Application $app) {
