@@ -4,7 +4,8 @@ namespace Bolt\Nut;
 
 use Bolt\Configuration\YamlUpdater;
 use Bolt\Exception\FilesystemException;
-use League\Flysystem\FileNotFoundException;
+use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Handler\YamlFile;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +26,7 @@ class ConfigGet extends BaseCommand
             ->setName('config:get')
             ->setDescription('Get a value from config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
-            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use')
+            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use', 'config://config.yml')
         ;
     }
 
@@ -35,12 +36,7 @@ class ConfigGet extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
-
-        if ($input->getOption('file')) {
-            $file = $input->getOption('file');
-        } else {
-            $file = 'config.yml';
-        }
+        $file = $this->getFile($input);
 
         try {
             $yaml = new YamlUpdater($this->app, $file);
@@ -52,16 +48,33 @@ class ConfigGet extends BaseCommand
                 }
                 $result = sprintf('%s: %s', $key, $match);
             } else {
-                $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);
+                $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file->getFilename());
             }
         } catch (FileNotFoundException $e) {
-            $result = sprintf("<error>Can't read file: %s.</error>", $file);
+            $result = sprintf("<error>Can't read file: %s.</error>", $file->getFilename());
         } catch (ParseException $e) {
-            $result = sprintf('<error>Invalid YAML in file: %s.</error>', $file);
+            $result = sprintf('<error>Invalid YAML in file: %s.</error>', $file->getFilename());
         } catch (FilesystemException $e) {
             $result = sprintf('<error>' . $e->getMessage() . '</error>');
         }
 
         $output->writeln($result);
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return YamlFile
+     */
+    private function getFile(InputInterface $input)
+    {
+        $fileName = $input->getOption('file');
+        if (strpos($fileName, '://') == false) {
+            $fileName = 'config://' . $fileName;
+        }
+
+        $fs = $this->app['filesystem'];
+
+        return $fs->get($fileName, new YamlFile());
     }
 }

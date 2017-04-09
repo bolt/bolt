@@ -3,9 +3,9 @@
 namespace Bolt\Configuration;
 
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\Handler\File;
-use Silex;
-use Symfony\Component\Yaml\Parser;
+use Bolt\Filesystem\Handler\YamlFile;
+use Bolt\Helpers\Deprecated;
+use Silex\Application;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -15,11 +15,9 @@ use Symfony\Component\Yaml\Yaml;
  **/
 class YamlUpdater
 {
-    /** @var Parser */
-    private $parser;
     /** @var array Contains a line of the file per index. */
     private $yaml = [];
-    /** @var File */
+    /** @var YamlFile */
     private $file;
     /** @var array the parsed yml file */
     private $parsed;
@@ -27,22 +25,17 @@ class YamlUpdater
     /**
      * Creates an updater for the given file.
      *
-     * @param \Silex\Application $app
-     * @param string             $filename The file to modify
+     * @param Application     $app
+     * @param string|YamlFile $file The file to modify
      */
-    public function __construct(Silex\Application $app, $filename = '')
+    public function __construct(Application $app, $file = '')
     {
-        $this->file = $app['filesystem']->get('config://' . $filename, new File());
-        $this->parser = new Parser();
+        if (is_string($file)) {
+            $file = $app['filesystem']->getFile('config://' . $file);
+        }
 
-        // Get the contents of the file
-        $yaml = $this->file->read();
-
-        // Check that the read-in YAML is valid
-        $this->parsed = $this->parser->parse($yaml, true, true);
-
-        // Create a searchable array
-        $this->yaml = explode("\n", $yaml);
+        $this->file = $file;
+        $this->parse($file);
     }
 
     /**
@@ -73,11 +66,11 @@ class YamlUpdater
      *
      * @param string $key
      * @param string $value
-     * @param bool   $makeBackup
+     * @param bool   $backup
      *
      * @return bool
      */
-    public function change($key, $value, $makeBackup = true)
+    public function change($key, $value, $backup = true)
     {
         $pattern = str_replace('/', ':.*?', $key);
         preg_match_all('/^' . $pattern . '(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
@@ -89,13 +82,23 @@ class YamlUpdater
         }
 
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line] = preg_replace('/^(.*?):(.*)/', '$1: ' . $this->prepareValue($value), $this->yaml[$line]);
+        $this->yaml[$line] = preg_replace('/^(.*?):(.*)/', '$1: ' . $this->escapeValue($value), $this->yaml[$line]);
 
-        return $this->save($makeBackup);
+        return $this->save($backup);
     }
 
     /**
-     * Make sure the value is escaped as a yaml value.
+     * @deprecated Deprecated since 3.3, to be remove in v4. Use escapeValue() instead.
+     */
+    public function prepareValue($value)
+    {
+        Deprecated::method(3.3, 'Use YamlUpdater::escapeValue() instead.');
+
+        return $this->escapeValue($value);
+    }
+
+    /**
+     * Make sure the value is escaped as a YAML value.
      *
      * array('one', 'two', 'three') => [ one, two, three ]
      * Rock 'n Roll => 'Rock ''n Roll'
@@ -104,7 +107,7 @@ class YamlUpdater
      *
      * @return string
      */
-    public function prepareValue($value)
+    protected function escapeValue($value)
     {
         if (is_array($value)) {
             return '[ ' . implode(', ', $value) . ' ]';
@@ -120,20 +123,20 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      *
-     * @param boolean $makebackup Back up the file before committing changes to it
+     * @param boolean $backup Back up the file before committing changes to it
      *
      * @throws IOException
      *
      * @return boolean true if save was successful
      */
-    protected function save($makebackup)
+    protected function save($backup)
     {
         if (!$this->verify()) {
             return false;
         }
 
         // If we're backing up do it, if we can
-        if ($makebackup) {
+        if ($backup) {
             $this->backup();
         }
 
@@ -156,7 +159,7 @@ class YamlUpdater
         }
 
         // This will throw a ParseException If the YAML is not valid
-        $this->parser->parse($this->yaml, true, true);
+        Yaml::parse($this->yaml, true, true);
 
         return true;
     }
@@ -167,5 +170,17 @@ class YamlUpdater
     protected function backup()
     {
         $this->file->copy($this->file->getPath() . '.' . date('Ymd-His'));
+    }
+
+    /**
+     * @param YamlFile $file
+     */
+    private function parse(YamlFile $file)
+    {
+        // Read, parse, & check that the YAML is valid
+        $this->parsed = $file->parse(['exceptionsOnInvalidType' => true, 'objectSupport' => true]);
+
+        // Create a searchable array based on original text file
+        $this->yaml = explode("\n", $this->file->read());
     }
 }
