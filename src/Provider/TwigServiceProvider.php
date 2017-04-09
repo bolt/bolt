@@ -12,8 +12,6 @@ use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
 use Silex\Application;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
-use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Twig\Environment;
 use Twig\Extension\SandboxExtension;
 use Twig\Extension\StringLoaderExtension;
@@ -93,16 +91,9 @@ class TwigServiceProvider implements ServiceProviderInterface, BootableProviderI
             );
         };
 
-        /** @deprecated Can be removed when switch to Silex 2 occurs */
-        if (!isset($app['twig.runtime.httpkernel'])) {
-            $app['twig.runtime.httpkernel'] = function ($app) {
-                return new HttpKernelRuntime($app['fragment.handler']);
-            };
-        }
-
         $app['twig.runtimes'] = $app->extend(
             'twig.runtimes',
-            function ($runtimes) {
+            function (array $runtimes) {
                 return $runtimes + [
                     Twig\Runtime\AdminRuntime::class   => 'twig.runtime.bolt_admin',
                     Twig\Runtime\HtmlRuntime::class    => 'twig.runtime.bolt_html',
@@ -114,10 +105,6 @@ class TwigServiceProvider implements ServiceProviderInterface, BootableProviderI
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
                     Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
-
-                    /** @deprecated Can be removed when switch to Silex 2 occurs */
-                    HttpKernelRuntime::class           => 'twig.runtime.httpkernel',
-                    TwigRenderer::class                => 'twig.form.renderer',
                 ];
             }
         );
