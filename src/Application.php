@@ -8,7 +8,7 @@ use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
+use Cocur\Slugify\Bridge\Silex2\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
