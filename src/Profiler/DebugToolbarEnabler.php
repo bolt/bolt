@@ -2,6 +2,7 @@
 
 namespace Bolt\Profiler;
 
+use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
 use Silex\Application;
@@ -48,7 +49,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
     }
 

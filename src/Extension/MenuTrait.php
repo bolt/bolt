@@ -2,9 +2,8 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Menu\MenuEntry;
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * Admin menu handling trait for an extension.
@@ -36,31 +35,29 @@ trait MenuTrait
     {
         $app = $this->getContainer();
 
-        $app['menu.admin'] = $app->share(
-            $app->extend(
-                'menu.admin',
-                function (MenuEntry $menus) {
-                    /** @var MenuEntry $menus */
-                    $extendMenu = $menus->get('extensions');
+        $app['menu.admin'] = $app->extend(
+            'menu.admin',
+            function (MenuEntry $menus) {
+                /** @var MenuEntry $menus */
+                $extendMenu = $menus->get('extensions');
 
-                    foreach ($this->registerMenuEntries() as $menuEntry) {
-                        if (!$menuEntry instanceof MenuEntry) {
-                            throw new \InvalidArgumentException(sprintf(
-                                '%s::registerMenuEntries() should return a list of Bolt\Menu\MenuEntry objects. Got: %s',
-                                get_called_class(),
-                                get_class($menuEntry)
-                            ));
-                        }
-
-                        $extendMenu->add($menuEntry);
-                    }
-                    foreach ((array) $this->menuEntries as $menuEntry) {
-                        $extendMenu->add($menuEntry);
+                foreach ($this->registerMenuEntries() as $menuEntry) {
+                    if (!$menuEntry instanceof MenuEntry) {
+                        throw new \InvalidArgumentException(sprintf(
+                            '%s::registerMenuEntries() should return a list of Bolt\Menu\MenuEntry objects. Got: %s',
+                            get_called_class(),
+                            get_class($menuEntry)
+                        ));
                     }
 
-                    return $menus;
+                    $extendMenu->add($menuEntry);
                 }
-            )
+                foreach ((array) $this->menuEntries as $menuEntry) {
+                    $extendMenu->add($menuEntry);
+                }
+
+                return $menus;
+            }
         );
     }
 

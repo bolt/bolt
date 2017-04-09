@@ -3,7 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\MountEvent;
-use Pimple as Container;
+use Pimple\Container;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 

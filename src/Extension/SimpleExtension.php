@@ -3,8 +3,8 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\ControllerEvents;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,7 +27,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     /**
      * {@inheritdoc}
      */
-    final public function register(Application $app)
+    final public function register(Container $app)
     {
         $this->extendConfigService();
         $this->extendTwigService();
@@ -44,16 +44,14 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      *
      * Example:
      * <pre>
-     *   $app['koala'] = $app->share(
-     *       function ($app) {
-     *           return new Koala($app['drop.bear']);
-     *       }
-     *   );
+     *   $app['koala'] = function ($app) {
+     *       return new Koala($app['drop.bear']);
+     *   };
      * </pre>
      *
-     * @param Application $app
+     * @param Container $app
      */
-    protected function registerServices(Application $app)
+    protected function registerServices(Container $app)
     {
     }
 
@@ -77,7 +75,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     /**
      * {@inheritdoc}
      */
-    public function boot(Application $app)
+    public function boot(Container $app)
     {
         $this->container = $app;
         $this->container['dispatcher']->addSubscriber($this);

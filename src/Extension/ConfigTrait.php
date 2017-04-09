@@ -8,7 +8,7 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Storage\Field\FieldInterface;
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * Config file handling for extensions.

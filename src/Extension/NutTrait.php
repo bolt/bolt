@@ -2,8 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\Deprecated;
-use Pimple as Container;
+use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 
 /**

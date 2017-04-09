@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * A Container proxy that prevents non-whitelisted services from being invoked.

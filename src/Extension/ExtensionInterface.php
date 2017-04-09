@@ -3,8 +3,8 @@
 namespace Bolt\Extension;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
-use Pimple as Container;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 /**
  * ExtensionInterface.

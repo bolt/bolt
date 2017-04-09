@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * Database schema modification.
@@ -36,21 +36,19 @@ trait DatabaseSchemaTrait
     {
         $app = $this->getContainer();
 
-        $app['schema.extension_tables'] = $app->share(
-            $app->extend(
-                'schema.extension_tables',
-                function (Container $tables) use ($app) {
-                    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
-                    $platform = $app['db']->getDatabasePlatform();
-                    $prefix = $app['schema.prefix'];
+        $app['schema.extension_tables'] = $app->extend(
+            'schema.extension_tables',
+            function (Container $tables) use ($app) {
+                /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
+                $platform = $app['db']->getDatabasePlatform();
+                $prefix = $app['schema.prefix'];
 
-                    foreach ((array) $this->registerExtensionTables() as $baseName => $table) {
-                        $tables[$baseName] = new $table($platform, $prefix);
-                    }
-
-                    return $tables;
+                foreach ((array) $this->registerExtensionTables() as $baseName => $table) {
+                    $tables[$baseName] = new $table($platform, $prefix);
                 }
-            )
+
+                return $tables;
+            }
         );
     }
 
