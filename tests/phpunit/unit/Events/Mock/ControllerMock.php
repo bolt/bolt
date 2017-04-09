@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Events\Mock;
 
+use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
-use Silex\ControllerProviderInterface;
 
 /**
  * Controller mock.
