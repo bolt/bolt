@@ -5,7 +5,7 @@ namespace Bolt\Storage\Database\Schema\Builder;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\Manager;
 use Doctrine\DBAL\Connection;
-use Pimple;
+use Pimple\Container;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -19,7 +19,7 @@ abstract class BaseBuilder
     protected $connection;
     /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $manager;
-    /** @var \Pimple */
+    /** @var Container */
     protected $tables;
     /** @var string */
     protected $charset;
@@ -35,13 +35,13 @@ abstract class BaseBuilder
      *
      * @param Connection           $connection
      * @param Manager              $manager
-     * @param Pimple               $tables
+     * @param Container            $tables
      * @param string               $charset
      * @param string               $collate
      * @param LoggerInterface      $systemLog
      * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(Connection $connection, Manager $manager, Pimple $tables, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
+    public function __construct(Connection $connection, Manager $manager, Container $tables, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
     {
         $this->connection = $connection;
         $this->manager = $manager;

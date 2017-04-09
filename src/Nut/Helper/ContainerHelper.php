@@ -2,7 +2,7 @@
 
 namespace Bolt\Nut\Helper;
 
-use Pimple as Container;
+use Pimple\Container;
 use Symfony\Component\Console\Helper\Helper;
 
 /**

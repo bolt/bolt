@@ -5,7 +5,7 @@ namespace Bolt\Configuration;
 use Bolt\Cache;
 use Bolt\Composer\Action\DumpAutoload;
 use Bolt\Exception\PackageManagerException;
-use Pimple;
+use Pimple\Container;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -18,7 +18,7 @@ class Environment
 {
     /** @var Cache */
     protected $cache;
-    /** @var Pimple */
+    /** @var Container */
     protected $actions;
     /** @var Filesystem */
     protected $filesystem;
@@ -43,10 +43,10 @@ class Environment
      * @param string $boltPath
      * @param string $boltAssetsPath
      * @param Cache  $cache
-     * @param Pimple $actions
+     * @param Container $actions
      * @param string $boltVersion
      */
-    public function __construct($boltPath, $boltAssetsPath, Cache $cache, Pimple $actions, $boltVersion)
+    public function __construct($boltPath, $boltAssetsPath, Cache $cache, Container $actions, $boltVersion)
     {
         $this->filesystem = new Filesystem();
         $this->boltPath = $boltPath;

@@ -2,6 +2,8 @@
 
 namespace Bolt\Routing;
 
+use Pimple\Container;
+
 /**
  * Handles resolving callbacks from routing.yml that specify a class name.
  *
@@ -9,15 +11,15 @@ namespace Bolt\Routing;
  */
 class CallbackResolver extends \Silex\CallbackResolver
 {
-    /** @var \Pimple $app */
+    /** @var Container $app */
     protected $app;
 
     /**
      * CallbackResolver Constructor.
      *
-     * @param \Pimple $app
+     * @param Container $app
      */
-    public function __construct(\Pimple $app)
+    public function __construct(Container $app)
     {
         $this->app = $app;
         parent::__construct($app);

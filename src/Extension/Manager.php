@@ -12,6 +12,7 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
+use Pimple\Container;
 use ReflectionClass;
 use Silex\Application;
 use Symfony\Component\Debug\Exception\ContextErrorException;
