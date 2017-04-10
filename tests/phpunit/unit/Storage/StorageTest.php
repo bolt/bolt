@@ -75,7 +75,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $prefillMock = new LoripsumMock();
-        $app['prefill'] = $prefillMock;
+        $this->setService('prefill', $prefillMock);
 
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
@@ -261,7 +261,7 @@ class StorageTest extends BoltUnitTest
         $db = $this->getDbMockBuilder($app['db'])
             ->setMethods(['fetchAll'])
             ->getMock();
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);
@@ -280,7 +280,7 @@ class StorageTest extends BoltUnitTest
         $db = $this->getDbMockBuilder($app['db'])
             ->setMethods(['fetchAll'])
             ->getMock();
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $db->expects($this->any())
             ->method('fetchAll')
             ->willReturn([]);

@@ -103,7 +103,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $content = new \Bolt\Legacy\Content($app, []);
@@ -120,7 +120,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', []);
@@ -136,7 +136,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', 'clippy');
@@ -147,7 +147,7 @@ class UserRuntimeTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
-        $app['csrf'] = $tokenManager;
+        $this->setService('csrf', $tokenManager);
         $handler = new UserRuntime($app['users'], $app['csrf']);
         $token = $tokenManager->refreshToken('bolt');
 

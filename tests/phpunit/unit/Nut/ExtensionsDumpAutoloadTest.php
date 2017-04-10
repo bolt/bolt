@@ -28,7 +28,7 @@ class ExtensionsDumpAutoloadTest extends BoltUnitTest
             ->method('dumpAuoloader')
             ->will($this->returnValue(0));
 
-        $app['extend.manager'] = $runner;
+        $this->setService('extend.manager', $runner);
 
         $command = new ExtensionsDumpAutoload($app);
         $tester = new CommandTester($command);

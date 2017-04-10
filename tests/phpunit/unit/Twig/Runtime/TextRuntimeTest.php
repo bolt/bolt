@@ -73,7 +73,7 @@ class TextRuntimeTest extends BoltUnitTest
             ->expects($this->once())
             ->method('error')
         ;
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
         $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $result = $handler->localeDateTime('2012-06-14 09:07:55', '%B %e, %Y %H:%M');

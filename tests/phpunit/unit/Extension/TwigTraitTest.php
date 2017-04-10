@@ -94,7 +94,7 @@ TWIG;
             ->method('addDir')
             ->with($koala)
         ;
-        $app['twig.loader.bolt_filesystem'] = $boltLoaderMock;
+        $this->setService('twig.loader.bolt_filesystem', $boltLoaderMock);
 
         $app['twig']->getExtensions();
     }

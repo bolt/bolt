@@ -28,7 +28,7 @@ class ExtensionsUninstallTest extends BoltUnitTest
             ->method('removePackage')
             ->will($this->returnValue(0));
 
-        $app['extend.manager'] = $runner;
+        $this->setService('extend.manager', $runner);
 
         $command = new ExtensionsUninstall($app);
         $tester = new CommandTester($command);
@@ -54,7 +54,7 @@ class ExtensionsUninstallTest extends BoltUnitTest
             ->method('removePackage')
             ->will($this->returnValue(1));
 
-        $app['extend.manager'] = $runner;
+        $this->setService('extend.manager', $runner);
 
         $command = new ExtensionsUninstall($app);
         $tester = new CommandTester($command);

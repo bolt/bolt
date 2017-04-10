@@ -16,7 +16,7 @@ class CacheClearTest extends BoltUnitTest
     public function testSuccessfulClear()
     {
         $app = $this->getApp();
-        $app['cache'] = $this->getMockCache();
+        $this->setService('cache', $this->getMockCache());
         $command = new CacheClear($app);
         $tester = new CommandTester($command);
         $tester->execute([]);
@@ -27,7 +27,7 @@ class CacheClearTest extends BoltUnitTest
     public function testWithFailures()
     {
         $app = $this->getApp();
-        $app['cache'] = $this->getMockCache(false);
+        $this->setService('cache', $this->getMockCache(false));
         $command = new CacheClear($app);
         $tester = new CommandTester($command);
 

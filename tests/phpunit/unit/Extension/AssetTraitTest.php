@@ -97,7 +97,7 @@ class AssetTraitTest extends BoltUnitTest
             'theme' => new Filesystem(new Memory()),
             'web' => new Filesystem(new Memory()),
         ]);
-        $app['filesystem'] = $filesystem;
+        $this->setService('filesystem', $filesystem);
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
@@ -125,7 +125,7 @@ class AssetTraitTest extends BoltUnitTest
             'theme' => new Filesystem(new Memory()),
             'web' => new Filesystem(new Memory()),
         ]);
-        $app['filesystem'] = $filesystem;
+        $this->setService('filesystem', $filesystem);
 
         $filesystem->put('theme://js/test.js', '');
 

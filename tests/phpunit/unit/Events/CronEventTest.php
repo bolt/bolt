@@ -19,16 +19,18 @@ class CronEventTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $app['cache'] = $this->getMockCache();
-        $app['cache']
+        $cache = $this->getMockCache();
+        $cache
             ->expects($this->exactly(1))
             ->method('flushAll')
         ;
+        $this->setService('cache', $cache);
 
-        $app['logger.manager'] = $this->getMockLoggerManager();
-        $app['logger.manager']
+        $logger = $this->getMockLoggerManager();
+        $logger
             ->expects($this->exactly(2))
             ->method('trim');
+        $this->setService('logger.manager', $logger);
 
         $output = new BufferedOutput();
 
