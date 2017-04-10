@@ -183,6 +183,7 @@ class Application extends Silex\Application
             ->register(new Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
+            ->register(new Silex\Provider\CsrfServiceProvider())
             ->register(new Provider\SecurityServiceProvider())
             ->register(new Provider\RandomGeneratorServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())
