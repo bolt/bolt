@@ -37,25 +37,11 @@ class PimpleDump extends BaseCommand
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        /** @deprecated Remove when upgraded to Silex 2 */
-        parent::initialize($input, $output);
-        $this->app['security'] = $this->app->share(
-            function ($app) {
-                return $app['security.token_storage'];
-            }
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->io->title('Dumping Pimple application container');
 
-        $app = $this->app;
+        $app = require __DIR__ . '/../../app/bootstrap.php';
         $app['debug'] = true;
 
         $dumper = new PimpleDumpProvider();
