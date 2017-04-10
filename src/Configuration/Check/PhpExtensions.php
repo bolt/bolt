@@ -18,7 +18,6 @@ class PhpExtensions extends BaseCheck implements ConfigurationCheckInterface
             'exif',
             'gd',
             'gettext',
-            'gmp',
             'hash',
             'iconv',
             'intl',

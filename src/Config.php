@@ -407,8 +407,11 @@ class Config
                 $taxonomy['options'] = $options;
             }
 
+            if (!isset($taxonomy['behaves_like'])) {
+                $taxonomy['behaves_like'] = 'tags';
+            }
             // If taxonomy is like tags, set 'tagcloud' to true by default.
-            if (($taxonomy['behaves_like'] == 'tags') && (!isset($taxonomy['tagcloud']))) {
+            if (($taxonomy['behaves_like'] === 'tags') && (!isset($taxonomy['tagcloud']))) {
                 $taxonomy['tagcloud'] = true;
             }
 

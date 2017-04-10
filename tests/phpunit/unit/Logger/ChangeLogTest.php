@@ -23,7 +23,8 @@ class ChangeLogTest extends BoltUnitTest
         $storage = new Legacy\Storage($app);
 
         $content = $storage->getContentObject('pages');
-        $content['contentid'] = 1;
+        $content['id'] = 1;
+        $content['status'] = 'published';
         $storage->saveContent($content, 'pages');
     }
 
@@ -84,7 +85,7 @@ class ChangeLogTest extends BoltUnitTest
         // For now we need to mock the request object.
         $app['request'] = Request::create('/');
         /** @var Legacy\Content $content */
-        $content = $storage->getContent('pages/1');
+        $content = $storage->getContent('pages/1', '!');
         $this->assertInstanceOf(Legacy\Content::class, $content);
 
         $content->setValues(['status' => 'draft', 'ownerid' => 99]);

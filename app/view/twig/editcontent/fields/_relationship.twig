@@ -18,8 +18,8 @@
 {% set options = [] %}
 
 {% for item in context.relations_list[relcontenttype] %}
-    {% set selectedbyrelation = relcontenttype == app.request.get('relation') and
-                                item.id == app.request.get('relationid') %}
+    {% set selectedbyrelation = relcontenttype == global.request.get('relation') and
+                                item.id == global.request.get('relationid') %}
 
     {% set options = options|merge([{
         value:    item.id,

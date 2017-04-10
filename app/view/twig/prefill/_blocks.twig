@@ -1,0 +1,36 @@
+{% block prefill_response_pass %}
+    {% if context.results.created is not empty %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {% for contentype, outcomes in context.results.created %}
+                {% if outcomes is iterable %}
+                    {{ __('Added records to the ContentType <tt>%CONTENTYPE%</tt> titled', {'%CONTENTYPE%': contentype}) }}:
+                    <ul>
+                        {% for outcome in outcomes %}
+                            <li>{{ outcome.title }}</li>
+                            <ul>
+                                {% for taxonomy, values in outcome.taxonomy %}
+                                    <li><code>{{ taxonomy }}</code>: {{ values|join(', ') }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+                    <br>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock prefill_response_pass %}
+
+{% block prefill_response_fail %}
+    {% if context.results.errors is not empty %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <ul>
+                {% for outcome in context.results.errors %}
+                    <li>{{ outcome|raw }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock prefill_response_fail %}

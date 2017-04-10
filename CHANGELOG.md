@@ -4,7 +4,8 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
-- Removed `Bolt\DeepDiff` (see: `Arr::deepDiff`)
+- Removed: `Bolt\Storage\Prefill` (see `\Bolt\Storage\Database\Prefill\ApiClient`)
+- Removed: `Bolt\DeepDiff` (see: `Arr::deepDiff`)
 - Removed: Support for Memcache as a session store
 - Updated: Memcached 3.0.0+ required for Memcached session store
 - Updated: PHP requirement now 7.0+

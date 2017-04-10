@@ -4,10 +4,10 @@ namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Application;
 use Bolt\Controller\Zone;
-use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Prophecy\Argument\Token\StringContainsToken;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -121,30 +121,12 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->prefill($this->getRequest());
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
-        // Test for the Exception if connection fails to the prefill service
-        $store = $this->getMockBuilder(Storage::class)
-            ->setMethods(['preFill'])
-            ->setConstructorArgs([$this->getApp()])
-            ->getMock()
-        ;
-
-        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', '');
-        $store->expects($this->any())
-            ->method('preFill')
-            ->will($this->returnCallback(function () use ($guzzleRequest) {
-                throw new \GuzzleHttp\Exception\RequestException('', $guzzleRequest);
-            }));
-
-        $this->setService('storage', $store);
-
-        $logger = $this->getMockMonolog();
-        $logger->expects($this->once())
-            ->method('error')
-            ->with("Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.");
-        $this->setService('logger.system', $logger);
+        $app = $this->getApp();
+        $app['prefill'] = new LoripsumMock();
 
         $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));
-        $this->controller()->prefill($this->getRequest());
+        $response = $this->controller()->prefill($this->getRequest());
+        $this->assertInstanceOf(RedirectResponse::class, $response);
     }
 
     public function testTranslation()

@@ -21,7 +21,6 @@
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "ext-gmp": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",

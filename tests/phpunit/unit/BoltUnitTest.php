@@ -217,8 +217,8 @@ abstract class BoltUnitTest extends TestCase
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 
-        $storage = new Storage($app);
-        $storage->prefill(['showcases', 'pages']);
+        $builder = $app['prefill.builder'];
+        $builder->build(['showcases', 'pages'], 5);
     }
 
     /**

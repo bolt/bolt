@@ -18,9 +18,9 @@
     <h1{{ macro.attr({_bind: ['ckfileselect']}) }} style="display: none;"></h1>
 
     {% set pathoptions = {
-        'CKEditor': app.request.query.get('CKEditor'),
-        'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'),
-        'langCode': app.request.query.get('langCode')
+        'CKEditor': global.request.query.get('CKEditor'),
+        'CKEditorFuncNum': global.request.query.get('CKEditorFuncNum'),
+        'langCode': global.request.query.get('langCode')
     } %}
 
     {{ files_path(context.directory, pathoptions) }}
