@@ -7,10 +7,17 @@
 {% block page_title __('general.phrase.database-prefill-dummy-content') %}
 
 {% block page_main %}
-    {% import '@bolt/_macro/_macro.twig' as macro %}
+    {% use '@bolt/prefill/_blocks.twig' %}
 
     <div class="row">
         <div class="col-xs-12">
+            {% if context.results.errors is iterable %}
+                {{  block('prefill_response_fail') }}
+            {% endif %}
+            {% if context.results.created is iterable %}
+                {{  block('prefill_response_pass') }}
+            {% endif %}
+
             {{ form_start(context.form, {'attr': {'class': 'form-horizontal'}}) }}
                 <div id="form">
                     <div class="control-group">

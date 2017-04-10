@@ -25,7 +25,7 @@
         <div class="form-group">
         {% for taxonomy in context.contenttype.taxonomy|default([]) %}
             {% if app.config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
-                {% set tax_query = app.request.query.get('taxonomy-' ~ taxonomy ) %}
+                {% set tax_query = global.request.query.get('taxonomy-' ~ taxonomy ) %}
                 {% if tax_query %}
                     {% set taxonomyfilter = true %}
                 {% endif %}
@@ -42,8 +42,8 @@
                 {{ __('general.phrase.or') }}
             {% endif %}
         {% endfor %}
-        {% set filter_query = app.request.query.get('filter') %}
-        {% set order_query = app.request.query.get('order') %}
+        {% set filter_query = global.request.query.get('filter') %}
+        {% set order_query = global.request.query.get('order') %}
             <input type="text" class="form-control" value="{{ filter_query }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
         </div>
 

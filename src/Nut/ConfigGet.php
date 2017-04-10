@@ -47,6 +47,9 @@ class ConfigGet extends BaseCommand
             $match = $yaml->get($key);
 
             if (null !== $match) {
+                if (is_bool($match)) {
+                    $match = $match ? 'true' : 'false';
+                }
                 $result = sprintf('%s: %s', $key, $match);
             } else {
                 $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);

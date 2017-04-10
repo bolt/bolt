@@ -6,7 +6,6 @@ use Bolt\Helpers\Input;
 use Bolt\Omnisearch;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -171,23 +170,25 @@ class General extends BackendBase
 
         if ($request->isMethod('POST') || $request->get('force') == 1) {
             $form->handleRequest($request);
-            $contentTypes = (array) $form->get('contenttypes')->getData();
-
-            try {
-                $content = $this->storage()->preFill($contentTypes);
-                $this->flashes()->success($content);
-            } catch (RequestException $e) {
-                $msg = "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $this->flashes()->error($msg);
-                $this->app['logger.system']->error($msg, ['event' => 'storage']);
+            if ($form->get('contenttypes')->has('contenttypes')) {
+                $contentTypeNames = (array) $form->get('contenttypes')->getData();
+            } else {
+                $contentTypes = $this->app['config']->get('contenttypes');
+                $contentTypeNames = array_keys($contentTypes);
             }
+
+            $builder = $this->app['prefill.builder'];
+            $results = $builder->build($contentTypeNames, 5);
+            $this->session()->set('prefill_result', $results);
 
             return $this->redirectToRoute('prefill');
         }
 
+        $prefillResult = $this->session()->remove('prefill_result') ?: ['created' => null, 'errors' => null];
         $context = [
             'contenttypes' => $choices,
             'form'         => $form->createView(),
+            'results'      => $prefillResult,
         ];
 
         return $this->render('@bolt/prefill/prefill.twig', $context);
@@ -235,7 +236,7 @@ class General extends BackendBase
             ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             if ($response = $this->saveTranslationFile($data['contents'], $tr)) {
                 return $response;

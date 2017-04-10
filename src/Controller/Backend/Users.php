@@ -299,7 +299,7 @@ class Users extends BackendBase
             ->handleRequest($request)
         ;
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $userEntity->getDisplayname()]), ['event' => 'security']);
             if ($this->getRepository(Entity\Users::class)->save($userEntity)) {
