@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Extension\Mock;
 
 use Bolt\Extension\SimpleExtension;
-use Silex\Application;
+use Pimple\Container;
 
 /**
  * Mock extension that extends SimpleExtension for testing the AssetTrait deprecated functions.
@@ -24,7 +24,7 @@ class DeprecatedAssetExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    protected function registerServices(Application $app)
+    protected function registerServices(Container $app)
     {
         call_user_func_array([$this, $this->registerFunction], $this->registerParameters);
     }

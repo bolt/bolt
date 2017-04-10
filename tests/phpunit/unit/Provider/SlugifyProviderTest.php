@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Provider;
 
+use Bolt\Provider\SlugifyServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Cocur\Slugify\Slugify;
 

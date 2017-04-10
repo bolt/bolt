@@ -4,7 +4,7 @@ namespace Bolt\Tests\Routing;
 
 use Bolt\Routing\CallbackResolver;
 use Bolt\Tests\BoltUnitTest;
-use Pimple as Container;
+use Pimple\Container;
 
 class CallbackResolverTest extends BoltUnitTest
 {

@@ -5,7 +5,7 @@ namespace Bolt\Tests\Nut;
 use Bolt\Nut\ExtensionsSetup;
 use Bolt\Nut\Helper\ContainerHelper;
 use PHPUnit\Framework\TestCase;
-use Pimple as Container;
+use Pimple\Container;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;
 
