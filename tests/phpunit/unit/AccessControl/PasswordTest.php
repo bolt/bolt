@@ -34,7 +34,7 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('info')
             ->with($this->equalTo("Password for user 'admin' was reset via Nut."));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $password = new Password($app);
         $newPass = $password->setRandomPassword('admin');
@@ -91,7 +91,7 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $shadowToken = $app['randomgenerator']->generateString(32);
         $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
@@ -120,7 +120,7 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $shadowToken = $app['randomgenerator']->generateString(32);
         $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
@@ -149,7 +149,7 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $shadowToken = $app['randomgenerator']->generateString(32);
 
@@ -175,7 +175,7 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('info')
             ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
@@ -194,13 +194,13 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('danger')
             ->with($this->equalTo("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $mailer = $this->getMockSwiftMailer();
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(true));
-        $app['mailer'] = $mailer;
+        $this->setService('mailer', $mailer);
 
         $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
@@ -219,13 +219,13 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->never())
             ->method('error')
             ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $mailer = $this->getMockSwiftMailer();
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(true));
-        $app['mailer'] = $mailer;
+        $this->setService('mailer', $mailer);
 
         $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
@@ -244,19 +244,19 @@ class PasswordTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Failed to send password request. Please check the email settings.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo("Failed to send password request sent to 'Admin'."));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $mailer = $this->getMockSwiftMailer();
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(false));
-        $app['mailer'] = $mailer;
+        $this->setService('mailer', $mailer);
 
         $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);

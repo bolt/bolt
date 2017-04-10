@@ -25,7 +25,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
 
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $app['db'] = $db;
+        $this->setService('db', $db);
 
         $log->pushHandler($handler);
         $log->addRecord(
@@ -64,7 +64,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 )
             );
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
 
         $log->pushHandler($handler);
         $log->addRecord(

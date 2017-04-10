@@ -38,7 +38,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Login function called with empty username/password combination, or no authentication token.'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $login = new Login($app);
         $login->login(null, null, new AccessControlEvent(new Request()));
@@ -54,7 +54,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Username or password not correct. Please check your input.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $login = new Login($app);
 
@@ -72,13 +72,13 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('alert')
             ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         /** @var UsersRepository $repo */
         $repo = $app['storage']->getRepository(Entity\Users::class);
@@ -103,7 +103,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Your account is disabled. Sorry about that.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $login = new Login($app);
 
@@ -120,13 +120,13 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('info')
             ->with($this->equalTo("Failed login attempt for 'Admin'."));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Username or password not correct. Please check your input.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $app['request_stack']->push(new Request());
 
@@ -148,7 +148,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->at(1))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Saving new login token#'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $request = Request::createFromGlobals();
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
@@ -169,7 +169,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Invalid login parameters.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $request = Request::createFromGlobals();
         $request->server->set('REMOTE_ADDR', '1.2.3.4');
@@ -191,7 +191,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('error')
             ->with($this->equalTo('Invalid login parameters.'));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new Entity\Authtoken();
@@ -228,7 +228,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->atLeastOnce())
             ->method('debug')
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new Entity\Authtoken();
@@ -265,7 +265,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->at(1))
             ->method('debug')
             ->with($this->matchesRegularExpression('#Saving new login token#'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
 
         $logger = $this->getMockFlashLogger();
         $logger->expects($this->at(0))
@@ -274,7 +274,7 @@ class LoginTest extends BoltUnitTest
         $logger->expects($this->at(1))
             ->method('success')
             ->with($this->equalTo("You've been logged on successfully."));
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $userName = 'admin';
         $salt = 'vinagre';

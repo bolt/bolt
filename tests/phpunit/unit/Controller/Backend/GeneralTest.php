@@ -68,7 +68,7 @@ class GeneralTest extends ControllerUnitTest
         /** @var Application $app */
         $app = $this->getApp();
         $flashes = $this->createMock(FlashLogger::class);
-        $app['logger.flash'] = $flashes;
+        $this->setService('logger.flash', $flashes);
 
         $flashes->expects($this->once())
             ->method('error');

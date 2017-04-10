@@ -84,7 +84,7 @@ class FieldSaveTest extends BoltUnitTest
         $app['request'] = Request::create('/');
         $app['config']->set('taxonomy/categories/options', ['news']);
         $prefillMock = new LoripsumMock();
-        $app['prefill'] = $prefillMock;
+        $this->setService('prefill', $prefillMock);
 
         $storage = new Storage($app);
         $storage->prefill(['showcases', 'entries', 'pages']);

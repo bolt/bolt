@@ -32,7 +32,7 @@ class ExtensionsTest extends BoltUnitTest
             ->method('showPackage')
             ->will($this->returnValue(['test' => ['package' => $testPackage]]));
 
-        $app['extend.manager'] = $runner;
+        $this->setService('extend.manager', $runner);
 
         $command = new Extensions($app);
         $tester = new CommandTester($command);

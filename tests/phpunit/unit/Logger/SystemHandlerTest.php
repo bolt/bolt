@@ -25,7 +25,7 @@ class SystemHandlerTest extends BoltUnitTest
 
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $app['db'] = $db;
+        $this->setService('db', $db);
 
         $log->pushHandler($handler);
         $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
@@ -44,7 +44,7 @@ class SystemHandlerTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('insert')
             ->with($this->equalTo('bolt_log_system'));
-        $app['db'] = $db;
+        $this->setService('db', $db);
 
         $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
     }
@@ -61,7 +61,7 @@ class SystemHandlerTest extends BoltUnitTest
         $db->expects($this->any())
             ->method('insert')
             ->with($this->equalTo('bolt_log_system'));
-        $app['db'] = $db;
+        $this->setService('db', $db);
 
         $log->addRecord(Logger::DEBUG, 'test', ['event' => '', 'exception' => new \Exception()]);
     }
