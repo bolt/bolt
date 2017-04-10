@@ -4,12 +4,11 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Application;
 use Bolt\Configuration\PathResolver;
-use Bolt\Provider\TranslationServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class to test src/Provider/TranslationServiceProvider.
+ * @covers \Bolt\Provider\TranslationServiceProvider
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -18,17 +17,12 @@ class TranslationServiceProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new TranslationServiceProvider($app);
-        $app->register($provider);
-        $app->boot();
         $this->assertNotNull($app['translator']->getLocale());
     }
 
     public function testLocaleChange()
     {
         $app = $this->getApp();
-        $provider = new TranslationServiceProvider($app);
-        $app->register($provider);
         $app['locale'] = 'de_XX';
         $this->assertEquals('de_XX', $app['translator']->getLocale());
     }

@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\SessionServiceProvider;
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
 use Bolt\Tests\BoltUnitTest;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 
 /**
- * Class to test src/Provider/SessionServiceProvider.
+ * @covers \Bolt\Provider\SessionServiceProvider
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
@@ -24,7 +23,6 @@ class SessionServiceProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $app->register(new SessionServiceProvider());
 
         $this->assertInstanceOf(AttributeBagInterface::class, $app['session.bag.attribute']);
         $this->assertInstanceOf(FlashBagInterface::class, $app['session.bag.flash']);
@@ -42,7 +40,5 @@ class SessionServiceProviderTest extends BoltUnitTest
         $this->assertArrayHasKey('cookie_domain', $app['session.options']);
         $this->assertArrayHasKey('cookie_secure', $app['session.options']);
         $this->assertArrayHasKey('cookie_httponly', $app['session.options']);
-
-        $app->boot();
     }
 }
