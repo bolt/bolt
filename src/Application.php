@@ -34,20 +34,15 @@ class Application extends Silex\Application
         $this->register(new Provider\DebugServiceProvider());
 
         /*
-         * Extensions registration phase is actually during boot,
-         * but since it is the first SP to boot it acts like a
-         * late registration. However, services needed by Extension
-         * Manager cannot be modified.
-         *
-         * Extension 1st phase: Run extension's DI registration code.
+         * Extensions registration phase is actually during subscribe(), but
+         * since it is the first SP to register it acts like a late
+         * registration. However, services needed by Extension Manager cannot
+         * be modified.
          */
         $this->register(new Provider\ExtensionServiceProvider());
 
         // Debug 2nd phase: Modify handlers with values from config
         $this->register(new Provider\DebugServiceProvider(false));
-
-        // Extension 2nd phase: Run extension's boot code.
-        $this->register(new Provider\ExtensionServiceProvider(false));
 
         $this->register(new PathServiceProvider());
 

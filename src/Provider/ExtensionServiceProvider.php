@@ -12,33 +12,19 @@ use Composer\IO\BufferIO;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
+use Silex\Api\EventListenerProviderInterface;
 use Silex\Application;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * 1st phase: Registers our services. Registers extensions on boot.
- * 2nd phase: Boots extensions on boot.
+ * 1st phase: Registers our services.
+ * 2nd phase: Registers extensions on subscribe()
+ * 3rd phase: Boots extensions on boot()
  */
-class ExtensionServiceProvider implements ServiceProviderInterface, BootableProviderInterface
+class ExtensionServiceProvider implements ServiceProviderInterface, BootableProviderInterface, EventListenerProviderInterface
 {
-    /** @var bool */
-    private $firstPhase;
-
-    /**
-     * Constructor.
-     *
-     * @param bool $firstPhase
-     */
-    public function __construct($firstPhase = true)
-    {
-        $this->firstPhase = $firstPhase;
-    }
-
     public function register(Container $app)
     {
-        if (!$this->firstPhase) {
-            return;
-        }
-
         $app['extensions'] = function ($app) {
             $loader = new Manager(
                 $app['filesystem']->getFilesystem('extensions'),
@@ -126,12 +112,13 @@ class ExtensionServiceProvider implements ServiceProviderInterface, BootableProv
         };
     }
 
+    public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
+    {
+        $app['extensions']->register($app);
+    }
+
     public function boot(Application $app)
     {
-        if ($this->firstPhase) {
-            $app['extensions']->register($app);
-        } else {
-            $app['extensions']->boot($app);
-        }
+        $app['extensions']->boot($app);
     }
 }
