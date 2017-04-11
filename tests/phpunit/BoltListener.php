@@ -215,9 +215,6 @@ class BoltListener extends BaseTestListener
 
         // Set the theme name in config.yml
         $this->nut("config:set theme $name");
-
-        // Empty the cache
-        $this->nut('cache:clear');
     }
 
     /**
@@ -225,9 +222,6 @@ class BoltListener extends BaseTestListener
      */
     private function cleanTestEnv()
     {
-        // Empty the cache
-        $this->nut('cache:clear');
-
         // Remove the test database
         if ($this->reset) {
             $fs = new Filesystem();
