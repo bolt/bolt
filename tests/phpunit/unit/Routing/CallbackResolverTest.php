@@ -4,6 +4,7 @@ namespace Bolt\Tests\Routing;
 
 use Bolt\Routing\CallbackResolver;
 use Bolt\Tests\BoltUnitTest;
+use Pimple as Container;
 
 class CallbackResolverTest extends BoltUnitTest
 {
@@ -153,7 +154,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     protected function resolver($classmap = [], $services = [])
     {
-        return new CallbackResolver(new \Pimple($services), $classmap);
+        return new CallbackResolver(new Container($services), $classmap);
     }
 
     protected function assertCallback($callback, $instance = null)
