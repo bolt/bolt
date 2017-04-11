@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\Mapping\ClassMetadata;
+
 /**
  * Entity for change logs.
  */
@@ -25,6 +27,8 @@ class LogChange extends Entity
     protected $diff;
     /** @var string */
     protected $comment;
+    /** @var ClassMetadata */
+    protected $contentTypeMeta;
 
     /**
      * @return int
@@ -171,6 +175,16 @@ class LogChange extends Entity
     }
 
     /**
+     * Allows injecting the metadata configuration into the record so output can be built based on variable types.
+     *
+     * @param ClassMetadata $config
+     */
+    public function setContentTypeMeta(ClassMetadata $config)
+    {
+        $this->contentTypeMeta = $config;
+    }
+
+    /**
      * Get changed fields.
      *
      * @return array
@@ -184,7 +198,10 @@ class LogChange extends Entity
         }
 
         // Get the contenttype that we're dealing with
-        $fields = $this->contentTypeMeta['fields'];
+        if ($this->contentTypeMeta) {
+            $fields = $this->contentTypeMeta->getFieldMappings();
+        }
+
         $hash = [
             'html'        => 'fieldText',
             'markdown'    => 'fieldText',
@@ -198,6 +215,9 @@ class LogChange extends Entity
         ];
 
         foreach ($this->diff as $key => $value) {
+            if (!isset($fields[$key])) {
+                continue;
+            }
             $changedfields[$key] = [
                 'type'   => 'normal',
                 'label'  => empty($fields[$key]['label']) ? $key : $fields[$key]['label'],
