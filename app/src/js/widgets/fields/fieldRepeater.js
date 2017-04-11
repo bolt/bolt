@@ -246,16 +246,22 @@
 
             if (this._count >= this.options.maximum) {
                 this._ui.add.addClass('disabled');
+                this._ui.add.prop('disabled', 'disabled');
                 this.element.find('.duplicate-button').addClass('disabled');
+                this.element.find('.duplicate-button').prop('disabled', 'disabled');
             } else {
                 this._ui.add.removeClass('disabled');
+                this._ui.add.prop('disabled', false);
                 this.element.find('.duplicate-button').removeClass('disabled');
+                this.element.find('.duplicate-button').prop('disabled', false);
             }
 
             if (this._count <= this.options.minimum) {
                 this.element.find('.delete-button').addClass('disabled');
+                this.element.find('.delete-button').prop('disabled', 'disabled');
             } else {
                 this.element.find('.delete-button').removeClass('disabled');
+                this.element.find('.delete-button').prop('disabled', false);
             }
         }
     });

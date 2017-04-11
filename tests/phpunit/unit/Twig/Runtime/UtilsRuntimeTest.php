@@ -58,7 +58,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
         ->method('info');
-        $app['logger.firebug'] = $logger;
+        $this->setService('logger.firebug', $logger);
 
         $handler = $this->getHandler();
 
@@ -74,7 +74,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $logger = $this->getMockMonolog();
         $logger->expects($this->atLeastOnce())
             ->method('info');
-        $app['logger.firebug'] = $logger;
+        $this->setService('logger.firebug', $logger);
 
         $handler = $this->getHandler();
 
@@ -89,7 +89,7 @@ class UtilsRuntimeTest extends BoltUnitTest
         $logger = $this->getMockMonolog();
         $logger->expects($this->never())
             ->method('info');
-        $app['logger.firebug'] = $logger;
+        $this->setService('logger.firebug', $logger);
 
         $handler = $this->getHandler();
 

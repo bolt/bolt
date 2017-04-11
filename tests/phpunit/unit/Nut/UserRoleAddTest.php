@@ -17,7 +17,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testAdd()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns();
+        $this->setService('users', $this->getUserMockWithReturns());
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
@@ -29,7 +29,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testRoleExists()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns(true);
+        $this->setService('users', $this->getUserMockWithReturns(true));
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
@@ -41,7 +41,7 @@ class UserRoleAddTest extends BoltUnitTest
     public function testRoleFails()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns(false, false);
+        $this->setService('users', $this->getUserMockWithReturns(false, false));
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 

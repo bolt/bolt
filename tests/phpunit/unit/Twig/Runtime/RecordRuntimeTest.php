@@ -453,7 +453,7 @@ GRINGALET;
             ->method('isEmptyPager')
             ->will($this->returnValue(true))
         ;
-        $app['pager'] = $pager;
+        $this->setService('pager', $pager);
 
         $handler = $this->getRecordRuntime();
         $env = $app['twig'];
@@ -502,7 +502,7 @@ GRINGALET;
             ->method('getPager')
             ->will($this->returnValue($pager))
         ;
-        $app['pager'] = $manager;
+        $this->setService('pager', $manager);
 
         $handler = $this->getRecordRuntime();
         $env = $app['twig'];

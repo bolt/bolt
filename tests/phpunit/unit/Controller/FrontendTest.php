@@ -164,7 +164,7 @@ class FrontendTest extends ControllerUnitTest
     {
         /** @var \Silex\Application $app */
         $app = $this->getApp();
-        $app['twig.runtime.bolt_html'] = $this->getHtmlRuntime();
+        $this->setService('twig.runtime.bolt_html', $this->getHtmlRuntime());
 
         $this->setRequest(Request::create('/pages/5'));
         $app['request_context']->fromRequest($this->getRequest());
@@ -175,7 +175,7 @@ class FrontendTest extends ControllerUnitTest
         $content1['slug'] = 'foo';
 
         $storage = $this->getMockStorage(['getContent']);
-        $app['storage'] = $storage;
+        $this->setService('storage', $storage);
 
         $storage->expects($this->at(0))
             ->method('getContent')
@@ -199,7 +199,7 @@ class FrontendTest extends ControllerUnitTest
     {
         /** @var \Silex\Application $app */
         $app = $this->getApp();
-        $app['twig.runtime.bolt_html'] = $this->getHtmlRuntime();
+        $this->setService('twig.runtime.bolt_html', $this->getHtmlRuntime());
 
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
         $contentType = $this->getService('storage')->getContentType('pages');

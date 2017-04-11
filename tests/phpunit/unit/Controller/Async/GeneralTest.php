@@ -71,13 +71,13 @@ class GeneralTest extends ControllerUnitTest
         $requestInterface = $this->createMock(RequestInterface::class);
         $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $requestInterface)));
 
-        $app['guzzle.client'] = $testGuzzle;
+        $this->setService('guzzle.client', $testGuzzle);
 
         $logger = $this->getMockLoggerManager();
         $logger->expects($this->at(1))
             ->method('error')
             ->with($this->stringContains('Error occurred'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
         $this->controller()->dashboardNews($this->getRequest());
     }
 
@@ -91,13 +91,13 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle->expects($this->any())
                     ->method('get')
                     ->will($this->returnValue($testRequest));
-        $app['guzzle.client'] = $testGuzzle;
+        $this->setService('guzzle.client', $testGuzzle);
 
         $logger = $this->getMockLoggerManager();
         $logger->expects($this->at(1))
             ->method('error')
             ->with($this->stringContains('Invalid JSON'));
-        $app['logger.system'] = $logger;
+        $this->setService('logger.system', $logger);
         $this->controller()->dashboardNews($this->getRequest());
     }
 
@@ -117,7 +117,7 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle->expects($this->any())
                     ->method('get')
                     ->will($this->returnValue($requestInterface));
-        $app['guzzle.client'] = $testGuzzle;
+        $this->setService('guzzle.client', $testGuzzle);
 
         $response = $this->controller()->dashboardNews($this->getRequest());
 

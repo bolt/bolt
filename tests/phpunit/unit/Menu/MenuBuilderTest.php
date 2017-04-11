@@ -217,7 +217,7 @@ class MenuBuilderTest extends BoltUnitTest
             ->method('getContent')
             ->will($this->returnValue($contentMock));
 
-        $app['storage'] = $storage;
+        $this->setService('storage', $storage);
 
         $mb = new MenuBuilder($app);
         $method = new \ReflectionMethod(

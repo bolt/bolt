@@ -4,12 +4,11 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Profiler\BoltDataCollector;
 use Bolt\Profiler\DatabaseDataCollector;
-use Bolt\Provider\ProfilerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Doctrine\DBAL\Logging\DebugStack;
 
 /**
- * Class to test src/Provider/DatabaseProfilerServiceProvider.
+ * @covers \Bolt\Provider\ProfilerServiceProvider
  *
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
@@ -20,8 +19,6 @@ class ProfilerServiceProviderTest extends BoltUnitTest
     {
         $app = $this->getApp(false);
         $app['debug'] = true;
-
-        $app->register(new ProfilerServiceProvider());
 
         $templates = $app['data_collector.templates'];
         $this->assertSame('bolt', $templates[0][0]);

@@ -52,7 +52,7 @@ class AdminRuntimeTest extends BoltUnitTest
             ->expects($this->once())
             ->method('isStackable')
         ;
-        $app['stack'] = $stack;
+        $this->setService('stack', $stack);
 
         $handler = $this->getAdminRuntime();
 
@@ -73,7 +73,7 @@ class AdminRuntimeTest extends BoltUnitTest
                 [[]]
             )
         ;
-        $app['stack'] = $stack;
+        $this->setService('stack', $stack);
 
         $handler = $this->getAdminRuntime();
 
@@ -172,7 +172,7 @@ class AdminRuntimeTest extends BoltUnitTest
             ->method('trans')
             ->will($this->returnValue('Page löschen'))
         ;
-        $app['translator'] = $trans;
+        $this->setService('translator', $trans);
 
         $handler = $this->getAdminRuntime();
 

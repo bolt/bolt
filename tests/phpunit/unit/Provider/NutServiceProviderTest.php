@@ -2,13 +2,12 @@
 
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\NutServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console;
 use Symfony\Component\Console\Command\Command;
 
 /**
- * Class to test src/Provider/NutServiceProvider.
+ * @covers \Bolt\Provider\NutServiceProvider
  *
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
@@ -18,9 +17,6 @@ class NutServiceProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $app->register(new NutServiceProvider());
-        $app->boot();
-
         $this->assertInstanceOf(Console\Application::class, $app['nut']);
         $this->assertTrue(is_array($app['nut.commands']));
     }
@@ -28,8 +24,6 @@ class NutServiceProviderTest extends BoltUnitTest
     public function testAddCommandCallableSingle()
     {
         $app = $this->getApp();
-        $app->register(new NutServiceProvider());
-
         $app['nut.commands.add'](function ($app) {
             return new Command('command1');
         });
@@ -40,8 +34,6 @@ class NutServiceProviderTest extends BoltUnitTest
     public function testAddCommandCallableMultiple()
     {
         $app = $this->getApp();
-        $app->register(new NutServiceProvider());
-
         $app['nut.commands.add'](function ($app) {
             return [
                 new Command('command1'),
@@ -56,8 +48,6 @@ class NutServiceProviderTest extends BoltUnitTest
     public function testAddCommandSingle()
     {
         $app = $this->getApp();
-        $app->register(new NutServiceProvider());
-
         $command1 = new Command('command1');
         $app['nut.commands.add']($command1);
 
@@ -67,8 +57,6 @@ class NutServiceProviderTest extends BoltUnitTest
     public function testAddCommandMultiple()
     {
         $app = $this->getApp();
-        $app->register(new NutServiceProvider());
-
         $command1 = new Command('command1');
         $command2 = new Command('command2');
         $app['nut.commands.add']([$command1, $command2]);

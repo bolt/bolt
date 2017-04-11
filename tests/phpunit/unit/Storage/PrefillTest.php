@@ -23,7 +23,7 @@ class PrefillTest extends BoltUnitTest
             ->with('http://loripsum.net/api/1/veryshort')
             ->will($this->returnValue($request));
 
-        $app['guzzle.client'] = $guzzle;
+        $this->setService('guzzle.client', $guzzle);
         $app['prefill']->get('/1/veryshort');
     }
 }

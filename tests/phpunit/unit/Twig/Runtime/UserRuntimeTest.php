@@ -4,10 +4,6 @@ namespace Bolt\Tests\Twig\Runtime;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\UserRuntime;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
-use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test Bolt\Twig\Runtime\UserRuntime
@@ -103,7 +99,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $content = new \Bolt\Legacy\Content($app, []);
@@ -120,7 +116,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', []);
@@ -136,7 +132,7 @@ class UserRuntimeTest extends BoltUnitTest
             ->method('isAllowed')
             ->will($this->returnValue(true))
         ;
-        $app['users'] = $users;
+        $this->setService('users', $users);
         $handler = new UserRuntime($app['users'], $app['csrf']);
 
         $result = $handler->isAllowed('koala', 'clippy');
