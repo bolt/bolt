@@ -2,14 +2,13 @@
 
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\TwigServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Extension\BoltExtension;
 use Bolt\Twig\SafeEnvironment;
 use Twig_Environment;
 
 /**
- * Class to test src/Provider/TwigServiceProvider.
+ * @covers \Bolt\Provider\TwigServiceProvider
  *
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
@@ -37,10 +36,8 @@ class TwigServiceProviderTest extends BoltUnitTest
 
     public function testConfigCacheDisabled()
     {
-        $app = $this->getApp();
-
+        $app = $this->getApp(false);
         $app['config']->set('general/caching/templates', false);
-        $app->register(new TwigServiceProvider());
         $this->assertArrayNotHasKey('cache', $app['twig.options']);
     }
 }

@@ -36,7 +36,7 @@ class LogManagerTest extends BoltUnitTest
             ->method('executeUpdate')
             ->with($this->equalTo('DELETE FROM bolt_log_system WHERE date < :date'));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $log = $this->getLogManager($app);
         $log->trim('system');
     }
@@ -50,7 +50,7 @@ class LogManagerTest extends BoltUnitTest
             ->method('executeUpdate')
             ->with($this->equalTo('DELETE FROM bolt_log_change WHERE date < :date'));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $log = $this->getLogManager($app);
         $log->trim('change');
     }
@@ -83,7 +83,7 @@ class LogManagerTest extends BoltUnitTest
             ->method('executeQuery')
             ->with($this->equalTo('TRUNCATE bolt_log_change'));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $log = $this->getLogManager($app);
         $log->clear('system');
         $log->clear('change');
@@ -108,7 +108,7 @@ class LogManagerTest extends BoltUnitTest
                 }
             ));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $app['request'] = Request::createFromGlobals();
 
         $log = $this->getLogManager($app);
@@ -132,7 +132,7 @@ class LogManagerTest extends BoltUnitTest
                 }
             ));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $app['request'] = Request::createFromGlobals();
 
         $log = $this->getLogManager($app);
@@ -167,7 +167,7 @@ class LogManagerTest extends BoltUnitTest
                 }
             ));
 
-        $app['db'] = $db;
+        $this->setService('db', $db);
         $app['request'] = Request::createFromGlobals();
 
         $log = $this->getLogManager($app);
