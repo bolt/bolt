@@ -173,7 +173,13 @@ class LogChangeRepository extends BaseLogRepository
 
         $query = $this->getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp);
 
-        return $this->findOneWith($query);
+        $record = $this->findOneWith($query);
+        if ($record) {
+            $repo = $this->getEntityManager()->getRepository($record->getContentType());
+            $record->setContentTypeMeta($repo->getClassMetadata());
+        }
+
+        return $record;
     }
 
     /**

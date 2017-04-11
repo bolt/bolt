@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Provider;
 
 use Bolt\Tests\BoltUnitTest;
-use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Cocur\Slugify\Slugify;
 
 /**
@@ -16,10 +15,7 @@ class SlugifyProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new SlugifyServiceProvider();
-        $app->register($provider);
         $this->assertInstanceOf(Slugify::class, $app['slugify']);
-        $app->boot();
 
         $slug = 'This is a title';
         $this->assertEquals('this-is-a-title', $app['slugify']->slugify($slug));

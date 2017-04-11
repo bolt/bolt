@@ -108,7 +108,7 @@ class AccessCheckerTest extends BoltUnitTest
             ->method('info')
             ->with($this->equalTo('You have been logged out.'))
         ;
-        $app['logger.flash'] = $logger;
+        $this->setService('logger.flash', $logger);
 
         $userEntity = new Entity\Users();
         $tokenEntity = new Entity\Authtoken();

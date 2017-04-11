@@ -178,7 +178,7 @@ abstract class BoltUnitTest extends TestCase
         $users->expects($this->any())
             ->method('isEnabled')
             ->will($this->returnValue(true));
-        $app['users'] = $users;
+        $this->setService('users', $users);
 
         $permissions = $this->getMockPermissions(['isAllowed']);
         $permissions->expects($this->any())
@@ -191,7 +191,7 @@ abstract class BoltUnitTest extends TestCase
             ->method('isValidSession')
             ->will($this->returnValue(true));
 
-        $app['access_control'] = $auth;
+        $this->setService('access_control', $auth);
     }
 
     protected function removeCSRF($app)
@@ -206,7 +206,7 @@ abstract class BoltUnitTest extends TestCase
             ->method('getToken')
             ->will($this->returnValue('xyz'));
 
-        $app['form.csrf_provider'] = $csrf;
+        $this->setService('form.csrf_provider', $csrf);
     }
 
     protected function addSomeContent()
@@ -214,8 +214,7 @@ abstract class BoltUnitTest extends TestCase
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $app['config']->set('taxonomy/categories/options', ['news']);
-        $prefillMock = new LoripsumMock();
-        $app['prefill'] = $prefillMock;
+        $this->setService('prefill', new LoripsumMock());
 
         $builder = $app['prefill.builder'];
         $builder->build(['showcases', 'pages'], 5);
@@ -227,6 +226,9 @@ abstract class BoltUnitTest extends TestCase
      */
     protected function setService($key, $value)
     {
+        // In Pimple v3+ you can't re-set a container value,
+        // this just keeps us working forward with tests.
+        $this->getApp()->offsetUnset($key);
         $this->getApp()->offsetSet($key, $value);
     }
 
@@ -394,7 +396,7 @@ abstract class BoltUnitTest extends TestCase
     {
         return $this->getMockBuilder(Swift_Mailer::class)
             ->setMethods($methods)
-            ->setConstructorArgs([$this->app['swiftmailer.transport']])
+            ->disableOriginalConstructor()
             ->getMock()
         ;
     }

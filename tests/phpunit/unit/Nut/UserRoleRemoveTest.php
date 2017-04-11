@@ -17,7 +17,7 @@ class UserRoleRemoveTest extends BoltUnitTest
     public function testRemove()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns(true, true);
+        $this->setService('users', $this->getUserMockWithReturns(true, true));
         $command = new UserRoleRemove($app);
         $tester = new CommandTester($command);
 
@@ -30,7 +30,7 @@ class UserRoleRemoveTest extends BoltUnitTest
     public function testRemoveFail()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns(false, true);
+        $this->setService('users', $this->getUserMockWithReturns(false, true));
         $command = new UserRoleRemove($app);
         $tester = new CommandTester($command);
 
@@ -42,7 +42,7 @@ class UserRoleRemoveTest extends BoltUnitTest
     public function testRemoveNonexisting()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMockWithReturns(true, false);
+        $this->setService('users', $this->getUserMockWithReturns(true, false));
         $command = new UserRoleRemove($app);
         $tester = new CommandTester($command);
 
