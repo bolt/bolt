@@ -33,6 +33,38 @@ class DebugRouterTest extends BoltUnitTest
         $this->assertLessThan($expectedA, $expectedB);
     }
 
+    public function providerRunNamed()
+    {
+        return [
+            [
+                'preview',
+                '/(Route Name).+(preview)/',
+                '/(Path).+(\/preview\/{contenttypeslug})/',
+            ],
+            [
+                'contentaction',
+                '/(Route Name).+(contentaction)/',
+                '/(Path).+(\/async\/content\/action)/',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providerRunNamed
+     */
+    public function testRunNamed($name, $routeNamePattern, $pathPattern)
+    {
+        $tester = $this->getCommandTester();
+
+        $tester->execute(['name' => $name]);
+        $result = $tester->getDisplay();
+
+        $this->assertRegExp($routeNamePattern, $result);
+        $this->assertRegExp($pathPattern, $result);
+        $this->assertNotRegExp($this->regexExpectedA, $result);
+        $this->assertNotRegExp($this->regexExpectedB, $result);
+    }
+
     public function testSortRoute()
     {
         $tester = $this->getCommandTester();
