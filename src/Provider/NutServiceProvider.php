@@ -8,8 +8,8 @@ use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Bridge;
+use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
@@ -67,6 +67,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\DebugEvents($app),
                     new Nut\DebugServiceProviders($app),
                     new Nut\DebugRouter($app),
+                    new Nut\RouterMatch($app),
                     $app['nut.command.twig_debug'],
                     $app['nut.command.twig_lint']
                 ];
