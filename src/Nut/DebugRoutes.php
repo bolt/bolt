@@ -34,6 +34,7 @@ class DebugRoutes extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->app->flush();
         $table = new Table($output);
         $table->setHeaders([
             ['Route Name', 'Path', 'Method(s)']
