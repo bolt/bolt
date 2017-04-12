@@ -9,6 +9,7 @@ use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Bridge;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
@@ -28,6 +29,9 @@ class NutServiceProvider implements ServiceProviderInterface
                 return $console;
             }
         );
+
+        $app['nut.command.twig_debug'] = $app->share(function () { return new Bridge\Twig\Command\DebugCommand(); });
+        $app['nut.command.twig_lint'] = $app->share(function () { return new Bridge\Twig\Command\LintCommand(); });
 
         $app['nut.commands'] = $app->share(
             function ($app) {
@@ -63,6 +67,8 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\DebugEvents($app),
                     new Nut\DebugServiceProviders($app),
                     new Nut\DebugRoutes($app),
+                    $app['nut.command.twig_debug'],
+                    $app['nut.command.twig_lint']
                 ];
             }
         );
@@ -120,5 +126,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $app['nut.command.twig_debug']->setTwigEnvironment($app['twig']);
+        $app['nut.command.twig_lint']->setTwigEnvironment($app['twig']);
     }
 }
