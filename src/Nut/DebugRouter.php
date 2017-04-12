@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DebugRoutes extends BaseCommand
+class DebugRouter extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -21,7 +21,7 @@ class DebugRoutes extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('debug:routes')
+            ->setName('debug:router')
             ->setDescription('System route debug dumper.')
             ->addOption('sort-route', null, InputOption::VALUE_NONE, 'Sort in order of route name (default).')
             ->addOption('sort-pattern', null, InputOption::VALUE_NONE, 'Sort in order of URI patterns.')
@@ -37,12 +37,18 @@ class DebugRoutes extends BaseCommand
         $this->app->flush();
         $table = new Table($output);
         $table->setHeaders([
-            ['Route Name', 'Path', 'Method(s)']
+            [
+                'Route Name',
+                'Method(s)',
+                'Scheme',
+                'Host',
+                'Path',
+            ]
         ]);
         $routes = (array) $this->app['routes']->getIterator();
 
         if ($input->getOption('sort-route')) {
-            $routes = $this->sortRotues($routes);
+            $routes = $this->sortRoutes($routes);
         }
         if ($input->getOption('sort-pattern')) {
             $routes = $this->sortPattern($routes);
@@ -54,8 +60,10 @@ class DebugRoutes extends BaseCommand
         foreach ($routes as $bindName => $route) {
             $table->addRow([
                 $bindName,
-                $route->getPath(),
                 $this->getMethods($route),
+                implode('|', $route->getSchemes()) ?: ' ANY',
+                $route->getHost() ?: ' ANY',
+                $route->getPath(),
             ]);
         }
 
@@ -69,7 +77,7 @@ class DebugRoutes extends BaseCommand
      *
      * @return Route[]
      */
-    private function sortRotues(array $routes)
+    private function sortRoutes(array $routes)
     {
         ksort($routes);
 
@@ -110,7 +118,7 @@ class DebugRoutes extends BaseCommand
         $methods = $route->getMethods();
         sort($methods);
 
-        return implode('|', $methods) ?: 'ALL';
+        return implode('|', $methods) ?: 'ANY';
     }
 
     /**

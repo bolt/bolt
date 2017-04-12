@@ -2,21 +2,21 @@
 
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\DebugRoutes;
+use Bolt\Nut\DebugRouter;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for \Bolt\Nut\DebugRoutes
+ * Tests for \Bolt\Nut\DebugRouter
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DebugRoutesTest extends BoltUnitTest
+class DebugRouterTest extends BoltUnitTest
 {
     use TableHelperTrait;
 
-    protected $regexExpectedA = '/(preview).+(\/{contenttypeslug}).+(ALL)/';
-    protected $regexExpectedB = '/(contentaction).+(\/async\/content\/action).+(POST)/';
+    protected $regexExpectedA = '/(preview).+(ANY).+(ANY).+(ANY).+(\/{contenttypeslug})/';
+    protected $regexExpectedB = '/(contentaction).+(POST).+(ANY).+(ANY).+(\/async\/content\/action)/';
 
     public function testRunNormal()
     {
@@ -72,7 +72,7 @@ class DebugRoutesTest extends BoltUnitTest
     protected function getCommandTester()
     {
         $app = $this->getApp();
-        $command = new DebugRoutes($app);
+        $command = new DebugRouter($app);
 
         return new CommandTester($command);
     }
