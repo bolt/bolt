@@ -8,8 +8,8 @@ use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Bridge;
+use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
 {
@@ -55,7 +55,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\Init($app),
                     new Nut\LogClear($app),
                     new Nut\LogTrim($app),
-                    new Nut\PimpleDumpCommand($app),
+                    new Nut\PimpleDump($app),
                     new Nut\ServerRun($app),
                     new Nut\SetupSync($app),
                     new Nut\TestRunner($app),
