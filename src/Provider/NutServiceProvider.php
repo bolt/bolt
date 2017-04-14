@@ -66,7 +66,8 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserRoleRemove($app),
                     new Nut\DebugEvents($app),
                     new Nut\DebugServiceProviders($app),
-                    new Nut\DebugRoutes($app),
+                    new Nut\DebugRouter($app),
+                    new Nut\RouterMatch($app),
                     $app['nut.command.twig_debug'],
                     $app['nut.command.twig_lint']
                 ];
