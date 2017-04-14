@@ -87,4 +87,102 @@ class RecordChangeHandlerTest extends BoltUnitTest
         $handler = new RecordChangeHandler($app, Logger::WARNING);
         $this->assertFalse($handler->handle(['level' => 100]));
     }
+
+    public function provideDiff()
+    {
+        return [
+//            'No features at all' => [
+//                [],
+//                [],
+//                [],
+//            ],
+//            'Feature one stays the same' => [
+//                ['feature one' => 'old feature', 'constant' => 'value'],
+//                ['feature one' => 'old feature', 'constant' => 'value'],
+//                [],
+//            ],
+//            'Feature one gets removed' => [
+//                ['feature one' => 'old feature', 'constant' => 'value'],
+//                ['constant' => 'value'],
+//                [
+//                    'feature one' => ['old feature', null],
+//                ],
+//            ],
+            'Feature one gets added' => [
+                ['title' => 'constant'],
+                ['feature one' => 'new feature', 'title' => 'constant'],
+                [
+                    'feature one' => [null, 'new feature'],
+                ],
+            ],
+            'Feature one gets updated' => [
+                ['feature one' => 'old feature one', 'title' => 'constant'],
+                ['feature one' => 'new feature one', 'title' => 'constant'],
+                [
+                    'feature one' => ['old feature one', 'new feature one'],
+                ],
+            ],
+            'Multi feature one & two get updated' => [
+                [
+                    'feature one' => 'old feature one',
+                    'feature two' => 'old feature two',
+                    'title' => 'constant',
+                ],
+                [
+                    'feature one' => 'new feature one',
+                    'feature two' => 'new feature two',
+                    'title' => 'constant',
+                ],
+                [
+                    'feature one' => ['old feature one', 'new feature one'],
+                    'feature two' => ['old feature two', 'new feature two'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideDiff
+     */
+    public function testDiff($a, $b, $expected)
+    {
+        $app = $this->getApp();
+        $app['config']->set('general/changelog/enabled', true);
+
+        $actual = null;
+        $mocker = new DoctrineMockBuilder();
+        $db = $mocker->getConnectionMock();
+        $db->expects($this->once())
+            ->method('insert')
+            ->with(
+                $this->equalTo('bolt_log_change'),
+                $this->callback(
+                    function ($arg) use (&$actual) {
+                        $actual = json_decode($arg['diff'], true);
+
+                        return $arg;
+                    }
+                )
+            )
+        ;
+        $this->setService('db', $db);
+
+        $handler = new RecordChangeHandler($app);
+        $handler->handle([
+            'context' => [
+                'action' => 'UPDATE',
+                'old' => $a,
+                'new' => $b,
+
+                'id' => 1,
+                'comment' => '',
+                'contenttype' => 'asdf',
+            ],
+            'level' => Logger::DEBUG,
+            'datetime' => new \DateTime(),
+            'extra' => [],
+        ]);
+
+        $this->assertEquals($expected, $actual);
+    }
 }
