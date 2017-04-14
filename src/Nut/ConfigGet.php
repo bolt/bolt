@@ -33,10 +33,10 @@ class ConfigGet extends AbstractConfig
     {
         $key = $input->getArgument('key');
         $file = $this->getFile($input);
-        $yaml = new YamlUpdater($this->app, $file);
+        $updater = new YamlUpdater($file);
 
         try {
-            $match = $yaml->get($key);
+            $match = $updater->get($key);
         } catch (\Exception $e) {
             $this->handleException($e, $file);
 

@@ -37,10 +37,10 @@ class ConfigSet extends AbstractConfig
         $value = $input->getArgument('value');
         $backup = $input->getOption('backup');
         $file = $this->getFile($input);
-        $yaml = new YamlUpdater($this->app, $file);
+        $updater = new YamlUpdater($file);
 
         try {
-            $match = $yaml->change($key, $value, $backup);
+            $match = $updater->change($key, $value, $backup);
         } catch (\Exception $e) {
             $this->handleException($e, $file);
 
