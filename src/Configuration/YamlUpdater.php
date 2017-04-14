@@ -108,7 +108,7 @@ class YamlUpdater
         $column = $matches[1][1] + strlen($matches[1][0]);
         $line = substr_count($yaml, "\n", 0, $column);
 
-        $this->lines[$line] = preg_replace('/^(.*?):(.*)/', '$1: ' . Inline::dump($value), $this->lines[$line]);
+        $this->lines[$line] = preg_replace('/^(.*?):(.*(?= #)|.*$)/', '$1: ' . Inline::dump($value), $this->lines[$line]);
 
         $this->save($backup);
 
