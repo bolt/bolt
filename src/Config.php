@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Collection\Arr;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
@@ -10,7 +11,6 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
-use Bolt\Helpers\Arr;
 use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
@@ -178,27 +178,7 @@ class Config
      */
     public function set($path, $value)
     {
-        $path = explode('/', $path);
-
-        // Only do something if we get at least one key.
-        if (empty($path[0])) {
-            $logline = "Config: can't set empty path to '" . (string) $value . "'";
-            $this->app['logger.system']->critical($logline, ['event' => 'config']);
-
-            return false;
-        }
-
-        $part = & $this->data;
-
-        foreach ($path as $key) {
-            if (!isset($part[$key])) {
-                $part[$key] = [];
-            }
-
-            $part = & $part[$key];
-        }
-
-        $part = $value;
+        Arr::set($this->data, $path, $value);
 
         return true;
     }
@@ -216,30 +196,7 @@ class Config
      */
     public function get($path, $default = null)
     {
-        $path = explode('/', $path);
-
-        // Only do something if we get at least one key.
-        if (empty($path[0]) || !isset($this->data[$path[0]])) {
-            return false;
-        }
-
-        $part = & $this->data;
-        $value = null;
-
-        foreach ($path as $key) {
-            if (!isset($part[$key])) {
-                $value = null;
-                break;
-            }
-
-            $value = $part[$key];
-            $part = & $part[$key];
-        }
-        if ($value !== null) {
-            return $value;
-        }
-
-        return $default;
+        return Arr::get($this->data, $path, $default);
     }
 
     /**

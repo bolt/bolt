@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Repository;
 
-use Bolt\Helpers\Arr;
+use Bolt\Collection\Arr;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;

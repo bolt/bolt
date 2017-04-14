@@ -3,7 +3,6 @@
 namespace Bolt\Logger\Handler;
 
 use Bolt\Exception\StorageException;
-use Bolt\Helpers\Arr;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
@@ -145,7 +144,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $data = [];
         switch ($context['action']) {
             case 'UPDATE':
-                $diff = Arr::deepDiff($context['old'], $context['new']);
+                $diff = $this->diff($context['old'], $context['new']);
                 foreach ($diff as $item) {
                     list($k, $old, $new) = $item;
                     if (isset($context['new'][$k])) {
@@ -210,5 +209,41 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $this->tablename = sprintf('%s%s', $this->app['config']->get('general/database/prefix', 'bolt_'), 'log_change');
         $this->allowed = ['INSERT', 'UPDATE', 'DELETE'];
         $this->initialized = true;
+    }
+
+    /**
+     * @param array $a
+     * @param array $b
+     *
+     * @return array [key, left, right][]
+     */
+    private function diff(array $a, array $b)
+    {
+        if (empty($a)) {
+            $a = [];
+        }
+        if (empty($b)) {
+            $b = [];
+        }
+        $keys = array_keys($a + $b);
+        $result = [];
+
+        foreach ($keys as $k) {
+            if (empty($a[$k])) {
+                $l = null;
+            } else {
+                $l = $a[$k];
+            }
+            if (empty($b[$k])) {
+                $r = null;
+            } else {
+                $r = $b[$k];
+            }
+            if ($l != $r) {
+                $result[] = [$k, $l, $r];
+            }
+        }
+
+        return $result;
     }
 }
