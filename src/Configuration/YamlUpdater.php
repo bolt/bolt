@@ -71,11 +71,17 @@ class YamlUpdater
      * Return a value for a key from the yml file.
      *
      * @param string $key
+     * @param bool   $throwEx Throw exception if key is not found.
      *
-     * @return string|mixed
+     * @return mixed|string
      */
-    public function get($key)
+    public function get($key, $throwEx = false)
     {
+        // Make $throwEx true by default in v4.0
+        if ($throwEx && !$this->parsed->hasPath($key)) {
+            throw new \InvalidArgumentException(sprintf("The key '%s' was not found in %s.", $key, $this->file->getFullPath()));
+        }
+
         $value = $this->parsed->getPath($key);
 
         if (is_array($value)) {
@@ -101,7 +107,10 @@ class YamlUpdater
         $pattern = '/^' . str_replace('/', ':.*?', $key) . '(:\s*)/mis';
         preg_match($pattern, $yaml, $matches, PREG_OFFSET_CAPTURE);
         if (!$matches) {
-            // Throw exception in v4.0 instead of returning boolean.
+            // Throw exception by default in v4.0 instead of returning boolean.
+            if (func_num_args() === 4 && func_get_arg(3)) {
+                throw new \InvalidArgumentException(sprintf("The key '%s' was not found in %s.", $key, $this->file->getFullPath()));
+            }
             return false;
         }
 

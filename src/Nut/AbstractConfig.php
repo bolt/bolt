@@ -2,11 +2,15 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Exception\FilesystemException;
+use Bolt\Configuration\YamlUpdater;
 use Bolt\Filesystem\Exception\FileNotFoundException;
-use Bolt\Filesystem\Handler\YamlFile;
+use Bolt\Filesystem\Handler\FileInterface;
 use Exception;
+use InvalidArgumentException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
@@ -16,38 +20,44 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 abstract class AbstractConfig extends BaseCommand
 {
-    /**
-     * @param Exception $e
-     * @param YamlFile  $file
-     *
-     * @throws Exception
-     */
-    protected function handleException(Exception $e, YamlFile $file)
+    /** @var FileInterface */
+    protected $file;
+
+    protected function configure()
     {
-        if ($e instanceof FileNotFoundException) {
-            $this->io->error(sprintf("Can't read file: %s.", $file->getFilename()));
-        } elseif ($e instanceof ParseException) {
-            $this->io->error(sprintf('Invalid YAML in file: %s.', $file->getFilename()));
-        } elseif ($e instanceof FilesystemException) {
-            $this->io->error(sprintf('' . $e->getMessage() . ''));
-        } else {
-            throw $e;
-        }
+        $this
+            ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get')
+            ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Specify config file to use', 'config://config.yml')
+        ;
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return YamlFile
-     */
-    protected function getFile(InputInterface $input)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fs = $this->app['filesystem'];
         $fileName = $input->getOption('file');
-        if (strpos($fileName, '://') == false) {
+        if (strpos($fileName, '://') === false) {
             $fileName = 'config://' . $fileName;
         }
 
-        return $fs->get($fileName, new YamlFile());
+        try {
+            $this->file = $this->app['filesystem']->get($fileName);
+
+            $updater = new YamlUpdater($this->file);
+
+            $this->doExecute($updater, $input, $output);
+        } catch (Exception $e) {
+            if ($e instanceof FileNotFoundException) {
+                $this->io->error($e->getMessage());
+                $this->io->error("Can't read file: $fileName.");
+            } elseif ($e instanceof ParseException) {
+                $this->io->error(sprintf('Invalid YAML in file: %s.', $this->file->getFullPath()));
+            } elseif ($e instanceof InvalidArgumentException) {
+                $this->io->error($e->getMessage());
+            } else {
+                throw $e;
+            }
+            return;
+        }
     }
+
+    abstract protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output);
 }

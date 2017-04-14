@@ -18,51 +18,31 @@ class ConfigSet extends AbstractConfig
      */
     protected function configure()
     {
+        parent::configure();
         $this
             ->setName('config:set')
-            ->setDescription('Set a parameter value in a YAML configuration file (config.yml by default)')
-            ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get')
+            ->setDescription('Set a value in a config file')
             ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to')
-            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use', 'config://config.yml')
             ->addOption('backup', 'b', InputOption::VALUE_NONE, 'Make a backup of the config file')
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
         $backup = $input->getOption('backup');
-        $file = $this->getFile($input);
-        $updater = new YamlUpdater($file);
 
-        try {
-            $match = $updater->change($key, $value, $backup);
-        } catch (\Exception $e) {
-            $this->handleException($e, $file);
-
-            return true;
-        }
-
-        if ($match === false) {
-            $this->io->error(sprintf("The key '%s' was not found in %s.", $key, $file->getFilename()));
-
-            return true;
-        }
-
+        $updater->change($key, $value, $backup, true);
         if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
         }
-        $this->io->title(sprintf("Updating configuration setting in file %s", $file->getFilename()));
+
+        $this->io->title(sprintf("Updating configuration setting in file %s", $this->file->getFullPath()));
         $this->io->success([
             'Setting updated to:',
             sprintf('%s: %s', $key, $value),
         ]);
         $this->auditLog(__CLASS__, "Config value '$key: $value' set");
-
-        return false;
     }
 }

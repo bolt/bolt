@@ -3,9 +3,7 @@
 namespace Bolt\Nut;
 
 use Bolt\Configuration\YamlUpdater;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -18,43 +16,23 @@ class ConfigGet extends AbstractConfig
      */
     protected function configure()
     {
+        parent::configure();
         $this
             ->setName('config:get')
-            ->setDescription('Get a parameter value from a YAML configuration file (default is config.yml)')
-            ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get')
-            ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use', 'config://config.yml')
+            ->setDescription('Get a value from a config file')
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
-        $file = $this->getFile($input);
-        $updater = new YamlUpdater($file);
 
-        try {
-            $match = $updater->get($key);
-        } catch (\Exception $e) {
-            $this->handleException($e, $file);
-
-            return true;
+        $value = $updater->get($key, true);
+        if (is_bool($value)) {
+            $value = $value ? 'true' : 'false';
         }
 
-        if ($match === null) {
-            $this->io->error(sprintf("The key '%s' was not found in %s.", $key, $file->getFilename()));
-
-            return true;
-        }
-
-        if (is_bool($match)) {
-            $match = $match ? 'true' : 'false';
-        }
-        $this->io->title(sprintf("Configuration setting in file %s", $file->getFilename()));
-        $this->io->text([sprintf('%s: %s', $key, $match), '']);
-
-        return false;
+        $this->io->title(sprintf("Configuration setting in file %s", $this->file->getFullPath()));
+        $this->io->text([sprintf('%s: %s', $key, $value), '']);
     }
 }
