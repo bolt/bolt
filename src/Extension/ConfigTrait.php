@@ -2,11 +2,11 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Collection\Arr;
 use Bolt\Filesystem\Exception\RuntimeException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\ParsableInterface;
-use Bolt\Helpers\Arr;
 use Bolt\Storage\Field\FieldInterface;
 use Pimple as Container;
 

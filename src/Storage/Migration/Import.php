@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Migration;
 
-use Bolt\Helpers\Arr;
+use Bolt\Collection\Arr;
 
 /**
  * Database records import class

@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Collection\Arr;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
@@ -10,7 +11,6 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
-use Bolt\Helpers\Arr;
 use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;

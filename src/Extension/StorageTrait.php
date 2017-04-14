@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\Arr;
+use Bolt\Collection\Arr;
 use Pimple as Container;
 
 /**
