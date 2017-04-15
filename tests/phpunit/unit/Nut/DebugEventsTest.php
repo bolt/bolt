@@ -15,7 +15,7 @@ class DebugEventsTest extends BoltUnitTest
 {
     use TableHelperTrait;
 
-    protected $regexExpectedA = '/(kernel\.request).+(Symfony.Component.HttpKernel.EventListener.RouterListener::onKernelRequest).+(32)/';
+    protected $regexExpectedA = '/(#\d+).+(Symfony.Component.HttpKernel.EventListener.RouterListener::onKernelRequest).+(32)/';
     protected $regexExpectedB = '/(Bolt.Routing.Canonical::onRequest).+(31)/';
 
     public function testRunNormal()
