@@ -3,9 +3,9 @@
 namespace Bolt\Composer;
 
 use Bolt;
+use Bolt\Collection\Arr;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\JsonFile;
-use Bolt\Helpers\Arr;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Webmozart\PathUtil\Path;

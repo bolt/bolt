@@ -2,21 +2,21 @@
 
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\DebugRoutes;
+use Bolt\Nut\DebugRouter;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for \Bolt\Nut\DebugRoutes
+ * Tests for \Bolt\Nut\DebugRouter
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DebugRoutesTest extends BoltUnitTest
+class DebugRouterTest extends BoltUnitTest
 {
     use TableHelperTrait;
 
-    protected $regexExpectedA = '/(preview).+(\/{contenttypeslug}).+(ALL)/';
-    protected $regexExpectedB = '/(contentaction).+(\/async\/content\/action).+(POST)/';
+    protected $regexExpectedA = '/(preview).+(ANY).+(ANY).+(ANY).+(\/{contenttypeslug})/';
+    protected $regexExpectedB = '/(contentaction).+(POST).+(ANY).+(ANY).+(\/async\/content\/action)/';
 
     public function testRunNormal()
     {
@@ -31,6 +31,38 @@ class DebugRoutesTest extends BoltUnitTest
         $expectedA = $this->getMatchingLineNumber($this->regexExpectedA, $result);
         $expectedB = $this->getMatchingLineNumber($this->regexExpectedB, $result);
         $this->assertLessThan($expectedA, $expectedB);
+    }
+
+    public function providerRunNamed()
+    {
+        return [
+            [
+                'preview',
+                '/(Route Name).+(preview)/',
+                '/(Path).+(\/preview\/{contenttypeslug})/',
+            ],
+            [
+                'contentaction',
+                '/(Route Name).+(contentaction)/',
+                '/(Path).+(\/async\/content\/action)/',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider providerRunNamed
+     */
+    public function testRunNamed($name, $routeNamePattern, $pathPattern)
+    {
+        $tester = $this->getCommandTester();
+
+        $tester->execute(['name' => $name]);
+        $result = $tester->getDisplay();
+
+        $this->assertRegExp($routeNamePattern, $result);
+        $this->assertRegExp($pathPattern, $result);
+        $this->assertNotRegExp($this->regexExpectedA, $result);
+        $this->assertNotRegExp($this->regexExpectedB, $result);
     }
 
     public function testSortRoute()
@@ -72,7 +104,7 @@ class DebugRoutesTest extends BoltUnitTest
     protected function getCommandTester()
     {
         $app = $this->getApp();
-        $command = new DebugRoutes($app);
+        $command = new DebugRouter($app);
 
         return new CommandTester($command);
     }

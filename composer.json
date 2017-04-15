@@ -10,6 +10,7 @@
     ],
     "license": "MIT",
     "require": {
+        "bolt/collection": "dev-master@dev",
         "bolt/filesystem": "^2.2",
         "bolt/thumbs": "^3.1.1",
         "cocur/slugify": "^2.0",

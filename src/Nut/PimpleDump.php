@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class PimpleDumpCommand extends BaseCommand
+class PimpleDump extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -32,6 +32,19 @@ class PimpleDumpCommand extends BaseCommand
         $this->setName('pimple:dump')
             ->setDescription('Pimple container dumper for PhpStorm & IntelliJ IDEA.')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        /** @deprecated Remove when upgraded to Silex 2 */
+        $this->app['security'] = $this->app->share(
+            function ($app) {
+                return $app['security.token_storage'];
+            }
+        );
     }
 
     /**
