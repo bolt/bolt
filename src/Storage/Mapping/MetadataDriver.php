@@ -2,11 +2,11 @@
 
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Collection\Arr;
 use Bolt\Config;
 use Bolt\Configuration\ConfigurationValueProxy;
 use Bolt\Exception\StorageException;
 use Bolt\Filesystem\Handler\Image;
-use Bolt\Helpers\Arr;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;

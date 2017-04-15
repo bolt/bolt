@@ -214,7 +214,7 @@ class BoltListener extends BaseTestListener
         $fs->mirror($this->theme, PHPUNIT_WEBROOT . '/theme/' . $name);
 
         // Set the theme name in config.yml
-        $this->nut("config:set theme $name");
+        $this->nut("config:set theme $name --quiet");
     }
 
     /**
@@ -260,6 +260,9 @@ class BoltListener extends BaseTestListener
         $nut = $app['nut'];
         $nut->setAutoExit(false);
 
-        $nut->run(new StringInput($command));
+        $result = $nut->run(new StringInput($command));
+        if ($result && strpos($command, '-q') !== false) {
+            throw new \RuntimeException(sprintf('[FAILED] %s', $command));
+        }
     }
 }
