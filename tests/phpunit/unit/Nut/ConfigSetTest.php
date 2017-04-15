@@ -31,7 +31,7 @@ class ConfigSetTest extends BoltUnitTest
 
         // Test non-existent fails
         $tester->execute(['key' => 'nonexistent', 'value' => 'test', '--file' => 'config.yml']);
-        $this->assertRegExp("/The key 'nonexistent' was not found in config.yml/", $tester->getDisplay());
+        $this->assertRegExp("/The key 'nonexistent' was not found in config:\/\/config.yml/", $tester->getDisplay());
     }
 
     public function testDefaultFile()
@@ -43,7 +43,7 @@ class ConfigSetTest extends BoltUnitTest
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);
         $tester->execute(['key' => 'nonexistent', 'value' => 'test']);
-        $this->assertRegExp("/The key 'nonexistent' was not found in config.yml/", $tester->getDisplay());
+        $this->assertRegExp("/The key 'nonexistent' was not found in config:\/\/config.yml/", $tester->getDisplay());
     }
 
     public static function setUpBeforeClass()
