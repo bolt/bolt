@@ -23,6 +23,9 @@ abstract class AbstractConfig extends BaseCommand
     /** @var FileInterface */
     protected $file;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -31,6 +34,9 @@ abstract class AbstractConfig extends BaseCommand
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileName = $input->getOption('file');
@@ -55,8 +61,10 @@ abstract class AbstractConfig extends BaseCommand
             } else {
                 throw $e;
             }
-            return;
+            return 1;
         }
+
+        return 0;
     }
 
     abstract protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output);
