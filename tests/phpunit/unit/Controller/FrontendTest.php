@@ -49,7 +49,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     public function testConfiguredConfigHomepageTemplate()
@@ -60,7 +60,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     public function testConfiguredThemeHomepageTemplate()
@@ -72,7 +72,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('custom-home.twig', $response->getTemplateName());
+        $this->assertSame('custom-home.twig', $response->getTemplate());
     }
 
     public function testHomepageContent()
@@ -110,7 +110,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($request, 'pages', 'test');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
+        $this->assertSame('page.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 
@@ -220,7 +220,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($this->getRequest(), 'pages', 5);
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
+        $this->assertSame('page.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 
@@ -316,7 +316,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->preview($this->getRequest(), 'pages');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
+        $this->assertSame('record.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 
@@ -325,7 +325,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages'));
         $response = $this->controller()->listing($this->getRequest(), 'pages');
 
-        $this->assertSame('listing.twig', $response->getTemplateName());
+        $this->assertSame('listing.twig', $response->getTemplate());
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertNotEmpty($response->getGlobals());
     }
@@ -385,7 +385,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->taxonomy($this->getRequest(), 'categories', 'news');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('listing.twig', $response->getTemplateName());
+        $this->assertSame('listing.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 
@@ -396,7 +396,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->template('index');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     /**
@@ -415,7 +415,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
+        $this->assertSame('search.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 
@@ -431,7 +431,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
+        $this->assertSame('search.twig', $response->getTemplate());
         $this->assertNotEmpty($response->getGlobals());
     }
 

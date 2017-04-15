@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 class TemplateResponse extends Response
 {
     /** @var string */
-    protected $templateName;
+    protected $template;
     /** @var ImmutableBag */
     protected $context;
     /** @var array */
@@ -23,14 +23,14 @@ class TemplateResponse extends Response
     /**
      * Constructor.
      *
-     * @param string   $templateName
+     * @param string   $template
      * @param iterable $context
      * @param array    $globals
      */
-    public function __construct($templateName, $context = [], array $globals = [])
+    public function __construct($template, $context = [], array $globals = [])
     {
         parent::__construct();
-        $this->templateName = $templateName;
+        $this->template = $template;
         $this->setContext($context);
         $this->globals = $globals;
     }
@@ -38,9 +38,9 @@ class TemplateResponse extends Response
     /**
      * @return string
      */
-    public function getTemplateName()
+    public function getTemplate()
     {
-        return $this->templateName;
+        return $this->template;
     }
 
     /**
