@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Response;
 
+use Bolt\Collection\ImmutableBag;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\BoltUnitTest;
 
@@ -24,7 +25,8 @@ class TemplateResponseTest extends BoltUnitTest
         $this->assertInstanceOf(TemplateResponse::class, $response);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('error.twig', $response->getTemplateName());
-        $this->assertEquals($context, $response->getContext());
+        $this->assertInstanceOf(ImmutableBag::class, $response->getContext());
+        $this->assertEquals($context, $response->getContext()->toArray());
         $this->assertEquals($globals, $response->getGlobals());
     }
 }
