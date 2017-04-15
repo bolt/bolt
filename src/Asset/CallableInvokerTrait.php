@@ -2,7 +2,7 @@
 
 namespace Bolt\Asset;
 
-use Bolt\Helpers\Arr;
+use Bolt\Collection\Arr;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionObject;

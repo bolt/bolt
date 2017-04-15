@@ -8,6 +8,7 @@ use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Bridge;
 use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
@@ -28,6 +29,9 @@ class NutServiceProvider implements ServiceProviderInterface
                 return $console;
             }
         );
+
+        $app['nut.command.twig_debug'] = $app->share(function () { return new Bridge\Twig\Command\DebugCommand(); });
+        $app['nut.command.twig_lint'] = $app->share(function () { return new Bridge\Twig\Command\LintCommand(); });
 
         $app['nut.commands'] = $app->share(
             function ($app) {
@@ -51,7 +55,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\Init($app),
                     new Nut\LogClear($app),
                     new Nut\LogTrim($app),
-                    new Nut\PimpleDumpCommand($app),
+                    new Nut\PimpleDump($app),
                     new Nut\ServerRun($app),
                     new Nut\SetupSync($app),
                     new Nut\TestRunner($app),
@@ -62,7 +66,10 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserRoleRemove($app),
                     new Nut\DebugEvents($app),
                     new Nut\DebugServiceProviders($app),
-                    new Nut\DebugRoutes($app),
+                    new Nut\DebugRouter($app),
+                    new Nut\RouterMatch($app),
+                    $app['nut.command.twig_debug'],
+                    $app['nut.command.twig_lint']
                 ];
             }
         );
@@ -120,5 +127,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $app['nut.command.twig_debug']->setTwigEnvironment($app['twig']);
+        $app['nut.command.twig_lint']->setTwigEnvironment($app['twig']);
     }
 }

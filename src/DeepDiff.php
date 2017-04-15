@@ -2,8 +2,8 @@
 
 namespace Bolt;
 
-use Bolt\Helpers\Arr;
 use Bolt\Helpers\Deprecated;
+use Bolt\Logger\Handler\RecordChangeHandler;
 
 /**
  * @deprecated since 3.3, to be removed in 4.0.
@@ -22,6 +22,11 @@ class DeepDiff
     {
         Deprecated::method(3.3);
 
-        return Arr::deepDiff($a, $b);
+        $cls = new \ReflectionClass(RecordChangeHandler::class);
+        $method = $cls->getMethod('diff');
+        $method->setAccessible(true);
+        $obj = $cls->newInstanceWithoutConstructor();
+
+        return $method->invoke($obj, $a, $b);
     }
 }

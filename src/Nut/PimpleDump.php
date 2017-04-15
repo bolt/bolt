@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class PimpleDumpCommand extends BaseCommand
+class PimpleDump extends BaseCommand
 {
     /**
      * {@inheritdoc}

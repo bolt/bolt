@@ -3,11 +3,11 @@
 namespace Bolt\Legacy;
 
 use Bolt;
+use Bolt\Collection\Arr;
 use Bolt\Controller\Zone;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
-use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Pager;
