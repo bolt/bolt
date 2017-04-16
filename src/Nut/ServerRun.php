@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -34,18 +34,18 @@ class ServerRun extends BaseCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
-
         $address = $input->getArgument('address');
         if (strpos($address, ':') === false) {
             $address .= ':' . $input->getOption('port');
         }
 
         if ($this->isOtherServerProcessRunning($address)) {
-            $io->error(sprintf('A process is already listening on http://%s', $address));
+            $output->error(sprintf('A process is already listening on http://%s', $address));
 
             return 1;
         }
@@ -53,8 +53,8 @@ class ServerRun extends BaseCommand
         $webDir = $this->app['path_resolver']->resolve('web');
         $router = $webDir . '/index.php';
 
-        $io->success(sprintf('Server running on http://%s', $address));
-        $io->comment('Quit the server with CONTROL-C.');
+        $output->success(sprintf('Server running on http://%s', $address));
+        $output->comment('Quit the server with CONTROL-C.');
 
         if (($process = $this->createServerProcess($io, $address, $webDir, $router)) === null) {
             return 1;
@@ -78,14 +78,14 @@ class ServerRun extends BaseCommand
     }
 
     /**
-     * @param SymfonyStyle $io
-     * @param string       $address
-     * @param string       $webDir
-     * @param string       $router
+     * @param OutputStyle $io
+     * @param string      $address
+     * @param string      $webDir
+     * @param string      $router
      *
      * @return null|\Symfony\Component\Process\Process
      */
-    protected function createServerProcess(SymfonyStyle $io, $address, $webDir, $router)
+    protected function createServerProcess(OutputStyle $io, $address, $webDir, $router)
     {
         if (!file_exists($router)) {
             $io->error(sprintf('The router script "%s" does not exist', $router));

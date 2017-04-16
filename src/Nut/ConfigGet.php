@@ -5,6 +5,7 @@ namespace Bolt\Nut;
 use Bolt\Configuration\YamlUpdater;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Nut command to get a parameter value from a YAML configuration file.
@@ -23,6 +24,11 @@ class ConfigGet extends AbstractConfig
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param OutputStyle $output
+     */
     protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
@@ -32,7 +38,7 @@ class ConfigGet extends AbstractConfig
             $value = $value ? 'true' : 'false';
         }
 
-        $this->io->title(sprintf("Configuration setting in file %s", $this->file->getFullPath()));
-        $this->io->text([sprintf('%s: %s', $key, $value), '']);
+        $output->title(sprintf("Configuration setting in file %s", $this->file->getFullPath()));
+        $output->text([sprintf('%s: %s', $key, $value), '']);
     }
 }

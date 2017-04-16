@@ -4,9 +4,6 @@ namespace Bolt\Nut;
 
 use Silex\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -16,8 +13,6 @@ abstract class BaseCommand extends Command
 {
     /** @var Application */
     protected $app;
-    /** @var SymfonyStyle */
-    protected $io;
 
     /**
      * @param \Silex\Application $app
@@ -27,14 +22,6 @@ abstract class BaseCommand extends Command
     {
         parent::__construct();
         $this->app = $app;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->io = new SymfonyStyle($input, $output);
     }
 
     /**

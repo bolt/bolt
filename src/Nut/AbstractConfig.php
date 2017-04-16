@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
@@ -36,6 +37,8 @@ abstract class AbstractConfig extends BaseCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -52,12 +55,12 @@ abstract class AbstractConfig extends BaseCommand
             $this->doExecute($updater, $input, $output);
         } catch (Exception $e) {
             if ($e instanceof FileNotFoundException) {
-                $this->io->error($e->getMessage());
-                $this->io->error("Can't read file: $fileName.");
+                $output->error($e->getMessage());
+                $output->error("Can't read file: $fileName.");
             } elseif ($e instanceof ParseException) {
-                $this->io->error(sprintf('Invalid YAML in file: %s.', $this->file->getFullPath()));
+                $output->error(sprintf('Invalid YAML in file: %s.', $this->file->getFullPath()));
             } elseif ($e instanceof InvalidArgumentException) {
-                $this->io->error($e->getMessage());
+                $output->error($e->getMessage());
             } else {
                 throw $e;
             }
