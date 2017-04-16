@@ -4,7 +4,6 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\DebugEvents;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Test for \Bolt\Nut\DebugEvents
@@ -47,13 +46,13 @@ class DebugEventsTest extends BoltUnitTest
     }
 
     /**
-     * @return CommandTester
+     * @return NutCommandTester
      */
     protected function getCommandTester()
     {
         $app = $this->getApp();
         $command = new DebugEvents($app);
 
-        return new CommandTester($command);
+        return new NutCommandTester($command);
     }
 }

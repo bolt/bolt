@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Nut command to dump system listened events, and target callable.
@@ -32,14 +32,14 @@ class DebugEvents extends BaseCommand
 
     /**
      * {@inheritdoc}
+     *
+     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dispatcher = $this->app['dispatcher'];
         $listeners = $dispatcher->getListeners();
         $eventArg = $input->getArgument('event');
-
-        $io = new SymfonyStyle($input, $output);
 
         foreach ($listeners as $eventName => $eventListeners) {
             if ($eventArg && $eventName !== $eventArg) {
@@ -59,9 +59,9 @@ class DebugEvents extends BaseCommand
             }
 
             if ($eventArg) {
-                $io->title('Registered Listeners for "' . $eventName . '" Event');
+                $output->title('Registered Listeners for "' . $eventName . '" Event');
             } else {
-                $io->section('"' . $eventName . '" event');
+                $output->section('"' . $eventName . '" event');
             }
 
             $i = 1;
