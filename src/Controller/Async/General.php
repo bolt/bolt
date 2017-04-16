@@ -122,6 +122,7 @@ class General extends AsyncBase
         // but Alerts can't.
         $context = [
             'alert'       => empty($news['alert']) ? null : $news['alert'],
+            'news'        => empty($news['news']) ? null : $news['news'],
             'information' => empty($news['information']) ? null : $news['information'],
             'error'       => empty($news['error']) ? null : $news['error'],
             'disable'     => $this->getOption('general/backend/news/disable'),
