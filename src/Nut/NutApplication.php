@@ -4,7 +4,11 @@ namespace Bolt\Nut;
 
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Nut application.
@@ -14,9 +18,22 @@ use Symfony\Component\Console\Command\Command;
 class NutApplication extends ConsoleApplication
 {
     /**
-     * Gets the default commands that should always be available.
-     *
-     * @return Command[] An array of default Command instances
+     * {@inheritdoc}
+     */
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
+        if (null === $input) {
+            $input = new ArgvInput();
+        }
+        if (null === $output) {
+            $output = new SymfonyStyle($input, new ConsoleOutput());
+        }
+
+        return parent::run($input, $output);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     protected function getDefaultCommands()
     {
