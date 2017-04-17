@@ -2,6 +2,8 @@
 
 namespace Bolt\Nut;
 
+use Closure;
+use ReflectionFunction;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -70,10 +72,14 @@ class DebugEvents extends BaseCommand
                 $priority = $dispatcher->getListenerPriority($eventName, $callable);
                 if (is_array($callable)) {
                     $table->addRow([
-                        '#' .  $i++,
+                        '#' . $i++,
                         sprintf('%s::%s()', get_class($callable[0]), $callable[1]),
                         $priority,
                     ]);
+                } elseif ($callable instanceof Closure) {
+                    $r = new ReflectionFunction($callable);
+                    $originClass = $r->getClosureScopeClass()->getName() . ' ' . $r->getShortName();
+                    $table->addRow(['#' .  $i++, $originClass, $priority]);
                 } else {
                     $table->addRow(['#' .  $i++, get_class($callable), $priority]);
                 }
