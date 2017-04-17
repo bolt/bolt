@@ -361,6 +361,10 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
+# Disable cookies in frontent requests default (enabled by default)
+# See :  https://github.com/bolt/bolt/issues/3425
+# cookies_no_frontend: true
+
 # If your system is using a custom session configuration (such as a Redis
 # handler from a PHP extension) then we need to disable our session storage
 # handler. In that case, set this setting to false.
