@@ -126,8 +126,8 @@ script:
 after_script:
 
 # cache vendor dirs
-cache:
-  directories:
-    - vendor
-    - $COMPOSER_CACHE_DIR
+#cache:
+#  directories:
+#    - vendor
+#    - $COMPOSER_CACHE_DIR
 
