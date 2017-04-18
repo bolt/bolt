@@ -81,8 +81,10 @@ abstract class Base implements ControllerProviderInterface
 
         $template = $twig->resolveTemplate($template);
 
-        foreach ($globals as $name => $value) {
-            $twig->addGlobal($name, $value);
+        if ($this->getOption('compatibility/twig_globals', true)) {
+            foreach ($globals as $name => $value) {
+                $twig->addGlobal($name, $value);
+            }
         }
         $context += $globals;
 
