@@ -98,8 +98,8 @@ abstract class Base implements ControllerProviderInterface
             ' to true in config.yml. This changes render() to return a TemplateView instead.'
         );
 
-        $response = new TemplateResponse($template->getTemplateName(), $context);
-        $response->setContent($template->render($context));
+        $content = $template->render($context);
+        $response = new TemplateResponse($template->getTemplateName(), $context, $content);
 
         return $response;
     }

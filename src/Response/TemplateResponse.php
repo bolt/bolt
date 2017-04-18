@@ -21,14 +21,33 @@ class TemplateResponse extends Response
     /**
      * Constructor.
      *
-     * @param string   $template
-     * @param iterable $context
+     * @param string   $template The template name
+     * @param iterable $context  The context given to the template
+     * @param mixed    $content  The response content, see setContent()
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
      */
-    public function __construct($template, $context = [])
+    public function __construct($template, $context = [], $content = '', $status = 200, $headers = [])
     {
-        parent::__construct();
+        parent::__construct($content, $status, $headers);
         $this->template = $template;
         $this->setContext($context);
+    }
+
+    /**
+     * Factory method for chainability.
+     *
+     * @param string   $template The template name
+     * @param iterable $context  The context given to the template
+     * @param mixed    $content  The response content, see setContent()
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
+     *
+     * @return TemplateResponse
+     */
+    public static function create($template = '', $context = [], $content = '', $status = 200, $headers = [])
+    {
+        return new static($template, $context, $content, $status, $headers);
     }
 
     /**

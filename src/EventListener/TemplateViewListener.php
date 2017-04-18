@@ -58,8 +58,7 @@ class TemplateViewListener implements EventSubscriberInterface
     {
         $content = $this->twig->render($view->getTemplate(), $view->getContext()->toArray());
 
-        $response = new TemplateResponse($view->getTemplate(), $view->getContext());
-        $response->setContent($content);
+        $response = new TemplateResponse($view->getTemplate(), $view->getContext(), $content);
 
         return $response;
     }
