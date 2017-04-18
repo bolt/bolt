@@ -49,7 +49,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     public function testConfiguredConfigHomepageTemplate()
@@ -60,7 +60,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     public function testConfiguredThemeHomepageTemplate()
@@ -72,7 +72,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('custom-home.twig', $response->getTemplateName());
+        $this->assertSame('custom-home.twig', $response->getTemplate());
     }
 
     public function testHomepageContent()
@@ -80,7 +80,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
-        $globals = $response->getGlobals();
+        $globals = $this->getTwigGlobals();
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertInstanceOf(Content::class, $globals['record']);
@@ -92,7 +92,9 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $app['config']->set('general/homepage', 'pages');
 
-        $globals = $this->controller()->homepage($this->getRequest())->getGlobals();
+        $this->controller()->homepage($this->getRequest());
+
+        $globals = $this->getTwigGlobals();
         foreach ($globals['records'] as $record) {
             $this->assertInstanceOf(Content::class, $record);
         }
@@ -110,8 +112,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($request, 'pages', 'test');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('page.twig', $response->getTemplate());
     }
 
     /**
@@ -197,8 +198,6 @@ class FrontendTest extends ControllerUnitTest
 
     public function testNumericRecord()
     {
-        /** @var \Silex\Application $app */
-        $app = $this->getApp();
         $this->setService('twig.runtime.bolt_html', $this->getHtmlRuntime());
 
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
@@ -220,8 +219,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->record($this->getRequest(), 'pages', 5);
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('page.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('page.twig', $response->getTemplate());
     }
 
     /**
@@ -293,9 +291,6 @@ class FrontendTest extends ControllerUnitTest
         $this->controller()->record($this->getRequest(), 'pages', 'test');
     }
 
-    /**
-     * @runInSeparateProcess
-     **/
     public function testPreview()
     {
         $this->setRequest(Request::create('/pages'));
@@ -316,8 +311,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->preview($this->getRequest(), 'pages');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('record.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('record.twig', $response->getTemplate());
     }
 
     public function testListing()
@@ -325,9 +319,8 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/pages'));
         $response = $this->controller()->listing($this->getRequest(), 'pages');
 
-        $this->assertSame('listing.twig', $response->getTemplateName());
+        $this->assertSame('listing.twig', $response->getTemplate());
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -374,7 +367,6 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testTaxonomyListing()
@@ -385,8 +377,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->taxonomy($this->getRequest(), 'categories', 'news');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('listing.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('listing.twig', $response->getTemplate());
     }
 
     public function testSimpleTemplateRender()
@@ -396,7 +387,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->template('index');
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplateName());
+        $this->assertSame('index.twig', $response->getTemplate());
     }
 
     /**
@@ -415,8 +406,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('search.twig', $response->getTemplate());
     }
 
     public function testSearchWithFilters()
@@ -431,8 +421,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('search.twig', $response->getTemplateName());
-        $this->assertNotEmpty($response->getGlobals());
+        $this->assertSame('search.twig', $response->getTemplate());
     }
 
     public function testBeforeHandlerForFirstUser()
@@ -511,5 +500,12 @@ class FrontendTest extends ControllerUnitTest
     protected function controller()
     {
         return $this->getService('controller.frontend');
+    }
+
+    protected function getTwigGlobals()
+    {
+        $app = $this->getApp();
+
+        return $app['twig']->getGlobals();
     }
 }

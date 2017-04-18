@@ -31,6 +31,11 @@ abstract class ControllerUnitTest extends BoltUnitTest
         return $this->getApp()->offsetGet('request');
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @return \Silex\Application
+     */
     protected function getApp($boot = true)
     {
         if (!$this->app) {
@@ -43,7 +48,6 @@ abstract class ControllerUnitTest extends BoltUnitTest
     protected function makeApp()
     {
         $app = parent::makeApp();
-        $app->initialize();
 
         $verifier = new Validator(
             $app['config'],

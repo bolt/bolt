@@ -279,7 +279,7 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/profile'));
         $response = $this->controller()->profile($this->getRequest());
         $context = $response->getContext();
-        $this->assertEquals('@bolt/edituser/edituser.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/edituser/edituser.twig', $response->getTemplate());
         $this->assertEquals('profile', $context['context']['kind']);
 
         // Now try a POST to update the profile
@@ -339,7 +339,7 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/roles'));
         $response = $this->controller()->viewRoles();
         $context = $response->getContext();
-        $this->assertEquals('@bolt/roles/roles.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/roles/roles.twig', $response->getTemplate());
         $this->assertNotEmpty($context['context']['global_permissions']);
         $this->assertNotEmpty($context['context']['effective_permissions']);
     }
