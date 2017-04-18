@@ -80,7 +80,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
-        $globals = $response->getGlobals();
+        $globals = $this->getTwigGlobals();
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertInstanceOf(Content::class, $globals['record']);
@@ -92,7 +92,9 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $app['config']->set('general/homepage', 'pages');
 
-        $globals = $this->controller()->homepage($this->getRequest())->getGlobals();
+        $this->controller()->homepage($this->getRequest());
+
+        $globals = $this->getTwigGlobals();
         foreach ($globals['records'] as $record) {
             $this->assertInstanceOf(Content::class, $record);
         }
@@ -111,7 +113,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('page.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -197,8 +198,6 @@ class FrontendTest extends ControllerUnitTest
 
     public function testNumericRecord()
     {
-        /** @var \Silex\Application $app */
-        $app = $this->getApp();
         $this->setService('twig.runtime.bolt_html', $this->getHtmlRuntime());
 
         $this->setRequest(Request::create('/pages/', 'GET', ['id' => 5]));
@@ -221,7 +220,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('page.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -293,9 +291,6 @@ class FrontendTest extends ControllerUnitTest
         $this->controller()->record($this->getRequest(), 'pages', 'test');
     }
 
-    /**
-     * @runInSeparateProcess
-     **/
     public function testPreview()
     {
         $this->setRequest(Request::create('/pages'));
@@ -317,7 +312,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('record.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testListing()
@@ -327,7 +321,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertSame('listing.twig', $response->getTemplate());
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     /**
@@ -374,7 +367,6 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testTaxonomyListing()
@@ -386,7 +378,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('listing.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testSimpleTemplateRender()
@@ -416,7 +407,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('search.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testSearchWithFilters()
@@ -432,7 +422,6 @@ class FrontendTest extends ControllerUnitTest
 
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('search.twig', $response->getTemplate());
-        $this->assertNotEmpty($response->getGlobals());
     }
 
     public function testBeforeHandlerForFirstUser()
@@ -511,5 +500,12 @@ class FrontendTest extends ControllerUnitTest
     protected function controller()
     {
         return $this->getService('controller.frontend');
+    }
+
+    protected function getTwigGlobals()
+    {
+        $app = $this->getApp();
+
+        return $app['twig']->getGlobals();
     }
 }

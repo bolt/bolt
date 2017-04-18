@@ -17,22 +17,18 @@ class TemplateResponse extends Response
     protected $template;
     /** @var ImmutableBag */
     protected $context;
-    /** @var array */
-    protected $globals = [];
 
     /**
      * Constructor.
      *
      * @param string   $template
      * @param iterable $context
-     * @param array    $globals
      */
-    public function __construct($template, $context = [], array $globals = [])
+    public function __construct($template, $context = [])
     {
         parent::__construct();
         $this->template = $template;
         $this->setContext($context);
-        $this->globals = $globals;
     }
 
     /**
@@ -49,14 +45,6 @@ class TemplateResponse extends Response
     public function getContext()
     {
         return $this->context;
-    }
-
-    /**
-     * @return array
-     */
-    public function getGlobals()
-    {
-        return $this->globals;
     }
 
     /**

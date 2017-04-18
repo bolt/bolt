@@ -84,7 +84,6 @@ abstract class Base implements ControllerProviderInterface
         foreach ($globals as $name => $value) {
             $twig->addGlobal($name, $value);
         }
-        $globals = $twig->getGlobals();
 
         if ($this->getOption('compatibility/template_view', false)) {
             return new TemplateView($template->getTemplateName(), $context);
@@ -96,7 +95,7 @@ abstract class Base implements ControllerProviderInterface
             ' to true in config.yml. This changes render() to return a TemplateView instead.'
         );
 
-        $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
+        $response = new TemplateResponse($template->getTemplateName(), $context);
         $response->setContent($template->render($context));
 
         return $response;

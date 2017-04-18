@@ -73,11 +73,10 @@ class Render
         foreach ($globals as $name => $value) {
             $this->app['twig']->addGlobal($name, $value);
         }
-        $globals = $this->app['twig']->getGlobals();
 
         $html = twig_include($this->app['twig'], $context, $template, [], true, false, $this->safe);
 
-        $response = new TemplateResponse($template->getTemplateName(), $context, $globals);
+        $response = new TemplateResponse($template->getTemplateName(), $context);
         $response->setContent($html);
 
         return $response;

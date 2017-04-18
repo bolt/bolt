@@ -19,14 +19,12 @@ class TemplateResponseTest extends BoltUnitTest
         $template = $twig->resolveTemplate('error.twig');
 
         $context = ['foo' => 'bar'];
-        $globals = ['hello' => 'world'];
-        $response = new TemplateResponse($template, $context, $globals);
+        $response = new TemplateResponse($template, $context);
 
         $this->assertInstanceOf(TemplateResponse::class, $response);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('error.twig', $response->getTemplate());
         $this->assertInstanceOf(ImmutableBag::class, $response->getContext());
         $this->assertEquals($context, $response->getContext()->toArray());
-        $this->assertEquals($globals, $response->getGlobals());
     }
 }
