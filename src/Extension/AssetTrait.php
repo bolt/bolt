@@ -166,6 +166,11 @@ trait AssetTrait
         if ($path === null) {
             throw new \RuntimeException('Extension file assets must have a path set.');
         }
+        
+        // Any external ressource bound to start with '//', 'http://' or 'https://'
+        if (substr($path, 0, 2) === '//' || substr($path, 0, 7) === 'http://' || substr($path, 0, 8) === 'https://' ) {
+            return;
+        }
 
         if ($asset->getPackageName()) {
             return;
