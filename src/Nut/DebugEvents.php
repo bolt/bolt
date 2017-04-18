@@ -66,22 +66,22 @@ class DebugEvents extends BaseCommand
                 $output->section('"' . $eventName . '" event');
             }
 
-            $i = 1;
             $table = $this->getTable($output);
-            foreach ($eventListeners as $callable) {
+            foreach ($eventListeners as $order => $callable) {
+                $order++;
                 $priority = $dispatcher->getListenerPriority($eventName, $callable);
                 if (is_array($callable)) {
                     $table->addRow([
-                        '#' . $i++,
+                        '#' . $order,
                         sprintf('%s::%s()', get_class($callable[0]), $callable[1]),
                         $priority,
                     ]);
                 } elseif ($callable instanceof Closure) {
                     $r = new ReflectionFunction($callable);
                     $originClass = $r->getClosureScopeClass()->getName() . ' ' . $r->getShortName();
-                    $table->addRow(['#' .  $i++, $originClass, $priority]);
+                    $table->addRow(['#' .  $order, $originClass, $priority]);
                 } else {
-                    $table->addRow(['#' .  $i++, get_class($callable), $priority]);
+                    $table->addRow(['#' .  $order, get_class($callable), $priority]);
                 }
             }
             $table->render();
