@@ -93,17 +93,15 @@ class DebugServiceProvider implements ServiceProviderInterface
             });
         }
 
-        // Thrown errors in an integer bit field of E_* constants
-        $app['error_handler.throw_at'] = function ($app) {
+        // Thrown and logged errors in an integer bit field of E_* constants
+        $app['error_handler.throw_at'] =
+        $app['error_handler.log_at'] = function ($app) {
             if ($app['debug']) {
                 return $app['config']->get('general/debug_error_level', E_ALL);
             } else {
                 return $app['config']->get('general/production_error_level', 0);
             }
         };
-
-        // Logged errors in an integer bit field of E_* constants.
-        $app['error_handler.log_at'] = E_ALL; // TODO Should this be the same as throw_at? Previously it was via config env_error_level.
 
         $app['error_handler.logger'] = function ($app) {
             return $app['logger'];
