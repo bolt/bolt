@@ -28,7 +28,8 @@ class DebugEvents extends BaseCommand
             ->setName('debug:events')
             ->setDescription('Dumps event listeners.')
             ->addArgument('event', InputArgument::OPTIONAL, 'An event name')
-            ->addOption('sort-listener', null, InputOption::VALUE_NONE, 'Sort events in order of callable name.')
+            ->addOption('sort-listener', null, InputOption::VALUE_NONE, 'Sort events in order of callable name')
+            ->addOption('summary', null, InputOption::VALUE_NONE, 'Summary list of the event names listened to')
         ;
     }
 
@@ -41,8 +42,15 @@ class DebugEvents extends BaseCommand
     {
         $dispatcher = $this->app['dispatcher'];
         $listeners = $dispatcher->getListeners();
-        $eventArg = $input->getArgument('event');
 
+        if ($input->getOption('summary')) {
+            $output->title('Event Names Registered on Dispatcher');
+            $output->listing(array_keys($listeners));
+
+            return 0;
+        }
+
+        $eventArg = $input->getArgument('event');
         foreach ($listeners as $eventName => $eventListeners) {
             if ($eventArg && $eventName !== $eventArg) {
                 continue;
