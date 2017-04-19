@@ -23,6 +23,8 @@ class NutServiceProvider implements ServiceProviderInterface
                 $console->setName('Bolt console tool - Nut');
                 $console->setVersion(Bolt\Version::VERSION);
 
+                $console->getHelperSet()->set(new Nut\Helper\ContainerHelper($app));
+
                 $console->addCommands($app['nut.commands']);
 
                 $console->setDispatcher($app['dispatcher']);

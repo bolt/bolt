@@ -3,27 +3,28 @@
 namespace Bolt\Nut;
 
 use Bolt\Nut\Style\NutStyle;
-use Silex\Application;
+use Bolt\Nut\Helper\ContainerHelper;
+use Pimple as Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Nut building block
  */
 abstract class BaseCommand extends Command
 {
-    /** @var Application */
+    /** @var Container */
     protected $app;
     /** @var NutStyle */
     protected $io;
 
     /**
-     * @param \Silex\Application $app
-     * @param Request            $request Reserved for tests
+     * Constructor.
+     *
+     * @param Container|null $app
      */
-    public function __construct(Application $app, Request $request = null)
+    public function __construct(Container $app = null)
     {
         parent::__construct();
         $this->app = $app;
@@ -34,6 +35,12 @@ abstract class BaseCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->app) {
+            /** @var ContainerHelper $helper */
+            $helper = $this->getHelper('container');
+            $this->app = $helper->getContainer();
+        }
+
         $this->io = new NutStyle($input, $output);
     }
 
