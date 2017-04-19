@@ -4,12 +4,12 @@ namespace Bolt\Provider;
 
 use Bolt;
 use Bolt\Nut;
-use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Bridge;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 
 class NutServiceProvider implements ServiceProviderInterface
@@ -18,7 +18,7 @@ class NutServiceProvider implements ServiceProviderInterface
     {
         $app['nut'] = $app->share(
             function ($app) {
-                $console = new NutApplication();
+                $console = new ConsoleApplication();
 
                 $console->setName('Bolt console tool - Nut');
                 $console->setVersion(Bolt\Version::VERSION);
