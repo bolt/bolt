@@ -4,6 +4,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Tests for \Bolt\Nut\RouterMatch
@@ -68,13 +69,13 @@ class RouterMatchTest extends BoltUnitTest
     }
 
     /**
-     * @return NutCommandTester
+     * @return CommandTester
      */
     protected function getCommandTester()
     {
         $app = $this->getApp();
         $command = $app['nut']->get('router:match');
 
-        return new NutCommandTester($command);
+        return new CommandTester($command);
     }
 }
