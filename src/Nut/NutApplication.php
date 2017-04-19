@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 /**
@@ -12,17 +11,4 @@ use Symfony\Component\Console\Application as ConsoleApplication;
  */
 class NutApplication extends ConsoleApplication
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultCommands()
-    {
-        // Get the Symfony defaults
-        $commands = parent::getDefaultCommands();
-
-        // Add command completion
-        $commands[] = new CompletionCommand();
-
-        return $commands;
-    }
 }

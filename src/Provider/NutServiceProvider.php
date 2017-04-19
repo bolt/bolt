@@ -8,6 +8,7 @@ use Bolt\Nut\NutApplication;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 use Symfony\Bridge;
 use Symfony\Component\Console\Command\Command;
 
@@ -68,6 +69,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\DebugServiceProviders($app),
                     new Nut\DebugRouter($app),
                     new Nut\RouterMatch($app),
+                    new CompletionCommand(),
                     $app['nut.command.twig_debug'],
                     $app['nut.command.twig_lint']
                 ];
