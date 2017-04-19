@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.11
+-----------
+
+Released 2017-04-19. Notable changes:
+
+ - Change: Report a boolean value in nut as `true` or `false`. [#6558](https://github.com/bolt/bolt/pull/6558)
+ - Fixed: Database prefill breaks on PostgreSQL. [#6548](https://github.com/bolt/bolt/pull/6548)
+ - Fixed: Fix bug in repeater buttons. [#6525](https://github.com/bolt/bolt/pull/6525)
+ - Fixed: Reset `GROUP BY` and `JOIN` parameters for `count()`. [#6551](https://github.com/bolt/bolt/pull/6551)
+ - Updated: Updating Symfony components to 2.8.19 and Twig to 1.33.1.
+
 Bolt 3.2.10
 -----------
 
