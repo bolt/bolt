@@ -20,12 +20,12 @@
         "jquery-formatdatetime": "~1.1.6",
         "jquery.cookie": "~1.4.1",
         "magnific-popup": "~1.1.0",
-        "modernizr": "~3.4.0",
+        "modernizr": "~3.5.0",
         "moment": "~2.18.1",
         "select2": "4.0.0"
     },
     "devDependencies": {
-        "autoprefixer": "~6.7.5",
+        "autoprefixer": "~6.7.7",
         "css-mqpacker": "~5.0.1",
         "csswring": "~5.1.1",
         "deep-extend": "~0.4.1",
@@ -47,7 +47,7 @@
         "load-grunt-config": "~0.19.2",
         "load-grunt-tasks": "~3.5.2",
         "napa": "~2.3.0",
-        "node-sass": "~4.5.0",
+        "node-sass": "~4.5.2",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.81.0"
     },
