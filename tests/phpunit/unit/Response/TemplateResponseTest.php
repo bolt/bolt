@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Response;
 
+use Bolt\Collection\ImmutableBag;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\BoltUnitTest;
 
@@ -14,17 +15,28 @@ class TemplateResponseTest extends BoltUnitTest
 {
     public function testCreate()
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Array(['error.twig' => '']));
-        $template = $twig->resolveTemplate('error.twig');
-
+        $template = 'error.twig';
         $context = ['foo' => 'bar'];
-        $globals = ['hello' => 'world'];
-        $response = new TemplateResponse($template, $context, $globals);
 
+        $response = new TemplateResponse($template, $context);
+        $this->assertResponse($response, $template, $context);
+
+        $response = TemplateResponse::create($template, $context);
+        $this->assertResponse($response, $template, $context);
+    }
+
+    /**
+     * @param TemplateResponse $response
+     * @param string           $template
+     * @param array            $context
+     * @param int              $status
+     */
+    protected function assertResponse($response, $template, $context, $status = 200)
+    {
         $this->assertInstanceOf(TemplateResponse::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('error.twig', $response->getTemplateName());
-        $this->assertEquals($context, $response->getContext());
-        $this->assertEquals($globals, $response->getGlobals());
+        $this->assertEquals($status, $response->getStatusCode());
+        $this->assertEquals($template, $response->getTemplate());
+        $this->assertInstanceOf(ImmutableBag::class, $response->getContext());
+        $this->assertEquals($context, $response->getContext()->toArray());
     }
 }

@@ -24,7 +24,7 @@ class FileManagerTest extends ControllerUnitTest
         /** @var TemplateResponse $response */
         $response = $this->controller()->edit($this->getRequest(), 'config', 'config.yml');
 
-        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplate());
     }
 
     public function testManage()
@@ -34,7 +34,7 @@ class FileManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/files'));
 
         $response = $this->controller()->manage($this->getRequest(), 'files', '');
-        $context = $response->getContext()['context'];
+        $context = $response->getContext()->get('context');
 
         /** @var DirectoryInterface $dir */
         $dir = $context['directory'];

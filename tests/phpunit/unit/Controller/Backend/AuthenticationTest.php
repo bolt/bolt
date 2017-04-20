@@ -83,7 +83,7 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setRequest($request);
         /** @var TemplateResponse $response */
         $response = $this->controller()->postLogin($request);
-        $this->assertEquals('@bolt/login/login.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/login/login.twig', $response->getTemplate());
     }
 
     public function testLoginSuccess()

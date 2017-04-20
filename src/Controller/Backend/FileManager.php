@@ -42,11 +42,7 @@ class FileManager extends BackendBase
             ->assert('namespace', '[^/]+')
             ->value('namespace', 'files')
             ->bind('fileedit')
-            ->after(function (Request $request, Response $response) {
-                if ($request->isMethod('POST')) {
-                    $response->headers->set('X-XSS-Protection', '0');
-                }
-            });
+        ;
 
         $c->match('/files/{namespace}/{path}', 'manage')
             ->assert('namespace', '[^/]+')

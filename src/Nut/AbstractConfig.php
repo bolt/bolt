@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * Config command case class.
+ * Config command base class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
