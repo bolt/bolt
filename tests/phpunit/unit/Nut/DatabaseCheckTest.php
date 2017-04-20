@@ -22,7 +22,7 @@ class DatabaseCheckTest extends BoltUnitTest
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertEquals('The database is OK.', trim($result));
+        $this->assertRegExp('/The database is OK/', $result);
     }
 
     public function testRunChanged()

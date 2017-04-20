@@ -22,7 +22,7 @@ class DatabaseRepairTest extends BoltUnitTest
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertEquals('Your database is already up to date.', trim($result));
+        $this->assertRegExp('/Your database is already up to date/', $result);
     }
 
     public function testUpdateSchema()

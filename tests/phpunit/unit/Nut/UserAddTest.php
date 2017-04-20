@@ -4,6 +4,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserAdd;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Tests\BoltUnitTest;
 use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -20,6 +21,7 @@ class UserAddTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $command = new UserAdd($app);
+        $command->setApplication($app['nut']);
         $tester = new CommandTester($command);
 
         $tester->execute(
@@ -32,9 +34,10 @@ class UserAddTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertEquals('Successfully created user: test', trim($result));
+        $this->assertRegExp('/Successfully created user: test/', $result);
 
         // Test that the saved value matches the hash
+        /** @var UsersRepository $repo */
         $repo = $app['storage']->getRepository(Entity\Users::class);
         $userEntity = $repo->getUser('test');
         $userAuth = $repo->getUserAuthData($userEntity->getId());
@@ -59,8 +62,8 @@ class UserAddTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertRegExp('#Error creating user:#', trim($result));
-        $this->assertRegExp("#    \* User name 'test' already exists#", trim($result));
-        $this->assertRegExp("#    \* Email address 'test@example.com' already exists#", trim($result));
+        $this->assertRegExp('#Error creating user:#', $result);
+        $this->assertRegExp("#    \* User name 'test' already exists#", $result);
+        $this->assertRegExp("#    \* Email address 'test@example.com' already exists#", $result);
     }
 }
