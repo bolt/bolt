@@ -4,6 +4,7 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Removed: `Bolt\Helpers\Arr` (see [`bolt/collection`](https://github.com/bolt/collection))
 - Removed: `Bolt\Storage\Prefill` (see `\Bolt\Storage\Database\Prefill\ApiClient`)
 - Removed: `Bolt\DeepDiff` (see: `Arr::deepDiff`)
 - Removed: Support for Memcache as a session store
