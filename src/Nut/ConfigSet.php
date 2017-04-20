@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Nut command to set parameter value in a YAML configuration file
@@ -30,8 +29,6 @@ class ConfigSet extends AbstractConfig
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output)
     {
@@ -44,8 +41,8 @@ class ConfigSet extends AbstractConfig
             $value = $value ? 'true' : 'false';
         }
 
-        $output->title(sprintf("Updating configuration setting in file %s", $this->file->getFullPath()));
-        $output->success([
+        $this->io->title(sprintf("Updating configuration setting in file %s", $this->file->getFullPath()));
+        $this->io->success([
             'Setting updated to:',
             sprintf('%s: %s', $key, $value),
         ]);

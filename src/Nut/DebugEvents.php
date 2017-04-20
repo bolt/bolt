@@ -2,13 +2,14 @@
 
 namespace Bolt\Nut;
 
+use Closure;
+use ReflectionFunction;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Nut command to dump system listened events, and target callable.
@@ -26,21 +27,27 @@ class DebugEvents extends BaseCommand
             ->setName('debug:events')
             ->setDescription('Dumps event listeners.')
             ->addArgument('event', InputArgument::OPTIONAL, 'An event name')
-            ->addOption('sort-listener', null, InputOption::VALUE_NONE, 'Sort events in order of callable name.')
+            ->addOption('sort-listener', null, InputOption::VALUE_NONE, 'Sort events in order of callable name')
+            ->addOption('summary', null, InputOption::VALUE_NONE, 'Summary list of the event names listened to')
         ;
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dispatcher = $this->app['dispatcher'];
         $listeners = $dispatcher->getListeners();
-        $eventArg = $input->getArgument('event');
 
+        if ($input->getOption('summary')) {
+            $output->title('Event Names Registered on Dispatcher');
+            $output->listing(array_keys($listeners));
+
+            return 0;
+        }
+
+        $eventArg = $input->getArgument('event');
         foreach ($listeners as $eventName => $eventListeners) {
             if ($eventArg && $eventName !== $eventArg) {
                 continue;
@@ -59,23 +66,27 @@ class DebugEvents extends BaseCommand
             }
 
             if ($eventArg) {
-                $output->title('Registered Listeners for "' . $eventName . '" Event');
+                $this->io->title('Registered Listeners for "' . $eventName . '" Event');
             } else {
-                $output->section('"' . $eventName . '" event');
+                $this->io->section('"' . $eventName . '" event');
             }
 
-            $i = 1;
             $table = $this->getTable($output);
-            foreach ($eventListeners as $callable) {
+            foreach ($eventListeners as $order => $callable) {
+                $order++;
                 $priority = $dispatcher->getListenerPriority($eventName, $callable);
                 if (is_array($callable)) {
                     $table->addRow([
-                        '#' .  $i++,
+                        '#' . $order,
                         sprintf('%s::%s()', get_class($callable[0]), $callable[1]),
                         $priority,
                     ]);
+                } elseif ($callable instanceof Closure) {
+                    $r = new ReflectionFunction($callable);
+                    $originClass = $r->getClosureScopeClass()->getName() . ' ' . $r->getShortName();
+                    $table->addRow(['#' .  $order, $originClass, $priority]);
                 } else {
-                    $table->addRow(['#' .  $i++, get_class($callable), $priority]);
+                    $table->addRow(['#' .  $order, get_class($callable), $priority]);
                 }
             }
             $table->render();
@@ -93,7 +104,6 @@ class DebugEvents extends BaseCommand
     protected function getTable(OutputInterface $output)
     {
         $table = new Table($output);
-
 
         $leftAligned = new TableStyle();
         $leftAligned->setPadType(STR_PAD_LEFT);

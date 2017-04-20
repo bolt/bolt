@@ -6,6 +6,7 @@ use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Nut\ConfigGet;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class to test src/Nut/ConfigGet.
@@ -21,12 +22,12 @@ class ConfigGetTest extends BoltUnitTest
         $app['filesystem']->mountFilesystem('config', $filesystem);
 
         $command = new ConfigGet($app);
-        $tester = new NutCommandTester($command);
+        $tester = new CommandTester($command);
         $tester->execute(['key' => 'sitename', '--file' => 'config.yml']);
         $this->assertRegExp('/sitename: A sample site/', $tester->getDisplay());
 
         // test invalid
-        $tester = new NutCommandTester($command);
+        $tester = new CommandTester($command);
         $tester->execute(['key' => 'nonexistent', '--file' => 'config.yml']);
         $this->assertRegExp("/The key 'nonexistent' was not found in config:\/\/config.yml/", $tester->getDisplay());
     }
@@ -38,7 +39,7 @@ class ConfigGetTest extends BoltUnitTest
         $app['filesystem']->mountFilesystem('config', $filesystem);
 
         $command = new ConfigGet($app);
-        $tester = new NutCommandTester($command);
+        $tester = new CommandTester($command);
         $tester->execute(['key' => 'sitename']);
         $this->assertRegExp('/sitename: A sample site/', $tester->getDisplay());
     }

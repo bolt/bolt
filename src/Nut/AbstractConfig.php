@@ -11,11 +11,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * Config command case class.
+ * Config command base class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -37,8 +36,6 @@ abstract class AbstractConfig extends BaseCommand
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -55,12 +52,12 @@ abstract class AbstractConfig extends BaseCommand
             $this->doExecute($updater, $input, $output);
         } catch (Exception $e) {
             if ($e instanceof FileNotFoundException) {
-                $output->error($e->getMessage());
-                $output->error("Can't read file: $fileName.");
+                $this->io->error($e->getMessage());
+                $this->io->error("Can't read file: $fileName.");
             } elseif ($e instanceof ParseException) {
-                $output->error(sprintf('Invalid YAML in file: %s.', $this->file->getFullPath()));
+                $this->io->error(sprintf('Invalid YAML in file: %s.', $this->file->getFullPath()));
             } elseif ($e instanceof InvalidArgumentException) {
-                $output->error($e->getMessage());
+                $this->io->error($e->getMessage());
             } else {
                 throw $e;
             }

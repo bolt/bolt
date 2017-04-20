@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -34,8 +33,6 @@ class ServerRun extends BaseCommand
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -45,7 +42,7 @@ class ServerRun extends BaseCommand
         }
 
         if ($this->isOtherServerProcessRunning($address)) {
-            $output->error(sprintf('A process is already listening on http://%s', $address));
+            $this->io->error(sprintf('A process is already listening on http://%s', $address));
 
             return 1;
         }
@@ -53,10 +50,10 @@ class ServerRun extends BaseCommand
         $webDir = $this->app['path_resolver']->resolve('web');
         $router = $webDir . '/index.php';
 
-        $output->success(sprintf('Server running on http://%s', $address));
-        $output->comment('Quit the server with CONTROL-C.');
+        $this->io->success(sprintf('Server running on http://%s', $address));
+        $this->io->comment('Quit the server with CONTROL-C.');
 
-        if (($process = $this->createServerProcess($io, $address, $webDir, $router)) === null) {
+        if (($process = $this->createServerProcess($address, $webDir, $router)) === null) {
             return 1;
         }
 
@@ -71,31 +68,30 @@ class ServerRun extends BaseCommand
                 $errorMessages[] = 'Run the command again with -v option for more details.';
             }
 
-            $io->error($errorMessages);
+            $this->io->error($errorMessages);
         }
 
         return $process->getExitCode();
     }
 
     /**
-     * @param OutputStyle $io
-     * @param string      $address
-     * @param string      $webDir
-     * @param string      $router
+     * @param string $address
+     * @param string $webDir
+     * @param string $router
      *
      * @return null|\Symfony\Component\Process\Process
      */
-    protected function createServerProcess(OutputStyle $io, $address, $webDir, $router)
+    protected function createServerProcess($address, $webDir, $router)
     {
         if (!file_exists($router)) {
-            $io->error(sprintf('The router script "%s" does not exist', $router));
+            $this->io->error(sprintf('The router script "%s" does not exist', $router));
 
             return null;
         }
 
         $finder = new PhpExecutableFinder();
         if (($binary = $finder->find()) === false) {
-            $io->error('Unable to find PHP binary to run server.');
+            $this->io->error('Unable to find PHP binary to run server.');
 
             return null;
         }
@@ -103,7 +99,7 @@ class ServerRun extends BaseCommand
         $builder = new ProcessBuilder([$binary, '-S', $address, '-t', $webDir, $router]);
         $builder->setTimeout(null);
 
-        if ($io->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
+        if (!$this->io->isVerbose()) {
             $builder->disableOutput();
         }
 

@@ -67,7 +67,7 @@ abstract class BoltUnitTest extends TestCase
     /**
      * @param bool $boot
      *
-     * @return Application
+     * @return \Silex\Application
      */
     protected function getApp($boot = true)
     {
@@ -92,7 +92,7 @@ abstract class BoltUnitTest extends TestCase
     }
 
     /**
-     * @return Application
+     * @return \Silex\Application
      */
     protected function makeApp()
     {

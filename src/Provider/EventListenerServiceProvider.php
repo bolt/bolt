@@ -27,6 +27,16 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['disable_xss_protection_routes'] = [
+            'preview',
+            'fileedit',
+        ];
+        $app['listener.disable_xss_protection'] = $app->share(
+            function ($app) {
+                return new Listener\DisableXssProtectionListener($app['disable_xss_protection_routes']);
+            }
+        );
+
         $app['listener.exception'] = $app->share(
             function ($app) {
                 return new Listener\ExceptionListener(
@@ -109,6 +119,12 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['listener.template_view'] = $app->share(
+            function ($app) {
+                return new Listener\TemplateViewListener($app['twig']);
+            }
+        );
+
         $app['listener.zone_guesser'] = $app->share(
             function ($app) {
                 return new Listener\ZoneGuesser($app);
@@ -123,12 +139,14 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $listeners = [
             'general',
+            'disable_xss_protection',
             'exception_json',
             'not_found',
             'system_logger',
             'snippet',
             'redirect',
             'flash_logger',
+            'template_view',
             'zone_guesser',
             'pager',
         ];
