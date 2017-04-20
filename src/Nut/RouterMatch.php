@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Routing\Matcher\TraceableUrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -63,8 +62,6 @@ EOF
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -87,26 +84,26 @@ EOF
 
         $traces = $matcher->getTraces($input->getArgument('path_info'));
 
-        $output->newLine();
+        $this->io->newLine();
 
         $matches = false;
         foreach ($traces as $trace) {
             if (TraceableUrlMatcher::ROUTE_ALMOST_MATCHES == $trace['level']) {
-                $output->text(sprintf('Route <info>"%s"</> almost matches but %s', $trace['name'], lcfirst($trace['log'])));
+                $this->io->text(sprintf('Route <info>"%s"</> almost matches but %s', $trace['name'], lcfirst($trace['log'])));
             } elseif (TraceableUrlMatcher::ROUTE_MATCHES == $trace['level']) {
-                $output->success(sprintf('Route "%s" matches', $trace['name']));
+                $this->io->success(sprintf('Route "%s" matches', $trace['name']));
 
                 $routerDebugCommand = $this->getApplication()->find('debug:router');
                 $routerDebugCommand->run(new ArrayInput(['name' => $trace['name']]), $output);
 
                 $matches = true;
             } elseif ($input->getOption('verbose')) {
-                $output->text(sprintf('Route "%s" does not match: %s', $trace['name'], $trace['log']));
+                $this->io->text(sprintf('Route "%s" does not match: %s', $trace['name'], $trace['log']));
             }
         }
 
         if (!$matches) {
-            $output->error(sprintf('None of the routes match the path "%s"', $input->getArgument('path_info')));
+            $this->io->error(sprintf('None of the routes match the path "%s"', $input->getArgument('path_info')));
 
             return 1;
         }
