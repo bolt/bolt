@@ -41,8 +41,8 @@ class DebugEvents extends BaseCommand
         $listeners = $dispatcher->getListeners();
 
         if ($input->getOption('summary')) {
-            $output->title('Event Names Registered on Dispatcher');
-            $output->listing(array_keys($listeners));
+            $this->io->title('Event Names Registered on Dispatcher');
+            $this->io->listing(array_keys($listeners));
 
             return 0;
         }
@@ -84,13 +84,13 @@ class DebugEvents extends BaseCommand
                 } elseif ($callable instanceof Closure) {
                     $r = new ReflectionFunction($callable);
                     $originClass = $r->getClosureScopeClass()->getName() . ' ' . $r->getShortName();
-                    $table->addRow(['#' .  $order, $originClass, $priority]);
+                    $table->addRow(['#' . $order, $originClass, $priority]);
                 } else {
-                    $table->addRow(['#' .  $order, get_class($callable), $priority]);
+                    $table->addRow(['#' . $order, get_class($callable), $priority]);
                 }
             }
             $table->render();
-            $output->writeln('');
+            $this->io->writeln('');
         }
 
         return 0;

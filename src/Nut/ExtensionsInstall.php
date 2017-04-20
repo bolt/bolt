@@ -36,16 +36,17 @@ class ExtensionsInstall extends BaseCommand
         $name = $input->getArgument('name');
         $version = $input->getArgument('version');
 
-        $output->write("\n<info>Starting install of {$name}:{$version}… </info>");
+        $this->io->title("Installing {$name}:{$version}");
 
         $result = $this->app['extend.manager']->requirePackage(['name' => $name, 'version' => $version]);
+        $this->io->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()));
         if ($result === 0) {
-            $output->write("<info>[DONE]</info>\n");
-            $this->auditLog(__CLASS__, "Installed extension $name");
+            $this->io->success('Installation successful');
+            $this->auditLog(__CLASS__, 'Autoloaders updated');
         } else {
-            $output->write("<error>[FAILED]</error>\n");
+            $this->io->error('Installation failed');
         }
 
-        $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()), OutputInterface::OUTPUT_PLAIN);
+        return $result;
     }
 }

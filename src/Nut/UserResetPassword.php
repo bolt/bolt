@@ -31,26 +31,25 @@ class UserResetPassword extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $username = $input->getArgument('username');
+        $userName = $input->getArgument('username');
 
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
-        $helper = $this->getHelper('question');
-        $confirm = $input->getOption('no-interaction');
-        $question = new ConfirmationQuestion("<question>Are you sure you want to reset the password for '$username'?</question> ");
-        if (!$confirm && !$helper->ask($input, $output, $question)) {
-            return false;
+        $this->io->title("Resetting password for user '$userName'");
+        $ask = !$input->getOption('no-interaction');
+        $question = new ConfirmationQuestion("<question>Are you sure you want to reset the password for '$userName'?</question>", false);
+        if ($ask && !$this->io->askQuestion($question)) {
+            return 0;
         }
 
         // Boot all service providers manually as, we're not handling a request
         $this->app->boot();
-        $password = $this->app['access_control.password']->setRandomPassword($username);
+        $password = $this->app['access_control.password']->setRandomPassword($userName);
+        if ($password === false) {
+            $this->io->error("Error no such user $userName");
 
-        if ($password !== false) {
-            $output->writeln("<info>New password for {$username} is {$password}</info>");
-        } else {
-            $output->writeln("<error>Error no such user {$username}</error>");
+            return 1;
         }
+        $this->io->success("New password for $userName is $password");
 
-        return !(bool) $password;
+        return 0;
     }
 }

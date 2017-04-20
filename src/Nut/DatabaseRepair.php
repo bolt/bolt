@@ -29,29 +29,32 @@ class DatabaseRepair extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('dump-sql')) {
-            $this->dumpSql($output);
+            $this->dumpSql();
+            $this->io->note('Database SQL above was NOT applied to your database.');
 
-            return $output->writeln(sprintf('<comment>%sDatabase SQL above was NOT applied to your database.</comment>', PHP_EOL));
+            return 0;
         }
 
         $response = $this->app['schema']->update();
         if (!$response->hasResponses()) {
-            return $output->writeln('<info>Your database is already up to date.</info>');
+            $this->io->success('Your database is already up to date.');
+
+            return 0;
         }
 
-        $output->writeln('<comment>Modifications made to the database:</comment>');
-        foreach ($response->getResponseStrings() as $messages) {
-            $output->writeln('<info> - ' . $messages . '</info>');
-        }
+        $this->io->title('Modifications made to the database');
+        $this->io->listing($response->getResponseStrings());
+        $this->io->success('Your database is now up to date.');
+
         $this->auditLog(__CLASS__, 'Database updated');
 
-        return $output->writeln('<info>Your database is now up to date.</info>');
+        return 0;
     }
 
     /**
-     * @param OutputInterface $output
+     * Dump the output.
      */
-    private function dumpSql(OutputInterface $output)
+    private function dumpSql()
     {
         $this->app['schema']->check();
 
@@ -62,7 +65,7 @@ class DatabaseRepair extends BaseCommand
 
         foreach ($context as $section) {
             foreach ($section as $sql) {
-                $output->writeln($sql);
+                $this->io->writeln($sql);
             }
         }
     }

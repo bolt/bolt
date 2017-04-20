@@ -28,6 +28,8 @@ class Info extends BaseCommand
     {
         ob_start();
         phpinfo();
-        $output->write(ob_get_clean());
+        $this->io->write(ob_get_clean());
+
+        return 0;
     }
 }

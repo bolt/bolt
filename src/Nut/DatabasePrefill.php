@@ -5,7 +5,6 @@ namespace Bolt\Nut;
 use Bolt\Exception\InvalidRepositoryException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
@@ -35,19 +34,16 @@ class DatabasePrefill extends BaseCommand
     {
         $contentTypeNames = (array) $input->getArgument('contenttypes');
         if (empty($contentTypeNames)) {
-            $contentTypeNames = $this->getContentTypeNames($output);
+            $contentTypeNames = $this->getContentTypeNames();
         }
 
         if (!$input->getOption('no-interaction')) {
-            $output->writeln('<question>You are about to create dummy records for the following ContentTypes:</question>');
-            foreach ($contentTypeNames as $contentTypeName) {
-                $output->writeln(sprintf('<question>  - %s</question>', $contentTypeName));
-            }
-            $helper = $this->getHelper('question');
+            $this->io->title('Creating dummy records for the following ContentTypes');
+            $this->io->listing($contentTypeNames);
             $question = new ConfirmationQuestion('<question>Continue with this action?</question> ', false);
 
-            if (!$helper->ask($input, $output, $question)) {
-                return;
+            if (!$this->io->askQuestion($question)) {
+                return 0;
             }
         }
 
@@ -56,51 +52,44 @@ class DatabasePrefill extends BaseCommand
 
         $this->auditLog(__CLASS__, 'Database pre-filled');
 
-        $this->reportCreate($results, $output);
-        $this->reportError($results, $output);
+        $this->reportCreate($results);
+        $this->reportError($results);
+
+        return count($results['errors']);
     }
 
     /**
-     * @param array           $results
-     * @param OutputInterface $output
+     * @param array $results
      */
-    private function reportError(array $results, OutputInterface $output)
+    private function reportError(array $results)
     {
         if ($results['errors'] === null) {
             return;
         }
-        $output->writeln('<error>Failures:</error>');
-        foreach ($results['errors'] as $errors) {
-            $output->writeln(sprintf('<error>    - %s</error>', strip_tags($errors)));
-        }
-        $output->writeln('');
+        $this->io->writeln('');
     }
 
     /**
-     * @param array           $results
-     * @param OutputInterface $output
+     * @param array $results
      */
-    private function reportCreate(array $results, OutputInterface $output)
+    private function reportCreate(array $results)
     {
         if ($results['created'] === null) {
             return;
         }
-        $output->writeln('<info>Database pre-filled with the following ContentTypes:</info>');
+        $this->io->title('Database pre-filled with the following ContentTypes');
         foreach ($results['created'] as $contentTypeName => $data) {
-            $output->writeln(sprintf('<info>  - %s</info>', $contentTypeName));
-
+            $this->io->writeln(sprintf('<info>  - %s</info>', $contentTypeName));
             foreach ($data as $created) {
-                $output->writeln(sprintf('<info>    - %s</info>', $created['title']));
+                $this->io->writeln(sprintf('<info>    - %s</info>', $created['title']));
             }
         }
     }
 
     /**
-     * @param OutputInterface $output
-     *
      * @return array
      */
-    private function getContentTypeNames(OutputInterface $output)
+    private function getContentTypeNames()
     {
         $contentTypes = $this->app['config']->get('contenttypes');
         $contentTypeNames = array_keys($contentTypes);
@@ -111,12 +100,10 @@ class DatabasePrefill extends BaseCommand
             } catch (InvalidRepositoryException $e) {
                 unset($contentTypeNames[$key]);
                 $message = sprintf(
-                    '<error>%sContentType "%s" does not have a repository enabled. You many need to run database:update first.%s</error>',
-                    PHP_EOL.
-                    $contentTypeName.
-                    PHP_EOL
+                    'ContentType "%s" does not have a repository enabled. You many need to run database:update first.',
+                    $contentTypeName
                 );
-                $output->writeln($message);
+                $this->io->note($message);
             }
         }
 

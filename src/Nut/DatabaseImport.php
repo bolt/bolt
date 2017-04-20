@@ -16,6 +16,9 @@ use Symfony\Component\Finder\Finder;
  */
 class DatabaseImport extends BaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -28,10 +31,13 @@ class DatabaseImport extends BaseCommand
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING! This command may overwrite or replace data in the current database.\n</error>\n");
+        $this->io->warning('This command may overwrite or replace data in the current database.');
 
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
@@ -39,8 +45,8 @@ class DatabaseImport extends BaseCommand
             throw new \RuntimeException('One of the --file or --directory options is required.');
         }
 
+        $files = [];
         if (!empty($directory)) {
-            $files = [];
             $finder = new Finder();
             $finder->files()
                 ->in($directory)
@@ -63,7 +69,7 @@ class DatabaseImport extends BaseCommand
 
         // See if we're going to continue
         if ($this->checkContinue($input, $output) === false) {
-            return;
+            return 0;
         }
 
         // Get the Bolt Import migration object
@@ -79,58 +85,48 @@ class DatabaseImport extends BaseCommand
             ->importMigrationFiles()
         ;
 
-
-
+        $failed = false;
         if ($import->getError()) {
-            foreach ($import->getErrorMessages() as $error) {
-                $output->writeln("<error>$error</error>");
-            }
-
-            $output->writeln("\n<error>Aborting import!</error>\n");
-
-            return;
+            $this->io->error($import->getErrorMessages());
+            $failed = true;
         }
 
         if ($import->getWarning()) {
-            foreach ($import->getWarningMessages() as $warning) {
-                $output->writeln("<comment>$warning</comment>");
-            }
-
-            return;
+            $this->io->warning($import->getWarningMessages());
+            $failed = true;
         }
 
         if ($import->getNotice()) {
-            foreach ($import->getNoticeMessages() as $notice) {
-                $output->writeln("<info>$notice</info>");
-            }
+            $this->io->note($import->getNoticeMessages());
+            $failed = true;
+        }
+        if ($failed) {
+            $this->io->error('Aborting import!');
 
-            return;
+            return 1;
         }
 
         // Report finish
-        $filenames = join(', ', $files);
-        $output->writeln("\n<info>Records imported from $filenames</info>");
+        $this->io->success('Records imported');
+        $this->io->listing($files);
+
+        return 0;
     }
 
     /**
      * Check to see if we should continue.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param InputInterface $input
      *
      * @return boolean
      */
-    private function checkContinue(InputInterface $input, OutputInterface $output)
+    private function checkContinue(InputInterface $input)
     {
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
-        $helper = $this->getHelper('question');
-        $confirm  = $input->getOption('no-interaction');
-        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the import?</question> ');
-
-        if (!$confirm && !$helper->ask($input, $output, $question)) {
-            return false;
+        if ($input->getOption('no-interaction')) {
+            return true;
         }
+        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the import?</question>', false);
 
-        return true;
+        return $this->io->askQuestion($question);
     }
 }
