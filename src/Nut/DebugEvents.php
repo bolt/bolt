@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Nut command to dump system listened events, and target callable.
@@ -35,8 +34,6 @@ class DebugEvents extends BaseCommand
 
     /**
      * {@inheritdoc}
-     *
-     * @param OutputStyle $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -69,9 +66,9 @@ class DebugEvents extends BaseCommand
             }
 
             if ($eventArg) {
-                $output->title('Registered Listeners for "' . $eventName . '" Event');
+                $this->io->title('Registered Listeners for "' . $eventName . '" Event');
             } else {
-                $output->section('"' . $eventName . '" event');
+                $this->io->section('"' . $eventName . '" event');
             }
 
             $table = $this->getTable($output);
@@ -107,7 +104,6 @@ class DebugEvents extends BaseCommand
     protected function getTable(OutputInterface $output)
     {
         $table = new Table($output);
-
 
         $leftAligned = new TableStyle();
         $leftAligned->setPadType(STR_PAD_LEFT);
