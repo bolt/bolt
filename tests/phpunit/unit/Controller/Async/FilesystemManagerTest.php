@@ -62,7 +62,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
         $this->assertInstanceOf(TemplateResponse::class, $response);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals('@bolt/async/browse.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/async/browse.twig', $response->getTemplate());
     }
 
     public function testCreateFolder()
@@ -277,7 +277,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $response = $this->controller()->recordBrowser();
 
         $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplate());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

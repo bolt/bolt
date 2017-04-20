@@ -33,7 +33,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/dbcheck'));
 
         $response = $this->controller()->check($this->getRequest());
-        $this->assertEquals('@bolt/dbcheck/dbcheck.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/dbcheck/dbcheck.twig', $response->getTemplate());
     }
 
     public function testUpdate()
@@ -62,7 +62,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/dbupdate_result'));
 
         $response = $this->controller()->updateResult();
-        $this->assertEquals('@bolt/dbcheck/dbcheck.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/dbcheck/dbcheck.twig', $response->getTemplate());
     }
 
     /**

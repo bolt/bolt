@@ -23,6 +23,9 @@ class ConfigGet extends AbstractConfig
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');

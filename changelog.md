@@ -11,6 +11,32 @@ Bolt 3.4-dev
 
 - 
 
+Bolt 3.3.0 beta 6
+-----------------
+
+Released: 2017-04-20. Notable changes:
+
+ - Added: Collection Library: `Bolt\Collection\Bag` and `Bolt\Collection\ImmutableBag` [#6572](https://github.com/bolt/bolt/pull/6572)
+ - Added: Debug - Keep order number consistent to class when using --sort-listener [#6578](https://github.com/bolt/bolt/pull/6578)
+ - Added: Debug - Option to get short listing of event names [#6581](https://github.com/bolt/bolt/pull/6581)
+ - Added: Debug - Show source class for closures [#6576](https://github.com/bolt/bolt/pull/6576)
+ - Added: Enable breaking events up into single events [#6573](https://github.com/bolt/bolt/pull/6573)
+ - Added: New Nut debug functionality, dumping routes, events, twig commands and Twig linter. [#6570](https://github.com/bolt/bolt/pull/6570), [#6568](https://github.com/bolt/bolt/pull/6568), [#6543](https://github.com/bolt/bolt/pull/6543)
+ - Change: Remove requirement on (optional) gmp PHP extension [#6553](https://github.com/bolt/bolt/pull/6553)
+ - Change: TemplateView - Improving Controller Reusability [#6382](https://github.com/bolt/bolt/pull/6382) [#6443](https://github.com/bolt/bolt/pull/6443)
+ - Change: Tweaked Exceptions - Error/Exception Handler Configuration [#6577](https://github.com/bolt/bolt/pull/6577)
+ - Deprecation: replaced use of deprecated request object [#6541](https://github.com/bolt/bolt/pull/6541)
+ - Deprecation: Switch YamlUpdater to use Bolt filesystem for YAML handling [#6557](https://github.com/bolt/bolt/pull/6557)
+ - Deprecation: Use Form::isSubmitted() before Form::isValid() [#6556](https://github.com/bolt/bolt/pull/6556)
+ - Fixed: Clear 'exception' and 'translation' too, when clearing cache. [#6546](https://github.com/bolt/bolt/pull/6546)
+ - Fixed: Fix content changelog field handling [#6565](https://github.com/bolt/bolt/pull/6565)
+ - Fixed: Fix News widget on dashboard [#6575](https://github.com/bolt/bolt/pull/6575)
+ - Fixed: Fix recent Nut I/O backwards compatibility regression, and clean up `$app` use. [#6580](https://github.com/bolt/bolt/pull/6580)
+ - Fixed: Make thrown SecurityPolicy in Twig-in-content show Exception, instead of outputting HTML on page. [#6504](https://github.com/bolt/bolt/pull/6504)
+ - Fixed: Tiny update for backend's frontend assets, removing some unneeded Select2 files. [#6560](https://github.com/bolt/bolt/pull/6560)
+ - Fixed: Use "is defined" to check if a block exists [#6555](https://github.com/bolt/bolt/pull/6555)
+ - Tests: More Silex 2 deprecation tweaks [#6567](https://github.com/bolt/bolt/pull/6567) [#6564](https://github.com/bolt/bolt/pull/6564)
+
 Bolt 3.3.0 beta 5
 -----------------
 
@@ -166,6 +192,17 @@ Bolt 3.3.0 beta 1
  - Tests: PHP 7.1 fix. [#6085](https://github.com/bolt/bolt/pull/6085)
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
+
+Bolt 3.2.11
+-----------
+
+Released 2017-04-19. Notable changes:
+
+ - Change: Report a boolean value in nut as `true` or `false`. [#6558](https://github.com/bolt/bolt/pull/6558)
+ - Fixed: Database prefill breaks on PostgreSQL. [#6548](https://github.com/bolt/bolt/pull/6548)
+ - Fixed: Fix bug in repeater buttons. [#6525](https://github.com/bolt/bolt/pull/6525)
+ - Fixed: Reset `GROUP BY` and `JOIN` parameters for `count()`. [#6551](https://github.com/bolt/bolt/pull/6551)
+ - Updated: Updating Symfony components to 2.8.19 and Twig to 1.33.1.
 
 Bolt 3.2.10
 -----------

@@ -2,7 +2,9 @@
 
 namespace Bolt\Response;
 
+use Bolt\Collection\ImmutableBag;
 use Symfony\Component\HttpFoundation\Response;
+use Webmozart\Assert\Assert;
 
 /**
  * Template based response.
@@ -12,37 +14,52 @@ use Symfony\Component\HttpFoundation\Response;
 class TemplateResponse extends Response
 {
     /** @var string */
-    protected $templateName;
-    /** @var array */
-    protected $context = [];
-    /** @var array */
-    protected $globals = [];
+    protected $template;
+    /** @var ImmutableBag */
+    protected $context;
 
     /**
      * Constructor.
      *
-     * @param string $templateName
-     * @param array  $context
-     * @param array  $globals
+     * @param string   $template The template name
+     * @param iterable $context  The context given to the template
+     * @param mixed    $content  The response content, see setContent()
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
      */
-    public function __construct($templateName, array $context = [], array $globals = [])
+    public function __construct($template, $context = [], $content = '', $status = 200, $headers = [])
     {
-        parent::__construct();
-        $this->templateName = $templateName;
-        $this->context = $context;
-        $this->globals = $globals;
+        parent::__construct($content, $status, $headers);
+        $this->template = $template;
+        $this->setContext($context);
+    }
+
+    /**
+     * Factory method for chainability.
+     *
+     * @param string   $template The template name
+     * @param iterable $context  The context given to the template
+     * @param mixed    $content  The response content, see setContent()
+     * @param int      $status   The response status code
+     * @param array    $headers  An array of response headers
+     *
+     * @return TemplateResponse
+     */
+    public static function create($template = '', $context = [], $content = '', $status = 200, $headers = [])
+    {
+        return new static($template, $context, $content, $status, $headers);
     }
 
     /**
      * @return string
      */
-    public function getTemplateName()
+    public function getTemplate()
     {
-        return $this->templateName;
+        return $this->template;
     }
 
     /**
-     * @return array
+     * @return ImmutableBag
      */
     public function getContext()
     {
@@ -50,10 +67,23 @@ class TemplateResponse extends Response
     }
 
     /**
-     * @return array
+     * @param iterable $context
      */
-    public function getGlobals()
+    protected function setContext($context)
     {
-        return $this->globals;
+        Assert::isTraversable($context);
+
+        $this->context = ImmutableBag::from($context);
+    }
+
+    /**
+     * Don't call directly.
+     *
+     * @internal
+     */
+    public function __clone()
+    {
+        parent::__clone();
+        $this->context = clone $this->context;
     }
 }
