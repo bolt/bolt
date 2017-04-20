@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Silex\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,22 +19,6 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class RouterMatch extends BaseCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled()
-    {
-        if (!isset($this->app['routes'])) {
-            return false;
-        }
-        $router = $this->app['routes'];
-        if (!$router instanceof RouteCollection) {
-            return false;
-        }
-
-        return parent::isEnabled();
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -65,7 +50,9 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app->flush();
+        if ($this->app instanceof Application) {
+            $this->app->flush();
+        }
 
         /** @var RouteCollection $router */
         $router = $this->app['routes'];
