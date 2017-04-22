@@ -322,12 +322,9 @@ class Content extends Entity
             return [];
         }
 
-        $fields = array_keys($contentType['fields']);
         $allValues = $this->toArray();
 
-        return array_filter($allValues, function ($key) use ($fields) {
-            return in_array($key, $fields);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_intersect_key($allValues, ($contentType['fields']));
     }
 
     /**
