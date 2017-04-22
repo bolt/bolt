@@ -33,12 +33,14 @@ class SetupSync extends BaseCommand
 
         $response = $environment->syncAssets();
         if ($response === null) {
-            $output->writeln('<info>​Directory synchronisation succeeded​.</info>');
-        } else {
-            $output->writeln('<comment>​Directory synchronisation encountered problems:</comment>');
-            foreach ($response as $message) {
-                $output->writeln('<comment>' . $message . '</comment>');
-            }
+            $this->io->success('Directory synchronisation succeeded​.');
+
+            return 0;
         }
+
+        $this->io->error('​Directory synchronisation encountered problems');
+        $this->io->error($response);
+
+        return 1;
     }
 }

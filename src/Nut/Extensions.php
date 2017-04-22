@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,28 +26,29 @@ class Extensions extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (count($this->app['extend.manager']->getMessages())) {
-            foreach ($this->app['extend.manager']->getMessages() as $message) {
-                $output->writeln(sprintf('<error>%s</error>', $message));
-            }
+        $messages = $this->app['extend.manager']->getMessages();
+        if (count($messages)) {
+            $this->io->error($messages);
 
-            return;
+            return 1;
         }
 
-        $installed = $this->app['extend.manager']->showPackage('installed');
         $rows = [];
+        $installed = $this->app['extend.manager']->showPackage('installed');
+        if (empty($installed)) {
+            $this->io->note('No extensions installed');
 
+            return 0;
+        }
+
+        $this->io->title('Installed extensions');
         foreach ($installed as $ext) {
             /** @var \Composer\Package\CompletePackageInterface $package */
             $package = $ext['package'];
             $rows[] = [$package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription()];
         }
+        $this->io->table(['Name', 'Version', 'Type',  'Description'], $rows);
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(['Name', 'Version', 'Type',  'Description'])
-            ->setRows($rows)
-            ->render()
-        ;
+        return 0;
     }
 }

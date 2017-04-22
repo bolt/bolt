@@ -39,6 +39,8 @@ class PimpleDump extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->io->title('Dumping Pimple application container');
+
         $app = $this->app;
         $app['debug'] = true;
 
@@ -49,5 +51,9 @@ class PimpleDump extends BaseCommand
         $request = Request::create('/');
         $response = $app->handle($request);
         $app->terminate($request, $response);
+
+        $this->io->success('Dumped container information in pimple.json');
+
+        return 0;
     }
 }

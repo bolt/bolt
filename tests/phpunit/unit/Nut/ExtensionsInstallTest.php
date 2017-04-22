@@ -35,7 +35,7 @@ class ExtensionsInstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test', 'version' => '1.0']);
         $result = $tester->getDisplay();
-        $this->assertRegExp('/Starting install of test:1.0… \[DONE\]/', trim($result));
+        $this->assertRegExp('/Installing test:1.0/', $result);
     }
 
     public function testFailed()
@@ -58,6 +58,6 @@ class ExtensionsInstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test', 'version' => '1.0']);
         $result = $tester->getDisplay();
-        $this->assertRegExp('/Starting install of test:1.0… \[FAILED\]/', trim($result));
+        $this->assertRegExp('/Installation failed/', $result);
     }
 }

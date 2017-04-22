@@ -35,7 +35,7 @@ class ConfigGet extends AbstractConfig
             $value = $value ? 'true' : 'false';
         }
 
-        $this->io->title(sprintf("Configuration setting in file %s", $this->file->getFullPath()));
+        $this->io->title(sprintf('Configuration setting in file %s', $this->file->getFullPath()));
         $this->io->text([sprintf('%s: %s', $key, $value), '']);
     }
 }

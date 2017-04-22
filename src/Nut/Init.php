@@ -34,7 +34,8 @@ class Init extends BaseCommand
             Trans::__('nut.version'),
             Version::VERSION
         );
+        $this->io->text($message);
 
-        $output->write($message);
+        return 0;
     }
 }

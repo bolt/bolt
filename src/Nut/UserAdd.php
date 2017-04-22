@@ -3,6 +3,7 @@
 namespace Bolt\Nut;
 
 use Bolt\Storage\Entity;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,23 +51,31 @@ class UserAdd extends BaseCommand
         $valid = true;
         if ($repo->getUser($user->getEmail())) {
             $valid = false;
-            $message[] = ("<error>    * Email address '{$user->getEmail()}' already exists</error>");
+            $message[] = "    * Email address '{$user->getEmail()}' already exists";
         }
         if ($repo->getUser($user->getUsername())) {
             $valid = false;
-            $message[] = ("<error>    * User name '{$user->getUsername()}' already exists</error>");
+            $message[] = "    * User name '{$user->getUsername()}' already exists";
         }
         if ($valid === false) {
-            $message[] = ('<error>Error creating user:</error>');
-            $output->write(array_reverse($message), true);
+            $message[] = 'Error creating user:';
+            $this->io->error(array_reverse($message));
 
-            return;
+            return 1;
         }
 
         // Boot all service providers manually as, we're not handling a request
         $this->app->boot();
         $this->app['storage']->getRepository(Entity\Users::class)->save($user);
         $this->auditLog(__CLASS__, "User created: {$user->getUsername()}");
-        $output->writeln("<info>Successfully created user: {$user->getUsername()}</info>");
+
+        $userCommand = $this->getApplication()->find('user:manage');
+        $userCommand->run(new ArrayInput([
+            'login'  => $input->getArgument('username'),
+            '--list' => true,
+        ]), $output);
+        $this->io->success("Successfully created user: {$user->getUsername()}");
+
+        return 0;
     }
 }

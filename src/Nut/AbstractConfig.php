@@ -61,11 +61,17 @@ abstract class AbstractConfig extends BaseCommand
             } else {
                 throw $e;
             }
+
             return 1;
         }
 
         return 0;
     }
 
+    /**
+     * @param YamlUpdater     $updater
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     abstract protected function doExecute(YamlUpdater $updater, InputInterface $input, OutputInterface $output);
 }

@@ -31,19 +31,33 @@ class UserRoleAdd extends BaseCommand
     {
         $username = $input->getArgument('username');
         $role = $input->getArgument('role');
+        $users = $this->app['users'];
+        $permissions = $this->app['config']->get('permissions/roles', []);
+        if (!isset($permissions[$role])) {
+            $this->io->error("Invalid role '$role' given. Failed to update user.");
+            $this->io->text('Avaliable role options are:');
+            $this->io->listing(array_keys($permissions));
 
-        if ($this->app['users']->hasRole($username, $role)) {
-            $msg = sprintf("\nUser '%s' already has role '%s'. No action taken.", $username, $role);
-            $output->writeln($msg);
-        } else {
-            if ($this->app['users']->addRole($username, $role)) {
-                $this->auditLog(__CLASS__, "Role $role granted to user $username");
-                $msg = sprintf("\n<info>User '%s' now has role '%s'.</info>", $username, $role);
-                $output->writeln($msg);
-            } else {
-                $msg = sprintf("\n<error>Could not add role '%s' to user '%s'.</error>", $role, $username);
-                $output->writeln($msg);
-            }
+            return 1;
         }
+
+        if ($users->hasRole($username, $role)) {
+            $msg = sprintf("User '%s' already has role '%s'. No action taken.", $username, $role);
+            $this->io->note($msg);
+
+            return 0;
+        }
+        if ($users->addRole($username, $role)) {
+            $this->auditLog(__CLASS__, "Role $role granted to user $username");
+            $msg = sprintf("User '%s' now has role '%s'.", $username, $role);
+            $this->io->success($msg);
+
+            return 0;
+        }
+
+        $msg = sprintf("Could not add role '%s' to user '%s'.", $role, $username);
+        $this->io->error($msg);
+
+        return 1;
     }
 }

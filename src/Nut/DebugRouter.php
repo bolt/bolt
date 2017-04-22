@@ -49,7 +49,7 @@ class DebugRouter extends BaseCommand
             [
                 'Property',
                 'Value',
-            ]
+            ],
         ]);
 
         $routes = $this->app['routes'];
@@ -67,6 +67,8 @@ class DebugRouter extends BaseCommand
         ]);
 
         $table->render();
+
+        return 0;
     }
 
     /**
@@ -98,7 +100,7 @@ class DebugRouter extends BaseCommand
                 'Scheme',
                 'Host',
                 'Path',
-            ]
+            ],
         ]);
         $routes = (array) $this->app['routes']->getIterator();
 
