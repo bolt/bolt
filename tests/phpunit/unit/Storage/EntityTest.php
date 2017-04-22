@@ -51,4 +51,17 @@ class EntityTest extends BoltUnitTest
         $this->assertSame($entity->getSlug(), 'kenny-koala');
         $this->assertSame($entity->getImage(), ['file' => 'koala.png']);
     }
+
+    public function testContentGetValues()
+    {
+        $app = $this->getApp();
+        $repo = $app['storage']->getRepository('pages');
+        $content = $repo->findOneBy(['id'=>1]);
+        $vals = $content->getValues();
+        $this->assertArrayNotHasKey('datepublish', $vals);
+        $this->assertArrayNotHasKey('datedepublish', $vals);
+        $this->assertArrayNotHasKey('id', $vals);
+        $this->assertArrayHasKey('slug', $vals);
+        $this->assertArrayHasKey('title', $vals);
+    }
 }
