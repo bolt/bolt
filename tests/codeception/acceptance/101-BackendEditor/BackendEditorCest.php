@@ -43,7 +43,9 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->dontSee('View Entries');
         $I->dontSee('New Entry');
 
-        $I->see('View Showcases');
+        // Showcases is a singleton, so we should only see the single top-menu item
+        $I->see('Showcases');
+        $I->dontSee('View Showcases');
         $I->dontSee('New Showcase');
 
         $I->dontSee('Configuration', Locator::href('/bolt/users'));

@@ -3,7 +3,17 @@
 {% set definedSubs = [] %}
 
 {% for slug, contenttype in app.config.get('contenttypes')  %}
-    {% if isallowed('contenttype:' ~ slug) %}
+    {% setcontent records = slug limit 4 nohydrate orderby '-datechanged' %}
+    {% if not isallowed('contenttype:' ~ slug ~ ':create') and isallowed('contenttype:' ~ slug) and records|length == 1 and contenttype.show_in_menu == "true" %}
+        <li>
+            <a href="{{ path('editcontent', {contenttypeslug: slug, id: records|first.id}) }}">
+                {{ nav.label(
+                    contenttype.icon_one|default(''),
+                    __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name})
+                ) }}
+            </a>
+        </li>
+    {% elseif isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
             icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
             label: __('contenttypes.generic.view', {'%contenttypes%': contenttype.name}),
@@ -20,7 +30,6 @@
         {# ContentTypes, where show_in_menu is set true #}
         {% if contenttype.show_in_menu == "true" %}
 
-            {% setcontent records = slug limit 4 nohydrate orderby '-datechanged' %}
             {% for record in records %}
                 {% set sub = sub|merge([
                     {
@@ -42,8 +51,13 @@
             {% set sub_view = {
                 icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
                 label: __(['contenttypes', contenttype.slug, 'name', 'plural'], {DEFAULT: contenttype.name}),
-                link: path('overview', {'contenttypeslug': slug})
             } %}
+
+            {% if not isallowed('contenttype:' ~ slug ~ ':create') and isallowed('contenttype:' ~ slug) and records|length == 1 %}
+                {% set sub_view = sub_view|merge({link: path('editcontent', {contenttypeslug: slug, id: records|first.id})}) %}
+            {% else %}
+                {% set sub_view = sub_view|merge({link: path('overview', {'contenttypeslug': slug})}) %}
+            {% endif %}
 
             {% set key = contenttype.show_in_menu ?: __('general.phrase.other-content') %}
             {% if definedSubs[key] is defined %}
