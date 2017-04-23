@@ -2,8 +2,10 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Bolt\Exception\BootException;
 use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -33,6 +35,8 @@ class ScriptHandler
         if ($checkForCreateProject && strpos(implode(' ', $argv), 'create-project') > 0) {
             return;
         }
+
+        static::runUpdateProjectFromAssets($event);
 
         $webDir = static::getWebDir($event);
         if ($webDir === null) {
@@ -79,6 +83,16 @@ class ScriptHandler
         $target = static::getDir($event, 'themebase');
         $event->getIO()->writeError(sprintf('Installing <info>themes</info> to <info>%s</info>', $target));
         $filesystem->mirror($root . 'theme', $target, null, ['override' => true]);
+    }
+
+    /**
+     * Updates project existing structure if needed.
+     *
+     * @param Event $event
+     */
+    public static function updateProject(Event $event)
+    {
+        // TODO: Check if .bolt.yml should be updated.
     }
 
     /**
@@ -200,6 +214,28 @@ class ScriptHandler
         }
 
         return static::$dirMode;
+    }
+
+    /**
+     * Checks if updateProject is in composer.json. If not,
+     * this adds it / shows how to add it, and then runs updateProject.
+     *
+     * @param Event $event
+     */
+    protected static function runUpdateProjectFromAssets(Event $event)
+    {
+        if ($event->getName() !== ScriptEvents::POST_UPDATE_CMD) {
+            return;
+        }
+
+        $updater = new ScriptHandlerUpdater($event);
+
+        if (!$updater->needsUpdate()) {
+            return;
+        }
+        $updater->update();
+
+        static::updateProject($event);
     }
 
     /**
