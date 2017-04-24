@@ -70,12 +70,15 @@ class UserManage extends BaseCommand
         if ($input->getOption('list')) {
             $this->io->title("Account details for '$userLogin'");
             $headers = ['User name', 'Email', 'Display Name', 'Roles', 'Enabled'];
+            $roles = array_filter($userEntity->getRoles(), function ($var) {
+                return $var !== 'everyone';
+            });
             $rows = [
                 [
                     $userEntity->getUsername(),
                     $userEntity->getEmail(),
                     $userEntity->getDisplayname(),
-                    implode(', ', $userEntity->getRoles()),
+                    implode(', ', $roles),
                     json_encode($userEntity->getEnabled()),
                 ],
             ];
