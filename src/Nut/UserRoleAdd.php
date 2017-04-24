@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Nut command to add a role to a Bolt user account
  */
-class UserRoleAdd extends BaseCommand
+class UserRoleAdd extends AbstractUser
 {
     /**
      * {@inheritdoc}
@@ -18,10 +19,23 @@ class UserRoleAdd extends BaseCommand
     {
         $this
             ->setName('role:add')
-            ->setDescription('Add a certain role to a user.')
-            ->addArgument('username', InputArgument::REQUIRED, 'The username (loginname) you wish to add a role to.')
-            ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to give them.')
+            ->setDescription('Add role(s) to a user account')
+            ->addArgument('username', InputArgument::REQUIRED, 'The user (login) name you wish to add a role to')
+            ->addArgument('role', InputArgument::REQUIRED ^ InputArgument::IS_ARRAY, 'The role(s) you wish to give them')
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        try {
+            $input->validate();
+        } catch (RuntimeException $e) {
+            $this->askUserName($input);
+            $this->askRole($input);
+        }
     }
 
     /**
@@ -30,34 +44,49 @@ class UserRoleAdd extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
-        $role = $input->getArgument('role');
+        $roles = $input->getArgument('role');
         $users = $this->app['users'];
         $permissions = $this->app['config']->get('permissions/roles', []);
-        if (!isset($permissions[$role])) {
-            $this->io->error("Invalid role '$role' given. Failed to update user.");
-            $this->io->text('Avaliable role options are:');
-            $this->io->listing(array_keys($permissions));
+        $result = 0;
+        $ask = false;
 
-            return 1;
+        foreach ($roles as $key => $role) {
+            if (!isset($permissions[$role])) {
+                $this->io->warning("Invalid role '$role' given.");
+                unset($roles[$key]);
+                $ask = true;
+            }
+            if ($users->hasRole($username, $role)) {
+                $this->io->note(sprintf("User '%s' already has role '%s'. No action taken.", $username, $role));
+                unset($roles[$key]);
+            }
         }
 
-        if ($users->hasRole($username, $role)) {
-            $msg = sprintf("User '%s' already has role '%s'. No action taken.", $username, $role);
-            $this->io->note($msg);
-
-            return 0;
+        if ($ask) {
+            $input->setArgument('role', $roles);
+            $this->askRole($input);
+            $roles = $input->getArgument('role');
         }
-        if ($users->addRole($username, $role)) {
+
+        $messages = ['pass' => null, 'fail' => null];
+        foreach ($roles as $key => $role) {
+            if (!$users->addRole($username, $role)) {
+                $messages['fail'][] = sprintf("Could not add role '%s' to user '%s'.", $role, $username);
+                $result = 1;
+
+                continue;
+            }
             $this->auditLog(__CLASS__, "Role $role granted to user $username");
-            $msg = sprintf("User '%s' now has role '%s'.", $username, $role);
-            $this->io->success($msg);
-
-            return 0;
+            $messages['pass'][] = sprintf("User '%s' now has role '%s'.", $username, $role);
         }
 
-        $msg = sprintf("Could not add role '%s' to user '%s'.", $role, $username);
-        $this->io->error($msg);
+        if ($messages['fail']) {
+            $this->io->error($messages['fail']);
+        }
+        if ($messages['pass']) {
+            $this->io->success($messages['pass']);
+        }
 
-        return 1;
+        return $result;
     }
 }

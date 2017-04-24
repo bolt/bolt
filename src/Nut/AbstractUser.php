@@ -63,7 +63,7 @@ abstract class AbstractUser extends BaseCommand
      */
     protected function askRole(InputInterface $input)
     {
-        $roles = $input->getArgument('role');
+        $roles = (array) $input->getArgument('role');
         $choices = [];
 
         $allRoles = Bag::from($this->app['config']->get('permissions/roles'));
@@ -71,7 +71,7 @@ abstract class AbstractUser extends BaseCommand
         foreach ($allRoles->keys() as $role) {
             $choices[$role] = $allRoles->getPath("$role/label", $role);
         }
-        $defaults = empty($roles) ? null : implode(', ', (array) $roles);
+        $defaults = empty($roles) ? null : implode(', ', $roles);
 
         $question = new ChoiceQuestion('Roles (comma separated)', $choices, $defaults);
         $question->setMultiselect(true);

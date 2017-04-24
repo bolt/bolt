@@ -21,7 +21,7 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(['username' => 'test', 'role' => 'admin']);
+        $tester->execute(['username' => 'test', 'role' => ['admin']]);
         $result = $tester->getDisplay();
         $this->assertRegExp("/User 'test' now has role 'admin'/", $result);
     }
@@ -33,7 +33,7 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(['username' => 'test', 'role' => 'admin']);
+        $tester->execute(['username' => 'test', 'role' => ['admin']]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/already has role/', $result);
     }
@@ -45,7 +45,7 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(['username' => 'test', 'role' => 'admin']);
+        $tester->execute(['username' => 'test', 'role' => ['admin']]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Could not add role/', $result);
     }
