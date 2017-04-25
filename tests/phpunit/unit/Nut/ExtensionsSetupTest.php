@@ -24,9 +24,9 @@ class ExtensionsSetupTest extends BoltUnitTest
         $tester->execute([]);
         $result = $tester->getDisplay();
 
-        $this->assertRegExp('/Creating\/updating composer.json… \[DONE\]/', $result);
+        $this->assertRegExp('/Creating\/updating composer.json/', $result);
 
-        $this->assertRegExp('/Updating autoloaders… \[DONE\]/', $result);
+        $this->assertRegExp('/Autoloaders updated/', $result);
         $this->assertRegExp('/Generating optimized autoload files/', $result);
         $this->assertRegExp('/PackageEventListener::dump/', $result);
     }
@@ -45,9 +45,9 @@ class ExtensionsSetupTest extends BoltUnitTest
 
         $app['filesystem']->deleteDir('extensions://local');
 
-        $this->assertRegExp('/Creating\/updating composer.json… \[DONE\]/', $result);
+        $this->assertRegExp('/Creating\/updating composer.json/', $result);
 
-        $this->assertRegExp('/Updating autoloaders… \[DONE\]/', $result);
+        $this->assertRegExp('/Autoloaders updated/', $result);
         $this->assertRegExp('/Generating optimized autoload files/', $result);
         $this->assertRegExp('/PackageEventListener::dump/', $result);
     }

@@ -318,6 +318,12 @@ class MetadataDriver implements MappingDriver
         if (!$this->generalConfig instanceof Config) {
             return;
         }
+
+        // If the field doesn't have a type set, we're also not interested.
+        if (!isset($field['type'])) {
+            return;
+        }
+
         $acceptableFileTypes = $this->generalConfig->get('general/accept_file_types');
 
         // If field is a "file" type, make sure the 'extensions' are set, and it's an array.

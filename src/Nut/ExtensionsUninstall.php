@@ -33,17 +33,17 @@ class ExtensionsUninstall extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = $input->getArgument('name');
-
-        $output->write("\n<info>Starting uninstall of {$name}… </info>");
+        $this->io->title("Starting uninstall of $name");
 
         $result = $this->app['extend.manager']->removePackage([$name]);
+        $this->io->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()), OutputInterface::OUTPUT_PLAIN);
         if ($result === 0) {
-            $output->write("<info>[DONE]</info>\n");
+            $this->io->success("Removed extension $name");
             $this->auditLog(__CLASS__, "Removed extension $name");
         } else {
-            $output->write("<error>[FAILED]</error>\n");
+            $this->io->error("Unable to remove extension $name");
         }
 
-        $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()), OutputInterface::OUTPUT_PLAIN);
+        return $result;
     }
 }

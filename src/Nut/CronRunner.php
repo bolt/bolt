@@ -49,11 +49,16 @@ class CronRunner extends BaseCommand
         $result = new Cron($this->app, $output);
         if ($result->execute($param)) {
             if ($event) {
-                $this->auditLog(__CLASS__, "Cron $event job run");
+                $message = sprintf('Cron "%s" job run', $event);
             } else {
-                $this->auditLog(__CLASS__, 'Cron run');
+                $message = 'Cron run';
             }
-            $output->writeln('<info>Cron run!</info>');
+            $this->io->success($message);
+            $this->auditLog(__CLASS__, $message);
+
+            return 0;
         }
+
+        return 1;
     }
 }

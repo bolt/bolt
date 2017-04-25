@@ -36,7 +36,7 @@ class ExtensionsDumpAutoloadTest extends BoltUnitTest
         $tester->execute([]);
         $result = $tester->getDisplay();
 
-        $this->assertRegExp('/Rebuilding autoloaders… \[DONE\]/', $result);
+        $this->assertRegExp('/Rebuilding extension autoloaders/', $result);
         $this->assertRegExp('/Generating optimized autoload files/', $result);
         $this->assertRegExp('/PackageEventListener::dump/', $result);
     }

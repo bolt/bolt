@@ -29,15 +29,17 @@ class ExtensionsDumpAutoload extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->write("\n<info>Rebuilding autoloaders… </info>");
+        $this->io->title('Rebuilding extension autoloaders');
 
         $result = $this->app['extend.action']['autoload']->execute();
+        $this->io->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()));
         if ($result === 0) {
-            $output->writeln('<info>[DONE]</info>');
+            $this->io->success('Autoloaders updated');
             $this->auditLog(__CLASS__, 'Autoloaders updated');
         } else {
-            $output->writeln('<error>[FAILED]</error>');
+            $this->io->error('Autoloaders failed update');
         }
-        $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()));
+
+        return $result;
     }
 }

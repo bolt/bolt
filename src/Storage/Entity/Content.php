@@ -324,6 +324,22 @@ class Content extends Entity
     }
 
     /**
+     * Helper to return an array of user-defined values from the Entity.
+     * This excludes meta fields set by Bolt.
+     */
+    public function getValues()
+    {
+        $contentType = $this->getContenttype();
+        if (!isset($contentType['fields'])) {
+            return [];
+        }
+
+        $allValues = $this->toArray();
+
+        return array_intersect_key($allValues, ($contentType['fields']));
+    }
+
+    /**
      * Getter for a record's 'title' field.
      *
      * If there is no field called 'title' then we just return the first text

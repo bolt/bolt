@@ -31,19 +31,26 @@ class UserRoleRemove extends BaseCommand
     {
         $username = $input->getArgument('username');
         $role = $input->getArgument('role');
+        $users = $this->app['users'];
 
-        if (!$this->app['users']->hasRole($username, $role)) {
-            $msg = sprintf("\nUser '%s' already doesn't have role '%s'. No action taken.", $username, $role);
-            $output->writeln($msg);
-        } else {
-            if ($this->app['users']->removeRole($username, $role)) {
-                $this->auditLog(__CLASS__, "Role $role removed from user $username");
-                $msg = sprintf("\n<info>User '%s' no longer has role '%s'.</info>", $username, $role);
-                $output->writeln($msg);
-            } else {
-                $msg = sprintf("\n<error>Could not remove role '%s' from user '%s'.</error>", $role, $username);
-                $output->writeln($msg);
-            }
+        if (!$users->hasRole($username, $role)) {
+            $msg = sprintf("User '%s' doesn't already have role '%s'. No action taken.", $username, $role);
+            $this->io->note($msg);
+
+            return 1;
         }
+
+        if ($users->removeRole($username, $role)) {
+            $this->auditLog(__CLASS__, "Role $role removed from user $username");
+            $msg = sprintf("User '%s' no longer has role '%s'.", $username, $role);
+            $this->io->success($msg);
+
+            return 0;
+        }
+
+        $msg = sprintf("Could not remove role '%s' from user '%s'.", $role, $username);
+        $this->io->error($msg);
+
+        return 1;
     }
 }

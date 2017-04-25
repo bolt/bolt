@@ -2,8 +2,8 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Nut\Style\NutStyle;
 use Bolt\Nut\Helper\ContainerHelper;
+use Bolt\Nut\Style\NutStyle;
 use Pimple as Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
