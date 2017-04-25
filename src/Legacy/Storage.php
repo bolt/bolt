@@ -403,10 +403,10 @@ class Storage
         }
 
         // Test to see if this is a new record, or an update
-        if (empty($fieldvalues['id'])) {
-            $create = true;
-        } else {
-            $create = false;
+        $create = empty($fieldvalues['id']);
+
+        if (!isset($fieldvalues['slug'])) {
+            $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
         }
 
         // We need to verify if the slug is unique. If not, we update it.
