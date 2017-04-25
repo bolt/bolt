@@ -85,9 +85,11 @@
 
                             {# option #}
                             {% set opttext = option.text|default(option.value)|striptags %}
+                            {# for details on why 'disabled' is in here, see https://github.com/bolt/bolt/pull/6590 #}
                             {% set optattr = {
                                 'value!':   option.value,
                                 'selected': option.selected|default(false),
+                                'disabled': option.disabled|default(false),
                                 'label':    option.value == '' and opttext == '' ? '–' : false,
                             } %}
                             <option{{ hattr(optattr) }}>{{ opttext }}</option>
