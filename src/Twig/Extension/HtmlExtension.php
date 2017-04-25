@@ -4,6 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * HTML functionality Twig extension.
@@ -24,9 +26,9 @@ class HtmlExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('link',           [Runtime\HtmlRuntime::class, 'link'], $safe),
-            new \Twig_SimpleFunction('markdown',       [Runtime\HtmlRuntime::class, 'markdown'], $safe),
-            new \Twig_SimpleFunction('menu',           [Runtime\HtmlRuntime::class, 'menu'], $env + $safe),
+            new TwigFunction('link',     [Runtime\HtmlRuntime::class, 'link'], $safe),
+            new TwigFunction('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
+            new TwigFunction('menu',     [Runtime\HtmlRuntime::class, 'menu'], $env + $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -40,11 +42,11 @@ class HtmlExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('editable', [Runtime\HtmlRuntime::class, 'editable'], $safe),
-            new \Twig_SimpleFilter('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
-            new \Twig_SimpleFilter('shy',      [Runtime\HtmlRuntime::class, 'shy'], $safe),
-            new \Twig_SimpleFilter('tt',       [Runtime\HtmlRuntime::class, 'decorateTT'], $safe),
-            new \Twig_SimpleFilter('twig',     [Runtime\HtmlRuntime::class, 'twig'], ['needs_environment' => true] + $safe),
+            new TwigFilter('editable', [Runtime\HtmlRuntime::class, 'editable'], $safe),
+            new TwigFilter('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
+            new TwigFilter('shy',      [Runtime\HtmlRuntime::class, 'shy'], $safe),
+            new TwigFilter('tt',       [Runtime\HtmlRuntime::class, 'decorateTT'], $safe),
+            new TwigFilter('twig',     [Runtime\HtmlRuntime::class, 'twig'], ['needs_environment' => true] + $safe),
             // @codingStandardsIgnoreEnd
         ];
     }

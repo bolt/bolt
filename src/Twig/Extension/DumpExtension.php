@@ -4,6 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime\DumpRuntime;
 use Symfony\Bridge\Twig\TokenParser\DumpTokenParser;
+use Twig_SimpleFunction as TwigFunction;
+use Twig_Extension as Extension;
 
 /**
  * Modified version of Twig Bridge's DumpExtension to use runtime loading.
@@ -11,16 +13,18 @@ use Symfony\Bridge\Twig\TokenParser\DumpTokenParser;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DumpExtension extends \Twig_Extension
+class DumpExtension extends Extension
 {
     public function getFunctions()
     {
         $options = ['is_safe' => ['html'], 'needs_context' => true, 'needs_environment' => true];
 
         return [
-            new \Twig_SimpleFunction('backtrace', [DumpRuntime::class, 'dumpBacktrace'], $options),
-            new \Twig_SimpleFunction('dump', [DumpRuntime::class, 'dump'], $options),
-            new \Twig_SimpleFunction('print', [DumpRuntime::class, 'dump'], $options + ['deprecated' => true, 'alternative' => 'dump']),
+            // @codingStandardsIgnoreStart
+            new TwigFunction('backtrace', [DumpRuntime::class, 'dumpBacktrace'], $options),
+            new TwigFunction('dump',      [DumpRuntime::class, 'dump'], $options),
+            new TwigFunction('print',     [DumpRuntime::class, 'dump'], $options + ['deprecated' => true, 'alternative' => 'dump']),
+            // @codingStandardsIgnoreEnd
         ];
     }
 

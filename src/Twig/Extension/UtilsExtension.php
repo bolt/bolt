@@ -4,6 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * General-purpose utility functionality Twig extension.
@@ -23,8 +24,8 @@ class UtilsExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('file_exists', [Runtime\UtilsRuntime::class, 'fileExists'], $deprecated),
-            new \Twig_SimpleFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
+            new TwigFunction('file_exists', [Runtime\UtilsRuntime::class, 'fileExists'], $deprecated),
+            new TwigFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
             // @codingStandardsIgnoreEnd
         ];
     }
