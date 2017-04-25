@@ -31,7 +31,7 @@ class UserManageTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertRegExp('#koala(\s*)\|(\s*)koala@example\.com(\s*)\|(\s*)Kenny Koala(\s*)\|(\s*)\d*(\s*)\|(\s*)true#', $result);
+        $this->assertRegExp('#koala(\s*).*(\s*)koala@example\.com(\s*).*(\s*)Kenny Koala(\s*).*(\s*)\d*(\s*).*(\s*)true#', $result);
     }
 
     public function testEnable()
@@ -50,7 +50,7 @@ class UserManageTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertSame('Enabled user: koala', trim($result));
+        $this->assertRegExp('/Enabled user: koala/', $result);
 
         /** @var UsersRepository $repo */
         $repo = $app['storage']->getRepository(Entity\Users::class);
@@ -75,7 +75,7 @@ class UserManageTest extends BoltUnitTest
         );
 
         $result = $tester->getDisplay();
-        $this->assertSame('Disabled user: koala', trim($result));
+        $this->assertRegExp('/Disabled user: koala/', $result);
 
         /** @var UsersRepository $repo */
         $repo = $app['storage']->getRepository(Entity\Users::class);

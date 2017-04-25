@@ -15,6 +15,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DatabaseExport extends BaseCommand
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -27,10 +30,15 @@ class DatabaseExport extends BaseCommand
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Warn that this is experimental
-        $output->writeln("<error>\n\nWARNING! This command operates on the current database, taking a backup is advised before export.\n</error>\n");
+        $this->io->warning('This command operates on the current database, taking a backup is advised before export.');
 
         // Check if export file can be created
         $file = $input->getOption('file');
@@ -40,14 +48,14 @@ class DatabaseExport extends BaseCommand
         }
 
         // See if we're going to continue
-        if ($this->checkContinue($input, $output) === false) {
-            return;
+        if ($this->checkContinue($input) === false) {
+            return 0;
         }
 
         // If we are using the directory option, then we create the file and verify.
         if (empty($file) && isset($directory)) {
             $prefix = date('YmdHis');
-            $file = rtrim($directory, '/').'/'.$prefix.'.yml';
+            $file = rtrim($directory, '/') . '/' . $prefix . '.yml';
         }
 
         // Get the Bolt Export migration object
@@ -63,38 +71,35 @@ class DatabaseExport extends BaseCommand
             ->exportContenttypesRecords()
         ;
 
-        if ($export->getError()) {
-            foreach ($export->getErrorMessages() as $error) {
-                $output->writeln("<error>$error</error>");
-            }
+        if (!$export->getError()) {
+            $this->io->success('Database exported to ' . $file);
 
-            $output->writeln("\n<error>Aborting export!</error>\n");
-
-            return 1;
+            return 0;
         }
 
-        $output->writeln("<info>Database exported to $file</info>");
+        foreach ($export->getErrorMessages() as $error) {
+            $this->io->writeln("<error>$error</error>");
+        }
+
+        $this->io->error('Aborting export!');
+
+        return 1;
     }
 
     /**
      * Check to see if we should continue.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param InputInterface $input
      *
      * @return boolean
      */
-    private function checkContinue(InputInterface $input, OutputInterface $output)
+    private function checkContinue(InputInterface $input)
     {
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
-        $helper = $this->getHelper('question');
-        $confirm  = $input->getOption('no-interaction');
-        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the export?</question> ');
-
-        if (!$confirm && !$helper->ask($input, $output, $question)) {
-            return false;
+        if ($input->getOption('no-interaction')) {
+            return true;
         }
+        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the export?</question>');
 
-        return true;
+        return $this->io->askQuestion($question);
     }
 }

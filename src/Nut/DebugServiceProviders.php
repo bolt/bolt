@@ -39,7 +39,7 @@ class DebugServiceProviders extends BaseCommand
         $rightAligned->setPadType(STR_PAD_LEFT);
 
         $table->setHeaders([
-            ['Provider Class Name', 'Order']
+            ['Provider Class Name', 'Order'],
         ]);
         $table->setColumnStyle(1, $rightAligned);
 

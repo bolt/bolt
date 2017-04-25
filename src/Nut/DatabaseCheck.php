@@ -3,8 +3,6 @@
 namespace Bolt\Nut;
 
 use SqlFormatter;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,75 +33,66 @@ class DatabaseCheck extends BaseCommand
         $response = $this->app['schema']->check();
 
         if (!$response->hasResponses()) {
-            $output->writeln('<info>The database is OK.</info>');
-        } else {
-            $output->writeln('<comment>Modifications required:</comment>');
-            foreach ($response->getResponseStrings() as $messages) {
-                $output->writeln('<info> - ' . $messages . '</info>');
-            }
-            $output->writeln("<comment>One or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.</comment>");
+            $this->io->success('The database is OK.');
+
+            return 0;
         }
+
+        $this->io->title('Modifications required');
+        $this->io->listing($response->getResponseStrings());
+        $this->io->note("One or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.");
 
         if ($input->getOption('show-changes')) {
-            $output->writeln('<comment>Proposed modifications:</comment>');
-            $output->writeln("\n");
-            $this->showDiffs($output);
+            $this->io->title('Proposed modifications');
+            $this->showDiffs();
         }
+
+        return 1;
     }
 
     /**
-     * @param OutputInterface $output
+     * Render diffs.
      */
-    protected function showDiffs(OutputInterface $output)
+    protected function showDiffs()
     {
-        $this->showCreates($output);
-        $this->showAlterations($output);
+        $this->showCreates();
+        $this->showAlterations();
     }
 
     /**
-     * @param OutputInterface $output
+     * Display a section of tables to be created.
      */
-    protected function showCreates($output)
+    protected function showCreates()
     {
         $creates = $this->app['schema.comparator']->getCreates();
         if ($creates) {
-            $output->writeln('<info>Tables to be created:</info>');
+            $this->io->section('Tables to be created');
             foreach ($creates as $tableName => $sql) {
-                $output->writeln("\n");
-                $output->writeln(\SqlFormatter::format($sql[0]));
-                $output->writeln("\n");
+                $this->io->writeln(\SqlFormatter::format($sql[0]));
             }
         }
     }
 
     /**
-     * @param OutputInterface $output
+     * Display a section of tables to be altered.
      */
-    protected function showAlterations($output)
+    protected function showAlterations()
     {
         $alters = $this->app['schema.comparator']->getAlters();
         if ($alters) {
-            $output->writeln('<info>Tables to be altered:</info>');
-
-            $table = new Table($output);
-            $table->setHeaders(['Table Name', 'Alter Query']);
+            $this->io->section('Tables to be altered:');
 
             $tableCount = count($alters);
-
             foreach ($alters as $tableName => $sql) {
+                $this->io->comment($tableName);
                 foreach ($sql as $query) {
-                    $table->addRow([
-                        $tableName,
-                        SqlFormatter::highlight($query),
-                    ]);
+                    $this->io->text(SqlFormatter::highlight($query));
                 }
 
                 if (--$tableCount) {
-                    $table->addRow(new TableSeparator());
+                    $this->io->writeln('');
                 }
             }
-
-            $table->render();
         }
     }
 }

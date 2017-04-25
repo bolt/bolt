@@ -35,7 +35,7 @@ class ExtensionsUninstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test']);
         $result = $tester->getDisplay();
-        $this->assertRegExp('/Starting uninstall of test… \[DONE\]/', trim($result));
+        $this->assertRegExp('/Removed extension test/', $result);
     }
 
     /**
@@ -61,6 +61,6 @@ class ExtensionsUninstallTest extends BoltUnitTest
 
         $tester->execute(['name' => 'test']);
         $result = $tester->getDisplay();
-        $this->assertRegExp('/Starting uninstall of test… \[FAILED\]/', trim($result));
+        $this->assertRegExp('/Unable to remove extension test/', $result);
     }
 }

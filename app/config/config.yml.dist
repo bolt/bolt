@@ -412,9 +412,8 @@ hash_strength: 10
 #         optimize-autoloader: false     # Optimize autoloader during autoloader dump.
 #         classmap-authoritative: false  # Autoload classes from the classmap only. Implicitly enables `optimize-autoloader`.
 
-# Enforcing the use of SSL. If set, all but the front-end pages will enforce an
-# SSL connection (and redirect to HTTPS if you attempt to visit the backend over
-# plain HTTP).
+# Enforcing the use of SSL. If set, all pages will enforce an SSL connection, 
+# and redirect to HTTPS if you attempt to visit plain HTTP pages.
 # enforce_ssl: true
 
 # If configured, Bolt will trust X-Forwarded-XXX headers from the listed IP

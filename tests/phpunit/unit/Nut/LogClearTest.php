@@ -20,19 +20,10 @@ class LogClearTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $command = new LogClear($app);
+        $command->addOption('--no-interaction');
         $tester = new CommandTester($command);
 
-        $helper = $this->getMockBuilder(QuestionHelper::class)
-            ->setMethods(['ask'])
-            ->getMock()
-        ;
-        $helper->expects($this->once())
-            ->method('ask')
-            ->will($this->returnValue(true));
-        $set = new HelperSet(['question' => $helper]);
-        $command->setHelperSet($set);
-
-        $tester->execute([]);
+        $tester->execute(['--no-interaction' => true]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/System & change logs cleared/', $result);
     }

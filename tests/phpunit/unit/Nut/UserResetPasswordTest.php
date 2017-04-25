@@ -7,8 +7,6 @@ use Bolt\Nut\UserResetPassword;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -36,20 +34,9 @@ class UserResetPasswordTest extends BoltUnitTest
         $command = new UserResetPassword($app);
         $tester = new CommandTester($command);
 
-        $helper = $this->getMockBuilder(QuestionHelper::class)
-            ->setMethods(['ask'])
-            ->getMock()
-        ;
-        $helper->expects($this->once())
-            ->method('ask')
-            ->will($this->returnValue(true));
-        $set = new HelperSet(['question' => $helper]);
-        $command->setHelperSet($set);
-
-        $tester->execute(['username' => 'koala'], ['interactive' => false]);
+        $tester->execute(['username' => 'koala', '--no-interaction' => true]);
         $result = $tester->getDisplay();
-        $this->assertRegExp('#New password for koala is #', trim($result));
-        $this->assertSame(38, strlen(trim($result)));
+        $this->assertRegExp('#Resetting password for user #', $result);
 
         // Test that the saved value matches the hash
         $repo = $app['storage']->getRepository(Entity\Users::class);
@@ -62,7 +49,8 @@ class UserResetPasswordTest extends BoltUnitTest
         $this->assertFalse($auth);
 
         // Check the new password is valid
-        $bits = explode(' ', trim($result));
+        preg_match('/New password for koala is .*/', $result, $matches);
+        $bits = explode(' ', trim($matches[0]));
         $auth = $crypt->verifyHash($bits[5], $userAuth->getPassword());
         $this->assertTrue($auth);
     }

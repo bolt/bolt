@@ -28,50 +28,50 @@ class ExtensionsSetup extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupJson($output);
-        $this->setupAutoloader($output);
+        $this->setupJson();
+        $this->setupAutoloader();
     }
 
     /**
      * Create or update the extensions/composer.json file.
-     *
-     * @param OutputInterface $output
      */
-    private function setupJson(OutputInterface $output)
+    private function setupJson()
     {
-        $output->write("\n<info>Creating/updating composer.json… </info>");
+        $this->io->title('Creating/updating composer.json');
         $this->app['extend.manager.json']->update();
-        $output->write("<info>[DONE]</info>\n");
+        $this->io->success('Success');
     }
 
     /**
      * Set up the Composer autoloader.
      *
-     * @param OutputInterface $output
-     *
      * @throws \Bolt\Exception\PackageManagerException
      */
-    private function setupAutoloader(OutputInterface $output)
+    private function setupAutoloader()
     {
-        $output->write("\n<info>Updating autoloaders… </info>");
+        $this->io->title('Updating autoloaders');
         $result = $this->app['extend.action']['autoload']->execute();
-        $this->outputResult($output, $result);
+        $this->outputResult($result);
     }
 
     /**
      * Output the relevant result.
      *
-     * @param OutputInterface $output
-     * @param int             $result
+     * @param int $result
+     *
+     * @return int
      */
-    private function outputResult(OutputInterface $output, $result)
+    private function outputResult($result)
     {
+        $this->io->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()), OutputInterface::OUTPUT_PLAIN);
+
         if ($result === 0) {
-            $output->write("<info>[DONE]</info>\n");
+            $this->io->success('Autoloaders updated');
+            $this->auditLog(__CLASS__, 'Autoloaders updated');
         } else {
-            $output->write("<error>[FAILED]</error>\n");
+            $this->io->error('Autoloaders failed update');
         }
 
-        $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()), OutputInterface::OUTPUT_PLAIN);
+        return $result;
     }
 }
