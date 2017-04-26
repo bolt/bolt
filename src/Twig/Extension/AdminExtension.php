@@ -4,6 +4,9 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
+use Twig_SimpleTest as TwigTest;
 
 /**
  * Admin (back-end) functionality Twig extension.
@@ -24,14 +27,14 @@ class AdminExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('__',                 [Runtime\AdminRuntime::class, 'trans'], $safe),
-            new \Twig_SimpleFunction('buid',               [Runtime\AdminRuntime::class, 'buid'], $safe),
-            new \Twig_SimpleFunction('data',               [Runtime\AdminRuntime::class, 'addData']),
-            new \Twig_SimpleFunction('hattr',              [Runtime\AdminRuntime::class, 'hattr'], $safe),
-            new \Twig_SimpleFunction('hclass',             [Runtime\AdminRuntime::class, 'hclass'], $safe),
-            new \Twig_SimpleFunction('ischangelogenabled', [Runtime\AdminRuntime::class, 'isChangelogEnabled'], $deprecated),
-            new \Twig_SimpleFunction('randomquote',        [Runtime\AdminRuntime::class, 'randomQuote'], $safe),
-            new \Twig_SimpleFunction('stack',              [Runtime\AdminRuntime::class, 'stack']),
+            new TwigFunction('__',                 [Runtime\AdminRuntime::class, 'trans'], $safe),
+            new TwigFunction('buid',               [Runtime\AdminRuntime::class, 'buid'], $safe),
+            new TwigFunction('data',               [Runtime\AdminRuntime::class, 'addData']),
+            new TwigFunction('hattr',              [Runtime\AdminRuntime::class, 'hattr'], $safe),
+            new TwigFunction('hclass',             [Runtime\AdminRuntime::class, 'hclass'], $safe),
+            new TwigFunction('ischangelogenabled', [Runtime\AdminRuntime::class, 'isChangelogEnabled'], $deprecated),
+            new TwigFunction('randomquote',        [Runtime\AdminRuntime::class, 'randomQuote'], $safe),
+            new TwigFunction('stack',              [Runtime\AdminRuntime::class, 'stack']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -45,9 +48,9 @@ class AdminExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('__',       [Runtime\AdminRuntime::class, 'trans']),
-            new \Twig_SimpleFilter('loglevel', [Runtime\AdminRuntime::class, 'logLevel']),
-            new \Twig_SimpleFilter('ymllink',  [Runtime\AdminRuntime::class, 'ymllink'], $safe),
+            new TwigFilter('__',       [Runtime\AdminRuntime::class, 'trans']),
+            new TwigFilter('loglevel', [Runtime\AdminRuntime::class, 'logLevel']),
+            new TwigFilter('ymllink',  [Runtime\AdminRuntime::class, 'ymllink'], $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -58,7 +61,7 @@ class AdminExtension extends Extension
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('stackable', [Runtime\AdminRuntime::class, 'testStackable']),
+            new TwigTest('stackable', [Runtime\AdminRuntime::class, 'testStackable']),
         ];
     }
 }

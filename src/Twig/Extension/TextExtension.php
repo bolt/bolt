@@ -4,6 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleTest as TwigTest;
 
 /**
  * Text functionality Twig extension.
@@ -32,12 +34,12 @@ class TextExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('json_decode',    [Runtime\TextRuntime::class, 'jsonDecode']),
-            new \Twig_SimpleFilter('localdate',      [Runtime\TextRuntime::class, 'localeDateTime'], $safe + $deprecated + ['alternative' => 'localedatetime']),
-            new \Twig_SimpleFilter('localedatetime', [Runtime\TextRuntime::class, 'localeDateTime'], $safe),
-            new \Twig_SimpleFilter('preg_replace',   [Runtime\TextRuntime::class, 'pregReplace']),
-            new \Twig_SimpleFilter('safestring',     [Runtime\TextRuntime::class, 'safeString'], $safe),
-            new \Twig_SimpleFilter('slug',           [Runtime\TextRuntime::class, 'slug']),
+            new TwigFilter('json_decode',    [Runtime\TextRuntime::class, 'jsonDecode']),
+            new TwigFilter('localdate',      [Runtime\TextRuntime::class, 'localeDateTime'], $safe + $deprecated + ['alternative' => 'localedatetime']),
+            new TwigFilter('localedatetime', [Runtime\TextRuntime::class, 'localeDateTime'], $safe),
+            new TwigFilter('preg_replace',   [Runtime\TextRuntime::class, 'pregReplace']),
+            new TwigFilter('safestring',     [Runtime\TextRuntime::class, 'safeString'], $safe),
+            new TwigFilter('slug',           [Runtime\TextRuntime::class, 'slug']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -48,7 +50,7 @@ class TextExtension extends Extension
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('json', [Runtime\TextRuntime::class, 'testJson']),
+            new TwigTest('json', [Runtime\TextRuntime::class, 'testJson']),
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Bolt\Twig\Extension;
 
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * Bolt specific Twig functions and filters that provide array manipulation
@@ -25,7 +27,7 @@ class ArrayExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('unique', [$this, 'unique'], $safe),
+            new TwigFunction('unique', [$this, 'unique'], $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -37,8 +39,8 @@ class ArrayExtension extends Extension
     {
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('order',   [$this, 'order']),
-            new \Twig_SimpleFilter('shuffle', [$this, 'shuffle']),
+            new TwigFilter('order',   [$this, 'order']),
+            new TwigFilter('shuffle', [$this, 'shuffle']),
             // @codingStandardsIgnoreEnd
         ];
     }

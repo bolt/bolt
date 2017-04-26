@@ -8,11 +8,15 @@ use Bolt\Configuration\PathsProxy;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
+use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
+use Twig_Extension_GlobalsInterface as GlobalsInterface;
 
 /**
  * Bolt base Twig functionality and definitions.
  */
-class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class BoltExtension extends Extension implements GlobalsInterface
 {
     /** @var EntityManagerInterface */
     private $em;
@@ -63,8 +67,8 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('first', 'twig_first', $env + $deprecated),
-            new \Twig_SimpleFunction('last',  'twig_last', $env + $deprecated),
+            new TwigFunction('first', 'twig_first', $env + $deprecated),
+            new TwigFunction('last',  'twig_last', $env + $deprecated),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -78,7 +82,7 @@ class BoltExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         $deprecated = ['deprecated' => true];
 
         return [
-            new \Twig_SimpleFilter('ucfirst', 'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
+            new TwigFilter('ucfirst', 'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
         ];
     }
 
