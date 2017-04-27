@@ -3,6 +3,8 @@
 namespace Bolt\Nut;
 
 use Bolt\Exception\Database\DatabaseConnectionException;
+use Bolt\Requirement\BoltRequirements;
+use Bolt\Requirement\Requirement;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
@@ -42,6 +44,9 @@ class SetupRun extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->reconcileSystemRequirements()) {
+            return 1;
+        }
         $this->reconcileDatabaseConfiguration($input->isInteractive());
         if ($this->isDbSetup) {
             $this->reconcileDatabaseSchema($output);
@@ -51,6 +56,41 @@ class SetupRun extends BaseCommand
         $this->reconcileInitialConfig($output);
 
         return $this->finish();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function reconcileSystemRequirements()
+    {
+        $this->step(++$this->step, 'Checking System Requirements');
+
+        $rootPath = $this->app['path_resolver']->resolve('%root%');
+        $requires = new BoltRequirements($rootPath);
+
+        $fails = null;
+        $count = 0;
+        /** @var Requirement $require */
+        foreach ($requires->getFailedRequirements() as $require) {
+            $fails[] = ++$count . '. ' . $require->getTestMessage();
+            $fails[] = '   - ' . $require->getHelpText();
+        }
+        if ($fails !== null) {
+            $this->io->error($fails);
+        }
+
+        $count = 0;
+        $recommends = null;
+        /** @var Requirement $require */
+        foreach ($requires->getFailedRecommendations() as $require) {
+            $recommends[] = ++$count . '. ' . $require->getTestMessage();
+            $recommends[] = '   - ' . $require->getHelpText();
+        }
+        if ($recommends !== null) {
+            $this->io->note($recommends);
+        }
+
+        return $fails === null;
     }
 
     /**
