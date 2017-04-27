@@ -48,6 +48,7 @@ class SetupRun extends BaseCommand
             $this->reconcileExtensionEnvironment($output);
             $this->reconcileRootUser($output);
         }
+        $this->reconcileInitialConfig($output);
 
         return $this->finish();
     }
@@ -213,6 +214,90 @@ class SetupRun extends BaseCommand
         $this->writeBufferedOutput($buffer, $result);
 
         return $result === 0;
+    }
+
+    /**
+     * Selective config edit on set-up.
+     *
+     * @param OutputInterface $output
+     *
+     * @return bool
+     */
+    protected function reconcileInitialConfig(OutputInterface $output)
+    {
+        $this->step(++$this->step, 'Basic configuration');
+        $settings = $this->displayConfigTable();
+        $confirm = $this->io->confirm('Would you like to edit these now?', false);
+        if ($confirm === false) {
+            return true;
+        }
+        $command = $this->getApplication()->find('config:set');
+        $buffer = $this->getBufferedOutput($output, OutputInterface::VERBOSITY_NORMAL);
+
+        $siteName = $this->io->ask('Site name:', $settings['sitename']);
+        $sitePayoff = $this->io->ask('Site payoff tag-line:', $settings['payoff']);
+        $theme = $this->io->ask('Theme name:', $settings['theme'], function ($v) use ($settings) {
+            $fs = $this->app['filesystem']->getFilesystem('themes');
+            if ($fs->has($v)) {
+                return $v;
+            }
+            $this->io->warning(sprintf('The theme directory "%s" was not found, reverting to "%s"', $v, $settings['theme']));
+
+            return $settings['theme'];
+        });
+        $debug = $this->io->confirm('Enable debugging:', $settings['debug']);
+        $settings = [
+            'sitename' => $siteName,
+            'payoff'   => $sitePayoff,
+            'theme'    => $theme,
+            'debug'    => $debug,
+        ];
+        foreach ($settings as $key => $value) {
+            $input = new ArrayInput([
+                '--no-interaction' => true,
+                'key'              => $key,
+                'value'            => $value,
+            ]);
+
+            $result = $command->run($input, $buffer);
+            $this->writeBufferedOutput($buffer, $result);
+        }
+
+        $this->io->success('Settings updated!');
+        $this->displayConfigTable();
+        if ($debug) {
+            $this->io->block('Do not forget to disable debugging for production', 'REMINDER', 'fg=yellow', ' ! ');
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array
+     */
+    private function displayConfigTable()
+    {
+        $config = $this->app['config'];
+        $config->initialize();
+        $settings = [
+            'sitename' => $config->get('general/sitename'),
+            'payoff'   => $config->get('general/payoff'),
+            'theme'    => $config->get('general/theme'),
+            'debug'    => $config->get('general/debug'),
+        ];
+
+        $headers = ['Parameter', 'Value', 'Description'];
+        $rows = [
+            ['sitename', $settings['sitename'], 'Title text for the site'],
+            ['payoff', $settings['payoff'], 'Payoff tag-line for the site'],
+            ['theme', $settings['theme'], 'Theme name'],
+            ['debug', $settings['debug'] ? 'true' : 'false', 'Enable debugging such as the debug bar'],
+        ];
+
+        $this->io->text('Current parameter values:');
+        $this->io->table($headers, $rows);
+
+        return $settings;
     }
 
     /**
