@@ -10,6 +10,8 @@ matrix:
   allow_failures:
     - php: hhvm
 
+sudo: false
+
 services:
   - mysql
   - postgresql
@@ -18,20 +20,6 @@ addons:
   postgresql: "9.3"
 
 before_install:
-  # Workaround for IPv6 problems connection to packagist.org
-  - sudo sh -c "echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf"
-  # Set up HHVM
-  - |
-    if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then
-        echo 'xdebug.enable = On' >> /etc/hhvm/php.ini
-        echo 'hhvm.jit = false' >> /etc/hhvm/php.ini
-        sudo sh -c 'echo RUN_AS_USER=\"travis\"  >> /etc/default/hhvm'
-        sudo sh -c 'echo RUN_AS_GROUP=\"travis\" >> /etc/default/hhvm'
-        sudo service hhvm restart
-        sleep 1
-    fi
-  # Start SMTP listener
-  - sudo python -m smtpd -n -c DebuggingServer localhost:25 2>&1 > /dev/null &
   # Add Redis & Memcached extensions
   - |
     if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then

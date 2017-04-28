@@ -233,6 +233,9 @@ class Manager
 
         // Boot all extension loaders that are also service providers
         foreach ($this->extensions as $extension) {
+            if ($extension->isEnabled() !== true) {
+                continue;
+            }
             foreach ($extension->getInnerExtension()->getServiceProviders() as $provider) {
                 $provider->boot($app);
             }

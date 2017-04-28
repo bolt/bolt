@@ -4,6 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * Image functionality Twig extension.
@@ -24,12 +26,12 @@ class ImageExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
-            new \Twig_SimpleFunction('image',     [Runtime\ImageRuntime::class, 'image']),
-            new \Twig_SimpleFunction('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
-            new \Twig_SimpleFunction('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
-            new \Twig_SimpleFunction('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),
-            new \Twig_SimpleFunction('thumbnail', [Runtime\ImageRuntime::class, 'thumbnail']),
+            new TwigFunction('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
+            new TwigFunction('image',     [Runtime\ImageRuntime::class, 'image']),
+            new TwigFunction('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
+            new TwigFunction('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
+            new TwigFunction('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),
+            new TwigFunction('thumbnail', [Runtime\ImageRuntime::class, 'thumbnail']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -44,12 +46,12 @@ class ImageExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
-            new \Twig_SimpleFilter('image',     [Runtime\ImageRuntime::class, 'image']),
-            new \Twig_SimpleFilter('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
-            new \Twig_SimpleFilter('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
-            new \Twig_SimpleFilter('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),
-            new \Twig_SimpleFilter('thumbnail', [Runtime\ImageRuntime::class, 'thumbnail']),
+            new TwigFilter('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
+            new TwigFilter('image',     [Runtime\ImageRuntime::class, 'image']),
+            new TwigFilter('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
+            new TwigFilter('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
+            new TwigFilter('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),
+            new TwigFilter('thumbnail', [Runtime\ImageRuntime::class, 'thumbnail']),
             // @codingStandardsIgnoreEnd
         ];
     }
