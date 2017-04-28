@@ -4,6 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * User functionality Twig extension.
@@ -23,10 +24,10 @@ class UserExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
-            new \Twig_SimpleFunction('getuserid', [Runtime\UserRuntime::class, 'getUserId']),
-            new \Twig_SimpleFunction('isallowed', [Runtime\UserRuntime::class, 'isAllowed']),
-            new \Twig_SimpleFunction('token',     [Runtime\UserRuntime::class, 'token'], $deprecated + ['alternative' => 'csrf_token']),
+            new TwigFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
+            new TwigFunction('getuserid', [Runtime\UserRuntime::class, 'getUserId']),
+            new TwigFunction('isallowed', [Runtime\UserRuntime::class, 'isAllowed']),
+            new TwigFunction('token',     [Runtime\UserRuntime::class, 'token'], $deprecated + ['alternative' => 'csrf_token']),
             // @codingStandardsIgnoreEnd
         ];
     }

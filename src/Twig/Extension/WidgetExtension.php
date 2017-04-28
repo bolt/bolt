@@ -4,6 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * Widget functionality Twig extension.
@@ -24,10 +25,10 @@ class WidgetExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('countwidgets', [Runtime\WidgetRuntime::class, 'countWidgets'], $safe + $env),
-            new \Twig_SimpleFunction('getwidgets',   [Runtime\WidgetRuntime::class, 'getWidgets'], $safe),
-            new \Twig_SimpleFunction('haswidgets',   [Runtime\WidgetRuntime::class, 'hasWidgets'], $safe + $env),
-            new \Twig_SimpleFunction('widgets',      [Runtime\WidgetRuntime::class, 'widgets'], $safe + $env),
+            new TwigFunction('countwidgets', [Runtime\WidgetRuntime::class, 'countWidgets'], $safe + $env),
+            new TwigFunction('getwidgets',   [Runtime\WidgetRuntime::class, 'getWidgets'], $safe),
+            new TwigFunction('haswidgets',   [Runtime\WidgetRuntime::class, 'hasWidgets'], $safe + $env),
+            new TwigFunction('widgets',      [Runtime\WidgetRuntime::class, 'widgets'], $safe + $env),
             // @codingStandardsIgnoreEnd
         ];
     }

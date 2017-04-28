@@ -4,6 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
+use Twig_SimpleFilter as TwigFilter;
+use Twig_SimpleFunction as TwigFunction;
 
 /**
  * Content record functionality Twig extension.
@@ -25,12 +27,12 @@ class RecordExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('current',            [Runtime\RecordRuntime::class, 'current']),
-            new \Twig_SimpleFunction('excerpt',            [Runtime\RecordRuntime::class, 'excerpt'], $safe),
-            new \Twig_SimpleFunction('fields',             [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
-            new \Twig_SimpleFunction('listtemplates',      [Runtime\RecordRuntime::class, 'listTemplates']),
-            new \Twig_SimpleFunction('pager',              [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
-            new \Twig_SimpleFunction('trimtext',           [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
+            new TwigFunction('current',       [Runtime\RecordRuntime::class, 'current']),
+            new TwigFunction('excerpt',       [Runtime\RecordRuntime::class, 'excerpt'], $safe),
+            new TwigFunction('fields',        [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
+            new TwigFunction('listtemplates', [Runtime\RecordRuntime::class, 'listTemplates']),
+            new TwigFunction('pager',         [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
+            new TwigFunction('trimtext',      [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -45,10 +47,10 @@ class RecordExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFilter('current',        [Runtime\RecordRuntime::class, 'current']),
-            new \Twig_SimpleFilter('excerpt',        [Runtime\RecordRuntime::class, 'excerpt'], $safe),
-            new \Twig_SimpleFilter('selectfield',    [Runtime\RecordRuntime::class, 'selectField']),
-            new \Twig_SimpleFilter('trimtext',       [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
+            new TwigFilter('current',     [Runtime\RecordRuntime::class, 'current']),
+            new TwigFilter('excerpt',     [Runtime\RecordRuntime::class, 'excerpt'], $safe),
+            new TwigFilter('selectfield', [Runtime\RecordRuntime::class, 'selectField']),
+            new TwigFilter('trimtext',    [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
             // @codingStandardsIgnoreEnd
         ];
     }

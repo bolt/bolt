@@ -1,5 +1,3 @@
-{% if class|default == 'narrow' %}
-    {% extends 'pager/narrow.twig' %}
-{% else %}
-    {% extends 'pager/default.twig' %}
-{% endif %}
+{% extends class|default() == 'narrow'
+    ? 'pager/narrow.twig'
+    : 'pager/default.twig' %}
