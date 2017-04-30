@@ -199,6 +199,8 @@ changelog:
 #                     the requested dimensions.
 # browser_cache_time: Sets the amount of seconds that the browser will cache
 #                     images for. Set it to activate browser caching.
+# clear_with_cache:   Used alongside save_files. Setting to false prevents
+#                     deletion of saved thumbs when clearing bolt cache.
 #
 # Note: If you change these values, you might need to clear the cache before
 #       they show up.
@@ -213,6 +215,7 @@ thumbnails:
     allow_upscale: false
     exif_orientation: true
     only_aliases: false
+    clear_with_cache: true
 #    browser_cache_time: 2592000
 
 # Define the HTML tags and attributes that are allowed in 'cleaned' HTML. This

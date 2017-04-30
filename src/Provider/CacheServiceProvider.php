@@ -17,7 +17,8 @@ class CacheServiceProvider implements ServiceProviderInterface
                         $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/data'),
                         Cache::EXTENSION,
                         0002,
-                        $app['filesystem']
+                        $app['filesystem'],
+                        $app['config']->get('general/thumbnails/clear_with_cache')
                     );
                 } catch (\Exception $e) {
                     $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);

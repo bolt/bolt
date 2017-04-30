@@ -27,6 +27,9 @@ class Cache extends FilesystemCache
     /** @var AggregateFilesystemInterface */
     private $filesystem;
 
+    /** @var bool */
+    private $clearThumbs;
+
     /**
      * Cache constructor.
      *
@@ -34,11 +37,13 @@ class Cache extends FilesystemCache
      * @param string                       $extension
      * @param int                          $umask
      * @param AggregateFilesystemInterface $filesystem
+     * @param bool                         $clearThumbs
      */
-    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, AggregateFilesystemInterface $filesystem = null)
+    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, AggregateFilesystemInterface $filesystem = null, $clearThumbs = true)
     {
         parent::__construct($directory, $extension, $umask);
         $this->filesystem = $filesystem;
+        $this->clearThumbs = $clearThumbs;
     }
 
     /**
@@ -85,8 +90,10 @@ class Cache extends FilesystemCache
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/profiler'));
             $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/trans'));
 
-            // Clear the thumbs folder.
-            $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));
+            if ($this->clearThumbs) {
+                // Clear the thumbs folder.
+                $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));
+            }
         }
 
         return $result;
