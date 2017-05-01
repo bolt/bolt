@@ -3,13 +3,12 @@
 namespace Bolt\Composer;
 
 use Bolt\Composer\Script\BootstrapYamlUpdater;
+use Bolt\Composer\Script\DirectoryConfigurator;
 use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Bolt\Exception\BootException;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
 
 class ScriptHandler
@@ -106,94 +105,13 @@ class ScriptHandler
      */
     public static function configureProject(Event $event)
     {
-        $web = static::configureDir($event, 'web', 'public', '', false);
-        $themes = static::configureDir($event, 'theme', 'theme', $web . '/');
-        $files = static::configureDir($event, 'files', 'files', $web . '/');
-
-        $config = static::configureDir($event, 'config', 'app/config');
-        $database = static::configureDir($event, 'database', 'app/database');
-        $cache = static::configureDir($event, 'cache', 'app/cache');
-
-        $config = [
-            'paths' => [
-                'cache'     => $cache,
-                'config'    => $config,
-                'database'  => $database,
-                'web'       => $web,
-                'themebase' => $themes,
-                'files'     => $files,
-                'view'      => $web . '/bolt-public/view',
-            ],
-        ];
-
-        $filesystem = new Filesystem();
-
-        $filesystem->dumpFile('.bolt.yml', Yaml::dump($config));
-
-        $chmodDirs = [
-            'extensions',
-            $web . '/extensions',
-            $web . '/thumbs',
-        ];
-        $filesystem->chmod($chmodDirs, static::configureDirMode($event));
+        DirectoryConfigurator::fromEvent($event)->run();
 
         // reset app so the path changes are picked up
         static::$app = null;
 
         // Install assets here since they they were skipped above
         static::installAssets($event, false);
-    }
-
-    /**
-     * @param Event  $event
-     * @param string $name
-     * @param string $defaultInSkeleton
-     * @param string $prefix
-     * @param bool   $chmod
-     *
-     * @return string
-     */
-    protected static function configureDir(Event $event, $name, $defaultInSkeleton, $prefix = '', $chmod = true)
-    {
-        $default = static::getOption($event, $name . '-dir', $defaultInSkeleton);
-
-        $validator = function ($value) use ($prefix, $name) {
-            if ($prefix) {
-                $basePath = Path::makeAbsolute($prefix, getcwd());
-                $path = Path::makeAbsolute($value, $basePath);
-                if (!Path::isBasePath($basePath, $path)) {
-                    throw new \RuntimeException("The $name directory must be inside the $prefix directory.");
-                }
-            }
-
-            return Path::canonicalize($value);
-        };
-
-        $default = $validator($default);
-
-        $relative = $prefix ? '<comment>' . $prefix . '</comment>' : 'project root';
-        $question = sprintf('<info>Where do you want your <comment>%s</comment> directory? (relative to %s) [default: <comment>%s</comment>] </info>', $name, $relative, $default);
-        $dir = $event->getIO()->askAndValidate($question, $validator, null, $default);
-
-        $fs = new Filesystem();
-
-        $origin = $prefix . $defaultInSkeleton;
-        $target = $prefix . $dir;
-
-        $dirMode = static::configureDirMode($event);
-
-        if ($dir !== $defaultInSkeleton) {
-            $event->getIO()->writeError(sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target));
-            $fs->mkdir(dirname($target)); // ensure parent directory exists
-            $fs->rename($origin, $target);
-        }
-
-        if ($chmod) {
-            $it = (new Finder())->directories()->in($target)->append([$target]);
-            $fs->chmod($it, $dirMode);
-        }
-
-        return $target;
     }
 
     /**
