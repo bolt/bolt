@@ -155,7 +155,7 @@
          * @memberof Bolt.fields.block
          */
         _renumber: function () {
-            var re = new RegExp('^([^\\\[]+\\\[)([#|\d]+)(\\\].*)$', 'gi');
+            var re = new RegExp('^([^\\\[]+\\\[)([#|\\\d]+)(\\\].*)$', 'gi');
 
             this._ui.slot.find('div.block-group').each(function (index, group) {
                 $(group).find('[name]').each(function () {
