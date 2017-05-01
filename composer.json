@@ -28,7 +28,6 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-posix": "*",
         "ext-xml": "*",
         "ext-zip": "*",
         "filp/whoops": "^2.0",
