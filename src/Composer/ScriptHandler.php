@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Composer\Script\BootstrapYamlUpdater;
 use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Bolt\Exception\BootException;
 use Composer\Script\Event;
@@ -92,7 +93,7 @@ class ScriptHandler
      */
     public static function updateProject(Event $event)
     {
-        // TODO: Check if .bolt.yml should be updated.
+        (new BootstrapYamlUpdater($event->getIO()))->update();
     }
 
     /**
