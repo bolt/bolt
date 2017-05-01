@@ -49,7 +49,7 @@ class SetupRun extends BaseCommand
         }
         $this->reconcileDatabaseConfiguration($input->isInteractive());
         if ($this->isDbSetup) {
-            $this->reconcileDatabaseSchema($output);
+            $this->reconcileDatabaseSchema($input, $output);
             $this->reconcileExtensionEnvironment($output);
             $this->reconcileRootUser($output);
         }
@@ -159,11 +159,12 @@ class SetupRun extends BaseCommand
     /**
      * Check the database schema exists is consistent with the configuration.
      *
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return bool
      */
-    protected function reconcileDatabaseSchema(OutputInterface $output)
+    protected function reconcileDatabaseSchema(InputInterface $input, OutputInterface $output)
     {
         if ($this->isDbSetup === false) {
             return true;
@@ -171,11 +172,11 @@ class SetupRun extends BaseCommand
         $this->step(++$this->step, 'Checking Database Schema');
         $command = $this->getApplication()->find('database:check');
         $buffer = $this->getBufferedOutput($output, OutputInterface::VERBOSITY_QUIET);
-        $input = new ArrayInput([
+        $subInput = new ArrayInput([
             '--no-interaction' => true,
         ]);
 
-        $result = $command->run($input, $buffer);
+        $result = $command->run($subInput, $buffer);
         $this->writeBufferedOutput($buffer, $result);
         if ($result === 0) {
             return true;
@@ -183,13 +184,10 @@ class SetupRun extends BaseCommand
 
         $this->step(++$this->step, 'Updating Database Schema');
         $command = $this->getApplication()->find('database:update');
-        $buffer = $this->getBufferedOutput($output, OutputInterface::VERBOSITY_QUIET);
-        $input = new ArrayInput([
-            '--no-interaction' => true,
-        ]);
+        $subInput = new ArrayInput([]);
+        $subInput->setInteractive(!$input->isInteractive());
 
-        $result = $command->run($input, $buffer);
-        $this->writeBufferedOutput($buffer, $result);
+        $result = $command->run($subInput, $output);
 
         return $result === 0;
     }
