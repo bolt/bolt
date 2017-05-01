@@ -35,18 +35,21 @@ class DatabaseRepair extends BaseCommand
             return 0;
         }
 
-        $response = $this->app['schema']->update();
+        $response = $this->app['schema']->check();
         if (!$response->hasResponses()) {
             $this->io->success('Your database is already up to date.');
 
             return 0;
         }
+        $this->io->title('Database modifications required');
+        if ($this->io->confirm('Would you like continue with the update')) {
+            $response = $this->app['schema']->update();
+            $this->io->note('Modifications made to the database');
+            $this->io->listing($response->getResponseStrings());
+            $this->io->success('Your database is now up to date.');
 
-        $this->io->title('Modifications made to the database');
-        $this->io->listing($response->getResponseStrings());
-        $this->io->success('Your database is now up to date.');
-
-        $this->auditLog(__CLASS__, 'Database updated');
+            $this->auditLog(__CLASS__, 'Database updated');
+        }
 
         return 0;
     }
