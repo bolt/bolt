@@ -6,7 +6,7 @@
     label:     field.label,
     info:      field.info|default(''),
     options:   field.options.datepicker|default(''),
-    default:   (context.content.get('id') == null and field.default) ? field.default|date('Y-m-d') : null,
+    default:   (context.content.id|default and field.default) ? field.default|date('Y-m-d') : null,
     required:  field.required|default(false),
     errortext: field.error|default(''),
 } %}
