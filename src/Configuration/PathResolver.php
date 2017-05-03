@@ -108,7 +108,7 @@ class PathResolver
             $alias = $match[1];
 
             if (!isset($this->paths[$this->normalizeName($alias)])) {
-                throw new \InvalidArgumentException("Failed to resolve path. Alias %$alias% is not defined.");
+                throw new PathResolutionException("Failed to resolve path. Alias %$alias% is not defined.");
             }
 
             // absolute if alias is at start of path

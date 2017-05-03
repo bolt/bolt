@@ -54,7 +54,7 @@ class PathResolverTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Bolt\Exception\PathResolutionException
      * @expectedExceptionMessage Failed to resolve path. Alias %nope% is not defined.
      */
     public function testUndefinedAliasFails()
