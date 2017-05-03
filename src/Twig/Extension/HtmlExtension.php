@@ -21,10 +21,11 @@ class HtmlExtension extends Extension
     {
         $safe = ['is_safe' => ['html']];
         $env  = ['needs_environment' => true];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('link',           [Runtime\HtmlRuntime::class, 'link'], $safe),
+            new \Twig_SimpleFunction('link',           [Runtime\HtmlRuntime::class, 'link'], $safe + $deprecated),
             new \Twig_SimpleFunction('markdown',       [Runtime\HtmlRuntime::class, 'markdown'], $safe),
             new \Twig_SimpleFunction('menu',           [Runtime\HtmlRuntime::class, 'menu'], $env + $safe),
             // @codingStandardsIgnoreEnd
