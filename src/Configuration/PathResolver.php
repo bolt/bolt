@@ -72,6 +72,10 @@ class PathResolver
     {
         $name = $this->normalizeName($name);
 
+        if (strpos($path, "%$name%") !== false) {
+            throw new \InvalidArgumentException('Paths cannot reference themselves.');
+        }
+
         $this->paths[$name] = $path;
     }
 

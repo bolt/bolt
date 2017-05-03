@@ -67,6 +67,16 @@ class PathResolverTest extends TestCase
         $this->assertSame('/foo/derp', $resolver->resolve('bar'), 'Initial paths were not applied');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Paths cannot reference themselves.
+     */
+    public function testDefineSelfReference()
+    {
+        $resolver = new PathResolver('/root/');
+        $resolver->define('foo', '%foo%/bar');
+    }
+
     public function testRaw()
     {
         $resolver = new PathResolver('/', [
