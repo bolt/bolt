@@ -2,6 +2,7 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Exception\PathResolutionException;
 use Webmozart\PathUtil\Path;
 
 /**
@@ -18,6 +19,8 @@ class PathResolver
 {
     /** @var array */
     protected $paths = [];
+    /** @var array */
+    private $resolving = [];
 
     /**
      * Default paths for Bolt installation.
@@ -111,7 +114,16 @@ class PathResolver
             // absolute if alias is at start of path
             $absolute = strpos($path, "%$alias%") === 0;
 
-            return $this->resolve($alias, $absolute);
+            if (isset($this->resolving[$alias])) {
+                throw new PathResolutionException('Failed to resolve path. Infinite recursion detected.');
+            }
+
+            $this->resolving[$alias] = true;
+            try {
+                return $this->resolve($alias, $absolute);
+            } finally {
+                unset($this->resolving[$alias]);
+            }
         }, $path);
 
         if ($absolute && Path::isRelative($path)) {

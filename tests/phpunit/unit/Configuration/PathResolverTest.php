@@ -40,6 +40,20 @@ class PathResolverTest extends TestCase
     }
 
     /**
+     * @expectedException \Bolt\Exception\PathResolutionException
+     * @expectedExceptionMessage Failed to resolve path. Infinite recursion detected.
+     */
+    public function testResolveInfiniteRecursion()
+    {
+        $resolver = new PathResolver('/root/', [
+            'a' => '%b%',
+            'b' => '%a%',
+        ]);
+
+        $resolver->resolve('a');
+    }
+
+    /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Failed to resolve path. Alias %nope% is not defined.
      */
