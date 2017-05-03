@@ -12,6 +12,7 @@
     "require": {
         "bolt/collection": "dev-master@dev",
         "bolt/filesystem": "^2.2",
+        "bolt/requirements": "^1.0@dev",
         "bolt/thumbs": "^3.1.1",
         "cocur/slugify": "^2.0",
         "composer/composer": "^1.2",
@@ -26,7 +27,6 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-posix": "*",
         "ext-xml": "*",
         "ext-zip": "*",
         "guzzlehttp/guzzle": "^6.2.1",

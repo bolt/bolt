@@ -28,7 +28,7 @@ class DatabaseRepairTest extends BoltUnitTest
     public function testUpdateSchema()
     {
         $tester = $this->getTester();
-        $tester->execute([]);
+        $tester->execute([], ['interactive' => false]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Created table `bolt_newcontent`/', $result);
     }

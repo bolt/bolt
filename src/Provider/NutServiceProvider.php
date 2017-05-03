@@ -60,6 +60,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\LogTrim(),
                     new Nut\PimpleDump(),
                     new Nut\ServerRun(),
+                    new Nut\SetupRun(),
                     new Nut\SetupSync(),
                     new Nut\TestRunner(),
                     new Nut\UserAdd(),
