@@ -4,6 +4,7 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Removed: `{{ link() }}` as it now is [used upstream](http://symfony.com/blog/new-in-symfony-3-3-weblink-component)
 - Removed: `Bolt\Helpers\Arr` (see [`bolt/collection`](https://github.com/bolt/collection))
 - Removed: `Bolt\Storage\Prefill` (see `\Bolt\Storage\Database\Prefill\ApiClient`)
 - Removed: `Bolt\DeepDiff` (see: `Arr::deepDiff`)
@@ -35,7 +36,7 @@ Bolt 4.0-dev
   - Updated: PHP requirement now 5.6.0+
   - Updated: `cocur/slugify` to ^2.0
   - Updated: `phpunit/phpunit` to ^5.4
-  - Removed: Requirement of Guzzle 5 
+  - Removed: Requirement of Guzzle 5
   - Removed: Requirement of RandomLib
   - Removed: Requirement of Whoops
   - Removed: Deprecated  v2 `class_alias` declarations
@@ -75,12 +76,12 @@ Bolt 4.0-dev
 Bolt 3.5-dev
 -----------
 
-- 
+-
 
 Bolt 3.4-dev
 -----------
 
-- 
+-
 
 Bolt 3.3.0 beta 6
 -----------------

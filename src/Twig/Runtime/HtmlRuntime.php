@@ -117,29 +117,6 @@ class HtmlRuntime
     }
 
     /**
-     * Create an HTML link to a given URL or ContentType/slug pair.
-     *
-     * @param string $location
-     * @param string $label
-     *
-     * @return string
-     */
-    public function link($location, $label = '[link]')
-    {
-        if ((string) $location === '') {
-            return '';
-        }
-
-        if (Html::isURL($location)) {
-            $location = Html::addScheme($location);
-        } elseif ($record = $this->em->getContent($location)) {
-            $location = $record->link();
-        }
-
-        return sprintf('<a href="%s">%s</a>', $location, $label);
-    }
-
-    /**
      * Output a menu.
      *
      * @param Environment $env
