@@ -101,23 +101,13 @@ class PathResolverTest extends TestCase
         $this->assertNull($resolver->raw('derp'), 'Raw() should return null for undefined path');
     }
 
-    /**
-     * @depends testResolve
-     */
-    public function testResolveAll()
+    public function testNames()
     {
-        $resolver = new PathResolver('/root/', [
-            'web'   => 'public',
-            'files' => '%web%/files',
+        $resolver = new PathResolver('/', [
+            'bar' => 'foo',
+            'hello' => 'world',
         ]);
 
-        $this->assertEquals(
-            [
-                'web'   => '/root/public',
-                'files' => '/root/public/files',
-                'root'  => '/root',
-            ],
-            $resolver->resolveAll()
-        );
+        $this->assertEquals(['bar', 'hello'], $resolver->names());
     }
 }

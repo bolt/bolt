@@ -151,15 +151,26 @@ class PathResolver
     }
 
     /**
-     * Resolves and returns all known paths.
+     * Returns the names of all paths.
      *
      * @return array
      */
-    public function resolveAll()
+    public function names()
     {
-        return array_map(function ($path) {
-            return $this->resolve($path);
-        }, $this->paths);
+        return array_keys($this->rawAll());
+    }
+
+    /**
+     * Returns all path names and their raw definitions.
+     *
+     * @return array
+     */
+    protected function rawAll()
+    {
+        $paths = $this->paths;
+        unset($paths['root']);
+
+        return $paths;
     }
 
     /**
