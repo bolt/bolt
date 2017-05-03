@@ -330,7 +330,7 @@ class General extends AsyncBase
      */
     private function fetchNews($hostname)
     {
-        $source = $this->getOption('general/branding/news_source', 'http://news.bolt.cm/');
+        $source = $this->getOption('general/branding/news_source', 'https://news.bolt.cm/');
         $options = $this->fetchNewsOptions($hostname);
 
         $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
