@@ -101,15 +101,23 @@ class JsonManager
      */
     private function setJsonDefaults(array $json)
     {
-        $rootPath = $this->app['resources']->getPath('root');
-        $extensionsPath = $this->app['resources']->getPath('extensions');
-        $srcPath = $this->app['resources']->getPath('src');
-        $webPath = $this->app['resources']->getPath('web');
+        $resources = $this->app['resources'];
+        $config = $this->app['config'];
+
+        $rootPath = $resources->getPath('root');
+        $extensionsPath = $resources->getPath('extensions');
+        $srcPath = $resources->getPath('src');
+        $webPath = $resources->getPath('web');
         $pathToRoot = Path::makeRelative($rootPath, $extensionsPath);
         $pathToWeb = Path::makeRelative($webPath, $extensionsPath);
         $eventPath = Path::makeRelative($srcPath . '/Composer/EventListener', $extensionsPath);
         /** @deprecated Handle BC on 'stability' key until 4.0 */
-        $minimumStability = $this->app['config']->get('general/extensions/stability') ?: $this->app['config']->get('general/extensions/composer/minimum-stability', 'stable');
+        $minimumStability = $config->get('general/extensions/stability') ?: $config->get('general/extensions/composer/minimum-stability', 'stable');
+
+        $config = $config->get('general/extensions/composer/options', []) + [
+            'discard-changes'   => true,
+            'preferred-install' => 'dist',
+        ];
 
         // Enforce standard settings
         $defaults = [
@@ -125,10 +133,7 @@ class JsonManager
             ],
             'minimum-stability' => $minimumStability,
             'prefer-stable'     => true,
-            'config'            => [
-                'discard-changes'   => true,
-                'preferred-install' => 'dist',
-            ],
+            'config'            => $config,
             'provide' => [
                 'bolt/bolt' => Bolt\Version::forComposer(),
             ],

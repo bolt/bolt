@@ -738,7 +738,7 @@
                 $.ajax({
                     url: bolt.data('extend.siteurl') + 'list.json',
                     dataType: 'jsonp',
-                    data: {'name': searchVal}
+                    data: {'name': searchVal, 'bolt': bolt.data('extend.sitever')}
                 })
                     .success(function (data) {
                         if (data.packages.length) {

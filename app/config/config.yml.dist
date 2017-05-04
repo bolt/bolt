@@ -31,7 +31,7 @@ theme: base-2016
 # locales, ensure the first is a standard locale.
 locale: en_GB
 
-# Set the timezone to be used on the website. For a list of valid timezone 
+# Set the timezone to be used on the website. For a list of valid timezone
 # settings, see: http://php.net/manual/en/timezones.php
 # timezone: UTC
 
@@ -407,10 +407,11 @@ hash_strength: 10
 #         prefer-stable: true            # Prefer stable releases over development ones
 #         prefer-dist: true              # Forces installation from package dist even for dev versions.
 #         prefer-source: false           # Forces installation from package sources when possible, including VCS information.
-#         optimize-autoloader: false     # Optimize autoloader during autoloader dump.
-#         classmap-authoritative: false  # Autoload classes from the classmap only. Implicitly enables `optimize-autoloader`.
+#         options:
+#             optimize-autoloader: false     # Optimize autoloader during autoloader dump.
+#             classmap-authoritative: false  # Autoload classes from the classmap only. Implicitly enables `optimize-autoloader`.
 
-# Enforcing the use of SSL. If set, all pages will enforce an SSL connection, 
+# Enforcing the use of SSL. If set, all pages will enforce an SSL connection,
 # and redirect to HTTPS if you attempt to visit plain HTTP pages.
 # enforce_ssl: true
 
