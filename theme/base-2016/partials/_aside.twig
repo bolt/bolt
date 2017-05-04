@@ -21,10 +21,16 @@
                 <h5>{{ block.title }}</h5>
                 {{ block.content }}
 
-                {% if link(block.contentlink) or block.editlink() %}
+                {% set edit_link = block.editlink() %}
+                {% set content_link = block.contentlink %}
+                {% if content_link or edit_link %}
                     <p>
-                        {{ link(block.contentlink, __('general.phrase.read-more')) }} /
-                        <a href="{{ block.editlink() }}">{{ __('general.phrase.edit') }}</a>
+                    {%- if content_link %}
+                        <a href="{{ relative_path(content_link|e) }}">{{ __('general.phrase.read-more') }}</a>
+                    {% endif -%}
+                    {%- if edit_link %}
+                        / <a href="{{ edit_link }}">{{ __('general.phrase.edit') }}</a>
+                    {% endif -%}
                     </p>
                 {% endif %}
 
