@@ -193,6 +193,19 @@ Bolt 3.3.0 beta 1
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
 
+Bolt 3.2.12
+-----------
+
+Released 2017-05-05 (Liberation day in NL 🇳🇱🎉) . Notable changes:
+
+ - Added: Add `disabled` attribute support to buic select options [#6590](https://github.com/bolt/bolt/pull/6590)
+ - Fixed: Allow overriding `description: ` in `contenttypes.yml`. [#6609](https://github.com/bolt/bolt/pull/6609)
+ - Fixed: Fix incompatible extensions showing [#6616](https://github.com/bolt/bolt/pull/6616)
+ - Fixed: Fix issue with sortable selects not retaining ordering [#6610](https://github.com/bolt/bolt/pull/6610)
+ - Fixed: Grab Dashboard news feed over https. [#6613](https://github.com/bolt/bolt/pull/6613)
+ - Fixed: Implement getValues in new Storage Entity. Fixes "New content object has old `getValues()` method". [#6591](https://github.com/bolt/bolt/pull/6591)
+ - Fixed: Use getter to get id. Fixes exception when using datetime in repeater fields. Fixes "'datetime' fields in Repeaters throw exception." [#6608](https://github.com/bolt/bolt/pull/6608)
+
 Bolt 3.2.11
 -----------
 
