@@ -114,7 +114,7 @@ class JsonManager
         /** @deprecated Handle BC on 'stability' key until 4.0 */
         $minimumStability = $config->get('general/extensions/stability') ?: $config->get('general/extensions/composer/minimum-stability', 'stable');
 
-        $config = $config->get('general/extensions/composer/options', []) + [
+        $config = $config->get('general/extensions/composer/config', []) + [
             'discard-changes'   => true,
             'preferred-install' => 'dist',
         ];

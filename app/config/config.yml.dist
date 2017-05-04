@@ -407,7 +407,7 @@ hash_strength: 10
 #         prefer-stable: true            # Prefer stable releases over development ones
 #         prefer-dist: true              # Forces installation from package dist even for dev versions.
 #         prefer-source: false           # Forces installation from package sources when possible, including VCS information.
-#         options:
+#         config:
 #             optimize-autoloader: false     # Optimize autoloader during autoloader dump.
 #             classmap-authoritative: false  # Autoload classes from the classmap only. Implicitly enables `optimize-autoloader`.
 
