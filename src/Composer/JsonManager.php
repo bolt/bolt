@@ -100,13 +100,20 @@ class JsonManager
      */
     private function setJsonDefaults(array $json)
     {
-        $rootPath = $this->app['path_resolver']->resolve('root');
-        $extensionsPath = $this->app['path_resolver']->resolve('extensions');
-        $webPath = $this->app['path_resolver']->resolve('web');
+        $config = $this->app['config'];
+        $pathResolver = $this->app['path_resolver'];
+
+        $rootPath = $pathResolver->resolve('root');
+        $extensionsPath = $pathResolver->resolve('extensions');
+        $webPath = $pathResolver->resolve('web');
         $pathToRoot = Path::makeRelative($rootPath, $extensionsPath);
         $pathToWeb = Path::makeRelative($webPath, $extensionsPath);
         $pathToListeners = Path::makeRelative(__DIR__ . '/EventListener', $extensionsPath);
         $minimumStability = $this->app['config']->get('general/extensions/composer/minimum-stability', 'stable');
+        $config = $config->get('general/extensions/composer/config', []) + [
+            'discard-changes'   => true,
+            'preferred-install' => 'dist',
+        ];
 
         // Enforce standard settings
         $defaults = [
@@ -122,10 +129,7 @@ class JsonManager
             ],
             'minimum-stability' => $minimumStability,
             'prefer-stable'     => true,
-            'config'            => [
-                'discard-changes'   => true,
-                'preferred-install' => 'dist',
-            ],
+            'config'            => $config,
             'provide' => [
                 'bolt/bolt' => Bolt\Version::forComposer(),
             ],
