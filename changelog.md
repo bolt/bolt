@@ -182,6 +182,7 @@ Bolt 3.3.0 beta 1
  - Tests: PHP 7.1 fix. [#6085](https://github.com/bolt/bolt/pull/6085)
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Updated: Updates to base-2016 for Bolt 3.2. [#6281](https://github.com/bolt/bolt/pull/6281)
+
 Bolt 3.2.12
 -----------
 
