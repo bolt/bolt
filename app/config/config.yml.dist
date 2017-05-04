@@ -461,3 +461,5 @@ compatibility:
     # Response methods cannot be used on TemplateView objects.
     # Setting this value to false is deprecated.
     template_view: true
+    # Allows specifying a newer version of the setcontent parser
+    setcontent_version: 1

@@ -14,6 +14,14 @@ use Twig_Token as Token;
  */
 class SetcontentTokenParser extends AbstractTokenParser
 {
+
+    protected $version = 1;
+
+    public function __construct($version)
+    {
+        $this->version = $version;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -98,7 +106,11 @@ class SetcontentTokenParser extends AbstractTokenParser
 
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
-        return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
+        if ($this->version === 1) {
+            return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
+        } elseif ($this->version === 2) {
+            return new QuerySetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
+        }
     }
 
     /**
