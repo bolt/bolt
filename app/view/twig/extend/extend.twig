@@ -199,6 +199,7 @@
     {{ data('extend.text.updating',           __('page.extend.message.updating')) }}
     {{ data('extend.text.updated',            __('page.extend.message.updated')) }}
 
+    {{ data('extend.sitever',             context.extendVersion) }}
     {{ data('extend.siteurl',             context.site) }}
     {{ data('extend.baseurl',             global.request.basePath ~ '/' ~ app['controller.backend.extend.mount_prefix']|trim('/') ~ '/') }}
 

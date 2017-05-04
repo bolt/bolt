@@ -454,6 +454,7 @@ class Extend extends BackendBase
             'online'         => $this->app['extend.online'],
             'extensionsPath' => $this->app['path_resolver']->resolve('extensions'),
             'site'           => $this->app['extend.site'],
+            'extendVersion'  => Bolt\Version::forComposer(),
             'bundled'        => $bundled,
         ];
     }
