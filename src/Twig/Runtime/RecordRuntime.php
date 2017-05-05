@@ -11,6 +11,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig_Environment as Environment;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -129,7 +130,7 @@ class RecordRuntime
      * content in order in, say, a `record.twig` template, without having to
      * iterate over them in the browser.
      *
-     * @param \Twig_Environment    $env
+     * @param Environment          $env
      * @param \Bolt\Legacy\Content $record
      * @param bool                 $common
      * @param bool                 $extended
@@ -142,7 +143,7 @@ class RecordRuntime
      * @return string
      */
     public function fields(
-        \Twig_Environment $env,
+        Environment $env,
         $record = null,
         $common = true,
         $extended = false,
@@ -222,7 +223,7 @@ class RecordRuntime
     /**
      * Output a simple pager, for paginated listing pages.
      *
-     * @param \Twig_Environment $env
+     * @param Environment       $env
      * @param string            $pagerName
      * @param integer           $surr
      * @param string            $template  The template to apply
@@ -230,7 +231,7 @@ class RecordRuntime
      *
      * @return string The rendered pager HTML
      */
-    public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
+    public function pager(Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         if ($this->pagerManager->isEmptyPager()) {
             // nothing to page.

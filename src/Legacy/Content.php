@@ -4,6 +4,7 @@ namespace Bolt\Legacy;
 
 use Bolt\Storage\Entity;
 use Silex;
+use Twig_Markup as Markup;
 
 /**
  * Legacy Content class.
@@ -151,7 +152,7 @@ class Content implements \ArrayAccess
                     // Bolt\Storage\Field\Type\MarkdownType eventually.
                     $value = $this->app['markdown']->text($this->values[$name]);
                     $value = $this->preParse($value, $allowtwig);
-                    $value = new \Twig_Markup($value, 'UTF-8');
+                    $value = new Markup($value, 'UTF-8');
 
                     break;
 
@@ -159,7 +160,7 @@ class Content implements \ArrayAccess
                 case 'text':
                 case 'textarea':
                     $value = $this->preParse($this->values[$name], $allowtwig);
-                    $value = new \Twig_Markup($value, 'UTF-8');
+                    $value = new Markup($value, 'UTF-8');
 
                     break;
 

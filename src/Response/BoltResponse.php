@@ -4,6 +4,7 @@ namespace Bolt\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Twig_Error as TwigError;
 use Twig_Template as Template;
 
 /**
@@ -215,7 +216,7 @@ class BoltResponse extends Response
     private function handleException(\Exception $e)
     {
         trigger_error($e->getMessage() . "\n" . $e->getTraceAsString(), E_USER_WARNING);
-        if ($e instanceof \Twig_Error) {
+        if ($e instanceof TwigError) {
             return '<strong>' . $e->getRawMessage() . '</strong>';
         }
 

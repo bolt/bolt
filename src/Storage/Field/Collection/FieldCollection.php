@@ -5,6 +5,7 @@ namespace Bolt\Storage\Field\Collection;
 use Bolt\Storage\Entity\FieldValue;
 use Doctrine\Common\Collections\ArrayCollection;
 use ParsedownExtra as Markdown;
+use Twig_Markup as Markup;
 use Webmozart\Assert\Assert;
 
 /**
@@ -186,7 +187,7 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
         }
 
         if (in_array($fieldType, ['markdown', 'html', 'text', 'textarea'], true)) {
-            $value = new \Twig_Markup($value, 'UTF-8');
+            $value = new Markup($value, 'UTF-8');
         }
 
         return $value;

@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Twig_Environment as Environment;
 
 /**
  * HTTP kernel exception routing listener.
@@ -40,7 +41,7 @@ class ExceptionListener implements EventSubscriberInterface
 {
     use ProfilerAwareTrait;
 
-    /** @var \Twig_Environment */
+    /** @var Environment */
     protected $twig;
     /** @var string */
     protected $rootPath;
@@ -62,7 +63,7 @@ class ExceptionListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \Twig_Environment  $twig
+     * @param Environment        $twig
      * @param string             $rootPath
      * @param DirectoryInterface $saveDir
      * @param SlugifyInterface   $slugifer
@@ -73,7 +74,7 @@ class ExceptionListener implements EventSubscriberInterface
      * @param RequestStack       $requestStack
      */
     public function __construct(
-        \Twig_Environment $twig,
+        Environment $twig,
         $rootPath,
         DirectoryInterface $saveDir,
         SlugifyInterface $slugifer,

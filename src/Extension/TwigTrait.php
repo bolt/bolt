@@ -176,7 +176,7 @@ trait TwigTrait
      * @param string $path
      * @param array  $options
      *
-     * @throws \Twig_Error_Loader
+     * @throws LoaderError
      */
     private function addTwigPath($path, array $options = [])
     {
