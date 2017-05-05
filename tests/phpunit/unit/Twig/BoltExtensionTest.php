@@ -60,7 +60,7 @@ class BoltExtensionTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $app['request'] = $request;
         $app['request_stack']->push($request);
-        $twig = new BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
+        $twig = new BoltExtension($app['storage.lazy'], $app['config'], $app['paths'], $app['query']);
 
         $result = $twig->getGlobals();
         $this->assertArrayHasKey('config', $result);
