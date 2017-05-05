@@ -23,11 +23,9 @@ class HtmlExtension extends Extension
     {
         $safe = ['is_safe' => ['html']];
         $env  = ['needs_environment' => true];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new TwigFunction('link',     [Runtime\HtmlRuntime::class, 'link'], $safe + $deprecated),
             new TwigFunction('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
             new TwigFunction('menu',     [Runtime\HtmlRuntime::class, 'menu'], $env + $safe),
             // @codingStandardsIgnoreEnd
