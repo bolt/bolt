@@ -7,6 +7,9 @@ use Bolt\Helpers\Input;
 use Bolt\Legacy;
 use Bolt\Library as Lib;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
+use Twig_Environment as Environment;
+use Twig_Error_Loader as LoaderError;
+use Twig_Markup as Markup;
 
 /**
  * Trait class for ContentType relations.
@@ -67,7 +70,7 @@ trait ContentValuesTrait
      * @param boolean      $includeTitle
      * @param string|array $focus
      *
-     * @return \Twig_Markup
+     * @return Markup
      */
     public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
@@ -93,7 +96,7 @@ trait ContentValuesTrait
         $excerpter = new Excerpt(implode(' ', $excerptParts), $this->getTitle());
         $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
 
-        return new \Twig_Markup($excerpt, 'UTF-8');
+        return new Markup($excerpt, 'UTF-8');
     }
 
     /**
@@ -403,9 +406,9 @@ trait ContentValuesTrait
 
                 $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
 
-                // Mark them up as Twig_Markup.
-                $video['html'] = new \Twig_Markup($video['html'], 'UTF-8');
-                $video['responsive'] = new \Twig_Markup($video['responsive'], 'UTF-8');
+                // Mark them up as Twig markup.
+                $video['html'] = new Markup($video['html'], 'UTF-8');
+                $video['responsive'] = new Markup($video['responsive'], 'UTF-8');
 
                 $this->values[$key] = $video;
             }
@@ -676,12 +679,12 @@ trait ContentValuesTrait
         /** @var \Bolt\TemplateChooser $templateChooser */
         $templateChooser = $this->app['templatechooser'];
         $templates = $templateChooser->record($this);
-        /** @var \Twig_Environment $twig */
+        /** @var Environment $twig */
         $twig = $this->app['twig'];
 
         try {
             $template = $twig->resolveTemplate($templates);
-        } catch (\Twig_Error_Loader $e) {
+        } catch (LoaderError $e) {
             return null;
         }
 

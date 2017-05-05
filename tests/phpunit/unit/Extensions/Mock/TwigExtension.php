@@ -2,12 +2,14 @@
 
 namespace Bolt\Tests\Extensions\Mock;
 
+use Twig_Extension as Extension;
+
 /**
  * Class to test correct operation and locations of composer configuration.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends Extension
 {
     public function getName()
     {

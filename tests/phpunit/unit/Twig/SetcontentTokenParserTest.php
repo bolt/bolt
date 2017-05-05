@@ -7,6 +7,7 @@ use Bolt\Twig\SetcontentTokenParser;
 use Twig_Compiler as Compiler;
 use Twig_Environment as Environment;
 use Twig_LoaderInterface as LoaderInterface;
+use Twig_Node_Body as NodeBody;
 use Twig_Node_Module as NodeModule;
 use Twig_Source as Source;
 use Twig_Token as Token;
@@ -75,7 +76,7 @@ class SetcontentTestTokenParser extends AbstractTestTokenParser
         $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser());
         /** @var NodeModule $setContentNode */
         $setContentNode = $parser->parse($twigTokenStream);
-        /** @var \Twig_Node_Body $bodyNodes */
+        /** @var NodeBody $bodyNodes */
         $bodyNodes = $setContentNode->getNode('body');
 
         /** @var SetcontentNode $bodyNode */

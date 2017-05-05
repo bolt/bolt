@@ -15,6 +15,10 @@ use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
+use Twig_Environment as Environment;
+use Twig_Extension_Sandbox as SandboxExtension;
+use Twig_Extension_StringLoader as StringLoaderExtension;
+use Twig_Loader_Chain as ChainLoader;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
@@ -148,7 +152,7 @@ class TwigServiceProvider implements ServiceProviderInterface
         // Insert our filesystem loader before native one
         $app['twig.loader'] = $app->share(
             function ($app) {
-                return new \Twig_Loader_Chain(
+                return new ChainLoader(
                     [
                         $app['twig.loader.array'],
                         $app['twig.loader.bolt_filesystem'],
@@ -164,7 +168,7 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig'] = $app->share(
             $app->extend(
                 'twig',
-                function (\Twig_Environment $twig, $app) {
+                function (Environment $twig, $app) {
                     $twig->addExtension($app['twig.extension.bolt']);
                     $twig->addExtension($app['twig.extension.bolt_admin']);
                     $twig->addExtension($app['twig.extension.bolt_array']);
@@ -262,7 +266,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.string_loader'] = $app->share(
             function () {
-                return new \Twig_Extension_StringLoader();
+                return new StringLoaderExtension();
             }
         );
 
@@ -307,7 +311,7 @@ class TwigServiceProvider implements ServiceProviderInterface
     {
         $app['twig.extension.sandbox'] = $app->share(
             function ($app) {
-                return new \Twig_Extension_Sandbox($app['twig.sandbox.policy']);
+                return new SandboxExtension($app['twig.sandbox.policy']);
             }
         );
 
