@@ -15,9 +15,9 @@ use Twig_Token as Token;
 class SetcontentTokenParser extends AbstractTokenParser
 {
 
-    protected $version = 1;
+    protected $version;
 
-    public function __construct($version)
+    public function __construct($version = 1)
     {
         $this->version = $version;
     }
