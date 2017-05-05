@@ -1,4 +1,8 @@
 engines:
+    grep:
+        enabled: true
+        config:
+            patterns:
     duplication:
         enabled: true
         config:
@@ -9,7 +13,6 @@ engines:
         enabled: true
         config:
             standard: "ruleset.xml"
-
 prepare:
     fetch:
         - url: "https://raw.githubusercontent.com/bolt/codingstyle/master/PhpCodeSniffer/Bolt/ruleset.xml"
