@@ -50,7 +50,7 @@
         "symfony/translation": "^3.0",
         "symfony/validator": "^3.0",
         "symfony/var-dumper": "^3.0",
-        "symfony/web-profiler-bundle": "^2.8",
+        "symfony/web-profiler-bundle": "^3.0",
         "symfony/yaml": "^3.0",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "^1.28",
