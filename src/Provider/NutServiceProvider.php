@@ -131,7 +131,9 @@ class NutServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['nut.command.twig_debug']->setTwigEnvironment($app['twig']);
-        $app['nut.command.twig_lint']->setTwigEnvironment($app['twig']);
+        if (PHP_SAPI === 'cli') {
+            $app['nut.command.twig_debug']->setTwigEnvironment($app['twig']);
+            $app['nut.command.twig_lint']->setTwigEnvironment($app['twig']);
+        }
     }
 }
