@@ -6,9 +6,10 @@ use Bolt\Application;
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
-use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Prophecy\Argument\Token\StringContainsToken;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -160,7 +161,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/tr/contenttypes/en_CY'));
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
-        $this->assertTrue($response instanceof TemplateResponse, 'Response is not instance of TemplateResponse');
+        $this->assertTrue($response instanceof TemplateView, 'Response is not instance of TemplateView');
         $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplate());
         $context = $response->getContext();
         $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
@@ -197,10 +198,7 @@ class GeneralTest extends ControllerUnitTest
         ));
 
         $flash = $this->prophesize(FlashLogger::class);
-        $flash->keys()->shouldBeCalled();
-        $flash->get('info')->shouldBeCalled();
-        $flash->get('success')->shouldBeCalled();
-        $flash->get('error')->shouldBeCalled();
+        /** @var FlashLogger|ObjectProphecy $flash */
         $flash->error(new StringContainsToken('could not be saved'))->shouldBeCalled();
         $this->setService('logger.flash', $flash->reveal());
 
