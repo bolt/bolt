@@ -53,7 +53,7 @@ class Widget extends AsyncBase
 
         $html = $this->app['asset.queue.widget']->getRendered($key);
         $response = new Response($html);
-        $response->setSharedMaxAge(180)->setPublic();
+        $this->setResponseMaxAge(180);
 
         return $response;
     }

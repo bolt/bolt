@@ -5,6 +5,7 @@ namespace Bolt\Controller\Async;
 use Bolt;
 use Bolt\Extension\ExtensionInterface;
 use Bolt\Filesystem;
+use Bolt\Response\TemplateView;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use GuzzleHttp\Exception\RequestException;
@@ -129,7 +130,7 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('@bolt/components/panel-news.twig', ['context' => $context]);
-        $response->setSharedMaxAge(3600)->setPublic();
+        $this->setResponseMaxAge(3600);
 
         return $response;
     }
@@ -176,7 +177,7 @@ class General extends AsyncBase
                 ],
             ]
         );
-        $response->setPublic()->setSharedMaxAge(3600);
+        $this->setResponseMaxAge(3600);
 
         return $response;
     }
@@ -290,7 +291,7 @@ class General extends AsyncBase
         $html = $this->app['markdown']->text($readme);
 
         $response = new Response($html);
-        $response->setSharedMaxAge(180)->setPublic();
+        $this->setResponseMaxAge(180);
 
         return $response;
     }
@@ -472,7 +473,7 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $response->setPublic()->setSharedMaxAge(60);
+        $this->setResponseMaxAge(60);
 
         return $response;
     }
@@ -498,7 +499,7 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $response->setPublic()->setSharedMaxAge(60);
+        $this->setResponseMaxAge(60);
 
         return $response;
     }
