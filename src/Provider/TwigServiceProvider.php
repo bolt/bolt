@@ -14,7 +14,11 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
+use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
+use Symfony\Bridge\Twig\Form\TwigRenderer;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
@@ -89,16 +93,21 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
 
-        /** @deprecated Can be replaced when switch to Silex 2 occurs */
-        if (!isset($app['twig.runtimes'])) {
-            $app['twig.runtimes'] = function () {
-                return [];
+        /** @deprecated Can be removed when switch to Silex 2 occurs */
+        if (!isset($app['twig.runtime.httpkernel'])) {
+            $app['twig.runtime.httpkernel'] = function ($app) {
+                return new HttpKernelRuntime($app['fragment.handler']);
             };
         }
-        $app['twig.runtimes'] = $app->extend(
+
+        /** @deprecated Can be replaced when switch to Silex 2 occurs */
+        if (!isset($app['twig.runtimes'])) {
+            $app['twig.runtimes'] = $app->share(function () { return []; } );
+        }
+        $app['twig.runtimes'] = $app->share($app->extend(
             'twig.runtimes',
-            function () {
-                return [
+            function ($runtimes) {
+                return $runtimes + [
                     Twig\Runtime\AdminRuntime::class   => 'twig.runtime.bolt_admin',
                     Twig\Runtime\HtmlRuntime::class    => 'twig.runtime.bolt_html',
                     Twig\Runtime\ImageRuntime::class   => 'twig.runtime.bolt_image',
@@ -109,9 +118,13 @@ class TwigServiceProvider implements ServiceProviderInterface
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
                     Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
+
+                    /** @deprecated Can be removed when switch to Silex 2 occurs */
+                    HttpKernelRuntime::class           => 'twig.runtime.httpkernel',
+                    TwigRenderer::class                => 'twig.form.renderer',
                 ];
             }
-        );
+        ));
 
         /** @deprecated Can be replaced when switch to Silex 2 occurs */
         if (!isset($app['twig.runtime_loader'])) {
@@ -178,6 +191,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension($app['twig.extension.bolt_widget']);
 
                     $twig->addExtension($app['twig.extension.asset']);
+                    $twig->addExtension($app['twig.extension.form']);
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);
 
@@ -192,6 +206,20 @@ class TwigServiceProvider implements ServiceProviderInterface
 
                     /** @deprecated Can be replaced when switch to Silex 2 occurs */
                     $twig->addGlobal('global', $app['twig.app_variable']);
+
+                    /** @deprecated Can be removed when switch to Silex 2 occurs */
+                    $app['twig.form.engine'] = $app->share(
+                        function ($app) use ($twig) {
+                            return new TwigRendererEngine($app['twig.form.templates'], $twig);
+                        }
+                    );
+                    /** @deprecated Can be removed when switch to Silex 2 occurs */
+                    $app['twig.form.renderer'] = $app->share(function ($app) {
+                        return new TwigRenderer($app['twig.form.engine'], $app['form.csrf_provider']);
+                    });
+                    /** @deprecated Can be removed when switch to Silex 2 occurs */
+                    $twig->addExtension(new FormExtension($app['twig.form.renderer']));
+
 
                     return $twig;
                 }
@@ -245,6 +273,12 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.extension.asset'] = $app->share(
             function ($app) {
                 return new AssetExtension($app['asset.packages'], $app['twig.extension.http_foundation']);
+            }
+        );
+
+        $app['twig.extension.form'] = $app->share(
+            function () {
+                return new FormExtension();
             }
         );
 
