@@ -8,7 +8,7 @@
 {% block page_nav 'Content/*' %}
 
 {% block page_title %}
-    {% set contenttype = {'%contenttype%': context.contenttype.slug} %}
+    {% set contenttype = {'%contenttype%': context.contenttype.singular_slug} %}
     {% if context.content.title is not empty %}
         {{ __('contenttypes.generic.edit', contenttype) }}
     {% else %}
