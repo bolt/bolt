@@ -17,7 +17,11 @@ class Widget extends AsyncBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/widget/{key}', 'widget')
-            ->bind('widget');
+            ->bind('widget')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(180);
+            })
+        ;
     }
 
     /**
@@ -53,7 +57,6 @@ class Widget extends AsyncBase
 
         $html = $this->app['asset.queue.widget']->getRendered($key);
         $response = new Response($html);
-        $this->setResponseMaxAge(180);
 
         return $response;
     }

@@ -465,16 +465,4 @@ abstract class Base implements ControllerProviderInterface
     {
         return $this->app['resources'];
     }
-
-    /**
-     * Add a middleware that sets the response caching parameters.
-     *
-     * @param int $maxAge Number of seconds to set `Cache-Control s-maxage`
-     */
-    protected function setResponseMaxAge($maxAge)
-    {
-        $this->app->after(function (Request $request, Response $response) use ($maxAge) {
-            $response->setSharedMaxAge($maxAge)->setPublic();
-        });
-    }
 }

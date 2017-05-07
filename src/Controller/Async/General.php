@@ -5,7 +5,6 @@ namespace Bolt\Controller\Async;
 use Bolt;
 use Bolt\Extension\ExtensionInterface;
 use Bolt\Filesystem;
-use Bolt\Response\TemplateView;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use GuzzleHttp\Exception\RequestException;
@@ -33,14 +32,26 @@ class General extends AsyncBase
             ->bind('changelogrecord');
 
         $c->get('/dashboardnews', 'dashboardNews')
-            ->bind('dashboardnews');
+            ->bind('dashboardnews')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(3600);
+            })
+        ;
 
         $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'lastModified')
             ->value('contentid', '')
-            ->bind('lastmodified');
+            ->bind('lastmodified')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(60);
+            })
+        ;
 
         $c->get('/latestactivity', 'latestActivity')
-            ->bind('latestactivity');
+            ->bind('latestactivity')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(3600);
+            })
+        ;
 
         $c->get('/makeuri', 'makeUri')
             ->bind('makeuri');
@@ -58,6 +69,9 @@ class General extends AsyncBase
                 }
 
                 return $extension;
+            })
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(180);
             })
         ;
 
@@ -130,7 +144,6 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('@bolt/components/panel-news.twig', ['context' => $context]);
-        $this->setResponseMaxAge(3600);
 
         return $response;
     }
@@ -177,7 +190,6 @@ class General extends AsyncBase
                 ],
             ]
         );
-        $this->setResponseMaxAge(3600);
 
         return $response;
     }
@@ -291,7 +303,6 @@ class General extends AsyncBase
         $html = $this->app['markdown']->text($readme);
 
         $response = new Response($html);
-        $this->setResponseMaxAge(180);
 
         return $response;
     }
@@ -472,10 +483,7 @@ class General extends AsyncBase
             'filtered'    => $isFiltered,
         ];
 
-        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $this->setResponseMaxAge(60);
-
-        return $response;
+        return $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
     }
 
     /**
@@ -498,9 +506,6 @@ class General extends AsyncBase
             'contenttype' => $contenttype,
         ];
 
-        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $this->setResponseMaxAge(60);
-
-        return $response;
+        return $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
     }
 }
