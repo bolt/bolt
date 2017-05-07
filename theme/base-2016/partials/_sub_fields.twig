@@ -134,12 +134,24 @@
 
     {# Finally, the repeaters #}
     {% if repeaters == true and record.fieldtype(key) == "repeater" %}
-        {% for repeater in value %}
-            {% for key, repeaterfield in repeater %}
-                {{ macro.commonfield(repeater, key) }}
-                {{ macro.extendedfield(repeater, key) }}
+        {% if (app.request.get('_route') != "preview") %}
+            {% for repeater in value %}
+                {% for key, repeaterfield in repeater %}
+                    {{ macro.commonfield(repeater, key) }}
+                    {{ macro.extendedfield(repeater, key) }}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
+        {% else %}
+            {# @deprecated
+            `fields()` does not work correctly when _previewing_ repeater fields. This will be
+            fixed properly for Bolt 4, but for now we just output a notice, and prevent crashes.
+            See also: https://github.com/bolt/bolt/issues/6605 #}
+            <p>
+                Unfortunately, Repeater fields do not work correctly with the generic
+                <code>fields()</code> function, when using Preview. To view these fields, please
+                save the record, and view the page normally.
+            </p>
+        {% endif %}
     {% endif %}
 
 {% endfor %}
