@@ -107,11 +107,14 @@
          */
         _update: function () {
             var self = this,
-                url = 'https://api.embed.ly/1/oembed',
+                url = bolt.data('endpoint.embed'),
+                form = $('#id').closest('form'),
+                token = form.find('input[name="bolt_csrf_token"]').val(),
                 request = {
-                    format: 'json',
-                    key:    '51fa004148ad4d05b115940be9dd3c7e',
-                    url:    self._ui.url.val()
+                    format:          'json',
+                    url:             self._ui.url.val(),
+                    bolt_csrf_token: token,
+                    provider:        'oembed'
                 };
 
             // If val is emptied, clear the video fields.
@@ -121,7 +124,7 @@
                 this._ui.refresh.prop('disabled', true);
                 self._ui.spinner.addClass('fa-spin');
 
-                $.getJSON(url, request)
+                $.post(url, request)
                     .done(function (data) {
                         self._set(data);
                     })
