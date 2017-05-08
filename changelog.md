@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.13
+-----------
+
+Released 2017-05-09. Notable changes:
+
+ - Change: Switch to (built-in) oEmbed API from external Embed.ly API. [#6636](https://github.com/bolt/bolt/pull/#6636)
+ - Fixed: Make sure `wysiwyg` fields have the correct label, strip trailing `:` from alerts. [#6630](https://github.com/bolt/bolt/pull/#6630)
+ - Fixed: No margin or borders for hidden field placeholders. Hidden fields no longer take up space. [#6632](https://github.com/bolt/bolt/pull/#6632)
+ - Fixed: Set default values for Video field, prevent exception when adding video with height but no width set. [#6634](https://github.com/bolt/bolt/pull/#6634)
+ - Fixed: Use `singular_slug` instead of `slug` for "New [..]". [#6631](https://github.com/bolt/bolt/pull/#6631)
+
 Bolt 3.2.12
 -----------
 
