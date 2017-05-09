@@ -62,14 +62,14 @@ class Resolver
     private function getEmbedProviders(UriInterface $url)
     {
         try {
-            $info = $this->getUrlAdapter($url);
+            $adapter = $this->getUrlAdapter($url);
         } catch (InvalidUrlException $e) {
             throw new EmbedResolverException($e->getMessage(), 1, $e);
         } catch (EmbedException $e) {
             throw new EmbedResolverException('Provider exception occurred', 2, $e);
         }
 
-        return $info->getProviders();
+        return $adapter->getProviders();
     }
 
     /**
