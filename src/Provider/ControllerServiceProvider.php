@@ -88,6 +88,11 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
                 return new Controller\Async\FilesystemManager();
             }
         );
+        $app['controller.async.embed'] = $app->share(
+            function () {
+                return new Controller\Async\Embed();
+            }
+        );
         $app['controller.async.records'] = $app->share(
             function () {
                 return new Controller\Async\Records();
@@ -171,6 +176,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $prefix = $app['controller.async.mount_prefix'];
         $asyncKeys = [
             'general',
+            'embed',
             'filesystem_manager',
             'records',
             'stack',

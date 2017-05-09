@@ -382,7 +382,15 @@ trait ContentValuesTrait
             }
 
             if ($this->fieldtype($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
-                $video = $this->values[$key];
+                $defaultValues = [
+                    'html' => '',
+                    'responsive' => '',
+                    'width' => '1',
+                    'height' => '1',
+                    'ratio' => '1',
+                ];
+
+                $video = array_replace($defaultValues, $this->values[$key]);
 
                 // update the HTML, according to given width and height
                 if (!empty($video['width']) && !empty($video['height'])) {
@@ -393,7 +401,7 @@ trait ContentValuesTrait
                 $responsiveclass = 'responsive-video';
 
                 // See if it's widescreen or not.
-                if (!empty($video['height']) && (($video['width'] / $video['height']) > 1.76)) {
+                if (!empty($video['height']) && (((int) $video['width'] / (int) $video['height']) > 1.76)) {
                     $responsiveclass .= ' widescreen';
                 }
 

@@ -63,7 +63,7 @@
         {% endif %}
 
         {# Video fields #}
-        {% if fieldtype == "video" and value.responsive is defined %}
+        {% if fieldtype == "video" and value.responsive %}
             <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
                 {{ value.responsive }}
             </div>
