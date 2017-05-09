@@ -3,6 +3,8 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Users;
+use Twig_Environment as Environment;
+use Twig_Template as Template;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
@@ -43,7 +45,7 @@ class DumpRuntime
     /**
      * {@inheritdoc}
      */
-    public function dump(\Twig_Environment $env, $context)
+    public function dump(Environment $env, $context)
     {
         if (!$this->isEnabled($env)) {
             return null;
@@ -52,7 +54,7 @@ class DumpRuntime
         if (func_num_args() === 2) {
             $vars = [];
             foreach ($context as $key => $value) {
-                if (!$value instanceof \Twig_Template) {
+                if (!$value instanceof Template) {
                     $vars[$key] = $value;
                 }
             }
@@ -76,13 +78,13 @@ class DumpRuntime
     /**
      * Output pretty-printed backtrace.
      *
-     * @param \Twig_Environment $env
-     * @param array             $context
-     * @param int               $depth
+     * @param Environment $env
+     * @param array       $context
+     * @param int         $depth
      *
      * @return string|null
      */
-    public function dumpBacktrace(\Twig_Environment $env, $context, $depth)
+    public function dumpBacktrace(Environment $env, $context, $depth)
     {
         if (!$this->isEnabled($env)) {
             return null;
@@ -92,11 +94,11 @@ class DumpRuntime
     }
 
     /**
-     * @param \Twig_Environment $env
+     * @param Environment $env
      *
      * @return bool
      */
-    protected function isEnabled(\Twig_Environment $env)
+    protected function isEnabled(Environment $env)
     {
         return $env->isDebug() && ($this->debugShowLoggedoff || $this->users->getCurrentUser() !== null);
     }

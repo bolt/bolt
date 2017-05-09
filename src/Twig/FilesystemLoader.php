@@ -7,6 +7,7 @@ use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Twig_Error_Loader as LoaderError;
+use Twig_Loader_Filesystem as TwigFilesystemLoader;
 use Twig_Source as TwigSource;
 
 /**
@@ -14,7 +15,7 @@ use Twig_Source as TwigSource;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class FilesystemLoader extends \Twig_Loader_Filesystem
+class FilesystemLoader extends TwigFilesystemLoader
 {
     /** @var FilesystemInterface */
     protected $filesystem;

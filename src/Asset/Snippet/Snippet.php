@@ -3,6 +3,7 @@
 namespace Bolt\Asset\Snippet;
 
 use Bolt\Controller\Zone;
+use Twig_Markup as Markup;
 
 /**
  * Snippet objects.
@@ -135,7 +136,7 @@ class Snippet implements SnippetAssetInterface
     {
         if (is_callable($this->callback)) {
             return call_user_func_array($this->callback, (array) $this->callbackArguments);
-        } elseif (is_string($this->callback) || $this->callback instanceof \Twig_Markup) {
+        } elseif (is_string($this->callback) || $this->callback instanceof Markup) {
             // Insert the 'callback' as a string.
             return (string) $this->callback;
         }

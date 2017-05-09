@@ -7,7 +7,9 @@ use Bolt\Twig\SwitchTokenParser;
 use Twig_Compiler as Compiler;
 use Twig_Environment as Environment;
 use Twig_LoaderInterface as LoaderInterface;
+use Twig_Node as Node;
 use Twig_Node_Module as NodeModule;
+use Twig_Node_Set as NodeSet;
 use Twig_Source as Source;
 use Twig_Token as Token;
 use Twig_TokenParser as TokenParser;
@@ -101,10 +103,10 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
         $parser = $this->getParser($twigTokenStream, new SwitchTokenParser());
         /** @var NodeModule $nodeModule */
         $nodeModule = $parser->parse($twigTokenStream);
-        /** @var \Twig_Node $bodyNodes */
+        /** @var Node $bodyNodes */
         $bodyNodes = $nodeModule->getNode('body')->getIterator()->current();
 
-        /** @var \Twig_Node_Set $setNode */
+        /** @var NodeSet $setNode */
         $setNode = $bodyNodes->getNode(0);
         /** @var SwitchNode $switchNode */
         $switchNode = $bodyNodes->getNode(1);

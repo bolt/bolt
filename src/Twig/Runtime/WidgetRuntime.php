@@ -5,6 +5,7 @@ namespace Bolt\Twig\Runtime;
 use Bolt\Asset\Widget\Queue;
 use Bolt\Controller\Zone;
 use Twig_Environment as Environment;
+use Twig_Markup as Markup;
 
 /**
  * Bolt specific Twig functions and filters for HTML
@@ -80,7 +81,7 @@ class WidgetRuntime
      * @param string      $zone     Either Zone::FRONTEND or Zone::BACKEND
      * @param string      $wrapper
      *
-     * @return string|\Twig_Markup
+     * @return string|Markup
      */
     public function widgets(Environment $env, $location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
     {
