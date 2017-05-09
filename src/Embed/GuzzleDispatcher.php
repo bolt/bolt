@@ -75,6 +75,7 @@ class GuzzleDispatcher implements DispatcherInterface
                 'max' => 10,
             ];
             $guzzleResponse = $this->client->get((string) $url, $options);
+            $redirectUri = $guzzleResponse->getEffectiveUrl() ?: (string) $url;
         } else {
             $allowRedirects = $this->client->getConfig('allow_redirects');
             $allowRedirects['max'] = 10;
@@ -85,12 +86,14 @@ class GuzzleDispatcher implements DispatcherInterface
             $request = new Psr7\Request('GET', $uri, ['Accept' => 'text/html']);
             /** @var Psr7\Response $guzzleResponse */
             $guzzleResponse = $this->client->send($request, $options);
+            $redirectUriHistory = $guzzleResponse->getHeader('X-Guzzle-Redirect-History');
+            $redirectUri = $redirectUriHistory ? array_pop($redirectUriHistory) : (string) $url;
         }
 
         $contentType = $guzzleResponse->getHeader('Content-Type');
 
         return [
-            'url'         => (string) $url,
+            'url'         => $redirectUri,
             'statusCode'  => $guzzleResponse->getStatusCode(),
             'contentType' => is_array($contentType) ? reset($contentType) : $contentType,
             'content'     => $guzzleResponse->getBody()->getContents(),
