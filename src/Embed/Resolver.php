@@ -31,7 +31,7 @@ class Resolver
     }
 
     /**
-     * Return oEmbed information from a given URL.
+     * Return embed information from a given URL.
      *
      * @param UriInterface $url
      * @param string       $providerName
@@ -40,7 +40,8 @@ class Resolver
      */
     public function embed(UriInterface $url, $providerName)
     {
-        $providers = $this->getEmbedProviders($url);
+        $adapter = $this->getUrlAdapter($url);
+        $providers = $adapter->getProviders();
         if (!isset($providers[$providerName])) {
             return [];
         }
@@ -48,28 +49,6 @@ class Resolver
         $provider = $providers[$providerName];
 
         return $provider->getBag()->getAll();
-    }
-
-    /**
-     * Retrieve all of the embed providers from a given URL.
-     *
-     * @param UriInterface $url
-     *
-     * @throws EmbedResolverException
-     *
-     * @return \Embed\Providers\Provider[]
-     */
-    private function getEmbedProviders(UriInterface $url)
-    {
-        try {
-            $adapter = $this->getUrlAdapter($url);
-        } catch (InvalidUrlException $e) {
-            throw new EmbedResolverException($e->getMessage(), 1, $e);
-        } catch (EmbedException $e) {
-            throw new EmbedResolverException('Provider exception occurred', 2, $e);
-        }
-
-        return $adapter->getProviders();
     }
 
     /**
@@ -84,6 +63,14 @@ class Resolver
         $embedFactory = $this->embedFactory;
         $url = Url::create((string) $url);
 
-        return $embedFactory($url);
+        try {
+            $adapter = $embedFactory($url);
+        } catch (InvalidUrlException $e) {
+            throw new EmbedResolverException($e->getMessage(), 1, $e);
+        } catch (EmbedException $e) {
+            throw new EmbedResolverException('Provider exception occurred', 2, $e);
+        }
+
+        return $adapter;
     }
 }
