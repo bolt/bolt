@@ -7,6 +7,7 @@ use Bolt\Response\TemplateResponse;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Async controller for Stack async routes.
@@ -19,11 +20,12 @@ class Stack extends AsyncBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->post('/stack/add', 'add')
-            ->assert('filename', '.*')
-            ->bind('stack/add');
+            ->bind('stack/add')
+        ;
 
         $c->get('/stack/show', 'show')
-            ->bind('stack/show');
+            ->bind('stack/show')
+        ;
     }
 
     /**
@@ -35,24 +37,22 @@ class Stack extends AsyncBase
      */
     public function add(Request $request)
     {
-        $filename = $request->request->get('filename');
-
+        $fileName = $request->request->get('filename');
         $stack = $this->app['stack'];
+        $twig = $this->app['twig'];
 
         /** @var FileInterface|null $removed */
-        $file = $stack->add($filename, $removed);
-
-        $panel = $this->render('@bolt/components/stack/panel-item.twig', ['file' => $file]);
-        $list = $this->render('@bolt/components/stack/list-item.twig', ['file' => $file]);
-
+        $file = $stack->add($fileName, $removed);
         $type = $file->getType();
         $type = !in_array($type, ['image', 'document']) ? 'other' : $type;
+        $panel = $twig->resolveTemplate('@bolt/components/stack/panel-item.twig')->render(['file' => $file]);
+        $list = $twig->resolveTemplate('@bolt/components/stack/list-item.twig')->render(['file' => $file]);
 
         return $this->json([
             'type'    => $type,
             'removed' => $removed ? $removed->getFullPath() : null,
-            'panel'   => $panel->getContent(),
-            'list'    => $list->getContent(),
+            'panel'   => $panel,
+            'list'    => $list,
         ]);
     }
 

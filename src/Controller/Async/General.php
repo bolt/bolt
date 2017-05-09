@@ -32,14 +32,26 @@ class General extends AsyncBase
             ->bind('changelogrecord');
 
         $c->get('/dashboardnews', 'dashboardNews')
-            ->bind('dashboardnews');
+            ->bind('dashboardnews')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(3600);
+            })
+        ;
 
         $c->get('/lastmodified/{contenttypeslug}/{contentid}', 'lastModified')
             ->value('contentid', '')
-            ->bind('lastmodified');
+            ->bind('lastmodified')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(60);
+            })
+        ;
 
         $c->get('/latestactivity', 'latestActivity')
-            ->bind('latestactivity');
+            ->bind('latestactivity')
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(3600);
+            })
+        ;
 
         $c->get('/makeuri', 'makeUri')
             ->bind('makeuri');
@@ -57,6 +69,9 @@ class General extends AsyncBase
                 }
 
                 return $extension;
+            })
+            ->after(function (Request $request, Response $response) {
+                $response->setSharedMaxAge(180);
             })
         ;
 
@@ -129,7 +144,6 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('@bolt/components/panel-news.twig', ['context' => $context]);
-        $response->setSharedMaxAge(3600)->setPublic();
 
         return $response;
     }
@@ -176,7 +190,6 @@ class General extends AsyncBase
                 ],
             ]
         );
-        $response->setPublic()->setSharedMaxAge(3600);
 
         return $response;
     }
@@ -290,7 +303,6 @@ class General extends AsyncBase
         $html = $this->app['markdown']->text($readme);
 
         $response = new Response($html);
-        $response->setSharedMaxAge(180)->setPublic();
 
         return $response;
     }
@@ -471,10 +483,7 @@ class General extends AsyncBase
             'filtered'    => $isFiltered,
         ];
 
-        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $response->setPublic()->setSharedMaxAge(60);
-
-        return $response;
+        return $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
     }
 
     /**
@@ -497,9 +506,6 @@ class General extends AsyncBase
             'contenttype' => $contenttype,
         ];
 
-        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
-        $response->setPublic()->setSharedMaxAge(60);
-
-        return $response;
+        return $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
     }
 }
