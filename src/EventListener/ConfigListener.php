@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Twig_Environment as Environment;
 
 /**
  * Configuration checks at the start of the request cycle.
@@ -122,7 +123,7 @@ class ConfigListener implements EventSubscriberInterface
      */
     private function setGlobals()
     {
-        /** @var \Twig_Environment $twig */
+        /** @var Environment $twig */
         $twig = $this->app['twig'];
         /** @var \Bolt\Config $config */
         $config = $this->app['config'];

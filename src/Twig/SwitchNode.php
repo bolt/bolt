@@ -3,6 +3,7 @@
 namespace Bolt\Twig;
 
 use Twig_Node as Node;
+use Twig_Compiler as Compiler;
 
 /**
  * Represents a switch node.
@@ -31,7 +32,7 @@ class SwitchNode extends Node
     /**
      * {@inheritdoc}
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
         $compiler

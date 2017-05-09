@@ -86,13 +86,16 @@ Bolt.validation = (function () {
      */
     function showAlertbox(id, field, msg) {
         var alertbox;
+        var fieldname = $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name;
+
+        fieldname = fieldname.replace(/(.*):+$/g, "$1" );
 
         alertbox = Bolt.data(
             'validation.alertbox',
             {
                 '%NOTICE_ID%': id,
                 '%FIELD_ID%': field.id,
-                '%FIELD_NAME%': $('label[for="' + field.id + '"]').contents().first().text().trim() || field.name,
+                '%FIELD_NAME%': fieldname,
                 '%MESSAGE%':  msg || $(field).data('errortext') || Bolt.data('validation.generic_msg')
             }
         );
