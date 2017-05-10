@@ -52,6 +52,34 @@ class Resolver
     }
 
     /**
+     * Return the best embeded image from a given URL.
+     *
+     * @param UriInterface $url
+     *
+     * @return string
+     */
+    public function image(UriInterface $url)
+    {
+        $adapter = $this->getUrlAdapter($url);
+
+        return $adapter->getImage();
+    }
+
+    /**
+     * Return embed images from a given URL.
+     *
+     * @param UriInterface $url
+     *
+     * @return array Values: url, width, height, size, mime (array)
+     */
+    public function images(UriInterface $url)
+    {
+        $adapter = $this->getUrlAdapter($url);
+
+        return $adapter->getImages();
+    }
+
+    /**
      * Return an API adapter matching the pattern of the given URL.
      *
      * @param UriInterface $url

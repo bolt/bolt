@@ -7,7 +7,12 @@ use Embed\Http\ImageResponse;
 use Embed\Http\Response;
 use Embed\Http\Url;
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Promise;
 use GuzzleHttp\Psr7;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Guzzle dispatcher for the embed/embed service.
@@ -19,18 +24,22 @@ use GuzzleHttp\Psr7;
 class GuzzleDispatcher implements DispatcherInterface
 {
     /** @var Client */
-    protected $client;
+    private $client;
     /** @var \Embed\Http\AbstractResponse[] */
     private $responses = [];
+    /** @var HandlerStack */
+    private $handlerStack;
 
     /**
      * Constructor.
      *
-     * @param Client $client
+     * @param Client       $client
+     * @param HandlerStack $handlerStack
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, HandlerStack $handlerStack)
     {
         $this->client = $client;
+        $this->handlerStack = $handlerStack;
     }
 
     /**
@@ -56,7 +65,70 @@ class GuzzleDispatcher implements DispatcherInterface
      */
     public function dispatchImages(array $urls)
     {
-        throw new \RuntimeException(sprintf('%s is not currently implemented', __METHOD__));
+        $this->handlerStack->setHandler(new CurlHandler());
+        $responses = [];
+        $promises = [];
+        $mimeTypes = [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/bmp',
+            'image/x-icon',
+        ];
+
+        /** @var Url $url */
+        foreach ($urls as $key => $url) {
+            if ($url->getScheme() === 'data') {
+                $response = ImageResponse::createFromBase64($url);
+                if ($response) {
+                    $responses[$key] = $response;
+                }
+
+                continue;
+            }
+            $callable = function (ResponseInterface $response) use ($url) {
+                return $response->withHeader('X-Embed-Request-Uri', $url);
+            };
+            $this->handlerStack->push(Middleware::mapResponse($callable), 'embed-request');
+            $promises[$key] = $this->client->getAsync((string) $url);
+            $this->handlerStack->remove('embed-request');
+        }
+
+        $results = Promise\settle($promises)->wait();
+        foreach ($results as $result) {
+            if (!isset($result['value'])) {
+                continue;
+            }
+
+            /** @var Psr7\Response $response */
+            $response = $result['value'];
+            $body = $response->getBody();
+            $baseUrl = (array) $response->getHeader('X-Embed-Request-Uri');
+            $redirectUriHistory = $response->getHeader('X-Guzzle-Redirect-History');
+            $redirectUri = $redirectUriHistory ? array_pop($redirectUriHistory) : reset($baseUrl);
+
+            $mimeType = $this->getMimeType($response);
+            if (!in_array($mimeType, $mimeTypes)) {
+                continue;
+            }
+
+            $imageInfo = getimagesizefromstring($body);
+            if ($imageInfo === false) {
+                continue;
+            }
+
+            $responses[] = $this->responses[] = new ImageResponse(
+                Url::create(reset($baseUrl)),
+                Url::create($redirectUri),
+                $response->getStatusCode(),
+                $response->getHeader('Content-Type'),
+                $imageInfo,
+                $response->getHeaders(),
+                []
+            );
+        }
+
+        return array_values($responses);
     }
 
     /**
@@ -74,8 +146,8 @@ class GuzzleDispatcher implements DispatcherInterface
             $options['allow_redirects'] = [
                 'max' => 10,
             ];
-            $guzzleResponse = $this->client->get((string) $url, $options);
-            $redirectUri = $guzzleResponse->getEffectiveUrl() ?: (string) $url;
+            $response = $this->client->get((string) $url, $options);
+            $redirectUri = $response->getEffectiveUrl() ?: (string) $url;
         } else {
             $allowRedirects = $this->client->getConfig('allow_redirects');
             $allowRedirects['max'] = 10;
@@ -84,21 +156,38 @@ class GuzzleDispatcher implements DispatcherInterface
 
             $uri = new Psr7\Uri((string) $url);
             $request = new Psr7\Request('GET', $uri, ['Accept' => 'text/html']);
-            /** @var Psr7\Response $guzzleResponse */
-            $guzzleResponse = $this->client->send($request, $options);
-            $redirectUriHistory = $guzzleResponse->getHeader('X-Guzzle-Redirect-History');
+            /** @var Psr7\Response $response */
+            $response = $this->client->send($request, $options);
+            $redirectUriHistory = $response->getHeader('X-Guzzle-Redirect-History');
             $redirectUri = $redirectUriHistory ? array_pop($redirectUriHistory) : (string) $url;
         }
 
-        $contentType = $guzzleResponse->getHeader('Content-Type');
-
         return [
             'url'         => $redirectUri,
-            'statusCode'  => $guzzleResponse->getStatusCode(),
-            'contentType' => is_array($contentType) ? reset($contentType) : $contentType,
-            'content'     => $guzzleResponse->getBody()->getContents(),
-            'headers'     => $guzzleResponse->getHeaders(),
+            'statusCode'  => $response->getStatusCode(),
+            'contentType' => $this->getMimeType($response),
+            'content'     => $response->getBody()->getContents(),
+            'headers'     => $response->getHeaders(),
             'info'        => [],
         ];
+    }
+
+    /**
+     * @param Psr7\Response $response
+     *
+     * @return string
+     */
+    private function getMimeType(Psr7\Response $response)
+    {
+        $header = $response->getHeader('Content-Type');
+        if ($header === null) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_buffer($finfo, $response->getBody());
+            finfo_close($finfo);
+
+            return $mime;
+        }
+
+        return reset($header);
     }
 }

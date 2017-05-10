@@ -2,8 +2,8 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Embed\Resolver;
 use Bolt\Embed\GuzzleDispatcher;
+use Bolt\Embed\Resolver;
 use Embed\Embed;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -25,7 +25,7 @@ class EmbedServiceProvider implements ServiceProviderInterface
 
         $app['embed.dispatcher'] = $app->share(
             function ($app) {
-                return new GuzzleDispatcher($app['guzzle.client']);
+                return new GuzzleDispatcher($app['guzzle.client'], $app['guzzle.handler_stack']);
             }
         );
 
