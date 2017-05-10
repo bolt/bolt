@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Filesystem\Handler\HandlerInterface;
-use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,8 +60,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/browse'));
         $response = $this->controller()->browse($this->getRequest(), self::FILESYSTEM, '/');
 
-        $this->assertInstanceOf(TemplateResponse::class, $response);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(TemplateView::class, $response);
         $this->assertEquals('@bolt/async/browse.twig', $response->getTemplate());
     }
 
@@ -276,9 +275,8 @@ class FilesystemManagerTest extends ControllerUnitTest
 
         $response = $this->controller()->recordBrowser();
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**

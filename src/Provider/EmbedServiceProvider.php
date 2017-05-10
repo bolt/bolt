@@ -2,8 +2,8 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Embed\Resolver;
 use Bolt\Embed\GuzzleDispatcher;
+use Bolt\Embed\Resolver;
 use Embed\Embed;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -25,13 +25,28 @@ class EmbedServiceProvider implements ServiceProviderInterface
 
         $app['embed.dispatcher'] = $app->share(
             function ($app) {
-                return new GuzzleDispatcher($app['guzzle.client']);
+                return new GuzzleDispatcher($app['guzzle.client'], $app['guzzle.handler_stack']);
             }
         );
 
         $app['embed.factory.config'] = $app->share(
-            function () {
-                return [];
+            function ($app) {
+                return [
+                    'min_image_width'     => 60,
+                    'min_image_height'    => 60,
+                    'images_blacklist'    => null,
+                    'choose_bigger_image' => false,
+                    'html'                => [
+                        'max_images'      => 10,
+                        'external_images' => false,
+                    ],
+                    'oembed' => [
+                        'parameters' => [],
+                    ],
+                    'google' => [
+                        'key' => $app['config']->get('general/google_api_key'),
+                    ],
+                ];
             }
         );
 

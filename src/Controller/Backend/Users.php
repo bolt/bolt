@@ -385,10 +385,10 @@ class Users extends BackendBase
     private function notifyUserSetupEmail(Request $request, $displayName, $email)
     {
         // Create a welcome email
-        $mailhtml = $this->render(
+        $mailHtml = $this->app['twig']->render(
             '@bolt/email/firstuser.twig',
-            ['sitename' => $this->getOption('general/sitename')]
-        )->getContent();
+            ['context' => ['sitename' => $this->getOption('general/sitename')]]
+        );
 
         try {
             // Send a welcome email
@@ -401,8 +401,8 @@ class Users extends BackendBase
                 ->setFrom($from)
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])
-                ->setBody(strip_tags($mailhtml))
-                ->addPart($mailhtml, 'text/html');
+                ->setBody(strip_tags($mailHtml))
+                ->addPart($mailHtml, 'text/html');
 
             $failedRecipients = [];
 

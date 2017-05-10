@@ -61,9 +61,11 @@ class Frontend extends ConfigurableBase
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
         if ($this->getOption('general/maintenance_mode')) {
             if (!$this->isAllowed('maintenance-mode')) {
+                $twig = $this->app['twig'];
                 $template = $this->templateChooser()->maintenance();
-                $response = $this->render($template);
-                $response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+
+                $html = $twig->resolveTemplate($template)->render([]);
+                $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
 
                 return $response;
             }

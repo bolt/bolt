@@ -6,6 +6,7 @@ use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\TemplateChooser;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Runtime\HtmlRuntime;
@@ -48,6 +49,17 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
+        $this->assertTrue($response instanceof TemplateView);
+        $this->assertSame('index.twig', $response->getTemplate());
+    }
+
+    public function testLegacyDefaultHomepage()
+    {
+        $this->setRequest(Request::create('/'));
+        $this->getService('config')->set('general/compatibility/template_view', false);
+
+        $response = $this->controller()->homepage($this->getRequest());
+
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('index.twig', $response->getTemplate());
     }
@@ -59,7 +71,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('index.twig', $response->getTemplate());
     }
 
@@ -71,7 +83,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->homepage($this->getRequest());
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('custom-home.twig', $response->getTemplate());
     }
 
@@ -82,7 +94,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->homepage($this->getRequest());
         $globals = $this->getTwigGlobals();
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertInstanceOf(Content::class, $globals['record']);
     }
 
@@ -102,6 +114,23 @@ class FrontendTest extends ControllerUnitTest
 
     public function testRecord()
     {
+        $response = $this->getRecordResponse();
+
+        $this->assertTrue($response instanceof TemplateView);
+        $this->assertSame('page.twig', $response->getTemplate());
+    }
+
+    public function testLegacyRecord()
+    {
+        $this->getService('config')->set('general/compatibility/template_view', false);
+        $response = $this->getRecordResponse();
+
+        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertSame('page.twig', $response->getTemplate());
+    }
+
+    private function getRecordResponse()
+    {
         $contentType = $this->getService('storage')->getContentType('pages');
         $request = Request::create('/pages/test');
         $this->setRequest($request);
@@ -111,8 +140,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->record($request, 'pages', 'test');
 
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('page.twig', $response->getTemplate());
+        return $response;
     }
 
     /**
@@ -218,7 +246,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->record($this->getRequest(), 'pages', 5);
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('page.twig', $response->getTemplate());
     }
 
@@ -310,12 +338,22 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->preview($this->getRequest(), 'pages');
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('record.twig', $response->getTemplate());
     }
 
     public function testListing()
     {
+        $this->setRequest(Request::create('/pages'));
+        $response = $this->controller()->listing($this->getRequest(), 'pages');
+
+        $this->assertSame('listing.twig', $response->getTemplate());
+        $this->assertTrue($response instanceof TemplateView);
+    }
+
+    public function testLegacyListing()
+    {
+        $this->getService('config')->set('general/compatibility/template_view', false);
         $this->setRequest(Request::create('/pages'));
         $response = $this->controller()->listing($this->getRequest(), 'pages');
 
@@ -340,7 +378,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setService('storage', $storage);
 
         $response = $this->controller()->listing($this->getRequest(), 'pages');
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
     }
 
     public function testBadTaxonomy()
@@ -365,12 +403,23 @@ class FrontendTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/tags/fake'));
 
-        $response = $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->controller()->taxonomy($this->getRequest(), 'tags', 'fake');
     }
 
     public function testTaxonomyListing()
     {
+        $this->setRequest(Request::create('/categories/news'));
+        $this->getService('config')->set('taxonomy/categories/singular_slug', 'categories');
+
+        $response = $this->controller()->taxonomy($this->getRequest(), 'categories', 'news');
+
+        $this->assertTrue($response instanceof TemplateView);
+        $this->assertSame('listing.twig', $response->getTemplate());
+    }
+
+    public function testLegacyTaxonomyListing()
+    {
+        $this->getService('config')->set('general/compatibility/template_view', false);
         $this->setRequest(Request::create('/categories/news'));
         $this->getService('config')->set('taxonomy/categories/singular_slug', 'categories');
 
@@ -382,6 +431,17 @@ class FrontendTest extends ControllerUnitTest
 
     public function testSimpleTemplateRender()
     {
+        $this->setRequest(Request::create('/example'));
+
+        $response = $this->controller()->template('index');
+
+        $this->assertTrue($response instanceof TemplateView);
+        $this->assertSame('index.twig', $response->getTemplate());
+    }
+
+    public function testLegacyTemplate()
+    {
+        $this->getService('config')->set('general/compatibility/template_view', false);
         $this->setRequest(Request::create('/example'));
 
         $response = $this->controller()->template('index');
@@ -405,6 +465,17 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->search($this->getRequest());
 
+        $this->assertTrue($response instanceof TemplateView);
+        $this->assertSame('search.twig', $response->getTemplate());
+    }
+
+    public function testLegacySearch()
+    {
+        $this->getService('config')->set('general/compatibility/template_view', false);
+        $this->setRequest(Request::create('/search', 'GET', ['q' => 'Lorem']));
+
+        $response = $this->controller()->search($this->getRequest());
+
         $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('search.twig', $response->getTemplate());
     }
@@ -420,7 +491,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->search($this->getRequest());
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('search.twig', $response->getTemplate());
     }
 
@@ -453,7 +524,6 @@ class FrontendTest extends ControllerUnitTest
         $this->setService('permissions', $permissions);
 
         $response = $this->controller()->before($this->getRequest());
-
         $this->assertEquals(503, $response->getStatusCode());
     }
 
