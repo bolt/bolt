@@ -3,7 +3,7 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Controller\Zone;
-use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\RequestInterface;
@@ -58,9 +58,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->changeLogRecord('pages', 1);
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/components/panel-change-record.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testDashboardNewsWithInvalidRequest()
@@ -130,9 +129,8 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/dashboardnews'));
 
         $response = $this->controller()->dashboardNews($this->getRequest());
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/components/panel-news.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testLastModified()
@@ -141,9 +139,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->lastModified('page', 1);
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/components/panel-lastmodified.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testLatestactivity()
@@ -152,9 +149,8 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->latestActivity();
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/components/panel-activity.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**

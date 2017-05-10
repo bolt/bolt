@@ -80,7 +80,6 @@ class ExtendTest extends ControllerUnitTest
 
         $response = $this->controller()->overview();
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals('@bolt/extend/extend.twig', $response->getTemplate());
     }
 
@@ -92,7 +91,6 @@ class ExtendTest extends ControllerUnitTest
 
         $response = $this->controller()->installPackage();
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals('@bolt/extend/_action-modal.twig', $response->getTemplate());
     }
 

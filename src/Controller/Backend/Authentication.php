@@ -22,7 +22,14 @@ class Authentication extends BackendBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->get('/login', 'getLogin')
-            ->bind('login');
+            ->bind('login')
+            ->after(function (Request $request, Response $response) {
+                $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+                if ($response->isRedirection()) {
+                    $response->headers->clearCookie($this->app['token.authentication.name']);
+                }
+            })
+        ;
 
         $c->post('/login', 'postLogin')
             ->bind('postLogin');
@@ -58,14 +65,7 @@ class Authentication extends BackendBase
             return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
         }
 
-        $response = $this->render('@bolt/login/login.twig', ['randomquote' => true]);
-        $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
-
-        if ($resetCookies) {
-            $response->headers->clearCookie($this->app['token.authentication.name']);
-        }
-
-        return $response;
+        return $this->render('@bolt/login/login.twig', ['randomquote' => true]);
     }
 
     /**

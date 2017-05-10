@@ -83,6 +83,23 @@ Bolt 3.4-dev
 
 -
 
+Bolt 3.3.0 beta 7
+-----------------
+
+Released: 2017-05-09. Notable changes:
+
+ - Fixed: Fix TemplateView handling [#6624](https://github.com/bolt/bolt/pull/6624)
+ - Fixed: Fix for sortable selects. [#6638](https://github.com/bolt/bolt/pull/6638)
+ - Fixed: Show a message for when using Preview if using `fields()` _and_ Repeaters. [#6633](https://github.com/bolt/bolt/pull/6633)
+ - Change: Only set environment for Nut Twig commands on CLI [#6626](https://github.com/bolt/bolt/pull/6626)
+ - CodeClimate: Enable grep engine [#6619](https://github.com/bolt/bolt/pull/6619)
+ - Deprecation: Deprecate and replace use of `{{ link() }}` [#6614](https://github.com/bolt/bolt/pull/6614)
+ - Fixed: Fixing the link to docs.bolt.cm/templating/fields-tag [#6611](https://github.com/bolt/bolt/pull/6611)
+ - Fixed: Remove outdated requirement on ext-posix [#6604](https://github.com/bolt/bolt/pull/6604)
+ - Fixed: Don't boot disabled extensions [#6599](https://github.com/bolt/bolt/pull/6599)
+ - Travis: Remove remaining legacy sudo use [#6595](https://github.com/bolt/bolt/pull/6595)
+ - Tests: Nut coverage [#6588](https://github.com/bolt/bolt/pull/6588)
+
 Bolt 3.3.0 beta 6
 -----------------
 
