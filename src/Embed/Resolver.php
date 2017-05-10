@@ -31,7 +31,7 @@ class Resolver
     }
 
     /**
-     * Return oEmbed information from a given URL.
+     * Return embed information from a given URL.
      *
      * @param UriInterface $url
      * @param string       $providerName
@@ -40,7 +40,8 @@ class Resolver
      */
     public function embed(UriInterface $url, $providerName)
     {
-        $providers = $this->getEmbedProviders($url);
+        $adapter = $this->getUrlAdapter($url);
+        $providers = $adapter->getProviders();
         if (!isset($providers[$providerName])) {
             return [];
         }
@@ -51,25 +52,31 @@ class Resolver
     }
 
     /**
-     * Retrieve all of the embed providers from a given URL.
+     * Return the best embeded image from a given URL.
      *
      * @param UriInterface $url
      *
-     * @throws EmbedResolverException
-     *
-     * @return \Embed\Providers\Provider[]
+     * @return string
      */
-    private function getEmbedProviders(UriInterface $url)
+    public function image(UriInterface $url)
     {
-        try {
-            $info = $this->getUrlAdapter($url);
-        } catch (InvalidUrlException $e) {
-            throw new EmbedResolverException($e->getMessage(), 1, $e);
-        } catch (EmbedException $e) {
-            throw new EmbedResolverException('Provider exception occurred', 2, $e);
-        }
+        $adapter = $this->getUrlAdapter($url);
 
-        return $info->getProviders();
+        return $adapter->getImage();
+    }
+
+    /**
+     * Return embed images from a given URL.
+     *
+     * @param UriInterface $url
+     *
+     * @return array Values: url, width, height, size, mime (array)
+     */
+    public function images(UriInterface $url)
+    {
+        $adapter = $this->getUrlAdapter($url);
+
+        return $adapter->getImages();
     }
 
     /**
@@ -84,6 +91,14 @@ class Resolver
         $embedFactory = $this->embedFactory;
         $url = Url::create((string) $url);
 
-        return $embedFactory($url);
+        try {
+            $adapter = $embedFactory($url);
+        } catch (InvalidUrlException $e) {
+            throw new EmbedResolverException($e->getMessage(), 1, $e);
+        } catch (EmbedException $e) {
+            throw new EmbedResolverException('Provider exception occurred', 2, $e);
+        }
+
+        return $adapter;
     }
 }
