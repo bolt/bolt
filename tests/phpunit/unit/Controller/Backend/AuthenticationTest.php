@@ -8,6 +8,7 @@ use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -122,20 +123,31 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('access_control.password', $passwordMock);
 
-        // Test missing username fails
-        $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset']));
-        $flash = $this->prophesize(FlashLogger::class);
-        $flash->get('info')->shouldBeCalled();
-        $flash->get('success')->shouldBeCalled();
-        $flash->get('error')->shouldBeCalled();
-        $flash->error('Please provide a username')->shouldBeCalled();
-        $this->setService('logger.flash', $flash->reveal());
-        $this->controller()->postLogin($this->getRequest());
-
         // Test normal operation
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset', 'username' => 'admin']));
         $response = $this->controller()->postLogin($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
+    }
+
+    public function testResetRequestInvalid()
+    {
+        $dispatcher = $this->getService('swiftmailer.transport.eventdispatcher');
+        $this->setService('swiftmailer.transport', new \Swift_Transport_NullTransport($dispatcher));
+
+        $this->setSessionUser(new Entity\Users());
+        $loginMock = $this->getMockLogin();
+        $loginMock->expects($this->any())
+            ->method('login')
+            ->will($this->returnValue(true));
+        $this->setService('access_control.login', $loginMock);
+
+        // Test missing username fails
+        $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset']));
+        /** @var FlashLogger|ObjectProphecy $flash */
+        $flash = $this->prophesize(FlashLogger::class);
+        $flash->error('Please provide a username')->shouldBeCalled();
+        $this->setService('logger.flash', $flash->reveal());
+        $this->controller()->postLogin($this->getRequest());
     }
 
     public function testLogout()

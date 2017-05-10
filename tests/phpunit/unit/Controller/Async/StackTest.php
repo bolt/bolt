@@ -4,13 +4,12 @@ namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
-use Bolt\Response\TemplateResponse;
+use Bolt\Response\TemplateView;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use League\Flysystem\Memory\MemoryAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test correct operation of src/Controller/Async/Stack.
@@ -52,9 +51,8 @@ class StackTest extends ControllerUnitTest
 
         $response = $this->controller()->show(Request::create('/async/stack/show'));
 
-        $this->assertTrue($response instanceof TemplateResponse);
+        $this->assertTrue($response instanceof TemplateView);
         $this->assertSame('@bolt/components/stack/panel.twig', $response->getTemplate());
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**

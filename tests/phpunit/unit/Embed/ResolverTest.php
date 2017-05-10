@@ -44,7 +44,7 @@ class ResolverTest extends BoltUnitTest
         $client = new Client(['handler' => $handler]);
 
         $factory = function ($url, $options = []) use ($requestUrl, $client) {
-            $dispatcher = new Embed\GuzzleDispatcher($client);
+            $dispatcher = new Embed\GuzzleDispatcher($client, HandlerStack::create());
             /** @var \Embed\Adapters\Adapter $info */
             return \Embed\Embed::create($url, $options, $dispatcher);
         };

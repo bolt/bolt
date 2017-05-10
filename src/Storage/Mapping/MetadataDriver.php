@@ -174,6 +174,12 @@ class MetadataDriver implements MappingDriver
                 }
             }
         }
+        if (array_key_exists($alias, $this->defaultAliases)) {
+            $class = $this->defaultAliases[$alias];
+            if (class_exists($class)) {
+                return $class;
+            }
+        }
 
         return $this->fallbackEntity;
     }
@@ -526,6 +532,7 @@ class MetadataDriver implements MappingDriver
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
+        $fullClassName = null;
         if (null === $metadata) {
             $fullClassName = $this->resolveClassName($className);
             $metadata = new BoltClassMetadata($fullClassName, $this->namingStrategy);
@@ -535,9 +542,13 @@ class MetadataDriver implements MappingDriver
         }
 
         $className = $this->normalizeClassName($className);
+        $resolvedClassName = $fullClassName && array_key_exists($fullClassName, $this->metadata)
+            ? $fullClassName
+            : $className
+        ;
 
-        if (array_key_exists($className, $this->metadata)) {
-            $data = $this->metadata[$className];
+        if (array_key_exists($resolvedClassName, $this->metadata)) {
+            $data = $this->metadata[$resolvedClassName];
             $metadata->setTableName($data['table']);
             $metadata->setIdentifier($data['identifier']);
             $metadata->setFieldMappings($data['fields']);

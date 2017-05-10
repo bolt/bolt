@@ -81,14 +81,14 @@ abstract class Base implements ControllerProviderInterface
 
         $template = $twig->resolveTemplate($template);
 
-        if ($this->getOption('compatibility/twig_globals', true)) {
+        if ($this->getOption('general/compatibility/twig_globals', true)) {
             foreach ($globals as $name => $value) {
                 $twig->addGlobal($name, $value);
             }
         }
         $context += $globals;
 
-        if ($this->getOption('compatibility/template_view', false)) {
+        if ($this->getOption('general/compatibility/template_view', false)) {
             return new TemplateView($template->getTemplateName(), $context);
         }
         Deprecated::warn(

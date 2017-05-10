@@ -127,7 +127,7 @@ class UsersTest extends ControllerUnitTest
             ]
         );
         $this->setRequest($request);
-        $this->getApp()['request_stack']->push($request);
+        $this->getService('request_stack')->push($request);
         $response = $this->controller()->first($this->getRequest());
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
