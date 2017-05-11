@@ -18,6 +18,9 @@
     'data-bolt-widget':  data_bolt_widget,
 }|merge(attributes_fieldset|default({})) %}
 
+{% block fieldset_label_class %}{% endblock %}
+{% block fieldset_label_for %}{% endblock %}
+
 {% set attributes_label = {
     class:  'main ' ~ block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
     for:    block('fieldset_label_for'),
@@ -31,7 +34,7 @@
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
     <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
-    {% if block('fieldset_label_text') %}
+    {% if block('fieldset_label_text') is defined %}
         <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
     {% endif %}
     {% block fieldset_controls %}{% endblock fieldset_controls %}
