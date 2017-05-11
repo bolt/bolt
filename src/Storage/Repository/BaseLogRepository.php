@@ -195,13 +195,4 @@ abstract class BaseLogRepository extends Repository
 
         return false;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQueryBuilder($alias = null)
-    {
-        return $this->em->createQueryBuilder()
-            ->from($this->getTableName());
-    }
 }
