@@ -141,13 +141,4 @@ class AuthtokenRepository extends Repository
 
         return $qb;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQueryBuilder($alias = null)
-    {
-        return $this->em->createQueryBuilder()
-            ->from($this->getTableName());
-    }
 }
