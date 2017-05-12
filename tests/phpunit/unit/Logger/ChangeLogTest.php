@@ -35,7 +35,7 @@ class ChangeLogTest extends BoltUnitTest
         $this->assertEquals(1, count($logs2));
     }
 
-    public function testCountChangeLog()
+    public function testLegacyCountChangeLog()
     {
         $count = $this->getLogChangeRepository()->countChangeLog();
         $this->assertGreaterThanOrEqual(1, $count);
