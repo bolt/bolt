@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Repository;
 
+use Bolt\Helpers\Deprecated;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -48,10 +49,14 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get a count of change log entries.
      *
+     * @deprecated since 3.3, will be removed in 4.0
+     *
      * @return integer
      */
     public function countChangeLog()
     {
+        Deprecated::method(3.3, 'Use count() instead.');
+
         $query = $this->countChangeLogQuery();
 
         return $this->getCount($query->execute()->fetch());
@@ -59,6 +64,8 @@ class LogChangeRepository extends BaseLogRepository
 
     /**
      * Build the query to get a count of change log entries.
+     *
+     * @deprecated since 3.3, will be removed in 4.0
      *
      * @return QueryBuilder
      */
