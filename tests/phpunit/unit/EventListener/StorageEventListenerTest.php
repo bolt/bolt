@@ -7,6 +7,7 @@ use Bolt\Events\StorageEvent;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\SchemaManagerInterface;
 use Bolt\Storage\Entity\Users;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\EventProcessor\TimedRecord;
 use PasswordLib\Password\Factory as PasswordFactory;
 use PasswordLib\Password\Implementation\Blowfish;
@@ -17,6 +18,8 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Users */
     private $user;
+    /** @var EntityManager */
+    private $em;
     /** @var TimedRecord */
     private $timedRecord;
     /** @var SchemaManagerInterface */
@@ -36,6 +39,7 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
     {
         $this->user = $this->prophesize(Users::class);
 
+        $this->em = $this->prophesize(EntityManager::class);
         $this->timedRecord = $this->prophesize(TimedRecord::class);
         $this->schemaManager = $this->prophesize(SchemaManagerInterface::class);
         $this->urlGenerator = $this->prophesize(UrlGeneratorInterface::class);
@@ -43,9 +47,9 @@ class StorageEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->passwordFactory = $this->prophesize(PasswordFactory::class);
 
         $this->listener = new StorageEventListener(
+            $this->em->reveal(),
             $this->timedRecord->reveal(),
             $this->schemaManager->reveal(),
-
             $this->urlGenerator->reveal(),
             $this->flashLogger->reveal(),
             $this->passwordFactory->reveal(),

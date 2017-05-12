@@ -8,8 +8,10 @@ use Bolt\Events\StorageEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Request\ProfilerAwareTrait;
+use Bolt\Storage\Collection;
 use Bolt\Storage\Database\Schema;
 use Bolt\Storage\Entity;
+use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\EventProcessor;
 use Bolt\Translation\Translator as Trans;
 use PasswordLib\Password\Factory as PasswordFactory;
@@ -24,6 +26,8 @@ class StorageEventListener implements EventSubscriberInterface
 {
     use ProfilerAwareTrait;
 
+    /** @var EntityManagerInterface */
+    protected $em;
     /** @var EventProcessor\TimedRecord */
     protected $timedRecord;
     /** @var Schema\SchemaManagerInterface */
@@ -40,6 +44,7 @@ class StorageEventListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
+     * @param EntityManagerInterface        $em
      * @param EventProcessor\TimedRecord    $timedRecord
      * @param Schema\SchemaManagerInterface $schemaManager
      * @param UrlGeneratorInterface         $urlGenerator
@@ -48,6 +53,7 @@ class StorageEventListener implements EventSubscriberInterface
      * @param integer                       $hashStrength
      */
     public function __construct(
+        EntityManagerInterface $em,
         EventProcessor\TimedRecord $timedRecord,
         Schema\SchemaManagerInterface $schemaManager,
         UrlGeneratorInterface $urlGenerator,
@@ -55,6 +61,7 @@ class StorageEventListener implements EventSubscriberInterface
         PasswordFactory $passwordFactory,
         $hashStrength
     ) {
+        $this->em = $em;
         $this->timedRecord = $timedRecord;
         $this->schemaManager = $schemaManager;
         $this->urlGenerator = $urlGenerator;
@@ -95,6 +102,33 @@ class StorageEventListener implements EventSubscriberInterface
         if (!in_array(Permissions::ROLE_EVERYONE, $roles)) {
             $roles[] = Permissions::ROLE_EVERYONE;
             $entity->setRoles($roles);
+        }
+    }
+
+    /**
+     * Pre-delete event to delete an entities taxonomy & relation entities.
+     *
+     * @param StorageEvent $event
+     */
+    public function onPreDelete(StorageEvent $event)
+    {
+        $entity = $event->getContent();
+        if (!$entity instanceof Entity\Content) {
+            return;
+        }
+        $taxonomies = $entity->getTaxonomy();
+        if ($taxonomies instanceof Collection\Taxonomy) {
+            $repo = $this->em->getRepository(Entity\Taxonomy::class);
+            foreach ($taxonomies as $taxonomy) {
+                $repo->delete($taxonomy);
+            }
+        }
+        $relations = $entity->getRelation();
+        if ($relations instanceof Collection\Relations) {
+            $repo = $this->em->getRepository(Entity\Relations::class);
+            foreach ($relations as $relation) {
+                $repo->delete($relation);
+            }
         }
     }
 
@@ -192,6 +226,7 @@ class StorageEventListener implements EventSubscriberInterface
             KernelEvents::REQUEST       => ['onKernelRequest', 31],
             StorageEvents::PRE_SAVE     => ['onUserEntityPreSave', Application::EARLY_EVENT],
             StorageEvents::POST_HYDRATE => 'onPostHydrate',
+            StorageEvents::PRE_DELETE   => 'onPreDelete',
         ];
     }
 }
