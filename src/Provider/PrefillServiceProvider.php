@@ -2,10 +2,10 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Collection\Bag;
 use Bolt\Storage\Database\Prefill;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class PrefillServiceProvider implements ServiceProviderInterface
 {
@@ -27,7 +27,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
 
         $app['prefill.default_field_values'] = $app->share(
             function () {
-                return new ParameterBag([
+                return new Bag([
                     'blocks' => [
                         'title' => 'About Us', 'Address', 'Search Teaser', '404 Not Found'
                     ],

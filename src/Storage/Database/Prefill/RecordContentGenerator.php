@@ -2,12 +2,12 @@
 
 namespace Bolt\Storage\Database\Prefill;
 
+use Bolt\Collection\ImmutableBag;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\ContentRepository;
 use Cocur\Slugify\Slugify;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Create a generated set of pre-filled records for a ContentType.
@@ -29,11 +29,10 @@ class RecordContentGenerator
 
     /** @var array */
     private $imageFiles;
-    /** @var array */
+    /** @var ImmutableBag */
     private $defaultTitles;
     /** @var array */
     private $createSummary;
-
     /**
      * Constructor.
      *
@@ -42,7 +41,7 @@ class RecordContentGenerator
      * @param ContentRepository   $repository
      * @param FilesystemInterface $filesystem
      * @param array               $taxConfig
-     * @param ParameterBag        $defaultTitles
+     * @param ImmutableBag        $defaultTitles
      */
     public function __construct(
         $contentTypeName,
@@ -50,7 +49,7 @@ class RecordContentGenerator
         ContentRepository $repository,
         FilesystemInterface $filesystem,
         array $taxConfig,
-        ParameterBag $defaultTitles
+        ImmutableBag $defaultTitles
     ) {
         $this->contentTypeName = $contentTypeName;
         $this->apiClient = $apiClient;
@@ -59,6 +58,37 @@ class RecordContentGenerator
         $this->taxConfig = $taxConfig;
         $this->defaultTitles = $defaultTitles;
     }
+
+    /** @var array */
+    private $fieldMap = [
+        // Boolean
+        'checkbox'       => 'addBoolean',
+        // Date/time
+        'date'           => 'addDate',
+        'datetime'       => 'addDate',
+        // Numbers
+        'float'          => 'addNumeric',
+        'number'         => 'addNumeric',
+        'integer'        => 'addNumeric',
+        // String
+        'text'           => 'addText',
+        'templateselect' => 'addText',
+        'file'           => 'addText',
+        'slug'           => 'addText',
+        'hidden'         => 'addText',
+        'html'           => 'addText',
+        'markdown'       => 'addText',
+        'select'         => 'addText',
+        'textarea'       => 'addText',
+        // JSON arrays
+        'filelist'       => 'addJson',
+        'geolocation'    => 'addJson',
+        'image'          => 'addJson',
+        'imagelist'      => 'addJson',
+        'selectmultiple' => 'addJson',
+        'templatefields' => 'addJson',
+        'video'          => 'addJson',
+    ];
 
     /**
      * Generate 'n' number of dummy records.
@@ -144,65 +174,121 @@ class RecordContentGenerator
      * @param Entity\Content $contentEntity
      * @param array          $contentType
      * @param string         $fieldName
-     * @param string         $values
+     * @param array          $values
      */
-    private function setFieldValue(Entity\Content $contentEntity, array $contentType, $fieldName, $values)
+    private function setFieldValue(Entity\Content $contentEntity, array $contentType, $fieldName, array $values)
     {
-        $images = $this->getImageFiles();
-
-        switch ($values['type']) {
-            case 'text':
-                if ($fieldName === 'title' && $this->defaultTitles->has($contentType['slug'])) {
-                    // Special case: if we're prefilling a 'blocks' ContentType add some
-                    // sensible titles to get started.
-                    $contentEntity->set($fieldName, $this->getReservedTitle($contentType['slug']));
-                } elseif (strpos($fieldName, 'link') !== false) {
-                    // Another special case: If the field name contains 'link', we guess it'll be used
-                    // as a link, so don't prefill it with "text", but leave it blank instead.
-                    $contentEntity->set($fieldName, '');
-                } else {
-                    $contentEntity->set($fieldName, trim(strip_tags($this->apiClient->get('/1/veryshort'))));
-                }
-                break;
-            case 'image':
-                // Get a random image
-                if (!empty($images)) {
-                    $imageName = array_rand($images);
-                    $image = $images[$imageName];
-                    $contentEntity->set($fieldName, ['file' => $image->getPath(), 'title' => $image->getFilename()]);
-                }
-                break;
-            case 'html':
-            case 'textarea':
-            case 'markdown':
-                if (in_array($fieldName, ['teaser', 'introduction', 'excerpt', 'intro', 'content'])) {
-                    $params = '/medium/decorate/link/1';
-                } else {
-                    $params = '/medium/decorate/link/ol/ul/3';
-                }
-
-                $contentEntity->set($fieldName, trim($this->apiClient->get($params)));
-                if ($values['type'] == 'markdown') {
-                    $contentEntity->set($fieldName, strip_tags($contentEntity->get($fieldName)));
-                }
-                break;
-            case 'datetime':
-                $contentEntity->set($fieldName, date('Y-m-d H:i:s', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60)));
-                break;
-            case 'date':
-                $contentEntity->set($fieldName, date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60)));
-                break;
-            case 'checkbox':
-                $contentEntity->set($fieldName, rand(0, 1));
-                break;
-            case 'float':
-                $contentEntity->set($fieldName, rand(-1000, 1000) + (rand(0, 1000) / 1000));
-                break;
-            case 'number': // number is deprecated
-            case 'integer':
-                $contentEntity->set($fieldName, (int) (rand(-1000, 1000) + (rand(0, 1000) / 1000)));
-                break;
+        $type = $values['type'];
+        if (!array_key_exists($type, $this->fieldMap)) {
+            return;
         }
+        call_user_func_array([$this, $this->fieldMap[$type]], [$contentEntity, $fieldName, $type, $contentType]);
+    }
+
+    /**
+     * @param Entity\Content $contentEntity
+     * @param string         $fieldName
+     */
+    private function addBoolean(Entity\Content $contentEntity, $fieldName)
+    {
+        $value = (bool) rand(0, 1);
+        $contentEntity->set($fieldName, $value);
+    }
+
+    /**
+     * @param Entity\Content $contentEntity
+     * @param string         $fieldName
+     * @param string         $type
+     */
+    private function addDate(Entity\Content $contentEntity, $fieldName, $type)
+    {
+        if ($type === 'date') {
+            $contentEntity->set($fieldName, date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60)));
+
+            return;
+        }
+        // datetime
+        $contentEntity->set($fieldName, date('Y-m-d H:i:s', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60)));
+    }
+
+    /**
+     * @param Entity\Content $contentEntity
+     * @param string         $fieldName
+     * @param string         $type
+     */
+    private function addNumeric(Entity\Content $contentEntity, $fieldName, $type)
+    {
+        if ($type === 'float') {
+            $contentEntity->set($fieldName, rand(-1000, 1000) + (rand(0, 1000) / 1000));
+
+            return;
+        }
+        // integer/number (number is deprecated)
+        $contentEntity->set($fieldName, (int) (rand(-1000, 1000) + (rand(0, 1000) / 1000)));
+    }
+
+    /**
+     * @param Entity\Content $contentEntity
+     * @param string         $fieldName
+     * @param string         $type
+     * @param array          $contentType
+     */
+    private function addText(Entity\Content $contentEntity, $fieldName, $type, array $contentType)
+    {
+        if ($type === 'text') {
+            if ($fieldName === 'title' && $this->defaultTitles->has($contentType['slug'])) {
+                // Special case: if we're prefilling a 'blocks' ContentType add some
+                // sensible titles to get started.
+                $value = $this->getReservedTitle($contentType['slug']);
+            } elseif (strpos($fieldName, 'link') !== false) {
+                // Another special case: If the field name contains 'link', we guess it'll be used
+                // as a link, so don't prefill it with "text", but leave it blank instead.
+                $value = null;
+            } else {
+                $value = trim(strip_tags($this->apiClient->get('/1/veryshort')));
+            }
+            $contentEntity->set($fieldName, $value);
+
+            return;
+        } elseif ($type === 'file' || $type === 'select') {
+            $contentEntity->set($fieldName, null);
+
+            return;
+        }
+
+        // html, textarea, markdown
+        if (in_array($fieldName, ['teaser', 'introduction', 'excerpt', 'intro', 'content'])) {
+            $params = '/medium/decorate/link/1';
+        } else {
+            $params = '/medium/decorate/link/ol/ul/3';
+        }
+
+        $value = trim($this->apiClient->get($params));
+        if ($type == 'markdown') {
+            $value = strip_tags($value);
+        }
+        $contentEntity->set($fieldName, $value);
+    }
+
+    /**
+     * @param Entity\Content $contentEntity
+     * @param string         $fieldName
+     * @param string         $type
+     */
+    private function addJson(Entity\Content $contentEntity, $fieldName, $type)
+    {
+        $value = null;
+        if ($type === 'image') {
+            $value = $this->getRandomImage($type);
+        } elseif ($type === 'imagelist') {
+            for ($i = 1; $i <= 3; $i++) {
+                $value[] = $this->getRandomImage($type);
+            }
+        } elseif ($type === 'filelist' || $type === 'templatefields') {
+            $value = [];
+        }
+
+        $contentEntity->set($fieldName, $value);
     }
 
     /**
@@ -357,5 +443,27 @@ class RecordContentGenerator
         $picked = array_slice($tags, 0, $count);
 
         return $picked;
+    }
+
+    /**
+     * Get a random image.
+     *
+     * @param string $type
+     *
+     * @return array|null
+     */
+    private function getRandomImage($type)
+    {
+        $pathKey = $type === 'image' ? 'file' : 'filename';
+        $images = $this->getImageFiles();
+        if (empty($images)) {
+            return null;
+        }
+        $imageName = array_rand($images);
+        $image = $images[$imageName];
+        $title = $image->getFilename($image->getExtension());
+        $title = ucwords(str_replace('-', ' ', $title));
+
+        return [$pathKey => $image->getPath(), 'title' => $title, 'alt' => $title];
     }
 }
