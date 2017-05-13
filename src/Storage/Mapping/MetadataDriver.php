@@ -213,7 +213,7 @@ class MetadataDriver implements MappingDriver
                 'type'             => $column->getType()->getName(),
                 'fieldtype'        => $this->getFieldTypeFor($contentKey, $column),
                 'length'           => $column->getLength(),
-                'nullable'         => $column->getNotnull(),
+                'nullable'         => !$column->getNotnull(),
                 'platformOptions'  => $column->getPlatformOptions(),
                 'precision'        => $column->getPrecision(),
                 'scale'            => $column->getScale(),
