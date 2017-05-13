@@ -195,7 +195,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $twig->addExtension($app['twig.extension.bolt_widget']);
 
                     $twig->addExtension($app['twig.extension.asset']);
-                    $twig->addExtension($app['twig.extension.form']);
                     $twig->addExtension($app['twig.extension.http_foundation']);
                     $twig->addExtension($app['twig.extension.string_loader']);
 
@@ -221,9 +220,6 @@ class TwigServiceProvider implements ServiceProviderInterface
                     $app['twig.form.renderer'] = $app->share(function ($app) {
                         return new TwigRenderer($app['twig.form.engine'], $app['form.csrf_provider']);
                     });
-                    /** @deprecated Can be removed when switch to Silex 2 occurs */
-                    $twig->addExtension(new FormExtension($app['twig.form.renderer']));
-
 
                     return $twig;
                 }
@@ -277,12 +273,6 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.extension.asset'] = $app->share(
             function ($app) {
                 return new AssetExtension($app['asset.packages'], $app['twig.extension.http_foundation']);
-            }
-        );
-
-        $app['twig.extension.form'] = $app->share(
-            function () {
-                return new FormExtension();
             }
         );
 
