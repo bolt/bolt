@@ -47,31 +47,13 @@ class Content extends Entity
     protected $sortorder;
 
     /**
-     * Getter for templates using {{ content.get(title) }} functions.
-     *
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function get($key)
-    {
-        if ($key === 'title') {
-            return $this->getTitle();
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * Setter for content values.
-     *
-     * @param string $key
-     * @param mixed  $value
+     * {@inheritdoc}
      */
     public function set($key, $value)
     {
         $setter = 'set' . ucfirst($key);
         if (is_array($value)) {
+            // Filter empty values from the array
             $value = array_filter($value);
         }
         $this->$setter($value);
