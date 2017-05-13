@@ -18,12 +18,9 @@
     'data-bolt-widget':  data_bolt_widget,
 }|merge(attributes_fieldset|default({})) %}
 
-{% block fieldset_label_class %}{% endblock %}
-{% block fieldset_label_for %}{% endblock %}
-
 {% set attributes_label = {
     class:  'main ' ~ block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
-    for:    block('fieldset_label_for'),
+    for:    block('fieldset_label_for') ?? '',
 } %}
 
 {% if block('fieldset_label_info') is defined %}
