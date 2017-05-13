@@ -32,6 +32,32 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Return an entity field value by name.
+     *
+     * @param string $key The entity field name
+     *
+     * @return mixed
+     */
+    public function get($key)
+    {
+        $method = 'get' . ucfirst($this->camelize($key));
+
+        return $this->$method();
+    }
+
+    /**
+     * Set an entity field value by name.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function set($key, $value)
+    {
+        $method = 'set' . ucfirst($key);
+        $this->$method($value);
+    }
+
+    /**
      * @return int
      */
     public function getId()

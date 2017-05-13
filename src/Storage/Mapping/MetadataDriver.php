@@ -167,11 +167,12 @@ class MetadataDriver implements MappingDriver
             $class = $this->aliases[$alias];
             if (class_exists($class)) {
                 return $class;
-            } elseif (array_key_exists($class, $this->defaultAliases)) {
-                $class = $this->defaultAliases[$class];
-                if (class_exists($class)) {
-                    return $class;
-                }
+            }
+        }
+        if (array_key_exists($alias, $this->defaultAliases)) {
+            $class = $this->defaultAliases[$alias];
+            if (class_exists($class)) {
+                return $class;
             }
         }
         if (array_key_exists($alias, $this->defaultAliases)) {
@@ -212,7 +213,7 @@ class MetadataDriver implements MappingDriver
                 'type'             => $column->getType()->getName(),
                 'fieldtype'        => $this->getFieldTypeFor($contentKey, $column),
                 'length'           => $column->getLength(),
-                'nullable'         => $column->getNotnull(),
+                'nullable'         => !$column->getNotnull(),
                 'platformOptions'  => $column->getPlatformOptions(),
                 'precision'        => $column->getPrecision(),
                 'scale'            => $column->getScale(),
