@@ -11,8 +11,3 @@ modules:
             app: app/bootstrap.php
         - AcceptanceHelper
         - YamlHelper
-        - Db
-    config:
-        Db:
-            populate: true
-            cleanup: true
