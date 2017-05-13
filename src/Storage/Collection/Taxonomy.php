@@ -112,8 +112,29 @@ class Taxonomy extends ArrayCollection
         return $deleted;
     }
 
+    /**
+     * Get the taxonomy types that are in the collection, grouped by taxonomy key.
+     *
+     * @internal
+     *
+     * @return array
+     */
+    public function getGrouped()
+    {
+        $types = [];
+        $elements = $this->toArray();
+        /** @var Entity\Taxonomy $element */
+        foreach ($elements as $element) {
+            $type = $element->get('taxonomytype');
+            $types[$type][] = $element;
+        }
+
+        return $types;
+    }
+
     /*
-     * Gets the elements that have not yet been persisted
+     * Gets the elements that have not yet been persisted.
+     *
      * @return Taxonomy
      */
     public function getNew()
