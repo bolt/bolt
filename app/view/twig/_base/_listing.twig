@@ -231,13 +231,6 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             </a>
                         </li>
                     {% endif %}
-                    {% if content.relation %}{# i.e. we're viewing this as "related content" on the "edit record" page. #}
-                        <li>
-                            <a href="{{ path('relatedto', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
-                                <i class="fa fa-link"></i> {{ __('general.phrase.view-related') }}
-                            </a>
-                        </li>
-                    {% endif %}
 
                     {% from _self import actionform %}
                     {% if modifiable %}
