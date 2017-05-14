@@ -16,12 +16,14 @@ class AuthToken extends BaseTable
     {
         // @codingStandardsIgnoreStart
         $this->table->addColumn('id',        'integer',  ['autoincrement' => true]);
-        $this->table->addColumn('username',  'string',   ['length' => 32, 'default' => '']);
+        $this->table->addColumn('user_id',   'integer',  ['notnull' => false, 'default' => null]); // Will be made true in v4
+        /** @deprecated Deprecated since 3.4, to be removed in v4.0.  */
+        $this->table->addColumn('username',  'string',   ['length' => 32, 'notnull' => false, 'default' => null]);
         $this->table->addColumn('token',     'string',   ['length' => 128]);
         $this->table->addColumn('salt',      'string',   ['length' => 128]);
         $this->table->addColumn('lastseen',  'datetime', ['notnull' => false, 'default' => null]);
-        $this->table->addColumn('ip',        'string',   ['length' => 45, 'default' => '']);
-        $this->table->addColumn('useragent', 'string',   ['length' => 128, 'default' => '']);
+        $this->table->addColumn('ip',        'string',   ['length' => 45, 'notnull' => false, 'default' => null]);
+        $this->table->addColumn('useragent', 'string',   ['length' => 128, 'notnull' => false, 'default' => null]);
         $this->table->addColumn('validity',  'datetime', ['notnull' => false, 'default' => null]);
         // @codingStandardsIgnoreEnd
     }
@@ -31,7 +33,7 @@ class AuthToken extends BaseTable
      */
     protected function addIndexes()
     {
-        $this->table->addIndex(['username']);
+        $this->table->addIndex(['user_id']);
     }
 
     /**

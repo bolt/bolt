@@ -150,9 +150,9 @@ class Login extends AccessChecker
             return false;
         }
 
-        $checksalt = $this->getAuthToken($userTokenEntity->getUsername(), $userTokenEntity->getSalt());
-        if ($checksalt === $userTokenEntity->getToken()) {
-            if (!$userEntity = $this->getUserEntity($userTokenEntity->getUsername())) {
+        $checkSalt = $this->getAuthToken($userTokenEntity->getUserId(), $userTokenEntity->getSalt());
+        if ($checkSalt === $userTokenEntity->getToken()) {
+            if (!$userEntity = $this->getUserEntity($userTokenEntity->getUserId())) {
                 $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
                 return false;
@@ -299,20 +299,20 @@ class Login extends AccessChecker
      *
      * @return Entity\Authtoken
      */
-    protected function updateAuthToken($userEntity)
+    protected function updateAuthToken(Entity\Users $userEntity)
     {
-        $username = $userEntity->getUsername();
+        $userName = $userEntity->getUsername();
         $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
-        $tokenEntity = $this->getRepositoryAuthtoken()->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent());
+        $tokenEntity = $this->getRepositoryAuthtoken()->getUserToken($userEntity->getId(), $this->getClientIp(), $this->getClientUserAgent());
 
         if ($tokenEntity) {
             $token = $tokenEntity->getToken();
         } else {
             $salt = $this->randomGenerator->generateString(32);
-            $token = $this->getAuthToken($username, $salt);
+            $token = $this->getAuthToken($userEntity->getId(), $salt);
 
             $tokenEntity = new Entity\Authtoken();
-            $tokenEntity->setUsername($userEntity->getUsername());
+            $tokenEntity->setUserId($userEntity->getId());
             $tokenEntity->setToken($token);
             $tokenEntity->setSalt($salt);
         }
@@ -324,7 +324,7 @@ class Login extends AccessChecker
 
         $this->getRepositoryAuthtoken()->save($tokenEntity);
 
-        $this->systemLogger->debug("Saving new login token '$token' for user ID '$username'", ['event' => 'authentication']);
+        $this->systemLogger->debug("Saving new login token '$token' for user ID '$userName'", ['event' => 'authentication']);
 
         return $tokenEntity;
     }

@@ -100,8 +100,9 @@ class Authentication extends BackendBase
         $event = new AccessControlEvent($request);
         /** @var Token $sessionAuth */
         $sessionAuth = $this->session()->get('authentication');
-        $userName = $sessionAuth ? $sessionAuth->getToken()->getUsername() : false;
-        if ($userName) {
+        $userId = $sessionAuth ? $sessionAuth->getToken()->getUserId() : false;
+        if ($userId && $sessionAuth->getUser()) {
+            $userName = $sessionAuth->getUser()->getUsername();
             $this->app['logger.system']->info('Logged out: ' . $userName, ['event' => 'authentication']);
             $event->setUserName($userName);
         }
