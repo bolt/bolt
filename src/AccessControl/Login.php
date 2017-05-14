@@ -9,6 +9,7 @@ use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use PasswordLib\Password\Factory;
 use PasswordLib\Password\Implementation\Blowfish;
@@ -303,7 +304,16 @@ class Login extends AccessChecker
     {
         $userName = $userEntity->getUsername();
         $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
-        $tokenEntity = $this->getRepositoryAuthtoken()->getUserToken($userEntity->getId(), $this->getClientIp(), $this->getClientUserAgent());
+        $repo = $this->getRepositoryAuthtoken();
+        try {
+            $tokenEntity = $repo->getUserToken($userEntity->getId(), $this->getClientIp(), $this->getClientUserAgent());
+        } catch (DriverException $e) {
+            /** @deprecated workaround until v4 */
+            if (strpos('no such column: user_id', $e->getMessage()) !== false) {
+                throw $e;
+            }
+            $tokenEntity = false;
+        }
 
         if ($tokenEntity) {
             $token = $tokenEntity->getToken();
@@ -322,7 +332,14 @@ class Login extends AccessChecker
         $tokenEntity->setLastseen(Carbon::now());
         $tokenEntity->setUseragent($this->getClientUserAgent());
 
-        $this->getRepositoryAuthtoken()->save($tokenEntity);
+        try {
+            $this->getRepositoryAuthtoken()->save($tokenEntity);
+        } catch (DriverException $e) {
+            /** @deprecated workaround until v4 */
+            if (strpos('no such column: user_id', $e->getMessage()) !== false) {
+                throw $e;
+            }
+        }
 
         $this->systemLogger->debug("Saving new login token '$token' for user ID '$userName'", ['event' => 'authentication']);
 
