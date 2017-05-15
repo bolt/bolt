@@ -254,7 +254,7 @@ class General extends BackendBase
     }
 
     /**
-     * Get the latest records for viewable contenttypes that a user has access
+     * Get the latest records for viewable ContentTypes that a user has access
      * to.
      *
      * When there are no ContentType records we will suggest to create some
@@ -268,26 +268,21 @@ class General extends BackendBase
     {
         $total  = 0;
         $latest = [];
-        $user = $this->users()->getCurrentUser();
         $permissions = [];
-        $limit  = $limit ?: $this->getOption('general/recordsperdashboardwidget');
+        $user = $this->users()->getCurrentUser();
+        $queryParams = [
+            'limit'   => $limit ?: $this->getOption('general/recordsperdashboardwidget'),
+            'order'   => '-datechanged',
+            'hydrate' => false,
+        ];
 
         // Get the 'latest' from each of the content types.
-        foreach ($this->getOption('contenttypes') as $key => $contenttype) {
-            if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true && $user !== null) {
-                $latest[$key] = $this->getContent(
-                    $key,
-                    [
-                        'limit'   => $limit,
-                        'order'   => '-datechanged',
-                        'hydrate' => false,
-                    ]
-                );
-                $permissions[$key] = $this->getContentTypeUserPermissions($contenttype, $user);
-
-                if (!empty($latest[$key])) {
-                    $total += count($latest[$key]);
-                }
+        foreach ($this->getOption('contenttypes') as $key => $contentType) {
+            if ($this->isAllowed('contenttype:' . $key) && $contentType['show_on_dashboard'] === true && $user !== null) {
+                $queryResultSet = $this->getContent($key, $queryParams);
+                $latest[$key] = $queryResultSet->get();
+                $permissions[$key] = $this->getContentTypeUserPermissions($contentType, $user);
+                $total += $queryResultSet->count();
             }
         }
 

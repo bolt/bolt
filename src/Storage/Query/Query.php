@@ -50,8 +50,8 @@ class Query
      * Used by the twig command {% setcontent %} but also directly.
      * For reference refer to @link https://docs.bolt.cm/templating/content-fetching
      *
-     * @param string $textQuery
-     * @param array  $parameters
+     * @param string       $textQuery
+     * @param array|string $parameters
      *
      * @return QueryResultset|Content|null
      */

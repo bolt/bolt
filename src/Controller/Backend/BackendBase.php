@@ -7,6 +7,7 @@ use Bolt\Controller\Zone;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Events\AccessControlEvents;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
@@ -130,6 +131,27 @@ abstract class BackendBase extends Base
         $app['stopwatch']->stop('bolt.backend.before');
 
         return null;
+    }
+
+    /**
+     * Temporary override for back-end.
+     *
+     * @internal For core use only, to be removed soon!
+     *
+     * @param string $textQuery
+     * @param array  $parameters
+     * @param array  $pager
+     * @param array  $whereParameters
+     *
+     * @return QueryResultset
+     *
+     * @see \Bolt\Storage\Query\Query::getContent()
+     */
+    protected function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
+    {
+        $query = $this->app['query'];
+
+        return $query->getContent($textQuery, $parameters);
     }
 
     /**
