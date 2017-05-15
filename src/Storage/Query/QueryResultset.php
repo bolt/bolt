@@ -2,7 +2,9 @@
 
 namespace Bolt\Storage\Query;
 
+use AppendIterator;
 use ArrayIterator;
+use Countable;
 
 /**
  * This class is a wrapper that handles single or multiple
@@ -10,7 +12,7 @@ use ArrayIterator;
  * normally, or split by label, eg just results from one
  * ContentType.
  */
-class QueryResultset extends \AppendIterator implements \Countable
+class QueryResultset extends AppendIterator implements Countable
 {
     /** @var array */
     protected $results = [];

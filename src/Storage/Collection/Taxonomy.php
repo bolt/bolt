@@ -112,13 +112,35 @@ class Taxonomy extends ArrayCollection
         return $deleted;
     }
 
+    /**
+     * Get the taxonomy types that are in the collection, grouped by taxonomy key.
+     *
+     * @internal
+     *
+     * @return array
+     */
+    public function getGrouped()
+    {
+        $types = [];
+        $elements = $this->toArray();
+        /** @var Entity\Taxonomy $element */
+        foreach ($elements as $element) {
+            $type = $element->get('taxonomytype');
+            $types[$type][] = $element;
+        }
+
+        return $types;
+    }
+
     /*
-     * Gets the elements that have not yet been persisted
+     * Gets the elements that have not yet been persisted.
+     *
      * @return Taxonomy
      */
     public function getNew()
     {
         return $this->filter(function ($el) {
+            /** @var Entity\Taxonomy $el */
             return !$el->getId();
         });
     }
@@ -131,6 +153,7 @@ class Taxonomy extends ArrayCollection
     public function getExisting()
     {
         return $this->filter(function ($el) {
+            /** @var Entity\Taxonomy $el */
             return $el->getId();
         });
     }
@@ -141,15 +164,16 @@ class Taxonomy extends ArrayCollection
      * content_id, taxonomytype and slug, if there's a match it returns the original, otherwise
      * it returns the new and adds the new one to the collection.
      *
-     * @param $entity
+     * @param Entity\Taxonomy $entity
      *
      * @return mixed|null
      */
     public function getOriginal($entity)
     {
+        /** @var Entity\Taxonomy $existing */
         foreach ($this as $k => $existing) {
             if (
-                $existing->getContent_id() == $entity->getContent_id() &&
+                $existing->getContentId() == $entity->getContentId() &&
                 $existing->getTaxonomytype() == $entity->getTaxonomytype() &&
                 $existing->getSlug() == $entity->getSlug()
             ) {
@@ -161,16 +185,17 @@ class Taxonomy extends ArrayCollection
     }
 
     /**
-     * Gets a specific taxonomy name from the overall collection
+     * Gets a specific taxonomy name from the overall collection.
      *
-     * @param $fieldname
+     * @param string $fieldName
      *
      * @return Taxonomy
      */
-    public function getField($fieldname)
+    public function getField($fieldName)
     {
-        return $this->filter(function ($el) use ($fieldname) {
-            return $el->getTaxonomytype() == $fieldname;
+        return $this->filter(function ($el) use ($fieldName) {
+            /** @var Entity\Taxonomy $el */
+            return $el->getTaxonomytype() == $fieldName;
         });
     }
 

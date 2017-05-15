@@ -160,19 +160,23 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {{ title|raw }}
                     {% endif %}
                 </strong>
-                {{ content.excerpt(excerptlength - title|length, false, filter|default()) }}
+                {{ content|excerpt(excerptlength - title|length, false, filter|default()) }}
             </span>
         </td>
 
         {# COLUMN: Thumbnail #}
         <td class="listthumb">
-            {% if content.getImage is not empty %}
+            {% set listimage = content.getImage %}
+            {% if listimage is not empty %}
+                {% if listimage is iterable %}
+                    {% set listimage = listimage.file %}
+                {% endif %}
                 {# Hack to add alt attribute #}
                 {#{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }#}
                 {% set thumb_height = (thumbsize * 0.75)|round %}
-                {% set thumb_small = content.getImage|thumbnail(thumbsize, thumb_height, 'c') %}
-                {% set thumb_large = content.getImage|thumbnail(1000, 800, 'r') %}
-                {% set thumb_title = __('Image') ~ ': ' ~ content.getImage %}
+                {% set thumb_small = listimage|thumbnail(thumbsize, thumb_height, 'c') %}
+                {% set thumb_large = listimage|thumbnail(1000, 800, 'r') %}
+                {% set thumb_title = __('Image') ~ ': ' ~ listimage %}
                 <a href="{{ thumb_large }}" class="magnific" title="{{ thumb_title }}">
                     <img src="{{ thumb_small }}" width="{{ thumbsize }}" height="{{ thumb_height }}" alt="{{ __('general.phrase.thumbnail') }}">
                 </a>
@@ -188,7 +192,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 {% if content.user.displayname is defined %}
                 {{ content.user.displayname|excerpt(15) }}
             {% else %}
-                <s>{{ content.values.ownerid|excerpt(15) }}</s>
+                <s>{{ content.ownerid|excerpt(15) }}</s>
                 {% endif %}<br>
                 {% if content.status == 'timed' %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
@@ -224,13 +228,6 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         <li>
                             <a href="{{ content.link }}" target="_blank">
                                 <i class="fa fa-external-link-square"></i> {{ __('general.phrase.view-on-site') }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if content.relation %}{# i.e. we're viewing this as "related content" on the "edit record" page. #}
-                        <li>
-                            <a href="{{ path('relatedto', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
-                                <i class="fa fa-link"></i> {{ __('general.phrase.view-related') }}
                             </a>
                         </li>
                     {% endif %}
@@ -271,7 +268,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                                 {% if content.user.displayname is defined %}
                                     {{ content.user.displayname|excerpt(15) }}
                                 {% else %}
-                                    <s>user {{ content.values.ownerid }}</s>
+                                    <s>user {{ content.ownerid }}</s>
                                 {% endif %}</strong>
                         </a>
                     </li>
@@ -298,17 +295,24 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             <i class="fa fa-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}
                         </a>
                     </li>
-                    {% for taxonomyslug, values in content.taxonomy %}
-                        {% if values|length > 1 %}
+
+                    {% set taxonomytypes = content.taxonomy.grouped|default %}
+                    {% for type, taxonomies in taxonomytypes %}
+                        {% if taxonomies|length > 1 %}
+                            {% set taxlist = [] %}
+                            {% for taxonomy in taxonomies %}
+                                {% set taxlist = taxlist|merge([taxonomy.name]) %}
+                            {% endfor %}
                             <li>
-                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
-                                    <i class="fa fa-tag"></i> {{ values|join(", ")|excerpt(24) }}
+                                <a class="nolink">{{ content.taxonomy.config[type].name }}:
+                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")|excerpt(24) }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
-                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
-                                    <i class="fa fa-tag"></i> {{ values|first|excerpt(24) }}
+                                {% set taxonomy = taxonomies|first %}
+                                <a class="nolink">{{ content.taxonomy.config[type].singular_name }}:
+                                    <i class="fa fa-tag"></i> {{ taxonomy.name|excerpt(24) }}
                                 </a>
                             </li>
                         {% endif %}

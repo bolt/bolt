@@ -2,11 +2,12 @@
 
 namespace Bolt\Helpers;
 
-use Bolt\Legacy\Content;
+use Bolt\Legacy\Content as LegacyContent;
+use Bolt\Storage\Entity\Content;
 
 class Excerpt
 {
-    /** @var Content|array|string */
+    /** @var Content|LegacyContent|array|string */
     protected $body;
     /** @var string */
     protected $title;
@@ -14,8 +15,8 @@ class Excerpt
     /**
      * Constructor.
      *
-     * @param Content|array|string $body
-     * @param string|null          $title
+     * @param Content|LegacyContent|array|string $body
+     * @param string|null                        $title
      */
     public function __construct($body, $title = null)
     {
@@ -41,6 +42,10 @@ class Excerpt
         }
 
         if ($this->body instanceof Content) {
+            $this->body = $this->body->toArray();
+        }
+
+        if ($this->body instanceof LegacyContent) {
             $this->body = $this->body->getValues();
         }
 

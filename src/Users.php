@@ -159,11 +159,11 @@ class Users
             return false;
         }
 
-        $userName = $user->getUsername();
+        $userId = $user->getId();
         if ($result = $this->getRepository()->delete($user)) {
             /** @var Repository\AuthtokenRepository $authtokenRepository */
             $authtokenRepository = $this->app['storage']->getRepository(Entity\Authtoken::class);
-            $authtokenRepository->deleteTokens($userName);
+            $authtokenRepository->deleteTokens($userId);
         }
 
         return $result;
