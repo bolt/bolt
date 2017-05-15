@@ -89,7 +89,7 @@ class AccessControlListener implements EventSubscriberInterface
     {
         /** @var Repository\AuthtokenRepository $repo */
         $repo = $this->em->getRepository(Entity\Authtoken::class);
-        $repo->deleteTokens($user->getUsername());
+        $repo->deleteTokens($user->getId());
     }
 
     /**
