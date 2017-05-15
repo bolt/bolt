@@ -3,20 +3,24 @@
 namespace Bolt\Tests\Embed;
 
 use Bolt\Embed;
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
+use Embed\Exceptions\EmbedException;
+use Embed\Exceptions\InvalidUrlException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Class to test src/Embed/Resolver.
+ * @covers \Bolt\Embed\Resolver
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ResolverTest extends BoltUnitTest
+class ResolverTest extends TestCase
 {
-    public function testOembed()
+    public function testEmbed()
     {
         $requestUrl = 'https://www.youtube.com/watch?v=x4IDM3ltTYo';
         $content = [
@@ -35,16 +39,16 @@ class ResolverTest extends BoltUnitTest
             'html'             => '<iframe width="480" height="270" src="https://www.youtube.com/embed/x4IDM3ltTYo?feature=oembed" frameborder="0" allowfullscreen></iframe>',
         ];
 
-        $mock = new MockHandler([
-            new Psr7\Response(200),
-            new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
-        ]);
+        $factory = function ($url, $options = []) use ($requestUrl, $content) {
+            $mock = new MockHandler([
+                new Psr7\Response(200),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+            ]);
 
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
+            $handler = HandlerStack::create($mock);
+            $client = new Client(['handler' => $handler]);
 
-        $factory = function ($url, $options = []) use ($requestUrl, $client) {
-            $dispatcher = new Embed\GuzzleDispatcher($client, HandlerStack::create());
+            $dispatcher = new Embed\GuzzleDispatcher($client, $handler);
             /** @var \Embed\Adapters\Adapter $info */
             return \Embed\Embed::create($url, $options, $dispatcher);
         };
@@ -57,5 +61,106 @@ class ResolverTest extends BoltUnitTest
         $this->assertArrayHasKey('height', $response);
         $this->assertArrayHasKey('width', $response);
         $this->assertSame($content, $response);
+
+        $response = $resolver->embed($url, 'koala');
+        $this->assertSame([], $response);
+    }
+
+    public function testImage()
+    {
+        $requestUrl = 'https://www.youtube.com/watch?v=x4IDM3ltTYo';
+        $content = [
+            'thumbnail_url' => 'https://i.ytimg.com/vi/x4IDM3ltTYo/generic-logo.png',
+        ];
+
+        $factory = function ($url, $options = []) use ($requestUrl, $content) {
+            $mock = new MockHandler([
+                new Psr7\Response(200),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+                new Psr7\Response(200, ['Content-Type' => 'image/png'], file_get_contents(__DIR__ . '/../resources/generic-logo.png')),
+            ]);
+
+            $handler = HandlerStack::create($mock);
+            $client = new Client(['handler' => $handler]);
+
+            $dispatcher = new Embed\GuzzleDispatcher($client, $handler);
+            /** @var \Embed\Adapters\Adapter $info */
+            return \Embed\Embed::create($url, $options, $dispatcher);
+        };
+        $url = new Psr7\Uri($requestUrl);
+        $resolver = new Embed\Resolver($factory);
+        $response = $resolver->image($url);
+
+        $this->assertSame($content['thumbnail_url'], $response);
+    }
+
+    public function testImages()
+    {
+        $requestUrl = 'http://www.youtube.com/watch?v=x4IDM3ltTYo';
+        $content = [
+            'image'         => 'https://www.youtube.com/yts/img/image.png',
+            'thumbnail'     => 'https://www.youtube.com/yts/img/thumbnail.png',
+        ];
+        $filesystem = new Filesystem(new Local(__DIR__ . '/../resources'));
+        /** @var \Bolt\Filesystem\Handler\Image $mockFile */
+        $mockFile = $filesystem->getFile('generic-logo.png');
+        $fileData = $mockFile->readStream();
+
+        $factory = function ($url, $options = []) use ($requestUrl, $content, $fileData) {
+            $mock = new MockHandler([
+                new Psr7\Response(200),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+                new Psr7\Response(200, ['Content-Type' => 'image/png'], $fileData),
+                new Psr7\Response(200, ['Content-Type' => 'image/png'], $fileData),
+            ]);
+
+            $handler = HandlerStack::create($mock);
+            $client = new Client(['handler' => $handler]);
+
+            $dispatcher = new Embed\GuzzleDispatcher($client, $handler);
+            /** @var \Embed\Adapters\Adapter $info */
+            return \Embed\Embed::create($url, $options, $dispatcher);
+        };
+        $url = new Psr7\Uri($requestUrl);
+        $resolver = new Embed\Resolver($factory);
+        $response = $resolver->images($url);
+
+        foreach (['url', 'width', 'height', 'size', 'mime'] as $key) {
+            $this->assertArrayHasKey($key, $response[0]);
+            $this->assertArrayHasKey($key, $response[1]);
+        }
+
+        $this->assertSame($content['image'], $response[0]['url']);
+        $this->assertSame('image/png', $response[0]['mime'][0]);
+        $this->assertSame($content['thumbnail'], $response[1]['url']);
+        $this->assertSame('image/png', $response[1]['mime'][0]);
+    }
+
+    /**
+     * @expectedException \Bolt\Exception\EmbedResolverException
+     */
+    public function testInvalidUrl()
+    {
+        $requestUrl = 'https://example.com/watch?v=nothing';
+        $factory = function () {
+            throw new InvalidUrlException('');
+        };
+        $url = new Psr7\Uri($requestUrl);
+        $resolver = new Embed\Resolver($factory);
+        $resolver->image($url);
+    }
+
+    /**
+     * @expectedException \Bolt\Exception\EmbedResolverException
+     */
+    public function testEmbedException()
+    {
+        $requestUrl = 'https://example.com/watch?v=nothing';
+        $factory = function () {
+            throw new EmbedException('');
+        };
+        $url = new Psr7\Uri($requestUrl);
+        $resolver = new Embed\Resolver($factory);
+        $resolver->image($url);
     }
 }
