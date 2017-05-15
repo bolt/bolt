@@ -5,6 +5,7 @@ namespace Bolt\Storage\ContentRequest;
 use Bolt\Config;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Query\Query;
 
 /**
  * Helper class for ContentType overview listings.
@@ -17,16 +18,20 @@ class Listing
     protected $em;
     /** @var Config */
     protected $config;
+    /** @var Query */
+    private $query;
 
     /**
-     * Constructor function.
+     * Constructor.
      *
      * @param EntityManager $em
+     * @param Query         $query
      * @param Config        $config
      */
-    public function __construct(EntityManager $em, Config $config)
+    public function __construct(EntityManager $em, Query $query, Config $config)
     {
         $this->em = $em;
+        $this->query = $query;
         $this->config = $config;
     }
 
@@ -81,14 +86,15 @@ class Listing
      */
     protected function getContent($contentTypeSlug, array $contentParameters, ListingOptions $options)
     {
-        $records = $this->em->getContent($contentTypeSlug, $contentParameters);
+        $contentParameters = array_filter($contentParameters);
+        $records = $this->query->getContent($contentTypeSlug, $contentParameters);
 
         // UGLY HACK! Remove when cutting over to the new storage layer!
         $records = empty($records) ? false : $records;
 
         if ($records === false && $options->getPage() !== null) {
             $contentParameters['page'] = $options->getPreviousPage();
-            $records = $this->em->getContent($contentTypeSlug, $contentParameters);
+            $records = $this->query->getContent($contentTypeSlug, $contentParameters);
         }
 
         return $records;

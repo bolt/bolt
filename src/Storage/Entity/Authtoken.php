@@ -9,8 +9,8 @@ class Authtoken extends Entity
 {
     /** @var int */
     protected $id;
-    /** @var string */
-    protected $username;
+    /** @var int */
+    protected $user_id;
     /** @var string */
     protected $token;
     /** @var string */
@@ -41,19 +41,19 @@ class Authtoken extends Entity
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getUsername()
+    public function getUserId()
     {
-        return $this->username;
+        return $this->user_id;
     }
 
     /**
-     * @param string $username
+     * @param int $userId
      */
-    public function setUsername($username)
+    public function setUserId($userId)
     {
-        $this->username = $username;
+        $this->user_id = $userId;
     }
 
     /**

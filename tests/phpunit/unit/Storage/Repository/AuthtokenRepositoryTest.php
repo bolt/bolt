@@ -15,9 +15,9 @@ class AuthtokenRepositoryTest extends BoltUnitTest
     public function testUserTokenQuery()
     {
         $repo = $this->getRepository();
-        $query = $repo->getUserTokenQuery('user', 'ip', 'agent');
+        $query = $repo->getUserTokenQuery(42, 'ip', 'agent');
 
-        $this->assertEquals('SELECT * FROM bolt_authtoken authtoken WHERE (username = :username) AND (ip = :ip) AND (useragent = :useragent)', $query->getSql());
+        $this->assertEquals('SELECT * FROM bolt_authtoken authtoken WHERE (user_id = :user_id) AND (ip = :ip) AND (useragent = :useragent)', $query->getSql());
     }
 
     public function testTokenQuery()
@@ -31,9 +31,9 @@ class AuthtokenRepositoryTest extends BoltUnitTest
     public function testDeleteTokensQuery()
     {
         $repo = $this->getRepository();
-        $query = $repo->deleteTokensQuery('username');
+        $query = $repo->deleteTokensQuery(42);
 
-        $this->assertEquals('DELETE FROM bolt_authtoken WHERE username = :username', $query->getSql());
+        $this->assertEquals('DELETE FROM bolt_authtoken WHERE user_id = :user_id', $query->getSql());
     }
 
     public function testRepositoryQueries()

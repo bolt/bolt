@@ -114,6 +114,26 @@ class Relations extends ArrayCollection
     }
 
     /**
+     * Get the related types that are in the collection, grouped by ContentType key.
+     *
+     * @internal
+     *
+     * @return array
+     */
+    public function getGrouped()
+    {
+        $types = [];
+        $elements = $this->toArray();
+        /** @var Entity\Relations $element */
+        foreach ($elements as $element) {
+            $type = $element->get('to_contenttype');
+            $types[$type][] = $element;
+        }
+
+        return $types;
+    }
+
+    /**
      * This loops over the existing collection to see if the properties in the incoming
      * are already available on a saved record. To do this it checks the four key properties
      * if there's a match it returns the original, otherwise
@@ -221,7 +241,7 @@ class Relations extends ArrayCollection
         foreach ($this as $k => $existing) {
             $output[$existing->getToContenttype()][] = spl_object_hash($existing);
         }
-        
+
         return $output;
     }
 }

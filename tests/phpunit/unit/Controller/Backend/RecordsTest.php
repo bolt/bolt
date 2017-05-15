@@ -224,42 +224,6 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('main', $context['context']['filter']['groups']);
     }
 
-    public function testRelated()
-    {
-        $this->setRequest(Request::create('/bolt/relatedto/showcases/1'));
-        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
-        $context = $response->getContext();
-        $this->assertEquals(1, $context['context']['id']);
-        $this->assertEquals('Showcase', $context['context']['name']);
-        $this->assertEquals('Showcases', $context['context']['contenttype']['name']);
-        $this->assertEquals(2, count($context['context']['relations']));
-        // By default we show the first one
-        $this->assertEquals('Entries', $context['context']['show_contenttype']['name']);
-
-        // Now we specify we want to see pages
-        $this->setRequest(Request::create('/bolt/relatedto/showcases/1', 'GET', ['show' => 'pages']));
-        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
-        $context = $response->getContext();
-        $this->assertEquals('Pages', $context['context']['show_contenttype']['name']);
-
-        // Try a request where there are no relations
-        $this->setRequest(Request::create('/bolt/relatedto/pages/1'));
-        $response = $this->controller()->related($this->getRequest(), 'pages', 1);
-        $context = $response->getContext();
-        $this->assertNull($context['context']['relations']);
-
-        // Test redirect when user isn't allowed.
-        $permissions = $this->getMockPermissions();
-        $permissions->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(false));
-        $this->setService('permissions', $permissions);
-
-        $this->setRequest(Request::create('/bolt/relatedto/showcases/1'));
-        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
-        $this->assertEquals('/bolt', $response->getTargetUrl());
-    }
-
     /**
      * @return \Bolt\Controller\Backend\Records
      */

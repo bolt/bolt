@@ -187,6 +187,10 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
+        /** @var UsersRepository $repo */
+        $repo = $app['storage']->getRepository(Entity\Users::class);
+        $entityUser = $repo->getUser('admin');
+
         $logger = $this->getMockFlashLogger();
         $logger->expects($this->atLeastOnce())
             ->method('error')
@@ -195,7 +199,7 @@ class LoginTest extends BoltUnitTest
 
         $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new Entity\Authtoken();
-        $entityAuthtoken->setUsername('admin');
+        $entityAuthtoken->setUserId($entityUser->getId());
         $entityAuthtoken->setToken('abc123');
         $entityAuthtoken->setSalt('vinagre');
         $entityAuthtoken->setLastseen(Carbon::now());
@@ -232,7 +236,7 @@ class LoginTest extends BoltUnitTest
 
         $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new Entity\Authtoken();
-        $entityAuthtoken->setUsername('admin');
+        $entityAuthtoken->setUserId(42);
         $entityAuthtoken->setToken('abc123');
         $entityAuthtoken->setSalt('vinagre');
         $entityAuthtoken->setLastseen(Carbon::now());
@@ -258,13 +262,21 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
+        /** @var UsersRepository $repo */
+        $repo = $app['storage']->getRepository(Entity\Users::class);
+        $entityUser = $repo->getUser('admin');
+
         $logger = $this->getMockMonolog();
-        $logger->expects($this->at(0))
+        $logger
+            ->expects($this->at(0))
             ->method('debug')
-            ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
-        $logger->expects($this->at(1))
+            ->with($this->matchesRegularExpression('#Generating authentication cookie#'))
+        ;
+        $logger
+            ->expects($this->at(1))
             ->method('debug')
-            ->with($this->matchesRegularExpression('#Saving new login token#'));
+            ->with($this->matchesRegularExpression('#Saving new login token#'))
+        ;
         $this->setService('logger.system', $logger);
 
         $logger = $this->getMockFlashLogger();
@@ -287,11 +299,11 @@ class LoginTest extends BoltUnitTest
             'browseragent' => false,
         ];
 
-        $token = (string) new Token\Generator($userName, $salt, $ipAddress, $hostName, $userAgent, $cookieOptions);
+        $token = (string) new Token\Generator($entityUser->getId(), $salt, $ipAddress, $hostName, $userAgent, $cookieOptions);
 
         $repo = $app['storage']->getRepository(Entity\Authtoken::class);
         $entityAuthtoken = new Entity\Authtoken();
-        $entityAuthtoken->setUsername($userName);
+        $entityAuthtoken->setUserId($entityUser->getId());
         $entityAuthtoken->setToken($token);
         $entityAuthtoken->setSalt($salt);
         $entityAuthtoken->setLastseen(Carbon::now());

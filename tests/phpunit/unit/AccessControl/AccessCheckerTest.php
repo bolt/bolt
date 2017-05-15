@@ -113,6 +113,7 @@ class AccessCheckerTest extends BoltUnitTest
         $userEntity = new Entity\Users();
         $tokenEntity = new Entity\Authtoken();
 
+        $userEntity->setId(42);
         $userEntity->setUsername('koala');
         $tokenEntity->setToken('gum-leaves');
         $tokenEntity->setSalt('vinagre');
@@ -149,7 +150,7 @@ class AccessCheckerTest extends BoltUnitTest
         $userEntity->setUsername($userName);
 
         $tokenEntity = new Entity\Authtoken();
-        $tokenEntity->setUsername($userName);
+        $tokenEntity->setUserId(42);
         $tokenEntity->setToken('gum-leaves');
         $tokenEntity->setSalt('vinagre');
         $tokenEntity->setIp('8.8.8.8');
