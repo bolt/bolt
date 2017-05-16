@@ -67,7 +67,7 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('pages');
         $record = $repo->find(3);
         $tax = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
-        $tax->setFromPost(['groups' => ['main']], $record);
+        $tax->setFromPost(['taxonomy' => ['groups' => ['main']]], $record);
         $record->setTaxonomy($tax);
         $repo->save($record);
         $recordSaved = $repo->find(3);

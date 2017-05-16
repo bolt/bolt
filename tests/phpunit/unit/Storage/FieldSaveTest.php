@@ -57,19 +57,19 @@ class FieldSaveTest extends BoltUnitTest
         $record1 = $repo->find(1);
         $this->assertEquals(0, count($record1->taxonomy['categories']));
     }
-    
+
     public function testEntityCreateTaxonomySave()
     {
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
-        
+
         $newEntity = $repo->create(['title' => 'Testing', 'slug' => 'testing', 'status' => 'published']);
         $taxonomy = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
-        $taxonomy->setFromPost(['categories' => ['news', 'events']], $newEntity);
+        $taxonomy->setFromPost(['taxonomy' => ['categories' => ['news', 'events']]], $newEntity);
         $newEntity->setTaxonomy($taxonomy);
         $repo->save($newEntity);
-        
+
         $savedEntity = $repo->find($newEntity->getId());
         $this->assertEquals(2, count($savedEntity->getCategories()));
     }
