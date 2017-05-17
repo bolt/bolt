@@ -134,7 +134,7 @@
 
     {# Finally, the repeaters #}
     {% if repeaters == true and record.fieldtype(key) == "repeater" %}
-        {% if (app.request.get('_route') != "preview") %}
+        {% if (global.request.get('_route') != "preview") %}
             {% for repeater in value %}
                 {% for key, repeaterfield in repeater %}
                     {{ macro.commonfield(repeater, key) }}

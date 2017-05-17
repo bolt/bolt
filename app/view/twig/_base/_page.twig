@@ -61,10 +61,10 @@
         <script src="{{ script }}"></script>
     {% endfor %}
 
-    <link rel="shortcut icon" href="{{ config.get('general/branding/favicon') ?: asset('img/favicon-bolt.ico', 'bolt') }}">
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ config.get('general/branding/apple-touch-icon') ?: asset('img/apple-touch-icon.png', 'bolt') }}">
+    <link rel="shortcut icon" href="{{ app.config.get('general/branding/favicon') ?: asset('img/favicon-bolt.ico', 'bolt') }}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ app.config.get('general/branding/apple-touch-icon') ?: asset('img/apple-touch-icon.png', 'bolt') }}">
     {% for size in ['72x72', '114x114', '144x144'] %}
-        <link rel="apple-touch-icon" sizes="{{ size }}" href="{{ config.get('general/branding/apple-touch-icon-' ~ size) ?: asset('img/apple-touch-icon-' ~ size ~ '.png', 'bolt') }}">
+        <link rel="apple-touch-icon" sizes="{{ size }}" href="{{ app.config.get('general/branding/apple-touch-icon-' ~ size) ?: asset('img/apple-touch-icon-' ~ size ~ '.png', 'bolt') }}">
     {% endfor %}
 </head>
 
@@ -74,10 +74,10 @@
 
 {# Convert array of [assetPath, packageName] to actual url #}
 {% set ckCss = [] %}
-{% for assetData in config.get('general/wysiwyg/ck/contentsCss') %}
+{% for assetData in app.config.get('general/wysiwyg/ck/contentsCss') %}
     {% set ckCss = ckCss|merge([asset(assetData.0, assetData.1)]) %}
 {% endfor %}
-{% set ckConfig = config.get('general/wysiwyg/ck')|default({})|merge({'contentsCss': ckCss}) %}
+{% set ckConfig = app.config.get('general/wysiwyg/ck')|default({})|merge({'contentsCss': ckCss}) %}
 
 {% set bconfig = {
     locale: {
@@ -94,20 +94,20 @@
     },
     ckeditor: {
         lang:        ckeditor_lang,
-        images:      0 + config.get('general/wysiwyg/images'),
-        styles:      0 + config.get('general/wysiwyg/styles'),
-        tables:      0 + config.get('general/wysiwyg/tables'),
-        anchor:      0 + config.get('general/wysiwyg/anchor'),
-        fontcolor:   0 + config.get('general/wysiwyg/fontcolor'),
-        align:       0 + config.get('general/wysiwyg/align'),
-        subsuper:    0 + config.get('general/wysiwyg/subsuper'),
-        embed:       0 + config.get('general/wysiwyg/embed'),
-        blockquote:  0 + config.get('general/wysiwyg/blockquote'),
-        ruler:       0 + config.get('general/wysiwyg/ruler'),
-        strike:      0 + config.get('general/wysiwyg/strike'),
-        underline:   0 + config.get('general/wysiwyg/underline'),
-        codesnippet: 0 + config.get('general/wysiwyg/codesnippet'),
-        specialchar: 0 + config.get('general/wysiwyg/specialchar'),
+        images:      0 + app.config.get('general/wysiwyg/images'),
+        styles:      0 + app.config.get('general/wysiwyg/styles'),
+        tables:      0 + app.config.get('general/wysiwyg/tables'),
+        anchor:      0 + app.config.get('general/wysiwyg/anchor'),
+        fontcolor:   0 + app.config.get('general/wysiwyg/fontcolor'),
+        align:       0 + app.config.get('general/wysiwyg/align'),
+        subsuper:    0 + app.config.get('general/wysiwyg/subsuper'),
+        embed:       0 + app.config.get('general/wysiwyg/embed'),
+        blockquote:  0 + app.config.get('general/wysiwyg/blockquote'),
+        ruler:       0 + app.config.get('general/wysiwyg/ruler'),
+        strike:      0 + app.config.get('general/wysiwyg/strike'),
+        underline:   0 + app.config.get('general/wysiwyg/underline'),
+        codesnippet: 0 + app.config.get('general/wysiwyg/codesnippet'),
+        specialchar: 0 + app.config.get('general/wysiwyg/specialchar'),
         ck:          ckConfig,
         filebrowser: {
             browseUrl: path('recordbrowser'),
@@ -116,7 +116,7 @@
     },
     stackAddUrl: path('stack/add'),
     contentActionUrl: path('contentaction', global.request.query.all),
-    google_api_key: config.get('general/google_api_key'),
+    google_api_key: app.config.get('general/google_api_key'),
 } %}
 <script src="{{ asset('js/bolt.js', 'bolt') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
 
