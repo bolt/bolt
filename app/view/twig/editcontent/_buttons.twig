@@ -6,7 +6,7 @@
         {# Save Contentype #}
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                <i class="fa fa-fw fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
+                <i class="fa fa-fw fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.singular_name}) }}
             </button>
             {# Dropdown #}
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +73,7 @@
                 <strong>{{ context.content.datechanged|localedatetime("%c") }}</strong>
                 <small>({{ buic_moment(context.content.datechanged) }})</small>
             {% else %}
-                {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
+                {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.singular_name}) }}
             {% endif %}
         </p>
 

@@ -15,6 +15,6 @@
     {{ __('general.phrase.saved-on-colon') }} <strong>{{ context.content.datechanged|localedatetime("%c") }}</strong>
     <small>({{ buic_moment(context.content.datechanged) }})</small>
 {% else %}
-    {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
+    {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.singular_name}) }}
 {% endif %}
 </p>
