@@ -4,7 +4,7 @@
 
     <h1>{{ record.title }}</h1>
 
-    {{ fields(template = 'partials/_sub_fields.twig') }}
+    {{ fields(record = record, template = 'partials/_sub_fields.twig') }}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
     {{ dump(record) }}

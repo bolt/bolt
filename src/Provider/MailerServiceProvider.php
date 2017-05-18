@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Helpers\Deprecated;
 use Silex\Application;
 use Silex\Provider\SwiftmailerServiceProvider;
 use Silex\ServiceProviderInterface;
@@ -34,6 +35,8 @@ class MailerServiceProvider implements ServiceProviderInterface
         $transportFactory = $app->raw('swiftmailer.transport');
         $app['swiftmailer.transport'] = $app->share(function ($app) use ($transportFactory) {
             if ($app['config']->get('general/mailoptions/transport') === 'mail') {
+                Deprecated::warn("Setting 'general/mailoptions/transport' configuration value to 'mail'", 3.3, "Use 'smtp' instead.");
+
                 return \Swift_MailTransport::newInstance();
             }
 

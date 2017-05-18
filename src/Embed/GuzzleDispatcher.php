@@ -65,7 +65,6 @@ class GuzzleDispatcher implements DispatcherInterface
      */
     public function dispatchImages(array $urls)
     {
-        $this->handlerStack->setHandler(new CurlHandler());
         $responses = [];
         $promises = [];
         $mimeTypes = [

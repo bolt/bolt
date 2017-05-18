@@ -8,7 +8,7 @@
 {% block page_nav 'Content/*' %}
 
 {% block page_title %}
-    {% set contenttype = {'%contenttype%': context.contenttype.singular_slug} %}
+    {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
     {% if context.content.title is not empty %}
         {{ __('contenttypes.generic.edit', contenttype) }}
     {% else %}
@@ -54,7 +54,7 @@
         hid_editreferrer: {
             name_id:  'editreferrer',
             type:     'hidden',
-            value:    editreferrer|default(''),
+            value:    context.editreferrer|default(''),
         },
 
         hid_contenttype: {

@@ -2,6 +2,7 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Exception\PathResolutionException;
 use Webmozart\PathUtil\Path;
 
 /**
@@ -18,6 +19,8 @@ class PathResolver
 {
     /** @var array */
     protected $paths = [];
+    /** @var array */
+    private $resolving = [];
 
     /**
      * Default paths for Bolt installation.
@@ -72,6 +75,10 @@ class PathResolver
     {
         $name = $this->normalizeName($name);
 
+        if (strpos($path, "%$name%") !== false) {
+            throw new \InvalidArgumentException('Paths cannot reference themselves.');
+        }
+
         $this->paths[$name] = $path;
     }
 
@@ -101,13 +108,22 @@ class PathResolver
             $alias = $match[1];
 
             if (!isset($this->paths[$this->normalizeName($alias)])) {
-                throw new \InvalidArgumentException("Failed to resolve path. Alias %$alias% is not defined.");
+                throw new PathResolutionException("Failed to resolve path. Alias %$alias% is not defined.");
             }
 
             // absolute if alias is at start of path
             $absolute = strpos($path, "%$alias%") === 0;
 
-            return $this->resolve($alias, $absolute);
+            if (isset($this->resolving[$alias])) {
+                throw new PathResolutionException('Failed to resolve path. Infinite recursion detected.');
+            }
+
+            $this->resolving[$alias] = true;
+            try {
+                return $this->resolve($alias, $absolute);
+            } finally {
+                unset($this->resolving[$alias]);
+            }
         }, $path);
 
         if ($absolute && Path::isRelative($path)) {
@@ -135,15 +151,26 @@ class PathResolver
     }
 
     /**
-     * Resolves and returns all known paths.
+     * Returns the names of all paths.
      *
      * @return array
      */
-    public function resolveAll()
+    public function names()
     {
-        return array_map(function ($path) {
-            return $this->resolve($path);
-        }, $this->paths);
+        return array_keys($this->rawAll());
+    }
+
+    /**
+     * Returns all path names and their raw definitions.
+     *
+     * @return array
+     */
+    protected function rawAll()
+    {
+        $paths = $this->paths;
+        unset($paths['root']);
+
+        return $paths;
     }
 
     /**

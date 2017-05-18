@@ -1,8 +1,5 @@
 {# Page: NavSecondary > Content > … > View … > Recent modifications > Full list #}
 
-{% from '@bolt/changelog/_macros.twig' import changelog_details %}
-{% from '@bolt/changelog/_macros.twig' import changelog_pager %}
-
 {% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Content/*' %}
@@ -12,18 +9,20 @@
 {% block page_subtitle context.title %}
 
 {% block page_main %}
-
     <div class="row">
         <div class="col-xs-12">
-            {{ changelog_pager(context.currentpage, context.pagecount) }}
+            {{ pager() }}
 
             <div class="changelog-list">
-                {% for entry in context.entries %}
-                    {{ changelog_details(entry) }}
-                {% endfor %}
+                {% if block('changelog_details', '@bolt/changelog/_blocks.twig') is defined %}
+                    {% for entry in context.entries %}
+                        {% set context = context|merge({'entry': entry}) %}
+                        {{ block('changelog_details', '@bolt/changelog/_blocks.twig') }}
+                    {% endfor %}
+                {% endif %}
             </div>
 
-            {{ changelog_pager(context.currentpage, context.pagecount) }}
+            {{ pager() }}
 
             {% if context.contenttype.slug %}
                 <div>

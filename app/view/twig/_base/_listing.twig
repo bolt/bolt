@@ -304,15 +304,14 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                                 {% set taxlist = taxlist|merge([taxonomy.name]) %}
                             {% endfor %}
                             <li>
-                                <a class="nolink">{{ content.taxonomy.config[type].name }}:
-                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")|excerpt(24) }}
+                                <a class="nolink">{{ app.config.get('taxonomy')[taxonomyslug].name }}:
+                                    <i class="fa fa-tag"></i> {{ values|join(", ")|excerpt(24) }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
-                                {% set taxonomy = taxonomies|first %}
-                                <a class="nolink">{{ content.taxonomy.config[type].singular_name }}:
-                                    <i class="fa fa-tag"></i> {{ taxonomy.name|excerpt(24) }}
+                                <a class="nolink">{{ app.config.get('taxonomy')[taxonomyslug].singular_name }}:
+                                    <i class="fa fa-tag"></i> {{ values|first|excerpt(24) }}
                                 </a>
                             </li>
                         {% endif %}
