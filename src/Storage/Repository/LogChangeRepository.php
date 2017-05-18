@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Repository;
 
 use Bolt\Helpers\Deprecated;
+use Bolt\Storage\Entity;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -80,7 +81,7 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get content changelog entries by content type.
      *
-     * @param string $contenttype Content type slug
+     * @param string $contentType ContentType key name
      * @param array  $options     Additional options:
      *                            - 'limit' (integer):     Maximum number of results to return
      *                            - 'order' (string):      Field to order by
@@ -90,9 +91,9 @@ class LogChangeRepository extends BaseLogRepository
      *
      * @return \Bolt\Storage\Entity\LogChange[]
      */
-    public function getChangeLogByContentType($contenttype, array $options = [])
+    public function getChangeLogByContentType($contentType, array $options = [])
     {
-        $query = $this->getChangeLogByContentTypeQuery($contenttype, $options);
+        $query = $this->getChangeLogByContentTypeQuery($contentType, $options);
 
         return $this->findWith($query);
     }
@@ -126,14 +127,14 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get a count of change log entries by contenttype.
      *
-     * @param string $contenttype
+     * @param string $contentType
      * @param array  $options
      *
      * @return integer|false
      */
-    public function countChangeLogByContentType($contenttype, array $options)
+    public function countChangeLogByContentType($contentType, array $options)
     {
-        $query = $this->countChangeLogByContentTypeQuery($contenttype, $options);
+        $query = $this->countChangeLogByContentTypeQuery($contentType, $options);
 
         return $this->getCount($query->execute()->fetch());
     }
@@ -141,19 +142,19 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get a count of change log entries by contenttype.
      *
-     * @param mixed $contenttype
+     * @param string $contentType
      * @param array $options
      *
      * @return QueryBuilder
      */
-    public function countChangeLogByContentTypeQuery($contenttype, array $options)
+    public function countChangeLogByContentTypeQuery($contentType, array $options)
     {
         // Build base query
         $qb = $this->createQueryBuilder();
         $qb->select('COUNT(id) as count');
 
         // Set any required WHERE
-        $this->setWhere($qb, $contenttype, $options);
+        $this->setWhere($qb, $contentType, $options);
 
         return $qb;
     }
@@ -161,8 +162,8 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get one changelog entry from the database.
      *
-     * @param mixed   $contenttype ContentType slug
-     * @param integer $contentid   Content record ID
+     * @param mixed   $contentType ContentType slug
+     * @param integer $contentId   Content record ID
      * @param integer $id          The content change log ID
      * @param string  $cmpOp       One of '=', '<', '>'; this parameter is used
      *                             to select either the ID itself, or the subsequent
@@ -172,21 +173,18 @@ class LogChangeRepository extends BaseLogRepository
      *
      * @return \Bolt\Storage\Entity\LogChange|false
      */
-    public function getChangeLogEntry($contenttype, $contentid, $id, $cmpOp)
+    public function getChangeLogEntry($contentType, $contentId, $id, $cmpOp)
     {
         if (!in_array($cmpOp, ['=', '<', '>'])) {
             throw new \InvalidArgumentException(sprintf('Invalid comparison operator: %s', $cmpOp));
         }
 
-        $query = $this->getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp);
+        $query = $this->getChangeLogEntryQuery($contentType, $contentId, $id, $cmpOp);
 
-        $record = $this->findOneWith($query);
-        if ($record) {
-            $repo = $this->getEntityManager()->getRepository($record->getContentType());
-            $record->setContentTypeMeta($repo->getClassMetadata());
-        }
+        /** @var Entity\LogChange $logChange */
+        $logChange = $this->findOneWith($query);
 
-        return $record;
+        return $logChange;
     }
 
     /**
@@ -256,10 +254,10 @@ class LogChangeRepository extends BaseLogRepository
      * Set any required WHERE clause on a QueryBuilder.
      *
      * @param QueryBuilder $query
-     * @param string       $contenttype
+     * @param string       $contentType
      * @param array        $options
      */
-    protected function setWhere(QueryBuilder $query, $contenttype, array $options)
+    protected function setWhere(QueryBuilder $query, $contentType, array $options)
     {
         $where = $query->expr()->andX()
                         ->add($query->expr()->eq('contenttype', ':contenttype'));
@@ -278,7 +276,7 @@ class LogChangeRepository extends BaseLogRepository
 
         $query->where($where)
             ->setParameters([
-                ':contenttype' => $contenttype,
+                ':contenttype' => $contentType,
                 ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
                 ':logid'       => isset($options['id']) ? $options['id'] : null,
             ]);

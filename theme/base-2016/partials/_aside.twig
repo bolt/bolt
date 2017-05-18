@@ -62,7 +62,7 @@
            Lastly, "path('contentlisting', {'contenttypeslug': ct.slug})" will output something like '/pages',
            effectively creating a working link to that contenttpye's listing page. #}
 
-        {% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %}
+        {% for ct in config.get('contenttypes') if not ct.viewless|default(false) %}
 
             {% setcontent records = ct.slug ~ "/latest/3" %}
 

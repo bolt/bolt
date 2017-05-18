@@ -126,7 +126,7 @@ For example, take a look at one of the simpler templates, `record.twig`:
 
         <h1>{{ record.title }}</h1>
 
-        {{ fields(template = 'partials/_sub_fields.twig') }}
+        {{ fields(record = record, template = 'partials/_sub_fields.twig') }}
 
         {{ include('partials/_recordfooter.twig', { 'record': record }) }}
 

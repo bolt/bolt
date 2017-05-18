@@ -12,7 +12,7 @@
     </thead>
 
     <tbody>
-        {% for user in context.users %}
+        {% for user in users %}
             <tr>
                 <td class="id">
                     {% if user.enabled == 0 %}<s>{% endif %}
@@ -27,7 +27,7 @@
                 </td>
 
                 <td class="hidden-xs">
-                    {{ user.lastseen ? buic_moment(user.lastseen) : '-' }}
+                    {{ user.lastseen|default ? buic_moment(user.lastseen|default) : '-' }}
                 </td>
 
                 <td class="contenttypes">

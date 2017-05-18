@@ -40,7 +40,21 @@ class PathResolverTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Bolt\Exception\PathResolutionException
+     * @expectedExceptionMessage Failed to resolve path. Infinite recursion detected.
+     */
+    public function testResolveInfiniteRecursion()
+    {
+        $resolver = new PathResolver('/root/', [
+            'a' => '%b%',
+            'b' => '%a%',
+        ]);
+
+        $resolver->resolve('a');
+    }
+
+    /**
+     * @expectedException \Bolt\Exception\PathResolutionException
      * @expectedExceptionMessage Failed to resolve path. Alias %nope% is not defined.
      */
     public function testUndefinedAliasFails()
@@ -67,6 +81,16 @@ class PathResolverTest extends TestCase
         $this->assertSame('/foo/derp', $resolver->resolve('bar'), 'Initial paths were not applied');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Paths cannot reference themselves.
+     */
+    public function testDefineSelfReference()
+    {
+        $resolver = new PathResolver('/root/');
+        $resolver->define('foo', '%foo%/bar');
+    }
+
     public function testRaw()
     {
         $resolver = new PathResolver('/', [
@@ -77,23 +101,13 @@ class PathResolverTest extends TestCase
         $this->assertNull($resolver->raw('derp'), 'Raw() should return null for undefined path');
     }
 
-    /**
-     * @depends testResolve
-     */
-    public function testResolveAll()
+    public function testNames()
     {
-        $resolver = new PathResolver('/root/', [
-            'web'   => 'public',
-            'files' => '%web%/files',
+        $resolver = new PathResolver('/', [
+            'bar' => 'foo',
+            'hello' => 'world',
         ]);
 
-        $this->assertEquals(
-            [
-                'web'   => '/root/public',
-                'files' => '/root/public/files',
-                'root'  => '/root',
-            ],
-            $resolver->resolveAll()
-        );
+        $this->assertEquals(['bar', 'hello'], $resolver->names());
     }
 }

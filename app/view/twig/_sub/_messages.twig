@@ -1,8 +1,8 @@
-{% macro flashbag() %}
+{% macro flashbag(user) %}
     {% import _self as self %}
 
     {# we only want to show these flashes to logged on users. #}
-    {% if user != null %}
+    {% if user|default %}
         {{ self.messages('danger') }}
         {{ self.messages('warning') }}
     {% endif %}
@@ -29,11 +29,11 @@
 {% if wrapper is defined and wrapper and app['logger.flash'].keys() is not empty %}
     <div class="row">
         <div class="col-md-8">
-            {{ self.flashbag(user) }}
+            {{ self.flashbag() }}
         </div>
     </div>
 {% else %}
-    {{ self.flashbag(user) }}
+    {{ self.flashbag() }}
 {% endif %}
 
 {# No Javascript #}

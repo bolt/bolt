@@ -9,7 +9,7 @@
     {% for contenttype, records in context.results %}
         <li>
             <a href="#{{ contenttype }}" data-toggle="tab">
-                {{ app.config.get('contenttypes')[ contenttype ].name }}
+                {{ config.get('contenttypes')[ contenttype ].name }}
             </a>
         </li>
     {% endfor %}
