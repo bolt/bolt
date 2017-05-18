@@ -75,7 +75,7 @@
  # Typepopover.
  #}
 {% macro typepopover(types) %}
-    {% set types = types|default(app.config.get('general/accept_file_types')) %}
+    {% set types = types|default(config.get('general/accept_file_types')) %}
     {% set text = __("field.general.allowed-filetypes") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
     <span class="label label-default info-pop" data-title="" data-html="true" data-content="{{ text }}">
         <i class="fa fa-info-circle"></i>
@@ -203,7 +203,7 @@
         {% set stack = stack(type) %}
 
         {# Button: Select from Stack #}
-        {% if not app.config.get('general/backend/stack/disable', false) and stack %}
+        {% if not config.get('general/backend/stack/disable', false) and stack %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>

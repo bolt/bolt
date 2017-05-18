@@ -7,7 +7,7 @@
 {% block page_title __('general.phrase.extensions') %}
 
 {% block page_subtitle %}
-    {{ __('page.extend.pagetitle', {'%BOLTNAME%': app.config.get('general/branding/name') }) }}
+    {{ __('page.extend.pagetitle', {'%BOLTNAME%': config.get('general/branding/name') }) }}
 {% endblock %}
 
 {# clear default messages, because we use them in a different spot, in this template #}

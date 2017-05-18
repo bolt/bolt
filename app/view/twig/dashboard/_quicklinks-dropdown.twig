@@ -1,5 +1,5 @@
 {% set allowedany = false %}
-{% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
+{% for contenttypeslug, contenttype in config.get('contenttypes') %}
     {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
         {% set allowedany = true %}
     {% endif %}
@@ -11,7 +11,7 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-        {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
+        {% for contenttypeslug, contenttype in config.get('contenttypes') %}
             {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
                 <li>
                     <a href="{{ path('editcontent', {'contenttypeslug': contenttypeslug}) }}">

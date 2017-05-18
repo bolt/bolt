@@ -4,9 +4,9 @@
     </button>
     <a class="navbar-brand" href="{{ path('dashboard') }}">
         {# <img src="{{ asset('img/bolt-icon.svg', 'bolt') }}"> #}
-        {{ app.config.get('general/branding/name')|default('Bolt') }}
+        {{ config.get('general/branding/name')|default('Bolt') }}
     </a>
-    <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
+    <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if config.get('general/sitename') %}{{ config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
 </div>
 
 
@@ -48,7 +48,7 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             {# FIXME DTO: When the session hits the check timer, the user object can be empty #}
-            <i class="fa fa-fw fa-user"></i> <span>{{ context.user.displayname|default()|excerpt(16) }}</span> <i class="fa fa-caret-down"></i>
+            <i class="fa fa-fw fa-user"></i> <span>{{ user.displayname|default()|excerpt(16) }}</span> <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user" role="menu" >
             <li>
