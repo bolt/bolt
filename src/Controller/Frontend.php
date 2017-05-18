@@ -103,23 +103,23 @@ class Frontend extends ConfigurableBase
     public function homepage(Request $request)
     {
         $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
-        $listingparameters = $this->getListingParameters($homepage);
-        $content = $this->getContent($homepage, $listingparameters);
+        $listingParameters = $this->getListingParameters($homepage);
+        $content = $this->getContent($homepage, $listingParameters);
 
         $template = $this->templateChooser()->homepage($content);
-        $globals = [];
+        $context = [];
 
         if (is_array($content)) {
             $first = current($content);
-            $globals[$first->contenttype['slug']] = $content;
-            $globals['records'] = $content;
+            $context[$first->contenttype['slug']] = $content;
+            $context['records'] = $content;
         } elseif (!empty($content)) {
-            $globals['record'] = $content;
-            $globals[$content->contenttype['singular_slug']] = $content;
-            $globals['records'] = [$content->id => $content];
+            $context['record'] = $content;
+            $context[$content->contenttype['singular_slug']] = $content;
+            $context['records'] = [$content->id => $content];
         }
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**
@@ -133,10 +133,10 @@ class Frontend extends ConfigurableBase
      */
     public function record(Request $request, $contenttypeslug, $slug = '')
     {
-        $contenttype = $this->getContentType($contenttypeslug);
+        $contentType = $this->getContentType($contenttypeslug);
 
         // If the ContentType is 'viewless', don't show the record page.
-        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
+        if (isset($contentType['viewless']) && $contentType['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
 
             return null;
@@ -150,11 +150,11 @@ class Frontend extends ConfigurableBase
         $slug = $this->app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
+        $content = $this->getContent($contentType['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
-            $content = $this->getContent($contenttype['slug'], ['id' => $slug, 'returnsingle' => true]);
+            $content = $this->getContent($contentType['slug'], ['id' => $slug, 'returnsingle' => true]);
         }
 
         // No content, no page!
@@ -178,17 +178,17 @@ class Frontend extends ConfigurableBase
         }
 
         // Setting the editlink
-        $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug'], 'id' => $content->id]);
+        $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contentType['slug'], 'id' => $content->id]);
         $this->app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = [
+        $context = [
             'record'                      => $content,
-            $contenttype['singular_slug'] => $content,
+            $contentType['singular_slug'] => $content,
         ];
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**
@@ -201,16 +201,16 @@ class Frontend extends ConfigurableBase
      */
     public function preview(Request $request, $contenttypeslug)
     {
-        $contenttype = $this->getContentType($contenttypeslug);
+        $contentType = $this->getContentType($contenttypeslug);
 
         $id = $request->request->get('id');
         if ($id) {
-            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
+            $content = $this->storage()->getContent($contentType['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
         } else {
             $content = $this->storage()->getContentObject($contenttypeslug);
         }
 
-        $content->setFromPost($request->request->all(), $contenttype);
+        $content->setFromPost($request->request->all(), $contentType);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
@@ -234,39 +234,39 @@ class Frontend extends ConfigurableBase
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = [
+        $context = [
             'record'                      => $content,
-            $contenttype['singular_slug'] => $content,
+            $contentType['singular_slug'] => $content,
         ];
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**
      * The listing page controller.
      *
      * @param Request $request         The Symfony Request
-     * @param string  $contenttypeslug The content type slug
+     * @param string  $contenttypeslug The ContentType slug
      *
      * @return TemplateResponse
      */
     public function listing(Request $request, $contenttypeslug)
     {
-        $listingparameters = $this->getListingParameters($contenttypeslug);
-        $content = $this->getContent($contenttypeslug, $listingparameters);
-        $contenttype = $this->getContentType($contenttypeslug);
+        $listingParameters = $this->getListingParameters($contenttypeslug);
+        $content = $this->getContent($contenttypeslug, $listingParameters);
+        $contentType = $this->getContentType($contenttypeslug);
 
-        $template = $this->templateChooser()->listing($contenttype);
+        $template = $this->templateChooser()->listing($contentType);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = [
+        $context = [
             'records'        => $content,
             $contenttypeslug => $content,
-            'contenttype'    => $contenttype['name'],
+            'contenttype'    => $contentType['name'],
         ];
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**
@@ -285,7 +285,7 @@ class Frontend extends ConfigurableBase
         if (empty($taxonomy)) {
             return false;
         }
-        $taxonomyslug = $taxonomy['slug'];
+        $taxonomyKey = $taxonomy['slug'];
 
         // First, get some content
         $context = $taxonomy['singular_slug'] . '_' . $slug;
@@ -302,10 +302,10 @@ class Frontend extends ConfigurableBase
         $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
-            $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyKey'");
         }
 
-        $template = $this->templateChooser()->taxonomy($taxonomyslug);
+        $template = $this->templateChooser()->taxonomy($taxonomyKey);
 
         // Get a display value for slug. This should be moved from 'slug' context key to 'name' in v4.0.
         $name = $slug;
@@ -313,14 +313,14 @@ class Frontend extends ConfigurableBase
             $name = $taxonomy['options'][$slug];
         }
 
-        $globals = [
+        $context = [
             'records'      => $content,
             'slug'         => $name,
-            'taxonomy'     => $this->getOption('taxonomy/' . $taxonomyslug),
-            'taxonomytype' => $taxonomyslug,
+            'taxonomy'     => $this->getOption('taxonomy/' . $taxonomyKey),
+            'taxonomytype' => $taxonomyKey,
         ];
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**
@@ -385,13 +385,13 @@ class Frontend extends ConfigurableBase
         $filters = [];
         foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
-                list($contenttypeslug, $field) = explode('_', $key, 2);
-                if (isset($filters[$contenttypeslug])) {
-                    $filters[$contenttypeslug][$field] = $value;
+                list($contentTypeKey, $field) = explode('_', $key, 2);
+                if (isset($filters[$contentTypeKey])) {
+                    $filters[$contentTypeKey][$field] = $value;
                 } else {
-                    $contenttype = $this->getContentType($contenttypeslug);
+                    $contenttype = $this->getContentType($contentTypeKey);
                     if (is_array($contenttype)) {
-                        $filters[$contenttypeslug] = [
+                        $filters[$contentTypeKey] = [
                             $field => $value,
                         ];
                     }
@@ -416,7 +416,7 @@ class Frontend extends ConfigurableBase
 
         $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
 
-        $globals = [
+        $context = [
             'records'      => $result['results'],
             $context       => $result['query']['sanitized_q'],
             'searchresult' => $result,
@@ -424,7 +424,7 @@ class Frontend extends ConfigurableBase
 
         $template = $this->templateChooser()->search();
 
-        return $this->render($template, [], $globals);
+        return $this->render($template, $context);
     }
 
     /**

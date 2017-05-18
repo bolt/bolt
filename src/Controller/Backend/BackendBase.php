@@ -10,6 +10,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Version;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -37,13 +38,13 @@ abstract class BackendBase extends Base
     /**
      * {@inheritdoc}
      */
-    protected function render($template, array $context = [], array $globals = [])
+    protected function render($template, array $context = [])
     {
         if (!isset($context['context'])) {
             $context = ['context' => $context];
         }
 
-        return parent::render($template, $context, $globals);
+        return parent::render($template, $context);
     }
 
     /**
