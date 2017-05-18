@@ -19,7 +19,7 @@
 
         <div class="body">
             <p>
-            {% if app.config.get('general/changelog/enabled') %}
+            {% if config.get('general/changelog/enabled') %}
             {% if context.entry.comment %}<h4><strong>Comment</strong>: {{ context.entry.comment }}</h4>{% endif %}
             {% endif %}
             </p>

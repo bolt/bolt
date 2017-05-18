@@ -24,16 +24,16 @@
 
         <div class="form-group">
         {% for taxonomy in context.contenttype.taxonomy|default([]) %}
-            {% if app.config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
+            {% if config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
                 {% set tax_query = global.request.query.get('taxonomy-' ~ taxonomy ) %}
                 {% if tax_query %}
                     {% set taxonomyfilter = true %}
                 {% endif %}
                 <select name='taxonomy-{{taxonomy}}' class='form-control'>
                     <option value=''>
-                        ({{ app.config.get('taxonomy/' ~ taxonomy ~ '/name')|default(taxonomy) }})
+                        ({{ config.get('taxonomy/' ~ taxonomy ~ '/name')|default(taxonomy) }})
                     </option>
-                {% for slug, name in app.config.get('taxonomy/' ~ taxonomy ~ '/options') %}
+                {% for slug, name in config.get('taxonomy/' ~ taxonomy ~ '/options') %}
                     <option value='{{slug}}' {% if tax_query == slug %}selected{% endif %}>
                         {{name}}
                     </option>
@@ -70,8 +70,8 @@
     <p><strong>{{ __('general.phrase.details') }}</strong></p>
     <ul>
         <li>{{ __('general.phrase.status-default') }}: {{ context.contenttype.default_status|default('published') }}</li>
-        <li>{{ __('general.phrase.listing-template') }}: <code>{{ context.contenttype.listing_template|default( app.config.get('general/listing_template') ) }}</code></li>
-        <li>{{ __('general.phrase.template-detail') }}: <code>{{ context.contenttype.record_template|default( app.config.get('general/record_template') ) }}</code></li>
+        <li>{{ __('general.phrase.listing-template') }}: <code>{{ context.contenttype.listing_template|default( config.get('general/listing_template') ) }}</code></li>
+        <li>{{ __('general.phrase.template-detail') }}: <code>{{ context.contenttype.record_template|default( config.get('general/record_template') ) }}</code></li>
         {% if context.contenttype.taxonomy|default('') is iterable %}
             <li>{{ __('general.phrase.taxonomy') }}: {{ context.contenttype.taxonomy|join(', ') }}</li>
         {% endif %}

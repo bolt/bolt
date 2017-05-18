@@ -4,6 +4,7 @@ namespace Bolt\Twig\Runtime;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
+use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Str;
 use Bolt\Pager\PagerManager;
@@ -28,6 +29,8 @@ class RecordRuntime
     private $templatesDir;
     /** @var array */
     private $themeTemplateSelect;
+    /** @var bool */
+    private $useTwigGlobals;
 
     /**
      * Constructor.
@@ -41,12 +44,14 @@ class RecordRuntime
         RequestStack $requestStack,
         PagerManager $pagerManager,
         DirectoryInterface $templatesDir,
-        array $themeTemplateSelect
+        array $themeTemplateSelect,
+        $useTwigGlobals
     ) {
         $this->requestStack = $requestStack;
         $this->pagerManager = $pagerManager;
         $this->templatesDir = $templatesDir;
         $this->themeTemplateSelect = $themeTemplateSelect;
+        $this->useTwigGlobals = $useTwigGlobals;
     }
 
     /**
@@ -153,6 +158,12 @@ class RecordRuntime
         $exclude = null,
         $skip_uses = true
     ) {
+        if ($record === null) {
+            if (!$this->useTwigGlobals) {
+                throw new \BadMethodCallException('Twig function fields() requires a record to be passed in as either the first, or named \'record\' parameter');
+            }
+            Deprecated::warn('Twig function fields() requires a record parameter', 3.3, ' Passed one in as either the first, or named \'record\' parameter');
+        }
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
             $globals = $env->getGlobals();

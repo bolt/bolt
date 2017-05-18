@@ -9,8 +9,8 @@
 {% endif %}
 
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
-    {% if app.config.get('taxonomy')[taxonomyslug] is defined %}
-        {% set taxonomy = app.config.get('taxonomy')[taxonomyslug] %}
+    {% if config.get('taxonomy')[taxonomyslug] is defined %}
+        {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
         <div data-bolt-fieldset="{{ taxonomy.behaves_like }}">
             {# Prefix #}

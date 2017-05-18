@@ -23,7 +23,7 @@
             {{ widgets('dashboard_below_header', 'backend') }}
 
             <div class="quicklinks">
-                {% if app.config.get('contenttypes')|length() > 3 %}
+                {% if config.get('contenttypes')|length() > 3 %}
                     {{ include('@bolt/dashboard/_quicklinks-dropdown.twig') }}
                 {% else %}
                     {{ include('@bolt/dashboard/_quicklinks-buttons.twig') }}

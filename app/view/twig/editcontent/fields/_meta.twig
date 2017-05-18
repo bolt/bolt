@@ -120,18 +120,18 @@
             <label class="col-sm-4 control-label">{{ __('general.phrase.owner-colon') }}</label>
             <div class="col-sm-8">
                 <select{{ macro.attr(attributes.ownerid) }}>
-                    {% for user in context.users %}
+                    {% for user in users %}
                         {% set attr_opt = {
-                            value:     context.user.id,
-                            selected:  (context.contentowner and context.user.id == context.contentowner.id),
+                            value:     user.id,
+                            selected:  (context.contentowner and user.id == context.contentowner.id),
                         } %}
-                        <option{{ macro.attr(attr_opt) }}>{{ context.user.displayname }}</option>
+                        <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
 
-        {% if app.config.get('general/changelog/enabled') %}
+        {% if config.get('general/changelog/enabled') %}
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{ __('contenttypes.record.comment-add-colon') }}</label>
                 <div class="col-sm-8">
