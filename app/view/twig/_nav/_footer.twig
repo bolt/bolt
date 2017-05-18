@@ -1,8 +1,8 @@
-{% if app.config.get('general/branding/provided_link') is not empty %}
+{% if config.get('general/branding/provided_link') is not empty %}
 
     <footer id="bolt-footer" class="hidden-xs {% if global.request.cookies.get('sidebar') %}bolt-footer-hidden{% endif %}">
         {{ __('general.phrase.provided-by-colon') }}
-        {{ app.config.get('general/branding/provided_link')|raw }} &ndash;
+        {{ config.get('general/branding/provided_link')|raw }} &ndash;
         <i class="fa fa-cog"></i> <b>Bolt {{ constant('Bolt\\Version::VERSION') }}</b>:
         <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('general.about') }}</a> &ndash;
         <i class="fa fa-external-link-square"></i> <a href="http://bolt.cm" target="_blank">Bolt.cm</a>

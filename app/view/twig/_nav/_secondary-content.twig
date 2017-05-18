@@ -2,7 +2,7 @@
 
 {% set definedSubs = [] %}
 
-{% for slug, contenttype in app.config.get('contenttypes')  %}
+{% for slug, contenttype in config.get('contenttypes')  %}
     {% if isallowed('contenttype:' ~ slug) %}
         {% set sub_view = {
             icon: contenttype.icon_many|default(contenttype.show_in_menu ? 'fa:files-o' : 'fa:th-list'),
