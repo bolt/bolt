@@ -22,7 +22,7 @@
                is set to true. This way we keep 'grouping' intact in the listing. #}
             {% if not taxonomy.has_sortorder %}
                 {# If we specified an order in config.yml, sort them here, accordingly: #}
-                {% set records = records|order(app.config.get('general/listing_sort')) %}
+                {% set records = records|order(config.get('general/listing_sort')) %}
             {% endif %}
         {% endif %}
 

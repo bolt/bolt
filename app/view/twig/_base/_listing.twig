@@ -301,13 +301,13 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     {% for taxonomyslug, values in content.taxonomy %}
                         {% if values|length > 1 %}
                             <li>
-                                <a class="nolink">{{ app.config.get('taxonomy')[taxonomyslug].name }}:
+                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
                                     <i class="fa fa-tag"></i> {{ values|join(", ")|excerpt(24) }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
-                                <a class="nolink">{{ app.config.get('taxonomy')[taxonomyslug].singular_name }}:
+                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
                                     <i class="fa fa-tag"></i> {{ values|first|excerpt(24) }}
                                 </a>
                             </li>

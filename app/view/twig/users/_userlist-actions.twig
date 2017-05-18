@@ -1,6 +1,6 @@
 {% if isallowed('useredit') %}
     <div class="btn-group">
-    <a href="{{ path('useredit', {'id': context.user.id}) }}" class="btn btn-default btn-xs">
+    <a href="{{ path('useredit', {'id': user.id}) }}" class="btn btn-default btn-xs">
             <i class="fa fa-edit"></i> {{ __('general.phrase.edit') }}
     </a>
 
@@ -10,10 +10,10 @@
     </button>
 
     <ul class="dropdown-menu pull-right">
-        {% if context.currentuser.id != context.user.id  %}
-            {% if context.user.enabled %}
+        {% if context.currentuser.id != user.id  %}
+            {% if user.enabled %}
                 <li>
-                    <form action="{{ path('useraction', {'action': 'disable', 'id': context.user.id}) }}" method="post">
+                    <form action="{{ path('useraction', {'action': 'disable', 'id': user.id}) }}" method="post">
                         {{ include('@bolt/_sub/_csrf_token.twig') }}
                         <button type="submit" class="btn btn-block btn-link">
                             <span class="pull-left">{{ __('general.phrase.disable-user-name',{'%username%':user.displayname}) }}</span>
@@ -22,7 +22,7 @@
                 </li>
             {% else %}
                 <li>
-                    <form action="{{ path('useraction', {'action': 'enable', 'id': context.user.id}) }}" method="post">
+                    <form action="{{ path('useraction', {'action': 'enable', 'id': user.id}) }}" method="post">
                         {{ include('@bolt/_sub/_csrf_token.twig') }}
                         <button type="submit" class="btn btn-block btn-link">
                             <span class="pull-left">{{ __('general.phrase.enable-user-name',{'%username%':user.displayname}) }}</span>
@@ -31,7 +31,7 @@
                 </li>
             {% endif %}
             <li>
-                <form action="{{ path('useraction', {'action': 'delete', 'id': context.user.id}) }}" method="post">
+                <form action="{{ path('useraction', {'action': 'delete', 'id': user.id}) }}" method="post">
                     {{ include('@bolt/_sub/_csrf_token.twig') }}
                     <button type="submit" class="btn btn-block btn-link confirm"
                     data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}" >
@@ -46,18 +46,18 @@
 
         <li>
             <a class="nolink">
-                {{ __('general.phrase.last-seen') }}: <strong>{% if context.user.lastseen>"1000" %}{{ context.user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong>
+                {{ __('general.phrase.last-seen') }}: <strong>{% if user.lastseen|default %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong>
             </a>
         </li>
 
         <li>
             <a class="nolink">
-                {{ __('general.phrase.last-known-ip') }}: <strong>{% if context.user.lastip!="" %}{{ context.user.lastip }}{% else %}-{% endif %}</strong>
+                {{ __('general.phrase.last-known-ip') }}: <strong>{% if user.lastip|default %}{{ user.lastip }}{% else %}-{% endif %}</strong>
             </a>
         </li>
     </ul>
 </div>
-{% elseif context.currentuser.id == context.user.id %}
+{% elseif context.currentuser.id == user.id %}
     <a href="{{ path('profile') }}" class="btn btn-default btn-xs">
         <i class="fa fa-edit"></i> {{ __('general.phrase.profile') }}
     </a>

@@ -18,8 +18,8 @@
     <ul class="activity">
         {% for log in context.change %}
             <li>
-                {% if app.config.get('contenttypes')[log.contenttype] is defined %}
-                    {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
+                {% if config.get('contenttypes')[log.contenttype] is defined %}
+                    {% set contenttype = config.get('contenttypes')[log.contenttype] %}
                     {% set contenttype_display_name = contenttype.singular_name %}
                     {% set content_display_name = macro.contentlink_by_id(contenttype, log.title, log.contentid) %}
                 {% else %}
