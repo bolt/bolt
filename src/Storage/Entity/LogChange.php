@@ -6,8 +6,6 @@ namespace Bolt\Storage\Entity;
  */
 class LogChange extends Entity
 {
-    /** @var int */
-    protected $id;
     /** @var \DateTime */
     protected $date;
     /** @var int */
@@ -19,27 +17,11 @@ class LogChange extends Entity
     /** @var int */
     protected $contentid;
     /** @var string */
-    protected $mutationType;
+    protected $mutation_type;
     /** @var array */
     protected $diff;
     /** @var string */
     protected $comment;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return \DateTime
@@ -60,17 +42,17 @@ class LogChange extends Entity
     /**
      * @return int
      */
-    public function getOwnerid()
+    public function getOwnerId()
     {
         return $this->ownerid;
     }
 
     /**
-     * @param int $ownerid
+     * @param int $ownerId
      */
-    public function setOwnerid($ownerid)
+    public function setOwnerId($ownerId)
     {
-        $this->ownerid = $ownerid;
+        $this->ownerid = $ownerId;
     }
 
     /**
@@ -92,33 +74,33 @@ class LogChange extends Entity
     /**
      * @return string
      */
-    public function getContenttype()
+    public function getContentType()
     {
         return $this->contenttype;
     }
 
     /**
-     * @param string $contenttype
+     * @param string $contentType
      */
-    public function setContenttype($contenttype)
+    public function setContentType($contentType)
     {
-        $this->contenttype = $contenttype;
+        $this->contenttype = $contentType;
     }
 
     /**
      * @return int
      */
-    public function getContentid()
+    public function getContentId()
     {
         return $this->contentid;
     }
 
     /**
-     * @param int $contentid
+     * @param int $contentId
      */
-    public function setContentid($contentid)
+    public function setContentId($contentId)
     {
-        $this->contentid = $contentid;
+        $this->contentid = $contentId;
     }
 
     /**
@@ -126,7 +108,7 @@ class LogChange extends Entity
      */
     public function getMutationType()
     {
-        return $this->mutationType;
+        return $this->mutation_type;
     }
 
     /**
@@ -134,7 +116,7 @@ class LogChange extends Entity
      */
     public function setMutationType($mutationType)
     {
-        $this->mutationType = $mutationType;
+        $this->mutation_type = $mutationType;
     }
 
     /**
@@ -174,16 +156,17 @@ class LogChange extends Entity
      *
      * @return array
      */
-    public function getChangedFields()
+    public function getChangedFields(array $contentType)
     {
-        $changedfields = [];
+        $changedFields = [];
 
         if (empty($this->diff)) {
-            return $changedfields;
+            return $changedFields;
         }
 
-        // Get the contenttype that we're dealing with
-        $fields = $this->contentTypeMeta['fields'];
+        // Get the ContentType that we're dealing with
+        $fields = $contentType['fields'];
+
         $hash = [
             'html'        => 'fieldText',
             'markdown'    => 'fieldText',
@@ -197,8 +180,12 @@ class LogChange extends Entity
         ];
 
         foreach ($this->diff as $key => $value) {
-            $changedfields[$key] = [
-                'type'   => 'normal',
+            if (!isset($fields[$key])) {
+                continue;
+            }
+            $type = $fields[$key]['type'];
+            $changedFields[$key] = [
+                'type'   => $type,
                 'label'  => empty($fields[$key]['label']) ? $key : $fields[$key]['label'],
                 'before' => [
                     'raw'    => $value[0],
@@ -210,13 +197,15 @@ class LogChange extends Entity
                 ],
             ];
 
-            if (isset($hash[$fields[$key]['type']])) {
-                $func = $hash[$fields[$key]['type']];
-                $changedfields[$key] = array_merge($changedfields[$key], $this->{$func}($key, $value, $fields));
+            /** @var string $type */
+            $type = $fields[$key]['type'];
+            if (isset($hash[$type])) {
+                $func = $hash[$type];
+                $changedFields[$key] = array_merge($changedFields[$key], $this->{$func}($key, $value, $fields));
             }
         }
 
-        return $changedfields;
+        return $changedFields;
     }
 
     /**
@@ -329,8 +318,8 @@ class LogChange extends Entity
     private function fieldSelect($key, $value, array $fields)
     {
         if (isset($fields[$key]['multiple']) && $fields[$key]['multiple']) {
-            $before = json_decode($value[0], true);
-            $after  = json_decode($value[1], true);
+            $before = $value[0];
+            $after  = $value[1];
         } else {
             $before = $value[0];
             $after  = $value[1];

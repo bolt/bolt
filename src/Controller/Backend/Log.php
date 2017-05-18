@@ -93,7 +93,7 @@ class Log extends BackendBase
         $next = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '>');
 
         $context = [
-            'contenttype' => ['slug' => $contenttype],
+            'contenttype' => $this->getOption('contenttypes/' . $contenttype),
             'entry'       => $entry,
             'next_entry'  => $next,
             'prev_entry'  => $prev,
@@ -136,6 +136,7 @@ class Log extends BackendBase
 
         $context = [
             'contenttype' => $contenttype,
+            'entry'       => null,
             'entries'     => $data['entries'],
             'content'     => $data['content'],
             'title'       => $data['title'],
