@@ -35,14 +35,6 @@ class BoltExtension extends Extension implements GlobalsInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'Bolt';
-    }
-
-    /**
      * Used by setcontent tag.
      *
      * @return EntityManagerInterface
