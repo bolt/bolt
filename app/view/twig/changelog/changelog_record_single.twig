@@ -1,7 +1,5 @@
 {# Page: NavSecondary > Content ... > Recent modifications > view #}
 
-{% from '@bolt/changelog/_macros.twig' import changelog_details %}
-
 {% if context.prev_entry %}
     {% set left_link = path(
             'changelogrecordsingle',
@@ -37,7 +35,7 @@
 {% block page_subtitle context.entry.title %}
 
 {% block page_main %}
-
+    {% include '@bolt/changelog/_blocks.twig' %}
     <div class="row">
         <div class="col-xs-12">
             <ul class="pagination pagination-centered">
@@ -61,7 +59,9 @@
                     <li class="disabled"><span><i style="font-weight: bold" class="fa fa-angle-right"></i></span></li>
                 {% endif %}
             </ul>
-            {{ changelog_details(context.entry) }}
+            {% if block('changelog_details') is defined %}
+                {{ block('changelog_details') }}
+            {% endif %}
         </div>
     </div>
 
