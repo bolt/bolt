@@ -50,11 +50,8 @@ class Records extends BackendBase
             return $response;
         }
 
-        // Set the editreferrer in twig if it was not set yet.
-        $this->setEditReferrer($request);
-
         // Get the ContentType object
-        $contenttype = $this->getContentType($contenttypeslug);
+        $contentType = $this->getContentType($contenttypeslug);
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
@@ -64,7 +61,7 @@ class Records extends BackendBase
             $returnTo = $request->get('returnto');
             $editReferrer = $request->get('editreferrer');
 
-            return $this->recordSave()->action($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
+            return $this->recordSave()->action($formValues, $contentType, $id, $new, $returnTo, $editReferrer);
         }
 
         try {
@@ -77,7 +74,7 @@ class Records extends BackendBase
         }
 
         if ($new) {
-            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
+            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contentType['default_status']]);
         } else {
             $content = $repo->find($id);
             if ($content === false) {
@@ -91,6 +88,12 @@ class Records extends BackendBase
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
         $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
+
+        // Get the editreferrer
+        $referrer = $this->getEditReferrer($request);
+        if ($referrer) {
+            $content['editreferrer'] = $referrer;
+        }
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
     }
@@ -174,20 +177,25 @@ class Records extends BackendBase
      *
      * @param Request $request
      *
-     * @return void
+     * @return string|null
      */
-    private function setEditReferrer(Request $request)
+    private function getEditReferrer(Request $request)
     {
         $tmp = parse_url($request->server->get('HTTP_REFERER'));
 
-        $tmpreferrer = $tmp['path'];
+        $referrer = $tmp['path'];
         if (!empty($tmp['query'])) {
-            $tmpreferrer .= '?' . $tmp['query'];
+            $referrer .= '?' . $tmp['query'];
         }
 
-        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer === $this->generateUrl('dashboard') . '/')) {
-            $this->app['twig']->addGlobal('editreferrer', $tmpreferrer);
+        if (strpos($referrer, '/overview/') !== false || ($referrer === $this->generateUrl('dashboard') . '/')) {
+            if ($this->getOption('general/compatibility/twig_globals', true)) {
+                $this->app['twig']->addGlobal('editreferrer', $referrer);
+            }
+            return $referrer;
         }
+
+        return null;
     }
 
     /**

@@ -7,7 +7,7 @@
     {# Output all fields, in the order as defined in the contenttype.
        To change the generated html and configure the options, see:
        https://docs.bolt.cm/templating/fields-tag #}
-    {{ fields(template = 'partials/_sub_fields.twig') }}
+    {{ fields(record = record, template = 'partials/_sub_fields.twig') }}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
     {{ dump(record) }}
