@@ -42,6 +42,14 @@ abstract class BackendBase extends Base
             $context = ['context' => $context];
         }
 
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+        $oldGlobals = $this->app['twig']->getGlobals();
+        foreach (['user', 'users', 'bolt_version'] as $key) {
+            if (!isset($context['context'][$key])) {
+                $context['context'][$key] = $oldGlobals[$key];
+            }
+        }
+
         return parent::render($template, $context, $globals);
     }
 
