@@ -8,7 +8,6 @@ use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
-use Bolt\Tests\Extensions\Mock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -393,7 +392,6 @@ HTML;
     public function testAddJqueryOnlyOnce()
     {
         $app = $this->getApp();
-        $app->initialize();
         $app['config']->set('general/add_jquery', true);
         $response = new Response($this->template);
         $app['asset.queue.file']->process($this->getRequest(), $response);

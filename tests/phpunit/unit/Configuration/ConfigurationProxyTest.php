@@ -24,7 +24,6 @@ class ConfigurationProxyTest extends BoltUnitTest
 
         // Now we change it, boot the app and make sure the proxy has changed
         $app['config']->set('contenttypes/pages/name', 'Pages Test');
-        $app->initialize();
         $this->assertNotEquals('Pages Test', $configNode['name']);
         $app->handle(Request::createFromGlobals());
         $this->assertEquals('Pages Test', $configNode['name']);

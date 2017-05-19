@@ -73,7 +73,6 @@ abstract class BoltUnitTest extends TestCase
     {
         if (!$this->app) {
             $this->app = $this->makeApp();
-            $this->app->initialize();
 
             $verifier = new Config\Validation\Validator(
                 $this->app['config'],
