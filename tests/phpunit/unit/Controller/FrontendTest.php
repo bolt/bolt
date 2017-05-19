@@ -92,10 +92,10 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
-        $globals = $this->getTwigGlobals();
+        $context = $response->getContext();
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertInstanceOf(Content::class, $globals['record']);
+        $this->assertInstanceOf(Content::class, $context['record']);
     }
 
     public function testMultipleHomepages()
@@ -104,10 +104,10 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $app['config']->set('general/homepage', 'pages');
 
-        $this->controller()->homepage($this->getRequest());
+        $response = $this->controller()->homepage($this->getRequest());
+        $context = $response->getContext();
 
-        $globals = $this->getTwigGlobals();
-        foreach ($globals['records'] as $record) {
+        foreach ($context['records'] as $record) {
             $this->assertInstanceOf(Content::class, $record);
         }
     }

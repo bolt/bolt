@@ -26,7 +26,6 @@ class BoltExtensionTest extends BoltUnitTest
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
-        $this->assertEquals('Bolt', $twig->getName());
     }
 
     public function testGetGlobals()
