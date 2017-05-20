@@ -68,7 +68,7 @@ class UsersTest extends ControllerUnitTest
         $this->setService('permissions', $perms);
 
         // Symfony forms need a CSRF token so we have to mock this too
-        $this->removeCSRF($this->getApp());
+        $this->removeCSRF();
 
         // Update the display name via a POST request
         $this->setRequest(Request::create(
@@ -92,7 +92,7 @@ class UsersTest extends ControllerUnitTest
     public function testFirst()
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $this->removeCSRF($this->getApp());
+        $this->removeCSRF();
 
         // Because we have users in the database this should exit at first attempt
         $this->setRequest(Request::create('/bolt/userfirst'));
@@ -136,12 +136,6 @@ class UsersTest extends ControllerUnitTest
 
     public function testModifyBadCsrf()
     {
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(false));
-        $this->setService('csrf', $csrf);
-
         // First test should exit/redirect with no anti CSRF token
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->modify('disable', 1);
@@ -154,11 +148,7 @@ class UsersTest extends ControllerUnitTest
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('csrf', $csrf);
+        $this->removeCSRF();
 
         $currentuser = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($currentuser));
@@ -236,11 +226,7 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('csrf', $csrf);
+        $this->removeCSRF();
 
         $users = $this->getMockUsers(['setEnabled', 'deleteUser']);
         $users->expects($this->any())
@@ -278,7 +264,7 @@ class UsersTest extends ControllerUnitTest
     public function testProfile()
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $this->removeCSRF($this->getApp());
+        $this->removeCSRF();
         $user = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($user));
         $this->setRequest(Request::create('/bolt/profile'));
@@ -309,14 +295,14 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($user));
 
+        // Symfony forms need a CSRF token so we have to mock this too
+        $this->removeCSRF();
+
         $perms = $this->getMockPermissions();
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
-
-        // Symfony forms need a CSRF token so we have to mock this too
-        $this->removeCSRF($this->getApp());
 
         // Update the display name via a POST request
         $this->setRequest(Request::create(

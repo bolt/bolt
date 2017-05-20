@@ -10,7 +10,6 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * Class to handle things dealing with users.
@@ -99,36 +98,6 @@ class Users
         }
 
         return $this->app['access_control']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function getAntiCSRFToken()
-    {
-        Deprecated::method(3.0);
-
-        return $this->app['csrf']->getToken('bolt')->getValue();
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function checkAntiCSRFToken($token = '')
-    {
-        Deprecated::method(3.0);
-
-        if (empty($token)) {
-            $token = $this->app['request']->get('bolt_csrf_token');
-        }
-
-        $token = new CsrfToken('bolt', $token);
-        if ($this->app['csrf']->isTokenValid($token)) {
-            return true;
-        }
-        $this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
-
-        return false;
     }
 
     /**
