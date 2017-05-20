@@ -5,6 +5,8 @@ namespace Bolt\Extension;
 use Bolt\Events\ControllerEvents;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
+use Silex\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -13,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface, EventSubscriberInterface
+abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface, EventSubscriberInterface, BootableProviderInterface
 {
     use AssetTrait;
     use ConfigTrait;
@@ -75,7 +77,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     /**
      * {@inheritdoc}
      */
-    public function boot(Container $app)
+    public function boot(Application $app)
     {
         $this->container = $app;
         $this->container['dispatcher']->addSubscriber($this);
