@@ -21,17 +21,22 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
  */
 class AssetTraitTest extends BoltUnitTest
 {
-    public function testRegisterAssetsNoOverride()
+    public function testEmptyQueues()
     {
         $app = $this->getApp();
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
+    }
 
+    public function testRegisterAssetsNoOverride()
+    {
+        $app = $this->getApp(false);
         $ext = new NormalExtension();
-        $ext->setContainer($app);
-        $ext->register($app);
+
+        $app['extensions']->add($ext);
+        $app->boot();
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
@@ -40,16 +45,13 @@ class AssetTraitTest extends BoltUnitTest
 
     public function testEmptyRegisterAssets()
     {
-        $app = $this->getApp();
-
-        $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
-        $this->assertSame([], $app['asset.queue.snippet']->getQueue());
-        $this->assertSame([], $app['asset.queue.widget']->getQueue());
+        $app = $this->getApp(false);
 
         $ext = new AssetExtension();
         $ext->setAssets(null);
-        $ext->setContainer($app);
-        $ext->register($app);
+
+        $app['extensions']->add($ext);
+        $app->boot();
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
@@ -58,11 +60,7 @@ class AssetTraitTest extends BoltUnitTest
 
     public function testRegisterValidAssetsNoPath()
     {
-        $app = $this->getApp();
-
-        $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
-        $this->assertSame([], $app['asset.queue.snippet']->getQueue());
-        $this->assertSame([], $app['asset.queue.widget']->getQueue());
+        $app = $this->getApp(false);
 
         $webDir = new Directory($app['filesystem']->getFilesystem('extensions'));
         $ext = new AssetExtension();
@@ -79,6 +77,9 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->register($app);
 
+        $app['extensions']->add($ext);
+        $app->boot();
+
         $fileQueue = $app['asset.queue.file']->getQueue();
         $snippetQueue = $app['asset.queue.snippet']->getQueue();
         $widgetQueue = $app['asset.queue.widget']->getQueue();
@@ -91,23 +92,19 @@ class AssetTraitTest extends BoltUnitTest
 
     public function testRegisterValidAssetsExtensionPath()
     {
-        $app = $this->getApp();
-
-        $filesystem = new Manager([
-            'theme' => new Filesystem(new Memory()),
-            'web'   => new Filesystem(new Memory()),
-        ]);
-        $this->setService('filesystem', $filesystem);
+        $app = $this->getApp(false);
+        $filesystem = $app['filesystem'];
+        $filesystems = [
+            'web' => new Filesystem(new Memory()),
+        ];
+        $filesystem->mountFilesystems($filesystems);
+        $filesystem->put('web://extensions/local/bolt/koala/js/test.js', '');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
-        $ext->setContainer($app);
-        $ext->setWebDirectory($filesystem->getDir('web://extensions/local/bolt/koala'));
+        $app['extensions']->add($ext, null, $filesystem->getDir('web://extensions/local/bolt/koala'));
 
-        $ext->register($app);
-
-        $filesystem->put('web://extensions/local/bolt/koala/js/test.js', '');
-
+        $app->boot();
         $fileQueue = $app['asset.queue.file']->getQueue();
 
         /** @var JavaScript $queued */
@@ -119,21 +116,19 @@ class AssetTraitTest extends BoltUnitTest
 
     public function testRegisterValidAssetsThemePath()
     {
-        $app = $this->getApp();
-
-        $filesystem = new Manager([
+        $app = $this->getApp(false);
+        $filesystem = $app['filesystem'];
+        $filesystems = [
             'theme' => new Filesystem(new Memory()),
-            'web'   => new Filesystem(new Memory()),
-        ]);
-        $this->setService('filesystem', $filesystem);
-
-        $filesystem->put('theme://js/test.js', '');
+            'web' => new Filesystem(new Memory()),
+        ];
+        $filesystem->mountFilesystems($filesystems);
+        $filesystem->getFilesystem('theme')->put('js/test.js', 'koala');
 
         $ext = new AssetExtension();
+        $app['extensions']->add($ext, null, $filesystem->getDir('web://extensions/local/bolt/koala'));
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
-        $ext->setWebDirectory($filesystem->getDir('web://bolt/koala'));
-
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
@@ -151,18 +146,13 @@ class AssetTraitTest extends BoltUnitTest
      */
     public function testRegisterInvalidAssets()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
 
-        $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
-        $this->assertSame([], $app['asset.queue.snippet']->getQueue());
-        $this->assertSame([], $app['asset.queue.widget']->getQueue());
-
-        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets('Turning our nightlights on in the daytime to scare');
-        $ext->setContainer($app);
-        $ext->setBaseDirectory($dir);
-        $ext->register($app);
+
+        $app['extensions']->add($ext);
+        $app->boot();
 
         $app['asset.queue.file']->getQueue();
     }
@@ -173,18 +163,13 @@ class AssetTraitTest extends BoltUnitTest
      */
     public function testRegisterInvalidPathAssets()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
 
-        $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
-        $this->assertSame([], $app['asset.queue.snippet']->getQueue());
-        $this->assertSame([], $app['asset.queue.widget']->getQueue());
-
-        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript()]);
-        $ext->setContainer($app);
-        $ext->setBaseDirectory($dir);
-        $ext->register($app);
+
+        $app['extensions']->add($ext);
+        $app->boot();
 
         $app['asset.queue.file']->getQueue();
     }

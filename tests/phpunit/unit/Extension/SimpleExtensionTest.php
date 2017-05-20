@@ -18,7 +18,8 @@ class SimpleExtensionTest extends BoltUnitTest
 {
     public function testRegister()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
+        $filesystem = $app['filesystem'];
         $mock = $this->getMockBuilder(NormalExtension::class)
             ->setMethods(['getContainer'])
             ->getMock()
@@ -26,8 +27,8 @@ class SimpleExtensionTest extends BoltUnitTest
         $mock->expects($this->atLeast(4))->method('getContainer')->willReturn($app);
 
         /** @var NormalExtension $mock */
-        $mock->setContainer($app);
-        $mock->register($app);
+        $app['extensions']->add($mock, null, $filesystem->getDir('web://extensions/local/bolt/koala'));
+        $app->boot();
     }
 
     /**

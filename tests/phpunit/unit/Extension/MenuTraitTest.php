@@ -16,7 +16,7 @@ class MenuTraitTest extends BoltUnitTest
 {
     public function testEmptyMenus()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
         $ext = new NormalExtension();
         $baseDir = $app['filesystem']->getDir('extensions://local/bolt/menu');
         $ext->setBaseDirectory($baseDir);
@@ -32,7 +32,7 @@ class MenuTraitTest extends BoltUnitTest
 
     public function testLegacyMenuAdds()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
 
         $ext = new MenuExtension();
         $baseDir = $app['filesystem']->getDir('extensions://local/bolt/menu');

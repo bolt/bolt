@@ -15,20 +15,22 @@ class DatabaseSchemaTraitTest extends BoltUnitTest
 {
     public function testDatabaseSchemaExtension()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
+        $filesystem = $app['filesystem'];
         $ext = new DatabaseSchemaExtension();
-        $ext->setContainer($app);
-        $ext->register($app);
+        $app['extensions']->add($ext, null, $filesystem->getDir('web://extensions/local/bolt/koala'));
+
         $app->boot();
         $this->addToAssertionCount(1);
     }
 
     public function testRegisterTable()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
+        $filesystem = $app['filesystem'];
         $ext = new DatabaseSchemaExtension();
-        $ext->setContainer($app);
-        $ext->register($app);
+        $app['extensions']->add($ext, null, $filesystem->getDir('web://extensions/local/bolt/koala'));
+        $app->boot();
 
         $extensionTableNames = $app['schema.extension_tables']->keys();
         $this->assertSame('round_table', reset($extensionTableNames));

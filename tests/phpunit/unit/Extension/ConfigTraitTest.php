@@ -61,6 +61,9 @@ class ConfigTraitTest extends BoltUnitTest
 
     public function testInstallConfigFile()
     {
+        /** @var YamlFile $file */
+        $file = $this->extConfigDir->getFile('config.bolt.yml');
+        $file->dump(['blame' => 'drop bear']);
         $ext = $this->createExt();
 
         $conf = $this->invoke($ext, 'getConfig');
@@ -85,8 +88,9 @@ class ConfigTraitTest extends BoltUnitTest
         /** @var YamlFile $file */
         $file = $this->extConfigDir->getFile('config.bolt_local.yml');
         $file->dump(['blame' => 'gnomes']);
+        $ext = $this->createExt();
 
-        $conf = $this->invoke($this->createExt(), 'getConfig');
+        $conf = $this->invoke($ext, 'getConfig');
 
         $this->assertSame(['blame' => 'gnomes'], $conf);
     }
@@ -104,10 +108,10 @@ class ConfigTraitTest extends BoltUnitTest
 
     protected function createExt()
     {
+        $app = $this->getApp(false);
         $ext = new ConfigExtension();
-        $ext->setContainer($this->getApp());
-        $ext->setBaseDirectory($this->extDir);
-        $ext->register($this->getApp());
+        $app['extensions']->add($ext, $this->extDir);
+        $app->boot();
 
         return $ext;
     }
