@@ -163,7 +163,7 @@
 
             items.addClass('zombie');
             if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
-                event.target.closest('.item').remove();
+                $(event.target).closest('.item').remove();
                 this._serialize();
             } else {
                 items.removeClass('zombie');
