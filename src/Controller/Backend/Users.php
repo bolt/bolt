@@ -8,6 +8,9 @@ use Bolt\Form\FormType;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Swift_Message as Message;
+use Swift_RfcComplianceException as RfcComplianceException;
+use Swift_TransportException as TransportException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -384,35 +387,46 @@ class Users extends BackendBase
      */
     private function notifyUserSetupEmail(Request $request, $displayName, $email)
     {
+        $logger = $this->app['logger.system'];
+        $mailer = $this->app['mailer'];
+        $transport = $this->app['swiftmailer.spooltransport'];
+
         // Create a welcome email
         $mailHtml = $this->app['twig']->render(
             '@bolt/email/firstuser.twig',
             ['context' => ['sitename' => $this->getOption('general/sitename')]]
         );
 
+        $name = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
+        $from = ['bolt@' . $request->getHost() => $name];
+        $email = $this->getOption('general/mailoptions/senderMail', $email);
         try {
-            // Send a welcome email
-            $name = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
-            $from = ['bolt@' . $request->getHost() => $name];
-            $email = $this->getOption('general/mailoptions/senderMail', $email);
-            $message = $this->app['mailer']
+            /** @var Message $message */
+            $message = $mailer
                 ->createMessage('message')
                 ->setSubject(Trans::__('general.bolt-new-site-set-up'))
                 ->setFrom($from)
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])
-                ->setBody(strip_tags($mailHtml))
-                ->addPart($mailHtml, 'text/html');
-
-            $failedRecipients = [];
-
-            $this->app['mailer']->send($message, $failedRecipients);
-
-            // Try and send immediately
-            $this->app['swiftmailer.spooltransport']->getSpool()->flushQueue($this->app['swiftmailer.transport']);
-        } catch (\Exception $e) {
+                ->setBody($mailHtml, 'text/html')
+                ->addPart(preg_replace('/^[\t ]+|[\t ]+$/m', '', strip_tags($mailHtml)), 'text/plain')
+                ->setPriority(Message::PRIORITY_HIGH);
+            ;
+        } catch (RfcComplianceException $e) {
             // Sending message failed. What else can we do, send via snailmail?
-            $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
+            $logger->critical("The email address set in 'mailoptions/senderMail' is not a valid email address.", ['event' => 'exception', 'exception' => $e]);
+
+            return;
+        }
+
+        try {
+            // Try and send immediately
+            $failedRecipients = [];
+            $mailer->send($message, $failedRecipients);
+            $transport->getSpool()->flushQueue($this->app['swiftmailer.transport']);
+        } catch (TransportException $e) {
+            // Sending message failed. What else can we do, send via snailmail?
+            $logger->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
         }
     }
 }
