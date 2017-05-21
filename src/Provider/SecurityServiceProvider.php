@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Provider\SecurityServiceProvider as SilexSecurityServiceProvider;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\HttpUtils;
 
 /**
@@ -31,7 +32,8 @@ class SecurityServiceProvider implements ServiceProviderInterface
                 ],
                 'bolt' => [
                     'pattern'  => '^' . $boltPath,
-                    'security' => false,
+                    'security' => true,
+                    'anonymous' => true,
                 ],
                 'default' => [
                     'pattern'   => '^/.*$',
@@ -52,7 +54,7 @@ class SecurityServiceProvider implements ServiceProviderInterface
             $boltPath = $app['config']->get('general/branding/path');
 
             return [
-                ['^' . $boltPath . '/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+                ['^' . $boltPath . '/login$', AuthenticatedVoter::IS_AUTHENTICATED_ANONYMOUSLY],
             ];
         };
 
