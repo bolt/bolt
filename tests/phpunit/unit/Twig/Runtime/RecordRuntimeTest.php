@@ -468,7 +468,7 @@ GRINGALET;
 
     public function testPager()
     {
-        $app = $this->getApp();
+        $app = $this->getApp(false);
 
         $pager = $this->getMockBuilder(Pager::class)
             ->getMock()
@@ -503,6 +503,7 @@ GRINGALET;
             ->will($this->returnValue($pager))
         ;
         $this->setService('pager', $manager);
+        $app->boot();
 
         $handler = $this->getRecordRuntime();
         $env = $app['twig'];
