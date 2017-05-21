@@ -326,19 +326,16 @@ wysiwyg:
 # Global option to enable/disable the live editor
 liveeditor: false
 
-# Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
-# or PHP's built-in `mail()`-function.
-
-# Note that the latter might _seem_ easier, but it's been disabled by a lot of
-# webhosts, in order to prevent spam from wrongly configured scripts. If you use
-# it, your mail might disappear into a black hole, without producing any errors.
-# Generally speaking, using 'smtp' is the better option, so use that if possible.
+# Use the 'mailoptions' setting to configure how Bolt sends email.
 #
-# Protip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
+# By default, the mail service will try to connect to an SMTP server, if that
+# fails it will attempt to use the locally installed sendmail command on
+# systems that support it.
+#
+# Pro-tip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
 # account at https://www.sparkpost.com/pricing/ for sending emails reliably.
 
 # mailoptions:
-#     transport: smtp
 #     spool: true
 #     host: localhost
 #     port: 25
@@ -346,12 +343,12 @@ liveeditor: false
 #     password: password
 #     encryption: null
 #     auth_mode: null
+#     smime:
+#         sign_cert_public: null  # /path/to/sign-certificate.pem
+#         sign_cert_private: null # /path/to/private-key.pem
+#         encrypt_cert:           # /path/to/encrypt-certificate.pem
 #     senderMail: null
 #     senderName: null
-
-# mailoptions:
-#     transport: mail
-#     spool: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every
 # option that is set to true, it becomes harder for a bad-willing person to
