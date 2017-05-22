@@ -35,7 +35,8 @@
 
 {# Get the current selection. Either a single value, or an array. #}
 {% set selection = context.content.get(contentkey)|default(option.default) %}
-{% if selection is not iterable %}
+{# Make sure the value is either `null` (for empty), or cast to an array for a string. Prevent breakage when switching from 'single' to 'mulptiple' #}
+{% if selection is not iterable and selection is not empty  %}
     {% set selection = [ selection ] %}
 {% endif %}
 
