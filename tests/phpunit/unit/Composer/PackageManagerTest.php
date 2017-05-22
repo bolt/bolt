@@ -2,9 +2,13 @@
 
 namespace Bolt\Tests\Composer;
 
+use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Extension\Manager;
+use Bolt\Extension\ResolvedExtension;
+use Bolt\Filesystem\Handler\File;
+use Bolt\Filesystem\Manager as FilesystemManager;
 use Bolt\Logger\FlashLogger;
 use Composer\Package\CompletePackage;
 use Exception;
@@ -18,6 +22,7 @@ use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * @covers \Bolt\Composer\PackageManager
@@ -127,9 +132,6 @@ class PackageManagerTest extends TestCase
         $this->assertRegExp($regex, $messages[0]);
     }
 
-
-
-
     public function testGetAllPackages()
     {
         $installed = [
@@ -143,13 +145,96 @@ class PackageManagerTest extends TestCase
         $app = new Application();
         $app['extend.writeable'] = false;
         $app['extend.action'] = $this->getActionMock('show', $installed);
+
+        $urlGeneratorMock = $this->getMockBuilder(UrlGenerator::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['generate'])
+            ->getMock()
+        ;
+        $urlGeneratorMock
+            ->expects($this->at(0))
+            ->method('generate')
+            ->willReturn('/async/readme/test/installed-a')
+        ;
+        $urlGeneratorMock
+            ->expects($this->at(1))
+            ->method('generate')
+            ->willReturn('/bolt/file/edit/extensions/installed-a.test.yml')
+        ;
+        $app['url_generator'] = $urlGeneratorMock;
+
+        $descriptor = new PackageDescriptor(null, null, null, null, 'x.y.z', true);
+        $extensionMock = $this->getMockBuilder(ResolvedExtension::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getId', 'getName', 'getVendor', 'getDisplayName', 'getDescriptor', 'isValid', 'isEnabled'])
+            ->getMock()
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('getDescriptor')
+            ->willReturn($descriptor)
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('getId')
+            ->willReturn('test/installed-a')
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('getName')
+            ->willReturn('installed-a')
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('getVendor')
+            ->willReturn('test')
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('isValid')
+            ->willReturn(true)
+        ;
+        $extensionMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false)
+        ;
+
+        $fileMock = $this->getMockBuilder(File::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['exists'])
+            ->getMock()
+        ;
+        $fileMock
+            ->expects($this->atLeastOnce())
+            ->method('exists')
+            ->willReturn(true)
+        ;
+        $fsMock = $this->getMockBuilder(FilesystemManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getFile'])
+            ->getMock()
+        ;
+        $fsMock
+            ->expects($this->atLeastOnce())
+            ->method('getFile')
+            ->with('extensions_config://installed-a.test.yml')
+            ->willReturn($fileMock)
+        ;
+        $app['filesystem'] = $fsMock;
+
         $extensions = $this->getMockBuilder(Manager::class)
             ->disableOriginalConstructor()
             ->setMethods(['getResolved'])
             ->getMock()
         ;
         $extensions
-            ->expects($this->atLeastOnce())
+            ->expects($this->at(0))
+            ->method('getResolved')
+            ->willReturn($extensionMock)
+        ;
+        $extensions
+            ->expects($this->at(1))
             ->method('getResolved')
             ->willReturn(false)
         ;
@@ -163,8 +248,10 @@ class PackageManagerTest extends TestCase
         $method->setValue($packageManager, ['require' => $requires]);
 
         $packages = $packageManager->getAllPackages();
+        $package = $packages->get('test/installed-b');
+        $package->setConstraint('a.b.c');
 
-        $expected = '{"test\/installed-a":{"status":"installed","type":"library","name":"test\/installed-a","title":"test\/installed-a","description":null,"version":"1.2.3","authors":null,"keywords":null,"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"3.4.0 alpha 10","valid":true,"enabled":true},"test\/installed-b":{"status":"installed","type":"library","name":"test\/installed-b","title":"test\/installed-b","description":null,"version":"2.4.6","authors":null,"keywords":null,"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"3.4.0 alpha 10","valid":true,"enabled":true},"test\/required-a":{"status":"pending","type":"unknown","name":"test\/required-a","title":"test\/required-a","description":"Not yet installed.","version":"^3.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false},"test\/required-b":{"status":"pending","type":"unknown","name":"test\/required-b","title":"test\/required-b","description":"Not yet installed.","version":"^4.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false}}';
+        $expected = '{"test\/installed-a":{"status":"installed","type":"library","name":"test\/installed-a","title":null,"description":null,"version":"1.2.3","authors":null,"keywords":null,"readmeLink":"\/async\/readme\/test\/installed-a","configLink":"\/bolt\/file\/edit\/extensions\/installed-a.test.yml","repositoryLink":null,"constraint":"x.y.z","valid":true,"enabled":false},"test\/installed-b":{"status":"installed","type":"library","name":"test\/installed-b","title":"test\/installed-b","description":null,"version":"2.4.6","authors":null,"keywords":null,"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"a.b.c","valid":true,"enabled":true},"test\/required-a":{"status":"pending","type":"unknown","name":"test\/required-a","title":"test\/required-a","description":"Not yet installed.","version":"^3.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false},"test\/required-b":{"status":"pending","type":"unknown","name":"test\/required-b","title":"test\/required-b","description":"Not yet installed.","version":"^4.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false}}';
 
         $this->assertSame($expected, json_encode($packages));
     }
