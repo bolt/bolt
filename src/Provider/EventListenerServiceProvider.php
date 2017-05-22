@@ -81,9 +81,8 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
 
         $app['listener.flash_logger'] = function ($app) {
             $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
-            $profilerPrefix = isset($app['profiler.mount_prefix']) ? $app['profiler.mount_prefix'] : null;
 
-            return new Listener\FlashLoggerListener($app['logger.flash'], $debug, $profilerPrefix);
+            return new Listener\FlashLoggerListener($app['logger.flash'], $debug);
         };
 
         $app['listener.pager'] = function ($app) {

@@ -3,6 +3,7 @@
 namespace Bolt\EventListener;
 
 use Bolt\Logger\FlashBagAttachableInterface;
+use Bolt\Request\ProfilerAwareTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -16,25 +17,23 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class FlashLoggerListener implements EventSubscriberInterface
 {
+    use ProfilerAwareTrait;
+
     /** @var FlashBagAttachableInterface */
     protected $flashLogger;
     /** @var boolean */
     protected $debug;
-    /** @var string */
-    protected $profilerMountPrefix;
 
     /**
      * Constructor.
      *
      * @param FlashBagAttachableInterface $flashLogger
      * @param boolean                     $debug
-     * @param string                      $profilerMountPrefix
      */
-    public function __construct(FlashBagAttachableInterface $flashLogger, $debug, $profilerMountPrefix)
+    public function __construct(FlashBagAttachableInterface $flashLogger, $debug)
     {
         $this->flashLogger = $flashLogger;
         $this->debug = $debug;
-        $this->profilerMountPrefix = $profilerMountPrefix;
     }
 
     /**
@@ -51,7 +50,7 @@ class FlashLoggerListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $session = $request->getSession();
 
-        $isProfilerRoute = strpos($request->getPathInfo(), $this->profilerMountPrefix) === 0;
+        $isProfilerRoute = $this->isProfilerRequest($request);
         if (!$isProfilerRoute && ($this->debug || $request->hasPreviousSession()) && !$session->isStarted()) {
             $this->attachFlashBag($session);
         }
