@@ -1,7 +1,8 @@
 # This file defines role-based access control for your Bolt site.
-# Before making any modifications to this file, make sure you've thoroughly read
-# the documentation at https://docs.bolt.cm/content/permissions, and understand the
-# consequences of making uninformed changes to the roles and permissions.
+# Before making any modifications to this file, make sure you've thoroughly
+# read the documentation at https://docs.bolt.cm/configuration/permissions
+# and understand the consequences of making uninformed changes to the roles and
+# permissions.
 
 # First, we need to define some roles. There are three built-in roles that you
 # should never add manually:
