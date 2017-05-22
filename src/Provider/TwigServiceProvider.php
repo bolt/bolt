@@ -84,8 +84,8 @@ class TwigServiceProvider implements ServiceProviderInterface, BootableProviderI
         };
         $app['twig.runtime.dump'] = function ($app) {
             return new Twig\Runtime\DumpRuntime(
-                $app['dumper.cloner'],
-                $app['dumper.html'],
+                $app['var_dumper.cloner'],
+                $app['var_dumper.html_dumper'],
                 $app['users'],
                 $app['config']->get('general/debug_show_loggedoff', false)
             );

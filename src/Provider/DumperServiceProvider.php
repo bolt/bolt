@@ -5,9 +5,9 @@ namespace Bolt\Provider;
 use Bolt\Debug\Caster;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Silex\Application;
+use Silex\Provider\VarDumperServiceProvider;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -16,52 +16,58 @@ use Symfony\Component\VarDumper\VarDumper;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DumperServiceProvider implements ServiceProviderInterface
+class DumperServiceProvider extends VarDumperServiceProvider
 {
     /**
      * {@inheritdoc}
      */
     public function register(Container $app)
     {
+        parent::register($app);
+
         $app['dump'] = $app->protect(
             function ($var) use ($app) {
                 if (!$app['debug']) {
                     return;
                 }
-                $app['dumper']->dump($app['dumper.cloner']->cloneVar($var));
+                $app['var_dumper']->dump($app['var_dumper.cloner']->cloneVar($var));
             }
         );
 
-        VarDumper::setHandler(
-            function ($var) use ($app) {
-                /*
-                 * Referencing $app['dump'] in anonymous function
-                 * so the closure can be replaced in $app without
-                 * breaking the reference here.
-                 */
-                return $app['dump']($var);
-            }
-        );
-
-        $app['dumper'] = function ($app) {
-            return PHP_SAPI === 'cli' ? $app['dumper.cli'] : $app['dumper.html'];
+        $app['var_dumper'] = function ($app) {
+            return PHP_SAPI === 'cli' ? $app['var_dumper.cli_dumper'] : $app['var_dumper.html_dumper'];
         };
 
-        $app['dumper.cli'] = function () {
-            return new CliDumper();
-        };
-
-        $app['dumper.html'] = function () {
+        $app['var_dumper.html_dumper'] = function () {
             return new HtmlDumper();
         };
 
-        $app['dumper.cloner'] = function () {
-            $cloner = new VarCloner();
-            $cloner->addCasters(Caster\FilesystemCasters::getCasters());
+        $app['var_dumper.cloner'] = $app->extend(
+            'var_dumper.cloner',
+            function (VarCloner $cloner) {
+                $cloner->addCasters(Caster\FilesystemCasters::getCasters());
 
-            ArrayAccessSecurityProxy::registerCaster($cloner);
+                ArrayAccessSecurityProxy::registerCaster($cloner);
 
-            return $cloner;
-        };
+                return $cloner;
+            }
+        );
+    }
+
+    public function boot(Application $app)
+    {
+        if (!$app['debug']) {
+            return;
+        }
+
+        // This code is here to lazy load the dump stack. This default
+        // configuration for CLI mode is overridden in HTTP mode on
+        // 'kernel.request' event
+        VarDumper::setHandler(function ($var) use ($app) {
+            VarDumper::setHandler($handler = function ($var) use ($app) {
+                $app['var_dumper']->dump($app['var_dumper.cloner']->cloneVar($var));
+            });
+            $handler($var);
+        });
     }
 }
