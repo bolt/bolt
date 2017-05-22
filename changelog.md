@@ -6,16 +6,17 @@ Bolt 3.2.14
 
 Released 2017-05-22. Notable changes:
 
- - Fixed: Fix for JS error in IE for Filelist fieldtype. [#6697](https://github.com/bolt/bolt/pull/#6697)
- - Fixed: Weird default selection of `/` for Select fields populated from other contenttypes. [#6696](https://github.com/bolt/bolt/pull/#6696)
- - Fixed: Correctly set the ordering for Select dropdown lists, so it's not reversed anymore. [#6695](https://github.com/bolt/bolt/pull/#6695)
- - Fixed: Change log fixes [#6683](https://github.com/bolt/bolt/pull/#6683)
- - Fixed: `slug` used instead of `singular_name` in ContentType edit buttons. [#6682](https://github.com/bolt/bolt/pull/#6682)
- - Fixed: Embed tests & corner case minor hotfix [#6673](https://github.com/bolt/bolt/pull/#6673)
- - Tests: More coverage [#6675](https://github.com/bolt/bolt/pull/#6675)
- - Fixed: Tags and Relations are not deleted from the database when a Record is deleted. [#6651](https://github.com/bolt/bolt/pull/#6651) [#6657](https://github.com/bolt/bolt/pull/#6657)
  - Added: Add a CONTRIBUTING.md file to the repo root, pointing to docs [#6658](https://github.com/bolt/bolt/pull/#6658)
+ - Fixed: `slug` used instead of `singular_name` in ContentType edit buttons. [#6682](https://github.com/bolt/bolt/pull/#6682)
+ - Fixed: Change log fixes [#6683](https://github.com/bolt/bolt/pull/#6683)
+ - Fixed: Correctly set the ordering for Select dropdown lists, so it's not reversed anymore. [#6695](https://github.com/bolt/bolt/pull/#6695)
+ - Fixed: Embed tests & corner case minor hotfix [#6673](https://github.com/bolt/bolt/pull/#6673)
+ - Fixed: Fix for JS error in IE for Filelist fieldtype. [#6697](https://github.com/bolt/bolt/pull/#6697)
+ - Fixed: Fix slug generation for tags. [#6676](https://github.com/bolt/bolt/pull/#6676)
+ - Fixed: Tags and Relations are not deleted from the database when a Record is deleted. [#6651](https://github.com/bolt/bolt/pull/#6651) [#6657](https://github.com/bolt/bolt/pull/#6657)
  - Fixed: Update `messages.es_ES.yml` [#6654](https://github.com/bolt/bolt/pull/#6654)
+ - Fixed: Weird default selection of `/` for Select fields populated from other contenttypes. [#6696](https://github.com/bolt/bolt/pull/#6696)
+ - Tests: More coverage [#6675](https://github.com/bolt/bolt/pull/#6675)
  - Tests: Tests added for Internal Embed API [#6641](https://github.com/bolt/bolt/pull/#6641)
 
 Bolt 3.2.13
