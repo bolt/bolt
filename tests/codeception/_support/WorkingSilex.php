@@ -3,8 +3,11 @@
 namespace Codeception\Module;
 
 use Codeception\TestInterface;
+use Swift_Transport_SpoolTransport as SpoolTransport;
 use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpKernel\Client;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Change client to follow redirects and keep cookie jar between tests.
@@ -32,8 +35,15 @@ class WorkingSilex extends Silex
     {
         parent::loadApp();
 
+        $this->app->before(function () {
+            // Stop the profiler listener from running, it is not needed for tests
+            $this->app['dispatcher']->addListener(KernelEvents::TERMINATE, function (Event $event) {
+                $event->stopPropagation();
+            }, -1023); // Just before \Symfony\Component\HttpKernel\EventListener\ProfilerListener
+        });
+
         $this->app->finish(function () {
-            if ($this->app['mailer.initialized'] && $this->app['swiftmailer.use_spool'] && $this->app['swiftmailer.spooltransport'] instanceof \Swift_Transport_SpoolTransport) {
+            if ($this->app['mailer.initialized'] && $this->app['swiftmailer.use_spool'] && $this->app['swiftmailer.spooltransport'] instanceof SpoolTransport) {
                 $spool = $this->app['swiftmailer.spooltransport']->getSpool();
                 $r = new \ReflectionClass($spool);
                 $p = $r->getProperty('messages');
