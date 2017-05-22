@@ -4,7 +4,9 @@ namespace Bolt\Nut;
 
 use Sorien\Provider\PimpleDumpProvider;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,6 +33,7 @@ class PimpleDump extends BaseCommand
         parent::configure();
         $this->setName('pimple:dump')
             ->setDescription('Pimple container dumper for PhpStorm & IntelliJ IDEA.')
+            ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Destination directory of pimple.json output file')
         ;
     }
 
@@ -43,6 +46,13 @@ class PimpleDump extends BaseCommand
 
         $app = require __DIR__ . '/../../app/bootstrap.php';
         $app['debug'] = true;
+        $path = $input->getOption('path');
+        if ($path) {
+            if (realpath($path) === false) {
+                throw new FileNotFoundException(sprintf('Provided path %s does not exists, or is not writable.', $path));
+            }
+            $app['pimpledump.output_dir'] = $path;realpath($path);
+        }
 
         $dumper = new PimpleDumpProvider();
         $app->register($dumper);
