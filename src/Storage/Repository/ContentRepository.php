@@ -46,11 +46,12 @@ class ContentRepository extends Repository
      */
     public function querySelectList(array $contentType, $order = null, $neededFields = [])
     {
+        // Only if the first character of the string is `-`, we'll need to sort DESC.'
         if (strpos($order, '-') === 0) {
-            $direction = 'ASC';
+            $direction = 'DESC';
             $order = ltrim($order, '-');
         } else {
-            $direction = 'DESC';
+            $direction = 'ASC';
         }
 
         array_unshift($neededFields, 'id', $this->getTitleColumnName($contentType) . ' as title');

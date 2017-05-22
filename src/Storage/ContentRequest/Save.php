@@ -6,6 +6,7 @@ use Bolt\Config;
 use Bolt\Exception\AccessControlException;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
@@ -221,7 +222,8 @@ class Save
      */
     private function setPostedRelations(Entity\Content $content, $formValues)
     {
-        $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        /** @var Collection\Relations $related */
+        $related = $this->em->createCollection(Entity\Relations::class);
         $related->setFromPost($formValues, $content);
         $content->setRelation($related);
     }
@@ -234,7 +236,8 @@ class Save
      */
     private function setPostedTaxonomies(Entity\Content $content, $formValues)
     {
-        $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        /** @var Collection\Taxonomy $taxonomies */
+        $taxonomies = $this->em->createCollection(Entity\Taxonomy::class);
         $taxonomies->setFromPost($formValues, $content);
         $content->setTaxonomy($taxonomies);
     }
