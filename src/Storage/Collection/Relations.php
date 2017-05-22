@@ -43,11 +43,10 @@ class Relations extends ArrayCollection
      */
     public function setFromPost(array $formValues, Entity\Content $entity)
     {
-        if (isset($formValues['relation'])) {
-            $flatVals = $formValues['relation'];
-        } else {
-            $flatVals = $formValues;
+        if (!isset($formValues['relation'])) {
+            return;
         }
+        $flatVals = $formValues['relation'];
         foreach ($flatVals as $field => $values) {
             if (!is_array($values)) {
                 continue;
