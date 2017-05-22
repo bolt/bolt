@@ -72,5 +72,11 @@ class AccessControlServiceProvider implements ServiceProviderInterface
 
             return $name;
         };
+
+        $app['token.authentication.name.lazy'] = $app->protect(
+            function () use ($app) {
+                return $app['token.authentication.name'];
+            }
+        );
     }
 }

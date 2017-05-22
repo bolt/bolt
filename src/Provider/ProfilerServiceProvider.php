@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Profiler\BoltDataCollector;
 use Bolt\Profiler\DatabaseDataCollector;
-use Bolt\Profiler\DebugToolbarEnabler;
+use Bolt\Profiler\RequestMatcher;
 use Doctrine\DBAL\Logging\DebugStack;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -12,6 +12,7 @@ use Silex\Api\BootableProviderInterface;
 use Silex\Api\EventListenerProviderInterface;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
@@ -24,19 +25,16 @@ class ProfilerServiceProvider implements ServiceProviderInterface, BootableProvi
     public function register(Container $app)
     {
         if (!isset($app['profiler'])) {
-            $app->register(
-                new WebProfilerServiceProvider(),
-                [
-                    'web_profiler.debug_toolbar.enable' => false, // We enable it below
-                ]
-            );
+            $app->register(new WebProfilerServiceProvider());
         }
+
+        $app['profiler.request_matcher'] = function ($app) {
+            return new RequestMatcher($app['config'], $app['session'], $app['access_control']);
+        };
 
         $app['profiler.cache_dir'] = function ($app) {
             return $app['path_resolver']->resolve('%cache%/profiler');
         };
-
-        $app->register(new DebugToolbarEnabler());
 
         $app['data_collector.templates'] = $app->extend(
             'data_collector.templates',
@@ -87,9 +85,9 @@ class ProfilerServiceProvider implements ServiceProviderInterface, BootableProvi
      */
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
-        if ($app['debug'] === true) {
-            $app['web_profiler.debug_toolbar.enable'] = true;
-        }
+        $app->before(function (Request $request, Application $app) {
+            $request->attributes->set('_auththoken_name', $app['token.authentication.name']);
+        });
     }
 
     /**
