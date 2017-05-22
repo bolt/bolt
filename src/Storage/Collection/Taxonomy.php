@@ -5,6 +5,7 @@ namespace Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Closure;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -36,11 +37,10 @@ class Taxonomy extends ArrayCollection
      */
     public function setFromPost(array $formValues, Entity\Content $entity)
     {
-        if (isset($formValues['taxonomy'])) {
-            $flatVals = $formValues['taxonomy'];
-        } else {
-            $flatVals = $formValues;
+        if (!isset($formValues['taxonomy'])) {
+            return;
         }
+        $flatVals = $formValues['taxonomy'];
         foreach ($flatVals as $field => $values) {
             if (!is_array($values)) {
                 continue;
@@ -55,15 +55,15 @@ class Taxonomy extends ArrayCollection
                 } else {
                     $name = $val;
                 }
-                $taxentity = new Entity\Taxonomy([
+                $taxEntity = new Entity\Taxonomy([
                     'name'         => $name,
                     'content_id'   => $entity->getId(),
                     'contenttype'  => (string) $entity->getContenttype(),
                     'taxonomytype' => $field,
-                    'slug'         => $val,
+                    'slug'         => Slugify::create()->slugify($val),
                     'sortorder'    => $order,
                 ]);
-                $this->add($taxentity);
+                $this->add($taxEntity);
             }
         }
     }

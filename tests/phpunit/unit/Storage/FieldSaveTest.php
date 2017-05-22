@@ -68,8 +68,9 @@ class FieldSaveTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
 
         $newEntity = $repo->create(['title' => 'Testing', 'slug' => 'testing', 'status' => 'published']);
+
         $taxonomy = $em->createCollection(Entity\Taxonomy::class);
-        $taxonomy->setFromPost(['categories' => ['news', 'events']], $newEntity);
+        $taxonomy->setFromPost(['taxonomy' => ['categories' => ['news', 'events']]], $newEntity);
         $newEntity->setTaxonomy($taxonomy);
         $repo->save($newEntity);
 
