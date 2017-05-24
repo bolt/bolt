@@ -1,13 +1,15 @@
 <?php
 
-namespace Bolt\Tests\Composer\Action;
+namespace Bolt\Tests\Composer;
+
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test Bolt\Composer\JsonManager class.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class JsonManagerTest extends ActionUnitTest
+class JsonManagerTest extends BoltUnitTest
 {
     public function testExecute()
     {
