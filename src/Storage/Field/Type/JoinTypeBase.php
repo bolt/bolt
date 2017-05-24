@@ -8,8 +8,8 @@ use Bolt\Storage\Query\Filter;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Collections;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
-use Traversable;
 use ReflectionProperty;
+use Traversable;
 
 /**
  * This is an abstract class that field types dealing with join/association functionality can extend.

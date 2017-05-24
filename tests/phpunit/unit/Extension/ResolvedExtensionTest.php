@@ -7,7 +7,6 @@ use Bolt\Extension\ExtensionInterface;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Handler\Directory;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Tests\Extension\Mock;
 
 /**
  * Class to test Bolt\Extension\ResolvedExtension.
