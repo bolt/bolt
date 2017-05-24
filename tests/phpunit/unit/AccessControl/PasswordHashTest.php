@@ -3,7 +3,7 @@
 namespace Bolt\Tests\AccessControl;
 
 use Bolt\AccessControl\PasswordHashManager;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * PasswordHash test

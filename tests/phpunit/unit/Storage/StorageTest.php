@@ -18,12 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StorageTest extends BoltUnitTest
 {
-    public function testSetup()
-    {
-        $this->resetDb();
-        $this->addSomeContent();
-    }
-
     /**
      * We copy the 'Pages' ContentType into a 'Fakes' configuration and test
      * against this, as PHPUnit keeps the mock in the $this->mockObjects private
@@ -234,26 +228,6 @@ class StorageTest extends BoltUnitTest
         $results = $storage->searchAllContentTypes(['title' => 'lorem']);
     }
 
-    public function testSearchContentType()
-    {
-    }
-
-    public function testGetContentByTaxonomy()
-    {
-    }
-
-    public function testPublishTimedRecords()
-    {
-    }
-
-    public function testDepublishExpiredRecords()
-    {
-    }
-
-    public function testGetContent()
-    {
-    }
-
     public function testGetContentSortOrderFromContentType()
     {
         $app = $this->getApp();
@@ -291,10 +265,6 @@ class StorageTest extends BoltUnitTest
         $this->assertSame(1, $storage->queries[0]['parameters']['limit']);
     }
 
-    public function testGetSortOrder()
-    {
-    }
-
     /**
      * The legacy getContentType method should be able to find contenttypes by key, slugified key, slug, slugified slug,
      * singular slug, slugified singular slug, singular name and name.
@@ -313,46 +283,6 @@ class StorageTest extends BoltUnitTest
         foreach ($contentType as $key => $value) {
             $this->assertSame($contentType, $app['storage']->getContentType($value));
         }
-    }
-
-    public function testGetTaxonomyType()
-    {
-    }
-
-    public function testGetContentTypes()
-    {
-    }
-
-    public function testGetContentTypeFields()
-    {
-    }
-
-    public function testGetContentTypeFieldType()
-    {
-    }
-
-    public function testGetContentTypeGrouping()
-    {
-    }
-
-    public function testGetContentTypeTaxonomy()
-    {
-    }
-
-    public function testGetLatestId()
-    {
-    }
-
-    public function testGetUri()
-    {
-    }
-
-    public function testSetPager()
-    {
-    }
-
-    public function testGetPager()
-    {
     }
 
     /**

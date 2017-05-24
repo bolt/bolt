@@ -79,6 +79,8 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 'comment'     => 'An Update',
             ]
         );
+
+        $this->addToAssertionCount(1);
     }
 
     public function testNotHandling()

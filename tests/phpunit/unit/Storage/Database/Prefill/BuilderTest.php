@@ -40,6 +40,8 @@ class BuilderTest extends TestCase
 
         $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
         $builder->build(['drop_bears'], 5);
+
+        $this->addToAssertionCount(1);
     }
 
     public function testBuild()

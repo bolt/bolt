@@ -4,7 +4,7 @@ namespace Bolt\Tests\Session\Handler\Factory;
 
 use Bolt\Session\Handler\Factory\PredisFactory;
 use Bolt\Session\OptionsBag;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Predis\ClientInterface;
 use Predis\Command\Processor\KeyPrefixProcessor;
 use Predis\Connection\Aggregate\PredisCluster;

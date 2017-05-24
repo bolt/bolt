@@ -5,8 +5,8 @@ namespace Bolt\Tests;
 use Bolt\Application;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Test as Test;
-use PHPUnit_Framework_TestSuite as TestSuite;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestSuite;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
