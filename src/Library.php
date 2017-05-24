@@ -31,9 +31,9 @@ class Library
             return sprintf('%0.2f MiB', ($size / 1024 / 1024));
         } elseif ($size > 1024) {
             return sprintf('%0.2f KiB', ($size / 1024));
-        } else {
-            return $size . ' B';
         }
+
+        return $size . ' B';
     }
 
     /**
@@ -50,9 +50,9 @@ class Library
 
         if ($unit) {
             return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-        } else {
-            return round($size);
         }
+
+        return round($size);
     }
 
     /**
@@ -71,11 +71,10 @@ class Library
         $pos = strrpos($filename, '.');
         if ($pos === false) {
             return '';
-        } else {
-            $ext = substr($filename, $pos + 1);
-
-            return $ext;
         }
+        $ext = substr($filename, $pos + 1);
+
+        return $ext;
     }
 
     /**

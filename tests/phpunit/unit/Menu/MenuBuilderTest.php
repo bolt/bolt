@@ -186,6 +186,11 @@ class MenuBuilderTest extends BoltUnitTest
 
     /**
      * @dataProvider populateItemFromRecordProvider
+     *
+     * @param array      $expected
+     * @param array|null $content
+     * @param array      $item
+     * @param string     $link
      */
     public function testpopulateItemFromRecord($expected, $content, $item, $link)
     {

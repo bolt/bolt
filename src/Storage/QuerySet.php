@@ -127,7 +127,7 @@ class QuerySet extends \ArrayIterator
     }
 
     /**
-     * A helper method to get the primary database query from a set. Normally this points to the first in the set
+     * A helper method to get the primary database query from a set. Normally this points to the first in the set.
      *
      * @return QueryBuilder
      */

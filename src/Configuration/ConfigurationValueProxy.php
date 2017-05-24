@@ -53,7 +53,7 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     }
 
     /**
-     * Get the data of the loaded config
+     * Get the data of the loaded config.
      *
      * @return array
      */

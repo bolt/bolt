@@ -159,9 +159,9 @@ class Translator
             return $transGeneric;
         } elseif ($transFallback !== false) {
             return $transFallback;
-        } else {
-            return $genericKey;
         }
+
+        return $genericKey;
     }
 
     /**
@@ -194,7 +194,7 @@ class Translator
                     $value = preg_replace('/[^a-z-]/', '', strtolower($value));
                 }
             );
-            $key = join('.', $key);
+            $key = implode('.', $key);
         }
 
         // Handle contenttypes

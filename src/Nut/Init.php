@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to output phpinfo()
+ * Nut command to output phpinfo().
  */
 class Init extends BaseCommand
 {

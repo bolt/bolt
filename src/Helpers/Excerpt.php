@@ -141,7 +141,7 @@ class Excerpt
         // If we only have 2, skip as it's probably equally relevant
         if (count($locations) > 2) {
             // skip the first as we check 1 behind
-            for ($i = 1; $i < $loccount; $i++) {
+            for ($i = 1; $i < $loccount; ++$i) {
                 if ($i === $loccount - 1) { // at the end
                     $diff = $locations[$i] - $locations[$i - 1];
                 } else {

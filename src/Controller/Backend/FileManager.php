@@ -21,7 +21,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
@@ -138,7 +137,7 @@ class FileManager extends BackendBase
                         'attr'     => [
                             'data-filename-placement' => 'inside',
                             'title'                   => Trans::__('general.phrase.select-file'),
-                            'accept'                  => '.' . join(',.', $this->getOption('general/accept_file_types')),
+                            'accept'                  => '.' . implode(',.', $this->getOption('general/accept_file_types')),
                         ],
                     ]
                 )

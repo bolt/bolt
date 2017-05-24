@@ -59,7 +59,7 @@ class TemplateChooser
     /**
      * Choose a template for a single record page, e.g.:
      * - '/page/about'
-     * - '/entry/lorum-ipsum'
+     * - '/entry/lorum-ipsum'.
      *
      * Refactor note: Using a FQCN for the hint here as a `use` statement causes
      * a fatal in the unit tests… 'cause PHP and class_alias() versus namespaces.

@@ -187,7 +187,7 @@ class Render
         $duration = $this->app['config']->get('general/caching/duration', 10);
 
         // in seconds.
-        return intval($duration) * 60;
+        return (int) $duration * 60;
     }
 
     /**

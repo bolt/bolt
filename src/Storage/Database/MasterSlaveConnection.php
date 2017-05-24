@@ -36,7 +36,7 @@ class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnec
     }
 
     /**
-     * Sets an optional Query Cache handler on the connection class
+     * Sets an optional Query Cache handler on the connection class.
      *
      * @param QueryCacheProfile $profile
      */

@@ -91,7 +91,7 @@ trait MagicAttributeTrait
     }
 
     /**
-     * An internal method that builds a list of available fields depending on context
+     * An internal method that builds a list of available fields depending on context.
      *
      * @return array
      **/
@@ -113,7 +113,7 @@ trait MagicAttributeTrait
     }
 
     /**
-     * Boolean check on whether entity has field
+     * Boolean check on whether entity has field.
      *
      * @param string $field
      *

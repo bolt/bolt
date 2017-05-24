@@ -104,7 +104,7 @@ class PathResolverTest extends TestCase
     public function testNames()
     {
         $resolver = new PathResolver('/', [
-            'bar' => 'foo',
+            'bar'   => 'foo',
             'hello' => 'world',
         ]);
 

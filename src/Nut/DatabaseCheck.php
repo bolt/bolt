@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to perform a database consistency check command
+ * Nut command to perform a database consistency check command.
  */
 class DatabaseCheck extends BaseCommand
 {

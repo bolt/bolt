@@ -2,8 +2,6 @@
 
 namespace Bolt\Tests\Composer\Action;
 
-use Bolt\Composer\Action\ShowPackage;
-
 /**
  * Class to test src/Composer/Action/ShowPackage.
  *
@@ -22,7 +20,7 @@ class ShowPackageTest extends ActionUnitTest
     }
 
     /**
-     * This test has been disabled at 2015-07-18 due to problems with Travis & composer
+     * This test has been disabled at 2015-07-18 due to problems with Travis & composer.
      *
      * @see https://github.com/bolt/bolt/issues/3829
      */

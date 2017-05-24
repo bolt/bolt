@@ -10,7 +10,7 @@ use Bolt\Tests\Extension\Mock\Extension;
 use Silex\Application;
 
 /**
- * Class to test Bolt\Extension\AbstractExtension
+ * Class to test Bolt\Extension\AbstractExtension.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

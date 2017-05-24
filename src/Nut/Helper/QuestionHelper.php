@@ -87,7 +87,7 @@ final class QuestionHelper extends SymfonyQuestionHelper
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Wrap input stream to call our onRead method.
      */

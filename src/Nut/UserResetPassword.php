@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Nut command to reset a user password
+ * Nut command to reset a user password.
  */
 class UserResetPassword extends BaseCommand
 {

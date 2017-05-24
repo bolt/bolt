@@ -45,7 +45,7 @@ class MenuBuilder
     }
 
     /**
-     * Return a named menu
+     * Return a named menu.
      *
      * @param array $menu
      *
@@ -100,7 +100,7 @@ class MenuBuilder
     }
 
     /**
-     * Resolve the route to a generated url
+     * Resolve the route to a generated url.
      *
      * @param array $item
      *

@@ -7,7 +7,6 @@ use Bolt\Response\TemplateResponse;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Async controller for Stack async routes.

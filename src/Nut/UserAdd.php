@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to add a user to the system
+ * Nut command to add a user to the system.
  */
 class UserAdd extends BaseCommand
 {

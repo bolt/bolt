@@ -18,7 +18,7 @@ class NutServiceProviderTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->assertInstanceOf(Console\Application::class, $app['nut']);
-        $this->assertTrue(is_array($app['nut.commands']));
+        $this->assertInternalType('array', $app['nut.commands']);
     }
 
     public function testAddCommandCallableSingle()

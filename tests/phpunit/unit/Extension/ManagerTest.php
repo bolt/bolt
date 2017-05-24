@@ -5,7 +5,7 @@ namespace Bolt\Tests\Extension;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test Bolt\Extension\Manager
+ * Class to test Bolt\Extension\Manager.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

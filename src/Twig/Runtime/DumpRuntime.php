@@ -41,7 +41,7 @@ class DumpRuntime
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $context
      */
     public function dump(\Twig_Environment $env, $context)
     {

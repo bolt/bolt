@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * YAML import file
+ * YAML import file.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

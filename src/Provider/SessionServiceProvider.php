@@ -317,9 +317,9 @@ class SessionServiceProvider implements ServiceProviderInterface
 
                 if ($key === 'memcache') {
                     return new MemcacheHandler($memcache, $memcacheOptions);
-                } else {
-                    return new MemcachedHandler($memcache, $memcacheOptions);
                 }
+
+                return new MemcachedHandler($memcache, $memcacheOptions);
             }
         );
 

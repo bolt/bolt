@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to clear the cache
+ * Nut command to clear the cache.
  */
 class CacheClear extends BaseCommand
 {

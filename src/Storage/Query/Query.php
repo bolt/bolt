@@ -6,7 +6,7 @@ class Query
 {
     /** @var ContentQueryParser */
     protected $parser;
-    /** @var array  */
+    /** @var array */
     protected $scopes;
 
     /**

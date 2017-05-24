@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * PHPUnit listener class
+ * PHPUnit listener class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -92,9 +92,9 @@ class BoltListener extends BaseTestListener
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
             return $this->getPath('theme', 'theme/base-2016');
-        } else {
-            return $this->getPath('theme', $theme['theme']);
         }
+
+        return $this->getPath('theme', $theme['theme']);
     }
 
     /**
@@ -108,9 +108,9 @@ class BoltListener extends BaseTestListener
     {
         if ($boltdb === false || (isset($boltdb['boltdb']) && $boltdb['boltdb'] === '')) {
             return $this->getPath('bolt.db', 'tests/phpunit/unit/resources/db/bolt.db');
-        } else {
-            return $this->getPath('bolt.db', $boltdb['boltdb']);
         }
+
+        return $this->getPath('bolt.db', $boltdb['boltdb']);
     }
 
     /**
@@ -178,7 +178,7 @@ class BoltListener extends BaseTestListener
     }
 
     /**
-     * Build the pre-requisites for our test environment
+     * Build the pre-requisites for our test environment.
      */
     private function buildTestEnv()
     {
@@ -218,7 +218,7 @@ class BoltListener extends BaseTestListener
     }
 
     /**
-     * Clean up after test runs
+     * Clean up after test runs.
      */
     private function cleanTestEnv()
     {
@@ -252,7 +252,7 @@ class BoltListener extends BaseTestListener
     private function nut($command)
     {
         $app = new Application([
-            'path_resolver.root' => PHPUNIT_WEBROOT,
+            'path_resolver.root'  => PHPUNIT_WEBROOT,
             'path_resolver.paths' => [
                 'web' => '.',
             ],

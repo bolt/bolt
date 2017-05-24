@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to run cron tasks
+ * Nut command to run cron tasks.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

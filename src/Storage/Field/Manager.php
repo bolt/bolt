@@ -9,7 +9,6 @@ namespace Bolt\Storage\Field;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 class Manager
 {
     protected $fields = [];
@@ -49,9 +48,9 @@ class Manager
     {
         if ($this->has($name)) {
             return $this->fields[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function getDatabaseField($field)

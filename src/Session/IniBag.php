@@ -105,7 +105,7 @@ class IniBag extends OptionsBag
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Use set() logic.
      */
@@ -117,7 +117,7 @@ class IniBag extends OptionsBag
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Replace the values given, but don't remove any since that's not possible.
      */
@@ -190,7 +190,7 @@ class IniBag extends OptionsBag
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * Check existence after keys cache is populated.
      */

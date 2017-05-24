@@ -11,7 +11,7 @@ use Silex\ControllerProviderInterface;
 use Silex\Route;
 
 /**
- * Class to test Bolt\Events\MountEvent
+ * Class to test Bolt\Events\MountEvent.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

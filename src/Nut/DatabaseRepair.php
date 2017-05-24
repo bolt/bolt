@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to repair/update database schema
+ * Nut command to repair/update database schema.
  */
 class DatabaseRepair extends BaseCommand
 {

@@ -42,7 +42,7 @@ class BoltResponse extends Response
     }
 
     /**
-     * Factory method for chainability
+     * Factory method for chainability.
      *
      * @param Template $template An object that is able to render a template with context
      * @param array    $context  An array of context variables
@@ -119,7 +119,7 @@ class BoltResponse extends Response
     }
 
     /**
-     * Adds globals to the template
+     * Adds globals to the template.
      *
      * @param array $globals
      */
@@ -131,7 +131,7 @@ class BoltResponse extends Response
     }
 
     /**
-     * Adds a global to the template
+     * Adds a global to the template.
      *
      * @param string $name
      * @param mixed  $value
@@ -180,7 +180,7 @@ class BoltResponse extends Response
     }
 
     /**
-     * Returns whether the response has been compiled
+     * Returns whether the response has been compiled.
      *
      * @return bool
      */
@@ -206,7 +206,7 @@ class BoltResponse extends Response
     }
 
     /**
-     * The __toString method isn't allowed to throw exceptions so we turn them into an error instead
+     * The __toString method isn't allowed to throw exceptions so we turn them into an error instead.
      *
      * @param \Exception $e
      *

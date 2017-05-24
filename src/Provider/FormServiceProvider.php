@@ -10,7 +10,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
- * Register form services
+ * Register form services.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

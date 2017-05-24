@@ -17,7 +17,7 @@ class NamingStrategy implements NamingStrategyInterface
     }
 
     /**
-     * Takes either a global or absolute class name and returns an underscored table name
+     * Takes either a global or absolute class name and returns an underscored table name.
      *
      * @param string $className
      *
@@ -32,7 +32,7 @@ class NamingStrategy implements NamingStrategyInterface
     }
 
     /**
-     * Creates an automatic alias from a class name
+     * Creates an automatic alias from a class name.
      *
      * @param string $className
      *

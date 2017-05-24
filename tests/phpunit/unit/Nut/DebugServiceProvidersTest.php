@@ -7,7 +7,7 @@ use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for \Bolt\Nut\DebugServiceProviders
+ * Tests for \Bolt\Nut\DebugServiceProviders.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

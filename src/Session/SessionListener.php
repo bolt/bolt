@@ -35,7 +35,7 @@ class SessionListener implements EventSubscriberInterface
     }
 
     /**
-     * Set the session ID from request cookies
+     * Set the session ID from request cookies.
      *
      * @param GetResponseEvent $event
      */

@@ -21,6 +21,6 @@ class FilesystemException extends \Exception
     {
         parent::__construct($message, $code, $previous);
 
-        Deprecated::cls(FilesystemException::class, 3.3);
+        Deprecated::cls(self::class, 3.3);
     }
 }

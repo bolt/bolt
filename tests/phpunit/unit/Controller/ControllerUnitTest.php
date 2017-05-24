@@ -32,7 +32,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @return \Silex\Application
      */

@@ -105,7 +105,7 @@ class RedisFactory extends AbstractFactory
             }
         }
 
-        $index = rand(0, count($weighted) - 1);
+        $index = mt_rand(0, count($weighted) - 1);
 
         return $weighted[$index];
     }

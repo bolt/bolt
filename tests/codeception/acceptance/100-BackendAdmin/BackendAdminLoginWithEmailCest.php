@@ -3,14 +3,14 @@
 use Codeception\Util\Locator;
 
 /**
- * Backend 'admin' tests
+ * Backend 'admin' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class BackendAdminLoginWithEmailCest extends AbstractAcceptanceTest
 {
     /**
-     * Login the admin user using his email
+     * Login the admin user using his email.
      *
      * @param \AcceptanceTester $I
      */

@@ -121,7 +121,7 @@ class RepeaterType extends FieldTypeBase
             $split = explode('_', $fieldKey);
             $id = array_pop($split);
             $group = array_pop($split);
-            $field = join('_', $split);
+            $field = implode('_', $split);
             $values[$field][$group][] = $id;
         }
 
@@ -188,7 +188,7 @@ class RepeaterType extends FieldTypeBase
     }
 
     /**
-     * Get platform specific group_concat token for provided column
+     * Get platform specific group_concat token for provided column.
      *
      * @param QueryBuilder $query
      *

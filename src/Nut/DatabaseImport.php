@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Nut database importer command
+ * Nut database importer command.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -78,7 +78,7 @@ class DatabaseImport extends BaseCommand
         }
 
         // Report finish
-        $filenames = join(', ', $files);
+        $filenames = implode(', ', $files);
         $output->writeln("\n<info>Records imported from $filenames</info>");
     }
 

@@ -33,9 +33,9 @@ class SetupSync extends BaseCommand
 
         $response = $environment->syncAssets();
         if ($response === null) {
-            $output->writeln('<info>​Directory synchronisation succeeded​.</info>');
+            $output->writeln('<info>Directory synchronisation succeeded.</info>');
         } else {
-            $output->writeln('<comment>​Directory synchronisation encountered problems:</comment>');
+            $output->writeln('<comment>Directory synchronisation encountered problems:</comment>');
             foreach ($response as $message) {
                 $output->writeln('<comment>' . $message . '</comment>');
             }

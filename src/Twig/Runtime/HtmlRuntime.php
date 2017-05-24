@@ -12,7 +12,7 @@ use Maid\Maid;
 use Twig_Environment as Environment;
 
 /**
- * Bolt specific Twig functions and filters for HTML
+ * Bolt specific Twig functions and filters for HTML.
  *
  * @internal
  */
@@ -48,7 +48,7 @@ class HtmlRuntime
     }
 
     /**
-     * Transforms plain text to HTML
+     * Transforms plain text to HTML.
      *
      * @see \Bolt\Helpers\Html::decorateTT()
      *

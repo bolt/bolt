@@ -67,7 +67,7 @@ class RepositoryTest extends BoltUnitTest
         $repo = $em->getRepository($entityName);
         $result = $repo->findAll();
 
-        $this->assertTrue(is_array($result));
+        $this->assertInternalType('array', $result);
         foreach ($result as $obj) {
             $this->assertInstanceOf($entityName, $obj);
         }
@@ -82,7 +82,7 @@ class RepositoryTest extends BoltUnitTest
         $repo = $em->getRepository($entityName);
         $result = $repo->findBy(['id' => 1]);
 
-        $this->assertTrue(is_array($result));
+        $this->assertInternalType('array', $result);
         $this->assertInstanceOf($entityName, $result[0]);
     }
 
@@ -180,7 +180,7 @@ class RepositoryTest extends BoltUnitTest
         $phpunit = $this;
         $count = 0;
         $app['dispatcher']->addListener($event, function () use ($count, $phpunit, $event) {
-            $count ++;
+            ++$count;
             $phpunit->eventCount[$event] = $count;
         });
     }

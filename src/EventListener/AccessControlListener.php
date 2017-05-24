@@ -21,7 +21,7 @@ class AccessControlListener implements EventSubscriberInterface
 {
     /** @var FilesystemInterface */
     protected $filesystem;
-    /** @var SessionStorage*/
+    /** @var SessionStorage */
     protected $sessionStorage;
     /** @var EntityManagerInterface */
     protected $em;

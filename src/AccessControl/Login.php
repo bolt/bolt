@@ -347,10 +347,9 @@ class Login extends AccessChecker
     {
         if ($attempts < 5) {
             return null;
-        } else {
-            $wait = pow(($attempts - 4), 2);
-
-            return Carbon::create()->addSeconds($wait);
         }
+        $wait = pow(($attempts - 4), 2);
+
+        return Carbon::create()->addSeconds($wait);
     }
 }

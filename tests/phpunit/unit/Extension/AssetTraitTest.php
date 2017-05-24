@@ -15,7 +15,7 @@ use Bolt\Tests\Extension\Mock\AssetExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
- * Class to test Bolt\Extension\AssetTrait
+ * Class to test Bolt\Extension\AssetTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -95,7 +95,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web' => new Filesystem(new Memory()),
+            'web'   => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 
@@ -123,7 +123,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web' => new Filesystem(new Memory()),
+            'web'   => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 

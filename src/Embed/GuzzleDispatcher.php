@@ -7,7 +7,6 @@ use Embed\Http\ImageResponse;
 use Embed\Http\Response;
 use Embed\Http\Url;
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise;
@@ -43,7 +42,7 @@ class GuzzleDispatcher implements DispatcherInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function dispatch(Url $url)
     {
@@ -61,7 +60,7 @@ class GuzzleDispatcher implements DispatcherInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function dispatchImages(array $urls)
     {
