@@ -44,7 +44,7 @@ trait ContentSearchTrait
         static $contenttypeTaxonomies = null;
 
         $ct = $this->contenttype['slug'];
-        if ((is_null($contenttypeFields)) || (!isset($contenttypeFields[$ct]))) {
+        if (($contenttypeFields === null) || (!isset($contenttypeFields[$ct]))) {
             // Should run only once per contenttype (e.g. singular_name)
             $contenttypeFields[$ct] = $this->getFieldWeights();
             $contenttypeTaxonomies[$ct] = $this->getTaxonomyWeights();

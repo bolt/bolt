@@ -201,7 +201,7 @@ class Records extends BackendBase
             'contenttype'      => $contenttype,
             'relations'        => $relations,
             'show_contenttype' => $showContentType,
-            'related_content'  => is_null($relations) ? null : $content->related($showContentType['slug']),
+            'related_content'  => $relations === null ? null : $content->related($showContentType['slug']),
             'permissions'      => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser()),
         ];
 
