@@ -41,7 +41,7 @@ class ConfigSet extends AbstractConfig
             $value = $value ? 'true' : 'false';
         }
 
-        $this->io->title(sprintf("Updating configuration setting in file %s", $this->file->getFullPath()));
+        $this->io->title(sprintf('Updating configuration setting in file %s', $this->file->getFullPath()));
         $this->io->success([
             'Setting updated to:',
             sprintf('%s: %s', $key, $value),
