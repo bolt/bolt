@@ -516,11 +516,12 @@ class Users extends BackendBase
                 'enabled',
                 ChoiceType::class,
                 [
-                    'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
                     'choices'     => $enabledOptions,
                     'expanded'    => false,
                     'constraints' => new Assert\Choice(array_values($enabledOptions)),
                     'label'       => Trans::__('page.edit-users.label.user-enabled'),
+                    // Can be removed when symfony/form:^3.0 is the minimum
+                    'choices_as_values' => true,
                 ]
             );
         }
@@ -530,11 +531,12 @@ class Users extends BackendBase
                 'roles',
                 ChoiceType::class,
                 [
-                    'choices_as_values' => true, // Can be removed when symfony/form:^3.0 is the minimum
                     'choices'  => $roles,
                     'expanded' => true,
                     'multiple' => true,
                     'label'    => Trans::__('page.edit-users.label.assigned-roles'),
+                    // Can be removed when symfony/form:^3.0 is the minimum
+                    'choices_as_values' => true,
                 ]
             )
             ->add(

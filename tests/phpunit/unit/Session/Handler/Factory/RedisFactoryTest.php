@@ -25,8 +25,8 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '127.0.0.1',
                         'port' => 6379,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - only host' => [
@@ -36,8 +36,8 @@ class RedisFactoryTest extends TestCase
                 [
                     [
                         'host' => '10.0.0.1',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - host and port' => [
@@ -48,8 +48,8 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 6380,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string with scheme' => [
@@ -60,21 +60,21 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 6380,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection array' => [
                 [
                     'connection' => [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
-                        'persistent' => true,
-                        'timeout' => 5.0,
+                        'host'           => '10.0.0.1',
+                        'port'           => 6380,
+                        'persistent'     => true,
+                        'timeout'        => 5.0,
                         'retry_interval' => 500,
-                        'weight' => 3,
-                        'database' => 4,
-                        'auth' => 'secret', // deprecated
+                        'weight'         => 3,
+                        'database'       => 4,
+                        'auth'           => 'secret', // deprecated
                     ],
                     'options' => [
                         'prefix' => 'foo',
@@ -82,17 +82,17 @@ class RedisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
-                        'persistent' => true,
-                        'timeout' => 5.0,
+                        'host'           => '10.0.0.1',
+                        'port'           => 6380,
+                        'persistent'     => true,
+                        'timeout'        => 5.0,
                         'retry_interval' => 500,
-                        'weight' => 3,
-                        'database' => 4,
-                        'prefix' => 'foo',
-                        'password' => 'secret',
-                    ]
-                ]
+                        'weight'         => 3,
+                        'database'       => 4,
+                        'prefix'         => 'foo',
+                        'password'       => 'secret',
+                    ],
+                ],
             ],
 
             'connection unix socket string' => [
@@ -103,46 +103,46 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '/path/to/redis.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection unix socket array' => [
                 [
                     'connection' => [
                         'path' => '/path/to/redis.sock',
-                    ]
+                    ],
                 ],
                 [
                     [
                         'host' => '/path/to/redis.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             // deprecated
             'connection at root' => [
                 [
-                    'host' => 'redis.test',
-                    'port' => 6380,
-                    'timeout' => 34.0,
+                    'host'       => 'redis.test',
+                    'port'       => 6380,
+                    'timeout'    => 34.0,
                     'persistent' => true,
-                    'password' => 'secret',
-                    'database' => 4,
-                    'prefix' => 'foo',
+                    'password'   => 'secret',
+                    'database'   => 4,
+                    'prefix'     => 'foo',
                 ],
                 [
                     [
-                        'host' => 'redis.test',
-                        'port' => 6380,
-                        'timeout' => 34.0,
+                        'host'       => 'redis.test',
+                        'port'       => 6380,
+                        'timeout'    => 34.0,
                         'persistent' => true,
-                        'password' => 'secret',
-                        'database' => 4,
-                        'prefix' => 'foo',
-                    ]
-                ]
+                        'password'   => 'secret',
+                        'database'   => 4,
+                        'prefix'     => 'foo',
+                    ],
+                ],
             ],
 
             'connections strings' => [
@@ -164,32 +164,32 @@ class RedisFactoryTest extends TestCase
                     ],
                     [
                         'host' => '10.0.0.3',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connections arrays' => [
                 [
                     'connections' => [
                         [
-                            'host' => '10.0.0.1',
-                            'port' => 6380,
-                            'persistent' => true,
-                            'timeout' => 5.0,
+                            'host'           => '10.0.0.1',
+                            'port'           => 6380,
+                            'persistent'     => true,
+                            'timeout'        => 5.0,
                             'retry_interval' => 500,
-                            'weight' => 3,
-                            'database' => 4,
-                            'auth' => 'secret', // deprecated
+                            'weight'         => 3,
+                            'database'       => 4,
+                            'auth'           => 'secret', // deprecated
                         ],
                         [
-                            'host' => '10.0.0.2',
-                            'port' => 6381,
-                            'persistent' => true,
-                            'timeout' => 6.0,
+                            'host'           => '10.0.0.2',
+                            'port'           => 6381,
+                            'persistent'     => true,
+                            'timeout'        => 6.0,
                             'retry_interval' => 501,
-                            'weight' => 3,
-                            'database' => 3,
-                            'password' => 'secret2',
+                            'weight'         => 3,
+                            'database'       => 3,
+                            'password'       => 'secret2',
                         ],
                     ],
                     'options' => [
@@ -198,28 +198,28 @@ class RedisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
-                        'persistent' => true,
-                        'timeout' => 5.0,
+                        'host'           => '10.0.0.1',
+                        'port'           => 6380,
+                        'persistent'     => true,
+                        'timeout'        => 5.0,
                         'retry_interval' => 500,
-                        'weight' => 3,
-                        'database' => 4,
-                        'prefix' => 'foo',
-                        'password' => 'secret',
+                        'weight'         => 3,
+                        'database'       => 4,
+                        'prefix'         => 'foo',
+                        'password'       => 'secret',
                     ],
                     [
-                        'host' => '10.0.0.2',
-                        'port' => 6381,
-                        'persistent' => true,
-                        'timeout' => 6.0,
+                        'host'           => '10.0.0.2',
+                        'port'           => 6381,
+                        'persistent'     => true,
+                        'timeout'        => 6.0,
                         'retry_interval' => 501,
-                        'weight' => 3,
-                        'database' => 3,
-                        'prefix' => 'foo',
-                        'password' => 'secret2',
-                    ]
-                ]
+                        'weight'         => 3,
+                        'database'       => 3,
+                        'prefix'         => 'foo',
+                        'password'       => 'secret2',
+                    ],
+                ],
             ],
 
             'save path single host' => [
@@ -228,16 +228,16 @@ class RedisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 6381,
+                        'host'       => 'host1',
+                        'port'       => 6381,
                         'persistent' => true,
-                        'timeout' => 2.5,
-                        'weight' => 2,
-                        'database' => 3,
-                        'prefix' => 'foo',
-                        'password' => 'secret',
-                    ]
-                ]
+                        'timeout'    => 2.5,
+                        'weight'     => 2,
+                        'database'   => 3,
+                        'prefix'     => 'foo',
+                        'password'   => 'secret',
+                    ],
+                ],
             ],
 
             'save path single host without scheme' => [
@@ -248,8 +248,8 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => 'host1',
                         'port' => 6381,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path multiple hosts' => [
@@ -258,28 +258,28 @@ class RedisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 6381,
+                        'host'       => 'host1',
+                        'port'       => 6381,
                         'persistent' => true,
-                        'timeout' => 2.5,
-                        'weight' => 2,
-                        'database' => 3,
-                        'prefix' => 'foo',
-                        'password' => 'secret',
+                        'timeout'    => 2.5,
+                        'weight'     => 2,
+                        'database'   => 3,
+                        'prefix'     => 'foo',
+                        'password'   => 'secret',
                     ],
                     [
-                        'host' => 'host2',
-                        'port' => 6379,
+                        'host'    => 'host2',
+                        'port'    => 6379,
                         'timeout' => 2.5,
-                        'weight' => 2,
+                        'weight'  => 2,
                     ],
                     [
                         'host' => 'host3',
                     ],
                     [
                         'host' => 'host4',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path unix path scheme and slashes' => [
@@ -288,13 +288,13 @@ class RedisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => '/var/run/redis/redis.sock',
-                        'port' => 0,
+                        'host'       => '/var/run/redis/redis.sock',
+                        'port'       => 0,
                         'persistent' => true,
-                        'weight' => 2,
-                        'database' => 1,
-                    ]
-                ]
+                        'weight'     => 2,
+                        'database'   => 1,
+                    ],
+                ],
             ],
             'save path unix path no scheme' => [
                 [
@@ -304,8 +304,8 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '/var/run/redis/redis.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'save path unix path scheme' => [
                 [
@@ -315,8 +315,8 @@ class RedisFactoryTest extends TestCase
                     [
                         'host' => '/var/run/redis/redis.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -348,15 +348,15 @@ class RedisFactoryTest extends TestCase
 
         foreach ($expected as $item) {
             $expectedConnections[] = $item + [
-                'host' => '127.0.0.1',
-                'port' => 6379,
-                'persistent' => false,
-                'timeout' => 86400.0,
+                'host'           => '127.0.0.1',
+                'port'           => 6379,
+                'persistent'     => false,
+                'timeout'        => 86400.0,
                 'retry_interval' => 0,
-                'weight' => 1,
-                'database' => 0,
-                'prefix' => 'PHPREDIS_SESSION:',
-                'password' => null,
+                'weight'         => 1,
+                'database'       => 0,
+                'prefix'         => 'PHPREDIS_SESSION:',
+                'password'       => null,
             ];
         }
 
@@ -373,14 +373,14 @@ class RedisFactoryTest extends TestCase
     {
         $sessionOptions = new OptionsBag([
             'connection' => [
-                'host' => '10.0.0.1',
-                'port' => 6380,
+                'host'       => '10.0.0.1',
+                'port'       => 6380,
                 'persistent' => true,
-                'timeout' => 5.0,
-                'weight' => 3,
-                'database' => 4,
-                'prefix' => 'foo',
-                'password' => 'secret',
+                'timeout'    => 5.0,
+                'weight'     => 3,
+                'database'   => 4,
+                'prefix'     => 'foo',
+                'password'   => 'secret',
             ],
         ]);
 

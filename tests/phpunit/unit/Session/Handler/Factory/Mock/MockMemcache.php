@@ -17,11 +17,11 @@ class MockMemcache extends \Memcache
         callable $failure_callback = null
     ) {
         $this->servers[] = [
-            'host' => $host,
-            'port' => $port,
-            'persistent' => $persistent,
-            'weight' => $weight,
-            'timeout' => $timeout,
+            'host'           => $host,
+            'port'           => $port,
+            'persistent'     => $persistent,
+            'weight'         => $weight,
+            'timeout'        => $timeout,
             'retry_interval' => $retry_interval,
         ];
     }
