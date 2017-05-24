@@ -242,10 +242,10 @@ class LogChangeRepository extends BaseLogRepository
             $query->orderBy($options['order'], isset($options['direction']) ? $options['direction'] : null);
         }
         if (isset($options['limit'])) {
-            $query->setMaxResults(intval($options['limit']));
+            $query->setMaxResults((int) ($options['limit']));
 
             if (isset($options['offset'])) {
-                $query->setFirstResult(intval($options['offset']));
+                $query->setFirstResult((int) ($options['offset']));
             }
         }
     }

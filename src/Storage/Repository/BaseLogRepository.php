@@ -90,8 +90,8 @@ abstract class BaseLogRepository extends Repository
         $qb = $this->createQueryBuilder();
         $qb->select('*')
             ->orderBy('id', 'DESC')
-            ->setMaxResults(intval($amount))
-            ->setFirstResult(intval(($page - 1) * $amount));
+            ->setMaxResults((int) $amount)
+            ->setFirstResult((int) (($page - 1) * $amount));
 
         $this->addWhereActivity($qb, $options);
 

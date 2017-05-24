@@ -483,7 +483,7 @@ trait ContentValuesTrait
                 if (!$this->app['users']->isAllowed("contenttype:{$contenttype['slug']}:change-ownership:{$this->id}")) {
                     throw new \Exception('Changing ownership is not allowed.');
                 }
-                $this['ownerid'] = intval($values['ownerid']);
+                $this['ownerid'] = (int) ($values['ownerid']);
             }
         }
 

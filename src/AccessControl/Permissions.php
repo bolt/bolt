@@ -690,7 +690,7 @@ class Permissions
                     $content = $this->app['storage']->getContent("$contenttype/$contentId", ['hydrate' => false]);
                 }
 
-                if (intval($content['ownerid']) && (intval($content['ownerid']) === intval($user['id']))) {
+                if ((int) ($content['ownerid']) && ((int) ($content['ownerid']) === (int) ($user['id']))) {
                     $userRoles[] = self::ROLE_OWNER;
                 }
                 break;

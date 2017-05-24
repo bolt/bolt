@@ -465,11 +465,11 @@ class General extends AsyncBase
         // get the changelog for the requested ContentType.
         $options = ['limit' => 5, 'order' => 'date', 'direction' => 'DESC'];
 
-        if (intval($contentid) == 0) {
+        if ((int) $contentid == 0) {
             $isFiltered = false;
         } else {
             $isFiltered = true;
-            $options['contentid'] = intval($contentid);
+            $options['contentid'] = (int) $contentid;
         }
 
         /** @var Repository\LogChangeRepository $repo */

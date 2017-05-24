@@ -225,7 +225,7 @@ class Log extends BackendBase
                 $limit = null;
                 $page = null;
             } else {
-                $page = intval($page);
+                $page = (int) $page;
             }
         } else {
             $page = 1;
