@@ -217,7 +217,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('entries');
         $qb->setParameters(['order' => '-datepublish']);
         $qb->setParameter('id', '!1');
-        $this->assertTrue(array_key_exists('id', $qb->getParameters()));
+        $this->assertArrayHasKey('id', $qb->getParameters());
     }
 
     public function testAddOperation()
