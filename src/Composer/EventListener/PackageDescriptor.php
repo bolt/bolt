@@ -16,17 +16,17 @@ use JsonSerializable;
 final class PackageDescriptor implements JsonSerializable
 {
     /** @var string */
-    protected $name;
+    private $name;
     /** @var string */
-    protected $class;
+    private $class;
     /** @var string */
-    protected $path;
+    private $path;
     /** @var string */
-    protected $webPath;
+    private $webPath;
     /** @var string */
-    protected $constraint;
+    private $constraint;
     /** @var bool */
-    protected $valid;
+    private $valid;
 
     /**
      * Constructor.
