@@ -95,7 +95,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web' => new Filesystem(new Memory()),
+            'web'   => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 
@@ -123,7 +123,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web' => new Filesystem(new Memory()),
+            'web'   => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 

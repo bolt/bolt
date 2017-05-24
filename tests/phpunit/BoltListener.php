@@ -252,7 +252,7 @@ class BoltListener extends BaseTestListener
     private function nut($command)
     {
         $app = new Application([
-            'path_resolver.root' => PHPUNIT_WEBROOT,
+            'path_resolver.root'  => PHPUNIT_WEBROOT,
             'path_resolver.paths' => [
                 'web' => '.',
             ],

@@ -54,7 +54,7 @@ class DumpRuntimeTest extends BoltUnitTest
             new VarCloner(),
             new HtmlDumper(),
             $users,
-            $debugWhileLoggedOff
+            $debugWhileLoggedOff,
         ]);
         $runtime->expects($expectOutput ? $this->once() : $this->never())
             ->method('dump')

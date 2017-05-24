@@ -115,7 +115,7 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getFieldMapping($fieldName)
     {
-        if (! isset($this->fieldMappings[$fieldName])) {
+        if (!isset($this->fieldMappings[$fieldName])) {
             return false;
         }
 

@@ -275,7 +275,6 @@ trait ContentValuesTrait
          * We don't return at this point so continue to let other transforms happen below so the
          * old behaviour will still happen where adjusted.
          */
-
         if (isset($this->contenttype['fields'][$key]['type']) && $this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
             $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
             $newFieldType->mapping['fieldname'] = $key;
@@ -389,11 +388,11 @@ trait ContentValuesTrait
 
             if ($this->fieldtype($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
                 $defaultValues = [
-                    'html' => '',
+                    'html'       => '',
                     'responsive' => '',
-                    'width' => '1',
-                    'height' => '1',
-                    'ratio' => '1',
+                    'width'      => '1',
+                    'height'     => '1',
+                    'ratio'      => '1',
                 ];
 
                 $video = array_replace($defaultValues, $this->values[$key]);

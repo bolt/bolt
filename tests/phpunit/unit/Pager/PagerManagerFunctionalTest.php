@@ -146,7 +146,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
                     'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
                 ],
                 'acategory',
-                ['for' => 'acategory', 'current' => 5 ],
+                ['for' => 'acategory', 'current' => 5],
             ],
         ];
     }

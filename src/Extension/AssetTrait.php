@@ -131,6 +131,7 @@ trait AssetTrait
         }
         $this->assets[] = $asset;
     }
+
     /**
      * Add jQuery to the output.
      *

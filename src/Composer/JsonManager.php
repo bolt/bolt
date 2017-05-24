@@ -132,7 +132,7 @@ class JsonManager
             'minimum-stability' => $minimumStability,
             'prefer-stable'     => true,
             'config'            => $config,
-            'provide' => [
+            'provide'           => [
                 'bolt/bolt' => Bolt\Version::forComposer(),
             ],
             'extra' => [

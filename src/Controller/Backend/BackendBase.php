@@ -105,7 +105,7 @@ abstract class BackendBase extends Base
             // Don't redirect on ajaxy requests (eg. when Saving a record), but send an error
             // message with a `500` status code instead.
             if ($request->isXmlHttpRequest()) {
-                $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')] ];
+                $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')]];
 
                 return new JsonResponse($response, 500);
             }

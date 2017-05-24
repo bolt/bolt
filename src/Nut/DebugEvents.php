@@ -84,9 +84,9 @@ class DebugEvents extends BaseCommand
                 } elseif ($callable instanceof Closure) {
                     $r = new ReflectionFunction($callable);
                     $originClass = $r->getClosureScopeClass()->getName() . ' ' . $r->getShortName();
-                    $table->addRow(['#' .  $order, $originClass, $priority]);
+                    $table->addRow(['#' . $order, $originClass, $priority]);
                 } else {
-                    $table->addRow(['#' .  $order, get_class($callable), $priority]);
+                    $table->addRow(['#' . $order, get_class($callable), $priority]);
                 }
             }
             $table->render();

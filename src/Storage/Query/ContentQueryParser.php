@@ -89,6 +89,7 @@ class ContentQueryParser
         $this->addDirectiveHandler('printquery', new PrintQueryDirective());
         $this->addDirectiveHandler('returnsingle', new ReturnSingleDirective());
     }
+
     /**
      * Sets the input query.
      *
@@ -215,7 +216,7 @@ class ContentQueryParser
     public function runDirectives(QueryInterface $query, array $skipDirective = [])
     {
         foreach ($this->directives as $key => $value) {
-            if (! in_array($key, $skipDirective)) {
+            if (!in_array($key, $skipDirective)) {
                 if ($this->hasDirectiveHandler($key)) {
                     if (is_callable($this->getDirectiveHandler($key))) {
                         call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);

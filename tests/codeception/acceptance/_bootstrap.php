@@ -8,7 +8,6 @@ use Codeception\Util\Fixtures;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-
 Autoload::addNamespace('\\', __DIR__);
 
 // User IDs

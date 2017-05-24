@@ -64,14 +64,14 @@ class AdminRuntime
         }
 
         $jsdata = $this->app['jsdata'];
-        $part = & $jsdata;
+        $part = &$jsdata;
 
         foreach ($path as $key) {
             if (!isset($part[$key])) {
                 $part[$key] = [];
             }
 
-            $part = & $part[$key];
+            $part = &$part[$key];
         }
 
         $part = $value;
@@ -293,10 +293,10 @@ class AdminRuntime
     public function hclass($classes, $raw = false)
     {
         if (is_array($classes)) {
-            $classes = join(' ', $classes);
+            $classes = implode(' ', $classes);
         }
         $classes = preg_split('/ +/', trim($classes));
-        $classes = join(' ', $classes);
+        $classes = implode(' ', $classes);
 
         if ($raw) {
             return $classes;

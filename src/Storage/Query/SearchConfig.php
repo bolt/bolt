@@ -68,7 +68,7 @@ class SearchConfig
         $contentTypes = $this->config->get('contenttypes');
 
         foreach ($contentTypes as $type => $values) {
-            if (! $this->isInvisible($type)) {
+            if (!$this->isInvisible($type)) {
                 $this->getSearchableColumns($type);
                 if (isset($values['taxonomy'])) {
                     $this->parseTaxonomies($type, $values['taxonomy']);

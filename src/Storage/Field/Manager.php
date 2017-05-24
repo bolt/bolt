@@ -9,7 +9,6 @@ namespace Bolt\Storage\Field;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 class Manager
 {
     protected $fields = [];

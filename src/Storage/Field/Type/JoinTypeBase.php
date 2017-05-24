@@ -53,7 +53,7 @@ abstract class JoinTypeBase extends FieldTypeBase
             foreach (explode(',', $value) as $i => $val) {
                 $compiled[$i][$key] = $val;
             }
-        };
+        }
         $compiled = array_unique($compiled, SORT_REGULAR);
 
         return $compiled;
@@ -128,7 +128,7 @@ abstract class JoinTypeBase extends FieldTypeBase
 
         if (is_array($outerCollection)) {
             $related = [
-                $key => $outerCollection
+                $key => $outerCollection,
             ];
             $collection->setFromPost($related, $entity);
         }

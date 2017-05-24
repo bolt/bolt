@@ -59,6 +59,7 @@ abstract class BaseLogRepository extends Repository
 
         return $qb->getConnection()->executeQuery($query)->execute();
     }
+
     /**
      * Get content log's activity entries.
      *

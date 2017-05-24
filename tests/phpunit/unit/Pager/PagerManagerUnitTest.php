@@ -90,6 +90,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $manager->initialize($app['request']);
         $this->assertEquals('?' . $expected, (string) $manager);
     }
+
     public function testOffsetSet()
     {
         $manager = $this->createPagerManagerMockBuilder()
@@ -160,6 +161,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $pagers = $refdata;
         $this->assertEquals($refkeys, $manager->keys());
     }
+
     /**
      * @return array
      */
@@ -256,6 +258,6 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->method('remapPagers')
             ->willReturn(['page' => 2, 'page_wine' => 9999]);
 
-        return [$manager, $expected, [ 'some' => 'thing']];
+        return [$manager, $expected, ['some' => 'thing']];
     }
 }

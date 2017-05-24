@@ -853,6 +853,7 @@ class Config
 
         return $passed;
     }
+
     /**
      * Sanity checks for doubles in in contenttypes.
      *
@@ -864,7 +865,6 @@ class Config
         $passed = true;
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
-
             // Make sure that there are no hyphens in the contenttype name, advise to change to underscores
             if (strpos($key, '-') !== false) {
                 $error = Trans::__(

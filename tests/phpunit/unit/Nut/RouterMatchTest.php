@@ -70,7 +70,6 @@ class RouterMatchTest extends BoltUnitTest
         $this->assertRegExp($confirmation, $result);
         $this->assertRegExp($routeName, $result);
         $this->assertRegExp($path, $result);
-
     }
 
     /**
