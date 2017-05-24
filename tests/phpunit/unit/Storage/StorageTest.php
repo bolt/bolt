@@ -114,10 +114,10 @@ class StorageTest extends BoltUnitTest
         $presave = 0;
         $postsave = 0;
         $listener = function () use (&$presave) {
-            $presave++;
+            ++$presave;
         };
         $listener2 = function () use (&$postsave) {
-            $postsave++;
+            ++$postsave;
         };
         $app['dispatcher']->addListener(StorageEvents::PRE_SAVE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_SAVE, $listener2);
@@ -168,7 +168,7 @@ class StorageTest extends BoltUnitTest
         // Test the delete events are triggered
         $delete = 0;
         $listener = function () use (&$delete) {
-            $delete++;
+            ++$delete;
         };
         $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);

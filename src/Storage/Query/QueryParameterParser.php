@@ -154,7 +154,7 @@ class QueryParameterParser
             }
 
             $parts[] = $filter;
-            $count++;
+            ++$count;
         }
 
         $filter = new Filter();
@@ -206,7 +206,7 @@ class QueryParameterParser
             $filterParams[$placeholder] = $val['value'];
             $exprMethod = $val['operator'];
             $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
-            $count++;
+            ++$count;
         }
 
         $filter = new Filter();

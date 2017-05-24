@@ -204,7 +204,7 @@ class FilesystemManager extends AsyncBase
 
         // Increase $n until filename_copy$n.ext doesn't exist
         do {
-            $n++;
+            ++$n;
             $destination = $fileBase . $n . $fileExtension;
         } while ($filesystem->has($destination));
 

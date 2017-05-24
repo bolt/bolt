@@ -170,7 +170,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $count = 1;
         foreach ($res as $item) {
             $this->assertEquals($count, $item['id']);
-            $count++;
+            ++$count;
         }
     }
 
@@ -205,7 +205,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $count = 5;
         foreach ($res as $item) {
             $this->assertEquals($count, $item['id']);
-            $count--;
+            --$count;
         }
     }
 

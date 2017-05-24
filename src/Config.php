@@ -976,12 +976,12 @@ class Config
             if (!isset($slugs[$ct['slug']])) {
                 $slugs[$ct['slug']] = 0;
             }
-            $slugs[$ct['slug']]++;
+            ++$slugs[$ct['slug']];
             if (!isset($slugs[$ct['singular_slug']])) {
                 $slugs[$ct['singular_slug']] = 0;
             }
             if ($ct['singular_slug'] != $ct['slug']) {
-                $slugs[$ct['singular_slug']]++;
+                ++$slugs[$ct['singular_slug']];
             }
         }
 

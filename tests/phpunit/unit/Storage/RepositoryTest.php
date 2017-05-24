@@ -180,7 +180,7 @@ class RepositoryTest extends BoltUnitTest
         $phpunit = $this;
         $count = 0;
         $app['dispatcher']->addListener($event, function () use ($count, $phpunit, $event) {
-            $count ++;
+            ++$count;
             $phpunit->eventCount[$event] = $count;
         });
     }

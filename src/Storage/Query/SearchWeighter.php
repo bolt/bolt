@@ -139,11 +139,11 @@ class SearchWeighter
                     $dictionary[$term] = ['frequency' => 0, 'postings' => []];
                 }
                 if (!isset($dictionary[$term]['postings'][$id])) {
-                    $dictionary[$term]['frequency']++;
+                    ++$dictionary[$term]['frequency'];
                     $dictionary[$term]['postings'][$id] = ['frequency' => 0];
                 }
 
-                $dictionary[$term]['postings'][$id]['frequency']++;
+                ++$dictionary[$term]['postings'][$id]['frequency'];
             }
         }
 

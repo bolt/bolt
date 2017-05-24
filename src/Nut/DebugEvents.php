@@ -73,7 +73,7 @@ class DebugEvents extends BaseCommand
 
             $table = $this->getTable($output);
             foreach ($eventListeners as $order => $callable) {
-                $order++;
+                ++$order;
                 $priority = $dispatcher->getListenerPriority($eventName, $callable);
                 if (is_array($callable)) {
                     $table->addRow([
