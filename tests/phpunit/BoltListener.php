@@ -92,9 +92,9 @@ class BoltListener extends BaseTestListener
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
             return $this->getPath('theme', 'theme/base-2016');
-        } else {
-            return $this->getPath('theme', $theme['theme']);
         }
+
+        return $this->getPath('theme', $theme['theme']);
     }
 
     /**
@@ -108,9 +108,9 @@ class BoltListener extends BaseTestListener
     {
         if ($boltdb === false || (isset($boltdb['boltdb']) && $boltdb['boltdb'] === '')) {
             return $this->getPath('bolt.db', 'tests/phpunit/unit/resources/db/bolt.db');
-        } else {
-            return $this->getPath('bolt.db', $boltdb['boltdb']);
         }
+
+        return $this->getPath('bolt.db', $boltdb['boltdb']);
     }
 
     /**

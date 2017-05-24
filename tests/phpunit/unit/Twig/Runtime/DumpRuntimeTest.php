@@ -64,6 +64,7 @@ class DumpRuntimeTest extends BoltUnitTest
 
         if (!$expectOutput) {
             $this->assertNull($actual);
+
             return;
         }
 

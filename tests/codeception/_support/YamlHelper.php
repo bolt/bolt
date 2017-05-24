@@ -29,9 +29,9 @@ class YamlHelper extends \Codeception\Module
 
         if (is_readable($filename)) {
             return $parser->parse(file_get_contents($filename) . "\n");
-        } else {
-            throw new IOException($filename . ' is not readable!');
         }
+
+        throw new IOException($filename . ' is not readable!');
     }
 
     /**
