@@ -163,9 +163,9 @@ class General extends AsyncBase
 
         if ($contentLogEnabled) {
             return $this->getLastmodifiedByContentLog($contenttypeslug, $contentid);
-        } else {
-            return $this->getLastmodifiedSimple($contenttypeslug);
         }
+
+        return $this->getLastmodifiedSimple($contenttypeslug);
     }
 
     /**

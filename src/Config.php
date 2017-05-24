@@ -249,9 +249,9 @@ class Config
 
             if (is_callable($service)) {
                 return call_user_func_array($service, [$params]);
-            } else {
-                return $service;
             }
+
+            return $service;
         }
 
         return $value;
@@ -746,10 +746,9 @@ class Config
             unset($config['path']);
 
             return $config;
-        } else {
-            // Prevent SQLite driver from trying to use in-memory connection
-            unset($config['memory']);
         }
+        // Prevent SQLite driver from trying to use in-memory connection
+        unset($config['memory']);
 
         // Get path from config or use database path
         $path = isset($config['path']) ? $config['path'] : $this->app['path_resolver']->resolve('database');

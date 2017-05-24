@@ -76,11 +76,10 @@ class TextRuntime
             $this->systemLogger->error('No valid locale detected. Fallback on DateTime active.', ['event' => 'system']);
 
             return $dateTime->format('Y-m-d H:i:s');
-        } else {
-            $timestamp = $dateTime->getTimestamp();
-
-            return strftime($format, $timestamp);
         }
+        $timestamp = $dateTime->getTimestamp();
+
+        return strftime($format, $timestamp);
     }
 
     /**

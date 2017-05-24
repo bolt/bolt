@@ -43,18 +43,17 @@ class QueryResultset extends \AppendIterator implements \Countable
     {
         if ($label && array_key_exists($label, $this->results)) {
             return $this->results[$label];
-        } else {
-            $results = [];
-            foreach ($this->results as $v) {
-                if (is_array($v)) {
-                    $results = array_merge($results, $v);
-                } else {
-                    $results[] = $v;
-                }
-            }
-
-            return $results;
         }
+        $results = [];
+        foreach ($this->results as $v) {
+            if (is_array($v)) {
+                $results = array_merge($results, $v);
+            } else {
+                $results[] = $v;
+            }
+        }
+
+        return $results;
     }
 
     /**

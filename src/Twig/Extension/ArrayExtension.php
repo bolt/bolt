@@ -118,24 +118,23 @@ class ArrayExtension extends Extension
             return !$this->orderAscending;
         } elseif ($aVal > $bVal) {
             return $this->orderAscending;
-        } else {
-            // Primary criterion is the same. Use the secondary criterion, if it is set. Otherwise return 0.
-            if (empty($this->orderOnSecondary)) {
-                return 0;
-            }
-
-            $aVal = $a[$this->orderOnSecondary];
-            $bVal = $b[$this->orderOnSecondary];
-
-            if ($aVal < $bVal) {
-                return !$this->orderAscendingSecondary;
-            } elseif ($aVal > $bVal) {
-                return $this->orderAscendingSecondary;
-            } else {
-                // both criteria are the same. Whatever!
-                return 0;
-            }
         }
+        // Primary criterion is the same. Use the secondary criterion, if it is set. Otherwise return 0.
+        if (empty($this->orderOnSecondary)) {
+            return 0;
+        }
+
+        $aVal = $a[$this->orderOnSecondary];
+        $bVal = $b[$this->orderOnSecondary];
+
+        if ($aVal < $bVal) {
+            return !$this->orderAscendingSecondary;
+        } elseif ($aVal > $bVal) {
+            return $this->orderAscendingSecondary;
+        }
+
+        // both criteria are the same. Whatever!
+        return 0;
     }
 
     /**

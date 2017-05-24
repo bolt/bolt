@@ -49,9 +49,9 @@ class SelectQueryHandler
 
         if ($query->getSingleFetchMode()) {
             return $set->current();
-        } else {
-            return $set;
         }
+
+        return $set;
     }
 
     /**

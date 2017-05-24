@@ -159,9 +159,9 @@ class Translator
             return $transGeneric;
         } elseif ($transFallback !== false) {
             return $transFallback;
-        } else {
-            return $genericKey;
         }
+
+        return $genericKey;
     }
 
     /**

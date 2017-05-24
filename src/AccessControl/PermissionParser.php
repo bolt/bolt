@@ -277,9 +277,9 @@ class PermissionParser
     {
         if (empty($tokens)) {
             return ['type' => self::P_TRUE, 'value' => ''];
-        } else {
-            return self::parseAnd($tokens);
         }
+
+        return self::parseAnd($tokens);
     }
 
     private static function parseAnd(&$tokens)
@@ -298,9 +298,9 @@ class PermissionParser
         }
         if (count($parts) > 1) {
             return ['type' => self::P_AND, 'value' => $parts];
-        } else {
-            return $parts[0];
         }
+
+        return $parts[0];
     }
 
     private static function parseOr(&$tokens)
@@ -319,9 +319,9 @@ class PermissionParser
         }
         if (count($parts) > 1) {
             return ['type' => self::P_OR, 'value' => $parts];
-        } else {
-            return $parts[0];
         }
+
+        return $parts[0];
     }
 
     private static function parseSimple(&$tokens)

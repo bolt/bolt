@@ -82,11 +82,10 @@ class SearchQuery extends SelectQuery
             $words = preg_split('/[\s\+]+/', $this->search);
 
             return '%' . implode('% && %', $words) . '%';
-        } else {
-            $words = explode(' ', $this->search);
-
-            return '%' . implode('% || %', $words) . '%';
         }
+        $words = explode(' ', $this->search);
+
+        return '%' . implode('% || %', $words) . '%';
     }
 
     /**

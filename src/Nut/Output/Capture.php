@@ -56,11 +56,13 @@ final class Capture
         }
         if ($newText === "\033[1D") {
             $this->text = substr($this->text, 0, -1);
+
             return '';
         }
         if ($newText === "\0338") {
             $index = strrpos($this->text, "\0337");
             $this->text = substr($this->text, 0, $index);
+
             return '';
         }
 

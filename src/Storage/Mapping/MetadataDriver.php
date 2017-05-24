@@ -520,9 +520,9 @@ class MetadataDriver implements MappingDriver
             $metadata->setBoltName($data['boltname']);
 
             return $metadata;
-        } else {
-            throw new StorageException("Attempted to load mapping data for unmapped class $className");
         }
+
+        throw new StorageException("Attempted to load mapping data for unmapped class $className");
     }
 
     public function loadMetadataForFields(array $fields)

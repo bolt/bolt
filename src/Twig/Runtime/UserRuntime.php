@@ -57,9 +57,9 @@ class UserRuntime
 
         if (isset($user['id'])) {
             return $user['id'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

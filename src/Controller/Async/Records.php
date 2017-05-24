@@ -68,11 +68,10 @@ class Records extends AsyncBase
 
         foreach ($actionData as $contentTypeSlug => $recordIds) {
             if (!$this->getContentType($contentTypeSlug)) {
-                // sprintf('Attempt to modify invalid ContentType: %s', $contentTypeSlug);
+                // Attempt to modify invalid ContentType
                 continue;
-            } else {
-                $this->app['storage.request.modify']->action($contentTypeSlug, $recordIds);
             }
+            $this->app['storage.request.modify']->action($contentTypeSlug, $recordIds);
         }
 
         $referer = Request::create($request->server->get('HTTP_REFERER'));

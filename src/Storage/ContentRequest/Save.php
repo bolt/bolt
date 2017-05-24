@@ -192,9 +192,8 @@ class Save
         foreach ($formValues as $name => $value) {
             if ($name === 'relation' || $name === 'taxonomy') {
                 continue;
-            } else {
-                $content->set($name, (empty($value) || $this->isEmptyArray($value)) ? null : $value);
             }
+            $content->set($name, (empty($value) || $this->isEmptyArray($value)) ? null : $value);
         }
         foreach ($contentType['fields'] as $fieldName => $data) {
             if ($data['type'] !== 'slug' || !isset($formValues[$fieldName])) {
@@ -315,9 +314,9 @@ class Save
         // check if a pager was set in the referrer - if yes go back there
         if ($editReferrer) {
             return new RedirectResponse($editReferrer);
-        } else {
-            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
         }
+
+        return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
     }
 
     /**

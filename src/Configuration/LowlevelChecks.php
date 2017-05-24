@@ -61,6 +61,7 @@ class LowlevelChecks
     {
         if ($property === 'disableApacheChecks' && $value === true) {
             $this->disableApacheChecks();
+
             return;
         }
 

@@ -111,6 +111,7 @@ class YamlUpdater
             if (func_num_args() === 4 && func_get_arg(3)) {
                 throw new \InvalidArgumentException(sprintf("The key '%s' was not found in %s.", $key, $this->file->getFullPath()));
             }
+
             return false;
         }
 

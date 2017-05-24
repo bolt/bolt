@@ -197,11 +197,10 @@ class Import extends AbstractMigration
             $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
 
             return false;
-        } else {
-            $this->setNotice(true)->setNoticeMessage("Imported record with title: {$values['title']}.");
-
-            return true;
         }
+        $this->setNotice(true)->setNoticeMessage("Imported record with title: {$values['title']}.");
+
+        return true;
     }
 
     /**

@@ -47,9 +47,9 @@ trait ContentValuesTrait
 
         if (isset($this->values[$name])) {
             return $this->values[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

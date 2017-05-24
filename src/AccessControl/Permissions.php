@@ -133,9 +133,9 @@ class Permissions
                 $roles = $this->getDefinedRoles();
                 if (isset($roles[$roleName])) {
                     return $roles[$roleName];
-                } else {
-                    return null;
                 }
+
+                return null;
         }
     }
 
@@ -646,14 +646,13 @@ class Permissions
                         $this->audit("Granting 'overview' for everyone (hard-coded override)");
 
                         return true;
-                    } else {
-                        $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
-
-                        return false;
                     }
-                } else {
-                    $permission = 'view';
+                    $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
+
+                    return false;
                 }
+                $permission = 'view';
+
                 break;
 
             case 'relatedto':
@@ -662,9 +661,9 @@ class Permissions
                     $this->audit("Granting 'relatedto' globally (hard-coded override)");
 
                     return true;
-                } else {
-                    $permission = 'view';
                 }
+                $permission = 'view';
+
                 break;
 
             case 'contenttype':

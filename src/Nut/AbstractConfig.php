@@ -61,6 +61,7 @@ abstract class AbstractConfig extends BaseCommand
             } else {
                 throw $e;
             }
+
             return 1;
         }
 

@@ -78,6 +78,7 @@ final class Terminal
         if (static::$pcntlEnabled === null) {
             if (!extension_loaded('pcntl')) {
                 static::$pcntlEnabled = false;
+
                 return true;
             }
             static::$pcntlEnabled = true;

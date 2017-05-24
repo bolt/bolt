@@ -48,9 +48,9 @@ class Manager
     {
         if ($this->has($name)) {
             return $this->fields[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function getDatabaseField($field)

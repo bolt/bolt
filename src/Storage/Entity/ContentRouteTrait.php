@@ -33,9 +33,9 @@ trait ContentRouteTrait
 
         if ($this->app['users']->isAllowed($perm)) {
             return $this->app['url_generator']->generate('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id]);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

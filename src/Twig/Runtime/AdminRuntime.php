@@ -300,9 +300,9 @@ class AdminRuntime
 
         if ($raw) {
             return $classes;
-        } else {
-            return $classes ? ' class="' . htmlspecialchars($classes) . '"' : '';
         }
+
+        return $classes ? ' class="' . htmlspecialchars($classes) . '"' : '';
     }
 
     /**
