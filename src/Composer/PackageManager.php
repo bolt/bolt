@@ -385,7 +385,7 @@ class PackageManager
         if ($addQuery) {
             $query = [
                 'bolt_ver'  => Bolt\Version::VERSION,
-                'php'       => phpversion(),
+                'php'       => PHP_VERSION,
                 'www'       => $www,
             ];
         }

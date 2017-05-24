@@ -86,7 +86,7 @@ HTML;
         $output = str_replace('%info%', $info, $output);
 
         // Determine if we're on the command line. If so, don't output HTML.
-        if (php_sapi_name() === 'cli') {
+        if (PHP_SAPI === 'cli') {
             if ($previous instanceof \Exception) {
                 $output .= "\n\nException message:\n" . $previous->getMessage() . "\n\n";
             }
@@ -187,7 +187,7 @@ HTML;
             $html = str_replace('%error%', $message, $html);
 
             // Determine if we're on the command line. If so, don't output HTML.
-            if (php_sapi_name() == 'cli') {
+            if (PHP_SAPI == 'cli') {
                 $html = self::cleanHTML($html);
             }
 

@@ -429,7 +429,7 @@ class General extends AsyncBase
         $options = [
             'query' => [
                 'v'    => Bolt\Version::VERSION,
-                'p'    => phpversion(),
+                'p'    => PHP_VERSION,
                 'db'   => $driver,
                 'name' => $hostname,
             ],
