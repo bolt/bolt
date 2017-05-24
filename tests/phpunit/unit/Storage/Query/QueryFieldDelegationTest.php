@@ -3,7 +3,8 @@
 namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Legacy\Storage;
-use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Entity;
+use Bolt\Storage\Query\QueryResultset;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,7 @@ class QueryFieldDelegationTest extends BoltUnitTest
         $app = $this->getApp();
 
         $results = $app['query']->getContent('showcases', ['entries' => '1 || 2 || 3']);
+        $this->assertInstanceOf(QueryResultset::class, $results);
         foreach ($results as $result) {
             foreach ($result->relation['entries'] as $entry) {
                 $this->assertTrue(in_array($entry->id, [1, 2, 3]));

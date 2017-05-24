@@ -32,13 +32,15 @@ class LogManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $db->expects($this->any())
+        $db->expects($this->atLeastOnce())
             ->method('executeUpdate')
             ->with($this->equalTo('DELETE FROM bolt_log_system WHERE date < :date'));
 
         $this->setService('db', $db);
         $log = $this->getLogManager($app);
         $log->trim('system');
+
+        $this->addToAssertionCount(1);
     }
 
     public function testChange()
@@ -46,13 +48,15 @@ class LogManagerTest extends BoltUnitTest
         $app = $this->getApp();
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $db->expects($this->any())
+        $db->expects($this->atLeastOnce())
             ->method('executeUpdate')
             ->with($this->equalTo('DELETE FROM bolt_log_change WHERE date < :date'));
 
         $this->setService('db', $db);
         $log = $this->getLogManager($app);
         $log->trim('change');
+
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -98,7 +102,7 @@ class LogManagerTest extends BoltUnitTest
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = [];
-        $db->expects($this->any())
+        $db->expects($this->atLeastOnce())
             ->method('executeQuery')
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
@@ -113,6 +117,8 @@ class LogManagerTest extends BoltUnitTest
 
         $log = $this->getLogManager($app);
         $log->getActivity('system', 10);
+
+        $this->addToAssertionCount(1);
     }
 
     public function testGetActivityChange()
@@ -122,7 +128,7 @@ class LogManagerTest extends BoltUnitTest
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = [];
-        $db->expects($this->any())
+        $db->expects($this->atLeastOnce())
             ->method('executeQuery')
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
@@ -137,6 +143,8 @@ class LogManagerTest extends BoltUnitTest
 
         $log = $this->getLogManager($app);
         $log->getActivity('change', 10);
+
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -157,7 +165,7 @@ class LogManagerTest extends BoltUnitTest
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
         $queries = [];
-        $db->expects($this->any())
+        $db->expects($this->atLeastOnce())
             ->method('executeQuery')
             ->will($this->returnCallback(
                 function ($query, $params) use (&$queries, $mocker) {
@@ -172,6 +180,8 @@ class LogManagerTest extends BoltUnitTest
 
         $log = $this->getLogManager($app);
         $log->getActivity('change', 10, 3, ['contenttype' => 'pages']);
+
+        $this->addToAssertionCount(1);
     }
 
     /**
