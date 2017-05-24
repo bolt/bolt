@@ -8,12 +8,10 @@ use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 
 class CacheTest extends BoltUnitTest
 {
-    /**
-     * @var \Bolt\Cache
-     */
+    /** @var \Bolt\Cache */
     protected $cache;
     /**
-     * Real path to cache workspace directory
+     * Real path to cache workspace directory.
      *
      * @var string
      */
@@ -80,6 +78,9 @@ class CacheTest extends BoltUnitTest
 
     /**
      * @dataProvider setProvider
+     *
+     * @param string $value
+     * @param mixed  $expected
      */
     public function testSet($value, $expected)
     {

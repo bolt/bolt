@@ -298,8 +298,10 @@ class StorageTest extends BoltUnitTest
     /**
      * The legacy getContentType method should be able to find contenttypes by key, slugified key, slug, slugified slug,
      * singular slug, slugified singular slug, singular name and name.
-
+     *
      * @dataProvider contentTypeProvider
+     *
+     * @param array $contentType
      */
     public function testGetContentType($contentType)
     {
@@ -356,7 +358,7 @@ class StorageTest extends BoltUnitTest
     }
 
     /**
-     * Seed some dummy content types for testing the contenttype query methods
+     * Seed some dummy content types for testing the ContentType query methods.
      */
     public function contentTypeProvider()
     {

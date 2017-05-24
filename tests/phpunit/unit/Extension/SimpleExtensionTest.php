@@ -10,7 +10,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class to test Bolt\Extension\SimpleExtension
+ * Class to test Bolt\Extension\SimpleExtension.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

@@ -9,7 +9,7 @@ use Bolt\Twig\Runtime\ImageRuntime;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class to test Bolt\Twig\Runtime\ImageRuntime
+ * Class to test Bolt\Twig\Runtime\ImageRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

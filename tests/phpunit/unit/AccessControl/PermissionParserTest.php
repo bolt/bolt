@@ -9,6 +9,9 @@ class PermissionParserTest extends TestCase
 {
     /**
      * @dataProvider lexProvider
+     *
+     * @param string $input
+     * @param array  $expected
      */
     public function testLex($input, $expected)
     {
@@ -214,6 +217,9 @@ class PermissionParserTest extends TestCase
 
     /**
      * @dataProvider runProvider
+     *
+     * @param string $input
+     * @param array  $expected
      */
     public function testRun($input, $expected)
     {

@@ -10,7 +10,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
- * Class to test Bolt\Twig\Runtime\DumpRuntime
+ * Class to test Bolt\Twig\Runtime\DumpRuntime.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

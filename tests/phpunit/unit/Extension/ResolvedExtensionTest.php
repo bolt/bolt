@@ -10,7 +10,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock;
 
 /**
- * Class to test Bolt\Extension\ResolvedExtension
+ * Class to test Bolt\Extension\ResolvedExtension.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

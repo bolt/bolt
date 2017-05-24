@@ -143,6 +143,10 @@ class RecordChangeHandlerTest extends BoltUnitTest
 
     /**
      * @dataProvider provideDiff
+     *
+     * @param array $a
+     * @param array $b
+     * @param array $expected
      */
     public function testDiff($a, $b, $expected)
     {

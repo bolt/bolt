@@ -11,7 +11,7 @@ use Bolt\Twig\FilesystemLoader;
 use Twig_Loader_Array as ArrayLoader;
 
 /**
- * Class to test Bolt\Extension\TwigTrait
+ * Class to test Bolt\Extension\TwigTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

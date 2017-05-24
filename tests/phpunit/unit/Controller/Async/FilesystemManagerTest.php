@@ -26,7 +26,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     private $oldFiles = [];
 
     /**
-     * Store the list of files in the files folder so we can delete any added files after we're done testing
+     * Store the list of files in the files folder so we can delete any added files after we're done testing.
      *
      * @before
      */
@@ -36,7 +36,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     }
 
     /**
-     * Remove any files added during the test
+     * Remove any files added during the test.
      *
      * @after
      */
@@ -178,7 +178,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     }
 
     /**
-     * Test renaming both files and folders, since the controller actions have the same signature and output
+     * Test renaming both files and folders, since the controller actions have the same signature and output.
      */
     public function testRename()
     {

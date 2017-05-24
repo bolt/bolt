@@ -11,7 +11,7 @@ use Bolt\Twig\Runtime\RecordRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Runtime\RecordRuntime
+ * Class to test Bolt\Twig\Runtime\RecordRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

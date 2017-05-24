@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * PHPUnit listener class
+ * PHPUnit listener class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -178,7 +178,7 @@ class BoltListener extends BaseTestListener
     }
 
     /**
-     * Build the pre-requisites for our test environment
+     * Build the pre-requisites for our test environment.
      */
     private function buildTestEnv()
     {
@@ -218,7 +218,7 @@ class BoltListener extends BaseTestListener
     }
 
     /**
-     * Clean up after test runs
+     * Clean up after test runs.
      */
     private function cleanTestEnv()
     {

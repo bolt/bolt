@@ -28,6 +28,9 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider urlProvider
+     *
+     * @param string $uri
+     * @param string $expected
      */
     public function testUrl($uri, $expected)
     {
@@ -52,6 +55,10 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider globalOverrideProvider
+     *
+     * @param string $uri
+     * @param string $expected
+     * @param string $globalOverride
      */
     public function testGlobalOverrideWithConstructor($uri, $expected, $globalOverride)
     {
@@ -62,6 +69,10 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider globalOverrideProvider
+     *
+     * @param string $uri
+     * @param string $expected
+     * @param string $globalOverride
      */
     public function testGlobalOverrideWithSetter($uri, $expected, $globalOverride)
     {
@@ -94,6 +105,11 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider overrideProvider
+     *
+     * @param string $override
+     * @param string $globalOverride
+     * @param string $forceSsl
+     * @param string $expected
      */
     public function testOverride($override, $globalOverride, $forceSsl, $expected)
     {

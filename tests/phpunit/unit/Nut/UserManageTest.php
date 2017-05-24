@@ -9,7 +9,7 @@ use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for Nut user:manage
+ * Tests for Nut user:manage.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

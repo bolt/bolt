@@ -2,7 +2,7 @@
 
 
 /**
- * Backend 'lemmings' test(s)
+ * Backend 'lemmings' test(s).
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

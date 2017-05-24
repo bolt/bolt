@@ -7,14 +7,14 @@ use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * YAML Helper class
+ * YAML Helper class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class YamlHelper extends \Codeception\Module
 {
     /**
-     * Read a YAML file from app/config/
+     * Read a YAML file from app/config/.
      *
      * @param string $file
      *
@@ -35,7 +35,7 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
-     * Read the config file and set 'canonical' and 'notfound'
+     * Read the config file and set 'canonical' and 'notfound'.
      *
      * @return string
      */
@@ -152,7 +152,7 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
-     * Add a 'Resources' Contenttype
+     * Add a 'Resources' Contenttype.
      *
      * ```
      * resources:
@@ -224,7 +224,7 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
-     * Read the menu file and add a menu for the Showcase listing
+     * Read the menu file and add a menu for the Showcase listing.
      *
      * @return string
      */
@@ -262,10 +262,11 @@ class YamlHelper extends \Codeception\Module
     }
 
     /**
-     * Get the YAML in a string
+     * Get the YAML in a string.
      *
      * @param array   $input  The PHP value
      * @param integer $inline The level where you switch to inline YAML
+     * @param mixed   $depth
      *
      * @return string
      */

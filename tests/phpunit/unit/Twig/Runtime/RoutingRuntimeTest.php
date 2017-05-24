@@ -7,7 +7,7 @@ use Bolt\Twig\Runtime\RoutingRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Runtime\RoutingRuntime
+ * Class to test Bolt\Twig\Runtime\RoutingRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

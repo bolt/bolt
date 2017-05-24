@@ -57,6 +57,8 @@ class ResourceManagerTest extends BoltUnitTest
     /**
      * @dataProvider exceptionGetPathProvider
      * @expectedException \InvalidArgumentException
+     *
+     * @param mixed $path
      */
     public function testExceptionGetPath($path)
     {
@@ -137,6 +139,8 @@ class ResourceManagerTest extends BoltUnitTest
     /**
      * @dataProvider exceptionGetUrlProvider
      * @expectedException \InvalidArgumentException
+     *
+     * @param mixed $url
      */
     public function testExceptionGetUrl($url)
     {
@@ -199,6 +203,8 @@ class ResourceManagerTest extends BoltUnitTest
     /**
      * @dataProvider exceptionGetRequest
      * @expectedException \InvalidArgumentException
+     *
+     * @param mixed $request
      */
     public function testExceptionGetRequest($request)
     {

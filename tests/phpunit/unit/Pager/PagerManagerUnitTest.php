@@ -26,6 +26,9 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
     /**
      * @dataProvider makeParameterIdProvider
+     *
+     * @param string         $expected
+     * @param string|integer $suffix
      */
     public function testMakeParameterId($expected, $suffix)
     {
@@ -200,6 +203,9 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
     /**
      * @dataProvider findInitializedPagerIdProvider
+     *
+     * @param array  $data
+     * @param string $expected
      */
     public function testFindInitializedPagerId($data, $expected)
     {

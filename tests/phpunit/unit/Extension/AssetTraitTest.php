@@ -15,7 +15,7 @@ use Bolt\Tests\Extension\Mock\AssetExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
- * Class to test Bolt\Extension\AssetTrait
+ * Class to test Bolt\Extension\AssetTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

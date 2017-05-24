@@ -3,7 +3,7 @@
 use Codeception\Util\Locator;
 
 /**
- * Backend 'editor' tests
+ * Backend 'editor' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -90,7 +90,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that the editor can't publish Entries
+     * Check that the editor can't publish Entries.
      *
      * @param \AcceptanceTester $I
      */
@@ -120,7 +120,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that the editor can't create Entries
+     * Check that the editor can't create Entries.
      *
      * @param \AcceptanceTester $I
      */
@@ -169,7 +169,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a contact page with templatefields
+     * Create a contact page with templatefields.
      *
      * @param \AcceptanceTester $I
      */

@@ -6,7 +6,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\UtilsRuntime;
 
 /**
- * Class to test Bolt\Twig\Runtime\UtilsRuntime
+ * Class to test Bolt\Twig\Runtime\UtilsRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
