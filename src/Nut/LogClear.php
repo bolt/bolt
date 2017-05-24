@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Nut command to clear the system & change logs
+ * Nut command to clear the system & change logs.
  */
 class LogClear extends BaseCommand
 {

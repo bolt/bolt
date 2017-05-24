@@ -188,7 +188,7 @@ class RepeaterType extends FieldTypeBase
     }
 
     /**
-     * Get platform specific group_concat token for provided column
+     * Get platform specific group_concat token for provided column.
      *
      * @param QueryBuilder $query
      *

@@ -8,7 +8,7 @@ namespace Bolt\Storage;
 interface NamingStrategyInterface
 {
     /**
-     * Takes either a global or absolute class name and returns an underscored table name
+     * Takes either a global or absolute class name and returns an underscored table name.
      *
      * @param $className
      *
@@ -17,7 +17,7 @@ interface NamingStrategyInterface
     public function classToTableName($className);
 
     /**
-     * Returns a short alias for the entity
+     * Returns a short alias for the entity.
      *
      * @param $className
      *

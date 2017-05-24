@@ -5,7 +5,7 @@ namespace Bolt\Storage\Migration;
 use Bolt\Collection\Arr;
 
 /**
- * Database records import class
+ * Database records import class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -20,6 +20,8 @@ class Import extends AbstractMigration
      * Also creates an input file objects.
      *
      * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
+     *
+     * @param mixed $files
      */
     public function setMigrationFiles($files)
     {
@@ -41,7 +43,7 @@ class Import extends AbstractMigration
     }
 
     /**
-     * Import each migration file
+     * Import each migration file.
      *
      * @return \Bolt\Storage\Migration\Import
      */
@@ -74,7 +76,7 @@ class Import extends AbstractMigration
     }
 
     /**
-     * Setter for data
+     * Setter for data.
      *
      * @param array $data
      */
@@ -84,7 +86,7 @@ class Import extends AbstractMigration
     }
 
     /**
-     * Import records from an import file
+     * Import records from an import file.
      *
      * @param string $filename
      *
@@ -142,7 +144,7 @@ class Import extends AbstractMigration
     }
 
     /**
-     * Insert an individual Contenttype record into the database
+     * Insert an individual Contenttype record into the database.
      *
      * @param string $filename
      * @param string $contenttypeslug

@@ -58,7 +58,7 @@ class QueryResultset extends \AppendIterator implements \Countable
     }
 
     /**
-     * Returns the total count
+     * Returns the total count.
      *
      * @return int
      */

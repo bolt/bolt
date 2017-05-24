@@ -6,10 +6,7 @@ use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PagerManagerUnitTest
- *  is intended for testing Bolt\Pager\PagerManager methods in separated way so it is testing ONE method at once.
- *
- * @package Bolt\Tests\Pager
+ * @covers \Bolt\Pager\PagerManager
  *
  * @author Rix Beck <rix@neologik.hu>
  */

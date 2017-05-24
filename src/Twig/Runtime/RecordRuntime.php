@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
+ * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation.
  *
  * @internal
  */
@@ -38,6 +38,7 @@ class RecordRuntime
      * @param PagerManager       $pagerManager
      * @param DirectoryInterface $templatesDir
      * @param array              $themeTemplateSelect
+     * @param mixed              $useTwigGlobals
      */
     public function __construct(
         RequestStack $requestStack,

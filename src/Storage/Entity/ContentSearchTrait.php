@@ -37,8 +37,6 @@ trait ContentSearchTrait
      * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
      *
      * @param array $query Query to weigh against
-     *
-     * @return void
      */
     public function weighSearchResult($query)
     {

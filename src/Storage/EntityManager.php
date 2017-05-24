@@ -49,7 +49,7 @@ class EntityManager implements EntityManagerInterface
     protected $aliases = [];
     /** @var Storage */
     protected $legacyStorage;
-    /** @var Callable */
+    /** @var callable */
     protected $defaultRepositoryFactory;
 
     /**
@@ -322,7 +322,7 @@ class EntityManager implements EntityManagerInterface
     }
 
     /**
-     * Returns the default repository factory set on this object
+     * Returns the default repository factory set on this object.
      *
      * @param ClassMetadataInterface $classMetadata
      *
@@ -384,7 +384,7 @@ class EntityManager implements EntityManagerInterface
     }
 
     /**
-     * Returns a proxy to the legacy storage service
+     * Returns a proxy to the legacy storage service.
      *
      * @return Storage
      */
@@ -394,7 +394,7 @@ class EntityManager implements EntityManagerInterface
     }
 
     /**
-     * Sets the LegacyRepository
+     * Sets the LegacyRepository.
      *
      * @param Storage $storage
      */
@@ -404,7 +404,7 @@ class EntityManager implements EntityManagerInterface
     }
 
     /**
-     * Getter for logger object
+     * Getter for logger object.
      *
      * @return LoggerInterface
      */
@@ -416,7 +416,7 @@ class EntityManager implements EntityManagerInterface
     /******* Deprecated functions ******/
 
     /**
-     * Magic call method acts as a catchall proxy to the legacy repository
+     * Magic call method acts as a catchall proxy to the legacy repository.
      *
      * @param string $method
      * @param array  $args
@@ -430,7 +430,7 @@ class EntityManager implements EntityManagerInterface
 
     /**
      * Note that this method is explicitly defined here because the magic method above cannot
-     * pass dynamic variables by reference
+     * pass dynamic variables by reference.
      *
      * @param string $textquery
      * @param array  $parameters

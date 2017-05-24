@@ -9,7 +9,7 @@ use Bolt\Storage\EntityProxy;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * This class stores an array collection of Relations Entities
+ * This class stores an array collection of Relations Entities.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -139,7 +139,7 @@ class Relations extends ArrayCollection
     }
 
     /**
-     * Gets a specific relation type name from the overall collection
+     * Gets a specific relation type name from the overall collection.
      *
      * @param string $fieldName
      * @param bool   $biDirectional
@@ -180,7 +180,7 @@ class Relations extends ArrayCollection
     }
 
     /**
-     * Identifies which relations are incoming to the given entity
+     * Identifies which relations are incoming to the given entity.
      *
      * @param Entity\Content $entity
      *

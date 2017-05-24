@@ -20,7 +20,7 @@ class JsonManager
     /** @var array */
     protected $messages = [];
 
-    /** @var Application  */
+    /** @var Application */
     private $app;
 
     /**

@@ -10,7 +10,7 @@ use Silex;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Bolt specific Twig functions and filters for backend
+ * Bolt specific Twig functions and filters for backend.
  *
  * @internal
  */

@@ -12,9 +12,9 @@ class StatService
     public $urls = ['install' => 'stat/install/%s/%s'];
     /** @var string */
     private $extendSite;
-    /** @var ClientInterface  */
+    /** @var ClientInterface */
     private $client;
-    /** @var LoggerInterface  */
+    /** @var LoggerInterface */
     private $loggerSystem;
 
     /**

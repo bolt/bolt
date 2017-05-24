@@ -195,7 +195,7 @@ class General extends AsyncBase
     }
 
     /**
-     * Generate a URI based on request parameters
+     * Generate a URI based on request parameters.
      *
      * @param Request $request
      *

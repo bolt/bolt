@@ -5,7 +5,7 @@ namespace Bolt\Storage\Migration\Input;
 use Bolt\Storage\Migration\Import;
 
 /**
- * Interface for migration import files
+ * Interface for migration import files.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

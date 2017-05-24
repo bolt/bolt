@@ -88,7 +88,7 @@ class Options extends ParameterBag
     }
 
     /**
-     * Skips autoloader generation
+     * Skips autoloader generation.
      *
      * Composer parameter: --no-autoloader
      *
@@ -124,7 +124,7 @@ class Options extends ParameterBag
     }
 
     /**
-     * Ignore platform requirements (php & ext- packages)
+     * Ignore platform requirements (php & ext- packages).
      *
      * Composer parameter: --ignore-platform-reqs
      *
@@ -136,7 +136,7 @@ class Options extends ParameterBag
     }
 
     /**
-     * Prefer stable versions of dependencies
+     * Prefer stable versions of dependencies.
      *
      * Composer parameter: --prefer-stable
      *
@@ -208,7 +208,7 @@ class Options extends ParameterBag
     }
 
     /**
-     * Disables the automatic update of the dependencies
+     * Disables the automatic update of the dependencies.
      *
      * Composer parameter: --no-update
      *
@@ -244,6 +244,8 @@ class Options extends ParameterBag
     }
 
     /**
+     * Return the 'dev' parameter.
+     *
      * Depending on where used:
      *   - Add requirement to require-dev
      *   - Removes a package from the require-dev section

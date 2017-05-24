@@ -5,7 +5,7 @@ namespace Bolt\Storage\Query\Directive;
 use Bolt\Storage\Query\QueryInterface;
 
 /**
- *  Directive to specify that a single object, rather than an array should be returned
+ *  Directive to specify that a single object, rather than an array should be returned.
  */
 class ReturnSingleDirective
 {

@@ -48,7 +48,7 @@ class ContentQueryParser
     protected $handlers = [];
     /** @var QueryInterface[] */
     protected $services = [];
-    /** @var  QueryScopeInterface */
+    /** @var QueryScopeInterface */
     protected $scope;
 
     /**
@@ -238,7 +238,7 @@ class ContentQueryParser
     }
 
     /**
-     * Gets the object EntityManager
+     * Gets the object EntityManager.
      *
      * @return EntityManager
      */

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to set parameter value in a YAML configuration file
+ * Nut command to set parameter value in a YAML configuration file.
  */
 class ConfigSet extends AbstractConfig
 {

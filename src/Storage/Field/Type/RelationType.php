@@ -33,8 +33,6 @@ class RelationType extends JoinTypeBase
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
-     *
-     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -56,8 +54,6 @@ class RelationType extends JoinTypeBase
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
-     *
-     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -183,7 +179,7 @@ class RelationType extends JoinTypeBase
     }
 
     /**
-     * Get inverse relationship records. That is ones where the definition happened on the opposite record
+     * Get inverse relationship records. That is ones where the definition happened on the opposite record.
      *
      * @param mixed $entity
      *
@@ -208,7 +204,7 @@ class RelationType extends JoinTypeBase
     }
 
     /**
-     * Get platform specific group_concat token for provided column
+     * Get platform specific group_concat token for provided column.
      *
      * @param string       $column
      * @param string       $alias

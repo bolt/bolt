@@ -32,10 +32,8 @@ final class CheckPackage extends BaseAction
         $json = $jsonFile->parse();
         $jsonRequires = isset($json['require']) ? (array) $json['require'] : [];
 
-        /**
-         * @var string $packageName
-         * @var string $versionConstraint
-         */
+        /** @var string $packageName */
+        /** @var string $versionConstraint */
         foreach ($jsonRequires as $packageName => $versionConstraint) {
             try {
                 $remote = $this->findBestVersionForPackage($packageName, $versionConstraint, true);

@@ -53,7 +53,13 @@ trait ContentValuesTrait
     }
 
     /**
-     * Alias for getExcerpt()
+     * Alias for getExcerpt().
+     *
+     * @param integer      $length
+     * @param boolean      $includeTitle
+     * @param string|array $focus
+     *
+     * @return \Twig_Markup
      */
     public function excerpt($length = 200, $includeTitle = false, $focus = null)
     {
@@ -262,7 +268,7 @@ trait ContentValuesTrait
             return;
         }
 
-        /**
+        /*
          * This Block starts introducing new-style hydration into the legacy content object.
          * To do this we fetch the new field from the manager and hydrate a temporary entity.
          *
@@ -459,8 +465,6 @@ trait ContentValuesTrait
      * @param string $contenttype
      *
      * @throws \Exception
-     *
-     * @return void
      */
     public function setFromPost($values, $contenttype)
     {

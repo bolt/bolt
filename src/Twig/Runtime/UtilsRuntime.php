@@ -5,7 +5,7 @@ namespace Bolt\Twig\Runtime;
 use Psr\Log\LoggerInterface;
 
 /**
- * Bolt specific Twig functions and filters that provide generic utility
+ * Bolt specific Twig functions and filters that provide generic utility.
  *
  * @internal
  */

@@ -10,7 +10,7 @@ use Bolt\Storage\Repository;
 class AuthtokenRepository extends Repository
 {
     /**
-     * Fetches an existing token for the given user / ip
+     * Fetches an existing token for the given user / ip.
      *
      * @param string      $username
      * @param string      $ip
@@ -43,7 +43,7 @@ class AuthtokenRepository extends Repository
     }
 
     /**
-     * Fetches an existing token for the given user / ip
+     * Fetches an existing token for the given user / ip.
      *
      * @param string      $token
      * @param string      $ip
@@ -76,7 +76,7 @@ class AuthtokenRepository extends Repository
     }
 
     /**
-     * Deletes all tokens for the given user
+     * Deletes all tokens for the given user.
      *
      * @param $username
      *
@@ -100,7 +100,7 @@ class AuthtokenRepository extends Repository
     }
 
     /**
-     * Deletes all expired tokens
+     * Deletes all expired tokens.
      *
      * @return integer
      */
@@ -122,7 +122,7 @@ class AuthtokenRepository extends Repository
     }
 
     /**
-     * Fetches all active sessions
+     * Fetches all active sessions.
      *
      * @return \Bolt\Storage\Entity\Authtoken[]
      */

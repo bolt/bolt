@@ -19,7 +19,7 @@ use Doctrine\DBAL\Types\Type;
 class DateType extends FieldTypeBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(array $mapping = [], EntityManager $em = null)
     {

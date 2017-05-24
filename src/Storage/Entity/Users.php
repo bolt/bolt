@@ -175,7 +175,7 @@ class Users extends Entity
     }
 
     /**
-     * Getter for enabled flag
+     * Getter for enabled flag.
      *
      * @return boolean
      */

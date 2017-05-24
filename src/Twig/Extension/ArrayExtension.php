@@ -5,7 +5,7 @@ namespace Bolt\Twig\Extension;
 use Twig_Extension as Extension;
 
 /**
- * Bolt specific Twig functions and filters that provide array manipulation
+ * Bolt specific Twig functions and filters that provide array manipulation.
  *
  * @internal
  */
@@ -155,7 +155,7 @@ class ArrayExtension extends Extension
     }
 
     /**
-     * Takes two arrays and returns a compiled array of unique, sorted values
+     * Takes two arrays and returns a compiled array of unique, sorted values.
      *
      * @param $arr1
      * @param $arr2

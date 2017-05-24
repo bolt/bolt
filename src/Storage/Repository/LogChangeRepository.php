@@ -143,7 +143,7 @@ class LogChangeRepository extends BaseLogRepository
      * Get a count of change log entries by contenttype.
      *
      * @param string $contentType
-     * @param array $options
+     * @param array  $options
      *
      * @return QueryBuilder
      */

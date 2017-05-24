@@ -7,7 +7,7 @@ use Bolt\Controller\Zone;
 use Twig_Environment as Environment;
 
 /**
- * Bolt specific Twig functions and filters for HTML
+ * Bolt specific Twig functions and filters for HTML.
  *
  * @internal
  */

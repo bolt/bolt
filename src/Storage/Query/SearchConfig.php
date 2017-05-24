@@ -62,8 +62,6 @@ class SearchConfig
     /**
      * Iterates over the main config and delegates weighting to both
      * searchable columns and searchable taxonomies.
-     *
-     * @return void
      */
     protected function parseContenttypes()
     {
@@ -85,8 +83,6 @@ class SearchConfig
      *
      * @param string $contentType
      * @param array  $taxonomies
-     *
-     * @return void
      */
     protected function parseTaxonomies($contentType, $taxonomies)
     {
@@ -121,8 +117,6 @@ class SearchConfig
      * Determine what columns are searchable for a given ContentType.
      *
      * @param string $type
-     *
-     * @return void
      */
     protected function getSearchableColumns($type)
     {

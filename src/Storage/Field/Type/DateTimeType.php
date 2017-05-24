@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\Type;
 class DateTimeType extends DateType
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __construct(array $mapping = [], EntityManager $em = null)
     {

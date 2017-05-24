@@ -241,8 +241,9 @@ class QueryParameterParser
     }
 
     /**
-     * This method uses the defined value matchers to parse a passed in value to the following
-     * component parts:
+     * This method uses the defined value matchers to parse a passed in value.
+     *
+     * The following component parts will be returned in the array:
      * [
      *     'value'    => <the value remaining after the parse>
      *     'operator' => <the operator that should be used>
@@ -284,7 +285,7 @@ class QueryParameterParser
      * Note: the callback should either return nothing or an instance of
      * \Bolt\Storage\Query\Filter
      *
-     * @param Callable $handler
+     * @param callable $handler
      */
     public function addFilterHandler(callable $handler)
     {

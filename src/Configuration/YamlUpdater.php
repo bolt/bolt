@@ -126,6 +126,8 @@ class YamlUpdater
 
     /**
      * @deprecated Deprecated since 3.3, to be remove in v4.
+     *
+     * @param mixed $value
      */
     public function prepareValue($value)
     {

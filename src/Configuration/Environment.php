@@ -123,7 +123,7 @@ class Environment
     }
 
     /**
-     * Check if the cache version matches Bolt's current version
+     * Check if the cache version matches Bolt's current version.
      *
      * @return boolean TRUE  - versions match
      *                 FALSE - versions don't match
@@ -166,7 +166,7 @@ class Environment
     }
 
     /**
-     * Write our version string out to given cache directory
+     * Write our version string out to given cache directory.
      */
     protected function updateCacheVersion()
     {

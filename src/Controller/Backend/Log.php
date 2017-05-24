@@ -151,7 +151,7 @@ class Log extends BackendBase
     }
 
     /**
-     * System log overview route
+     * System log overview route.
      *
      * @param Request $request
      *

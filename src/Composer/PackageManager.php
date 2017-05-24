@@ -23,7 +23,7 @@ class PackageManager
     /** @var boolean */
     protected $useSsl;
 
-    /** @var array|null  */
+    /** @var array|null */
     private $json;
     /** @var string[] */
     private $messages = [];

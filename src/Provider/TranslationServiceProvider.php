@@ -132,9 +132,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 continue;
             }
             $iterator = new \DirectoryIterator($transDir);
-            /**
-             * @var \SplFileInfo $fileInfo
-             */
+            /** @var \SplFileInfo $fileInfo */
             foreach ($iterator as $fileInfo) {
                 $ext = pathinfo($fileInfo, PATHINFO_EXTENSION);
                 if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'], true)) {

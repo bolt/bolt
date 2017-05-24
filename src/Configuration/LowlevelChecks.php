@@ -80,7 +80,7 @@ class LowlevelChecks
     }
 
     /**
-     * Add a check
+     * Add a check.
      *
      * @param string  $check
      * @param boolean $top

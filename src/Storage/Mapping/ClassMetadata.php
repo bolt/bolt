@@ -126,8 +126,6 @@ class ClassMetadata implements ClassMetadataInterface
      * Sets the fieldMappings array with metadata.
      *
      * @param array $fieldMappings
-     *
-     * @return void
      */
     public function setFieldMappings($fieldMappings)
     {

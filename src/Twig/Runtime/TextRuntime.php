@@ -7,7 +7,7 @@ use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 
 /**
- * Bolt specific Twig functions and filters that provide text manipulation
+ * Bolt specific Twig functions and filters that provide text manipulation.
  *
  * @internal
  */

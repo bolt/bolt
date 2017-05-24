@@ -64,7 +64,7 @@ class ZoneGuesser implements EventSubscriberInterface
     }
 
     /**
-     * Determine the zone and return it
+     * Determine the zone and return it.
      *
      * @param Request $request
      *

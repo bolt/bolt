@@ -6,7 +6,7 @@ use Bolt\Storage\Query\SearchConfig;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
- *  Handler to build a fulltext search query for Postgres
+ *  Handler to build a fulltext search query for Postgres.
  */
 class PostgresSearch
 {

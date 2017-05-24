@@ -7,7 +7,7 @@ use Bolt\Routing\Canonical;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Bolt specific Twig functions and filters that provide routing functionality
+ * Bolt specific Twig functions and filters that provide routing functionality.
  *
  * @internal
  */

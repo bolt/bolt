@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Class PagerListener
+ * Class PagerListener.
  *
  * @author Rix Beck <rix@neologik.hu>
  */
@@ -27,7 +27,7 @@ class PagerListener implements EventSubscriberInterface
     }
 
     /**
-     * Resume the session if it has been started previously or debugging is enabled
+     * Resume the session if it has been started previously or debugging is enabled.
      *
      * @param GetResponseEvent $event
      */

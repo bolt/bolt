@@ -91,7 +91,7 @@ class SearchWeighter
     /**
      * This is a simple version of the Vector Space Model.
      *
-     * @link https://en.wikipedia.org/wiki/Vector_space_model
+     * @see https://en.wikipedia.org/wiki/Vector_space_model
      *
      * The goal is to determine a relavance score for a corpus of values
      * based on both the existence of a word or words but also based on
@@ -104,7 +104,7 @@ class SearchWeighter
      * The ratio of the appearance of the query words to the overall size of
      * the document is used to produce a better score.
      *
-     * @param Object $result A single result to score
+     * @param object $result A single result to score
      *
      * @return array An array consisting of a count / dictionary of words
      */
@@ -155,7 +155,7 @@ class SearchWeighter
      * score calculations for each word of the query, versus each word of the
      * index dictionary.
      *
-     * @param Object $result
+     * @param object $result
      *
      * @return float
      */

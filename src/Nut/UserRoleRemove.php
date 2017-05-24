@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to remove a role from a Bolt user account
+ * Nut command to remove a role from a Bolt user account.
  */
 class UserRoleRemove extends BaseCommand
 {

@@ -151,7 +151,7 @@ trait ContentRouteTrait
     }
 
     /**
-     * Build a ContentType's route parameters
+     * Build a ContentType's route parameters.
      *
      * @param array $route
      *

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  * filtering system used in the SelectQuery class. The main difference is
  * the addition of weighting, which is driven by documented here:.
  *
- *  @link https://docs.bolt.cm/templates/content-search
+ *  @see https://docs.bolt.cm/templates/content-search
  *
  *  The resulting QueryBuilder object is then passed through to the individual
  *  field handlers where they can perform value transformations.
@@ -61,7 +61,7 @@ class SearchQuery extends SelectQuery
     }
 
     /**
-     * Gets the individual elements of the search query as an array
+     * Gets the individual elements of the search query as an array.
      *
      * @return array
      */

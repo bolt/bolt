@@ -50,7 +50,7 @@ interface FieldCollectionInterface extends Collection
     public function getIterator();
 
     /**
-     * Returns the type of a given $fieldName
+     * Returns the type of a given $fieldName.
      *
      * @param string $fieldName
      *

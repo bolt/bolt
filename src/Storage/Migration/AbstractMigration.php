@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * Abstract base class for database import/export
+ * Abstract base class for database import/export.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -226,7 +226,7 @@ abstract class AbstractMigration
     }
 
     /**
-     * Get a data type from a file extension
+     * Get a data type from a file extension.
      *
      * @param string $type
      *
@@ -269,7 +269,7 @@ abstract class AbstractMigration
     }
 
     /**
-     * Determine if file(s) specified exist and have a valid extension
+     * Determine if file(s) specified exist and have a valid extension.
      *
      * @param boolean $exists If true, then test that the file exists
      *

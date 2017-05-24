@@ -64,7 +64,7 @@ class Config
      */
     public $fields;
 
-    /** @var boolean  @deprecated Deprecated since 3.2, to be removed in 4.0 */
+    /** @var boolean @deprecated Deprecated since 3.2, to be removed in 4.0 */
     public $notify_update;
 
     /** @var array */
@@ -129,7 +129,7 @@ class Config
     }
 
     /**
-     * Read and parse a YAML configuration file
+     * Read and parse a YAML configuration file.
      *
      * @param string             $filename  The name of the YAML file to read
      * @param DirectoryInterface $directory The (optional) directory to the YAML file
@@ -200,7 +200,7 @@ class Config
     }
 
     /**
-     * Replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
+     * Replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container.
      *
      * @internal This is only public so that it can be called from the service provider boot method.
      * Do not access this directly since the API is liable to be changed at short notice.
@@ -556,7 +556,7 @@ class Config
     }
 
     /**
-     * Parse a Contenttype's filed and determine the grouping
+     * Parse a Contenttype's filed and determine the grouping.
      *
      * @param array $fields
      * @param array $generalConfig
@@ -777,7 +777,8 @@ class Config
     }
 
     /**
-     * Parses params to valid connection parameters:
+     * Parses params to valid connection parameters.
+     *
      * - Defaults are merged into the params
      * - Bolt keys are converted to Doctrine keys
      * - Invalid keys are filtered out
@@ -1333,6 +1334,8 @@ class Config
 
     /**
      * Get a timestamp, corrected to the timezone.
+     *
+     * @param mixed $when
      *
      * @return string Timestamp
      */
