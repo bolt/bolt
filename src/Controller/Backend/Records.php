@@ -192,6 +192,7 @@ class Records extends BackendBase
             if ($this->getOption('general/compatibility/twig_globals', true)) {
                 $this->app['twig']->addGlobal('editreferrer', $referrer);
             }
+
             return $referrer;
         }
 

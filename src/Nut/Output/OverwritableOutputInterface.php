@@ -28,7 +28,7 @@ interface OverwritableOutputInterface extends OutputInterface
      *
      * This is a special case where the user writes to console but it doesn't go through our output.
      * We need to manually add it to keep the console in sync.
-
+     *
      * @param string $input
      */
     public function captureUserInput($input);

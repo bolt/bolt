@@ -2,7 +2,7 @@
 
 
 /**
- * Backend 'author' tests
+ * Backend 'author' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

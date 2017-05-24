@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Nut command to add a user to the system
+ * Nut command to add a user to the system.
  */
 class UserAdd extends AbstractUser
 {

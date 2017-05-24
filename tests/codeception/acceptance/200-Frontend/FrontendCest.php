@@ -3,7 +3,7 @@
 use Codeception\Util\Fixtures;
 
 /**
- * Frontend navigation and render tests
+ * Frontend navigation and render tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -30,7 +30,7 @@ class FrontendCest
     }
 
     /**
-     * Check the homepage
+     * Check the homepage.
      *
      * @param \AcceptanceTester $I
      */
@@ -67,7 +67,7 @@ class FrontendCest
     }
 
     /**
-     * Check the about page and pagebind route
+     * Check the about page and pagebind route.
      *
      * @param \AcceptanceTester $I
      */
@@ -83,7 +83,7 @@ class FrontendCest
     }
 
     /**
-     * Check the contact page for templatefields
+     * Check the contact page for templatefields.
      *
      * @param \AcceptanceTester $I
      */
@@ -112,7 +112,7 @@ class FrontendCest
     }
 
     /**
-     * Check a non-existing URL and check for our 404
+     * Check a non-existing URL and check for our 404.
      *
      * @param \AcceptanceTester $I
      */
@@ -127,7 +127,7 @@ class FrontendCest
     }
 
     /**
-     * Check that canonical links are the same on URIs by slug and ID
+     * Check that canonical links are the same on URIs by slug and ID.
      *
      * @param \AcceptanceTester $I
      */
@@ -144,7 +144,7 @@ class FrontendCest
 
     /**
      * Check that menus have a 'Home' with class 'first' and and active URI with
-     * the class 'active'
+     * the class 'active'.
      *
      * @param \AcceptanceTester $I
      */

@@ -9,7 +9,7 @@ use Bolt\Storage\Field\Type\FieldTypeBase;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * This class stores an array collection of Fields
+ * This class stores an array collection of Fields.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */

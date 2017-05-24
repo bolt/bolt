@@ -39,7 +39,7 @@ class SessionStorage implements SessionStorageInterface
 
     /**
      * Actual session data.
-     * bags <-> data <-> handler
+     * bags <-> data <-> handler.
      *
      * @var array
      */
@@ -256,7 +256,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * Add options
+     * Add options.
      *
      * @param OptionsBag $options
      */
@@ -276,7 +276,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * Set the handler
+     * Set the handler.
      *
      * @param HandlerInterface $handler
      */
@@ -286,7 +286,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * Get the handler
+     * Get the handler.
      *
      * @return HandlerInterface
      */

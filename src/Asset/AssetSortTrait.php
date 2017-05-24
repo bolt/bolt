@@ -10,7 +10,7 @@ namespace Bolt\Asset;
 trait AssetSortTrait
 {
     /**
-     * Do a Schwartzian Transform for stable sort
+     * Do a Schwartzian Transform for stable sort.
      *
      * @see http://en.wikipedia.org/wiki/Schwartzian_transform
      *

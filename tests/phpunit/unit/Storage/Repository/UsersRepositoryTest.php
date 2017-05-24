@@ -6,7 +6,7 @@ use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Storage/Repository/UsersRepository
+ * Class to test src/Storage/Repository/UsersRepository.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

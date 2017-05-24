@@ -24,8 +24,8 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => '127.0.0.1',
                         'port' => 11211,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - only host' => [
@@ -35,8 +35,8 @@ class MemcacheFactoryTest extends TestCase
                 [
                     [
                         'host' => '10.0.0.1',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - host and port' => [
@@ -47,8 +47,8 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 11212,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string with scheme' => [
@@ -59,31 +59,31 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 11212,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection array' => [
                 [
                     'connection' => [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
-                        'persistent' => true,
-                        'timeout' => 5,
+                        'host'           => '10.0.0.1',
+                        'port'           => 11212,
+                        'persistent'     => true,
+                        'timeout'        => 5,
                         'retry_interval' => 5,
-                        'weight' => 3,
+                        'weight'         => 3,
                     ],
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
-                        'persistent' => true,
-                        'timeout' => 5,
+                        'host'           => '10.0.0.1',
+                        'port'           => 11212,
+                        'persistent'     => true,
+                        'timeout'        => 5,
                         'retry_interval' => 5,
-                        'weight' => 3,
-                    ]
-                ]
+                        'weight'         => 3,
+                    ],
+                ],
             ],
 
             'connection unix socket string' => [
@@ -94,40 +94,40 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => 'unix:///path/to/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection unix socket array' => [
                 [
                     'connection' => [
                         'path' => '/path/to/memcache.sock',
-                    ]
+                    ],
                 ],
                 [
                     [
                         'host' => 'unix:///path/to/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             // deprecated
             'connection at root' => [
                 [
-                    'host' => '10.0.0.1',
-                    'port' => 11212,
-                    'timeout' => 34,
+                    'host'       => '10.0.0.1',
+                    'port'       => 11212,
+                    'timeout'    => 34,
                     'persistent' => true,
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
-                        'timeout' => 34.0,
+                        'host'       => '10.0.0.1',
+                        'port'       => 11212,
+                        'timeout'    => 34.0,
                         'persistent' => true,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connections strings' => [
@@ -149,49 +149,49 @@ class MemcacheFactoryTest extends TestCase
                     ],
                     [
                         'host' => '10.0.0.3',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connections arrays' => [
                 [
                     'connections' => [
                         [
-                            'host' => '10.0.0.1',
-                            'port' => 11212,
-                            'persistent' => true,
-                            'timeout' => 5,
+                            'host'           => '10.0.0.1',
+                            'port'           => 11212,
+                            'persistent'     => true,
+                            'timeout'        => 5,
                             'retry_interval' => 5,
-                            'weight' => 3,
+                            'weight'         => 3,
                         ],
                         [
-                            'host' => '10.0.0.2',
-                            'port' => 11213,
-                            'persistent' => true,
-                            'timeout' => 6,
+                            'host'           => '10.0.0.2',
+                            'port'           => 11213,
+                            'persistent'     => true,
+                            'timeout'        => 6,
                             'retry_interval' => 7,
-                            'weight' => 3,
+                            'weight'         => 3,
                         ],
                     ],
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
-                        'persistent' => true,
-                        'timeout' => 5,
+                        'host'           => '10.0.0.1',
+                        'port'           => 11212,
+                        'persistent'     => true,
+                        'timeout'        => 5,
                         'retry_interval' => 5,
-                        'weight' => 3,
+                        'weight'         => 3,
                     ],
                     [
-                        'host' => '10.0.0.2',
-                        'port' => 11213,
-                        'persistent' => true,
-                        'timeout' => 6,
+                        'host'           => '10.0.0.2',
+                        'port'           => 11213,
+                        'persistent'     => true,
+                        'timeout'        => 6,
                         'retry_interval' => 7,
-                        'weight' => 3,
-                    ]
-                ]
+                        'weight'         => 3,
+                    ],
+                ],
             ],
 
             'save path single host' => [
@@ -200,13 +200,13 @@ class MemcacheFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 11212,
+                        'host'       => 'host1',
+                        'port'       => 11212,
                         'persistent' => true,
-                        'timeout' => 2,
-                        'weight' => 2,
-                    ]
-                ]
+                        'timeout'    => 2,
+                        'weight'     => 2,
+                    ],
+                ],
             ],
 
             'save path single host with scheme' => [
@@ -215,13 +215,13 @@ class MemcacheFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 11212,
+                        'host'       => 'host1',
+                        'port'       => 11212,
                         'persistent' => true,
-                        'timeout' => 2,
-                        'weight' => 2,
-                    ]
-                ]
+                        'timeout'    => 2,
+                        'weight'     => 2,
+                    ],
+                ],
             ],
 
             'save path multiple hosts' => [
@@ -230,24 +230,24 @@ class MemcacheFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 11212,
+                        'host'       => 'host1',
+                        'port'       => 11212,
                         'persistent' => true,
-                        'timeout' => 2,
-                        'weight' => 2,
+                        'timeout'    => 2,
+                        'weight'     => 2,
                     ],
                     [
-                        'host' => 'host2',
+                        'host'    => 'host2',
                         'timeout' => 2,
-                        'weight' => 2,
+                        'weight'  => 2,
                     ],
                     [
                         'host' => 'host3',
                     ],
                     [
                         'host' => 'host4',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path unix path scheme and slashes' => [
@@ -256,12 +256,12 @@ class MemcacheFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'unix:///var/run/memcache.sock',
-                        'port' => 0,
+                        'host'       => 'unix:///var/run/memcache.sock',
+                        'port'       => 0,
                         'persistent' => true,
-                        'weight' => 2,
-                    ]
-                ]
+                        'weight'     => 2,
+                    ],
+                ],
             ],
             'save path unix path no scheme' => [
                 [
@@ -271,8 +271,8 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => 'unix:///var/run/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
             'save path unix path scheme' => [
                 [
@@ -282,8 +282,8 @@ class MemcacheFactoryTest extends TestCase
                     [
                         'host' => 'unix:///var/run/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -318,11 +318,11 @@ class MemcacheFactoryTest extends TestCase
 
         foreach ($expected as $item) {
             $expectedServers[] = $item + [
-                'host' => '127.0.0.1',
-                'port' => 11211,
-                'weight' => 1,
-                'persistent' => false,
-                'timeout' => 1,
+                'host'           => '127.0.0.1',
+                'port'           => 11211,
+                'weight'         => 1,
+                'persistent'     => false,
+                'timeout'        => 1,
                 'retry_interval' => 0,
             ];
         }

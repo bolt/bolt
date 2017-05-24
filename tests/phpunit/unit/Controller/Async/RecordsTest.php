@@ -33,11 +33,11 @@ class RecordsTest extends ControllerUnitTest
         $request->setMethod('POST');
         $request->attributes->add([
             'contenttype' => 'pages',
-            'actions' => [
+            'actions'     => [
                 'showcases' => [
                     1 => ['delete' => null],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->setRequest($request);
@@ -81,11 +81,11 @@ class RecordsTest extends ControllerUnitTest
         $request->setMethod('POST');
         $request->attributes->add([
             'contenttype' => 'pages',
-            'actions' => [
+            'actions'     => [
                 'showcases' => [
                     1 => ['modify' => ['title' => 'Drop Bear Attacks']],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->setRequest($request);

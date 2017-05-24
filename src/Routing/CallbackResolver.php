@@ -5,7 +5,7 @@ namespace Bolt\Routing;
 use Bolt\Helpers\Deprecated;
 
 /**
- * Handles resolving callbacks from routing.yml that specify a class name
+ * Handles resolving callbacks from routing.yml that specify a class name.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -15,7 +15,8 @@ class CallbackResolver extends \Silex\CallbackResolver
     protected $app;
     /**
      * @deprecated Deprecated since 3.3, to be removed in 4.0.
-     * @var array $classmap
+     *
+     * @var array
      */
     protected $classmap;
 
@@ -79,7 +80,7 @@ class CallbackResolver extends \Silex\CallbackResolver
     }
 
     /**
-     * Converts:
+     * Converts:.
      *
      * - Bolt\\Controller\\Frontend::hompeage to controller.frontend:homepage
      * - [Bolt\\Controller\\Frontend, homepage] to controller.frontend:homepage

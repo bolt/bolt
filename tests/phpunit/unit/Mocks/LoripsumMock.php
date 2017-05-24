@@ -5,7 +5,7 @@ namespace Bolt\Tests\Mocks;
 use Bolt\Storage\Database\Prefill\ApiClient;
 
 /**
- * Mock Builder for Doctrine objects
+ * Mock Builder for Doctrine objects.
  */
 class LoripsumMock extends ApiClient
 {

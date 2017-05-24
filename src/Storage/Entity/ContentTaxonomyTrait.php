@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 trait ContentTaxonomyTrait
 {
     /**
-     * NOTE: This probably needs to implement, or be called by, Bolt\Storage::getTaxonomy()
+     * NOTE: This probably needs to implement, or be called by, Bolt\Storage::getTaxonomy().
      *
      * @param string $taxonomyType
      */
@@ -36,8 +36,6 @@ trait ContentTaxonomyTrait
      * @param string  $name
      * @param string  $taxonomytype
      * @param integer $sortorder
-     *
-     * @return void
      */
     public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
     {
@@ -131,8 +129,6 @@ trait ContentTaxonomyTrait
 
     /**
      * Sort the taxonomy of the current object, based on the order given in taxonomy.yml.
-     *
-     * @return void
      */
     public function sortTaxonomy()
     {

@@ -17,7 +17,7 @@ use Twig_Error_Loader as LoaderError;
 use Twig_Error_Runtime as RuntimeError;
 
 /**
- * Renders the not found page in the event of an HTTP exception
+ * Renders the not found page in the event of an HTTP exception.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -49,7 +49,7 @@ class NotFoundListener implements EventSubscriberInterface
     }
 
     /**
-     * Render the not found page if on frontend and http exception
+     * Render the not found page if on frontend and http exception.
      *
      * @param GetResponseForExceptionEvent $event
      */

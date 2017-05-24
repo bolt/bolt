@@ -64,7 +64,7 @@ class MetadataDriver implements MappingDriver
      * Keeps a reference of which metadata is not mapped to
      * a specific entity.
      *
-     * @var array $unmapped
+     * @var array
      */
     protected $unmapped;
 
@@ -92,7 +92,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Reads the schema from Bolt\Storage\Database\Schema\Manager and creates mapping data
+     * Reads the schema from Bolt\Storage\Database\Schema\Manager and creates mapping data.
      */
     public function initialize()
     {
@@ -105,7 +105,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Setup some short aliases so non prefixed keys can be used to get metadata
+     * Setup some short aliases so non prefixed keys can be used to get metadata.
      */
     public function initializeShortAliases()
     {
@@ -122,7 +122,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     *  This seeds the defaultAliases array with the correctly prefixed mappings
+     *  This seeds the defaultAliases array with the correctly prefixed mappings.
      */
     public function initializeDefaultAliases()
     {
@@ -140,7 +140,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Getter for aliases
+     * Getter for aliases.
      *
      * @return array
      */
@@ -151,7 +151,7 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Method will try to find an entity class name to handle data,
-     * alternatively falling back to $this->fallbackEntity
+     * alternatively falling back to $this->fallbackEntity.
      *
      * @param string $alias
      *
@@ -556,9 +556,9 @@ class MetadataDriver implements MappingDriver
             $metadata->setBoltName($data['boltname']);
 
             return $metadata;
-        } else {
-            throw new StorageException("Attempted to load mapping data for unmapped class $className");
         }
+
+        throw new StorageException("Attempted to load mapping data for unmapped class $className");
     }
 
     public function loadMetadataForFields(array $fields)
@@ -667,8 +667,6 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $alias
      * @param string $entity
-     *
-     * @return void
      */
     public function setDefaultAlias($alias, $entity)
     {
@@ -730,7 +728,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Given a tablename or slug get the correct Bolt keyname from the config
+     * Given a tablename or slug get the correct Bolt keyname from the config.
      *
      * @param $alias
      * @param bool $forceSlug

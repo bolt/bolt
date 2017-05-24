@@ -52,11 +52,10 @@ class Upload extends BackendBase
             // Use custom handlers
             if (is_array($handler)) {
                 return $this->processCustomUploadHandler($request, $handler);
-            } else {
-                list($namespace, $prefix) = $this->parser($handler);
-                $this->app['upload.namespace'] = $namespace;
-                $this->app['upload.prefix'] = $prefix;
             }
+            list($namespace, $prefix) = $this->parser($handler);
+            $this->app['upload.namespace'] = $namespace;
+            $this->app['upload.prefix'] = $prefix;
         } else {
             $namespace = $this->app['upload.namespace'];
         }
@@ -114,7 +113,7 @@ class Upload extends BackendBase
             }
 
             return $successfulFiles;
-        } else {
+        }
             // The file that was saved during process() has a .lock file attached
             // and can now be cleared, in the case where form processing fails
             try {
@@ -123,17 +122,16 @@ class Upload extends BackendBase
                 // It's an error state anyway
             }
 
-            $errorFiles = [];
-            foreach ($result as $resultFile) {
-                $errors = $resultFile->getMessages();
-                $errorFiles[] = [
+        $errorFiles = [];
+        foreach ($result as $resultFile) {
+            $errors = $resultFile->getMessages();
+            $errorFiles[] = [
                     'name'  => $resultFile->original_name,
                     'error' => (string) $errors[0],
                 ];
-            }
-
-            return $errorFiles;
         }
+
+        return $errorFiles;
     }
 
     /**

@@ -6,7 +6,7 @@ use Bolt\Tests\BoltUnitTest;
 use Cocur\Slugify\Slugify;
 
 /**
- * Class to test Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider used in $app['slugify']
+ * Class to test Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider used in $app['slugify'].
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

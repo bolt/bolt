@@ -60,7 +60,7 @@ class Deprecated
                 return;
             }
             if ($function === '__set' || $function === '__get') {
-                static::warn(strtoupper($function{2}) . "etting $method", $since, $suggest);
+                static::warn(strtoupper($function[2]) . "etting $method", $since, $suggest);
 
                 return;
             }
@@ -125,7 +125,7 @@ class Deprecated
         }
 
         $version = Version::VERSION;
-        $message .= sprintf(' and will be removed in %s.0.', $version{0} + 1);
+        $message .= sprintf(' and will be removed in %s.0.', $version[0] + 1);
 
         if ($suggest) {
             $message .= ' ' . $suggest;

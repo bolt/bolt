@@ -16,7 +16,7 @@ class SearchConfigTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $search = new SearchConfig($app['config']);
-        $this->assertTrue(is_array($search->getConfig('pages')));
+        $this->assertInternalType('array', $search->getConfig('pages'));
     }
 
     public function testNonExistent()
@@ -30,7 +30,7 @@ class SearchConfigTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $search = new SearchConfig($app['config']);
-        $this->assertTrue(is_array($search->getFieldConfig('pages', 'title')));
+        $this->assertInternalType('array', $search->getFieldConfig('pages', 'title'));
         $this->assertFalse($search->getFieldConfig('pages', 'nonexistent'));
     }
 

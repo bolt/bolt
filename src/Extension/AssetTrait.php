@@ -131,6 +131,7 @@ trait AssetTrait
         }
         $this->assets[] = $asset;
     }
+
     /**
      * Add jQuery to the output.
      *
@@ -196,8 +197,8 @@ trait AssetTrait
         }
 
         $message = sprintf(
-            "Couldn't add file asset '%s': File does not exist in either %s or %s directories. Make sure the file exists in either of these locations, by ".
-            "placing the file there manually (for Bundled Extensions) or by uninstalling / installing the extension again (for Managed Extensions).",
+            "Couldn't add file asset '%s': File does not exist in either %s or %s directories. Make sure the file exists in either of these locations, by " .
+            'placing the file there manually (for Bundled Extensions) or by uninstalling / installing the extension again (for Managed Extensions).',
             $path,
             $this->getWebDirectory()->getFullPath(),
             $themeFile->getFullPath()

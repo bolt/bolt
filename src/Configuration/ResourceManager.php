@@ -330,11 +330,11 @@ class ResourceManager
     }
 
     /**
-     * Checks if the given name has a path associated with it
+     * Checks if the given name has a path associated with it.
      *
      * @param string $name of path
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasPath($name)
     {
@@ -420,8 +420,8 @@ class ResourceManager
     }
 
     /**
-     * Set a parameter that describes the request.
-     * e.g. 'hostname', 'protocol' or 'canonical'
+     * Set a parameter that describes the request,
+     * e.g. 'hostname', 'protocol' or 'canonical'.
      *
      * @param string $name
      * @param string $value

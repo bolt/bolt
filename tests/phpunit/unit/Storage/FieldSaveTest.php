@@ -10,7 +10,7 @@ use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test src/Storage/Repository and field transforms for load and hydrate
+ * Class to test src/Storage/Repository and field transforms for load and hydrate.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */

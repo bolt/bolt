@@ -150,7 +150,7 @@ abstract class ConfigurableBase extends Base
 
     /**
      * Returns a closure that will resolve the class to use
-     * in middleware callback if one isn't specified
+     * in middleware callback if one isn't specified.
      *
      * @param array|string|null $callback
      *

@@ -9,7 +9,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * This class stores an array collection of Taxonomy Entities
+ * This class stores an array collection of Taxonomy Entities.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -146,7 +146,7 @@ class Taxonomy extends ArrayCollection
     }
 
     /**
-     * Gets the elements that have already been persisted
+     * Gets the elements that have already been persisted.
      *
      * @return Taxonomy
      */

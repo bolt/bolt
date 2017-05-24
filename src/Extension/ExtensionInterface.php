@@ -67,7 +67,7 @@ interface ExtensionInterface
     public function setWebDirectory(DirectoryInterface $directory);
 
     /**
-     * Returns a unique identifier for the extension, such as: Vendor/Name
+     * Returns a unique identifier for the extension, such as: Vendor/Name.
      *
      * @return string
      */

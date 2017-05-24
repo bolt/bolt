@@ -67,7 +67,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Renders a template
+     * Renders a template.
      *
      * @param string|string[] $template Template name(s)
      * @param array           $context  Context variables
@@ -147,7 +147,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see UrlGeneratorInterface::generate}
+     * Shortcut for {@see UrlGeneratorInterface::generate}.
      *
      * @param string $name          The name of the route
      * @param array  $params        An array of parameters
@@ -211,7 +211,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Gets the flash logger
+     * Gets the flash logger.
      *
      * @return \Bolt\Logger\FlashLoggerInterface
      */
@@ -333,7 +333,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}
+     * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}.
      *
      * @param string       $what
      * @param mixed        $user        The user to check permissions against.
@@ -365,7 +365,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\Legacy\Storage::getContent()}
+     * Shortcut for {@see \Bolt\Legacy\Storage::getContent()}.
      *
      * @param string $textQuery
      * @param array  $parameters

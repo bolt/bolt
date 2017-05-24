@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to list all installed extensions
+ * Nut command to list all installed extensions.
  */
 class Extensions extends BaseCommand
 {

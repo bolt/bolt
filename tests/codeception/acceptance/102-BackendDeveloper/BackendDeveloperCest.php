@@ -3,7 +3,7 @@
 use Codeception\Util\Locator;
 
 /**
- * Backend 'developer' tests
+ * Backend 'developer' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -25,7 +25,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Test the 'File management -> Uploaded Files' interface
+     * Test the 'File management -> Uploaded Files' interface.
      *
      * @param \AcceptanceTester $I
      */
@@ -52,7 +52,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Test the 'File management -> View / edit templates' interface
+     * Test the 'File management -> View / edit templates' interface.
      *
      * @param \AcceptanceTester $I
      */

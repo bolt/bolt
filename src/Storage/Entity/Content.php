@@ -294,7 +294,7 @@ class Content extends Entity
     }
 
     /**
-     * Helper to set an array of values
+     * Helper to set an array of values.
      *
      * @param array $values
      */

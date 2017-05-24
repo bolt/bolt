@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to update extensions
+ * Nut command to update extensions.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

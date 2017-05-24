@@ -56,14 +56,14 @@ class DebugRouter extends BaseCommand
         $route = $routes->get($name);
 
         $table->addRows([
-            [ 'Route Name', $name],
-            [ 'Path', $route->getPath()],
-            [ 'Host', $route->getHost() ?: 'ANY'],
-            [ 'Scheme', implode('|', $route->getSchemes()) ?: 'ANY'],
-            [ 'Method(s)', $this->getMethods($route)],
-            [ 'Requirements', $this->formatArrayAsYaml($route->getRequirements()) ?: 'NO CUSTOM'],
-            [ 'Defaults', $this->formatArrayAsYaml($route->getDefaults())],
-            [ 'Options', $this->formatArrayAsYaml($route->getOptions())],
+            ['Route Name', $name],
+            ['Path', $route->getPath()],
+            ['Host', $route->getHost() ?: 'ANY'],
+            ['Scheme', implode('|', $route->getSchemes()) ?: 'ANY'],
+            ['Method(s)', $this->getMethods($route)],
+            ['Requirements', $this->formatArrayAsYaml($route->getRequirements()) ?: 'NO CUSTOM'],
+            ['Defaults', $this->formatArrayAsYaml($route->getDefaults())],
+            ['Options', $this->formatArrayAsYaml($route->getOptions())],
         ]);
 
         $table->render();

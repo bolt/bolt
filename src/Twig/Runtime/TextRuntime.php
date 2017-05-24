@@ -7,7 +7,7 @@ use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 
 /**
- * Bolt specific Twig functions and filters that provide text manipulation
+ * Bolt specific Twig functions and filters that provide text manipulation.
  *
  * @internal
  */
@@ -76,11 +76,10 @@ class TextRuntime
             $this->systemLogger->error('No valid locale detected. Fallback on DateTime active.', ['event' => 'system']);
 
             return $dateTime->format('Y-m-d H:i:s');
-        } else {
-            $timestamp = $dateTime->getTimestamp();
-
-            return strftime($format, $timestamp);
         }
+        $timestamp = $dateTime->getTimestamp();
+
+        return strftime($format, $timestamp);
     }
 
     /**

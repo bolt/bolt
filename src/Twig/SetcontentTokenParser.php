@@ -93,7 +93,7 @@ class SetcontentTokenParser extends TokenParser
             }
 
             // Make sure we don't get stuck in a loop, if a token can't be parsed.
-            $counter++;
+            ++$counter;
         } while (!$this->parser->getStream()->test(Token::BLOCK_END_TYPE) && ($counter < 10));
 
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);

@@ -7,7 +7,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\DatabaseSchemaExtension;
 
 /**
- * Class to test Bolt\Extension\DatabaseSchemaTrait
+ * Class to test Bolt\Extension\DatabaseSchemaTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

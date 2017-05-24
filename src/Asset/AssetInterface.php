@@ -33,7 +33,7 @@ interface AssetInterface
     public function setPriority($priority);
 
     /**
-     * Get the asset's zone. Either 'frontend' or 'backend'
+     * Get the asset's zone. Either 'frontend' or 'backend'.
      *
      * @return string|null
      */

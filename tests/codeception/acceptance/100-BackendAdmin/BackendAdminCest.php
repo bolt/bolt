@@ -3,14 +3,14 @@
 use Codeception\Util\Locator;
 
 /**
- * Backend 'admin' tests
+ * Backend 'admin' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class BackendAdminCest extends AbstractAcceptanceTest
 {
     /**
-     * Login the admin user
+     * Login the admin user.
      *
      * @param \AcceptanceTester $I
      */
@@ -27,7 +27,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a 'author' user with the 'author' role
+     * Create a 'author' user with the 'author' role.
      *
      * @param \AcceptanceTester $I
      */
@@ -61,7 +61,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a 'editor' user with the 'editor' role
+     * Create a 'editor' user with the 'editor' role.
      *
      * @param \AcceptanceTester $I
      */
@@ -95,7 +95,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a 'manager' user with the 'chief-editor' role
+     * Create a 'manager' user with the 'chief-editor' role.
      *
      * @param \AcceptanceTester $I
      */
@@ -129,7 +129,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a 'developer' user with the 'developer' role
+     * Create a 'developer' user with the 'developer' role.
      *
      * @param \AcceptanceTester $I
      */
@@ -256,7 +256,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit contenttypes.yml and add a 'Resources' Contenttype
+     * Edit contenttypes.yml and add a 'Resources' Contenttype.
      *
      * @param \AcceptanceTester $I
      */
@@ -279,7 +279,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype
+     * Update the database after creating the Resources Contenttype.
      *
      * @param \AcceptanceTester $I
      */
@@ -307,7 +307,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype
+     * Update the database after creating the Resources Contenttype.
      *
      * @param \AcceptanceTester $I
      */
@@ -335,7 +335,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that admin user can view all content types
+     * Check that admin user can view all content types.
      *
      * @param \AcceptanceTester $I
      */
@@ -392,7 +392,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit site permissions
+     * Edit site permissions.
      *
      * @param \AcceptanceTester $I
      */
@@ -413,7 +413,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit the taxonomy
+     * Edit the taxonomy.
      *
      * @param \AcceptanceTester $I
      */
@@ -434,7 +434,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit the menu file
+     * Edit the menu file.
      *
      * @param \AcceptanceTester $I
      */
@@ -456,7 +456,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit the routing file
+     * Edit the routing file.
      *
      * @param \AcceptanceTester $I
      */
@@ -479,7 +479,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check the we can use the system log
+     * Check the we can use the system log.
      *
      * @param \AcceptanceTester $I
      */
@@ -506,7 +506,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check the we can use the change log
+     * Check the we can use the change log.
      *
      * @param \AcceptanceTester $I
      */
@@ -538,7 +538,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Clear the cache
+     * Clear the cache.
      *
      * @param \AcceptanceTester $I
      */
@@ -555,7 +555,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Logout the admin user
+     * Logout the admin user.
      *
      * @param \AcceptanceTester $I
      */

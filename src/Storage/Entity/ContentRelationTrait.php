@@ -19,7 +19,7 @@ namespace Bolt\Storage\Entity;
 trait ContentRelationTrait
 {
     /**
-     * Alias for getRelation()
+     * Alias for getRelation().
      *
      * @param string|null $filterContentType
      * @param array       $options
@@ -100,8 +100,6 @@ trait ContentRelationTrait
      *
      * @param string|array $contenttype
      * @param integer      $id
-     *
-     * @return void
      */
     public function setRelation($contenttype, $id)
     {
@@ -116,8 +114,6 @@ trait ContentRelationTrait
      * Clears a relation.
      *
      * @param string|array $contenttype
-     *
-     * @return void
      */
     public function clearRelation($contenttype)
     {

@@ -216,9 +216,9 @@ class Repository implements ObjectRepository
         $result = $query->execute()->fetchAll();
         if ($result) {
             return $this->hydrateAll($result, $query);
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -234,9 +234,9 @@ class Repository implements ObjectRepository
         $result = $query->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $query);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

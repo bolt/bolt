@@ -8,7 +8,9 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Pimple as Container;
 
 /**
- * Automatic translation inclusion for an extension based upon three factors.
+ * Automatic translation inclusion for an extension.
+ *
+ * Based upon three factors:
  *  - All translations are in the translations dub-directory of the extension
  *  - Translations are named as en.yml, en_GB.yml, or etc... based upon the locale
  *

@@ -98,9 +98,9 @@ class DebugServiceProvider implements ServiceProviderInterface
         $app['error_handler.log_at'] = function ($app) {
             if ($app['debug']) {
                 return $app['config']->get('general/debug_error_level', E_ALL);
-            } else {
-                return $app['config']->get('general/production_error_level', 0);
             }
+
+            return $app['config']->get('general/production_error_level', 0);
         };
 
         $app['error_handler.logger'] = function ($app) {

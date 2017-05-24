@@ -7,7 +7,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for \Bolt\Nut\RouterMatch
+ * Tests for \Bolt\Nut\RouterMatch.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -53,6 +53,11 @@ class RouterMatchTest extends BoltUnitTest
 
     /**
      * @dataProvider providerRunPaths
+     *
+     * @param string $uri
+     * @param string $confirmation
+     * @param string $routeName
+     * @param string $path
      */
     public function testRunPaths($uri, $confirmation, $routeName, $path)
     {
@@ -65,7 +70,6 @@ class RouterMatchTest extends BoltUnitTest
         $this->assertRegExp($confirmation, $result);
         $this->assertRegExp($routeName, $result);
         $this->assertRegExp($path, $result);
-
     }
 
     /**

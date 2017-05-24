@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * Mock Builder for Doctrine objects
+ * Mock Builder for Doctrine objects.
  */
 class DoctrineMockBuilder extends TestCase
 {
@@ -83,6 +83,8 @@ class DoctrineMockBuilder extends TestCase
     }
 
     /**
+     * @param \Doctrine\DBAL\Connection $connection
+     *
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function getQueryBuilderMock($connection)

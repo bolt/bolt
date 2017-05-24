@@ -204,7 +204,7 @@ class FilesystemManager extends AsyncBase
 
         // Increase $n until filename_copy$n.ext doesn't exist
         do {
-            $n++;
+            ++$n;
             $destination = $fileBase . $n . $fileExtension;
         } while ($filesystem->has($destination));
 
@@ -404,12 +404,12 @@ class FilesystemManager extends AsyncBase
     }
 
     /**
-     * Log an exception to the system log
+     * Log an exception to the system log.
      *
      * @param string     $message   A formatted error message
      * @param \Exception $exception The exception that has been thrown
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     private function logException($message, $exception)
     {

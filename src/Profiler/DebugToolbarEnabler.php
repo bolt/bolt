@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Enables debug toolbar if applicable
+ * Enables debug toolbar if applicable.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -25,7 +25,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     protected $debugLoggedOff;
 
     /**
-     * Enable toolbar if logged in or debug mode is enabled
+     * Enable toolbar if logged in or debug mode is enabled.
      *
      * @param GetResponseEvent $event
      */

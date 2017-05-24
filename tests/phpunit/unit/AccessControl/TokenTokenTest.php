@@ -7,7 +7,7 @@ use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Test for AccessControl\Token\Token
+ * Test for AccessControl\Token\Token.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
