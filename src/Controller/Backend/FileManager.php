@@ -137,7 +137,7 @@ class FileManager extends BackendBase
                         'attr'     => [
                             'data-filename-placement' => 'inside',
                             'title'                   => Trans::__('general.phrase.select-file'),
-                            'accept'                  => '.' . join(',.', $this->getOption('general/accept_file_types')),
+                            'accept'                  => '.' . implode(',.', $this->getOption('general/accept_file_types')),
                         ],
                     ]
                 )

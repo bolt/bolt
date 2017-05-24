@@ -121,7 +121,7 @@ class RepeaterType extends FieldTypeBase
             $split = explode('_', $fieldKey);
             $id = array_pop($split);
             $group = array_pop($split);
-            $field = join('_', $split);
+            $field = implode('_', $split);
             $values[$field][$group][] = $id;
         }
 

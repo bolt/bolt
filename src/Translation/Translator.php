@@ -194,7 +194,7 @@ class Translator
                     $value = preg_replace('/[^a-z-]/', '', strtolower($value));
                 }
             );
-            $key = join('.', $key);
+            $key = implode('.', $key);
         }
 
         // Handle contenttypes

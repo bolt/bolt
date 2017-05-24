@@ -78,7 +78,7 @@ class DatabaseImport extends BaseCommand
         }
 
         // Report finish
-        $filenames = join(', ', $files);
+        $filenames = implode(', ', $files);
         $output->writeln("\n<info>Records imported from $filenames</info>");
     }
 
