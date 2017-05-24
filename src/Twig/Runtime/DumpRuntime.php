@@ -43,7 +43,7 @@ class DumpRuntime
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $context
      */
     public function dump(Environment $env, $context)
     {

@@ -43,7 +43,7 @@ class AuthenticationTest extends BoltUnitTest
         $result = $loginMock->login('anotheruser', 'test123', $event);
 
         // Check result
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
     }
 
     public function testLoginWithEmail()
@@ -60,6 +60,6 @@ class AuthenticationTest extends BoltUnitTest
         $result = $loginMock->login('test@example.com', 'test123', $event);
 
         // Check result
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
     }
 }

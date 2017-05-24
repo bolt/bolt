@@ -5,7 +5,7 @@ namespace Bolt\Storage\Migration\Output;
 use Bolt\Storage\Migration\Export;
 
 /**
- * Interface for migration export files
+ * Interface for migration export files.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -22,7 +22,7 @@ interface OutputFileInterface
     public function __destruct();
 
     /**
-     * Add a record
+     * Add a record.
      *
      * @param array   $data An array of values to write out
      * @param boolean $last Flag that indicates last record

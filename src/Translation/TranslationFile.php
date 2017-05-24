@@ -171,7 +171,7 @@ class TranslationFile
                 return false;
             };
 
-            for ($x = 0; $x < $numTokens; $x++) {
+            for ($x = 0; $x < $numTokens; ++$x) {
                 $token = $tokens[$x];
                 // Found function __()
                 if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
@@ -342,7 +342,7 @@ class TranslationFile
                 if ($type == 'DoneKey') {
                     if ($nested) {
                         $differs = false;
-                        for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
+                        for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; ++$level) {
                             if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
                                 $differs = true;
                                 if ($level === 0) {

@@ -61,6 +61,7 @@ class LowlevelChecks
     {
         if ($property === 'disableApacheChecks' && $value === true) {
             $this->disableApacheChecks();
+
             return;
         }
 
@@ -80,7 +81,7 @@ class LowlevelChecks
     }
 
     /**
-     * Add a check
+     * Add a check.
      *
      * @param string  $check
      * @param boolean $top

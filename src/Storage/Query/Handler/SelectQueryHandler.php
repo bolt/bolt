@@ -50,9 +50,9 @@ class SelectQueryHandler
 
         if ($query->getSingleFetchMode()) {
             return $set->current();
-        } else {
-            return $set;
         }
+
+        return $set;
     }
 
     /**
@@ -92,8 +92,8 @@ class SelectQueryHandler
                 if (!count($allowedKeys)) {
                     return false;
                 }
-                $allowed = join(' ||| ', $allowedKeys);
-                $cleanParams[$allowed] = join(' ||| ', $allowedVals);
+                $allowed = implode(' ||| ', $allowedKeys);
+                $cleanParams[$allowed] = implode(' ||| ', $allowedVals);
             } else {
                 if (!in_array($fieldSelect, $allowedParams)) {
                     return false;

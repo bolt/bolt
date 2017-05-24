@@ -6,16 +6,15 @@ use Bolt\Storage\EntityProxy;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * LazyCollection Class - Allows a set of references to Entities to be loaded on demand
+ * LazyCollection Class - Allows a set of references to Entities to be loaded on demand.
  *
- * @package Bolt\Storage\Collection
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class LazyCollection extends ArrayCollection
 {
     /**
-     * Allows adding an entity proxy class
+     * Allows adding an entity proxy class.
      *
      * @param EntityProxy $element
      *

@@ -3,7 +3,7 @@
 namespace Bolt\Tests;
 
 /**
- * System mock
+ * System mock.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */

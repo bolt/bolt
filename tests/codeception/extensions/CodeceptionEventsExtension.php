@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Post run clean up
+ * Post run clean up.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -20,7 +20,7 @@ class CodeceptionEventsExtension extends \Codeception\Extension
     ];
 
     /**
-     * Before suite callback
+     * Before suite callback.
      *
      * @param \Codeception\Event\SuiteEvent $e
      */
@@ -32,7 +32,7 @@ class CodeceptionEventsExtension extends \Codeception\Extension
     }
 
     /**
-     * After suite callback
+     * After suite callback.
      *
      * @param \Codeception\Event\SuiteEvent $e
      */

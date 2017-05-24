@@ -11,7 +11,7 @@ use Bolt\Tests\Extension\Mock\ConfigExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
- * Class to test Bolt\Extension\ConfigTrait
+ * Class to test Bolt\Extension\ConfigTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

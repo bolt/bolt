@@ -9,7 +9,7 @@ use Bolt\Tests\Extension\Mock\NormalExtension;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * Class to test Bolt\Extension\ControllerTrait
+ * Class to test Bolt\Extension\ControllerTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

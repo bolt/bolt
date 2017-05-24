@@ -3,7 +3,7 @@
 namespace Bolt\Menu;
 
 /**
- * Class Menu
+ * Menu class.
  */
 class Menu
 {

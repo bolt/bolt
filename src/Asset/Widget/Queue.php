@@ -151,7 +151,7 @@ class Queue implements QueueInterface
 
         foreach ($this->queue as $widget) {
             if ($widget->getZone() === $zone && $widget->getLocation() === $location) {
-                $count++;
+                ++$count;
             }
         }
 

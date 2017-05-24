@@ -162,7 +162,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     }
 
     /**
-     * Return whether a FlashBag has been attached
+     * Return whether a FlashBag has been attached.
      *
      * @return bool
      */

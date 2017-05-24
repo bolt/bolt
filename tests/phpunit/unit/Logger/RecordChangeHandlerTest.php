@@ -126,12 +126,12 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 [
                     'feature one' => 'old feature one',
                     'feature two' => 'old feature two',
-                    'title' => 'constant',
+                    'title'       => 'constant',
                 ],
                 [
                     'feature one' => 'new feature one',
                     'feature two' => 'new feature two',
-                    'title' => 'constant',
+                    'title'       => 'constant',
                 ],
                 [
                     'feature one' => ['old feature one', 'new feature one'],
@@ -143,6 +143,10 @@ class RecordChangeHandlerTest extends BoltUnitTest
 
     /**
      * @dataProvider provideDiff
+     *
+     * @param array $a
+     * @param array $b
+     * @param array $expected
      */
     public function testDiff($a, $b, $expected)
     {
@@ -171,16 +175,16 @@ class RecordChangeHandlerTest extends BoltUnitTest
         $handler->handle([
             'context' => [
                 'action' => 'UPDATE',
-                'old' => $a,
-                'new' => $b,
+                'old'    => $a,
+                'new'    => $b,
 
-                'id' => 1,
-                'comment' => '',
+                'id'          => 1,
+                'comment'     => '',
                 'contenttype' => 'asdf',
             ],
-            'level' => Logger::DEBUG,
+            'level'    => Logger::DEBUG,
             'datetime' => new \DateTime(),
-            'extra' => [],
+            'extra'    => [],
         ]);
 
         $this->assertEquals($expected, $actual);

@@ -33,7 +33,7 @@ class Composer extends Standard
     {
         Deprecated::method(3.3);
 
-        if (! $this->verifier) {
+        if (!$this->verifier) {
             $this->verifier = new ComposerChecks($this);
         }
 

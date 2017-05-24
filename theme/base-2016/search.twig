@@ -60,5 +60,7 @@
         {% endfor %}
 
         {# If there are more records than will fit on one page, the pager is shown. #}
+        {{ pager(template = 'partials/_sub_pager.twig') }}
+
 
 {% endblock main %}

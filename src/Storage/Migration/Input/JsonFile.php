@@ -7,7 +7,7 @@ use Seld\JsonLint\JsonParser;
 use Seld\JsonLint\ParsingException;
 
 /**
- * JSON import file
+ * JSON import file.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

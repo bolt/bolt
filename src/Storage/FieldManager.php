@@ -8,7 +8,7 @@ use Bolt\Storage\Field\Sanitiser\SanitiserInterface;
 use Bolt\Storage\Field\Type\FieldTypeBase;
 
 /**
- * Uses a typemap to construct an instance of a Field
+ * Uses a typemap to construct an instance of a Field.
  */
 class FieldManager
 {
@@ -39,7 +39,7 @@ class FieldManager
     }
 
     /**
-     * Set an instance of EntityManager
+     * Set an instance of EntityManager.
      *
      * @param EntityManager $em
      */

@@ -10,7 +10,7 @@ use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Test for AccessControl\AccessChecker
+ * Test for AccessControl\AccessChecker.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

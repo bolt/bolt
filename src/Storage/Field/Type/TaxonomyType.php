@@ -29,8 +29,6 @@ class TaxonomyType extends JoinTypeBase
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
-     *
-     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -54,8 +52,6 @@ class TaxonomyType extends JoinTypeBase
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
-     *
-     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {

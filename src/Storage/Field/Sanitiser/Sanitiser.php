@@ -40,7 +40,7 @@ class Sanitiser implements SanitiserInterface
         $allowedTags = $isWysiwyg
             ? $this->getWyswigAllowedTags()
             : $this->getAllowedTags();
-        
+
         // Check if the input containts encoded HTML entities. If it does, we'll
         // need to decode the output later. This is because the sanitiser will
         // convert entities in the cleaned HTML, if they aren't present yet.

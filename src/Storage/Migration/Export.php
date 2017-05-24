@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
- * Database records export class
+ * Database records export class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -51,6 +51,8 @@ class Export extends AbstractMigration
      *
      * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
      *
+     * @param mixed $files
+     *
      * @return \Bolt\Storage\Migration\Export
      */
     public function setMigrationFiles($files)
@@ -78,8 +80,6 @@ class Export extends AbstractMigration
      *
      * @param string  $contenttype
      * @param boolean $last        Flag that indicates last contenttype
-     *
-     * @return void
      */
     private function exportContenttypeRecords($contenttype, $last)
     {

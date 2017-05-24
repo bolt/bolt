@@ -5,7 +5,7 @@ namespace Bolt\Tests\Users;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Test creating new users
+ * Test creating new users.
  *
  * @author Chris Hilsdon <chris@koolserve.uk>
  **/

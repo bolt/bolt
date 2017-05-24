@@ -44,7 +44,7 @@ class TranslationFileTest extends BoltUnitTest
         $tr = new TranslationFile($app, 'messages', 'en_GB');
         $content = $tr->content();
         $parsed = Yaml::parse($content);
-        $this->assertTrue(is_array($parsed));
+        $this->assertInternalType('array', $parsed);
     }
 
     public function testContent()
@@ -53,7 +53,7 @@ class TranslationFileTest extends BoltUnitTest
         $tr = new TranslationFile($app, 'translations', 'en_GB');
         $content = $tr->content();
         $parsed = Yaml::parse($content);
-        $this->assertTrue(is_array($parsed));
+        $this->assertInternalType('array', $parsed);
     }
 
     public function testIsWriteAllowed()

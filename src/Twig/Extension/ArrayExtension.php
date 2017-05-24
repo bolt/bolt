@@ -7,7 +7,7 @@ use Twig_SimpleFilter as TwigFilter;
 use Twig_SimpleFunction as TwigFunction;
 
 /**
- * Bolt specific Twig functions and filters that provide array manipulation
+ * Bolt specific Twig functions and filters that provide array manipulation.
  *
  * @internal
  */
@@ -120,24 +120,23 @@ class ArrayExtension extends Extension
             return !$this->orderAscending;
         } elseif ($aVal > $bVal) {
             return $this->orderAscending;
-        } else {
-            // Primary criterion is the same. Use the secondary criterion, if it is set. Otherwise return 0.
-            if (empty($this->orderOnSecondary)) {
-                return 0;
-            }
-
-            $aVal = $a[$this->orderOnSecondary];
-            $bVal = $b[$this->orderOnSecondary];
-
-            if ($aVal < $bVal) {
-                return !$this->orderAscendingSecondary;
-            } elseif ($aVal > $bVal) {
-                return $this->orderAscendingSecondary;
-            } else {
-                // both criteria are the same. Whatever!
-                return 0;
-            }
         }
+        // Primary criterion is the same. Use the secondary criterion, if it is set. Otherwise return 0.
+        if (empty($this->orderOnSecondary)) {
+            return 0;
+        }
+
+        $aVal = $a[$this->orderOnSecondary];
+        $bVal = $b[$this->orderOnSecondary];
+
+        if ($aVal < $bVal) {
+            return !$this->orderAscendingSecondary;
+        } elseif ($aVal > $bVal) {
+            return $this->orderAscendingSecondary;
+        }
+
+        // both criteria are the same. Whatever!
+        return 0;
     }
 
     /**
@@ -157,7 +156,7 @@ class ArrayExtension extends Extension
     }
 
     /**
-     * Takes two arrays and returns a compiled array of unique, sorted values
+     * Takes two arrays and returns a compiled array of unique, sorted values.
      *
      * @param $arr1
      * @param $arr2

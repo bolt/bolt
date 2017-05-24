@@ -9,7 +9,7 @@ use Silex\ServiceProviderInterface;
 use Sirius\Upload\Handler as UploadHandler;
 
 /**
- * Class to handle uploads
+ * Class to handle uploads.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>

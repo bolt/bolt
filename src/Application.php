@@ -333,7 +333,7 @@ class Application extends Silex\Application
     }
 
     /**
-     * Get the Bolt version string
+     * Get the Bolt version string.
      *
      * @return string
      *

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class CronRepository extends Repository
 {
     /**
-     * Fetches the next run time for a named interval eg: cron.Hourly | cron.Daily
+     * Fetches the next run time for a named interval eg: cron.Hourly, or cron.Daily.
      *
      * @param $interimName
      *

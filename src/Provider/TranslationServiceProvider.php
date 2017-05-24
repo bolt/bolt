@@ -132,9 +132,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 continue;
             }
             $iterator = new \DirectoryIterator($transDir);
-            /**
-             * @var \SplFileInfo $fileInfo
-             */
+            /** @var \SplFileInfo $fileInfo */
             foreach ($iterator as $fileInfo) {
                 $ext = pathinfo($fileInfo, PATHINFO_EXTENSION);
                 if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'], true)) {
@@ -205,7 +203,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             return;
         }
 
-        // PHP 7.0+ doesn't emit warning for no timezone set.
+        // PHP 7.0+ doesn't emit warning for no timezone set.
         if (PHP_MAJOR_VERSION > 5) {
             return;
         }

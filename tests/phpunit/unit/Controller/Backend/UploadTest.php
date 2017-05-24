@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  **/
-
 class UploadTest extends ControllerUnitTest
 {
     public function setup()

@@ -92,6 +92,8 @@ class StorageEventListenerTest extends TestCase
      * It should detect already hashed passwords.
      *
      * @dataProvider providePreSaveAlreadyHashed
+     *
+     * @param mixed $hash
      */
     public function testOnPreSavePasswordAlreadyHashed($hash)
     {

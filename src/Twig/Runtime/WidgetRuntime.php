@@ -8,7 +8,7 @@ use Twig_Environment as Environment;
 use Twig_Markup as Markup;
 
 /**
- * Bolt specific Twig functions and filters for HTML
+ * Bolt specific Twig functions and filters for HTML.
  *
  * @internal
  */

@@ -7,7 +7,7 @@ use Bolt\Twig\Runtime\TextRuntime;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * Class to test Bolt\Twig\Runtime\TextRuntime
+ * Class to test Bolt\Twig\Runtime\TextRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

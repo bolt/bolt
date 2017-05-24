@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to run all available PHPUnit tests
+ * Nut command to run all available PHPUnit tests.
  */
 class TestRunner extends BaseCommand
 {
@@ -45,7 +45,7 @@ class TestRunner extends BaseCommand
             }
         }
 
-        if (is_null($executable)) {
+        if ($executable === null) {
             $this->io->error('No PHPUnit test runner found in the vendor dir or your path');
 
             return 1;

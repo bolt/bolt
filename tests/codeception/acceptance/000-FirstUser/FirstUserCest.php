@@ -3,7 +3,7 @@
 use Codeception\Util\Fixtures;
 
 /**
- * First user site setup tests
+ * First user site setup tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -31,7 +31,7 @@ class FirstUserCest
     }
 
     /**
-     * Create the first site user
+     * Create the first site user.
      *
      * @param \AcceptanceTester $I
      */

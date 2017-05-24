@@ -36,6 +36,7 @@ class Logger
     {
         $this->logs[] = $message;
     }
+
     public function addWarning($message, array $context = [])
     {
         $this->logs[] = $message;

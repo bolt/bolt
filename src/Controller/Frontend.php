@@ -284,9 +284,9 @@ class Frontend extends ConfigurableBase
         // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
-        } else {
-            $taxonomyslug = $taxonomy['slug'];
         }
+        $taxonomyslug = $taxonomy['slug'];
+
         // First, get some content
         $context = $taxonomy['singular_slug'] . '_' . $slug;
         $page = $this->app['pager']->getCurrentPage($context);

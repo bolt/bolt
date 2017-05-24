@@ -120,6 +120,7 @@ class Thumbnail
 
         return $this;
     }
+
     /**
      * Get the thumbnail width.
      *

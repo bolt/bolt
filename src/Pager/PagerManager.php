@@ -64,7 +64,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Initializer of pager objects from request query parameters
+     * Initializer of pager objects from request query parameters.
      *
      * @param Request $request
      *
@@ -168,7 +168,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Encodes Http GET query string from actual parts of query parameters and from 'current' values of pager objects
+     * Encodes Http GET query string from actual parts of query parameters and from 'current' values of pager objects.
      *
      * @param array|null $qparams [optional] Optional parameters where actual values to be merged into
      *
@@ -182,7 +182,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Object string encoder
+     * Object string encoder.
      *
      * @return string Encoded query string
      */
@@ -192,7 +192,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Pager element object existence check at a specific context id
+     * Pager element object existence check at a specific context id.
      *
      * @param mixed $contextId Context Id of pager object
      *
@@ -204,7 +204,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Set the Pager object
+     * Set the Pager object.
      *
      * @param mixed $contextId
      * @param Pager $pager
@@ -218,7 +218,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Unset a Pager object
+     * Unset a Pager object.
      *
      * @param mixed $contextId
      */
@@ -243,7 +243,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Returns context ids array
+     * Returns context ids array.
      *
      * @return array
      */
@@ -260,7 +260,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Returns empty status of Pager object array
+     * Returns empty status of Pager object array.
      *
      * @return bool
      */
@@ -284,7 +284,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Factory method creating a Pager object
+     * Factory method creating a Pager object.
      *
      * @param string $contextId [optional]
      *
@@ -332,7 +332,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Strict getter for request property
+     * Strict getter for request property.
      *
      * @throws \RuntimeException
      *
@@ -348,7 +348,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Gets a parameter id of an explicit context id or gets a valid one
+     * Gets a parameter id of an explicit context id or gets a valid one.
      *
      * @param string $contextId [optional]
      *
@@ -360,7 +360,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Builds an array of Pagers with current page values
+     * Builds an array of Pagers with current page values.
      *
      * @return array
      */
@@ -375,7 +375,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Finds any initialized pager and gets its pager id
+     * Finds any initialized pager and gets its pager id.
      *
      * @return int|string
      */

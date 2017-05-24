@@ -10,7 +10,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
- * Class to test Bolt\Twig\Runtime\UserRuntime
+ * Class to test Bolt\Twig\Runtime\UserRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

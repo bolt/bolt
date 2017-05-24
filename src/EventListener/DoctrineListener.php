@@ -66,7 +66,7 @@ class DoctrineListener implements EventSubscriber
             $db->query('PRAGMA synchronous = OFF');
         } elseif ($platform === 'mysql') {
             /**
-             * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
+             * @see https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
              */
             $db->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 
@@ -83,7 +83,7 @@ class DoctrineListener implements EventSubscriber
             $db->executeQuery('SET SESSION group_concat_max_len = 100000');
         } elseif ($platform === 'postgresql') {
             /**
-             * @link https://github.com/doctrine/dbal/pull/828
+             * @see https://github.com/doctrine/dbal/pull/828
              */
             $db->executeQuery("SET NAMES 'utf8'");
         }

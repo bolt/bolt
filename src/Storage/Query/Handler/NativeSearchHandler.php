@@ -22,9 +22,9 @@ class NativeSearchHandler
         $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
         if (strpos($params['driver'], 'postgres') !== false) {
             return $this->postgresSearch($contentQuery);
-        } else {
-            return call_user_func_array($contentQuery->getHandler('search'), [$contentQuery]);
         }
+
+        return call_user_func_array($contentQuery->getHandler('search'), [$contentQuery]);
     }
 
     /**

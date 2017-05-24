@@ -28,7 +28,6 @@ class FilesystemCastersTest extends TestCase
             ['Bolt\Filesystem\Handler\Image\Type', 'castImageType'],
             ['Bolt\Filesystem\Handler\Image\Dimensions', 'castDimensions'],
             ['Bolt\Filesystem\Handler\Image\Exif', 'castImageExif'],
-
         ];
     }
 
@@ -94,7 +93,6 @@ class FilesystemCastersTest extends TestCase
         } else {
             $this->assertSame($expectation, $result[$key]);
         }
-
     }
 
     public function testCastHandlerMissing()

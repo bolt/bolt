@@ -7,7 +7,7 @@ use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Tests for \Bolt\Nut\DebugRouter
+ * Tests for \Bolt\Nut\DebugRouter.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -51,6 +51,10 @@ class DebugRouterTest extends BoltUnitTest
 
     /**
      * @dataProvider providerRunNamed
+     *
+     * @param string $name
+     * @param string $routeNamePattern
+     * @param string $pathPattern
      */
     public function testRunNamed($name, $routeNamePattern, $pathPattern)
     {

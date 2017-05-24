@@ -39,7 +39,7 @@ class Cron extends Event
     private $output;
     /** @var array Passed in console paramters. */
     private $param;
-    /** @var \DateTime The start of the execution time for this cron instance.*/
+    /** @var \DateTime The start of the execution time for this cron instance. */
     private $runtime;
     /** @var \DateTime */
     private $cronHour;

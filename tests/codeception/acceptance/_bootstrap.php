@@ -4,11 +4,10 @@ use Codeception\Util\Autoload;
 use Codeception\Util\Fixtures;
 
 /**
- * Bootstrap for Codeception tests
+ * Bootstrap for Codeception tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-
 Autoload::addNamespace('\\', __DIR__);
 
 // User IDs

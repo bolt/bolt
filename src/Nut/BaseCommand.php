@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut building block
+ * Nut building block.
  */
 abstract class BaseCommand extends Command
 {
@@ -45,7 +45,7 @@ abstract class BaseCommand extends Command
     }
 
     /**
-     * Log a Nut execution if auditing is on
+     * Log a Nut execution if auditing is on.
      *
      * @param string $source  __CLASS__ of caller
      * @param string $message Message to log

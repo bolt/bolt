@@ -47,7 +47,7 @@ trait TransparentProxyTrait
     public static function registerCaster(AbstractCloner $cloner)
     {
         /**
-         * Don't want this to be publicly accessible ;)
+         * Don't want this to be publicly accessible.
          *
          * @param TransparentProxyTrait $obj
          * @param array                 $a

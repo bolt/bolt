@@ -10,7 +10,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *  This query class coordinates a select query build from Bolt's
  *  custom query DSL as documented here:.
  *
- *  @link https://docs.bolt.cm/templates/content-fetching
+ *  @see https://docs.bolt.cm/templates/content-fetching
  *
  *  The resulting QueryBuilder object is then passed through to the individual
  *  field handlers where they can perform value transformations.
@@ -66,7 +66,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Sets the parameters that will filter / alter the query
+     * Sets the parameters that will filter / alter the query.
      *
      * @param array $params
      */
@@ -77,7 +77,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Getter to allow access to a set parameter
+     * Getter to allow access to a set parameter.
      *
      * @param $name
      *
@@ -93,7 +93,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Setter to allow writing to a named parameter
+     * Setter to allow writing to a named parameter.
      *
      * @param string $name
      * @param mixed  $value
@@ -178,7 +178,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Returns all the filters attached to the query
+     * Returns all the filters attached to the query.
      *
      * @return Filter[]
      */
@@ -209,7 +209,7 @@ class SelectQuery implements QueryInterface
     }
 
     /**
-     * Allows public access to the QueryBuilder object
+     * Allows public access to the QueryBuilder object.
      *
      * @return QueryBuilder
      */
@@ -261,7 +261,7 @@ class SelectQuery implements QueryInterface
     /**
      * Internal method that runs the individual key/value input through
      * the QueryParameterParser. This allows complicated expressions to
-     * be turned into simple sql expressions
+     * be turned into simple sql expressions.
      */
     protected function processFilters()
     {
