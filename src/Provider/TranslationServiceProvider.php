@@ -203,7 +203,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             return;
         }
 
-        // PHP 7.0+ doesn't emit warning for no timezone set.
+        // PHP 7.0+ doesn't emit warning for no timezone set.
         if (PHP_MAJOR_VERSION > 5) {
             return;
         }
