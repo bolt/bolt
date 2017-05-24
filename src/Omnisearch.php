@@ -234,7 +234,7 @@ class Omnisearch
                 ]
             );
 
-            $index--;
+            --$index;
         }
     }
 

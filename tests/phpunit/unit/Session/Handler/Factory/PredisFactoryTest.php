@@ -25,7 +25,7 @@ class PredisFactoryTest extends TestCase
                 [
                     'host' => '127.0.0.1',
                     'port' => 6379,
-                ]
+                ],
             ],
 
             'connection string only host' => [
@@ -35,8 +35,8 @@ class PredisFactoryTest extends TestCase
                 [
                     [
                         'host' => '10.0.0.1',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string' => [
@@ -45,28 +45,28 @@ class PredisFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
+                        'host'  => '10.0.0.1',
+                        'port'  => 6380,
                         'alias' => 'master',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection array' => [
                 [
                     'connection' => [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
+                        'host'  => '10.0.0.1',
+                        'port'  => 6380,
                         'alias' => 'master',
                     ],
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 6380,
+                        'host'  => '10.0.0.1',
+                        'port'  => 6380,
                         'alias' => 'master',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'unix socket string' => [
@@ -76,39 +76,39 @@ class PredisFactoryTest extends TestCase
                 [
                     [
                         'scheme' => 'unix',
-                        'path' => '/path/to/redis.sock',
-                        'alias' => 'master',
-                    ]
-                ]
+                        'path'   => '/path/to/redis.sock',
+                        'alias'  => 'master',
+                    ],
+                ],
             ],
 
             'unix socket array' => [
                 [
                     'connection' => [
                         'scheme' => 'unix',
-                        'path' => '/path/to/redis.sock',
-                    ]
+                        'path'   => '/path/to/redis.sock',
+                    ],
                 ],
                 [
                     [
                         'scheme' => 'unix',
-                        'path' => '/path/to/redis.sock',
-                        'alias' => 'master',
-                    ]
-                ]
+                        'path'   => '/path/to/redis.sock',
+                        'alias'  => 'master',
+                    ],
+                ],
             ],
 
             'with options' => [
                 [
                     'connection' => [],
-                    'options' => [
+                    'options'    => [
                         'prefix' => 'foo',
                     ],
                 ],
                 [],
                 [
                     'prefix' => 'foo',
-                ]
+                ],
             ],
         ];
     }
@@ -118,15 +118,15 @@ class PredisFactoryTest extends TestCase
         $expectedConnections = [
             [
                 'scheme' => 'tcp',
-                'host' => '10.0.0.1',
+                'host'   => '10.0.0.1',
             ],
             [
                 'scheme' => 'tcp',
-                'host' => '10.0.0.2',
+                'host'   => '10.0.0.2',
             ],
             [
                 'scheme' => 'tcp',
-                'host' => '10.0.0.3',
+                'host'   => '10.0.0.3',
             ],
         ];
 

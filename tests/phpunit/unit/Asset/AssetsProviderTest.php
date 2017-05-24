@@ -440,6 +440,11 @@ HTML;
     }
 
     /**
+     * @param string $location
+     * @param mixed  $callback
+     * @param string $extensionName
+     * @param array  $callbackArguments
+     *
      * @return Snippet
      */
     private function getSnippet($location, $callback, $extensionName = 'core', $callbackArguments = [])

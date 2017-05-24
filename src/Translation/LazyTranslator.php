@@ -47,9 +47,6 @@ class LazyTranslator
         return new self($key, $params, $domain, $locale);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __toString()
     {
         try {

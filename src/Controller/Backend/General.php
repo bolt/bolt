@@ -164,6 +164,8 @@ class General extends BackendBase
                 'choices'  => $choices,
                 'multiple' => true,
                 'expanded' => true,
+                // Can be removed when symfony/form:^3.0 is the minimum
+                'choices_as_values' => true,
             ])
             ->getForm();
 

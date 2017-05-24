@@ -6,7 +6,7 @@ use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Collection Manager class
+ * Collection Manager class.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -27,7 +27,7 @@ class CollectionManager
     }
 
     /**
-     * Set an instance of EntityManager
+     * Set an instance of EntityManager.
      *
      * @param EntityManager $em
      */

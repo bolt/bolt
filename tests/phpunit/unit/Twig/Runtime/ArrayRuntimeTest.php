@@ -6,7 +6,7 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Extension\ArrayExtension;
 
 /**
- * Class to test Bolt\Twig\Runtime\ArrayExtension
+ * Class to test Bolt\Twig\Runtime\ArrayExtension.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

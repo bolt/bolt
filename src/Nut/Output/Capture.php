@@ -56,11 +56,13 @@ final class Capture
         }
         if ($newText === "\033[1D") {
             $this->text = substr($this->text, 0, -1);
+
             return '';
         }
         if ($newText === "\0338") {
             $index = strrpos($this->text, "\0337");
             $this->text = substr($this->text, 0, $index);
+
             return '';
         }
 
@@ -100,7 +102,7 @@ final class Capture
         $styleStack = [];
 
         $bufferLength = mb_strwidth($text);
-        for ($i = 0; $i < $bufferLength; $i++) {
+        for ($i = 0; $i < $bufferLength; ++$i) {
             if ($text[$i] === "\033") { // start of formatting?
                 // Add to current and skip length.
                 $length = strpos($text, 'm', $i) - $i;
@@ -117,7 +119,7 @@ final class Capture
                 }
             } else {
                 $current .= $text[$i];
-                $currentLength++;
+                ++$currentLength;
             }
 
             if ($currentLength >= $width || $i + 1 === $bufferLength) {

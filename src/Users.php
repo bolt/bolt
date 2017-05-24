@@ -125,11 +125,10 @@ class Users
         $token = new CsrfToken('bolt', $token);
         if ($this->app['csrf']->isTokenValid($token)) {
             return true;
-        } else {
-            $this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
-
-            return false;
         }
+        $this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
+
+        return false;
     }
 
     /**

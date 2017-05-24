@@ -99,9 +99,9 @@ final class ShowPackage extends BaseAction
                         'versions' => $package->getVersion(),
                     ],
                 ];
-            } else {
-                return $this->getPackage($installedRepo, $repos, $package, $version);
             }
+
+            return $this->getPackage($installedRepo, $repos, $package, $version);
         }
 
         $packages = [];

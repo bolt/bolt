@@ -21,7 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class PackageEventListener
 {
     /**
-     * Event handler for composer package events
+     * Event handler for composer package events.
      *
      * @param PackageEvent $event
      */

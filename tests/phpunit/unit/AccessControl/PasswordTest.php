@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Test for AccessControl\Password
+ * Test for AccessControl\Password.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

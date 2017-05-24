@@ -37,7 +37,7 @@ class DisableXssProtectionListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if ($request->isMethodSafe()) {
+        if ($request->isMethodSafe(false)) {
             return;
         }
 

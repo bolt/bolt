@@ -12,20 +12,20 @@ use JsonSerializable;
  */
 final class Package implements JsonSerializable
 {
-    protected $status;
-    protected $type;
-    protected $name;
-    protected $title;
-    protected $description;
-    protected $version;
-    protected $authors = [];
-    protected $keywords = [];
-    protected $readmeLink;
-    protected $configLink;
-    protected $repositoryLink;
-    protected $constraint;
-    protected $valid = false;
-    protected $enabled = false;
+    private $status;
+    private $type;
+    private $name;
+    private $title;
+    private $description;
+    private $version;
+    private $authors = [];
+    private $keywords = [];
+    private $readmeLink;
+    private $configLink;
+    private $repositoryLink;
+    private $constraint;
+    private $valid = false;
+    private $enabled = false;
 
     /**
      * @param CompletePackageInterface $package

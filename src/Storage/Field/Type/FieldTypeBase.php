@@ -49,7 +49,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
-     * Returns the platform
+     * Returns the platform.
      *
      * @return AbstractPlatform
      */
@@ -59,7 +59,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
-     * Sets the current platform to an instance of AbstractPlatform
+     * Sets the current platform to an instance of AbstractPlatform.
      *
      * @param AbstractPlatform $platform
      */
@@ -146,7 +146,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
-     * Reads the current value of the field from an entity and returns value
+     * Reads the current value of the field from an entity and returns value.
      *
      * @param $entity
      *
@@ -214,7 +214,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
-     * Gets the entity attribute name to be used for reading / persisting
+     * Gets the entity attribute name to be used for reading / persisting.
      *
      * @return string
      */
@@ -228,7 +228,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
     }
 
     /**
-     * Provides a template that is able to render the field
+     * Provides a template that is able to render the field.
      *
      * @deprecated
      */

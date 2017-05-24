@@ -122,63 +122,56 @@ class ExtendTest extends ControllerUnitTest
     public function packageInfoProvider()
     {
         $info = [
-            'package' =>
-                [
-                    'id'           => '99999',
-                    'title'        => 'Test',
-                    'source'       => 'https://github.com/',
-                    'name'         => 'test',
-                    'keywords'     => [],
-                    'type'         => 'bolt-extension',
-                    'description'  => 'Test',
-                    'approved'     => true,
-                    'requirements' =>
-                    [
-                      'bolt/bolt' => '>=2.0.0,<3.0.0',
-                    ],
-                    'versions' =>
-                        [
-                          0 => '1.0.0',
-                          1 => 'dev-master',
-                        ],
+            'package' => [
+                'id'           => '99999',
+                'title'        => 'Test',
+                'source'       => 'https://github.com/',
+                'name'         => 'test',
+                'keywords'     => [],
+                'type'         => 'bolt-extension',
+                'description'  => 'Test',
+                'approved'     => true,
+                'requirements' => [
+                    'bolt/bolt' => '>=2.0.0,<3.0.0',
                 ],
-            'version' =>
-                [
-                    [
-                          'name'               => 'test',
-                          'version'            => '1.0.0',
-                          'version_normalized' => '1.0.0.0',
-                          'source'             =>
-                          [
-                            'type'      => 'git',
-                            'url'       => 'https://github.com/',
-                            'reference' => 'xxx',
-                          ],
-                          'require' =>
-                          [
-                            'bolt/bolt' => '>=2.0.0,<3.0.0',
-                          ],
-                          'type'        => 'bolt-extension',
-                          'stability'   => 'stable',
-                          'buildStatus' => 'untested',
-                    ],
-                    [
-                        'name'               => 'test',
-                        'version'            => 'dev-master',
-                        'version_normalized' => '9999999-dev',
-                        'source'             =>
-                            [
-                                'type'      => 'git',
-                                'url'       => 'https://github.com/',
-                                'reference' => 'XXX',
-                            ],
-                        'require'     => ['bolt/bolt' => '>=2.0.0,<3.0.0'],
-                        'type'        => 'bolt-extension',
-                        'stability'   => 'dev',
-                        'buildStatus' => 'untested',
-                    ],
+                'versions' => [
+                    0 => '1.0.0',
+                    1 => 'dev-master',
                 ],
-            ];
+            ],
+            'version' => [
+                [
+                    'name'               => 'test',
+                    'version'            => '1.0.0',
+                    'version_normalized' => '1.0.0.0',
+                    'source'             => [
+                        'type'      => 'git',
+                        'url'       => 'https://github.com/',
+                        'reference' => 'xxx',
+                    ],
+                    'require' => [
+                        'bolt/bolt' => '>=2.0.0,<3.0.0',
+                    ],
+                    'type'        => 'bolt-extension',
+                    'stability'   => 'stable',
+                    'buildStatus' => 'untested',
+                ],
+                [
+                    'name'               => 'test',
+                    'version'            => 'dev-master',
+                    'version_normalized' => '9999999-dev',
+                    'source'             => [
+                        'type'      => 'git',
+                        'url'       => 'https://github.com/',
+                        'reference' => 'XXX',
+                    ],
+                    'require'     => ['bolt/bolt' => '>=2.0.0,<3.0.0'],
+                    'type'        => 'bolt-extension',
+                    'stability'   => 'dev',
+                    'buildStatus' => 'untested',
+                ],
+            ],
+        ];
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));
     }

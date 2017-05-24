@@ -35,7 +35,7 @@ class LazySchemaManager implements SchemaManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isCheckRequired()
     {

@@ -6,7 +6,7 @@ use Bolt\Storage\Migration\Export;
 use Symfony\Component\Yaml\Dumper;
 
 /**
- * YAML export file
+ * YAML export file.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -42,6 +42,8 @@ class YamlFile implements OutputFileInterface
 
     /**
      * @see \Bolt\Storage\Migration\File\MigrationFileInterface::addRecord()
+     *
+     * @param mixed $last
      */
     public function addRecord(array $data, $last)
     {

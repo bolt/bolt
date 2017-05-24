@@ -151,7 +151,7 @@ class Log extends BackendBase
     }
 
     /**
-     * System log overview route
+     * System log overview route.
      *
      * @param Request $request
      *
@@ -225,7 +225,7 @@ class Log extends BackendBase
                 $limit = null;
                 $page = null;
             } else {
-                $page = intval($page);
+                $page = (int) $page;
             }
         } else {
             $page = 1;

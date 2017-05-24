@@ -125,7 +125,7 @@ class Pager extends AbstractPager
     }
 
     /**
-     * For v2 and v3 BC reasons
+     * For v2 and v3 BC reasons.
      *
      * @return array
      */

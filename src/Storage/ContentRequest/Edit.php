@@ -263,9 +263,9 @@ class Edit
             return date('Y-m-d H:i:s');
         } elseif ($date === '1900-01-01 00:00:00') {
             return '';
-        } else {
-            return $date;
         }
+
+        return $date;
     }
 
     /**

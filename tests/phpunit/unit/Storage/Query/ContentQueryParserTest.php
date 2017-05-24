@@ -170,7 +170,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $count = 1;
         foreach ($res as $item) {
             $this->assertEquals($count, $item['id']);
-            $count++;
+            ++$count;
         }
     }
 
@@ -205,7 +205,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $count = 5;
         foreach ($res as $item) {
             $this->assertEquals($count, $item['id']);
-            $count--;
+            --$count;
         }
     }
 
@@ -217,7 +217,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('entries');
         $qb->setParameters(['order' => '-datepublish']);
         $qb->setParameter('id', '!1');
-        $this->assertTrue(array_key_exists('id', $qb->getParameters()));
+        $this->assertArrayHasKey('id', $qb->getParameters());
     }
 
     public function testAddOperation()

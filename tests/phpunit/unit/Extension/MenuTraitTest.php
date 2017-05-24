@@ -8,7 +8,7 @@ use Bolt\Tests\Extension\Mock\MenuExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
- * Class to test Bolt\Extension\MenuTrait
+ * Class to test Bolt\Extension\MenuTrait.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

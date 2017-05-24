@@ -6,7 +6,7 @@ use Bolt\Session\IniBag;
 use PHPUnit\Framework\TestCase;
 
 /**
- * IniBag Tests
+ * IniBag Tests.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

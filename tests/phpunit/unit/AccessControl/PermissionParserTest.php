@@ -9,6 +9,9 @@ class PermissionParserTest extends TestCase
 {
     /**
      * @dataProvider lexProvider
+     *
+     * @param string $input
+     * @param array  $expected
      */
     public function testLex($input, $expected)
     {
@@ -214,6 +217,9 @@ class PermissionParserTest extends TestCase
 
     /**
      * @dataProvider runProvider
+     *
+     * @param string $input
+     * @param array  $expected
      */
     public function testRun($input, $expected)
     {
@@ -247,8 +253,7 @@ class PermissionParserTest extends TestCase
             // OR query
             [
                 'this or that',
-                ['type' => PermissionParser::P_OR, 'value' =>
-                    [
+                ['type' => PermissionParser::P_OR, 'value' => [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                     ],
@@ -257,8 +262,7 @@ class PermissionParserTest extends TestCase
             // AND query
             [
                 'this and that',
-                ['type' => PermissionParser::P_AND, 'value' =>
-                    [
+                ['type' => PermissionParser::P_AND, 'value' => [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                     ],
@@ -267,8 +271,7 @@ class PermissionParserTest extends TestCase
             // sequences of "ands" should collapse into one
             [
                 'this and that and something',
-                ['type' => PermissionParser::P_AND, 'value' =>
-                    [
+                ['type' => PermissionParser::P_AND, 'value' => [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
@@ -278,11 +281,9 @@ class PermissionParserTest extends TestCase
             // combined AND/OR query with precedence ("or" binds tighter than "and")
             [
                 'this and that or something',
-                ['type' => PermissionParser::P_AND, 'value' =>
-                    [
+                ['type' => PermissionParser::P_AND, 'value' => [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
-                        ['type' => PermissionParser::P_OR, 'value' =>
-                            [
+                        ['type' => PermissionParser::P_OR, 'value' => [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
                             ],
@@ -292,10 +293,8 @@ class PermissionParserTest extends TestCase
             ],
             [
                 'this or that and something',
-                ['type' => PermissionParser::P_AND, 'value' =>
-                    [
-                        ['type' => PermissionParser::P_OR, 'value' =>
-                            [
+                ['type' => PermissionParser::P_AND, 'value' => [
+                        ['type' => PermissionParser::P_OR, 'value' => [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                             ],
@@ -307,11 +306,9 @@ class PermissionParserTest extends TestCase
             // parentheses to override precedence explicitly
             [
                 'this or (that and something)',
-                ['type' => PermissionParser::P_OR, 'value' =>
-                    [
+                ['type' => PermissionParser::P_OR, 'value' => [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
-                        ['type' => PermissionParser::P_AND, 'value' =>
-                            [
+                        ['type' => PermissionParser::P_AND, 'value' => [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
                             ],

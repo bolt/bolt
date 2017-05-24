@@ -24,7 +24,7 @@ class SearchWeighterTest extends BoltUnitTest
         $weighter->setSearchWords(['lorem', 'ipsum']);
         $weighter->setContentType('pages');
         $scores = $weighter->weight();
-        $this->assertTrue(is_array($scores));
+        $this->assertInternalType('array', $scores);
         $this->assertEquals(count($results), count($scores));
     }
 

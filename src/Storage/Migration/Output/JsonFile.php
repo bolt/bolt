@@ -5,7 +5,7 @@ namespace Bolt\Storage\Migration\Output;
 use Bolt\Storage\Migration\Export;
 
 /**
- * JSON export file
+ * JSON export file.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -39,6 +39,8 @@ class JsonFile implements OutputFileInterface
 
     /**
      * @see \Bolt\Storage\Migration\File\MigrationFileInterface::addRecord()
+     *
+     * @param mixed $last
      */
     public function addRecord(array $data, $last)
     {
@@ -72,7 +74,7 @@ class JsonFile implements OutputFileInterface
     }
 
     /**
-     * Open an JSON export file array
+     * Open an JSON export file array.
      */
     private function openJsonArray()
     {
@@ -81,7 +83,7 @@ class JsonFile implements OutputFileInterface
     }
 
     /**
-     * Close an JSON export file array
+     * Close an JSON export file array.
      */
     private function closeJsonArray()
     {

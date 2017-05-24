@@ -12,7 +12,7 @@ use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Bolt specific Twig functions and filters that provide image support
+ * Bolt specific Twig functions and filters that provide image support.
  *
  * @internal
  */

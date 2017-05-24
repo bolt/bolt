@@ -57,8 +57,8 @@ class ContentType implements \ArrayAccess
     {
         if (isset($this->contentType['fields'])) {
             return $this->contentType['fields'];
-        } else {
-            return [];
         }
+
+        return [];
     }
 }

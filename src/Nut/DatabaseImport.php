@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Nut database importer command
+ * Nut database importer command.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

@@ -49,13 +49,19 @@ trait ContentValuesTrait
 
         if (isset($this->values[$name])) {
             return $this->values[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Alias for getExcerpt()
+     * Alias for getExcerpt().
+     *
+     * @param integer      $length
+     * @param boolean      $includeTitle
+     * @param string|array $focus
+     *
+     * @return \Twig_Markup
      */
     public function excerpt($length = 200, $includeTitle = false, $focus = null)
     {
@@ -264,14 +270,13 @@ trait ContentValuesTrait
             return;
         }
 
-        /**
+        /*
          * This Block starts introducing new-style hydration into the legacy content object.
          * To do this we fetch the new field from the manager and hydrate a temporary entity.
          *
          * We don't return at this point so continue to let other transforms happen below so the
          * old behaviour will still happen where adjusted.
          */
-
         if (isset($this->contenttype['fields'][$key]['type']) && $this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
             $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
             $newFieldType->mapping['fieldname'] = $key;
@@ -385,11 +390,11 @@ trait ContentValuesTrait
 
             if ($this->fieldtype($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
                 $defaultValues = [
-                    'html' => '',
+                    'html'       => '',
                     'responsive' => '',
-                    'width' => '1',
-                    'height' => '1',
-                    'ratio' => '1',
+                    'width'      => '1',
+                    'height'     => '1',
+                    'ratio'      => '1',
                 ];
 
                 $video = array_replace($defaultValues, $this->values[$key]);
@@ -461,8 +466,6 @@ trait ContentValuesTrait
      * @param string $contenttype
      *
      * @throws \Exception
-     *
-     * @return void
      */
     public function setFromPost($values, $contenttype)
     {
@@ -482,7 +485,7 @@ trait ContentValuesTrait
                 if (!$this->app['users']->isAllowed("contenttype:{$contenttype['slug']}:change-ownership:{$this->id}")) {
                     throw new \Exception('Changing ownership is not allowed.');
                 }
-                $this['ownerid'] = intval($values['ownerid']);
+                $this['ownerid'] = (int) ($values['ownerid']);
             }
         }
 

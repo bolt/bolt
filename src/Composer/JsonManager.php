@@ -20,7 +20,7 @@ class JsonManager
     /** @var array */
     protected $messages = [];
 
-    /** @var Application  */
+    /** @var Application */
     private $app;
 
     /**
@@ -130,7 +130,7 @@ class JsonManager
             'minimum-stability' => $minimumStability,
             'prefer-stable'     => true,
             'config'            => $config,
-            'provide' => [
+            'provide'           => [
                 'bolt/bolt' => Bolt\Version::forComposer(),
             ],
             'extra' => [

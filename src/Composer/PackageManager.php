@@ -22,7 +22,7 @@ class PackageManager
     /** @var boolean */
     protected $useSsl;
 
-    /** @var array|null  */
+    /** @var array|null */
     private $json;
     /** @var string[] */
     private $messages = [];
@@ -380,7 +380,7 @@ class PackageManager
         if ($addQuery) {
             $query = [
                 'bolt_ver'  => Bolt\Version::VERSION,
-                'php'       => phpversion(),
+                'php'       => PHP_VERSION,
                 'www'       => $www,
             ];
         }

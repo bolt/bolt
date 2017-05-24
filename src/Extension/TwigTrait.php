@@ -107,7 +107,7 @@ trait TwigTrait
     }
 
     /**
-     * Adds filters and functions to Twig Environment
+     * Adds filters and functions to Twig Environment.
      *
      * @param Environment $twig
      */

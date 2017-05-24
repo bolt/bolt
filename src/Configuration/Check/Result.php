@@ -113,9 +113,7 @@ class Result implements \JsonSerializable
     }
 
     /**
-     * Valid output for json_encode()
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

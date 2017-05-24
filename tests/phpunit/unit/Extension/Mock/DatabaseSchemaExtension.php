@@ -28,8 +28,6 @@ class DatabaseSchemaExtension extends SimpleExtension
      */
     protected function registerExtensionTables()
     {
-        return [
-            'round_table' => ExtensionTable::class
-        ];
+        return ['round_table' => ExtensionTable::class];
     }
 }

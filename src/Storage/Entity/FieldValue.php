@@ -125,7 +125,7 @@ class FieldValue extends Entity
     }
 
     /**
-     * When the entity needs to be persisted the value has to be copied to a field specific to the storage type
+     * When the entity needs to be persisted the value has to be copied to a field specific to the storage type.
      *
      * To do this we need a field type so we lookup the correct column to write to.
      *

@@ -6,7 +6,7 @@ use Bolt\Events\ControllerEvents;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test Bolt\Events\ControllerEvents
+ * Class to test Bolt\Events\ControllerEvents.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

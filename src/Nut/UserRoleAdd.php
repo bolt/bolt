@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Nut command to add a role to a Bolt user account
+ * Nut command to add a role to a Bolt user account.
  */
 class UserRoleAdd extends AbstractUser
 {

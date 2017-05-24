@@ -28,6 +28,9 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider urlProvider
+     *
+     * @param string $uri
+     * @param string $expected
      */
     public function testUrl($uri, $expected)
     {
@@ -52,6 +55,10 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider globalOverrideProvider
+     *
+     * @param string $uri
+     * @param string $expected
+     * @param string $globalOverride
      */
     public function testGlobalOverrideWithConstructor($uri, $expected, $globalOverride)
     {
@@ -62,6 +69,10 @@ class CanonicalTest extends TestCase
 
     /**
      * @dataProvider globalOverrideProvider
+     *
+     * @param string $uri
+     * @param string $expected
+     * @param string $globalOverride
      */
     public function testGlobalOverrideWithSetter($uri, $expected, $globalOverride)
     {
@@ -74,26 +85,31 @@ class CanonicalTest extends TestCase
     public function overrideProvider()
     {
         return [
-            'absolute url' => ['http://foo.com/bar', null, false, 'http://foo.com/bar'],
-            'absolute url (force ssl does not apply)' => ['http://foo.com/bar', null, true, 'http://foo.com/bar'],
+            'absolute url'                                  => ['http://foo.com/bar', null, false, 'http://foo.com/bar'],
+            'absolute url (force ssl does not apply)'       => ['http://foo.com/bar', null, true, 'http://foo.com/bar'],
             'absolute url (global override does not apply)' => ['http://foo.com/bar', 'baz.com', false, 'http://foo.com/bar'],
 
-            'network url' => ['//foo.com/bar', null, false, '//foo.com/bar'],
-            'network url (force ssl does not apply)' => ['//foo.com/bar', null, true, '//foo.com/bar'],
+            'network url'                                  => ['//foo.com/bar', null, false, '//foo.com/bar'],
+            'network url (force ssl does not apply)'       => ['//foo.com/bar', null, true, '//foo.com/bar'],
             'network url (global override does not apply)' => ['//foo.com/bar', 'baz.com', false, '//foo.com/bar'],
 
-            'absolute path' => ['/bar', null, false, 'http://localhost/base/bar'],
-            'absolute path (force ssl applies)' => ['/bar', null, true, 'https://localhost/base/bar'],
+            'absolute path'                           => ['/bar', null, false, 'http://localhost/base/bar'],
+            'absolute path (force ssl applies)'       => ['/bar', null, true, 'https://localhost/base/bar'],
             'absolute path (global override applies)' => ['/bar', 'baz.com', false, 'http://baz.com/base/bar'],
 
-            'relative path' => ['bar', null, false, 'http://localhost/base/foo/bar'],
-            'relative path (force ssl applies)' => ['bar', null, true, 'https://localhost/base/foo/bar'],
+            'relative path'                           => ['bar', null, false, 'http://localhost/base/foo/bar'],
+            'relative path (force ssl applies)'       => ['bar', null, true, 'https://localhost/base/foo/bar'],
             'relative path (global override applies)' => ['bar', 'baz.com', false, 'http://baz.com/base/foo/bar'],
         ];
     }
 
     /**
      * @dataProvider overrideProvider
+     *
+     * @param string $override
+     * @param string $globalOverride
+     * @param string $forceSsl
+     * @param string $expected
      */
     public function testOverride($override, $globalOverride, $forceSsl, $expected)
     {

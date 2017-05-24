@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Database pre-fill command
+ * Database pre-fill command.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

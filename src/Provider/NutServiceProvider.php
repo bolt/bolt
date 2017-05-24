@@ -74,7 +74,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\RouterMatch(),
                     new CompletionCommand(),
                     $app['nut.command.twig_debug'],
-                    $app['nut.command.twig_lint']
+                    $app['nut.command.twig_lint'],
                 ];
             }
         );

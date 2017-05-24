@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Backend 'manager' tests
+ * Backend 'manager' tests.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

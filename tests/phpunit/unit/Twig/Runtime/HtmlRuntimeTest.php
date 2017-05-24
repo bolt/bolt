@@ -8,7 +8,7 @@ use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Twig\Runtime\HtmlRuntime
+ * Class to test Bolt\Twig\Runtime\HtmlRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

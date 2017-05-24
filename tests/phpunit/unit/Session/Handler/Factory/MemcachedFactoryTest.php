@@ -27,8 +27,8 @@ class MemcachedFactoryTest extends TestCase
                     [
                         'host' => '127.0.0.1',
                         'port' => 11211,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - only host' => [
@@ -38,8 +38,8 @@ class MemcachedFactoryTest extends TestCase
                 [
                     [
                         'host' => '10.0.0.1',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string - host and port' => [
@@ -50,8 +50,8 @@ class MemcachedFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 11212,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection string with scheme' => [
@@ -62,25 +62,25 @@ class MemcachedFactoryTest extends TestCase
                     [
                         'host' => '10.0.0.1',
                         'port' => 11212,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection array' => [
                 [
                     'connection' => [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
+                        'host'   => '10.0.0.1',
+                        'port'   => 11212,
                         'weight' => 3,
                     ],
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
+                        'host'   => '10.0.0.1',
+                        'port'   => 11212,
                         'weight' => 3,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection unix socket string' => [
@@ -91,22 +91,22 @@ class MemcachedFactoryTest extends TestCase
                     [
                         'host' => '/path/to/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connection unix socket array' => [
                 [
                     'connection' => [
                         'path' => '/path/to/memcache.sock',
-                    ]
+                    ],
                 ],
                 [
                     [
                         'host' => '/path/to/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connections strings' => [
@@ -128,37 +128,37 @@ class MemcachedFactoryTest extends TestCase
                     ],
                     [
                         'host' => '10.0.0.3',
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'connections arrays' => [
                 [
                     'connections' => [
                         [
-                            'host' => '10.0.0.1',
-                            'port' => 11212,
+                            'host'   => '10.0.0.1',
+                            'port'   => 11212,
                             'weight' => 3,
                         ],
                         [
-                            'host' => '10.0.0.2',
-                            'port' => 11213,
+                            'host'   => '10.0.0.2',
+                            'port'   => 11213,
                             'weight' => 3,
                         ],
                     ],
                 ],
                 [
                     [
-                        'host' => '10.0.0.1',
-                        'port' => 11212,
+                        'host'   => '10.0.0.1',
+                        'port'   => 11212,
                         'weight' => 3,
                     ],
                     [
-                        'host' => '10.0.0.2',
-                        'port' => 11213,
+                        'host'   => '10.0.0.2',
+                        'port'   => 11213,
                         'weight' => 3,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path host' => [
@@ -167,11 +167,11 @@ class MemcachedFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 11212,
+                        'host'   => 'host1',
+                        'port'   => 11212,
                         'weight' => 2,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path unix path' => [
@@ -182,8 +182,8 @@ class MemcachedFactoryTest extends TestCase
                     [
                         'host' => '/var/run/memcache.sock',
                         'port' => 0,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path unix path with weight' => [
@@ -192,11 +192,11 @@ class MemcachedFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => '/var/run/memcache.sock',
-                        'port' => 0,
+                        'host'   => '/var/run/memcache.sock',
+                        'port'   => 0,
                         'weight' => 2,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'save path multiple' => [
@@ -205,13 +205,13 @@ class MemcachedFactoryTest extends TestCase
                 ],
                 [
                     [
-                        'host' => 'host1',
-                        'port' => 11212,
+                        'host'   => 'host1',
+                        'port'   => 11212,
                         'weight' => 2,
                     ],
                     [
-                        'host' => '/var/run/memcache.sock',
-                        'port' => 0,
+                        'host'   => '/var/run/memcache.sock',
+                        'port'   => 0,
                         'weight' => 4,
                     ],
                     [
@@ -219,8 +219,8 @@ class MemcachedFactoryTest extends TestCase
                     ],
                     [
                         'host' => 'host4',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
@@ -252,8 +252,8 @@ class MemcachedFactoryTest extends TestCase
 
         foreach ($expected as $item) {
             $expectedConnections[] = $item + [
-                'host' => '127.0.0.1',
-                'port' => 11211,
+                'host'   => '127.0.0.1',
+                'port'   => 11211,
                 'weight' => 1,
             ];
         }
@@ -273,75 +273,76 @@ class MemcachedFactoryTest extends TestCase
             'all options from user' => [
                 [
                     'options' => [
-                        'persistent' => true,
-                        'binary_protocol' => true,
-                        'consistent_hash' => true,
-                        'server_failure_limit' => 5,
-                        'remove_failed_servers' => true,
+                        'persistent'             => true,
+                        'binary_protocol'        => true,
+                        'consistent_hash'        => true,
+                        'server_failure_limit'   => 5,
+                        'remove_failed_servers'  => true,
                         'randomize_replica_read' => true,
-                        'number_of_replicas' => 5,
-                        'connect_timeout' => 50,
-                        'username' => 'admin',
-                        'password' => 'password',
-                        'prefix' => 'sessions:',
-                    ]
+                        'number_of_replicas'     => 5,
+                        'connect_timeout'        => 50,
+                        'username'               => 'admin',
+                        'password'               => 'password',
+                        'prefix'                 => 'sessions:',
+                    ],
                 ],
                 [
-                    'persistent' => false,
-                    'binary_protocol' => false,
-                    'consistent_hash' => false,
-                    'server_failure_limit' => 0,
-                    'remove_failed_servers' => false,
+                    'persistent'             => false,
+                    'binary_protocol'        => false,
+                    'consistent_hash'        => false,
+                    'server_failure_limit'   => 0,
+                    'remove_failed_servers'  => false,
                     'randomize_replica_read' => false,
-                    'number_of_replicas' => 0,
-                    'connect_timeout' => 0,
-                    'sasl_username' => 'herp',
-                    'sasl_password' => 'derp',
+                    'number_of_replicas'     => 0,
+                    'connect_timeout'        => 0,
+                    'sasl_username'          => 'herp',
+                    'sasl_password'          => 'derp',
                 ],
                 [
-                    'persistent' => true,
-                    'binary_protocol' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => true,
-                    'remove_failed_servers' => true,
+                    'persistent'             => true,
+                    'binary_protocol'        => true,
+                    'consistent_hash'        => true,
+                    'server_failure_limit'   => true,
+                    'remove_failed_servers'  => true,
                     'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'username' => 'admin',
-                    'password' => 'password',
-                    'prefix' => 'sessions:',
-                ]
+                    'number_of_replicas'     => 5,
+                    'connect_timeout'        => 50,
+                    'username'               => 'admin',
+                    'password'               => 'password',
+                    'prefix'                 => 'sessions:',
+                ],
             ],
 
             'no options from user' => [
                 [],
                 [
-                    'persistent' => true,
-                    'binary_protocol' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => 5,
-                    'remove_failed_servers' => true,
+                    'persistent'             => true,
+                    'binary_protocol'        => true,
+                    'consistent_hash'        => true,
+                    'server_failure_limit'   => 5,
+                    'remove_failed_servers'  => true,
                     'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'sasl_username' => 'admin',
-                    'sasl_password' => 'password',
-                    'prefix' => 'sessions:',
+                    'number_of_replicas'     => 5,
+                    'connect_timeout'        => 50,
+                    'sasl_username'          => 'admin',
+                    'sasl_password'          => 'password',
+                    'prefix'                 => 'sessions:',
                 ],
                 [
-                    'persistent' => true,
-                    'binary_protocol' => true,
-                    'consistent_hash' => true,
-                    'server_failure_limit' => 5,
-                    'remove_failed_servers' => true,
+                    'persistent'             => true,
+                    'binary_protocol'        => true,
+                    'consistent_hash'        => true,
+                    'server_failure_limit'   => 5,
+                    'remove_failed_servers'  => true,
                     'randomize_replica_read' => true,
-                    'number_of_replicas' => 5,
-                    'connect_timeout' => 50,
-                    'username' => 'admin',
-                    'password' => 'password',
-                    'prefix' => 'sessions:',
-                ]
+                    'number_of_replicas'     => 5,
+                    'connect_timeout'        => 50,
+                    'username'               => 'admin',
+                    'password'               => 'password',
+                    'prefix'                 => 'sessions:',
+                ],
             ],
+
         ];
     }
 
@@ -377,7 +378,7 @@ class MemcachedFactoryTest extends TestCase
                 [
                     'save_path' => 'host1:11212:2',
                 ],
-                'memc-session:host1:11212:2'
+                'memc-session:host1:11212:2',
             ],
 
             'persistent_id option' => [
@@ -386,43 +387,43 @@ class MemcachedFactoryTest extends TestCase
                         'persistent_id' => 'foo',
                     ],
                 ],
-                'foo'
+                'foo',
             ],
 
             'automatically - options #1' => [
                 [
                     'connection' => '10.0.0.1',
-                    'options' => [
+                    'options'    => [
                         'username' => 'admin',
                         'password' => 'secret',
                     ],
                 ],
-                '46c7e1ddb20f90417c9afece27e3425de24925d3ef83948a71eee5d0ba1875ff'
+                '46c7e1ddb20f90417c9afece27e3425de24925d3ef83948a71eee5d0ba1875ff',
             ],
 
             'automatically - options #2' => [
                 [
                     'connection' => '10.0.0.1',
-                    'options' => [
+                    'options'    => [
                         'username' => 'admin2',
                         'password' => 'secret2',
                     ],
                 ],
-                'e9d327285e9884438896bbcce238504ac1d0116385ca0d5b7ce3d6f55b59fd35'
+                'e9d327285e9884438896bbcce238504ac1d0116385ca0d5b7ce3d6f55b59fd35',
             ],
 
             'automatically - connection #1' => [
                 [
                     'connection' => '10.0.0.1',
                 ],
-                '7008acbaf8ca22813791d882cfcc3bef3c4ddd98c211feea1ac6c16747f68061'
+                '7008acbaf8ca22813791d882cfcc3bef3c4ddd98c211feea1ac6c16747f68061',
             ],
 
             'automatically - connection #2' => [
                 [
                     'connection' => '10.0.0.2',
                 ],
-                'e387cfa01af95592ca93630442178c027a7b7d879cb1213316b3f801cf9b5d6c'
+                'e387cfa01af95592ca93630442178c027a7b7d879cb1213316b3f801cf9b5d6c',
             ],
         ];
     }
@@ -460,25 +461,25 @@ class MemcachedFactoryTest extends TestCase
         $sessionOptions = new OptionsBag([
             'connections' => [
                 [
-                    'host' => '10.0.0.1',
-                    'port' => 11212,
+                    'host'   => '10.0.0.1',
+                    'port'   => 11212,
                     'weight' => 4,
                 ],
                 '10.0.0.2',
                 '/var/run/memcache.sock',
             ],
             'options' => [
-                'persistent' => true,
-                'persistent_id' => 'foo',
-                'binary_protocol' => false,
-                'consistent_hash' => true,
-                'number_of_replicas' => 5,
+                'persistent'             => true,
+                'persistent_id'          => 'foo',
+                'binary_protocol'        => false,
+                'consistent_hash'        => true,
+                'number_of_replicas'     => 5,
                 'randomize_replica_read' => true,
-                'server_failure_limit' => 2,
-                'remove_failed_servers' => true,
-                'connect_timeout' => 10,
-                'username' => 'admin',
-                'password' => 'secret',
+                'server_failure_limit'   => 2,
+                'remove_failed_servers'  => true,
+                'connect_timeout'        => 10,
+                'username'               => 'admin',
+                'password'               => 'secret',
             ],
         ]);
 
@@ -499,13 +500,13 @@ class MemcachedFactoryTest extends TestCase
         $this->assertEquals($expectedServers, $memcached->getServerList());
 
         $expectedOptions = [
-            Memcached::OPT_BINARY_PROTOCOL => true, // enabled because username/password were given.
-            Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
-            Memcached::OPT_SERVER_FAILURE_LIMIT => 2,
-            Memcached::OPT_NUMBER_OF_REPLICAS => 5,
+            Memcached::OPT_BINARY_PROTOCOL        => true, // enabled because username/password were given.
+            Memcached::OPT_LIBKETAMA_COMPATIBLE   => true,
+            Memcached::OPT_SERVER_FAILURE_LIMIT   => 2,
+            Memcached::OPT_NUMBER_OF_REPLICAS     => 5,
             Memcached::OPT_RANDOMIZE_REPLICA_READ => true,
-            Memcached::OPT_REMOVE_FAILED_SERVERS => true,
-            Memcached::OPT_CONNECT_TIMEOUT => 10,
+            Memcached::OPT_REMOVE_FAILED_SERVERS  => true,
+            Memcached::OPT_CONNECT_TIMEOUT        => 10,
         ];
         $this->assertEquals($expectedOptions, $memcached->getOptions());
 

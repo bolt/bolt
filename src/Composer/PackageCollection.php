@@ -12,7 +12,7 @@ use JsonSerializable;
 final class PackageCollection implements JsonSerializable
 {
     /** @var Package[] */
-    protected $packages = [];
+    private $packages = [];
 
     /**
      * Add a package to the collection.

@@ -29,7 +29,7 @@ class TimedRecord
 
     /** @var array */
     protected $contentTypeNames;
-    /** @var  EntityManagerInterface */
+    /** @var EntityManagerInterface */
     protected $em;
     /** @var CacheProvider */
     protected $cache;
@@ -67,7 +67,7 @@ class TimedRecord
     }
 
     /**
-     * Get the timer for publishing timed records
+     * Get the timer for publishing timed records.
      */
     public function isDuePublish()
     {
@@ -75,7 +75,7 @@ class TimedRecord
     }
 
     /**
-     * Get the timer for publishing timed records
+     * Get the timer for publishing timed records.
      */
     public function isDueHold()
     {

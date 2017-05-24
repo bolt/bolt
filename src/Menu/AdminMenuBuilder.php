@@ -36,7 +36,7 @@ final class AdminMenuBuilder
      *
      * @param MenuEntry $root
      */
-    protected function addConfiguration(MenuEntry $root)
+    private function addConfiguration(MenuEntry $root)
     {
         // Main configuration
         $configEntry = $root->add(
@@ -142,7 +142,7 @@ final class AdminMenuBuilder
      *
      * @param MenuEntry $root
      */
-    protected function addFileManagement(MenuEntry $root)
+    private function addFileManagement(MenuEntry $root)
     {
         $fileEntry = $root->add(
             (new MenuEntry('files', 'files'))
@@ -175,7 +175,7 @@ final class AdminMenuBuilder
      *
      * @param MenuEntry $root
      */
-    protected function addTranslations(MenuEntry $root)
+    private function addTranslations(MenuEntry $root)
     {
         $translationEntry = $root->add(
             (new MenuEntry('translations', 'tr'))
@@ -216,7 +216,7 @@ final class AdminMenuBuilder
      *
      * @param MenuEntry $root
      */
-    protected function addExtend(MenuEntry $root)
+    private function addExtend(MenuEntry $root)
     {
         $root->add(
             (new MenuEntry('extensions', 'extensions'))

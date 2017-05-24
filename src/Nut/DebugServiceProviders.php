@@ -38,9 +38,7 @@ class DebugServiceProviders extends BaseCommand
         $rightAligned = new TableStyle();
         $rightAligned->setPadType(STR_PAD_LEFT);
 
-        $table->setHeaders([
-            ['Provider Class Name', 'Order'],
-        ]);
+        $table->setHeaders([['Provider Class Name', 'Order']]);
         $table->setColumnStyle(1, $rightAligned);
 
         $reflect = new \ReflectionProperty(Application::class, 'providers');

@@ -6,9 +6,8 @@ use Bolt\Pager\PagerManager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * PagerManagerFunctionalTest for class PagerManager
+ * PagerManagerFunctionalTest for class PagerManager.
  *
- * @package Bolt\Tests\Pager
  *
  * @author Rix Beck <rix@neologik.hu>
  */
@@ -58,6 +57,9 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
 
     /**
      * @dataProvider decodeHttpQueryProvider
+     *
+     * @param string $query
+     * @param array  $expected
      */
     public function testDecodeHttpQuery($query, $expected)
     {
@@ -113,6 +115,10 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
 
     /**
      * @dataProvider makelinkProvider
+     *
+     * @param string $linkFor
+     * @param string $query
+     * @param string $expected
      */
     public function testMakelink($linkFor, $query, $expected)
     {
@@ -140,13 +146,18 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
                     'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
                 ],
                 'acategory',
-                ['for' => 'acategory', 'current' => 5 ],
+                ['for' => 'acategory', 'current' => 5],
             ],
         ];
     }
 
     /**
      * @dataProvider getPagerProvider
+     *
+     * @param string $query
+     * @param array  $pagers
+     * @param string $contextId
+     * @param array  $expected
      */
     public function testGetPager($query, $pagers, $contextId, $expected)
     {
@@ -188,6 +199,10 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
 
     /**
      * @dataProvider getCurrentPageProvider
+     *
+     * @param mixed $query
+     * @param mixed $contextId
+     * @param mixed $expected
      */
     public function testGetCurrentPage($query, $contextId, $expected)
     {

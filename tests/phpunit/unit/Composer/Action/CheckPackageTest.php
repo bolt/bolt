@@ -22,8 +22,8 @@ class CheckPackageTest extends ActionUnitTest
     {
         $app = $this->getApp();
         $result = $app['extend.action']['check']->execute();
-        $this->assertTrue(is_array($result['updates']));
-        $this->assertTrue(is_array($result['installs']));
+        $this->assertInternalType('array', $result['updates']);
+        $this->assertInternalType('array', $result['installs']);
     }
 
     public function testNewlyAdded()
@@ -46,6 +46,6 @@ class CheckPackageTest extends ActionUnitTest
 
         $action = $app['extend.action']['check'];
         $result = $action->execute();
-        $this->assertTrue(is_array($result['updates']));
+        $this->assertInternalType('array', $result['updates']);
     }
 }

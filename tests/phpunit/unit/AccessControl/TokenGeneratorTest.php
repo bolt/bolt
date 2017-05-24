@@ -6,7 +6,7 @@ use Bolt\AccessControl\Token\Generator;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Test for AccessControl\Token\Generator
+ * Test for AccessControl\Token\Generator.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

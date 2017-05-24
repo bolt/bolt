@@ -203,7 +203,7 @@ class MemcachedFactory extends AbstractFactory
             $hashParts[] = $key . ':' . $value;
         }
 
-        $hash = hash('sha256', join(',', $hashParts));
+        $hash = hash('sha256', implode(',', $hashParts));
 
         return $hash;
     }

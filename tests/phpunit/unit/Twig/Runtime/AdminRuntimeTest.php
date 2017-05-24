@@ -9,7 +9,7 @@ use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
- * Class to test Bolt\Twig\Runtime\AdminRuntime
+ * Class to test Bolt\Twig\Runtime\AdminRuntime.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

@@ -7,7 +7,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
- * Bolt specific Twig functions and filters that provide user functionality
+ * Bolt specific Twig functions and filters that provide user functionality.
  *
  * @internal
  */
@@ -57,9 +57,9 @@ class UserRuntime
 
         if (isset($user['id'])) {
             return $user['id'];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

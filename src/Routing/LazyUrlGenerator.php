@@ -8,7 +8,7 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * Implements a lazy UrlGenerator.
  * Similar concept with {@see \Silex\LazyUrlMatcher LazyUrlMatcher} and
- * {@see \Symfony\Component\HttpKernel\EventListener\RouterListener RouterListener}
+ * {@see \Symfony\Component\HttpKernel\EventListener\RouterListener RouterListener}.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */

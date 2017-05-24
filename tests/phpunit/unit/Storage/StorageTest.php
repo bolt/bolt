@@ -108,10 +108,10 @@ class StorageTest extends BoltUnitTest
         $presave = 0;
         $postsave = 0;
         $listener = function () use (&$presave) {
-            $presave++;
+            ++$presave;
         };
         $listener2 = function () use (&$postsave) {
-            $postsave++;
+            ++$postsave;
         };
         $app['dispatcher']->addListener(StorageEvents::PRE_SAVE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_SAVE, $listener2);
@@ -162,7 +162,7 @@ class StorageTest extends BoltUnitTest
         // Test the delete events are triggered
         $delete = 0;
         $listener = function () use (&$delete) {
-            $delete++;
+            ++$delete;
         };
         $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);
@@ -268,8 +268,10 @@ class StorageTest extends BoltUnitTest
     /**
      * The legacy getContentType method should be able to find contenttypes by key, slugified key, slug, slugified slug,
      * singular slug, slugified singular slug, singular name and name.
-
+     *
      * @dataProvider contentTypeProvider
+     *
+     * @param array $contentType
      */
     public function testGetContentType($contentType)
     {
@@ -286,7 +288,7 @@ class StorageTest extends BoltUnitTest
     }
 
     /**
-     * Seed some dummy content types for testing the contenttype query methods
+     * Seed some dummy content types for testing the ContentType query methods.
      */
     public function contentTypeProvider()
     {

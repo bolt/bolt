@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * Nut database exporter command
+ * Nut database exporter command.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

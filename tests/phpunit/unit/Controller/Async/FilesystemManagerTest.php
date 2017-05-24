@@ -26,7 +26,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     private $oldFiles = [];
 
     /**
-     * Store the list of files in the files folder so we can delete any added files after we're done testing
+     * Store the list of files in the files folder so we can delete any added files after we're done testing.
      *
      * @before
      */
@@ -36,7 +36,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     }
 
     /**
-     * Remove any files added during the test
+     * Remove any files added during the test.
      *
      * @after
      */
@@ -131,7 +131,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             $fileBase = substr($filename, 0, $extensionPos) . '_copy';
             $fileExtension = substr($filename, $extensionPos);
 
-            for ($i = 1; $i <= 5; $i++) {
+            for ($i = 1; $i <= 5; ++$i) {
                 $destination = $fileBase . $i . $fileExtension;
 
                 // The file shouldn't exist yet
@@ -178,7 +178,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     }
 
     /**
-     * Test renaming both files and folders, since the controller actions have the same signature and output
+     * Test renaming both files and folders, since the controller actions have the same signature and output.
      */
     public function testRename()
     {
@@ -241,7 +241,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $extensions = ['ext1', 'ext2'];
         $count = 5;
 
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; ++$i) {
             foreach ($extensions as $extension) {
                 $this->getService('filesystem')->put(self::FILESYSTEM . '://' . $prefix . $i . '.' . $extension, '');
             }

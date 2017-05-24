@@ -3,7 +3,7 @@
 namespace Bolt\Routing;
 
 /**
- * Handles resolving callbacks from routing.yml that specify a class name
+ * Handles resolving callbacks from routing.yml that specify a class name.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -62,7 +62,7 @@ class CallbackResolver extends \Silex\CallbackResolver
     }
 
     /**
-     * Converts:
+     * Converts:.
      *
      * - Bolt\\Controller\\Frontend::hompeage to controller.frontend:homepage
      * - [Bolt\\Controller\\Frontend, homepage] to controller.frontend:homepage
