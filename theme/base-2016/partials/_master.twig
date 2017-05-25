@@ -10,8 +10,8 @@
            sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
         <title>
             {%- if record.title is defined %}{{ record.title|striptags }} | {% endif -%}
-                {{ app.config.get('general/sitename') -}}
-            {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif -%}
+                {{ config.get('general/sitename') -}}
+            {% if record.title is not defined and config.get('general/payoff') %} | {{ config.get('general/payoff') }}{% endif -%}
         </title>
         <link rel="stylesheet" href="{{ asset('css/foundation.css', 'theme') }}">
         <link rel="stylesheet" href="{{ asset('css/theme.css', 'theme') }}">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>{{ app.config.get('general/sitename') }} | Maintenance</title>
+    <title>{{ config.get('general/sitename') }} | Maintenance</title>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ paths.app }}theme_defaults/maintenance.css">
 
@@ -15,7 +15,7 @@
     <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
     <div class="alert">
-        <h1><b>{{ app.config.get('general/sitename') }}</b> &raquo; Maintenance</h1>
+        <h1><b>{{ config.get('general/sitename') }}</b> &raquo; Maintenance</h1>
         <p>
             This website is currently offline, as we are performing site maintenance. <br>
             Please be patient - we'll be back shortly!
