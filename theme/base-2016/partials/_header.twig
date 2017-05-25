@@ -6,11 +6,11 @@
 
 {% set headerimage = asset('images/' ~ random(theme.headerimage), 'theme') %}
 
-{# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
+{# the values in the 'config' object are taken directly from the file app/config/config.yml #}
 <div class="large-12 columns headertitle">
-<h2>{{ app.config.get('general/sitename') }}</h2>
-    {% if app.config.get('general/payoff') %}
-        <p>{{ app.config.get('general/payoff') }}</p>
+<h2>{{ config.get('general/sitename') }}</h2>
+    {% if config.get('general/payoff') %}
+        <p>{{ config.get('general/payoff') }}</p>
     {% endif %}
 </div>
 <div class="large-12 columns headerphoto" style='background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0.5)), url({{ headerimage }})'>
