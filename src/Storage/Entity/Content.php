@@ -343,7 +343,13 @@ class Content extends Entity
 
         $fieldName = $this->getTitleColumnName($this->contenttype);
 
-        return $this->$fieldName;
+        try {
+            $title = $this->$fieldName;
+        } catch (\Exception $e) {
+            $title = null;
+        }
+
+        return $title;
     }
 
     public function getContenttype()
