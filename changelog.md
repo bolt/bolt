@@ -1,6 +1,29 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 beta 8
+-----------------
+
+Released: 2017-05-27. Notable changes:
+
+ - Added: Add a helpful note on the Changelog page, if it is not enabled. [#6653](https://github.com/bolt/bolt/pull/6653)
+ - Added: Allow lookup of non-ContentType repositories by alias [#6647](https://github.com/bolt/bolt/pull/6647)
+ - Added: Overwritable Output for console commands [#6680](https://github.com/bolt/bolt/pull/6680)
+ - Deprecation: `LogChangeRepository::countChangeLog()`. [#6656](https://github.com/bolt/bolt/pull/6656)
+ - Deprecation: Deprecated `\Bolt\Exception\FilesystemException` [#6674](https://github.com/bolt/bolt/pull/6674)
+ - Deprecation: Deprecated `Swift_MailTransport` [#6666](https://github.com/bolt/bolt/pull/6666)
+ - Deprecation: Import Twig macro template where used [#6652](https://github.com/bolt/bolt/pull/6652)
+ - Deprecation: Remove remaining Twig global use [#6685](https://github.com/bolt/bolt/pull/6685) [#6686](https://github.com/bolt/bolt/pull/6686)
+ - Deprecation: Use `Request::isMethodSafe()` according to standard [#6701](https://github.com/bolt/bolt/pull/6701)
+ - Fixed: Fix PathResolver infinite recursion [#6679](https://github.com/bolt/bolt/pull/6679)
+ - Fixed: Use ternary logic on block to prevent printing blocks [#6662](https://github.com/bolt/bolt/pull/6662)
+ - Remove `createQueryBuilder()` override where not needed [#6650](https://github.com/bolt/bolt/pull/6650)
+ - Style: Pre-release code style pass [#6702](https://github.com/bolt/bolt/pull/6702)
+ - Tests: Codeception Tweaks [#6665](https://github.com/bolt/bolt/pull/6665)
+ - Tests: Cover installed Composer extensions in PackageManagerTest [#6690](https://github.com/bolt/bolt/pull/6690)
+ - Tests: More coverage [#6678](https://github.com/bolt/bolt/pull/6678) [#6675](https://github.com/bolt/bolt/pull/6675)
+ - Tests: Remove `phpmd/phpmd` & `squizlabs/php_codesniffer` from `require-dev` [#6692](https://github.com/bolt/bolt/pull/6692)
+
 Bolt 3.3.0 beta 7
 -----------------
 
