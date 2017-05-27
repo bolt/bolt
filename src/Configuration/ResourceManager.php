@@ -86,7 +86,7 @@ class ResourceManager
             if (in_array($frame['file'], [__DIR__ . '/ForwardToPathResolver.php', __DIR__ . '/ResourceManager.php', __DIR__ . '/Standard.php', __DIR__ . '/Composer.php'])) {
                 continue;
             }
-            if ($frame['file'] === dirname(dirname(__DIR__)) . '/app/bootstrap.php') {
+            if ($frame['file'] === dirname(__DIR__) . '/Bootstrap.php') {
                 break;
             }
             if ($frame['file'] === dirname(__DIR__) . '/Provider/PathServiceProvider.php') {
@@ -94,6 +94,7 @@ class ResourceManager
             }
 
             Deprecated::cls(static::class, 3.3);
+            break;
         }
 
         $this->pathManager = $container['pathmanager'];
