@@ -8,37 +8,11 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  23 unused messages
+#  no unused messages
 #  46 untranslated messages
 # 228 untranslated keyword based messages
 #  46 translations
 # 302 keyword based translations
-
-#--- 23 unused messages -------------------------------------------------------
-
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": #
-"general.phrase.extras": #
-"general.phrase.directory-not-found-writable": "A pasta '%s' não pode ser encontrada, ou não é legível."
-"general.phrase.path": "Caminho"
-"general.phrase.path-colon": "Caminho"
-"general.phrase.permissions": "Permissões"
-"page.ckeditor-browse-server.folders": "Pastas"
-"page.file-management.message.folder-access-denied": "Permissões insuficientes na pasta"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
-"Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
-"general.phrase.access-denied-privilege-edit-record": "Você não possui permissões para alterar este registro."
-"general.phrase.clear-filter": "Limpar filtro"
-"general.phrase.done-bang": "Pronto!"
-"general.phrase.filtering": "Filtrando"
-"general.phrase.no-relations-found-bang": "Não há relações encontradas!"
-"general.phrase.page": "Página"
-"general.phrase.view-related": "Visualizar conteúdo relacionado"
 
 #--- 46 untranslated messages -------------------------------------------------
 
