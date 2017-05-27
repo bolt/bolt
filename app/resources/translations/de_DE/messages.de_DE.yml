@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2017-03-18 10:13:06 UTC
+# app/resources/translations/de_DE/messages.de_DE.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,27 +8,37 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
-#   1 untranslated messages
-#   5 untranslated keyword based messages
-#  90 translations
-# 524 keyword based translations
+#  no unused messages
+#   3 untranslated messages
+#  15 untranslated keyword based messages
+#  89 translations
+# 517 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 3 untranslated messages --------------------------------------------------
 
-"Extend": "Erweitern"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Menüeintrag-Eigenschaft \"add\" ist veraltet. Stattdessen \"#\" unter \"param\" verwenden."
-"general.phrase.error-local-extension-set-up-incomplete": "Installation lokaler Erweiterung(en) ist unvollständig. Bitte „Installiere alle Pakete“ auf der „Erweitern“-Seite ausführen."
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
-#--- 5 untranslated keyword based messages ------------------------------------
+#--- 15 untranslated keyword based messages -----------------------------------
 
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
+"field.repeater.label.add-set": # "Add new %label% set"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
 "general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.folder": # "Folder"
-"page.extend.headline.currently-installed-local": # "Local Extensions Added"
+"general.phrase.login-password-hash-failure": #
+"general.phrase.login-password-legacy": #
+"page.edit-users.error.email-invalid": # "This email address is not valid."
+"page.edit-users.error.password-different-email": # "Password must not match the email address."
+"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.listheader.class": # "Class"
-"page.extend.listheader.name": # "Extension Name"
+"page.extend.listheader.name": # "Name"
 
-#--- 90 translations ----------------------------------------------------------
+#--- 89 translations ----------------------------------------------------------
 
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
@@ -90,7 +100,6 @@
 "Selectentry": "Eintrag auswählen"
 "Selectfield": "Auswahlfeld"
 "Skipped <tt>%key%</tt> (already has records)": "Überspringe <tt>%key%</tt> (bereits Einträge vorhanden)"
-"Skipped <tt>%key%</tt> (not checked)": "Überspringe <tt>%key%</tt> (nicht geprüft)"
 "Slug": "Slug"
 "Tag": "Tag"
 "Tags": "Tags"
@@ -121,7 +130,7 @@
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 524 keyword based translations -------------------------------------------
+#--- 517 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"
@@ -223,7 +232,6 @@ general.bolt-welcome-new-site: "Willkommen auf Ihrer neuen Bolt Webseite, %USER%
 general.phrase.access-denied-logged-out: "Sie wurden ausgeloggt."
 general.phrase.access-denied-permissions-edit-file: "Ihnen fehlt die Berechtigung, um die Datei '%s' zu bearbeiten."
 general.phrase.access-denied-permissions-view-file-directory: "Ihnen fehlt die Berechtigung, um die Datei oder das Verzeichnis '%s' zu betrachten."
-general.phrase.access-denied-privilege-edit-record: "Sie haben nicht die erforderlichen Rechte, um diesen Datensatz zu bearbeiten."
 general.phrase.access-denied-privilege-edit-user: "Sie haben nicht die erforderlichen Rechte, um diesen Benutzer zu bearbeiten."
 general.phrase.access-denied-privilege-view-page: "Ihnen fehlt die Berechtigung, um diese Seite anzuzeigen."
 general.phrase.access-denied-self-action: "Sie können sich nicht selbst '%s'."
@@ -244,7 +252,6 @@ general.phrase.clear-cache: "Cache leeren"
 general.phrase.clear-cache-again: "Cache nochmals leeren"
 general.phrase.clear-cache-complete: "Cache gelöscht."
 general.phrase.clear-change-log: "Änderungsverlauf leeren"
-general.phrase.clear-filter: "Filter aufheben"
 general.phrase.clear-filter-sort: "Sortierung/Filter aufheben"
 general.phrase.clear-system-log: "Systemverlauf leeren"
 general.phrase.close-editor: "Editor schließen"
@@ -275,7 +282,6 @@ general.phrase.depublish-explanation: "Der Eintrag wird zum angegebenen Zeitpunk
 general.phrase.deselect-all: "Alle abwählen"
 general.phrase.details: "Details"
 general.phrase.disable-user-name: "%username% deaktivieren"
-general.phrase.done-bang: "Fertig!"
 general.phrase.draft: "Entwurf"
 general.phrase.duplicate-file-name: "%filename% kopieren"
 general.phrase.duplicate-set: "Kopiere Gruppe"
@@ -302,7 +308,6 @@ general.phrase.file-not-writable: "Keine Schreibrechte für '%s'. Änderungen bi
 general.phrase.file-size: "Dateigröße"
 general.phrase.file-upload-failed: "Die Dateien konnten nicht hochgeladen werden."
 general.phrase.filter: "Filter"
-general.phrase.filtering: "Filtern"
 general.phrase.find: "Suchen"
 general.phrase.floating-point-required-bang: "Muss eine Fließkommazahl sein!"
 general.phrase.folders: "Verzeichnisse"
@@ -346,7 +351,6 @@ general.phrase.no-content-found: "Kein Inhalt gefunden."
 general.phrase.no-files-in-list: "Zur Zeit befinden sich keine Dateien in der Liste."
 general.phrase.no-images-in-list: "Zur Zeit befinden sich keine Bilder in der Liste."
 general.phrase.no-preview: "Keine Vorschau"
-general.phrase.no-relations-found-bang: "Keine Verknüpfungen gefunden!"
 general.phrase.no-result-for-search-term: "Keine Ergebnisse für %SEARCHTERM% gefunden. Bitte einen anderen Suchbegriff probieren."
 general.phrase.no-such-action-for-user: "Aktion für Benutzer '%s' nicht gefunden."
 general.phrase.no-title: "kein Titel …"
@@ -368,7 +372,6 @@ general.phrase.others: "Andere"
 general.phrase.overview: "Übersicht"
 general.phrase.overview-for: "Übersicht für"
 general.phrase.owner-colon: "Besitzer:"
-general.phrase.page: "Seite"
 general.phrase.pager-showing-from-to-of: "Zeige %pager_for% %from% - %to% von %count%"
 general.phrase.path-image-file: "Bildpfad"
 general.phrase.permalink: "Permanenter Link"
@@ -464,7 +467,6 @@ general.phrase.value-new: "Neuer Wert"
 general.phrase.value-old: "Alter Wert"
 general.phrase.view-edit-templates: "Templates anzeigen/bearbeiten"
 general.phrase.view-on-site: "Auf der Site anzeigen"
-general.phrase.view-related: "Verknüpfte Inhalte anzeigen"
 general.phrase.view-roles: "Rollen anzeigen"
 general.phrase.view-site: "Site anzeigen"
 general.phrase.warning: "Warnung"

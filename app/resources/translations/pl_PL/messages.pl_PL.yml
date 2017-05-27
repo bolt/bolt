@@ -1,39 +1,22 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2017-01-02 16:33:25 Europe/Amsterdam
+# app/resources/translations/pl_PL/messages.pl_PL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
-#  27 untranslated messages
-# 146 untranslated keyword based messages
-#  64 translations
-# 381 keyword based translations
+#  no unused messages
+#  29 untranslated messages
+# 158 untranslated keyword based messages
+#  63 translations
+# 374 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
+#--- 29 untranslated messages -------------------------------------------------
 
-"Selection:": "Wybór:"
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.directory-not-found-writable": "Nie można znaleźć katalogu '%s', albo nie posiada praw do odczytu."
-"general.phrase.extras": "Dodatki"
-"general.phrase.path": "Ścieżka"
-"general.phrase.path-colon": "Ścieżka:"
-"general.phrase.permissions": "Uprawnienia"
-"page.ckeditor-browse-server.folders": "Katalogi"
-"page.file-management.message.folder-access-denied": "Niewystarczające uprawnienia do katalogu."
-
-#--- 27 untranslated messages -------------------------------------------------
-
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
@@ -46,12 +29,13 @@
 "Groups": #
 "Link": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Repeater": #
 "Slug": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Tag": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
@@ -62,13 +46,16 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 146 untranslated keyword based messages ----------------------------------
+#--- 158 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.image.label.alt": # "Alt"
 "field.markdown.label.markedview": # "Markdown"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -79,6 +66,9 @@
 "general.bolt-documentation": # "Bolt documentation"
 "general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete-set": # "Delete Set"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
@@ -94,6 +84,8 @@
 "general.phrase.info": # "Info"
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 "general.phrase.live-edit": # "Live Edit"
+"general.phrase.login-password-hash-failure": #
+"general.phrase.login-password-legacy": #
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
 "general.phrase.move-down": # "Move Down"
 "general.phrase.move-up": # "Move Up"
@@ -156,6 +148,7 @@
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -165,7 +158,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -207,12 +202,12 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 64 translations ----------------------------------------------------------
+#--- 63 translations ----------------------------------------------------------
 
 "(default template)": "(domyślny szablon)"
 "(no category)": "(bez kategorii)"
@@ -261,7 +256,6 @@
 "Selectentry": "Wybierz wpis"
 "Selectfield": "Wybierz pole"
 "Skipped <tt>%key%</tt> (already has records)": "Pominięty <tt>%key%</tt> (posiada rekordy)"
-"Skipped <tt>%key%</tt> (not checked)": "Pominięty <tt>%key%</tt> (nie zaznaczony)"
 "Tags": "Tagi"
 "Teaser": "Zajawka"
 "Template": "Szablon"
@@ -279,7 +273,7 @@
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "You've been logged on successfully.": "Zostałeś zalogowany."
 
-#--- 381 keyword based translations -------------------------------------------
+#--- 374 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Akcje dla %contenttypes%"
 contenttypes.generic.actions-one: "Akcje dla tego %contenttype%"
@@ -363,7 +357,6 @@ general.bolt-third-party-libraries: "Poniżej znajdują się biblioteki osób tr
 general.phrase.access-denied-logged-out: "Zostałeś wylogowany."
 general.phrase.access-denied-permissions-edit-file: "Nie posiadasz odpowiednich uprawnień aby edytować plik '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Nie posiadasz odpowiednich uprawnień aby wyświetlać plik lub katalog '%s'."
-general.phrase.access-denied-privilege-edit-record: "Nie posiadasz odpowiednich uprawnień aby edytować ten rekord."
 general.phrase.access-denied-privilege-edit-user: "Nie posiadasz odpowiednich uprawnień aby edytować tego użytkownika."
 general.phrase.access-denied-privilege-view-page: "Nie posiadasz odpowiednich uprawnień aby wyświetlać tą stronę."
 general.phrase.access-denied-self-action: "Nie możesz '%s' siebie."
@@ -381,7 +374,6 @@ general.phrase.choose-record-link-to: "Wproszę wybrać rekord, który chcesz li
 general.phrase.clear-cache: "Wyczyść pamięć podręczną"
 general.phrase.clear-cache-again: "Ponownie wyczyść pamięć podręczną"
 general.phrase.clear-change-log: "Wyczyść dziennik zmian"
-general.phrase.clear-filter: "Wyczyść filtr"
 general.phrase.clear-filter-sort: "Wyczyść sortowanie/filtr"
 general.phrase.clear-system-log: "Wyczyść dziennik systemowy"
 general.phrase.close-editor: "Zamknij edytor"
@@ -410,7 +402,6 @@ general.phrase.depublish-date-past: "Data cofnięcia publikacji jest przeszła. 
 general.phrase.deselect-all: "Odznacz wszystko"
 general.phrase.details: "Szczegóły"
 general.phrase.disable-user-name: "Deaktywuj %username%"
-general.phrase.done-bang: "Gotowe!"
 general.phrase.draft: "Szkic"
 general.phrase.duplicate-file-name: "Zduplikuj %filename%"
 general.phrase.edit: "Edytuj"
@@ -430,7 +421,6 @@ general.phrase.file-not-writable: "Plik '%s' nie posiada praw do zapisu. Będzie
 general.phrase.file-size: "Rozmiar pliku"
 general.phrase.file-upload-failed: "Nie można wysłać pliku."
 general.phrase.filter: "Filtr"
-general.phrase.filtering: "Filtrowanie"
 general.phrase.find: "Znajdź"
 general.phrase.floating-point-required-bang: "Musi być liczbą zmiennoprzecinkową!"
 general.phrase.folders: "Katalogi"
@@ -467,7 +457,6 @@ general.phrase.no-content: "brak treści …"
 general.phrase.no-content-found: "Nie znaleziono treści."
 general.phrase.no-files-in-list: "Jeszcze nie ma żadnych plików."
 general.phrase.no-images-in-list: "Jeszcze nie ma żadnych obrazów."
-general.phrase.no-relations-found-bang: "Nie znaleziono relacji!"
 general.phrase.no-such-action-for-user: "Nie ma takiej akcji dla użytkownika '%s'."
 general.phrase.no-title: "brak tytułu …"
 general.phrase.none: "Żaden"
@@ -482,7 +471,6 @@ general.phrase.order-colon-sort: "Kolejność: %sort%"
 general.phrase.overview: "Przegląd"
 general.phrase.overview-for: "Informacje dla"
 general.phrase.owner-colon: "Właściciel:"
-general.phrase.page: "Strona"
 general.phrase.pager-showing-from-to-of: "Wyświetlanie %pager_for% %from% - %to% z %count%"
 general.phrase.path-image-file: "Ścieżka do pliku obrazu"
 general.phrase.permalink: "Link permanentny"
@@ -560,7 +548,6 @@ general.phrase.value-new: "Nowa wartość"
 general.phrase.value-old: "Stara wartość"
 general.phrase.view-edit-templates: "Przeglądaj/edytuj szablony"
 general.phrase.view-on-site: "Przeglądaj na witrynie"
-general.phrase.view-related: "Przeglądaj powiązaną zawartość"
 general.phrase.view-roles: "Przeglądaj Role"
 general.phrase.view-site: "Zobacz stronę"
 general.phrase.written-by-on: "Napisane przez <em>%name%</em> w dniu %date%"

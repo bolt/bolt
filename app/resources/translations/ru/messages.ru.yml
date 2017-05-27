@@ -1,4 +1,4 @@
-# app/resources/translations/ru/messages.ru.yml – generated on 2017-01-02 16:33:21 Europe/Amsterdam
+# app/resources/translations/ru/messages.ru.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,34 +8,16 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  16 unused messages
-#  11 untranslated messages
-# 166 untranslated keyword based messages
-#  80 translations
-# 361 keyword based translations
+#  no unused messages
+#  14 untranslated messages
+# 178 untranslated keyword based messages
+#  78 translations
+# 354 keyword based translations
 
-#--- 16 unused messages -------------------------------------------------------
-
-"component.changelog-detail.by": #
-"The field %field% has been changed to %newValue%": "Значение поля %field% было изменено на %newValue%"
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"Extend": "Дополнения"
-"general.phrase.directory-not-found-writable": "Папка '%s' не найдена, или недоступна для чтения."
-"general.phrase.extras": "Дополнительно"
-"general.phrase.path": "Путь"
-"general.phrase.path-colon": "Путь:"
-"general.phrase.permissions": "Разрешения"
-"page.ckeditor-browse-server.folders": "Папки"
-"page.file-management.message.folder-access-denied": "Недостаточно прав на чтение папки"
-
-#--- 11 untranslated messages -------------------------------------------------
+#--- 14 untranslated messages -------------------------------------------------
 
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
@@ -44,17 +26,22 @@
 "Generic failure while testing connection to extension server: %errormessage%": #
 "Repeater": #
 "Slug": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Testing connection to extension server failed: %errormessage%": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
-#--- 166 untranslated keyword based messages ----------------------------------
+#--- 178 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.markdown.label.markedview": # "Markdown"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -70,6 +57,9 @@
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
 "general.phrase.by": # "by"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -100,6 +90,8 @@
 "general.phrase.live-edit": # "Live Edit"
 "general.phrase.log-change-trim": # "Trim Change Log"
 "general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.login-password-hash-failure": #
+"general.phrase.login-password-legacy": #
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
 "general.phrase.move-down": # "Move Down"
 "general.phrase.move-up": # "Move Up"
@@ -168,8 +160,11 @@
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -209,15 +204,15 @@
 "page.extend.message.running-update-all": # "Running updates"
 "page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
+"page.extend.options": # "Extension Options"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.extend.options": #
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Create file"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "panel.latest-activity.by": # "by"
 
-#--- 80 translations ----------------------------------------------------------
+#--- 78 translations ----------------------------------------------------------
 
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
@@ -265,14 +260,12 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
 "Link": "Ссылка"
 "Markdown": "Markdown"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Свойство объекта меню \"add\" устарело. Используйте вместо него \"#\" под \"param\"."
 "Multiselect": "Мультивыбор"
 "Select a page": "Выбрать страницу"
 "Select zero or more pages": "Выбрать 0 или больше страниц"
 "Selectentry": "Выбрать запись"
 "Selectfield": "Выбрать поле"
 "Skipped <tt>%key%</tt> (already has records)": "Пропущено <tt>%key%</tt> (уже имеется записи)"
-"Skipped <tt>%key%</tt> (not checked)": "Пропущено <tt>%key%</tt> (не проверено)"
 "Tag": "Тег"
 "Tags": "Теги"
 "Teaser": "Тизер"
@@ -300,7 +293,7 @@
 "You've been logged on successfully.": "Вы успешно вошли."
 "filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
-#--- 361 keyword based translations -------------------------------------------
+#--- 354 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"
@@ -382,7 +375,6 @@ general.bolt-third-party-libraries: "Ниже приведен перечень 
 general.phrase.access-denied-logged-out: "Вы успешно разлогинились."
 general.phrase.access-denied-permissions-edit-file: "У вас недостаточно прав на редактирование файла '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "У вас недостаточно прав на просмотр файла или папки '%s'."
-general.phrase.access-denied-privilege-edit-record: "У вас недостаточно прав на редактирование этой записи."
 general.phrase.access-denied-privilege-view-page: "У вас недостаточно прав на просмотр этой страницы."
 general.phrase.action-plural: "Действия"
 general.phrase.author-colon: "Автор:"
@@ -395,7 +387,6 @@ general.phrase.check-database: "Проверить базу данных"
 general.phrase.choose-record-link-to: "Пожалуйста выберите запись, с которой вы хотите сделать связь:"
 general.phrase.clear-cache: "Очистить кэш"
 general.phrase.clear-cache-again: "Очистить кэш снова"
-general.phrase.clear-filter: "Сбросить фильтр"
 general.phrase.clear-filter-sort: "Сбросить сортировку/фильтр"
 general.phrase.code-colon: "Код:"
 general.phrase.collapse-sidebar: "Свернуть боковую панель"
@@ -419,7 +410,6 @@ general.phrase.depublication-date-colon: "Дата скрытия:"
 general.phrase.deselect-all: "Отменить выбор всех"
 general.phrase.details: "Сведения"
 general.phrase.disable-user-name: "Отключить %username%"
-general.phrase.done-bang: "Готово!"
 general.phrase.draft: "Черновик"
 general.phrase.duplicate-file-name: "Копия %filename%"
 general.phrase.edit: "Редактировать"
@@ -436,7 +426,6 @@ general.phrase.file-not-readable-following-colon: "Следующие файлы
 general.phrase.file-not-writable: "Файл '%s' недоступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
 general.phrase.file-size: "Размер файла"
 general.phrase.filter: "Фильтр"
-general.phrase.filtering: "Фильтрация"
 general.phrase.find: "Найти"
 general.phrase.folders: "Папки"
 general.phrase.general.phrase.uploaded-files: "Загрузить файлы"
@@ -464,7 +453,6 @@ general.phrase.modifications-database-colon: "Изменения выполне�
 general.phrase.modifications-needed-colon: "Изменения необходимы:"
 general.phrase.modified: "Изменено"
 general.phrase.no-content: "нет контента …"
-general.phrase.no-relations-found-bang: "Не найдено связей!"
 general.phrase.no-result-for-search-term: "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
 general.phrase.no-such-action-for-user: "Неверное действие для пользователя '%s'."
 general.phrase.no-title: "нет заголовка …"
@@ -478,7 +466,6 @@ general.phrase.order-colon-sort: "Сортировка: %sort%"
 general.phrase.overview: "Обзор"
 general.phrase.overview-for: "Обзор для"
 general.phrase.owner-colon: "Владелец:"
-general.phrase.page: "Страница"
 general.phrase.pager-showing-from-to-of: "Показ %pager_for% %from% - %to% из %count%"
 general.phrase.path-image-file: "Путь до изображения"
 general.phrase.permalink: "Постоянная ссылка"
@@ -554,7 +541,6 @@ general.phrase.value-new: "Новое значение"
 general.phrase.value-old: "Старое значение"
 general.phrase.view-edit-templates: "Просмотр/редактирование шаблонов"
 general.phrase.view-on-site: "Просмотреть на сайте"
-general.phrase.view-related: "Посмотреть материалы по теме"
 general.phrase.view-site: "Открыть сайт"
 general.phrase.written-by-on: "Написано <em>%name%</em> от %date%"
 

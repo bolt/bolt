@@ -10,7 +10,7 @@
     ],
     "license": "MIT",
     "require": {
-        "bolt/collection": "dev-master@dev",
+        "bolt/collection": "^1.0",
         "bolt/filesystem": "^2.2",
         "bolt/requirements": "^1.0@dev",
         "bolt/thumbs": "^3.1.1",

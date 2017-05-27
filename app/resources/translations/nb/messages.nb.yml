@@ -1,4 +1,4 @@
-# app/resources/translations/nb/messages.nb.yml – generated on 2017-01-02 16:33:14 Europe/Amsterdam
+# app/resources/translations/nb/messages.nb.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,37 +8,17 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  18 unused messages
-#  64 untranslated messages
-# 346 untranslated keyword based messages
-#  27 translations
-# 181 keyword based translations
+#  no unused messages
+#  66 untranslated messages
+# 354 untranslated keyword based messages
+#  26 translations
+# 178 keyword based translations
 
-#--- 18 unused messages -------------------------------------------------------
-
-"component.changelog-detail.field": #
-"component.changelog-detail.value-new": #
-"component.changelog-detail.value-old": #
-"component.changelog-pager.page": #
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.extras": #
-"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
-"general.phrase.path": "Sti"
-"general.phrase.path-colon": "Sti:"
-"general.phrase.permissions": "Rettigheter"
-"page.ckeditor-browse-server.folders": "Mapper"
-
-#--- 64 untranslated messages -------------------------------------------------
+#--- 66 untranslated messages -------------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -77,18 +57,19 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Link": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Multiselect": # "Multi-select"
 "Repeater": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 "Slug": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Teaser": #
 "Template": #
 "Testing connection to extension server failed: %errormessage%": #
 "Textarea": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -102,7 +83,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 346 untranslated keyword based messages ----------------------------------
+#--- 354 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.actions-all": # "Actions for %contenttypes%"
 "contenttypes.generic.actions-one": # "Actions for this %contenttype%"
@@ -139,6 +120,8 @@
 "contenttypes.generic.view": # "View %contenttypes%"
 "contenttypes.generic.wrong-use-field": # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 "contenttypes.record.comment-add-colon": #
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
 "field.general.allowed-filetypes": # "Allowed file types are:"
 "field.general.select-from-server": # "Select from server"
 "field.geolocation.label.address-lookup": # "Address lookup"
@@ -150,6 +133,7 @@
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
 "field.image.label.alt": # "Alt"
 "field.markdown.label.markedview": # "Markdown"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -172,6 +156,9 @@
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
 "general.phrase.change-current-status": # "Click to change current status."
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -199,7 +186,6 @@
 "general.phrase.file-not-exist": # "The file '%s' doesn't exist."
 "general.phrase.file-not-readable": # "The file '%s' is not readable."
 "general.phrase.file-upload-failed": # "Files could not be uploaded."
-"general.phrase.filtering": # "Filtering"
 "general.phrase.find": # "Find"
 "general.phrase.floating-point-required-bang": # "Has to be a floating point number!"
 "general.phrase.folder": # "Folder"
@@ -212,6 +198,8 @@
 "general.phrase.live-edit": # "Live Edit"
 "general.phrase.log-change-trim": # "Trim Change Log"
 "general.phrase.log-system-trim": # "Trim System Log"
+"general.phrase.login-password-hash-failure": #
+"general.phrase.login-password-legacy": #
 "general.phrase.logout": # "Logout"
 "general.phrase.meta": # "Meta"
 "general.phrase.missing-about-page-block": # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
@@ -222,7 +210,6 @@
 "general.phrase.no-files-in-list": # "No files in the list, yet."
 "general.phrase.no-images-in-list": # "No images in the list, yet."
 "general.phrase.no-preview": # "No Preview"
-"general.phrase.no-relations-found-bang": # "No relations found!"
 "general.phrase.no-title": # "no title …"
 "general.phrase.no-undo": # "There is no undo!"
 "general.phrase.not-installed-yet": # "Not yet installed."
@@ -235,7 +222,6 @@
 "general.phrase.order": # "Order"
 "general.phrase.other-content": # "Other content"
 "general.phrase.others": # "Others"
-"general.phrase.page": # "Page"
 "general.phrase.path-image-file": # "Path to image file"
 "general.phrase.profile": # "Profile"
 "general.phrase.publish": # "Publish"
@@ -277,7 +263,6 @@
 "general.phrase.value-minimum-variable": # "The value has to be at least “%MINVAL%”!"
 "general.phrase.value-new": # "New value"
 "general.phrase.value-old": # "Old value"
-"general.phrase.view-related": # "View related content"
 "general.phrase.view-roles": # "View Roles"
 "general.phrase.warning": # "Warning"
 "general.phrase.warning-template": # "This template adds new fields. Save, then refresh to see these changes."
@@ -367,6 +352,7 @@
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -376,7 +362,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -418,12 +406,12 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.extend.options": #
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Create file"
 "page.file-management.label.create-folder": # "Create folder"
 "page.file-management.message.create-file": # "Please enter the new file name"
 "page.file-management.message.create-folder": # "Please enter the new folder name"
@@ -452,7 +440,7 @@
 "panel.latest-activity.unknown": # "unknown"
 "panel.user-actions.button.add": # "Add a new user"
 
-#--- 27 translations ----------------------------------------------------------
+#--- 26 translations ----------------------------------------------------------
 
 "(default template)": "(standard mal)"
 "(no category)": "(ingen kategori)"
@@ -470,7 +458,6 @@
 "Select a page": "Velg en side"
 "Select zero or more pages": "Velg null eller flere sider"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppet over <tt>%key%</tt> (har allerede poster)"
-"Skipped <tt>%key%</tt> (not checked)": "Hoppet over <tt>%key%</tt> (ikke kontrollert)"
 "Tag": "Merkelapp"
 "Tags": "Merkelapper"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikator og slug for '%taxonomytype%' er ikke det samme ('%slug%' vs. '%taxonomytype%'). Endre taxonomy.yml slik at de samsvarer for å hindre inkonsistens mellom databaselager og dine maler."
@@ -482,7 +469,7 @@
 "Title": "Tittel"
 "You've been logged on successfully.": "Du er vellykket logget ut."
 
-#--- 181 keyword based translations -------------------------------------------
+#--- 178 keyword based translations -------------------------------------------
 
 contenttypes.generic.group.relations: "Relasjoner"
 contenttypes.generic.group.taxonomy: "Taksonomi"
@@ -514,7 +501,6 @@ general.bolt-tagline: "Sofistikert, lett og enkelt CMS"
 general.bolt-third-party-libraries: "Nedenfor er tredjepartsbibliotekene som er brukt av Bolt. "
 
 general.phrase.access-denied-logged-out: "Du er logget ut."
-general.phrase.access-denied-privilege-edit-record: "Du har ikke rettigheter til å redigere denne posten."
 general.phrase.access-denied-privilege-view-page: "Du har ikke rettigheter til å se på denne siden."
 general.phrase.action-plural: "Handlinger"
 general.phrase.author-colon: "Forfatter:"
@@ -527,7 +513,6 @@ general.phrase.check-database: "Sjekk database"
 general.phrase.choose-record-link-to: "Velg hvilken post to vil lenke til:"
 general.phrase.clear-cache: "Tøm mellomlageret"
 general.phrase.clear-cache-again: "Tøm mellomlager igjen"
-general.phrase.clear-filter: "Tøm filter"
 general.phrase.clear-filter-sort: "Tøm sortering/filter"
 general.phrase.code-colon: "Kode:"
 general.phrase.configuration: "Oppsett"
@@ -547,7 +532,6 @@ general.phrase.delete-user-name: "Slett %username%"
 general.phrase.depublication-date-colon: "Avpubliseringsdato:"
 general.phrase.deselect-all: "Fravelg alle"
 general.phrase.disable-user-name: "Deaktiver %username%"
-general.phrase.done-bang: "Ferdig!"
 general.phrase.duplicate-file-name: "Dupliser %filename%"
 general.phrase.edit: "Rediger"
 general.phrase.edit-file: "Rediger fil"
