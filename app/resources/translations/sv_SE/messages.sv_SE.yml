@@ -1,39 +1,22 @@
-# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2017-01-02 16:33:04 Europe/Amsterdam
+# app/resources/translations/sv_SE/messages.sv_SE.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
-#  15 untranslated messages
-#  50 untranslated keyword based messages
-#  76 translations
-# 477 keyword based translations
+#  no unused messages
+#  17 untranslated messages
+#  60 untranslated keyword based messages
+#  75 translations
+# 470 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
+#--- 17 untranslated messages -------------------------------------------------
 
-"Selection:": "Val:"
-"field.slug.button.link": "Länka till:"
-"page.extend.button.config": "Konfiguration"
-"page.extend.button.readme": "Readme"
-"page.extend.button.uninstall": "Avinstallera"
-"page.extend.button.versions": "Versioner"
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.directory-not-found-writable": "Mappen '%s' kunde inte hittas eller är inte läsbar."
-"general.phrase.extras": "Tillägg"
-"general.phrase.path": "Sökväg"
-"general.phrase.path-colon": "Sökväg:"
-"general.phrase.permissions": "Rättigheter"
-"page.ckeditor-browse-server.folders": "Mappar"
-"page.file-management.message.folder-access-denied": "Otillräckliga mapprättigheter"
-
-#--- 15 untranslated messages -------------------------------------------------
-
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
@@ -43,21 +26,28 @@
 "Group": #
 "Groups": #
 "Link": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Repeater": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 50 untranslated keyword based messages -----------------------------------
+#--- 60 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.video.height": # "Height"
 "field.video.width": # "Width"
 "general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
@@ -94,6 +84,9 @@
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
 "page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
 "page.extend.message.autoloader-update": # "Updating Composer autoloader"
 "page.extend.message.installation-running": # "Installation running"
@@ -101,10 +94,10 @@
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.running-update-all": # "Running updates"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 76 translations ----------------------------------------------------------
+#--- 75 translations ----------------------------------------------------------
 
 "(default template)": "(standardmall)"
 "(no category)": "(ingen kategori)"
@@ -156,7 +149,6 @@
 "Selectentry": "Välj inlägg"
 "Selectfield": "Välj fält"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppade över <tt>%key%</tt> (har redan innehåll)"
-"Skipped <tt>%key%</tt> (not checked)": "Hoppade över <tt>%key%</tt> (inte vald)"
 "Slug": "Permalänk"
 "Tag": "Tagg"
 "Tags": "Taggar"
@@ -183,7 +175,7 @@
 "You've been logged on successfully.": "Du är nu inloggad."
 "filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 
-#--- 477 keyword based translations -------------------------------------------
+#--- 470 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Åtgärder för %contenttypes%"
 contenttypes.generic.actions-one: "Åtgärder för denna %contenttype%"
@@ -279,7 +271,6 @@ general.bolt-welcome-new-site: "Välkommen till din nya boltsite, %USER%."
 general.phrase.access-denied-logged-out: "Du har blivit utloggad."
 general.phrase.access-denied-permissions-edit-file: "Du har inte rättighet att redigera filen '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Du har inte rättighet att visa filen eller mappen '%s'."
-general.phrase.access-denied-privilege-edit-record: "Du har inte rättighet att redigera det dokumentet."
 general.phrase.access-denied-privilege-edit-user: "Du har inte rättighet att redigera den användaren."
 general.phrase.access-denied-privilege-view-page: "Du har inte rättighet att se den sidan."
 general.phrase.access-denied-self-action: "Du kan inte \"%s\" dig själv."
@@ -297,7 +288,6 @@ general.phrase.choose-record-link-to: "Välj dokumentet du vill länka till:"
 general.phrase.clear-cache: "Rensa cache"
 general.phrase.clear-cache-again: "Rensa cache igen"
 general.phrase.clear-change-log: "Rensa förändringslogg"
-general.phrase.clear-filter: "Rensa filter"
 general.phrase.clear-filter-sort: "Rensa sortering/filter"
 general.phrase.clear-system-log: "Rensa systemloggen"
 general.phrase.close-editor: "Stäng redigerare"
@@ -327,7 +317,6 @@ general.phrase.depublish-date-past: "Avpubliceringsdatumet har passerat. Ändra 
 general.phrase.deselect-all: "Avmarkera alla"
 general.phrase.details: "Information"
 general.phrase.disable-user-name: "Deaktivera %username%"
-general.phrase.done-bang: "klart!"
 general.phrase.draft: "Utkast"
 general.phrase.duplicate-file-name: "Duplicera %filename%"
 general.phrase.duplicate-set: "Duplicera grupp"
@@ -353,7 +342,6 @@ general.phrase.file-not-writable: "Filen '%s' är inte skrivbar. Du måste anvä
 general.phrase.file-size: "Filstorlek"
 general.phrase.file-upload-failed: "Det gick inte att ladda upp filerna."
 general.phrase.filter: "Filter"
-general.phrase.filtering: "Filtrering"
 general.phrase.find: "Hitta"
 general.phrase.floating-point-required-bang: "Måste vara ett decimaltal!"
 general.phrase.folders: "Mappar"
@@ -392,7 +380,6 @@ general.phrase.no-content: "inget innehåll …"
 general.phrase.no-content-found: "Inget innehåll funnet."
 general.phrase.no-files-in-list: "Inga filer i listan ännu."
 general.phrase.no-images-in-list: "Inga bilder i listan ännu."
-general.phrase.no-relations-found-bang: "Inga relationer funna!"
 general.phrase.no-result-for-search-term: "Vi kunde inte hitta något för sökningen '%SEARCHTERM%'. Försök att söka efter något annat."
 general.phrase.no-such-action-for-user: "Det finns ingen sådan åtgärd för användaren '%s'."
 general.phrase.no-title: "ingen titel …"
@@ -413,7 +400,6 @@ general.phrase.others: "Andra"
 general.phrase.overview: "Överblick"
 general.phrase.overview-for: "Överblick för"
 general.phrase.owner-colon: "Ägare:"
-general.phrase.page: "Sida"
 general.phrase.pager-showing-from-to-of: "Visar %pager_for% %from% - %to% av %count%"
 general.phrase.path-image-file: "Sökväg till bildfilen"
 general.phrase.permalink: "Permalänk"
@@ -499,7 +485,6 @@ general.phrase.value-new: "Nytt värde"
 general.phrase.value-old: "Gammalt värde"
 general.phrase.view-edit-templates: "Se/redigera Mallar"
 general.phrase.view-on-site: "Se på sidan"
-general.phrase.view-related: "Se relaterat innehåll"
 general.phrase.view-roles: "Se Roller"
 general.phrase.view-site: "Visa sida"
 general.phrase.warning: "Varning"

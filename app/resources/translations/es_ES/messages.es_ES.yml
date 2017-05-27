@@ -1,4 +1,4 @@
-# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 16:33:01 Europe/Amsterdam
+# app/resources/translations/es_ES/messages.es_ES.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,27 +8,27 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   9 unused messages
-#  no untranslated messages
-#  10 untranslated keyword based messages
-#  91 translations
-# 517 keyword based translations
+#  no unused messages
+#   3 untranslated messages
+#  20 untranslated keyword based messages
+#  89 translations
+# 510 keyword based translations
 
-#--- 9 unused messages --------------------------------------------------------
+#--- 3 untranslated messages --------------------------------------------------
 
-"Extend": "Extender"
-"general.phrase.directory-not-found-writable": "Las carpeta '%s' no se pudo encontrar, o no es legible."
-"general.phrase.error-local-extension-set-up-incomplete": "Configuración de la extensión local incompleta. Por favor ejecute 'Instalar todos los paquetes' en la página de Extensiones."
-"general.phrase.extras": "Extras"
-"general.phrase.path": "Ruta"
-"general.phrase.path-colon": "Ruta"
-"general.phrase.permissions": "Permisos"
-"page.ckeditor-browse-server.folders": "Carpetas"
-"page.file-management.message.folder-access-denied": "Permisos de la carpeta insuficientes"
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
-#--- 10 untranslated keyword based messages -----------------------------------
+#--- 20 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
+"field.repeater.label.add-set": # "Add new %label% set"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.folder": # "Folder"
@@ -38,9 +38,12 @@
 "page.edit-users.error.email-invalid": # "This email address is not valid."
 "page.edit-users.error.password-different-email": # "Password must not match the email address."
 "page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
-"page.extend.options": #
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
+"page.extend.options": # "Extension Options"
 
-#--- 91 translations ----------------------------------------------------------
+#--- 89 translations ----------------------------------------------------------
 
 "(default template)": "(plantilla predeterminada)"
 "(no category)": "(sin categoría)"
@@ -95,7 +98,6 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. Probablemente debería ser un enlace en su lugar"
 "Link": "Enlace"
 "Markdown": "Markdown"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propiedad \"add\" del menú está obsoleta. Utilice \"#\" debajo de \"param\" en su lugar"
 "Multiselect": "Selección múltiple"
 "Repeater": "Repetidor"
 "Select a page": "Selecciona una página"
@@ -103,7 +105,6 @@
 "Selectentry": "Seleccionar entrada"
 "Selectfield": "Seleccionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Omitida <tt>%key%</tt> (ya tiene registros)"
-"Skipped <tt>%key%</tt> (not checked)": "Omitida <tt>%key%</tt> (no verificado)"
 "Slug": "Slug"
 "Tag": "Etiqueta"
 "Tags": "Etiquetas"
@@ -134,7 +135,7 @@
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
-#--- 517 keyword based translations -------------------------------------------
+#--- 510 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Acciones para %contenttypes%"
 contenttypes.generic.actions-one: "Acciones para %contenttype%"
@@ -235,7 +236,6 @@ general.bolt-welcome-new-site: "Bienvenido a tu nueva página web creada con Bol
 general.phrase.access-denied-logged-out: "Ya has cerrado sesión."
 general.phrase.access-denied-permissions-edit-file: "Usted no tiene los privilegios adecuados para editar el archivo '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Usted no tiene los privilegios adecuados para ver el archivo o directrio '%s'."
-general.phrase.access-denied-privilege-edit-record: "No tienes permiso para editar este registro."
 general.phrase.access-denied-privilege-edit-user: "Usted no tiene los privilegios adecuados para editar ese usuario."
 general.phrase.access-denied-privilege-view-page: "No tienes permiso para ver esta página."
 general.phrase.access-denied-self-action: "No puedes '%s' a ti mismo"
@@ -255,7 +255,6 @@ general.phrase.clear-cache: "Limpiar la caché"
 general.phrase.clear-cache-again: "Volver a limpiar la caché"
 general.phrase.clear-cache-complete: "Limpieza de caché completada."
 general.phrase.clear-change-log: "Limpiar Registro de Cambios"
-general.phrase.clear-filter: "Limpiar filtro"
 general.phrase.clear-filter-sort: "Limpiar orden/filtro"
 general.phrase.clear-system-log: "Limpiar Registro del Sistema"
 general.phrase.close-editor: "Cerrar editor"
@@ -285,7 +284,6 @@ general.phrase.depublish-date-past: "La fecha de despublicación está en el pas
 general.phrase.deselect-all: "Deseleccionar todo"
 general.phrase.details: "Detalles"
 general.phrase.disable-user-name: "Deshabilitar a %username%"
-general.phrase.done-bang: "¡Hecho!"
 general.phrase.draft: "Borrador"
 general.phrase.duplicate-file-name: "Duplicar %filename%"
 general.phrase.duplicate-set: "Duplicar Set"
@@ -312,7 +310,6 @@ general.phrase.file-not-writable: "El archivo '%s' no es editable. Necesitas usa
 general.phrase.file-size: "Tamaño del archivo"
 general.phrase.file-upload-failed: "Algunos archivos no pudieron cargarse."
 general.phrase.filter: "Filtro"
-general.phrase.filtering: "Filtrado"
 general.phrase.find: "Buscar"
 general.phrase.floating-point-required-bang: "Tiene que ser un número de coma flotante!"
 general.phrase.folders: "Carpetas"
@@ -356,7 +353,6 @@ general.phrase.no-content-found: "No se ha encontrado el contenido"
 general.phrase.no-files-in-list: "Todavía no hay archivos en la lista"
 general.phrase.no-images-in-list: "Todavía no hay imágenes en la lista"
 general.phrase.no-preview: "Sin vista previa"
-general.phrase.no-relations-found-bang: "¡No se han encontrado relaciones!"
 general.phrase.no-result-for-search-term: "No hay resultados para %SEARCHTERM%. Prueba otra búsqueda. "
 general.phrase.no-such-action-for-user: "No existe esa acción para el usuario '%s'."
 general.phrase.no-title: "sin titulo"
@@ -378,7 +374,6 @@ general.phrase.others: "Otros"
 general.phrase.overview: "Listado"
 general.phrase.overview-for: "Listado de"
 general.phrase.owner-colon: "Propietario"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando %pager_for% %from% - %to% de %count%"
 general.phrase.path-image-file: "Ruta al archivo de imagen"
 general.phrase.permalink: "Enlace permanente"
@@ -473,7 +468,6 @@ general.phrase.value-new: "nuevo valor"
 general.phrase.value-old: "antiguo valor"
 general.phrase.view-edit-templates: "Ver / Editar plantillas"
 general.phrase.view-on-site: "Ver en el sitio"
-general.phrase.view-related: "Ver contenido relacionado"
 general.phrase.view-roles: "Ver Roles"
 general.phrase.view-site: "Ver sitio"
 general.phrase.warning: "Advertencia"
