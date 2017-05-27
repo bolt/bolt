@@ -1,27 +1,18 @@
-# app/resources/translations/hu/messages.hu.yml – generated on 2016-11-06 08:42:31 Europe/Amsterdam
+# app/resources/translations/hu/messages.hu.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #  19 untranslated messages
-#  78 untranslated keyword based messages
+#  79 untranslated keyword based messages
 #  73 translations
 # 452 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"Selection:": "Kiválasztás:"
-"field.slug.button.link": #
-"page.extend.button.config": "Konfiguráció"
-"page.extend.button.readme": "Olvass el"
-"page.extend.button.uninstall": "Eltávolítás"
-"page.extend.button.versions": "Verziók"
 
 #--- 19 untranslated messages -------------------------------------------------
 
@@ -45,7 +36,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 78 untranslated keyword based messages -----------------------------------
+#--- 79 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -61,6 +52,7 @@
 "general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete-set": # "Delete Set"
 "general.phrase.depublish": # "Depublish"
@@ -414,7 +406,6 @@ general.phrase.others: "Egyebek"
 general.phrase.overview: "Áttekintés"
 general.phrase.overview-for: "Áttekintés:"
 general.phrase.owner-colon: "Tulajdonos:"
-general.phrase.page: "Oldal"
 general.phrase.pager-showing-from-to-of: "%from% - %to% %pager_for% mutatása, összesen %count%"
 general.phrase.path: "Útvonal"
 general.phrase.path-colon: "Útvonal"
@@ -639,11 +630,11 @@ page.extend.message.shows-updates: "Ezzel semmit sem telepítesz csak áttekinth
 page.extend.message.start-using-extension: "Most használatba veheted a telepített bővítményeket. A dokumentáció és a beüzemelési instrukciók az alábbi linken érhető el."
 page.extend.message.updated: "Minden naprakész"
 page.extend.message.updating: "A lehetséges frissítések keresése…"
+page.extend.options: "Bővítmény opciók"
 page.extend.pagetitle: "A %BOLTNAME% kibővítése"
 page.extend.theme.generation.failure: "Nem tudjuk előállítani a témát. Olyan mint ha a téma mappa nem lenne írható. Ellenőrizd a jogokat és próbáld újra!"
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
-page.extend.options: "Bővítmény opciók"
 
 page.file-management.label.create-file: "Fájl létrehozása"
 page.file-management.label.create-folder: "Könyvtár létrehozása"

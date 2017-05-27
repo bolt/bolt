@@ -1,26 +1,18 @@
-# app/resources/translations/zh_TW/messages.zh_TW.yml – generated on 2016-11-06 08:42:43 Europe/Amsterdam
+# app/resources/translations/zh_TW/messages.zh_TW.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
+#  no unused messages
 #  43 untranslated messages
-# 179 untranslated keyword based messages
+# 181 untranslated keyword based messages
 #  49 translations
-# 351 keyword based translations
-
-#--- 5 unused messages --------------------------------------------------------
-
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
+# 350 keyword based translations
 
 #--- 43 untranslated messages -------------------------------------------------
 
@@ -68,7 +60,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 179 untranslated keyword based messages ----------------------------------
+#--- 181 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -91,6 +83,7 @@
 "general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -239,10 +232,10 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
-"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
@@ -303,7 +296,7 @@
 "View (saved version) on site": "觀看站點中(儲存的版本)"
 "You've been logged on successfully.": "你已成功登入。"
 
-#--- 351 keyword based translations -------------------------------------------
+#--- 350 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "對%contenttypes%的操作"
 contenttypes.generic.actions-one: "對%contenttype%的操作"
@@ -484,7 +477,6 @@ general.phrase.order-colon-sort: "排序：%sort%"
 general.phrase.overview: "概覽"
 general.phrase.overview-for: "概覽"
 general.phrase.owner-colon: "所有者："
-general.phrase.page: "頁面"
 general.phrase.pager-showing-from-to-of: "顯示 %count% 條記錄中的 %from% 到 %to% 條%pager_for%記錄"
 general.phrase.path: "路徑"
 general.phrase.path-colon: "路徑:"

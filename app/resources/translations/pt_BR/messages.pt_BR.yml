@@ -1,26 +1,18 @@
-# app/resources/translations/pt_BR/messages.pt_BR.yml – generated on 2016-11-06 08:42:45 Europe/Amsterdam
+# app/resources/translations/pt_BR/messages.pt_BR.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
+#  no unused messages
 #  45 untranslated messages
-# 215 untranslated keyword based messages
+# 217 untranslated keyword based messages
 #  47 translations
-# 315 keyword based translations
-
-#--- 5 unused messages --------------------------------------------------------
-
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
+# 314 keyword based translations
 
 #--- 45 untranslated messages -------------------------------------------------
 
@@ -70,7 +62,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 215 untranslated keyword based messages ----------------------------------
+#--- 217 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.group.template": # "Template"
@@ -95,6 +87,7 @@
 "general.phrase.access-denied-privilege-edit-user": # "You do not have the right privileges to edit that user."
 "general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
 "general.phrase.author": # "Author"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -275,11 +268,11 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.save-failed-invalid-form": # "File '%s' could not be saved, because the form wasn't valid."
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
@@ -339,7 +332,7 @@
 "View (saved version) on site": "Visualizar (versão salva) no site"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 
-#--- 315 keyword based translations -------------------------------------------
+#--- 314 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -517,7 +510,6 @@ general.phrase.order-colon-sort: "Ordenar: %sort%"
 general.phrase.overview: "Visualizar"
 general.phrase.overview-for: "Visualização para"
 general.phrase.owner-colon: "Criador"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando página %pager_for% %from% - %to% de %count%"
 general.phrase.path: "Caminho"
 general.phrase.path-colon: "Caminho"

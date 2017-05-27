@@ -1,27 +1,18 @@
-# app/resources/translations/sv_SE/messages.sv_SE.yml – generated on 2016-11-06 08:42:32 Europe/Amsterdam
+# app/resources/translations/sv_SE/messages.sv_SE.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #  16 untranslated messages
-#  46 untranslated keyword based messages
+#  48 untranslated keyword based messages
 #  76 translations
-# 484 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"Selection:": "Val:"
-"field.slug.button.link": "Länka till:"
-"page.extend.button.config": "Konfiguration"
-"page.extend.button.readme": "Readme"
-"page.extend.button.uninstall": "Avinstallera"
-"page.extend.button.versions": "Versioner"
+# 483 keyword based translations
 
 #--- 16 untranslated messages -------------------------------------------------
 
@@ -42,7 +33,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 46 untranslated keyword based messages -----------------------------------
+#--- 48 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
@@ -50,6 +41,7 @@
 "field.video.width": # "Width"
 "general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
@@ -89,7 +81,7 @@
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.package-install-info-fail": # "Unable to get installation information for %PACKAGE% %VERSION%."
 "page.extend.message.running-update-all": # "Running updates"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 76 translations ----------------------------------------------------------
@@ -171,7 +163,7 @@
 "You've been logged on successfully.": "Du är nu inloggad."
 "filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 
-#--- 484 keyword based translations -------------------------------------------
+#--- 483 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Åtgärder för %contenttypes%"
 contenttypes.generic.actions-one: "Åtgärder för denna %contenttype%"
@@ -403,7 +395,6 @@ general.phrase.others: "Andra"
 general.phrase.overview: "Överblick"
 general.phrase.overview-for: "Överblick för"
 general.phrase.owner-colon: "Ägare:"
-general.phrase.page: "Sida"
 general.phrase.pager-showing-from-to-of: "Visar %pager_for% %from% - %to% av %count%"
 general.phrase.path: "Sökväg"
 general.phrase.path-colon: "Sökväg:"

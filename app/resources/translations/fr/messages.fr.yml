@@ -1,37 +1,18 @@
-# app/resources/translations/fr/messages.fr.yml – generated on 2016-11-06 08:42:38 Europe/Amsterdam
+# app/resources/translations/fr/messages.fr.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  16 unused messages
+#  no unused messages
 #   4 untranslated messages
-#   4 untranslated keyword based messages
+#   6 untranslated keyword based messages
 #  88 translations
-# 526 keyword based translations
-
-#--- 16 unused messages -------------------------------------------------------
-
-"Alas, no about!": "Hélas, aucun à propos !"
-"Chapter": "Chapitre"
-"Chapters": "Chapitres"
-"Edit": "Editer"
-"No content found.": "Aucun contenu trouvé."
-"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat trouvé pour '%SEARCHTERM%'. Veuillez essayer une nouvelle recherche."
-"Overview for": "Vue d'ensemble pour"
-"Permalink": "Lien permanent"
-"Read more": "En lire plus"
-"Related content": "Contenu lié"
-"Search": "Recherche"
-"Search results for <b>%search%</b>.": "Chercher des resultats pour <b>%search%</b>."
-"Search …": "Rechercher…"
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a actuellement aucun bloc avec le slug 'about-us'. Si vous créez un, il sera affiché ici. Aller dans 'Configuration' > 'Vérifier la base de données' et sélectionnez 'Ajouter des exemples' pour générer automatiquement ce bloc."
-"Written by <em>%name%</em> on %date%": "Ecrit par <em>%name%</em> le %date%"
-"field.slug.button.link": "Lier à :"
+# 525 keyword based translations
 
 #--- 4 untranslated messages --------------------------------------------------
 
@@ -40,13 +21,14 @@
 "Group": #
 "Groups": #
 
-#--- 4 untranslated keyword based messages ------------------------------------
+#--- 6 untranslated keyword based messages ------------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 
 #--- 88 translations ----------------------------------------------------------
 
@@ -139,7 +121,7 @@
 "You've been logged on successfully.": "Connexion réussie."
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
-#--- 526 keyword based translations -------------------------------------------
+#--- 525 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions pour les %contenttypes%"
 contenttypes.generic.actions-one: "Actions pour ce(tte) %contenttype%"
@@ -386,7 +368,6 @@ general.phrase.others: "Autres"
 general.phrase.overview: "Vue d'ensemble"
 general.phrase.overview-for: "Aperçu pour"
 general.phrase.owner-colon: "Propriétaire :"
-general.phrase.page: "Page"
 general.phrase.pager-showing-from-to-of: "Affichage des %pager_for% %from% à %to% sur %count%"
 general.phrase.path: "Chemin"
 general.phrase.path-colon: "Chemin :"

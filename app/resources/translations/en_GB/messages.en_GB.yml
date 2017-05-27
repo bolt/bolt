@@ -1,36 +1,18 @@
-# app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-11-06 08:42:39 Europe/Amsterdam
+# app/resources/translations/en_GB/messages.en_GB.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
+#  no unused messages
 #   4 untranslated messages
 #  no untranslated keyword based messages
 #  88 translations
-# 530 keyword based translations
-
-#--- 15 unused messages -------------------------------------------------------
-
-"Alas, no about!": "Alas, no about!"
-"Chapter": "Chapter"
-"Chapters": "Chapters"
-"Edit": "Edit"
-"No content found.": "No content found."
-"No results found for '%SEARCHTERM%'. Please try another search.": "No results found for '%SEARCHTERM%'. Please try another search."
-"Overview for": "Overview for"
-"Permalink": "Permalink"
-"Read more": "Read more"
-"Related content": "Related content"
-"Search": "Search"
-"Search results for <b>%search%</b>.": "Search results for <b>%search%</b>."
-"Search …": "Search …"
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Database' and select 'Add sample Records' to automatically generate this Block.\""
-"Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
+# 531 keyword based translations
 
 #--- 4 untranslated messages --------------------------------------------------
 
@@ -130,7 +112,7 @@
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 530 keyword based translations -------------------------------------------
+#--- 531 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -248,6 +230,7 @@ general.phrase.change-log: "Change Log"
 general.phrase.check-again: "Check again"
 general.phrase.check-database: "Check database"
 general.phrase.choose-record-link-to: "Please choose the record you want to link to:"
+general.phrase.clashing-relation: "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache: "Clear the cache"
 general.phrase.clear-cache-again: "Clear cache again"
 general.phrase.clear-cache-complete: "Cleared cache."
@@ -324,7 +307,6 @@ general.phrase.hints-colon: "Hints:"
 general.phrase.id: "Id"
 general.phrase.info: "Info"
 general.phrase.invalid-taxonomy-slug: "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
-general.phrase.clashing-relation: "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.ip.address: "IP address"
 general.phrase.keyword-ellipsis: "Keyword …"
 general.phrase.last-edited-on-colon: "Last edited on:"
@@ -380,7 +362,6 @@ general.phrase.others: "Others"
 general.phrase.overview: "Overview"
 general.phrase.overview-for: "Overview for"
 general.phrase.owner-colon: "Owner:"
-general.phrase.page: "Page"
 general.phrase.pager-showing-from-to-of: "Showing %pager_for% %from% - %to% of %count%"
 general.phrase.path: "Path"
 general.phrase.path-colon: "Path:"
@@ -646,11 +627,11 @@ page.extend.message.shows-updates: "This won't install anything, just show you a
 page.extend.message.start-using-extension: "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 page.extend.message.updated: "Everything is up to date!"
 page.extend.message.updating: "Searching for available updates …"
+page.extend.options: "Extension Options"
 page.extend.pagetitle: "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 page.extend.theme.generation.missing.name: "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: "Theme successfully generated. You can now edit it directly from your theme folder."
-page.extend.options: "Extension Options"
 
 page.file-management.label.create-file: "Create File"
 page.file-management.label.create-folder: "Create folder"
