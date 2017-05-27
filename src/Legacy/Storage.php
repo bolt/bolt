@@ -697,6 +697,9 @@ class Storage
      */
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null, $implode = false)
     {
+        // Add status to fields
+        $fields['status'] = ['type' => 'status'];
+
         // This could be even more configurable
         // (see also Content->getFieldWeights)
         $searchableTypes = ['text', 'textarea', 'html', 'markdown'];
@@ -748,7 +751,11 @@ class Storage
 
         // Build actual where
         $where = [];
-        $where[] = sprintf("%s.status = 'published'", $table);
+
+        if (empty($filter['status'])) {
+            $where[] = sprintf("%s.status = 'published'", $table);
+        }
+
         $where[] = '(( ' . implode(' OR ', $fieldsWhere) . ' ) ' . $tagsQuery . ' )';
         $where = array_merge($where, $filterWhere);
 
