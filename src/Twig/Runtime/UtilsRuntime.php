@@ -37,18 +37,6 @@ class UtilsRuntime
     }
 
     /**
-     * Check if a file exists.
-     *
-     * @param string $filename
-     *
-     * @return boolean
-     */
-    public function fileExists($filename)
-    {
-        return file_exists($filename);
-    }
-
-    /**
      * Send debug data to the developers FirePHP instance in-browser.
      *
      * @param mixed $var The data to be dumped into FirePHP

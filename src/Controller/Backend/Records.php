@@ -189,10 +189,6 @@ class Records extends BackendBase
         }
 
         if (strpos($referrer, '/overview/') !== false || ($referrer === $this->generateUrl('dashboard') . '/')) {
-            if ($this->getOption('general/compatibility/twig_globals', true)) {
-                $this->app['twig']->addGlobal('editreferrer', $referrer);
-            }
-
             return $referrer;
         }
 

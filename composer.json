@@ -54,7 +54,7 @@
         "symfony/web-profiler-bundle": "^3.0",
         "symfony/yaml": "^3.0",
         "tdammers/htmlmaid": "~0.7",
-        "twig/twig": "^1.28",
+        "twig/twig": "^2.0",
         "ua-parser/uap-php": "^3.4"
     },
     "require-dev": {

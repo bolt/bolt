@@ -26,7 +26,6 @@ class BoltExtensionTest extends BoltUnitTest
         $this->assertGreaterThan(0, $twig->getFunctions());
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
-        $this->assertEquals('Bolt', $twig->getName());
     }
 
     public function testGetGlobals()
@@ -41,8 +40,6 @@ class BoltExtensionTest extends BoltUnitTest
         (new ConfigListener($app))->onRequest($event);
 
         $response = $app['twig']->getGlobals();
-        $this->assertArrayHasKey('bolt_name', $response);
-        $this->assertArrayHasKey('bolt_version', $response);
         $this->assertArrayHasKey('frontend', $response);
         $this->assertArrayHasKey('backend', $response);
         $this->assertArrayHasKey('async', $response);

@@ -4,7 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFunction as TwigFunction;
+use Twig_Function as TwigFunction;
 
 /**
  * Widget functionality Twig extension.
@@ -31,13 +31,5 @@ class WidgetExtension extends Extension
             new TwigFunction('widgets',      [Runtime\WidgetRuntime::class, 'widgets'], $safe + $env),
             // @codingStandardsIgnoreEnd
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return [];
     }
 }

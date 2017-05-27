@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-md-9">
-            <h2>Bolt {{ bolt_version }}</h2>
+            <h2>Bolt {{ constant('Bolt\\Version::VERSION') }}</h2>
 
             {{ app.translator.trans('about.bolt', {}, 'infos')|raw }}
 

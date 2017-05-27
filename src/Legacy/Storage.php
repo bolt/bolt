@@ -1671,9 +1671,7 @@ class Storage
                 ->setCurrent($decoded['parameters']['page'])
                 ->setShowingFrom(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1)
                 ->setShowingTo(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results));
-            if ($this->app['config']->get('general/compatibility/twig_globals', true)) {
-                $this->app['twig']->addGlobal('pager', $pager);
-            }
+            // NOTE: The pager global addition has been removed from here
         }
 
         $this->app['stopwatch']->stop('bolt.getcontent');

@@ -4,7 +4,7 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFunction as TwigFunction;
+use Twig_Function as TwigFunction;
 
 /**
  * User functionality Twig extension.
@@ -20,30 +20,12 @@ class UserExtension extends Extension
      */
     public function getFunctions()
     {
-        $deprecated = ['deprecated' => true];
-
         return [
             // @codingStandardsIgnoreStart
-                new TwigFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
-                new TwigFunction('getuserid', [Runtime\UserRuntime::class, 'getUserId']),
-                new TwigFunction('isallowed', [Runtime\UserRuntime::class, 'isAllowed']),
+            new TwigFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
+            new TwigFunction('getuserid', [Runtime\UserRuntime::class, 'getUserId']),
+            new TwigFunction('isallowed', [Runtime\UserRuntime::class, 'isAllowed']),
             // @codingStandardsIgnoreEnd
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTests()
-    {
-        return [];
     }
 }

@@ -4,8 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
 use Twig_Extension as Extension;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleTest as TwigTest;
+use Twig_Filter as TwigFilter;
+use Twig_Test as TwigTest;
 
 /**
  * Text functionality Twig extension.
@@ -19,23 +19,13 @@ class TextExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
             new TwigFilter('json_decode',    [Runtime\TextRuntime::class, 'jsonDecode']),
-            new TwigFilter('localdate',      [Runtime\TextRuntime::class, 'localeDateTime'], $safe + $deprecated + ['alternative' => 'localedatetime']),
             new TwigFilter('localedatetime', [Runtime\TextRuntime::class, 'localeDateTime'], $safe),
             new TwigFilter('preg_replace',   [Runtime\TextRuntime::class, 'pregReplace']),
             new TwigFilter('safestring',     [Runtime\TextRuntime::class, 'safeString'], $safe),

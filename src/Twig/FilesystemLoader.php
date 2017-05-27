@@ -150,8 +150,6 @@ class FilesystemLoader extends TwigFilesystemLoader
      */
     protected function findTemplate($name, $throw = true)
     {
-        $name = $this->normalizeName($name);
-
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
@@ -163,8 +161,6 @@ class FilesystemLoader extends TwigFilesystemLoader
 
             throw new LoaderError($this->errorCache[$name]);
         }
-
-        $this->validateName($name);
 
         list($namespace, $shortName) = $this->parseName($name);
 
@@ -204,5 +200,24 @@ class FilesystemLoader extends TwigFilesystemLoader
         }
 
         throw new LoaderError($this->errorCache[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function parseName($name, $default = self::MAIN_NAMESPACE)
+    {
+        if (isset($name[0]) && '@' == $name[0]) {
+            if (false === $pos = strpos($name, '/')) {
+                throw new LoaderError(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
+            }
+
+            $namespace = substr($name, 1, $pos - 1);
+            $shortname = substr($name, $pos + 1);
+
+            return array($namespace, $shortname);
+        }
+
+        return array($default, $name);
     }
 }

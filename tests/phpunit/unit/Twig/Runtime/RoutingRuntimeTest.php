@@ -78,45 +78,6 @@ class RoutingRuntimeTest extends BoltUnitTest
         $this->assertEquals($isMobile, $result, sprintf('User Agent should %shave been identified as a mobile client', !$isMobile ? 'not ' : ''));
     }
 
-    public function testRequestGet()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->query->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getRuntime();
-
-        $result = $handler->request('koala', 'GET', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
-    public function testRequestPost()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->request->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getRuntime();
-
-        $result = $handler->request('koala', 'POST', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
-    public function testRequestPatch()
-    {
-        $app = $this->getApp();
-        $request = Request::createFromGlobals();
-        $request->attributes->set('koala', 'gum leaves');
-        $app['request'] = $request;
-        $app['request_stack']->push($request);
-        $handler = $this->getRuntime();
-
-        $result = $handler->request('koala', 'PATCH', true);
-        $this->assertSame('gum leaves', $result);
-    }
-
     protected function getRuntime()
     {
         $app = $this->getApp();

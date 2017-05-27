@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Twig_Template as Template;
 
 /**
  * Base class for all controllers which mainly provides shortcut methods for
@@ -71,22 +72,14 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param string|string[] $template Template name(s)
      * @param array           $context  Context variables
-     * @param array           $globals  Global variables
      *
      * @return TemplateResponse|TemplateView
      */
-    protected function render($template, array $context = [], array $globals = [])
+    protected function render($template, array $context = [])
     {
         $twig = $this->app['twig'];
-
+        /** @var Template $template */
         $template = $twig->resolveTemplate($template);
-
-        if ($this->getOption('general/compatibility/twig_globals', true)) {
-            foreach ($globals as $name => $value) {
-                $twig->addGlobal($name, $value);
-            }
-        }
-        $context += $globals;
 
         if ($this->getOption('general/compatibility/template_view', false)) {
             return new TemplateView($template->getTemplateName(), $context);
