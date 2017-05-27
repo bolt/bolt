@@ -6,6 +6,7 @@ Bolt 3.3.0 beta 8
 
 Released: 2017-05-27. Notable changes:
 
+ - Added: Set [`bolt/collection` Object Orientated implementations of arrays](https://github.com/bolt/collection) to a stable constraint [#6710](https://github.com/bolt/bolt/pull/6710)
  - Added: Add a helpful note on the Changelog page, if it is not enabled. [#6653](https://github.com/bolt/bolt/pull/6653)
  - Added: Allow lookup of non-ContentType repositories by alias [#6647](https://github.com/bolt/bolt/pull/6647)
  - Added: Overwritable Output for console commands [#6680](https://github.com/bolt/bolt/pull/6680)
