@@ -2,13 +2,11 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\Extension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\RuntimeLoader;
-use Bolt\Twig\SafeEnvironment;
 use Bolt\Twig\SecurityPolicy;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -312,14 +310,6 @@ class TwigServiceProvider implements ServiceProviderInterface
 
             return $options;
         };
-
-        $app['safe_twig'] = $app->share(
-            function ($app) {
-                Deprecated::service('safe_twig', 3.3, 'Use "twig" service with sandbox enabled instead.');
-
-                return new SafeEnvironment($app['twig'], $app['twig.extension.sandbox']);
-            }
-        );
     }
 
     /**

@@ -82,6 +82,7 @@ Bolt 4.0-dev
   - Removed: Twig filters
     - `fancybox` (use `popup`)
     - `localdate` (use `localedatetime`)
+    - `trimtext` (use `excerpt`)
   - Removed: `$app['safe_twig']` (use `$app['twig']` with sandbox enabled)
 - Updated: Symfony Components to v3. [#6079](https://github.com/bolt/bolt/pull/6079)
 
