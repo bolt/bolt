@@ -1,4 +1,4 @@
-# app/resources/translations/nb/messages.nb.yml – generated on 2017-01-02 08:18:49 Europe/Amsterdam
+# app/resources/translations/nb/messages.nb.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,34 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  18 unused messages
-#  64 untranslated messages
-# 343 untranslated keyword based messages
+#  no unused messages
+#  63 untranslated messages
+# 349 untranslated keyword based messages
 #  27 translations
 # 181 keyword based translations
 
-#--- 18 unused messages -------------------------------------------------------
-
-"component.changelog-detail.field": #
-"component.changelog-detail.value-new": #
-"component.changelog-detail.value-old": #
-"component.changelog-pager.page": #
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.directory-not-found-writable": # "The folder '%s' could not be found, or is not readable."
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.extras": #
-"page.file-management.message.folder-access-denied": # "Folder permissions insufficient"
-"general.phrase.path": "Sti"
-"general.phrase.path-colon": "Sti:"
-"general.phrase.permissions": "Rettigheter"
-"page.ckeditor-browse-server.folders": "Mapper"
-
-#--- 64 untranslated messages -------------------------------------------------
+#--- 63 untranslated messages -------------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -77,7 +56,6 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Link": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Multiselect": # "Multi-select"
 "Repeater": #
 "Selectentry": # "Select entry"
@@ -102,7 +80,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 343 untranslated keyword based messages ----------------------------------
+#--- 349 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.actions-all": # "Actions for %contenttypes%"
 "contenttypes.generic.actions-one": # "Actions for this %contenttype%"
@@ -172,6 +150,9 @@
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
 "general.phrase.change-current-status": # "Click to change current status."
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -235,7 +216,6 @@
 "general.phrase.order": # "Order"
 "general.phrase.other-content": # "Other content"
 "general.phrase.others": # "Others"
-"general.phrase.page": # "Page"
 "general.phrase.path-image-file": # "Path to image file"
 "general.phrase.profile": # "Profile"
 "general.phrase.publish": # "Publish"
@@ -364,6 +344,7 @@
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -373,7 +354,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -415,12 +398,12 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.extend.options": #
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Create file"
 "page.file-management.label.create-folder": # "Create folder"
 "page.file-management.message.create-file": # "Please enter the new file name"
 "page.file-management.message.create-folder": # "Please enter the new folder name"

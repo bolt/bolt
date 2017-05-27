@@ -1,38 +1,20 @@
-# app/resources/translations/hu/messages.hu.yml – generated on 2017-01-02 08:18:37 Europe/Amsterdam
+# app/resources/translations/hu/messages.hu.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
-#  18 untranslated messages
-#  79 untranslated keyword based messages
+#  no unused messages
+#  17 untranslated messages
+#  85 untranslated keyword based messages
 #  73 translations
 # 445 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
-
-"Selection:": "Kiválasztás:"
-"field.slug.button.link": #
-"page.extend.button.config": "Konfiguráció"
-"page.extend.button.readme": "Olvass el"
-"page.extend.button.uninstall": "Eltávolítás"
-"page.extend.button.versions": "Verziók"
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.directory-not-found-writable": "A '%s' mappa nem található vagy nem olvasható."
-"general.phrase.extras": "Extrák"
-"general.phrase.path": "Útvonal"
-"general.phrase.path-colon": "Útvonal"
-"general.phrase.permissions": "Engedélyek"
-"page.ckeditor-browse-server.folders": "Könyvtárak"
-"page.file-management.message.folder-access-denied": "A könyvtár-engedélyek elégtelenek"
-
-#--- 18 untranslated messages -------------------------------------------------
+#--- 17 untranslated messages -------------------------------------------------
 
 "Body": #
 "Dependencies": #
@@ -45,7 +27,6 @@
 "Groups": #
 "Html": #
 "Link": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Repeater": #
 "Slug": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
@@ -53,7 +34,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 79 untranslated keyword based messages -----------------------------------
+#--- 85 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -69,6 +50,9 @@
 "general.bolt-configuration-issues-detected": # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 "general.phrase.access-denied-self-action": # "You cannot '%s' yourself."
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete-set": # "Delete Set"
 "general.phrase.depublish": # "Depublish"
@@ -118,6 +102,9 @@
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
 "page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
 "page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
 "page.extend.message.autoloader-update": # "Updating Composer autoloader"
@@ -421,7 +408,6 @@ general.phrase.others: "Egyebek"
 general.phrase.overview: "Áttekintés"
 general.phrase.overview-for: "Áttekintés:"
 general.phrase.owner-colon: "Tulajdonos:"
-general.phrase.page: "Oldal"
 general.phrase.pager-showing-from-to-of: "%from% - %to% %pager_for% mutatása, összesen %count%"
 general.phrase.path-image-file: "Képfájl útvonala"
 general.phrase.permalink: "Permalink"
@@ -642,11 +628,11 @@ page.extend.message.shows-updates: "Ezzel semmit sem telepítesz csak áttekinth
 page.extend.message.start-using-extension: "Most használatba veheted a telepített bővítményeket. A dokumentáció és a beüzemelési instrukciók az alábbi linken érhető el."
 page.extend.message.updated: "Minden naprakész"
 page.extend.message.updating: "A lehetséges frissítések keresése…"
+page.extend.options: "Bővítmény opciók"
 page.extend.pagetitle: "A %BOLTNAME% kibővítése"
 page.extend.theme.generation.failure: "Nem tudjuk előállítani a témát. Olyan mint ha a téma mappa nem lenne írható. Ellenőrizd a jogokat és próbáld újra!"
 page.extend.theme.generation.missing.name: "Nincs a témának neve. Így a téma nem állítható elő."
 page.extend.theme.generation.success: "A téma rendben elkészült. Mostantól közvetlenül szerkesztheted a téma mappában."
-page.extend.options: "Bővítmény opciók"
 
 page.file-management.label.create-file: "Fájl létrehozása"
 page.file-management.label.create-folder: "Könyvtár létrehozása"

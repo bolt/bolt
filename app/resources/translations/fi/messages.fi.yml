@@ -1,4 +1,4 @@
-# app/resources/translations/fi/messages.fi.yml – generated on 2017-01-02 08:18:53 Europe/Amsterdam
+# app/resources/translations/fi/messages.fi.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,30 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  14 unused messages
-#  26 untranslated messages
-# 142 untranslated keyword based messages
+#  no unused messages
+#  25 untranslated messages
+# 149 untranslated keyword based messages
 #  65 translations
-# 382 keyword based translations
+# 381 keyword based translations
 
-#--- 14 unused messages -------------------------------------------------------
-
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.directory-not-found-writable": "Kansiota '%s' ei löydy tai sitä ei voida lukea."
-"general.phrase.extras": "Extrat"
-"general.phrase.path": "Polku"
-"general.phrase.path-colon": "Polku"
-"general.phrase.permissions": "Oikeudet"
-"page.ckeditor-browse-server.folders": "Hakemistot"
-"page.file-management.message.folder-access-denied": "Puutteeliset kansion oikeudet"
-
-#--- 26 untranslated messages -------------------------------------------------
+#--- 25 untranslated messages -------------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to do this for %NUMBER% records?": #
@@ -51,7 +34,6 @@
 "Html": #
 "Link": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Repeater": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
@@ -60,7 +42,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 142 untranslated keyword based messages ----------------------------------
+#--- 149 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -77,6 +59,9 @@
 "general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete": # "Delete"
 "general.phrase.delete-set": # "Delete Set"
@@ -149,6 +134,7 @@
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -158,7 +144,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -200,10 +188,10 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Create file"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 65 translations ----------------------------------------------------------
@@ -274,7 +262,7 @@
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 "filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 
-#--- 382 keyword based translations -------------------------------------------
+#--- 381 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Sisältötyyppien toiminnot"
 contenttypes.generic.actions-one: "Tämän sisältötyypin toiminnot"
@@ -477,7 +465,6 @@ general.phrase.order-colon-sort: "Järjestys: %sort%"
 general.phrase.overview: "Yleiskatsaus"
 general.phrase.overview-for: "Yleiskatsaus:"
 general.phrase.owner-colon: "Omistaja"
-general.phrase.page: "Sivu"
 general.phrase.pager-showing-from-to-of: "Näytetään sivu %pager_for% (%from% - %to% / %count%)"
 general.phrase.path-image-file: "Kuvatiedoston polku"
 general.phrase.permalink: "Pysyvä linkki"
