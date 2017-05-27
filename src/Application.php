@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
+use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
@@ -116,6 +117,8 @@ class Application extends Silex\Application
     public function initialize()
     {
         if ($this->initialized) {
+            Deprecated::method(3.3);
+
             return;
         }
         $this->initialized = true;
