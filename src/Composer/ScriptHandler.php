@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt\Composer\Script\BootstrapYamlUpdater;
 use Bolt\Composer\Script\DirectoryConfigurator;
+use Bolt\Composer\Script\Options;
 use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Bolt\Exception\BootException;
 use Composer\Script\Event;
@@ -124,7 +125,8 @@ class ScriptHandler
     protected static function configureDirMode(Event $event)
     {
         if (static::$dirMode === null) {
-            $dirMode = static::getOption($event, 'dir-mode', 0777);
+            $options = Options::fromEvent($event);
+            $dirMode = $options->getDirMode();
             $dirMode = is_string($dirMode) ? octdec($dirMode) : $dirMode;
 
             umask(0777 - $dirMode);
@@ -237,34 +239,8 @@ class ScriptHandler
      */
     protected static function getOption(Event $event, $key, $default = null)
     {
-        if ($value = static::getEnvOption($key)) {
-            return $value;
-        }
+        $options = Options::fromEvent($event);
 
-        $key = strtolower(str_replace('_', '-', $key));
-
-        if (strpos($key, 'bolt-') !== false) {
-            $key = 'bolt-' . $key;
-        }
-
-        $extra = $event->getComposer()->getPackage()->getExtra();
-
-        return isset($extra[$key]) ? $extra[$key] : $default;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return array|false|string
-     */
-    protected static function getEnvOption($key)
-    {
-        $key = strtoupper(str_replace('-', '_', $key));
-
-        if (strpos($key, 'BOLT_') !== false) {
-            $key = 'BOLT_' . $key;
-        }
-
-        return getenv($key);
+        return $options->get($key, $default);
     }
 }

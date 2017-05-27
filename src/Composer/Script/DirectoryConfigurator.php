@@ -31,23 +31,21 @@ class DirectoryConfigurator
     private $resolver;
     /** @var PathResolver */
     private $defaults;
-    /** @var array */
-    private $composerExtra;
-    /** @var int */
-    private $dirMode;
+    /** @var Options */
+    private $options;
 
     /**
      * Constructor.
      *
      * @param IOInterface       $io
-     * @param array             $composerExtra
+     * @param Options|null      $options
      * @param PathResolver|null $resolver
      * @param Filesystem|null   $filesystem
      */
-    public function __construct(IOInterface $io, array $composerExtra = [], PathResolver $resolver = null, Filesystem $filesystem = null)
+    public function __construct(IOInterface $io, Options $options = null, PathResolver $resolver = null, Filesystem $filesystem = null)
     {
         $this->io = $io;
-        $this->composerExtra = $composerExtra;
+        $this->options = $options ?: new Options();
         $this->resolver = $resolver ?: new PathResolver(getcwd(), PathResolver::defaultPaths());
         $this->defaults = clone $this->resolver;
         $this->filesystem = $filesystem ?: new Filesystem();
@@ -62,7 +60,7 @@ class DirectoryConfigurator
      */
     public static function fromEvent(Event $event)
     {
-        return new static($event->getIO(), $event->getComposer()->getPackage()->getExtra());
+        return new static($event->getIO(), Options::fromEvent($event));
     }
 
     /**
@@ -87,7 +85,7 @@ class DirectoryConfigurator
         // Configure dirs from environment variables and composer extra values.
         foreach ($this->resolver->names() as $name) {
             $default = $this->resolver->raw($name);
-            $path = $this->getOption($name . '-dir', $default);
+            $path = $this->options->get($name . '-dir', $default);
             if ($path !== $default) {
                 $this->verbose("Setting <info>$name</> path to <info>$path</>.");
                 $this->resolver->define($name, $path);
@@ -173,7 +171,7 @@ class DirectoryConfigurator
         );
 
         // ensure parent directory exists
-        $this->filesystem->mkdir(dirname($target), $this->getDirMode());
+        $this->filesystem->mkdir(dirname($target), $this->options->getDirMode());
 
         $this->filesystem->rename($origin, $target);
     }
@@ -188,7 +186,7 @@ class DirectoryConfigurator
         $pathNames[] = '%web%/extensions';
         $pathNames[] = '%web%/thumbs';
 
-        $dirMode = $this->getDirMode();
+        $dirMode = $this->options->getDirMode();
         foreach ($pathNames as $name) {
             $path = $this->resolver->resolve($name);
             $this->filesystem->chmod($path, $dirMode);
@@ -201,62 +199,5 @@ class DirectoryConfigurator
     protected function verbose($messages)
     {
         $this->io->writeError($messages, true, IOInterface::VERBOSE);
-    }
-
-    /**
-     * Returns the directory mode.
-     *
-     * @return int
-     */
-    protected function getDirMode()
-    {
-        if ($this->dirMode === null) {
-            $dirMode = $this->getOption('dir-mode', 0777);
-            $this->dirMode = is_string($dirMode) ? octdec($dirMode) : $dirMode;
-        }
-
-        return $this->dirMode;
-    }
-
-    /**
-     * Get an option from environment variable or composer's extra section.
-     *
-     * Example: With key "dir-mode" it checks for "BOLT_DIR_MODE" environment variable,
-     * then "bolt-dir-mode" in composer's extra section, then returns given default value.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    protected function getOption($key, $default = null)
-    {
-        if ($value = $this->getEnvOption($key)) {
-            return $value;
-        }
-
-        $key = strtolower(str_replace('_', '-', $key));
-
-        if (strpos($key, 'bolt-') !== 0) {
-            $key = 'bolt-' . $key;
-        }
-
-        return isset($this->composerExtra[$key]) ? $this->composerExtra[$key] : $default;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return array|false|string
-     */
-    protected function getEnvOption($key)
-    {
-        $key = strtoupper(str_replace('-', '_', $key));
-
-        if (strpos($key, 'BOLT_') !== 0) {
-            $key = 'BOLT_' . $key;
-        }
-
-        return getenv($key);
     }
 }
