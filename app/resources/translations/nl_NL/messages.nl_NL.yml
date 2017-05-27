@@ -1,37 +1,20 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2017-01-02 08:18:41 Europe/Amsterdam
+# app/resources/translations/nl_NL/messages.nl_NL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  14 unused messages
-#  11 untranslated messages
-#  27 untranslated keyword based messages
+#  no unused messages
+#  10 untranslated messages
+#  32 untranslated keyword based messages
 #  80 translations
-# 497 keyword based translations
+# 498 keyword based translations
 
-#--- 14 unused messages -------------------------------------------------------
-
-"Selection:": "Selectie:"
-"page.extend.button.config": "Instellingen"
-"page.extend.button.readme": "Leesmij"
-"page.extend.button.uninstall": "Deinstalleer"
-"page.extend.button.versions": "Versies"
-"Extend": #
-"general.phrase.directory-not-found-writable": "De map '%s' kon niet worden gevonden of is niet schrijfbaar."
-"general.phrase.error-local-extension-set-up-incomplete": "Lokale installatie van extensie is onvolledig. Ga naar de extensie pagina en selecteer 'Alle pakketten installeren'."
-"general.phrase.extras": "Extra's"
-"general.phrase.path": "Pad"
-"general.phrase.path-colon": "Pad:"
-"general.phrase.permissions": "Permissies"
-"page.ckeditor-browse-server.folders": "Mappen"
-"page.file-management.message.folder-access-denied": "Onvoldoende permissies op map"
-
-#--- 11 untranslated messages -------------------------------------------------
+#--- 10 untranslated messages -------------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
@@ -39,15 +22,15 @@
 "Group": #
 "Groups": #
 "Link": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 27 untranslated keyword based messages -----------------------------------
+#--- 32 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
 "general.phrase.extensions-overview": # "Extensions Overview"
@@ -67,13 +50,16 @@
 "page.extend.button.manage": # "Manage"
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
 "page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
 "page.extend.message.autoloader-update": # "Updating Composer autoloader"
 "page.extend.message.installation-running": # "Installation running"
 "page.extend.message.invalid-theme-source-dir": # "Invalid theme source directory: %SOURCE%"
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.running-update-all": # "Running updates"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 80 translations ----------------------------------------------------------
@@ -159,7 +145,7 @@
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
-#--- 497 keyword based translations -------------------------------------------
+#--- 498 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
@@ -402,7 +388,6 @@ general.phrase.others: "Anderen"
 general.phrase.overview: "Overzicht"
 general.phrase.overview-for: "Overzicht van"
 general.phrase.owner-colon: "Eigenaar:"
-general.phrase.page: "Pagina"
 general.phrase.pager-showing-from-to-of: "Toont %pager_for% %from% - %to% van %count%"
 general.phrase.path-image-file: "Pad naar afbeelding"
 general.phrase.permalink: "Permalink"

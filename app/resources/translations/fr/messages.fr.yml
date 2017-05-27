@@ -1,46 +1,18 @@
-# app/resources/translations/fr/messages.fr.yml – generated on 2017-01-02 08:18:46 Europe/Amsterdam
+# app/resources/translations/fr/messages.fr.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  25 unused messages
+#  no unused messages
 #   4 untranslated messages
-#   6 untranslated keyword based messages
-#  87 translations
-# 518 keyword based translations
-
-#--- 25 unused messages -------------------------------------------------------
-
-"Alas, no about!": "Hélas, aucun à propos !"
-"Chapter": "Chapitre"
-"Chapters": "Chapitres"
-"Edit": "Editer"
-"No content found.": "Aucun contenu trouvé."
-"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat trouvé pour '%SEARCHTERM%'. Veuillez essayer une nouvelle recherche."
-"Overview for": "Vue d'ensemble pour"
-"Permalink": "Lien permanent"
-"Read more": "En lire plus"
-"Related content": "Contenu lié"
-"Search": "Recherche"
-"Search results for <b>%search%</b>.": "Chercher des resultats pour <b>%search%</b>."
-"Search …": "Rechercher…"
-"There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block.": "Il n'y a actuellement aucun bloc avec le slug 'about-us'. Si vous créez un, il sera affiché ici. Aller dans 'Configuration' > 'Vérifier la base de données' et sélectionnez 'Ajouter des exemples' pour générer automatiquement ce bloc."
-"Written by <em>%name%</em> on %date%": "Ecrit par <em>%name%</em> le %date%"
-"field.slug.button.link": "Lier à :"
-"Extend": "Etendre"
-"general.phrase.directory-not-found-writable": "Le répertoire '%s' n'existe pas ou n'est pas accessible en lecture."
-"general.phrase.error-local-extension-set-up-incomplete": "L'extension locale n'est pas totalement installée. Veuillez exécuter 'Installer tous les paquets' sur la page des Extensions."
-"general.phrase.extras": "Extras"
-"general.phrase.path": "Chemin"
-"general.phrase.path-colon": "Chemin :"
-"general.phrase.permissions": "Permissions"
-"page.ckeditor-browse-server.folders": "Répertoires"
-"page.file-management.message.folder-access-denied": "Droits insuffisants sur le répertoire"
+#  13 untranslated keyword based messages
+#  86 translations
+# 517 keyword based translations
 
 #--- 4 untranslated messages --------------------------------------------------
 
@@ -49,17 +21,23 @@
 "Group": #
 "Groups": #
 
-#--- 6 untranslated keyword based messages ------------------------------------
+#--- 13 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.folder": # "Folder"
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
-"page.extend.options": #
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
+"page.extend.options": # "Extension Options"
 
-#--- 87 translations ----------------------------------------------------------
+#--- 86 translations ----------------------------------------------------------
 
 "(default template)": "(modèle par défaut)"
 "(no category)": "(aucune catégorie)"
@@ -110,7 +88,6 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Une entrée de menu invalide (%PATH%) est présente dans le fichier `menu.yml` : cela devrait certainement être un lien de type link"
 "Link": "Lier"
 "Markdown": "Markdown"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propriété \"add\" pour les entrées de menu est dépréciée. Utilisez plutôt \"#\" sous \"param\"."
 "Multiselect": "Sélection multiple"
 "Repeater": "Collection"
 "Select a page": "Choisir une page"
@@ -149,7 +126,7 @@
 "You've been logged on successfully.": "Connexion réussie."
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
-#--- 518 keyword based translations -------------------------------------------
+#--- 517 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions pour les %contenttypes%"
 contenttypes.generic.actions-one: "Actions pour ce(tte) %contenttype%"
@@ -393,7 +370,6 @@ general.phrase.others: "Autres"
 general.phrase.overview: "Vue d'ensemble"
 general.phrase.overview-for: "Aperçu pour"
 general.phrase.owner-colon: "Propriétaire :"
-general.phrase.page: "Page"
 general.phrase.pager-showing-from-to-of: "Affichage des %pager_for% %from% à %to% sur %count%"
 general.phrase.path-image-file: "Chemin du fichier"
 general.phrase.permalink: "Permalien"

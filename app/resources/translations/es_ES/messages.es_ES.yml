@@ -1,43 +1,37 @@
-# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2017-01-02 08:18:35 Europe/Amsterdam
+# app/resources/translations/es_ES/messages.es_ES.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   9 unused messages
+#  no unused messages
 #  no untranslated messages
-#   7 untranslated keyword based messages
-#  91 translations
-# 517 keyword based translations
+#  14 untranslated keyword based messages
+#  90 translations
+# 516 keyword based translations
 
-#--- 9 unused messages --------------------------------------------------------
-
-"Extend": "Extender"
-"general.phrase.directory-not-found-writable": "Las carpeta '%s' no se pudo encontrar, o no es legible."
-"general.phrase.error-local-extension-set-up-incomplete": "Configuración de la extensión local incompleta. Por favor ejecute 'Instalar todos los paquetes' en la página de Extensiones."
-"general.phrase.extras": "Extras"
-"general.phrase.path": "Ruta"
-"general.phrase.path-colon": "Ruta"
-"general.phrase.permissions": "Permisos"
-"page.ckeditor-browse-server.folders": "Carpetas"
-"page.file-management.message.folder-access-denied": "Permisos de la carpeta insuficientes"
-
-#--- 7 untranslated keyword based messages ------------------------------------
+#--- 14 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.folder": # "Folder"
 "general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
-"page.extend.options": #
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
+"page.extend.options": # "Extension Options"
 
-#--- 91 translations ----------------------------------------------------------
+#--- 90 translations ----------------------------------------------------------
 
 "(default template)": "(plantilla predeterminada)"
 "(no category)": "(sin categoría)"
@@ -92,7 +86,6 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. Probablemente debería ser un enlace en su lugar"
 "Link": "Enlace"
 "Markdown": "Markdown"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propiedad \"add\" del menú está obsoleta. Utilice \"#\" debajo de \"param\" en su lugar"
 "Multiselect": "Selección múltiple"
 "Repeater": "Repetidor"
 "Select a page": "Selecciona una página"
@@ -131,7 +124,7 @@
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
-#--- 517 keyword based translations -------------------------------------------
+#--- 516 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Acciones para %contenttypes%"
 contenttypes.generic.actions-one: "Acciones para %contenttype%"
@@ -375,7 +368,6 @@ general.phrase.others: "Otros"
 general.phrase.overview: "Listado"
 general.phrase.overview-for: "Listado de"
 general.phrase.owner-colon: "Propietario"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando %pager_for% %from% - %to% de %count%"
 general.phrase.path-image-file: "Ruta al archivo de imagen"
 general.phrase.permalink: "Enlace permanente"

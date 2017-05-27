@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/messages.de_DE.yml – generated on 2017-03-18 10:13:06 UTC
+# app/resources/translations/de_DE/messages.de_DE.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,25 +8,21 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
-#   1 untranslated messages
-#   5 untranslated keyword based messages
+#  no unused messages
+#  no untranslated messages
+#   7 untranslated keyword based messages
 #  90 translations
-# 524 keyword based translations
+# 523 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
+#--- 7 untranslated keyword based messages ------------------------------------
 
-"Extend": "Erweitern"
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "Menüeintrag-Eigenschaft \"add\" ist veraltet. Stattdessen \"#\" unter \"param\" verwenden."
-"general.phrase.error-local-extension-set-up-incomplete": "Installation lokaler Erweiterung(en) ist unvollständig. Bitte „Installiere alle Pakete“ auf der „Erweitern“-Seite ausführen."
-
-#--- 5 untranslated keyword based messages ------------------------------------
-
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
 "general.phrase.extensions-overview": # "Extensions Overview"
 "general.phrase.folder": # "Folder"
-"page.extend.headline.currently-installed-local": # "Local Extensions Added"
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.listheader.class": # "Class"
-"page.extend.listheader.name": # "Extension Name"
+"page.extend.listheader.name": # "Name"
 
 #--- 90 translations ----------------------------------------------------------
 
@@ -121,7 +117,7 @@
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 524 keyword based translations -------------------------------------------
+#--- 523 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"
@@ -368,7 +364,6 @@ general.phrase.others: "Andere"
 general.phrase.overview: "Übersicht"
 general.phrase.overview-for: "Übersicht für"
 general.phrase.owner-colon: "Besitzer:"
-general.phrase.page: "Seite"
 general.phrase.pager-showing-from-to-of: "Zeige %pager_for% %from% - %to% von %count%"
 general.phrase.path-image-file: "Bildpfad"
 general.phrase.permalink: "Permanenter Link"
