@@ -1,4 +1,4 @@
-# app/resources/translations/fi/messages.fi.yml – generated on 2017-01-02 16:33:17 Europe/Amsterdam
+# app/resources/translations/fi/messages.fi.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -8,31 +8,15 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  14 unused messages
-#  26 untranslated messages
-# 145 untranslated keyword based messages
-#  65 translations
-# 382 keyword based translations
+#  no unused messages
+#  28 untranslated messages
+# 155 untranslated keyword based messages
+#  64 translations
+# 375 keyword based translations
 
-#--- 14 unused messages -------------------------------------------------------
+#--- 28 untranslated messages -------------------------------------------------
 
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"Extend": #
-"general.phrase.error-local-extension-set-up-incomplete": # "Local extension set up incomplete. Please run 'Install all packages' on the Extensions page."
-"general.phrase.directory-not-found-writable": "Kansiota '%s' ei löydy tai sitä ei voida lukea."
-"general.phrase.extras": "Extrat"
-"general.phrase.path": "Polku"
-"general.phrase.path-colon": "Polku"
-"general.phrase.permissions": "Oikeudet"
-"page.ckeditor-browse-server.folders": "Hakemistot"
-"page.file-management.message.folder-access-denied": "Puutteeliset kansion oikeudet"
-
-#--- 26 untranslated messages -------------------------------------------------
-
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to do this for %NUMBER% records?": #
 "Are you sure you want to do this for 1 record?": #
@@ -51,21 +35,25 @@
 "Html": #
 "Link": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
 "Repeater": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 145 untranslated keyword based messages ----------------------------------
+#--- 155 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
 "field.markdown.label.markedview": # "Markdown"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.slug.button.lock": # "Lock"
 "field.slug.message.warning": # "Editing this field might break existing links to this record!"
@@ -77,6 +65,9 @@
 "general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete": # "Delete"
 "general.phrase.delete-set": # "Delete Set"
@@ -152,6 +143,7 @@
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-readable": # "The Bolt extensions composer.json isn't readable."
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -161,7 +153,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -203,13 +197,13 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
-"page.file-management.label.create-file": # "Create File"
+"page.file-management.label.create-file": # "Create file"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 65 translations ----------------------------------------------------------
+#--- 64 translations ----------------------------------------------------------
 
 "(default template)": "(oletussivupohja)"
 "(no category)": "(ei kategoriaa)"
@@ -252,7 +246,6 @@
 "Selectentry": "Valitse merkintä"
 "Selectfield": "Valintakenttä"
 "Skipped <tt>%key%</tt> (already has records)": "Ohitettiin <tt>%key%</tt> (sisältää jo tietoja)"
-"Skipped <tt>%key%</tt> (not checked)": "Ohitettiin <tt>%key%</tt> (ei valittu)"
 "Slug": "Tunniste"
 "Tag": "Tagi"
 "Tags": "Tagit"
@@ -277,7 +270,7 @@
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 "filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 
-#--- 382 keyword based translations -------------------------------------------
+#--- 375 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Sisältötyyppien toiminnot"
 contenttypes.generic.actions-one: "Tämän sisältötyypin toiminnot"
@@ -363,7 +356,6 @@ general.bolt-third-party-libraries: "Alla Boltin käyttämät kolmannen osapuole
 general.phrase.access-denied-logged-out: "Olet kirjautunut ulos."
 general.phrase.access-denied-permissions-edit-file: "Sinulla ei ole tarvittavia oikeuksia muokata tiedostoa '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Sinulla ei ole tarvittavia oikeuksia katsella tiedostoa tai kansiota '%s'."
-general.phrase.access-denied-privilege-edit-record: "Sinulla ei ole oikeuksia muokata merkintää."
 general.phrase.access-denied-privilege-edit-user: "Sinulla ei ole tarvittavia oikeuksia muokata käyttäjää."
 general.phrase.access-denied-privilege-view-page: "Sinulla ei ole oikeuksia näyttää sivua."
 general.phrase.access-denied-self-action: "Et voi '%s' itseäsi."
@@ -380,7 +372,6 @@ general.phrase.choose-record-link-to: "Valitse tietue johon haluat linkittää:"
 general.phrase.clear-cache: "Tyhjennä välimuistit"
 general.phrase.clear-cache-again: "Tyhjennä välimuisti uudestaan"
 general.phrase.clear-change-log: "Tyhjennä muutoslogi"
-general.phrase.clear-filter: "Poista suodattimet"
 general.phrase.clear-filter-sort: "Poista lajittelu/suodattimet"
 general.phrase.clear-system-log: "Tyhjennä järjestelmälogi"
 general.phrase.close-editor: "Sulje editori"
@@ -407,7 +398,6 @@ general.phrase.depublish-date-past: "Arkistointipäiväys on menneisyydessä. Va
 general.phrase.deselect-all: "Poista valinnat"
 general.phrase.details: "Yksityiskohdat"
 general.phrase.disable-user-name: "Sulje %username%"
-general.phrase.done-bang: "Valmis!"
 general.phrase.draft: "Luonnos"
 general.phrase.duplicate-file-name: "Kopioi %filename%"
 general.phrase.edit: "Muokkaa"
@@ -426,7 +416,6 @@ general.phrase.file-not-readable-following-colon: "Seuraavaa tiedostoa ei voida 
 general.phrase.file-not-writable: "Tiedostoon '%s' ei voida kirjottaa. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 general.phrase.file-size: "Koko"
 general.phrase.filter: "Suodatin"
-general.phrase.filtering: "Suodatus"
 general.phrase.find: "Etsi"
 general.phrase.floating-point-required-bang: "Vaaditaan liukulukunumero!"
 general.phrase.folders: "Hakemistot"
@@ -463,7 +452,6 @@ general.phrase.no-content: "ei sisältöä …"
 general.phrase.no-content-found: "Ei sisältöä"
 general.phrase.no-files-in-list: "Ei tiedostoja listassa, vielä"
 general.phrase.no-images-in-list: "Ei kuvia listassa, vielä"
-general.phrase.no-relations-found-bang: "Ei suhteita!"
 general.phrase.no-such-action-for-user: "Käyttäjälle '%s' ei ole tätä toimintoa"
 general.phrase.no-title: "ei otsikkoa …"
 general.phrase.none: "Ei mitään"
@@ -480,7 +468,6 @@ general.phrase.order-colon-sort: "Järjestys: %sort%"
 general.phrase.overview: "Yleiskatsaus"
 general.phrase.overview-for: "Yleiskatsaus:"
 general.phrase.owner-colon: "Omistaja"
-general.phrase.page: "Sivu"
 general.phrase.pager-showing-from-to-of: "Näytetään sivu %pager_for% (%from% - %to% / %count%)"
 general.phrase.path-image-file: "Kuvatiedoston polku"
 general.phrase.permalink: "Pysyvä linkki"
@@ -560,7 +547,6 @@ general.phrase.value-new: "Uusi arvo"
 general.phrase.value-old: "Vanha arvo"
 general.phrase.view-edit-templates: "Näytä tai muokkaa sivupohjia"
 general.phrase.view-on-site: "Näytä sivustolla"
-general.phrase.view-related: "Näytä liittyvä sisältö"
 general.phrase.view-roles: "Näytä roolit"
 general.phrase.view-site: "Näytä sivusto"
 general.phrase.warning: "Varoitus"

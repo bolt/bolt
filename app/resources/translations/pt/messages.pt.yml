@@ -1,52 +1,42 @@
-# app/resources/translations/pt/messages.pt.yml – generated on 2017-01-02 16:33:27 Europe/Amsterdam
+# app/resources/translations/pt/messages.pt.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
-#   8 untranslated messages
-#  38 untranslated keyword based messages
-#  83 translations
-# 489 keyword based translations
+#  no unused messages
+#  10 untranslated messages
+#  48 untranslated keyword based messages
+#  82 translations
+# 482 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
+#--- 10 untranslated messages -------------------------------------------------
 
-"Selection:": "Seleção:"
-"field.slug.button.link": "Ligar a:"
-"page.extend.button.config": "Configurar"
-"page.extend.button.readme": "Informações"
-"page.extend.button.uninstall": "Desinstalar"
-"page.extend.button.versions": "Versões"
-"Extend": "Evoluir"
-"general.phrase.directory-not-found-writable": "A pasta '%s' não pode ser encontrada, ou não é legível."
-"general.phrase.error-local-extension-set-up-incomplete": "Configuração incompleta da extensão local. Por favor, execute o 'Instalar todos os pacotes' na página de extensões."
-"general.phrase.extras": "Extras"
-"general.phrase.path": "Caminho"
-"general.phrase.path-colon": "Caminho:"
-"general.phrase.permissions": "Permissões"
-"page.ckeditor-browse-server.folders": "Pastas"
-"page.file-management.message.folder-access-denied": "Permissões insuficientes na pasta"
-
-#--- 8 untranslated messages --------------------------------------------------
-
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Finding packages that require this one…": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 38 untranslated keyword based messages -----------------------------------
+#--- 48 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
@@ -72,6 +62,9 @@
 "page.extend.button.link-versions": # "Install different version"
 "page.extend.button.manage": # "Manage"
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
+"page.extend.headline.bundled": # "Bundled Extensions"
+"page.extend.listheader.class": # "Class"
+"page.extend.listheader.name": # "Name"
 "page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
 "page.extend.message.autoloader-update": # "Updating Composer autoloader"
 "page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
@@ -81,11 +74,11 @@
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.running-update-all": # "Running updates"
+"page.extend.options": # "Extension Options"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 83 translations ----------------------------------------------------------
+#--- 82 translations ----------------------------------------------------------
 
 "(default template)": "(tema padrão)"
 "(no category)": "(sem categoria)"
@@ -144,7 +137,6 @@
 "Selectentry": "Selecionar artigo"
 "Selectfield": "Selecionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registo)"
-"Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
 "Slug": "Nome curto"
 "Tag": "Etiqueta"
 "Tags": "Etiquetas"
@@ -171,7 +163,7 @@
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
-#--- 489 keyword based translations -------------------------------------------
+#--- 482 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -271,7 +263,6 @@ general.bolt-welcome-new-site: "%USER%, bem-vindo ao seu novo sítio Bolt."
 general.phrase.access-denied-logged-out: "A sua sessão foi terminada."
 general.phrase.access-denied-permissions-edit-file: "Não tem permissões adequadas para editar o ficheiro '%s' ."
 general.phrase.access-denied-permissions-view-file-directory: "Não tem as permissões corretas para mostrar o ficheiro ou pasta '%s'."
-general.phrase.access-denied-privilege-edit-record: "Não possui permissões para alterar este registo."
 general.phrase.access-denied-privilege-edit-user: "Não possui permissões para alterar este utilizador."
 general.phrase.access-denied-privilege-view-page: "Não possui privilégios para visualizar esta página."
 general.phrase.access-denied-self-action: "Não se pode '%s' a si mesmo."
@@ -291,7 +282,6 @@ general.phrase.clear-cache: "Limpar cache"
 general.phrase.clear-cache-again: "Limpar a cache novamente"
 general.phrase.clear-cache-complete: "Cache limpa."
 general.phrase.clear-change-log: "Limpar registo de alterações"
-general.phrase.clear-filter: "Limpar filtro"
 general.phrase.clear-filter-sort: "Limpar ordenação/filtro"
 general.phrase.clear-system-log: "Limpar registo de systema"
 general.phrase.close-editor: "Fechar editor"
@@ -321,7 +311,6 @@ general.phrase.depublish-date-past: "Data de retirada de publicação está no p
 general.phrase.deselect-all: "Desmarcar tudo"
 general.phrase.details: "Detalhes"
 general.phrase.disable-user-name: "Desativar %username%"
-general.phrase.done-bang: "Concluído!"
 general.phrase.draft: "Rascunho"
 general.phrase.duplicate-file-name: "Duplicar %filename%"
 general.phrase.duplicate-set: "Duplicar conjunto"
@@ -346,7 +335,6 @@ general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você preci
 general.phrase.file-size: "Tamanho do ficheiro"
 general.phrase.file-upload-failed: "Não foi possível carregar os ficheiros."
 general.phrase.filter: "Filtro"
-general.phrase.filtering: "A filtrar"
 general.phrase.find: "Pesquisar"
 general.phrase.floating-point-required-bang: "Tem de ser um número de ponto flutuante!"
 general.phrase.folders: "Pastas"
@@ -389,7 +377,6 @@ general.phrase.no-content-found: "Nenhum conteúdo encontrado."
 general.phrase.no-files-in-list: "Nenhum ficheiro na lista."
 general.phrase.no-images-in-list: "Sem imagens na lista."
 general.phrase.no-preview: "Sem pré-visualização"
-general.phrase.no-relations-found-bang: "Não foram encontradas relações!"
 general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para '%SEARCHTERM%'. Tente outros termos."
 general.phrase.no-such-action-for-user: "Nenhuma ação para o utilizador '%s'."
 general.phrase.no-title: "sem título..."
@@ -411,7 +398,6 @@ general.phrase.others: "Outros"
 general.phrase.overview: "Visão geral"
 general.phrase.overview-for: "Visão geral sobre"
 general.phrase.owner-colon: "Proprietário:"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "A exibir página %pager_for% %from% - %to% de %count%"
 general.phrase.path-image-file: "Caminho para o ficheiro de imagem"
 general.phrase.permalink: "Endereço permanente"
@@ -503,7 +489,6 @@ general.phrase.value-new: "Novo valor"
 general.phrase.value-old: "Valor antigo"
 general.phrase.view-edit-templates: "Visualizar/Alterar temas"
 general.phrase.view-on-site: "Visualizar no sítio"
-general.phrase.view-related: "Visualizar conteúdo relacionado"
 general.phrase.view-roles: "Ver funções"
 general.phrase.view-site: "Visualizar sítio"
 general.phrase.warning: "Atenção!"

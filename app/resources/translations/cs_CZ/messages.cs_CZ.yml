@@ -1,60 +1,50 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2017-01-02 16:33:10 Europe/Amsterdam
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  15 unused messages
-#  11 untranslated messages
-#  95 untranslated keyword based messages
-#  80 translations
-# 432 keyword based translations
+#  no unused messages
+#  13 untranslated messages
+# 105 untranslated keyword based messages
+#  79 translations
+# 425 keyword based translations
 
-#--- 15 unused messages -------------------------------------------------------
+#--- 13 untranslated messages -------------------------------------------------
 
-"Selection:": "Výběr:"
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"field.slug.button.link": "Odkaz na:"
-"Extend": #
-"general.phrase.directory-not-found-writable": "Složka '%s' není k nalezení nebo nelze přečíst."
-"general.phrase.error-local-extension-set-up-incomplete": "Lokální instalace rozšíření není kompletní. Spusťte prosím 'Instalovat všechny balíčky' na stránce Rozšíření."
-"general.phrase.extras": "Doplňky"
-"general.phrase.path": "Cesta"
-"general.phrase.path-colon": "Cesta:"
-"general.phrase.permissions": "Oprávnění"
-"page.ckeditor-browse-server.folders": "Složky"
-"page.file-management.message.folder-access-denied": "Nemáte dostatečné oprávnění k této složce"
-
-#--- 11 untranslated messages -------------------------------------------------
-
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
 "Finding packages that require this one…": #
 "Html": #
 "Markdown": #
-"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 95 untranslated keyword based messages -----------------------------------
+#--- 105 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"field.block.label.add-new": # "Add new..."
+"field.block.label.add-set": # "Add new %label% set"
 "field.image.label.alt": # "Alt"
+"field.repeater.label.add-set": # "Add new %label% set"
 "field.slug.button.generate": # "Generate from:"
 "field.video.pixel": # "pixel"
 "general.phrase.author": # "Author"
 "general.phrase.change-log": # "Change Log"
+"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.delete": # "Delete"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.extensions-overview": # "Extensions Overview"
@@ -92,6 +82,7 @@
 "page.extend.button.package-dependencies": # "Identify installed packages requiring this"
 "page.extend.button.update-package": # "Update Package"
 "page.extend.error-composer-json-not-writable": # "The Bolt extensions composer.json isn't writable."
+"page.extend.headline.bundled": # "Bundled Extensions"
 "page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
 "page.extend.headline.install-new-extension": # "Install a new Extension"
 "page.extend.headline.installation-complete": # "Installation complete"
@@ -100,7 +91,9 @@
 "page.extend.headline.test-versions": # "Unstable test versions"
 "page.extend.headline.theme-installation-complete": # "Theme installation complete"
 "page.extend.headline.updates": # "Updates"
+"page.extend.listheader.class": # "Class"
 "page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.name": # "Name"
 "page.extend.listheader.status": # "Status"
 "page.extend.listheader.version": # "Version"
 "page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
@@ -139,13 +132,13 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "permissions.roles.label.anonymous": # "Anonymous"
 
-#--- 80 translations ----------------------------------------------------------
+#--- 79 translations ----------------------------------------------------------
 
 "(default template)": "(standardní šablona)"
 "(no category)": "(bez kategorie)"
@@ -201,7 +194,6 @@
 "Selectentry": "Vybrat záznam"
 "Selectfield": "Vybrat pole"
 "Skipped <tt>%key%</tt> (already has records)": "Vynecháno <tt>%key%</tt> (již existuje)"
-"Skipped <tt>%key%</tt> (not checked)": "Vynecháno <tt>%key%</tt> (neověřeno)"
 "Slug": "Trvalý odkaz"
 "Tag": "Štítek"
 "Tags": "Štítky"
@@ -228,7 +220,7 @@
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
 
-#--- 432 keyword based translations -------------------------------------------
+#--- 425 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Akce pro %contenttypes%"
 contenttypes.generic.actions-one: "Akce pro %contenttype%"
@@ -324,7 +316,6 @@ general.bolt-welcome-new-site: "Vítejte na svém novém Bolt webu, %USER%."
 general.phrase.access-denied-logged-out: "Byl jste odhlášen/a."
 general.phrase.access-denied-permissions-edit-file: "Nemáte dostatečné oprávnění k editaci souboru '%s'."
 general.phrase.access-denied-permissions-view-file-directory: "Nemáte dostatečné oprávnění pro zobrazení souboru či složky '%s'."
-general.phrase.access-denied-privilege-edit-record: "Nemáte oprávnění pro editaci záznamu."
 general.phrase.access-denied-privilege-edit-user: "Nemáte dostatečné oprávnění pro editování uživatele."
 general.phrase.access-denied-privilege-view-page: "Nemáte oprávnění pro zobrazení této stránky."
 general.phrase.access-denied-self-action: "Nelze '%s' sám sebe."
@@ -342,7 +333,6 @@ general.phrase.clear-cache: "Vyprázdnit cache"
 general.phrase.clear-cache-again: "Znovu vyprázdnit cache"
 general.phrase.clear-cache-complete: "Vymazání vyrovnávací paměti hotovo."
 general.phrase.clear-change-log: "Smazat záznamy změn"
-general.phrase.clear-filter: "Smazat filtr"
 general.phrase.clear-filter-sort: "Zrušit třídění/filtr"
 general.phrase.clear-system-log: "Smazat záznamy aktivit systému"
 general.phrase.close-editor: "Zavřít editor"
@@ -371,7 +361,6 @@ general.phrase.depublish-date-past: "Datum expirace je v minulosti. Pokud chcete
 general.phrase.deselect-all: "Odznačit vše"
 general.phrase.details: "Podrobnosti"
 general.phrase.disable-user-name: "Zablokovat %username%"
-general.phrase.done-bang: "Hotovo!"
 general.phrase.draft: "Koncept"
 general.phrase.duplicate-file-name: "Duplikovat %filename%"
 general.phrase.duplicate-set: "Duplikovat sadu"
@@ -398,7 +387,6 @@ general.phrase.file-not-writable: "Soubor '%s' nelze zapsat. Pro úpravu souboru
 general.phrase.file-size: "Velikost souboru"
 general.phrase.file-upload-failed: "Soubory nelze nahrát."
 general.phrase.filter: "Filtr"
-general.phrase.filtering: "Filtrování"
 general.phrase.find: "Vyhledat"
 general.phrase.floating-point-required-bang: "Musí být desetinné číslo!"
 general.phrase.folders: "Složky"
@@ -438,7 +426,6 @@ general.phrase.no-content-found: "Nebyl nalezen žádný obsah."
 general.phrase.no-files-in-list: "Žádné soubory v seznamu."
 general.phrase.no-images-in-list: "Žádné obrázky v seznamu."
 general.phrase.no-preview: "Náled není"
-general.phrase.no-relations-found-bang: "Nenalezeno žádné související"
 general.phrase.no-result-for-search-term: "Pro '%SEARCHTERM%' nebyly nalezeny žádné výsledky. Zkuste to jinak."
 general.phrase.no-such-action-for-user: "Pro uživatele '%s' není tato akce dostupná"
 general.phrase.no-title: "žádný nadpis …"
@@ -459,7 +446,6 @@ general.phrase.others: "Ostatní"
 general.phrase.overview: "Přehled"
 general.phrase.overview-for: "Přehled"
 general.phrase.owner-colon: "Vlastník:"
-general.phrase.page: "Strana"
 general.phrase.pager-showing-from-to-of: "Zobrazuji %pager_for% %from% - %to% z %count%"
 general.phrase.path-image-file: "Cesta k souboru obrázku"
 general.phrase.permalink: "Trvalý odkaz"
@@ -547,7 +533,6 @@ general.phrase.value-new: "nová hodnota"
 general.phrase.value-old: "původní hodnota"
 general.phrase.view-edit-templates: "Zobrazit / upravit Šablony"
 general.phrase.view-on-site: "Zobrazit na webu"
-general.phrase.view-related: "Zobrazit související obsah"
 general.phrase.view-roles: "Zobrazit uživatelské role"
 general.phrase.view-site: "Zobrazit web"
 general.phrase.warning: "Varování"
