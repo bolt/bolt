@@ -1,27 +1,18 @@
-# app/resources/translations/pt/messages.pt.yml – generated on 2016-11-06 08:42:47 Europe/Amsterdam
+# app/resources/translations/pt/messages.pt.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #   8 untranslated messages
-#  33 untranslated keyword based messages
+#  35 untranslated keyword based messages
 #  84 translations
-# 497 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"Selection:": "Seleção:"
-"field.slug.button.link": "Ligar a:"
-"page.extend.button.config": "Configurar"
-"page.extend.button.readme": "Informações"
-"page.extend.button.uninstall": "Desinstalar"
-"page.extend.button.versions": "Versões"
+# 496 keyword based translations
 
 #--- 8 untranslated messages --------------------------------------------------
 
@@ -34,10 +25,11 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 33 untranslated keyword based messages -----------------------------------
+#--- 35 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "field.slug.button.generate": # "Generate from:"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 "general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
@@ -67,8 +59,8 @@
 "page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.running-update-all": # "Running updates"
+"page.extend.options": # "Extension Options"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 84 translations ----------------------------------------------------------
@@ -158,7 +150,7 @@
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 "filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
-#--- 497 keyword based translations -------------------------------------------
+#--- 496 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -401,7 +393,6 @@ general.phrase.others: "Outros"
 general.phrase.overview: "Visão geral"
 general.phrase.overview-for: "Visão geral sobre"
 general.phrase.owner-colon: "Proprietário:"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "A exibir página %pager_for% %from% - %to% de %count%"
 general.phrase.path: "Caminho"
 general.phrase.path-colon: "Caminho:"

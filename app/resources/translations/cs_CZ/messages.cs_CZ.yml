@@ -1,27 +1,18 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml – generated on 2016-11-06 08:42:36 Europe/Amsterdam
+# app/resources/translations/cs_CZ/messages.cs_CZ.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #  12 untranslated messages
-#  90 untranslated keyword based messages
+#  92 untranslated keyword based messages
 #  80 translations
-# 440 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"Selection:": "Výběr:"
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
-"field.slug.button.link": "Odkaz na:"
+# 439 keyword based translations
 
 #--- 12 untranslated messages -------------------------------------------------
 
@@ -38,7 +29,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 90 untranslated keyword based messages -----------------------------------
+#--- 92 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -47,6 +38,7 @@
 "field.video.pixel": # "pixel"
 "general.phrase.author": # "Author"
 "general.phrase.change-log": # "Change Log"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.delete": # "Delete"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.info": # "Info"
@@ -126,9 +118,9 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 "permissions.roles.label.anonymous": # "Anonymous"
 
@@ -215,7 +207,7 @@
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
 "filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
 
-#--- 440 keyword based translations -------------------------------------------
+#--- 439 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Akce pro %contenttypes%"
 contenttypes.generic.actions-one: "Akce pro %contenttype%"
@@ -449,7 +441,6 @@ general.phrase.others: "Ostatní"
 general.phrase.overview: "Přehled"
 general.phrase.overview-for: "Přehled"
 general.phrase.owner-colon: "Vlastník:"
-general.phrase.page: "Strana"
 general.phrase.pager-showing-from-to-of: "Zobrazuji %pager_for% %from% - %to% z %count%"
 general.phrase.path: "Cesta"
 general.phrase.path-colon: "Cesta:"

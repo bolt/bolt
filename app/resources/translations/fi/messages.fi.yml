@@ -1,26 +1,18 @@
-# app/resources/translations/fi/messages.fi.yml – generated on 2016-11-06 08:42:42 Europe/Amsterdam
+# app/resources/translations/fi/messages.fi.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
+#  no unused messages
 #  27 untranslated messages
-# 141 untranslated keyword based messages
+# 143 untranslated keyword based messages
 #  65 translations
-# 389 keyword based translations
-
-#--- 5 unused messages --------------------------------------------------------
-
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
+# 388 keyword based translations
 
 #--- 27 untranslated messages -------------------------------------------------
 
@@ -52,7 +44,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 
-#--- 141 untranslated keyword based messages ----------------------------------
+#--- 143 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.group.meta": # "Meta"
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -69,6 +61,7 @@
 "general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete": # "Delete"
 "general.phrase.delete-set": # "Delete Set"
@@ -191,9 +184,9 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
@@ -265,7 +258,7 @@
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
 "filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 
-#--- 389 keyword based translations -------------------------------------------
+#--- 388 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Sisältötyyppien toiminnot"
 contenttypes.generic.actions-one: "Tämän sisältötyypin toiminnot"
@@ -470,7 +463,6 @@ general.phrase.order-colon-sort: "Järjestys: %sort%"
 general.phrase.overview: "Yleiskatsaus"
 general.phrase.overview-for: "Yleiskatsaus:"
 general.phrase.owner-colon: "Omistaja"
-general.phrase.page: "Sivu"
 general.phrase.pager-showing-from-to-of: "Näytetään sivu %pager_for% (%from% - %to% / %count%)"
 general.phrase.path: "Polku"
 general.phrase.path-colon: "Polku"

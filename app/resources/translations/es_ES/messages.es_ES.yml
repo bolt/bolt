@@ -1,27 +1,32 @@
-# app/resources/translations/es_ES/messages.es_ES.yml – generated on 2016-11-06 08:42:30 Europe/Amsterdam
+# app/resources/translations/es_ES/messages.es_ES.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#  no unused messages
+#   1 unused messages
 #  no untranslated messages
-#   5 untranslated keyword based messages
+#   7 untranslated keyword based messages
 #  92 translations
-# 525 keyword based translations
+# 524 keyword based translations
 
-#--- 5 untranslated keyword based messages ------------------------------------
+#--- 1 unused messages --------------------------------------------------------
+
+"general.phrase.page": "Página"
+
+#--- 7 untranslated keyword based messages ------------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
 "general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 "nut.greeting": # "Welcome to Bolt!"
 "nut.version": # "version"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 
 #--- 92 translations ----------------------------------------------------------
 
@@ -118,7 +123,7 @@
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
 "filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
-#--- 525 keyword based translations -------------------------------------------
+#--- 524 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Acciones para %contenttypes%"
 contenttypes.generic.actions-one: "Acciones para %contenttype%"
@@ -365,7 +370,6 @@ general.phrase.others: "Otros"
 general.phrase.overview: "Listado"
 general.phrase.overview-for: "Listado de"
 general.phrase.owner-colon: "Propietario"
-general.phrase.page: "Página"
 general.phrase.pager-showing-from-to-of: "Mostrando %pager_for% %from% - %to% de %count%"
 general.phrase.path: "Ruta"
 general.phrase.path-colon: "Ruta"

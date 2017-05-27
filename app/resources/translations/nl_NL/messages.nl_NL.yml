@@ -1,26 +1,18 @@
-# app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2016-11-06 08:42:34 Europe/Amsterdam
+# app/resources/translations/nl_NL/messages.nl_NL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   5 unused messages
+#  no unused messages
 #  12 untranslated messages
-#  25 untranslated keyword based messages
+#  27 untranslated keyword based messages
 #  80 translations
-# 505 keyword based translations
-
-#--- 5 unused messages --------------------------------------------------------
-
-"Selection:": "Selectie:"
-"page.extend.button.config": "Instellingen"
-"page.extend.button.readme": "Leesmij"
-"page.extend.button.uninstall": "Deinstalleer"
-"page.extend.button.versions": "Versies"
+# 504 keyword based translations
 
 #--- 12 untranslated messages -------------------------------------------------
 
@@ -37,9 +29,10 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 25 untranslated keyword based messages -----------------------------------
+#--- 27 untranslated keyword based messages -----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.error-cache-clear": # "Failed to clear cache. You should delete it manually."
 "general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -63,7 +56,7 @@
 "page.extend.message.invalid-theme-source-dir": # "Invalid theme source directory: %SOURCE%"
 "page.extend.message.package-dependencies": # "Packages that depend on this"
 "page.extend.message.running-update-all": # "Running updates"
-"page.extend.options": #
+"page.extend.options": # "Extension Options"
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 80 translations ----------------------------------------------------------
@@ -149,7 +142,7 @@
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
-#--- 505 keyword based translations -------------------------------------------
+#--- 504 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
@@ -393,7 +386,6 @@ general.phrase.others: "Anderen"
 general.phrase.overview: "Overzicht"
 general.phrase.overview-for: "Overzicht van"
 general.phrase.owner-colon: "Eigenaar:"
-general.phrase.page: "Pagina"
 general.phrase.pager-showing-from-to-of: "Toont %pager_for% %from% - %to% van %count%"
 general.phrase.path: "Pad"
 general.phrase.path-colon: "Pad:"

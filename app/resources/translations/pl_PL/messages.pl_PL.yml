@@ -1,27 +1,18 @@
-# app/resources/translations/pl_PL/messages.pl_PL.yml – generated on 2016-11-06 08:42:46 Europe/Amsterdam
+# app/resources/translations/pl_PL/messages.pl_PL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #  28 untranslated messages
-# 142 untranslated keyword based messages
+# 144 untranslated keyword based messages
 #  64 translations
-# 388 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"Selection:": "Wybór:"
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
+# 387 keyword based translations
 
 #--- 28 untranslated messages -------------------------------------------------
 
@@ -54,7 +45,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 142 untranslated keyword based messages ----------------------------------
+#--- 144 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 "contenttypes.generic.invalid-relation": # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -71,6 +62,7 @@
 "general.bolt-documentation": # "Bolt documentation"
 "general.bolt-welcome-new-site": # "Welcome to your new Bolt site, %USER%."
 "general.phrase.add-selected": # "Add Selected"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.delete-set": # "Delete Set"
 "general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
@@ -195,9 +187,9 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
-"page.extend.options": #
 "page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- 64 translations ----------------------------------------------------------
@@ -267,7 +259,7 @@
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "You've been logged on successfully.": "Zostałeś zalogowany."
 
-#--- 388 keyword based translations -------------------------------------------
+#--- 387 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Akcje dla %contenttypes%"
 contenttypes.generic.actions-one: "Akcje dla tego %contenttype%"
@@ -472,7 +464,6 @@ general.phrase.order-colon-sort: "Kolejność: %sort%"
 general.phrase.overview: "Przegląd"
 general.phrase.overview-for: "Informacje dla"
 general.phrase.owner-colon: "Właściciel:"
-general.phrase.page: "Strona"
 general.phrase.pager-showing-from-to-of: "Wyświetlanie %pager_for% %from% - %to% z %count%"
 general.phrase.path: "Ścieżka"
 general.phrase.path-colon: "Ścieżka:"

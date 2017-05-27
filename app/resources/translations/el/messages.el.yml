@@ -1,27 +1,18 @@
-# app/resources/translations/el/messages.el.yml – generated on 2016-11-06 08:42:35 Europe/Amsterdam
+# app/resources/translations/el/messages.el.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   6 unused messages
+#  no unused messages
 #  72 untranslated messages
-# 344 untranslated keyword based messages
+# 345 untranslated keyword based messages
 #  20 translations
 # 186 keyword based translations
-
-#--- 6 unused messages --------------------------------------------------------
-
-"component.changelog-pager.page": #
-"field.slug.button.link": #
-"page.extend.button.config": #
-"page.extend.button.readme": #
-"page.extend.button.uninstall": #
-"page.extend.button.versions": #
 
 #--- 72 untranslated messages -------------------------------------------------
 
@@ -98,7 +89,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 344 untranslated keyword based messages ----------------------------------
+#--- 345 untranslated keyword based messages ----------------------------------
 
 "contenttypes.generic.created": # "This %contenttype% was created"
 "contenttypes.generic.group.meta": # "Meta"
@@ -156,6 +147,7 @@
 "general.phrase.add-selected": # "Add Selected"
 "general.phrase.author": # "Author"
 "general.phrase.browswer-platform": # "Browser / platform"
+"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 "general.phrase.clear-cache-complete": # "Cleared cache."
 "general.phrase.clear-change-log": # "Clear Change Log"
 "general.phrase.clear-system-log": # "Clear System Log"
@@ -227,7 +219,6 @@
 "general.phrase.order": # "Order"
 "general.phrase.other-content": # "Other content"
 "general.phrase.others": # "Others"
-"general.phrase.page": # "Page"
 "general.phrase.path-image-file": # "Path to image file"
 "general.phrase.please-logon": # "Please log on."
 "general.phrase.publish": # "Publish"
@@ -408,11 +399,11 @@
 "page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 "page.extend.message.updated": # "Everything is up to date!"
 "page.extend.message.updating": # "Searching for available updates …"
+"page.extend.options": # "Extension Options"
 "page.extend.pagetitle": # "Extend %BOLTNAME%"
 "page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "page.extend.theme.generation.missing.name": # "No theme name found. Theme is not generated."
 "page.extend.theme.generation.success": # "Theme successfully generated. You can now edit it directly from your theme folder."
-"page.extend.options": #
 "page.file-management.label.create-file": # "Create File"
 "page.file-management.label.create-folder": # "Create folder"
 "page.file-management.message.create-file": # "Please enter a new file name!"
