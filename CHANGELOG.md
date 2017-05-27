@@ -4,6 +4,12 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Change set: [#6689](https://github.com/bolt/bolt/pull/6689)
+  - Removed: Twig filters
+    - `ucfirst` (use `capitalize`)
+  - Removed: Twig globals
+    - `bolt_name`
+    - `bolt_version` (use `constant('Bolt\\Version::VERSION')`)
 - Removed: `{{ link() }}` as it now is [used upstream](http://symfony.com/blog/new-in-symfony-3-3-weblink-component)
 - Removed: `Bolt\Helpers\Arr` (see [`bolt/collection`](https://github.com/bolt/collection))
 - Removed: `Bolt\Storage\Prefill` (see `\Bolt\Storage\Database\Prefill\ApiClient`)
@@ -70,7 +76,7 @@ Bolt 4.0-dev
   - Removed: Twig filters
     - `fancybox` (use `popup`)
     - `localdate` (use `localedatetime`)
-    - `trimtext` (use `excerpt`)
+  - Removed: `$app['safe_twig']` (use `$app['twig']` with sandbox enabled)
 - Updated: Symfony Components to v3. [#6079](https://github.com/bolt/bolt/pull/6079)
 
 Bolt 3.5-dev

@@ -83,8 +83,6 @@ class BoltExtension extends Extension implements GlobalsInterface
     public function getGlobals()
     {
         return [
-            'bolt_name'    => Bolt\Version::name(),
-            'bolt_version' => Bolt\Version::VERSION,
             'frontend'     => null,
             'backend'      => null,
             'async'        => null,

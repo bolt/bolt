@@ -40,8 +40,6 @@ class BoltExtensionTest extends BoltUnitTest
         (new ConfigListener($app))->onRequest($event);
 
         $response = $app['twig']->getGlobals();
-        $this->assertArrayHasKey('bolt_name', $response);
-        $this->assertArrayHasKey('bolt_version', $response);
         $this->assertArrayHasKey('frontend', $response);
         $this->assertArrayHasKey('backend', $response);
         $this->assertArrayHasKey('async', $response);
