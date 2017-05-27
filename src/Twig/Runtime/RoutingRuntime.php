@@ -75,37 +75,4 @@ class RoutingRuntime
             $request->headers->get('User-Agent')
         );
     }
-
-    /**
-     * Return the requested parameter from $_REQUEST, $_GET or $_POST.
-     *
-     * @param string  $parameter    The parameter to get
-     * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
-     * @param boolean $stripSlashes Apply stripslashes. Defaults to false.
-     *
-     * @return mixed
-     */
-    public function request($parameter, $from = '', $stripSlashes = false)
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
-            return null;
-        }
-
-        $from = strtoupper($from);
-
-        if ($from === 'GET') {
-            $value = $request->query->get($parameter, false);
-        } elseif ($from === 'POST') {
-            $value = $request->request->get($parameter, false);
-        } else {
-            $value = $request->get($parameter, false);
-        }
-
-        if ($stripSlashes) {
-            $value = stripslashes($value);
-        }
-
-        return $value;
-    }
 }

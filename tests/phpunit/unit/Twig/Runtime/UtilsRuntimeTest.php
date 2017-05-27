@@ -12,13 +12,6 @@ use Bolt\Twig\Runtime\UtilsRuntime;
  */
 class UtilsRuntimeTest extends BoltUnitTest
 {
-    public function testFileExists()
-    {
-        $handler = $this->getHandler();
-        $result = $handler->fileExists(__FILE__);
-        $this->assertTrue($result);
-    }
-
     public function testPrintFirebugSafeDebugOn()
     {
         $app = $this->getApp();

@@ -22,11 +22,9 @@ class ImageExtension extends Extension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new TwigFunction('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
             new TwigFunction('image',     [Runtime\ImageRuntime::class, 'image']),
             new TwigFunction('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
             new TwigFunction('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
@@ -46,7 +44,6 @@ class ImageExtension extends Extension
 
         return [
             // @codingStandardsIgnoreStart
-            new TwigFilter('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
             new TwigFilter('image',     [Runtime\ImageRuntime::class, 'image']),
             new TwigFilter('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
             new TwigFilter('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),

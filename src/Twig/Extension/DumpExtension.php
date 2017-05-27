@@ -26,7 +26,6 @@ class DumpExtension extends Extension
             // @codingStandardsIgnoreStart
             new TwigFunction('backtrace', [DumpRuntime::class, 'dumpBacktrace'], $options),
             new TwigFunction('dump',      [DumpRuntime::class, 'dump'], $options),
-            new TwigFunction('print',     [DumpRuntime::class, 'dump'], $options + ['deprecated' => true, 'alternative' => 'dump']),
             // @codingStandardsIgnoreEnd
         ];
     }

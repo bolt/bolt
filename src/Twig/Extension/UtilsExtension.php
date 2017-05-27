@@ -20,11 +20,8 @@ class UtilsExtension extends Extension
      */
     public function getFunctions()
     {
-        $deprecated = ['deprecated' => true];
-
         return [
             // @codingStandardsIgnoreStart
-            new TwigFunction('file_exists', [Runtime\UtilsRuntime::class, 'fileExists'], $deprecated),
             new TwigFunction('firebug',     [Runtime\UtilsRuntime::class, 'printFirebug']),
             // @codingStandardsIgnoreEnd
         ];

@@ -5,6 +5,11 @@ Bolt 4.0-dev
 -----------
 
 - Change set: [#6689](https://github.com/bolt/bolt/pull/6689)
+  - Removed: Twig functions
+    - `file_exists`
+    - `first` (use as filter)
+    - `redirect`
+    - `request` (use `global.request.get()`)
   - Removed: Twig filters
     - `ucfirst` (use `capitalize`)
   - Removed: Twig globals
@@ -71,6 +76,7 @@ Bolt 4.0-dev
   - Removed: Twig functions
     - `fancybox` (use `popup`)
     - `ischangelogenabled` (use `config.get()` instead)
+    - `last` (use as filter)
     - `print` (use `dump`)
     - `trimtext` (use `excerpt`)
   - Removed: Twig filters

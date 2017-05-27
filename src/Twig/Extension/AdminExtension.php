@@ -23,7 +23,6 @@ class AdminExtension extends Extension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
@@ -32,7 +31,6 @@ class AdminExtension extends Extension
             new TwigFunction('data',               [Runtime\AdminRuntime::class, 'addData']),
             new TwigFunction('hattr',              [Runtime\AdminRuntime::class, 'hattr'], $safe),
             new TwigFunction('hclass',             [Runtime\AdminRuntime::class, 'hclass'], $safe),
-            new TwigFunction('ischangelogenabled', [Runtime\AdminRuntime::class, 'isChangelogEnabled'], $deprecated),
             new TwigFunction('randomquote',        [Runtime\AdminRuntime::class, 'randomQuote'], $safe),
             new TwigFunction('stack',              [Runtime\AdminRuntime::class, 'stack']),
             // @codingStandardsIgnoreEnd

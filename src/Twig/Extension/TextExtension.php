@@ -22,12 +22,10 @@ class TextExtension extends Extension
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
             new TwigFilter('json_decode',    [Runtime\TextRuntime::class, 'jsonDecode']),
-            new TwigFilter('localdate',      [Runtime\TextRuntime::class, 'localeDateTime'], $safe + $deprecated + ['alternative' => 'localedatetime']),
             new TwigFilter('localedatetime', [Runtime\TextRuntime::class, 'localeDateTime'], $safe),
             new TwigFilter('preg_replace',   [Runtime\TextRuntime::class, 'pregReplace']),
             new TwigFilter('safestring',     [Runtime\TextRuntime::class, 'safeString'], $safe),

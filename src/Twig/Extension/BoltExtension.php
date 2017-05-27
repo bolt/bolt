@@ -46,35 +46,6 @@ class BoltExtension extends Extension implements GlobalsInterface
 
     /**
      * {@inheritdoc}
-     */
-    public function getFunctions()
-    {
-        $env  = ['needs_environment' => true];
-        $deprecated = ['deprecated' => true];
-
-        return [
-            // @codingStandardsIgnoreStart
-            new TwigFunction('first', 'twig_first', $env + $deprecated),
-            new TwigFunction('last',  'twig_last', $env + $deprecated),
-            // @codingStandardsIgnoreEnd
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        $env  = ['needs_environment' => true];
-        $deprecated = ['deprecated' => true];
-
-        return [
-            new TwigFilter('ucfirst', 'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * As of Twig 2.x, the ability to register a global variable after runtime
      * or the extensions have been initialized will not be possible any longer,

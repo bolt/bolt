@@ -20,8 +20,6 @@ class UserExtension extends Extension
      */
     public function getFunctions()
     {
-        $deprecated = ['deprecated' => true];
-
         return [
             // @codingStandardsIgnoreStart
             new TwigFunction('getuser',   [Runtime\UserRuntime::class, 'getUser']),
