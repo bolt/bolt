@@ -410,10 +410,10 @@ class Edit
         foreach ([$contentType['fields'], $templateFields] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
-            }
-            if ($field['type'] === 'repeater') {
-                foreach ($field['fields'] as $rfield) {
-                    $fieldtypes[$rfield['type']] = true;
+                if ($field['type'] === 'repeater') {
+                    foreach ($field['fields'] as $rfield) {
+                        $fieldtypes[$rfield['type']] = true;
+                    }
                 }
             }
         }
