@@ -12,14 +12,28 @@ fieldset.bolt-field-repeater {
     }
 
     .repeater-group {
-        border: 1px solid #ddd;
-        margin: 15px;
+        border: 0;
+        border-left: 6px solid #CCC;
+        border-radius: 0;
+        margin: 0px;
+        box-shadow: none;
+        background-color: transparent;
+        margin-bottom: 2em;
+    }
+
+    .panel-heading {
+        border: 0;
+    }
+
+    .panel-body {
+        padding: 15px 0 0 15px;
     }
 
     .repeater-field {
         @include make-xs-column(12);
 
         margin-top: 24px;
+        padding: 0;
 
         &:first-of-type {
             margin-top: 0;
@@ -29,7 +43,6 @@ fieldset.bolt-field-repeater {
         &:last-of-type {
             margin-bottom: 0;
             border-bottom: none;
-            padding-bottom: 15px;
         }
     }
 }
