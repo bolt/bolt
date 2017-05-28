@@ -59,7 +59,7 @@
     },
     "require-dev": {
         "bolt/codingstyle": "^1.0",
-        "codeception/codeception": "^2.3.1",
+        "codeception/codeception": "2.3.1",
         "league/flysystem-memory": "^1.0",
         "lstrojny/phpunit-function-mocker": "^1.0",
         "phpunit/dbunit": "^3.0",
