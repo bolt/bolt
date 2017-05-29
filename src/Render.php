@@ -7,7 +7,7 @@ use Bolt\Response\TemplateResponse;
 use Silex;
 use Symfony\Component\HttpFoundation\Response;
 use Twig_Error_Loader as LoaderError;
-use Twig_ExistsLoaderInterface;
+use Twig_ExistsLoaderInterface as ExistsLoaderInterface;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.
@@ -103,7 +103,7 @@ class Render
          * Twig_LoaderInterface in Twig 2.0. Check for this
          * instead once we are there, and remove getSource() check.
          */
-        if ($loader instanceof Twig_ExistsLoaderInterface) {
+        if ($loader instanceof ExistsLoaderInterface) {
             return $loader->exists($template);
         }
 
