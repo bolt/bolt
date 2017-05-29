@@ -58,6 +58,8 @@ script:
   # Codeception
   - ./vendor/codeception/codeception/codecept build -vvv > /dev/null
   - ./vendor/codeception/codeception/codecept run --ext DotReporter
+  # Deprecation checks
+  - ./tests/scripts/deprecation-check.sh
 
 # Cache directories
 cache:
