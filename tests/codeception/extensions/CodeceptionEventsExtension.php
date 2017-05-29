@@ -1,5 +1,6 @@
 <?php
 
+use Bolt\Bootstrap;
 use Codeception\Event\SuiteEvent;
 use Codeception\Events;
 use Codeception\Util\Fixtures;
@@ -110,8 +111,7 @@ class CodeceptionEventsExtension extends \Codeception\Extension
 
     private function nut($args)
     {
-        /** @var \Silex\Application $app */
-        $app = require __DIR__ . '/../../../app/bootstrap.php';
+        $app = Bootstrap::run(__DIR__ . '/../../..');
         $nut = $app['nut'];
         $nut->setAutoExit(false);
 
