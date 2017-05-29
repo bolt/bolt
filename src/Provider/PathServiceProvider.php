@@ -130,11 +130,5 @@ class PathServiceProvider implements ServiceProviderInterface
 
         $theme = $app['config']->get('general/theme');
         $resolver->define('theme', "%themes%/$theme");
-
-        if (!file_exists($resolver->resolve('web')) &&
-            (!file_exists($resolver->resolve('.bolt.yml')) || !file_exists($resolver->resolve('.bolt.php')))
-        ) {
-            BootException::earlyExceptionMissingLoaderConfig();
-        }
     }
 }
