@@ -39,8 +39,16 @@ if (!defined('BOLT_ROOT')) {
     }
 }
 
-echo 'Codeception bootstrapped:' . PHP_EOL;
-echo '    Install type:     ' . $installType . PHP_EOL;
-echo '    Install root:     ' . INSTALL_ROOT . PHP_EOL;
-echo '    Bolt code root:   ' . BOLT_ROOT . PHP_EOL;
-echo '    Codeception root: ' . CODECEPTION_ROOT . PHP_EOL;
+$verbose = false;
+foreach ($GLOBALS['argv'] as $value) {
+    if (preg_match('/^-[-]{0,1}v/', $value) === 1) {
+        $verbose = true;
+    }
+}
+if ($verbose) {
+    echo 'Codeception bootstrapped:' . PHP_EOL;
+    echo '    Install type:     ' . $installType . PHP_EOL;
+    echo '    Install root:     ' . INSTALL_ROOT . PHP_EOL;
+    echo '    Bolt code root:   ' . BOLT_ROOT . PHP_EOL;
+    echo '    Codeception root: ' . CODECEPTION_ROOT . PHP_EOL;
+}
