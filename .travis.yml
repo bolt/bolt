@@ -49,9 +49,10 @@ script:
   - ./tests/scripts/dbsetup.sh
   - $PHPUNIT_CMD tests/phpunit/database/
   # Codeception
-  - ./vendor/codeception/codeception/codecept build
-  - ./vendor/codeception/codeception/codecept run
-#  - ./vendor/bin/bolt-test-reporter --codeception-failures tests/codeception/_output app/cache/codeception-run*
+  - ./vendor/codeception/codeception/codecept build -vvv > /dev/null
+  - ./vendor/codeception/codeception/codecept run --ext DotReporter
+  # Deprecation checks
+  - ./tests/scripts/deprecation-check.sh
 
 # Cache directories
 cache:
