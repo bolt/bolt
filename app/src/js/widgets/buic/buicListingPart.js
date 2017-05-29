@@ -94,7 +94,10 @@
                 count;
 
             if (checkbox.checked) {
-                this.selectedIds.push(id);
+                // Only add the item, if it's not already in the list.
+                if (this.selectedIds.indexOf(id) === -1) {
+                    this.selectedIds.push(id);
+                }
                 row.addClass('row-selected');
             } else {
                 this.selectedIds.splice(this.selectedIds.indexOf(id), 1);

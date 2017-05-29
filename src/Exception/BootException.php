@@ -83,23 +83,6 @@ EOM;
     }
 
     /**
-     * Exception due to a missing .bolt.yml or .bolt.php file.
-     */
-    public static function earlyExceptionMissingLoaderConfig()
-    {
-        $message = <<<EOM
-This installation is missing either a .bolt.yml file (default), or a .bolt.php file.
-<br><br>
-If you have uploaded this install via a file manager or FTP, please check that 
-"show hidden files" is turned on. After doing so, you will be able to see this 
-file and you can upload it to the root of your Bolt installation.
-EOM;
-        echo sprintf(static::getEarlyExceptionHtml(), 'Bolt - Installation Incomplete', $message, static::getHintsComposer());
-
-        throw new static(strip_tags($message));
-    }
-
-    /**
      * Exception due to a PHP version being unsupported.
      */
     public static function earlyExceptionVersion()
