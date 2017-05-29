@@ -59,22 +59,22 @@ class CodeceptionEventsExtension extends \Codeception\Extension
         foreach ($backups as $file => $keep) {
             if (file_exists($file) && !file_exists("$file.codeception-backup")) {
                 if ($keep) {
-                    $this->writeln("Copying $file");
+                    $this->writeVerbose("Copying $file");
                     $fs->copy($file, "$file.codeception-backup");
                 } else {
-                    $this->writeln("Renaming $file");
+                    $this->writeVerbose("Renaming $file");
                     $fs->rename($file, "$file.codeception-backup");
                 }
             } elseif (file_exists($file)) {
                 if (!$keep) {
-                    $this->writeln("Removing $file");
+                    $this->writeVerbose("Removing $file");
                     $fs->remove($file);
                 }
             }
         }
 
         // Empty the cache
-        $this->nut('cache:clear');
+        $this->nut('cache:clear -q');
     }
 
     /**
@@ -88,7 +88,7 @@ class CodeceptionEventsExtension extends \Codeception\Extension
     private function afterSuiteAcceptance(SuiteEvent $e)
     {
         // Empty the cache
-        $this->nut('cache:clear');
+        $this->nut('cache:clear -q');
 
         $fs = new Filesystem();
         $rundir = INSTALL_ROOT . '/app/cache/codeception-run-' . time() . '/';
@@ -98,7 +98,7 @@ class CodeceptionEventsExtension extends \Codeception\Extension
         $backups = Fixtures::get('backups');
         foreach ($backups as $file => $keep) {
             if ($fs->exists("$file.codeception-backup")) {
-                $this->writeln("Restoring $file");
+                $this->writeVerbose("Restoring $file");
                 $fs->copy($file, $rundir . basename($file));
                 $fs->rename("$file.codeception-backup", $file, true);
             }
@@ -116,5 +116,12 @@ class CodeceptionEventsExtension extends \Codeception\Extension
         $nut->setAutoExit(false);
 
         $nut->run(new StringInput($args));
+    }
+
+    protected function writeVerbose($message)
+    {
+        if ($this->output->isVerbose()) {
+            $this->writeln($message);
+        }
     }
 }
