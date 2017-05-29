@@ -6,7 +6,7 @@ use Bolt\Collection\Bag;
 use Bolt\Composer\Script\BootstrapYamlUpdater;
 use Bolt\Version;
 use Composer\IO\BufferIO;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -138,7 +138,10 @@ class BootstrapYamlUpdaterTest extends TestCase
         ];
 
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->once())
             ->method('dumpFile')
             ->with('.bolt.yml', Yaml::dump($config))
@@ -164,7 +167,10 @@ class BootstrapYamlUpdaterTest extends TestCase
         ];
 
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->once())
             ->method('dumpFile')
             ->with('.bolt.yml', Yaml::dump($config))
@@ -193,7 +199,10 @@ OUT;
     public function testSaveEmptyPathsAndNoOtherOptions()
     {
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->never())
             ->method('dumpFile')
         ;
@@ -215,7 +224,10 @@ OUT;
     public function testSaveEmptyPathsAndNoOtherOptionsError()
     {
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->never())
             ->method('dumpFile')
         ;
@@ -238,7 +250,10 @@ OUT;
     public function testSaveEmptyPathsButOtherOptions()
     {
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->once())
             ->method('dumpFile')
             ->with('.bolt.yml', "application: My\\App\n")
@@ -262,7 +277,10 @@ OUT;
     public function testSaveEmptyPathsButOtherOptionsError()
     {
         $io = new BufferIO();
-        $filesystem = $this->getMock(Filesystem::class, ['dumpFile', 'remove']);
+        $filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'remove'])
+            ->getMock()
+        ;
         $filesystem->expects($this->once())
             ->method('dumpFile')
             ->with('.bolt.yml', "application: My\\App\n")

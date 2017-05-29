@@ -16,9 +16,9 @@ sites in HTML5 with modern markup.
 From a technical perspective, Bolt is written in PHP, and built upon the
 [Silex framework][silex] together with a number of [Symfony][symfony]
 [components][sf-components] and many other mature and well supported
-[libraries][required-libraries]. 
+[libraries][required-libraries].
 
-Bolt also supports using either SQLite, MySQL (MariaDB) or PostgreSQL as the 
+Bolt also supports using either SQLite, MySQL (MariaDB) or PostgreSQL as the
 database platform.
 
 
@@ -38,20 +38,21 @@ Detailed instructions can be found in the [Installation section in the documenta
 Support
 -------
 
-Have a question? Want to chat? Run into a problem?  
+Have a question? Want to chat? Run into a problem?
 
- - We have a **Slack channel** at [boltcms.slack.com][bolt-slack]. To get in, 
+ - We have a **Slack channel** at [boltcms.slack.com][bolt-slack]. To get in,
    get yourself an invite at [slack.bolt.cm][bolt-slack-invite]
- - There’s always some people willing to chat in our **IRC channel** on 
+ - There’s always some people willing to chat in our **IRC channel** on
    Freenode at **#boltcms**. No IRC client? Use [our web-based IRC client][bolt-irc]
- - There's a **Forum** at [discuss.bolt.cm][bolt-forum], where we'll gladly 
+ - There's a **Forum** at [discuss.bolt.cm][bolt-forum], where we'll gladly
    help you sort out problems, or discuss other Bolt-related things
- - We’re pretty active on **Twitter**. Follow us, or say hello at 
+ - We’re pretty active on **Twitter**. Follow us, or say hello at
    [@BoltCM][bolt-twitter]
 
 
 Reporting issues
 ----------------
+
 When you run into an issue, be sure to provide some details on the issue.
 
 Please include with your report:
