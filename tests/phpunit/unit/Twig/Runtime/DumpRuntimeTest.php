@@ -44,18 +44,26 @@ class DumpRuntimeTest extends BoltUnitTest
             'debug' => $debug,
         ]);
 
-        $users = $this->getMock(Users::class, [], [], '', false);
+        $users = $this->getMockBuilder(Users::class)
+            ->setMethods(['getCurrentUser'])
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
         $users->expects($this->any())
             ->method('getCurrentUser')
             ->willReturn($hasUser ? true : null);
 
         /** @var DumpRuntime|MockObject $runtime */
-        $runtime = $this->getMock(DumpRuntime::class, ['dump'], [
-            new VarCloner(),
-            new HtmlDumper(),
-            $users,
-            $debugWhileLoggedOff,
-        ]);
+        $runtime = $this->getMockBuilder(DumpRuntime::class)
+            ->setMethods(['dump'])
+            ->setConstructorArgs([
+                new VarCloner(),
+                new HtmlDumper(),
+                $users,
+                $debugWhileLoggedOff
+            ])
+            ->getMock()
+        ;
         $runtime->expects($expectOutput ? $this->once() : $this->never())
             ->method('dump')
             ->willReturnArgument(2);
