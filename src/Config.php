@@ -1127,6 +1127,7 @@ class Config
                 'notfound_image'    => 'bolt_assets://img/default_notfound.png',
                 'error_image'       => 'bolt_assets://img/default_error.png',
                 'only_aliases'      => false,
+                'clear_with_cache'  => true,
             ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
