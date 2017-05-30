@@ -8,6 +8,7 @@ use Bolt\Filesystem\Exception\DefaultImageNotFoundException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Matcher;
+use Bolt\Helpers\Deprecated;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;
@@ -119,6 +120,16 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
 
         $configKey = "thumbnails/{$name}_image";
         $path = $app['config']->get("general/$configKey");
+
+        // Trim "view/" from front of path for BC.
+        if (strpos($path, 'view/') === 0) {
+            Deprecated::warn(
+                'Not specifying a mount point for thumbnail paths',
+                3.3,
+                'Take a look at the config.yml.dist for how to update them.'
+            );
+            $path = substr($path, 5);
+        }
 
         try {
             $image = $matcher->getImage($path);
