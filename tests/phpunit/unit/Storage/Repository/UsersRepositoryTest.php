@@ -4,6 +4,7 @@ namespace Bolt\Tests\Storage\Repository;
 
 use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Storage\Entity;
 
 /**
  * Class to test src/Storage/Repository/UsersRepository.
