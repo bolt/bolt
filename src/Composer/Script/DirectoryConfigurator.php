@@ -174,6 +174,21 @@ class DirectoryConfigurator
         $this->filesystem->mkdir(dirname($target), $this->options->getDirMode());
 
         $this->filesystem->rename($origin, $target);
+
+        $parts = explode('/', $target);
+        if (count($parts) > 1) {
+            return;
+        }
+        $match = "/^{$parts[0]}/";
+        $replace = sprintf(
+            '%s%s',
+            strpos($name, '/') === 0 ? '' : '%site%/',
+            $parts[0]
+        );
+        $target = preg_replace($match, $replace, $target);
+
+        $this->defaults->define($name, $target);
+        $this->resolver->define($name, $target);
     }
 
     /**
