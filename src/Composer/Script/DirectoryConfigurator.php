@@ -92,7 +92,7 @@ class DirectoryConfigurator
             }
         }
 
-        if ($this->io->askConfirmation("Do you want to use Bolt's standard folder structure? ")) {
+        if ($this->io->askConfirmation("Do you want to use Bolt's standard folder structure? [<info>yes</info>] ")) {
             return;
         }
 
