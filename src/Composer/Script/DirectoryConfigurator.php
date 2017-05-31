@@ -187,20 +187,8 @@ class DirectoryConfigurator
             $this->filesystem->mkdir($target, $this->options->getDirMode());
         }
 
-        $parts = explode('/', $target);
-        if (count($parts) > 1) {
-            return;
-        }
-        $match = "/^{$parts[0]}/";
-        $replace = sprintf(
-            '%s%s',
-            strpos($name, '/') === 0 ? '' : '%site%/',
-            $parts[0]
-        );
-        $target = preg_replace($match, $replace, $target);
-
-        $this->defaults->define($name, $target);
-        $this->resolver->define($name, $target);
+        // Update defaults with the change, so when moving sub-directories the origin has the updated parent path.
+        $this->defaults->define($name, $this->resolver->raw($name));
     }
 
     /**
