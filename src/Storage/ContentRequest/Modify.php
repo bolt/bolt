@@ -102,14 +102,19 @@ class Modify
     protected function deleteRecord(Repository $repo, Content $entity)
     {
         $recordId = $entity->getId();
-        $contentTypeName = (string) $entity->getContenttype();
+        $contentType = $entity->getContenttype();
+        $contentTypeName = $contentType['singular_name'];
         if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
             $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
-            return;
+            return false;
+        }
+        $result = $repo->delete($entity);
+        if ($result) {
+            $this->loggerSystem->info(sprintf('Deleted %s: %s', $contentTypeName, $entity->getTitle()), ['event' => 'content']);
         }
 
-        return $repo->delete($entity);
+        return $result;
     }
 
     /**
