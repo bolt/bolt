@@ -92,7 +92,7 @@ class DirectoryConfigurator
             }
         }
 
-        if ($this->io->askConfirmation("Do you want to use Bolt's standard folder structure? ")) {
+        if ($this->io->askConfirmation("Do you want to use Bolt's standard folder structure? [<info>yes</info>] ")) {
             return;
         }
 
@@ -120,7 +120,7 @@ class DirectoryConfigurator
             return;
         }
 
-        $this->io->writeError('Writing customized paths to <comment>.bolt.yml</>');
+        $this->io->writeError('Writing customized paths to <comment>.bolt.yml</comment>');
 
         $config = [
             'paths' => $customized,
@@ -167,13 +167,31 @@ class DirectoryConfigurator
         }
 
         $this->verbose(
-            sprintf('Moving <info>%s</> directory from <info>%s</> to <info>%s</>', $name, $origin, $target)
+            sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target)
         );
 
         // ensure parent directory exists
         $this->filesystem->mkdir(dirname($target), $this->options->getDirMode());
+        if ($this->filesystem->exists($origin)) {
+            $this->filesystem->rename($origin, $target);
+        } else {
+            $this->filesystem->mkdir($target, $this->options->getDirMode());
+        }
 
-        $this->filesystem->rename($origin, $target);
+        $parts = explode('/', $target);
+        if (count($parts) > 1) {
+            return;
+        }
+        $match = "/^{$parts[0]}/";
+        $replace = sprintf(
+            '%s%s',
+            strpos($name, '/') === 0 ? '' : '%site%/',
+            $parts[0]
+        );
+        $target = preg_replace($match, $replace, $target);
+
+        $this->defaults->define($name, $target);
+        $this->resolver->define($name, $target);
     }
 
     /**
@@ -189,6 +207,9 @@ class DirectoryConfigurator
         $dirMode = $this->options->getDirMode();
         foreach ($pathNames as $name) {
             $path = $this->resolver->resolve($name);
+            if (!$this->filesystem->exists($path)) {
+                $this->filesystem->mkdir($path);
+            }
             $this->filesystem->chmod($path, $dirMode);
         }
     }
