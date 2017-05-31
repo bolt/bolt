@@ -120,7 +120,7 @@ class DirectoryConfigurator
             return;
         }
 
-        $this->io->writeError('Writing customized paths to <comment>.bolt.yml</>');
+        $this->io->writeError('Writing customized paths to <comment>.bolt.yml</comment>');
 
         $config = [
             'paths' => $customized,
@@ -167,7 +167,7 @@ class DirectoryConfigurator
         }
 
         $this->verbose(
-            sprintf('Moving <info>%s</> directory from <info>%s</> to <info>%s</>', $name, $origin, $target)
+            sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target)
         );
 
         // ensure parent directory exists
