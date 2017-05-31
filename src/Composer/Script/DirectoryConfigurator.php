@@ -172,8 +172,11 @@ class DirectoryConfigurator
 
         // ensure parent directory exists
         $this->filesystem->mkdir(dirname($target), $this->options->getDirMode());
-
-        $this->filesystem->rename($origin, $target);
+        if ($this->filesystem->exists($origin)) {
+            $this->filesystem->rename($origin, $target);
+        } else {
+            $this->filesystem->mkdir($target, $this->options->getDirMode());
+        }
 
         $parts = explode('/', $target);
         if (count($parts) > 1) {
