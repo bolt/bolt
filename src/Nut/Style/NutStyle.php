@@ -3,6 +3,7 @@
 namespace Bolt\Nut\Style;
 
 use Bolt\Nut\Helper\QuestionHelper;
+use Bolt\Nut\Output\NutStyleInterface;
 use Bolt\Nut\Output\OverwritableOutput;
 use Bolt\Nut\Output\OverwritableOutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class NutStyle extends SymfonyStyle implements OverwritableOutputInterface, OverwritableStyleInterface
+class NutStyle extends SymfonyStyle implements NutStyleInterface
 {
     /** @var InputInterface */
     protected $input;
