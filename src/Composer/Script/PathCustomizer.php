@@ -4,16 +4,7 @@ namespace Bolt\Composer\Script;
 
 use Bolt\Configuration\PathResolver;
 use Bolt\Nut\Helper\Table;
-use Bolt\Nut\Output\OverwritableOutput;
-use Bolt\Nut\Output\OverwritableOutputInterface;
-use Bolt\Nut\Style\NutStyle;
-use Composer\IO\ConsoleIO;
-use Composer\IO\IOInterface;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
+use Bolt\Nut\Output\NutStyleInterface;
 use Symfony\Component\Console\Question\Question;
 use Webmozart\PathUtil\Path;
 
@@ -26,11 +17,7 @@ final class PathCustomizer
 {
     /** @var PathResolver */
     private $resolver;
-    /** @var InputInterface */
-    private $input;
-    /** @var OverwritableOutputInterface */
-    private $output;
-    /** @var NutStyle */
+    /** @var NutStyleInterface */
     private $io;
     /** @var Table */
     private $pathsTable;
@@ -38,48 +25,13 @@ final class PathCustomizer
     /**
      * Constructor.
      *
-     * @param PathResolver    $resolver
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param PathResolver      $resolver
+     * @param NutStyleInterface $io
      */
-    public function __construct(PathResolver $resolver, InputInterface $input, OutputInterface $output)
+    public function __construct(PathResolver $resolver, NutStyleInterface $io)
     {
-        if ($output instanceof ConsoleOutputInterface) {
-            $output = $output->getErrorOutput();
-        }
-        if (!$output instanceof OverwritableOutputInterface) {
-            $output = new OverwritableOutput($output);
-        }
-
         $this->resolver = $resolver;
-        $this->input = $input;
-        $this->output = $output;
-
-        $this->io = new NutStyle($input, $output);
-    }
-
-    /**
-     * Create PathCustomizer from Composer's IOInterface.
-     *
-     * @param PathResolver $resolver
-     * @param IOInterface  $io
-     *
-     * @return PathCustomizer
-     */
-    public static function fromComposer(PathResolver $resolver, IOInterface $io)
-    {
-        $input = new ArrayInput([]);
-        $input->setInteractive($io->isInteractive());
-
-        if ($io instanceof ConsoleIO) {
-            $ref = new \ReflectionProperty($io, 'output');
-            $ref->setAccessible(true);
-            $output = $ref->getValue($io);
-        } else {
-            $output = new NullOutput();
-        }
-
-        return new static($resolver, $input, $output);
+        $this->io = $io;
     }
 
     /**
@@ -87,7 +39,7 @@ final class PathCustomizer
      */
     public function run()
     {
-        if (!$this->input->isInteractive()) {
+        if (!$this->io->isInteractive()) {
             return;
         }
 
@@ -104,7 +56,7 @@ OUT;
         $info = preg_replace_callback('/`([^`]*)`/', function ($match) {
             return "<comment>{$match[1]}</comment>";
         }, $info);
-        $this->output->writeln($info);
+        $this->io->writeln($info);
 
         do {
             $this->renderPaths();
@@ -124,7 +76,7 @@ OUT;
     protected function renderPaths()
     {
         if (!$this->pathsTable) {
-            $this->pathsTable = new Table($this->output);
+            $this->pathsTable = new Table($this->io);
             $style = clone Table::getStyleDefinition('symfony-style-guide');
             $this->pathsTable->setStyle($style);
 
