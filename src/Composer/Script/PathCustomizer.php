@@ -4,8 +4,8 @@ namespace Bolt\Composer\Script;
 
 use Bolt\Configuration\PathResolver;
 use Bolt\Nut\Helper\Table;
-use Bolt\Nut\Output\ModifiableOutput;
-use Bolt\Nut\Output\ModifiableOutputInterface;
+use Bolt\Nut\Output\OverwritableOutput;
+use Bolt\Nut\Output\OverwritableOutputInterface;
 use Bolt\Nut\Style\NutStyle;
 use Composer\IO\ConsoleIO;
 use Composer\IO\IOInterface;
@@ -28,7 +28,7 @@ final class PathCustomizer
     private $resolver;
     /** @var InputInterface */
     private $input;
-    /** @var ModifiableOutputInterface */
+    /** @var OverwritableOutputInterface */
     private $output;
     /** @var NutStyle */
     private $io;
@@ -47,8 +47,8 @@ final class PathCustomizer
         if ($output instanceof ConsoleOutputInterface) {
             $output = $output->getErrorOutput();
         }
-        if (!$output instanceof ModifiableOutputInterface) {
-            $output = new ModifiableOutput($output);
+        if (!$output instanceof OverwritableOutputInterface) {
+            $output = new OverwritableOutput($output);
         }
 
         $this->resolver = $resolver;
