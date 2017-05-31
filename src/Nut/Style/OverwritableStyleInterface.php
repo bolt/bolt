@@ -13,6 +13,13 @@ use Symfony\Component\Console\Style\StyleInterface;
 interface OverwritableStyleInterface extends StyleInterface
 {
     /**
+     * Returns whether the input is interactive.
+     *
+     * @return bool
+     */
+    public function isInteractive();
+
+    /**
      * Asks a question then removes the question & answer.
      *
      * @param string        $question

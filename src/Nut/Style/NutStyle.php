@@ -43,6 +43,14 @@ class NutStyle extends SymfonyStyle implements OverwritableOutputInterface, Over
     /**
      * {@inheritdoc}
      */
+    public function isInteractive()
+    {
+        return $this->input->isInteractive();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function askThenRemove($question, $default = null, $validator = null)
     {
         $question = new Question($question, $default);
