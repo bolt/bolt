@@ -204,6 +204,9 @@ class DirectoryConfigurator
         $dirMode = $this->options->getDirMode();
         foreach ($pathNames as $name) {
             $path = $this->resolver->resolve($name);
+            if (!$this->filesystem->exists($path)) {
+                $this->filesystem->mkdir($path);
+            }
             $this->filesystem->chmod($path, $dirMode);
         }
     }
