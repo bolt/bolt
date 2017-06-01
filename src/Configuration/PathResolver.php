@@ -40,7 +40,7 @@ class PathResolver
             'web'               => '%site%/public',
             'files'             => '%web%/files',
             'themes'            => '%web%/theme',
-            'bolt_assets'       => '%web%/bolt-public/view',
+            'bolt_assets'       => '%web%/bolt-public',
         ];
     }
 
