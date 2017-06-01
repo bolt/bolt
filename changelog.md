@@ -1,6 +1,12 @@
 Changelog for Bolt 2.x
 ======================
 
+Bolt 2.2.24
+-----------
+
+Released 2017-06-01. Notable changes:
+
+ - Fixed: Ensure composer installs continue to work on PHP 5.5. [#6731](https://github.com/bolt/bolt/pull/6731)
 
 Bolt 2.2.24
 -----------
