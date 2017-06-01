@@ -61,15 +61,23 @@ class DirectorySyncer
     {
         $boltDir = $event->getComposer()->getConfig()->get('vendor-dir') . '/bolt/bolt';
 
-        /**
-         * Use bootstrap.php to ensure autoloader and correct root path is used.
-         * @var Application $userApp
-         */
-        $userApp = require $boltDir . '/app/bootstrap.php';
-        $userResolver = $userApp['path_resolver'];
+        if (file_exists($boltDir)) {
+            /**
+             * Use bootstrap.php to ensure autoloader and correct root path is used.
+             * @var Application $userApp
+             */
+            $userApp = require $boltDir . '/app/bootstrap.php';
+            $userResolver = $userApp['path_resolver'];
 
-        $app = Bootstrap::run($boltDir);
-        $boltResolver = $app['path_resolver'];
+            $app = Bootstrap::run($boltDir);
+            $boltResolver = $app['path_resolver'];
+        } else {
+            // If git install, both resolvers are the same.
+            // This shouldn't be needed, and ends up doing nothing.
+            // But better that than having the code break.
+            $app = Bootstrap::run(__DIR__ . '/../../..');
+            $userResolver = $boltResolver = $app['path_resolver'];
+        }
 
         return new static($userResolver, $boltResolver, $event->getIO(), Options::fromEvent($event));
     }
