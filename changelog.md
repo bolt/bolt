@@ -1,7 +1,7 @@
 Changelog for Bolt 2.x
 ======================
 
-Bolt 2.2.24
+Bolt 2.2.25
 -----------
 
 Released 2017-06-01. Notable changes:
