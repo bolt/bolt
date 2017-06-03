@@ -5,7 +5,7 @@
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
 # field, which allows you to override the record_template setting for an
 # individual page.
-# The taxonomy for this contenttype is defined as 'groups', which is a so-called
+# The taxonomy for this ContentType is defined as 'groups', which is a so-called
 # "grouping taxonomy". This way you can easily group sets of pages that logically
 # belong together. If your site has a 'services' section, in which you'd like to
 # list the different types of services a company provides, you can group these
@@ -41,9 +41,9 @@ pages:
 # which can be used for a short blurb on listing-pages, allowing visitors to
 # click-through to the rest of the entry. It also has fields for an image and an
 # optional video.
-# A relation is defined to the pages contenttype. This way you can refer to a page
+# A relation is defined to the pages ContentType. This way you can refer to a page
 # from your news-item.
-# This contenttype defines 'categories' and 'tags' as taxonomies, allowing the
+# This ContentType defines 'categories' and 'tags' as taxonomies, allowing the
 # editor to use both to categorize a specific entry.
 # The 'sort' is set to '-datepublish', which means that newer entries will be
 # shown above older entries.
@@ -86,8 +86,8 @@ entries:
 
 # The 'Showcases' is not particularly useful in most cases, but it does a good
 # job of showcasing most of the available fieldtypes. Feel free to delete it, or
-# copy some fields to your own contenttypes.
-# Since no templates are defined for this contenttype, the default record_template,
+# copy some fields to your own ContentTypes.
+# Since no templates are defined for this ContentType, the default record_template,
 # listing_template, and related settings are used from config.yml
 
 showcases:
@@ -194,7 +194,7 @@ showcases:
     icon_one: "fa:gift"
 
 
-# The 'Blocks' contenttype is a so-called 'resource contenttype'. This means
+# The 'Blocks' ContentType is a so-called 'resource ContentType'. This means
 # that it can be used to manage smaller pieces of content, like the 'about us'
 # text, an 'our address' in the footer, or similar short blurbs of text.
 # For more info, see: https://docs.bolt.cm/howto/resource-contenttype
@@ -255,7 +255,7 @@ blocks:
 # with a 'key: &name' and referenced later with '<<: *name'
 #
 # Bolt allows you to define this with the special entry of '__nodes:' that itself
-# won't create a Contenttype, but will allow you to use it in actual contenttypes
+# won't create a ContentType, but will allow you to use it in actual ContentTypes
 # to prevent repeating yourself.
 #
 # To achieve this, first create a key '__nodes:'
@@ -274,11 +274,11 @@ blocks:
 #            filter: '*.twig'
 #            group: meta
 #
-# Then, as an example, you could create a Contenttype with default fields, with
+# Then, as an example, you could create a ContentType with default fields, with
 # an additional 'image' field.
 #
 #contenttype_abc:
-#    name: Contenttype Abc
+#    name: ContentType Abc
 #    fields:
 #        <<: *field_defaults
 #        image:
@@ -289,11 +289,11 @@ blocks:
 #    taxonomy: [ chapters ]
 #    recordsperpage: 10
 #
-# Alternatively, or additionally, you then can then create a Contenttype with
+# Alternatively, or additionally, you then can then create a ContentType with
 # default fields, and a 'select' field, and a different 'templateselect' option.
 #
 #contenttype_xyz:
-#    name: Contenttype Xyz
+#    name: ContentType Xyz
 #    fields:
 #        <<: *field_defaults
 #        selectfield:
