@@ -32,7 +32,7 @@ class PathResolver
         return [
             'site'              => '.',
             'app'               => '%site%/app',
-            'cache'             => '%app%/cache',
+            'cache'             => '%var%/cache',
             'config'            => '%app%/config',
             'database'          => '%app%/database',
             'extensions'        => '%site%/extensions',
