@@ -207,7 +207,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                 // If php.ini is using the default (files) handler, use ours instead to prevent this problem.
                 if ($options->get('save_handler') === 'files') {
                     $options->set('save_handler', 'filesystem');
-                    $options->set('save_path', 'cache://.sessions');
+                    $options->set('save_path', 'var://sessions');
                 }
 
                 $overrides = $app['session.options'];
