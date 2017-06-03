@@ -79,7 +79,7 @@ entries:
     record_template: entry.twig
     listing_template: listing.twig
     listing_records: 10
-    default_status: publish
+    default_status: published
     sort: -datepublish
     recordsperpage: 10
 
@@ -188,7 +188,7 @@ showcases:
             label: Select zero or more pages
     taxonomy: [ categories, tags ]
     show_on_dashboard: true
-    default_status: publish
+    default_status: published
     searchable: true
     icon_many: "fa:gift"
     icon_one: "fa:gift"
@@ -224,7 +224,7 @@ blocks:
             extensions: [ gif, jpg, png ]
     show_on_dashboard: true
     viewless: true
-    default_status: publish
+    default_status: published
     searchable: false
     icon_many: "fa:cubes"
     icon_one: "fa:cube"
