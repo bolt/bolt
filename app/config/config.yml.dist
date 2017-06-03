@@ -275,9 +275,10 @@ debug_trace_argument_limit: 4       # Determine how many steps in the backtrace 
 #production_error_level: 8181 # = E_ALL &~ E_NOTICE &~ E_WARNING &~ E_DEPRECATED &~ E_USER_DEPRECATED
 
 # System debug logging
+#
 # This will enable intensive logging of Silex functions and will be very hard on
-# performance and log file size.    The log file will be created in your cache
-# directory.
+# performance and log file size. The log file will be created in your site's
+# var/log/ directory.
 #
 # Enable this for short time periods only when diagnosing system issues.
 # The level can be either: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
