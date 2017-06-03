@@ -68,7 +68,7 @@ abstract class BaseAction
     {
         if (!$this->composer) {
             // Set composer environment variables
-            putenv('COMPOSER_HOME=' . $this->app['path_resolver']->resolve('%cache%/composer'));
+            putenv('COMPOSER_HOME=' . $this->app['path_resolver']->resolve('%var%/composer'));
 
             // Set working directory
             chdir($this->getOptions()->baseDir());
