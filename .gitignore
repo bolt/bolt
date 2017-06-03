@@ -7,6 +7,7 @@ app/database/*
 files/*
 extensions/*
 thumbs/
+var/*
 vendor/
 theme/*
 !theme/base-*
