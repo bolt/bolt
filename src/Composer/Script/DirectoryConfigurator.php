@@ -4,8 +4,10 @@ namespace Bolt\Composer\Script;
 
 use Bolt\Configuration\PathDependencySorter;
 use Bolt\Configuration\PathResolver;
-use Composer\IO\IOInterface;
+use Bolt\Nut\Output\NutStyleInterface;
+use Bolt\Nut\Style\NutStyle;
 use Composer\Script\Event;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
@@ -23,7 +25,7 @@ use Webmozart\PathUtil\Path;
  */
 class DirectoryConfigurator
 {
-    /** @var IOInterface */
+    /** @var NutStyleInterface */
     private $io;
     /** @var Filesystem */
     private $filesystem;
@@ -37,13 +39,17 @@ class DirectoryConfigurator
     /**
      * Constructor.
      *
-     * @param IOInterface       $io
+     * @param NutStyleInterface $io
      * @param Options|null      $options
      * @param PathResolver|null $resolver
      * @param Filesystem|null   $filesystem
      */
-    public function __construct(IOInterface $io, Options $options = null, PathResolver $resolver = null, Filesystem $filesystem = null)
-    {
+    public function __construct(
+        NutStyleInterface $io,
+        Options $options = null,
+        PathResolver $resolver = null,
+        Filesystem $filesystem = null
+    ) {
         $this->io = $io;
         $this->options = $options ?: new Options();
         $this->resolver = $resolver ?: new PathResolver(getcwd(), PathResolver::defaultPaths());
@@ -60,7 +66,10 @@ class DirectoryConfigurator
      */
     public static function fromEvent(Event $event)
     {
-        return new static($event->getIO(), Options::fromEvent($event));
+        $io = NutStyle::fromComposer($event->getIO());
+        $options = Options::fromEvent($event);
+
+        return new static($io, $options);
     }
 
     /**
@@ -92,13 +101,13 @@ class DirectoryConfigurator
             }
         }
 
-        if ($this->io->askConfirmation("Do you want to use Bolt's standard folder structure? ")) {
+        if ($this->io->confirm("Do you want to use Bolt's standard folder structure?")) {
             return;
         }
 
-        PathCustomizer::fromComposer($this->resolver, $this->io)->run();
+        (new PathCustomizer($this->resolver, $this->io))->run();
 
-        $this->io->writeError("\n<info>Customizing!</info>\n");
+        $this->io->writeln("\n<info>Customizing!</info>\n");
     }
 
     /**
@@ -120,7 +129,7 @@ class DirectoryConfigurator
             return;
         }
 
-        $this->io->writeError('Writing customized paths to <comment>.bolt.yml</>');
+        $this->io->writeln('Writing customized paths to <comment>.bolt.yml</comment>');
 
         $config = [
             'paths' => $customized,
@@ -167,13 +176,19 @@ class DirectoryConfigurator
         }
 
         $this->verbose(
-            sprintf('Moving <info>%s</> directory from <info>%s</> to <info>%s</>', $name, $origin, $target)
+            sprintf('Moving <info>%s</info> directory from <info>%s</info> to <info>%s</info>', $name, $origin, $target)
         );
 
         // ensure parent directory exists
         $this->filesystem->mkdir(dirname($target), $this->options->getDirMode());
+        if ($this->filesystem->exists($origin)) {
+            $this->filesystem->rename($origin, $target);
+        } else {
+            $this->filesystem->mkdir($target, $this->options->getDirMode());
+        }
 
-        $this->filesystem->rename($origin, $target);
+        // Update defaults with the change, so when moving sub-directories the origin has the updated parent path.
+        $this->defaults->define($name, $this->resolver->raw($name));
     }
 
     /**
@@ -189,6 +204,9 @@ class DirectoryConfigurator
         $dirMode = $this->options->getDirMode();
         foreach ($pathNames as $name) {
             $path = $this->resolver->resolve($name);
+            if (!$this->filesystem->exists($path)) {
+                $this->filesystem->mkdir($path);
+            }
             $this->filesystem->chmod($path, $dirMode);
         }
     }
@@ -198,6 +216,6 @@ class DirectoryConfigurator
      */
     protected function verbose($messages)
     {
-        $this->io->writeError($messages, true, IOInterface::VERBOSE);
+        $this->io->writeln($messages, OutputInterface::VERBOSITY_VERBOSE);
     }
 }
