@@ -96,6 +96,20 @@ Bolt 3.4-dev
 
 -
 
+Bolt 3.3.0 beta 9
+-----------------
+
+Released: 2017-05-30. Notable changes:
+
+ - Added: ScriptHandler updates [#6681](https://github.com/bolt/bolt/pull/6681)
+ - Change: Minor visual changes to repeater blocks: Make them stand out a bit less, better alignment on page. [#6720](https://github.com/bolt/bolt/pull/6720)
+ - Deprecations [#6715](https://github.com/bolt/bolt/pull/6715)
+ - Fixed: Counting double in list overview. Only adding record to the list, if it wasn't already selected before. [#6717](https://github.com/bolt/bolt/pull/6717)
+ - Fixed: Fix BC for old thumbnail config paths in `notfound_image` and `error_image`. [#6728](https://github.com/bolt/bolt/pull/6728)
+ - Fixed: Get fields from repeater, even if repeater isn't last. Obsoletes hackish include of HTML field. [#6719](https://github.com/bolt/bolt/pull/6719)
+ - Tests: Codeception Layout & clean ups [#6722](https://github.com/bolt/bolt/pull/6722)
+ - Tests: Update mock builder to be forward-compatible [#6721](https://github.com/bolt/bolt/pull/6721)
+
 Bolt 3.3.0 beta 8
 -----------------
 
