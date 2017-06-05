@@ -3,9 +3,15 @@
 namespace Bolt\Nut\Style;
 
 use Bolt\Nut\Helper\QuestionHelper;
+use Bolt\Nut\Output\NutStyleInterface;
 use Bolt\Nut\Output\OverwritableOutput;
 use Bolt\Nut\Output\OverwritableOutputInterface;
+use Composer\IO\ConsoleIO;
+use Composer\IO\IOInterface;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -18,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class NutStyle extends SymfonyStyle implements OverwritableOutputInterface, OverwritableStyleInterface
+class NutStyle extends SymfonyStyle implements NutStyleInterface
 {
     /** @var InputInterface */
     protected $input;
@@ -38,6 +44,40 @@ class NutStyle extends SymfonyStyle implements OverwritableOutputInterface, Over
         }
         $this->output = $output;
         parent::__construct($input, $output);
+    }
+
+    /**
+     * Create from Composer IO.
+     *
+     * @param IOInterface $io
+     *
+     * @return NutStyle
+     */
+    public static function fromComposer(IOInterface $io)
+    {
+        $input = new ArrayInput([]);
+        $input->setInteractive($io->isInteractive());
+
+        if ($io instanceof ConsoleIO) {
+            $ref = new \ReflectionProperty($io, 'output');
+            $ref->setAccessible(true);
+            $output = $ref->getValue($io);
+            if ($output instanceof ConsoleOutputInterface) {
+                $output = $output->getErrorOutput();
+            }
+        } else {
+            $output = new NullOutput();
+        }
+
+        return new static($input, $output);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isInteractive()
+    {
+        return $this->input->isInteractive();
     }
 
     /**

@@ -36,7 +36,6 @@ return call_user_func(function () {
         $boltRootPath . '/../../autoload.php'  => [Composer::class, $boltRootPath . '/../../..'],
     ];
 
-    $error = true;
     foreach ($autodetectionMappings as $autoloadPath => list($resourcesClass, $rootPath)) {
         if (!file_exists($autoloadPath)) {
             continue;
@@ -44,16 +43,9 @@ return call_user_func(function () {
 
         require_once $autoloadPath;
 
-        $error = false;
-        break;
+        return Bootstrap::run($rootPath, $resourcesClass);
     }
 
-    // None of the mappings matched, error
-    if ($error) {
-        include $boltRootPath . '/src/Exception/BootException.php';
-
-        BootException::earlyExceptionComposer();
-    }
-
-    return Bootstrap::run($rootPath, $resourcesClass);
+    require_once $boltRootPath . '/src/Exception/BootException.php';
+    throw BootException::earlyExceptionComposer();
 });
