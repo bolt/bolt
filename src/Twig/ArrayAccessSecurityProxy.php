@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use IteratorAggregate;
 use IteratorIterator;
 use Traversable;
-use Twig_Extension_Sandbox as Sandbox;
+use Twig\Extension\SandboxExtension;
 
 /**
  * This is a proxy for arrays and ArrayAccess objects that verifies access with a Twig Sandbox.
@@ -24,7 +24,7 @@ class ArrayAccessSecurityProxy implements ArrayAccess, Countable, IteratorAggreg
 
     /** @var array|ArrayAccess */
     protected $object;
-    /** @var Sandbox */
+    /** @var SandboxExtension */
     protected $sandbox;
     /** @var string */
     protected $class;
@@ -33,11 +33,11 @@ class ArrayAccessSecurityProxy implements ArrayAccess, Countable, IteratorAggreg
      * Constructor.
      *
      * @param array|ArrayAccess $array       The object or array to proxy to
-     * @param Sandbox           $sandbox     The Sandbox to verify with
+     * @param SandboxExtension  $sandbox     The Sandbox to verify with
      * @param string            $fakeClass   A class name to use for checking with Sandbox and dumper (if object)
      * @param bool              $transparent Whether this proxy should be transparent to the VarDumper
      */
-    public function __construct($array, Sandbox $sandbox, $fakeClass = null, $transparent = true)
+    public function __construct($array, SandboxExtension $sandbox, $fakeClass = null, $transparent = true)
     {
         if (!is_array($array) && !$array instanceof ArrayAccess) {
             throw new InvalidArgumentException('Must be given an array, or an object implementing ArrayAccess');

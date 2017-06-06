@@ -2,17 +2,17 @@
 
 namespace Bolt\Twig;
 
-use Twig_Node_Expression_Array as NodeExpressionArray;
-use Twig_Node_Expression_Constant as NodeExpressionConstant;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\TokenParser\AbstractTokenParser;
 use Twig_Token as Token;
-use Twig_TokenParser as TokenParser;
 
 /**
  * Twig {{ setcontent }} token parser.
  *
  * @author Bob den Otter <bob@twokings.nl>
  */
-class SetcontentTokenParser extends TokenParser
+class SetcontentTokenParser extends AbstractTokenParser
 {
     /**
      * {@inheritdoc}
@@ -21,7 +21,7 @@ class SetcontentTokenParser extends TokenParser
     {
         $lineno = $token->getLine();
 
-        $arguments = new NodeExpressionArray([], $lineno);
+        $arguments = new ArrayExpression([], $lineno);
         $whereArguments = [];
 
         // name - the new variable with the results
@@ -44,7 +44,7 @@ class SetcontentTokenParser extends TokenParser
             if ($this->parser->getStream()->test(Token::NAME_TYPE, 'limit')) {
                 $this->parser->getStream()->next();
                 $limit = $this->parser->getExpressionParser()->parseExpression();
-                $arguments->addElement($limit, new NodeExpressionConstant('limit', $lineno));
+                $arguments->addElement($limit, new ConstantExpression('limit', $lineno));
             }
 
             // order / orderby parameter
@@ -52,7 +52,7 @@ class SetcontentTokenParser extends TokenParser
                 $this->parser->getStream()->test(Token::NAME_TYPE, 'orderby')) {
                 $this->parser->getStream()->next();
                 $order = $this->parser->getExpressionParser()->parseExpression();
-                $arguments->addElement($order, new NodeExpressionConstant('order', $lineno));
+                $arguments->addElement($order, new ConstantExpression('order', $lineno));
             }
 
             // paging / allowpaging parameter
@@ -60,8 +60,8 @@ class SetcontentTokenParser extends TokenParser
                 $this->parser->getStream()->test(Token::NAME_TYPE, 'allowpaging')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new NodeExpressionConstant(true, $lineno),
-                    new NodeExpressionConstant('paging', $lineno)
+                    new ConstantExpression(true, $lineno),
+                    new ConstantExpression('paging', $lineno)
                 );
             }
 
@@ -69,8 +69,8 @@ class SetcontentTokenParser extends TokenParser
             if ($this->parser->getStream()->test(Token::NAME_TYPE, 'printquery')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new NodeExpressionConstant(true, $lineno),
-                    new NodeExpressionConstant('printquery', $lineno)
+                    new ConstantExpression(true, $lineno),
+                    new ConstantExpression('printquery', $lineno)
                 );
             }
 
@@ -78,8 +78,8 @@ class SetcontentTokenParser extends TokenParser
             if ($this->parser->getStream()->test(Token::NAME_TYPE, 'returnsingle')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new NodeExpressionConstant(true, $lineno),
-                    new NodeExpressionConstant('returnsingle', $lineno)
+                    new ConstantExpression(true, $lineno),
+                    new ConstantExpression('returnsingle', $lineno)
                 );
             }
 
@@ -87,8 +87,8 @@ class SetcontentTokenParser extends TokenParser
             if ($this->parser->getStream()->test(Token::NAME_TYPE, 'nohydrate')) {
                 $this->parser->getStream()->next();
                 $arguments->addElement(
-                    new NodeExpressionConstant(false, $lineno),
-                    new NodeExpressionConstant('hydrate', $lineno)
+                    new ConstantExpression(false, $lineno),
+                    new ConstantExpression('hydrate', $lineno)
                 );
             }
 

@@ -9,7 +9,7 @@ use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\QuerySet;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
-use Twig_Environment as TwigEnvironment;
+use Twig\Environment;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -21,7 +21,7 @@ class TemplateFieldsType extends FieldTypeBase
 {
     /** @var TemplateChooser */
     public $chooser;
-    /** @var TwigEnvironment */
+    /** @var Environment */
     private $twig;
 
     /**
@@ -30,9 +30,9 @@ class TemplateFieldsType extends FieldTypeBase
      * @param array           $mapping
      * @param EntityManager   $em
      * @param TemplateChooser $chooser
-     * @param TwigEnvironment $twig
+     * @param Environment     $twig
      */
-    public function __construct(array $mapping, EntityManager $em, TemplateChooser $chooser, TwigEnvironment $twig)
+    public function __construct(array $mapping, EntityManager $em, TemplateChooser $chooser, Environment $twig)
     {
         parent::__construct($mapping, $em);
         $this->chooser = $chooser;

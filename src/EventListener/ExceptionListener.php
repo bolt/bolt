@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Twig_Environment as Environment;
+use Twig\Environment;
 
 /**
  * HTTP kernel exception routing listener.

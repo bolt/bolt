@@ -3,7 +3,7 @@
 namespace Bolt\Twig;
 
 use Pimple as Container;
-use Twig_RuntimeLoaderInterface as RuntimeLoaderInterface;
+use Twig\RuntimeLoader\RuntimeLoaderInterface;
 
 /**
  * Twig RuntimeLoader implementation.

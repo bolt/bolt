@@ -4,7 +4,7 @@ namespace Bolt\Legacy;
 
 use Bolt\Storage\Entity;
 use Silex;
-use Twig_Markup as Markup;
+use Twig\Markup;
 
 /**
  * Legacy Content class.

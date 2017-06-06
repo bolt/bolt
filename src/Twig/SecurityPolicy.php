@@ -2,12 +2,12 @@
 
 namespace Bolt\Twig;
 
-use Twig_Markup as Markup;
-use Twig_Sandbox_SecurityError as SecurityError;
-use Twig_Sandbox_SecurityNotAllowedFilterError as SecurityNotAllowedFilterError;
-use Twig_Sandbox_SecurityNotAllowedFunctionError as SecurityNotAllowedFunctionError;
-use Twig_Sandbox_SecurityNotAllowedTagError as SecurityNotAllowedTagError;
-use Twig_Sandbox_SecurityPolicyInterface as SecurityPolicyInterface;
+use Twig\Markup;
+use Twig\Sandbox\SecurityError as SecurityError;
+use Twig\Sandbox\SecurityNotAllowedFilterError;
+use Twig\Sandbox\SecurityNotAllowedFunctionError;
+use Twig\Sandbox\SecurityNotAllowedTagError;
+use Twig\Sandbox\SecurityPolicyInterface;
 use Twig_TemplateInterface as TemplateInterface;
 
 /**

@@ -5,7 +5,7 @@ namespace Bolt\Storage\Field\Collection;
 use Bolt\Storage\Entity\FieldValue;
 use Doctrine\Common\Collections\ArrayCollection;
 use ParsedownExtra as Markdown;
-use Twig_Markup as Markup;
+use Twig\Markup;
 use Webmozart\Assert\Assert;
 
 /**

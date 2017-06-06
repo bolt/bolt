@@ -4,15 +4,15 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Twig\SetcontentNode;
 use Bolt\Twig\SetcontentTokenParser;
-use Twig_Compiler as Compiler;
-use Twig_Environment as Environment;
-use Twig_LoaderInterface as LoaderInterface;
-use Twig_Node_Body as NodeBody;
-use Twig_Node_Module as NodeModule;
-use Twig_Source as Source;
-use Twig_Token as Token;
-use Twig_TokenParser as TokenParser;
-use Twig_TokenStream as TokenStream;
+use Twig\Compiler;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
+use Twig\Node\BodyNode;
+use Twig\Node\ModuleNode;
+use Twig\Source;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
+use Twig\TokenStream;
 
 /**
  * Class to test Twig {{ setcontent }} token classes.
@@ -24,7 +24,7 @@ class SetcontentTestTokenParser extends AbstractTestTokenParser
     public function testClass()
     {
         $setContentParser = new SetcontentTokenParser();
-        $this->assertInstanceOf(TokenParser::class, $setContentParser);
+        $this->assertInstanceOf(AbstractTokenParser::class, $setContentParser);
     }
 
     public function testGetTag()
@@ -74,9 +74,9 @@ class SetcontentTestTokenParser extends AbstractTestTokenParser
         $twigTokenStream = new TokenStream($streamTokens, new Source(null, 'clippy'));
 
         $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser());
-        /** @var NodeModule $setContentNode */
+        /** @var ModuleNode $setContentNode */
         $setContentNode = $parser->parse($twigTokenStream);
-        /** @var NodeBody $bodyNodes */
+        /** @var BodyNode $bodyNodes */
         $bodyNodes = $setContentNode->getNode('body');
 
         /** @var SetcontentNode $bodyNode */
