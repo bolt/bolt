@@ -30,25 +30,4 @@ class ExtensionsSetupTest extends BoltUnitTest
         $this->assertRegExp('/Generating optimized autoload files/', $result);
         $this->assertRegExp('/PackageEventListener::dump/', $result);
     }
-
-    public function testRunWithLocal()
-    {
-        $app = $this->getApp();
-        $app['extend.action.options']->set('optimize-autoloader', true);
-        $app['filesystem']->createDir('extensions://local');
-
-        $command = new ExtensionsSetup($app);
-        $tester = new CommandTester($command);
-
-        $tester->execute([]);
-        $result = $tester->getDisplay();
-
-        $app['filesystem']->deleteDir('extensions://local');
-
-        $this->assertRegExp('/Creating\/updating composer.json… \[DONE\]/', $result);
-
-        $this->assertRegExp('/Updating autoloaders… \[DONE\]/', $result);
-        $this->assertRegExp('/Generating optimized autoload files/', $result);
-        $this->assertRegExp('/PackageEventListener::dump/', $result);
-    }
 }
