@@ -68,6 +68,7 @@ global:
     dbcheck: [ admin, developer ]
     dbupdate: [ admin, developer ]
     dbupdate_result: [ admin, developer ]
+    delete: [admin, developer, chief-editor]    
     extensions: [ developer ]
     extensions:config: [ developer ]
     fileedit: [ admin, developer ]
