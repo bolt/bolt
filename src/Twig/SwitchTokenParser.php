@@ -2,10 +2,10 @@
 
 namespace Bolt\Twig;
 
-use Twig_Error_Syntax as TwigSyntaxError;
-use Twig_Node as Node;
+use Twig\Error\SyntaxError;
+use Twig\Node\Node;
+use Twig\TokenParser\AbstractTokenParser;
 use Twig_Token as Token;
-use Twig_TokenParser as TokenParser;
 
 /**
  * Adapted from code originally in Twig/extensions.
@@ -25,14 +25,14 @@ use Twig_TokenParser as TokenParser;
  *
  * @see: https://gist.github.com/maxgalbu/9409182
  */
-class SwitchTokenParser extends TokenParser
+class SwitchTokenParser extends AbstractTokenParser
 {
     /**
      * Parses a token and returns a node.
      *
      * @param Token $token A Token instance
      *
-     * @throws TwigSyntaxError
+     * @throws SyntaxError
      *
      * @return Node A Twig node instance
      */
@@ -73,7 +73,7 @@ class SwitchTokenParser extends TokenParser
                 default:
                     $message = sprintf('Unexpected end of template. Twig was looking for the following tags "case", "default", or "endswitch" to close the "switch" block started at line %d)', $v->getLine());
 
-                    throw new TwigSyntaxError($message, $v->getLine());
+                    throw new SyntaxError($message, $v->getLine());
             }
         }
 

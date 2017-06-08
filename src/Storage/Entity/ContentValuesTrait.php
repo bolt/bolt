@@ -7,9 +7,9 @@ use Bolt\Helpers\Input;
 use Bolt\Legacy;
 use Bolt\Library as Lib;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
-use Twig_Environment as Environment;
-use Twig_Error_Loader as LoaderError;
-use Twig_Markup as Markup;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Markup;
 
 /**
  * Trait class for ContentType relations.
@@ -62,7 +62,7 @@ trait ContentValuesTrait
      * @param boolean      $includeTitle
      * @param string|array $focus
      *
-     * @return \Twig_Markup
+     * @return Markup
      */
     public function excerpt($length = 200, $includeTitle = false, $focus = null)
     {

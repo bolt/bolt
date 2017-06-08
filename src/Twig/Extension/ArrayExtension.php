@@ -2,16 +2,16 @@
 
 namespace Bolt\Twig\Extension;
 
-use Twig_Extension as Extension;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleFunction as TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Bolt specific Twig functions and filters that provide array manipulation.
  *
  * @internal
  */
-class ArrayExtension extends Extension
+class ArrayExtension extends AbstractExtension
 {
     private $orderOn;
     private $orderAscending;

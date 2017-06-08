@@ -2,8 +2,8 @@
 
 namespace Bolt\Twig;
 
+use Twig\Environment;
 use Twig_CompilerInterface as CompilerInterface;
-use Twig_Environment as Environment;
 use Twig_ExtensionInterface as ExtensionInterface;
 use Twig_LexerInterface as LexerInterface;
 use Twig_LoaderInterface as LoaderInterface;

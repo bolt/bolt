@@ -8,7 +8,7 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\TwigExtension;
 use Bolt\Twig\FilesystemLoader;
-use Twig_Loader_Array as ArrayLoader;
+use Twig\Loader\ArrayLoader;
 
 /**
  * Class to test Bolt\Extension\TwigTrait.

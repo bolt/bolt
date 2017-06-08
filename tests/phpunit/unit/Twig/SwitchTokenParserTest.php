@@ -4,16 +4,16 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Twig\SwitchNode;
 use Bolt\Twig\SwitchTokenParser;
-use Twig_Compiler as Compiler;
-use Twig_Environment as Environment;
-use Twig_LoaderInterface as LoaderInterface;
-use Twig_Node as Node;
-use Twig_Node_Module as NodeModule;
-use Twig_Node_Set as NodeSet;
-use Twig_Source as Source;
-use Twig_Token as Token;
-use Twig_TokenParser as TokenParser;
-use Twig_TokenStream as TokenStream;
+use Twig\Compiler;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
+use Twig\Node\ModuleNode;
+use Twig\Node\Node;
+use Twig\Node\SetNode;
+use Twig\Source;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
+use Twig\TokenStream;
 
 /**
  * Class to test Twig {{ switch }} token classes.
@@ -25,7 +25,7 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
     public function testClass()
     {
         $switchTokenParser = new SwitchTokenParser();
-        $this->assertInstanceOf(TokenParser::class, $switchTokenParser);
+        $this->assertInstanceOf(AbstractTokenParser::class, $switchTokenParser);
     }
 
     public function testGetTag()
@@ -101,12 +101,12 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
         $twigTokenStream = new TokenStream($streamTokens, new Source(null, 'clippy'));
 
         $parser = $this->getParser($twigTokenStream, new SwitchTokenParser());
-        /** @var NodeModule $nodeModule */
+        /** @var ModuleNode $nodeModule */
         $nodeModule = $parser->parse($twigTokenStream);
         /** @var Node $bodyNodes */
         $bodyNodes = $nodeModule->getNode('body')->getIterator()->current();
 
-        /** @var NodeSet $setNode */
+        /** @var SetNode $setNode */
         $setNode = $bodyNodes->getNode(0);
         /** @var SwitchNode $switchNode */
         $switchNode = $bodyNodes->getNode(1);
@@ -167,7 +167,7 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
     }
 
     /**
-     * @expectedException \Twig_Error_Syntax
+     * @expectedException \Twig\Error\SyntaxError
      * @expectedExceptionMessageRegExp /Twig was looking for the following tags "case", "default", or "endswitch"/
      */
     public function testParseBad()
@@ -196,7 +196,7 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
         $twigTokenStream = new TokenStream($streamTokens, new Source(null, 'clippy'));
 
         $parser = $this->getParser($twigTokenStream, new SwitchTokenParser());
-        /** @var NodeModule $nodeModule */
+        /** @var ModuleNode $nodeModule */
         $parser->parse($twigTokenStream);
     }
 }

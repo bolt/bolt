@@ -3,7 +3,7 @@
 namespace Bolt\Asset\Snippet;
 
 use Bolt\Controller\Zone;
-use Twig_Markup as Markup;
+use Twig\Markup;
 
 /**
  * Snippet objects.

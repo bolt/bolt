@@ -3,8 +3,8 @@
 namespace Bolt\Twig;
 
 use Bolt\Helpers\Deprecated;
-use Twig_Environment as Environment;
-use Twig_Extension_Sandbox as Sandbox;
+use Twig\Environment;
+use Twig\Extension\SandboxExtension;
 use Twig_ExtensionInterface as ExtensionInterface;
 
 /**
@@ -23,10 +23,10 @@ class SafeEnvironment extends TwigEnvironmentWrapper
     /**
      * Constructor.
      *
-     * @param Environment $env
-     * @param Sandbox     $sandbox
+     * @param Environment      $env
+     * @param SandboxExtension $sandbox
      */
-    public function __construct(Environment $env, Sandbox $sandbox)
+    public function __construct(Environment $env, SandboxExtension $sandbox)
     {
         Deprecated::method(3.3);
 
