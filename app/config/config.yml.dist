@@ -380,13 +380,6 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
-# The hash_strength determines the amount of iterations for encrypting
-# passwords.
-#
-# A higher number means a harder to decrypt password, but takes longer to
-# compute. '8' is the minimum, '10' is the default, '12' is better.
-hash_strength: 10
-
 # Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by
 # default, to prevent the web browser from rendering an iframe if origin
 # mismatch (i.e. iframe source refers to a different domain).
