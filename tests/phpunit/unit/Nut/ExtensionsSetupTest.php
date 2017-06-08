@@ -34,10 +34,24 @@ class ExtensionsSetupTest extends TestCase
         ;
         $ioMock->expects($this->once())->method('getOutput');
 
+
+        $configMock = $this->getMockBuilder(\stdClass::class)
+            ->setMethods(['get'])
+            ->getMock()
+        ;
+        $configMock->expects($this->once())->method('get')->willReturn(true);
+        $loggerMock = $this->getMockBuilder(\stdClass::class)
+            ->setMethods(['info'])
+            ->getMock()
+        ;
+        $loggerMock->expects($this->once())->method('info');
+
         $container = new Container();
         $container['extend.manager.json'] = $jsonMock;
         $container['extend.action'] = ['autoload' => $actionMock];
         $container['extend.action.io'] = $ioMock;
+        $container['config'] = $configMock;
+        $container['logger.system'] = $loggerMock;
 
         $helper = new ContainerHelper($container);
         $command = new ExtensionsSetup();
@@ -47,7 +61,9 @@ class ExtensionsSetupTest extends TestCase
         $tester->execute([]);
         $result = $tester->getDisplay();
 
-        $this->assertRegExp('/Creating\/updating composer.json… \[DONE\]/', $result);
-        $this->assertRegExp('/Updating autoloaders… \[DONE\]/', $result);
+        $this->assertRegExp('/Creating\/updating composer.json/', $result);
+        $this->assertRegExp('/\[OK\] Success/', $result);
+        $this->assertRegExp('/Updating autoloaders/', $result);
+        $this->assertRegExp('/\[OK\] Autoloaders updated/', $result);
     }
 }
