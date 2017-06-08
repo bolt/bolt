@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig;
 
-use Twig_Node as Node;
+use Twig\Node\Node;
 use Twig_Compiler as Compiler;
 
 /**

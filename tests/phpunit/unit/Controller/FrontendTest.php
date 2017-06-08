@@ -452,7 +452,7 @@ class FrontendTest extends ControllerUnitTest
     }
 
     /**
-     * @expectedException \Twig_Error_Loader
+     * @expectedException \Twig\Error\LoaderError
      * @expectedExceptionMessage Template "nonexistent.twig" is not defined.
      */
     public function testFailingTemplateRender()

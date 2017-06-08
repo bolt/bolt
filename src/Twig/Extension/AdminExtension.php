@@ -3,10 +3,10 @@
 namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
-use Twig_Extension as Extension;
-use Twig_Filter as TwigFilter;
-use Twig_Function as TwigFunction;
-use Twig_Test as TwigTest;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+use Twig\TwigTest;
 
 /**
  * Admin (back-end) functionality Twig extension.
@@ -15,7 +15,7 @@ use Twig_Test as TwigTest;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AdminExtension extends Extension
+class AdminExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}

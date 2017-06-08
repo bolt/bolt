@@ -96,6 +96,20 @@ Bolt 3.4-dev
 
 -
 
+Bolt 3.3.0 beta 10
+------------------
+
+Released: 2017-06-07. Notable changes:
+
+- Added: PSR-16 (Simple Cache) cache adapter to Filesystem [#55](https://github.com/bolt/filesystem/pull/55)
+- Change: Clean up .gitignore [#6737](https://github.com/bolt/bolt/pull/6737)
+- Change: Script handler refactor [#6733](https://github.com/bolt/bolt/pull/6733) [#6729](https://github.com/bolt/bolt/pull/6729)
+- Fixed: Better handling of invalid images in thumbs [#45](https://github.com/bolt/thumbs/pull/45)
+- Fixed: Don't throw exception for broken images, but return "empty" image info [#52](https://github.com/bolt/filesystem/pull/52) & [#54](https://github.com/bolt/filesystem/pull/54)
+- Fixed: Skip symlinks instead of throwing exceptions on local filesystems [#6744](https://github.com/bolt/bolt/pull/6744)
+- Fixed: Update legacy `default_status` use in `contenttypes.yml` [#6738](https://github.com/bolt/bolt/pull/6738)
+- Tests: Need for speed [#6745](https://github.com/bolt/bolt/pull/6745)
+
 Bolt 3.3.0 beta 9
 -----------------
 

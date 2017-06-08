@@ -3,9 +3,9 @@
 namespace Bolt\Twig;
 
 use Bolt\Twig\Extension\BoltExtension;
+use Twig\Node\Expression\ArrayExpression;
+use Twig\Node\Node;
 use Twig_Compiler as Compiler;
-use Twig_Node as Node;
-use Twig_Node_Expression_Array as NodeExpressionArray;
 
 /**
  * Twig setcontent node.
@@ -17,14 +17,14 @@ class SetcontentNode extends Node
     /**
      * Constructor.
      *
-     * @param string              $name
-     * @param Node                $contentType
-     * @param NodeExpressionArray $arguments
-     * @param array               $whereArguments
-     * @param int                 $lineNo
-     * @param null                $tag
+     * @param string          $name
+     * @param Node            $contentType
+     * @param ArrayExpression $arguments
+     * @param array           $whereArguments
+     * @param int             $lineNo
+     * @param null            $tag
      */
-    public function __construct($name, Node $contentType, NodeExpressionArray $arguments, array $whereArguments, $lineNo, $tag = null)
+    public function __construct($name, Node $contentType, ArrayExpression $arguments, array $whereArguments, $lineNo, $tag = null)
     {
         parent::__construct(
             $whereArguments,

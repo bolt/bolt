@@ -7,15 +7,13 @@ use Bolt\Config;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
-use Twig_Extension as Extension;
-use Twig_Extension_GlobalsInterface as GlobalsInterface;
-use Twig_Filter as TwigFilter;
-use Twig_Function as TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 
 /**
  * Bolt base Twig functionality and definitions.
  */
-class BoltExtension extends Extension implements GlobalsInterface
+class BoltExtension extends AbstractExtension implements GlobalsInterface
 {
     /** @var EntityManagerInterface */
     private $em;
@@ -54,13 +52,13 @@ class BoltExtension extends Extension implements GlobalsInterface
     public function getGlobals()
     {
         return [
-            'frontend'     => null,
-            'backend'      => null,
-            'async'        => null,
-            'theme'        => null,
-            'user'         => null,
-            'users'        => null,
-            'config'       => $this->config,
+            'frontend' => null,
+            'backend'  => null,
+            'async'    => null,
+            'theme'    => null,
+            'user'     => null,
+            'users'    => null,
+            'config'   => $this->config,
         ];
     }
 

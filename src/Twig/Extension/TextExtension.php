@@ -3,9 +3,9 @@
 namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
-use Twig_Extension as Extension;
-use Twig_Filter as TwigFilter;
-use Twig_Test as TwigTest;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigTest;
 
 /**
  * Text functionality Twig extension.
@@ -14,7 +14,7 @@ use Twig_Test as TwigTest;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class TextExtension extends Extension
+class TextExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}

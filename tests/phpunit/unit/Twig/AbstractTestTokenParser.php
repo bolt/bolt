@@ -3,12 +3,12 @@
 namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
-use Twig_TokenParser as TokenParser;
-use Twig_Environment as Environment;
-use Twig_LoaderInterface as LoaderInterface;
-use Twig_Node as Node;
-use Twig_Parser as Parser;
-use Twig_TokenStream as TokenStream;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
+use Twig\Node\Node;
+use Twig\Parser;
+use Twig\TokenParser\AbstractTokenParser;
+use Twig\TokenStream;
 
 /**
  * Abstract TokenParser test base.
@@ -23,12 +23,12 @@ abstract class AbstractTestTokenParser extends BoltUnitTest
      * @return Parser
      */
     /**
-     * @param TokenStream $tokenStream
-     * @param TokenParser $testParser
+     * @param TokenStream         $tokenStream
+     * @param AbstractTokenParser $testParser
      *
      * @return Parser
      */
-    protected function getParser(TokenStream $tokenStream, TokenParser $testParser)
+    protected function getParser(TokenStream $tokenStream, AbstractTokenParser $testParser)
     {
         $env = new Environment($this->getMockBuilder(LoaderInterface::class)->getMock());
         $parser = new Parser($env);

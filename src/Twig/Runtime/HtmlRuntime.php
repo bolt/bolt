@@ -9,7 +9,7 @@ use Bolt\Legacy\Content;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Storage\EntityManager;
 use Maid\Maid;
-use Twig_Environment as Environment;
+use Twig\Environment;
 
 /**
  * Bolt specific Twig functions and filters for HTML.

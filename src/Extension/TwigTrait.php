@@ -5,12 +5,12 @@ namespace Bolt\Extension;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Twig\SecurityPolicy;
 use Pimple as Container;
-use Twig_Environment as Environment;
-use Twig_Error_Loader as LoaderError;
-use Twig_Extension_Sandbox as Sandbox;
-use Twig_Loader_Filesystem as FilesystemLoader;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleFunction as TwigFunction;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Extension\SandboxExtension;
+use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Twig function/filter addition and interface functions for an extension.
@@ -150,12 +150,12 @@ trait TwigTrait
 
     private function updateSandboxPolicy(Environment $twig)
     {
-        if (!$twig->hasExtension(Sandbox::class)) {
+        if (!$twig->hasExtension(SandboxExtension::class)) {
             return;
         }
 
-        /** @var Sandbox $sandbox */
-        $sandbox = $twig->getExtension(Sandbox::class);
+        /** @var SandboxExtension $sandbox */
+        $sandbox = $twig->getExtension(SandboxExtension::class);
         $policy = $sandbox->getSecurityPolicy();
         if (!$policy instanceof SecurityPolicy) {
             return;

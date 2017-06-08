@@ -4,7 +4,7 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Extension\BoltExtension;
-use Twig_Environment as Environment;
+use Twig\Environment;
 
 /**
  * @covers \Bolt\Provider\TwigServiceProvider

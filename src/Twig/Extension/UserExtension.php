@@ -3,8 +3,8 @@
 namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
-use Twig_Extension as Extension;
-use Twig_Function as TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * User functionality Twig extension.
@@ -13,7 +13,7 @@ use Twig_Function as TwigFunction;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class UserExtension extends Extension
+class UserExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}

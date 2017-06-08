@@ -6,9 +6,9 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
-use Twig_Error_Loader as LoaderError;
-use Twig_Loader_Filesystem as TwigFilesystemLoader;
-use Twig_Source as TwigSource;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
+use Twig\Source;
 
 /**
  * Loads templates from a Bolt\Filesystem interface.
@@ -55,7 +55,7 @@ class FilesystemLoader extends TwigFilesystemLoader
     {
         $file = $this->findTemplate($name);
 
-        return new TwigSource($file->read(), $name);
+        return new Source($file->read(), $name);
     }
 
     /**

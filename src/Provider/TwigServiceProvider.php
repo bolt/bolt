@@ -16,10 +16,10 @@ use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
-use Twig_Environment as Environment;
-use Twig_Extension_Sandbox as SandboxExtension;
-use Twig_Extension_StringLoader as StringLoaderExtension;
-use Twig_Loader_Chain as ChainLoader;
+use Twig\Environment;
+use Twig\Extension\SandboxExtension;
+use Twig\Extension\StringLoaderExtension;
+use Twig\Loader\ChainLoader;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {

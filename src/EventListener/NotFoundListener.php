@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Twig_Environment as TwigEnvironment;
-use Twig_Error_Loader as LoaderError;
-use Twig_Error_Runtime as RuntimeError;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
 
 /**
  * Renders the not found page in the event of an HTTP exception.
@@ -29,7 +29,7 @@ class NotFoundListener implements EventSubscriberInterface
     protected $storage;
     /** @var TemplateChooser */
     protected $templateChooser;
-    /** @var TwigEnvironment */
+    /** @var Environment */
     private $twig;
 
     /**
@@ -38,9 +38,9 @@ class NotFoundListener implements EventSubscriberInterface
      * @param string          $notFoundPage
      * @param Storage         $storage
      * @param TemplateChooser $templateChooser
-     * @param TwigEnvironment $twig
+     * @param Environment $twig
      */
-    public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, TwigEnvironment $twig)
+    public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, Environment $twig)
     {
         $this->notFoundPage = $notFoundPage;
         $this->storage = $storage;
