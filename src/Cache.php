@@ -25,6 +25,8 @@ class Cache extends FilesystemCache
 
     /** @var AggregateFilesystemInterface */
     private $filesystem;
+    /** @var int */
+    private $umask;
 
     /**
      * Cache constructor.
@@ -38,6 +40,7 @@ class Cache extends FilesystemCache
     {
         parent::__construct($directory, $extension, $umask);
         $this->filesystem = $filesystem;
+        $this->umask = $umask;
     }
 
     /**
@@ -68,22 +71,25 @@ class Cache extends FilesystemCache
         $result = parent::doFlush();
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
-            try {
-                // Clear our cached configuration
-                $this->filesystem->getFilesystem('cache')->delete('config-cache.json');
-            } catch (Filesystem\Exception\FileNotFoundException $e) {
-                // Ç'est la vie
+            $cacheFs = $this->filesystem->getFilesystem('cache');
+            // Clear our cached configuration
+            if ($cacheFs->has('config-cache.json')) {
+                $cacheFs->delete('config-cache.json');
             }
 
             // Clear our own cache folder.
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/development'));
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/exception'));
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/production'));
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/profiler'));
-            $this->flushDirectory($this->filesystem->getFilesystem('cache')->getDir('/trans'));
+            $this->flushDirectory($cacheFs->getDir('/development'));
+            $this->flushDirectory($cacheFs->getDir('/exception'));
+            $this->flushDirectory($cacheFs->getDir('/production'));
+            $this->flushDirectory($cacheFs->getDir('/profiler'));
+            $this->flushDirectory($cacheFs->getDir('/trans'));
 
             // Clear the thumbs folder.
             $this->flushDirectory($this->filesystem->getFilesystem('web')->getDir('/thumbs'));
+
+            // We need to recreate our base Doctrine cache directory, as it
+            // will be a subdirectory of one of the ones we just wiped.
+            $this->createPathIfNeeded();
         }
 
         return $result;
@@ -112,5 +118,19 @@ class Cache extends FilesystemCache
             } catch (IOException $e) {
             }
         }
+    }
+
+    /**
+     * Create base path path if needed.
+     *
+     * @return bool
+     */
+    private function createPathIfNeeded()
+    {
+        if (!is_dir($this->directory)) {
+            return @mkdir($this->directory, 0777 & (~$this->umask), true) && !is_dir($this->directory);
+        }
+
+        return true;
     }
 }
