@@ -150,7 +150,7 @@ trait ContentValuesTrait
                         if (!empty($this->values[$field]['url'])) {
                             $newvalue[$field] = json_encode($this->values[$field]);
                         } else {
-                            $newvalue[$field] = '';
+                            $newvalue[$field] = null;
                         }
                         break;
 
@@ -158,7 +158,7 @@ trait ContentValuesTrait
                         if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
                             $newvalue[$field] = json_encode($this->values[$field]);
                         } else {
-                            $newvalue[$field] = '';
+                            $newvalue[$field] = null;
                         }
                         break;
 
@@ -166,7 +166,7 @@ trait ContentValuesTrait
                         if (!empty($this->values[$field]['file'])) {
                             $newvalue[$field] = json_encode($this->values[$field]);
                         } else {
-                            $newvalue[$field] = '';
+                            $newvalue[$field] = null;
                         }
                         break;
 
@@ -174,9 +174,8 @@ trait ContentValuesTrait
                     case 'filelist':
                         if (is_array($this->values[$field])) {
                             $newvalue[$field] = json_encode($this->values[$field]);
-                        } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
-                            // Don't store '[]'
-                            $newvalue[$field] = '';
+                        } else {
+                            $newvalue[$field] = '[]';
                         }
                         break;
 
@@ -209,7 +208,7 @@ trait ContentValuesTrait
             if (!empty($this['templatefields'])) {
                 $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true, true));
             } else {
-                $newvalue['templatefields'] = '';
+                $newvalue['templatefields'] = '[]';
             }
         }
 
