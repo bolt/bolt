@@ -8,15 +8,15 @@ use Bolt\Configuration\PathsProxy;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
-use Twig_Extension as Extension;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleFunction as TwigFunction;
-use Twig_Extension_GlobalsInterface as GlobalsInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Bolt base Twig functionality and definitions.
  */
-class BoltExtension extends Extension implements GlobalsInterface
+class BoltExtension extends AbstractExtension implements GlobalsInterface
 {
     /** @var EntityManagerInterface */
     private $em;

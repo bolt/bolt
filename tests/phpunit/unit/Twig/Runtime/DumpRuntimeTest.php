@@ -6,10 +6,10 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\DumpRuntime;
 use Bolt\Users;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Twig_Environment as Environment;
-use Twig_Loader_Array as ArrayLoader;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 /**
  * Class to test Bolt\Twig\Runtime\DumpRuntime.

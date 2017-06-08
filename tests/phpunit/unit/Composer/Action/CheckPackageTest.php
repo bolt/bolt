@@ -18,7 +18,7 @@ class CheckPackageTest extends ActionUnitTest
         $action->execute(['gawain/clippy']);
     }
 
-    public function testConstruct()
+    public function testCheck()
     {
         $app = $this->getApp();
         $result = $app['extend.action']['check']->execute();

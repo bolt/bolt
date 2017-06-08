@@ -3,9 +3,9 @@
 namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime;
-use Twig_Extension as Extension;
-use Twig_SimpleFilter as TwigFilter;
-use Twig_SimpleFunction as TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * HTML functionality Twig extension.
@@ -14,7 +14,7 @@ use Twig_SimpleFunction as TwigFunction;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class HtmlExtension extends Extension
+class HtmlExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}

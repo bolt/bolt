@@ -6,8 +6,8 @@ use Bolt\Helpers\Deprecated;
 use Bolt\Response\TemplateResponse;
 use Silex;
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Error_Loader as LoaderError;
-use Twig_ExistsLoaderInterface as ExistsLoaderInterface;
+use Twig\Error\LoaderError;
+use Twig\Loader\ExistsLoaderInterface;
 
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:.

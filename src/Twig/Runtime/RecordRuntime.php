@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Twig_Environment as Environment;
+use Twig\Environment;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation.

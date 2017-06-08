@@ -4,8 +4,8 @@ namespace Bolt\Twig\Runtime;
 
 use Bolt\Asset\Widget\Queue;
 use Bolt\Controller\Zone;
-use Twig_Environment as Environment;
-use Twig_Markup as Markup;
+use Twig\Environment;
+use Twig\Markup;
 
 /**
  * Bolt specific Twig functions and filters for HTML.

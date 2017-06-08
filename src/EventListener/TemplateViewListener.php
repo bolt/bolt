@@ -7,7 +7,7 @@ use Bolt\Response\TemplateView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Twig_Environment as TwigEnvironment;
+use Twig\Environment;
 
 /**
  * Converts controller results that are TemplateView's to TemplateResponse's.
@@ -16,15 +16,15 @@ use Twig_Environment as TwigEnvironment;
  */
 class TemplateViewListener implements EventSubscriberInterface
 {
-    /** @var TwigEnvironment */
+    /** @var Environment */
     protected $twig;
 
     /**
      * Constructor.
      *
-     * @param TwigEnvironment $twig
+     * @param Environment $twig
      */
-    public function __construct(TwigEnvironment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }

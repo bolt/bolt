@@ -3,10 +3,10 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Users;
-use Twig_Environment as Environment;
-use Twig_Template as Template;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Twig\Environment;
+use Twig\Template;
 
 /**
  * Twig Bridge's DumpExtension's runtime logic with custom enabled check.

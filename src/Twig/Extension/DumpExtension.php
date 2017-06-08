@@ -4,8 +4,8 @@ namespace Bolt\Twig\Extension;
 
 use Bolt\Twig\Runtime\DumpRuntime;
 use Symfony\Bridge\Twig\TokenParser\DumpTokenParser;
-use Twig_SimpleFunction as TwigFunction;
-use Twig_Extension as Extension;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Modified version of Twig Bridge's DumpExtension to use runtime loading.
@@ -13,7 +13,7 @@ use Twig_Extension as Extension;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DumpExtension extends Extension
+class DumpExtension extends AbstractExtension
 {
     public function getFunctions()
     {
