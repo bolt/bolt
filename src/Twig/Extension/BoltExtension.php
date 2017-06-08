@@ -6,7 +6,6 @@ use Bolt;
 use Bolt\Config;
 use Bolt\Configuration\PathsProxy;
 use Bolt\Storage\EntityManagerInterface;
-use Bolt\Storage\Query\Query;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
 use Twig\Extension\AbstractExtension;
@@ -25,8 +24,6 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
     private $config;
     /** @var PathsProxy */
     private $paths;
-    /** @var Query */
-    private $queryEngine;
 
     /**
      * Constructor.
@@ -34,14 +31,12 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
      * @param EntityManagerInterface $em
      * @param Config                 $config
      * @param PathsProxy             $paths
-     * @param Query                  $query
      */
-    public function __construct(EntityManagerInterface $em, Config $config, PathsProxy $paths, Query $query)
+    public function __construct(EntityManagerInterface $em, Config $config, PathsProxy $paths)
     {
         $this->em = $em;
         $this->config = $config;
         $this->paths = $paths;
-        $this->queryEngine = $query;
     }
 
     /**
@@ -60,16 +55,6 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
     public function getStorage()
     {
         return $this->em;
-    }
-
-    /**
-     * Used by new version of setcontent tag.
-     *
-     * @return Query
-     */
-    public function getQueryEngine()
-    {
-        return $this->queryEngine;
     }
 
     /**

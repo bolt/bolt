@@ -40,6 +40,9 @@ class TwigServiceProvider implements ServiceProviderInterface
         $app['twig.runtime.bolt_admin'] = function ($app) {
             return new Twig\Runtime\AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);
         };
+        $app['twig.runtime.bolt'] = function ($app) {
+            return new Twig\Runtime\BoltRuntime($app['query']);
+        };
         $app['twig.runtime.bolt_html'] = function ($app) {
             return new Twig\Runtime\HtmlRuntime(
                 $app['config'],
@@ -105,6 +108,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             function () {
                 return [
                     Twig\Runtime\AdminRuntime::class   => 'twig.runtime.bolt_admin',
+                    Twig\Runtime\BoltRuntime::class    => 'twig.runtime.bolt',
                     Twig\Runtime\HtmlRuntime::class    => 'twig.runtime.bolt_html',
                     Twig\Runtime\ImageRuntime::class   => 'twig.runtime.bolt_image',
                     Twig\Runtime\RecordRuntime::class  => 'twig.runtime.bolt_record',
@@ -204,7 +208,7 @@ class TwigServiceProvider implements ServiceProviderInterface
         );
 
         $app['twig.extension.bolt'] = function ($app) {
-            return new Extension\BoltExtension($app['storage.lazy'], $app['config'], $app['paths'], $app['query']);
+            return new Extension\BoltExtension($app['storage.lazy'], $app['config'], $app['paths']);
         };
 
         $app['twig.extension.bolt_admin'] = function () {

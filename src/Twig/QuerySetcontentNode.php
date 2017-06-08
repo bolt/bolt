@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig;
 
-use Bolt\Twig\Extension\BoltExtension;
+use Bolt\Twig\Runtime\BoltRuntime;
 use Twig_Compiler as Compiler;
 
 /**
@@ -25,7 +25,7 @@ class QuerySetcontentNode extends SetcontentNode
             ->write("\$context['")
             ->raw($this->getAttribute('name'))
             ->raw("'] = ")
-            ->raw("\$this->env->getExtension('" . BoltExtension::class . "')->getQueryEngine()->getContent(")
+            ->raw("\$this->env->getRuntime('" . BoltRuntime::class . "')->getQueryEngine()->getContent(")
             ->subcompile($this->getAttribute('contenttype'))
             ->raw(', ')
             ->subcompile($arguments)
