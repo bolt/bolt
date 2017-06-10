@@ -26,7 +26,6 @@
         "ext-fileinfo": "*",
         "ext-gd": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-xml": "*",
