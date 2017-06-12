@@ -2,44 +2,55 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * Provides ability for an entity to serialize itself.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 trait EntitySerializeTrait
 {
-    protected $_internal = ['contenttype'];
-
-    public function serialize()
-    {
-        $data = [];
-        foreach ($this as $k => $v) {
-            if (strpos($k, '_') === 0) {
-                continue;
-            }
-            if (in_array($k, $this->_internal)) {
-                continue;
-            }
-            $method = 'serialize' . $k;
-            $data[$k] = $this->$method();
-        }
-
-        foreach ($this->_fields as $k => $v) {
-            $method = 'serialize' . $k;
-            $data[$k] = $this->$method();
-        }
-
-        return $data;
-    }
-
+     /**
+     * @internal
+     */
     public function jsonSerialize()
     {
-        return $this->serialize();
+        return $this->toArray();
     }
 
-    public function toArray()
+    /**
+     * @internal
+     */
+    public function serialize()
     {
-        return $this->serialize();
+        $data = $this->toArray();
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        if (isset($trace[0]['file'])) {
+            Deprecated::warn('Calling serialize() on entities to return an array', 3.4, 'Use toArray() instead.');
+
+            return $data;
+        }
+
+        return serialize($data);
     }
+
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        foreach ($data as $k => $v) {
+            $this->$k = $v;
+        }
+    }
+
+    /**
+     * Return a PHP or JSON serializable array.
+     *
+     * @return array
+     */
+    abstract public function toArray();
 }
