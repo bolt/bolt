@@ -44,6 +44,8 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'extensions_config' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_config'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's cache directory
                         'cache'             => new Filesystem(new Local($app['path_resolver']->resolve('cache'), LOCK_EX, Local::SKIP_LINKS)),
+                        // Volatile data
+                        'var'               => new Filesystem(new Local($app['path_resolver']->resolve('var'), LOCK_EX, Local::SKIP_LINKS)),
                     ],
                     [
                         new Plugin\HasUrl(),
