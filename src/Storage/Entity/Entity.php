@@ -4,12 +4,13 @@ namespace Bolt\Storage\Entity;
 
 use ArrayAccess;
 use JsonSerializable;
+use Serializable;
 
 /**
  * An abstract class that other entities can inherit. Provides automatic getters and setters along
  * with serialization.
  */
-abstract class Entity implements ArrayAccess, JsonSerializable
+abstract class Entity implements ArrayAccess, JsonSerializable, Serializable
 {
     use MagicAttributeTrait;
     use EntitySerializeTrait;
