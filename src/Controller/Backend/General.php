@@ -3,6 +3,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Collection\Bag;
+use Bolt\Form\FormType\PrefillType;
 use Bolt\Helpers\Input;
 use Bolt\Omnisearch;
 use Bolt\Requirement\BoltRequirements;
@@ -11,7 +12,6 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -193,18 +193,13 @@ class General extends BackendBase
             'attr' => [
                 'data-bind' => json_encode(['bind' => 'prefill']),
             ],
+            'contenttypes' => $choices,
         ];
-        $form = $this->createFormBuilder(FormType::class, [], $options)
-            ->add('contenttypes', ChoiceType::class, [
-                'choices'  => $choices,
-                'multiple' => true,
-                'expanded' => true,
-                // Can be removed when symfony/form:^3.0 is the minimum
-                'choices_as_values' => true,
-            ])
-            ->getForm();
+        $form = $this->createFormBuilder(PrefillType::class, [], $options)
+            ->getForm()
+        ;
 
-        if ($request->isMethod('POST') || $request->get('force') == 1) {
+        if ($request->isMethod('POST') || $request->query->getBoolean('force')) {
             $form->handleRequest($request);
             if ($form->get('contenttypes')->has('contenttypes')) {
                 $contentTypeNames = (array) $form->get('contenttypes')->getData();

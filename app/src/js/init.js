@@ -215,13 +215,15 @@ var init = {
     bindPrefill: function () {
         "use strict";
 
-        $('#check-all').on('click', function () {
+        var checkboxes = $('#form_contenttypes').find(':checkbox');
+
+        $('#prefill_check_all').on('click', function () {
             // because jQuery is being retarded.
             // See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
-            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click');
+            checkboxes.removeAttr('checked').trigger('click');
         });
-        $('#uncheck-all').on('click', function () {
-            $("#form_contenttypes :checkbox").removeAttr('checked');
+        $('#prefill_uncheck_all').on('click', function () {
+            checkboxes.removeAttr('checked');
         });
     },
 
