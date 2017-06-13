@@ -2,11 +2,13 @@
 
 namespace Bolt\Storage;
 
+use Serializable;
+
 /**
  *  This class is used by lazily loaded entities. It stores a reference to an entity but only
  *  fetches it on demand.
  */
-class EntityProxy
+class EntityProxy implements Serializable
 {
     /** @var string */
     public $entity;
@@ -90,5 +92,22 @@ class EntityProxy
         $this->load();
 
         return $this->proxy;
+    }
+
+    /**
+     * @internal
+     */
+    public function serialize()
+    {
+        return serialize($this->getProxy());
+    }
+
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        $this->proxy = unserialize($serialized);
+        $this->loaded = true;
     }
 }

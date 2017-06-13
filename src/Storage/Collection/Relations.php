@@ -3,17 +3,19 @@
 namespace Bolt\Storage\Collection;
 
 use Bolt\Exception\StorageException;
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 
 /**
  * This class stores an array collection of Relations Entities.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Relations extends ArrayCollection
+class Relations extends ArrayCollection implements Serializable
 {
     protected $em;
 
@@ -234,13 +236,39 @@ class Relations extends ArrayCollection
         return $collection;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function serialize()
     {
-        $output = [];
-        foreach ($this as $k => $existing) {
-            $output[$existing->getToContenttype()][] = spl_object_hash($existing);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        if (isset($trace[0]['file'])) {
+            Deprecated::method(3.4, 'toArray');
+
+            $output = [];
+            foreach ($this as $k => $existing) {
+                $output[$existing->getToContenttype()][] = spl_object_hash($existing);
+            }
+
+            return $output;
         }
 
-        return $output;
+        $data = [];
+        foreach ($this as $element) {
+            $data[] = $element;
+        }
+
+        return serialize($data);
+    }
+
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        foreach ($data['elements'] as $k => $v) {
+            $this->set($k, $v);
+        }
     }
 }

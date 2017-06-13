@@ -3,17 +3,19 @@
 namespace Bolt\Storage\Field\Collection;
 
 use Bolt\Exception\FieldConfigurationException;
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\FieldTypeBase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 
 /**
  * This class stores an array collection of Fields.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class RepeatingFieldCollection extends ArrayCollection
+class RepeatingFieldCollection extends ArrayCollection implements Serializable
 {
     /** @var EntityManager */
     protected $em;
@@ -283,6 +285,9 @@ class RepeatingFieldCollection extends ArrayCollection
         return new FieldCollection();
     }
 
+    /**
+     * {@inhertdoc}
+     */
     public function serialize()
     {
         $output = [];
@@ -290,6 +295,23 @@ class RepeatingFieldCollection extends ArrayCollection
             $output[$collection] = $vals->serialize();
         }
 
-        return $output;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        if (isset($trace[0]['file'])) {
+            Deprecated::method(3.4, 'toArray');
+
+            return $output;
+        }
+
+        return serialize($output);
+    }
+
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        foreach ($serialized as $k => $v) {
+            $this->set($k, $v);
+        }
     }
 }
