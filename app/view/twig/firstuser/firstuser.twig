@@ -50,7 +50,7 @@
         {{ __('general.phrase.users-none-create-first-extended') }}
     </p>
 
-    {{ form_start(context.form, {'attr': {'class': 'form-horizontal submitspinner', 'autocomplete': "off"}}) }}
+    {{ form_start(context.form, {'attr': {'class': 'submitspinner', 'autocomplete': "off"}}) }}
         {# Google Chrome, Firefox, MS edge all require this trick to prevent password fields from auto-filling.
            @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
         <input type="text" style="display:none;" />
