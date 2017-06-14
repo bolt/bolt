@@ -465,14 +465,14 @@
      */
     function initKeyboardShortcuts() {
         // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
-        // If we're on an 'edit file' screen,  we have a #saveeditfile
-        if ($('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*')) {
+        // If we're on an 'edit file' screen,  we have a #file_edit_save
+        if ($('#sidebarsavecontinuebutton').is('*') || $('#file_edit_save').is('*')) {
 
             // Bind ctrl-s and meta-s for saving..
             $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
                 event.preventDefault();
                 watchChanges();
-                $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
+                $('#sidebarsavecontinuebutton, #file_edit_save').trigger('click');
             });
 
             // Initialize watching for changes on "the form".

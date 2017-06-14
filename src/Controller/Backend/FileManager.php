@@ -7,15 +7,17 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Form\FormType\FileEditType;
+use Bolt\Form\Validator\Constraints;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -62,6 +64,7 @@ class FileManager extends BackendBase
      */
     public function edit(Request $request, $namespace, $file)
     {
+        /** @var File $file */
         $file = $this->filesystem()->getFile("$namespace://$file");
 
         if (!$file->authorized()) {
@@ -82,14 +85,20 @@ class FileManager extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
+        $data = compact('contents');
+        $options = [
+            'write_allowed'        => true,
+            'contents_allow_empty' => $file->getExtension() !== 'yml' ?: false,
+            'contents_constraints' => $file->getExtension() === 'yml' ? [new Constraints\Yaml()] : [],
+        ];
         /** @var Form $form */
-        $form = $this->createFormBuilder(FormType::class, compact('contents'))
-            ->add('contents', TextareaType::class)
-            ->getForm();
+        $form = $this->createFormBuilder(FileEditType::class, $data, $options)
+            ->getForm()
+        ;
 
         // Handle the POST and check if it's valid.
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('save')->isClicked()) {
             return $this->handleEdit($form, $file);
         }
 

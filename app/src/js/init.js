@@ -39,7 +39,7 @@ var init = {
     },
 
     /*
-     * Bind editfile field
+     * Bind file_edit_contents field
      *
      * @param {object} data
      * @returns {undefined}
@@ -55,7 +55,7 @@ var init = {
         var editor;
 
         if (typeof CodeMirror !== 'undefined') {
-            editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            editor = CodeMirror.fromTextArea(document.getElementById('file_edit_contents'), {
                 lineNumbers: true,
                 autofocus: true,
                 foldGutter: {
@@ -81,9 +81,9 @@ var init = {
                         }
                     },
                     "Ctrl-S": function () {
-                        $('#saveeditfile').click();
+                        $('#file_edit_save').click();
                     },
-                    "Ctrl-H": "replaceAll",
+                    "Ctrl-H": "replaceAll"
                 },
                 tabSize: 4,
                 indentUnit: 4,
@@ -97,8 +97,11 @@ var init = {
             editor.setSize(null, newheight);
         }
 
-        $('#saveeditfile').on('click', function () {
+        $('#file_edit_save').on('click', function (e) {
             Bolt.events.fire('Bolt.File.Save.Start');
+
+            // Disable the form POST
+            e.preventDefault();
 
             // Copy back to the textarea.
             if (editor) {
@@ -108,11 +111,16 @@ var init = {
             var msgNotSaved = 'Not saved';
 
             // Disable the buttons, to indicate stuff is being done.
-            $('#saveeditfile').addClass('disabled');
-            $('#saveeditfile i').addClass('fa-spin fa-spinner');
+            $('#file_edit_save').addClass('disabled');
+            $('#file_edit_save i').addClass('fa-spin fa-spinner');
             $('p.lastsaved').text(Bolt.data('editcontent.msg.saving'));
 
-            $.post('?returnto=ajax', $('#editfile').serialize())
+            var button = $(e.target);
+            var postData = $('form[name="file_edit"]').serialize()
+                + '&' + encodeURI(button.attr('name'))
+                + '=' + encodeURI(button.attr('value'))
+            ;
+            $.post('?returnto=ajax', postData)
                 .done(function (data) {
                     if (!data.ok) {
                         alert(data.msg);
@@ -131,8 +139,8 @@ var init = {
 
                     // Re-enable buttons
                     window.setTimeout(function () {
-                        $('#saveeditfile').removeClass('disabled').blur();
-                        $('#saveeditfile i').removeClass('fa-spin fa-spinner');
+                        $('#file_edit_save').removeClass('disabled').blur();
+                        $('#file_edit_save i').removeClass('fa-spin fa-spinner');
                     }, 300);
                 });
         });
@@ -147,7 +155,7 @@ var init = {
     bindEditLocale: function (data) {
         "use strict";
 
-        var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+        var editor = CodeMirror.fromTextArea(document.getElementById('file_edit_contents'), {
             lineNumbers: true,
             autofocus: true,
             tabSize: 4,
