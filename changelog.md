@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 beta 11
+------------------
+
+Released: 2017-06-16. Notable changes:
+
+ - Change: Change passwordlib to use `random_bytes` instead of any of its sources. Fixes the `/dev/urandom` issue on sites with `open_basedir` restrictions. [#6756](https://github.com/bolt/bolt/pull/6756)
+ - Change: Remove hard requirement on PHP `mbstring` extension [#6748](https://github.com/bolt/bolt/pull/6748)
+ - Fixed: "Complex search" crash bug [#6757](https://github.com/bolt/bolt/pull/6757)
+ - Fixed: "Search with setcontent" when using strict settings. [#6753](https://github.com/bolt/bolt/pull/6753)
+ - Fixed: Fix edge-case `cache:clear` fails. ("cache/production/data" is not writable) [#6747](https://github.com/bolt/bolt/pull/6747)
+
 Bolt 3.3.0 beta 10
 ------------------
 
