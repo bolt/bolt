@@ -155,9 +155,9 @@ trait ContentSearchTrait
 
         $wordMatches = 0;
         $cntWords = count($words);
-        for ($i = 0; $i < $cntWords; $i++) {
-            if (strstr($lowSubject, $words[$i])) {
-                $wordMatches++;
+        foreach (array_keys($words) as $k) {
+            if (strstr($lowSubject, $words[$k])) {
+                ++$wordMatches;
             }
         }
         if ($wordMatches > 0) {
