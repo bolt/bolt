@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\AccessControl;
-use PasswordLib\Password\Factory as PasswordFactory;
+use Bolt\Legacy\PasswordLib\PasswordLibFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +67,7 @@ class AccessControlServiceProvider implements ServiceProviderInterface
 
         $app['password_factory'] = $app->share(
             function () {
-                return new PasswordFactory();
+                return new PasswordLibFactory();
             }
         );
 
