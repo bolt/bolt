@@ -42,6 +42,8 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'themes'            => new Filesystem(new Local($app['path_resolver']->resolve('themes'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's extension directory
                         'extensions'        => new Filesystem(new Local($app['path_resolver']->resolve('extensions'), LOCK_EX, Local::SKIP_LINKS)),
+                        // User's extension assets directory
+                        'extensions_assets' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_assets'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's extension config directory
                         'extensions_config' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_config'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's cache directory
