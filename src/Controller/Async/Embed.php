@@ -27,7 +27,9 @@ class Embed extends AsyncBase
         $c->post('/embed', 'embed')
             ->bind('embedRequestEndpoint')
             ->before(function (Request $request) {
-                if (!$this->isCsrfTokenValid($request->request->get('bolt_csrf_token'))) {
+                $tokenValue = $request->request->get('_token');
+                // Only accept valid tokens from the ContentType edit form, or the default "bolt" token ID
+                if ($tokenValue === null || !($this->isCsrfTokenValid($tokenValue, 'content_edit') || $this->isCsrfTokenValid($tokenValue))) {
                     return new JsonResponse(['error' => ['message' => 'Invalid CSRF token']], Response::HTTP_FORBIDDEN);
                 }
                 if ($request->request->has('provider')) {
