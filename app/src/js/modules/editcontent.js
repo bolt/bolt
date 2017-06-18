@@ -73,7 +73,7 @@
     function hasChanged() {
         var changes = 0;
 
-        $('form#editcontent').find('input, textarea, select').each(function () {
+        $('form[name="content_edit"]').find('input, textarea, select').each(function () {
             if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
                 if (ckeditor.instances[this.id].checkDirty()) {
                     changes++;
@@ -97,13 +97,13 @@
      * @memberof Bolt.editcontent
      */
     function watchChanges() {
-        $('form#editcontent').find('input, textarea, select').each(function () {
+        $('form[name="content_edit"]').find('input, textarea, select').each(function () {
             if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
                 if (ckeditor.instances[this.id].checkDirty()) {
                     ckeditor.instances[this.id].updateElement();
                     ckeditor.instances[this.id].resetDirty();
                 }
-            }else{
+            } else {
                 var val = getComparable(this);
                 if (val !== undefined) {
                     $(this).data('watch', val);
@@ -127,8 +127,8 @@
      * @memberof Bolt.editcontent
      */
     function indicateSavingAction() {
-        $('#sidebarsavecontinuebutton, #savecontinuebutton, #liveeditorsavecontinuebutton').addClass('disabled');
-        $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
+        $('#sidebar_save, #content_edit_save, #live_editor_save').addClass('disabled');
+        $('#sidebar_save i, #content_edit_save i').addClass('fa-spin fa-spinner');
         $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
     }
 
@@ -140,8 +140,10 @@
      * @memberof Bolt.editcontent
      */
     function initValidation() {
+        var editForm = $('form[name="content_edit"]');
+
         // Set handler to validate form submit.
-        $('#editcontent')
+        editForm
             .attr('novalidate', 'novalidate')
             .on('submit', function (event) {
                 var valid = bolt.validation.run(this);
@@ -156,7 +158,7 @@
         );
 
         // Basic custom validation handler.
-        $('#editcontent').on('boltvalidate', function () {
+        editForm.on('boltvalidate', function () {
             var valid = bolt.validation.run(this);
 
             $(this).data('valid', valid);
@@ -166,7 +168,7 @@
     }
 
     /**
-     * Initialize persistent tabgroups.
+     * Initialize persistent tab groups.
      *
      * @static
      * @function initTabGroups
@@ -174,13 +176,15 @@
      */
     function initTabGroups() {
         // Show selected tab.
-        var hash = window.location.hash;
+        var hash = window.location.hash,
+            filerTabs = $('#filtertabs');
+
         if (hash) {
-            $('#filtertabs a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
+            filerTabs.find('a[href="#tab-' + hash.replace(/^#/, '') + '"]').tab('show');
         }
 
         // Set Tab change handler.
-        $('#filtertabs a').click(function () {
+        filerTabs.find('a').click(function () {
             var top;
 
             $(this).tab('show');
@@ -198,13 +202,23 @@
      * @memberof Bolt.editcontent
      */
     function initPreview() {
+        var editForm = $('form[name="content_edit"]');
+
+        // Enable the preview buttons, as they are useless without JavaScript
+        editForm.find('#sidebar_preview').attr('disabled', false);
+        editForm.find('#content_edit_preview').attr('disabled', false);
+
+        $('#sidebar_preview').bind('click', function () {
+            $('#content_edit_preview').trigger('click');
+        });
+
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
-        $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
+        $('#content_edit_preview').bind('click', function (e) {
             var newAction = $(e.target).data('url');
 
             e.preventDefault();
-            $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
-            $('#editcontent').attr('action', '').attr('target', '_self');
+            editForm.attr('action', newAction).attr('target', '_blank').submit();
+            editForm.attr('action', '').attr('target', '_self');
         });
     }
 
@@ -224,40 +238,27 @@
      * @static
      * @function initDelete
      * @memberof Bolt.editcontent
-     *
-     * @param {BindData} data - Editcontent configuration data
      */
-    function initDelete(data) {
-        $('#deletebutton, #sidebardeletebutton').bind('click', function (e) {
+    function initDelete() {
+        $('#sidebar_delete').bind('click', function () {
+            $('#content_edit_delete').trigger('click');
+        });
+
+        $('#content_edit_delete').bind('click', function (e) {
             e.preventDefault();
+
+            var button = this;
             bootbox.confirm(
                 bolt.data('editcontent.delete'),
                 function (confirmed) {
                     $('.alert').alert(); // Dismiss alert messages
                     if (confirmed === true) {
-                        var form = $('#id').closest('form'),
-                            ctype = $('#contenttype').val(),
-                            id = $('#id').val(),
-                            token = form.find('input[name="bolt_csrf_token"]').val(),
-                            actionUrl = data.actionUrl,
-                            modifications = {};
+                        var editForm = $('form[name="content_edit"]');
 
-                        modifications[ctype] = {};
-                        modifications[ctype][id] = {'delete': null};
+                        // We don't care about changes, the delete is confirmed.
+                        window.onbeforeunload = null;
 
-                        // Fire delete request.
-                        $.ajax({
-                            url: actionUrl,
-                            type: 'POST',
-                            data: {
-                                'bolt_csrf_token': token,
-                                'contenttype': ctype,
-                                'actions': modifications
-                            },
-                            success: function () {
-                                window.location.href = data.overviewUrl;
-                            }
-                        });
+                        bolt.actions.submit(editForm, button);
                     }
                 }
             );
@@ -265,50 +266,32 @@
     }
 
     /**
-     * Initialize save button handlers.
+     * Initialize "save and create new" button handlers.
      *
      * @static
-     * @function initSave
+     * @function initSaveCreateNew
      * @memberof Bolt.editcontent
      */
-    function initSave() {
-        // Save the page.
-        $('#sidebarsavebutton').bind('click', function () {
-            $('#savebutton').trigger('click');
+    function initSaveCreateNew() {
+        $('#sidebar_save_create').bind('click', function () {
+            $('#content_edit_save_create').trigger('click');
         });
 
-        $('#savebutton').bind('click', function () {
+        $('#content_edit_save_create').bind('click', function () {
             indicateSavingAction();
             watchChanges();
+            bolt.actions.submit($('form[name="content_edit"]'), this);
         });
     }
 
     /**
-     * Initialize "save and new " button handlers.
-     *
-     * @static
-     * @function initSaveNew
-     * @memberof Bolt.editcontent
-     */
-    function initSaveNew() {
-        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function () {
-            indicateSavingAction();
-            watchChanges();
-
-            // Do a regular post, and expect to be redirected back to the "new record" page.
-            var newaction = '?returnto=saveandnew';
-            $('#editcontent').attr('action', newaction).submit();
-        });
-    }
-
-    /**
-     * Initialize "save and continue" button handlers.
+     * Initialize "save" button handlers.
      *
      * Clicking the button either triggers an "ajaxy" post, or a regular post which returns to this page.
      * The latter happens if the record doesn't exist yet, so it doesn't have an id yet.
      *
      * @static
-     * @function initSaveContinue
+     * @function initSave
      * @memberof Bolt.editcontent
      *
      * @fires "Bolt.Content.Save.Start"
@@ -318,14 +301,20 @@
      *
      * @param {BindData} data - Editcontent configuration data
      */
-    function initSaveContinue(data) {
-        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function (e) {
+    function initSave(data) {
+        $('#sidebar_save').bind('click', function () {
+            $('#content_edit_save').trigger('click');
+        });
+
+        $('#content_edit_save').bind('click', function (e) {
             e.preventDefault();
 
+            var editForm = $('form[name="content_edit"]');
+
             // Trigger form validation
-            $('#editcontent').trigger('boltvalidate');
+            editForm.trigger('boltvalidate');
             // Check validation
-            if (!$('#editcontent').data('valid')) {
+            if (!editForm.data('valid')) {
                 return false;
             }
 
@@ -342,8 +331,12 @@
                     bolt.liveEditor.stop();
                 }
 
+                if (data.duplicate) {
+                    window.onbeforeunload = null;
+                }
+
                 // New record. Do a regular post, and expect to be redirected back to this page.
-                $('#editcontent').attr('action', '?returnto=new').submit();
+                bolt.actions.submit(editForm, this);
             } else {
                 watchChanges();
 
@@ -352,7 +345,12 @@
 
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
-                $.post('?returnto=ajax', $('#editcontent').serialize())
+                var button = $(e.target);
+                var postData = editForm.serialize()
+                    + '&' + encodeURI(button.attr('name'))
+                    + '=' + encodeURI(button.attr('value'))
+                ;
+                $.post('', postData)
                     .done(function (data) {
                         bolt.events.fire('Bolt.Content.Save.Done', {form: data});
 
@@ -369,12 +367,12 @@
                             .buicMoment()
                             .buicMoment('set', data.datechanged);
 
+                        var elSelected = $('#statusselect').find('option:selected');
                         $('a#lastsavedstatus strong').html(
-                            '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +
-                            $('#statusselect option:selected').text()
+                            '<i class="fa fa-circle status-' + elSelected.val() + '"></i> ' + elSelected.text()
                         );
                         // Display the 'save succeeded' icon in the buttons
-                        $('#sidebarsavecontinuebutton i, #savecontinuebutton i')
+                        $('#sidebar_save i, #content_edit_save i')
                             .removeClass('fa-flag fa-spin fa-spinner fa-exclamation-triangle')
                             .addClass('fa-check');
 
@@ -394,7 +392,7 @@
                                     // so we're catching arrays and ignoring
                                     // them, someone else can fix this!
                                 } else {
-                                    var field = $('#editcontent [name=' + index + ']');
+                                    var field = $(editForm.name).find('[name=' + index + ']');
 
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
@@ -434,7 +432,7 @@
                             .addClass('alert alert-danger');
 
                         // Display the 'save failed' icon in the buttons
-                        $('#sidebarsavecontinuebutton i, #savecontinuebutton i')
+                        $('#sidebar_save i, #content_edit_save i')
                             .removeClass('fa-flag fa-spin fa-spinner')
                             .addClass('fa-exclamation-triangle');
                     })
@@ -443,10 +441,11 @@
 
                         // Re-enable buttons
                         window.setTimeout(function () {
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton, #liveeditorsavecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebar_save, #content_edit_save, #live_editor_save')
+                                .removeClass('disabled').blur();
                         }, 1000);
                         window.setTimeout(function () {
-                            $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-flag');
+                            $('#sidebar_save i, #content_edit_save i').addClass('fa-flag');
                         }, 5000);
                     }
                 );
@@ -456,23 +455,19 @@
 
     /**
      * Initialize keyboard shortcuts:
-     * - Click 'save' in Edit content screen.
-     * - Click 'save' in "edit file" screen.
+     * - Click 'save' in edit screen.
      *
      * @static
      * @function initKeyboardShortcuts
      * @memberof Bolt.editcontent
      */
     function initKeyboardShortcuts() {
-        // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
-        // If we're on an 'edit file' screen,  we have a #file_edit_save
-        if ($('#sidebarsavecontinuebutton').is('*') || $('#file_edit_save').is('*')) {
-
+        if ($('#content_edit_save').is('*')) {
             // Bind ctrl-s and meta-s for saving..
             $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
                 event.preventDefault();
                 watchChanges();
-                $('#sidebarsavecontinuebutton, #file_edit_save').trigger('click');
+                $('#content_edit_save').trigger('click');
             });
 
             // Initialize watching for changes on "the form".
@@ -496,9 +491,8 @@
      */
     editcontent.init = function (data) {
         initValidation();
-        initSave();
-        initSaveNew();
-        initSaveContinue(data);
+        initSave(data);
+        initSaveCreateNew();
         initPreview();
         initLiveEditor();
         initDelete(data);
