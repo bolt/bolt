@@ -95,25 +95,24 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web'   => new Filesystem(new Memory()),
+            'extensions_assets' => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
-        $ext->setWebDirectory($filesystem->getDir('web://extensions/local/bolt/koala'));
 
         $ext->register($app);
 
-        $filesystem->put('web://extensions/local/bolt/koala/js/test.js', '');
+        $filesystem->put('extensions_assets://Bolt/Asset/js/test.js', '');
 
         $fileQueue = $app['asset.queue.file']->getQueue();
 
         /** @var JavaScript $queued */
         $queued = reset($fileQueue['javascript']);
         $this->assertInstanceOf(JavaScript::class, $queued);
-        $this->assertSame('extensions/local/bolt/koala/js/test.js', $queued->getFileName());
+        $this->assertSame('Bolt/Asset/js/test.js', $queued->getFileName());
         $this->assertSame('extensions', $queued->getPackageName());
     }
 
@@ -123,7 +122,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $filesystem = new Manager([
             'theme' => new Filesystem(new Memory()),
-            'web'   => new Filesystem(new Memory()),
+            'extensions_assets' => new Filesystem(new Memory()),
         ]);
         $this->setService('filesystem', $filesystem);
 
@@ -132,7 +131,6 @@ class AssetTraitTest extends BoltUnitTest
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
-        $ext->setWebDirectory($filesystem->getDir('web://bolt/koala'));
 
         $ext->register($app);
 

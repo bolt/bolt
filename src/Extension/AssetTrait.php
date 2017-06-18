@@ -180,16 +180,16 @@ trait AssetTrait
             return;
         }
 
-        $file = $this->getWebDirectory()->getFile($asset->getPath());
+        $app = $this->getContainer();
+
+        $file = $app['filesystem']->getFile("extensions_assets://{$this->getId()}/$path");
         if ($file->exists()) {
             $asset->setPackageName('extensions')->setPath($file->getPath());
 
             return;
         }
 
-        $app = $this->getContainer();
-
-        $themeFile = $app['filesystem']->getFile(sprintf('theme://%s', $path));
+        $themeFile = $app['filesystem']->getFile("theme://$path");
         if ($themeFile->exists()) {
             $asset->setPackageName('theme');
 
@@ -200,8 +200,8 @@ trait AssetTrait
             "Couldn't add file asset '%s': File does not exist in either %s or %s directories. Make sure the file exists in either of these locations, by " .
             'placing the file there manually (for Bundled Extensions) or by uninstalling / installing the extension again (for Managed Extensions).',
             $path,
-            $this->getWebDirectory()->getFullPath(),
-            $themeFile->getFullPath()
+            $file->getParent()->getFullPath(),
+            $themeFile->getParent()->getFullPath()
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
     }
