@@ -247,7 +247,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {% endif %}
                         {% if permissions.create %}
                             <li>
-                                <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
+                                <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'source': content.id, 'duplicate': 1}) }}">
                                     <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}
                                 </a>
                             </li>
@@ -265,8 +265,9 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     <li>
                         <a class="nolink">
                             {{ __('general.phrase.author-colon') }} <strong><i class="fa fa-user"></i>
-                                {% if content.user.displayname is defined %}
-                                    {{ content.user.displayname|excerpt(15) }}
+                                {% set owner = app.users.user(content.ownerid) %}
+                                {% if owner %}
+                                    {{ owner.displayname|excerpt(15) }}
                                 {% else %}
                                     <s>user {{ content.ownerid }}</s>
                                 {% endif %}</strong>
