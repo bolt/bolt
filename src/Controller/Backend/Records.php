@@ -92,6 +92,7 @@ class Records extends BackendBase
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
         $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
+        $context['file_matcher'] = $this->app['filesystem.matcher'];
 
         // Get the editreferrer
         $referrer = $this->getEditReferrer($request);
