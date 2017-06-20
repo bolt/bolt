@@ -161,12 +161,13 @@ class Bootstrap
                     foreach ((array) $config['extensions'] as $extensionClass) {
                         if (is_string($extensionClass) && class_exists($extensionClass, true)) {
                             $extensionClass = new $extensionClass();
-                        } else {
+                        } elseif (is_string($extensionClass)) {
                             throw new LogicException(sprintf('Unable to load extension class %s', $extensionClass));
                         }
-                        if ($extensionClass instanceof ExtensionInterface) {
-                            $extensions->add($extensionClass);
+                        if (!$extensionClass instanceof ExtensionInterface) {
+                            throw new LogicException(sprintf('Extension loader class must implement %s', ExtensionInterface::class));
                         }
+                        $extensions->add($extensionClass);
                     }
 
                     return $extensions;
