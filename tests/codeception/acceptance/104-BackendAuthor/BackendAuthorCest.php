@@ -39,7 +39,7 @@ class BackendAuthorCest extends AbstractAcceptanceTest
         $I->see('Edit', 'a');
         $I->click('Edit', 'a');
 
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->see('The changes to the Page have been saved.');
     }

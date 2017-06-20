@@ -82,7 +82,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
         $I->see('The new Page has been saved.');
 
         $I->see('A page I made');
@@ -109,7 +109,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->dontSeeInField('#statusselect', 'published');
 
         // Save the page and return to the overview
-        $I->click('Save & return to overview');
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save_return' => 1]]);
         $I->see('Actions for Pages', '.panel-heading');
 
         // Check the 'Publish page' context menu option isn't shown
@@ -159,7 +159,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#teaser', $teaser);
         $I->fillField('#body',   $body);
 
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->see('The new Page has been saved.');
         $I->see("Easy for editors, and a developer's dream cms");
@@ -188,7 +188,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->fillField('#slug',        'contact');
         $I->selectOption('#template', 'extrafields.twig');
 
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
         $I->see('The new Page has been saved.');
         $I->click('Contact Page');
 
@@ -196,7 +196,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->see('Template', 'a[data-toggle=tab]');
 
         $I->fillField('#templatefields-section_1', 'This is the contact text');
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->click('Contact Page');
         /*
@@ -206,6 +206,6 @@ class BackendEditorCest extends AbstractAcceptanceTest
          * pretend that seeing the data is good enough…
          */
         $I->seeInSource('This is the contact text');
-//         $I->seeInField('#templatefields-section_1', 'This is the contact text');
+        $I->seeInField('#templatefields-section_1', 'This is the contact text');
     }
 }
