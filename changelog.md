@@ -1,6 +1,16 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 beta 12
+------------------
+
+Released: 2017-06-22. Notable changes:
+
+ - Change Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
+ - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
+ - Change: Tweak bootstrap for invalid extension classes. [#6769](https://github.com/bolt/bolt/pull/6769)
+ - Fixed: Prevent filelist exceptions when file not found [#6760](https://github.com/bolt/bolt/pull/6760)
+
 Bolt 3.3.0 beta 11
 ------------------
 
