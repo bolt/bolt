@@ -380,6 +380,14 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
+# By default Bolt stores the sessions according to what is configured in your
+# PHP settings. If this doesn't work correctly, you can override the settings
+# below. For a list of the available settings, see here:
+# https://github.com/bolt/bolt/blob/release/3.3/src/Provider/SessionServiceProvider.php#L152-L178
+# sessions:
+#     save_handler: filesystem
+#     save_path: cache://.sessions
+
 # The hash_strength determines the amount of iterations for encrypting
 # passwords.
 #
