@@ -91,10 +91,10 @@ class CodeceptionEventsExtension extends \Codeception\Extension
         $this->nut('cache:clear -q');
 
         $fs = new Filesystem();
-        $rundir = INSTALL_ROOT . '/app/cache/codeception-run-' . time() . '/';
+        $rundir = INSTALL_ROOT . '/var/cache/codeception-run-' . time() . '/';
         $fs->mkdir($rundir);
 
-        // Restore our backed up files, and make copies of them in app/cache/ for review
+        // Restore our backed up files, and make copies of them in var/cache/ for review
         $backups = Fixtures::get('backups');
         foreach ($backups as $file => $keep) {
             if ($fs->exists("$file.codeception-backup")) {

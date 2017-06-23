@@ -59,8 +59,8 @@ abstract class BoltUnitTest extends TestCase
                 unlink(PHPUNIT_WEBROOT . '/app/config/' . $configFile);
             }
         }
-        if (is_readable(PHPUNIT_WEBROOT . '/app/cache/config-cache.json')) {
-            unlink(PHPUNIT_WEBROOT . '/app/cache/config-cache.json');
+        if (is_readable(PHPUNIT_WEBROOT . '/var/cache/config-cache.json')) {
+            unlink(PHPUNIT_WEBROOT . '/var/cache/config-cache.json');
         }
     }
 

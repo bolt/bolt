@@ -24,7 +24,7 @@ class UploadTest extends ControllerUnitTest
 
     public function tearDown()
     {
-        @unlink(TEST_ROOT . '/app/cache/config-cache.json');
+        @unlink(TEST_ROOT . '/var/cache/config-cache.json');
         $this->getService('filesystem')->getDir('files://')->setVisibility('public');
     }
 

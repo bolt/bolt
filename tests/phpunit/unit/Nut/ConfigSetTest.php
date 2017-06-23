@@ -49,7 +49,7 @@ class ConfigSetTest extends BoltUnitTest
     public static function setUpBeforeClass()
     {
         @mkdir(PHPUNIT_ROOT . '/resources/', 0777, true);
-        @mkdir(TEST_ROOT . '/app/cache/', 0777, true);
+        @mkdir(TEST_ROOT . '/var/cache/', 0777, true);
         $distname = realpath(TEST_ROOT . '/app/config/config.yml.dist');
         @copy($distname, PHPUNIT_ROOT . '/resources/config.yml');
     }
@@ -57,6 +57,6 @@ class ConfigSetTest extends BoltUnitTest
     public static function tearDownAfterClass()
     {
         @unlink(PHPUNIT_ROOT . '/resources/config.yml');
-        @unlink(TEST_ROOT . '/app/cache/');
+        @unlink(TEST_ROOT . '/var/cache/');
     }
 }

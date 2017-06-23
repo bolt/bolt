@@ -189,7 +189,7 @@ class BoltListener extends BaseTestListener
 
         // Create needed directories
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
-        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/cache/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/var/cache/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/app/config/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
@@ -232,7 +232,7 @@ class BoltListener extends BaseTestListener
 
         // Write out a report about each test's execution time
         if ($this->timer) {
-            $file = TEST_ROOT . '/app/cache/phpunit-test-timer.txt';
+            $file = TEST_ROOT . '/var/cache/phpunit-test-timer.txt';
             if (is_readable($file)) {
                 unlink($file);
             }
