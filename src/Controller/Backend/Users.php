@@ -5,6 +5,7 @@ namespace Bolt\Controller\Backend;
 use Bolt\AccessControl\Permissions;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Form\FormType;
+use Bolt\Requirement\BoltRequirements;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -197,7 +198,10 @@ class Users extends BackendBase
             }
         }
 
+        $requirements = new BoltRequirements($this->app['path_resolver']->resolve('%root%'));
         $context = [
+            'required'    => $requirements->getFailedRequirements() ?: null,
+            'recommended' => $requirements->getFailedRecommendations() ?: null,
             'kind'        => 'create',
             'form'        => $form->createView(),
             'note'        => $note,

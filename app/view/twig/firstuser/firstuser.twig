@@ -10,6 +10,42 @@
 
 {% block page_main %}
 
+    <div class="row">
+        {% if context.required %}
+            <div class="panel panel-danger">
+                <div class="panel-heading"><i class="fa fa-close"> </i> Failed System and/or PHP requirements:</div>
+                <div class="panel-body bg-danger">
+                    {% for failed in context.required %}
+                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
+                        <p>{{ failed.helpHtml|raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-check"> </i> No outstanding system or PHP requirements</div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if context.recommended %}
+            <div class="panel panel-warning">
+                <div class="panel-heading"><i class="fa fa-close"> </i> Recommended updates:</div>
+                <div class="panel-body bg-warning">
+                    {% for failed in context.recommended %}
+                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
+                        <p>{{ failed.helpHtml|raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-check"> </i> No recommended updates</div>
+            </div>
+        {% endif %}
+    </div>
+
+
     <p class="first-user">
         {{ __('general.phrase.users-none-create-first-extended') }}
     </p>
