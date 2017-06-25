@@ -7,7 +7,12 @@ use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Str;
+use Bolt\Legacy;
 use Bolt\Pager\PagerManager;
+use Bolt\Storage\Entity;
+use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository\RelationsRepository;
+use Bolt\Storage\Repository\TaxonomyRepository;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +32,8 @@ class RecordRuntime
     private $pagerManager;
     /** @var DirectoryInterface */
     private $templatesDir;
+    /** @var EntityManager */
+    private $em;
     /** @var array */
     private $themeTemplateSelect;
     /** @var bool */
@@ -38,6 +45,7 @@ class RecordRuntime
      * @param RequestStack       $requestStack
      * @param PagerManager       $pagerManager
      * @param DirectoryInterface $templatesDir
+     * @param EntityManager      $em
      * @param array              $themeTemplateSelect
      * @param mixed              $useTwigGlobals
      */
@@ -45,12 +53,14 @@ class RecordRuntime
         RequestStack $requestStack,
         PagerManager $pagerManager,
         DirectoryInterface $templatesDir,
+        EntityManager $em,
         array $themeTemplateSelect,
         $useTwigGlobals
     ) {
         $this->requestStack = $requestStack;
         $this->pagerManager = $pagerManager;
         $this->templatesDir = $templatesDir;
+        $this->em = $em;
         $this->themeTemplateSelect = $themeTemplateSelect;
         $this->useTwigGlobals = $useTwigGlobals;
     }
@@ -314,5 +324,59 @@ class RecordRuntime
             }
         }
         return $retval;
+    }
+
+    /**
+     * @param Entity\Content|Legacy\Content $record The record to fetch related records for
+     * @param string[]|null                 $types  Filters results to one or more ContentType names that the record's own ContentType is related to
+     * @param int                           $limit  Maximum number of related record to return
+     *
+     * @return \Bolt\Storage\Collection\Relations|null
+     */
+    public function related($record, $types = null, $limit = null)
+    {
+        if ($record instanceof Entity\Content) {
+            $contentTypeKey = (string) $record['contenttype'];
+        } elseif ($record instanceof Legacy\Content) {
+            Deprecated::warn('Passing legacy content object to the Twig "related" function or filter', 3.4);
+            $contentTypeKey = $record->contenttype['slug'];
+        } else {
+            throw new \BadMethodCallException(sprintf('The Twig function "related" requires a %s as the first parameter', Entity\Content::class));
+        }
+        $options = [
+            'types'  => $types,
+            'status' => 'published',
+            'limit'  => $limit ?: 20,
+        ];
+        $id = $record['id'];
+        /** @var RelationsRepository $repo */
+        $repo = $this->em->getRepository(Entity\Relations::class);
+        $related = $repo->getRelatedEntities($contentTypeKey, $id, $options);
+
+        return $related;
+    }
+
+    /**
+     * @param Entity\Content|Legacy\Content $record The record to fetch related records for
+     * @param string[]|null                 $types  Filters results to one or more ContentType names that the record's own ContentType is related to
+     *
+     * @return \Bolt\Storage\Collection\Taxonomy|null
+     */
+    public function taxonomy($record, $types = null)
+    {
+        if ($record instanceof Entity\Content) {
+            $contentTypeKey = (string) $record['contenttype'];
+        } elseif ($record instanceof Legacy\Content) {
+            Deprecated::warn('Passing legacy content object to the Twig "taxonomy" function or filter', 3.4);
+            $contentTypeKey = $record->contenttype['slug'];
+        } else {
+            throw new \BadMethodCallException(sprintf('The Twig function & filter "taxonomy" requires a %s as the first parameter', Entity\Content::class));
+        }
+        $id = $record['id'];
+        $repo = $this->em->getRepository(Entity\Taxonomy::class);
+        /** @var TaxonomyRepository $repo */
+        $taxonomies = $repo->getTaxonomies($contentTypeKey, $id, $types);
+
+        return $taxonomies;
     }
 }
