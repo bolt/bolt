@@ -35,7 +35,7 @@
 
 {% set template_item %}
     <div class="item ui-state-default">
-        <div class="icon"><i class="fa fa-file-o"></i><span>%EXT_E%</span></div>
+        <div class="icon"><i class="fa %ICON%"></i><span>%EXT_E%</span></div>
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILEPATH_A%">
         <a href="#" class="remove"><i class="fa fa-times"></i></a>
@@ -64,13 +64,24 @@
         {# Filelist #}
         <div class="list">
             {% for item in list %}
-                {% set file = app['filesystem.matcher'].getFile(item.filename) %}
-                {{ template_item|replace({
-                    '%TITLE_A%':    item.title|e('html_attr'),
-                    '%FILEPATH_A%': file.path|e('html_attr'),
-                    '%FILEPATH_E%': file.path|e('html'),
-                    '%EXT_E%': file.extension|upper|e('html'),
-                })|raw }}
+                {% set file = context.file_matcher.getFile(item.filename, false) %}
+                {% if file is not null %}
+                    {{ template_item|replace({
+                        '%ICON%':       'fa-file-o',
+                        '%TITLE_A%':    item.title|e('html_attr'),
+                        '%FILEPATH_A%': file.path|e('html_attr'),
+                        '%FILEPATH_E%': file.path|e('html'),
+                        '%EXT_E%':      file.extension|upper|e('html'),
+                    })|raw }}
+                {% else %}
+                    {{ template_item|replace({
+                        '%ICON%':       'fa-question',
+                        '%TITLE_A%':    item.title|e('html_attr'),
+                        '%FILEPATH_A%': item.filename|e('html_attr'),
+                        '%FILEPATH_E%': item.filename|e('html'),
+                        '%EXT_E%':      '',
+                    })|raw }}
+                {% endif %}
             {% else %}
                 {{ template_empty|raw }}
             {% endfor %}

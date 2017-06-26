@@ -99,14 +99,16 @@ class Bootstrap
                 'extensions',
                 function ($extensions) use ($config) {
                     foreach ((array) $config['extensions'] as $extensionClass) {
-                        if (is_string($extensionClass) && class_exists($extensionClass, true)) {
+                        if (is_string($extensionClass)) {
+                            if (!is_a($extensionClass, ExtensionInterface::class, true)) {
+                                throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
+                            }
                             $extensionClass = new $extensionClass();
-                        } else {
-                            throw new LogicException(sprintf('Unable to load extension class %s', $extensionClass));
                         }
-                        if ($extensionClass instanceof ExtensionInterface) {
-                            $extensions->add($extensionClass);
+                        if (!$extensionClass instanceof ExtensionInterface) {
+                            throw new LogicException(get_class($extensionClass) . ' needs to be an instance of ' . ExtensionInterface::class);
                         }
+                        $extensions->add($extensionClass);
                     }
 
                     return $extensions;

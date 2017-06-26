@@ -206,7 +206,14 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $storage = new Storage($app);
+
+        // Test simple search
         $result = $storage->searchContent('lorem');
+        $this->assertGreaterThan(0, count($result));
+        $this->assertTrue($result['query']['valid']);
+
+        // Test complex search
+        $result = $storage->searchContent('I like lorem');
         $this->assertGreaterThan(0, count($result));
         $this->assertTrue($result['query']['valid']);
 

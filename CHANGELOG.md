@@ -96,6 +96,28 @@ Bolt 3.4-dev
 
 -
 
+Bolt 3.3.0 beta 12
+------------------
+
+Released: 2017-06-22. Notable changes:
+
+ - Added: Implement missing `hasParameter` method. [#6764](https://github.com/bolt/bolt/pull/6764)
+ - Change Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
+ - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
+ - Change: Tweak bootstrap for invalid extension classes. [#6769](https://github.com/bolt/bolt/pull/6769)
+ - Fixed: Prevent filelist exceptions when file not found [#6760](https://github.com/bolt/bolt/pull/6760)
+
+Bolt 3.3.0 beta 11
+------------------
+
+Released: 2017-06-16. Notable changes:
+
+ - Change: Change passwordlib to use `random_bytes` instead of any of its sources. Fixes the `/dev/urandom` issue on sites with `open_basedir` restrictions. [#6756](https://github.com/bolt/bolt/pull/6756)
+ - Change: Remove hard requirement on PHP `mbstring` extension [#6748](https://github.com/bolt/bolt/pull/6748)
+ - Fixed: "Complex search" crash bug [#6757](https://github.com/bolt/bolt/pull/6757)
+ - Fixed: "Search with setcontent" when using strict settings. [#6753](https://github.com/bolt/bolt/pull/6753)
+ - Fixed: Fix edge-case `cache:clear` fails. ("cache/production/data" is not writable) [#6747](https://github.com/bolt/bolt/pull/6747)
+
 Bolt 3.3.0 beta 10
 ------------------
 

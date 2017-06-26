@@ -34,6 +34,7 @@ class FilePermissions
 
         $this->allowedPrefixes = [
             'config',
+            'extensions_config',
             'files',
             'theme',
             'themes',
