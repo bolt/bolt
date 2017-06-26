@@ -15,7 +15,7 @@ use Webmozart\PathUtil\Path;
 /**
  * HTML asset service providers.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class AssetServiceProvider implements ServiceProviderInterface
 {

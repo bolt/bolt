@@ -66,14 +66,24 @@
         {# Imagelist #}
         <div class="list">
             {% for image in list %}
-                {% set file = app['filesystem.matcher'].getImage(image.filename) %}
-                {{ template_item|replace({
-                    '%TITLE_A%':    image.title|e('html_attr'),
-                    '%FILEPATH_E%': file.path|e('html'),
-                    '%FILEPATH_A%': file.path|e('html_attr'),
-                    '%PREVIEW_A%':  file.path|thumbnail(60, 40, 'c')|e('html_attr'),
-                    '%URL_A%':      file.url|e('html_attr'),
-                })|raw }}
+                {% set file = context.file_matcher.getImage(image.filename, false) %}
+                {% if file is not null %}
+                    {{ template_item|replace({
+                        '%TITLE_A%':    image.title|e('html_attr'),
+                        '%FILEPATH_E%': file.path|e('html'),
+                        '%FILEPATH_A%': file.path|e('html_attr'),
+                        '%PREVIEW_A%':  file.path|thumbnail(60, 40, 'c')|e('html_attr'),
+                        '%URL_A%':      file.url|e('html_attr'),
+                    })|raw }}
+                {% else %}
+                    {{ template_item|replace({
+                        '%TITLE_A%':    image.title|e('html_attr'),
+                        '%FILEPATH_E%': image.filename|e('html'),
+                        '%FILEPATH_A%': image.filename|e('html_attr'),
+                        '%PREVIEW_A%':  image.filename|thumbnail(60, 40, 'c')|e('html_attr'),
+                        '%URL_A%':      '#',
+                    })|raw }}
+                {% endif %}
             {% else %}
                 {{ template_empty|raw }}
             {% endfor %}
