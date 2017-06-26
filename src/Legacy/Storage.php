@@ -1465,7 +1465,7 @@ class Storage
             $limit = $decoded['parameters']['limit'];
         }
 
-        if ($decoded['parameters']['paging'] === true && isset($decoded['parameters']['page'])) {
+        if (isset($decoded['parameters']['paging']) && ($decoded['parameters']['paging'] === true) && isset($decoded['parameters']['page'])) {
             // Pagenumbers are one-based, not zero-based.
             $offset = $limit * ($decoded['parameters']['page'] - 1);
         }
@@ -1793,7 +1793,7 @@ class Storage
         $totalOrderByElements = count($separatedOrders);
 
         foreach ($separatedOrders as $index => $name) {
-            list($name, $asc) = $this->getSortOrder(trim($name));
+            list($name, $asc) = $this->getSortOrder($name);
 
             // If we don't have a name, we can't determine a sortorder.
             if (empty($name)) {
@@ -1859,7 +1859,7 @@ class Storage
      */
     protected function isMultiOrderQuery($order)
     {
-        return strpos($order, ',') !== false;
+        return (is_string($order) && (strpos($order, ',') !== false));
     }
 
     /**
@@ -1877,7 +1877,7 @@ class Storage
             return false;
         }
 
-        $parts = explode(' ', $name);
+        $parts = explode(' ', trim($name));
         $fieldname = $parts[0];
         $sort = 'ASC';
         if (isset($parts[1])) {

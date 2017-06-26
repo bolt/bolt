@@ -401,6 +401,18 @@ class ContentQueryParser
     }
 
     /**
+     * Helper method to check if parameters are set for a specific key.
+     *
+     * @param string $param
+     *
+     * @return bool
+     */
+    public function hasParameter($param)
+    {
+        return array_key_exists($param, $this->params);
+    }
+
+    /**
      * Returns a single named parameter.
      *
      * @param string $param

@@ -38,12 +38,13 @@ class Matcher
      * of filesystems are checked and chosen if the file exists in that filesystem.
      *
      * @param FileInterface|string $path
+     * @param bool                 $throwException
      *
      * @throws FileNotFoundException If file was not found.
      *
      * @return FileInterface
      */
-    public function getFile($path)
+    public function getFile($path, $throwException = true)
     {
         if ($path instanceof FileInterface) {
             return $path;
@@ -51,11 +52,14 @@ class Matcher
 
         if (!$this->filesystem instanceof AggregateFilesystemInterface || $this->containsMountPoint($path)) {
             $file = $this->filesystem->getFile($path);
-            if (!$file->exists()) {
+            if ($file->exists()) {
+                return $file;
+            }
+            if ($throwException) {
                 throw new FileNotFoundException($path);
             }
 
-            return $file;
+            return null;
         }
 
         // Trim "files/" from front of path for BC.
@@ -74,27 +78,35 @@ class Matcher
             }
         }
 
-        throw new FileNotFoundException($path);
+        if ($throwException) {
+            throw new FileNotFoundException($path);
+        }
+
+        return null;
     }
 
     /**
      * Same as {@see getFile} for images.
      *
      * @param ImageInterface|string $path
+     * @param bool                  $throwException
      *
      * @throws FileNotFoundException If file was not found.
      *
      * @return ImageInterface
      */
-    public function getImage($path)
+    public function getImage($path, $throwException = true)
     {
         if ($path instanceof ImageInterface) {
             return $path;
         }
 
-        $file = $this->getFile($path);
+        $file = $this->getFile($path, $throwException);
+        if ($file) {
+            return $this->filesystem->getImage($file->getFullPath());
+        }
 
-        return $this->filesystem->getImage($file->getFullPath());
+        return null;
     }
 
     /**
