@@ -27,6 +27,7 @@ class RecordExtension extends AbstractExtension
 
         return [
             // @codingStandardsIgnoreStart
+            new TwigFunction('contenttype',   [Runtime\RecordRuntime::class, 'contentType'], $safe),
             new TwigFunction('current',       [Runtime\RecordRuntime::class, 'current']),
             new TwigFunction('excerpt',       [Runtime\RecordRuntime::class, 'excerpt'], $safe),
             new TwigFunction('fields',        [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
@@ -49,6 +50,7 @@ class RecordExtension extends AbstractExtension
 
         return [
             // @codingStandardsIgnoreStart
+            new TwigFilter('contenttype', [Runtime\RecordRuntime::class, 'contentType'], $safe),
             new TwigFilter('current',     [Runtime\RecordRuntime::class, 'current']),
             new TwigFilter('excerpt',     [Runtime\RecordRuntime::class, 'excerpt'], $safe),
             new TwigFilter('selectfield', [Runtime\RecordRuntime::class, 'selectField']),

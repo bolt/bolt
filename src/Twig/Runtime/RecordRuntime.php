@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Collection\ImmutableBag;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Deprecated;
@@ -324,6 +325,26 @@ class RecordRuntime
             }
         }
         return $retval;
+    }
+
+    /**
+     * @param Entity\Content|Legacy\Content $record The record to fetch related records for
+     *
+     * @return ImmutableBag
+     */
+    public function contentType($record)
+    {
+        if ($record instanceof Entity\Content) {
+            $contentTypeKey = (string) $record['contenttype'];
+        } elseif ($record instanceof Legacy\Content) {
+            Deprecated::warn('Passing legacy content object to the Twig "contenttype" function or filter', 3.4);
+            $contentTypeKey = $record->contenttype['slug'];
+        } else {
+            throw new \BadMethodCallException(sprintf('The Twig function "contenttype" requires a %s as the first parameter', Entity\Content::class));
+        }
+        $contentType = $this->em->getContentType($contentTypeKey);
+
+        return ImmutableBag::fromRecursive($contentType);
     }
 
     /**
