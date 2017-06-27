@@ -2,8 +2,12 @@
 
 namespace Bolt\Configuration\Check;
 
+use Bolt\Helpers\Deprecated;
+
 /**
  * A container class for a check result.
+ *
+ * @deprecated Since 3.4, to be removed in 4.0
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -15,6 +19,11 @@ class Result implements \JsonSerializable
     protected $message;
     /** @var \Exception */
     protected $exception;
+
+    public function __construct()
+    {
+        Deprecated::cls(__CLASS__, 3.4);
+    }
 
     /**
      * Check if the result is a pass or fail.
