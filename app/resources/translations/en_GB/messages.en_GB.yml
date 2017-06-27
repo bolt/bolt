@@ -481,6 +481,7 @@ logs.system-log: "System Log"
 logs.system-log.cleared: "The system log has been cleared."
 logs.system-log.trimmed: "The system log has been trimmed."
 
+menu.configuration.checks: "Set-up checks"
 menu.configuration.routing: "Routing set up"
 
 nut.greeting: "Welcome to Bolt!"
