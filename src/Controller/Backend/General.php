@@ -2,8 +2,10 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Collection\Bag;
 use Bolt\Helpers\Input;
 use Bolt\Omnisearch;
+use Bolt\Requirement\BoltRequirements;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Requirements\PhpConfigRequirement;
 
 /**
  * General controller for basic backend routes.
@@ -68,11 +71,43 @@ class General extends BackendBase
     /**
      * Configuration checks/tests route.
      *
+     * @param Request $request
+     *
      * @return \Bolt\Response\TemplateResponse
      */
-    public function checks()
+    public function checks(Request $request)
     {
-        return $this->render('@bolt/checks/checks.twig');
+        $defaults = [
+            'pass' => ['php' => [], 'system' => []],
+            'fail' => ['php' => [], 'system' => []],
+        ];
+        $checks = Bag::fromRecursive([
+            'requirements'    => $defaults,
+            'recommendations' => $defaults,
+        ]);
+        $baseReqs = new BoltRequirements($this->app['path_resolver']->resolve('%root%'));
+
+        foreach ($baseReqs->getRequirements() as $requirement) {
+            $result = $requirement->isFulfilled() ? 'pass' : 'fail';
+            if ($requirement instanceof PhpConfigRequirement) {
+                $checks->get('requirements')->get($result)->get('php')->add($requirement);
+
+                continue;
+            }
+            $checks->get('requirements')->get($result)->get('system')->add($requirement);
+        }
+        foreach ($baseReqs->getRecommendations() as $recommendation) {
+            $result = $recommendation->isFulfilled() ? 'pass' : 'fail';
+            if ($recommendation instanceof PhpConfigRequirement) {
+                $checks->get('recommendations')->get($result)->get('php')->add($recommendation);
+
+                continue;
+            }
+            $checks->get('recommendations')->get($result)->get('system')->add($recommendation);
+        }
+        $showAll = $request->query->getBoolean('all');
+
+        return $this->render('@bolt/checks/checks.twig', ['checks' => $checks, 'show_all' => $showAll]);
     }
 
     /**
