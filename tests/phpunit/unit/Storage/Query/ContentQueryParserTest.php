@@ -104,7 +104,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('entries');
         $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'printquery' => true]);
-        $this->expectOutputString('SELECT entries.* FROM bolt_entries entries WHERE entries.id <> :id_1 ORDER BY datepublish DESC');
+        $this->expectOutputString('SELECT _entries.* FROM bolt_entries _entries WHERE _entries.id <> :id_1 ORDER BY datepublish DESC');
         $qb->fetch();
     }
 
@@ -116,7 +116,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'getquery' => function ($query) {
             echo $query;
         }]);
-        $this->expectOutputString('SELECT pages.* FROM bolt_pages pages WHERE pages.id <> :id_1 ORDER BY datepublish DESC');
+        $this->expectOutputString('SELECT _pages.* FROM bolt_pages _pages WHERE _pages.id <> :id_1 ORDER BY datepublish DESC');
         $qb->fetch();
     }
 
@@ -128,7 +128,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['order' => '-datepublish, title', 'getquery' => function ($query) {
             echo $query;
         }]);
-        $this->expectOutputString('SELECT entries.* FROM bolt_entries entries ORDER BY datepublish DESC, title ASC');
+        $this->expectOutputString('SELECT _entries.* FROM bolt_entries _entries ORDER BY datepublish DESC, title ASC');
         $qb->fetch();
     }
 
@@ -279,7 +279,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $this->assertEquals('namedselect', $qb->getOperation());
         $this->assertEquals('5', $qb->getIdentifier());
 
-        $this->expectOutputString('SELECT pages.* FROM bolt_pages pages WHERE pages.id = :id_1');
+        $this->expectOutputString('SELECT _pages.* FROM bolt_pages _pages WHERE _pages.id = :id_1');
         $res = $qb->fetch();
         $this->assertInstanceOf(Entity\Content::class, $res);
     }

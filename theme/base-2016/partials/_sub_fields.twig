@@ -1,16 +1,23 @@
-{# This file specifies the default output for the `fields()` tag. This file is
-   split into three parts:
+{# Default output for the `fields()` tag.
+   This file is contains the 'sub_fields' Twig block tag.
+
+   The 'sub_fields' Twig block is split into two parts:
     - The first section initializes the variables and settings, both from the
-      contenttype definitions as well as passed in variables.
-    - The second section defines the macros that are used to output the desired
-      fields in succession.
-    - The last section is where the actual looping is done for the 'contenttype
-      fields', 'repeater fields' and 'template fields' in turn.
+      ContentType definitions as well as passed in variables.
+    - The last section is where the actual looping is done, and the relevant
+      {{ block() }} function is called, for the 'ContentType fields',
+      'repeater fields' and 'template fields' in turn.
 
-    Read the relevant section in the documentation on usage of this
-    functionality: https://docs.bolt.cm/templating/fields-tag
+   Read the relevant section in the documentation on usage of this
+   functionality: https://docs.bolt.cm/fields-tag
+
+   For more information on using blocks, see the Twig documentation at:
+    - https://twig.sensiolabs.org/doc/1.x/tags/block.html
+    - https://twig.sensiolabs.org/doc/1.x/functions/block.html
 #}
+{% use 'partials/_sub_field_blocks.twig' %}
 
+{% block sub_fields %}
 {# SECTION 1: INITIALIZATION #}
 
 {# Set up the array of fieldnames that should be iterated. We do this by looping
@@ -19,117 +26,32 @@
 
 {# Skip over the fields that are used in the slug, unless explicitly told not to,
    using the `skip_uses` parameter. #}
-{% if (record.contenttype.fields.slug.uses|default(null) is iterable) and (skip_uses == true) %}
+{% if (record.contenttype.fields.slug.uses|default(null) is iterable) and skip_uses|default(true) %}
     {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
 {% endif %}
 
 {# We also skip over the fields that are explicitly excluded. #}
-{% if exclude is iterable %}
+{% if exclude|default is iterable %}
     {% set omittedkeys = omittedkeys|merge(exclude) %}
 {% endif %}
 
-{# SECTION 2: MACROS #}
-
-{# Output a text-like field with the wrapper for live editing. #}
-{% macro textfield(object, key) %}
-    <div data-bolt-field="{{key}}">{{ object.renderedValue(key) }}</div>
-{% endmacro %}
-
-{% macro imagelistfield(images) %}
-    <div class="bolt-imagelist">
-        {% for image in images %}
-            <div class="bolt-imageholder">
-                {{ popup(image.filename, 200, 0) }}
-            </div>
-        {% endfor %}
-    </div>
-{% endmacro %}
-
-{# Macro for "basic" fields like HTML, Markdown, Textarea and Text #}
-{% macro commonfield(object, key) %}
-        {% import _self as macro %}
-
-        {% set fieldtype = object.fieldtype(key) %}
-        {% set value = object.get(key) %}
-
-        {# HTML, Textarea, Text and Markdown fields #}
-        {% if fieldtype in ['html', 'textarea', 'text', 'markdown'] %}
-            {{ macro.textfield(object, key) }}
-        {% endif %}
-
-        {# Image fields #}
-        {% if fieldtype == "image" %}
-            {{ popup(value, 1200, 0) }}
-        {% endif %}
-
-        {# Video fields #}
-        {% if fieldtype == "video" and value.responsive|default %}
-            <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
-                {{ value.responsive }}
-            </div>
-        {% endif %}
-
-{% endmacro %}
-
-{# Macro for other field types, like Geo, Select, Checkbox and others. #}
-{% macro extendedfield(object, key) %}
-        {% import _self as macro %}
-
-        {% set fieldtype = object.fieldtype(key) %}
-        {% set value = object.get(key) %}
-
-        {# Geolocation field #}
-        {% if fieldtype == "geolocation" and value.latitude is defined %}
-            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
-        {% endif %}
-
-        {# Special case for 'select' fields: if it's a multiple select, the value is an array. #}
-        {% if fieldtype == "select" and value is not empty %}
-            <p><strong>{{ key }}: </strong>
-                {{ value|join(", ") }}
-            </p>
-        {% endif %}
-
-        {# Checkbox fields #}
-        {% if fieldtype == "checkbox" %}
-                <p>Checkbox {{ key }}: {{value ? "checked" : "not checked"}}</p>
-        {% endif %}
-
-        {# Imagelist fields #}
-        {% if fieldtype == "imagelist" and value is not empty %}
-            {{ macro.imagelistfield(value) }}
-        {% endif %}
-
-        {# No special case defined for this type of field. We just output them, if it's
-           a simple scalar, and 'dump' them otherwise. #}
-        {% if fieldtype in [ 'filelist', 'datetime', 'date', 'integer', 'float' ] and value is not empty  %}
-            <p><strong>{{ key }}: </strong>
-                {% if value is iterable %}
-                    {{ dump(value) }}
-                {% else %}
-                    {{ value }}
-                {% endif %}
-            </p>
-        {% endif %}
-
-{% endmacro %}
-
-{% import _self as macro %}
-
-{# SECTION 3: LOOPING AND ITERATION #}
+{# SECTION 2: LOOPING AND ITERATION #}
 
 {# The actual looping is done here. #}
 {% for key, value in record.values if (key not in omittedkeys) %}
 
     {# Fields that are considered 'common': 'html', 'markdown', 'textarea',
        'text', 'image', 'video' and 'imagelist' #}
-    {% if common == true %}
-        {{ macro.commonfield(record, key) }}
+    {% if common|default(true) %}
+        {% set fieldtype = record.fieldtype(key) %}
+        {% set value = record.get(key) %}
+        {{ block('common_fields') }}
     {% endif %}
 
     {# The rest of the built-in fieldtypes #}
-    {% if extended == true %}
-        {{ macro.extendedfield(record, key) }}
+    {% if extended|default(false) %}
+        {% set fieldtype = record.fieldtype(key) %}
+        {{ block('extended_fields') }}
     {% endif %}
 
     {# Finally, the repeaters #}
@@ -137,8 +59,10 @@
         {% if (global.request.get('_route') != "preview") %}
             {% for repeater in value %}
                 {% for key, repeaterfield in repeater %}
-                    {{ macro.commonfield(repeater, key) }}
-                    {{ macro.extendedfield(repeater, key) }}
+                    {% set fieldtype = repeaterfield.fieldtype() %}
+                    {% set value = repeaterfield.value() %}
+                    {{ block('common_fields') }}
+                    {{ block('extended_fields') }}
                 {% endfor %}
             {% endfor %}
         {% else %}
@@ -147,19 +71,26 @@
             fixed properly for Bolt 4, but for now we just output a notice, and prevent crashes.
             See also: https://github.com/bolt/bolt/issues/6605 #}
             <p>
-                Unfortunately, Repeater fields do not work correctly with the generic
-                <code>fields()</code> function, when using Preview. To view these fields, please
-                save the record, and view the page normally.
+            Unfortunately, Repeater fields do not work correctly with the generic
+            <code>fields()</code> function, when using Preview. To view these fields, please
+            save the record, and view the page normally.
             </p>
         {% endif %}
     {% endif %}
 
 {% endfor %}
 
-{# We do the same for the templatefields, if there are any. #}
-{% if record.templatefields %}
-    {% for key, value in record.templatefields.values if (key not in omittedkeys) %}
-        {{ macro.commonfield(record.templatefields, key) }}
-        {{ macro.extendedfield(record.templatefields, key) }}
+{# We do the same for the templatefields, if set and not empty. #}
+{% set templatefields = record.values.templatefields.values|default() %}
+{% if templatefields is defined and templatefields is not empty %}
+    {# Note: This needs to be expanded upon!! For better detection the 'virtual'
+       contenttype for the templatefields should know about the types of fields. #}
+    {% set templatefields_field_types = attribute(record.contenttype.templatefields|first, 'fields') %}
+    {% for key, value in templatefields if (key not in omittedkeys) %}
+        {% set fieldtype = attribute(attribute(templatefields_field_types, key), 'type')  %}
+        {{ block('common_fields') }}
+        {{ block('extended_fields') }}
+
     {% endfor %}
 {% endif %}
+{% endblock sub_fields %}
