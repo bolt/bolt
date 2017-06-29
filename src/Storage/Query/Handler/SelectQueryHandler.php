@@ -26,7 +26,7 @@ class SelectQueryHandler
 
         foreach ($contentQuery->getContentTypes() as $contentType) {
             $repo = $contentQuery->getEntityManager()->getRepository($contentType);
-            $query->setQueryBuilder($repo->createQueryBuilder($contentType));
+            $query->setQueryBuilder($repo->createQueryBuilder('_' . $contentType));
             $query->setContentType($contentType);
 
             /** Run the parameters through the whitelister. If we get a false back from this method it's because there

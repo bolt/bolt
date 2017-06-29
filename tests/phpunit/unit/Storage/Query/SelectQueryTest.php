@@ -22,7 +22,7 @@ class SelectQueryTest extends BoltUnitTest
         $query->setContentType('pages');
         $query->setParameters(($filters));
         $expr = $query->getWhereExpression();
-        $this->assertEquals('(pages.username LIKE :username_1) AND (pages.email LIKE :email_1) AND (pages.status = :status_1)', $expr->__toString());
+        $this->assertEquals('(_pages.username LIKE :username_1) AND (_pages.email LIKE :email_1) AND (_pages.status = :status_1)', $expr->__toString());
         $this->assertEquals(['%fred%', '%fred', 'published'], array_values($query->getWhereParameters()));
     }
 }
