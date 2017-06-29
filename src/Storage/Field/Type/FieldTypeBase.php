@@ -284,7 +284,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         $reflected->setAccessible(true);
         $originalParts = $reflected->getValue($originalExpression);
         foreach ($originalParts as &$part) {
-            $part = str_replace($query->getContenttype().".".$field, $field.".".$column, $part);
+            $part = str_replace("_" . $query->getContenttype().".".$field, $field.".".$column, $part);
         }
         $reflected->setValue($originalExpression, $originalParts);
 
