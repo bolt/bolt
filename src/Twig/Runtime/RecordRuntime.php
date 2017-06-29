@@ -132,69 +132,6 @@ class RecordRuntime
     }
 
     /**
-     * Output all (relevant) fields to the browser. Convenient for dumping the
-     * content in order in, say, a `record.twig` template, without having to
-     * iterate over them in the browser.
-     *
-     * @param Environment          $env
-     * @param \Bolt\Legacy\Content $record
-     * @param bool                 $common
-     * @param bool                 $extended
-     * @param bool                 $repeaters
-     * @param bool                 $templateFields
-     * @param string               $template
-     * @param string|array         $exclude
-     * @param bool                 $skip_uses
-     *
-     * @return string
-     */
-    public function fields(
-        Environment $env,
-        $record = null,
-        $common = true,
-        $extended = false,
-        $repeaters = true,
-        $templateFields = true,
-        $template = '_sub_fields.twig',
-        $exclude = null,
-        $skip_uses = true
-    ) {
-        if ($record === null) {
-            if (!$this->useTwigGlobals) {
-                throw new \BadMethodCallException('Twig function fields() requires a record to be passed in as either the first, or named \'record\' parameter');
-            }
-            Deprecated::warn('Twig function fields() requires a record parameter', 3.3, ' Passed one in as either the first, or named \'record\' parameter');
-        }
-        // If $record is empty, we must get it from the global scope in Twig.
-        if (!$record instanceof \Bolt\Legacy\Content) {
-            $globals = $env->getGlobals();
-            $record = isset($globals['record']) ? $globals['record'] : [];
-        }
-
-        // Still no record? Nothing to do here, then.
-        if (!$record instanceof \Bolt\Legacy\Content) {
-            return null;
-        }
-
-        if (!is_array($exclude)) {
-            $exclude = explode(',', $exclude) ?: [];
-            $exclude = array_map('trim', $exclude);
-        }
-
-        $context = [
-            'record'         => $record,
-            'common'         => $common,
-            'extended'       => $extended,
-            'repeaters'      => $repeaters,
-            'templatefields' => $templateFields,
-            'exclude'        => $exclude,
-            'skip_uses'      => $skip_uses,
-        ];
-
-        return $env->render($template, $context);
-    }
-
-    /**
      * Lists templates, optionally filtered by $filter.
      *
      * @param string $filter
