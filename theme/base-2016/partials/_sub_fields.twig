@@ -34,7 +34,7 @@
    Twig here. Note, that we're doing this inside a macro, so the
    snippet has a limited scope. No global variables, etc. #}
 {% macro parsetextfield(key, value, contenttype) %}
-    {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
+    {% if contenttype.fields[key].allowtwig|default(false) %}
         {% set value = value|twig %}
     {% endif %}
 
@@ -71,8 +71,8 @@
         {% endif %}
 
         {# Video fields #}
-        {% if fieldtype == "video" and value.responsive %}
-            <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
+        {% if fieldtype == "video" and value.responsive|default is not empty %}
+            <div class="flex-video {{ value.ratio|default(1) > 1.5 ? 'widescreen' }}">
                 {{ value.responsive }}
             </div>
         {% endif %}
