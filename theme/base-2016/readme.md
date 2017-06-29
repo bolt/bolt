@@ -121,12 +121,13 @@ For example, take a look at one of the simpler templates, `record.twig`:
 
 ```twig
 {% extends 'partials/_master.twig' %}
+{% use 'partials/_sub_fields.twig' %}
 
 {% block main %}
 
         <h1>{{ record.title }}</h1>
 
-        {{ fields(record = record, template = 'partials/_sub_fields.twig') }}
+        {{ block('sub_fields') }}
 
         {{ include('partials/_recordfooter.twig', { 'record': record }) }}
 
@@ -136,7 +137,7 @@ For example, take a look at one of the simpler templates, `record.twig`:
 You'll notice the first line that states that the template 'extends' the
 `_master.twig` partial. The rest of the template is the `{% block %}`, which
 overrides the 'main' block in the master template. Inside the block is just an
-`<h1>`-tag with the record's title, a `{{ fields() }}` tag that will output the
+`<h1>` element with the record title, a `subfields` block that will output the
 fields that are defined for this contenttype, and it closes with an include of
 `_recordfooter.twig` to display some meta data, like the author, date and
 permalink.

@@ -9,7 +9,7 @@
         {% set value = value|markdown %}
     {% endif %}
     {% autoescape false %}
-    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value }}</div>
+    <div {% if key is not empty %}data-bolt-field="{{ key }}"{% endif %}>{{ value }}</div>
     {% endautoescape %}
 {% endblock %}
 
@@ -39,23 +39,6 @@
     {# Video fields #}
     {% if fieldtype == "video" and value.responsive|default is not empty %}
         <div class="flex-video {{ value.ratio|default(1) > 1.5 ? 'widescreen' }}">
-            {{ value.responsive }}
-        </div>
-    {% endif %}
-
-    {# HTML, Textarea, Text and Markdown fields #}
-    {% if fieldtype in ['html', 'textarea', 'text', 'markdown'] %}
-        {{ block('parse_text_field') }}
-    {% endif %}
-
-    {# Image fields #}
-    {% if fieldtype == "image" %}
-        {{ popup(value, 1200, 0) }}
-    {% endif %}
-
-    {# Video fields #}
-    {% if fieldtype == "video" and value.responsive|default %}
-        <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
             {{ value.responsive }}
         </div>
     {% endif %}

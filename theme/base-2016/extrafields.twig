@@ -1,10 +1,11 @@
 {% extends 'partials/_master.twig' %}
+{% use 'partials/_sub_fields.twig' %}
 
 {% block main %}
 
     <h1>{{ record.title }}</h1>
 
-    {{ fields(record = record, template = 'partials/_sub_fields.twig') }}
+    {{ block('sub_fields') }}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
     {{ dump(record) }}

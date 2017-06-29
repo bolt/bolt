@@ -158,12 +158,8 @@ class RecordRuntime
         $exclude = null,
         $skip_uses = true
     ) {
-        if ($record === null) {
-            if (!$this->useTwigGlobals) {
-                throw new \BadMethodCallException('Twig function fields() requires a record to be passed in as either the first, or named \'record\' parameter');
-            }
-            Deprecated::warn('Twig function fields() requires a record parameter', 3.3, ' Passed one in as either the first, or named \'record\' parameter');
-        }
+        Deprecated::method('3.3');
+
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
             $globals = $env->getGlobals();
