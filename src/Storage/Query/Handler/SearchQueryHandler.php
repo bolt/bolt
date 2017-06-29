@@ -27,7 +27,7 @@ class SearchQueryHandler
 
         foreach ($contentQuery->getContentTypes() as $contentType) {
             $repo = $contentQuery->getEntityManager()->getRepository($contentType);
-            $query->setQueryBuilder($repo->createQueryBuilder($contentType));
+            $query->setQueryBuilder($repo->createQueryBuilder("_" . $contentType));
             $query->setContentType($contentType);
 
             $searchParam = $contentQuery->getParameter('filter');
