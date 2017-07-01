@@ -28,7 +28,6 @@ class RecordExtension extends AbstractExtension
             // @codingStandardsIgnoreStart
             new TwigFunction('current',       [Runtime\RecordRuntime::class, 'current']),
             new TwigFunction('excerpt',       [Runtime\RecordRuntime::class, 'excerpt'], $safe),
-            new TwigFunction('fields',        [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
             new TwigFunction('listtemplates', [Runtime\RecordRuntime::class, 'listTemplates']),
             new TwigFunction('pager',         [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
             // @codingStandardsIgnoreEnd
