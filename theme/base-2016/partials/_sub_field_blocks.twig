@@ -45,7 +45,7 @@
 
     {# HTML, Textarea, Text and Markdown fields #}
     {% if fieldtype in ['html', 'textarea', 'text', 'markdown'] %}
-        {{ block('parse_text_field') }}
+        {{ block('text_field') }}
     {% endif %}
 
     {# Image fields #}
