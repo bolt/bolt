@@ -139,7 +139,7 @@ class Translator
         $transFallback = self::trans($key, $encParams, 'contenttypes', reset($localeFallbacks), false);
 
         // We don't want fallback translation here
-        if ($trans === $transFallback) {
+        if ($trans === $transFallback && !in_array($app['locale'], $localeFallbacks)) {
             $trans = false;
         }
 
