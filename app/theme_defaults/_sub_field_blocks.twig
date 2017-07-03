@@ -43,23 +43,6 @@
         </div>
     {% endif %}
 
-    {# HTML, Textarea, Text and Markdown fields #}
-    {% if fieldtype in ['html', 'textarea', 'text', 'markdown'] %}
-        {{ block('text_field') }}
-    {% endif %}
-
-    {# Image fields #}
-    {% if fieldtype == "image" %}
-        {{ popup(value, 1200, 0) }}
-    {% endif %}
-
-    {# Video fields #}
-    {% if fieldtype == "video" and value.responsive|default %}
-        <div class="flex-video {{ value.ratio > 1.5 ? 'widescreen' }}">
-            {{ value.responsive }}
-        </div>
-    {% endif %}
-
 {% endblock %}
 
 {# Block for other field types, like Geo, Select, Checkbox and others. #}
