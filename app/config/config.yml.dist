@@ -331,8 +331,8 @@ liveeditor: false
 # it, your mail might disappear into a black hole, without producing any errors.
 # Generally speaking, using 'smtp' is the better option, so use that if possible.
 #
-# Protip: If your webhost does not support SMTP, sign up for a (free) Sendgrid
-# account at https://sendgrid.com/free for sending emails reliably.
+# Protip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
+# account at https://www.sparkpost.com/pricing/ for sending emails reliably.
 
 # mailoptions:
 #     transport: smtp
