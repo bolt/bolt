@@ -158,6 +158,7 @@ class RecordRuntime
         $exclude = null,
         $skip_uses = true
     ) {
+        Deprecated::method('3.3');
         if ($record === null) {
             if (!$this->useTwigGlobals) {
                 throw new \BadMethodCallException('Twig function fields() requires a record to be passed in as either the first, or named \'record\' parameter');
