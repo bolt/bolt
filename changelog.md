@@ -1,6 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 beta 13
+------------------
+
+Released: 2017-07-04. Notable changes:
+
+ - Change: Use `blocks` instead of `macro` for `{{ fields() }}` rendering. [#6784](https://github.com/bolt/bolt/pull/6784) [#6778](https://github.com/bolt/bolt/pull/6778)
+ - Fixed: Fix for queries where fields have the same name as contenttype. [#6779](https://github.com/bolt/bolt/pull/6779)
+
 Bolt 3.3.0 beta 12
 ------------------
 
