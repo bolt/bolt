@@ -9,7 +9,7 @@
         {% set value = value|markdown %}
     {% endif %}
     {% autoescape false %}
-    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value }}</div>
+    <div {% if key is not empty %}data-bolt-field="{{ key }}"{% endif %}>{{ value }}</div>
     {% endautoescape %}
 {% endblock %}
 
