@@ -1,5 +1,4 @@
 {% extends 'partials/_master.twig' %}
-{% use 'partials/_sub_fields.twig' %}
 
 {% block main %}
 
@@ -15,9 +14,9 @@
 
     {{ record.body }}
 
-    {# If there are repeaters, we should output them. #}
-    {% with {common: false, repeaters: true} %}
-    {{ block('sub_fields') }}
+    {# If there are repeaters or templatefields, we should output them. #}
+    {% with { 'common': false, 'repeaters': true } %}
+        {{ block('sub_fields', 'partials/_sub_fields.twig') }}
     {% endwith %}
 
     {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.

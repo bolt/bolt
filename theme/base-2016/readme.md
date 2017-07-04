@@ -121,13 +121,12 @@ For example, take a look at one of the simpler templates, `record.twig`:
 
 ```twig
 {% extends 'partials/_master.twig' %}
-{% use 'partials/_sub_fields.twig' %}
 
 {% block main %}
 
         <h1>{{ record.title }}</h1>
 
-        {{ block('sub_fields') }}
+        {{ block('sub_fields', 'partials/_sub_fields.twig') }}
 
         {{ include('partials/_recordfooter.twig', { 'record': record }) }}
 
@@ -137,10 +136,10 @@ For example, take a look at one of the simpler templates, `record.twig`:
 You'll notice the first line that states that the template 'extends' the
 `_master.twig` partial. The rest of the template is the `{% block %}`, which
 overrides the 'main' block in the master template. Inside the block is just an
-`<h1>` element with the record title, a `subfields` block that will output the
-fields that are defined for this contenttype, and it closes with an include of
-`_recordfooter.twig` to display some meta data, like the author, date and
-permalink.
+`<h1>` element with the record title, a `sub_fields` block (defined in
+`partials/_sub_fields.twig`) that will output the fields that are defined for
+this ContentType, and it closes with an include of `_recordfooter.twig` to
+display some meta data, like the author, date and permalink.
 
 As you can see, we can still use 'include' for small blocks of HTML, even though
 we're using template inheritance. This way we can keep our themes very
@@ -312,19 +311,19 @@ Working with the `.twig` files
 
 You are free to do what you want, when it comes to the .twig files. Out-of-the-
 box, this theme comes with a handful of templates, that correspond to
-the default contenttypes when you have a fresh install of Bolt.
+the default ContentTypes when you have a fresh install of Bolt.
 
 Most of the templates will be pretty straightforward, especially if you're
 familiar with the concept of Template Inheritance. The main templates are:
 
  - `index.twig`: Used as the frontpage or homepage of the site.
  - `listing.twig`: This template is used for listing overviews of all kind, like
-   `/pages` for all records in the 'pages contenttype' or `category/movies` for
+   `/pages` for all records in the 'pages ContentType' or `category/movies` for
    all records that have the 'movies' category assigned to them. Note that
    'search' uses its own template, though.
  - `notfound.twig`: This template is used as the template that's shown when the
    visitor hits a non-existing page on the website.
- - `page.twig`: The detail page for a single record of the 'pages' contenttype.
+ - `page.twig`: The detail page for a single record of the 'pages' ContentType.
    Automatically picked up by Bolt, if the name matches.
  - `record.twig`: The "generic" detail page for a single record page. This is
    used as the fallback, if there's no specific template set for a single record
