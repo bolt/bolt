@@ -5,6 +5,7 @@ namespace Bolt\Tests\Controller\Backend;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,19 +27,40 @@ class RecordsTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/editcontent/pages/4'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt', $response->getTargetUrl());
+    }
 
+    public function testEditNotPermitted()
+    {
         // Since we're the test user we won't automatically have permission to edit.
+        $token = $this->getService('csrf')->getToken('content_edit');
+        $this->setRequest(Request::create('/bolt/editcontent/pages/4', 'POST', [
+            'content_edit' => [
+                'save'   => 1,
+                '_token' => $token,
+            ]
+        ]));
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertEquals('/bolt', $response->getTargetUrl());
+    }
+
+    public function testEditCreate()
+    {
         $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $this->setRequest(Request::create('/bolt/editcontent/pages/4'));
-        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
-        $context = $response->getContext();
-        $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
+        $token = $this->getService('csrf')->getToken('content_edit');
+        $request = Request::create('/bolt/editcontent/pages', 'POST', [
+            'content_edit' => [
+                'save' => 1,
+                '_token' => $token,
+            ]
+        ]);
+        $this->setRequest($request);
 
         // Test creation
         $this->setRequest(Request::create('/bolt/editcontent/pages'));
@@ -47,7 +69,10 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
         $this->assertNull($context['context']['content']->id);
+    }
 
+    public function testEditGetNonExisting()
+    {
         // Test that non-existent throws a redirect
         $this->setRequest(Request::create('/bolt/editcontent/pages/310'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', 310);
@@ -63,9 +88,33 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $this->setRequest(Request::create('/bolt/editcontent/pages/4', 'GET', ['duplicate' => true]));
-        $original = $this->getService('storage')->getContent('pages/4');
-        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
+        $token = $this->getService('csrf')->getToken('content_edit');
+        $request = Request::create('/bolt/editcontent/pages', 'POST', [
+
+            'title'        => 'Dangers to watch for',
+            'body'         => 'Drop bear',
+            'teaser'       => 'They sneak up on you',
+            'content_edit' => [
+                'save'   => 1,
+                '_token' => $token,
+            ]
+        ]);
+        $this->setRequest($request);
+
+        // Save a test record
+        $response = $this->controller()->edit($this->getRequest(), 'pages', null);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+
+        $parts = explode('/', $response->getTargetUrl());
+        $newId = array_pop($parts);
+        $request = Request::create('/bolt/editcontent/pages' . $newId, 'GET', [
+            'source'    => $newId,
+            'duplicate' => true,
+        ]);
+        $this->setRequest($request);
+
+        $original = $this->getService('storage')->getContent('page/' . $newId);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', $newId);
         $context = $response->getContext();
 
         // Check that correct fields are equal in new object
@@ -78,28 +127,6 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('', $new['id']);
         $this->assertEquals('', $new['slug']);
         $this->assertEquals('', $new['ownerid']);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
-     * @expectedExceptionMessage Something went wrong
-     */
-    public function testEditCSRF()
-    {
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(false));
-        $this->setService('csrf', $csrf);
-
-        $permissions = $this->getMockPermissions();
-        $permissions->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        $this->setService('permissions', $permissions);
-
-        $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
-        $this->controller()->edit($this->getRequest(), 'showcases', 3);
     }
 
     public function testEditPermissions()
@@ -122,45 +149,37 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
-    public function testEditPost()
+    public function testEditPostReturn()
     {
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('csrf', $csrf);
-
-        $users = $this->getMockUsers(['checkAntiCSRFToken']);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
-            ->will($this->returnValue(true));
-        $this->setService('users', $users);
-
         $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST', ['floatfield' => 1.2]));
-        $response = $this->controller()->edit($this->getRequest(), 'showcases', 3);
+        $token = $this->getService('csrf')->getToken('content_edit');
+        $request = Request::create('/bolt/editcontent/pages', 'POST', [
+            'title'  => 'Koala Country',
+            'slug'   => 'koala-country',
+            'content_edit' => [
+                'save_return' => 1,
+                '_token'      => $token,
+            ]
+        ]);
+        $this->setRequest($request);
+
+        // Save a test record
+        $response = $this->controller()->edit($this->getRequest(), 'showcases', null);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $parts = explode('/', $response->getTargetUrl());
+        $newId = array_pop($parts);
+
+        $response = $this->controller()->edit($this->getRequest(), 'showcases', $newId);
         $this->assertEquals('/bolt/overview/showcases', $response->getTargetUrl());
     }
 
     public function testEditPostAjax()
     {
-        $csrf = $this->getMockCsrfTokenManager();
-        $csrf->expects($this->any())
-            ->method('isTokenValid')
-            ->will($this->returnValue(true));
-        $this->setService('csrf', $csrf);
-
-        $users = $this->getMockUsers(['checkAntiCSRFToken']);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
-            ->will($this->returnValue(true));
-        $this->setService('users', $users);
-
         // Since we're the test user we won't automatically have permission to edit.
         $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
@@ -168,17 +187,30 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        // We use ?returnto=test here as that is handled exactly the same as
-        // ?returnto=ajax except that it doesn't flush output buffers which we
-        // require to ensure the JSON response is clean from debug or error
-        // output, but PHPUnit marks the test "Risky"
-        $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=test', 'POST'));
-        $original = $this->getService('storage')->getContent('pages/4');
-        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
-        $returned = json_decode($response->getContent());
+        $token = $this->getService('csrf')->getToken('content_edit');
+        $request = Request::create('/bolt/editcontent/pages', 'POST', [
+            'title'  => 'Koala Country',
+            'slug'   => 'koala-country',
+            'content_edit' => [
+                'save'   => 1,
+                '_token' => $token,
+            ]
+        ]);
+        $request->headers->set('X-Requested-With', 'XMLHttpRequest');
+        $request->attributes->set('_test', true);
+        $this->setRequest($request);
 
+        // Save a test record
+        $response = $this->controller()->edit($request, 'pages', null);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $parts = explode('/', $response->getTargetUrl());
+        $newId = array_pop($parts);
+
+        $response = $this->controller()->edit($request, 'pages', $newId);
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals($original['title'], $returned->title);
+
+        $returned = json_decode($response->getContent());
+        $this->assertEquals('Koala Country', $returned->title);
     }
 
     public function testOverview()

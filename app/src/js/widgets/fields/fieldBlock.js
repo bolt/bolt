@@ -189,7 +189,9 @@
             var editors = container.find('.ckeditor');
 
             editors.each(function (i, editor) {
-                cke.instances[editor.id].destroy();
+                if (cke.instances[editor.id]) {
+                    cke.instances[editor.id].destroy();
+                }
                 cke.replace(editor.id);
             });
         },

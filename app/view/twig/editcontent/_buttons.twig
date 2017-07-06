@@ -1,13 +1,14 @@
 {% from '@bolt/_buic/_moment.twig' import buic_moment %}
 
+{% form_theme context.form '@bolt/editcontent/form/editcontent_form_layout.twig' %}
+
 <div class="form-group hidden-xs">
     <div class="col-xs-12">
 
         {# Save Contentype #}
         <div class="btn-group">
-            <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                <i class="fa fa-fw fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.singular_name}) }}
-            </button>
+            {{ form_widget(context.form.save) }}
+
             {# Dropdown #}
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -15,24 +16,18 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <button type="submit" class="btn btn-link" id="savebutton">
-                        <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-return-overview') }}
-                    </button>
+                    {{ form_widget(context.form.save_return, {'attr': {'class': 'btn-link'}}) }}
                 </li>
                 <li>
-                    <button type="submit" class="btn btn-link" id="savenewbutton">
-                        <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-create-new-record') }}
-                    </button>
+                    {{ form_widget(context.form.save_create, {'attr': {'class': 'btn-link'}}) }}
                 </li>
             </ul>
         </div>
 
         {# Live Edit #}
-        {% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}
+        {% if context.contenttype.liveeditor|default(false) %}
             <div class="btn-group">
-                <button type="button" class="btn btn-secondary" id="live-editor-button">
-                    <i class="fa fa-pencil"></i> {{ __('general.phrase.live-edit') }}
-                </button>
+                {{ form_widget(context.form.live_edit, {'attr': {'class': 'btn-secondary'}}) }}
             </div>
         {% endif %}
 
@@ -40,13 +35,18 @@
         {% if not context.contenttype.viewless|default(false) %}
             <div class="btn-group">
                 {% if app.routes.get('preview') %}
-                    <button type="button" class="btn btn-default" id="previewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
-                        <i class="fa fa-external-link-square"></i> {{ __('general.phrase.preview') }}
-                    </button>
+                    {{ form_widget(context.form.preview, {
+                        'attr': {
+                            'class': 'btn-default',
+                            'data-url': path('preview', {'contenttypeslug': context.contenttype.singular_slug}),
+                            'disabled': true
+                        }
+                    }) }}
                 {% else %}
-                    <button type="button" class="btn btn-disabled">
-                        <i class="fa fa-external-link-square"></i> {{ __('general.phrase.no-preview') }}
-                    </button>
+                    {{ form_widget(context.form.preview, {
+                        'label': __('general.phrase.no-preview'),
+                        'attr': {'class': 'btn-default'}
+                    }) }}
                 {% endif %}
 
                 {# Dropdown #}
@@ -58,13 +58,16 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ context.content.link }}" target="_blank">
-                                <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}
+                                <i class="fa fa-external-link-square"> </i>{{ __('View (saved version) on site') }}
                             </a>
                         </li>
                     </ul>
                 {% endif %}
             </div>
         {% endif %}
+
+        {# Hidden delete button #}
+        {{ form_widget(context.form.delete, {'attr': {'class': 'btn-silent-danger'}}) }}
 
         {# Last saved #}
         <p class="lastsaved form-control-static">

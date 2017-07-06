@@ -102,21 +102,22 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->see('<footer class="row">', 'textarea');
 
         // Edit the field
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
         $twig = str_replace('Built with Bolt', 'Built with Bolt, tested with Codeception', $twig);
-        $I->fillField('#form_contents', $twig);
+        $I->fillField('#file_edit_contents', $twig);
 
         // Save it
-        $token = $I->grabValueFrom('#form__token');
+        $token = $I->grabValueFrom('#file_edit__token');
         $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/partials/_footer.twig', [
-            'form' => [
-                '_token'   => $token,
+            'file_edit' => [
                 'contents' => $twig,
+                '_token'   => $token,
+                'save'     => true,
             ],
         ]);
 
         $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
-        $I->see('Built with Bolt, tested with Codeception', '#form_contents');
+        $I->see('Built with Bolt, tested with Codeception', '#file_edit_contents');
     }
 
     /**
@@ -136,15 +137,15 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->see('page.login.button.forgot-password', 'textarea');
 
         // Edit the field
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
         $twig = '"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"' . PHP_EOL . $twig;
-        $I->fillField('#form_contents', $twig);
+        $I->fillField('#file_edit_contents', $twig);
 
         // Save it
-        $I->click('Save', '#form_submit');
+        $I->submitForm('form[name="file_edit"]', ['file_edit' => ['save' => 1]]);
 
         $I->amOnPage('/bolt/tr');
-        $I->see('Built with Bolt, tested with Codeception', '#form_contents');
+        $I->see('Built with Bolt, tested with Codeception', '#file_edit_contents');
     }
 
     /**
@@ -162,12 +163,12 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         // Go into edit mode
         $I->see('Use this field to upload a photo or image', 'textarea');
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
         $twig = str_replace('Use this field to upload a photo or image', 'Use this field to upload a photo of a kitten', $twig);
-        $I->fillField('#form_contents', $twig);
+        $I->fillField('#file_edit_contents', $twig);
 
         // Save it
-        $I->click('Save', '#form_submit');
+        $I->submitForm('form[name="file_edit"]', ['file_edit' => ['save' => 1]]);
 
         $I->amOnPage('/bolt/tr/infos');
         $I->see('Use this field to upload a photo of a kitten', 'textarea');
@@ -190,12 +191,12 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
         $I->see('The Entry you were looking for does not exist.', 'textarea');
 
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
+        $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
         $twig = str_replace('The Entry you were looking for does not exist.', 'These are not the Entries you are looking for.', $twig);
-        $I->fillField('#form_contents', $twig);
+        $I->fillField('#file_edit_contents', $twig);
 
         // Save it
-        $I->click('Save', '#form_submit');
+        $I->submitForm('form[name="file_edit"]', ['file_edit' => ['save' => 1]]);
 
         $I->amOnPage('/bolt/tr/contenttypes');
         $I->see('These are not the Entries you are looking for.', 'textarea');

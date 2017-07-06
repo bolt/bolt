@@ -8,8 +8,7 @@ use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
-use Prophecy\Argument\Token\StringContainsToken;
-use Prophecy\Prophecy\ObjectProphecy;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,7 +147,7 @@ class GeneralTest extends ControllerUnitTest
             '/bolt/tr/contenttypes/en_CY',
             'POST',
             [
-                'form' => [
+                'file_edit' => [
                     'contents' => 'test content at least 10 chars',
                     '_token'   => 'xyz',
                 ],
@@ -156,32 +155,44 @@ class GeneralTest extends ControllerUnitTest
         ));
 
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
+        $context = $response->getContext()->toArray();
 
-        $this->assertTrue($response instanceof RedirectResponse);
-        $this->assertTrue($response->isRedirect('/bolt/tr/contenttypes/en_CY'));
+        $this->assertInstanceOf(TemplateView::class, $response);
+        $this->assertArrayHasKey('context', $context);
+        $this->assertArrayHasKey('form', $context['context']);
+        $this->assertInstanceOf(FormView::class, $context['context']['form']);
 
-        $this->rmdir($this->getService('path_resolver')->resolve('%app%/resources/translations/en_CY'));
+        /** @var FormView $form */
+        $form = $context['context']['form'];
+        /** @var FormErrorIterator $errors */
+        $errors = $form->vars['errors'];
+        $this->assertFalse($errors->getForm()->get('contents')->isValid());
 
         // Check that YML parse errors get caught
         $this->setRequest(Request::create(
             '/bolt/tr/contenttypes/en_CY',
             'POST',
             [
-                'form' => [
-                    'contents' => '- this is invalid yaml markup: *thisref',
+                'file_edit' => [
+                    'contents' => 'form true',
                     '_token'   => 'xyz',
                 ],
             ]
         ));
 
-        $flash = $this->prophesize(FlashLogger::class);
-        /** @var FlashLogger|ObjectProphecy $flash */
-        $flash->error(new StringContainsToken('could not be saved'))->shouldBeCalled();
-        $this->setService('logger.flash', $flash->reveal());
+        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
+        $context = $response->getContext()->toArray();
 
-        $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
+        $this->assertInstanceOf(TemplateView::class, $response);
+        $this->assertArrayHasKey('context', $context);
+        $this->assertArrayHasKey('form', $context['context']);
+        $this->assertInstanceOf(FormView::class, $context['context']['form']);
 
-        $this->assertTrue($response instanceof RedirectResponse, 'Response is not instance of RedirectResponse');
+        /** @var FormView $form */
+        $form = $context['context']['form'];
+        /** @var FormErrorIterator $errors */
+        $errors = $form->vars['errors'];
+        $this->assertFalse($errors->getForm()->get('contents')->isValid());
     }
 
     /**

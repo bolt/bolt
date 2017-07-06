@@ -41,24 +41,23 @@
      * @function init
      * @memberof Bolt.liveEditor
      *
-     * @param {BindData} data - Editcontent configuration data
+     * @param {BindData} data - Content editor configuration data
      */
     liveEditor.init = function (data) {
         liveEditor.previewUrl = data.previewUrl;
 
         if (Modernizr.contenteditable) {
-            $('#sidebar-live-editor-button, #live-editor-button').bind('click', liveEditor.start);
+            $('#sidebar_live_edit, #content_edit_live_edit').bind('click', liveEditor.start);
 
             $('.close-live-editor').bind('click', liveEditor.stop);
             $('.save-live-editor').bind('click', liveEditor.save);
         } else {
             // If we don't have the features we need
             // Don't let this get used
-            $('.live-editor, #sidebar-live-editor-button, #live-editor-button').remove();
+            $('.live-editor, #sidebar_live_editor, #content_edit_live_edit').remove();
 
         }
     };
-
 
     /**
      * Starts the live editor.
@@ -71,11 +70,16 @@
      */
     liveEditor.start = function () {
         // Validate form first
-        var valid = bolt.validation.run($('#editcontent')[0]);
+        var editForm = $('form[name="content_edit"]'),
+            valid    = bolt.validation.run(editForm[0]);
 
         if (!valid) {
             return;
         }
+
+        var formEditPreview  = editForm.find('*[name=_live-editor-preview]'),
+            navBarHeader     = $('#navpage-primary').find('.navbar-header a'),
+            liveEditorIFrame = $('#live-editor-iframe');
 
         // Add Events
         var preventClick = function (e) {
@@ -83,7 +87,7 @@
         };
 
         var iframeReady = function () {
-            var iframe = $('#live-editor-iframe')[0],
+            var iframe = liveEditorIFrame[0],
                 win = iframe.contentWindow || iframe,
                 doc = win.document,
                 jq = $(doc);
@@ -111,7 +115,7 @@
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function () {
                 // Find form field
-                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
+                var field     = editForm.find('*[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
                     fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
@@ -163,20 +167,19 @@
             });
         };
 
-        $('#live-editor-iframe').on('load', iframeReady);
-
+        liveEditorIFrame.on('load', iframeReady);
         bolt.liveEditor.active = true;
         $('body').addClass('live-editor-active');
-        $('#navpage-primary .navbar-header a').on('click', preventClick);
 
-        $('#editcontent *[name=_live-editor-preview]').val('yes');
-        $('#editcontent').attr('action', liveEditor.previewUrl).attr('target', 'live-editor-iframe').submit();
-        $('#editcontent').attr('action', '').attr('target', '_self');
-        $('#editcontent *[name=_live-editor-preview]').val('');
+        navBarHeader.on('click', preventClick);
+        formEditPreview.val('yes');
+        editForm.attr('action', liveEditor.previewUrl).attr('target', 'live-editor-iframe').submit();
+        editForm.attr('action', '').attr('target', '_self');
+        formEditPreview.val('');
 
         removeEvents = function () {
-            $('#live-editor-iframe').off('load', iframeReady);
-            $('#navpage-primary .navbar-header a').off('click', preventClick);
+            liveEditorIFrame.off('load', iframeReady);
+            navBarHeader.off('click', preventClick);
         };
     };
 
@@ -192,7 +195,7 @@
     liveEditor.save = function () {
         liveEditor.extractText();
 
-        $('#savecontinuebutton').click();
+        $('#content_edit_save').trigger('click');
     };
 
     /**
@@ -233,8 +236,9 @@
 
         jq.find('[data-bolt-field]').each(function () {
             // Find form field
-            var fieldName = $(this).data('bolt-field'),
-                field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']'),
+            var editForm = $('form[name="content_edit"]'),
+                fieldName = $(this).data('bolt-field'),
+                field = editForm.find('[name=' + liveEditor.escapejQuery(fieldName) + ']'),
                 fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
             if (fieldType === 'html') {
@@ -250,7 +254,7 @@
     };
 
     /**
-     * Clean contenteditable values for text fields
+     * Clean content editable values for text fields.
      *
      * @public
      *
@@ -282,7 +286,7 @@
      * @param {String} selector - Selector to escape
      */
     liveEditor.escapejQuery = function (selector) {
-        return selector.replace(/(:|\.|\[|\]|,)/g, "\\$1");
+        return selector.replace(/[:\.\[\],]/g, "\\$1");
     };
 
     /**

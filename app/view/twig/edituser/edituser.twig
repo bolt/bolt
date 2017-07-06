@@ -39,7 +39,7 @@
                 </p>
             {% endif %}
 
-            {{ form_start(context.form, {'attr': {'class': 'form-horizontal', 'autocomplete': 'off'}}) }}
+            {{ form_start(context.form, {'attr': {'autocomplete': 'off'}}) }}
                 {# Google Chrome, Firefox, MS Edge all require this trick to prevent password fields from auto-filling.
                    @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
                 <input type="text" style="display:none;" />

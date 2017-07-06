@@ -23,12 +23,13 @@ class RecordExtension extends AbstractExtension
     {
         $safe = ['is_safe' => ['html']];
         $env  = ['needs_environment' => true];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
             new TwigFunction('current',       [Runtime\RecordRuntime::class, 'current']),
             new TwigFunction('excerpt',       [Runtime\RecordRuntime::class, 'excerpt'], $safe),
-            new TwigFunction('fields',        [Runtime\RecordRuntime::class, 'fields'], $env + $safe),
+            new TwigFunction('fields',        [Runtime\RecordRuntime::class, 'fields'], $env + $safe + $deprecated + ['alternative' => 'block(\'sub_fields\')']),
             new TwigFunction('listtemplates', [Runtime\RecordRuntime::class, 'listTemplates']),
             new TwigFunction('pager',         [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
             // @codingStandardsIgnoreEnd

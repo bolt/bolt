@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 /**
  * Form validation
  */
@@ -224,7 +225,7 @@ Bolt.validation = (function () {
                             break;
 
                         default:
-                            console.log('UNKNOWN VALIDATION' + task + " -> " + param);
+                            console.error('UNKNOWN VALIDATION' + task + " -> " + param);
                     }
                     // Stop on first error
                     if (error) {

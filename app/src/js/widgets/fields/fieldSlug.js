@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 /**
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
@@ -243,7 +244,7 @@
                     }
                 })
                 .fail(function () {
-                    console.log('failed to get an URI');
+                    console.error('Failed to get URI for ' + self.options.slug + '/' + self.options.contentId);
                 })
                 .always(function () {
                     self._ui.group.removeClass('loading');

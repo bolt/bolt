@@ -252,7 +252,7 @@ class Save
      * @param string              $returnTo
      * @param string              $editReferrer
      *
-     * @return Response
+     * @return Response|null
      */
     private function saveContentRecord(Entity\Content $content, $oldContent, array $contentType, $new, $comment, $returnTo, $editReferrer)
     {
@@ -272,51 +272,49 @@ class Save
         if ($new) {
             $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
             $this->loggerSystem->info('Created: ' . $content->getTitle(), ['event' => 'content']);
+            $redirectUri = $this->generateUrl(
+                'editcontent',
+                [
+                    'contenttypeslug' => $contentType['slug'],
+                    'id'              => $id,
+                ]
+            );
+
+            return new RedirectResponse($redirectUri);
         } else {
             $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
             $this->loggerSystem->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
-        /*
-         * We now only get a returnto parameter if we are saving a new
-         * record and staying on the same page, i.e. "Save {contenttype}"
-         */
         if ($returnTo) {
-            if ($returnTo === 'new') {
-                return new RedirectResponse(
-                    $this->generateUrl(
-                        'editcontent',
-                        [
-                            'contenttypeslug' => $contentType['slug'],
-                            'id'              => $id,
-                            '_fragment'       => $returnTo,
-                        ]
-                    )
-                );
-            } elseif ($returnTo === 'saveandnew') {
-                return new RedirectResponse(
-                    $this->generateUrl(
-                        'editcontent',
-                        [
-                            'contenttypeslug' => $contentType['slug'],
-                            '_fragment'       => $returnTo,
-                        ]
-                    )
-                );
-            } elseif ($returnTo === 'ajax') {
+            if ($returnTo === 'ajax') {
                 return $this->createJsonUpdate($content, true);
+            } elseif ($returnTo === 'save_create') {
+                return new RedirectResponse(
+                    $this->generateUrl(
+                        'editcontent',
+                        [
+                            'contenttypeslug' => $contentType['slug'],
+                            '_fragment'       => $returnTo,
+                        ]
+                    )
+                );
+            } elseif ($returnTo === 'save_return') {
+                // No returnto, so we go back to the 'overview' for this contenttype.
+                // check if a pager was set in the referrer - if yes go back there
+                if ($editReferrer) {
+                    return new RedirectResponse($editReferrer);
+                }
+
+                return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
+            } elseif ($returnTo === 'save_return') {
+                return new RedirectResponse($this->generateUrl('editcontent', ['contenttypeslug' => $contentType['slug']]));
             } elseif ($returnTo === 'test') {
                 return $this->createJsonUpdate($content, false);
             }
         }
 
-        // No returnto, so we go back to the 'overview' for this contenttype.
-        // check if a pager was set in the referrer - if yes go back there
-        if ($editReferrer) {
-            return new RedirectResponse($editReferrer);
-        }
-
-        return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
+        return null;
     }
 
     /**

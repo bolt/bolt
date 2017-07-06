@@ -246,8 +246,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/config.yml');
 
         $yaml = $I->getUpdatedConfig();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
 
         $I->amOnPage('/bolt/file/edit/config/config.yml');
         $I->see('notfound: resources/not-found');
@@ -270,8 +270,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
 
         $yaml = $I->getUpdatedContentTypes();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
         $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
         $I->see('name: Resources');
         $I->see('singular_name: Resource');
@@ -327,7 +327,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->fillField('#slug',  'not-found');
         $I->fillField('#body',  $body);
 
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->see('Well, this is kind of embarrassing!');
         $I->see('You have what we call in the business, a 404.');
@@ -385,7 +385,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->click('New Showcase');
 
         $I->fillField('#title', 'A Strange Drop Bear');
-        $I->submitForm('#editcontent', []);
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->see('The new Showcase has been saved.');
         $I->seeLink('A Strange Drop Bear', '/bolt/editcontent/showcases/');
@@ -405,8 +405,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getUpdatedPermissions();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
 
         $I->amOnPage('/bolt/file/edit/config/permissions.yml');
         $I->see('change-ownership: [ ]');
@@ -426,8 +426,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/taxonomy.yml');
 
         $yaml = $I->getUpdatedTaxonomy();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
 
         $I->amOnPage('/bolt/file/edit/config/taxonomy.yml');
         $I->see('options: [books, events, fun, life, love, movies, music, news]');
@@ -447,8 +447,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/menu.yml');
 
         $yaml = $I->getUpdatedMenu();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
 
         $I->amOnPage('/bolt/file/edit/config/menu.yml');
         $I->see('Showcases Listing');
@@ -469,8 +469,8 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/file/edit/config/routing.yml');
 
         $yaml = $I->getUpdatedRouting();
-        $I->fillField('#form_contents', $yaml);
-        $I->click('Save', '#saveeditfile');
+        $I->fillField('#file_edit_contents', $yaml);
+        $I->click('Save', '#file_edit_save');
 
         $I->amOnPage('/bolt/file/edit/config/routing.yml');
         $I->see('pagebinding:');

@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 /**
  * @param {Object} $    - Global jQuery object
  * @param {Object} bolt - The Bolt module
@@ -133,8 +134,8 @@
                     */
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.status + ' (' + errorThrown + '):');
-                    console.log(JSON.parse(jqXHR.responseText));
+                    console.error(jqXHR.status + ' (' + errorThrown + '):');
+                    console.error(JSON.parse(jqXHR.responseText));
                 },
                 dataType: 'html'
             });
