@@ -1,14 +1,17 @@
 {% import '@bolt/_macro/_macro.twig' as macro %}
+
+{% form_theme context.form 'form_bolt_layout.twig' _self %}
+
+{%- block button_icon %}
+    <i class="fa fa-fw fa-upload"> </i>
+{% endblock button_icon -%}
 <br>
 {{ form_start(context.form) }}
     <fieldset>
         <p><strong>{{ __('general.phrase.upload-file-to-directory') }}</strong> {{ macro.typepopover() }}</p>
-        {{ form_widget(context.form) }}
+        {{ form_widget(context.form.FileUpload) }}
         <div>
-            <button type="submit" class="btn btn-primary" disabled>
-                <i class="fa fa-fw fa-upload"></i>
-                <span>{{ __('general.phrase.upload-file') }}</span>
-            </button>
+            {{ form_widget(context.form.upload) }}
         </div>
     </fieldset>
 {{ form_end(context.form) }}
@@ -16,7 +19,6 @@
 <script>
     $(function() {
         $('input[type=file]').addClass('btn-secondary').bootstrapFileInput();
-
         $('input:file').change(
             function(){
                 if ($(this).val()) {
@@ -24,6 +26,5 @@
                 }
             }
         );
-
     });
 </script>

@@ -74,6 +74,25 @@
 
     };
 
+    /**
+     * Ensure that button clicked state is added to form data on submission.
+     *
+     * @function submit
+     * @memberof Bolt.actions
+     *
+     * @param {Object} form   The form to submit
+     * @param {Object} button The button that triggered
+     */
+    actions.submit = function (form, button) {
+        var el = $('<input type="hidden" />');
+
+        el.attr('name', button.name)
+            .val(1)
+            .appendTo(form);
+
+        form.submit();
+    };
+
     // Apply mixin container
     bolt.actions = actions;
 

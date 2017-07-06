@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton">
+    <button type="button" class="btn btn-primary" id="sidebar_save">
         <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.singular_name}) }}
     </button>
 
@@ -10,13 +10,13 @@
 
     <ul class="dropdown-menu" role="menu">
         <li>
-            <button type="submit" class="btn btn-link" id="sidebarsavebutton">
+            <button type="submit" class="btn btn-link" id="save_return">
                 <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-return-overview') }}
             </button>
         </li>
 
         <li>
-            <button type="submit" class="btn btn-link" id="sidebarsavenewbutton">
+            <button type="submit" class="btn btn-link" id="sidebar_save_create">
                 <i class="fa fa-fw fa-flag"></i> {{ __('general.phrase.save-and-create-new-record') }}
             </button>
         </li>

@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 /**
  * Stack-related functionality.
  *
@@ -77,7 +78,7 @@
                 });
             })
             .fail(function () {
-                console.log('Failed to add file to stack');
+                console.error('Failed to add file to stack');
             });
     };
 

@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 /**
  * Offers file/folder actions (create, delete, duplicate, rename) functionality utilizing AJAX requests.
  *
@@ -41,7 +42,7 @@
             },
             error: function (result) {
                 alert(result.responseText);
-                console.log(errMsg);
+                console.error(errMsg);
             }
         };
         if (success) {

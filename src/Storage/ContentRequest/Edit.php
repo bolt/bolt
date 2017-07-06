@@ -152,6 +152,7 @@ class Edit
             'content'          => $content,
             'allowed_status'   => $allowedStatuses,
             'contentowner'     => $contentowner,
+            'duplicate'        => $duplicate,
             'fields'           => $this->config->fields->fields(),
             'fieldtemplates'   => $this->getTemplateFieldTemplates($contentType, $content),
             'fieldtypes'       => $this->getUsedFieldtypes($contentType, $content, $contextHas),

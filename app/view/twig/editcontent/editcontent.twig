@@ -22,6 +22,8 @@
 {% block messages "" %}
 
 {% block page_main %}
+    {% form_theme context.form '@bolt/editcontent/form/editcontent_form_layout.twig' %}
+
     {% set status_names = {
         'published': __('general.phrase.published'),
         'held':      __('general.phrase.not-published'),
@@ -32,8 +34,10 @@
     {% set dateChanged %}{{ buic_moment(context.content.datechanged) }}{% endset %}
 
     {% set bind_data = {
+        bind:           'editcontent',
         savedon:        __('general.phrase.saved-on-colon') ~ ' <strong></strong> <small>(' ~ dateChanged ~ ')</small></p>',
         newRecord:      context.content.id != 0 ? false : true,
+        duplicate:      context.duplicate,
         msgNotSaved:    __('contenttypes.generic.saving-impossible', {'%contenttype%': context.contenttype.slug}),
         hasGroups:      context.has.tabs,
         singularSlug:   context.contenttype.singular_slug,
@@ -43,11 +47,8 @@
     } %}
 
     {% set attr_form = {
-        _bind:   ['editcontent', bind_data],
-        class:   'form-horizontal' ~ (context.has.tabs ? ' tab-content' : ''),
-        enctype: 'multipart/form-data',
-        id:      'editcontent',
-        method:  'post',
+        'data-bind': bind_data|json_encode,
+        'class':     'form-horizontal' ~ (context.has.tabs ? ' tab-content' : ''),
     } %}
 
     {% set attributes = {
@@ -82,8 +83,8 @@
                 </ul>
             {% endif %}
 
-            <form{{ macro.attr(attr_form) }}>
-                {{ include('@bolt/_sub/_csrf_token.twig') }}
+            {{ form_start(context.form, {'attr': attr_form}) }}
+                {{ form_widget(context.form._token) }}
 
                 <input{{ macro.attr(attributes.hid_editreferrer) }}>
                 <input{{ macro.attr(attributes.hid_contenttype) }}>
@@ -125,7 +126,8 @@
                 <input type="hidden" name="_live-editor-preview" value=""/>
 
                 {{ include('@bolt/editcontent/_buttons.twig') }}
-            </form>
+
+            {{ form_end(context.form, { 'render_rest': false }) }}
 
             {{ include('@bolt/editcontent/_includes-data.twig') }}
 

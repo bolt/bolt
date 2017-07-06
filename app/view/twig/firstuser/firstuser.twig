@@ -50,7 +50,7 @@
         {{ __('general.phrase.users-none-create-first-extended') }}
     </p>
 
-    {{ form_start(context.form, {'attr': {'class': 'form-horizontal submitspinner', 'autocomplete': "off"}}) }}
+    {{ form_start(context.form, {'attr': {'class': 'submitspinner', 'autocomplete': "off"}}) }}
         {# Google Chrome, Firefox, MS edge all require this trick to prevent password fields from auto-filling.
            @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
         <input type="text" style="display:none;" />
@@ -73,11 +73,11 @@
     <script type="text/javascript">
         $(function() {
             // Attach and detach the progressbar.
-            var el = $('#progress-wrapper').detach()
-            $('#user_new_password_first').parent().append(el);
-
+            var el = $('#progress-wrapper').detach(),
+                pw = $('#user_new_password_first');
             // Initialize complexify, to indicate password strength.
-            $('#user_new_password_first').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+            pw.parent().append(el);
+            pw.complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
                 var progressBar = $('#complexity-bar');
                 progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
                 progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));

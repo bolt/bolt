@@ -7,15 +7,16 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
+use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Form\FormType\FileEditType;
+use Bolt\Form\FormType\FileUploadType;
+use Bolt\Form\Validator\Constraints;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -62,6 +63,7 @@ class FileManager extends BackendBase
      */
     public function edit(Request $request, $namespace, $file)
     {
+        /** @var File $file */
         $file = $this->filesystem()->getFile("$namespace://$file");
 
         if (!$file->authorized()) {
@@ -82,14 +84,20 @@ class FileManager extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
+        $data = compact('contents');
+        $options = [
+            'write_allowed'        => true,
+            'contents_allow_empty' => $file->getExtension() !== 'yml' ?: false,
+            'contents_constraints' => $file->getExtension() === 'yml' ? [new Constraints\Yaml()] : [],
+        ];
         /** @var Form $form */
-        $form = $this->createFormBuilder(FormType::class, compact('contents'))
-            ->add('contents', TextareaType::class)
-            ->getForm();
+        $form = $this->createFormBuilder(FileEditType::class, $data, $options)
+            ->getForm()
+        ;
 
         // Handle the POST and check if it's valid.
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('save')->isClicked()) {
             return $this->handleEdit($form, $file);
         }
 
@@ -127,25 +135,14 @@ class FileManager extends BackendBase
         $form = null;
         if (!$request->query->has('CKEditor') && $this->isAllowed('files:uploads')) {
             // Define the "Upload here" form.
-            $form = $this->createFormBuilder(FormType::class)
-                ->add(
-                    'FileUpload',
-                    FileType::class,
-                    [
-                        'label'    => false,
-                        'multiple' => true,
-                        'attr'     => [
-                            'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('general.phrase.select-file'),
-                            'accept'                  => '.' . implode(',.', $this->getOption('general/accept_file_types')),
-                        ],
-                    ]
-                )
-                ->getForm();
+            $options = ['accept' => '.' . implode(',.', $this->getOption('general/accept_file_types'))];
+            $form = $this->createFormBuilder(FileUploadType::class, null, $options)
+                ->getForm()
+            ;
 
             // Handle the upload.
             $form->handleRequest($request);
-            if ($form->isSubmitted()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $this->handleUpload($form, $directory);
 
                 return $this->redirectToRoute('files', ['path' => $directory->getPath(), 'namespace' => $directory->getMountPoint()]);
