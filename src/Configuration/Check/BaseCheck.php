@@ -2,10 +2,13 @@
 
 namespace Bolt\Configuration\Check;
 
+use Bolt\Helpers\Deprecated;
 use Silex\Application;
 
 /**
  * Base class for checks.
+ *
+ * @deprecated Since 3.4, to be removed in 4.0
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -25,6 +28,7 @@ abstract class BaseCheck
      */
     public function __construct(Application $app)
     {
+        Deprecated::cls(__CLASS__, 3.4);
         $this->app = $app;
     }
 
