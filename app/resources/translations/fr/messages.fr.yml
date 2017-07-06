@@ -23,12 +23,17 @@
 
 #--- 6 untranslated keyword based messages ------------------------------------
 
-"contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
-"field.slug.button.generate": # "Generate from:"
-"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
-"nut.greeting": # "Welcome to Bolt!"
-"nut.version": # "version"
-"page.extend.options": # "Extension Options"
+contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+
+field.slug.button.generate: # "Generate from:"
+
+general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
+
+nut.greeting: # "Welcome to Bolt!"
+
+nut.version: # "version"
+
+page.extend.options: # "Extension Options"
 
 #--- 88 translations ----------------------------------------------------------
 
