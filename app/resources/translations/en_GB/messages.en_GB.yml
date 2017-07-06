@@ -11,8 +11,8 @@
 #  no unused messages
 #   4 untranslated messages
 #  no untranslated keyword based messages
-#  86 translations
-# 530 keyword based translations
+#  79 translations
+# 537 keyword based translations
 
 #--- 4 untranslated messages --------------------------------------------------
 
@@ -21,7 +21,7 @@
 "Group": #
 "Groups": #
 
-#--- 86 translations ----------------------------------------------------------
+#--- 79 translations ----------------------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
@@ -44,7 +44,6 @@
 "Categories": "Categories"
 "Category": "Category"
 "Choose an entry": "Choose an entry"
-"Client error: %errormessage%": "Client error: %errormessage%"
 "Content": "Content"
 "Current (saved) status:": "Current (saved) status:"
 "Date": "Date"
@@ -55,14 +54,10 @@
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped."
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
-"Extension server returned an error: %errormessage%": "Extension server returned an error: %errormessage%"
 "File": "File"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
 "Filelist": "File list"
 "Floatfield": "Float field"
-"Generic failure while testing connection to extension server: %errormessage%": "Generic failure while testing connection to extension server: %errormessage%"
 "Geolocation": "Geolocation"
 "Html": "Html"
 "Image": "Image"
@@ -85,9 +80,7 @@
 "Tags": "Tags"
 "Teaser": "Teaser"
 "Template": "Template"
-"Testing connection to extension server failed: %errormessage%": "Testing connection to extension server failed: %errormessage%"
 "Textarea": "Textarea"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now."
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
@@ -110,7 +103,7 @@
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 530 keyword based translations -------------------------------------------
+#--- 537 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -254,6 +247,7 @@ general.phrase.database-check-update: "Database check / update"
 general.phrase.database-prefill: "Pre-fill database"
 general.phrase.database-prefill-dummy-content: "Fill the database with Dummy Content"
 general.phrase.database-up-to-date-already: "Your database is already up to date."
+general.phrase.database-update-required: "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%LINK%\">Check Database</a>' to do this now."
 general.phrase.delete: "Delete"
 general.phrase.delete-directory-name: "Delete %foldername%"
 general.phrase.delete-file-name: "Delete %filename%"
@@ -567,8 +561,14 @@ page.extend.button.show-all-versions: "Show all versions"
 page.extend.button.update-all: "Run all Updates"
 page.extend.button.update-check: "Run update check"
 page.extend.button.update-package: "Update Package"
+page.extend.error-class-implement: "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
+page.extend.error-class-invalid: "Extension package %NAME% has an invalid class \\'%CLASS%\\' and has been skipped."
 page.extend.error-composer-json-not-readable: "The Bolt extensions composer.json isn't readable."
 page.extend.error-composer-json-not-writable: "The Bolt extensions composer.json isn't writable."
+page.extend.error-message-client: "Client error: %errormessage%"
+page.extend.error-message-connection: "Testing connection to extension server failed: %errormessage%"
+page.extend.error-message-generic: "Generic failure while testing connection to extension server: %errormessage%"
+page.extend.error-message-server: "Extension server returned an error: %errormessage%"
 page.extend.headline.bundled: "Bundled Extensions"
 page.extend.headline.currently-installed: "Your Currently Installed Extensions"
 page.extend.headline.install-new-extension: "Install a new Extension"

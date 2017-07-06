@@ -397,28 +397,28 @@ class PackageManager
         } catch (ClientException $e) {
             // Thrown for 400 level errors
             $this->messages[] = Trans::__(
-                'Client error: %errormessage%',
+                'page.extend.error-message-client',
                 ['%errormessage%' => $e->getMessage()]
             );
             $this->app['extend.online'] = false;
         } catch (ServerException $e) {
             // Thrown for 500 level errors
             $this->messages[] = Trans::__(
-                'Extension server returned an error: %errormessage%',
+                'page.extend.error-message-server',
                 ['%errormessage%' => $e->getMessage()]
             );
             $this->app['extend.online'] = false;
         } catch (RequestException $e) {
             // Thrown for connection timeout, DNS errors, etc
             $this->messages[] = Trans::__(
-                'Testing connection to extension server failed: %errormessage%',
+                'page.extend.error-message-connection',
                 ['%errormessage%' => $e->getMessage()]
             );
             $this->app['extend.online'] = false;
         } catch (\Exception $e) {
             // Catch all
             $this->messages[] = Trans::__(
-                'Generic failure while testing connection to extension server: %errormessage%',
+                'page.extend.error-message-generic',
                 ['%errormessage%' => $e->getMessage()]
             );
             $this->app['extend.online'] = false;
