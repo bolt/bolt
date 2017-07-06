@@ -89,13 +89,13 @@ class ScriptHandlerUpdater
             $scripts = $this->scripts;
         }
         $scripts = substr(JsonFile::encode(['scripts' => $scripts]), 1, -1);
-        $cls = str_replace("\\", "\\\\", ScriptHandler::class);
+        $cls = str_replace('\\', '\\\\', ScriptHandler::class);
         $name = "\"$cls::updateProject\",";
         $scripts = str_replace($name, "<info>$name</info>", $scripts);
 
         $this->io->writeError([
             '',
-            "<info>Bolt has a new separate composer script handler to help with updates!</info>",
+            '<info>Bolt has a new separate composer script handler to help with updates!</info>',
             '<warning>Unfortunately, we could not update your composer.json file automatically.',
             'Please update the "scripts" section of your composer.json file to this:</warning>',
             $scripts,
