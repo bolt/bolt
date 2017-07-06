@@ -1,4 +1,4 @@
-# app/resources/translations/es_ES/contenttypes.es_ES.yml – generated on 2016-09-30 10:50:54 Europe/Amsterdam
+# app/resources/translations/es_ES/contenttypes.es_ES.yml
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -10,20 +10,21 @@
 
 #  no unused messages
 #  no untranslated messages
-#   6 untranslated keyword based messages
+#   4 untranslated keyword based messages
 #  no translations
-# 135 keyword based translations
+# 141 keyword based translations
 
-#--- 6 untranslated keyword based messages ------------------------------------
+#--- 4 untranslated keyword based messages ------------------------------------
 
-"contenttypes.entries.text.recent-changes-one": "Cambio reciente en esta Entrada"
-"contenttypes.pages.text.invalid-relation": "En el Tipo de Contenido 'Página', la relación '%relation%' está definida, la cual no es un Tipo de Contenido válido. Por favor, edite contenttypes.yml y corrija esto."
-"contenttypes.pages.text.recent-changes-one": "Cambio reciente en esta Página"
-"contenttypes.showcases.group.repeater": "Repetidor"
-"contenttypes.showcases.text.invalid-relation": "En el Tipo de Contenido 'Escaparate', la relación '%relation%' está definida, la cual no es un Tipo de Contenido válido. Por favor, edite contenttypes.yml y corrija esto."
-"contenttypes.showcases.text.recent-changes-one": "Cambio reciente en este Escaparate"
+contenttypes.blocks.text.invalid-hyphen: # "In the ContentType for 'Block', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
-#--- 135 keyword based translations -------------------------------------------
+contenttypes.entries.text.invalid-hyphen: # "In the ContentType for 'Entry', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+
+contenttypes.pages.text.invalid-hyphen: # "In the ContentType for 'Page', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+
+contenttypes.showcases.text.invalid-hyphen: # "In the ContentType for 'Showcase', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+
+#--- 141 keyword based translations -------------------------------------------
 
 contenttypes.blocks.description: "El Tipo de Contenido **Bloques** es también llamado como un 'recurso de Tipo de Contenido'. Esto significa que puede ser utilizado para gestionar pequeños trozos de contenido, como el texto 'sobre nosotros' y 'nuestra dirección' en el pie de la página web o textos cortos de propaganda similares."
 contenttypes.blocks.group.block: "Bloque"
@@ -85,6 +86,7 @@ contenttypes.entries.text.not-saved-yet: "Esta Entrada aún no ha sido guardada.
 contenttypes.entries.text.overview: "Vista general de Entradas"
 contenttypes.entries.text.publish: "Publicar Entradas"
 contenttypes.entries.text.recent: "Entradas Recientes"
+contenttypes.entries.text.recent-changes-one: "Cambio reciente en esta Entrada"
 contenttypes.entries.text.recently-edited: "Entradas editadas recientemente"
 contenttypes.entries.text.reserved-name: "En el Tipo de Contenido 'Entradas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.entries.text.save: "Guardar Entrada"
@@ -107,6 +109,7 @@ contenttypes.pages.text.duplicate: "Duplicar Página"
 contenttypes.pages.text.duplicated-finalize: "El contenido se ha duplicado. Haga clic en 'Guardar Página' para finalizar."
 contenttypes.pages.text.edit: "Editar Página"
 contenttypes.pages.text.invalid-field: "No se puede establecer %field% en Página: No es un campo válido."
+contenttypes.pages.text.invalid-relation: "En el Tipo de Contenido 'Página', la relación '%relation%' está definida, la cual no es un Tipo de Contenido válido. Por favor, edite contenttypes.yml y corrija esto."
 contenttypes.pages.text.last-modified: "Últimas páginas modificadas"
 contenttypes.pages.text.new: "Nueva Página"
 contenttypes.pages.text.no-latest: "No hay última Página"
@@ -118,6 +121,7 @@ contenttypes.pages.text.not-saved-yet: "Esta Página aún no ha sido guardada."
 contenttypes.pages.text.overview: "Vista general de Páginas"
 contenttypes.pages.text.publish: "Publicar Página"
 contenttypes.pages.text.recent: "Páginas Recientes"
+contenttypes.pages.text.recent-changes-one: "Cambio reciente en esta Página"
 contenttypes.pages.text.recently-edited: "Páginas editas recientemente"
 contenttypes.pages.text.reserved-name: "En el Tipo de Contenido 'Páginas', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.pages.text.save: "Guardar Página"
@@ -132,6 +136,7 @@ contenttypes.showcases.description: "El Tipo de Contenido **Escaparates** es usa
 contenttypes.showcases.group.files: "Archivos"
 contenttypes.showcases.group.media: "Medios"
 contenttypes.showcases.group.other: "Otros"
+contenttypes.showcases.group.repeater: "Repetidor"
 contenttypes.showcases.group.text: "Texto"
 contenttypes.showcases.name.plural: "Escaparates"
 contenttypes.showcases.name.singular: "Escaparate"
@@ -143,6 +148,7 @@ contenttypes.showcases.text.duplicate: "Duplicar Escaparate"
 contenttypes.showcases.text.duplicated-finalize: "El contenido se ha duplicado. Haga clic en 'Guardar Escaparate' para finalizar."
 contenttypes.showcases.text.edit: "Editar Escaparate"
 contenttypes.showcases.text.invalid-field: "No se puede establecer %field% en Escaparate: No es un campo válido."
+contenttypes.showcases.text.invalid-relation: "En el Tipo de Contenido 'Escaparate', la relación '%relation%' está definida, la cual no es un Tipo de Contenido válido. Por favor, edite contenttypes.yml y corrija esto."
 contenttypes.showcases.text.last-modified: "Últimos escaparates modificados"
 contenttypes.showcases.text.new: "Nuevo Escaparate"
 contenttypes.showcases.text.no-latest: "No hay último Escaparate"
@@ -154,6 +160,7 @@ contenttypes.showcases.text.not-saved-yet: "Este Esparate aún no ha sido guarda
 contenttypes.showcases.text.overview: "Vista general de Escaparates"
 contenttypes.showcases.text.publish: "Publicar Escaparate"
 contenttypes.showcases.text.recent: "Escaparates Recientes"
+contenttypes.showcases.text.recent-changes-one: "Cambio reciente en este Escaparate"
 contenttypes.showcases.text.recently-edited: "Escaparates editados recientemente"
 contenttypes.showcases.text.reserved-name: "En el Tipo de Contenido 'Escaparates', el campo '%field%' usa un nombre reservado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.showcases.text.save: "Guardar Escaparate"
