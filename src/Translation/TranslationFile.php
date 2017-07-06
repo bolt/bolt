@@ -340,7 +340,7 @@ class TranslationFile
             $linebreak = ''; // We want an empty line before each 1st level key
             foreach ($translations as $key => $tdata) {
                 // Key
-                if ($type == 'DoneKey') {
+                if ($type === 'DoneKey' || $type == 'TodoKey') {
                     if ($nested) {
                         $differs = false;
                         for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
