@@ -8,6 +8,8 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Checks for writeable directories.
  *
+ * @deprecated Since 3.4, to be removed in 4.0
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class DirectoryAccess extends BaseCheck implements ConfigurationCheckInterface

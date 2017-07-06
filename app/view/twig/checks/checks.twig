@@ -8,35 +8,99 @@
     Bolt {{ constant('Bolt\\Version::VERSION') }}
 {% endblock page_subtitle %}
 
+{% block checks_pass %}
+    <div class="panel-group">
+        <div class="panel panel-success">
+            <div class="panel-heading">Passed checks:</div>
+            <ul class="list-group">
+                {%- for result in results -%}
+                <li class="list-group-item">
+                    <i class="fa fa-check"></i> {{ result.testMessage }}
+                </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    </div>
+{% endblock checks_pass %}
+
+{% block checks_fail %}
+    <div class="panel-group">
+        {%- for result in results -%}
+            <div class="panel panel-{{ result.optional ? 'warning' : 'danger' }}">
+                <div class="panel-heading"><i class="fa fa-close"></i> {{ result.testMessage }}</div>
+                <div class="panel-body">{{ result.helpHtml|raw }}</div>
+            </div>
+        {%- endfor -%}
+    </div>
+{% endblock checks_fail %}
+
+{% block check_section %}
+    <div class="col-md-6">
+        <h4>System settings</h4>
+        {% if fails.system.empty %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-star"></i> {{ __('page.checks.system-pass') }}</div>
+            </div>
+        {% else %}
+            <div class="panel panel-{{ required ? 'danger' : 'warning' }}">
+                <div class="panel-heading"><i class="fa fa-stop"></i> {{ __('page.checks.system-problem') }}</div>
+            </div>
+            {% with {'results': fails.system} %}{{ block('checks_fail') }}{% endwith %}
+        {% endif %}
+        {% if context.show_all %}
+            {% with {'results': passes.system} %}{{ block('checks_pass') }}{% endwith %}
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <h4>PHP settings</h4>
+        {% if fails.php.empty %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-star"></i> {{ __('page.checks.php-pass') }}</div>
+            </div>
+        {% else %}
+            <div class="panel panel-{{ required ? 'danger' : 'warning' }}">
+                <div class="panel-heading"><i class="fa fa-stop"></i> {{ __('page.checks.php-problem') }}</div>
+            </div>
+            {% with {'results': fails.php} %}{{ block('checks_fail') }}{% endwith %}
+        {% endif %}
+        {% if context.show_all %}
+            {% with {'results': passes.php} %}{{ block('checks_pass') }}{% endwith %}
+        {% endif %}
+    </div>
+{% endblock check_section %}
+
 {% block page_main %}
 
     <div class="row">
         <div class="col-md-8">
-
             <div class="row">
-                <div class="col-md-12">
-                    {{ dump(render(path('directories'))|json_decode) }}
-                </div>
+                <h3>Required settings</h3>
+                {%  with {
+                    'fails': context.checks.requirements.fail,
+                    'passes': context.checks.requirements.pass,
+                    'required': true
+                } %}
+                {{ block('check_section') }}
+                {% endwith %}
             </div>
 
             <div class="row">
-                <div class="col-md-12">
-                    {{ dump(render(path('email'))|json_decode) }}
-                </div>
+                <h3>Recommended settings</h3>
+                {%  with {
+                    'fails': context.checks.recommendations.fail,
+                    'passes': context.checks.recommendations.pass,
+                    'required': false
+                } %}
+                {{ block('check_section') }}
+                {% endwith %}
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    {{ dump(render(path('extensions'))|json_decode) }}
-                </div>
-            </div>
-
         </div>
 
         <aside class="col-md-4">
-            {{ include('@bolt/checks/_aside.twig') }}
+            {% use '@bolt/checks/_aside.twig' %}
+            {{ block('check_aside') }}
         </aside>
     </div>
-
 
 {% endblock page_main %}

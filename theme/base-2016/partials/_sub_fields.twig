@@ -55,7 +55,7 @@
     {% endif %}
 
     {# Finally, the repeaters #}
-    {% if repeaters == true and record.fieldtype(key) == "repeater" %}
+    {% if repeaters|default(false) == true and record.fieldtype(key) == "repeater" %}
         {% if (global.request.get('_route') != "preview") %}
             {% for repeater in value %}
                 {% for key, repeaterfield in repeater %}
@@ -82,7 +82,7 @@
 
 {# We do the same for the templatefields, if set and not empty. #}
 {% set templatefields = record.values.templatefields.values|default() %}
-{% if templatefields is defined and templatefields is not empty %}
+{% if templatefields is not empty %}
     {# Note: This needs to be expanded upon!! For better detection the 'virtual'
        contenttype for the templatefields should know about the types of fields. #}
     {% set templatefields_field_types = attribute(record.contenttype.templatefields|first, 'fields') %}
@@ -90,7 +90,6 @@
         {% set fieldtype = attribute(attribute(templatefields_field_types, key), 'type')  %}
         {{ block('common_fields') }}
         {{ block('extended_fields') }}
-
     {% endfor %}
 {% endif %}
 {% endblock sub_fields %}

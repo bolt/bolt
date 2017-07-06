@@ -5,6 +5,8 @@ namespace Bolt\Configuration\Check;
 /**
  * Checks for PHP extension configuration.
  *
+ * @deprecated Since 3.4, to be removed in 4.0
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class PhpExtensions extends BaseCheck implements ConfigurationCheckInterface

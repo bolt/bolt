@@ -2,21 +2,19 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Collection\Bag;
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Form\FormType\FileEditType;
+use Bolt\Form\FormType\PrefillType;
+use Bolt\Form\Validator\Constraints;
 use Bolt\Helpers\Input;
 use Bolt\Omnisearch;
+use Bolt\Requirement\BoltRequirements;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Requirements\PhpConfigRequirement;
 
 /**
  * General controller for basic backend routes.
@@ -68,11 +66,43 @@ class General extends BackendBase
     /**
      * Configuration checks/tests route.
      *
+     * @param Request $request
+     *
      * @return \Bolt\Response\TemplateResponse
      */
-    public function checks()
+    public function checks(Request $request)
     {
-        return $this->render('@bolt/checks/checks.twig');
+        $defaults = [
+            'pass' => ['php' => [], 'system' => []],
+            'fail' => ['php' => [], 'system' => []],
+        ];
+        $checks = Bag::fromRecursive([
+            'requirements'    => $defaults,
+            'recommendations' => $defaults,
+        ]);
+        $baseReqs = new BoltRequirements($this->app['path_resolver']->resolve('%root%'));
+
+        foreach ($baseReqs->getRequirements() as $requirement) {
+            $result = $requirement->isFulfilled() ? 'pass' : 'fail';
+            if ($requirement instanceof PhpConfigRequirement) {
+                $checks->get('requirements')->get($result)->get('php')->add($requirement);
+
+                continue;
+            }
+            $checks->get('requirements')->get($result)->get('system')->add($requirement);
+        }
+        foreach ($baseReqs->getRecommendations() as $recommendation) {
+            $result = $recommendation->isFulfilled() ? 'pass' : 'fail';
+            if ($recommendation instanceof PhpConfigRequirement) {
+                $checks->get('recommendations')->get($result)->get('php')->add($recommendation);
+
+                continue;
+            }
+            $checks->get('recommendations')->get($result)->get('system')->add($recommendation);
+        }
+        $showAll = $request->query->getBoolean('all');
+
+        return $this->render('@bolt/checks/checks.twig', ['checks' => $checks, 'show_all' => $showAll]);
     }
 
     /**
@@ -158,18 +188,13 @@ class General extends BackendBase
             'attr' => [
                 'data-bind' => json_encode(['bind' => 'prefill']),
             ],
+            'contenttypes' => $choices,
         ];
-        $form = $this->createFormBuilder(FormType::class, [], $options)
-            ->add('contenttypes', ChoiceType::class, [
-                'choices'  => $choices,
-                'multiple' => true,
-                'expanded' => true,
-                // Can be removed when symfony/form:^3.0 is the minimum
-                'choices_as_values' => true,
-            ])
-            ->getForm();
+        $form = $this->createFormBuilder(PrefillType::class, [], $options)
+            ->getForm()
+        ;
 
-        if ($request->isMethod('POST') || $request->get('force') == 1) {
+        if ($request->isMethod('POST') || $request->query->getBoolean('force')) {
             $form->handleRequest($request);
             if ($form->get('contenttypes')->has('contenttypes')) {
                 $contentTypeNames = (array) $form->get('contenttypes')->getData();
@@ -206,35 +231,22 @@ class General extends BackendBase
      */
     public function translation(Request $request, $domain, $tr_locale)
     {
-        $tr = [
+        $tr = Bag::from([
             'domain' => $domain,
             'locale' => $tr_locale,
-        ];
+        ]);
 
         // Get the translation data
         $data = $this->getTranslationData($tr);
+        $options = [
+            'write_allowed'        => $tr['writeallowed'],
+            'contents_constraints' => [new Constraints\Yaml()],
+        ];
 
         // Create the form
-        $form = $this->createFormBuilder(FormType::class, $data)
-            ->add(
-                'contents',
-                TextareaType::class,
-                [
-                    'constraints' => [
-                        new Assert\NotBlank(),
-                        new Assert\Length(['min' => 10]),
-                    ],
-                ]
-            )
-            ->add(
-                'submit',
-                SubmitType::class,
-                [
-                    'label'    => Trans::__('page.edit-locale.button.save'),
-                    'disabled' => !$tr['writeallowed'],
-                ]
-            )
-            ->getForm();
+        $form = $this->createFormBuilder(FileEditType::class, $data, $options)
+            ->getForm()
+        ;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -297,19 +309,18 @@ class General extends BackendBase
     /**
      * Get the translation data.
      *
-     * @param array $tr
+     * @param Bag $tr
      *
-     * @return string
+     * @return array
      */
-    private function getTranslationData(array &$tr)
+    private function getTranslationData(Bag $tr)
     {
-        $translation = new TranslationFile($this->app, $tr['domain'], $tr['locale']);
+        $translation = new TranslationFile($this->app, $tr->get('domain'), $tr->get('locale'));
 
         list($tr['path'], $tr['shortPath']) = $translation->path();
+        $tr->set('writeallowed', $translation->isWriteAllowed());
 
-        $this->app['logger.system']->info('Editing translation: ' . $tr['shortPath'], ['event' => 'translation']);
-
-        $tr['writeallowed'] = $translation->isWriteAllowed();
+        $this->app['logger.system']->info('Editing translation: ' . $tr->get('shortPath'), ['event' => 'translation']);
 
         return ['contents' => $translation->content()];
     }
@@ -318,42 +329,32 @@ class General extends BackendBase
      * Attempt to save the POST data for a translation file edit.
      *
      * @param string $contents
-     * @param array  $tr
+     * @param Bag    $tr
      *
      * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function saveTranslationFile($contents, array &$tr)
+    private function saveTranslationFile($contents, Bag $tr)
     {
         $contents = Input::cleanPostedData($contents) . "\n";
-
-        // Before trying to save a yaml file, check if it's valid.
-        try {
-            Yaml::parse($contents);
-        } catch (ParseException $e) {
-            $msg = Trans::__('page.file-management.message.save-failed-colon', ['%s' => $tr['shortPath']]);
-            $this->flashes()->error($msg . ' ' . $e->getMessage());
-
-            return false;
-        }
 
         // Clear any warning for file not found, we are creating it here
         // we'll set an error if someone still submits the form and write is not allowed
         $this->flashes()->clear();
 
+        $file = $this->filesystem()->getFile('bolt://' . $tr->get('shortPath'));
         try {
-            $fs = new Filesystem();
-            $fs->dumpFile($tr['path'], $contents);
+            $file->put($contents);
         } catch (IOException $e) {
-            $msg = Trans::__('general.phrase.file-not-writable', ['%s' => $tr['shortPath']]);
+            $msg = Trans::__('general.phrase.file-not-writable', ['%s' => $tr->get('shortPath')]);
             $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
 
             return false;
         }
 
-        $msg = Trans::__('page.file-management.message.save-success', ['%s' => $tr['shortPath']]);
+        $msg = Trans::__('page.file-management.message.save-success', ['%s' => $tr->get('shortPath')]);
         $this->flashes()->info($msg);
 
-        return $this->redirectToRoute('translation', ['domain' => $tr['domain'], 'tr_locale' => $tr['locale']]);
+        return $this->redirectToRoute('translation', ['domain' => $tr->get('domain'), 'tr_locale' => $tr->get('locale')]);
     }
 }

@@ -481,16 +481,19 @@ logs.system-log: "System Log"
 logs.system-log.cleared: "The system log has been cleared."
 logs.system-log.trimmed: "The system log has been trimmed."
 
+menu.configuration.checks: "Set-up checks"
 menu.configuration.routing: "Routing set up"
 
 nut.greeting: "Welcome to Bolt!"
 
 nut.version: "version"
 
-page.checks.run-all: "Run all checks"
-page.checks.run-directory-checks: "Run directory checks"
-page.checks.run-email-checks: "Run email checks"
-page.checks.run-php-ext-checks: "Run PHP extension checks"
+page.checks.show-all: "Show all checks"
+page.checks.show-failed: "Show only failed checks"
+page.checks.system-pass: "All system configuration checks pass!"
+page.checks.system-problem: "System configuration check found problems!"
+page.checks.php-pass: "All PHP configuration checks pass!"
+page.checks.php-problem: "PHP configuration check found problems!"
 
 page.ckeditor-browse-server.files: "Files"
 page.ckeditor-browse-server.modified: "Modified"

@@ -1,49 +1,25 @@
-{# overrides for the defaults in vendor/symfony/twig-bridge/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig #}
+{# overrides for the defaults in vendor/symfony/twig-bridge/Resources/views/Form/bootstrap_3_horizontal_layout.html.twig #}
+{% use "bootstrap_3_horizontal_layout.html.twig" %}
 
-{% block form_row %}
-    {% spaceless %}
-        <div class="form-group {% if errors|length > 0 %}has-error{% endif %}">
-            {{ form_label(form, null, {'label_attr': {'class':'col-sm-2 control-label' } }) }}
-            <div class="col-sm-10 col-md-6 col-lg-4">
-                {{ form_widget(form, {'attr' : { 'class' : 'form-control large' } }) }}
-                {{ form_errors(form) }}
-            </div>
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form, null, {'label_attr': {'class':'col-sm-2 control-label' } }) -}}
+        <div class="col-sm-10 col-md-6 col-lg-4">
+            {{- form_widget(form, {'attr' : { 'class' : 'large' } }) -}}
+            {{- form_errors(form) -}}
         </div>
-    {% endspaceless %}
-{% endblock form_row %}
-
-{% block form_errors %}
-    {% spaceless %}
-        {% for error in errors %}
-            <span class="help-block">{{
-            error.messagePluralization is null
-            ? error.messageTemplate|trans(error.messageParameters, 'validators')
-            : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
-            }}</span>
-        {% endfor %}
-    {% endspaceless %}
-{% endblock form_errors %}
-
-{% block choice_widget_expanded %}
-    {% spaceless %}
-        <div>
-            {% for child in form %}
-                <div class="checkbox">
-                    <label>
-                    {{ form_widget(child) }}{{ child.vars.label -}}
-                    </label>
-                </div>
-            {% endfor %}
-        </div>
-    {% endspaceless %}
-{% endblock choice_widget_expanded %}
-
-{% block button_attributes %} class="btn btn-primary" {% endblock button_attributes %}
+    </div>
+{%- endblock form_row %}
 
 {# Button <i> used inside button_widget when set #}
-{%- block button_icon -%}{%- endblock button_icon -%}
+{%- block button_icon %}
+{% if block(form.parent.vars.name ~ '_' ~ name ~ '_button_icon') is defined %}
+    {{ block(form.parent.vars.name ~ '_' ~ name ~ '_button_icon') }}
+{% endif %}
+{% endblock button_icon -%}
 
 {%- block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('btn-primary') ~ ' btn')|trim}) %}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({

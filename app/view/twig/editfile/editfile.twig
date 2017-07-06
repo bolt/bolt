@@ -6,6 +6,15 @@
 
 {% block page_title context.write_allowed ? __('page.edit-file.title.edit') : __('page.edit-file.title.view') %}
 
+{% form_theme context.form 'form_bolt_layout.twig' _self %}
+
+{%- block file_edit_save_button_icon %}
+    <i class="fa fa-flag"> </i>
+{% endblock -%}
+{%- block file_edit_revert_button_icon %}
+    <i class="fa fa-undo"> </i>
+{% endblock -%}
+
 {% block page_main %}
 
     {% import '@bolt/_macro/_macro.twig' as macro %}
@@ -33,8 +42,7 @@
 
             {{ widgets('editfile_below_header', 'backend') }}
 
-            {# Ths "editfile" ID is being used by JavaScript … somewhere #}
-            {{ form_start(context.form, {'attr': {'id': 'editfile', 'class': 'form-inline', 'autocomplete': 'off'}}) }}
+            {{ form_start(context.form, {'attr': {'class': 'form-inline', 'autocomplete': 'off'}}) }}
                 {{ form_widget(context.form._token) }}
 
                 <div>
@@ -50,15 +58,12 @@
                 </div>
 
                 <div>
-                    <button type="button" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
-                        <i class="fa fa-flag"></i> {{ __('page.edit-file.button.save') }}
-                    </button>
-                    <a class="btn btn-default confirm {% if not context.write_allowed %}disabled{% endif %}" style="margin-left: 24px;"
-                       data-confirm="{{ __("page.edit-file.confirm-revert") }}"
-                       href="{{ path('fileedit', {'namespace': context.file.mountPoint, 'file': context.file.path}) }}"
-                    >
-                        <i class="fa fa-undo"></i> {{ __("page.edit-file.button.revert") }}
-                    </a>
+                    {{ form_widget(context.form.save) }}
+                    {{ form_widget(context.form.revert, {'attr': {
+                        'class': 'btn-default confirm',
+                        'data-confirm': __('page.edit-file.confirm-revert'),
+                        'style': 'margin-left: 24px;'
+                    }}) }}
 
                   <div class="relatedfiles">
                     {% if context.related|length > 0 %}

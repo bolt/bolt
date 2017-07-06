@@ -3,10 +3,14 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Exception\InvalidRepositoryException;
+use Bolt\Form\FormType\ContentEditType;
 use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Symfony\Component\Form\Button;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Backend controller for record manipulation routes.
@@ -42,53 +46,72 @@ class Records extends BackendBase
      */
     public function edit(Request $request, $contenttypeslug, $id)
     {
-        // Is the record new or existing
-        $new = empty($id);
+        $contentTypeKey = $contenttypeslug;
+        $duplicate = $request->query->getBoolean('duplicate');
+        $new = $duplicate ? false : empty($id);
 
         // Test the access control
-        if ($response = $this->checkEditAccess($contenttypeslug, $id)) {
+        if ($response = $this->checkEditAccess($contentTypeKey, $id)) {
             return $response;
         }
 
         // Get the ContentType object
-        $contentType = $this->getContentType($contenttypeslug);
+        $contentType = $this->getContentType($contentTypeKey);
 
-        // Save the POSTed record
-        if ($request->isMethod('POST')) {
-            $this->validateCsrfToken();
+        $data = null;
+        $options = ['contenttype_name' => $contentTypeKey];
+        /** @var Form $form */
+        $form = $this->createFormBuilder(ContentEditType::class, $data, $options)
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        $button = $form->getClickedButton();
 
+        if ($form->isSubmitted() && $form->isValid() && $button !== null) {
+            // Save the POSTed record
             $formValues = $request->request->all();
-            $returnTo = $request->get('returnto');
+            $returnTo = $this->getReturnTo($request, $button);
             $editReferrer = $request->get('editreferrer');
 
-            return $this->recordSave()->action($formValues, $contentType, $id, $new, $returnTo, $editReferrer);
+            if ($button->getName() === 'delete') {
+                $this->app['storage.request.modify']->action($contentTypeKey, [$id => ['delete' => true]]);
+
+                return $this->redirectToRoute('overview', ['contenttypeslug' => $contentTypeKey]);
+            } else {
+                $response = $this->recordSave()->action($formValues, $contentType, $id, $new || $duplicate, $returnTo, $editReferrer);
+            }
+            if ($response instanceof Response) {
+                return $response;
+            }
         }
 
         try {
             // Get the record
-            $repo = $this->getRepository($contenttypeslug);
+            $repo = $this->getRepository($contentTypeKey);
         } catch (InvalidRepositoryException $e) {
-            $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
+            $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contentTypeKey]));
 
             return $this->redirectToRoute('dashboard');
         }
 
         if ($new) {
-            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contentType['default_status']]);
+            $content = $repo->create(['contenttype' => $contentTypeKey, 'status' => $contentType['default_status']]);
+        } elseif ($duplicate) {
+            $source = $request->query->getInt('source');
+            $content = $repo->find($source);
         } else {
             $content = $repo->find($id);
-            if ($content === false) {
-                // Record not found, advise and redirect to the dashboard
-                $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
+        }
+        if ($content === false) {
+            // Record not found, advise and redirect to the dashboard
+            $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contentTypeKey]));
 
-                return $this->redirectToRoute('dashboard');
-            }
+            return $this->redirectToRoute('dashboard');
         }
 
-        // We're doing a GET
-        $duplicate = $request->query->get('duplicate', false);
         $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
         $context['file_matcher'] = $this->app['filesystem.matcher'];
+        $context['form'] = $form->createView();
 
         // Get the editreferrer
         $referrer = $this->getEditReferrer($request);
@@ -97,6 +120,30 @@ class Records extends BackendBase
         }
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
+    }
+
+    /**
+     * Calculate the parameter used to determine response.
+     *
+     * @internal To be removed when forms cut-over is complete.
+     *
+     * @param Request $request
+     * @param Button  $button
+     *
+     * @return string
+     */
+    private function getReturnTo(Request $request, Button $button)
+    {
+        $name = $button->getName();
+        $isAjax = $request->isXmlHttpRequest();
+        if ($request->attributes->has('_test')) {
+            return 'test';
+        }
+        if ($name === 'save') {
+            return $isAjax ? 'ajax': $name;
+        }
+
+        return $name;
     }
 
     /**

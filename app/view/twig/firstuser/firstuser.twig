@@ -10,11 +10,47 @@
 
 {% block page_main %}
 
+    <div class="row">
+        {% if context.required %}
+            <div class="panel panel-danger">
+                <div class="panel-heading"><i class="fa fa-close"> </i> Failed System and/or PHP requirements:</div>
+                <div class="panel-body bg-danger">
+                    {% for failed in context.required %}
+                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
+                        <p>{{ failed.helpHtml|raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-check"> </i> No outstanding system or PHP requirements</div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if context.recommended %}
+            <div class="panel panel-warning">
+                <div class="panel-heading"><i class="fa fa-close"> </i> Recommended updates:</div>
+                <div class="panel-body bg-warning">
+                    {% for failed in context.recommended %}
+                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
+                        <p>{{ failed.helpHtml|raw }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-success">
+                <div class="panel-heading"><i class="fa fa-check"> </i> No recommended updates</div>
+            </div>
+        {% endif %}
+    </div>
+
+
     <p class="first-user">
         {{ __('general.phrase.users-none-create-first-extended') }}
     </p>
 
-    {{ form_start(context.form, {'attr': {'class': 'form-horizontal submitspinner', 'autocomplete': "off"}}) }}
+    {{ form_start(context.form, {'attr': {'class': 'submitspinner', 'autocomplete': "off"}}) }}
         {# Google Chrome, Firefox, MS edge all require this trick to prevent password fields from auto-filling.
            @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
         <input type="text" style="display:none;" />
@@ -37,11 +73,11 @@
     <script type="text/javascript">
         $(function() {
             // Attach and detach the progressbar.
-            var el = $('#progress-wrapper').detach()
-            $('#user_new_password_first').parent().append(el);
-
+            var el = $('#progress-wrapper').detach(),
+                pw = $('#user_new_password_first');
             // Initialize complexify, to indicate password strength.
-            $('#user_new_password_first').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
+            pw.parent().append(el);
+            pw.complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
                 var progressBar = $('#complexity-bar');
                 progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
                 progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));

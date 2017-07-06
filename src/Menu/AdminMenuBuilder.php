@@ -135,6 +135,15 @@ final class AdminMenuBuilder
                 ->setIcon('fa:archive')
                 ->setPermission('systemlog')
         );
+
+        // Set-up checks
+        $configEntry->add(
+            (new MenuEntry('setup_checks'))
+                ->setRoute('checks')
+                ->setLabel(Trans::__('menu.configuration.checks'))
+                ->setIcon('fa:support')
+                ->setPermission('files:config')
+        );
     }
 
     /**

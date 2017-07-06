@@ -30,7 +30,7 @@
     </li>
 
     {% if context.contenttype is defined %}
-    <li id="liveeditorsavecontinuebutton" class="save-live-editor">
+    <li id="live_editor_save" class="save-live-editor">
         <a>
             <i class="fa fa-fw fa-flag"></i>
             {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
