@@ -4,12 +4,13 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\SetcontentTokenParser;
-use Twig_Compiler;
-use Twig_Environment;
-use Twig_ExpressionParser;
-use Twig_Parser;
-use Twig_Token;
-use Twig_TokenStream;
+use Twig\Compiler;
+use Twig\Environment;
+use Twig\ExpressionParser;
+use Twig\Parser;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
+use Twig\TokenStream;
 
 /**
  * Class to test Twig {{ setcontent }} token classes.
@@ -21,7 +22,7 @@ class SetcontentTest extends BoltUnitTest
     public function testClass()
     {
         $setContentParser = new SetcontentTokenParser();
-        $this->assertInstanceOf('Twig_TokenParser', $setContentParser);
+        $this->assertInstanceOf(AbstractTokenParser::class, $setContentParser);
     }
 
     public function testGetTag()
@@ -40,47 +41,47 @@ class SetcontentTest extends BoltUnitTest
         $limit = 5;
 
         $streamTokens = [
-            new Twig_Token(Twig_Token::NAME_TYPE, $name, 1),
-            new Twig_Token(Twig_Token::OPERATOR_TYPE, '=', 2),
-            new Twig_Token(Twig_Token::STRING_TYPE, $contentType, 3),
+            new Token(Token::NAME_TYPE, $name, 1),
+            new Token(Token::OPERATOR_TYPE, '=', 2),
+            new Token(Token::STRING_TYPE, $contentType, 3),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'where', 4),
-            new Twig_Token(Twig_Token::STRING_TYPE, $where, 5),
+            new Token(Token::NAME_TYPE, 'where', 4),
+            new Token(Token::STRING_TYPE, $where, 5),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'limit', 6),
-            new Twig_Token(Twig_Token::NUMBER_TYPE, $limit, 7),
+            new Token(Token::NAME_TYPE, 'limit', 6),
+            new Token(Token::NUMBER_TYPE, $limit, 7),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'order', 8),
-            new Twig_Token(Twig_Token::STRING_TYPE, '-name', 9),
+            new Token(Token::NAME_TYPE, 'order', 8),
+            new Token(Token::STRING_TYPE, '-name', 9),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'orderby', 10),
-            new Twig_Token(Twig_Token::STRING_TYPE, 'title', 11),
+            new Token(Token::NAME_TYPE, 'orderby', 10),
+            new Token(Token::STRING_TYPE, 'title', 11),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'paging', 12),
-            new Twig_Token(Twig_Token::NAME_TYPE, 'allowpaging', 13),
+            new Token(Token::NAME_TYPE, 'paging', 12),
+            new Token(Token::NAME_TYPE, 'allowpaging', 13),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'printquery', 14),
+            new Token(Token::NAME_TYPE, 'printquery', 14),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'returnsingle', 15),
+            new Token(Token::NAME_TYPE, 'returnsingle', 15),
 
-            new Twig_Token(Twig_Token::NAME_TYPE, 'nohydrate', 16),
+            new Token(Token::NAME_TYPE, 'nohydrate', 16),
 
-            new Twig_Token(Twig_Token::BLOCK_END_TYPE, '', 98),
-            new Twig_Token(Twig_Token::EOF_TYPE, '', 99),
+            new Token(Token::BLOCK_END_TYPE, '', 98),
+            new Token(Token::EOF_TYPE, '', 99),
         ];
-        $twigTokenStream = new Twig_TokenStream($streamTokens, new \Twig_Source(null, 'clippy.twig'));
+        $twigTokenStream = new TokenStream($streamTokens, new \Twig_Source(null, 'clippy.twig'));
 
         $twigParser = new TwigParserMock($app['twig']);
         $twigParser->setStream($twigTokenStream);
 
         $env = $app['twig'];
-        $expression = new Twig_ExpressionParser($twigParser, $env);
+        $expression = new ExpressionParser($twigParser, $env);
         $twigParser->setExpressionParser($expression);
 
         $setContentParser = new SetcontentTokenParser();
         $setContentParser->setParser($twigParser);
 
-        $token = new Twig_Token(Twig_Token::NAME_TYPE, 'setcontent', 1);
+        $token = new Token(Token::NAME_TYPE, 'setcontent', 1);
 
         $result = $setContentParser->parse($token);
 
@@ -115,8 +116,8 @@ class SetcontentTest extends BoltUnitTest
         $this->assertFalse($nodes[7]['value']->getAttribute('value'));
 
         $mockLoader = $this->createMock('Twig_LoaderInterface');
-        $env = new Twig_Environment($mockLoader);
-        $compiler = $this->getMockBuilder(Twig_Compiler::class)
+        $env = new Environment($mockLoader);
+        $compiler = $this->getMockBuilder(Compiler::class)
             ->setMethods(['addDebugInfo', 'raw', 'subcompile', 'write'])
             ->setConstructorArgs([$env])
             ->getMock()
@@ -146,19 +147,19 @@ class SetcontentTest extends BoltUnitTest
     }
 }
 
-class TwigParserMock extends Twig_Parser
+class TwigParserMock extends Parser
 {
-    public function __construct(Twig_Environment $env)
+    public function __construct(Environment $env)
     {
         $this->env = $env;
     }
 
-    public function setExpressionParser(Twig_ExpressionParser $expression)
+    public function setExpressionParser(ExpressionParser $expression)
     {
         $this->expressionParser = $expression;
     }
 
-    public function setStream(Twig_TokenStream $stream)
+    public function setStream(TokenStream $stream)
     {
         $this->stream = $stream;
     }
