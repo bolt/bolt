@@ -93,28 +93,32 @@
                     {% if context.has.tabs %}
                         <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
+                    
+                    <div class="field-group">
 
-                    {% for key in group.fields %}
+                        {% for key in group.fields %}
 
-                        {% if key == '*relations' %}
-                            {{ include('@bolt/editcontent/_relations.twig') }}
+                            {% if key == '*relations' %}
+                                {{ include('@bolt/editcontent/_relations.twig') }}
 
-                        {% elseif key == '*taxonomy' %}
-                            {{ include('@bolt/editcontent/_taxonomies.twig') }}
+                            {% elseif key == '*taxonomy' %}
+                                {{ include('@bolt/editcontent/_taxonomies.twig') }}
 
-                        {% elseif key == '*meta' %}
-                            <div data-bolt-fieldset="meta">
-                                {{ include('@bolt/editcontent/fields/_meta.twig') }}
-                            </div>
+                            {% elseif key == '*meta' %}
+                                <div data-bolt-fieldset="meta">
+                                    {{ include('@bolt/editcontent/fields/_meta.twig') }}
+                                </div>
 
-                        {% elseif key == '*template' %}
-                            {{ include('@bolt/editcontent/_templatefields.twig') }}
+                            {% elseif key == '*template' %}
+                                {{ include('@bolt/editcontent/_templatefields.twig') }}
 
-                        {% else %}
-                            {{ include('@bolt/editcontent/_field.twig') }}
-                        {% endif %}
+                            {% else %}
+                                {{ include('@bolt/editcontent/_field.twig') }}
+                            {% endif %}
 
-                    {% endfor %}
+                        {% endfor %}
+
+                    </div>
 
                     {% if context.has.tabs %}
                         </div>
