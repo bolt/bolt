@@ -112,6 +112,8 @@ class Edit
 
         // Build list of incoming non inverted related records.
         $incomingNotInverted = [];
+        $count = 0;
+        $limit = $this->config->get('general/edit_incomingrelations_limit', false);
         foreach ($content->getRelation()->incoming($content) as $relation) {
             if ($relation->isInverted()) {
                 continue;
@@ -121,6 +123,12 @@ class Edit
 
             if ($record) {
                 $incomingNotInverted[$fromContentType][] = $record;
+            }
+
+            // Do not try to load more than X records or db will fail
+            ++$count;
+            if ($limit && $count > $limit) {
+                break;
             }
         }
 
