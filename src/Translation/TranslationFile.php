@@ -138,7 +138,7 @@ class TranslationFile
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('*~')
-            ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
+            ->exclude(['cache', 'config', 'database', 'resources', 'tests', 'vendor'])
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
@@ -200,8 +200,6 @@ class TranslationFile
                                 $token = $tokens[++$x];
                             }
                             $this->addTranslatable($string);
-                            //
-                            // TODO: retrieve domain?
                         }
                     }
                 }
@@ -257,8 +255,6 @@ class TranslationFile
 
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations.
-     *
-     * @return array
      */
     private function gatherTranslatableStrings()
     {
@@ -385,43 +381,44 @@ class TranslationFile
     /**
      * Parses translations file and returns translations.
      *
-     * @return array Translations found
+     * @return array|null Translations found
      */
     private function readSavedTranslations()
     {
-        if (is_file($this->absPath) && is_readable($this->absPath)) {
-            try {
-                $savedTranslations = Yaml::parse(file_get_contents($this->absPath));
-
-                if ($savedTranslations === null) {
-                    return []; // File seems to be empty
-                } elseif (!is_array($savedTranslations)) {
-                    $savedTranslations = [$savedTranslations]; // account for file with one lin
-                }
-
-                $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
-                    if ($prefix) {
-                        $prefix .= '.';
-                    }
-                    foreach ($data as $key => $value) {
-                        if (is_array($value)) {
-                            $flatten($value, $prefix . $key);
-                        } else {
-                            $flattened[$prefix . $key] = ($value === null) ? '' : $value;
-                        }
-                    }
-                };
-                $flattened = [];
-                $flatten($savedTranslations);
-
-                return $flattened;
-            } catch (ParseException $e) {
-                $this->app['logger.flash']->danger('Unable to parse the YAML translations' . $e->getMessage());
-                // Todo: do something better than just returning an empty array
-            }
+        if (!is_file($this->absPath) || !is_readable($this->absPath)) {
+            return null;
         }
 
-        return [];
+        try {
+            $savedTranslations = Yaml::parse(file_get_contents($this->absPath), true);
+        } catch (ParseException $e) {
+            $this->app['logger.flash']->danger('Unable to parse the YAML translations' . $e->getMessage());
+
+            return null;
+        }
+
+        if ($savedTranslations === null) {
+            return []; // File seems to be empty
+        } elseif (!is_array($savedTranslations)) {
+            $savedTranslations = [$savedTranslations]; // account for file with one lin
+        }
+
+        $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
+            if ($prefix) {
+                $prefix .= '.';
+            }
+            foreach ($data as $key => $value) {
+                if (is_array($value)) {
+                    $flatten($value, $prefix . $key);
+                } else {
+                    $flattened[$prefix . $key] = ($value === null) ? '' : $value;
+                }
+            }
+        };
+        $flattened = [];
+        $flatten($savedTranslations);
+
+        return $flattened;
     }
 
     /**
@@ -460,6 +457,11 @@ class TranslationFile
     private function contentMessages()
     {
         $savedTranslations = $this->readSavedTranslations();
+        // An exception occurred when reading the file
+        if ($savedTranslations === null) {
+            return '';
+        }
+
         $this->gatherTranslatableStrings();
 
         // Find already translated strings
@@ -485,6 +487,10 @@ class TranslationFile
     private function contentContenttypes()
     {
         $savedTranslations = $this->readSavedTranslations();
+        // An exception occurred when reading the file
+        if ($savedTranslations === null) {
+            return '';
+        }
         $this->gatherTranslatableStrings();
 
         $keygen = new ContenttypesKeygen($this->app, $this->translatables, $savedTranslations);
