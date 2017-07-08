@@ -10,24 +10,17 @@
 
 #  no unused messages
 #  no untranslated messages
-#  14 untranslated keyword based messages
+#   7 untranslated keyword based messages
 #  83 translations
-# 523 keyword based translations
+# 532 keyword based translations
 
-#--- 14 untranslated keyword based messages -----------------------------------
+#--- 7 untranslated keyword based messages ------------------------------------
 
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
-general.phrase.database-update-required: # "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%LINK%\">Check Database</a>' to do this now."
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
 
-page.extend.error-class-implement: # "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
-page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class \\'%CLASS%\\' and has been skipped."
-page.extend.error-message-client: # "Client error: %errormessage%"
-page.extend.error-message-connection: # "Testing connection to extension server failed: %errormessage%"
-page.extend.error-message-generic: # "Generic failure while testing connection to extension server: %errormessage%"
-page.extend.error-message-server: # "Extension server returned an error: %errormessage%"
 page.extend.headline.bundled: # "Bundled Extensions"
 page.extend.listheader.class: # "Class"
 page.extend.listheader.name: # "Name"
@@ -118,7 +111,7 @@ page.extend.listheader.name: # "Name"
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 523 keyword based translations -------------------------------------------
+#--- 532 keyword based translations -------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"
@@ -256,10 +249,13 @@ general.phrase.created-on-colon: "Erstellt am:"
 general.phrase.current-session-plural: "Momentane Sitzungen"
 general.phrase.dashboard: "Übersicht"
 general.phrase.databaase-up-to-date: "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
+general.phrase.database-check: "Datenbank überprüfen"
 general.phrase.database-check-update: "Datenbank prüfen/aktualisieren"
 general.phrase.database-prefill: "Datenbank füllen"
 general.phrase.database-prefill-dummy-content: "Datenbank mit Testdaten füllen"
 general.phrase.database-up-to-date-already: "Ihre Datenbank ist bereits aktuell."
+general.phrase.database-update-required-post: "aufrufen um dies jetzt zu tun."
+general.phrase.database-update-required-pre: "Die Datenbank muss aktualisiert/repariert werden. Go to 'Configuration'"
 general.phrase.delete: "Löschen"
 general.phrase.delete-directory-name: "%foldername% löschen"
 general.phrase.delete-file-name: "%filename% löschen"
@@ -571,8 +567,14 @@ page.extend.button.show-all-versions: "Zeige alle Versionen"
 page.extend.button.update-all: "Alle Aktualisierungen ausführen"
 page.extend.button.update-check: "Auf Aktualisierungen prüfen"
 page.extend.button.update-package: "Paket updaten"
+page.extend.error-class-implement: "Basis-Klasse '%CLASS%' der Erweiterung %NAME% hat %TARGET% nicht implementiert und wurde übersprungen."
+page.extend.error-class-invalid: "Erweiterung %NAME% hat eine ungültige Klasse '%CLASS%' und wurde übersprungen."
 page.extend.error-composer-json-not-readable: "composer.json der Erweiterung ist nicht lesbar."
 page.extend.error-composer-json-not-writable: "composer.json der Erweiterung ist nicht beschreibbar."
+page.extend.error-message-client: "Client-Fehler: %errormessage%"
+page.extend.error-message-connection: "Das Prüfen der Verbindung zum Erweiterungsserver ist fehlgeschlagen: %errormessage%"
+page.extend.error-message-generic: "Allgemeiner Fehler beim Prüfen der Verbindung zum Erweiterungsserver: %errormessage%"
+page.extend.error-message-server: "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
 page.extend.headline.currently-installed: "Deine derzeitig installierten Erweiterungen"
 page.extend.headline.install-new-extension: "Installiere eine neue Erweiterung"
 page.extend.headline.installation-complete: "Installation beendet"

@@ -10,7 +10,7 @@
 
 #  no unused messages
 #  83 untranslated messages
-# 537 untranslated keyword based messages
+# 539 untranslated keyword based messages
 #  no translations
 #  no keyword based translations
 
@@ -100,7 +100,7 @@
 "You've been logged on successfully.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 537 untranslated keyword based messages ----------------------------------
+#--- 539 untranslated keyword based messages ----------------------------------
 
 contenttypes.generic.actions-all: # "Actions for %contenttypes%"
 contenttypes.generic.actions-one: # "Actions for this %contenttype%"
@@ -240,11 +240,13 @@ general.phrase.created-on-colon: # "Created on:"
 general.phrase.current-session-plural: # "Current sessions"
 general.phrase.dashboard: # "Dashboard"
 general.phrase.databaase-up-to-date: # "Your database is now up to date."
+general.phrase.database-check: # "Check Database"
 general.phrase.database-check-update: # "Database check / update"
 general.phrase.database-prefill: # "Pre-fill database"
 general.phrase.database-prefill-dummy-content: # "Fill the database with Dummy Content"
 general.phrase.database-up-to-date-already: # "Your database is already up to date."
-general.phrase.database-update-required: # "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%LINK%\">Check Database</a>' to do this now."
+general.phrase.database-update-required-post: # "to do this now."
+general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
 general.phrase.delete: # "Delete"
 general.phrase.delete-directory-name: # "Delete %foldername%"
 general.phrase.delete-file-name: # "Delete %filename%"
@@ -559,7 +561,7 @@ page.extend.button.update-all: # "Run all Updates"
 page.extend.button.update-check: # "Run update check"
 page.extend.button.update-package: # "Update Package"
 page.extend.error-class-implement: # "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
-page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class \\'%CLASS%\\' and has been skipped."
+page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
 page.extend.error-composer-json-not-readable: # "The Bolt extensions composer.json isn't readable."
 page.extend.error-composer-json-not-writable: # "The Bolt extensions composer.json isn't writable."
 page.extend.error-message-client: # "Client error: %errormessage%"
