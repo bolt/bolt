@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   9 Legacy untranslated messages
 #  35 Untranslated messages
-#  64 Legacy translation messages
-# 514 Translation messages
+#  63 Legacy translation messages
+# 515 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -131,7 +131,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
-"filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -322,6 +321,7 @@ general.phrase.file-not-writable: "Het bestand '%s' is niet schrijfbaar. Gebruik
 general.phrase.file-size: "Bestandsgrootte"
 general.phrase.file-upload-failed: "De bestanden konden niet worden geüpload."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "gefilterd door"
 general.phrase.filtering: "Filteren"
 general.phrase.find: "Vind"
 general.phrase.floating-point-required-bang: "Dit moet een kommagetal zijn!"

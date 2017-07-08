@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   0 Legacy untranslated messages
 #   7 Untranslated messages
-#  73 Legacy translation messages
-# 542 Translation messages
+#  72 Legacy translation messages
+# 543 Translation messages
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -98,7 +98,6 @@ page.extend.listheader.name: # "Name"
 "Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
-"filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -294,6 +293,7 @@ general.phrase.file-not-writable: "Keine Schreibrechte für '%s'. Änderungen bi
 general.phrase.file-size: "Dateigröße"
 general.phrase.file-upload-failed: "Die Dateien konnten nicht hochgeladen werden."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "gefiltert nach"
 general.phrase.filtering: "Filtern"
 general.phrase.find: "Suchen"
 general.phrase.floating-point-required-bang: "Muss eine Fließkommazahl sein!"

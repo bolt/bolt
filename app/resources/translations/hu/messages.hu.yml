@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  14 Legacy untranslated messages
 #  90 Untranslated messages
-#  59 Legacy translation messages
-# 459 Translation messages
+#  58 Legacy translation messages
+# 460 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -197,7 +197,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Video": "Videó"
 "View (saved version) on site": "Megtekintés a szájton"
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
-"filtered by <em>'%filter%'</em>": "szűrés: <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -363,6 +362,7 @@ general.phrase.file-not-writable: "A '%s' fájl nem írható. Egy saját szerkes
 general.phrase.file-size: "Fájlméret"
 general.phrase.file-upload-failed: "Sikertelen fájlfeltöltés."
 general.phrase.filter: "Szűrő"
+general.phrase.filtered-by: "szűrés"
 general.phrase.filtering: "Szűrés"
 general.phrase.find: "Keresés"
 general.phrase.floating-point-required-bang: "Lebegőpontos számnak kell lennie!"

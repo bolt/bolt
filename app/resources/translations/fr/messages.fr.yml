@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   4 Legacy untranslated messages
 #  13 Untranslated messages
-#  69 Legacy translation messages
-# 536 Translation messages
+#  68 Legacy translation messages
+# 537 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -111,7 +111,6 @@ page.extend.options: # "Extension Options"
 "Video": "Vidéo"
 "View (saved version) on site": "Afficher la version enregistrée"
 "You've been logged on successfully.": "Connexion réussie."
-"filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -304,6 +303,7 @@ general.phrase.file-not-writable: "Le fichier '%s' n'est pas accessible en écri
 general.phrase.file-size: "Taille"
 general.phrase.file-upload-failed: "Les fichiers n'ont pu être envoyés."
 general.phrase.filter: "Filtrer"
+general.phrase.filtered-by: "filtré par"
 general.phrase.filtering: "Filtre"
 general.phrase.find: "Rechercher"
 general.phrase.floating-point-required-bang: "Doit être un nombre flottant !"

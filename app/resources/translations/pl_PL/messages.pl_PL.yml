@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  21 Legacy untranslated messages
-# 157 Untranslated messages
+#  20 Legacy untranslated messages
+# 158 Untranslated messages
 #  52 Legacy translation messages
 # 392 Translation messages
 
@@ -35,7 +35,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -80,6 +79,7 @@ general.phrase.error-session-data-login: # "Unable to retrieve login session dat
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.folder: # "Folder"
 general.phrase.info: # "Info"
 general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  11 Legacy untranslated messages
 #  59 Untranslated messages
-#  62 Legacy translation messages
-# 490 Translation messages
+#  61 Legacy translation messages
+# 491 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -160,7 +160,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Video": "Video"
 "View (saved version) on site": "Se sparad version på sidan"
 "You've been logged on successfully.": "Du är nu inloggad."
-"filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -342,6 +341,7 @@ general.phrase.file-not-writable: "Filen '%s' är inte skrivbar. Du måste anvä
 general.phrase.file-size: "Filstorlek"
 general.phrase.file-upload-failed: "Det gick inte att ladda upp filerna."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "filtrerat efter"
 general.phrase.filtering: "Filtrering"
 general.phrase.find: "Hitta"
 general.phrase.floating-point-required-bang: "Måste vara ett decimaltal!"

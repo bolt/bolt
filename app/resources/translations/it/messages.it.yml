@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  54 Legacy untranslated messages
-# 346 Untranslated messages
+#  53 Legacy untranslated messages
+# 347 Untranslated messages
 #  19 Legacy translation messages
 # 203 Translation messages
 
@@ -68,7 +68,6 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 "View (saved version) on site": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -177,6 +176,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.filtering: # "Filtering"
 general.phrase.find: # "Find"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"

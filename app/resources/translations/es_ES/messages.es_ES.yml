@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   0 Legacy untranslated messages
 #  14 Untranslated messages
-#  73 Legacy translation messages
-# 535 Translation messages
+#  72 Legacy translation messages
+# 536 Translation messages
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -108,7 +108,6 @@ page.extend.options: # "Extension Options"
 "Video": "Vídeo"
 "View (saved version) on site": "Ver (versión guardada) en el sitio web"
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
-"filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -301,6 +300,7 @@ general.phrase.file-not-writable: "El archivo '%s' no es editable. Necesitas usa
 general.phrase.file-size: "Tamaño del archivo"
 general.phrase.file-upload-failed: "Algunos archivos no pudieron cargarse."
 general.phrase.filter: "Filtro"
+general.phrase.filtered-by: "filtrado por"
 general.phrase.filtering: "Filtrado"
 general.phrase.find: "Buscar"
 general.phrase.floating-point-required-bang: "Tiene que ser un número de coma flotante!"

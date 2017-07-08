@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   8 Legacy untranslated messages
 # 103 Untranslated messages
-#  65 Legacy translation messages
-# 446 Translation messages
+#  64 Legacy translation messages
+# 447 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -206,7 +206,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 "Unable to rename file: %FILE%": "Nelze přejmenovat soubor: %FILE%"
 "View (saved version) on site": "Zobrazit uloženou verzi na webu"
 "You've been logged on successfully.": "Byl jste úspěšně přihlášen/a."
-"filtered by <em>'%filter%'</em>": "filtrováno dle <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -388,6 +387,7 @@ general.phrase.file-not-writable: "Soubor '%s' nelze zapsat. Pro úpravu souboru
 general.phrase.file-size: "Velikost souboru"
 general.phrase.file-upload-failed: "Soubory nelze nahrát."
 general.phrase.filter: "Filtr"
+general.phrase.filtered-by: "filtrováno dle"
 general.phrase.filtering: "Filtrování"
 general.phrase.find: "Vyhledat"
 general.phrase.floating-point-required-bang: "Musí být desetinné číslo!"

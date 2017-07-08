@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  60 Legacy untranslated messages
-# 401 Untranslated messages
+#  59 Legacy untranslated messages
+# 402 Untranslated messages
 #  13 Legacy translation messages
 # 148 Translation messages
 
@@ -74,7 +74,6 @@
 "Video": #
 "View (saved version) on site": #
 "You've been logged on successfully.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -214,6 +213,7 @@ general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-not-writable: # "The file '%s' is not writable. You will have to use your own editor to make modifications to this file."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.filtering: # "Filtering"
 general.phrase.find: # "Find"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"

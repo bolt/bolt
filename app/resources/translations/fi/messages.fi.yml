@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  16 Legacy untranslated messages
 # 160 Untranslated messages
-#  57 Legacy translation messages
-# 389 Translation messages
+#  56 Legacy translation messages
+# 390 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -267,7 +267,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Unable to rename file: %FILE%": "Ei voida uudelleennimetä tiedostoa: %FILE%"
 "View (saved version) on site": "Näytä (tallennettu versio) sivustolla."
 "You've been logged on successfully.": "Uloskirjautuminen onnistui."
-"filtered by <em>'%filter%'</em>": "suodatettu <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -425,6 +424,7 @@ general.phrase.file-not-readable-following-colon: "Seuraavaa tiedostoa ei voida 
 general.phrase.file-not-writable: "Tiedostoon '%s' ei voida kirjottaa. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 general.phrase.file-size: "Koko"
 general.phrase.filter: "Suodatin"
+general.phrase.filtered-by: "suodatettu"
 general.phrase.filtering: "Suodatus"
 general.phrase.find: "Etsi"
 general.phrase.floating-point-required-bang: "Vaaditaan liukulukunumero!"

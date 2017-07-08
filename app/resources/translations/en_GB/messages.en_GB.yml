@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   0 Legacy untranslated messages
 #   0 Untranslated messages
-#  73 Legacy translation messages
-# 549 Translation messages
+#  72 Legacy translation messages
+# 550 Translation messages
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -87,7 +87,6 @@
 "Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
 "You've been logged on successfully.": "You've been logged on successfully."
-"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -286,6 +285,7 @@ general.phrase.file-not-writable: "The file '%s' is not writable. You will have 
 general.phrase.file-size: "File size"
 general.phrase.file-upload-failed: "Files could not be uploaded."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "filtered by"
 general.phrase.filtering: "Filtering"
 general.phrase.find: "Find"
 general.phrase.floating-point-required-bang: "Has to be a floating point number!"

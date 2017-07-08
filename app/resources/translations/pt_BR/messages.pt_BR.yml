@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  28 Legacy untranslated messages
-# 239 Untranslated messages
+#  27 Legacy untranslated messages
+# 240 Untranslated messages
 #  45 Legacy translation messages
 # 310 Translation messages
 
@@ -42,7 +42,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -113,6 +112,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
 general.phrase.folder: # "Folder"
 general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   6 Legacy untranslated messages
 # 175 Untranslated messages
-#  67 Legacy translation messages
-# 374 Translation messages
+#  66 Legacy translation messages
+# 375 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -289,7 +289,6 @@ panel.latest-activity.by: # "by"
 "Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"
 "You've been logged on successfully.": "Вы успешно вошли."
-"filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -440,6 +439,7 @@ general.phrase.file-not-readable-following-colon: "Следующие файлы
 general.phrase.file-not-writable: "Файл '%s' недоступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
 general.phrase.file-size: "Размер файла"
 general.phrase.filter: "Фильтр"
+general.phrase.filtered-by: "фильтровано через"
 general.phrase.filtering: "Фильтрация"
 general.phrase.find: "Найти"
 general.phrase.folders: "Папки"

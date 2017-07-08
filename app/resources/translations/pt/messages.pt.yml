@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   6 Legacy untranslated messages
 #  46 Untranslated messages
-#  67 Legacy translation messages
-# 503 Translation messages
+#  66 Legacy translation messages
+# 504 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -146,7 +146,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Video": "Vídeo"
 "View (saved version) on site": "Visualizar (versão guardada) no sítio"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
-"filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -333,6 +332,7 @@ general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você preci
 general.phrase.file-size: "Tamanho do ficheiro"
 general.phrase.file-upload-failed: "Não foi possível carregar os ficheiros."
 general.phrase.filter: "Filtro"
+general.phrase.filtered-by: "filtrados por"
 general.phrase.filtering: "A filtrar"
 general.phrase.find: "Pesquisar"
 general.phrase.floating-point-required-bang: "Tem de ser um número de ponto flutuante!"

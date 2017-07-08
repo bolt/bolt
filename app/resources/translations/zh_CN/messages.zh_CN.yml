@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  26 Legacy untranslated messages
-# 220 Untranslated messages
+#  25 Legacy untranslated messages
+# 221 Untranslated messages
 #  47 Legacy translation messages
 # 329 Translation messages
 
@@ -40,7 +40,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -112,6 +111,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
 general.phrase.folder: # "Folder"
 general.phrase.hints-colon: # "Hints:"

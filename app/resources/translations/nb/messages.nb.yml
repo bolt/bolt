@@ -7,15 +7,11 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   1 Unused messages
-#  47 Legacy untranslated messages
-# 368 Untranslated messages
+#   0 Unused messages
+#  46 Legacy untranslated messages
+# 369 Untranslated messages
 #  26 Legacy translation messages
 # 181 Translation messages
-
-#--- Unused messages ----------------------------------------------------------
-
-"Are you sure you want to delete %username%?": "Er du sikker på at du vil slette username%?"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -65,7 +61,6 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 "View (saved version) on site": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -192,6 +187,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.filtering: # "Filtering"
 general.phrase.find: # "Find"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
