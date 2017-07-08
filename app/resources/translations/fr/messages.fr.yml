@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   4 Legacy untranslated messages
 #  13 Untranslated messages
-#  79 Legacy translation messages
-# 526 Translation messages
+#  69 Legacy translation messages
+# 536 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -47,19 +47,9 @@ page.extend.options: # "Extension Options"
 "(no category)": "(aucune catégorie)"
 "(no group)": "(non groupé)"
 "(none)": "(néant)"
-"Add a brief, optional comment to describe what's changed.": "Facultatif : ajouter un commentaire décrivant la modification"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Ajouter des enregistrements de démonstration</a>"
 "Added to <tt>%key%</tt> '%title%'": "Contenu '%title%' ajouté à <tt>%key%</tt>"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Une erreur s'est produite lors de la mise à jour de `%TABLE%`. L'erreur est %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Etes-vous certain de vouloir supprimer le fichier %FILENAME% ?"
-"Are you sure you want to delete %username%?": "Etes-vous certain de vouloir supprimer l'utilisateur %username% ?"
-"Are you sure you want to do this for %NUMBER% records?": "Êtes-vous sûr de vouloir faire cela pour %NUMBER% enregistrements ?"
-"Are you sure you want to do this for 1 record?": "Êtes-vous sûr de vouloir faire cela pour 1 enregistrement ?"
-"Are you sure you want to remove these files?": "Etes-vous certain de vouloir retirer ces fichiers ? "
-"Are you sure you want to remove these images?": "Etes-vous certain de vouloir retirer ces images ?"
-"Are you sure you want to remove this file?": "Etes-vous certain de vouloir retirer ce fichier ? "
-"Are you sure you want to remove this image?": "Etes-vous certain de vouloir retirer cette image ?"
-"Are you sure you wish to delete this record? There is no undo.": "Etes-vous certain de vouloir supprimer cet enregistrement ? Cette action est irréversible."
 "Body": "Corps"
 "Categories": "Catégories"
 "Category": "Catégorie"
@@ -236,6 +226,7 @@ general.phrase.by: "par"
 general.phrase.cancel: "Annuler"
 general.phrase.change-current-status: "Cliquer pour modifier le statut."
 general.phrase.change-log: "Journal des changements"
+general.phrase.changelog-what-changed: "Facultatif : ajouter un commentaire décrivant la modification"
 general.phrase.check-again: "Revérifier"
 general.phrase.check-database: "Base de données"
 general.phrase.choose-record-link-to: "Veuillez choisir l'enregistrement à associer :"
@@ -251,6 +242,15 @@ general.phrase.code-colon: "Code"
 general.phrase.collapse-sidebar: "Réduire"
 general.phrase.configuration: "Configuration"
 general.phrase.configuration-main: "Configuration principale"
+general.phrase.confirm-delete-file: "Etes-vous certain de vouloir supprimer le fichier %FILENAME% ?"
+general.phrase.confirm-delete-user: "Etes-vous certain de vouloir supprimer l'utilisateur %username% ?"
+general.phrase.confirm-record-multiple: "Êtes-vous sûr de vouloir faire cela pour %NUMBER% enregistrements ?"
+general.phrase.confirm-record-single: "Êtes-vous sûr de vouloir faire cela pour 1 enregistrement ?"
+general.phrase.confirm-remove-file: "Etes-vous certain de vouloir retirer ce fichier ? "
+general.phrase.confirm-remove-files: "Etes-vous certain de vouloir retirer ces fichiers ? "
+general.phrase.confirm-remove-image: "Etes-vous certain de vouloir retirer cette image ?"
+general.phrase.confirm-remove-images: "Etes-vous certain de vouloir retirer ces images ?"
+general.phrase.confirm-remove-record: "Etes-vous certain de vouloir supprimer cet enregistrement ? Cette action est irréversible."
 general.phrase.content-type-permissions: "Droits par types de contenu"
 general.phrase.content-types: "Types de contenu"
 general.phrase.create-user-first: "Créer l'utilisateur initial"

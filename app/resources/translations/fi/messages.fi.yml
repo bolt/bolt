@@ -8,17 +8,14 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  19 Legacy untranslated messages
-# 157 Untranslated messages
-#  64 Legacy translation messages
-# 382 Translation messages
+#  16 Legacy untranslated messages
+# 160 Untranslated messages
+#  57 Legacy translation messages
+# 389 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
@@ -63,6 +60,9 @@ general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you en
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache-complete: # "Cleared cache."
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
@@ -215,15 +215,8 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(no category)": "(ei kategoriaa)"
 "(no group)": "(ei ryhmää)"
 "(none)": "(ei mitään)"
-"Add a brief, optional comment to describe what's changed.": "Lisää lyhyt, valinnainen kuvaus muutoksista."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
-"Are you sure you want to delete %FILENAME%?": "Haluatko varmasti poistaa %FILENAME%?"
-"Are you sure you want to delete %username%?": "Oletko varma, että haluat poistaa käyttäjän %username% "
-"Are you sure you want to remove these images?": "Haluatko varmasti poistaa nämä kuvat?"
-"Are you sure you want to remove this file?": "Haluatko varmasti poistaa tämän tiedoston?"
-"Are you sure you want to remove this image?": "Haluatko varmasti poistaa tämän kuvan?"
-"Are you sure you wish to delete this record? There is no undo.": "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
 "Body": "Runko"
 "Categories": "Kategoriat"
 "Category": "Kategoria"
@@ -373,6 +366,7 @@ general.phrase.by: "@"
 general.phrase.cancel: "Peruuta"
 general.phrase.change-current-status: "Klikkaa vaihtaaksesi nykyisen tilan."
 general.phrase.change-log: "Muutoslogi"
+general.phrase.changelog-what-changed: "Lisää lyhyt, valinnainen kuvaus muutoksista."
 general.phrase.check-again: "Uudelleentarkista"
 general.phrase.check-database: "Tarkista tietokanta"
 general.phrase.choose-record-link-to: "Valitse tietue johon haluat linkittää:"
@@ -387,6 +381,12 @@ general.phrase.code-colon: "Koodi:"
 general.phrase.collapse-sidebar: "Piilota sivupalkki"
 general.phrase.configuration: "Asetukset"
 general.phrase.configuration-main: "Pääasetukset"
+general.phrase.confirm-delete-file: "Haluatko varmasti poistaa %FILENAME%?"
+general.phrase.confirm-delete-user: "Oletko varma, että haluat poistaa käyttäjän %username% "
+general.phrase.confirm-remove-file: "Haluatko varmasti poistaa tämän tiedoston?"
+general.phrase.confirm-remove-image: "Haluatko varmasti poistaa tämän kuvan?"
+general.phrase.confirm-remove-images: "Haluatko varmasti poistaa nämä kuvat?"
+general.phrase.confirm-remove-record: "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
 general.phrase.content-type-permissions: "Sisätötyyppien oikeudet"
 general.phrase.content-types: "Sisältötyypit"
 general.phrase.create-user-first: "Luo ensimmäinen käyttäjä"

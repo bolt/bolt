@@ -7,25 +7,20 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#  56 Legacy untranslated messages
-# 358 Untranslated messages
-#  27 Legacy translation messages
+#   1 Unused messages
+#  47 Legacy untranslated messages
+# 368 Untranslated messages
+#  26 Legacy translation messages
 # 181 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"Are you sure you want to delete %username%?": "Er du sikker på at du vil slette username%?"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "(none)": #
-"Add a brief, optional comment to describe what's changed.": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Body": #
 "Current (saved) status:": #
 "Date": #
@@ -156,6 +151,7 @@ general.phrase.author: # "Author"
 general.phrase.change-current-status: # "Click to change current status."
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: # "Add a brief, optional comment to describe what's changed."
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
@@ -163,6 +159,15 @@ general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-delete-user: # "Are you sure you want to delete %username%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
@@ -470,7 +475,6 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "(ingen gruppe)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Are you sure you want to delete %username%?": "Er du sikker på at du vil slette username%?"
 "Categories": "Kategorier"
 "Category": "Kategori"
 "Choose an entry": "Velg en oppføring"

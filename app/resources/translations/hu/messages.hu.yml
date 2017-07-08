@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  14 Legacy untranslated messages
 #  90 Untranslated messages
-#  69 Legacy translation messages
-# 449 Translation messages
+#  59 Legacy translation messages
+# 459 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -143,19 +143,9 @@ panel.latest-activity.system: # "Latest system activity"
 "(no category)": "(nincs kategória)"
 "(no group)": "(nincs csoport)"
 "(none)": "(nincs)"
-"Add a brief, optional comment to describe what's changed.": "Rövid, tetszőleges megjegyzés ami leírja, mi változott."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Hiba történt `%TABLE%` frissítése közben. A hiba: %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Biztos, hogy törölni szeretnéd a %FILENAME% fájlt?"
-"Are you sure you want to delete %username%?": "Biztos, hogy eltávolítod a %username% felhasználót?"
-"Are you sure you want to do this for %NUMBER% records?": "Biztosan végre akarja hajtani ezt %NUMBER% rekordra?"
-"Are you sure you want to do this for 1 record?": "Biztosan végre akarja hajtani ezt 1 rekordra?"
-"Are you sure you want to remove these files?": "Biztosan törölni szeretné ezeket a fájlokat?"
-"Are you sure you want to remove these images?": "Valóban törölni szeretnéd ezeket a képeket?"
-"Are you sure you want to remove this file?": "Valóban törölni szeretnéd ezt a fájlt?"
-"Are you sure you want to remove this image?": "Valóban törölni szeretnéd ezt a képet?"
-"Are you sure you wish to delete this record? There is no undo.": "Biztos törlöd ezt a rekordot? Később már nemlehet visszavonni."
 "Categories": "Kategóriák"
 "Category": "Kategória"
 "Choose an entry": "Válassz egy bejegyzést"
@@ -308,6 +298,7 @@ general.phrase.by: "általa:"
 general.phrase.cancel: "Mégse"
 general.phrase.change-current-status: "Kattints a státusz megváltoztatásához."
 general.phrase.change-log: "Változásnapló"
+general.phrase.changelog-what-changed: "Rövid, tetszőleges megjegyzés ami leírja, mi változott."
 general.phrase.check-again: "Ismételt vizsgálat"
 general.phrase.check-database: "Adatbázis ellenőrzése"
 general.phrase.choose-record-link-to: "Kérem válassza ki a bejegyzést, amelyre a link mutasson:"
@@ -322,6 +313,15 @@ general.phrase.code-colon: "Kód:"
 general.phrase.collapse-sidebar: "Oldalsáv becsukása"
 general.phrase.configuration: "Beállítások"
 general.phrase.configuration-main: "Programbeállítások"
+general.phrase.confirm-delete-file: "Biztos, hogy törölni szeretnéd a %FILENAME% fájlt?"
+general.phrase.confirm-delete-user: "Biztos, hogy eltávolítod a %username% felhasználót?"
+general.phrase.confirm-record-multiple: "Biztosan végre akarja hajtani ezt %NUMBER% rekordra?"
+general.phrase.confirm-record-single: "Biztosan végre akarja hajtani ezt 1 rekordra?"
+general.phrase.confirm-remove-file: "Valóban törölni szeretnéd ezt a fájlt?"
+general.phrase.confirm-remove-files: "Biztosan törölni szeretné ezeket a fájlokat?"
+general.phrase.confirm-remove-image: "Valóban törölni szeretnéd ezt a képet?"
+general.phrase.confirm-remove-images: "Valóban törölni szeretnéd ezeket a képeket?"
+general.phrase.confirm-remove-record: "Biztos törlöd ezt a rekordot? Később már nemlehet visszavonni."
 general.phrase.content-type-permissions: "Tartalomtípus Engedélyek"
 general.phrase.content-types: "Tartalomtípusok"
 general.phrase.create-user-first: "Első felhasználó létrehozása"

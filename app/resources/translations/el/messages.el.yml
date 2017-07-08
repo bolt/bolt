@@ -8,24 +8,15 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  63 Legacy untranslated messages
-# 357 Untranslated messages
-#  20 Legacy translation messages
-# 182 Translation messages
+#  54 Legacy untranslated messages
+# 366 Untranslated messages
+#  19 Legacy translation messages
+# 183 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "(none)": #
-"Add a brief, optional comment to describe what's changed.": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Body": #
 "Date": #
 "Datetime": #
@@ -154,6 +145,7 @@ general.phrase.author: # "Author"
 general.phrase.browswer-platform: # "Browser / platform"
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: # "Add a brief, optional comment to describe what's changed."
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
@@ -161,6 +153,14 @@ general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.content-type-permissions: # "ContentType Permissions"
 general.phrase.content-types: # "ContentTypes"
 general.phrase.dashboard: # "Dashboard"
@@ -480,7 +480,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(no group)": "(χωρίς ομάδα)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
-"Are you sure you want to delete %username%?": "Είστε σίγουροι ότι θέλετε να διαγραφεί ο/η %username%?"
 "Categories": "Κατηγορίες"
 "Category": "Κατηγορία"
 "Choose an entry": "Επιλογή Καταχώρησης"
@@ -554,6 +553,7 @@ general.phrase.clear-filter: "Καθαρισμός φίλτρου"
 general.phrase.clear-filter-sort: "Καθαρισμός ταξινόμησης/φίλτρου"
 general.phrase.code-colon: "Κώδικας:"
 general.phrase.configuration: "Παραμετροποίηση"
+general.phrase.confirm-delete-user: "Είστε σίγουροι ότι θέλετε να διαγραφεί ο/η %username%?"
 general.phrase.create-user-first: "Δημιουργία του πρώτου χρήστη"
 general.phrase.created-on-colon: "Δημιουργήθηκε στις:"
 general.phrase.current-session-plural: "Τρέχων sessions"

@@ -8,96 +8,24 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  83 Legacy untranslated messages
+#  11 Legacy untranslated messages
 #  59 Untranslated messages
-#   0 Legacy translation messages
-# 480 Translation messages
+#  62 Legacy translation messages
+# 490 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"(default template)": #
-"(no category)": #
-"(no group)": #
-"(none)": #
-"Add a brief, optional comment to describe what's changed.": #
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
-"Added to <tt>%key%</tt> '%title%'": #
-"An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to delete %username%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
-"Body": #
-"Categories": #
-"Category": #
-"Choose an entry": #
-"Content": #
-"Current (saved) status:": #
-"Date": #
-"Datetime": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Everybody": #
-"Excerpt": #
-"Expand sidebar": #
-"File": #
-"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Filelist": # "File list"
 "Finding packages that require this one…": #
-"Floatfield": # "Float field"
-"Geolocation": #
 "Group": #
 "Groups": #
-"Html": #
-"Image": #
-"Imagelist": # "Image list"
-"Integerfield": # "Integer field"
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
-"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Link": #
-"Markdown": #
-"Multiselect": # "Multi-select"
 "Repeater": #
-"Select a page": #
-"Select zero or more pages": #
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Skipped <tt>%key%</tt> (already has records)": #
-"Skipped <tt>%key%</tt> (not checked)": #
-"Slug": #
-"Tag": #
-"Tags": #
-"Teaser": #
-"Template": #
-"Textarea": #
 "The field %field% has been changed to \"%newValue%\"": #
-"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
-"The settings for roles and permissions are stored in <code>%permissions%</code>.": #
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
-"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
-"This is a checkbox": #
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Title": #
-"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
-"Unable to create directory: %DIR%": #
-"Unable to create file: %FILE%": #
-"Unable to delete directory: %DIR%": #
-"Unable to delete file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
-"Unable to rename directory: %DIR%": #
-"Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Video": #
-"View (saved version) on site": #
-"You've been logged on successfully.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -168,6 +96,71 @@ page.extend.message.running-update-all: # "Running updates"
 page.extend.options: # "Extension Options"
 
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+#--- Legacy translation messages ----------------------------------------------
+
+"(default template)": "(standardmall)"
+"(no category)": "(ingen kategori)"
+"(no group)": "(ingen grupp)"
+"(none)": "(ingen)"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
+"Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
+"An error occured while updating `%TABLE%`. The error is %ERROR%": "Ett fel inträffade under uppdateringen av '%TABLE%'. Felet är %ERROR%"
+"Body": "Innehåll"
+"Categories": "Kategorier"
+"Category": "Kategori"
+"Choose an entry": "Välj ett inlägg"
+"Content": "Innehåll"
+"Current (saved) status:": "Nuvarande (sparad) status:"
+"Date": "Datum"
+"Datetime": "Datum/Tid"
+"Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
+"Everybody": "Alla"
+"Excerpt": "Utdrag"
+"Expand sidebar": "Visa sidomeny"
+"File": "Fil"
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
+"Filelist": "Fillista"
+"Floatfield": "Decimaltals fält"
+"Geolocation": "Geolokalisering "
+"Html": "Html"
+"Image": "Bild"
+"Imagelist": "Bildlista"
+"Integerfield": "Heltalsfält"
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter."
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
+"Markdown": "Markdown"
+"Multiselect": "Flerval"
+"Select a page": "Välj en sida"
+"Select zero or more pages": "Välj en eller flera sidor"
+"Selectentry": "Välj inlägg"
+"Selectfield": "Välj fält"
+"Skipped <tt>%key%</tt> (already has records)": "Hoppade över <tt>%key%</tt> (har redan innehåll)"
+"Skipped <tt>%key%</tt> (not checked)": "Hoppade över <tt>%key%</tt> (inte vald)"
+"Slug": "Permalänk"
+"Tag": "Tagg"
+"Tags": "Taggar"
+"Teaser": "Teaser"
+"Template": "Mall"
+"Textarea": "Textfält"
+"The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Översättningsfilen '%s' kunde inte skapas. Du behöver använda din egen textredigerare för att ändra på filen."
+"This is a checkbox": "Detta är en Kryssruta"
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
+"Title": "Titel"
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan."
+"Unable to create directory: %DIR%": "Det gick inte att skapa katalogen: %DIR%"
+"Unable to create file: %FILE%": "Det gick inte att skapa filen: %FILE%"
+"Unable to delete directory: %DIR%": "Det går inte att ta bort katalogen: %DIR%"
+"Unable to delete file: %FILE%": "Det går inte att ta bort filen: %FILE%"
+"Unable to rename directory: %DIR%": "Det gick inte att döpa om katalogen: %DIR%"
+"Unable to rename file: %FILE%": "Det går inte att döpa om på filen: %FILE%"
+"Video": "Video"
+"View (saved version) on site": "Se sparad version på sidan"
+"You've been logged on successfully.": "Du är nu inloggad."
+"filtered by <em>'%filter%'</em>": "filtrerat efter <em>\"%filter%\"</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -277,6 +270,7 @@ general.phrase.by: "av"
 general.phrase.cancel: "Avbryt"
 general.phrase.change-current-status: "Klicka för att ändra status."
 general.phrase.change-log: "Ändringslogg"
+general.phrase.changelog-what-changed: "Lägg till en kort, valfri kommentar om vad som ändrats."
 general.phrase.check-again: "Kontrollera igen"
 general.phrase.check-database: "Kontrollera databas"
 general.phrase.choose-record-link-to: "Välj dokumentet du vill länka till:"
@@ -291,6 +285,15 @@ general.phrase.code-colon: "Kod:"
 general.phrase.collapse-sidebar: "Dölj sidomeny"
 general.phrase.configuration: "Konfiguration"
 general.phrase.configuration-main: "Huvudkonfiguration"
+general.phrase.confirm-delete-file: "Är du säker du vill ta bort %FILENAME%?"
+general.phrase.confirm-delete-user: "Är du säker på att du vill radera %username%?"
+general.phrase.confirm-record-multiple: "Är du säker du vill göra detta för %NUMBER% inlägg?"
+general.phrase.confirm-record-single: "Är du säker du vill göra detta för 1 inlägg?"
+general.phrase.confirm-remove-file: "Är du säker på att du vill ta bort denna fil?"
+general.phrase.confirm-remove-files: "Är du säker du vill ta bort dessa filer?"
+general.phrase.confirm-remove-image: "Är du säker på att du vill ta bort denna bild?"
+general.phrase.confirm-remove-images: "Är du säker du vill ta bort dessa bilder?"
+general.phrase.confirm-remove-record: "Är du säker du vill ta bort detta inlägg? Det går inte att ångra."
 general.phrase.content-type-permissions: "Innehållsrättigheter"
 general.phrase.content-types: "Innehållstyper"
 general.phrase.create-user-first: "Skapa första användaren"

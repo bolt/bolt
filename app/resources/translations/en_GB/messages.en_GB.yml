@@ -8,17 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   4 Legacy untranslated messages
+#   0 Legacy untranslated messages
 #   0 Untranslated messages
-#  79 Legacy translation messages
-# 539 Translation messages
-
-#--- Legacy untranslated messages ---------------------------------------------
-
-"Dependencies": #
-"Finding packages that require this one…": #
-"Group": #
-"Groups": #
+#  73 Legacy translation messages
+# 549 Translation messages
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -26,19 +19,9 @@
 "(no category)": "(no category)"
 "(no group)": "(no group)"
 "(none)": "(none)"
-"Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Are you sure you want to delete %FILENAME%?"
-"Are you sure you want to delete %username%?": "Are you sure you want to delete %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "Are you sure you want to do this for %NUMBER% records?"
-"Are you sure you want to do this for 1 record?": "Are you sure you want to do this for 1 record?"
-"Are you sure you want to remove these files?": "Are you sure you want to remove these files?"
-"Are you sure you want to remove these images?": "Are you sure you want to remove these images?"
-"Are you sure you want to remove this file?": "Are you sure you want to remove this file?"
-"Are you sure you want to remove this image?": "Are you sure you want to remove this image?"
-"Are you sure you wish to delete this record? There is no undo.": "Are you sure you wish to delete this record? There is no undo."
 "Body": "Body"
 "Categories": "Categories"
 "Category": "Category"
@@ -47,6 +30,7 @@
 "Current (saved) status:": "Current (saved) status:"
 "Date": "Date"
 "Datetime": "Datetime"
+"Dependencies": "Dependencies"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
 "Do you really want to delete %FOLDERNAME%?": "Do you really want to delete %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Error reading extensions/composer.json file: %ERROR%"
@@ -56,8 +40,11 @@
 "File": "File"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
 "Filelist": "File list"
+"Finding packages that require this one…": "Finding packages that require this one…"
 "Floatfield": "Float field"
 "Geolocation": "Geolocation"
+"Group": "Group"
+"Groups": "Groups"
 "Html": "Html"
 "Image": "Image"
 "Imagelist": "Image list"
@@ -219,6 +206,7 @@ general.phrase.change-current-status: "Click to change current status."
 general.phrase.change-log: "Change Log"
 general.phrase.changelog-not-enabled: "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: "Add a brief, optional comment to describe what's changed."
 general.phrase.check-again: "Check again"
 general.phrase.check-database: "Check database"
 general.phrase.choose-record-link-to: "Please choose the record you want to link to:"
@@ -235,6 +223,15 @@ general.phrase.code-colon: "Code:"
 general.phrase.collapse-sidebar: "Collapse sidebar"
 general.phrase.configuration: "Configuration"
 general.phrase.configuration-main: "Main configuration"
+general.phrase.confirm-delete-file: "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-delete-user: "Are you sure you want to delete %username%?"
+general.phrase.confirm-record-multiple: "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: "Are you sure you wish to delete this record? There is no undo."
 general.phrase.content-type-permissions: "ContentType Permissions"
 general.phrase.content-types: "ContentTypes"
 general.phrase.create-user-first: "Create the first user"
