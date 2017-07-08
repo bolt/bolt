@@ -10,22 +10,29 @@
 
 #  no unused messages
 #  no untranslated messages
-#   7 untranslated keyword based messages
-#  90 translations
+#  14 untranslated keyword based messages
+#  83 translations
 # 523 keyword based translations
 
-#--- 7 untranslated keyword based messages ------------------------------------
+#--- 14 untranslated keyword based messages -----------------------------------
 
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.database-update-required: # "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%LINK%\">Check Database</a>' to do this now."
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
 
+page.extend.error-class-implement: # "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
+page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class \\'%CLASS%\\' and has been skipped."
+page.extend.error-message-client: # "Client error: %errormessage%"
+page.extend.error-message-connection: # "Testing connection to extension server failed: %errormessage%"
+page.extend.error-message-generic: # "Generic failure while testing connection to extension server: %errormessage%"
+page.extend.error-message-server: # "Extension server returned an error: %errormessage%"
 page.extend.headline.bundled: # "Bundled Extensions"
 page.extend.listheader.class: # "Class"
 page.extend.listheader.name: # "Name"
 
-#--- 90 translations ----------------------------------------------------------
+#--- 83 translations ----------------------------------------------------------
 
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
@@ -48,7 +55,6 @@ page.extend.listheader.name: # "Name"
 "Categories": "Kategorien"
 "Category": "Kategorie"
 "Choose an entry": "Eintrag auswählen"
-"Client error: %errormessage%": "Client-Fehler: %errormessage%"
 "Content": "Inhalt"
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"
 "Date": "Datum"
@@ -60,15 +66,11 @@ page.extend.listheader.name: # "Name"
 "Everybody": "Jeder"
 "Excerpt": "Auszug"
 "Expand sidebar": "Menü ausklappen"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Basis-Klasse '%CLASS%' der Erweiterung %NAME% hat \\\\Bolt\\\\Extension\\\\ExtensionInterface nicht implementiert und wurde übersprungen."
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Erweiterung %NAME% hat eine ungültige Klasse '%CLASS%' und wurde übersprungen."
-"Extension server returned an error: %errormessage%": "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
 "File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
 "Filelist": "Dateiliste"
 "Finding packages that require this one…": "Finde Pakete die dieses erfordern…"
 "Floatfield": "Fließkommazahl-Feld"
-"Generic failure while testing connection to extension server: %errormessage%": "Allgemeiner Fehler beim Prüfen der Verbindung zum Erweiterungsserver: %errormessage%"
 "Geolocation": "Geolokalisierung"
 "Group": "Gruppe"
 "Groups": "Gruppen"
@@ -93,9 +95,7 @@ page.extend.listheader.name: # "Name"
 "Tags": "Tags"
 "Teaser": "Einleitung"
 "Template": "Vorlage"
-"Testing connection to extension server failed: %errormessage%": "Das Prüfen der Verbindung zum Erweiterungsserver ist fehlgeschlagen: %errormessage%"
 "Textarea": "Textbereich"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss aktualisiert/repariert werden. 'Configuration' > '<a href=\"%link%\">Datenbank überprüfen</a>' aufrufen um dies jetzt zu tun."
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde auf \"%newValue%\" geändert"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren Sie taxonomy.yml, um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."

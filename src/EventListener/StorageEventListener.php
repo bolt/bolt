@@ -182,9 +182,9 @@ class StorageEventListener implements EventSubscriberInterface
 
         if ($validSession && $expired && $this->schemaManager->isUpdateRequired() && $notInCheck) {
             $msg = Trans::__(
-                "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                ['%link%' => $this->urlGenerator->generate('dbcheck')]
-                );
+                'general.phrase.database-update-required',
+                ['%LINK%' => $this->urlGenerator->generate('dbcheck')]
+            );
             $this->loggerFlash->error($msg);
         }
     }

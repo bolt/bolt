@@ -83,7 +83,7 @@ class BootstrapYamlUpdater
                     'You should update your <comment>.bolt.yml</comment> file to this:',
                     '',
                     "<info>$str</info>",
-                    ''
+                    '',
                 ]);
             }
 
