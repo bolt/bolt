@@ -1,28 +1,30 @@
 # app/resources/translations/id/messages.id.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  69 untranslated messages
-# 392 untranslated keyword based messages
-#  14 translations
-# 147 keyword based translations
+#   0 Unused messages
+#  83 Legacy untranslated messages
+# 392 Untranslated messages
+#   0 Legacy translation messages
+# 147 Translation messages
 
-#--- 69 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "(default template)": #
 "(no category)": #
+"(no group)": #
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
 "Added to <tt>%key%</tt> '%title%'": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
+"Are you sure you want to delete %username%?": #
 "Are you sure you want to do this for %NUMBER% records?": #
 "Are you sure you want to do this for 1 record?": #
 "Are you sure you want to remove these files?": #
@@ -31,6 +33,10 @@
 "Are you sure you want to remove this image?": #
 "Are you sure you wish to delete this record? There is no undo.": #
 "Body": #
+"Categories": #
+"Category": #
+"Choose an entry": #
+"Content": #
 "Current (saved) status:": #
 "Date": #
 "Datetime": #
@@ -38,6 +44,8 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
+"Everybody": #
+"Excerpt": #
 "Expand sidebar": #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
@@ -48,6 +56,7 @@
 "Group": #
 "Groups": #
 "Html": #
+"Image": #
 "Imagelist": # "Image list"
 "Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
@@ -56,6 +65,7 @@
 "Markdown": #
 "Multiselect": # "Multi-select"
 "Repeater": #
+"Select a page": #
 "Select zero or more pages": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
@@ -63,6 +73,7 @@
 "Skipped <tt>%key%</tt> (not checked)": #
 "Slug": #
 "Tag": #
+"Tags": #
 "Teaser": #
 "Template": #
 "Textarea": #
@@ -71,7 +82,9 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
+"This is a checkbox": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
+"Title": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -86,7 +99,7 @@
 "You've been logged on successfully.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 392 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.actions-all: # "Actions for %contenttypes%"
 contenttypes.generic.actions-one: # "Actions for this %contenttype%"
@@ -514,24 +527,7 @@ permissions.roles.description.owner: # "Built-in role, only valid in the context
 permissions.roles.description.root: # "Built-in superuser role, automatically grants all permissions"
 permissions.roles.label.anonymous: # "Anonymous"
 
-#--- 14 translations ----------------------------------------------------------
-
-"(no group)": "(Tidak ada kelompok)"
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
-"Are you sure you want to delete %username%?": "Anda yakin menghapus %username%?"
-"Categories": "Kategori"
-"Category": "Kategori"
-"Choose an entry": "Pilih entri"
-"Content": "Konten"
-"Everybody": "Semua"
-"Excerpt": "Ringkasan"
-"Image": "Citra"
-"Select a page": "Pilih halaman"
-"Tags": "Tag-tag"
-"This is a checkbox": "Ini kotak centang"
-"Title": "Judul"
-
-#--- 147 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.group.taxonomy: "Taksonomi"
 

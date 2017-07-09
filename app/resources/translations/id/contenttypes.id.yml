@@ -1,20 +1,19 @@
 # app/resources/translations/id/contenttypes.id.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-# 142 untranslated keyword based messages
-#  no translations
-#   3 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+# 142 Untranslated messages
+#   0 Legacy translation messages
+#   3 Translation messages
 
-#--- 142 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.blocks.description: # "The **Blocks** ContentType is a so-called 'resource ContentType'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
 contenttypes.blocks.group.block: # "Block"
@@ -162,7 +161,7 @@ contenttypes.showcases.text.show-more: # "More Showcases"
 contenttypes.showcases.text.view: # "View Showcases"
 contenttypes.showcases.text.wrong-use-field: # "In the ContentType for 'Showcase', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
-#--- 3 keyword based translations ---------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.entries.group.content: "Konten"
 contenttypes.entries.name.singular: "Catatan"

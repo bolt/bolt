@@ -1,20 +1,19 @@
 # app/resources/translations/el/messages.el.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  63 untranslated messages
-# 357 untranslated keyword based messages
-#  20 translations
-# 182 keyword based translations
+#   0 Unused messages
+#  63 Legacy untranslated messages
+# 357 Untranslated messages
+#  20 Legacy translation messages
+# 182 Translation messages
 
-#--- 63 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -80,7 +79,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 357 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.created: # "This %contenttype% was created"
 contenttypes.generic.group.meta: # "Meta"
@@ -474,7 +473,7 @@ permissions.roles.description.everyone: # "Built-in role, automatically granted 
 permissions.roles.description.owner: # "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
 permissions.roles.description.root: # "Built-in superuser role, automatically grants all permissions"
 
-#--- 20 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(standardní šablona)"
 "(no category)": "(χωρίς κατηγορία)"
@@ -497,7 +496,7 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "Title": "Τίτλος"
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
 
-#--- 182 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Ενέργειες για %contenttypes%"
 contenttypes.generic.actions-one: "Ενέργεις για %contenttype%"

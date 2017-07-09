@@ -1,20 +1,19 @@
 # app/resources/translations/ru/contenttypes.ru.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-#  16 untranslated keyword based messages
-#  no translations
-# 129 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+#  16 Untranslated messages
+#   0 Legacy translation messages
+# 129 Translation messages
 
-#--- 16 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.blocks.text.invalid-hyphen: # "In the ContentType for 'Block', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.blocks.text.no-proper-type: # "In the ContentType for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
@@ -36,7 +35,7 @@ contenttypes.showcases.description: # "The **Showcases** ContentType is used to 
 contenttypes.showcases.text.invalid-hyphen: # "In the ContentType for 'Showcase', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.showcases.text.invalid-relation: # "In the ContentType for 'Showcase', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 
-#--- 129 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.blocks.description: "Сущьность **Блоки** так-называемые 'ресурсные сущности'. Это означает что они предназначены для управления более мелкими частями контента как, например, 'О нас' или 'Наши адреса' в футере страницы или похожими небольшими кусочками текста"
 contenttypes.blocks.group.block: "Блок"

@@ -1,27 +1,26 @@
 # app/resources/translations/en_GB/messages.en_GB.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#   4 untranslated messages
-#  no untranslated keyword based messages
-#  79 translations
-# 539 keyword based translations
+#   0 Unused messages
+#   4 Legacy untranslated messages
+#   0 Untranslated messages
+#  79 Legacy translation messages
+# 539 Translation messages
 
-#--- 4 untranslated messages --------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Dependencies": #
 "Finding packages that require this one…": #
 "Group": #
 "Groups": #
 
-#--- 79 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
@@ -103,7 +102,7 @@
 "You've been logged on successfully.": "You've been logged on successfully."
 "filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 539 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"

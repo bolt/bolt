@@ -1,20 +1,19 @@
 # app/resources/translations/pl_PL/messages.pl_PL.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  21 untranslated messages
-# 157 untranslated keyword based messages
-#  62 translations
-# 382 keyword based translations
+#   0 Unused messages
+#  21 Legacy untranslated messages
+# 157 Untranslated messages
+#  62 Legacy translation messages
+# 382 Translation messages
 
-#--- 21 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
@@ -38,7 +37,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 157 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -214,7 +213,7 @@ page.extend.theme.generation.missing.name: # "No theme name found. Theme is not 
 
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 62 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(domyślny szablon)"
 "(no category)": "(bez kategorii)"
@@ -279,7 +278,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "You've been logged on successfully.": "Zostałeś zalogowany."
 
-#--- 382 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Akcje dla %contenttypes%"
 contenttypes.generic.actions-one: "Akcje dla tego %contenttype%"
