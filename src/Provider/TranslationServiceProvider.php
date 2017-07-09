@@ -15,7 +15,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $app->register(
                 new Silex\Provider\TranslationServiceProvider(),
                 [
-                    'locale_fallbacks'     => ['en_GB', 'en'],
+                    'locale_fallbacks' => ['en_GB', 'en'],
                 ]
             );
         }
@@ -118,6 +118,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
         // Directories to look for translation file(s)
         $transDirs = array_unique(
             [
+                $app['path_resolver']->resolve("%site%/app/translation/"),
+                $app['path_resolver']->resolve("%site%/app/translation/{$locale}"),
                 $app['path_resolver']->resolve("%bolt%/app/resources/translations/{$locale}"),
                 $app['path_resolver']->resolve("%root%/app/resources/translations/{$locale}"), // Will be done better in v3.4
             ]
