@@ -288,11 +288,11 @@ class TranslationFile
         // Presort
         $unusedTranslations = $savedTranslations;
         $transByType = [
-            'Unused'   => [' unused messages', []],
-            'TodoReal' => [' untranslated messages', []],
-            'TodoKey'  => [' untranslated keyword based messages', []],
-            'DoneReal' => [' translations', []],
-            'DoneKey'  => [' keyword based translations', []],
+            'Unused'   => [' Unused messages', []],
+            'TodoReal' => [' Legacy untranslated messages', []],
+            'TodoKey'  => [' Untranslated messages', []],
+            'DoneReal' => [' Legacy translation messages', []],
+            'DoneKey'  => [' Translation messages', []],
         ];
         foreach ($newTranslations as $key => $translation) {
             $set = ['trans' => $translation];
@@ -315,13 +315,12 @@ class TranslationFile
         // Build List
         $indent = '    ';
         $status = '# ' . $this->relPath . "\n\n" .
-            '# Warning: Translations are in the process of being moved to a new keyword-based translation' . "\n" .
-            '#          at the moment. This is an ongoing process. Translations currently in the' . "\n" .
-            '#          repository are automatically mapped to the new scheme. Be aware that there' . "\n" .
-            '#          can be a race condition between that process and your PR so that it\'s' . "\n" .
-            '#          eventually necessary to remap your translations. If you\'re planning on' . "\n" .
-            '#          updating your translations, it\'s best to ask on IRC to time your contribution' . "\n" .
-            '#          in order to prevent merge conflicts.' . "\n\n";
+            '# Warning: Translations are in the process of being moved to a new keyword' . "\n" .
+            '#          based translation messages. This is an ongoing process. Translations' . "\n" .
+            '#          currently in the repository are automatically mapped to the new' . "\n" .
+            '#          scheme. Be aware that there can be a race condition between that' . "\n" .
+            '#          process and your PR so that it will eventually be necessary to' . "\n" .
+            '#          re-map your translations.' . "\n\n";
         $content = '';
 
         // Set this to true to get nested output.
@@ -330,10 +329,10 @@ class TranslationFile
         foreach ($transByType as $type => $transData) {
             list($text, $translations) = $transData;
             // Header
-            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : ' no');
+            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : '  0');
             $status .= '# ' . $count . $text . "\n";
             if (count($translations) > 0) {
-                $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+                $content .= "\n" . '#--- ' . str_pad(ltrim($text) . ' ', 74, '-') . "\n\n";
             }
             // List
             $lastKey = [];
