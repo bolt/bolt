@@ -1,20 +1,19 @@
 # app/resources/translations/de_DE/messages.de_DE.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-#  no untranslated keyword based messages
-#  92 translations
-# 531 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+#   0 Untranslated messages
+#  92 Legacy translation messages
+# 531 Translation messages
 
-#--- 92 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
@@ -109,7 +108,7 @@
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 531 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"

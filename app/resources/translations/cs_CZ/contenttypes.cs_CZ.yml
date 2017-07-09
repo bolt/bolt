@@ -1,20 +1,19 @@
 # app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-#  44 untranslated keyword based messages
-#  no translations
-# 101 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+#  44 Untranslated messages
+#   0 Legacy translation messages
+# 101 Translation messages
 
-#--- 44 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.blocks.description: # "The **Blocks** ContentType is a so-called 'resource ContentType'. This means that it can be used to manage smaller pieces of content, like the 'about us' text, an 'our address' in the footer, or similar short blurbs of text."
 contenttypes.blocks.group.block: # "Block"
@@ -64,7 +63,7 @@ contenttypes.showcases.text.invalid-hyphen: # "In the ContentType for 'Showcase'
 contenttypes.showcases.text.invalid-relation: # "In the ContentType for 'Showcase', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 contenttypes.showcases.text.recent-changes-one: # "Recent change to this Showcase"
 
-#--- 101 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.entries.description: "Typ obsahu **Novinky** může být použit pro obsah typu _'Novinky'_ nebo _'Blog'_. Mají teaser, který může být použít jako přehled / anotace na stránkách s výpisy, umožňujíc nášvštěvníkům procházet zbytek příspěvku. Obsahuje také obrázek či volitelně video. Pro změnu, přidání či odstranění polí obsahu je potřeba upravit soubor `contenttypes.yml` ve složce `app/config/`. Můžete použít svůj oblínbený editor nebo vestavěný v hlavní nabídce 'Konfigurace' » 'Typy obsahu' na levé straně."
 contenttypes.entries.group.content: "Obsah"

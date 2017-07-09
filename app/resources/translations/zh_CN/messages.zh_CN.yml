@@ -1,20 +1,19 @@
 # app/resources/translations/zh_CN/messages.zh_CN.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  43 untranslated messages
-# 197 untranslated keyword based messages
-#  49 translations
-# 334 keyword based translations
+#   0 Unused messages
+#  43 Legacy untranslated messages
+# 197 Untranslated messages
+#  49 Legacy translation messages
+# 334 Translation messages
 
-#--- 43 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
@@ -60,7 +59,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 197 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -283,7 +282,7 @@ permissions.roles.description.everyone: # "Built-in role, automatically granted 
 permissions.roles.description.owner: # "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
 permissions.roles.description.root: # "Built-in superuser role, automatically grants all permissions"
 
-#--- 49 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(默认模板)"
 "(no category)": "(没有分类)"
@@ -335,7 +334,7 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "View (saved version) on site": "观看站点中(保存的版本)"
 "You've been logged on successfully.": "你已成功登录。"
 
-#--- 334 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "对%contenttypes%的操作"
 contenttypes.generic.actions-one: "对%contenttype%的操作"

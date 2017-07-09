@@ -1,20 +1,19 @@
 # app/resources/translations/pt/contenttypes.pt.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-#   7 untranslated keyword based messages
-#  no translations
-# 138 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+#   7 Untranslated messages
+#   0 Legacy translation messages
+# 138 Translation messages
 
-#--- 7 untranslated keyword based messages ------------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.blocks.text.invalid-hyphen: # "In the ContentType for 'Block', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
@@ -27,7 +26,7 @@ contenttypes.pages.text.invalid-hyphen: # "In the ContentType for 'Page', you ha
 contenttypes.showcases.description: # "The **Showcases** ContentType is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this ContentType, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'ContentTypes' in the menu on the left."
 contenttypes.showcases.text.invalid-hyphen: # "In the ContentType for 'Showcase', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
-#--- 138 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.blocks.description: "O tipo de conteúdo BLOCO é chamado um 'recurso de tipo de conteúdo'. Isto significa que pode ser usado para gerir pequenos pedaços de conteúdo, como o texto 'sobre nós', um 'nosso endereço' no rodapé ou em pequenos segmentos de texto similares."
 contenttypes.blocks.group.block: "Bloco"
