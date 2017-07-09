@@ -1,20 +1,19 @@
 # app/resources/translations/ru/messages.ru.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  11 untranslated messages
-# 164 untranslated keyword based messages
-#  81 translations
-# 367 keyword based translations
+#   0 Unused messages
+#  11 Legacy untranslated messages
+# 164 Untranslated messages
+#  81 Legacy translation messages
+# 367 Translation messages
 
-#--- 11 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
 "Dependencies": #
@@ -28,7 +27,7 @@
 "Testing connection to extension server failed: %errormessage%": #
 "The field %field% has been changed to \"%newValue%\"": #
 
-#--- 164 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.group.ungrouped: # "Ungrouped"
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
@@ -216,7 +215,7 @@ page.file-management.message.save-failed-invalid-form: # "File '%s' could not be
 
 panel.latest-activity.by: # "by"
 
-#--- 81 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
@@ -300,7 +299,7 @@ panel.latest-activity.by: # "by"
 "You've been logged on successfully.": "Вы успешно вошли."
 "filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
-#--- 367 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Действия для %contenttypes%"
 contenttypes.generic.actions-one: "Действия для этой %contenttype%"

@@ -1,20 +1,19 @@
 # app/resources/translations/hu/messages.hu.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  19 untranslated messages
-#  79 untranslated keyword based messages
-#  73 translations
-# 452 keyword based translations
+#   0 Unused messages
+#  19 Legacy untranslated messages
+#  79 Untranslated messages
+#  73 Legacy translation messages
+# 452 Translation messages
 
-#--- 19 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Body": #
 "Dependencies": #
@@ -36,7 +35,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 79 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -132,7 +131,7 @@ panel.latest-activity.created: # "Created"
 panel.latest-activity.deleted: # "Deleted"
 panel.latest-activity.system: # "Latest system activity"
 
-#--- 73 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(alapértelmezett sablon)"
 "(no category)": "(nincs kategória)"
@@ -208,7 +207,7 @@ panel.latest-activity.system: # "Latest system activity"
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 "filtered by <em>'%filter%'</em>": "szűrés: <em>'%filter%'</em>"
 
-#--- 452 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Műveletek a(z) %contenttypes% tartalomtípusokhoz"
 contenttypes.generic.actions-one: "Műveletek a(z) %contenttype% tartalomtípushoz"

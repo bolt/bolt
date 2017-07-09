@@ -1,20 +1,19 @@
 # app/resources/translations/pt_BR/messages.pt_BR.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  45 untranslated messages
-# 217 untranslated keyword based messages
-#  47 translations
-# 314 keyword based translations
+#   0 Unused messages
+#  45 Legacy untranslated messages
+# 217 Untranslated messages
+#  47 Legacy translation messages
+# 314 Translation messages
 
-#--- 45 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Are you sure you want to delete %FILENAME%?": #
@@ -62,7 +61,7 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 217 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.group.meta: # "Meta"
 contenttypes.generic.group.template: # "Template"
@@ -303,7 +302,7 @@ panel.latest-activity.created: # "Created"
 panel.latest-activity.deleted: # "Deleted"
 panel.latest-activity.system: # "Latest system activity"
 
-#--- 47 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(template padrão)"
 "(no category)": "(sem categoria)"
@@ -353,7 +352,7 @@ panel.latest-activity.system: # "Latest system activity"
 "View (saved version) on site": "Visualizar (versão salva) no site"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 
-#--- 314 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"

@@ -1,20 +1,19 @@
 # app/resources/translations/it/messages.it.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  72 untranslated messages
-# 326 untranslated keyword based messages
-#  20 translations
-# 205 keyword based translations
+#   0 Unused messages
+#  72 Legacy untranslated messages
+# 326 Untranslated messages
+#  20 Legacy translation messages
+# 205 Translation messages
 
-#--- 72 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "(default template)": #
 "(no category)": #
@@ -89,7 +88,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 326 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.group.meta: # "Meta"
 contenttypes.generic.group.template: # "Template"
@@ -448,7 +447,7 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 permissions.roles.label.anonymous: # "Anonymous"
 permissions.roles.label.owner: # "Owner"
 
-#--- 20 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(no group)": "(nessun gruppo)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
@@ -471,7 +470,7 @@ permissions.roles.label.owner: # "Owner"
 "Title": "Titolo"
 "You've been logged on successfully.": "Accesso effettuato con successo."
 
-#--- 205 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Azioni per contenuti %contenttypes%"
 contenttypes.generic.actions-one: "Azioni per questo contenuto %contenttype%"

@@ -1,20 +1,19 @@
 # app/resources/translations/nb/messages.nb.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  65 untranslated messages
-# 346 untranslated keyword based messages
-#  27 translations
-# 185 keyword based translations
+#   0 Unused messages
+#  65 Legacy untranslated messages
+# 346 Untranslated messages
+#  27 Legacy translation messages
+# 185 Translation messages
 
-#--- 65 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "(none)": #
 "Add a brief, optional comment to describe what's changed.": #
@@ -82,7 +81,7 @@
 "View (saved version) on site": #
 "filtered by <em>'%filter%'</em>": #
 
-#--- 346 untranslated keyword based messages ----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.actions-all: # "Actions for %contenttypes%"
 contenttypes.generic.actions-one: # "Actions for this %contenttype%"
@@ -461,7 +460,7 @@ panel.latest-activity.unknown: # "unknown"
 
 panel.user-actions.button.add: # "Add a new user"
 
-#--- 27 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(standard mal)"
 "(no category)": "(ingen kategori)"
@@ -491,7 +490,7 @@ panel.user-actions.button.add: # "Add a new user"
 "Title": "Tittel"
 "You've been logged on successfully.": "Du er vellykket logget ut."
 
-#--- 185 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.group.relations: "Relasjoner"
 contenttypes.generic.group.taxonomy: "Taksonomi"

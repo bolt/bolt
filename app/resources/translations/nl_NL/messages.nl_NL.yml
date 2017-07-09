@@ -1,20 +1,19 @@
 # app/resources/translations/nl_NL/messages.nl_NL.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  12 untranslated messages
-#  27 untranslated keyword based messages
-#  80 translations
-# 504 keyword based translations
+#   0 Unused messages
+#  12 Legacy untranslated messages
+#  27 Untranslated messages
+#  80 Legacy translation messages
+# 504 Translation messages
 
-#--- 12 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
@@ -29,7 +28,7 @@
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
-#--- 27 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
@@ -62,7 +61,7 @@ page.extend.options: # "Extension Options"
 
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-#--- 80 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
@@ -145,7 +144,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 "filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
-#--- 504 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"

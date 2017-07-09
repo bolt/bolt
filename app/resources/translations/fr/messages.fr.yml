@@ -1,27 +1,26 @@
 # app/resources/translations/fr/messages.fr.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#   4 untranslated messages
-#   6 untranslated keyword based messages
-#  88 translations
-# 525 keyword based translations
+#   0 Unused messages
+#   4 Legacy untranslated messages
+#   6 Untranslated messages
+#  88 Legacy translation messages
+# 525 Translation messages
 
-#--- 4 untranslated messages --------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
 "Dependencies": #
 "Finding packages that require this one…": #
 "Group": #
 "Groups": #
 
-#--- 6 untranslated keyword based messages ------------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
@@ -35,7 +34,7 @@ nut.version: # "version"
 
 page.extend.options: # "Extension Options"
 
-#--- 88 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(modèle par défaut)"
 "(no category)": "(aucune catégorie)"
@@ -126,7 +125,7 @@ page.extend.options: # "Extension Options"
 "You've been logged on successfully.": "Connexion réussie."
 "filtered by <em>'%filter%'</em>": "filtré par <em>'%filter%'</em>"
 
-#--- 525 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Actions pour les %contenttypes%"
 contenttypes.generic.actions-one: "Actions pour ce(tte) %contenttype%"
