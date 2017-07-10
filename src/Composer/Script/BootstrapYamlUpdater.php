@@ -13,6 +13,13 @@ use Webmozart\PathUtil\Path;
 /**
  * Updates .bolt.yml paths for changes with PathResolver introduced in 3.3.
  *
+ * NOTE: If debugging this with with xdebug, you will need to run Composer from
+ * the vendor/bin/ directory, and set the COMPOSER_ALLOW_XDEBUG=1 environment
+ * variable, e.g.
+ * <pre>
+ * COMPOSER_ALLOW_XDEBUG=1 ./vendor/bin/composer run-script <script name>
+ * </pre>
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class BootstrapYamlUpdater
