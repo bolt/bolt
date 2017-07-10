@@ -170,7 +170,7 @@ class BootstrapYamlUpdater
         $appPaths = array_intersect_key($paths->toArray(), array_flip($appPathKeys));
         // Only paths without %app% alias in them.
         $appPaths = array_filter($appPaths, function ($path) {
-            return strpos($path, '%app%') === false;
+            return strpos($path, '%app%') === false && strpos($path, 'app') === 0;
         });
         if (empty($appPaths)) {
             return $paths;
