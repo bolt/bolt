@@ -114,7 +114,7 @@ class Edit
         // Build list of incoming non inverted related records.
         $incomingNotInverted = [];
         $count = 0;
-        $limit = $this->config->get('general/edit_incomingrelations_limit', false);
+        $limit = $this->config->get('general/compatibility/incoming_relations_limit', false);
         foreach ($content->getRelation()->incoming($content) as $relation) {
             /** @var Relations $relation */
             if ($relation->isInverted()) {
