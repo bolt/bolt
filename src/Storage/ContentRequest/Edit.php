@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\Relations;
 use Bolt\Storage\Entity\TemplateFields;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
@@ -112,7 +113,10 @@ class Edit
 
         // Build list of incoming non inverted related records.
         $incomingNotInverted = [];
+        $count = 0;
+        $limit = $this->config->get('general/edit_incomingrelations_limit', false);
         foreach ($content->getRelation()->incoming($content) as $relation) {
+            /** @var Relations $relation */
             if ($relation->isInverted()) {
                 continue;
             }
@@ -122,10 +126,17 @@ class Edit
             if ($record) {
                 $incomingNotInverted[$fromContentType][] = $record;
             }
+
+            // Do not try to load more than X records or db will fail
+            ++$count;
+            if ($limit && $count > $limit) {
+                break;
+            }
         }
 
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
+        /** @var Content $templateFields */
         $templateFields = $content->getTemplatefields();
         if ($templateFields instanceof TemplateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
             $templateFields->getContenttype()['fields'] = $this->setCanUpload($templateFields->getContenttype()->getFields());
