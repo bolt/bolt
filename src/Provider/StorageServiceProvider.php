@@ -171,6 +171,8 @@ class StorageServiceProvider implements ServiceProviderInterface
             Entity\FieldValue::class => Repository\FieldValueRepository::class,
             Entity\LogChange::class  => Repository\LogChangeRepository::class,
             Entity\LogSystem::class  => Repository\LogSystemRepository::class,
+            Entity\Relations::class  => Repository\RelationsRepository::class,
+            Entity\Taxonomy::class   => Repository\TaxonomyRepository::class,
             Entity\Users::class      => Repository\UsersRepository::class,
         ];
 
