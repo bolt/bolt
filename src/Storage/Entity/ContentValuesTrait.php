@@ -462,8 +462,8 @@ trait ContentValuesTrait
     /**
      * Set a ContentType record values from a HTTP POST.
      *
-     * @param array  $values
-     * @param string $contenttype
+     * @param array $values
+     * @param array $contenttype
      *
      * @throws \Exception
      */

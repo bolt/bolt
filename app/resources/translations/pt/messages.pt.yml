@@ -1,109 +1,134 @@
 # app/resources/translations/pt/messages.pt.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  10 untranslated messages
-#  50 untranslated keyword based messages
-#  82 translations
-# 482 keyword based translations
+#   0 Unused messages
+#  25 Legacy untranslated messages
+#  61 Untranslated messages
+#  65 Legacy translation messages
+# 492 Translation messages
 
-#--- 10 untranslated messages -------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
+"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
+"Alas, no about!": #
+"Content for home not found!": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Finding packages that require this one…": #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
+"Latest entries": #
+"No recent %contenttype%.": #
+"No results found for '%search%'. Please try another search.": #
+"Overview for": #
+"Permalink": #
+"Read more": #
+"Recent %contenttypes%": #
+"Related content:": #
+"Search results for <b> %search% </b>.": #
+"Search…": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"Written by <em>%name%</em> on %date%": #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
-#--- 50 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
-"contenttypes.generic.invalid-hyphen": # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
-"field.block.label.add-new": # "Add new..."
-"field.block.label.add-set": # "Add new %label% set"
-"field.repeater.label.add-set": # "Add new %label% set"
-"field.slug.button.generate": # "Generate from:"
-"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
-"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
-"general.phrase.clashing-relation": # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
-"general.phrase.depublish-explanation": # "If set, the record will be automatically depublished on the given date."
-"general.phrase.error-mail-options-not-set": # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
-"general.phrase.error-session-data-login": # "Unable to retrieve login session data. Please check your system's PHP session settings."
-"general.phrase.extensions-overview": # "Extensions Overview"
-"general.phrase.folder": # "Folder"
-"general.phrase.invalid-taxonomy-slug": # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
-"general.phrase.login-password-hash-failure": #
-"general.phrase.login-password-legacy": #
-"general.phrase.redirect-detected": # "Redirect detected. Check if you are still logged on."
-"general.phrase.related-content": # "Related content"
-"general.phrase.selection": # "Selection"
-"general.phrase.status-explanation": # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
-"general.phrase.warning-templatefields-loss": # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
-"nut.greeting": # "Welcome to Bolt!"
-"nut.version": # "version"
-"page.edit-users.error.email-invalid": # "This email address is not valid."
-"page.edit-users.error.password-different-email": # "Password must not match the email address."
-"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
-"page.edit-users.note-sqlite": # "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
-"page.extend.button.link-config": # "Edit configuration"
-"page.extend.button.link-marketplace": # "View on marketplace"
-"page.extend.button.link-readme": # "View README"
-"page.extend.button.link-repository": # "View source repository"
-"page.extend.button.link-uninstall": # "Uninstall extension"
-"page.extend.button.link-versions": # "Install different version"
-"page.extend.button.manage": # "Manage"
-"page.extend.button.package-dependencies": # "Identify installed packages requiring this"
-"page.extend.headline.bundled": # "Bundled Extensions"
-"page.extend.listheader.class": # "Class"
-"page.extend.listheader.name": # "Name"
-"page.extend.message.autoloader-start": # "Loading Composer autoload dumper"
-"page.extend.message.autoloader-update": # "Updating Composer autoloader"
-"page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
-"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-"page.extend.message.installation-running": # "Installation running"
-"page.extend.message.invalid-theme-source-dir": # "Invalid theme source directory: %SOURCE%"
-"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
-"page.extend.message.package-dependencies": # "Packages that depend on this"
-"page.extend.message.running-update-all": # "Running updates"
-"page.extend.options": # "Extension Options"
-"page.extend.theme.generation.failure": # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
-"page.file-management.message.upload-not-writable": # "Unable to write to upload destination. Check permissions on %TARGET%"
+contenttypes.generic.invalid-hyphen: #
 
-#--- 82 translations ----------------------------------------------------------
+field.block.label.add-new: #
+field.block.label.add-set: #
+
+field.repeater.label.add-set: #
+
+field.slug.button.generate: #
+
+general.phrase.changelog-not-enabled: #
+general.phrase.changelog-note: #
+general.phrase.clashing-relation: #
+general.phrase.database-check: #
+general.phrase.database-update-required-post: #
+general.phrase.database-update-required-pre: #
+general.phrase.depublish-explanation: #
+general.phrase.error-mail-options-not-set: #
+general.phrase.error-session-data-login: #
+general.phrase.extensions-overview: #
+general.phrase.folder: #
+general.phrase.invalid-taxonomy-slug: #
+general.phrase.login-password-hash-failure: #
+general.phrase.login-password-legacy: #
+general.phrase.redirect-detected: #
+general.phrase.related-content: #
+general.phrase.selection: #
+general.phrase.status-explanation: #
+general.phrase.warning-templatefields-loss: #
+
+menu.configuration.checks: #
+
+nut.greeting: #
+
+nut.version: #
+
+page.checks.php-pass: #
+page.checks.php-problem: #
+page.checks.show-all: #
+page.checks.show-failed: #
+page.checks.system-pass: #
+page.checks.system-problem: #
+
+page.edit-users.error.email-invalid: #
+page.edit-users.error.password-different-email: #
+page.edit-users.error.password-long: #
+page.edit-users.note-sqlite: #
+
+page.extend.button.link-config: #
+page.extend.button.link-marketplace: #
+page.extend.button.link-readme: #
+page.extend.button.link-repository: #
+page.extend.button.link-uninstall: #
+page.extend.button.link-versions: #
+page.extend.button.manage: #
+page.extend.button.package-dependencies: #
+page.extend.error-message-connection: #
+page.extend.headline.bundled: #
+page.extend.listheader.class: #
+page.extend.listheader.name: #
+page.extend.message.autoloader-start: #
+page.extend.message.autoloader-update: #
+page.extend.message.bad-json: #
+page.extend.message.ext-dir-missing: #
+page.extend.message.installation-running: #
+page.extend.message.invalid-theme-source-dir: #
+page.extend.message.loading-disabled: #
+page.extend.message.package-dependencies: #
+page.extend.message.running-update-all: #
+page.extend.options: #
+page.extend.theme.generation.failure: #
+
+page.file-management.message.upload-not-writable: #
+
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(tema padrão)"
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
-"Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Tem a certeza de que deseja eliminar %FILENAME%?"
-"Are you sure you want to delete %username%?": "Tem a certeza de que deseja eliminar %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "Tem a certeza de que deseja realizar isto para %NUMBER% registos?"
-"Are you sure you want to do this for 1 record?": "Tem a certeza de que deseja realizar isto para 1 registo?"
-"Are you sure you want to remove these files?": "Tem a certeza que deseja eliminar estes ficheiros?"
-"Are you sure you want to remove these images?": "Tem a certeza que quer eliminar estas imagens?"
-"Are you sure you want to remove this file?": "Tem a certeza que deseja remover este ficheiro?"
-"Are you sure you want to remove this image?": "Tem a certeza que deseja eliminar esta imagem?"
-"Are you sure you wish to delete this record? There is no undo.": "Tem a certeza que deseja eliminar este registo? Não será possível reverter."
 "Body": "Corpo"
 "Categories": "Categorias"
 "Category": "Categoria"
 "Choose an entry": "Escolha um artigo"
-"Client error: %errormessage%": "Erro de cliente - %errormessage%"
 "Content": "Conteúdo"
 "Current (saved) status:": "Estado atual (guardado):"
 "Date": "Data"
@@ -113,14 +138,10 @@
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "O pacote de extensão %NAME% tem uma classe base '%CLASS%' que não implementa Bolt-Extension-ExtensionInterface e que ignorada."
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "O pacote de extensão %NAME% tem uma classe inválida '%CLASS%' e que foi ignorada."
-"Extension server returned an error: %errormessage%": "O servidor de extensões devolveu um erro: %errormessage%"
 "File": "Ficheiro"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
 "Filelist": "Lista de ficheiros"
 "Floatfield": "Campo flutuante"
-"Generic failure while testing connection to extension server: %errormessage%": "Falha genérica ao testar a ligação ao servidor de extensões: %errormessage%"
 "Geolocation": "Geolocalização"
 "Group": "Grupo"
 "Groups": "Grupos"
@@ -144,7 +165,6 @@
 "Tags": "Etiquetas"
 "Teaser": "Antevisão"
 "Template": "Tema"
-"Testing connection to extension server failed: %errormessage%": "Falha ao testar a ligação ao servidor de extensões: %errormessage%"
 "Textarea": "Área de texto"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
@@ -163,9 +183,8 @@
 "Video": "Vídeo"
 "View (saved version) on site": "Visualizar (versão guardada) no sítio"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
-"filtered by <em>'%filter%'</em>": "filtrados por <em>'%filter%'</em>"
 
-#--- 482 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Ações para %contenttypes%"
 contenttypes.generic.actions-one: "Ações para %contenttype%"
@@ -277,6 +296,7 @@ general.phrase.by: "por"
 general.phrase.cancel: "Cancelar"
 general.phrase.change-current-status: "Clique para alterar o estado atual."
 general.phrase.change-log: "Registo de alterações"
+general.phrase.changelog-what-changed: "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 general.phrase.check-again: "Verificar novamente"
 general.phrase.check-database: "Verificar base de dados"
 general.phrase.choose-record-link-to: "Por favor, escolha o registo a que deseja ligar"
@@ -291,6 +311,15 @@ general.phrase.code-colon: "Código:"
 general.phrase.collapse-sidebar: "Minimizar barra lateral"
 general.phrase.configuration: "Configurações"
 general.phrase.configuration-main: "Configurações principais"
+general.phrase.confirm-delete-file: "Tem a certeza de que deseja eliminar %FILENAME%?"
+general.phrase.confirm-delete-user: "Tem a certeza de que deseja eliminar %username%?"
+general.phrase.confirm-record-multiple: "Tem a certeza de que deseja realizar isto para %NUMBER% registos?"
+general.phrase.confirm-record-single: "Tem a certeza de que deseja realizar isto para 1 registo?"
+general.phrase.confirm-remove-file: "Tem a certeza que deseja remover este ficheiro?"
+general.phrase.confirm-remove-files: "Tem a certeza que deseja eliminar estes ficheiros?"
+general.phrase.confirm-remove-image: "Tem a certeza que deseja eliminar esta imagem?"
+general.phrase.confirm-remove-images: "Tem a certeza que quer eliminar estas imagens?"
+general.phrase.confirm-remove-record: "Tem a certeza que deseja eliminar este registo? Não será possível reverter."
 general.phrase.content-type-permissions: "Permissões de tipos de conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 general.phrase.create-user-first: "Criar o primeiro utilizador"
@@ -337,6 +366,7 @@ general.phrase.file-not-writable: "O arquivo '%s' não é gravável. Você preci
 general.phrase.file-size: "Tamanho do ficheiro"
 general.phrase.file-upload-failed: "Não foi possível carregar os ficheiros."
 general.phrase.filter: "Filtro"
+general.phrase.filtered-by: "filtrados por"
 general.phrase.find: "Pesquisar"
 general.phrase.floating-point-required-bang: "Tem de ser um número de ponto flutuante!"
 general.phrase.folders: "Pastas"
@@ -500,7 +530,6 @@ general.phrase.written-by-on: "Escrito por <em>%name%</em> em %date%"
 
 general.visit-bolt: "Visitar Bolt.cm"
 
-generic.noscript.headline: "Javascript desativado"
 generic.noscript.message: "O Javascript está desativado no seu navegador. A maioria das funcionalidades do Bolt não funcionarão corretamente. Continuar a trabalhar sem o ativar pode corromper ou perder dados."
 
 logs.change-log: "Registo de alterações"
@@ -514,11 +543,6 @@ logs.system-log.cleared: "O registo de sistema foi limpo."
 logs.system-log.trimmed: "O registo de sistema foi reduzido."
 
 menu.configuration.routing: "Configuração de Roteamentos"
-
-page.checks.run-all: "Executar todas as verificações"
-page.checks.run-directory-checks: "Executar verificações de diretórios"
-page.checks.run-email-checks: "Executar verificações de email"
-page.checks.run-php-ext-checks: "Executar verificações de extensão PHP"
 
 page.ckeditor-browse-server.files: "Ficheiros"
 page.ckeditor-browse-server.modified: "Modificado"
@@ -537,7 +561,6 @@ page.edit-file.note-related: "Nota, este ficheiro tem ficheiros relacionados:"
 page.edit-file.title.edit: "Editar ficheiro"
 page.edit-file.title.view: "Ver ficheiro"
 
-page.edit-locale.button.save: "Guardar"
 page.edit-locale.title.edit: "Editar ficheiro"
 page.edit-locale.title.view: "Ver ficheiro"
 
@@ -587,8 +610,13 @@ page.extend.button.show-all-versions: "Mostrar todas as versões"
 page.extend.button.update-all: "Executar todas as atualizações"
 page.extend.button.update-check: "Executar verificador de atualizações"
 page.extend.button.update-package: "Pacote de atualização"
+page.extend.error-class-implement: "O pacote de extensão %NAME% tem uma classe base '%CLASS%' que não implementa %TARGET% e que ignorada."
+page.extend.error-class-invalid: "O pacote de extensão %NAME% tem uma classe inválida '%CLASS%' e que foi ignorada."
 page.extend.error-composer-json-not-readable: "O ficheiro composer.json das extensões Bolt não é legível."
 page.extend.error-composer-json-not-writable: "O ficheiro composer.json das extensões Bolt não é editável."
+page.extend.error-message-client: "Erro de cliente - %errormessage%"
+page.extend.error-message-generic: "%errormessage%\": \"Falha genérica ao testar a ligação ao servidor de extensões: %errormessage%\""
+page.extend.error-message-server: "O servidor de extensões devolveu um erro: %errormessage%"
 page.extend.headline.currently-installed: "As suas extensões atualmente instaladas"
 page.extend.headline.install-new-extension: "Instalar uma nova extensão"
 page.extend.headline.installation-complete: "Instalação concluída"

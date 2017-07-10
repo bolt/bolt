@@ -34,8 +34,8 @@
                 <form action="{{ path('useraction', {'action': 'delete', 'id': user.id}) }}" method="post">
                     {{ include('@bolt/_sub/_csrf_token.twig') }}
                     <button type="submit" class="btn btn-block btn-link confirm"
-                    data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}" >
-                        <span class="pull-left">{{ __('general.phrase.delete-user-name',{'%username%':user.displayname}) }}</span>
+                    data-confirm="{{ __('general.phrase.confirm-delete-user', { '%username%': user.displayname }) }}" >
+                        <span class="pull-left">{{ __('general.phrase.delete-user-name', { '%username%': user.displayname }) }}</span>
                     </button>
                 </form>
             </li>

@@ -1,67 +1,84 @@
 # app/resources/translations/de_DE/messages.de_DE.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#   3 untranslated messages
-#  15 untranslated keyword based messages
-#  89 translations
-# 517 keyword based translations
+#   0 Unused messages
+#  19 Legacy untranslated messages
+#  22 Untranslated messages
+#  71 Legacy translation messages
+# 531 Translation messages
 
-#--- 3 untranslated messages --------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
+"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
+"Alas, no about!": #
+"Content for home not found!": #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
+"Latest entries": #
+"No recent %contenttype%.": #
+"No results found for '%search%'. Please try another search.": #
+"Overview for": #
+"Permalink": #
+"Read more": #
+"Recent %contenttypes%": #
+"Related content:": #
+"Search results for <b> %search% </b>.": #
+"Search…": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
+"Written by <em>%name%</em> on %date%": #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
-#--- 15 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
-"field.block.label.add-new": # "Add new..."
-"field.block.label.add-set": # "Add new %label% set"
-"field.repeater.label.add-set": # "Add new %label% set"
-"general.phrase.changelog-not-enabled": # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
-"general.phrase.changelog-note": # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
-"general.phrase.extensions-overview": # "Extensions Overview"
-"general.phrase.folder": # "Folder"
-"general.phrase.login-password-hash-failure": #
-"general.phrase.login-password-legacy": #
-"page.edit-users.error.email-invalid": # "This email address is not valid."
-"page.edit-users.error.password-different-email": # "Password must not match the email address."
-"page.edit-users.error.password-long": # "This value is too long. It should have 128 characters or less."
-"page.extend.headline.bundled": # "Bundled Extensions"
-"page.extend.listheader.class": # "Class"
-"page.extend.listheader.name": # "Name"
+field.block.label.add-new: #
+field.block.label.add-set: #
 
-#--- 89 translations ----------------------------------------------------------
+field.repeater.label.add-set: #
+
+general.phrase.changelog-not-enabled: #
+general.phrase.changelog-note: #
+general.phrase.extensions-overview: #
+general.phrase.folder: #
+general.phrase.login-password-hash-failure: #
+general.phrase.login-password-legacy: #
+
+menu.configuration.checks: #
+
+page.checks.php-pass: #
+page.checks.php-problem: #
+page.checks.show-all: #
+page.checks.show-failed: #
+page.checks.system-pass: #
+page.checks.system-problem: #
+
+page.edit-users.error.email-invalid: #
+page.edit-users.error.password-different-email: #
+page.edit-users.error.password-long: #
+
+page.extend.headline.bundled: #
+page.extend.listheader.class: #
+page.extend.listheader.name: #
+
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
 "(no group)": "(keine Gruppe)"
 "(none)": "(nichts)"
-"Add a brief, optional comment to describe what's changed.": "Optional: Kommentieren Sie kurz, was sich geändert hat."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-default'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Es gab einen Fehler beim Updaten von `%TABLE%`. Der Error lautet %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Sind Sie sicher, dass Sie %FILENAME% löschen möchten?"
-"Are you sure you want to delete %username%?": "Sicher, dass Sie %username% löschen möchten?"
-"Are you sure you want to do this for %NUMBER% records?": "Bist du dir sicher, dass du dies für %NUMBER% Einträge tun willst?"
-"Are you sure you want to do this for 1 record?": "Bist du dir sicher, dass du dies für 1 Eintrag tun willst?"
-"Are you sure you want to remove these files?": "Bist du dir sicher, dass du diese Dateien löschen willst?"
-"Are you sure you want to remove these images?": "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
-"Are you sure you want to remove this file?": "Sind Sie sicher, dass Sie diese Datei entfernen möchten?"
-"Are you sure you want to remove this image?": "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
-"Are you sure you wish to delete this record? There is no undo.": "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
 "Body": "Inhalt"
 "Categories": "Kategorien"
 "Category": "Kategorie"
 "Choose an entry": "Eintrag auswählen"
-"Client error: %errormessage%": "Client-Fehler: %errormessage%"
 "Content": "Inhalt"
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"
 "Date": "Datum"
@@ -73,15 +90,11 @@
 "Everybody": "Jeder"
 "Excerpt": "Auszug"
 "Expand sidebar": "Menü ausklappen"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Basis-Klasse '%CLASS%' der Erweiterung %NAME% hat \\\\Bolt\\\\Extension\\\\ExtensionInterface nicht implementiert und wurde übersprungen."
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Erweiterung %NAME% hat eine ungültige Klasse '%CLASS%' und wurde übersprungen."
-"Extension server returned an error: %errormessage%": "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
 "File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
 "Filelist": "Dateiliste"
 "Finding packages that require this one…": "Finde Pakete die dieses erfordern…"
 "Floatfield": "Fließkommazahl-Feld"
-"Generic failure while testing connection to extension server: %errormessage%": "Allgemeiner Fehler beim Prüfen der Verbindung zum Erweiterungsserver: %errormessage%"
 "Geolocation": "Geolokalisierung"
 "Group": "Gruppe"
 "Groups": "Gruppen"
@@ -105,9 +118,7 @@
 "Tags": "Tags"
 "Teaser": "Einleitung"
 "Template": "Vorlage"
-"Testing connection to extension server failed: %errormessage%": "Das Prüfen der Verbindung zum Erweiterungsserver ist fehlgeschlagen: %errormessage%"
 "Textarea": "Textbereich"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Die Datenbank muss aktualisiert/repariert werden. 'Configuration' > '<a href=\"%link%\">Datenbank überprüfen</a>' aufrufen um dies jetzt zu tun."
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde auf \"%newValue%\" geändert"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren Sie taxonomy.yml, um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."
@@ -128,9 +139,8 @@
 "Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
-"filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
-#--- 517 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Aktionen für %contenttypes%"
 contenttypes.generic.actions-one: "Aktionen für %contenttype%"
@@ -244,6 +254,7 @@ general.phrase.by: "von"
 general.phrase.cancel: "Abbrechen"
 general.phrase.change-current-status: "Anwählen, um momentanen Status zu ändern"
 general.phrase.change-log: "Änderungsverlauf"
+general.phrase.changelog-what-changed: "Optional: Kommentieren Sie kurz, was sich geändert hat."
 general.phrase.check-again: "Nochmals überprüfen"
 general.phrase.check-database: "Datenbank überprüfen"
 general.phrase.choose-record-link-to: "Bitte den zu verlinkenden Eintrag wählen:"
@@ -259,6 +270,15 @@ general.phrase.code-colon: "Quellcode:"
 general.phrase.collapse-sidebar: "Menü einklappen"
 general.phrase.configuration: "Konfiguration"
 general.phrase.configuration-main: "Hauptkonfiguration"
+general.phrase.confirm-delete-file: "Sind Sie sicher, dass Sie %FILENAME% löschen möchten?"
+general.phrase.confirm-delete-user: "Sicher, dass Sie %username% löschen möchten?"
+general.phrase.confirm-record-multiple: "Bist du dir sicher, dass du dies für %NUMBER% Einträge tun willst?"
+general.phrase.confirm-record-single: "Bist du dir sicher, dass du dies für 1 Eintrag tun willst?"
+general.phrase.confirm-remove-file: "Sind Sie sicher, dass Sie diese Datei entfernen möchten?"
+general.phrase.confirm-remove-files: "Bist du dir sicher, dass du diese Dateien löschen willst?"
+general.phrase.confirm-remove-image: "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
+general.phrase.confirm-remove-images: "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
+general.phrase.confirm-remove-record: "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
 general.phrase.content-type-permissions: "Datentyp-Berechtigungen"
 general.phrase.content-types: "Datentypen"
 general.phrase.create-user-first: "Den ersten Benutzer erstellen"
@@ -266,10 +286,13 @@ general.phrase.created-on-colon: "Erstellt am:"
 general.phrase.current-session-plural: "Momentane Sitzungen"
 general.phrase.dashboard: "Übersicht"
 general.phrase.databaase-up-to-date: "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
+general.phrase.database-check: "Datenbank überprüfen"
 general.phrase.database-check-update: "Datenbank prüfen/aktualisieren"
 general.phrase.database-prefill: "Datenbank füllen"
 general.phrase.database-prefill-dummy-content: "Datenbank mit Testdaten füllen"
 general.phrase.database-up-to-date-already: "Ihre Datenbank ist bereits aktuell."
+general.phrase.database-update-required-post: "aufrufen um dies jetzt zu tun."
+general.phrase.database-update-required-pre: "Die Datenbank muss aktualisiert/repariert werden. Go to 'Configuration'"
 general.phrase.delete: "Löschen"
 general.phrase.delete-directory-name: "%foldername% löschen"
 general.phrase.delete-file-name: "%filename% löschen"
@@ -308,6 +331,7 @@ general.phrase.file-not-writable: "Keine Schreibrechte für '%s'. Änderungen bi
 general.phrase.file-size: "Dateigröße"
 general.phrase.file-upload-failed: "Die Dateien konnten nicht hochgeladen werden."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "gefiltert nach"
 general.phrase.find: "Suchen"
 general.phrase.floating-point-required-bang: "Muss eine Fließkommazahl sein!"
 general.phrase.folders: "Verzeichnisse"
@@ -477,7 +501,6 @@ general.phrase.written-by-on: "Geschrieben von <em>%name%</em> am %date%"
 
 general.visit-bolt: "Besuche Bolt.cm"
 
-generic.noscript.headline: "Javascript nicht verfügbar"
 generic.noscript.message: "Javascript ist in Ihrem Browser deaktiviert. Vieles wird auch ohne funktionieren, doch um Bolt vollständig nutzen zu können, raten wir Ihnen, Javascript zu aktivieren."
 
 logs.change-log: "Änderungsverlauf"
@@ -496,11 +519,6 @@ nut.greeting: "Willkommen bei Bolt!"
 
 nut.version: "version"
 
-page.checks.run-all: "Alle Überprüfungen ausführen"
-page.checks.run-directory-checks: "Verzeichnisse überprüfen"
-page.checks.run-email-checks: "E-Mail-Einstellungen überprüfungen"
-page.checks.run-php-ext-checks: "PHP-Erweiterungen überprüfen"
-
 page.ckeditor-browse-server.files: "Dateien"
 page.ckeditor-browse-server.modified: "Bearbeitet"
 page.ckeditor-browse-server.size: "Dateigröße"
@@ -518,7 +536,6 @@ page.edit-file.note-related: "Achtung, diese Datei hat verknüpfte Dateien:"
 page.edit-file.title.edit: "Datei bearbeiten"
 page.edit-file.title.view: "Datei anzeigen"
 
-page.edit-locale.button.save: "Speichern"
 page.edit-locale.title.edit: "Datei bearbeiten"
 page.edit-locale.title.view: "Datei anzeigen"
 
@@ -577,8 +594,14 @@ page.extend.button.show-all-versions: "Zeige alle Versionen"
 page.extend.button.update-all: "Alle Aktualisierungen ausführen"
 page.extend.button.update-check: "Auf Aktualisierungen prüfen"
 page.extend.button.update-package: "Paket updaten"
+page.extend.error-class-implement: "Basis-Klasse '%CLASS%' der Erweiterung %NAME% hat %TARGET% nicht implementiert und wurde übersprungen."
+page.extend.error-class-invalid: "Erweiterung %NAME% hat eine ungültige Klasse '%CLASS%' und wurde übersprungen."
 page.extend.error-composer-json-not-readable: "composer.json der Erweiterung ist nicht lesbar."
 page.extend.error-composer-json-not-writable: "composer.json der Erweiterung ist nicht beschreibbar."
+page.extend.error-message-client: "Client-Fehler: %errormessage%"
+page.extend.error-message-connection: "Das Prüfen der Verbindung zum Erweiterungsserver ist fehlgeschlagen: %errormessage%"
+page.extend.error-message-generic: "Allgemeiner Fehler beim Prüfen der Verbindung zum Erweiterungsserver: %errormessage%"
+page.extend.error-message-server: "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
 page.extend.headline.currently-installed: "Deine derzeitig installierten Erweiterungen"
 page.extend.headline.install-new-extension: "Installiere eine neue Erweiterung"
 page.extend.headline.installation-complete: "Installation beendet"

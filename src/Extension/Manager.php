@@ -276,7 +276,10 @@ class Manager
     {
         $className = $descriptor->getClass();
         if ($this->isClassLoadable($className) === false) {
-            $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
+            $this->flashLogger->error(Trans::__(
+                'page.extend.error-class-invalid',
+                ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]
+            ));
 
             return;
         }
@@ -290,7 +293,10 @@ class Manager
                 ->setDescriptor($descriptor)
             ;
         } else {
-            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
+            $this->flashLogger->error(Trans::__(
+                'page.extend.error-class-implement',
+                ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className, '%TARGET%' => ExtensionInterface::class]
+            ));
         }
     }
 

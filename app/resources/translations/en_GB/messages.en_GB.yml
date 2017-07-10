@@ -1,77 +1,75 @@
 # app/resources/translations/en_GB/messages.en_GB.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#   7 untranslated messages
-#   2 untranslated keyword based messages
-#  85 translations
-# 530 keyword based translations
+#   0 Unused messages
+#  16 Legacy untranslated messages
+#   2 Untranslated messages
+#  74 Legacy translation messages
+# 551 Translation messages
 
-#--- 7 untranslated messages --------------------------------------------------
+#--- Legacy untranslated messages ---------------------------------------------
 
-"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Dependencies": #
-"Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
+"%contenttypes% overview": #
+"Alas, no about!": #
+"Content for home not found!": #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
+"Latest entries": #
+"No recent %contenttype%.": #
+"No results found for '%search%'. Please try another search.": #
+"Overview for": #
+"Permalink": #
+"Read more": #
+"Recent %contenttypes%": #
+"Related content:": #
+"Search results for <b> %search% </b>.": #
+"Search…": #
+"Written by <em>%name%</em> on %date%": #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
-#--- 2 untranslated keyword based messages ------------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
-"general.phrase.login-password-hash-failure": #
-"general.phrase.login-password-legacy": #
+general.phrase.login-password-hash-failure: #
+general.phrase.login-password-legacy: #
 
-#--- 85 translations ----------------------------------------------------------
+#--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
 "(no group)": "(no group)"
 "(none)": "(none)"
-"Add a brief, optional comment to describe what's changed.": "Add a brief, optional comment to describe what's changed."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Are you sure you want to delete %FILENAME%?"
-"Are you sure you want to delete %username%?": "Are you sure you want to delete %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "Are you sure you want to do this for %NUMBER% records?"
-"Are you sure you want to do this for 1 record?": "Are you sure you want to do this for 1 record?"
-"Are you sure you want to remove these files?": "Are you sure you want to remove these files?"
-"Are you sure you want to remove these images?": "Are you sure you want to remove these images?"
-"Are you sure you want to remove this file?": "Are you sure you want to remove this file?"
-"Are you sure you want to remove this image?": "Are you sure you want to remove this image?"
-"Are you sure you wish to delete this record? There is no undo.": "Are you sure you wish to delete this record? There is no undo."
 "Body": "Body"
 "Categories": "Categories"
 "Category": "Category"
 "Choose an entry": "Choose an entry"
-"Client error: %errormessage%": "Client error: %errormessage%"
 "Content": "Content"
 "Current (saved) status:": "Current (saved) status:"
 "Date": "Date"
 "Datetime": "Datetime"
+"Dependencies": "Dependencies"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
 "Do you really want to delete %FOLDERNAME%?": "Do you really want to delete %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Error reading extensions/composer.json file: %ERROR%"
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
-"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": "Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped."
-"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
-"Extension server returned an error: %errormessage%": "Extension server returned an error: %errormessage%"
 "File": "File"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
 "Filelist": "File list"
+"Finding packages that require this one…": "Finding packages that require this one…"
 "Floatfield": "Float field"
-"Generic failure while testing connection to extension server: %errormessage%": "Generic failure while testing connection to extension server: %errormessage%"
 "Geolocation": "Geolocation"
+"Group": "Group"
+"Groups": "Groups"
 "Html": "Html"
 "Image": "Image"
 "Imagelist": "Image list"
@@ -88,13 +86,12 @@
 "Selectfield": "Select field"
 "Skipped <tt>%key%</tt> (already has records)": "Skipped <tt>%key%</tt> (already has records)"
 "Slug": "Slug"
+"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 "Tag": "Tag"
 "Tags": "Tags"
 "Teaser": "Teaser"
 "Template": "Template"
-"Testing connection to extension server failed: %errormessage%": "Testing connection to extension server failed: %errormessage%"
 "Textarea": "Textarea"
-"The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now."
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
@@ -102,6 +99,7 @@
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
 "This is a checkbox": "This is a checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
+"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 "Title": "Title"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page."
 "Unable to create directory: %DIR%": "Unable to create directory: %DIR%"
@@ -115,9 +113,8 @@
 "Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
 "You've been logged on successfully.": "You've been logged on successfully."
-"filtered by <em>'%filter%'</em>": "filtered by <em>'%filter%'</em>"
 
-#--- 530 keyword based translations -------------------------------------------
+#--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
@@ -238,6 +235,7 @@ general.phrase.change-current-status: "Click to change current status."
 general.phrase.change-log: "Change Log"
 general.phrase.changelog-not-enabled: "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: "Add a brief, optional comment to describe what's changed."
 general.phrase.check-again: "Check again"
 general.phrase.check-database: "Check database"
 general.phrase.choose-record-link-to: "Please choose the record you want to link to:"
@@ -253,6 +251,15 @@ general.phrase.code-colon: "Code:"
 general.phrase.collapse-sidebar: "Collapse sidebar"
 general.phrase.configuration: "Configuration"
 general.phrase.configuration-main: "Main configuration"
+general.phrase.confirm-delete-file: "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-delete-user: "Are you sure you want to delete %username%?"
+general.phrase.confirm-record-multiple: "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: "Are you sure you wish to delete this record? There is no undo."
 general.phrase.content-type-permissions: "ContentType Permissions"
 general.phrase.content-types: "ContentTypes"
 general.phrase.create-user-first: "Create the first user"
@@ -260,10 +267,13 @@ general.phrase.created-on-colon: "Created on:"
 general.phrase.current-session-plural: "Current sessions"
 general.phrase.dashboard: "Dashboard"
 general.phrase.databaase-up-to-date: "Your database is now up to date."
+general.phrase.database-check: "Check Database"
 general.phrase.database-check-update: "Database check / update"
 general.phrase.database-prefill: "Pre-fill database"
 general.phrase.database-prefill-dummy-content: "Fill the database with Dummy Content"
 general.phrase.database-up-to-date-already: "Your database is already up to date."
+general.phrase.database-update-required-post: "to do this now."
+general.phrase.database-update-required-pre: "The database needs to be updated/repaired. Go to 'Configuration'"
 general.phrase.delete: "Delete"
 general.phrase.delete-directory-name: "Delete %foldername%"
 general.phrase.delete-file-name: "Delete %filename%"
@@ -303,6 +313,7 @@ general.phrase.file-not-writable: "The file '%s' is not writable. You will have 
 general.phrase.file-size: "File size"
 general.phrase.file-upload-failed: "Files could not be uploaded."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "filtered by"
 general.phrase.find: "Find"
 general.phrase.floating-point-required-bang: "Has to be a floating point number!"
 general.phrase.folder: "Folder"
@@ -473,7 +484,6 @@ general.phrase.written-by-on: "Written by <em>%name%</em> on %date%"
 
 general.visit-bolt: "Visit Bolt.cm"
 
-generic.noscript.headline: "JavaScript disabled"
 generic.noscript.message: "JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data."
 
 logs.change-log: "Change Log"
@@ -493,12 +503,12 @@ nut.greeting: "Welcome to Bolt!"
 
 nut.version: "version"
 
+page.checks.php-pass: "All PHP configuration checks pass!"
+page.checks.php-problem: "PHP configuration check found problems!"
 page.checks.show-all: "Show all checks"
 page.checks.show-failed: "Show only failed checks"
 page.checks.system-pass: "All system configuration checks pass!"
 page.checks.system-problem: "System configuration check found problems!"
-page.checks.php-pass: "All PHP configuration checks pass!"
-page.checks.php-problem: "PHP configuration check found problems!"
 
 page.ckeditor-browse-server.files: "Files"
 page.ckeditor-browse-server.modified: "Modified"
@@ -517,7 +527,6 @@ page.edit-file.note-related: "Note, this file has related files:"
 page.edit-file.title.edit: "Edit file"
 page.edit-file.title.view: "View file"
 
-page.edit-locale.button.save: "Save"
 page.edit-locale.title.edit: "Edit file"
 page.edit-locale.title.view: "View file"
 
@@ -579,8 +588,14 @@ page.extend.button.show-all-versions: "Show all versions"
 page.extend.button.update-all: "Run all Updates"
 page.extend.button.update-check: "Run update check"
 page.extend.button.update-package: "Update Package"
+page.extend.error-class-implement: "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
+page.extend.error-class-invalid: "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
 page.extend.error-composer-json-not-readable: "The Bolt extensions composer.json isn't readable."
 page.extend.error-composer-json-not-writable: "The Bolt extensions composer.json isn't writable."
+page.extend.error-message-client: "Client error: %errormessage%"
+page.extend.error-message-connection: "Testing connection to extension server failed: %errormessage%"
+page.extend.error-message-generic: "Generic failure while testing connection to extension server: %errormessage%"
+page.extend.error-message-server: "Extension server returned an error: %errormessage%"
 page.extend.headline.bundled: "Bundled Extensions"
 page.extend.headline.currently-installed: "Your Currently Installed Extensions"
 page.extend.headline.install-new-extension: "Install a new Extension"

@@ -1,73 +1,74 @@
-# app/resources/translations/ru/contenttypes.ru.yml – generated on 2016-05-02 21:10:09 Europe/Paris
+# app/resources/translations/ru/contenttypes.ru.yml
 
-# Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
-#          updating your translations, it's best to ask on IRC to time your contribution
-#          in order to prevent merge conflicts.
+# Warning: Translations are in the process of being moved to a new keyword
+#          based translation messages. This is an ongoing process. Translations
+#          currently in the repository are automatically mapped to the new
+#          scheme. Be aware that there can be a race condition between that
+#          process and your PR so that it will eventually be necessary to
+#          re-map your translations.
 
-#  no unused messages
-#  no untranslated messages
-#  12 untranslated keyword based messages
-#  no translations
-#  129 keyword based translations
+#   0 Unused messages
+#   0 Legacy untranslated messages
+#  16 Untranslated messages
+#   0 Legacy translation messages
+# 129 Translation messages
 
-#--- 12 untranslated keyword based messages -----------------------------------
+#--- Untranslated messages ----------------------------------------------------
 
+contenttypes.blocks.text.invalid-hyphen: # "In the ContentType for 'Block', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.blocks.text.no-proper-type: # "In the ContentType for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+contenttypes.blocks.text.not-existing: # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
+contenttypes.blocks.text.reserved-name: # "In the ContentType for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 
-"contenttypes.blocks.text.no-proper-type": # "In the contenttype for 'Block', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
-"contenttypes.blocks.text.not-existing": # "The Block you were looking for does not exist. It was probably deleted, or it never existed."
-"contenttypes.blocks.text.reserved-name": # "In the contenttype for 'Block', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
-"contenttypes.entries.description": # "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
-"contenttypes.entries.group.media": # "Media"
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.entries.text.recent-changes-one": # "Recent change to this Entry"
-"contenttypes.pages.description": # "The **Pages** contenttype can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.recent-changes-one": # "Recent change to this Page"
-"contenttypes.showcases.description": # "The **Showcases** contenttype is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+contenttypes.entries.description: # "The **Entries** ContentType can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this ContentType, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'ContentTypes' in the menu on the left."
+contenttypes.entries.group.media: # "Media"
+contenttypes.entries.text.invalid-hyphen: # "In the ContentType for 'Entry', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.entries.text.invalid-relation: # "In the ContentType for 'Entry', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+contenttypes.entries.text.recent-changes-one: # "Recent change to this Entry"
 
+contenttypes.pages.description: # "The **Pages** ContentType can be used for the more 'static' pages on your site. Things like _'about us'_, _'contact'_ or a _'disclaimer'_. To change the fields that are in this ContentType, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'ContentTypes' in the menu on the left."
+contenttypes.pages.text.invalid-hyphen: # "In the ContentType for 'Page', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.pages.text.invalid-relation: # "In the ContentType for 'Page', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+contenttypes.pages.text.recent-changes-one: # "Recent change to this Page"
 
-#--- 129 keyword based translations --------------------------------------------
-contenttypes.blocks.description": # "Сущьность **Блоки** так-называемые 'ресурсные сущности'. Это означает что они предназначены для управления более мелкими частями контента как, например, 'О нас' или 'Наши адреса' в футере страницы или похожими небольшими кусочками текста"
-contenttypes.blocks.group.block": # "Блок"
-contenttypes.blocks.name.plural": # "Блоки"
-contenttypes.blocks.name.singular": # "Блок"
-contenttypes.blocks.text.actions-all": # "Действия для Блоков"
-contenttypes.blocks.text.actions-one": # "Дейстия для этого Блока"
-contenttypes.blocks.text.created": # "Этот Блок создан"
-contenttypes.blocks.text.delete": # "Удалить Блок"
-contenttypes.blocks.text.duplicate": # "Дублировать Блок"
-contenttypes.blocks.text.duplicated-finalize": # "Содержимое дублировано. Нажмите 'Сохранить Блок' для завершения."
-contenttypes.blocks.text.edit": # "Редактировать Блок"
-contenttypes.blocks.text.invalid-field": # "Невозможно задать %field% в Блоке: Поле не верное."
-contenttypes.blocks.text.invalid-relation": # "В 'Блоке', задано отношение '%relation%' , которое не является сущьностью, пожалуйста, исправьте ошибку в contenttypes.yml"
-contenttypes.blocks.text.last-modified": # "Послендние измененные Блоки"
-contenttypes.blocks.text.new": # "Новый Блок"
-contenttypes.blocks.text.no-latest": # "Нет последних Блоков""contenttypes.blocks.text.no-recent": # "Нет недавних Блоков."
-contenttypes.blocks.text.none-available": # "Нет доступных Блоков."
-contenttypes.blocks.text.not-saved-yet": # "Блок еще не сохнанен."
-contenttypes.blocks.text.overview": # "Просмотр блоков"
-contenttypes.blocks.text.publish": # "Опубликовать Блок"
-contenttypes.blocks.text.recent": # "Недавние Блоки"
-contenttypes.blocks.text.recent-changes-one": # "Последние изменения Блока"
-contenttypes.blocks.text.recently-edited": # "Недавно отредактированные Блоки"
-contenttypes.blocks.text.save": # "Сохранить Блок"
-contenttypes.blocks.text.saved-changes": # "Изменения в Блоке не были сохранены."
-contenttypes.blocks.text.saved-new": # "Новый Блок сохранен."
-contenttypes.blocks.text.saving-impossible": # "Невозможно сохранить Блоки."
-contenttypes.blocks.text.show-more": # "Ещё Блоки"
-contenttypes.blocks.text.view": # "Просмотр Блоков"
-contenttypes.blocks.text.wrong-use-field": # "В сущности 'Блок', поле '%field%'  использует 'uses: %uses%', но поле '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
-contenttypes.showcases.group.files": # "Файлы"
-contenttypes.showcases.group.media": # "Медиа"
-contenttypes.showcases.group.other": # "Другие"
-contenttypes.showcases.group.repeater": # "Повторы"
-contenttypes.showcases.group.text": # "Текст"
-contenttypes.showcases.text.recent-changes-one": # "Недвние изменения витрины"
+contenttypes.showcases.description: # "The **Showcases** ContentType is used to show all of the available common field types. In practice, its uses are limited, but be sure to take a look to see which fields are available for use. To change (or delete) the fields that are in this ContentType, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'ContentTypes' in the menu on the left."
+contenttypes.showcases.text.invalid-hyphen: # "In the ContentType for 'Showcase', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.showcases.text.invalid-relation: # "In the ContentType for 'Showcase', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+
+#--- Translation messages -----------------------------------------------------
+
+contenttypes.blocks.description: "Сущьность **Блоки** так-называемые 'ресурсные сущности'. Это означает что они предназначены для управления более мелкими частями контента как, например, 'О нас' или 'Наши адреса' в футере страницы или похожими небольшими кусочками текста"
+contenttypes.blocks.group.block: "Блок"
+contenttypes.blocks.name.plural: "Блоки"
+contenttypes.blocks.name.singular: "Блок"
+contenttypes.blocks.text.actions-all: "Действия для Блоков"
+contenttypes.blocks.text.actions-one: "Дейстия для этого Блока"
+contenttypes.blocks.text.created: "Этот Блок создан"
+contenttypes.blocks.text.delete: "Удалить Блок"
+contenttypes.blocks.text.duplicate: "Дублировать Блок"
+contenttypes.blocks.text.duplicated-finalize: "Содержимое дублировано. Нажмите 'Сохранить Блок' для завершения."
+contenttypes.blocks.text.edit: "Редактировать Блок"
+contenttypes.blocks.text.invalid-field: "Невозможно задать %field% в Блоке: Поле не верное."
+contenttypes.blocks.text.invalid-relation: "В 'Блоке', задано отношение '%relation%' , которое не является сущьностью, пожалуйста, исправьте ошибку в contenttypes.yml"
+contenttypes.blocks.text.last-modified: "Послендние измененные Блоки"
+contenttypes.blocks.text.new: "Новый Блок"
+contenttypes.blocks.text.no-latest: "Нет последних Блоков"
+contenttypes.blocks.text.no-recent: "Нет недавних Блоков."
+contenttypes.blocks.text.none-available: "Нет доступных Блоков."
+contenttypes.blocks.text.not-saved-yet: "Блок еще не сохнанен."
+contenttypes.blocks.text.overview: "Просмотр блоков"
+contenttypes.blocks.text.publish: "Опубликовать Блок"
+contenttypes.blocks.text.recent: "Недавние Блоки"
+contenttypes.blocks.text.recent-changes-one: "Последние изменения Блока"
+contenttypes.blocks.text.recently-edited: "Недавно отредактированные Блоки"
+contenttypes.blocks.text.save: "Сохранить Блок"
+contenttypes.blocks.text.saved-changes: "Изменения в Блоке не были сохранены."
+contenttypes.blocks.text.saved-new: "Новый Блок сохранен."
+contenttypes.blocks.text.saving-impossible: "Невозможно сохранить Блоки."
+contenttypes.blocks.text.show-more: "Ещё Блоки"
+contenttypes.blocks.text.view: "Просмотр Блоков"
+contenttypes.blocks.text.wrong-use-field: "В сущности 'Блок', поле '%field%'  использует 'uses: %uses%', но поле '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+
 contenttypes.entries.group.content: "Контент"
 contenttypes.entries.name.plural: "Записи"
 contenttypes.entries.name.singular: "Запись"
@@ -132,6 +133,11 @@ contenttypes.pages.text.show-more: "Больше страниц"
 contenttypes.pages.text.view: "Обзор страниц"
 contenttypes.pages.text.wrong-use-field: "В сущности 'Pages', поле '%field%' использует 'uses: %uses%', но тип '%uses%' не существует. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
 
+contenttypes.showcases.group.files: "Файлы"
+contenttypes.showcases.group.media: "Медиа"
+contenttypes.showcases.group.other: "Другие"
+contenttypes.showcases.group.repeater: "Повторы"
+contenttypes.showcases.group.text: "Текст"
 contenttypes.showcases.name.plural: "Витрины"
 contenttypes.showcases.name.singular: "Витрина"
 contenttypes.showcases.text.actions-all: "Действия для всех витрин"
@@ -153,6 +159,7 @@ contenttypes.showcases.text.not-saved-yet: "Витрин еще не сохра�
 contenttypes.showcases.text.overview: "Обзор витрин"
 contenttypes.showcases.text.publish: "Опубликовать витрину"
 contenttypes.showcases.text.recent: "Последние витрины"
+contenttypes.showcases.text.recent-changes-one: "Недвние изменения витрины"
 contenttypes.showcases.text.recently-edited: "Последние редактированные витрины"
 contenttypes.showcases.text.reserved-name: "В сущности 'Showcases', поле '%field%' определено, которое является резеревированным именем. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
 contenttypes.showcases.text.save: "Сохранить витрину"

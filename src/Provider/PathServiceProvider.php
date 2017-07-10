@@ -3,7 +3,6 @@
 namespace Bolt\Provider;
 
 use Bolt\Configuration\PathResolver;
-use Bolt\Exception\BootException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

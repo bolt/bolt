@@ -19,7 +19,7 @@
     {% endif %}
     {% if context.files|length > 0 %}
         {{ data('files.msg.rename_file', __('page.file-management.message.create-file')) }}
-        {{ data('files.msg.delete_file', __('Are you sure you want to delete %FILENAME%?')) }}
+        {{ data('files.msg.delete_file', __('general.phrase.confirm-delete-file')) }}
     {% endif %}
     {{ data('url.file.create', path('file/create')) }}
     {{ data('url.file.delete', path('file/delete')) }}
