@@ -8,26 +8,17 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  63 Legacy untranslated messages
-# 337 Untranslated messages
-#  20 Legacy translation messages
-# 202 Translation messages
+#  53 Legacy untranslated messages
+# 347 Untranslated messages
+#  19 Legacy translation messages
+# 203 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "(default template)": #
 "(no category)": #
 "(none)": #
-"Add a brief, optional comment to describe what's changed.": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Body": #
 "Current (saved) status:": #
 "Date": #
@@ -77,7 +68,6 @@
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "Video": #
 "View (saved version) on site": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -143,6 +133,7 @@ general.phrase.change-current-status: # "Click to change current status."
 general.phrase.change-log: # "Change Log"
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: # "Add a brief, optional comment to describe what's changed."
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
@@ -151,6 +142,14 @@ general.phrase.close-editor: # "Close editor"
 general.phrase.code-colon: # "Code:"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.content-type-permissions: # "ContentType Permissions"
 general.phrase.dashboard: # "Dashboard"
 general.phrase.database-check: # "Check Database"
@@ -177,6 +176,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.filtering: # "Filtering"
 general.phrase.find: # "Find"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
@@ -454,7 +454,6 @@ permissions.roles.label.owner: # "Owner"
 "(no group)": "(nessun gruppo)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
-"Are you sure you want to delete %username%?": "Sei sicuro di voler rimuovere %username%?"
 "Categories": "Categorie"
 "Category": "Categoria"
 "Choose an entry": "Scegli un inserimento"
@@ -541,6 +540,7 @@ general.phrase.clear-cache-again: "Svuota ancora la cache"
 general.phrase.clear-filter: "Svuota i filtri"
 general.phrase.clear-filter-sort: "Svuota ordine/filtro"
 general.phrase.configuration: "Configurazione"
+general.phrase.confirm-delete-user: "Sei sicuro di voler rimuovere %username%?"
 general.phrase.content-types: "Tipi di Contenuto"
 general.phrase.create-user-first: "Crea il primo utente"
 general.phrase.created-on-colon: "Creato il:"

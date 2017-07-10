@@ -8,22 +8,14 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  34 Legacy untranslated messages
-# 212 Untranslated messages
-#  49 Legacy translation messages
-# 327 Translation messages
+#  25 Legacy untranslated messages
+# 221 Untranslated messages
+#  47 Legacy translation messages
+# 329 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
@@ -48,7 +40,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -92,6 +83,14 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
 general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
@@ -112,6 +111,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
 general.phrase.folder: # "Folder"
 general.phrase.hints-colon: # "Hints:"
@@ -294,10 +294,8 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(no category)": "(没有分类)"
 "(no group)": "(没有分组)"
 "(none)": "(无)"
-"Add a brief, optional comment to describe what's changed.": "添加一个可选的简短注释描述变更。"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>带有 Loripsum 示例文本</a> 的记录"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Are you sure you want to delete %username%?": "确定要删除 %username% 吗？"
 "Body": "主体"
 "Categories": "类别"
 "Category": "类别"
@@ -428,6 +426,7 @@ general.phrase.browswer-platform: "浏览器 / 平台"
 general.phrase.by: "由"
 general.phrase.cancel: "取消"
 general.phrase.change-current-status: "点击改变当前状态。"
+general.phrase.changelog-what-changed: "添加一个可选的简短注释描述变更。"
 general.phrase.check-again: "再次检查"
 general.phrase.check-database: "检查数据库"
 general.phrase.choose-record-link-to: "请选择要链接的记录："
@@ -439,6 +438,7 @@ general.phrase.code-colon: "代码:"
 general.phrase.collapse-sidebar: "折叠侧边栏"
 general.phrase.configuration: "配置"
 general.phrase.configuration-main: "主配置文件"
+general.phrase.confirm-delete-user: "确定要删除 %username% 吗？"
 general.phrase.content-type-permissions: "内容格式的权限"
 general.phrase.content-types: "内容格式"
 general.phrase.create-user-first: "创建第一个用户"

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   6 Legacy untranslated messages
 # 175 Untranslated messages
-#  77 Legacy translation messages
-# 364 Translation messages
+#  66 Legacy translation messages
+# 375 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -227,18 +227,8 @@ panel.latest-activity.by: # "by"
 "(no category)": "(без категории)"
 "(no group)": "(нет группы)"
 "(none)": "(отсутствует)"
-"Add a brief, optional comment to describe what's changed.": "Кратко, необязательный комментарий, который описывает что изменилось."
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Вы действительно хотите удалить файл %FILENAME%?"
-"Are you sure you want to delete %username%?": "Вы действительно хотите удалить пользователя %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "Вы действительно хотите выполнить эту операцию над %NUMBER% записями?"
-"Are you sure you want to do this for 1 record?": "Вы действительно хотите выполнить эту операцию над 1 записью?"
-"Are you sure you want to remove these files?": "Вы действительно хотите удалить эти файлы?"
-"Are you sure you want to remove these images?": "Вы действительно хотите удалить эти изображения?"
-"Are you sure you want to remove this file?": "Вы действительно хотите удалить этот файл?"
-"Are you sure you want to remove this image?": "Вы действительно хотите удалить это изображение?"
-"Are you sure you wish to delete this record? There is no undo.": "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
 "Body": "Тело"
 "Categories": "Категории"
 "Category": "Категория"
@@ -299,7 +289,6 @@ panel.latest-activity.by: # "by"
 "Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"
 "You've been logged on successfully.": "Вы успешно вошли."
-"filtered by <em>'%filter%'</em>": "фильтровано через <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -391,6 +380,7 @@ general.phrase.browswer-platform: "Браузер / платформа"
 general.phrase.cancel: "Отмена"
 general.phrase.change-current-status: "Нажмите для смены статуса."
 general.phrase.change-log: "История изменений"
+general.phrase.changelog-what-changed: "Кратко, необязательный комментарий, который описывает что изменилось."
 general.phrase.check-again: "Проверить снова"
 general.phrase.check-database: "Проверить базу данных"
 general.phrase.choose-record-link-to: "Пожалуйста выберите запись, с которой вы хотите сделать связь:"
@@ -402,6 +392,15 @@ general.phrase.code-colon: "Код:"
 general.phrase.collapse-sidebar: "Свернуть боковую панель"
 general.phrase.configuration: "Настройки"
 general.phrase.configuration-main: "Основная конфигурация"
+general.phrase.confirm-delete-file: "Вы действительно хотите удалить файл %FILENAME%?"
+general.phrase.confirm-delete-user: "Вы действительно хотите удалить пользователя %username%?"
+general.phrase.confirm-record-multiple: "Вы действительно хотите выполнить эту операцию над %NUMBER% записями?"
+general.phrase.confirm-record-single: "Вы действительно хотите выполнить эту операцию над 1 записью?"
+general.phrase.confirm-remove-file: "Вы действительно хотите удалить этот файл?"
+general.phrase.confirm-remove-files: "Вы действительно хотите удалить эти файлы?"
+general.phrase.confirm-remove-image: "Вы действительно хотите удалить это изображение?"
+general.phrase.confirm-remove-images: "Вы действительно хотите удалить эти изображения?"
+general.phrase.confirm-remove-record: "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
 general.phrase.content-type-permissions: "Разрешения для сущности"
 general.phrase.content-types: "Сущности"
 general.phrase.create-user-first: "Создание первого пользователя"
@@ -440,6 +439,7 @@ general.phrase.file-not-readable-following-colon: "Следующие файлы
 general.phrase.file-not-writable: "Файл '%s' недоступен для записи. Вам придется использовать собственный редактор для внесения изменений в этот файл."
 general.phrase.file-size: "Размер файла"
 general.phrase.filter: "Фильтр"
+general.phrase.filtered-by: "фильтровано через"
 general.phrase.filtering: "Фильтрация"
 general.phrase.find: "Найти"
 general.phrase.folders: "Папки"

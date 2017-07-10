@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  21 Legacy untranslated messages
-# 157 Untranslated messages
-#  62 Legacy translation messages
-# 382 Translation messages
+#  20 Legacy untranslated messages
+# 158 Untranslated messages
+#  52 Legacy translation messages
+# 392 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -35,7 +35,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -80,6 +79,7 @@ general.phrase.error-session-data-login: # "Unable to retrieve login session dat
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.folder: # "Folder"
 general.phrase.info: # "Info"
 general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -219,19 +219,9 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(no category)": "(bez kategorii)"
 "(no group)": "(bez grupy)"
 "(none)": "(żaden)"
-"Add a brief, optional comment to describe what's changed.": "Dodaj krótki, opcjonalny komentarz do opisania tego, co się zmieniło."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Dodaj trochę przykładowych <a href='%url%' class='btn btn-default'>wpisów z tekstem Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Dodano do <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Wystąpił błąd podczas aktualizowania `%TABLE%`. Błąd %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Czy na pewno chcesz usunąć %FILENAME%?"
-"Are you sure you want to delete %username%?": "Czy na pewno chcesz usunąć %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "Czy na pewno chcesz przetworzyć %NUMBER% rekordów?"
-"Are you sure you want to do this for 1 record?": "Czy na pewno chcesz przetworzyć ten 1 rekord?"
-"Are you sure you want to remove these files?": "Czy na pewno chcesz usunąć te pliki?"
-"Are you sure you want to remove these images?": "Czy na pewno chcesz usunąć te obrazy?"
-"Are you sure you want to remove this file?": "Czy na pewno chcesz usunąć ten plik?"
-"Are you sure you want to remove this image?": "Czy na pewno chcesz usunąć ten obraz?"
-"Are you sure you wish to delete this record? There is no undo.": "Czy na pewno chcesz usunąć ten rekord? Operacja jest nieodwracalna."
 "Body": "Treść"
 "Categories": "Kategorie"
 "Category": "Kategoria"
@@ -374,6 +364,7 @@ general.phrase.by: "przez"
 general.phrase.cancel: "Anuluj"
 general.phrase.change-current-status: "Kliknij aby zmienić aktualny status."
 general.phrase.change-log: "Dziennik zmian"
+general.phrase.changelog-what-changed: "Dodaj krótki, opcjonalny komentarz do opisania tego, co się zmieniło."
 general.phrase.check-again: "Sprawdź ponownie"
 general.phrase.check-database: "Sprawdź bazę danych"
 general.phrase.choose-record-link-to: "Wproszę wybrać rekord, który chcesz linkować:"
@@ -388,6 +379,15 @@ general.phrase.code-colon: "Kod:"
 general.phrase.collapse-sidebar: "Zwiń pasek boczny"
 general.phrase.configuration: "Konfiguracja"
 general.phrase.configuration-main: "Główna konfiguracja"
+general.phrase.confirm-delete-file: "Czy na pewno chcesz usunąć %FILENAME%?"
+general.phrase.confirm-delete-user: "Czy na pewno chcesz usunąć %username%?"
+general.phrase.confirm-record-multiple: "Czy na pewno chcesz przetworzyć %NUMBER% rekordów?"
+general.phrase.confirm-record-single: "Czy na pewno chcesz przetworzyć ten 1 rekord?"
+general.phrase.confirm-remove-file: "Czy na pewno chcesz usunąć ten plik?"
+general.phrase.confirm-remove-files: "Czy na pewno chcesz usunąć te pliki?"
+general.phrase.confirm-remove-image: "Czy na pewno chcesz usunąć ten obraz?"
+general.phrase.confirm-remove-images: "Czy na pewno chcesz usunąć te obrazy?"
+general.phrase.confirm-remove-record: "Czy na pewno chcesz usunąć ten rekord? Operacja jest nieodwracalna."
 general.phrase.content-type-permissions: "Uprawnienia do Typu zawartości"
 general.phrase.content-types: "Typy zawartości"
 general.phrase.create-user-first: "Utwórz pierwszego użytkownika"

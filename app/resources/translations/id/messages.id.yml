@@ -8,35 +8,19 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  83 Legacy untranslated messages
-# 392 Untranslated messages
-#   0 Legacy translation messages
-# 147 Translation messages
+#  59 Legacy untranslated messages
+# 402 Untranslated messages
+#  13 Legacy translation messages
+# 148 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "(default template)": #
 "(no category)": #
-"(no group)": #
 "(none)": #
-"Add a brief, optional comment to describe what's changed.": #
-"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": #
 "Added to <tt>%key%</tt> '%title%'": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to delete %username%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Body": #
-"Categories": #
-"Category": #
-"Choose an entry": #
-"Content": #
 "Current (saved) status:": #
 "Date": #
 "Datetime": #
@@ -44,8 +28,6 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
-"Everybody": #
-"Excerpt": #
 "Expand sidebar": #
 "File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
@@ -56,7 +38,6 @@
 "Group": #
 "Groups": #
 "Html": #
-"Image": #
 "Imagelist": # "Image list"
 "Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
@@ -65,7 +46,6 @@
 "Markdown": #
 "Multiselect": # "Multi-select"
 "Repeater": #
-"Select a page": #
 "Select zero or more pages": #
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
@@ -73,7 +53,6 @@
 "Skipped <tt>%key%</tt> (not checked)": #
 "Slug": #
 "Tag": #
-"Tags": #
 "Teaser": #
 "Template": #
 "Textarea": #
@@ -82,9 +61,7 @@
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
-"This is a checkbox": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Title": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -97,7 +74,6 @@
 "Video": #
 "View (saved version) on site": #
 "You've been logged on successfully.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -192,6 +168,7 @@ general.phrase.author: # "Author"
 general.phrase.change-current-status: # "Click to change current status."
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.changelog-what-changed: # "Add a brief, optional comment to describe what's changed."
 general.phrase.choose-record-link-to: # "Please choose the record you want to link to:"
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.clear-cache-complete: # "Cleared cache."
@@ -200,6 +177,14 @@ general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.content-type-permissions: # "ContentType Permissions"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-prefill: # "Pre-fill database"
@@ -228,6 +213,7 @@ general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-not-writable: # "The file '%s' is not writable. You will have to use your own editor to make modifications to this file."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.filtering: # "Filtering"
 general.phrase.find: # "Find"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
@@ -527,6 +513,22 @@ permissions.roles.description.owner: # "Built-in role, only valid in the context
 permissions.roles.description.root: # "Built-in superuser role, automatically grants all permissions"
 permissions.roles.label.anonymous: # "Anonymous"
 
+#--- Legacy translation messages ----------------------------------------------
+
+"(no group)": "(Tidak ada kelompok)"
+"Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
+"Categories": "Kategori"
+"Category": "Kategori"
+"Choose an entry": "Pilih entri"
+"Content": "Konten"
+"Everybody": "Semua"
+"Excerpt": "Ringkasan"
+"Image": "Citra"
+"Select a page": "Pilih halaman"
+"Tags": "Tag-tag"
+"This is a checkbox": "Ini kotak centang"
+"Title": "Judul"
+
 #--- Translation messages -----------------------------------------------------
 
 contenttypes.generic.group.taxonomy: "Taksonomi"
@@ -566,6 +568,7 @@ general.phrase.clear-filter: "Bersihkan saringan"
 general.phrase.clear-filter-sort: "Bersihkan urutan/saringan"
 general.phrase.code-colon: "Kode"
 general.phrase.configuration: "Konfigurasi"
+general.phrase.confirm-delete-user: "Anda yakin menghapus %username%?"
 general.phrase.content-types: "Tipe Konten"
 general.phrase.create-user-first: "Buat pengguna pertama"
 general.phrase.created-on-colon: "Dibuat pada:"

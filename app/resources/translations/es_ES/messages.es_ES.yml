@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   0 Legacy untranslated messages
 #  14 Untranslated messages
-#  83 Legacy translation messages
-# 525 Translation messages
+#  72 Legacy translation messages
+# 536 Translation messages
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -40,19 +40,9 @@ page.extend.options: # "Extension Options"
 "(no category)": "(sin categoría)"
 "(no group)": "(sin grupo)"
 "(none)": "(nada)"
-"Add a brief, optional comment to describe what's changed.": "Añadir un breve comentario opcional, para describir lo que ha cambiado."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Se ha producido un error al actualizar '%TABLE%'. El error es %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "¿Seguro que quieres eliminar %FILENAME%?"
-"Are you sure you want to delete %username%?": "¿Estás seguro que quieres eliminar a %username%?"
-"Are you sure you want to do this for %NUMBER% records?": "¿Está seguro que desea hacer esto para %NUMBER% registros?"
-"Are you sure you want to do this for 1 record?": "¿Está seguro que desea hacer esto para 1 registro?"
-"Are you sure you want to remove these files?": "¿Está seguro que desea eliminar estos archivos?"
-"Are you sure you want to remove these images?": "¿Seguro que quieres borrar estas imágenes?"
-"Are you sure you want to remove this file?": "¿Seguro que quieres borrar este archivo?"
-"Are you sure you want to remove this image?": "¿Seguro que quieres borrar esta imagen?"
-"Are you sure you wish to delete this record? There is no undo.": "¿Está seguro que desea eliminar este registro? No se puede deshacer."
 "Body": "Cuerpo"
 "Categories": "Categorías"
 "Category": "Categoría"
@@ -118,7 +108,6 @@ page.extend.options: # "Extension Options"
 "Video": "Vídeo"
 "View (saved version) on site": "Ver (versión guardada) en el sitio web"
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
-"filtered by <em>'%filter%'</em>": "filtrado por <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -234,6 +223,7 @@ general.phrase.by: "por"
 general.phrase.cancel: "Cancelar"
 general.phrase.change-current-status: "Click para cambiar el estado actual"
 general.phrase.change-log: "(Registro de cambios)"
+general.phrase.changelog-what-changed: "Añadir un breve comentario opcional, para describir lo que ha cambiado."
 general.phrase.check-again: "Verficar de nuevo"
 general.phrase.check-database: "Verificar base de datos"
 general.phrase.choose-record-link-to: "Seleccione el registro al que quiere enlazar:"
@@ -249,6 +239,15 @@ general.phrase.code-colon: "Código:"
 general.phrase.collapse-sidebar: "Colapsar barra lateral"
 general.phrase.configuration: "Configuración"
 general.phrase.configuration-main: "Configuración principal"
+general.phrase.confirm-delete-file: "¿Seguro que quieres eliminar %FILENAME%?"
+general.phrase.confirm-delete-user: "¿Estás seguro que quieres eliminar a %username%?"
+general.phrase.confirm-record-multiple: "¿Está seguro que desea hacer esto para %NUMBER% registros?"
+general.phrase.confirm-record-single: "¿Está seguro que desea hacer esto para 1 registro?"
+general.phrase.confirm-remove-file: "¿Seguro que quieres borrar este archivo?"
+general.phrase.confirm-remove-files: "¿Está seguro que desea eliminar estos archivos?"
+general.phrase.confirm-remove-image: "¿Seguro que quieres borrar esta imagen?"
+general.phrase.confirm-remove-images: "¿Seguro que quieres borrar estas imágenes?"
+general.phrase.confirm-remove-record: "¿Está seguro que desea eliminar este registro? No se puede deshacer."
 general.phrase.content-type-permissions: "Permisos por tipo de contenido"
 general.phrase.content-types: "Tipos de contenido"
 general.phrase.create-user-first: "Crear el primer usuario"
@@ -301,6 +300,7 @@ general.phrase.file-not-writable: "El archivo '%s' no es editable. Necesitas usa
 general.phrase.file-size: "Tamaño del archivo"
 general.phrase.file-upload-failed: "Algunos archivos no pudieron cargarse."
 general.phrase.filter: "Filtro"
+general.phrase.filtered-by: "filtrado por"
 general.phrase.filtering: "Filtrado"
 general.phrase.find: "Buscar"
 general.phrase.floating-point-required-bang: "Tiene que ser un número de coma flotante!"

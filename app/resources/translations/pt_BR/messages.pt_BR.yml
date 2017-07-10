@@ -8,22 +8,14 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  36 Legacy untranslated messages
-# 231 Untranslated messages
-#  47 Legacy translation messages
-# 308 Translation messages
+#  27 Legacy untranslated messages
+# 240 Untranslated messages
+#  45 Legacy translation messages
+# 310 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Are you sure you want to delete %FILENAME%?": #
-"Are you sure you want to do this for %NUMBER% records?": #
-"Are you sure you want to do this for 1 record?": #
-"Are you sure you want to remove these files?": #
-"Are you sure you want to remove these images?": #
-"Are you sure you want to remove this file?": #
-"Are you sure you want to remove this image?": #
-"Are you sure you wish to delete this record? There is no undo.": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
@@ -50,7 +42,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"filtered by <em>'%filter%'</em>": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -92,6 +83,14 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
 general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
 general.phrase.dashboard: # "Dashboard"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
@@ -113,6 +112,7 @@ general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
 general.phrase.file-not-exist: # "The file '%s' doesn't exist."
 general.phrase.file-not-readable: # "The file '%s' is not readable."
 general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
 general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
 general.phrase.folder: # "Folder"
 general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
@@ -313,10 +313,8 @@ panel.latest-activity.system: # "Latest system activity"
 "(no category)": "(sem categoria)"
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
-"Add a brief, optional comment to describe what's changed.": "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
-"Are you sure you want to delete %username%?": "Tem certeza que deseja excluir %username%?"
 "Body": "Corpo"
 "Categories": "Categorias"
 "Category": "Categoria"
@@ -445,6 +443,7 @@ general.phrase.by: "por"
 general.phrase.cancel: "Cancelar"
 general.phrase.change-current-status: "Clique para alterar o status atual."
 general.phrase.change-log: "Registro de alterações"
+general.phrase.changelog-what-changed: "Adicionar um curto comentário para descrever o que mudou. (opcional)"
 general.phrase.check-again: "Verificar novamente"
 general.phrase.check-database: "Verificar banco de dados"
 general.phrase.choose-record-link-to: "Por favor, escolha o registro que deseja vincular"
@@ -456,6 +455,7 @@ general.phrase.code-colon: "Código"
 general.phrase.collapse-sidebar: "Minimizar barra lateral"
 general.phrase.configuration: "Configurações"
 general.phrase.configuration-main: "Principais Configurações"
+general.phrase.confirm-delete-user: "Tem certeza que deseja excluir %username%?"
 general.phrase.content-type-permissions: "Permissões de Tipos de Conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 general.phrase.create-user-first: "Criar o primeiro usuário"

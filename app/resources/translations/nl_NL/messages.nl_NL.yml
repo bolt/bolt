@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   9 Legacy untranslated messages
 #  35 Untranslated messages
-#  74 Legacy translation messages
-# 504 Translation messages
+#  63 Legacy translation messages
+# 515 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -72,19 +72,9 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(no category)": "(geen categorie)"
 "(no group)": "(geen groep)"
 "(none)": "(geen)"
-"Add a brief, optional comment to describe what's changed.": "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Er is een fout opgetreden tijdens het bijwerken van de '%TABLE%'. De fout is %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Weet je zeker dat je %FILENAME% wil verwijderen?"
-"Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
-"Are you sure you want to do this for %NUMBER% records?": "Weet je zeker dat je dit voor %NUMBER% records wil uitvoeren?"
-"Are you sure you want to do this for 1 record?": "Weet je zeker dat je dit wilt uitvoeren voor 1 record?"
-"Are you sure you want to remove these files?": "Weet je zeker dat je deze bestanden wil verwijderen?"
-"Are you sure you want to remove these images?": "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
-"Are you sure you want to remove this file?": "Weet je zeker dat je dit bestand wil verwijderen?"
-"Are you sure you want to remove this image?": "Weet je zeker dat je deze afbeelding wil verwijderen?"
-"Are you sure you wish to delete this record? There is no undo.": "Weet je zeker dat je dit gegeven wil verwijderen? Dit kan je niet ongedaan maken."
 "Body": "Broodtekst"
 "Categories": "Categorieën"
 "Category": "Categorie"
@@ -141,7 +131,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Video": "Video"
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
-"filtered by <em>'%filter%'</em>": "gefilterd door <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -259,6 +248,7 @@ general.phrase.change-current-status: "Klik om de huidige status aan te passen."
 general.phrase.change-log: "Changelog"
 general.phrase.changelog-not-enabled: "De changelog is niet ingeschakeld. Als je deze aanzet kan je op deze pagina alle wijzigingen aan alle ContentTypes teruglezen. Pas de code onder <code>changelog:</code> aan in je <code>config.yml</code> om de changelog in- of uit te schakelen."
 general.phrase.changelog-note: "Let op: De databasetabel blijft groeien als editors wijzigingen aanbrengen in de content. Als je deze functie inschakelt op een live-omgeving kan deze uiteindelijk veel ruimte in beslag nemen."
+general.phrase.changelog-what-changed: "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
 general.phrase.check-again: "Controleer nogmaals"
 general.phrase.check-database: "Controleer de database"
 general.phrase.choose-record-link-to: "Kies het record waarnaar je wilt linken:"
@@ -273,6 +263,15 @@ general.phrase.code-colon: "Code"
 general.phrase.collapse-sidebar: "Zijbalk invouwen"
 general.phrase.configuration: "Configuratie"
 general.phrase.configuration-main: "Algemene configuratie"
+general.phrase.confirm-delete-file: "Weet je zeker dat je %FILENAME% wil verwijderen?"
+general.phrase.confirm-delete-user: "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
+general.phrase.confirm-record-multiple: "Weet je zeker dat je dit voor %NUMBER% records wil uitvoeren?"
+general.phrase.confirm-record-single: "Weet je zeker dat je dit wilt uitvoeren voor 1 record?"
+general.phrase.confirm-remove-file: "Weet je zeker dat je dit bestand wil verwijderen?"
+general.phrase.confirm-remove-files: "Weet je zeker dat je deze bestanden wil verwijderen?"
+general.phrase.confirm-remove-image: "Weet je zeker dat je deze afbeelding wil verwijderen?"
+general.phrase.confirm-remove-images: "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
+general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wil verwijderen? Dit kan je niet ongedaan maken."
 general.phrase.content-type-permissions: "Content type permissies"
 general.phrase.content-types: "Contenttypen"
 general.phrase.create-user-first: "Maak de eerste gebruiker aan"
@@ -322,6 +321,7 @@ general.phrase.file-not-writable: "Het bestand '%s' is niet schrijfbaar. Gebruik
 general.phrase.file-size: "Bestandsgrootte"
 general.phrase.file-upload-failed: "De bestanden konden niet worden geüpload."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "gefilterd door"
 general.phrase.filtering: "Filteren"
 general.phrase.find: "Vind"
 general.phrase.floating-point-required-bang: "Dit moet een kommagetal zijn!"

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   0 Legacy untranslated messages
 #   7 Untranslated messages
-#  83 Legacy translation messages
-# 532 Translation messages
+#  72 Legacy translation messages
+# 543 Translation messages
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -30,19 +30,9 @@ page.extend.listheader.name: # "Name"
 "(no category)": "(keine Kategorie vergeben)"
 "(no group)": "(keine Gruppe)"
 "(none)": "(nichts)"
-"Add a brief, optional comment to describe what's changed.": "Optional: Kommentieren Sie kurz, was sich geändert hat."
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-default'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Es gab einen Fehler beim Updaten von `%TABLE%`. Der Error lautet %ERROR%"
-"Are you sure you want to delete %FILENAME%?": "Sind Sie sicher, dass Sie %FILENAME% löschen möchten?"
-"Are you sure you want to delete %username%?": "Sicher, dass Sie %username% löschen möchten?"
-"Are you sure you want to do this for %NUMBER% records?": "Bist du dir sicher, dass du dies für %NUMBER% Einträge tun willst?"
-"Are you sure you want to do this for 1 record?": "Bist du dir sicher, dass du dies für 1 Eintrag tun willst?"
-"Are you sure you want to remove these files?": "Bist du dir sicher, dass du diese Dateien löschen willst?"
-"Are you sure you want to remove these images?": "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
-"Are you sure you want to remove this file?": "Sind Sie sicher, dass Sie diese Datei entfernen möchten?"
-"Are you sure you want to remove this image?": "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
-"Are you sure you wish to delete this record? There is no undo.": "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
 "Body": "Inhalt"
 "Categories": "Kategorien"
 "Category": "Kategorie"
@@ -108,7 +98,6 @@ page.extend.listheader.name: # "Name"
 "Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
-"filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -225,6 +214,7 @@ general.phrase.by: "von"
 general.phrase.cancel: "Abbrechen"
 general.phrase.change-current-status: "Anwählen, um momentanen Status zu ändern"
 general.phrase.change-log: "Änderungsverlauf"
+general.phrase.changelog-what-changed: "Optional: Kommentieren Sie kurz, was sich geändert hat."
 general.phrase.check-again: "Nochmals überprüfen"
 general.phrase.check-database: "Datenbank überprüfen"
 general.phrase.choose-record-link-to: "Bitte den zu verlinkenden Eintrag wählen:"
@@ -241,6 +231,15 @@ general.phrase.code-colon: "Quellcode:"
 general.phrase.collapse-sidebar: "Menü einklappen"
 general.phrase.configuration: "Konfiguration"
 general.phrase.configuration-main: "Hauptkonfiguration"
+general.phrase.confirm-delete-file: "Sind Sie sicher, dass Sie %FILENAME% löschen möchten?"
+general.phrase.confirm-delete-user: "Sicher, dass Sie %username% löschen möchten?"
+general.phrase.confirm-record-multiple: "Bist du dir sicher, dass du dies für %NUMBER% Einträge tun willst?"
+general.phrase.confirm-record-single: "Bist du dir sicher, dass du dies für 1 Eintrag tun willst?"
+general.phrase.confirm-remove-file: "Sind Sie sicher, dass Sie diese Datei entfernen möchten?"
+general.phrase.confirm-remove-files: "Bist du dir sicher, dass du diese Dateien löschen willst?"
+general.phrase.confirm-remove-image: "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
+general.phrase.confirm-remove-images: "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
+general.phrase.confirm-remove-record: "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
 general.phrase.content-type-permissions: "Datentyp-Berechtigungen"
 general.phrase.content-types: "Datentypen"
 general.phrase.create-user-first: "Den ersten Benutzer erstellen"
@@ -294,6 +293,7 @@ general.phrase.file-not-writable: "Keine Schreibrechte für '%s'. Änderungen bi
 general.phrase.file-size: "Dateigröße"
 general.phrase.file-upload-failed: "Die Dateien konnten nicht hochgeladen werden."
 general.phrase.filter: "Filter"
+general.phrase.filtered-by: "gefiltert nach"
 general.phrase.filtering: "Filtern"
 general.phrase.find: "Suchen"
 general.phrase.floating-point-required-bang: "Muss eine Fließkommazahl sein!"
