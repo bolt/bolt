@@ -138,7 +138,7 @@ class TranslationFile
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('*~')
-            ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
+            ->exclude(['cache', 'config', 'database', 'resources', 'tests', 'vendor'])
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
@@ -200,8 +200,6 @@ class TranslationFile
                                 $token = $tokens[++$x];
                             }
                             $this->addTranslatable($string);
-                            //
-                            // TODO: retrieve domain?
                         }
                     }
                 }
@@ -257,8 +255,6 @@ class TranslationFile
 
     /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations.
-     *
-     * @return array
      */
     private function gatherTranslatableStrings()
     {
@@ -287,11 +283,11 @@ class TranslationFile
         // Presort
         $unusedTranslations = $savedTranslations;
         $transByType = [
-            'Unused'   => [' unused messages', []],
-            'TodoReal' => [' untranslated messages', []],
-            'TodoKey'  => [' untranslated keyword based messages', []],
-            'DoneReal' => [' translations', []],
-            'DoneKey'  => [' keyword based translations', []],
+            'Unused'   => [' Unused messages', []],
+            'TodoReal' => [' Legacy untranslated messages', []],
+            'TodoKey'  => [' Untranslated messages', []],
+            'DoneReal' => [' Legacy translation messages', []],
+            'DoneKey'  => [' Translation messages', []],
         ];
         foreach ($newTranslations as $key => $translation) {
             $set = ['trans' => $translation];
@@ -314,13 +310,12 @@ class TranslationFile
         // Build List
         $indent = '    ';
         $status = '# ' . $this->relPath . "\n\n" .
-            '# Warning: Translations are in the process of being moved to a new keyword-based translation' . "\n" .
-            '#          at the moment. This is an ongoing process. Translations currently in the' . "\n" .
-            '#          repository are automatically mapped to the new scheme. Be aware that there' . "\n" .
-            '#          can be a race condition between that process and your PR so that it\'s' . "\n" .
-            '#          eventually necessary to remap your translations. If you\'re planning on' . "\n" .
-            '#          updating your translations, it\'s best to ask on IRC to time your contribution' . "\n" .
-            '#          in order to prevent merge conflicts.' . "\n\n";
+            '# Warning: Translations are in the process of being moved to a new keyword' . "\n" .
+            '#          based translation messages. This is an ongoing process. Translations' . "\n" .
+            '#          currently in the repository are automatically mapped to the new' . "\n" .
+            '#          scheme. Be aware that there can be a race condition between that' . "\n" .
+            '#          process and your PR so that it will eventually be necessary to' . "\n" .
+            '#          re-map your translations.' . "\n\n";
         $content = '';
 
         // Set this to true to get nested output.
@@ -329,17 +324,17 @@ class TranslationFile
         foreach ($transByType as $type => $transData) {
             list($text, $translations) = $transData;
             // Header
-            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : ' no');
+            $count = (count($translations) > 0 ? sprintf('%3s', count($translations)) : '  0');
             $status .= '# ' . $count . $text . "\n";
             if (count($translations) > 0) {
-                $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
+                $content .= "\n" . '#--- ' . str_pad(ltrim($text) . ' ', 74, '-') . "\n\n";
             }
             // List
             $lastKey = [];
             $linebreak = ''; // We want an empty line before each 1st level key
             foreach ($translations as $key => $tdata) {
                 // Key
-                if ($type == 'DoneKey') {
+                if ($type === 'DoneKey' || $type == 'TodoKey') {
                     if ($nested) {
                         $differs = false;
                         for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; ++$level) {
@@ -385,43 +380,44 @@ class TranslationFile
     /**
      * Parses translations file and returns translations.
      *
-     * @return array Translations found
+     * @return array|null Translations found
      */
     private function readSavedTranslations()
     {
-        if (is_file($this->absPath) && is_readable($this->absPath)) {
-            try {
-                $savedTranslations = Yaml::parse(file_get_contents($this->absPath));
-
-                if ($savedTranslations === null) {
-                    return []; // File seems to be empty
-                } elseif (!is_array($savedTranslations)) {
-                    $savedTranslations = [$savedTranslations]; // account for file with one lin
-                }
-
-                $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
-                    if ($prefix) {
-                        $prefix .= '.';
-                    }
-                    foreach ($data as $key => $value) {
-                        if (is_array($value)) {
-                            $flatten($value, $prefix . $key);
-                        } else {
-                            $flattened[$prefix . $key] = ($value === null) ? '' : $value;
-                        }
-                    }
-                };
-                $flattened = [];
-                $flatten($savedTranslations);
-
-                return $flattened;
-            } catch (ParseException $e) {
-                $this->app['logger.flash']->danger('Unable to parse the YAML translations' . $e->getMessage());
-                // Todo: do something better than just returning an empty array
-            }
+        if (!is_file($this->absPath) || !is_readable($this->absPath)) {
+            return null;
         }
 
-        return [];
+        try {
+            $savedTranslations = Yaml::parse(file_get_contents($this->absPath), true);
+        } catch (ParseException $e) {
+            $this->app['logger.flash']->danger('Unable to parse the YAML translations' . $e->getMessage());
+
+            return null;
+        }
+
+        if ($savedTranslations === null) {
+            return []; // File seems to be empty
+        } elseif (!is_array($savedTranslations)) {
+            $savedTranslations = [$savedTranslations]; // account for file with one lin
+        }
+
+        $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
+            if ($prefix) {
+                $prefix .= '.';
+            }
+            foreach ($data as $key => $value) {
+                if (is_array($value)) {
+                    $flatten($value, $prefix . $key);
+                } else {
+                    $flattened[$prefix . $key] = ($value === null) ? '' : $value;
+                }
+            }
+        };
+        $flattened = [];
+        $flatten($savedTranslations);
+
+        return $flattened;
     }
 
     /**
@@ -460,6 +456,11 @@ class TranslationFile
     private function contentMessages()
     {
         $savedTranslations = $this->readSavedTranslations();
+        // An exception occurred when reading the file
+        if ($savedTranslations === null) {
+            return '';
+        }
+
         $this->gatherTranslatableStrings();
 
         // Find already translated strings
@@ -485,6 +486,10 @@ class TranslationFile
     private function contentContenttypes()
     {
         $savedTranslations = $this->readSavedTranslations();
+        // An exception occurred when reading the file
+        if ($savedTranslations === null) {
+            return '';
+        }
         $this->gatherTranslatableStrings();
 
         $keygen = new ContenttypesKeygen($this->app, $this->translatables, $savedTranslations);

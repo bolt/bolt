@@ -64,6 +64,7 @@ class DirectorySyncer
         if (file_exists($boltDir)) {
             /**
              * Use bootstrap.php to ensure autoloader and correct root path is used.
+             *
              * @var Application $userApp
              */
             $userApp = require $boltDir . '/app/bootstrap.php';

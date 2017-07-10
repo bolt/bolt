@@ -12,7 +12,7 @@ class Input
      * @param bool  $stripslashes
      * @param bool  $stripControlChars
      *
-     * @return string
+     * @return string|array
      */
     public static function cleanPostedData($var, $stripslashes = true, $stripControlChars = false)
     {
