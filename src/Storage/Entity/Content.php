@@ -369,6 +369,9 @@ class Content extends Entity
      */
     public function setTemplatefields($value)
     {
+        if ($value === null) {
+            $value = [];
+        }
         $this->templatefields = $value;
     }
 

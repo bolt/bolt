@@ -3,6 +3,8 @@
 namespace Bolt\Tests\Mocks;
 
 use Doctrine\DBAL;
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+use Doctrine\DBAL\Query\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -85,22 +87,23 @@ class DoctrineMockBuilder extends TestCase
     /**
      * @param \Doctrine\DBAL\Connection $connection
      *
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @return QueryBuilder|MockObject
      */
     public function getQueryBuilderMock($connection)
     {
-        $exprmock = $this->getMockBuilder(DBAL\Query\Expression\ExpressionBuilder::class)
+        $exprMock = $this->getMockBuilder(ExpressionBuilder::class)
             ->setConstructorArgs([$connection])
             ->getMock()
         ;
-        $mock = $this->getMockBuilder(DBAL\Query\QueryBuilder::class)
+        $mock = $this->getMockBuilder(QueryBuilder::class)
             ->setConstructorArgs([$connection])
             ->setMethods(['expr'])
             ->getMock()
         ;
         $mock->expects($this->any())
             ->method('expr')
-            ->will($this->returnValue($exprmock));
+            ->will($this->returnValue($exprMock));
+
 
         return $mock;
     }

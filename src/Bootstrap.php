@@ -99,6 +99,7 @@ class Bootstrap
                     }
                 }
 
+                /** @var \Bolt\Configuration\ResourceManager $resources */
                 if ($passPathResolverFactory) {
                     $pathResolverFactory = $pathResolverFactoryFactory(null);
                     $resources = new $resourcesClass($rootPath, null, $pathResolverFactory);
@@ -106,7 +107,6 @@ class Bootstrap
                     $resources = new $resourcesClass($rootPath);
                 }
             }
-            /** @var \Bolt\Configuration\ResourceManager $resources */
 
             // Set any non-standard paths
             foreach ((array) $config['paths'] as $name => $path) {

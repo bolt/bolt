@@ -6,7 +6,6 @@ use Bolt\Configuration\ForwardToPathResolver;
 use Bolt\Configuration\LazyPathsProxy;
 use Bolt\Configuration\PathResolverFactory;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Exception\BootException;
 use Bolt\Helpers\Deprecated;
 use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Silex\Application;
