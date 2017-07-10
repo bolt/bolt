@@ -30,7 +30,7 @@ class TranslatorTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('JavaScript disabled', Translator::__('generic.noscript.headline'));
+        $this->assertEquals('About Bolt', Translator::__('general.about-bolt'));
     }
 
     public function testContenttypes()
