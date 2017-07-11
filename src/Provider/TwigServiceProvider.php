@@ -15,6 +15,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
+use Twig\Extension\StringLoaderExtension;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
@@ -263,7 +264,7 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         $app['twig.extension.string_loader'] = $app->share(
             function () {
-                return new \Twig_Extension_StringLoader();
+                return new StringLoaderExtension();
             }
         );
 
