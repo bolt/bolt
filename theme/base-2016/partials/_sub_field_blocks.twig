@@ -3,7 +3,7 @@
     <div {% if key is not empty %}data-bolt-field="{{ key }}"{% endif %}>
         {%- autoescape false -%}
             {# If 'allowtwig' is true for this field, we'll need to parse it as Twig here. #}
-            {% if allowtwig|default(false) %}{{ value|twig }}{% else %}{{ value }}{% endif -%}
+            {% if allowtwig|default(false) %}{{ include(template_from_string(value)) }}{% else %}{{ value }}{% endif -%}
         {%- endautoescape -%}
     </div>
 {% endblock %}
@@ -12,7 +12,7 @@
 {% block markdown_field %}
     <div {% if key is not empty %}data-bolt-field="{{ key }}"{% endif %}>
         {# If 'allowtwig' is true for this field, we'll need to parse it as Twig here. #}
-        {% if allowtwig|default(false) %}{{ value|twig|markdown }}{% else %}{{ value|markdown }}{% endif -%}
+        {% if allowtwig|default(false) %}{{ include(template_from_string(value))|markdown }}{% else %}{{ value|markdown }}{% endif -%}
     </div>
 {% endblock %}
 
