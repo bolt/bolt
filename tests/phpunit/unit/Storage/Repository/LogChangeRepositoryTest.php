@@ -166,11 +166,6 @@ class LogChangeRepositoryTest extends BoltUnitTest
         $this->assertEquals(
             'SELECT * FROM bolt_log_change log_change ORDER BY chips DESC',
             $query->getSql());
-
-        $query = $repo->countChangeLogQuery();
-        $this->assertEquals(
-            'SELECT COUNT(id) as count FROM bolt_log_change log_change',
-            $query->getSql());
     }
 
     public function testChangeLogByContentTypeQuery()

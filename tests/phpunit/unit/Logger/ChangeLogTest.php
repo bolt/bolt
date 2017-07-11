@@ -36,12 +36,6 @@ class ChangeLogTest extends BoltUnitTest
         $this->assertEquals(1, count($logs2));
     }
 
-    public function testLegacyCountChangeLog()
-    {
-        $count = $this->getLogChangeRepository()->countChangeLog();
-        $this->assertGreaterThanOrEqual(1, $count);
-    }
-
     public function testGetChangeLogByContentType()
     {
         $log = $this->getLogChangeRepository()->getChangeLogByContentType('pages', ['limit' => 1, 'offset' => 0, 'order' => 'id']);

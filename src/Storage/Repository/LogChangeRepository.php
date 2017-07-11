@@ -48,37 +48,6 @@ class LogChangeRepository extends BaseLogRepository
     }
 
     /**
-     * Get a count of change log entries.
-     *
-     * @deprecated since 3.3, will be removed in 4.0
-     *
-     * @return integer
-     */
-    public function countChangeLog()
-    {
-        Deprecated::method(3.3, 'Use count() instead.');
-
-        $query = $this->countChangeLogQuery();
-
-        return $this->getCount($query->execute()->fetch());
-    }
-
-    /**
-     * Build the query to get a count of change log entries.
-     *
-     * @deprecated since 3.3, will be removed in 4.0
-     *
-     * @return QueryBuilder
-     */
-    public function countChangeLogQuery()
-    {
-        $qb = $this->createQueryBuilder();
-        $qb->select('COUNT(id) as count');
-
-        return $qb;
-    }
-
-    /**
      * Get content changelog entries by content type.
      *
      * @param string $contentType ContentType key name
