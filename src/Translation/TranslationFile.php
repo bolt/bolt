@@ -71,7 +71,7 @@ class TranslationFile
     }
 
     /**
-     * Get the path to a tranlsation resource.
+     * Get the path to a translation resource.
      *
      * @return array [absolute path, relative path]
      */
@@ -127,9 +127,9 @@ class TranslationFile
     /**
      * Scan php files for  __('...' and __("..." and add the strings found to the list of translatable strings.
      *
-     * All translatables strings have to be called with:
-     * __("text", $params=[], $domain='messages', locale=null) // $app['translator']->trans()
-     * __("text", count, $params=[], $domain='messages', locale=null) // $app['translator']->transChoice()
+     * All translatable strings have to be called with:
+     * __("text", params=[], domain='messages', locale=null) // $app['translator']->trans()
+     * __("text", count, params=[], domain='messages', locale=null) // $app['translator']->transChoice()
      */
     private function scanPhpFiles()
     {
@@ -208,52 +208,6 @@ class TranslationFile
     }
 
     /**
-     *  Add fields names and labels for contenttype (forms) to the list of translatable strings.
-     */
-    private function scanContenttypeFields()
-    {
-        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-            foreach ($contenttype['fields'] as $fkey => $field) {
-                if ($field['label'] !== '') {
-                    $this->addTranslatable($field['label']);
-                } else {
-                    $this->addTranslatable(ucfirst($fkey));
-                }
-            }
-        }
-    }
-
-    /**
-     *  Add relation names and labels to the list of translatable strings.
-     */
-    private function scanContenttypeRelations()
-    {
-        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-            if (array_key_exists('relations', $contenttype)) {
-                foreach ($contenttype['relations'] as $fkey => $field) {
-                    if (isset($field['label']) && $field['label'] !== '') {
-                        $this->addTranslatable($field['label']);
-                    } else {
-                        $this->addTranslatable(ucfirst($fkey));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Add name ans singular names for taxonomies to the list of translatable strings.
-     */
-    private function scanTaxonomies()
-    {
-        foreach ($this->app['config']->get('taxonomy') as $value) {
-            foreach (['name', 'singular_name'] as $key) {
-                $this->addTranslatable($value[$key]);
-            }
-        }
-    }
-
-    /**
      * Find all twig templates and bolt php code, extract translatables strings, merge with existing translations.
      */
     private function gatherTranslatableStrings()
@@ -262,9 +216,6 @@ class TranslationFile
 
         $this->scanTwigFiles();
         $this->scanPhpFiles();
-        $this->scanContenttypeFields();
-        $this->scanContenttypeRelations();
-        $this->scanTaxonomies();
 
         ksort($this->translatables);
     }
@@ -479,44 +430,18 @@ class TranslationFile
     }
 
     /**
-     * Gets all translatable strings and returns a translationsfile for messages or contenttypes.
-     *
-     * @return string
-     */
-    private function contentContenttypes()
-    {
-        $savedTranslations = $this->readSavedTranslations();
-        // An exception occurred when reading the file
-        if ($savedTranslations === null) {
-            return '';
-        }
-        $this->gatherTranslatableStrings();
-
-        $keygen = new ContenttypesKeygen($this->app, $this->translatables, $savedTranslations);
-        $keygen->generate();
-
-        $newTranslations = $keygen->translations();
-        $hinting = $keygen->hints();
-        ksort($newTranslations);
-
-        return $this->buildNewContent($newTranslations, $savedTranslations, $hinting);
-    }
-
-    /**
-     * Gets all translatable strings and returns a translationsfile for messages or contenttypes.
+     * Gets all translatable strings and returns a translations file for
+     * messages.
      *
      * @return string
      */
     public function content()
     {
-        switch ($this->domain) {
-            case 'infos':
-                return $this->contentInfo();
-            case 'messages':
-                return $this->contentMessages();
-            default:
-                return $this->contentContenttypes();
+        if ($this->domain === 'infos') {
+            return $this->contentInfo();
         }
+
+        return $this->contentMessages();
     }
 
     /**

@@ -174,34 +174,6 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Test that the 'developer' user can edit translation Contenttype messages.
-     *
-     * @param \AcceptanceTester $I
-     */
-    public function editTranslationsContenttypeMessages(\AcceptanceTester $I)
-    {
-        $I->wantTo("See that the 'developer' user can edit translation Contenttype messages.");
-
-        // Set up the browser
-        $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/tr/contenttypes');
-
-        // Go into edit mode
-        $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
-        $I->see('The Entry you were looking for does not exist.', 'textarea');
-
-        $twig = $I->grabTextFrom('#form_contents', 'textarea');
-        $twig = str_replace('The Entry you were looking for does not exist.', 'These are not the Entries you are looking for.', $twig);
-        $I->fillField('#form_contents', $twig);
-
-        // Save it
-        $I->click('Save', '#form_submit');
-
-        $I->amOnPage('/bolt/tr/contenttypes');
-        $I->see('These are not the Entries you are looking for.', 'textarea');
-    }
-
-    /**
      * Test that the 'developer' user can view installed extensions.
      *
      * @param \AcceptanceTester $I

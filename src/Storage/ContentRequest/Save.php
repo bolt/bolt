@@ -270,10 +270,10 @@ class Save
 
         // Log the change
         if ($new) {
-            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
+            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['singular_name']]));
             $this->loggerSystem->info('Created: ' . $content->getTitle(), ['event' => 'content']);
         } else {
-            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
+            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['singular_name']]));
             $this->loggerSystem->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
