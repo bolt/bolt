@@ -33,16 +33,12 @@ class CronRepository extends Repository
      */
     public function queryNextRunTime($interimName)
     {
-        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-        $oldname = strtolower(str_replace('cron.', '', $interimName));
-
         $qb = $this->createQueryBuilder();
         $qb->select('id, lastrun, interim')
             ->where('interim = :interim')
-            ->orWhere('interim = :oldname')
             ->orderBy('lastrun', 'DESC')
             ->setParameter('interim', $interimName)
-            ->setParameter('oldname', $oldname);
+        ;
 
         return $qb;
     }
