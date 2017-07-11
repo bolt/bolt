@@ -80,14 +80,6 @@ HTML;
         $this->assertSame('SomePeople&shy;SayTheyAre&shy;ShyOtherPe&shy;opleSayThe&shy;yAreNotWha&shy;tDoYouSay', $result);
     }
 
-    public function testTwig()
-    {
-        $handler = $this->getHtmlRuntime();
-
-        $result = $handler->twig($this->getApp()['twig'], "{{ 'koala'|capitalize }}");
-        $this->assertSame('Koala', $result);
-    }
-
     /**
      * @return HtmlRuntime
      */

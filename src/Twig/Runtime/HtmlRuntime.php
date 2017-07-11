@@ -3,7 +3,6 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Config;
-use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
@@ -155,28 +154,5 @@ class HtmlRuntime
         }
 
         return $str;
-    }
-
-    /**
-     * @deprecated since 3.3. To be removed in 4.0.
-     *
-     * Formats the given string as Twig in HTML.
-     *
-     * Use template_from_string instead:
-     * http://twig.sensiolabs.org/doc/functions/template_from_string.html
-     *
-     * @param Environment $env
-     * @param string      $snippet
-     * @param array       $context
-     *
-     * @return string Twig output
-     */
-    public function twig(Environment $env, $snippet, $context = [])
-    {
-        Deprecated::warn(3.3, 'Use import(template_from_string()) instead');
-
-        $template = $env->createTemplate((string) $snippet);
-
-        return twig_include($env, $context, $template, [], true, false, true);
     }
 }

@@ -45,7 +45,6 @@ class HtmlExtension extends AbstractExtension
             new TwigFilter('markdown', [Runtime\HtmlRuntime::class, 'markdown'], $safe),
             new TwigFilter('shy',      [Runtime\HtmlRuntime::class, 'shy'], $safe),
             new TwigFilter('tt',       [Runtime\HtmlRuntime::class, 'decorateTT'], $safe),
-            new TwigFilter('twig',     [Runtime\HtmlRuntime::class, 'twig'], ['needs_environment' => true] + $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
