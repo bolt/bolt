@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="{{ htmllang() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {# make sure we always display a proper title: The record's title if there is one, appended with the
+           sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
+        <title>
+            {%- if record.title is defined %}{{ record.title|striptags }} | {% endif -%}
+                {{ config.get('general/sitename') -}}
+            {% if record.title is not defined and config.get('general/payoff') %} | {{ config.get('general/payoff') }}{% endif -%}
+        </title>
+        <link rel="stylesheet" href="{{ asset('css/normalize.css', 'theme') }}">
+        <link rel="stylesheet" href="{{ asset('css/sakura.css', 'theme') }}">
+    </head>
+    <body>
+
+        {% block body %}
+
+            {{ include('partials/_header.twig') }}
+
+            {{ widgets('main_top') }}
+
+            {% block main %}
+            {% endblock main %}
+
+            {{ widgets('main_bottom') }}
+
+            {{ include('partials/_aside.twig') }}
+
+        {% endblock body %}
+
+        {{ include('partials/_footer.twig') }}
+
+    </body>
+</html>

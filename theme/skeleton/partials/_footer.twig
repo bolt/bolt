@@ -1,0 +1,25 @@
+<!-- Footer -->
+<footer>
+    <hr>
+
+    <h4>{{ __('Menu') }}</h3>
+    {{ menu(template = 'partials/_sub_menu.twig') }}
+
+    <hr>
+
+    <form method="get" action="{{ path('search') }}" id="searchform-inline" enctype="text/plain">
+        <ul>
+            <li><input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __('general.phrase.search-ellipsis') }}" name="search"></li>
+            <li><button type="submit">{{ __('general.phrase.search') }}</button></li>
+        </ul>
+    </form>
+
+    <hr>
+
+    <p>
+        {{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
+    </p>
+
+    {{ widgets('footer') }}
+
+</footer>

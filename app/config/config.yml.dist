@@ -13,11 +13,12 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the {theme_path}/base-2016 folder, and
-# change the name here accordingly.
+# Select a theme to use. Bolt ships with two themes: `base-2016` and `skeleton`.
+# Be sure to copy the `{theme_path}/base-2016` or `{theme_path}/skeleton`
+# folder, and change the name here accordingly, before making modifications.
 #
-# Don't edit the templates in theme/base-2016, because they _will_ get updated
-# in next releases
+# Don't edit the templates in theme/base-2016 or theme/skeleton, because they
+# _will_ get updated in next releases.
 theme: base-2016
 
 # The locale that'll be used by the application. If no locale is set the
