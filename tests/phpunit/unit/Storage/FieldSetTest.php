@@ -14,7 +14,7 @@ class FieldSetTest extends BoltUnitTest
     public function testSetWithNormalValues()
     {
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $entity = $repo->create(['title' => 'This is a title']);
