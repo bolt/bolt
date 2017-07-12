@@ -47,7 +47,7 @@ class ScriptHandler
         $syncer = DirectorySyncer::fromEvent($event);
 
         $syncer->sync('files', 'files');
-        $syncer->sync('themes', 'themes');
+        $syncer->sync('%vendor%/bolt/themes', 'themes', true, ['base-2016', 'skeleton']);
     }
 
     /**
