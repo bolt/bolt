@@ -1,0 +1,85 @@
+{# If 'allowtwig' is true for this field, we'll need to parse it as
+   Twig here. Note, that we're doing this inside a block, so the
+   snippet has a limited scope. No global variables, etc. #}
+{% block text_field %}
+    {% if contenttype.fields[key].allowtwig|default(false) %}
+        {% set value = value|twig %}
+    {% endif %}
+    {% if fieldtype == "markdown" %}
+        {% set value = value|markdown %}
+    {% endif %}
+    {% autoescape false %}
+    <div {% if key is not empty %}data-bolt-field="{{ key }}"{% endif %}>{{ value }}</div>
+    {% endautoescape %}
+{% endblock %}
+
+{% block imagelist_field %}
+    <div class="bolt-imagelist">
+        {% for image in images %}
+            <div class="bolt-imageholder">
+                {{ popup(image.filename, 200, 0) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{# Block for "basic" fields like HTML, Markdown, Textarea and Text #}
+{% block common_fields %}
+
+    {# HTML, Markdown, Textarea, Text fields #}
+    {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
+        {{ block('text_field') }}
+    {% endif %}
+
+    {# Image fields #}
+    {% if fieldtype == "image" and value['file'] is not empty %}
+        {{ value|showimage('684') }}
+    {% endif %}
+
+    {# Video fields #}
+    {% if fieldtype == "video" and value.responsive|default is not empty %}
+        <div class="flex-video {{ value.ratio|default(1) > 1.5 ? 'widescreen' }}">
+            {{ value.responsive }}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{# Block for other field types, like Geo, Select, Checkbox and others. #}
+{% block extended_fields %}
+
+        {# Geolocation field #}
+        {% if fieldtype == "geolocation" and value.latitude is defined %}
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
+        {% endif %}
+
+        {# Special case for 'select' fields: if it's a multiple select, the value is an array. #}
+        {% if fieldtype == "select" and value is not empty %}
+            <p><strong>{{ key }}: </strong>
+                {{ value|join(", ") }}
+            </p>
+        {% endif %}
+
+        {# Checkbox fields #}
+        {% if fieldtype == "checkbox" %}
+                <p>Checkbox {{ key }}: {{value ? "checked" : "not checked"}}</p>
+        {% endif %}
+
+        {# Imagelist fields #}
+        {% if fieldtype == "imagelist" and value is not empty %}
+            {{ block('imagelist_field') }}
+        {% endif %}
+
+        {# No special case defined for this type of field. We just output them, if it's
+           a simple scalar, and 'dump' them otherwise. #}
+        {% if fieldtype in [ 'filelist', 'datetime', 'date', 'integer', 'float' ] and value is not empty  %}
+            <p><strong>{{ key }}: </strong>
+                {% if value is iterable %}
+                    {{ dump(value) }}
+                {% else %}
+                    {{ value }}
+                {% endif %}
+            </p>
+        {% endif %}
+
+{% endblock %}

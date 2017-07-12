@@ -1,0 +1,74 @@
+<!-- Sidebar -->
+<aside>
+
+    <hr>
+
+    {{ widgets('aside_top') }}
+
+    {# This part is only shown if there are no widgets in the 'aside_top' widgets slot. #}
+    <div>
+        {# The next section attempts to fill the panel in the sidebar with the contents of the
+            'about-us'-block, if it exists. First, attempt to fetch the block with slug 'about-us' #}
+        {% setcontent block = "block/about-us" %}
+
+        {# check if we have a title. If so, we know we have content to display. Otherwise, we will
+            output a default text, telling the user to create the 'blocks' in the backend. #}
+        {% if block.title is defined %}
+
+            <h5>{{ block.title }}</h5>
+            {{ block.content }}
+
+            {% set edit_link = block.editlink() %}
+            {% set content_link = block.contentlink|default() %}
+            {% if content_link or edit_link %}
+                <p>
+                {%- if content_link %}
+                   <a href="{{ relative_path(content_link|e) }}">{{ __('general.phrase.read-more') }}</a>
+                {% endif -%}
+                {%- if edit_link %}
+                    / <a href="{{ edit_link }}">{{ __('general.phrase.edit') }}</a>
+                {% endif -%}
+                </p>
+            {% endif %}
+
+        {% else %}
+
+            <h5>{{ __('general.phrase.missing-about-page') }}</h5>
+
+            <p>{{ __('general.phrase.missing-about-page-block') }}</p>
+
+        {% endif %}
+
+    </div>
+
+
+    {# The next section iterates over all of the contenttypes, and prints a list
+        of the five latest records of each of them. The 'magic' happens in the
+        setcontent tag.. ct.slug ~ "/latest/3" concatenates the slug of the
+        contenttype with /latest/3, so it becomes something like "pages/latest/3".
+        The 'else' in the inner for-loop is only used if there are no 'records',
+        so we can use it to print a helpful message.
+        Lastly, "path('contentlisting', {'contenttypeslug': ct.slug})" will output something like '/pages',
+        effectively creating a working link to that contenttpye's listing page. #}
+
+    {% for ct in config.get('contenttypes') if not ct.viewless|default(false) %}
+
+        {% setcontent records = ct.slug ~ "/latest/3" %}
+
+        <h5>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct.slug}) }}</h5>
+        <ul>
+            {% for record in records %}
+                <li><a href="{{ record.link }}">{{ record.title }}</a></li>
+            {% else %}
+                <li>{{ __('contenttypes.generic.no-recent', {'%contenttype%': ct.slug}) }}</li>
+            {% endfor %}
+        </ul>
+        <p><a href="{{ path('contentlisting', {'contenttypeslug': ct.slug}) }}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct.slug}) }} &raquo;</a></p>
+
+
+    {% endfor %}
+
+    {{ widgets('aside_bottom') }}
+
+</aside>
+<!-- End Sidebar -->

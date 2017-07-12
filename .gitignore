@@ -10,6 +10,7 @@ thumbs/
 vendor/
 theme/*
 !theme/base-*
+!theme/skeleton
 composer.lock
 
 # Bolt development files

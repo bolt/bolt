@@ -1,0 +1,22 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+    {% if record is defined %}
+
+        <h1>{{ record.title }}</h1>
+
+        {# Remove this block if you don't need it anymore. #}
+        {{ include('partials/_fresh_install.twig') }}
+
+        {{ record.teaser }}
+
+        {{ popup(record.image, 1200, 500) }}
+
+        {{ record.body }}
+
+        {{ include('partials/_recordfooter.twig', { 'record': record }) }}
+
+    {% endif %}
+
+{% endblock main %}

@@ -1,0 +1,10 @@
+<!-- Header bar -->
+<header>
+    {# the values in the 'config' object are taken directly from the file app/config/config.yml #}
+    <h2><a href="{{ path('homepage') }}">{{ config.get('general/sitename') }}</a></h2>
+    {% if config.get('general/payoff') %}
+        <p>{{ config.get('general/payoff') }}</p>
+    {% endif %}
+
+    <hr>
+</header>
