@@ -89,6 +89,11 @@
         "sorien/silex-pimple-dumper": "^1.0",
         "symfony/phpunit-bridge": "^2.8"
     },
+    "scripts": {
+        "post-update-cmd": [
+            "Bolt\\Composer\\ScriptHandler::installThemesAndFiles"
+        ]
+    },
     "conflict": {
         "rossriley/flysystem53": "*"
     },
