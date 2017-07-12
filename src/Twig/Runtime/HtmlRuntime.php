@@ -3,6 +3,7 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Config;
+use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
@@ -195,6 +196,8 @@ class HtmlRuntime
      */
     public function twig(Environment $env, $snippet, $context = [])
     {
+        Deprecated::warn(3.3, 'Use import(template_from_string()) instead');
+
         $template = $env->createTemplate((string) $snippet);
 
         return twig_include($env, $context, $template, [], true, false, true);
