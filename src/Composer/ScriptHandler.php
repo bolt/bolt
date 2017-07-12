@@ -32,7 +32,7 @@ class ScriptHandler
         static::runUpdateProjectFromAssets($event);
 
         $syncer = DirectorySyncer::fromEvent($event);
-        $syncer->sync('bolt_assets', true, ['css', 'fonts', 'img', 'js']);
+        $syncer->sync('bolt_assets', 'bolt_assets', true, ['css', 'fonts', 'img', 'js']);
     }
 
     /**
@@ -46,8 +46,8 @@ class ScriptHandler
     {
         $syncer = DirectorySyncer::fromEvent($event);
 
-        $syncer->sync('files');
-        $syncer->sync('themes');
+        $syncer->sync('files', 'files');
+        $syncer->sync('themes', 'themes');
     }
 
     /**

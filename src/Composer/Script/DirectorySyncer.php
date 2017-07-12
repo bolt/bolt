@@ -59,7 +59,8 @@ class DirectorySyncer
      */
     public static function fromEvent(Event $event)
     {
-        $boltDir = $event->getComposer()->getConfig()->get('vendor-dir') . '/bolt/bolt';
+        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+        $boltDir = $vendorDir . '/bolt/bolt';
 
         if (file_exists($boltDir)) {
             /**
@@ -79,25 +80,27 @@ class DirectorySyncer
             $app = Bootstrap::run(__DIR__ . '/../../..');
             $userResolver = $boltResolver = $app['path_resolver'];
         }
+        $boltResolver->define('vendor', $vendorDir);
 
         return new static($userResolver, $boltResolver, $event->getIO(), Options::fromEvent($event));
     }
 
     /**
-     * @param string $name        The name of the path alias in PathResolver to sync
+     * @param string $srcName     The source path alias in PathResolver to sync from
+     * @param string $targetName  The target path alias in PathResolver to sync to
      * @param bool   $delete      Whether to delete files that are not in the source directory
      * @param array  $onlySubDirs Only sync these sub dirs if given
      */
-    public function sync($name, $delete = false, $onlySubDirs = [])
+    public function sync($srcName, $targetName, $delete = false, $onlySubDirs = [])
     {
-        $origin = $this->boltResolver->resolve($name);
-        $target = $this->userResolver->resolve($name);
+        $origin = $this->boltResolver->resolve($srcName);
+        $target = $this->userResolver->resolve($targetName);
 
         if ($origin === $target) {
             return;
         }
 
-        $this->io->writeError("Installing <info>$name</info> to <info>$target</info>");
+        $this->io->writeError("Installing <info>$targetName</info> to <info>$target</info>");
 
         $old = umask(0777 - $this->options->getDirMode());
         try {
