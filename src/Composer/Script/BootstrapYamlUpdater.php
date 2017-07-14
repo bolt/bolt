@@ -13,9 +13,16 @@ use Webmozart\PathUtil\Path;
 /**
  * Updates .bolt.yml paths for changes with PathResolver introduced in 3.3.
  *
+ * NOTE: If debugging this with with xdebug, you will need to run Composer from
+ * the vendor/bin/ directory, and set the COMPOSER_ALLOW_XDEBUG=1 environment
+ * variable, e.g.
+ * <pre>
+ * COMPOSER_ALLOW_XDEBUG=1 ./vendor/bin/composer run-script <script name>
+ * </pre>
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class BootstrapYamlUpdater
+final class BootstrapYamlUpdater
 {
     const FILENAME = '.bolt.yml';
 
@@ -162,6 +169,23 @@ class BootstrapYamlUpdater
             }
         }
 
+        if ($var = $paths['var']) {
+            if ($var === 'var') {
+                $paths->remove('var');
+            } elseif (strpos($var, '%site%') !== 0) {
+                $paths['var'] = '%site%/' . $var;
+            }
+        }
+        $var = $var ?: 'var';
+        $varLength = strlen($var . '/');
+
+        if ($cache = $paths['cache']) {
+            // Handle v4 style layouts
+            if (strpos($cache, $var . '/') === 0) {
+                $paths['cache'] = '%var%/' . substr($cache, $varLength);
+            }
+        }
+
         if ($paths->has('app')) {
             return $paths;
         }
@@ -170,7 +194,7 @@ class BootstrapYamlUpdater
         $appPaths = array_intersect_key($paths->toArray(), array_flip($appPathKeys));
         // Only paths without %app% alias in them.
         $appPaths = array_filter($appPaths, function ($path) {
-            return strpos($path, '%app%') === false;
+            return strpos($path, '%app%') === false || strpos($path, 'app') === 0;
         });
         if (empty($appPaths)) {
             return $paths;

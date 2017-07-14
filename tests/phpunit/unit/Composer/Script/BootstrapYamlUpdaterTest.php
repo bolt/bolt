@@ -60,7 +60,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 ],
                 [
                     'app'   => '%site%/myapp',
-                    'cache' => 'var/cache',
+                    'cache' => '%var%/cache',
                 ]
             ],
 
@@ -72,7 +72,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 ],
                 [
                     'app'   => '%site%/..',
-                    'cache' => 'var/cache',
+                    'cache' => '%var%/cache',
                 ]
             ],
 
@@ -83,7 +83,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                     'database' => '../database',
                 ],
                 [
-                    'cache'    => 'var/cache',
+                    'cache'    => '%var%/cache',
                     'config'   => 'myapp/config',
                     'database' => '../database',
                 ]

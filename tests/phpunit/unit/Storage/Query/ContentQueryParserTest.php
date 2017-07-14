@@ -135,7 +135,7 @@ class ContentQueryParserTest extends BoltUnitTest
     public function testRandomHandler()
     {
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('(pages,showcases)/random/4');
@@ -147,7 +147,7 @@ class ContentQueryParserTest extends BoltUnitTest
     public function testReturnSingleHandler()
     {
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages/random/4');
@@ -160,7 +160,7 @@ class ContentQueryParserTest extends BoltUnitTest
     public function testFirstHandler()
     {
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages/first/4');
@@ -178,7 +178,7 @@ class ContentQueryParserTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
 
         $qb = new ContentQueryParser($app['storage']);
         $qb->setQuery('(pages,entries)/search');
@@ -195,7 +195,7 @@ class ContentQueryParserTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addSomeContent($app);
+        $this->addSomeContent();
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages/latest/4');

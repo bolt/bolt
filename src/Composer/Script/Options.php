@@ -7,9 +7,11 @@ use Composer\Script\Event;
 /**
  * Handles options in composer's extra section and env vars.
  *
+ * @internal
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class Options
+final class Options
 {
     /** @var array */
     private $composerExtra;

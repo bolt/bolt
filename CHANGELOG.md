@@ -96,13 +96,31 @@ Bolt 3.4-dev
 
 -
 
+Bolt 3.3.0 beta 13
+------------------
+
+Released: 2017-07-14. Notable changes:
+
+ - Added: Allow for project-specific Localised translation files. [#6802](https://github.com/bolt/bolt/pull/6802)
+ - Added: New Skeleton theme, as a bare-bones starter theme. [#6816](https://github.com/bolt/bolt/pull/6816)
+ - Change: Always reset null templatefields to an empty array instead [[#6803](https://github.com/bolt/bolt/pull/6803)](https://github.com/bolt/bolt/pull/6803]
+ - Change: Composer installed default themes [#6816](https://github.com/bolt/bolt/pull/6816)
+ - Change: Config update: suggest Sparkpost instead of Sendgrid. [#6787](https://github.com/bolt/bolt/pull/6787]
+ - Change: Drop translation of ContentType-specific translation files. [#6802](https://github.com/bolt/bolt/pull/6802)
+ - Change: More Twig deprecations [#6812](https://github.com/bolt/bolt/pull/6812)
+ - Change: Performance improvement for content with large lists of incoming relations [#6799](https://github.com/bolt/bolt/pull/6799)
+ - Change: Performance improvement in loading of large tag sets in content editor. [#6817](https://github.com/bolt/bolt/pull/6817)
+ - Change: Use `blocks` instead of `macro` for `{{ fields() }}` rendering. [#6784](https://github.com/bolt/bolt/pull/6784) [#6778](https://github.com/bolt/bolt/pull/6778) [#6811](https://github.com/bolt/bolt/pull/6811)
+ - Fixed: Fix for queries where fields have the same name as contenttype. [#6779](https://github.com/bolt/bolt/pull/6779)
+ - Fixed: Fixes for `.bolt.yml` / `.bolt.php` custom path handling [#6805](https://github.com/bolt/bolt/pull/6805]
+
 Bolt 3.3.0 beta 12
 ------------------
 
 Released: 2017-06-22. Notable changes:
 
  - Added: Implement missing `hasParameter` method. [#6764](https://github.com/bolt/bolt/pull/6764)
- - Change Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
+ - Change: Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
  - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
  - Change: Tweak bootstrap for invalid extension classes. [#6769](https://github.com/bolt/bolt/pull/6769)
  - Fixed: Prevent filelist exceptions when file not found [#6760](https://github.com/bolt/bolt/pull/6760)

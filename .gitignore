@@ -9,7 +9,6 @@ thumbs/
 var/*
 vendor/
 theme/*
-!theme/base-*
 composer.lock
 
 # Bolt development files
