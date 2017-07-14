@@ -11,9 +11,11 @@ use Composer\Script\ScriptEvents;
 /**
  * Adds handler to composer.json scripts section or shows how (on error).
  *
+ * @internal
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ScriptHandlerUpdater
+final class ScriptHandlerUpdater
 {
     /** @var Event */
     private $event;

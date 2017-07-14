@@ -9,7 +9,12 @@ use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
-class ScriptHandler
+/**
+ * Composer event script handler.
+ *
+ * @internal
+ */
+final class ScriptHandler
 {
     /**
      * Install Bolt's assets.

@@ -12,9 +12,11 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * Syncs directories from core to user project.
  *
+ * @internal
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DirectorySyncer
+final class DirectorySyncer
 {
     /** @var PathResolver */
     private $userResolver;

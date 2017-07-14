@@ -22,7 +22,7 @@ use Webmozart\PathUtil\Path;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class BootstrapYamlUpdater
+final class BootstrapYamlUpdater
 {
     const FILENAME = '.bolt.yml';
 
