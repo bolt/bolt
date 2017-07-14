@@ -55,19 +55,6 @@
                 url: bolt.conf('paths.root') + 'async/tags/' + slug,
                 dataType: 'json',
                 success: function (data) {
-                    //var options = taxonomy.val() || [];
-                    // $.each(data, function (idx, item) {
-                    //     if (options.indexOf(item.name) < 0) {
-                    //         options.push(item.name);
-                    //         taxonomy
-                    //             .append($('<option/>', {
-                    //                 value: item.name,
-                    //                 text: item.name
-                    //             }))
-                    //             .trigger('change');
-                    //     }
-                    // });
-
                     var options = taxonomy.val() || [];
                     var arrayLength = data.length;
                     var optionsHTML = '';
@@ -78,7 +65,6 @@
                         }
                     }
                     taxonomy.append($(optionsHTML)).trigger('change');
-
                 }
             });
 
