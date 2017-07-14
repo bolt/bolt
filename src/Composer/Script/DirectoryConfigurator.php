@@ -21,9 +21,11 @@ use Webmozart\PathUtil\Path;
  *
  * This should only be used for new projects.
  *
+ * @internal
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class DirectoryConfigurator
+final class DirectoryConfigurator
 {
     /** @var NutStyleInterface */
     private $io;
