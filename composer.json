@@ -11,9 +11,10 @@
     "license": "MIT",
     "require": {
         "bolt/collection": "^1.0",
-        "bolt/filesystem": "^2.2",
+        "bolt/filesystem": "^2.3.1",
         "bolt/pathogen": "~0.6",
         "bolt/requirements": "^1.0@dev",
+        "bolt/themes": "^1.0",
         "bolt/thumbs": "^3.1.1",
         "brandonwamboldt/utilphp": "^1.0",
         "cocur/slugify": "^1.0",
@@ -88,6 +89,11 @@
         "sebastian/phpcpd": "^2.0",
         "sorien/silex-pimple-dumper": "^1.0",
         "symfony/phpunit-bridge": "^2.8"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "Bolt\\Composer\\ScriptHandler::installThemesAndFiles"
+        ]
     },
     "conflict": {
         "rossriley/flysystem53": "*"

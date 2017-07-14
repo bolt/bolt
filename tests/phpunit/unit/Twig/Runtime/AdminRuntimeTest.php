@@ -161,16 +161,16 @@ class AdminRuntimeTest extends BoltUnitTest
     {
         $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans('contenttypes.generic.delete', ['%contenttype%' => 'Page']);
-        $this->assertSame('Delete Page', $result);
+        $result = $handler->trans('general.bolt-welcome-new-site', ['%USER%' => 'Koala']);
+        $this->assertSame('Welcome to your new Bolt site, Koala.', $result);
     }
 
     public function testTransArgsThree()
     {
         $handler = $this->getAdminRuntime();
 
-        $result = $handler->trans('contenttypes.pages.group.content', [], 'contenttypes');
-        $this->assertSame('Content', $result);
+        $result = $handler->trans('general.phrase.access-denied-logged-out', [], 'messages');
+        $this->assertSame('You have been logged out.', $result);
     }
 
     public function testTransArgsFour()

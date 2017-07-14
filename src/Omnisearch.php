@@ -24,8 +24,8 @@ class Omnisearch
     const OMNISEARCH_CONTENT     = 2000;
     const OMNISEARCH_FILE        = 1000;
 
-    private $showNewContenttype  = true;
-    private $showViewContenttype = true;
+    private $showNewContentType  = true;
+    private $showViewContentType = true;
     private $showConfiguration   = true;
     private $showMaintenance     = true;
     private $showExtensions      = true;
@@ -47,38 +47,38 @@ class Omnisearch
 
     public function initialize()
     {
-        $this->initContenttypes();
+        $this->initContentTypes();
         $this->initMenuitems();
         $this->initExtensions();
     }
 
-    private function initContenttypes()
+    private function initContentTypes()
     {
         $contenttypes = $this->app['config']->get('contenttypes');
 
         foreach ($contenttypes as $key => $value) {
-            $pluralname   = $value['name'];
-            $singularname = $value['singular_name'];
+            $pluralName   = $value['name'];
+            $singularName = $value['singular_name'];
             $slug         = $value['slug'];
             $keywords     = [
-                $pluralname,
-                $singularname,
+                $pluralName,
+                $singularName,
                 $slug,
                 $key,
             ];
 
-            $viewContenttype = Trans::__('contenttypes.generic.view', ['%contenttypes%' => $key]);
-            $newContenttype  = Trans::__('contenttypes.generic.new', ['%contenttype%' => $key]);
+            $viewContentType = Trans::__('contenttypes.generic.view', ['%contenttypes%' => $pluralName]);
+            $newContentType  = Trans::__('contenttypes.generic.new', ['%contenttype%' => $singularName]);
 
-            if ($this->showViewContenttype) {
+            if ($this->showViewContentType) {
                 $viewKeywords   = $keywords;
-                $viewKeywords[] = $viewContenttype;
-                $viewKeywords[] = 'View ' . $pluralname;
+                $viewKeywords[] = $viewContentType;
+                $viewKeywords[] = 'View ' . $pluralName;
 
                 $this->register(
                     [
                         'keywords'    => $viewKeywords,
-                        'label'       => $viewContenttype,
+                        'label'       => $viewContentType,
                         'description' => '',
                         'priority'    => self::OMNISEARCH_CONTENTTYPE,
                         'path'        => $this->generatePath('overview', ['contenttypeslug' => $slug]),
@@ -86,15 +86,15 @@ class Omnisearch
                 );
             }
 
-            if ($this->showNewContenttype) {
+            if ($this->showNewContentType) {
                 $newKeywords    = $keywords;
-                $newKeywords[]  = $newContenttype;
-                $newKeywords[]  = 'New ' . $singularname;
+                $newKeywords[]  = $newContentType;
+                $newKeywords[]  = 'New ' . $singularName;
 
                 $this->register(
                     [
                         'keywords'    => $newKeywords,
-                        'label'       => $newContenttype,
+                        'label'       => $newContentType,
                         'description' => '',
                         'priority'    => self::OMNISEARCH_CONTENTTYPE,
                         'path'        => $this->generatePath('editcontent', ['contenttypeslug' => $slug]),
@@ -128,7 +128,7 @@ class Omnisearch
             );
             $this->register(
                 [
-                    'keywords'    => ['Contenttypes', 'Configuration'],
+                    'keywords'    => ['ContentTypes', 'Configuration'],
                     'label'       => Trans::__('general.phrase.configuration') . ' » ' . Trans::__('general.phrase.content-types'),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_MENUITEM - 2,

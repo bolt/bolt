@@ -37,6 +37,7 @@ class PathResolver
             'database'          => '%app%/database',
             'extensions'        => '%site%/extensions',
             'extensions_config' => '%config%/extensions',
+            'var'               => '%site%/var',
             'web'               => '%site%/public',
             'files'             => '%web%/files',
             'themes'            => '%web%/theme',

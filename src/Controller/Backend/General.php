@@ -48,7 +48,7 @@ class General extends BackendBase
 
         $c->match('/tr/{domain}/{tr_locale}', 'translation')
             ->bind('translation')
-            ->assert('domain', 'messages|contenttypes|infos')
+            ->assert('domain', 'messages|infos')
             ->value('domain', 'messages')
             ->value('tr_locale', $this->app['locale']);
     }
