@@ -134,17 +134,17 @@ class GeneralTest extends ControllerUnitTest
         $this->removeCSRF($this->getApp());
 
         // Render new translation file
-        $this->setRequest(Request::create('/bolt/tr/contenttypes/en_CY'));
-        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
+        $this->setRequest(Request::create('/bolt/tr'));
+        $response = $this->controller()->translation($this->getRequest(), 'messages', 'en_GB');
 
         $this->assertTrue($response instanceof TemplateView, 'Response is not instance of TemplateView');
         $this->assertEquals('@bolt/editlocale/editlocale.twig', $response->getTemplate());
         $context = $response->getContext();
-        $this->assertEquals('contenttypes.en_CY.yml', $context['context']['basename']);
+        $this->assertEquals('messages.en_GB.yml', $context['context']['basename']);
 
         // Save updated content and redirect back to page
         $this->setRequest(Request::create(
-            '/bolt/tr/contenttypes/en_CY',
+            '/bolt/tr',
             'POST',
             [
                 'file_edit' => [
@@ -154,8 +154,7 @@ class GeneralTest extends ControllerUnitTest
             ]
         ));
 
-        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
-        $context = $response->getContext()->toArray();
+        $response = $this->controller()->translation($this->getRequest(), 'messages', 'en_GB');
 
         $this->assertInstanceOf(TemplateView::class, $response);
         $this->assertArrayHasKey('context', $context);
@@ -170,7 +169,7 @@ class GeneralTest extends ControllerUnitTest
 
         // Check that YML parse errors get caught
         $this->setRequest(Request::create(
-            '/bolt/tr/contenttypes/en_CY',
+            '/bolt/tr',
             'POST',
             [
                 'file_edit' => [
@@ -180,7 +179,7 @@ class GeneralTest extends ControllerUnitTest
             ]
         ));
 
-        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
+        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_GB');
         $context = $response->getContext()->toArray();
 
         $this->assertInstanceOf(TemplateView::class, $response);

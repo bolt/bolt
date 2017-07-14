@@ -209,15 +209,6 @@ final class AdminMenuBuilder
                 ->setIcon('fa:flag')
                 ->setPermission('translation')
         );
-
-        // Contenttypes
-        $translationEntry->add(
-            (new MenuEntry('tr_contenttypes'))
-                ->setRoute('translation', ['domain' => 'contenttypes'])
-                ->setLabel(Trans::__('general.phrase.content-types'))
-                ->setIcon('fa:flag')
-                ->setPermission('translation')
-        );
     }
 
     /**

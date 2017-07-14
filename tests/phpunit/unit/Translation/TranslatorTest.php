@@ -37,8 +37,8 @@ class TranslatorTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('Delete Page', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'pages']));
-        $this->assertEquals('Delete Showcase', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'showcase']));
+        $this->assertEquals('Delete Page', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'Page']));
+        $this->assertEquals('Delete Showcase', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'Showcase']));
     }
 
     public function testTransDefault()

@@ -11,6 +11,8 @@ use Webmozart\PathUtil\Path;
 /**
  * Interactively allows CLI user to modify PathResolver paths.
  *
+ * @internal
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
 final class PathCustomizer
