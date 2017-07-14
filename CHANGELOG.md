@@ -4,6 +4,13 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- - Change set: [#xxxx](https://github.com/bolt/bolt/pull/xxxx)
+  - Removed: jQuery helper
+  - Removed: Twig {{ twig }} function
+  - Removed: v1 workaround for cron column
+  - Removed: Old system checks (replaced by bolt/requirements)
+  - Removed: FilesystemException replaced by bolt/filesystem
+  - Removed: Guzzle 5 support
 - Change set: [#6689](https://github.com/bolt/bolt/pull/6689)
   - Removed: Twig functions
     - `file_exists`
