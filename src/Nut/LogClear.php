@@ -20,8 +20,6 @@ class LogClear extends BaseCommand
         $this
             ->setName('log:clear')
             ->setDescription('Clear (truncate) the system & change logs.')
-            /** @deprecated Deprecated since 3.4, to be removed in 4.0. Use --no-interaction */
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'If set, no confirmation will be required')
         ;
     }
 
@@ -31,7 +29,7 @@ class LogClear extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->io->title('Clearing logs');
-        $ask = !($input->getOption('no-interaction') | $input->getOption('force'));
+        $ask = !$input->getOption('no-interaction');
         $question = new ConfirmationQuestion('<question>Are you sure you want to clear the system & change logs?</question>', false);
 
         if ($ask && !$this->io->askQuestion($question)) {

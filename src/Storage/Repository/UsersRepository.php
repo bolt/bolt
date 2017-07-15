@@ -156,33 +156,6 @@ class UsersRepository extends Repository
     }
 
     /**
-     * Check to see if there are users in the user table.
-     *
-     * @deprecated Deprecated since 3.3. To be removed in v4.0.
-     *
-     * @return integer
-     */
-    public function hasUsers()
-    {
-        $query = $this->hasUsersQuery();
-
-        return $query->execute()->fetch();
-    }
-
-    /**
-     * @deprecated Deprecated since 3.3. To be removed in v4.0.
-     *
-     * @return QueryBuilder
-     */
-    public function hasUsersQuery()
-    {
-        $qb = $this->createQueryBuilder();
-        $qb->select('COUNT(id) as count');
-
-        return $qb;
-    }
-
-    /**
      * Get user based on password reset notification.
      *
      * @param string $shadowToken

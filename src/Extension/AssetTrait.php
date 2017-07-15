@@ -133,30 +133,6 @@ trait AssetTrait
     }
 
     /**
-     * Add jQuery to the output.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    protected function addJquery()
-    {
-        Deprecated::method(3.0);
-
-        $this->getContainer()['config']->set('general/add_jquery', true);
-    }
-
-    /**
-     * Don't add jQuery to the output.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    protected function disableJquery()
-    {
-        Deprecated::method(3.0);
-
-        $this->getContainer()['config']->set('general/add_jquery', false);
-    }
-
-    /**
      * Normalizes the path and package name of the asset file.
      *
      * @param FileAssetInterface $asset

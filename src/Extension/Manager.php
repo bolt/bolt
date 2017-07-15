@@ -43,8 +43,6 @@ class Manager
     private $loaded = false;
     /** @var bool */
     private $registered = false;
-    /** @var Application @deprecated */
-    private $app;
 
     /**
      * Constructor.

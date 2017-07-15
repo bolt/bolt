@@ -31,9 +31,6 @@ class UsersRepositoryTest extends BoltUnitTest
         $queryGetUserByName = $repo->getUserQuery('user');
         $this->assertEquals('SELECT * FROM bolt_users users WHERE (username LIKE :userId) OR (email = :userId)', $queryGetUserByName->getSql());
 
-        $queryHasUsers = $repo->hasUsersQuery();
-        $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users users', $queryHasUsers->getSql());
-
         $queryUserShadowAuth = $repo->getUserShadowAuthQuery('shadowtoken');
         $this->assertEquals('SELECT * FROM bolt_users users WHERE (shadowtoken = :shadowtoken) AND (shadowvalidity > :shadowvalidity)', $queryUserShadowAuth->getSql());
     }

@@ -103,11 +103,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
                 return new Controller\Async\Stack();
             }
         );
-        $app['controller.async.system_checks'] = $app->share(
-            function () {
-                return new Controller\Async\SystemChecks();
-            }
-        );
         $app['controller.async.widget'] = $app->share(
             function () {
                 return new Controller\Async\Widget();
@@ -166,7 +161,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             'filesystem_manager',
             'records',
             'stack',
-            'system_checks',
             'widget',
         ];
         foreach ($asyncKeys as $controller) {

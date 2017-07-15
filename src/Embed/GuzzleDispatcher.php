@@ -139,26 +139,17 @@ class GuzzleDispatcher implements DispatcherInterface
      */
     protected function getGuzzleResponse(Url $url, array $options = [])
     {
-        if (version_compare(Client::VERSION, '6.0.0', '<')) {
-            /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-            $options['allow_redirects'] = [
-                'max' => 10,
-            ];
-            $response = $this->client->get((string) $url, $options);
-            $redirectUri = $response->getEffectiveUrl() ?: (string) $url;
-        } else {
-            $allowRedirects = $this->client->getConfig('allow_redirects');
-            $allowRedirects['max'] = 10;
-            $allowRedirects['track_redirects'] = true;
-            $options['allow_redirects'] = $allowRedirects;
+        $allowRedirects = $this->client->getConfig('allow_redirects');
+        $allowRedirects['max'] = 10;
+        $allowRedirects['track_redirects'] = true;
+        $options['allow_redirects'] = $allowRedirects;
 
-            $uri = new Psr7\Uri((string) $url);
-            $request = new Psr7\Request('GET', $uri, ['Accept' => 'text/html']);
-            /** @var Psr7\Response $response */
-            $response = $this->client->send($request, $options);
-            $redirectUriHistory = $response->getHeader('X-Guzzle-Redirect-History');
-            $redirectUri = $redirectUriHistory ? array_pop($redirectUriHistory) : (string) $url;
-        }
+        $uri = new Psr7\Uri((string) $url);
+        $request = new Psr7\Request('GET', $uri, ['Accept' => 'text/html']);
+        /** @var Psr7\Response $response */
+        $response = $this->client->send($request, $options);
+        $redirectUriHistory = $response->getHeader('X-Guzzle-Redirect-History');
+        $redirectUri = $redirectUriHistory ? array_pop($redirectUriHistory) : (string) $url;
 
         return [
             'url'         => $redirectUri,
