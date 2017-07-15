@@ -1,6 +1,36 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.15
+-----------
+
+Released 2017-07-15. Notable changes:
+
+ - Added: Add pager to base-2016 search template [#6704](https://github.com/bolt/bolt/pull/6704)
+ - Added: Implement missing `hasParameter` method. [#6786](https://github.com/bolt/bolt/pull/6786)
+ - Change: Clean up .gitignore [#6737](https://github.com/bolt/bolt/pull/6737)
+ - Change: Missed 'app.config' to 'config' changes [#6705](https://github.com/bolt/bolt/pull/6705)
+ - Change: More refactoring of fields blocks [#6811](https://github.com/bolt/bolt/pull/6811)
+ - Change: Switched out Sendgrid for Sparkpost as recommendation for `mailoptions`
+ - Change: Translations refresh [#6711](https://github.com/bolt/bolt/pull/6711) [#6714](https://github.com/bolt/bolt/pull/6714) [#6713](https://github.com/bolt/bolt/pull/6713) [#6801](https://github.com/bolt/bolt/pull/6801)
+ - Fixed:  Fix edge-case cache:clear fails [#6747](https://github.com/bolt/bolt/pull/6747)
+ - Fixed: "Delete record" does not get a system log entry. Audit delete record [#6732](https://github.com/bolt/bolt/pull/6732)
+ - Fixed: "Selected items counter" shows wrong number. Only adding record to the list, if it wasn't already selected before. [#6717](https://github.com/bolt/bolt/pull/6717)
+ - Fixed: Always reset null templatefields to an empty array instead [#6803](https://github.com/bolt/bolt/pull/6803)
+ - Fixed: base-2016 fixes and facepalms [#6778](https://github.com/bolt/bolt/pull/6778)
+ - Fixed: Change passwordlib to use random_bytes instead of any of its sources. ("The /dev/urandom issue") [#6756](https://github.com/bolt/bolt/pull/6756)
+ - Fixed: Crash using "Setcontent search".  [#6753](https://github.com/bolt/bolt/pull/6753)
+ - Fixed: fix complex search crash bug [#6757](https://github.com/bolt/bolt/pull/6757)
+ - Fixed: Fix for queries where fields have the same name as contenttype [#6779](https://github.com/bolt/bolt/pull/6779)
+ - Fixed: Fix for specific ContentType translations being ignored [#6783](https://github.com/bolt/bolt/pull/6783)
+ - Fixed: Get fields from repeater, even if repeater isn't last. Obsoletes hackish include of HTML field. [#6719](https://github.com/bolt/bolt/pull/6719)
+ - Fixed: Performance in tags load [#6817](https://github.com/bolt/bolt/pull/6817) [#6818](https://github.com/bolt/bolt/pull/6818)
+ - Fixed: permissions.yml link to docs incorrect [#6688](https://github.com/bolt/bolt/pull/6688)
+ - Fixed: Quick fix for content with large lists of incoming relations [#6799](https://github.com/bolt/bolt/pull/6799) [#6806](https://github.com/bolt/bolt/pull/6806)
+ - Fixed: Translations speaking the wrong layout language [#6792](https://github.com/bolt/bolt/pull/6792)
+ - Fixed: Update `default_status` in `contenttypes.yml`  [#6738](https://github.com/bolt/bolt/pull/6738)
+ - Tests: Guzzle mocks [#6743](https://github.com/bolt/bolt/pull/6743)
+
 Bolt 3.2.14
 -----------
 
