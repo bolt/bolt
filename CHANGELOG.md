@@ -4,7 +4,7 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
-- - Change set: [#xxxx](https://github.com/bolt/bolt/pull/xxxx)
+- Change set: [#6818](https://github.com/bolt/bolt/pull/6818)
   - Removed: jQuery helper
   - Removed: Twig {{ twig }} function
   - Removed: v1 workaround for cron column
