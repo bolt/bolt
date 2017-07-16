@@ -54,11 +54,11 @@
 
     <title>{{ page_title|striptags|trim|raw }} – {{ config.get('general/branding/name') }}</title>
 
-    <link rel="stylesheet" href="{{ asset('css/lib.css', 'bolt') }}">
-    <link rel="stylesheet" href="{{ asset('css/bolt.css', 'bolt') }}">
+    <link rel="stylesheet" href="{{ prefetch(asset('css/lib.css', 'bolt'), {'as': 'style'}) }}">
+    <link rel="stylesheet" href="{{ prefetch(asset('css/bolt.css', 'bolt'), {'as': 'style'}) }}">
 
     {% for script in page_scripts_inc -%}
-        <script src="{{ script }}"></script>
+        <script src="{{ prefetch(script, {'as': 'script'}) }}"></script>
     {% endfor %}
 
     <link rel="shortcut icon" href="{{ config.get('general/branding/favicon') ?: asset('img/favicon-bolt.ico', 'bolt') }}">
@@ -118,7 +118,7 @@
     contentActionUrl: path('contentaction', global.request.query.all),
     google_api_key: config.get('general/google_api_key'),
 } %}
-<script src="{{ asset('js/bolt.js', 'bolt') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
+<script src="{{ prefetch(asset('js/bolt.js', 'bolt'), {'as': 'script'}) }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
 
 {% block page_script %}
 {% endblock page_script %}

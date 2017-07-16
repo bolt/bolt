@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Helpers\Deprecated;
 use Bolt\Session\Generator\NativeGenerator;
 use Bolt\Session\Handler\Factory\MemcachedFactory;
 use Bolt\Session\Handler\Factory\MemcacheFactory;
@@ -18,8 +17,10 @@ use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -30,70 +31,56 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionServiceProvider implements ServiceProviderInterface
+class SessionServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['session'] = $app->share(
-            function ($app) {
-                return new Session(
-                    $app['session.storage'],
-                    $app['session.bag.attribute'],
-                    $app['session.bag.flash']
-                );
-            }
-        );
+        $app['session'] = function ($app) {
+            return new Session(
+                $app['session.storage'],
+                $app['session.bag.attribute'],
+                $app['session.bag.flash']
+            );
+        };
 
-        $app['session.storage'] = $app->share(
-            function ($app) {
-                return new SessionStorage(
-                    $app['session.options_bag'],
-                    $app['session.handler'],
-                    $app['session.generator'],
-                    $app['session.serializer']
-                );
-            }
-        );
+        $app['session.storage'] = function ($app) {
+            return new SessionStorage(
+                $app['session.options_bag'],
+                $app['session.handler'],
+                $app['session.generator'],
+                $app['session.serializer']
+            );
+        };
 
-        $app['session.handler'] = $app->share(
-            function ($app) {
-                $options = $app['session.options_bag'];
+        $app['session.handler'] = function ($app) {
+            $options = $app['session.options_bag'];
 
-                return $app['session.handler_factory']($options['save_handler'], $options);
-            }
-        );
+            return $app['session.handler_factory']($options['save_handler'], $options);
+        };
 
-        $app['session.listener'] = $app->share(
-            function ($app) {
-                return new SessionListener($app['session'], $app['session.options_bag']);
-            }
-        );
+        $app['session.listener'] = function ($app) {
+            return new SessionListener($app['session'], $app['session.options_bag']);
+        };
 
         $this->registerOptions($app);
 
         $this->registerHandlers($app);
 
-        $app['session.generator'] = $app->share(
-            function () use ($app) {
-                return new NativeGenerator($app['session.generator.bytes_length']);
-            }
-        );
-        $app['session.generator.bytes_length'] = $app->share(
-            function ($app) {
-                $options = $app['session.options_bag'];
+        $app['session.generator'] = function () use ($app) {
+            return new NativeGenerator($app['session.generator.bytes_length']);
+        };
+        $app['session.generator.bytes_length'] = function ($app) {
+            $options = $app['session.options_bag'];
 
-                return $options->getInt('sid_length', 32);
-            }
-        );
+            return $options->getInt('sid_length', 32);
+        };
 
-        $app['session.serializer'] = $app->share(
-            function () {
-                return new NativeSerializer();
-            }
-        );
+        $app['session.serializer'] = function () {
+            return new NativeSerializer();
+        };
 
         $app['session.bag.attribute'] = function () {
             return new AttributeBag();
@@ -147,81 +134,80 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.options'] = [];
         $app['session.options.import_from_ini'] = true;
 
-        $app['session.options_bag'] = $app->share(
-            function () use ($app) {
-                /*
-                 * This does two things.
-                 * 1) Merges options together. Precedence is as follows:
-                 *    - Options from session.options
-                 *    - Options from ini (if enabled with "session.options.import_from_ini")
-                 *    - Options hardcoded below
-                 * 2) Converts options to an OptionsBag instance
-                 *
-                 * These defaults are limited to those that are useful and secure.
-                 */
-                $defaults = [
-                    'save_handler'    => 'files',
-                    'save_path'       => '/tmp',
-                    'name'            => 'PHPSESSID',
-                    'lazy_write'      => true,
-                    'gc_probability'  => 1,
-                    'gc_divisor'      => 1000,
-                    'gc_maxlifetime'  => 1440,
-                    'cookie_lifetime' => 0,
-                    'cookie_path'     => '/',
-                    'cookie_domain'   => null,
-                    'cookie_secure'   => false,
-                    'cookie_httponly' => false,
-                    'sid_length'      => 32,
+        $app['session.options_bag'] = function () use ($app) {
+            /*
+             * This does two things.
+             * 1) Merges options together. Precedence is as follows:
+             *    - Options from session.options
+             *    - Options from ini (if enabled with "session.options.import_from_ini")
+             *    - Options hardcoded below
+             * 2) Converts options to an OptionsBag instance
+             *
+             * These defaults are limited to those that are useful and secure.
+             */
+            $defaults = [
+                'save_handler'    => 'files',
+                'save_path'       => '/tmp',
+                'name'            => 'PHPSESSID',
+                'lazy_write'      => true,
+                'gc_probability'  => 1,
+                'gc_divisor'      => 1000,
+                'gc_maxlifetime'  => 1440,
+                'cookie_lifetime' => 0,
+                'cookie_path'     => '/',
+                'cookie_domain'   => null,
+                'cookie_secure'   => false,
+                'cookie_httponly' => false,
+                'sid_length'      => 32,
 
-                    'restrict_realm'  => false,
-                ];
+                'restrict_realm'  => false,
+            ];
 
-                $options = new OptionsBag($defaults);
+            $options = new OptionsBag($defaults);
 
-                if ($app['session.options.import_from_ini']) {
-                    $ini = new IniBag('session');
-                    foreach ($options as $key => $value) {
-                        if (!$ini->has($key)) {
-                            continue;
-                        }
-
-                        if (is_int($value)) {
-                            $value = $ini->getInt($key);
-                        } elseif (is_bool($value)) {
-                            $value = $ini->getBoolean($key);
-                        } else {
-                            $value = $ini->get($key);
-                        }
-
-                        $options[$key] = $value;
+            if ($app['session.options.import_from_ini']) {
+                $ini = new IniBag('session');
+                foreach ($options as $key => $value) {
+                    if (!$ini->has($key)) {
+                        continue;
                     }
+
+                    if (is_int($value)) {
+                        $value = $ini->getInt($key);
+                    } elseif (is_bool($value)) {
+                        $value = $ini->getBoolean($key);
+                    } else {
+                        $value = $ini->get($key);
+                    }
+
+                    $options[$key] = $value;
+
                 }
-
-                // @deprecated backwards compatibility:
-                if (isset($app['session.storage.options'])) {
-                    $options->add($app['session.storage.options']);
-                }
-
-                // PHP's native C code accesses filesystem with different permissions than userland code.
-                // If php.ini is using the default (files) handler, use ours instead to prevent this problem.
-                if ($options->get('save_handler') === 'files') {
-                    $options->set('save_handler', 'filesystem');
-                    $options->set('save_path', 'var://sessions');
-                }
-
-                $overrides = $app['session.options'];
-
-                // Don't let save_path for different save_handler bleed in.
-                if (isset($overrides['save_handler']) && $overrides['save_handler'] !== $options['save_handler']) {
-                    $options->remove('save_path');
-                }
-
-                $options->add($overrides);
-
-                return $options;
             }
-        );
+
+            // @deprecated backwards compatibility:
+            if (isset($app['session.storage.options'])) {
+                $options->add($app['session.storage.options']);
+            }
+
+            // PHP's native C code accesses filesystem with different permissions than userland code.
+            // If php.ini is using the default (files) handler, use ours instead to prevent this problem.
+            if ($options->get('save_handler') === 'files') {
+                $options->set('save_handler', 'filesystem');
+                $options->set('save_path', 'var://sessions');
+            }
+
+            $overrides = $app['session.options'];
+
+            // Don't let save_path for different save_handler bleed in.
+            if (isset($overrides['save_handler']) && $overrides['save_handler'] !== $options['save_handler']) {
+                $options->remove('save_path');
+            }
+
+            $options->add($overrides);
+
+            return $options;
+        };
     }
 
     /**

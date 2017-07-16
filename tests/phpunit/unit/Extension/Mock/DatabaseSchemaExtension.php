@@ -4,7 +4,7 @@ namespace Bolt\Tests\Extension\Mock;
 
 use Bolt\Extension\DatabaseSchemaTrait;
 use Bolt\Extension\SimpleExtension;
-use Silex\Application;
+use Pimple\Container;
 
 /**
  *  Mock extension that extends SimpleExtension for testing the DatabaseSchemaTrait.
@@ -18,7 +18,7 @@ class DatabaseSchemaExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    protected function registerServices(Application $app)
+    protected function registerServices(Container $app)
     {
         $this->extendDatabaseSchemaServices();
     }

@@ -3,33 +3,28 @@
 namespace Bolt\Provider;
 
 use Bolt\Cache;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['cache'] = $app->share(
-            function (Application $app) {
-                try {
-                    $cache = new Cache(
-                        $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/data'),
-                        Cache::EXTENSION,
-                        0002,
-                        $app['filesystem']
-                    );
-                } catch (\Exception $e) {
-                    $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-                    throw $e;
-                }
-
-                return $cache;
+        $app['cache'] = function (Application $app) {
+            try {
+                $cache = new Cache(
+                    $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/data'),
+                    Cache::EXTENSION,
+                    0002,
+                    $app['filesystem']
+                );
+            } catch (\Exception $e) {
+                $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                throw $e;
             }
-        );
-    }
 
-    public function boot(Application $app)
-    {
+            return $cache;
+        };
     }
 }

@@ -4,7 +4,7 @@ namespace Bolt\Tests\Nut\Helper;
 
 use Bolt\Nut\Helper\ContainerHelper;
 use PHPUnit\Framework\TestCase;
-use Pimple as Container;
+use Pimple\Container;
 
 /**
  * @covers \Bolt\Nut\Helper\ContainerHelper

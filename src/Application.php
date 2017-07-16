@@ -8,7 +8,7 @@ use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
+use Cocur\Slugify\Bridge\Silex2\SlugifyServiceProvider;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,20 +34,15 @@ class Application extends Silex\Application
         $this->register(new Provider\DebugServiceProvider());
 
         /*
-         * Extensions registration phase is actually during boot,
-         * but since it is the first SP to boot it acts like a
-         * late registration. However, services needed by Extension
-         * Manager cannot be modified.
-         *
-         * Extension 1st phase: Run extension's DI registration code.
+         * Extensions registration phase is actually during subscribe(), but
+         * since it is the first SP to register it acts like a late
+         * registration. However, services needed by Extension Manager cannot
+         * be modified.
          */
         $this->register(new Provider\ExtensionServiceProvider());
 
         // Debug 2nd phase: Modify handlers with values from config
         $this->register(new Provider\DebugServiceProvider(false));
-
-        // Extension 2nd phase: Run extension's boot code.
-        $this->register(new Provider\ExtensionServiceProvider(false));
 
         $this->register(new PathServiceProvider());
 
@@ -185,10 +180,10 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Silex\Provider\HttpFragmentServiceProvider())
-            ->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
+            ->register(new Silex\Provider\CsrfServiceProvider())
             ->register(new Provider\SecurityServiceProvider())
             ->register(new Provider\RandomGeneratorServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())

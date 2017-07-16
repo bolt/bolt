@@ -5,7 +5,6 @@ namespace Bolt\Tests\Provider;
 use Bolt\Provider\DumperServiceProvider;
 use PHPUnit\Framework\TestCase;
 use Silex\Application;
-use Symfony\Component\VarDumper\Cloner;
 use Symfony\Component\VarDumper\Dumper;
 
 /**
@@ -22,15 +21,11 @@ class DumperServiceProviderTest extends TestCase
         $provider->register($app);
 
         $this->assertArrayHasKey('dump', $app);
-        $this->assertArrayHasKey('dumper', $app);
-        $this->assertArrayHasKey('dumper.cli', $app);
-        $this->assertArrayHasKey('dumper.html', $app);
-        $this->assertArrayHasKey('dumper.cloner', $app);
+        $this->assertArrayHasKey('var_dumper', $app);
+        $this->assertArrayHasKey('var_dumper.html_dumper', $app);
 
-        $this->assertInstanceOf(Dumper\CliDumper::class, $app['dumper']);
-        $this->assertInstanceOf(Dumper\CliDumper::class, $app['dumper.cli']);
-        $this->assertInstanceOf(Dumper\HtmlDumper::class, $app['dumper.html']);
-        $this->assertInstanceOf(Cloner\VarCloner::class, $app['dumper.cloner']);
+        $this->assertInstanceOf(Dumper\CliDumper::class, $app['var_dumper']);
+        $this->assertInstanceOf(Dumper\HtmlDumper::class, $app['var_dumper.html_dumper']);
     }
 
     public function testProviderOverride()
@@ -42,7 +37,7 @@ class DumperServiceProviderTest extends TestCase
         $h = fopen('php://memory', 'r+b');
         $dumper = new Dumper\CliDumper($h);
         $dumper->setColors(false);
-        $app['dumper.cli'] = $dumper;
+        $app['var_dumper.cli_dumper'] = $dumper;
 
         $app['dump'](['foo' => 'bar']);
         $data = stream_get_contents($h, -1, 0);
@@ -60,7 +55,7 @@ class DumperServiceProviderTest extends TestCase
         $h = fopen('php://memory', 'r+b');
         $dumper = new Dumper\CliDumper($h);
         $dumper->setColors(false);
-        $app['dumper.cli'] = $dumper;
+        $app['var_dumper.cli_dumper'] = $dumper;
 
         $app['dump'](['foo' => 'bar']);
         $data = stream_get_contents($h, -1, 0);

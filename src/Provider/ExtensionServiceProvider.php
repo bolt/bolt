@@ -9,55 +9,39 @@ use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extension\Manager;
 use Composer\IO\BufferIO;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
+use Silex\Api\EventListenerProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * 1st phase: Registers our services. Registers extensions on boot.
- * 2nd phase: Boots extensions on boot.
+ * 1st phase: Registers our services.
+ * 2nd phase: Registers extensions on subscribe()
+ * 3rd phase: Boots extensions on boot()
  */
-class ExtensionServiceProvider implements ServiceProviderInterface
+class ExtensionServiceProvider implements ServiceProviderInterface, BootableProviderInterface, EventListenerProviderInterface
 {
-    /** @var bool */
-    private $firstPhase;
-
-    /**
-     * Constructor.
-     *
-     * @param bool $firstPhase
-     */
-    public function __construct($firstPhase = true)
+    public function register(Container $app)
     {
-        $this->firstPhase = $firstPhase;
-    }
+        $app['extensions'] = function ($app) {
+            $loader = new Manager(
+                $app['filesystem']->getFilesystem('extensions'),
+                $app['filesystem']->getFilesystem('web'),
+                $app['logger.flash'],
+                $app['config']
+            );
+            $loader->addManagedExtensions();
 
-    public function register(Application $app)
-    {
-        if (!$this->firstPhase) {
-            return;
-        }
+            return $loader;
+        };
 
-        $app['extensions'] = $app->share(
-            function ($app) {
-                $loader = new Manager(
-                    $app['filesystem']->getFilesystem('extensions'),
-                    $app['filesystem']->getFilesystem('web'),
-                    $app['logger.flash'],
-                    $app['config']
-                );
-                $loader->addManagedExtensions();
+        $app['extensions.stats'] = function ($app) {
+            $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system'], $app['extend.site']);
 
-                return $loader;
-            }
-        );
-
-        $app['extensions.stats'] = $app->share(
-            function ($app) {
-                $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system'], $app['extend.site']);
-
-                return $stats;
-            }
-        );
+            return $stats;
+        };
 
         $app['extend.site'] = function ($app) {
             return $app['config']->get('general/extensions/site', 'https://market.bolt.cm/');
@@ -74,82 +58,67 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $app['extend.enabled'] = function ($app) {
             return $app['config']->get('general/extensions/enabled', true);
         };
-        $app['extend.writeable'] = $app->share(
-            function () use ($app) {
-                $extensionsPath = $app['path_resolver']->resolve('extensions');
+        $app['extend.writeable'] = function () use ($app) {
+            $extensionsPath = $app['path_resolver']->resolve('extensions');
 
-                return is_dir($extensionsPath) && is_writable($extensionsPath);
-            }
-        );
+            return is_dir($extensionsPath) && is_writable($extensionsPath);
+        };
 
-        $app['extend.manager'] = $app->share(
-            function ($app) {
-                return new PackageManager($app);
-            }
-        );
+        $app['extend.manager'] = function ($app) {
+            return new PackageManager($app);
+        };
 
-        $app['extend.manager.json'] = $app->share(
-            function ($app) {
-                return new JsonManager($app);
-            }
-        );
+        $app['extend.manager.json'] = function ($app) {
+            return new JsonManager($app);
+        };
 
-        $app['extend.listener'] = $app->share(
-            function ($app) {
-                return new BufferIOListener($app['extend.manager'], $app['logger.system']);
-            }
-        );
+        $app['extend.listener'] = function ($app) {
+            return new BufferIOListener($app['extend.manager'], $app['logger.system']);
+        };
 
-        $app['extend.info'] = $app->share(
-            function ($app) {
-                return new Satis\QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
-            }
-        );
+        $app['extend.info'] = function ($app) {
+            return new Satis\QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
+        };
 
         // Actions
-        $app['extend.action'] = $app->share(
-            function (Application $app) {
-                return new \Pimple(
-                    [
-                        // @codingStandardsIgnoreStart
-                        'autoload'  => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
-                        'check'     => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
-                        'depends'   => $app->share(function () use ($app) { return new Action\DependsPackage($app); }),
-                        'install'   => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
-                        'prohibits' => $app->share(function () use ($app) { return new Action\ProhibitsPackage($app); }),
-                        'remove'    => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
-                        'require'   => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
-                        'search'    => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
-                        'show'      => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
-                        'update'    => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
-                        // @codingStandardsIgnoreEnd
-                    ]
-                );
-            }
-        );
+        $app['extend.action'] = function (Application $app) {
+            return new Container(
+                [
+                    // @codingStandardsIgnoreStart
+                    'autoload'  => function () use ($app) { return new Action\DumpAutoload($app); },
+                    'check'     => function () use ($app) { return new Action\CheckPackage($app); },
+                    'depends'   => function () use ($app) { return new Action\DependsPackage($app); },
+                    'install'   => function () use ($app) { return new Action\InstallPackage($app); },
+                    'prohibits' => function () use ($app) { return new Action\ProhibitsPackage($app); },
+                    'remove'    => function () use ($app) { return new Action\RemovePackage($app); },
+                    'require'   => function () use ($app) { return new Action\RequirePackage($app); },
+                    'search'    => function () use ($app) { return new Action\SearchPackage($app); },
+                    'show'      => function () use ($app) { return new Action\ShowPackage($app); },
+                    'update'    => function () use ($app) { return new Action\UpdatePackage($app); },
+                    // @codingStandardsIgnoreEnd
+                ]
+            );
+        };
 
-        $app['extend.action.io'] = $app->share(
-            function () {
-                return new BufferIO();
-            }
-        );
+        $app['extend.action.io'] = function () {
+            return new BufferIO();
+        };
 
-        $app['extend.action.options'] = $app->share(
-            function ($app) {
-                $composerJson = $app['filesystem']->getFile('extensions://composer.json');
-                $composerOverrides = $app['config']->get('general/extensions/composer', []);
+        $app['extend.action.options'] = function ($app) {
+            $composerJson = $app['filesystem']->getFile('extensions://composer.json');
+            $composerOverrides = $app['config']->get('general/extensions/composer', []);
 
-                return new Action\Options($composerJson, $composerOverrides);
-            }
-        );
+            return new Action\Options($composerJson, $composerOverrides);
+        };
+    }
+
+    public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
+    {
+        $app['extensions']->register($app);
     }
 
     public function boot(Application $app)
     {
-        if ($this->firstPhase) {
-            $app['extensions']->register($app);
-        } else {
-            $app['extensions']->boot($app);
-        }
+        $app['extensions']->boot($app);
     }
 }

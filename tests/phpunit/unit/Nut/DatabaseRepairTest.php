@@ -55,11 +55,9 @@ class DatabaseRepairTest extends BoltUnitTest
         /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
         $platform = $app['db']->getDatabasePlatform();
         $prefix = $app['schema.prefix'];
-        $app['schema.content_tables']['newcontent'] = $app->share(
-            function () use ($platform, $prefix) {
-                return new Table\ContentType($platform, $prefix);
-            }
-        );
+        $app['schema.content_tables']['newcontent'] = function () use ($platform, $prefix) {
+            return new Table\ContentType($platform, $prefix);
+        };
 
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);

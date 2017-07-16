@@ -3,26 +3,20 @@
 namespace Bolt\Provider;
 
 use Bolt\Filesystem\FilePermissions;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 /**
  * @author Benjamin Georgeault <benjamin@wedgesama.fr>
  */
 class FilePermissionsServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['filepermissions'] = $app->share(
-            function ($app) {
-                $filePermissions = new FilePermissions($app['config']);
+        $app['filepermissions'] = function ($app) {
+            $filePermissions = new FilePermissions($app['config']);
 
-                return $filePermissions;
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+            return $filePermissions;
+        };
     }
 }

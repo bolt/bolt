@@ -19,6 +19,7 @@ use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use InvalidArgumentException;
+use Psr\Log\LogLevel;
 use RuntimeException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
@@ -1065,7 +1066,7 @@ class Config
             ],
             'debuglog'                    => [
                 'enabled'  => false,
-                'level'    => 'DEBUG',
+                'level'    => LogLevel::DEBUG,
                 'filename' => 'bolt-debug.log',
             ],
             'debug'                       => null,

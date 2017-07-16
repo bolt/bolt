@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Silex\Application;
+use Pimple\Container;
 use Silex\Provider;
 use Symfony\Component\Validator\Mapping\Cache\DoctrineCache;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
@@ -18,20 +18,12 @@ class ValidatorServiceProvider extends Provider\ValidatorServiceProvider
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
-
         parent::register($app);
 
-        $app['validator.mapping.class_metadata_factory'] = $app->share(function ($app) {
+        $app['validator.mapping.class_metadata_factory'] = function ($app) {
             return new LazyLoadingMetadataFactory(new StaticMethodLoader(), new DoctrineCache($app['cache']));
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boot(Application $app)
-    {
+        };
     }
 }

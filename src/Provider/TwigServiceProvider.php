@@ -6,24 +6,20 @@ use Bolt\Twig;
 use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\Extension;
 use Bolt\Twig\FilesystemLoader;
-use Bolt\Twig\RuntimeLoader;
 use Bolt\Twig\SecurityPolicy;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
-use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
-use Symfony\Bridge\Twig\Extension\HttpFoundationExtension;
-use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
-use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Twig\Environment;
 use Twig\Extension\SandboxExtension;
 use Twig\Extension\StringLoaderExtension;
 use Twig\Loader\ChainLoader;
 
-class TwigServiceProvider implements ServiceProviderInterface
+class TwigServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
@@ -31,11 +27,11 @@ class TwigServiceProvider implements ServiceProviderInterface
 
         // Set authentication providers before security extension is invoked.
         $factory = $app->raw('twig');
-        $app['twig'] = $app->share(function ($app) use ($factory) {
+        $app['twig'] = function ($app) use ($factory) {
             $app['security.firewall'];
 
             return $factory($app);
-        });
+        };
 
         // Twig runtime handlers
         $app['twig.runtime.bolt_admin'] = function ($app) {
@@ -73,7 +69,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
         };
         $app['twig.runtime.bolt_user'] = function ($app) {
-            return new Twig\Runtime\UserRuntime($app['users'], $app['csrf']);
+            return new Twig\Runtime\UserRuntime($app['users'], $app['csrf.token_manager']);
         };
         $app['twig.runtime.bolt_utils'] = function ($app) {
             return new Twig\Runtime\UtilsRuntime(
@@ -88,27 +84,16 @@ class TwigServiceProvider implements ServiceProviderInterface
         };
         $app['twig.runtime.dump'] = function ($app) {
             return new Twig\Runtime\DumpRuntime(
-                $app['dumper.cloner'],
-                $app['dumper.html'],
+                $app['var_dumper.cloner'],
+                $app['var_dumper.html_dumper'],
                 $app['users'],
                 $app['config']->get('general/debug_show_loggedoff', false)
             );
         };
 
-        /** @deprecated Can be removed when switch to Silex 2 occurs */
-        if (!isset($app['twig.runtime.httpkernel'])) {
-            $app['twig.runtime.httpkernel'] = function ($app) {
-                return new HttpKernelRuntime($app['fragment.handler']);
-            };
-        }
-
-        /** @deprecated Can be replaced when switch to Silex 2 occurs */
-        if (!isset($app['twig.runtimes'])) {
-            $app['twig.runtimes'] = $app->share(function () { return []; } );
-        }
-        $app['twig.runtimes'] = $app->share($app->extend(
+        $app['twig.runtimes'] = $app->extend(
             'twig.runtimes',
-            function ($runtimes) {
+            function (array $runtimes) {
                 return $runtimes + [
                     Twig\Runtime\AdminRuntime::class   => 'twig.runtime.bolt_admin',
                     Twig\Runtime\HtmlRuntime::class    => 'twig.runtime.bolt_html',
@@ -120,110 +105,62 @@ class TwigServiceProvider implements ServiceProviderInterface
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
                     Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
-
-                    /** @deprecated Can be removed when switch to Silex 2 occurs */
-                    HttpKernelRuntime::class           => 'twig.runtime.httpkernel',
-                    TwigRenderer::class                => 'twig.form.renderer',
                 ];
             }
-        ));
+        );
 
-        /** @deprecated Can be replaced when switch to Silex 2 occurs */
-        if (!isset($app['twig.runtime_loader'])) {
-            $app['twig.runtime_loader'] = function ($app) {
-                return new RuntimeLoader($app, $app['twig.runtimes']);
-            };
-        }
+        $app['twig.loader.bolt_filesystem'] = function ($app) {
+            $loader = new FilesystemLoader($app['filesystem']);
 
-        /** @deprecated Can be replaced when switch to Silex 2 occurs */
-        $app['twig.app_variable'] = function ($app) {
-            $var = new AppVariable();
-            if (isset($app['request_stack'])) {
-                $var->setRequestStack($app['request_stack']);
-            }
-            $var->setDebug($app['debug']);
+            $loader->addPath('bolt://app/theme_defaults', 'theme');
+            $loader->addPath('bolt://app/view/twig', 'bolt');
 
-            return $var;
+            $loader->addPath('bolt://app/theme_defaults');
+            $loader->addPath('bolt://app/view/twig');
+
+            return $loader;
         };
 
-        $app['twig.loader.bolt_filesystem'] = $app->share(
-            function ($app) {
-                $loader = new FilesystemLoader($app['filesystem']);
-
-                $loader->addPath('bolt://app/theme_defaults', 'theme');
-                $loader->addPath('bolt://app/view/twig', 'bolt');
-
-                $loader->addPath('bolt://app/theme_defaults');
-                $loader->addPath('bolt://app/view/twig');
-
-                /** @deprecated Can be replaced when switch to Silex 2 occurs */
-                $loader->prependPath('bolt://app/view/symfony/web-profiler-bundle', 'WebProfiler');
-
-                return $loader;
-            }
-        );
         // Insert our filesystem loader before native one
-        $app['twig.loader'] = $app->share(
-            function ($app) {
-                return new ChainLoader(
-                    [
-                        $app['twig.loader.array'],
-                        $app['twig.loader.bolt_filesystem'],
-                        $app['twig.loader.filesystem'],
-                    ]
-                );
-            }
-        );
+        $app['twig.loader'] = function ($app) {
+            return new ChainLoader(
+                [
+                    $app['twig.loader.array'],
+                    $app['twig.loader.bolt_filesystem'],
+                    $app['twig.loader.filesystem'],
+                ]
+            );
+        };
 
         $this->registerSandbox($app);
 
         // Add the Bolt Twig Extension.
-        $app['twig'] = $app->share(
-            $app->extend(
-                'twig',
-                function (Environment $twig, $app) {
-                    $twig->addExtension($app['twig.extension.bolt']);
-                    $twig->addExtension($app['twig.extension.bolt_admin']);
-                    $twig->addExtension($app['twig.extension.bolt_array']);
-                    $twig->addExtension($app['twig.extension.bolt_html']);
-                    $twig->addExtension($app['twig.extension.bolt_image']);
-                    $twig->addExtension($app['twig.extension.bolt_record']);
-                    $twig->addExtension($app['twig.extension.bolt_routing']);
-                    $twig->addExtension($app['twig.extension.bolt_text']);
-                    $twig->addExtension($app['twig.extension.bolt_users']);
-                    $twig->addExtension($app['twig.extension.bolt_utils']);
-                    $twig->addExtension($app['twig.extension.bolt_widget']);
+        $app['twig'] = $app->extend(
+            'twig',
+            function (Environment $twig, $app) {
+                $twig->addExtension($app['twig.extension.bolt']);
+                $twig->addExtension($app['twig.extension.bolt_admin']);
+                $twig->addExtension($app['twig.extension.bolt_array']);
+                $twig->addExtension($app['twig.extension.bolt_html']);
+                $twig->addExtension($app['twig.extension.bolt_image']);
+                $twig->addExtension($app['twig.extension.bolt_record']);
+                $twig->addExtension($app['twig.extension.bolt_routing']);
+                $twig->addExtension($app['twig.extension.bolt_text']);
+                $twig->addExtension($app['twig.extension.bolt_users']);
+                $twig->addExtension($app['twig.extension.bolt_utils']);
+                $twig->addExtension($app['twig.extension.bolt_widget']);
 
-                    $twig->addExtension($app['twig.extension.asset']);
-                    $twig->addExtension($app['twig.extension.http_foundation']);
-                    $twig->addExtension($app['twig.extension.string_loader']);
+                $twig->addExtension($app['twig.extension.asset']);
+                $twig->addExtension($app['twig.extension.string_loader']);
 
-                    $twig->addExtension($app['twig.extension.dump']);
+                $twig->addExtension($app['twig.extension.dump']);
 
-                    $sandbox = $app['twig.extension.sandbox'];
-                    $twig->addExtension($sandbox);
-                    $twig->addGlobal('app', new ArrayAccessSecurityProxy($app, $sandbox));
+                $sandbox = $app['twig.extension.sandbox'];
+                $twig->addExtension($sandbox);
+                $twig->addGlobal('app', new ArrayAccessSecurityProxy($app, $sandbox));
 
-                    /** @deprecated Can be replaced when switch to Silex 2 occurs */
-                    $twig->addRuntimeLoader($app['twig.runtime_loader']);
-
-                    /** @deprecated Can be replaced when switch to Silex 2 occurs */
-                    $twig->addGlobal('global', $app['twig.app_variable']);
-
-                    /** @deprecated Can be removed when switch to Silex 2 occurs */
-                    $app['twig.form.engine'] = $app->share(
-                        function ($app) use ($twig) {
-                            return new TwigRendererEngine($app['twig.form.templates'], $twig);
-                        }
-                    );
-                    /** @deprecated Can be removed when switch to Silex 2 occurs */
-                    $app['twig.form.renderer'] = $app->share(function ($app) {
-                        return new TwigRenderer($app['twig.form.engine'], $app['form.csrf_provider']);
-                    });
-
-                    return $twig;
-                }
-            )
+                return $twig;
+            }
         );
 
         $app['twig.extension.bolt'] = function ($app) {
@@ -270,46 +207,35 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Extension\WidgetExtension();
         };
 
-        $app['twig.extension.asset'] = $app->share(
-            function ($app) {
-                return new AssetExtension($app['asset.packages'], $app['twig.extension.http_foundation']);
-            }
-        );
+        $app['twig.extension.asset'] = function ($app) {
+            return new AssetExtension($app['asset.packages']);
+        };
 
-        $app['twig.extension.http_foundation'] = $app->share(
-            function ($app) {
-                return new HttpFoundationExtension($app['request_stack'], $app['request_context']);
-            }
-        );
+        $app['twig.extension.dump'] = function () {
+            return new Extension\DumpExtension();
+        };
 
-        $app['twig.extension.dump'] = $app->share(
-            function () {
-                return new Extension\DumpExtension();
-            }
-        );
-
-        $app['twig.extension.string_loader'] = $app->share(
-            function () {
-                return new StringLoaderExtension();
-            }
-        );
+        $app['twig.extension.string_loader'] = function () {
+            return new StringLoaderExtension();
+        };
 
         // Twig options
-        $app['twig.options'] = function () use ($app) {
-            $options = [];
+        $app['twig.options'] = $app->factory(
+            function () use ($app) {
+                $options = [];
 
-            // Should we cache or not?
-            if ($app['config']->get('general/caching/templates')) {
-                $key = hash('md5', $app['config']->get('general/theme'));
-                $options['cache'] = $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/twig/' . $key);
-            }
+                // Should we cache or not?
+                if ($app['config']->get('general/caching/templates')) {
+                    $key = hash('md5', $app['config']->get('general/theme'));
+                    $options['cache'] = $app['path_resolver']->resolve('%cache%/' . $app['environment'] . '/twig/' . $key);
+                }
 
-            if (($strict = $app['config']->get('general/strict_variables')) !== null) {
-                $options['strict_variables'] = $strict;
-            }
+                if (($strict = $app['config']->get('general/strict_variables')) !== null) {
+                    $options['strict_variables'] = $strict;
+                }
 
             return $options;
-        };
+        });
     }
 
     /**
@@ -325,188 +251,178 @@ class TwigServiceProvider implements ServiceProviderInterface
 
     protected function registerSandbox(Application $app)
     {
-        $app['twig.extension.sandbox'] = $app->share(
-            function ($app) {
-                return new SandboxExtension($app['twig.sandbox.policy']);
-            }
-        );
+        $app['twig.extension.sandbox'] = function ($app) {
+            return new SandboxExtension($app['twig.sandbox.policy']);
+        };
 
-        $app['twig.sandbox.policy'] = $app->share(
-            function ($app) {
-                return new SecurityPolicy(
-                    $app['twig.sandbox.policy.tags'],
-                    $app['twig.sandbox.policy.filters'],
-                    $app['twig.sandbox.policy.methods'],
-                    $app['twig.sandbox.policy.properties'],
-                    $app['twig.sandbox.policy.functions']
-                );
-            }
-        );
+        $app['twig.sandbox.policy'] = function ($app) {
+            return new SecurityPolicy(
+                $app['twig.sandbox.policy.tags'],
+                $app['twig.sandbox.policy.filters'],
+                $app['twig.sandbox.policy.methods'],
+                $app['twig.sandbox.policy.properties'],
+                $app['twig.sandbox.policy.functions']
+            );
+        };
 
-        $app['twig.sandbox.policy.tags'] = $app->share(
-            function () {
-                return [
-                    // Core
-                    'for',
-                    'if',
-                    'block',
-                    'filter',
-                    'macro',
-                    'set',
-                    'spaceless',
-                    'do',
+        $app['twig.sandbox.policy.tags'] = function () {
+            return [
+                // Core
+                'for',
+                'if',
+                'block',
+                'filter',
+                'macro',
+                'set',
+                'spaceless',
+                'do',
 
-                    // Translation Extension
-                    'trans',
-                    'transchoice',
-                    'trans_default_domain',
-                ];
-            }
-        );
+                // Translation Extension
+                'trans',
+                'transchoice',
+                'trans_default_domain',
+            ];
+        };
 
-        $app['twig.sandbox.policy.functions'] = $app->share(
-            function () {
-                return [
-                    // Core
-                    'max',
-                    'min',
-                    'range',
-                    'constant',
-                    'cycle',
-                    'random',
-                    'date',
+        $app['twig.sandbox.policy.functions'] = function () {
+            return [
+                // Core
+                'max',
+                'min',
+                'range',
+                'constant',
+                'cycle',
+                'random',
+                'date',
 
-                    // Asset Extension
-                    'asset',
-                    'asset_version',
+                // Asset Extension
+                'asset',
+                'asset_version',
 
-                    // Bolt Extension
-                    '__',
-                    'backtrace',
-                    'buid',
-                    'canonical',
-                    'countwidgets',
-                    'current',
-                    'data',
-                    'dump',
-                    'excerpt',
-                    'fancybox',
-                    'fields',
-                    //'file_exists',
-                    'firebug',
-                    'first',
-                    'getuser',
-                    'getuserid',
-                    'getwidgets',
-                    'haswidgets',
-                    'hattr',
-                    'hclass',
-                    'htmllang',
-                    'image',
-                    //'imageinfo',
-                    'isallowed',
-                    'ischangelogenabled',
-                    'ismobileclient',
-                    'last',
-                    'link',
-                    //'listtemplates',
-                    'markdown',
-                    //'menu',
-                    'pager',
-                    'popup',
-                    'print',
-                    'randomquote',
-                    //'redirect',
-                    //'request',
-                    'showimage',
-                    'stack',
-                    'thumbnail',
-                    'token',
-                    'trimtext',
-                    'unique',
-                    'widgets',
+                // Bolt Extension
+                '__',
+                'backtrace',
+                'buid',
+                'canonical',
+                'countwidgets',
+                'current',
+                'data',
+                'dump',
+                'excerpt',
+                'fancybox',
+                'fields',
+                //'file_exists',
+                'firebug',
+                'first',
+                'getuser',
+                'getuserid',
+                'getwidgets',
+                'haswidgets',
+                'hattr',
+                'hclass',
+                'htmllang',
+                'image',
+                //'imageinfo',
+                'isallowed',
+                'ischangelogenabled',
+                'ismobileclient',
+                'last',
+                'link',
+                //'listtemplates',
+                'markdown',
+                //'menu',
+                'pager',
+                'popup',
+                'print',
+                'randomquote',
+                //'redirect',
+                //'request',
+                'showimage',
+                'stack',
+                'thumbnail',
+                'token',
+                'trimtext',
+                'unique',
+                'widgets',
 
-                    // Routing Extension
-                    'url',
-                    'path',
-                ];
-            }
-        );
+                // Routing Extension
+                'url',
+                'path',
+            ];
+        };
 
-        $app['twig.sandbox.policy.filters'] = $app->share(
-            function () {
-                return [
-                    // Core
-                    'date',
-                    'date_modify',
-                    'format',
-                    'replace',
-                    'number_format',
-                    'abs',
-                    'round',
-                    'url_encode',
-                    'json_encode',
-                    'convert_encoding',
-                    'title',
-                    'capitalize',
-                    'upper',
-                    'lower',
-                    'striptags',
-                    'trim',
-                    'nl2br',
-                    'join',
-                    'split',
-                    'sort',
-                    'merge',
-                    'batch',
-                    'reverse',
-                    'length',
-                    'slice',
-                    'first',
-                    'last',
-                    'default',
-                    'keys',
-                    'escape',
-                    'e',
+        $app['twig.sandbox.policy.filters'] = function () {
+            return [
+                // Core
+                'date',
+                'date_modify',
+                'format',
+                'replace',
+                'number_format',
+                'abs',
+                'round',
+                'url_encode',
+                'json_encode',
+                'convert_encoding',
+                'title',
+                'capitalize',
+                'upper',
+                'lower',
+                'striptags',
+                'trim',
+                'nl2br',
+                'join',
+                'split',
+                'sort',
+                'merge',
+                'batch',
+                'reverse',
+                'length',
+                'slice',
+                'first',
+                'last',
+                'default',
+                'keys',
+                'escape',
+                'e',
 
-                    // Bolt Extension
-                    '__',
-                    'current',
-                    //'editable',
-                    'excerpt',
-                    'fancybox',
-                    'image',
-                    //'imageinfo',
-                    'json_decode',
-                    'localdate',
-                    'localedatetime',
-                    'loglevel',
-                    'markdown',
-                    'order',
-                    'popup',
-                    'preg_replace',
-                    'safestring',
-                    'selectfield',
-                    'showimage',
-                    'shuffle',
-                    'shy',
-                    'slug',
-                    'thumbnail',
-                    'trimtext',
-                    'tt',
-                    'twig',
-                    'ucfirst',
-                    //'ymllink',
+                // Bolt Extension
+                '__',
+                'current',
+                //'editable',
+                'excerpt',
+                'fancybox',
+                'image',
+                //'imageinfo',
+                'json_decode',
+                'localdate',
+                'localedatetime',
+                'loglevel',
+                'markdown',
+                'order',
+                'popup',
+                'preg_replace',
+                'safestring',
+                'selectfield',
+                'showimage',
+                'shuffle',
+                'shy',
+                'slug',
+                'thumbnail',
+                'trimtext',
+                'tt',
+                'twig',
+                'ucfirst',
+                //'ymllink',
 
-                    // Form Extension
-                    'humanize',
+                // Form Extension
+                'humanize',
 
-                    // Translation Extension
-                    'trans',
-                    'transchoice',
-                ];
-            }
-        );
+                // Translation Extension
+                'trans',
+                'transchoice',
+            ];
+        };
 
         $app['twig.sandbox.policy.methods'] = [];
         $app['twig.sandbox.policy.properties'] = [];

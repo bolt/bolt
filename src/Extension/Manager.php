@@ -10,9 +10,9 @@ use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
-use Bolt\Helpers\Deprecated;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
+use Pimple\Container;
 use ReflectionClass;
 use Silex\Application;
 use Symfony\Component\Debug\Exception\ContextErrorException;
@@ -190,11 +190,11 @@ class Manager
     /**
      * Call register() for each extension.
      *
-     * @param Application $app
+     * @param Container $app
      *
      * @throws \RuntimeException
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if ($this->registered) {
             throw new \RuntimeException('Can not re-register extensions.');

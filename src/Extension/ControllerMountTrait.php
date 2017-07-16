@@ -3,9 +3,9 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\MountEvent;
-use Pimple as Container;
+use Pimple\Container;
+use Silex\Api\ControllerProviderInterface;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
 
 /**
  * Controller mounting trait for an extension.

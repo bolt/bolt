@@ -32,7 +32,7 @@ class RecordsTest extends ControllerUnitTest
     public function testEditNotPermitted()
     {
         // Since we're the test user we won't automatically have permission to edit.
-        $token = $this->getService('csrf')->getToken('content_edit');
+        $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $this->setRequest(Request::create('/bolt/editcontent/pages/4', 'POST', [
             'content_edit' => [
                 'save'   => 1,
@@ -53,7 +53,7 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $token = $this->getService('csrf')->getToken('content_edit');
+        $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
             'content_edit' => [
                 'save' => 1,
@@ -88,7 +88,7 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $token = $this->getService('csrf')->getToken('content_edit');
+        $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
 
             'title'        => 'Dangers to watch for',
@@ -151,13 +151,15 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPostReturn()
     {
+        $this->removeCSRF();
+
         $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $token = $this->getService('csrf')->getToken('content_edit');
+        $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
             'title'  => 'Koala Country',
             'slug'   => 'koala-country',
@@ -180,6 +182,8 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPostAjax()
     {
+        $this->removeCSRF();
+
         // Since we're the test user we won't automatically have permission to edit.
         $permissions = $this->getMockPermissions();
         $permissions->expects($this->any())
@@ -187,7 +191,7 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $token = $this->getService('csrf')->getToken('content_edit');
+        $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
             'title'  => 'Koala Country',
             'slug'   => 'koala-country',

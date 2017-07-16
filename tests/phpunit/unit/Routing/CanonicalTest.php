@@ -5,7 +5,6 @@ namespace Bolt\Tests\Routing;
 use Bolt\Routing\Canonical;
 use PHPUnit\Framework\TestCase;
 use Silex\Application;
-use Silex\Provider\UrlGeneratorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -151,12 +150,14 @@ class CanonicalTest extends TestCase
     protected function createAppWithCanonical($globalOverride = null, $forceSsl = false)
     {
         $app = new Application();
-        $app->register(new UrlGeneratorServiceProvider());
         $app->match('/foo');
 
         $canonical = new Canonical($app['url_generator'], $forceSsl, $globalOverride);
         $canonical->setUrlGenerator($app['url_generator']);
         $app['canonical'] = $canonical;
+
+        // Dispatcher can't be called pre-boot.
+        $app->boot();
 
         $app['dispatcher']->addSubscriber($canonical);
 

@@ -3,27 +3,27 @@
 namespace Bolt\Provider;
 
 use Bolt\Routing\Canonical;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
 /**
  * Canonical service provider.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class CanonicalServiceProvider implements ServiceProviderInterface
+class CanonicalServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['canonical'] = $app->share(
-            function ($app) {
-                return new Canonical(
-                    $app['url_generator'],
-                    $app['config']->get('general/force_ssl'),
-                    $app['config']->get('general/canonical')
-                );
-            }
-        );
+        $app['canonical'] = function ($app) {
+            return new Canonical(
+                $app['url_generator'],
+                $app['config']->get('general/force_ssl'),
+                $app['config']->get('general/canonical')
+            );
+        };
     }
 
     public function boot(Application $app)

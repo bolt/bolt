@@ -9,42 +9,36 @@ use Bolt\Routing\LazyUrlGenerator;
 use Bolt\Routing\RootControllerCollection;
 use Bolt\Routing\UrlGeneratorFragmentWrapper;
 use Bolt\Routing\UrlMatcher;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
 use Silex\Route;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoutingServiceProvider implements ServiceProviderInterface
+class RoutingServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['controllers_factory'] = function ($app) {
+        $app['controllers_factory'] = $app->factory(function ($app) {
             return new ControllerCollection($app['route_factory']);
+        });
+
+        $app['controllers'] = function ($app) {
+            return new RootControllerCollection($app, $app['dispatcher'], $app['route_factory']);
         };
 
-        $app['controllers'] = $app->share(
-            function ($app) {
-                return new RootControllerCollection($app, $app['dispatcher'], $app['route_factory']);
-            }
-        );
+        $app['url_matcher'] = function ($app) {
+            return new UrlMatcher($app['routes'], $app['request_context']);
+        };
 
-        $app['url_matcher'] = $app->share(
-            function ($app) {
-                return new UrlMatcher($app['routes'], $app['request_context']);
-            }
-        );
+        $app['resolver'] = function ($app) {
+            return new ControllerResolver($app, $app['logger']);
+        };
 
-        $app['resolver'] = $app->share(
-            function ($app) {
-                return new ControllerResolver($app, $app['logger']);
-            }
-        );
-
-        $app['callback_resolver'] = $app->share(
-            function ($app) {
-                return new CallbackResolver($app);
-            }
-        );
+        $app['callback_resolver'] = function ($app) {
+            return new CallbackResolver($app);
+        };
 
         $app['route_factory'] = $app->extend(
             'route_factory',
@@ -57,24 +51,20 @@ class RoutingServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['url_generator'] = $app->share(
-            $app->extend(
-                'url_generator',
-                function ($urlGenerator) {
-                    return new UrlGeneratorFragmentWrapper($urlGenerator);
-                }
-            )
-        );
-
-        $app['url_generator.lazy'] = $app->share(
-            function ($app) {
-                return new LazyUrlGenerator(
-                    function () use ($app) {
-                        return $app['url_generator'];
-                    }
-                );
+        $app['url_generator'] = $app->extend(
+            'url_generator',
+            function ($urlGenerator) {
+                return new UrlGeneratorFragmentWrapper($urlGenerator);
             }
         );
+
+        $app['url_generator.lazy'] = function ($app) {
+            return new LazyUrlGenerator(
+                function () use ($app) {
+                    return $app['url_generator'];
+                }
+            );
+        };
     }
 
     public function boot(Application $app)

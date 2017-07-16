@@ -4,7 +4,7 @@ namespace Bolt\Extension;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Twig\SecurityPolicy;
-use Pimple as Container;
+use Pimple\Container;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Extension\SandboxExtension;
@@ -94,15 +94,13 @@ trait TwigTrait
     {
         $app = $this->getContainer();
 
-        $app['twig'] = $app->share(
-            $app->extend(
-                'twig',
-                function ($twig) {
-                    $this->loadTwig($twig);
+        $app['twig'] = $app->extend(
+            'twig',
+            function (Environment $twig) {
+                $this->loadTwig($twig);
 
-                    return $twig;
-                }
-            )
+                return $twig;
+            }
         );
     }
 

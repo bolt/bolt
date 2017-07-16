@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Silex\Application;
+use Pimple\Container;
 use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
  */
 class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvider
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // Store previous dispatcher.
         $dispatcherFactory = $app->raw('dispatcher');
@@ -23,20 +23,20 @@ class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvi
         $app['dispatcher'] = $dispatcherFactory;
 
         // Try again, but only if app['debug'] is true.
-        $app['dispatcher'] = $app->share($app->extend('dispatcher', function ($dispatcher, $app) {
+        $app['dispatcher'] = $app->extend('dispatcher', function ($dispatcher, $app) {
             if (!$app['debug']) {
                 return $dispatcher;
             }
 
             return new TraceableEventDispatcher($dispatcher, $app['stopwatch'], $app['logger']);
-        }));
+        });
 
-        $app['profiler'] = $app->share($app->extend('profiler', function ($profiler, $app) {
+        $app['profiler'] = $app->extend('profiler', function ($profiler, $app) {
             if (!$app['debug']) {
                 $profiler->disable();
             }
 
             return $profiler;
-        }));
+        });
     }
 }

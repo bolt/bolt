@@ -3,28 +3,22 @@
 namespace Bolt\Provider;
 
 use Bolt\Stack;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class StackServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['stack'] = $app->share(
-            function ($app) {
-                $stack = new Stack(
-                    $app['filesystem.matcher'],
-                    $app['users'],
-                    $app['session'],
-                    $app['config']->get('general/accept_file_types')
-                );
+        $app['stack'] = function ($app) {
+            $stack = new Stack(
+                $app['filesystem.matcher'],
+                $app['users'],
+                $app['session'],
+                $app['config']->get('general/accept_file_types')
+            );
 
-                return $stack;
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+            return $stack;
+        };
     }
 }

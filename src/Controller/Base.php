@@ -11,9 +11,9 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
+use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -250,7 +250,7 @@ abstract class Base implements ControllerProviderInterface
     {
         $token = new CsrfToken($id, $value ?: $this->app['request_stack']->getCurrentRequest()->get('bolt_csrf_token'));
 
-        return $this->app['csrf']->isTokenValid($token);
+        return $this->app['csrf.token_manager']->isTokenValid($token);
     }
 
     /**

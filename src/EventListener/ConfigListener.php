@@ -47,6 +47,9 @@ class ConfigListener implements EventSubscriberInterface
      */
     public function onRequestEarly(GetResponseEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
         $validator = $this->app['config.validator'];
         $response = $validator->checks();
         if ($response instanceof Response) {

@@ -7,6 +7,8 @@ use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\AdminRuntime;
 use Monolog\Logger;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Class to test Bolt\Twig\Runtime\AdminRuntime.
@@ -161,10 +163,13 @@ class AdminRuntimeTest extends BoltUnitTest
 
     public function testTransArgsFour()
     {
-        $app = $this->getApp();
-        $trans = $this->getMockBuilder(\Silex\Translator::class)
+        $translator = $this->getMockBuilder(Translator::class)
+            ->setConstructorArgs(['de_DE'])
+            ->getMock()
+        ;
+        $trans = $this->getMockBuilder(DataCollectorTranslator::class)
             ->setMethods(['trans'])
-            ->setConstructorArgs([$app, $app['translator.message_selector']])
+            ->setConstructorArgs([$translator])
             ->getMock()
         ;
         $trans

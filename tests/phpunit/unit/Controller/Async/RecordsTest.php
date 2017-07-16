@@ -6,7 +6,6 @@ use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Class to test correct operation of src/Controller/Async/Records.
@@ -17,17 +16,8 @@ class RecordsTest extends ControllerUnitTest
 {
     public function testDelete()
     {
+        $this->removeCSRF();
         $this->addSomeContent();
-        $csrf = $this->getMockBuilder(CsrfTokenManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['isTokenValid'])
-            ->getMock()
-        ;
-        $csrf->expects($this->atLeastOnce())
-            ->method('isTokenValid')
-            ->willReturn(true)
-        ;
-        $this->setService('csrf', $csrf);
 
         $request = Request::create('/async/content/action');
         $request->setMethod('POST');
@@ -65,17 +55,8 @@ class RecordsTest extends ControllerUnitTest
 
     public function testModify()
     {
+        $this->removeCSRF();
         $this->addSomeContent();
-        $csrf = $this->getMockBuilder(CsrfTokenManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['isTokenValid'])
-            ->getMock()
-        ;
-        $csrf->expects($this->atLeastOnce())
-            ->method('isTokenValid')
-            ->willReturn(true)
-        ;
-        $this->setService('csrf', $csrf);
 
         $request = Request::create('/async/content/action');
         $request->setMethod('POST');

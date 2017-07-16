@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Extension\ExtensionInterface;
 use LogicException;
+use Pimple\ServiceProviderInterface;
 use Silex;
 use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
@@ -86,34 +87,32 @@ class Bootstrap
                 $service = $key;
             }
 
-            if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
+            if (is_string($service) && is_a($service, ServiceProviderInterface::class, true)) {
                 $service = new $service();
             }
-            if ($service instanceof Silex\ServiceProviderInterface) {
+            if ($service instanceof ServiceProviderInterface) {
                 $app->register($service, $params);
             }
         }
 
-        $app['extensions'] = $app->share(
-            $app->extend(
-                'extensions',
-                function ($extensions) use ($config) {
-                    foreach ((array) $config['extensions'] as $extensionClass) {
-                        if (is_string($extensionClass)) {
-                            if (!is_a($extensionClass, ExtensionInterface::class, true)) {
-                                throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
-                            }
-                            $extensionClass = new $extensionClass();
+        $app['extensions'] = $app->extend(
+            'extensions',
+            function ($extensions) use ($config) {
+                foreach ((array) $config['extensions'] as $extensionClass) {
+                    if (is_string($extensionClass)) {
+                        if (!is_a($extensionClass, ExtensionInterface::class, true)) {
+                            throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
                         }
-                        if (!$extensionClass instanceof ExtensionInterface) {
-                            throw new LogicException(get_class($extensionClass) . ' needs to be an instance of ' . ExtensionInterface::class);
-                        }
-                        $extensions->add($extensionClass);
+                        $extensionClass = new $extensionClass();
                     }
-
-                    return $extensions;
+                    if (!$extensionClass instanceof ExtensionInterface) {
+                        throw new LogicException(get_class($extensionClass) . ' needs to be an instance of ' . ExtensionInterface::class);
+                    }
+                    $extensions->add($extensionClass);
                 }
-            )
+
+                return $extensions;
+            }
         );
 
         return $app;

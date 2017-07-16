@@ -131,7 +131,8 @@ class GeneralTest extends ControllerUnitTest
 
     public function testTranslation()
     {
-        $this->removeCSRF($this->getApp());
+        $app = $this->getApp(false);
+        $this->removeCSRF($app);
 
         // Render new translation file
         $this->setRequest(Request::create('/bolt/tr'));

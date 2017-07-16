@@ -3,23 +3,17 @@
 namespace Bolt\Provider;
 
 use Bolt\Omnisearch;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
 class OmnisearchServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['omnisearch'] = $app->share(
-            function ($app) {
-                $omnisearch = new Omnisearch($app);
+        $app['omnisearch'] = function ($app) {
+            $omnisearch = new Omnisearch($app);
 
-                return $omnisearch;
-            }
-        );
-    }
-
-    public function boot(Application $app)
-    {
+            return $omnisearch;
+        };
     }
 }

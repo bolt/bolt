@@ -16,13 +16,12 @@ class PimpleDumpTest extends BoltUnitTest
 {
     public function testRun()
     {
-        $app = $this->getApp();
-        $app['pimpledump.output_dir'] = PHPUNIT_WEBROOT;
+        $app = $this->getApp(false);
         $command = new PimpleDump($app);
 
         $tester = new CommandTester($command);
 
-        $tester->execute([]);
+        $tester->execute(['--path' => PHPUNIT_WEBROOT]);
 
         $this->assertFileExists(PHPUNIT_WEBROOT . '/pimple.json');
     }

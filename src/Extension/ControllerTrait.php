@@ -4,7 +4,7 @@ namespace Bolt\Extension;
 
 use Bolt\Events\MountEvent;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
-use Pimple as Container;
+use Pimple\Container;
 use Silex\ControllerCollection;
 
 /**

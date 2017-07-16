@@ -73,7 +73,6 @@ abstract class BoltUnitTest extends TestCase
     {
         if (!$this->app) {
             $this->app = $this->makeApp();
-            $this->app->initialize();
 
             $verifier = new Config\Validation\Validator(
                 $this->app['config'],
@@ -194,7 +193,7 @@ abstract class BoltUnitTest extends TestCase
         $this->setService('access_control', $auth);
     }
 
-    protected function removeCSRF($app)
+    protected function removeCSRF()
     {
         // Symfony forms need a CSRF token so we have to mock this too
         $csrf = $this->getMockCsrfTokenManager(['isTokenValid', 'getToken']);
@@ -206,7 +205,7 @@ abstract class BoltUnitTest extends TestCase
             ->method('getToken')
             ->will($this->returnValue('xyz'));
 
-        $this->setService('form.csrf_provider', $csrf);
+        $this->setService('csrf.token_manager', $csrf);
     }
 
     protected function addSomeContent()
@@ -228,8 +227,8 @@ abstract class BoltUnitTest extends TestCase
     {
         // In Pimple v3+ you can't re-set a container value,
         // this just keeps us working forward with tests.
-        $this->getApp()->offsetUnset($key);
-        $this->getApp()->offsetSet($key, $value);
+        $this->getApp(false)->offsetUnset($key);
+        $this->getApp(false)->offsetSet($key, $value);
     }
 
     protected function getService($key)

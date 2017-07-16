@@ -8,7 +8,7 @@ use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Helpers\Deprecated;
-use Pimple as Container;
+use Pimple\Container;
 use Silex\Application;
 
 /**
@@ -43,55 +43,49 @@ trait AssetTrait
         /** @var Application $app */
         $app = $this->getContainer();
 
-        $app['asset.queue.file'] = $app->share(
-            $app->extend(
-                'asset.queue.file',
-                function ($queue) {
-                    $this->loadAssets();
+        $app['asset.queue.file'] = $app->extend(
+            'asset.queue.file',
+            function ($queue) {
+                $this->loadAssets();
 
-                    foreach ($this->assets as $asset) {
-                        if ($asset instanceof FileAssetInterface) {
-                            $queue->add($asset);
-                        }
+                foreach ($this->assets as $asset) {
+                    if ($asset instanceof FileAssetInterface) {
+                        $queue->add($asset);
                     }
-
-                    return $queue;
                 }
-            )
+
+                return $queue;
+            }
         );
 
-        $app['asset.queue.snippet'] = $app->share(
-            $app->extend(
-                'asset.queue.snippet',
-                function ($queue) {
-                    $this->loadAssets();
+        $app['asset.queue.snippet'] = $app->extend(
+            'asset.queue.snippet',
+            function ($queue) {
+                $this->loadAssets();
 
-                    foreach ($this->assets as $asset) {
-                        if ($asset instanceof SnippetAssetInterface) {
-                            $queue->add($asset);
-                        }
+                foreach ($this->assets as $asset) {
+                    if ($asset instanceof SnippetAssetInterface) {
+                        $queue->add($asset);
                     }
-
-                    return $queue;
                 }
-            )
+
+                return $queue;
+            }
         );
 
-        $app['asset.queue.widget'] = $app->share(
-            $app->extend(
-                'asset.queue.widget',
-                function ($queue) {
-                    $this->loadAssets();
+        $app['asset.queue.widget'] = $app->extend(
+            'asset.queue.widget',
+            function ($queue) {
+                $this->loadAssets();
 
-                    foreach ($this->assets as $asset) {
-                        if ($asset instanceof WidgetAssetInterface) {
-                            $queue->add($asset);
-                        }
+                foreach ($this->assets as $asset) {
+                    if ($asset instanceof WidgetAssetInterface) {
+                        $queue->add($asset);
                     }
-
-                    return $queue;
                 }
-            )
+
+                return $queue;
+            }
         );
     }
 

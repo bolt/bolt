@@ -11,31 +11,33 @@ use Bolt\Filesystem\Matcher;
 use Bolt\Helpers\Deprecated;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
 /**
  * Register thumbnails service.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ThumbnailsServiceProvider implements ServiceProviderInterface
+class ThumbnailsServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['thumbnails'])) {
             $app->register(new Thumbs\ServiceProvider());
         }
 
-        $app['thumbnails.creator'] = $app->share($app->extend('thumbnails.creator', function ($creator, $app) {
+        $app['thumbnails.creator'] = $app->extend('thumbnails.creator', function ($creator, $app) {
             ImageResource::setNormalizeJpegOrientation($app['config']->get('general/thumbnails/exif_orientation', true));
             ImageResource::setQuality($app['config']->get('general/thumbnails/quality', 80));
 
             return $creator;
-        }));
+        });
 
         $app['thumbnails.filesystems'] = [
             'files',
@@ -46,7 +48,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             return $app['config']->get('general/thumbnails/save_files');
         };
 
-        $app['thumbnails.filesystem_cache'] = $app->share(function ($app) {
+        $app['thumbnails.filesystem_cache'] = function ($app) {
             if ($app['thumbnails.save_files'] === false) {
                 return null;
             }
@@ -55,27 +57,27 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
             }
 
             return $app['filesystem']->getFilesystem('web');
-        });
+        };
 
         $app['thumbnails.caching'] = function ($app) {
             return $app['config']->get('general/caching/thumbnails');
         };
 
-        $app['thumbnails.cache'] = $app->share(function ($app) {
+        $app['thumbnails.cache'] = function ($app) {
             if ($app['thumbnails.caching'] === false) {
                 return null;
             }
 
             return $app['cache'];
-        });
+        };
 
-        $app['thumbnails.default_image'] = $app->share(function ($app) {
+        $app['thumbnails.default_image'] = function ($app) {
             return $this->findDefaultImage($app, 'notfound');
-        });
+        };
 
-        $app['thumbnails.error_image'] = $app->share(function ($app) {
+        $app['thumbnails.error_image'] = function ($app) {
             return $this->findDefaultImage($app, 'error');
-        });
+        };
 
         $app['thumbnails.default_imagesize'] = function ($app) {
             return $app['config']->get('general/thumbnails/default_image');
