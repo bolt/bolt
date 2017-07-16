@@ -28,7 +28,7 @@ trait AssetSortTrait
             }
         );
 
-        sort($assets);
+        rsort($assets);
 
         array_walk(
             $assets,
