@@ -42,6 +42,14 @@ class Widget implements WidgetAssetInterface
     /** @var string */
     private $rendered;
 
+    /**
+     * @return WidgetAssetInterface
+     */
+    public static function create()
+    {
+        return new static();
+    }
+
     public function offsetExists($offset)
     {
         return property_exists($this, $offset);
