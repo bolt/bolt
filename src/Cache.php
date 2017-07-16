@@ -38,9 +38,10 @@ class Cache extends FilesystemCache
      */
     public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, CompositeFilesystemInterface $filesystem = null)
     {
-        parent::__construct($directory, $extension, $umask);
+        umask($umask);
         $this->filesystem = $filesystem;
         $this->umask = $umask;
+        parent::__construct($directory, $extension, $umask);
     }
 
     /**
