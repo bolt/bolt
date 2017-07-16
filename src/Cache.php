@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Filesystem\AggregateFilesystemInterface;
+use Bolt\Filesystem\CompositeFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
@@ -23,7 +23,7 @@ class Cache extends FilesystemCache
     /** Default cache file extension. */
     const EXTENSION = '.data';
 
-    /** @var AggregateFilesystemInterface */
+    /** @var CompositeFilesystemInterface */
     private $filesystem;
     /** @var int */
     private $umask;
@@ -34,9 +34,9 @@ class Cache extends FilesystemCache
      * @param string                       $directory
      * @param string                       $extension
      * @param int                          $umask
-     * @param AggregateFilesystemInterface $filesystem
+     * @param CompositeFilesystemInterface $filesystem
      */
-    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, AggregateFilesystemInterface $filesystem = null)
+    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, CompositeFilesystemInterface $filesystem = null)
     {
         parent::__construct($directory, $extension, $umask);
         $this->filesystem = $filesystem;
@@ -70,7 +70,7 @@ class Cache extends FilesystemCache
         // Clear Doctrine's folder.
         $result = parent::doFlush();
 
-        if ($this->filesystem instanceof AggregateFilesystemInterface) {
+        if ($this->filesystem instanceof CompositeFilesystemInterface) {
             $cacheFs = $this->filesystem->getFilesystem('cache');
             // Clear our cached configuration
             if ($cacheFs->has('config-cache.json')) {
