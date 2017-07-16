@@ -4,6 +4,14 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Change set: [#6726](https://github.com/bolt/bolt/pull/6726)
+  - Added: Twig functions {{ prefetch() }} & {{ dns_prefetch() }}
+  - Updated: silex/silex ^2.1
+  - Updated: pimple/pimple ^3.0
+  - Updated: Swiftmailer ^6.0
+  - Updated: sorien/silex-pimple-dumper:^2.0
+  - Updated: bolt/thumbs dev-silex2@dev
+  - Removed: $app['csrf'] - Replaced with upstream $app['csrf.token_manager']
 - Change set: [#6818](https://github.com/bolt/bolt/pull/6818)
   - Removed: jQuery helper
   - Removed: Twig {{ twig }} function
