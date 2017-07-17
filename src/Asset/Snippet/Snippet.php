@@ -24,6 +24,14 @@ class Snippet implements SnippetAssetInterface
     protected $zone = Zone::FRONTEND;
 
     /**
+     * @return SnippetAssetInterface
+     */
+    public static function create()
+    {
+        return new static();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __toString()

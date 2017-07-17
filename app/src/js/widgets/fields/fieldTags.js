@@ -58,7 +58,7 @@
                     for (var i = 0; i < arrayLength; i++) {
                         if (options.indexOf(data[i].name) < 0) {
                             options.push(data[i].name);
-                            optionsHTML += '<option value=' + data[i].name + '>' + data[i].name + '</option>';
+                            optionsHTML += '<option value="' + data[i].name + '">' + data[i].name + '</option>';
                         }
                     }
                     taxonomy.append($(optionsHTML)).trigger('change');
