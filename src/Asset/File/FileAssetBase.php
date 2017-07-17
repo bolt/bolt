@@ -43,6 +43,17 @@ abstract class FileAssetBase implements FileAssetInterface
     }
 
     /**
+     * @param string $path
+     * @param string $packageName
+     *
+     * @return FileAssetInterface
+     */
+    public static function create($path = null, $packageName = null)
+    {
+        return new static($path, $packageName);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getType()
