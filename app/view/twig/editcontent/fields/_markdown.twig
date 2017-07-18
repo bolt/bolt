@@ -11,6 +11,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{# NOTE: The toolbar option loop double taps the last array variable, hack around it here until we can replace #}
 {% set ukkit_conf = {
     height:         option.height,
     lblMarkedview:  __('field.markdown.label.markedview'),
@@ -19,7 +20,7 @@
     markedOptions:  {
                         breaks: false,
                     },
-    toolbar:        ['bold', 'italic', 'link', 'image', 'blockquote', 'listUl', 'listOl'],
+    toolbar:        ['bold', 'italic', 'link', 'image', 'blockquote', 'listUl', 'listOl', ''],
 } %}
 
 {% set attributes = {
