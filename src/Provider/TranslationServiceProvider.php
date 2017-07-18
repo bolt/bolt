@@ -48,6 +48,7 @@ class TranslationServiceProvider implements ServiceProviderInterface, Silex\Api\
             'translator',
             function ($translator, $app) {
                 foreach ($app['translator.loaders'] as $format => $loader) {
+                    /**@var \Symfony\Component\Translation\Translator $translator */
                     $translator->addLoader($format, $loader);
                 }
 
@@ -62,22 +63,19 @@ class TranslationServiceProvider implements ServiceProviderInterface, Silex\Api\
             ];
         };
 
-        $app['translator.resources'] = $app->extend(
-            'translator.resources',
-            function (array $resources, $app) {
-                $locale = $app['locale'];
+        $app['translator.resources'] = function ($app) {
+            $locale = $app['locale'];
 
-                $resources = array_merge($resources, static::addResources($app, $locale));
+            $resources = static::addResources($app, $locale);
 
-                foreach ($app['locale_fallbacks'] as $fallback) {
-                    if ($locale !== $fallback) {
-                        $resources = array_merge($resources, static::addResources($app, $fallback));
-                    }
+            foreach ($app['locale_fallbacks'] as $fallback) {
+                if ($locale !== $fallback) {
+                    $resources = array_merge($resources, static::addResources($app, $fallback));
                 }
-
-                return $resources;
             }
-        );
+
+            return $resources;
+        };
 
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $app['timezone_offset'] = date('P');
@@ -105,12 +103,12 @@ class TranslationServiceProvider implements ServiceProviderInterface, Silex\Api\
     /**
      * Adds all resources that belong to a locale.
      *
-     * @param Application $app
-     * @param string      $locale
+     * @param Container $app
+     * @param string    $locale
      *
      * @return array
      */
-    public static function addResources(Application $app, $locale)
+    public static function addResources(Container $app, $locale)
     {
         // Directories to look for translation file(s)
         $transDirs = array_unique(
