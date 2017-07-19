@@ -286,7 +286,7 @@ class RecordHandler
                 }
                 $retval[$element] = $row;
             } elseif (isset($c->values[$fieldName])) {
-                $retval[$element] = $c->values[$fieldName];
+                $retval[$element] = [$c->values[$fieldName]];
             }
         }
 
