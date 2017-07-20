@@ -4,12 +4,14 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
 use Bolt\Filesystem\Manager;
+use Bolt\Form\Resolver;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\Relations;
 use Bolt\Storage\Entity\TemplateFields;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
+use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
@@ -27,6 +29,8 @@ class Edit
 {
     /** @var EntityManager */
     protected $em;
+    /** @var Query */
+    private $query;
     /** @var Config */
     protected $config;
     /** @var Users */
@@ -62,6 +66,17 @@ class Edit
         $this->filesystem = $filesystem;
         $this->loggerSystem = $loggerSystem;
         $this->loggerFlash = $loggerFlash;
+    }
+
+    /**
+     * @internal DO NOT USE.
+     * @deprecated Temporary and to be removed circa 3.5.
+     *
+     * @param Query $query
+     */
+    public function setQueryHandler(Query $query)
+    {
+        $this->query = $query;
     }
 
     /**
@@ -137,6 +152,8 @@ class Edit
         if (($templateFields = $content->getTemplatefields()) && $templateFields instanceof TemplateFields) {
             $templateFieldsData = $templateFields->getContenttype()->getFields();
         }
+        // Temporary choice option resolver. Will be removed with Forms work circa Bolt 3.5.
+        $choiceResolver = new Resolver\Choice($this->em, $this->query);
 
         // Build context for Twig.
         $contextCan = [
@@ -155,6 +172,7 @@ class Edit
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
+            'select_choices'     => $choiceResolver->get($contentType)
         ];
         $context = [
             'incoming_not_inv' => $incomingNotInverted,
