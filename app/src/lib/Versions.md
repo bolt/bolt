@@ -11,3 +11,6 @@
 
 + ``jquery-hotkeys`` ⇒
   **[jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) 1.10.3**
+
+* `select2.sortable`  ⇒
+  **[select2-sortable](https://github.com/reduxframework/select2-sortable) (Patched for older Select2)**
