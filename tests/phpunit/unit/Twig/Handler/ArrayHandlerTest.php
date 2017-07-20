@@ -143,4 +143,74 @@ class ArrayHandlerTest extends BoltUnitTest
         $handler = new ArrayHandler($app);
         $handler->shuffle(['shuffle', 'board']);
     }
+
+    public function dataProviderUnique()
+    {
+        return [
+            'Same keys in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'cde'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde'],
+            ],
+            'Same keys in different orders 2' => [
+                ['bcd', 'cde', 'abc'], ['abc', 'bcd', 'cde'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc'],
+            ],
+            'Same keys in different orders 3' => [
+                ['cde', 'abc', 'bcd'], ['abc', 'bcd', 'cde'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd'],
+            ],
+
+            'Single additional key in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def']
+            ],
+            'Single additional key in different orders 2' => [
+                ['bcd', 'cde', 'abc'], ['def', 'abc', 'bcd'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc', 'def' => 'def']
+            ],
+            'Single additional key in different orders 3' => [
+                ['cde', 'abc', 'bcd'], ['bcd', 'cde', 'def'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd', 'def' => 'def']
+            ],
+
+            'Multiple additional keys in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'def', 'fgh'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def', 'fgh' => 'fgh']
+            ],
+            'Multiple additional keys in different orders 2' => [
+                ['abc', 'bcd', 'cde'], ['fgh', 'cde', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def']
+            ],
+            'Multiple additional keys in different orders 3' => [
+                ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def', 'efg' => 'efg']
+            ],
+
+            'Indexed array of values' => [
+                [
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                ],
+                [
+                    ['fgh', 'def', 'efg'], ['abc', 'bcd', 'cde']
+                ],
+                [
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                ],
+            ],
+
+            'Mapped array of values' => [
+                [
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                ],
+                [
+                    'map2' => ['fgh', 'def', 'efg'], 'map1' => ['abc', 'bcd', 'cde']
+                ],
+                [
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderUnique
+     */
+    public function testUnique($arr1, $arr2, $expected)
+    {
+        $app = $this->getApp();
+        $handler = new ArrayHandler($app);
+
+        $this->assertSame($expected, $handler->unique($arr1, $arr2));
+    }
 }

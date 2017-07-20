@@ -109,20 +109,26 @@ class ArrayHandler
     }
 
     /**
-     * Takes two arrays and returns a compiled array of unique, sorted values
+     * Takes two arrays and returns a compiled array of unique, sorted values.
      *
-     * @param $arr1
-     * @param $arr2
+     * @deprecated Deprecated since 3.2, to be removed in 4.0.
+     *
+     * @param array $arr1
+     * @param array $arr2
      *
      * @return array
      */
-    public function unique($arr1, $arr2)
+    public function unique(array $arr1, array $arr2)
     {
         $merged = array_unique(array_merge($arr1, $arr2), SORT_REGULAR);
         $compiled = [];
 
-        foreach ($merged as $val) {
-            $compiled[$val[0]] = $val;
+        foreach ($merged as $key => $val) {
+            if (is_array($val) && array_values($val) === $val) {
+                $compiled[$key] = $val;
+            } else {
+                $compiled[$val] = $val;
+            }
         }
 
         return $compiled;
