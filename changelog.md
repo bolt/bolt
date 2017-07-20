@@ -1,6 +1,15 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 RC 2
+---------------
+
+Released 2017-07-21. Notable changes:
+
+ - Fixed: Select fields … The sage continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
+ - Fixed: Stricter parameter handling in `{{ order }}` [#6838](https://github.com/bolt/bolt/pull/6838)
+ - Fixed: Only add the label in the content editor, when the label isn't empty [#6837](https://github.com/bolt/bolt/pull/6837)
+
 Bolt 3.3.0 RC 1
 ---------------
 
