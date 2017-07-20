@@ -42,10 +42,16 @@
     {% set leadingvalues = [] %}
     {% for key, sel in selection %}
         {% for value_key, value_sel in values if value_key == sel %}
-            {% set leadingvalues = leadingvalues|merge({ (value_key): value_sel}) %}
+            {# do an associative merge as PHP can't handle merging items with numeric keys but not sequential #}
+            {% set leadingvalues = leadingvalues|assocmerge({ (value_key): value_sel}) %}
         {% endfor %}
     {% endfor %}
-    {% set values = unique(leadingvalues, values) %}
+    {# check if the array is sequential or not and either do an associative merge based on key if associative or a list of unique values if it is sequential #}
+    {% if isseq(values) %}
+        {% set values = unique(leadingvalues, values) %}
+    {% else %}
+        {% set values = leadingvalues|assocmerge(values) %}
+    {% endif %}
 {% endif %}
 
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}

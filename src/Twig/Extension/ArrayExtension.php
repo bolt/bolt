@@ -26,6 +26,7 @@ class ArrayExtension extends Extension
         return [
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('unique', [$this, 'unique'], $safe),
+            new \Twig_SimpleFunction('isseq', [$this, 'isSequential'], $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -39,6 +40,7 @@ class ArrayExtension extends Extension
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFilter('order',   [$this, 'order']),
             new \Twig_SimpleFilter('shuffle', [$this, 'shuffle']),
+            new \Twig_SimpleFilter('assocmerge', [$this, 'assocMerge']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -174,5 +176,32 @@ class ArrayExtension extends Extension
         }
 
         return $compiled;
+    }
+    
+    /**
+     * Takes an array and detects whether the keys are sequential
+     * 
+     * @param array $arr
+     * 
+     * @return boolean
+     */
+    public function isSequential(array $arr)
+    {
+        if (array() === $arr) return true;
+        // get an array of all the keys and see if they match the expected list of keys for an indexed array of this length and in this order \\
+        return array_keys($arr) === range(0, count($arr) -1);
+    }
+    
+    /**
+     * Appends $arr2 to $arr1 keeping the original keys
+     * 
+     * @param array $arr1
+     * @param array $arr2
+     * 
+     * @return array
+     */
+    public function assocMerge(array $arr1, array $arr2)
+    {
+        return $arr1+$arr2;
     }
 }
