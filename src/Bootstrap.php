@@ -165,6 +165,9 @@ class Bootstrap
                 function ($extensions) use ($config) {
                     foreach ((array) $config['extensions'] as $extensionClass) {
                         if (is_string($extensionClass)) {
+                            if (!class_exists($extensionClass)) {
+                                throw new LogicException(sprintf('Extension class name "%s" is defined in .bolt.yml or .bolt.php, but the class name is misspelled or not loadable by Composer.', $extensionClass));
+                            }
                             if (!is_a($extensionClass, ExtensionInterface::class, true)) {
                                 throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
                             }
