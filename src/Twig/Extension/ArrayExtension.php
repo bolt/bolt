@@ -50,15 +50,24 @@ class ArrayExtension extends Extension
      * @param string $on
      * @param string $onSecondary
      *
+     * @throws \InvalidArgumentException
+     *
      * @return array
      */
-    public function order($array, $on, $onSecondary = '')
+    public function order(array $array, $on, $onSecondary = null)
     {
+        // If we don't get a string, we can't determine a sort order.
+        if (!is_string($on)) {
+            throw new \InvalidArgumentException(sprintf('Second parameter passed to %s must be a string, %s given', __METHOD__, gettype($on)));
+        }
+        if (!(is_string($onSecondary) || $onSecondary === null)) {
+            throw new \InvalidArgumentException(sprintf('Third parameter passed to %s must be a string, %s given', __METHOD__, gettype($onSecondary)));
+        }
         // Set the 'orderOn' and 'orderAscending', taking into account things like '-datepublish'.
         list($this->orderOn, $this->orderAscending) = $this->getSortOrder($on);
 
         // Set the secondary order, if any.
-        if (!empty($onSecondary)) {
+        if ($onSecondary) {
             list($this->orderOnSecondary, $this->orderAscendingSecondary) = $this->getSortOrder($onSecondary);
         } else {
             $this->orderOnSecondary = false;
@@ -71,20 +80,15 @@ class ArrayExtension extends Extension
     }
 
     /**
-     * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
-     * also return the sorting order.
+     * Get sorting order of name, stripping possible "DESC", "ASC", and also
+     * return the sorting order.
      *
      * @param string $name
      *
-     * @return string
+     * @return array
      */
     private function getSortOrder($name = '-datepublish')
     {
-        // If we don't get a string, we can't determine a sort order.
-        if (!is_string($name)) {
-            return false;
-        }
-
         $parts = explode(' ', $name);
         $fieldName = $parts[0];
         $sort = 'ASC';
