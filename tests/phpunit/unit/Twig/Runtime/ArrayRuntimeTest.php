@@ -22,7 +22,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderEmpty()
     {
-        $app = $this->getApp();
         $handler = new ArrayExtension();
 
         $result = $handler->order([], 'title');
@@ -31,7 +30,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAsc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -46,7 +44,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameDesc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Wayne', 'type' => 'batman'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -61,7 +58,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeAsc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -76,7 +72,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeDesc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'batman'],
             ['name' => 'Johno', 'type' => 'koala'],
@@ -91,7 +86,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeDescMatchingSecondary()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'batman'],
             ['name' => 'Johno', 'type' => 'batman'],
@@ -106,7 +100,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameMatchNoSecondary()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -119,9 +112,28 @@ class ArrayRuntimeTest extends BoltUnitTest
         $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', json_encode($result));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Second parameter passed to Bolt\Twig\Extension\ArrayExtension::order must be a string, object given
+     */
+    public function testOrderInvalidOn()
+    {
+        $handler = new ArrayExtension();
+        $handler->order([], new \stdClass());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Third parameter passed to Bolt\Twig\Extension\ArrayExtension::order must be a string, object given
+     */
+    public function testOrderInvalidOnSecondary()
+    {
+        $handler = new ArrayExtension();
+        $handler->order([], '', new \stdClass());
+    }
+
     public function testShuffleString()
     {
-        $app = $this->getApp();
         $handler = new ArrayExtension();
 
         $result = $handler->shuffle('shuffleboard');
@@ -133,8 +145,6 @@ class ArrayRuntimeTest extends BoltUnitTest
      */
     public function testShuffleArray()
     {
-        $app = $this->getApp();
-
         $this->php
             ->expects($this->once())
             ->method('shuffle')
