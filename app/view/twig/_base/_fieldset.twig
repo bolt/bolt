@@ -31,7 +31,7 @@
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
     <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
-    {% if block('fieldset_label_text') is defined %}
+    {% if block('fieldset_label_text') is not empty %}
         <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
     {% endif %}
     {% block fieldset_controls %}{% endblock fieldset_controls %}
