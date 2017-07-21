@@ -5,6 +5,8 @@ namespace Bolt\Twig\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Bolt\Helpers\Deprecated;
+use Twig_Extension as Extension;
 
 /**
  * Bolt specific Twig functions and filters that provide array manipulation.
@@ -24,10 +26,11 @@ class ArrayExtension extends AbstractExtension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new TwigFunction('unique', [$this, 'unique'], $safe),
+            new TwigFunction('unique', [$this, 'unique'], $safe + $deprecated),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -52,15 +55,24 @@ class ArrayExtension extends AbstractExtension
      * @param string $on
      * @param string $onSecondary
      *
+     * @throws \InvalidArgumentException
+     *
      * @return array
      */
-    public function order($array, $on, $onSecondary = '')
+    public function order(array $array, $on, $onSecondary = null)
     {
+        // If we don't get a string, we can't determine a sort order.
+        if (!is_string($on)) {
+            throw new \InvalidArgumentException(sprintf('Second parameter passed to %s must be a string, %s given', __METHOD__, gettype($on)));
+        }
+        if (!(is_string($onSecondary) || $onSecondary === null)) {
+            throw new \InvalidArgumentException(sprintf('Third parameter passed to %s must be a string, %s given', __METHOD__, gettype($onSecondary)));
+        }
         // Set the 'orderOn' and 'orderAscending', taking into account things like '-datepublish'.
         list($this->orderOn, $this->orderAscending) = $this->getSortOrder($on);
 
         // Set the secondary order, if any.
-        if (!empty($onSecondary)) {
+        if ($onSecondary) {
             list($this->orderOnSecondary, $this->orderAscendingSecondary) = $this->getSortOrder($onSecondary);
         } else {
             $this->orderOnSecondary = false;
@@ -73,20 +85,15 @@ class ArrayExtension extends AbstractExtension
     }
 
     /**
-     * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
-     * also return the sorting order.
+     * Get sorting order of name, stripping possible "DESC", "ASC", and also
+     * return the sorting order.
      *
      * @param string $name
      *
-     * @return string
+     * @return array
      */
     private function getSortOrder($name = '-datepublish')
     {
-        // If we don't get a string, we can't determine a sort order.
-        if (!is_string($name)) {
-            return false;
-        }
-
         $parts = explode(' ', $name);
         $fieldName = $parts[0];
         $sort = 'ASC';
@@ -158,17 +165,26 @@ class ArrayExtension extends AbstractExtension
     /**
      * Takes two arrays and returns a compiled array of unique, sorted values.
      *
-     * @param $arr1
-     * @param $arr2
+     * @deprecated Deprecated since 3.2, to be removed in 4.0.
+     *
+     * @param array $arr1
+     * @param array $arr2
      *
      * @return array
      */
-    public function unique($arr1, $arr2)
+    public function unique(array $arr1, array $arr2)
     {
+        Deprecated::method(3.2);
+
         $merged = array_unique(array_merge($arr1, $arr2), SORT_REGULAR);
         $compiled = [];
-        foreach ($merged as $val) {
-            $compiled[$val[0]] = $val;
+
+        foreach ($merged as $key => $val) {
+            if (is_array($val) && array_values($val) === $val) {
+                $compiled[$key] = $val;
+            } else {
+                $compiled[$val] = $val;
+            }
         }
 
         return $compiled;
