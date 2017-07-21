@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Extension;
 
+use Bolt\Helpers\Deprecated;
 use Twig_Extension as Extension;
 
 /**
@@ -22,10 +23,11 @@ class ArrayExtension extends Extension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
-            new \Twig_SimpleFunction('unique', [$this, 'unique'], $safe),
+            new \Twig_SimpleFunction('unique', [$this, 'unique'], $safe + $deprecated),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -169,6 +171,8 @@ class ArrayExtension extends Extension
      */
     public function unique(array $arr1, array $arr2)
     {
+        Deprecated::method(3.2);
+
         $merged = array_unique(array_merge($arr1, $arr2), SORT_REGULAR);
         $compiled = [];
 
