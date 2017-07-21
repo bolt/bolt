@@ -140,9 +140,8 @@ class Bootstrap
         foreach ((array) $config['services'] as $service) {
             $params = [];
             if (is_array($service)) {
-                $key = key($service);
-                $params = $service[$key];
-                $service = $key;
+                $params = reset($service);
+                $service = key($service);
             }
 
             if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
