@@ -153,6 +153,13 @@ class Bootstrap
             }
         }
 
+        if (!$config['extensions']) {
+            return $app;
+        }
+        if (!isset($app['extensions'])) {
+            throw new LogicException('Provided application object does not contain an extension service, but extensions are defined in bootstrap.');
+        }
+
         $app['extensions'] = $app->share(
             $app->extend(
                 'extensions',
