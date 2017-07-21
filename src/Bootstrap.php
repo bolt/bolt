@@ -140,9 +140,8 @@ class Bootstrap
         foreach ((array) $config['services'] as $service) {
             $params = [];
             if (is_array($service)) {
-                $key = key($service);
-                $params = $service[$key];
-                $service = $key;
+                $params = reset($service);
+                $service = key($service);
             }
 
             if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
@@ -151,6 +150,13 @@ class Bootstrap
             if ($service instanceof Silex\ServiceProviderInterface) {
                 $app->register($service, $params);
             }
+        }
+
+        if (!$config['extensions']) {
+            return $app;
+        }
+        if (!isset($app['extensions'])) {
+            throw new LogicException('Provided application object does not contain an extension service, but extensions are defined in bootstrap.');
         }
 
         $app['extensions'] = $app->share(
