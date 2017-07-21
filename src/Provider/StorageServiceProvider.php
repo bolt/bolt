@@ -212,6 +212,8 @@ class StorageServiceProvider implements ServiceProviderInterface, BootableProvid
                 $app['logger.system'],
                 $app['logger.flash']
             );
+            // @deprecated Temporary and to be removed circa Bolt 3.5.
+            $cr->setQueryHandler($app['query']);
 
             return $cr;
         };

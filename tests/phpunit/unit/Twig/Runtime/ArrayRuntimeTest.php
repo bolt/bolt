@@ -22,7 +22,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderEmpty()
     {
-        $app = $this->getApp();
         $handler = new ArrayExtension();
 
         $result = $handler->order([], 'title');
@@ -31,7 +30,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAsc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -46,7 +44,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameDesc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Wayne', 'type' => 'batman'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -61,7 +58,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeAsc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -76,7 +72,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeDesc()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'batman'],
             ['name' => 'Johno', 'type' => 'koala'],
@@ -91,7 +86,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameAscTypeDescMatchingSecondary()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'batman'],
             ['name' => 'Johno', 'type' => 'batman'],
@@ -106,7 +100,6 @@ class ArrayRuntimeTest extends BoltUnitTest
 
     public function testOrderNameMatchNoSecondary()
     {
-        $app = $this->getApp();
         $srcArr = [
             ['name' => 'Johno', 'type' => 'koala'],
             ['name' => 'Bruce', 'type' => 'clippy'],
@@ -119,9 +112,28 @@ class ArrayRuntimeTest extends BoltUnitTest
         $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', json_encode($result));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Second parameter passed to Bolt\Twig\Extension\ArrayExtension::order must be a string, object given
+     */
+    public function testOrderInvalidOn()
+    {
+        $handler = new ArrayExtension();
+        $handler->order([], new \stdClass());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Third parameter passed to Bolt\Twig\Extension\ArrayExtension::order must be a string, object given
+     */
+    public function testOrderInvalidOnSecondary()
+    {
+        $handler = new ArrayExtension();
+        $handler->order([], '', new \stdClass());
+    }
+
     public function testShuffleString()
     {
-        $app = $this->getApp();
         $handler = new ArrayExtension();
 
         $result = $handler->shuffle('shuffleboard');
@@ -133,8 +145,6 @@ class ArrayRuntimeTest extends BoltUnitTest
      */
     public function testShuffleArray()
     {
-        $app = $this->getApp();
-
         $this->php
             ->expects($this->once())
             ->method('shuffle')
@@ -142,5 +152,75 @@ class ArrayRuntimeTest extends BoltUnitTest
 
         $handler = new ArrayExtension();
         $handler->shuffle(['shuffle', 'board']);
+    }
+
+    public function dataProviderUnique()
+    {
+        return [
+            'Same keys in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'cde'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde'],
+            ],
+            'Same keys in different orders 2' => [
+                ['bcd', 'cde', 'abc'], ['abc', 'bcd', 'cde'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc'],
+            ],
+            'Same keys in different orders 3' => [
+                ['cde', 'abc', 'bcd'], ['abc', 'bcd', 'cde'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd'],
+            ],
+
+            'Single additional key in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def']
+            ],
+            'Single additional key in different orders 2' => [
+                ['bcd', 'cde', 'abc'], ['def', 'abc', 'bcd'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc', 'def' => 'def']
+            ],
+            'Single additional key in different orders 3' => [
+                ['cde', 'abc', 'bcd'], ['bcd', 'cde', 'def'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd', 'def' => 'def']
+            ],
+
+            'Multiple additional keys in different orders 1' => [
+                ['abc', 'bcd', 'cde'], ['abc', 'def', 'fgh'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def', 'fgh' => 'fgh']
+            ],
+            'Multiple additional keys in different orders 2' => [
+                ['abc', 'bcd', 'cde'], ['fgh', 'cde', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def']
+            ],
+            'Multiple additional keys in different orders 3' => [
+                ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def', 'efg' => 'efg']
+            ],
+
+            'Indexed array of values' => [
+                [
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                ],
+                [
+                    ['fgh', 'def', 'efg'], ['abc', 'bcd', 'cde']
+                ],
+                [
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                ],
+            ],
+
+            'Mapped array of values' => [
+                [
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                ],
+                [
+                    'map2' => ['fgh', 'def', 'efg'], 'map1' => ['abc', 'bcd', 'cde']
+                ],
+                [
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderUnique
+     */
+    public function testUnique($arr1, $arr2, $expected)
+    {
+        $app = $this->getApp();
+        $handler = new ArrayExtension();
+
+        $this->assertSame($expected, $handler->unique($arr1, $arr2));
     }
 }
