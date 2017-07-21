@@ -1,6 +1,13 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.16
+-----------
+
+Released 2017-07-21. Notable changes:
+
+ - Fixed: Select fields … The sage continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
+
 Bolt 3.2.15
 -----------
 
