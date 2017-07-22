@@ -26,7 +26,7 @@ class ChoiceTest extends TestCase
                 'text_field' => ['type'   => 'text'],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertNull($result);
     }
@@ -43,7 +43,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame(['select_array' => $values], $result);
     }
@@ -61,7 +61,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
         asort($values, SORT_REGULAR);
 
         $this->assertSame(['select_array' => $values], $result);
@@ -80,7 +80,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame(['select_array' => array_slice($values, 0, 2)], $result);
     }
@@ -97,7 +97,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame(['select_array' => $values], $result);
     }
@@ -115,7 +115,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
         asort($values, SORT_REGULAR);
 
         $this->assertSame(['select_array' => $values], $result);
@@ -134,7 +134,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame(['select_array' => array_slice($values, 0, 2)], $result);
     }
@@ -155,7 +155,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $resolver->get($contentType);
+        $resolver->get($contentType, []);
     }
 
     /**
@@ -174,7 +174,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $resolver->get($contentType);
+        $resolver->get($contentType, []);
     }
 
     public function testGetEntitiesNotFound()
@@ -191,7 +191,7 @@ class ChoiceTest extends TestCase
                 ],
             ],
         ]);
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame(['select_array' => []], $result);
     }
@@ -216,7 +216,7 @@ class ChoiceTest extends TestCase
                 42 => 'Drop Bear',
             ],
         ];
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame($expect, $result);
     }
@@ -241,7 +241,7 @@ class ChoiceTest extends TestCase
                 42 => 'Drop Bear / Danger Danger',
             ],
         ];
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame($expect, $result);
     }
@@ -267,9 +267,25 @@ class ChoiceTest extends TestCase
                 42 => 'Drop Bear / Danger Danger',
             ],
         ];
-        $result = $resolver->get($contentType);
+        $result = $resolver->get($contentType, []);
 
         $this->assertSame($expect, $result);
+    }
+
+    public function testGetTemplateFieldsSelect()
+    {
+        $resolver = $this->getResolver();
+        $contentType = new ContentType('koala', ['fields' => []]);
+        $values = ['foo', 'bar', 'koala', 'drop bear'];
+        $templateFields = [
+            'select_array' => [
+                'type'   => 'select',
+                'values' => $values,
+            ],
+        ];
+        $result = $resolver->get($contentType, $templateFields);
+
+        $this->assertSame(['templatefields' => ['select_array' => $values]], $result);
     }
 
     /**
