@@ -169,12 +169,12 @@ class Bootstrap
                                 throw new LogicException(sprintf('Extension class name "%s" is defined in .bolt.yml or .bolt.php, but the class name is misspelled or not loadable by Composer.', $extensionClass));
                             }
                             if (!is_a($extensionClass, ExtensionInterface::class, true)) {
-                                throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
+                                throw new LogicException(sprintf('Extension class "%s" must implement %s', $extensionClass, ExtensionInterface::class));
                             }
                             $extensionClass = new $extensionClass();
                         }
                         if (!$extensionClass instanceof ExtensionInterface) {
-                            throw new LogicException(get_class($extensionClass) . ' needs to be an instance of ' . ExtensionInterface::class);
+                            throw new LogicException(sprintf('Extension class "%s" must be an instance of %s', get_class($extensionClass), ExtensionInterface::class));
                         }
                         $extensions->add($extensionClass);
                     }

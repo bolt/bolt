@@ -337,7 +337,7 @@ EOF;
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage stdClass needs to implement Bolt\Extension\ExtensionInterface
+     * @expectedExceptionMessage Extension class "stdClass" must implement Bolt\Extension\ExtensionInterface
      */
     public function testRunExtensionStringInvalid()
     {
@@ -404,7 +404,7 @@ EOF;
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage stdClass needs to be an instance of Bolt\Extension\ExtensionInterface
+     * @expectedExceptionMessage Extension class "stdClass" must be an instance of Bolt\Extension\ExtensionInterface
      */
     public function testRunExtensionObjectInvalid()
     {
