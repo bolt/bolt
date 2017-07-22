@@ -337,13 +337,36 @@ EOF;
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage stdClass needs to implement Bolt\Extension\ExtensionInterface
+     * @expectedExceptionMessage Extension class "stdClass" must implement Bolt\Extension\ExtensionInterface
      */
     public function testRunExtensionStringInvalid()
     {
         $config = [
             'extensions' => [
                 'stdClass',
+            ],
+        ];
+
+        $yaml = (new Dumper())->dump($config, 4, 0, true);
+        $fs = new Filesystem();
+        $fs->dumpFile($this->rootPath . '/.bolt.yml', $yaml);
+
+        $app = Bootstrap::run($this->rootPath);
+        $extensions = $app['extensions'];
+
+        $ext = $extensions->get('Bolt/Normal');
+        $this->assertInstanceOf(NormalExtension::class, $ext);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Extension class name "DropBear\Ninja" is defined in .bolt.yml or .bolt.php, but the class name is misspelled or not loadable by Composer.
+     */
+    public function testRunExtensionStringNotFound()
+    {
+        $config = [
+            'extensions' => [
+                'DropBear\Ninja',
             ],
         ];
 
@@ -381,7 +404,7 @@ EOF;
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage stdClass needs to be an instance of Bolt\Extension\ExtensionInterface
+     * @expectedExceptionMessage Extension class "stdClass" must be an instance of Bolt\Extension\ExtensionInterface
      */
     public function testRunExtensionObjectInvalid()
     {
