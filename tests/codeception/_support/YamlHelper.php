@@ -261,6 +261,93 @@ class YamlHelper extends \Codeception\Module
         return implode("\n", $routing);
     }
 
+    public function getUpdatedTheme()
+    {
+        $theme = $this->readYaml('theme/base-2016/theme.yml');
+
+        /**
+         * Disabled as currently unsupported due to problems in test due to
+         * |first filter in base-2016:
+         * @see https://github.com/bolt/bolt/blob/v3.2.16/theme/base-2016/partials/_sub_fields.twig#L104
+         */
+        unset($theme['templatefields']['extrafields.twig']);
+
+        $theme['templatefields']['page.twig'] =   [
+            'text'        => ['type' => 'text'],
+            'html'        => ['type' => 'html'],
+            'textarea'    => ['type' => 'textarea'],
+            'markdown'    => ['type' => 'markdown'],
+            'geolocation' => ['type' => 'geolocation'],
+            'video'       => ['type' => 'video'],
+            'image'       => [
+                'type'       => 'image',
+                'attrib'     => 'title',
+                'extensions' => ['gif', 'jpg', 'png'],
+            ],
+            'imagelist' => ['type' => 'imagelist'],
+            'file'      => ['type' => 'file'],
+            'filelist'  => ['type' => 'filelist'],
+            'checkbox'  => ['type' => 'checkbox'],
+            /**
+             * Disabled as currently unsupported due to bug in persistence
+             */
+            //'date' => [
+            //    'type'    => 'date',
+            //    'default' => 'first day of last month',
+            //],
+            //'datetime'  => [
+            //    'type'    => 'datetime',
+            //    'default' => '2000-01-01',
+            //],
+            'integer' => [
+                'type'  => 'integer',
+                'index' => true,
+            ],
+            'float' => ['type' => 'float'],
+            'select_map' => [
+                'type'   => 'select',
+                'values' => [
+                    'unknown'  => 'Unknown',
+                    'home'     => 'Home',
+                    'business' => 'Business',
+                ],
+            ],
+            'select_list' => [
+                'type'   => 'select',
+                'values' => ['foo', 'bar', 'baz'],
+            ],
+            'select_multi' => [
+                'type'     => 'select',
+                'values'   => ['A-tuin', 'Donatello', 'Rafael', 'Leonardo', 'Michelangelo', 'Koopa', 'Squirtle'],
+                'multiple' => true,
+            ],
+            'select_record' => [
+                'type'         => 'select',
+                'values'       => 'pages/id,title',
+                'sort'         => 'title',
+            ],
+            /**
+             * Disabled as currently unsupported due to problems in extension
+             * fields, and in test due to |first filter in base-2016:
+             * @see https://github.com/bolt/bolt/blob/v3.2.16/theme/base-2016/partials/_sub_fields.twig#L104
+             */
+            //'repeater' => [
+            //    'type'   => 'repeater',
+            //    'limit'  => 3,
+            //    'fields' => [
+            //        'repeat_title' => ['type' => 'text'],
+            //        'repeat_image' => [
+            //            'type'       => 'image',
+            //            'extensions' => ['gif', 'jpg', 'png'],
+            //        ],
+            //        'repeat_html' => ['type' => 'html'],
+            //    ],
+            //],
+        ];
+
+        return $this->getYamlString($theme, 6);
+    }
+
     /**
      * Get the YAML in a string
      *
