@@ -304,13 +304,13 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit contenttypes.yml and add a 'Resources' Contenttype
+     * Edit contenttypes.yml and add a 'Resources' ContentType
      *
      * @param \AcceptanceTester $I
      */
     public function addNewContentTypeTest(\AcceptanceTester $I)
     {
-        $I->wantTo("edit contenttypes.yml and add a 'Resources' Contenttype");
+        $I->wantTo("edit contenttypes.yml and add a 'Resources' ContentType");
         $I->loginAs($this->user['admin']);
 
         // Set up the browser
@@ -327,13 +327,13 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype
+     * Update the database after creating the Resources ContentType
      *
      * @param \AcceptanceTester $I
      */
     public function updateDatabaseTest(\AcceptanceTester $I)
     {
-        $I->wantTo("update the database and add the new 'Resources' Contenttype");
+        $I->wantTo("update the database and add the new 'Resources' ContentType");
 
         // Set up the browser
         $this->setLoginCookies($I);
@@ -355,7 +355,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype
+     * Update the database after creating the Resources ContentType
      *
      * @param \AcceptanceTester $I
      */
@@ -383,7 +383,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that admin user can view all content types
+     * Check that admin user can view all ContentTypes
      *
      * @param \AcceptanceTester $I
      */
