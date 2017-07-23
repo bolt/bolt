@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Parser;
 class YamlHelper extends \Codeception\Module
 {
     /**
-     * Read a YAML file from app/config/
+     * Read a YAML file.
      *
      * @param string $file
      *
@@ -24,13 +24,13 @@ class YamlHelper extends \Codeception\Module
      */
     private function readYaml($file)
     {
-        $filename = INSTALL_ROOT . '/app/config/' . $file;
+        $fileName = INSTALL_ROOT . '/' . $file;
         $parser = new Parser();
 
-        if (is_readable($filename)) {
-            return $parser->parse(file_get_contents($filename) . "\n");
+        if (is_readable($fileName)) {
+            return $parser->parse(file_get_contents($fileName) . "\n");
         } else {
-            throw new IOException($filename . ' is not readable!');
+            throw new IOException($fileName . ' is not readable!');
         }
     }
 
@@ -41,7 +41,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedConfig()
     {
-        $config = $this->readYaml('config.yml');
+        $config = $this->readYaml('app/config/config.yml');
 
         $config['canonical'] = 'example.org';
         $config['notfound']  = 'resources/not-found';
@@ -112,7 +112,7 @@ class YamlHelper extends \Codeception\Module
      */
     private function getBasePermissions()
     {
-        $permissions = $this->readYaml('permissions.yml');
+        $permissions = $this->readYaml('app/config/permissions.yml');
 
         $permissions['contenttype-all'] = [
             'edit'             => ['developer', 'admin', 'chief-editor'],
@@ -120,32 +120,32 @@ class YamlHelper extends \Codeception\Module
             'publish'          => ['developer', 'admin', 'chief-editor'],
             'depublish'        => ['developer', 'admin', 'chief-editor'],
             'delete'           => ['developer', 'admin'],
-            'change-ownership' => ['developer', 'admin']
+            'change-ownership' => ['developer', 'admin'],
         ];
 
         $permissions['contenttype-default'] = [
             'view'             => ['anonymous'],
             'create'           => ['editor'],
             'edit'             => ['editor'],
-            'change-ownership' => ['owner']
+            'change-ownership' => ['owner'],
         ];
 
         $permissions['contenttypes'] = [
             'pages'     => [
                 'create'           => ['editor'],
                 'edit'             => ['editor', 'author'],
-                'change-ownership' => ['owner']
+                'change-ownership' => ['owner'],
             ],
             'entries'   => [
                 'view'             => ['admin'],
-                'create'           => ['admin']
+                'create'           => ['admin'],
             ],
             'showcases' => [
                 'create'           => ['admin'],
                 'edit'             => ['admin', 'editor'],
                 'publish'          => ['admin'],
-                'change-ownership' => []
-            ]
+                'change-ownership' => [],
+            ],
         ];
 
         return $permissions;
@@ -179,7 +179,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedContentTypes()
     {
-        $contentTypes = $this->readYaml('contenttypes.yml');
+        $contentTypes = $this->readYaml('app/config/contenttypes.yml');
 
         $contentTypes['resources'] = [
             'name'          => 'Resources',
@@ -195,13 +195,13 @@ class YamlHelper extends \Codeception\Module
                 ],
                 'body' => [
                     'type'   => 'html',
-                    'height' => '300px'
-                ]
+                    'height' => '300px',
+                ],
             ],
             'default_status'    => 'published',
             'show_on_dashboard' => false,
             'searchable'        => false,
-            'viewless'          => true
+            'viewless'          => true,
         ];
 
         return $this->getYamlString($contentTypes, 4);
@@ -214,7 +214,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedTaxonomy()
     {
-        $taxonomy = $this->readYaml('taxonomy.yml');
+        $taxonomy = $this->readYaml('app/config/taxonomy.yml');
 
         $options = $taxonomy['categories']['options'];
         sort($options);
@@ -230,7 +230,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedMenu()
     {
-        $menus = $this->readYaml('menu.yml');
+        $menus = $this->readYaml('app/config/menu.yml');
 
         $menus['main'][] = ['label' => 'Showcases Listing', 'path' => 'showcases/'];
 
@@ -269,10 +269,10 @@ class YamlHelper extends \Codeception\Module
      *
      * @return string
      */
-    private function getYamlString(array $yaml, $depth)
+    private function getYamlString(array $input, $inline)
     {
         $dumper = new Dumper();
-        $out = $dumper->dump($yaml, $depth);
+        $out = $dumper->dump($input, $inline);
 
         return str_replace('{  }', '[ ]', $out);
     }
