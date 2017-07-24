@@ -63,19 +63,22 @@ class TranslationServiceProvider implements ServiceProviderInterface, Silex\Api\
             ];
         };
 
-        $app['translator.resources'] = function ($app) {
-            $locale = $app['locale'];
+        $app['translator.resources'] = $app->extend(
+            'translator.resources',
+            function (array $resources, $app) {
+                $locale = $app['locale'];
 
-            $resources = static::addResources($app, $locale);
+                $resources = array_merge($resources, static::addResources($app, $locale));
 
-            foreach ($app['locale_fallbacks'] as $fallback) {
-                if ($locale !== $fallback) {
-                    $resources = array_merge($resources, static::addResources($app, $fallback));
+                foreach ($app['locale_fallbacks'] as $fallback) {
+                    if ($locale !== $fallback) {
+                        $resources = array_merge($resources, static::addResources($app, $fallback));
+                    }
                 }
-            }
 
-            return $resources;
-        };
+                return $resources;
+            }
+        );
 
         // for javascript datetime calculations, timezone offset. e.g. "+02:00"
         $app['timezone_offset'] = date('P');
