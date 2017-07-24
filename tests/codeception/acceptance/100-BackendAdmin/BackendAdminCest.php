@@ -256,13 +256,61 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Edit contenttypes.yml and add a 'Resources' Contenttype.
+     * Edit theme's theme.yml and set-up TemplateFields.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function editThemeConfigTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("edit theme.yml and add TemplateFields configuration");
+
+        // Set up the browser
+        $this->setLoginCookies($I);
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/theme.yml');
+
+        $yaml = $I->getUpdatedTheme();
+        $I->fillField('#form_contents', $yaml);
+        $I->click('Save', '#saveeditfile');
+
+        $indent = '            ';
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/theme.yml');
+        $I->see('page.twig:');
+        $I->see("text:\n{$indent}type: text");
+        $I->see("html:\n{$indent}type: html");
+        $I->see("textarea:\n{$indent}type: textarea");
+        $I->see("markdown:\n{$indent}type: markdown");
+        $I->see("geolocation:\n{$indent}type: geolocation");
+        $I->see("video:\n{$indent}type: video");
+        $I->see("image:\n{$indent}type: image");
+        $I->see("file:\n{$indent}type: file");
+        $I->see("filelist:\n{$indent}type: filelist");
+        $I->see("checkbox:\n{$indent}type: checkbox");
+        /**
+         * Disabled as currently unsupported due to bug in persistence
+         */
+        //$I->see("date:\n{$indent}type: date");
+        //$I->see("datetime:\n{$indent}type: datetime");
+        $I->see("integer:\n{$indent}type: integer");
+        $I->see("float:\n{$indent}type: float");
+        $I->see("select_map:\n{$indent}type: select");
+        $I->see("select_list:\n{$indent}type: select");
+        $I->see("select_multi:\n{$indent}type: select");
+        /**
+         * Disabled as currently unsupported due to problems in extension
+         * fields, and in test due to |first filter in base-2016:
+         * @see https://github.com/bolt/bolt/blob/v3.2.16/theme/base-2016/partials/_sub_fields.twig#L104
+         */
+        //$I->see("repeater:\n{$indent}type: repeater");
+    }
+
+    /**
+     * Edit contenttypes.yml and add a 'Resources' ContentType
      *
      * @param \AcceptanceTester $I
      */
     public function addNewContentTypeTest(\AcceptanceTester $I)
     {
-        $I->wantTo("edit contenttypes.yml and add a 'Resources' Contenttype");
+        $I->wantTo("edit contenttypes.yml and add a 'Resources' ContentType");
         $I->loginAs($this->user['admin']);
 
         // Set up the browser
@@ -279,13 +327,13 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype.
+     * Update the database after creating the Resources ContentType.
      *
      * @param \AcceptanceTester $I
      */
     public function updateDatabaseTest(\AcceptanceTester $I)
     {
-        $I->wantTo("update the database and add the new 'Resources' Contenttype");
+        $I->wantTo("update the database and add the new 'Resources' ContentType");
 
         // Set up the browser
         $this->setLoginCookies($I);
@@ -307,7 +355,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Update the database after creating the Resources Contenttype.
+     * Update the database after creating the Resources ContentType.
      *
      * @param \AcceptanceTester $I
      */
@@ -335,7 +383,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Check that admin user can view all content types.
+     * Check that admin user can view all ContentTypes.
      *
      * @param \AcceptanceTester $I
      */

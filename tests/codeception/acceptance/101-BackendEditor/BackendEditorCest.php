@@ -169,13 +169,13 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Create a contact page with templatefields.
+     * Create a contact page with TemplateFields.
      *
      * @param \AcceptanceTester $I
      */
     public function checkTemplateFieldsTest(\AcceptanceTester $I)
     {
-        $I->wantTo('Create a contact page with templatefields');
+        $I->wantTo('Create a contact page with TemplateFields');
 
         // Set up the browser
         $this->setLoginCookies($I);
@@ -186,26 +186,58 @@ class BackendEditorCest extends AbstractAcceptanceTest
 
         $I->fillField('#title',       'Contact Page');
         $I->fillField('#slug',        'contact');
-        $I->selectOption('#template', 'extrafields.twig');
+        $I->selectOption('#template', 'page.twig');
 
         $I->submitForm('#editcontent', []);
         $I->see('The new Page has been saved.');
         $I->click('Contact Page');
 
-        // Page has been saved, fill templatefields
+        // Page has been saved, fill TemplateFields
         $I->see('Template', 'a[data-toggle=tab]');
 
-        $I->fillField('#templatefields-section_1', 'This is the contact text');
-        $I->submitForm('#editcontent', []);
+        $I->fillField('#templatefields-text', 'This is the contact text');
+        $I->fillField('#templatefields-html', '<p>HTML for Drop Bears</p>');
+        // Disabled as we currently don't set a HTML ID :-/
+        //$I->fillField('#templatefields-textarea', 'What about a textarea');
+        $I->fillField('#templatefields-markdown', '## Some markdown');
+        // Disabled as we currently don't set a HTML ID :-/
+        //$I->fillField('#templatefields-geolocation', 'Prins Hendrikstraat 91');
+        //$I->fillField('#templatefields-video', 'https://www.youtube.com/watch?v=4qlCC1GOwFw');
+        $I->fillField('#field-templatefields-image', '2017-07/vetted-image.jpg');
+        $I->fillField('#templatefields-image-title', 'Known good image');
+        // Disabled as we need to buy HTML for Dummies
+        //$I->fillField('#templatefields-imagelist', '');
+        //$I->fillField('#templatefields-file', '');
+        //$I->fillField('#templatefields-filelist', '');
+        // Disabled as this used only an unpredictable "BUID"
+        //$I->checkOption('#templatefields-checkbox_1', '1');
+        $I->fillField('#templatefields-integer', '42');
+        $I->fillField('#templatefields-float', '4.2');
+        $I->selectOption('#templatefields-select_map', 'home');
+        $I->selectOption('#templatefields-select_list', 'foo');
+        $I->selectOption('#templatefields-select_multi', ['Donatello', 'Rafael']);
+        $I->selectOption('#templatefields-select_record', '1');
+
+        $I->click('Save Page', '#savecontinuebutton');
 
         $I->click('Contact Page');
-        /*
-         * In v2.0.13 Codeception made the awesome decision to refactor their
-         * PHP Browser code — in a patch release no less — and it doesn't
-         * properly handle URL queries parameters in POSTs. For now we'll just
-         * pretend that seeing the data is good enough…
-         */
-        $I->seeInSource('This is the contact text');
-//         $I->seeInField('#templatefields-section_1', 'This is the contact text');
+
+        $I->seeInField('#templatefields-text', 'This is the contact text');
+        $I->seeInField('#templatefields-html', '<p>HTML for Drop Bears</p>');
+        // Disabled as we currently don't set a HTML ID :-/
+        //$I->seeInField('#templatefields-textarea', '');
+        $I->seeInField('#templatefields-markdown', '## Some markdown');
+        // Disabled as we currently don't set a HTML ID :-/
+        //$I->seeInField('#templatefields-geolocation', 'Prins Hendrikstraat 91');
+        //$I->seeInField('#templatefields-video', 'https://www.youtube.com/watch?v=4qlCC1GOwFw');
+        $I->seeInField('#field-templatefields-image', '2017-07/vetted-image.jpg');
+        $I->seeInField('#templatefields-image-title', 'Known good image');
+        $I->seeInField('#templatefields-integer', '42');
+        $I->seeInField('#templatefields-float', '4.2');
+        $I->seeInField('#templatefields-select_map', 'home');
+        $I->seeInField('#templatefields-select_list', 'foo');
+        $I->seeInField('#templatefields-select_multi', 'Donatello');
+        $I->seeInField('#templatefields-select_multi', 'Rafael');
+        $I->seeInField('#templatefields-select_record', '1');
     }
 }
