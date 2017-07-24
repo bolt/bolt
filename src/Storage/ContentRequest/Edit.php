@@ -148,10 +148,16 @@ class Edit
             }
         }
 
-        $templateFieldsData = [];
-        if (($templateFields = $content->getTemplatefields()) && $templateFields instanceof TemplateFields) {
-            $templateFieldsData = $templateFields->getContenttype()->getFields();
+        /** @var Content $templateFieldsEntity */
+        $templateFieldsEntity = $content->getTemplatefields();
+        $templateFields = null;
+        if ($templateFieldsEntity instanceof TemplateFields) {
+            /** @var ContentType $templateFieldsContentType */
+            $templateFieldsContentType = $templateFieldsEntity->getContenttype();
+            $templateFields = $templateFieldsContentType->getFields();
+            $templateFieldsContentType['fields'] = $templateFields;
         }
+
         // Temporary choice option resolver. Will be removed with Forms work circa Bolt 3.5.
         $choiceResolver = new Resolver\Choice($this->em, $this->query);
 
@@ -167,12 +173,12 @@ class Edit
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== [],
             'taxonomy'           => isset($contentType['taxonomy']),
-            'templatefields'     => count($templateFieldsData) > 0,
+            'templatefields'     => $templateFields !== null,
         ];
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
-            'select_choices'     => $choiceResolver->get($contentType)
+            'select_choices'     => $choiceResolver->get($contentType, (array) $templateFields)
         ];
         $context = [
             'incoming_not_inv' => $incomingNotInverted,
@@ -184,6 +190,7 @@ class Edit
             'fields'           => $this->config->fields->fields(),
             'fieldtemplates'   => $this->getTemplateFieldTemplates($contentType, $content),
             'fieldtypes'       => $this->getUsedFieldtypes($contentType, $content, $contextHas),
+            'templatefields'   => $templateFields,
             'groups'           => $this->createGroupTabs($contentType, $contextHas),
             'can'              => $contextCan,
             'has'              => $contextHas,

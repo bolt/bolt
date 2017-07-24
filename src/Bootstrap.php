@@ -140,9 +140,8 @@ class Bootstrap
         foreach ((array) $config['services'] as $service) {
             $params = [];
             if (is_array($service)) {
-                $key = key($service);
-                $params = $service[$key];
-                $service = $key;
+                $params = reset($service);
+                $service = key($service);
             }
 
             if (is_string($service) && is_a($service, Silex\ServiceProviderInterface::class, true)) {
@@ -153,19 +152,29 @@ class Bootstrap
             }
         }
 
+        if (!$config['extensions']) {
+            return $app;
+        }
+        if (!isset($app['extensions'])) {
+            throw new LogicException('Provided application object does not contain an extension service, but extensions are defined in bootstrap.');
+        }
+
         $app['extensions'] = $app->share(
             $app->extend(
                 'extensions',
                 function ($extensions) use ($config) {
                     foreach ((array) $config['extensions'] as $extensionClass) {
                         if (is_string($extensionClass)) {
+                            if (!class_exists($extensionClass)) {
+                                throw new LogicException(sprintf('Extension class name "%s" is defined in .bolt.yml or .bolt.php, but the class name is misspelled or not loadable by Composer.', $extensionClass));
+                            }
                             if (!is_a($extensionClass, ExtensionInterface::class, true)) {
-                                throw new LogicException("$extensionClass needs to implement " . ExtensionInterface::class);
+                                throw new LogicException(sprintf('Extension class "%s" must implement %s', $extensionClass, ExtensionInterface::class));
                             }
                             $extensionClass = new $extensionClass();
                         }
                         if (!$extensionClass instanceof ExtensionInterface) {
-                            throw new LogicException(get_class($extensionClass) . ' needs to be an instance of ' . ExtensionInterface::class);
+                            throw new LogicException(sprintf('Extension class "%s" must be an instance of %s', get_class($extensionClass), ExtensionInterface::class));
                         }
                         $extensions->add($extensionClass);
                     }

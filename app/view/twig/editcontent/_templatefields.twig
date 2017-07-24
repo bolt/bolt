@@ -4,9 +4,9 @@
     </h3>
 {% endif %}
 
-{% set templatefields = context.content.get('templatefields') %}
-{% if templatefields.contenttype.fields is defined and templatefields.contenttype.fields is not empty %}
-    {% for templatekey, templatefield in templatefields.contenttype.fields %}
+{% set templatefields = context.templatefields %}
+{% if templatefields is not empty %}
+    {% for templatekey, templatefield in templatefields %}
 
             <div data-bolt-fieldset="{{ templatefield.type }}">
                 {# Prefix #}
@@ -19,11 +19,17 @@
                 {# Fields #}
                 {% set templatelabelkey = templatefield.label ?: templatekey|capitalize %}
 
+                {# Ugly hack to be removed with Forms cutover … kittens are crying #}
+                {% if templatefield.type == 'select' %}
+                    {% set values = context.values.select_choices.templatefields[templatekey] %}
+                {% endif %}
+
                 {% include context.fields[templatefield.type].template with {
                     field: templatefield,
                     key: 'templatefields-' ~ templatekey,
                     contentkey: templatekey,
-                    context: context|merge({ content: templatefields }),
+                    values: values|default(),
+                    context: context|merge({ content: context.content.get('templatefields') }),
                     name: 'templatefields[' ~ templatekey ~ ']',
                     labelkey:  templatelabelkey
                 } %}
