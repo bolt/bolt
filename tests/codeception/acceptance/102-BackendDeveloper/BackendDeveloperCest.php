@@ -174,13 +174,13 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
     }
 
     /**
-     * Test that the 'developer' user can edit translation Contenttype messages.
+     * Test that the 'developer' user can edit translation ContentType messages.
      *
      * @param \AcceptanceTester $I
      */
-    public function editTranslationsContenttypeMessages(\AcceptanceTester $I)
+    public function editTranslationsContentTypeMessages(\AcceptanceTester $I)
     {
-        $I->wantTo("See that the 'developer' user can edit translation Contenttype messages.");
+        $I->wantTo("See that the 'developer' user can edit translation ContentType messages.");
 
         // Set up the browser
         $this->setLoginCookies($I);

@@ -36,37 +36,56 @@ final class Choice
 
     /**
      * @param ContentType $contentType
+     * @param array       $templateFields
      *
      * @return array
      */
-    public function get(ContentType $contentType)
+    public function get(ContentType $contentType, array $templateFields)
     {
         $select = null;
         foreach ($contentType->getFields() as $name => $field) {
-            if ($field['type'] !== 'select') {
-                continue;
+            $values = $this->getValues($field);
+            if ($values !== null) {
+                $select[$name] = $values;
             }
-            $field += [
-                'values'   => [],
-                'limit'    => null,
-                'sortable' => false,
-                'filter'   => null,
-            ];
-            $values = $field['values'];
-            $limit = $field['limit'];
-            $sortable = $field['sortable'];
-            $filter = $field['filter'];
+        }
 
-            // Get the appropriate values
-            $values = is_string($values)
-                ? $this->getEntityValues($values, $limit, $sortable, $filter)
-                : $this->getYamlValues($values, $limit, $sortable)
-            ;
-
-            $select[$name] = $values;
+        foreach ($templateFields as $name => $field) {
+            $values = $this->getValues($field);
+            if ($values !== null) {
+                $select['templatefields'][$name] = $values;
+            }
         }
 
         return $select;
+    }
+
+    /**
+     * @param array $field
+     *
+     * @return array|null
+     */
+    private function getValues(array $field)
+    {
+        if ($field['type'] !== 'select') {
+            return null;
+        }
+        $field += [
+            'values'   => [],
+            'limit'    => null,
+            'sortable' => false,
+            'filter'   => null,
+        ];
+        $values = $field['values'];
+        $limit = $field['limit'];
+        $sortable = $field['sortable'];
+        $filter = $field['filter'];
+
+        // Get the appropriate values
+        return is_string($values)
+            ? $this->getEntityValues($values, $limit, $sortable, $filter)
+            : $this->getYamlValues($values, $limit, $sortable)
+        ;
     }
 
     /**
