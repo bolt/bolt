@@ -63,6 +63,7 @@ Fixtures::add('backups', [
     BOLT_ROOT . '/app/resources/translations/en_GB/infos.en_GB.yml'        => true,
     BOLT_ROOT . '/app/resources/translations/en_GB/contenttypes.en_GB.yml' => true,
     INSTALL_ROOT . '/app/database/bolt.db'                                 => false,
+    INSTALL_ROOT . '/theme/base-2016/theme.yml'                            => true,
     INSTALL_ROOT . '/theme/base-2016/partials/_footer.twig'                => true,
 ]);
 

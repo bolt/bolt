@@ -12,12 +12,15 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set values = context.values.select_choices[contentkey]|default([]) %}
+{# Conditional is an ugly hack to be removed with Forms cutover #}
+{% if values is not defined %}
+    {% set values = context.values.select_choices[contentkey]|default([]) %}
+{% endif %}
 
 {# Get the current selection. Either a single value, or an array. #}
 {% set selection = context.content.get(contentkey)|default(option.default) %}
 {# Make sure the value is either `null` (for empty), or cast to an array for a string. Prevent breakage when switching from 'single' to 'mulptiple' #}
-{% if selection is not iterable and selection is not empty  %}
+{% if selection is not iterable and selection is not empty %}
     {% set selection = [ selection ] %}
 {% endif %}
 
