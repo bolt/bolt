@@ -1,6 +1,18 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.0 RC 3
+---------------
+
+Released 2017-07-25. Notable changes:
+
+ - Added: More descriptive exception when the bundled-extension class does not exist [#6839](https://github.com/bolt/bolt/pull/6839)
+ - Fixed: "Info (?)" sign after each field title in the content editor [#6850](https://github.com/bolt/bolt/pull/6850)
+ - Fixed: Additional fix for TemplateField select options [#6845](https://github.com/bolt/bolt/pull/6845)
+ - Fixed: Themes - Some extra safeguards against exceptions in "strict" mode in `_sub_fields.twigs`. [#3](https://github.com/bolt/themes/pull/3)
+ - Tests: Bootstrap tests & a couple of minor bug fixes [#6844](https://github.com/bolt/bolt/pull/6844)
+ - Update Dutch translation file for 3.3 [#6843](https://github.com/bolt/bolt/pull/6843)
+
 Bolt 3.3.0 RC 2
 ---------------
 
