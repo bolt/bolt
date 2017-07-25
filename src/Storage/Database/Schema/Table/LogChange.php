@@ -22,7 +22,7 @@ class LogChange extends BaseTable
         $this->table->addColumn('contenttype',   'string',     ['length' => 128]);
         $this->table->addColumn('contentid',     'integer',    []);
         $this->table->addColumn('mutation_type', 'string',     ['length' => 16]);
-        $this->table->addColumn('diff',          'json_array', []);
+        $this->table->addColumn('diff',          'json',       []);
         $this->table->addColumn('comment',       'string',     ['length' => 150, 'notnull' => false]);
         // @codingStandardsIgnoreEnd
     }

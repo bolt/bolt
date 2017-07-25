@@ -22,14 +22,14 @@ class Users extends BaseTable
         $this->table->addColumn('lastseen',       'datetime',   ['notnull' => false]);
         $this->table->addColumn('lastip',         'string',     ['length' => 45, 'notnull' => false]);
         $this->table->addColumn('displayname',    'string',     ['length' => 32]);
-        $this->table->addColumn('stack',          'json_array', []);
+        $this->table->addColumn('stack',          'json',       []);
         $this->table->addColumn('enabled',        'boolean',    ['default' => true]);
         $this->table->addColumn('shadowpassword', 'string',     ['length' => 128, 'notnull' => false]);
         $this->table->addColumn('shadowtoken',    'string',     ['length' => 128, 'notnull' => false]);
         $this->table->addColumn('shadowvalidity', 'datetime',   ['notnull' => false]);
         $this->table->addColumn('failedlogins',   'integer',    ['default' => 0]);
         $this->table->addColumn('throttleduntil', 'datetime',   ['notnull' => false]);
-        $this->table->addColumn('roles',          'json_array', []);
+        $this->table->addColumn('roles',          'json',       []);
         // @codingStandardsIgnoreEnd
     }
 

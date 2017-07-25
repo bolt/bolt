@@ -187,7 +187,7 @@ class ContentType extends BaseTable
      */
     private function columnJson($fieldName)
     {
-        $this->table->addColumn($fieldName, 'json_array', ['notnull' => false]);
+        $this->table->addColumn($fieldName, 'json', ['notnull' => false]);
     }
 
     /**
