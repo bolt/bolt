@@ -3,8 +3,10 @@
 namespace Bolt\Provider;
 
 use Bolt\EventListener\DoctrineListener;
+use Bolt\Storage\Database\Schema;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
+use Doctrine\DBAL\Types\Type;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\ServiceProviderInterface;
@@ -31,6 +33,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             $app->extend(
                 'db.config',
                 function ($config) use ($app) {
+                    /** @var \Doctrine\DBAL\Configuration $config */
                     $config->setFilterSchemaAssetsExpression($app['schema.tables_filter']);
 
                     return $config;
@@ -81,7 +84,15 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             $app->extend(
                 'db',
                 function ($db) use ($app) {
+                    /** @var \Bolt\Storage\Database\Connection|\Bolt\Storage\Database\MasterSlaveConnection $db */
                     $db->setQueryCacheProfile($app['db.query_cache_profile']);
+
+                    // Currently, this can get called early, meaning the connection listener is too late
+                    if (!Type::hasType('json')) {
+                        Type::addType('json', Schema\Types\JsonType::class);
+                    } else {
+                        Type::overrideType('json', Schema\Types\JsonType::class);
+                    }
 
                     return $db;
                 }
