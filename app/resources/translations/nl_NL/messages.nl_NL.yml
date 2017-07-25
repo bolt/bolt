@@ -8,67 +8,26 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  28 Legacy untranslated messages
-#  50 Untranslated messages
-#  62 Legacy translation messages
-# 503 Translation messages
+#   3 Legacy untranslated messages
+#  15 Untranslated messages
+#  42 Legacy translation messages
+# 538 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Alas, no about!": #
-"Content for home not found!": #
-"Dependencies": #
-"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Latest entries": #
-"Link": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
-"Unable to duplicate file: %FILE%": #
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
 #--- Untranslated messages ----------------------------------------------------
-
-contenttypes.generic.invalid-hyphen: #
 
 field.block.label.add-new: #
 field.block.label.add-set: #
 
 field.repeater.label.add-set: #
 
-general.phrase.clashing-relation: #
-general.phrase.clear-cache-complete: #
-general.phrase.database-check: #
-general.phrase.database-update-required-post: #
-general.phrase.database-update-required-pre: #
-general.phrase.error-cache-clear: #
-general.phrase.extensions-overview: #
-general.phrase.folder: #
-general.phrase.invalid-taxonomy-slug: #
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
-general.phrase.missing-about-page-block: #
-general.phrase.related-content: #
-general.phrase.selection: #
-general.phrase.value-maximum-variable: #
-general.phrase.value-minimum-variable: #
 
 menu.configuration.checks: #
 
@@ -83,28 +42,6 @@ page.edit-users.error.email-invalid: #
 page.edit-users.error.password-different-email: #
 page.edit-users.error.password-long: #
 
-page.extend.button.link-config: #
-page.extend.button.link-marketplace: #
-page.extend.button.link-readme: #
-page.extend.button.link-repository: #
-page.extend.button.link-uninstall: #
-page.extend.button.link-versions: #
-page.extend.button.manage: #
-page.extend.button.package-dependencies: #
-page.extend.error-composer-json-not-readable: #
-page.extend.headline.bundled: #
-page.extend.listheader.class: #
-page.extend.listheader.name: #
-page.extend.message.autoloader-start: #
-page.extend.message.autoloader-update: #
-page.extend.message.installation-running: #
-page.extend.message.invalid-theme-source-dir: #
-page.extend.message.package-dependencies: #
-page.extend.message.running-update-all: #
-page.extend.options: #
-
-page.file-management.message.upload-not-writable: #
-
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(standaard template)"
@@ -114,49 +51,28 @@ page.file-management.message.upload-not-writable: #
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Er is een fout opgetreden tijdens het bijwerken van de '%TABLE%'. De fout is %ERROR%"
-"Body": "Broodtekst"
-"Categories": "Categorieën"
-"Category": "Categorie"
-"Choose an entry": "Selecteer een bericht"
 "Content": "Content"
 "Current (saved) status:": "Huidige (opgeslagen) status"
-"Date": "Datum"
-"Datetime": "Datum/tijd"
+"Dependencies": "Afhankelijkheden"
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Bolt versie <b>%VERSION%</b> gedetecteerd en de cache is gewist. <a href=\\\"%URI%\\\">Controleer de database</a>, als je dat nog niet gedaan hebt.\""
 "Do you really want to delete %FOLDERNAME%?": "Weet u zeker dat u %FOLDERNAME% wil verwijderen?"
 "Error reading extensions/composer.json file: %ERROR%": "Fout bij het lezen van extensions/composer.json bestand: %ERROR%"
 "Everybody": "Iedereen"
 "Excerpt": "Samenvatting"
 "Expand sidebar": "Zijbalk uitklappen"
-"File": "Bestand"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Het bestand '%file%' kon niet worden geüpload (foutief bestandstype). Zorg ervoor dat de bestandsextensie een van de volgende is."
-"Filelist": "Bestandenlijst"
-"Floatfield": "Floatveld"
-"Geolocation": "Geolocatie"
-"Html": "Html"
+"Finding packages that require this one…": "Zoeken naar packages die deze package vereisen"
 "Image": "Afbeelding"
-"Imagelist": "Afbeeldingenlijst"
-"Integerfield": "Integer getallen veld"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Het stemt niet overeen met bestaande contenttypes of routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Waarschijnlijk had deze een link moeten zijn!"
-"Markdown": "Markdown"
-"Multiselect": "Multiselect"
-"Repeater": "Repeater"
-"Select a page": "Kies een pagina"
-"Select zero or more pages": "Kies nul of meer pagina's"
-"Selectentry": "Selecteer bericht"
-"Selectfield": "Selecteer veld"
+"Menu": "Menu"
+"Search": "Zoek"
 "Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
-"Slug": "Slug"
-"Tag": "Label"
-"Tags": "Labels"
-"Teaser": "Teaser"
-"Template": "Sjabloon"
-"Textarea": "Tekstveld"
+"The field %field% has been changed to \"%newValue%\"": "Het veld %field% is aangepast naar \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "De identifier en slug voor '%taxonomytype%' zijn niet hetzelfde ('%slug%' vs. '%taxonomytype%'). Bewerk taxonomy.yml, en laat ze overeenkomen om inconsistenties tussen de database-opslag en je templates te voorkomen."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "De instellingen voor rollen en permissies zijn opgeslagen in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "De slug '%slug%' wordt gebruikt in meerdere contenttypes. Bewerk contenttypes.yml, en maak ze verschillend."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
-"This is a checkbox": "Dit is een checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
 "Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Log in met je ftp-account en maak het bestand leesbaar, of ga <a>terug</a> naar de vorige pagina."
@@ -164,9 +80,10 @@ page.file-management.message.upload-not-writable: #
 "Unable to create file: %FILE%": "Bestand %FILE% kan niet worden aangemaakt"
 "Unable to delete directory: %DIR%": "Directory %DIR% kan niet worden verwijderd"
 "Unable to delete file: %FILE%": "Bestand %FILE% kan niet worden verwijderd"
+"Unable to duplicate file: %FILE%": "Niet mogelijk om file te dupliceren: %FILE%"
 "Unable to rename directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
 "Unable to rename file: %FILE%": "De naam van het bestand %FILE% kon niet worden gewijzigd"
-"Video": "Video"
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Helaas, er werd geen content gevonden. Probeer een andere pagina, of ga naar de <a href=\\\"%paths_root%\\\">homepage</a>.\""
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 
@@ -185,6 +102,7 @@ contenttypes.generic.group.taxonomy: "Taxonomie"
 contenttypes.generic.group.template: "Sjabloon"
 contenttypes.generic.group.ungrouped: "Zonder groep"
 contenttypes.generic.invalid-field: "Kan %field% in %contenttype% niet opslaan: Geen geldig veld."
+contenttypes.generic.invalid-hyphen: "In het ContentType voor '%contenttype%', heb je een liggend streepje ('0') gebruikt, wat niet ondersteund is. Bewerk contenttypes.yml en vervang het liggende streepje, of vervang deze door een underscore."
 contenttypes.generic.invalid-relation: "In het contenttype voor '%contenttype%', is de relatie '%relation%' gedefinieerd, maar dat is een ongeldig contenttype. Bewerk contenttypes.yml om dit corrigeren."
 contenttypes.generic.last-modified: "Laatst aangepaste %contenttypes%"
 contenttypes.generic.new: "Nieuwe %contenttype%"
@@ -289,8 +207,10 @@ general.phrase.changelog-what-changed: "Plaats optioneel een korte opmerking om 
 general.phrase.check-again: "Controleer nogmaals"
 general.phrase.check-database: "Controleer de database"
 general.phrase.choose-record-link-to: "Kies het record waarnaar je wilt linken:"
+general.phrase.clashing-relation: "In het ContentType voor '%contenttype%', heten zowel een veld als een relatie '%relation%', waardoor de relatie niet goed werkt. Bewerk contenttypes.yml en pas dit aan."
 general.phrase.clear-cache: "Leeg de cache"
 general.phrase.clear-cache-again: "Leeg de cache nogmaals"
+general.phrase.clear-cache-complete: "Cache geleegd."
 general.phrase.clear-change-log: "Wis het Change Log"
 general.phrase.clear-filter-sort: "Wis sortering/filter"
 general.phrase.clear-system-log: "Wis het Systeem Log"
@@ -315,10 +235,13 @@ general.phrase.created-on-colon: "Aangemaakt op:"
 general.phrase.current-session-plural: "Huidige sessie"
 general.phrase.dashboard: "Overzicht"
 general.phrase.databaase-up-to-date: "Je database is nu bijgewerkt."
+general.phrase.database-check: "Controleer de Database"
 general.phrase.database-check-update: "Database controleren / bijwerken"
 general.phrase.database-prefill: "Voorvullen van de database"
 general.phrase.database-prefill-dummy-content: "Vul de database met Dummy-inhoud"
 general.phrase.database-up-to-date-already: "Je database was al bijgewerkt."
+general.phrase.database-update-required-post: "om dit direct te doen."
+general.phrase.database-update-required-pre: "De database moet gecontroleerd / bijgewerkt worden. Klik op 'Configuratie'"
 general.phrase.delete: "Verwijderen"
 general.phrase.delete-directory-name: "Verwijder %foldername%"
 general.phrase.delete-file-name: "Verwijder %filename%"
@@ -339,13 +262,15 @@ general.phrase.edit-file: "Bewerk bestand"
 general.phrase.edit-role-permissions: "Bewerk Rollen en Permissies"
 general.phrase.edited: "en bewerkt"
 general.phrase.enable-user-name: "Schakel %username% in"
+general.phrase.error-cache-clear: "Cache legen is niet gelukt. Probeer dit handmatig te doen."
 general.phrase.error-login-invalid-parameters: "Onjuiste login parameters."
 general.phrase.error-mail-options-not-set: "De email configuratie 'mailopties' is niet ingesteld. Mogelijk slaagt Bolt er niet in een wachtwoord-reset-email te verzenden."
 general.phrase.error-send-password-request: "Het is mislukt om een wachtwoord-aanvraag te verzenden. Controleer de e-mailinstellingen."
 general.phrase.error-session-data-login: "Het ophalen van loginsessiegegevens is mislukt. Controleer de PHP sessie-instellingen van je systeem."
 general.phrase.error-translation-file-not-readable: "Het vertalingenbestand '%s' is niet leesbaar."
 general.phrase.error-user-name-password-incorrect: "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw."
-general.phrase.extensions: "Bekijk/installeer extensies"
+general.phrase.extensions: "Extensies"
+general.phrase.extensions-overview: "Overzicht van Extensies"
 general.phrase.field: "veld"
 general.phrase.field-fieldname: "Invoerveld \"%FIELD_NAME%\":"
 general.phrase.file-management: "Bestandsbeheer"
@@ -359,6 +284,7 @@ general.phrase.filter: "Filter"
 general.phrase.filtered-by: "gefilterd door"
 general.phrase.find: "Vind"
 general.phrase.floating-point-required-bang: "Dit moet een kommagetal zijn!"
+general.phrase.folder: "Folder"
 general.phrase.folders: "Mappen"
 general.phrase.full-list-ellipsis: "Volledige lijst…"
 general.phrase.general.phrase.uploaded-files: "Geüploade bestanden"
@@ -366,6 +292,7 @@ general.phrase.global-permissions: "Globale permissies"
 general.phrase.hints-colon: "Hints:"
 general.phrase.id: "Id"
 general.phrase.info: "Info"
+general.phrase.invalid-taxonomy-slug: "In de taxonomie '%taxonomy%' bevat de slug voor optie '%option%' een slash. Bewerk taxonomy.ymlen pas dit aan."
 general.phrase.ip.address: "IP-adres"
 general.phrase.keyword-ellipsis: "Trefwoord …"
 general.phrase.last-edited-on-colon: "Laatst aangepast op:"
@@ -387,6 +314,7 @@ general.phrase.messages: "Meldingen"
 general.phrase.meta: "Meta"
 general.phrase.meta-information: "Meta informatie"
 general.phrase.missing-about-page: "Helaas, geen 'over ons'!"
+general.phrase.missing-about-page-block: "Er is op dit moment geen Block met 'about-us' als slug. Als je deze aanmaakt, zal deze hier getoond worden. Ga naar 'Configuratie' > 'Controleer de Database' en kies 'Voeg een aantal Records toe' om dit Block automatisch te genereren."
 general.phrase.missing-root-jackpot: "Er moet altijd minstens één 'root'-gebruiker zijn. Gefeliciteerd, je hebt promotie gekregen!"
 general.phrase.modifications-database-colon: "Aanpassingen gedaan aan de database:"
 general.phrase.modifications-needed-colon: "Vereiste aanpassingen:"
@@ -436,6 +364,7 @@ general.phrase.read-more: "Lees verder"
 general.phrase.record-related-to-variable: "Deze record heeft betrekking op de volgende %CTNAME%:"
 general.phrase.records: "Records"
 general.phrase.redirect-detected: "Redirect gedetecteerd. Controleer of je nog steeds ingelogd bent."
+general.phrase.related-content: "Gerelateerde content"
 general.phrase.relationships: "Relaties"
 general.phrase.rename-foldername: "Hernoem %foldername%"
 general.phrase.required-character-count: "Tenminste %NUM% tekens zijn vereist"
@@ -456,6 +385,7 @@ general.phrase.select: "Kies"
 general.phrase.select-all: "Selecteer alles"
 general.phrase.select-file: "Kies bestand …"
 general.phrase.select-none: "Selecteer niets"
+general.phrase.selection: "Selectie"
 general.phrase.session-expires: "Sessie verloopt"
 general.phrase.session-resumed-colon: "Sessie hervat."
 general.phrase.settings: "Instellingen"
@@ -506,6 +436,8 @@ general.phrase.users-none-create-first: "Er zijn geen gebruikers in de database.
 general.phrase.users-none-create-first-extended: "Het systeem heeft nog geen gebruikers. Maak de eerste gebruiker aan, die root-privileges zullen worden toegekend."
 general.phrase.users-permissions: "Gebruikers en machtigingen"
 general.phrase.users.all: "Alle gebruikers"
+general.phrase.value-maximum-variable: "De waarde mag niet groter zijn van “%MAXVAL%”!"
+general.phrase.value-minimum-variable: "De waarde moet ten minste “%MINVAL%” zijn!"
 general.phrase.value-new: "nieuwe waarde"
 general.phrase.value-old: "oude waarde"
 general.phrase.view-edit-templates: "Bekijk / bewerk templates"
@@ -601,17 +533,27 @@ page.extend.button.info-help: "Meer info/help"
 page.extend.button.install-all: "Installeer alle packages"
 page.extend.button.install-package: "Installeer package"
 page.extend.button.install-this-version: "Installeer deze versie"
+page.extend.button.link-config: "Bewerk configuratie"
+page.extend.button.link-marketplace: "Bekijk op de marketplace"
+page.extend.button.link-readme: "Bekijk README"
+page.extend.button.link-repository: "Bekijk de bron repository"
+page.extend.button.link-uninstall: "Deïnstalleer extensie"
+page.extend.button.link-versions: "Installeer een andere versie"
+page.extend.button.manage: "Beheer"
+page.extend.button.package-dependencies: "Vaststellen welke packages afhankelijk zijn"
 page.extend.button.show-all-versions: "Toon alle versies"
 page.extend.button.update-all: "Doe alle updates"
 page.extend.button.update-check: "Doe update check"
 page.extend.button.update-package: "Package bijwerken"
 page.extend.error-class-implement: "Extensie package %NAME% base class '%CLASS%' is geen implementatie van %TARGET% en is overgeslagen."
 page.extend.error-class-invalid: "Extensie package %NAME% heeft een ongeldige class '%CLASS%' en is overgeslagen."
+page.extend.error-composer-json-not-readable: "De Bolt extensies composer.json is niet leesbaar."
 page.extend.error-composer-json-not-writable: "Het Bolt extensies bestand composer.json is niet schrijfbaar."
 page.extend.error-message-client: "Client fout: %errormessage%"
 page.extend.error-message-connection: "Het testen van de verbinding met de extensie is niet gelukt: %errormessage%"
 page.extend.error-message-generic: "%errormessage%\": \"Algemene fout tijdens het testen van de verbinding met de server van de uitbreiding: %errormessage%\""
 page.extend.error-message-server: "De extensie server meldt een fout: %errormessage%"
+page.extend.headline.bundled: "Gebundelde Extensies"
 page.extend.headline.currently-installed: "Geïnstalleerde extensies"
 page.extend.headline.install-new-extension: "Installeer een nieuwe extensie"
 page.extend.headline.installation-complete: "Installatie voltooid"
@@ -622,11 +564,15 @@ page.extend.headline.test-versions: "Onstabiele testversies"
 page.extend.headline.theme-installation-complete: "Installatie van het thema is gereed."
 page.extend.headline.updates: "Updates"
 page.extend.listheader.actions: "Acties"
+page.extend.listheader.class: "Klasse"
 page.extend.listheader.extension: "Extensie"
+page.extend.listheader.name: "Naam"
 page.extend.listheader.status: "Status"
 page.extend.listheader.version: "Versie"
 page.extend.message.add-extension-with-form: "Voeg een nieuwe extensie toe met onderstaand formulier."
 page.extend.message.autoload-dump: "Deze handeling zal zowel de autoload bestanden als de cache bestanden herstellen."
+page.extend.message.autoloader-start: "Laden van Composer autoload dumper"
+page.extend.message.autoloader-update: "Bijwerken van Composer autoloader"
 page.extend.message.bad-json: "Misvormde JSON respons. Zorg ervoor dat er geen debugging of andere code wordt toegevoegd aan de reactie"
 page.extend.message.before-theme-start: "Voordat je deze theme kunt gebruiken, moeten we een kopie maken naar je theme map. Als je een alternatieve naam wilt opgeven voor het theme, dan kan dat hier."
 page.extend.message.check-for-updates: "Controleer op updates"
@@ -638,10 +584,12 @@ page.extend.message.copying: "Thema-bestanden kopiëren …"
 page.extend.message.discover-by-visiting: "Ontdek nieuwe extensies"
 page.extend.message.ext-dir-missing: "De maplocatie van de extensie (<code>%DIRECTORY%</code>) bestaat niet of is niet schrijfbaar. Daarom kan u Bolt extensies niet bewerken vanuit de backend. Probeer de extensies handmatig te bewerken of verander de bestandsrechten om Bolt een schrijfrecht te verlenen voor (<code>%DIRECTORY%</code>)."
 page.extend.message.install-all: "Bezig met de installatie van alle packages …"
+page.extend.message.installation-running: "Installatie loopt"
 page.extend.message.installing: "Package installatie aan het voorbereiden …"
 page.extend.message.installing-selected-package: "Geselecteerde packages worden geïnstalleerd. (Dit kan tot 60 seconden duren)"
 page.extend.message.installs-all-listed-packages: "Dit zorgt ervoor dat alle opgesomde pakketten worden geïnstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geïnstalleerd."
 page.extend.message.installs-updates: "Dit zal alle updates installeren."
+page.extend.message.invalid-theme-source-dir: "Ongeldige theme source directory: %SOURCE%"
 page.extend.message.latest-version: "De hieronder vermelde versie is de laatste stabiele versie zoals aangegeven door de ontwikkelaar, die compatibel is met de versie van Bolt die u momenteel gebruikt."
 page.extend.message.loading-disabled: "Extensies laden is uitgeschakeld door een beheerder in het bestand %CONFIG%. Je kan extensies installeren, bijwerken en verwijderen, maar deze zullen niet laden totdat deze instelling is gewijzigd."
 page.extend.message.maintenance: "Onderhoud"
@@ -652,13 +600,16 @@ page.extend.message.no-stable-versions-available: "Geen stabiele versies beschik
 page.extend.message.no-test-versions-available: "Geet testversies beschikbaar"
 page.extend.message.no-update-check-in-readmode: "Updates kunnen niet gecontroleerd worden in alleen-lezen modus."
 page.extend.message.overwrite: "Hiermee overschrijf je eventueel bestaande bestanden! Weet je het zeker?"
+page.extend.message.package-dependencies: "Packages die afhankelijk zijn"
 page.extend.message.package-install-info-fail: "Niet in staat om de installatiegegevens op te halen voor %PACKAGE% %VERSION%."
 page.extend.message.removing: "Package verwijderen aan het voorbereiden …"
 page.extend.message.running-update: "Bezig met updaten …"
+page.extend.message.running-update-all: "Update loopt"
 page.extend.message.shows-updates: "Hiermee installeer je niets, bekijk alleen de beschikbare updates."
 page.extend.message.start-using-extension: "Je kunt de geïnstalleerde extensie gebruiken. Documentatie en gebruiksinstructies zijn te vinden via de volgende link."
 page.extend.message.updated: "Alles is up-to-date!"
 page.extend.message.updating: "Zoek naar beschikbare updates …"
+page.extend.options: "Extensie Opties"
 page.extend.pagetitle: "%BOLTNAME% uitbreiden"
 page.extend.theme.generation.failure: "Het thema kon niet worden aangemaakt. Het is mogelijk dat de directory waarin het thema zich bevindt niet schrijfbaar is door bolt. Controleer de rechten en probeer opnieuw te installeren."
 page.extend.theme.generation.missing.name: "Geen themanaam gevonden. Het thema is niet gegenereerd."
@@ -676,6 +627,7 @@ page.file-management.message.save-failed-colon: "Bestand '%s' kon niet worden op
 page.file-management.message.save-failed-invalid-form: "Het bestand %s kon niet worden opgeslagen omdat het formulier niet juist is ingevuld."
 page.file-management.message.save-failed-unknown: "Bestand '%s' kon niet worden opgeslagen, om een onduidelijke reden."
 page.file-management.message.save-success: "Bestand '%s' is opgeslagen."
+page.file-management.message.upload-not-writable: "Kan niet schrijven naar uploadbestemming. Controleer de permissies van %TARGET%"
 page.file-management.message.upload-success: "Bestand '%file%' is goed geüpload."
 page.file-management.title: "Bestanden"
 
