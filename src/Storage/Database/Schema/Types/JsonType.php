@@ -87,12 +87,4 @@ final class JsonType extends Types\Type
     {
         return !$platform->hasNativeJsonType();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMappedDatabaseTypes(AbstractPlatform $platform)
-    {
-        return [$platform->getJsonTypeDeclarationSQL([])];
-    }
 }
