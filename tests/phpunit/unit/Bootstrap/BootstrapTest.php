@@ -7,7 +7,7 @@ use Bolt\Bootstrap;
 use Bolt\Tests\Extension\Mock\NormalExtension;
 use PHPUnit\Framework\TestCase;
 use Silex\Application as SilexApplication;
-use Silex\HttpCache;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Http\RememberMe\ResponseListener;
 use Symfony\Component\Yaml\Dumper;
@@ -45,7 +45,7 @@ class BootstrapTest extends TestCase
             [TEST_ROOT, '%bolt%'],
             [PHPUNIT_WEBROOT, '%site%'],
             [PHPUNIT_WEBROOT . '/app', '%app%'],
-            [PHPUNIT_WEBROOT . '/app/cache', '%cache%'],
+            [PHPUNIT_WEBROOT . '/var/cache', '%cache%'],
             [PHPUNIT_WEBROOT . '/app/config', '%config%'],
             [PHPUNIT_WEBROOT . '/app/database', '%database%'],
             [PHPUNIT_WEBROOT . '/extensions', '%extensions%'],
@@ -98,7 +98,7 @@ class BootstrapTest extends TestCase
     {
         $config = [
             'paths' => [
-                'root'              => 'test_root',
+                'root'              => PHPUNIT_WEBROOT,
                 'bolt'              => 'test_bolt',
                 'site'              => 'test_site',
                 'app'               => '%site%/test_app',
@@ -129,11 +129,12 @@ class BootstrapTest extends TestCase
      */
     public function testRunPathsPhp($expected, $path)
     {
+        $root = PHPUNIT_WEBROOT;
         $config = <<<EOF
 <?php
 return [
     'paths' => [
-        'root'              => 'test_root',
+        'root'              => '$root',
         'bolt'              => 'test_bolt',
         'site'              => 'test_site',
         'app'               => '%site%/test_app',
@@ -157,52 +158,6 @@ EOF;
         $resolver = $app['path_resolver'];
 
         $this->assertSame($expected, $resolver->resolve($path));
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testRunResourceManagerYaml()
-    {
-        $config = [
-            'resources' => 'Bolt\Configuration\ResourceManager',
-        ];
-
-        $yaml = (new Dumper())->dump($config, 4, 0, true);
-        $fs = new Filesystem();
-        $fs->dumpFile($this->rootPath . '/.bolt.yml', $yaml);
-
-        $app = Bootstrap::run($this->rootPath);
-
-        // We only care at this stage of the game that no exceptions are thrown
-        $this->assertAttributeEquals(true, 'initialized', $app);
-        $this->assertAttributeEquals(false, 'booted', $app);
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testRunResourceManagerPhp()
-    {
-        $config = <<<EOF
-<?php
-\$container = new \Silex\Application([
-    'pathmanager' => new \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory(),
-    'rootpath'    => '$this->rootPath',
-]);
-
-return [
-    'resources' => new \Bolt\Configuration\ResourceManager(\$container),
-];
-EOF;
-        $fs = new Filesystem();
-        $fs->dumpFile($this->rootPath . '/.bolt.php', $config);
-
-        $app = Bootstrap::run($this->rootPath);
-
-        // We only care at this stage of the game that no exceptions are thrown
-        $this->assertAttributeEquals(true, 'initialized', $app);
-        $this->assertAttributeEquals(false, 'booted', $app);
     }
 
     public function testRunBootstrappedApplicationClass()
