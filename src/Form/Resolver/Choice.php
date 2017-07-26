@@ -80,10 +80,11 @@ final class Choice
         $limit = $field['limit'];
         $sortable = $field['sortable'];
         $filter = $field['filter'];
+        $key = isset($field['keys']) ? $field['keys'] : 'id';
 
         // Get the appropriate values
         return is_string($values)
-            ? $this->getEntityValues($values, $limit, $sortable, $filter)
+            ? $this->getEntityValues($values, $limit, $sortable, $filter, $key)
             : $this->getYamlValues($values, $limit, $sortable)
         ;
     }
@@ -116,10 +117,11 @@ final class Choice
      * @param int    $limit
      * @param bool   $sortable
      * @param array  $filter
+     * @param array  $key
      *
      * @return array
      */
-    private function getEntityValues($queryString, $limit, $sortable, $filter)
+    private function getEntityValues($queryString, $limit, $sortable, $filter, $key)
     {
         $baseParts = explode('/', $queryString);
         if (count($baseParts) < 2) {
@@ -149,7 +151,7 @@ final class Choice
 
         /** @var Content $entity */
         foreach ($entities as $entity) {
-            $id = $entity->getId();
+            $id = $entity->get($key);
             $values[$id] = $entity->get($queryFields[0]);
             if (isset($queryFields[1])) {
                 $values[$id] .= ' / ' . $entity->get($queryFields[1]);
