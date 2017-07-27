@@ -9,6 +9,8 @@ use PasswordLib\Random\Source;
  * A PasswordLib Random Generator that uses random_bytes.
  *
  * @internal
+ *
+ * @deprecated Deprecated since 3.3, to be removed in 4.0.
  */
 final class PasswordLibRandomGenerator extends Generator
 {

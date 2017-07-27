@@ -326,6 +326,17 @@ class YamlHelper extends \Codeception\Module
                 'values'       => 'pages/id,title',
                 'sort'         => 'title',
             ],
+            'select_record_single' => [
+                'type'         => 'select',
+                'values'       => 'pages/title',
+                'sort'         => 'title',
+            ],
+            'select_record_keys' => [
+                'type'         => 'select',
+                'values'       => 'pages/title',
+                'sort'         => 'title',
+                'keys'         => 'slug',
+            ],
             /**
              * Disabled as currently unsupported due to problems in extension
              * fields, and in test due to |first filter in base-2016:
