@@ -217,6 +217,8 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->selectOption('#templatefields-select_list', 'foo');
         $I->selectOption('#templatefields-select_multi', ['Donatello', 'Rafael']);
         $I->selectOption('#templatefields-select_record', '1');
+        $I->selectOption('#templatefields-select_record_single', '2');
+        $I->selectOption('#templatefields-select_record_keys', 'contact');
 
         $I->click('Save pages', '#content_edit_save');
 
@@ -239,5 +241,10 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->seeInField('#templatefields-select_multi', 'Donatello');
         $I->seeInField('#templatefields-select_multi', 'Rafael');
         $I->seeInField('#templatefields-select_record', '1');
+        $I->seeOptionIsSelected('#templatefields-select_record', '1 / A page I made');
+        $I->seeInField('#templatefields-select_record_single', '2');
+        $I->seeOptionIsSelected('#templatefields-select_record_single', 'About');
+        $I->seeInField('#templatefields-select_record_keys', 'contact');
+        $I->seeOptionIsSelected('#templatefields-select_record_keys', 'Contact Page');
     }
 }

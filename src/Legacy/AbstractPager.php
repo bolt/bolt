@@ -9,6 +9,8 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
  * -----------
  *  Legacy class to keep compatibility for a while.
  *  It is just for remap deprecated properties like showing_from -> showingFrom
+ *
+ * @deprecated Deprecated since 3.3, to be removed in 4.0.
  */
 abstract class AbstractPager implements \ArrayAccess
 {
