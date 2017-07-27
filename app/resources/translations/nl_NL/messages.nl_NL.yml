@@ -1,3 +1,4 @@
+"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"
 # app/resources/translations/nl_NL/messages.nl_NL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
@@ -8,7 +9,7 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   3 Legacy untranslated messages
+#   4 Legacy untranslated messages
 #  15 Untranslated messages
 #  42 Legacy translation messages
 # 538 Translation messages
@@ -17,30 +18,31 @@
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt, tested with Codeception</a>.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
-field.block.label.add-new: #
-field.block.label.add-set: #
+field.block.label.add-new: # "Add new..."
+field.block.label.add-set: # "Add new %label% set"
 
-field.repeater.label.add-set: #
+field.repeater.label.add-set: # "Add new %label% set"
 
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
 
-menu.configuration.checks: #
+menu.configuration.checks: # "Set-up checks"
 
-page.checks.php-pass: #
-page.checks.php-problem: #
-page.checks.show-all: #
-page.checks.show-failed: #
-page.checks.system-pass: #
-page.checks.system-problem: #
+page.checks.php-pass: # "All PHP configuration checks pass!"
+page.checks.php-problem: # "PHP configuration check found problems!"
+page.checks.show-all: # "Show all checks"
+page.checks.show-failed: # "Show only failed checks"
+page.checks.system-pass: # "All system configuration checks pass!"
+page.checks.system-problem: # "System configuration check found problems!"
 
-page.edit-users.error.email-invalid: #
-page.edit-users.error.password-different-email: #
-page.edit-users.error.password-long: #
+page.edit-users.error.email-invalid: # "This email address is not valid."
+page.edit-users.error.password-different-email: # "Password must not match the email address."
+page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
 
 #--- Legacy translation messages ----------------------------------------------
 

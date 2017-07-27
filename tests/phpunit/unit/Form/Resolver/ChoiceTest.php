@@ -272,6 +272,34 @@ class ChoiceTest extends TestCase
         $this->assertSame($expect, $result);
     }
 
+    public function testGetEntityKeys()
+    {
+        $resolver = $this->getResolver(null, $this->getEntities());
+        $values = 'contenttype/field_1';
+        $contentType = new ContentType('koala', [
+            'fields' => [
+                'select_array' => [
+                    'type'   => 'select',
+                    'values' => $values,
+                    'keys'   => 'field_2',
+                    'filter' => ['category' => 'test']
+                ],
+            ],
+        ]);
+        $expect = [
+            'select_array' => [
+                'Magoo Foo' => 'Foo Magoo',
+                'Bar Iron' => 'Iron Bar',
+                'Koala Kenny' => 'Kenny Koala',
+                'Danger Danger' => 'Drop Bear',
+            ],
+        ];
+        $result = $resolver->get($contentType, []);
+
+        $this->assertSame($expect, $result);
+    }
+
+
     public function testGetTemplateFieldsSelect()
     {
         $resolver = $this->getResolver();

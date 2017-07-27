@@ -111,28 +111,19 @@ Bolt 3.4-dev
 
 -
 
-Bolt 3.3.0 RC 2
----------------
+Bolt 3.3.0
+----------
 
-Released 2017-07-21. Notable changes:
-
- - Fixed: Select fields … The sage continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
- - Fixed: Stricter parameter handling in `{{ order }}` [#6838](https://github.com/bolt/bolt/pull/6838)
- - Fixed: Only add the label in the content editor, when the label isn't empty [#6837](https://github.com/bolt/bolt/pull/6837)
-
-Bolt 3.3.0 RC 1
----------------
-
-Released 2017-07-18. Notable changes:
+Released 2017-07-27. Notable changes:
 
  - Added: Add a helpful note on the Changelog page, if it is not enabled. [#6653](https://github.com/bolt/bolt/pull/6653)
- - Added: Added `app/nut` Commands to query views into system operations. [#6531](https://github.com/bolt/bolt/pull/6531)
  - Added: Add extra PHP module requirements to `composer.json` [#6490](https://github.com/bolt/bolt/pull/6490)
- - Added: Adding security service provider. [#6231](https://github.com/bolt/bolt/pull/6231)
- - Added: Adding the Pimple dumper as a require-dev & Nut command [#6402](https://github.com/bolt/bolt/pull/6402)
  - Added: Add option to only dump the SQL migration statements with the `database:update` command. [#6496](https://github.com/bolt/bolt/pull/6496)
  - Added: Add scoping for new storage `getContent` queries. [#6188](https://github.com/bolt/bolt/pull/6188)
  - Added: Add support for extension definition in bolt.yml file [#6324](https://github.com/bolt/bolt/pull/6324)
+ - Added: Added `app/nut` Commands to query views into system operations. [#6531](https://github.com/bolt/bolt/pull/6531)
+ - Added: Adding security service provider. [#6231](https://github.com/bolt/bolt/pull/6231)
+ - Added: Adding the Pimple dumper as a require-dev & Nut command [#6402](https://github.com/bolt/bolt/pull/6402)
  - Added: Allow an initial number to be passed in the repeater field config [#6459](https://github.com/bolt/bolt/pull/6459)
  - Added: Allow Canonical Url to be overridden [#6500](https://github.com/bolt/bolt/pull/6500)
  - Added: Allow for project-specific Localised translation files. [#6802](https://github.com/bolt/bolt/pull/6802)
@@ -148,6 +139,7 @@ Released 2017-07-18. Notable changes:
  - Added: Feature list "local extensions" on Extensions screen [#6419](https://github.com/bolt/bolt/pull/6419)
  - Added: Implement missing `hasParameter` method. [#6764](https://github.com/bolt/bolt/pull/6764)
  - Added: Local Extension Replacement. [#6170](https://github.com/bolt/bolt/pull/6170)
+ - Added: More descriptive exception when the bundled-extension class does not exist [#6839](https://github.com/bolt/bolt/pull/6839)
  - Added: New "Configuration Notices" extensions helps catching a lot common oversights or misconfigurations. [webpage](https://github.com/bolt/configuration-notices)
  - Added: New Nut debug functionality, dumping routes, events, twig commands and Twig linter. [#6570](https://github.com/bolt/bolt/pull/6570), [#6568](https://github.com/bolt/bolt/pull/6568), [#6543](https://github.com/bolt/bolt/pull/6543)
  - Added: New Skeleton theme, as a bare-bones starter theme. [#6816](https://github.com/bolt/bolt/pull/6816)
@@ -160,8 +152,8 @@ Released 2017-07-18. Notable changes:
  - Added: Set [`bolt/collection` Object Orientated implementations of arrays](https://github.com/bolt/collection) to a stable constraint [#6710](https://github.com/bolt/bolt/pull/6710)
  - Change: Add limit to trace, show less data when not logged in. [#6130](https://github.com/bolt/bolt/pull/6130)
  - Change: Add sub and super to default allowed tags [#6362](https://github.com/bolt/bolt/pull/6362)
- - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
  - Change: Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
+ - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
  - Change: Always reset null templatefields to an empty array instead [[#6803](https://github.com/bolt/bolt/pull/6803)](https://github.com/bolt/bolt/pull/6803]
  - Change: Boot extension registered service providers - Fixes "Paths to extensions added pages don't work" [#6157](https://github.com/bolt/bolt/pull/6157)
  - Change: Bumped PostgreSQL minimum version to 9.1. (for MySQL we require version 5.5 or up, and almost any SQLite 3 will do).
@@ -195,9 +187,9 @@ Released 2017-07-18. Notable changes:
  - Change: Remove advanced performance settings from default config. [#6028](https://github.com/bolt/bolt/pull/6028)
  - Change: Remove bolt.render stopwatch event [#6304](https://github.com/bolt/bolt/pull/6304)
  - Change: Remove default value for cookies_domain [#6440](https://github.com/bolt/bolt/pull/6440)
- - Change: Removed safe mode and magic quotes checks [#6529](https://github.com/bolt/bolt/pull/6529)
  - Change: Remove hard requirement on PHP `mbstring` extension [#6748](https://github.com/bolt/bolt/pull/6748)
  - Change: Remove requirement on (optional) gmp PHP extension [#6553](https://github.com/bolt/bolt/pull/6553)
+ - Change: Removed safe mode and magic quotes checks [#6529](https://github.com/bolt/bolt/pull/6529)
  - Change: Renamed "Local Extensions" to "Bundled Extensions" [#6502](https://github.com/bolt/bolt/pull/6502)
  - Change: Replace deprecated `|twig` filters with `template_from_string`. [#6153](https://github.com/bolt/bolt/pull/6153)
  - Change: Replace ResourceManager with PathResolver in the configuration validators [#6429](https://github.com/bolt/bolt/pull/6429)
@@ -211,23 +203,27 @@ Released 2017-07-18. Notable changes:
  - Change: Update `config.yml` timezone info [#6464](https://github.com/bolt/bolt/pull/6464)
  - Change: Use `blocks` instead of `macro` for `{{ fields() }}` rendering. [#6784](https://github.com/bolt/bolt/pull/6784) [#6778](https://github.com/bolt/bolt/pull/6778) [#6811](https://github.com/bolt/bolt/pull/6811)
  - CodeClimate: Enable grep engine [#6619](https://github.com/bolt/bolt/pull/6619)
+ - Deprecation: `LogChangeRepository::countChangeLog()`. [#6656](https://github.com/bolt/bolt/pull/6656)
  - Deprecation: Add deprecation notices for `$app['controller.classmap']`. [#6526](https://github.com/bolt/bolt/pull/6526)
  - Deprecation: Deprecate and replace use of `{{ link() }}` [#6614](https://github.com/bolt/bolt/pull/6614)
  - Deprecation: Deprecated `\Bolt\Exception\FilesystemException` [#6674](https://github.com/bolt/bolt/pull/6674)
- - Deprecation: Deprecated ResourceManager Completely [#6439](https://github.com/bolt/bolt/pull/6439), [#6441](https://github.com/bolt/bolt/pull/6441)
  - Deprecation: Deprecated `Swift_MailTransport` [#6666](https://github.com/bolt/bolt/pull/6666)
+ - Deprecation: Deprecated ResourceManager Completely [#6439](https://github.com/bolt/bolt/pull/6439), [#6441](https://github.com/bolt/bolt/pull/6441)
  - Deprecation: Import Twig macro template where used [#6652](https://github.com/bolt/bolt/pull/6652)
- - Deprecation: `LogChangeRepository::countChangeLog()`. [#6656](https://github.com/bolt/bolt/pull/6656)
  - Deprecation: Remove remaining Twig global use [#6685](https://github.com/bolt/bolt/pull/6685) [#6686](https://github.com/bolt/bolt/pull/6686)
  - Deprecation: replaced use of deprecated request object [#6541](https://github.com/bolt/bolt/pull/6541)
- - Deprecations [#6715](https://github.com/bolt/bolt/pull/6715)
  - Deprecation: Switch YamlUpdater to use Bolt filesystem for YAML handling [#6557](https://github.com/bolt/bolt/pull/6557)
- - Deprecation: Use Form::isSubmitted() before Form::isValid() [#6556](https://github.com/bolt/bolt/pull/6556)
  - Deprecation: Use `Request::isMethodSafe()` according to standard [#6701](https://github.com/bolt/bolt/pull/6701)
+ - Deprecation: Use Form::isSubmitted() before Form::isValid() [#6556](https://github.com/bolt/bolt/pull/6556)
  - Deprecation: Various deprecation updates [#6432](https://github.com/bolt/bolt/pull/6432), [#6427](https://github.com/bolt/bolt/pull/6427), [#6424](https://github.com/bolt/bolt/pull/6424), [#6422](https://github.com/bolt/bolt/pull/6422), [#6414](https://github.com/bolt/bolt/pull/6414), [#6410](https://github.com/bolt/bolt/pull/6410)
+ - Deprecations [#6715](https://github.com/bolt/bolt/pull/6715)
+ - Fixed: "Complex search" crash bug [#6757](https://github.com/bolt/bolt/pull/6757)
+ - Fixed: "Info (?)" sign after each field title in the content editor [#6850](https://github.com/bolt/bolt/pull/6850)
+ - Fixed: "Search with setcontent" when using strict settings. [#6753](https://github.com/bolt/bolt/pull/6753)
  - Fixed: [3.3] Use correct class for deprecation notice [#6444](https://github.com/bolt/bolt/pull/6444)
  - Fixed: Add an interface check around the set method [#6471](https://github.com/bolt/bolt/pull/6471)
  - Fixed: Add Backwards compatibility binding to extend overview page [#6335](https://github.com/bolt/bolt/pull/6335)
+ - Fixed: Additional fix for TemplateField select options [#6845](https://github.com/bolt/bolt/pull/6845)
  - Fixed: Base Directory Fixes for Local Extensions [#6327](https://github.com/bolt/bolt/pull/6327)
  - Fixed: BC fix to ensure sandbox is disabled after exception is thrown. [#6134](https://github.com/bolt/bolt/pull/6134)
  - Fixed: Better handling of invalid images in thumbs [#45](https://github.com/bolt/thumbs/pull/45)
@@ -235,7 +231,6 @@ Released 2017-07-18. Notable changes:
  - Fixed: Button to toggle between `config` and `config_local` in 3.3 was missing. Related has items when its count is greater than zero. [#6516](https://github.com/bolt/bolt/pull/6516) [#6513](https://github.com/bolt/bolt/pull/6513)
  - Fixed: Check `file_uploads` ini directive for allowed uploads. [#5973](https://github.com/bolt/bolt/pull/5973)
  - Fixed: Clear 'exception' and 'translation' too, when clearing cache. [#6546](https://github.com/bolt/bolt/pull/6546)
- - Fixed: "Complex search" crash bug [#6757](https://github.com/bolt/bolt/pull/6757)
  - Fixed: Counting double in list overview. Only adding record to the list, if it wasn't already selected before. [#6717](https://github.com/bolt/bolt/pull/6717)
  - Fixed: Decouple exceptions from exception handling [#6361](https://github.com/bolt/bolt/pull/6361)
  - Fixed: Disable the class loader if not specifically enabled during boot. [#6534](https://github.com/bolt/bolt/pull/6534)
@@ -248,16 +243,16 @@ Released 2017-07-18. Notable changes:
  - Fixed: Ensure default for `image.file` in preview. [#6512](https://github.com/bolt/bolt/pull/6512)
  - Fixed: Ensure fields are using new interface before calling methods [#6458](https://github.com/bolt/bolt/pull/6458) (fixes [#6420](https://github.com/bolt/bolt/pull/6420), [#6273](https://github.com/bolt/bolt/pull/6273))
  - Fixed: First check user: Changing Database settings not resetting session [#6481](https://github.com/bolt/bolt/pull/6481) [#6483](https://github.com/bolt/bolt/pull/6483)
+ - Fixed: Fix `LowlevelChecks::disableApacheChecks()` not passing value to ResourceManager. [#6528](https://github.com/bolt/bolt/pull/6528)
+ - Fixed: Fix `ymlink` twig filter for multiple matches. [#6290](https://github.com/bolt/bolt/pull/6290)
  - Fixed: Fix AND lookups on relationship/join searches [#6401](https://github.com/bolt/bolt/pull/6401)
  - Fixed: Fix BC for old thumbnail config paths in `notfound_image` and `error_image`. [#6728](https://github.com/bolt/bolt/pull/6728)
  - Fixed: Fix booting extension's service providers [#6340](https://github.com/bolt/bolt/pull/6340)
  - Fixed: Fix bug causing missing incoming relations [#6312](https://github.com/bolt/bolt/pull/6312)
  - Fixed: Fix bugs with PathResolver/ResourceManager [#6303](https://github.com/bolt/bolt/pull/6303)
- - Fixed: Fix/clean up `_sub_fields.twig` for `{{ fields() }}` [#6474](https://github.com/bolt/bolt/pull/6474)
  - Fixed: Fix content changelog field handling [#6565](https://github.com/bolt/bolt/pull/6565)
  - Fixed: Fix determining base path for dev extensions in src folder [#6365](https://github.com/bolt/bolt/pull/6365)
  - Fixed: Fix edge-case `cache:clear` fails. ("cache/production/data" is not writable) [#6747](https://github.com/bolt/bolt/pull/6747)
- - Fixed: Fixes for `.bolt.yml` / `.bolt.php` custom path handling [#6805](https://github.com/bolt/bolt/pull/6805]
  - Fixed: Fix extend page pre-release version display. [#6279](https://github.com/bolt/bolt/pull/6279)
  - Fixed: Fix for maintaining key association in `{{ unique() }}` [#6354](https://github.com/bolt/bolt/pull/6354)
  - Fixed: Fix for queries where fields have the same name as contenttype. [#6779](https://github.com/bolt/bolt/pull/6779)
@@ -265,8 +260,6 @@ Released 2017-07-18. Notable changes:
  - Fixed: Fix for sortable selects. [#6638](https://github.com/bolt/bolt/pull/6638)
  - Fixed: Fix frontend taxonomy lookups where key is different to `slug` [#6495](https://github.com/bolt/bolt/pull/6495)
  - Fixed: Fix incorrect join aliased `content_id` to `id`. [#6286](https://github.com/bolt/bolt/pull/6286)
- - Fixed: Fixing the link to docs.bolt.cm/templating/fields-tag [#6611](https://github.com/bolt/bolt/pull/6611)
- - Fixed: Fix `LowlevelChecks::disableApacheChecks()` not passing value to ResourceManager. [#6528](https://github.com/bolt/bolt/pull/6528)
  - Fixed: Fix News widget on dashboard [#6575](https://github.com/bolt/bolt/pull/6575)
  - Fixed: Fix not being able to delete records from dashboard. [#6289](https://github.com/bolt/bolt/pull/6289)
  - Fixed: Fix PathResolver infinite recursion [#6679](https://github.com/bolt/bolt/pull/6679)
@@ -277,12 +270,15 @@ Released 2017-07-18. Notable changes:
  - Fixed: Fix to allow extension interface backwards compatibility [#6418](https://github.com/bolt/bolt/pull/6418)
  - Fixed: Fix to incorrect Extension Field Initialisation. [#6271](https://github.com/bolt/bolt/pull/6271)
  - Fixed: Fix twig `ismobileclient()` to _actually_ not use super global. [#6124](https://github.com/bolt/bolt/pull/6124)
- - Fixed: Fix `ymlink` twig filter for multiple matches. [#6290](https://github.com/bolt/bolt/pull/6290)
+ - Fixed: Fix/clean up `_sub_fields.twig` for `{{ fields() }}` [#6474](https://github.com/bolt/bolt/pull/6474)
+ - Fixed: Fixes for `.bolt.yml` / `.bolt.php` custom path handling [#6805](https://github.com/bolt/bolt/pull/6805]
+ - Fixed: Fixing the link to docs.bolt.cm/templating/fields-tag [#6611](https://github.com/bolt/bolt/pull/6611)
  - Fixed: Force saving of repeaters, even when empty. [#6518](https://github.com/bolt/bolt/pull/6518)
  - Fixed: Get fields from repeater, even if repeater isn't last. Obsoletes hackish include of HTML field. [#6719](https://github.com/bolt/bolt/pull/6719)
  - Fixed: Handle empty repeaters in Templatefields [#6328](https://github.com/bolt/bolt/pull/6328)
  - Fixed: Import macros where they are actually used, silencing Deprecation notices. [#6532](https://github.com/bolt/bolt/pull/6532)
  - Fixed: Incoming relation was not displayed when relation is empty. [#6117](https://github.com/bolt/bolt/pull/6117)
+ - Fixed: Keeping `keys:` intact for select fields. [#6859](https://github.com/bolt/bolt/pull/6859)
  - Fixed: links in 'node_modules' no longer break "list templates" in backend. [#6460](https://github.com/bolt/bolt/pull/6460)
  - Fixed: Maintain order for multiple-select fields. [#6355](https://github.com/bolt/bolt/pull/6355)
  - Fixed: Make content search case insensitive on every platform. [#6110](https://github.com/bolt/bolt/pull/6110) [#6109](https://github.com/bolt/bolt/pull/6109)
@@ -292,6 +288,7 @@ Released 2017-07-18. Notable changes:
  - Fixed: Minor updates to base-2016 [#6210](https://github.com/bolt/bolt/pull/6210)
  - Fixed: Missing "Delete" button appears when it should. [#6468](https://github.com/bolt/bolt/pull/6468)
  - Fixed: Move the `getRepeaters` call into the nohydrate block. [#6283](https://github.com/bolt/bolt/pull/6283)
+ - Fixed: Only add the label in the content editor, when the label isn't empty [#6837](https://github.com/bolt/bolt/pull/6837)
  - Fixed: Optimise Queries for Repeater Fields. [#6280](https://github.com/bolt/bolt/pull/6280)
  - Fixed: Performance issue fixing in `ContentRelationTrait` [#6108](https://github.com/bolt/bolt/pull/6108)
  - Fixed: prepending theme path instead of appending, fixing template priority order. [#6480](https://github.com/bolt/bolt/pull/6480)
@@ -301,13 +298,15 @@ Released 2017-07-18. Notable changes:
  - Fixed: Remove outdated requirement on ext-posix [#6604](https://github.com/bolt/bolt/pull/6604)
  - Fixed: Reset styles for last field in repeater since its in its own panel [#6338](https://github.com/bolt/bolt/pull/6338)
  - Fixed: Resolve template for template fields. [#6237](https://github.com/bolt/bolt/pull/6237)
- - Fixed: "Search with setcontent" when using strict settings. [#6753](https://github.com/bolt/bolt/pull/6753)
+ - Fixed: Select fields … The sage continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
  - Fixed: Session Handlers Phase II [#6484](https://github.com/bolt/bolt/pull/6484)
  - Fixed: Set database character set & collation as configured. For MySQL. [#6533](https://github.com/bolt/bolt/pull/6533)
  - Fixed: Show a message for when using Preview if using `fields()` _and_ Repeaters. [#6633](https://github.com/bolt/bolt/pull/6633)
  - Fixed: Skip symlinks instead of throwing exceptions on local filesystems [#6744](https://github.com/bolt/bolt/pull/6744)
  - Fixed: Slugify slugs on edit save [#6411](https://github.com/bolt/bolt/pull/6411), [#6408](https://github.com/bolt/bolt/pull/6408)
+ - Fixed: Stricter parameter handling in `{{ order }}` [#6838](https://github.com/bolt/bolt/pull/6838)
  - Fixed: Sync PathResolver paths to ResourceManager without bootstrap [#6364](https://github.com/bolt/bolt/pull/6364)
+ - Fixed: Themes - Some extra safeguards against exceptions in "strict" mode in `_sub_fields.twigs`. [#3](https://github.com/bolt/themes/pull/3)
  - Fixed: This ensures no DI services/parameters are retrieved until boot time.
  - Fixed: Timed publish tweak. [#5680](https://github.com/bolt/bolt/pull/5680)
  - Fixed: Tiny update for backend's frontend assets, removing some unneeded Select2 files. [#6560](https://github.com/bolt/bolt/pull/6560)
@@ -318,7 +317,9 @@ Released 2017-07-18. Notable changes:
  - Fixed: Use ternary logic on block to prevent printing blocks [#6662](https://github.com/bolt/bolt/pull/6662)
  - Remove `createQueryBuilder()` override where not needed [#6650](https://github.com/bolt/bolt/pull/6650)
  - Style: Pre-release code style pass [#6702](https://github.com/bolt/bolt/pull/6702)
+ - Tests: [Scrutinizer] Remove unused metrics [#6446](https://github.com/bolt/bolt/pull/6446)
  - Tests: Back-port of deprecations work [#6356](https://github.com/bolt/bolt/pull/6356)
+ - Tests: Bootstrap tests & a couple of minor bug fixes [#6844](https://github.com/bolt/bolt/pull/6844)
  - Tests: Codeception Layout & clean ups [#6722](https://github.com/bolt/bolt/pull/6722)
  - Tests: Codeception Tweaks [#6665](https://github.com/bolt/bolt/pull/6665)
  - Tests: Cover installed Composer extensions in PackageManagerTest [#6690](https://github.com/bolt/bolt/pull/6690)
@@ -332,11 +333,11 @@ Released 2017-07-18. Notable changes:
  - Tests: Re-enable skipped and incomplete tests [#6393](https://github.com/bolt/bolt/pull/6393)
  - Tests: Remove `phpmd/phpmd` & `squizlabs/php_codesniffer` from `require-dev` [#6692](https://github.com/bolt/bolt/pull/6692)
  - Tests: Restore last incomplete unit test [#6397](https://github.com/bolt/bolt/pull/6397)
- - Tests: [Scrutinizer] Remove unused metrics [#6446](https://github.com/bolt/bolt/pull/6446)
  - Tests: Travis cron code coverage [#6358](https://github.com/bolt/bolt/pull/6358)
  - Tests: Update expected element for submit button. [#6202](https://github.com/bolt/bolt/pull/6202)
  - Tests: Update mock builder to be forward-compatible [#6721](https://github.com/bolt/bolt/pull/6721)
  - Travis: Remove remaining legacy sudo use [#6595](https://github.com/bolt/bolt/pull/6595)
+ - Updated: Dutch translation file for 3.3 [#6843](https://github.com/bolt/bolt/pull/6843)
  - Updated: Updates to base-2016 [#6281](https://github.com/bolt/bolt/pull/6281)
 
 Bolt 3.3 betas were released on:
@@ -354,13 +355,24 @@ Bolt 3.3 betas were released on:
  - Beta 11: Released 2017-06-16
  - Beta 12: Released 2017-06-22
  - Beta 13: Released 2017-07-14
+ - RC 1: Released 2017-07-18
+ - RC 2: Released 2017-07-21
+ - RC 3: Released 2017-07-25
+ - RC 4: Released 2017-07-26
+
+Bolt 3.2.17
+-----------
+
+Released 2017-07-25. Notable changes:
+
+ - Fixed: Additional fix for TemplateField select options [#6845](https://github.com/bolt/bolt/pull/6845)
 
 Bolt 3.2.16
 -----------
 
 Released 2017-07-21. Notable changes:
 
- - Fixed: Select fields … The sage continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
+ - Fixed: Select fields … The saga continues: Make sure `type: select` fields properly maintain order, persist properly and show all items. [#6841](https://github.com/bolt/bolt/pull/6841)
 
 Bolt 3.2.15
 -----------
