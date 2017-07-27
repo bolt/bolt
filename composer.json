@@ -116,7 +116,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-release/3.3": "3.3.x-dev"
+            "dev-3.3": "3.3.x-dev"
         }
     }
 }
