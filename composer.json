@@ -98,7 +98,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-release/3.2": "3.2.x-dev"
+            "dev-3.2": "3.2.x-dev"
         }
     }
 }
