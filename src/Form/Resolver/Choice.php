@@ -2,6 +2,7 @@
 
 namespace Bolt\Form\Resolver;
 
+use ArrayObject;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
@@ -42,22 +43,36 @@ final class Choice
      */
     public function get(ContentType $contentType, array $templateFields)
     {
-        $select = null;
-        foreach ($contentType->getFields() as $name => $field) {
+        $select = new ArrayObject();
+
+        $this->build($select, $contentType->getFields());
+        $this->build($select, $templateFields, true);
+
+        return iterator_to_array($select) ?: null;
+    }
+
+    /**
+     * Build the select array object.
+     *
+     * @param ArrayObject $select
+     * @param array       $fields
+     * @param bool        $isTemplateFields
+     */
+    private function build(ArrayObject $select, array $fields, $isTemplateFields = false)
+    {
+        foreach ($fields as $name => $field) {
+            if ($field['type'] === 'repeater') {
+                $this->build($select, $field['fields']);
+            }
             $values = $this->getValues($field);
             if ($values !== null) {
+                if ($isTemplateFields) {
+                    $select['templatefields'][$name] = $values;
+                    continue;
+                }
                 $select[$name] = $values;
             }
         }
-
-        foreach ($templateFields as $name => $field) {
-            $values = $this->getValues($field);
-            if ($values !== null) {
-                $select['templatefields'][$name] = $values;
-            }
-        }
-
-        return $select;
     }
 
     /**
@@ -117,7 +132,7 @@ final class Choice
      * @param int    $limit
      * @param bool   $sortable
      * @param array  $filter
-     * @param array  $key
+     * @param string $key
      *
      * @return array
      */
