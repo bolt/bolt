@@ -1,6 +1,13 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.1
+----------
+
+Released 2017-07-30. Notable changes:
+
+ - Fixed: Fix for select fields in repeaters [#6865](https://github.com/bolt/bolt/pull/6865)
+
 Bolt 3.3.0
 ----------
 
