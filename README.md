@@ -47,7 +47,7 @@ page.
 
 ---
 
-[![Build Status][travis-badge]][travis] [![Scrutinizer Continuous Inspections][codeclimate-badge]][codeclimate] [![SensioLabsInsight][sensio-badge]][sensio-insight]
+[![Build Status][travis-badge]][travis] [![Scrutinizer Continuous Inspections][codeclimate-badge]][codeclimate] [![SensioLabsInsight][sensio-badge]][sensio-insight] [![Slack][slack-badge]](https://slack.bolt.cm)
 
 [bolt-cm]: https://bolt.cm
 [MIT-license]: http://opensource.org/licenses/mit-license.php
@@ -59,4 +59,5 @@ page.
 [codeclimate-badge]: https://lima.codeclimate.com/github/bolt/bolt/badges/gpa.svg
 [sensio-insight]: https://insight.sensiolabs.com/projects/4d1713e3-be44-4c2e-ad92-35f65eee6bd5
 [sensio-badge]: https://insight.sensiolabs.com/projects/4d1713e3-be44-4c2e-ad92-35f65eee6bd5/mini.png
+[slack-badge]: https://slack.bolt.cm/badge/ratio
 [contributing]: https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md

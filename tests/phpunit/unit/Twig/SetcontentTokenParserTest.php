@@ -19,7 +19,7 @@ use Twig\TokenStream;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SetcontentTestTokenParser extends AbstractTestTokenParser
+class SetcontentTokenParserTest extends AbstractTestTokenParser
 {
     public function testClass()
     {
@@ -33,7 +33,10 @@ class SetcontentTestTokenParser extends AbstractTestTokenParser
         $this->assertSame('setcontent', $setContentParser->getTag());
     }
 
-    public function testParse()
+    /**
+     * @group legacy
+     */
+    public function testParseLegacy()
     {
         $name = 'koala';
         $where = "{ status: 'published', datepublish: '> 2012-06-14', taxonomy: 'main|||meta|||other' }";
@@ -73,7 +76,7 @@ class SetcontentTestTokenParser extends AbstractTestTokenParser
         ];
         $twigTokenStream = new TokenStream($streamTokens, new Source(null, 'clippy'));
 
-        $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser());
+        $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser(false));
         /** @var ModuleNode $setContentNode */
         $setContentNode = $parser->parse($twigTokenStream);
         /** @var BodyNode $bodyNodes */

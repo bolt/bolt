@@ -14,6 +14,19 @@ use Twig_Token as Token;
  */
 class SetcontentTokenParser extends AbstractTokenParser
 {
+    /** @var bool */
+    private $legacy;
+
+    /**
+     * @param bool $legacy
+     *
+     * @deprecated Deprecated since 3.4, to be remove in v4.
+     */
+    public function __construct($legacy = false)
+    {
+        $this->legacy = $legacy;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -97,6 +110,10 @@ class SetcontentTokenParser extends AbstractTokenParser
         } while (!$this->parser->getStream()->test(Token::BLOCK_END_TYPE) && ($counter < 10));
 
         $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
+
+        if ($this->legacy) {
+            return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag(), true);
+        }
 
         return new SetcontentNode($name, $contentType, $arguments, $whereArguments, $lineno, $this->getTag());
     }

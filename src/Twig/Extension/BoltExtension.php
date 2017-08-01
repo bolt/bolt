@@ -67,8 +67,9 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
      */
     public function getTokenParsers()
     {
+        $parserVersion = $this->config->get('general/compatibility/setcontent_version', 1);
         $parsers = [
-            new SetcontentTokenParser(),
+            new SetcontentTokenParser($parserVersion),
             new SwitchTokenParser(),
         ];
 

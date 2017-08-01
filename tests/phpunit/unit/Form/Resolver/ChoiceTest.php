@@ -48,6 +48,28 @@ class ChoiceTest extends TestCase
         $this->assertSame(['select_array' => $values], $result);
     }
 
+    public function testGetYamlRepeaterIndexArray()
+    {
+        $resolver = $this->getResolver();
+        $values = ['foo', 'bar', 'koala', 'drop bear'];
+        $contentType = new ContentType('koala', [
+            'fields' => [
+                'repeater' => [
+                    'type'   => 'repeater',
+                    'fields' => [
+                        'select_array' => [
+                            'type'   => 'select',
+                            'values' => $values,
+                        ],
+                    ],
+                ]
+            ],
+        ]);
+        $result = $resolver->get($contentType, []);
+
+        $this->assertSame(['select_array' => $values], $result);
+    }
+
     public function testGetYamlIndexArraySorted()
     {
         $resolver = $this->getResolver();
