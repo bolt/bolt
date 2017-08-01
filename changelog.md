@@ -10,6 +10,12 @@ Bolt 3.4-dev
 -----------
 
 -
+Bolt 3.3.1
+----------
+
+Released 2017-07-30. Notable changes:
+
+ - Fixed: Fix for select fields in repeaters [#6865](https://github.com/bolt/bolt/pull/6865)
 
 Bolt 3.3.0
 ----------
@@ -259,6 +265,14 @@ Bolt 3.3 betas were released on:
  - RC 2: Released 2017-07-21
  - RC 3: Released 2017-07-25
  - RC 4: Released 2017-07-26
+
+Bolt 3.2.18
+-----------
+
+Released 2017-07-XX. Notable changes:
+
+ - Fixed: Fix for select fields in repeaters [#6865](https://github.com/bolt/bolt/pull/6865)
+ - Fixed: Keeping `keys:` intact for select fields. [#6859](https://github.com/bolt/bolt/pull/6859)
 
 Bolt 3.2.17
 -----------
