@@ -24,11 +24,16 @@
             default:    null
         } %}
         {% for rkey, rfield in field.fields %}
+            {# Ugly hack to be removed with Forms cutover … kittens are crying #}
+            {% if rfield.type == 'select' %}
+                {% set values = context.values.select_choices[rkey] %}
+            {% endif %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {
                 'key':        name ~ '_' ~ index ~ '_' ~ rkey,
                 'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
                 'contentkey': rkey,
+                'values':     values|default(),
                 'field':      rfield,
                 'labelkey':   rfield.label|default(rkey|capitalize),
                 'context': {
