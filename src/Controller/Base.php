@@ -378,13 +378,13 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
     {
-        $queryVersion = $this->getOption('general/compatibility/setcontent_version', 1);
-        if ($queryVersion == 2) {
-            $params = array_merge($parameters, $whereParameters);
-            return  $this->app['query']->getContent($textQuery, $params);
+        $isLegacy = $this->getOption('general/compatibility/setcontent_legacy', true);
+        if ($isLegacy) {
+            return $this->storage()->getContent($textQuery, $parameters, $pager, $whereParameters);
         }
+        $params = array_merge($parameters, $whereParameters);
 
-        return $this->storage()->getContent($textQuery, $parameters, $pager, $whereParameters);
+        return  $this->app['query']->getContent($textQuery, $params);
     }
 
     /**
