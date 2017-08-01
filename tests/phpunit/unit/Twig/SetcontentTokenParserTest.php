@@ -33,10 +33,18 @@ class SetcontentTokenParserTest extends AbstractTestTokenParser
         $this->assertSame('setcontent', $setContentParser->getTag());
     }
 
+    public function providerParse()
+    {
+        return [
+            'v3 parser' => [true],
+            'v2 parser' => [false],
+        ];
+    }
+
     /**
-     * @group legacy
+     * @dataProvider providerParse
      */
-    public function testParseLegacy()
+    public function testParse($legacy)
     {
         $name = 'koala';
         $where = "{ status: 'published', datepublish: '> 2012-06-14', taxonomy: 'main|||meta|||other' }";
@@ -76,7 +84,7 @@ class SetcontentTokenParserTest extends AbstractTestTokenParser
         ];
         $twigTokenStream = new TokenStream($streamTokens, new Source(null, 'clippy'));
 
-        $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser(false));
+        $parser = $this->getParser($twigTokenStream, new SetcontentTokenParser($legacy));
         /** @var ModuleNode $setContentNode */
         $setContentNode = $parser->parse($twigTokenStream);
         /** @var BodyNode $bodyNodes */
