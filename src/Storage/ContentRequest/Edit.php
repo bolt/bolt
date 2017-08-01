@@ -173,7 +173,7 @@ class Edit
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== [],
             'taxonomy'           => isset($contentType['taxonomy']),
-            'templatefields'     => $templateFields !== null,
+            'templatefields'     => count($templateFields) > 0,
         ];
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
