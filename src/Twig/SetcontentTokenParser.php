@@ -18,9 +18,7 @@ class SetcontentTokenParser extends AbstractTokenParser
     private $legacy;
 
     /**
-     * @param bool $legacy
-     *
-     * @deprecated Deprecated since 3.4, to be remove in v4.
+     * @param bool $legacy @deprecated Deprecated since 3.4, to be remove in v4.
      */
     public function __construct($legacy = false)
     {
