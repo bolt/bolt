@@ -14,11 +14,15 @@ use Twig_Token as Token;
  */
 class SetcontentTokenParser extends AbstractTokenParser
 {
-    /** @var bool */
+    /**
+     * @var bool
+     *
+     * @deprecated Deprecated since 3.4, to be remove in v4.
+     */
     private $legacy;
 
     /**
-     * @param bool $legacy @deprecated Deprecated since 3.4, to be remove in v4.
+     * @param bool $legacy
      */
     public function __construct($legacy = false)
     {
