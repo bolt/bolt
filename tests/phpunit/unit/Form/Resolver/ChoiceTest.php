@@ -321,6 +321,69 @@ class ChoiceTest extends TestCase
         $this->assertSame($expect, $result);
     }
 
+    public function testGetEntitySorted()
+    {
+        $values = 'contenttype/field_1,field_2';
+        $contentType1 = new ContentType('koala', [
+            'fields' => [
+                'select_array' => [
+                    'type'   => 'select',
+                    'values' => $values,
+                    'sort'   => 'field_1',
+                ],
+            ],
+        ]);
+
+        $contentType2 = new ContentType('koala', [
+            'fields' => [
+                'select_array' => [
+                    'type'   => 'select',
+                    'values' => $values,
+                    'sort'   => '-field_2',
+                ],
+            ],
+        ]);
+
+        $mockRepo = $this->getMockBuilder(ContentRepository::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['findBy'])
+            ->getMock()
+        ;
+
+        $mockRepo->expects($this->at(0))
+            ->method('findBy')
+            ->with([], ['field_1', 'ASC'], null)
+        ;
+        $mockRepo->expects($this->at(1))
+            ->method('findBy')
+            ->with([], ['field_2', 'DESC'], null)
+        ;
+
+        $mockEntityManager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getRepository'])
+            ->getMock()
+        ;
+
+        $mockEntityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($mockRepo)
+        ;
+
+        $mockQuery = $this->getMockBuilder(Query::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getContent'])
+            ->getMock()
+        ;
+
+        $resolver = new Choice($mockEntityManager, $mockQuery);
+        $resolver->get($contentType1, []);
+        $resolver->get($contentType2, []);
+
+    }
+
+
 
     public function testGetTemplateFieldsSelect()
     {
@@ -337,6 +400,7 @@ class ChoiceTest extends TestCase
 
         $this->assertSame(['templatefields' => ['select_array' => $values]], $result);
     }
+
 
     /**
      * @return Content[]
