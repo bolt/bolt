@@ -7,9 +7,45 @@ Bolt 3.5-dev
 - 
 
 Bolt 3.4-dev
------------
+------------
 
--
+ - Added: Add environment support to config variable lookups [#6208](https://github.com/bolt/bolt/pull/6208)
+ - Added: Add labels to translations for repeaters / new block fields [#6247](https://github.com/bolt/bolt/pull/6247)
+ - Added: Base entity get()/set() [#6663](https://github.com/bolt/bolt/pull/6663)
+ - Added: Named Repeater Blocks [#6215](https://github.com/bolt/bolt/pull/6215)
+ - Added: Nut command to perform Bolt set-up (first time, or post-update) tasks [#6594](https://github.com/bolt/bolt/pull/6594)
+ - Change: Adding codemirror features [#6436](https://github.com/bolt/bolt/pull/6436)
+ - Change: Allow opt in to new setcontent queries [#6622](https://github.com/bolt/bolt/pull/6622)
+ - Change: Backend listing entities [#6669](https://github.com/bolt/bolt/pull/6669)
+ - Change: Enable no, partial, or full Q&A on Nut user:add [#6592](https://github.com/bolt/bolt/pull/6592)
+ - Change: Migrate pre-fill service to new storage layer [#6550](https://github.com/bolt/bolt/pull/6550)
+ - Change: Modded core's select field to accommodate for multiple contenttypes. [#6270](https://github.com/bolt/bolt/pull/6270)
+ - Change: Modded core's select field to accommodate for multiple contenttypes v2 [#6299](https://github.com/bolt/bolt/pull/6299)
+ - Change: More Symfony Forms updates [#6766](https://github.com/bolt/bolt/pull/6766)
+ - Change: More Twig imports & aliases [#6625]()https://github.com/bolt/bolt/pull/66251
+ - Change: Move Nut Import/Export to new Storage Engine and support multiple migrations [#6258](https://github.com/bolt/bolt/pull/6258)
+ - Change: Nut styling & integer return values [#6586](https://github.com/bolt/bolt/pull/6586)
+ - Change: Phase I of Symfony Forms use for the back-end record editing (Rouge Logic 1) [#6214](https://github.com/bolt/bolt/pull/6214)
+ - Change: Pre-fill logic updates [#6659](https://github.com/bolt/bolt/pull/6659)
+ - Change: Rebuild translation files [#6219](https://github.com/bolt/bolt/pull/6219)
+ - Change: Refresh config checks page [#6775](https://github.com/bolt/bolt/pull/6775)
+ - Change: Remove v0 columns … and NULL all the thingz [#6670](https://github.com/bolt/bolt/pull/6670)
+ - Change: Requirement & recommended setting checks on first user [#6773](https://github.com/bolt/bolt/pull/6773)
+ - Change: Update message & exception handling for Users::notifyUserSetupEmail [#6724](https://github.com/bolt/bolt/pull/6624)
+ - Change: Update pager template to use blocks [#6381](https://github.com/bolt/bolt/pull/6381)
+ - Change: Use class name resolution in Twig tokens tidy & tests [#6478](https://github.com/bolt/bolt/pull/6478)
+ - Change: Use class name resolution though code base [#6396](https://github.com/bolt/bolt/pull/6396)
+ - Deprecation: Add migration for Twig_Simple [#6596](https://github.com/bolt/bolt/pull/6596)
+ - Deprecation: Add missing $form->isSubmitted() [#6667](https://github.com/bolt/bolt/pull/6667)
+ - Deprecation: Use namespaced Twig [#6742](https://github.com/bolt/bolt/pull/6742)
+ - Fixed: Fix Javascript Error In Block Field Javascript [#6307](https://github.com/bolt/bolt/pull/6307)
+ - Fixed: Incorrect Regex escaping [#6606](https://github.com/bolt/bolt/pull/6606)
+ - Fixed: JS Linting Errors [#6547](https://github.com/bolt/bolt/pull/6547)
+ - Fixed: Multiple extends tags are forbidden [#6597](https://github.com/bolt/bolt/pull/6597)
+ - Fixed: Save Errors When Deleting Repeaters [#6314](https://github.com/bolt/bolt/pull/6314)
+ - Fixed: Strict mode fixes for Repeater Blocks [#6593](https://github.com/bolt/bolt/pull/6593)
+ - Tests: Deprecation import checks [#6723](https://github.com/bolt/bolt/pull/6723)
+
 Bolt 3.3.1
 ----------
 
