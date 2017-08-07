@@ -90,16 +90,18 @@ final class Choice
             'limit'    => null,
             'sortable' => false,
             'filter'   => null,
+            'sort'     => null,
         ];
         $values = $field['values'];
         $limit = $field['limit'];
         $sortable = $field['sortable'];
         $filter = $field['filter'];
         $key = isset($field['keys']) ? $field['keys'] : 'id';
+        $orderBy = $field['sort'];
 
         // Get the appropriate values
         return is_string($values)
-            ? $this->getEntityValues($values, $limit, $sortable, $filter, $key)
+            ? $this->getEntityValues($values, $limit, $sortable, $filter, $key, $orderBy)
             : $this->getYamlValues($values, $limit, $sortable)
         ;
     }
@@ -136,7 +138,7 @@ final class Choice
      *
      * @return array
      */
-    private function getEntityValues($queryString, $limit, $sortable, $filter, $key)
+    private function getEntityValues($queryString, $limit, $sortable, $filter, $key, $orderBy = null)
     {
         $baseParts = explode('/', $queryString);
         if (count($baseParts) < 2) {
@@ -150,7 +152,16 @@ final class Choice
                 throw new \InvalidArgumentException(sprintf('The "values" key for a ContentType select must include a single field, or comma separated fields, "%s" given', $queryString));
             }
         }
-        $orderBy = $sortable ? [$queryFields[0], 'ASC'] : ['id', 'ASC'];
+
+        if ($orderBy !== null) {
+            if (substr($orderBy, 0, 1) === '-') {
+                $orderBy = [substr($orderBy, 1), 'DESC'];
+            } else {
+                $orderBy = [$orderBy, 'ASC'];
+            }
+        } else {
+            $orderBy = [$queryFields[0], 'ASC'];
+        }
 
         $values = [];
         if ($filter === null) {
