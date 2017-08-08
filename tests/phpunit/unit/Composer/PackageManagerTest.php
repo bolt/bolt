@@ -333,38 +333,6 @@ class PackageManagerTest extends TestCase
         $packageManager->initJson('composer.json', []);
     }
 
-    public function testUseSsl()
-    {
-        $app = new Application();
-        $app['extend.writeable'] = false;
-        $app['guzzle.api_version'] = 6;
-
-        $app['extend.site'] = 'http://example.com';
-        $packageManager = new PackageManager($app);
-        $this->assertFalse($packageManager->useSsl());
-
-        $app['extend.site'] = 'https://example.com';
-        $packageManager = new PackageManager($app);
-        $this->assertTrue($packageManager->useSsl());
-        // Test early return
-        $this->assertTrue($packageManager->useSsl());
-    }
-
-    public function testUseInvalidCa()
-    {
-        $app = new Application();
-        $app['extend.writeable'] = false;
-        $app['guzzle.api_version'] = $app->share(function () {
-            throw new \RuntimeException('Drop bear alert');
-        });
-
-        $app['extend.site'] = 'https://example.com';
-        $packageManager = new PackageManager($app);
-
-        $this->assertFalse($packageManager->useSsl());
-        $this->assertSame(['Drop bear alert'], $packageManager->getMessages());
-    }
-
     /**
      * @param string $action
      * @param mixed  $returnValue
