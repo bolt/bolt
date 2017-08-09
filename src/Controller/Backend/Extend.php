@@ -275,7 +275,19 @@ class Extend extends BackendBase
      */
     public function installInfo(Request $request)
     {
-        $package = $request->get('package');
+        $package = $request->query->get('package');
+        if ($package === null) {
+            $message  = 'Extension browser request query was missing or invalid, check your web server configuration.';
+
+            return $this->getJsonException(new \Exception($message));
+        }
+        if ($package === '') {
+            $message = sprintf(
+                'No extension was selected. Try entering a name and press the "%s" button.',
+                Trans::__('page.extend.button.browse-versions')
+            );
+            return $this->getJsonException(new \Exception($message));
+        }
         $versions = ['dev' => [], 'beta' => [], 'RC' => [], 'stable' => []];
 
         try {
