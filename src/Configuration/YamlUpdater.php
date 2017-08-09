@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Deprecated;
@@ -21,9 +21,9 @@ class YamlUpdater
 {
     /** @var FileInterface */
     private $file;
-    /** @var Bag|string[] Contains a line of the file per index. */
+    /** @var MutableBag|string[] Contains a line of the file per index. */
     private $lines;
-    /** @var Bag the parsed yml file */
+    /** @var MutableBag the parsed yml file */
     private $parsed;
 
     /**
@@ -59,10 +59,10 @@ class YamlUpdater
     {
         $yaml = $file->read();
 
-        $this->parsed = Bag::from(Yaml::parse($yaml, true, true));
+        $this->parsed = MutableBag::from(Yaml::parse($yaml, true, true));
 
         // Create a searchable array based on original text file
-        $this->lines = Bag::from(explode("\n", $yaml));
+        $this->lines = MutableBag::from(explode("\n", $yaml));
 
         $this->file = $file;
     }
@@ -129,6 +129,8 @@ class YamlUpdater
      * @deprecated Deprecated since 3.3, to be remove in v4.
      *
      * @param mixed $value
+     *
+     * @return string
      */
     public function prepareValue($value)
     {
