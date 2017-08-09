@@ -19,14 +19,6 @@ services:
 addons:
   postgresql: "9.3"
 
-before_install:
-  # Add Redis & Memcached extensions
-  - |
-    if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then
-        echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-        echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    fi
-
 before_script:
   # Set up Composer
   - composer self-update || true

@@ -7,6 +7,7 @@ use Bolt\Composer\Package\Dependency;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Translation\Translator as Trans;
+use Composer\CaBundle\CaBundle;
 use Composer\Package\CompletePackageInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
@@ -93,7 +94,9 @@ class PackageManager
     /**
      * Check if we can/should use SSL/TLS/HTTP2 or HTTP.
      *
-     * @return boolean
+     * @throws \Exception
+     *
+     * @return bool
      */
     public function useSsl()
     {
@@ -105,19 +108,11 @@ class PackageManager
             return $this->useSsl = false;
         }
 
-        if (preg_match('{^http:}i', $this->app['extend.site'])) {
-            return $this->useSsl = false;
+        if (!CaBundle::getSystemCaRootBundlePath($this->app['logger.system'])) {
+            throw new \Exception('Unable to get system CA bundle, or the bundled Composer CA. Your system is badly misconfigured and there is nothing Bolt can do.');
         }
 
-        try {
-            \GuzzleHttp\default_ca_bundle();
-
-            return $this->useSsl = true;
-        } catch (\RuntimeException $e) {
-            $this->messages[] = $e->getMessage();
-
-            return $this->useSsl = false;
-        }
+        return $this->useSsl = true;
     }
 
     /**
@@ -384,10 +379,11 @@ class PackageManager
                 'www'       => $www,
             ];
         }
+        $this->app['extend.online'] = false;
+        $guzzle = $this->app['guzzle.client'];
 
         try {
-            $this->app['guzzle.client']->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 10, 'timeout' => 30]);
-
+            $guzzle->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 10, 'timeout' => 30]);
             $this->app['extend.online'] = true;
         } catch (ClientException $e) {
             // Thrown for 400 level errors
@@ -395,28 +391,24 @@ class PackageManager
                 'page.extend.error-message-client',
                 ['%errormessage%' => $e->getMessage()]
             );
-            $this->app['extend.online'] = false;
         } catch (ServerException $e) {
             // Thrown for 500 level errors
             $this->messages[] = Trans::__(
                 'page.extend.error-message-server',
                 ['%errormessage%' => $e->getMessage()]
             );
-            $this->app['extend.online'] = false;
         } catch (RequestException $e) {
             // Thrown for connection timeout, DNS errors, etc
             $this->messages[] = Trans::__(
                 'page.extend.error-message-connection',
                 ['%errormessage%' => $e->getMessage()]
             );
-            $this->app['extend.online'] = false;
         } catch (\Exception $e) {
             // Catch all
             $this->messages[] = Trans::__(
                 'page.extend.error-message-generic',
                 ['%errormessage%' => $e->getMessage()]
             );
-            $this->app['extend.online'] = false;
         }
     }
 }
