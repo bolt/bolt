@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  16 Legacy untranslated messages
+#  11 Legacy untranslated messages
 # 160 Untranslated messages
-#  56 Legacy translation messages
+#  32 Legacy translation messages
 # 390 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -20,17 +20,12 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
-"Link": #
-"Markdown": #
-"Repeater": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Video": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -217,46 +212,22 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(none)": "(ei mitään)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
-"Body": "Runko"
-"Categories": "Kategoriat"
-"Category": "Kategoria"
-"Choose an entry": "Valitse merkintä"
 "Content": "Sisältö"
 "Current (saved) status:": "Nykyinen (tallennettu) tila:"
-"Date": "Päiväys"
-"Datetime": "Aika"
 "Do you really want to delete %FOLDERNAME%?": "Haluatko varmasti poistaa kansion '%FOLDERNAME%'?"
 "Everybody": "Kaikki"
 "Excerpt": "Näyte"
 "Expand sidebar": "Avaa sivupalkki"
-"File": "Tiedosto"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Tiedostoa '%file%' ei voitu ladata (väärä/kielletty tiedostomuoto). Varmista että tiedostomuoto on jokin seuraavista:"
-"Filelist": "Tiedostolistaus"
-"Floatfield": "Liukulukukenttä"
-"Geolocation": "Geolokaatio"
 "Image": "Kuva"
-"Imagelist": "Kuvalista"
-"Integerfield": "Kokonaislukukenttä"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Ei vastaa määritettyjä sisältötyyppejä tai reittejä."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Luultavasti sen pitäisi olla 'link:'!"
-"Multiselect": "Monivalinta"
-"Select a page": "Valitse sivu"
-"Select zero or more pages": "Valitse nolla tai useampi sivua"
-"Selectentry": "Valitse merkintä"
-"Selectfield": "Valintakenttä"
 "Skipped <tt>%key%</tt> (already has records)": "Ohitettiin <tt>%key%</tt> (sisältää jo tietoja)"
 "Skipped <tt>%key%</tt> (not checked)": "Ohitettiin <tt>%key%</tt> (ei valittu)"
-"Slug": "Tunniste"
-"Tag": "Tagi"
-"Tags": "Tagit"
-"Teaser": "Näyte"
-"Template": "Sivupohja"
-"Textarea": "Tekstialue"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Tyypin '%taxonomytype%' tunnus ja tunniste eivät ole samat ('%slug%' vs. '%taxonomytype%'). Muokkaa ne samoiksi tiedostossa taxonomy.yml estääksesi ristiriidat tietokannan ja sivupohjiesi välillä."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
-"This is a checkbox": "Tämä on valintaruutu"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
 "Title": "Otsikko"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Yritä kirjautua ftp-ohjelmalla ja anna tiedostolle kirjoitusoikeudet. Muutoin mene <a>takaisin</a>"

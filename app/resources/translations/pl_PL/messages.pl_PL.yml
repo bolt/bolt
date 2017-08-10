@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  20 Legacy untranslated messages
+#  15 Legacy untranslated messages
 # 158 Untranslated messages
-#  52 Legacy translation messages
+#  28 Legacy translation messages
 # 392 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -19,13 +19,8 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Link": #
-"Markdown": #
-"Repeater": #
-"Slug": #
-"Tag": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -222,49 +217,25 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Dodaj trochę przykładowych <a href='%url%' class='btn btn-default'>wpisów z tekstem Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Dodano do <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Wystąpił błąd podczas aktualizowania `%TABLE%`. Błąd %ERROR%"
-"Body": "Treść"
-"Categories": "Kategorie"
-"Category": "Kategoria"
-"Choose an entry": "Wybierz wpis"
 "Content": "Zawartość"
 "Current (saved) status:": "Aktualny (zapisany) status:"
-"Date": "Data"
-"Datetime": "Data i czas"
 "Do you really want to delete %FOLDERNAME%?": "Czy naprawdę chcesz usunąć %FOLDERNAME%?"
 "Everybody": "Wszyscy"
 "Excerpt": "Fragment"
 "Expand sidebar": "Rozwiń pasek boczny"
-"File": "Plik"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Plik '%file%' nie może zostać przesłany (niewłaściwy/niedozwolony typ pliku). Upewnij się, że rozszerzenie pliku jest jednym z następujących:"
-"Filelist": "Lista plików"
-"Floatfield": "Liczba zmiennoprzecinkowa"
-"Geolocation": "Geolokalizacja"
-"Html": "HTML"
 "Image": "Obraz"
-"Imagelist": "Lista obrazów"
-"Integerfield": "Liczba całkowita"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Nie pasuje do żadnych skonfigurowanych typów zawartości ani trasy."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Prawdopodobnie powinien być link: zamiast tego!"
-"Multiselect": "Wielokrotny wybór"
-"Select a page": "Wybierz stronę"
-"Select zero or more pages": "Wybierz zero lub więcej stron"
-"Selectentry": "Wybierz wpis"
-"Selectfield": "Wybierz pole"
 "Skipped <tt>%key%</tt> (already has records)": "Pominięty <tt>%key%</tt> (posiada rekordy)"
 "Skipped <tt>%key%</tt> (not checked)": "Pominięty <tt>%key%</tt> (nie zaznaczony)"
-"Tags": "Tagi"
-"Teaser": "Zajawka"
-"Template": "Szablon"
-"Textarea": "Pole tekstowe"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identyfikator i slug dla '%taxonomytype%' to nie to samo ('%slug%' w porównaniu z '%taxonomytype%'). Proszę tak edytować taxonomy.yml, aby je dopasować, żeby zapobiec niespójności między bazą danych i szablonami."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Ustawienia dla ról i uprawnień są przechowywane w <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' jest używany w więcej niż jednym typie zawartości. Proszę przeedytować contenttypes.yml, i uczynić je różnymi."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Plik tłumaczeń '%s' nie może zostać utworzony. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
-"This is a checkbox": "To jest checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."
 "Title": "Tytuł"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Spróbuj zalogować się za pomocą swojego klienta ftp i nadać prawa odczytu pliku. W przeciwnym wypadku spróbuj przejść <a>z powrotem</a> do ostatniej strony."
-"Video": "Wideo"
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "You've been logged on successfully.": "Zostałeś zalogowany."
 
