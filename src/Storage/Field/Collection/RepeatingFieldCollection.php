@@ -212,7 +212,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param $field
+     * @param string $field
      *
      * @throws FieldConfigurationException
      *
@@ -230,7 +230,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param $field
+     * @param string $field
      *
      * @throws FieldConfigurationException
      *

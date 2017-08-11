@@ -188,9 +188,9 @@ class Builder
     }
 
     /**
-     * @param $value
-     * @param $field
-     * @param null $subField
+     * @param mixed       $value
+     * @param string      $field
+     * @param string|null $subField
      *
      * @return FieldValue|bool
      */
