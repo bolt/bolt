@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  35 Legacy untranslated messages
+#  26 Legacy untranslated messages
 # 289 Untranslated messages
-#  39 Legacy translation messages
+#  19 Legacy translation messages
 # 262 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -18,25 +18,16 @@
 "(none)": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Choose an entry": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
 "Finding packages that require this one…": #
-"Floatfield": # "Float field"
-"Group": #
-"Groups": #
-"Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Multiselect": # "Multi-select"
-"Repeater": #
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -58,7 +49,7 @@ contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', 
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
 
-contenttypes.record.comment-add-colon: #
+contenttypes.record.comment-add-colon: # "Add a comment:"
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
@@ -377,39 +368,19 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "（グループなし）"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
-"Body": "本文"
-"Categories": "カテゴリ"
-"Category": "カテゴリ"
 "Content": "コンテンツ"
 "Current (saved) status:": "現在の（保存された）ステータス："
-"Date": "日付"
-"Datetime": "日時"
 "Everybody": "みなさん"
 "Excerpt": "概要"
-"File": "ファイル"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "ファイル '%file%' をアップロードできませんでした（間違っている/許可されていない ファイルの種類）。 ファイルの拡張子が以下に含まれるかご確認ください:"
-"Filelist": "ファイルリスト"
-"Geolocation": "位置情報"
-"Html": "HTML"
 "Image": "画像"
-"Imagelist": "画像リスト"
-"Markdown": "マークダウン"
-"Select a page": "ページを選択"
-"Select zero or more pages": "0以上のページを選択"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt>をスキップしました (すでにレコードが存在します)"
-"Tag": "タグ"
-"Tags": "タグ"
-"Teaser": "要約"
-"Template": "テンプレート"
-"Textarea": "テキストエリア"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' の識別名とスラッグが同じではありません('%slug%' vs. '%taxonomytype%')。taxonomy.xml を編集して、２つを一致させ、データベースとテンプレートの不整合を解消してください。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "ロールとパーミッションの設定は<code>%permissions%</code>に保存されています。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "翻訳ファイル '%s' を作成できません。エディタを使ってあなたの手でこのファイルを修正してください。"
-"This is a checkbox": "これはチェックボックスです"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
 "Title": "タイトル"
-"Video": "動画"
 "You've been logged on successfully.": "正常にログインしました。"
 
 #--- Translation messages -----------------------------------------------------

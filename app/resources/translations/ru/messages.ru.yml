@@ -10,7 +10,7 @@
 #   0 Unused messages
 #   9 Legacy untranslated messages
 # 184 Untranslated messages
-#  65 Legacy translation messages
+#  36 Legacy translation messages
 # 367 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -19,8 +19,8 @@
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Dependencies": #
 "Finding packages that require this one…": #
-"Repeater": #
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -243,51 +243,23 @@ panel.latest-activity.by: # "by"
 "(none)": "(отсутствует)"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
-"Body": "Тело"
-"Categories": "Категории"
-"Category": "Категория"
-"Choose an entry": "Выберите запрись"
 "Content": "Контент"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
-"Date": "Дата"
-"Datetime": "Дата и время"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
 "Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Ошибка при чтении файла extensions/composer.json: %ERROR%"
 "Everybody": "Все"
 "Excerpt": "Задержка"
 "Expand sidebar": "Развернуть боковую панель"
-"File": "Файл"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Файл '%file%' не может быть загружен (неверный/неразрешенный тип файла). Убедитесь что расширение файла является одним из следующих:"
-"Filelist": "Лист файлов"
-"Floatfield": "Поле Float"
-"Geolocation": "Геолокация"
-"Group": "Группа"
-"Groups": "Группы"
-"Html": "Html"
 "Image": "Изображение"
-"Imagelist": "Изображения"
-"Integerfield": "Поле Integer"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
-"Link": "Ссылка"
-"Markdown": "Markdown"
-"Multiselect": "Мультивыбор"
-"Select a page": "Выбрать страницу"
-"Select zero or more pages": "Выбрать 0 или больше страниц"
-"Selectentry": "Выбрать запись"
-"Selectfield": "Выбрать поле"
 "Skipped <tt>%key%</tt> (already has records)": "Пропущено <tt>%key%</tt> (уже имеется записи)"
-"Tag": "Тег"
-"Tags": "Теги"
-"Teaser": "Тизер"
-"Template": "Шаблон"
-"Textarea": "Текстовое поле"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Идентификатор для slug '%taxonomytype%' не может быть идентичным ('%slug%' и '%taxonomytype%'). Пожалуйста, отредактируйте taxonomy.yml, и сделать их соответствие для предотвращения несоответствий между хранением баз данных и шаблонов."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Настройки для роли и права доступа сохранены в <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Файл перевода '%s' не может быть создан. Вам необходимо используя свой редактор чтобы сделать изменения для этого файла."
-"This is a checkbox": "Это чекбокс"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
 "Title": "Заголовок"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Попробуйте зайти при помощи ftp-клиента и сделать эти файл доступными для чтения. Или пройдите <a>назад</a> на последнюю страницу."
@@ -299,7 +271,6 @@ panel.latest-activity.by: # "by"
 "Unable to rename directory: %DIR%": "Невозможно переименовать директорию: %DIR%"
 "Unable to rename file: %FILE%": "Невозможно переименовать файл: %FILE%"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "К сожалению, не найдено никакого контента. Попробуйте другую страницу, или пройдите к <a href=\"%paths_root%\">домашней странице</a>."
-"Video": "Видео"
 "View (saved version) on site": "Просмотр (сохранённой версии) на сайте"
 "You've been logged on successfully.": "Вы успешно вошли."
 

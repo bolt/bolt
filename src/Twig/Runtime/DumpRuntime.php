@@ -43,7 +43,10 @@ class DumpRuntime
     }
 
     /**
-     * @param mixed $context
+     * @param Environment $env
+     * @param mixed       $context
+     *
+     * @return bool|null|string
      */
     public function dump(Environment $env, $context)
     {

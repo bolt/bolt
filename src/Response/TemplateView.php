@@ -2,7 +2,7 @@
 
 namespace Bolt\Response;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Webmozart\Assert\Assert;
 
 /**
@@ -14,7 +14,7 @@ class TemplateView
 {
     /** @var string */
     protected $template;
-    /** @var Bag */
+    /** @var MutableBag */
     protected $context;
 
     /**
@@ -52,7 +52,7 @@ class TemplateView
     }
 
     /**
-     * @return Bag
+     * @return MutableBag
      */
     public function getContext()
     {
@@ -68,7 +68,7 @@ class TemplateView
     {
         Assert::isTraversable($context);
 
-        $this->context = Bag::from($context);
+        $this->context = MutableBag::from($context);
 
         return $this;
     }

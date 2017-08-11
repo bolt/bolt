@@ -8,14 +8,16 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   3 Legacy untranslated messages
+#   5 Legacy untranslated messages
 #  27 Untranslated messages
-#  71 Legacy translation messages
+#  40 Legacy translation messages
 # 524 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
@@ -67,14 +69,8 @@ page.extend.options: # "Extension Options"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Se ha producido un error al actualizar '%TABLE%'. El error es %ERROR%"
-"Body": "Cuerpo"
-"Categories": "Categorías"
-"Category": "Categoría"
-"Choose an entry": "Escoger una entrada"
 "Content": "Contenido"
 "Current (saved) status:": "Estado actual (guardado):"
-"Date": "Fecha"
-"Datetime": "Fecha y hora"
 "Dependencies": "Dependencia"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detectado cambio de versión de Bolt a <b>%VERSION%</b>, la caché ha sido limpiada. Por favor <a href=\"%URI%\">comprueba la base de datos</a>, si no lo has hecho todavía."
 "Do you really want to delete %FOLDERNAME%?": "¿Realmente quieres borrar %FOLDERNAME%?"
@@ -82,41 +78,17 @@ page.extend.options: # "Extension Options"
 "Everybody": "Todos los usuario"
 "Excerpt": "Extracto"
 "Expand sidebar": "Expandir barra lateral"
-"File": "Archivo"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "El archivo '%file%' no se pudo cargar (tipo de archivo incorrecto / no permitido). Asegúrese de que la extensión del archivo es una de las siguientes:"
-"Filelist": "Lista de archivos"
 "Finding packages that require this one…": "Buscando paquetes que requieren éste..."
-"Floatfield": "Campo float"
-"Geolocation": "Geolocalización"
-"Group": "Grupo"
-"Groups": "Grupos"
-"Html": "Html"
 "Image": "Imagen"
-"Imagelist": "Lista de imágenes"
-"Integerfield": "Campo Entero"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. No coincide con ningún tipo de contenido o ruta configurada."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. Probablemente debería ser un enlace en su lugar"
-"Link": "Enlace"
-"Markdown": "Markdown"
-"Multiselect": "Selección múltiple"
-"Repeater": "Repetidor"
-"Select a page": "Selecciona una página"
-"Select zero or more pages": "Selecciona cero o más páginas"
-"Selectentry": "Seleccionar entrada"
-"Selectfield": "Seleccionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Omitida <tt>%key%</tt> (ya tiene registros)"
-"Slug": "Slug"
-"Tag": "Etiqueta"
-"Tags": "Etiquetas"
-"Teaser": "Resumen"
-"Template": "Plantilla"
-"Textarea": "Área de texto"
 "The field %field% has been changed to \"%newValue%\"": "El campo %field% ha sido cambiado a \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "El identificador y el slug para '%taxonomytype%' no son el mismo ('%slug%' vs. '%taxonomytype%'). Por favor edita taxonomy.yml y haz que los dos sean el mismo para prevenir inconsistencias entre la base de datos y tus plantillas"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Los ajustes de los roles y permisos están almacenados en <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "El slug '%slug%' se usa en más de un tipo de contenido. Modifica contenttypes.yml para que sean distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "El archivo de traducciones '%s' no puede ser creado. Necesitas usar tu propio editor para hacer modificaciones al archivo."
-"This is a checkbox": "Esto es una casilla de verificación"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este sitio web está hecho con <a href='%url%' target='_blank' title='CMS sofisticado, ligero y simple'>Bolt</a>."
 "Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Intente iniciar sesión con su cliente FTP y hacer el archivo legible. Sino trate de <a>volver</a> a la última página."
@@ -128,7 +100,6 @@ page.extend.options: # "Extension Options"
 "Unable to rename directory: %DIR%": "No se puede renombrar la carpeta %DIR%"
 "Unable to rename file: %FILE%": "No se puede renombrar el archivo: %FILE%"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Desafortunadamente, no se ha encontrado contenido. Intente otra página, o vaya a <a href=\"%paths_root%\">inicio</a>."
-"Video": "Vídeo"
 "View (saved version) on site": "Ver (versión guardada) en el sitio web"
 "You've been logged on successfully.": "Has iniciado sesión exitosamente"
 

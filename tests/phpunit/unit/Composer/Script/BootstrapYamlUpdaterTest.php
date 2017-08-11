@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Composer\Script;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Bolt\Composer\Script\BootstrapYamlUpdater;
 use Bolt\Version;
 use Composer\IO\BufferIO;
@@ -121,7 +121,7 @@ class BootstrapYamlUpdaterTest extends TestCase
     {
         $updater = new BootstrapYamlUpdater(new BufferIO());
 
-        $actual = $updater->updatePaths(new Bag($previous));
+        $actual = $updater->updatePaths(new MutableBag($previous));
         $this->assertEquals($result, $actual->toArray());
 
         // Ensure code is idempotent.
