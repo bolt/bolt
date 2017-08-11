@@ -2,6 +2,7 @@
 
 namespace Bolt\Filesystem;
 
+use Bolt\Common\Ini;
 use Bolt\Config;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Library as Lib;
@@ -94,7 +95,7 @@ class FilePermissions
     public function allowedUpload($originalFilename)
     {
         // Check if file_uploads ini directive is true
-        if (ini_get('file_uploads') != 1) {
+        if (Ini::getBool('file_uploads') === false) {
             throw new IOException('File uploads are not allowed, check the file_uploads ini directive.');
         }
         // no UNIX-hidden files
@@ -126,9 +127,9 @@ class FilePermissions
     public function getMaxUploadSize()
     {
         if (!isset($this->maxUploadSize)) {
-            $size = Lib::filesizeToBytes(ini_get('post_max_size'));
+            $size = Ini::getBytes('post_max_size');
 
-            $uploadMax = Lib::filesizeToBytes(ini_get('upload_max_filesize'));
+            $uploadMax = Ini::getBytes('upload_max_filesize');
             if (($uploadMax > 0) && ($uploadMax < $size)) {
                 $size = $uploadMax;
             } else {
