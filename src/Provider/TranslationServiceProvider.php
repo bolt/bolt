@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Common\Thrower;
 use Silex;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -211,12 +212,12 @@ class TranslationServiceProvider implements ServiceProviderInterface
         }
 
         // Run check to see if a default timezone has been set
-        $hasDefault = true;
-        set_error_handler(function () use (&$hasDefault) {
+        try {
+            Thrower::call('date_default_timezone_get');
+            $hasDefault = true;
+        } catch (\ErrorException $e) {
             $hasDefault = false;
-        });
-        date_default_timezone_get();
-        restore_error_handler();
+        }
 
         // If no default, set to UTC to prevent default not defined warnings
         if (!$hasDefault) {
