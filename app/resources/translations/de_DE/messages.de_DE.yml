@@ -8,63 +8,49 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  19 Legacy untranslated messages
+#   5 Legacy untranslated messages
 #  22 Untranslated messages
-#  71 Legacy translation messages
+#  40 Legacy translation messages
 # 531 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Alas, no about!": #
-"Content for home not found!": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Latest entries": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
-field.block.label.add-new: #
-field.block.label.add-set: #
+field.block.label.add-new: # "Add new..."
+field.block.label.add-set: # "Add new %label% set"
 
-field.repeater.label.add-set: #
+field.repeater.label.add-set: # "Add new %label% set"
 
-general.phrase.changelog-not-enabled: #
-general.phrase.changelog-note: #
-general.phrase.extensions-overview: #
-general.phrase.folder: #
+general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.extensions-overview: # "Extensions Overview"
+general.phrase.folder: # "Folder"
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
 
-menu.configuration.checks: #
+menu.configuration.checks: # "Set-up checks"
 
-page.checks.php-pass: #
-page.checks.php-problem: #
-page.checks.show-all: #
-page.checks.show-failed: #
-page.checks.system-pass: #
-page.checks.system-problem: #
+page.checks.php-pass: # "All PHP configuration checks pass!"
+page.checks.php-problem: # "PHP configuration check found problems!"
+page.checks.show-all: # "Show all checks"
+page.checks.show-failed: # "Show only failed checks"
+page.checks.system-pass: # "All system configuration checks pass!"
+page.checks.system-problem: # "System configuration check found problems!"
 
-page.edit-users.error.email-invalid: #
-page.edit-users.error.password-different-email: #
-page.edit-users.error.password-long: #
+page.edit-users.error.email-invalid: # "This email address is not valid."
+page.edit-users.error.password-different-email: # "Password must not match the email address."
+page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
 
-page.extend.headline.bundled: #
-page.extend.listheader.class: #
-page.extend.listheader.name: #
+page.extend.headline.bundled: # "Bundled Extensions"
+page.extend.listheader.class: # "Class"
+page.extend.listheader.name: # "Name"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -75,14 +61,8 @@ page.extend.listheader.name: #
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-default'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Es gab einen Fehler beim Updaten von `%TABLE%`. Der Error lautet %ERROR%"
-"Body": "Inhalt"
-"Categories": "Kategorien"
-"Category": "Kategorie"
-"Choose an entry": "Eintrag auswählen"
 "Content": "Inhalt"
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"
-"Date": "Datum"
-"Datetime": "Datum & Uhrzeit"
 "Dependencies": "Abhängigkeiten"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Änderung der Bolt-Version zu <b>%VERSION%</b> erkannt, der Cache wurde gelöscht. Wenn noch nicht geschehen, bitte <a href=\"%URI%\">Datenbank überprüfen</a>."
 "Do you really want to delete %FOLDERNAME%?": "Sind Sie sicher, dass Sie %FOLDERNAME% löschen möchten?"
@@ -90,41 +70,17 @@ page.extend.listheader.name: #
 "Everybody": "Jeder"
 "Excerpt": "Auszug"
 "Expand sidebar": "Menü ausklappen"
-"File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
-"Filelist": "Dateiliste"
 "Finding packages that require this one…": "Finde Pakete die dieses erfordern…"
-"Floatfield": "Fließkommazahl-Feld"
-"Geolocation": "Geolokalisierung"
-"Group": "Gruppe"
-"Groups": "Gruppen"
-"Html": "HTML"
 "Image": "Bild"
-"Imagelist": "Bilderliste"
-"Integerfield": "Ganzzahlfeld"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Dieser stimmt mit keinem konfigurierten Datentyp oder einer Route überein."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Vielleichst sollte stattdessen link: benutzt werden!"
-"Link": "Link"
-"Markdown": "Markdown"
-"Multiselect": "Mehrfachauswahl"
-"Repeater": "Repeater"
-"Select a page": "Seite auswählen"
-"Select zero or more pages": "Keine oder mehrere Seiten auswählen"
-"Selectentry": "Eintrag auswählen"
-"Selectfield": "Auswahlfeld"
 "Skipped <tt>%key%</tt> (already has records)": "Überspringe <tt>%key%</tt> (bereits Einträge vorhanden)"
-"Slug": "Slug"
-"Tag": "Tag"
-"Tags": "Tags"
-"Teaser": "Einleitung"
-"Template": "Vorlage"
-"Textarea": "Textbereich"
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde auf \"%newValue%\" geändert"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren Sie taxonomy.yml, um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Das Kürzel '%slug%' wird in mehreren Datentypen verwendet. Bitte sorgen Sie in contenttypes.yml für Einzigartigkeit."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Die Übersetzungsdatei '%s' konnte nicht erstellt werden. Änderungen bitte mit einem eigenen Editor vornehmen."
-"This is a checkbox": "Das ist ein Kontrollkästchen"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 "Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Versuchen Sie sich mit ihrem FTP-Programm einzuloggen und die Datei lesbar zu machen oder gehen sie <a>zurück</a> zur letzen Seite."
@@ -136,7 +92,6 @@ page.extend.listheader.name: #
 "Unable to rename directory: %DIR%": "Ordner konnte nicht umbenannt werden: %DIR%"
 "Unable to rename file: %FILE%": "Datei konnte nicht umbenannt werden: %FILE%"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Leider konnte kein Inhalt gefunden werden. Zur <a href=\"%paths_root%\">Startseite</a>."
-"Video": "Video"
 "View (saved version) on site": "(Gespeicherte Version) innerhalb der Webseite anzeigen"
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 

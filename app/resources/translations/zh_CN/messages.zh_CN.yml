@@ -8,44 +8,25 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  44 Legacy untranslated messages
+#  23 Legacy untranslated messages
 # 232 Untranslated messages
-#  46 Legacy translation messages
+#  22 Legacy translation messages
 # 321 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Alas, no about!": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Content for home not found!": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Latest entries": #
-"Link": #
-"Markdown": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Repeater": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -57,268 +38,266 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
-contenttypes.generic.invalid-hyphen: #
-contenttypes.generic.invalid-relation: #
-contenttypes.generic.recent-changes-one: #
+contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
 
-field.block.label.add-new: #
-field.block.label.add-set: #
+field.block.label.add-new: # "Add new..."
+field.block.label.add-set: # "Add new %label% set"
 
-field.general.stack: #
+field.general.stack: # "Stack"
 
-field.geolocation.label.snap: #
+field.geolocation.label.snap: # "Snap to nearest address"
 
-field.image.label.alt: #
+field.image.label.alt: # "Alt"
 
-field.markdown.label.markedview: #
+field.markdown.label.markedview: # "Markdown"
 
-field.repeater.label.add-set: #
+field.repeater.label.add-set: # "Add new %label% set"
 
-field.slug.button.generate: #
-field.slug.button.lock: #
-field.slug.message.warning: #
-field.slug.unique-alias: #
+field.slug.button.generate: # "Generate from:"
+field.slug.button.lock: # "Lock"
+field.slug.message.warning: # "Editing this field might break existing links to this record!"
+field.slug.unique-alias: # "Unique alias"
 
-field.video.height: #
-field.video.width: #
+field.video.height: # "Height"
+field.video.width: # "Width"
 
-general.bolt-configuration-issues-detected: #
+general.bolt-configuration-issues-detected: # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 
-general.bolt-documentation: #
+general.bolt-documentation: # "Bolt documentation"
 
-general.bolt-new-site-set-up: #
+general.bolt-new-site-set-up: # "New Bolt site has been set up"
 
-general.bolt-welcome-new-site: #
+general.bolt-welcome-new-site: # "Welcome to your new Bolt site, %USER%."
 
-general.phrase.access-denied-privilege-edit-user: #
-general.phrase.access-denied-self-action: #
-general.phrase.add-selected: #
-general.phrase.author: #
-general.phrase.change-log: #
-general.phrase.changelog-not-enabled: #
-general.phrase.changelog-note: #
-general.phrase.clashing-relation: #
-general.phrase.clear-cache-complete: #
-general.phrase.clear-change-log: #
-general.phrase.clear-system-log: #
-general.phrase.close-editor: #
-general.phrase.confirm-delete-file: #
-general.phrase.confirm-record-multiple: #
-general.phrase.confirm-record-single: #
-general.phrase.confirm-remove-file: #
-general.phrase.confirm-remove-files: #
-general.phrase.confirm-remove-image: #
-general.phrase.confirm-remove-images: #
-general.phrase.confirm-remove-record: #
-general.phrase.database-check: #
-general.phrase.database-update-required-post: #
-general.phrase.database-update-required-pre: #
-general.phrase.delete: #
-general.phrase.delete-set: #
-general.phrase.depublish: #
-general.phrase.depublish-date-past: #
-general.phrase.depublish-explanation: #
-general.phrase.duplicate-set: #
-general.phrase.edit-role-permissions: #
-general.phrase.error-cache-clear: #
-general.phrase.error-login-invalid-parameters: #
-general.phrase.error-mail-options-not-set: #
-general.phrase.error-send-password-request: #
-general.phrase.error-session-data-login: #
-general.phrase.extensions-overview: #
-general.phrase.field-fieldname: #
-general.phrase.file-not-exist: #
-general.phrase.file-not-readable: #
-general.phrase.file-upload-failed: #
-general.phrase.filtered-by: #
-general.phrase.floating-point-required-bang: #
-general.phrase.folder: #
-general.phrase.hints-colon: #
-general.phrase.id: #
-general.phrase.invalid-taxonomy-slug: #
-general.phrase.keyword-ellipsis: #
-general.phrase.live-edit: #
-general.phrase.log-change-trim: #
-general.phrase.log-system-trim: #
+general.phrase.access-denied-privilege-edit-user: # "You do not have the right privileges to edit that user."
+general.phrase.access-denied-self-action: # "You cannot '%s' yourself."
+general.phrase.add-selected: # "Add Selected"
+general.phrase.author: # "Author"
+general.phrase.change-log: # "Change Log"
+general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
+general.phrase.clear-cache-complete: # "Cleared cache."
+general.phrase.clear-change-log: # "Clear Change Log"
+general.phrase.clear-system-log: # "Clear System Log"
+general.phrase.close-editor: # "Close editor"
+general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
+general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
+general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
+general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
+general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
+general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
+general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
+general.phrase.database-check: # "Check Database"
+general.phrase.database-update-required-post: # "to do this now."
+general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
+general.phrase.delete: # "Delete"
+general.phrase.delete-set: # "Delete Set"
+general.phrase.depublish: # "Depublish"
+general.phrase.depublish-date-past: # "Depublish date is in the past. Change the status if you want to depublish now."
+general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
+general.phrase.duplicate-set: # "Duplicate Set"
+general.phrase.edit-role-permissions: # "Edit Roles and Permissions"
+general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
+general.phrase.error-login-invalid-parameters: # "Invalid login parameters."
+general.phrase.error-mail-options-not-set: # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+general.phrase.error-send-password-request: # "Failed to send password request. Please check the email settings."
+general.phrase.error-session-data-login: # "Unable to retrieve login session data. Please check your system's PHP session settings."
+general.phrase.extensions-overview: # "Extensions Overview"
+general.phrase.field-fieldname: # "Field “%FIELD_NAME%”:"
+general.phrase.file-not-exist: # "The file '%s' doesn't exist."
+general.phrase.file-not-readable: # "The file '%s' is not readable."
+general.phrase.file-upload-failed: # "Files could not be uploaded."
+general.phrase.filtered-by: # "filtered by"
+general.phrase.floating-point-required-bang: # "Has to be a floating point number!"
+general.phrase.folder: # "Folder"
+general.phrase.hints-colon: # "Hints:"
+general.phrase.id: # "Id"
+general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
+general.phrase.keyword-ellipsis: # "Keyword …"
+general.phrase.live-edit: # "Live Edit"
+general.phrase.log-change-trim: # "Trim Change Log"
+general.phrase.log-system-trim: # "Trim System Log"
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
-general.phrase.missing-about-page-block: #
-general.phrase.move-down: #
-general.phrase.move-up: #
-general.phrase.no-content-found: #
-general.phrase.no-files-in-list: #
-general.phrase.no-images-in-list: #
-general.phrase.no-preview: #
-general.phrase.no-undo: #
-general.phrase.not-installed-yet: #
-general.phrase.not-saved: #
-general.phrase.only-root-change-file-extensions: #
-general.phrase.or: #
-general.phrase.order: #
-general.phrase.other-content: #
-general.phrase.others: #
-general.phrase.publish: #
-general.phrase.record-related-to-variable: #
-general.phrase.records: #
-general.phrase.redirect-detected: #
-general.phrase.related-content: #
-general.phrase.required-character-count: #
-general.phrase.required-is-bang: #
-general.phrase.required-is-or-match-pattern: #
-general.phrase.search-results-for-variable: #
-general.phrase.selection: #
-general.phrase.show-proposed-alterations: #
-general.phrase.slug-colon: #
-general.phrase.something-went-wrong-after-first-user: #
-general.phrase.stack: #
-general.phrase.status-explanation: #
-general.phrase.system-config-checks: #
-general.phrase.thumbnail: #
-general.phrase.time-format-24-12: #
-general.phrase.toggle-all: #
-general.phrase.upload-not-allowed: #
-general.phrase.users-permissions: #
-general.phrase.value-maximum-variable: #
-general.phrase.value-minimum-variable: #
-general.phrase.view-roles: #
-general.phrase.warning: #
-general.phrase.warning-template: #
-general.phrase.warning-templatefields-loss: #
-general.phrase.warning-unfinished-changes-loss: #
+general.phrase.missing-about-page-block: # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+general.phrase.move-down: # "Move Down"
+general.phrase.move-up: # "Move Up"
+general.phrase.no-content-found: # "No content found."
+general.phrase.no-files-in-list: # "No files in the list, yet."
+general.phrase.no-images-in-list: # "No images in the list, yet."
+general.phrase.no-preview: # "No Preview"
+general.phrase.no-undo: # "There is no undo!"
+general.phrase.not-installed-yet: # "Not yet installed."
+general.phrase.not-saved: # "There are no saved changes, yet."
+general.phrase.only-root-change-file-extensions: # "Only root can change file extensions."
+general.phrase.or: # "or"
+general.phrase.order: # "Order"
+general.phrase.other-content: # "Other content"
+general.phrase.others: # "Others"
+general.phrase.publish: # "Publish"
+general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
+general.phrase.records: # "Records"
+general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
+general.phrase.related-content: # "Related content"
+general.phrase.required-character-count: # "At least %NUM% characters required"
+general.phrase.required-is-bang: # "Is required!"
+general.phrase.required-is-or-match-pattern: # "Is required or needs to match a pattern!"
+general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
+general.phrase.selection: # "Selection"
+general.phrase.show-proposed-alterations: # "Show proposed alterations"
+general.phrase.slug-colon: # "Slug:"
+general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
+general.phrase.stack: # "Stack"
+general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.system-config-checks: # "System Configuration Checks"
+general.phrase.thumbnail: # "Thumbnail"
+general.phrase.time-format-24-12: # "Time in 24h/12h format"
+general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.users-permissions: # "Users & Permissions"
+general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
+general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
+general.phrase.view-roles: # "View Roles"
+general.phrase.warning: # "Warning"
+general.phrase.warning-template: # "This template adds new fields. Save, then refresh to see these changes."
+general.phrase.warning-templatefields-loss: # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+general.phrase.warning-unfinished-changes-loss: # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 
-general.visit-bolt: #
+general.visit-bolt: # "Visit Bolt.cm"
 
-logs.change-log: #
-logs.change-log.cleared: #
-logs.change-log.trimmed: #
+logs.change-log: # "Change Log"
+logs.change-log.cleared: # "The change log has been cleared."
+logs.change-log.trimmed: # "The change log has been trimmed."
 
-logs.system-log: #
-logs.system-log.cleared: #
-logs.system-log.trimmed: #
+logs.system-log: # "System Log"
+logs.system-log.cleared: # "The system log has been cleared."
+logs.system-log.trimmed: # "The system log has been trimmed."
 
-menu.configuration.checks: #
-menu.configuration.routing: #
+menu.configuration.checks: # "Set-up checks"
+menu.configuration.routing: # "Routing set up"
 
-nut.greeting: #
+nut.greeting: # "Welcome to Bolt!"
 
-nut.version: #
+nut.version: # "version"
 
-page.checks.php-pass: #
-page.checks.php-problem: #
-page.checks.show-all: #
-page.checks.show-failed: #
-page.checks.system-pass: #
-page.checks.system-problem: #
+page.checks.php-pass: # "All PHP configuration checks pass!"
+page.checks.php-problem: # "PHP configuration check found problems!"
+page.checks.show-all: # "Show all checks"
+page.checks.show-failed: # "Show only failed checks"
+page.checks.system-pass: # "All system configuration checks pass!"
+page.checks.system-problem: # "System configuration check found problems!"
 
-page.edit-users.error.email-invalid: #
-page.edit-users.error.password-different-displayname: #
-page.edit-users.error.password-different-email: #
-page.edit-users.error.password-different-username: #
-page.edit-users.error.password-long: #
-page.edit-users.label.email: #
-page.edit-users.message.change-self: #
+page.edit-users.error.email-invalid: # "This email address is not valid."
+page.edit-users.error.password-different-displayname: # "Password must not be a part of the display name."
+page.edit-users.error.password-different-email: # "Password must not match the email address."
+page.edit-users.error.password-different-username: # "Password must not match the username."
+page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
+page.edit-users.label.email: # "Email"
+page.edit-users.message.change-self: # "You've been logged off, because you changed your own username. Please log on again."
 
-page.extend.button.autoload-dump: #
-page.extend.button.copy-to-theme-folder: #
-page.extend.button.info-help: #
-page.extend.button.install-package: #
-page.extend.button.install-this-version: #
-page.extend.button.link-config: #
-page.extend.button.link-marketplace: #
-page.extend.button.link-readme: #
-page.extend.button.link-repository: #
-page.extend.button.link-uninstall: #
-page.extend.button.link-versions: #
-page.extend.button.manage: #
-page.extend.button.package-dependencies: #
-page.extend.button.show-all-versions: #
-page.extend.button.update-package: #
-page.extend.error-class-implement: #
-page.extend.error-class-invalid: #
-page.extend.error-composer-json-not-readable: #
-page.extend.error-composer-json-not-writable: #
-page.extend.error-message-client: #
-page.extend.error-message-connection: #
-page.extend.error-message-generic: #
-page.extend.error-message-server: #
-page.extend.headline.bundled: #
-page.extend.headline.currently-installed: #
-page.extend.headline.install-new-extension: #
-page.extend.headline.installation-complete: #
-page.extend.headline.installing-package: #
-page.extend.headline.latest-version: #
-page.extend.headline.stable-versions: #
-page.extend.headline.test-versions: #
-page.extend.headline.theme-installation-complete: #
-page.extend.headline.updates: #
-page.extend.listheader.class: #
-page.extend.listheader.extension: #
-page.extend.listheader.name: #
-page.extend.listheader.status: #
-page.extend.listheader.version: #
-page.extend.message.add-extension-with-form: #
-page.extend.message.autoload-dump: #
-page.extend.message.autoloader-start: #
-page.extend.message.autoloader-update: #
-page.extend.message.bad-json: #
-page.extend.message.before-theme-start: #
-page.extend.message.check-for-updates: #
-page.extend.message.checking-for-updates: #
-page.extend.message.checking-installed-packages: #
-page.extend.message.compatible-unstable-versions: #
-page.extend.message.confirm-remove: #
-page.extend.message.copying: #
-page.extend.message.discover-by-visiting: #
-page.extend.message.ext-dir-missing: #
-page.extend.message.install-all: #
-page.extend.message.installation-running: #
-page.extend.message.installing: #
-page.extend.message.installing-selected-package: #
-page.extend.message.installs-all-listed-packages: #
-page.extend.message.installs-updates: #
-page.extend.message.invalid-theme-source-dir: #
-page.extend.message.latest-version: #
-page.extend.message.loading-disabled: #
-page.extend.message.marked-as-stable: #
-page.extend.message.no-bolt-extensions-installed: #
-page.extend.message.no-package-check-in-readmode: #
-page.extend.message.no-stable-versions-available: #
-page.extend.message.no-test-versions-available: #
-page.extend.message.no-update-check-in-readmode: #
-page.extend.message.overwrite: #
-page.extend.message.package-dependencies: #
-page.extend.message.package-install-info-fail: #
-page.extend.message.removing: #
-page.extend.message.running-update: #
-page.extend.message.running-update-all: #
-page.extend.message.shows-updates: #
-page.extend.message.start-using-extension: #
-page.extend.message.updated: #
-page.extend.message.updating: #
-page.extend.options: #
-page.extend.pagetitle: #
-page.extend.theme.generation.failure: #
-page.extend.theme.generation.missing.name: #
-page.extend.theme.generation.success: #
+page.extend.button.autoload-dump: # "Rebuild Autoloader"
+page.extend.button.copy-to-theme-folder: # "Copy to theme folder"
+page.extend.button.info-help: # "More info/help"
+page.extend.button.install-package: # "Install Package"
+page.extend.button.install-this-version: # "Install This Version"
+page.extend.button.link-config: # "Edit configuration"
+page.extend.button.link-marketplace: # "View on marketplace"
+page.extend.button.link-readme: # "View README"
+page.extend.button.link-repository: # "View source repository"
+page.extend.button.link-uninstall: # "Uninstall extension"
+page.extend.button.link-versions: # "Install different version"
+page.extend.button.manage: # "Manage"
+page.extend.button.package-dependencies: # "Identify installed packages requiring this"
+page.extend.button.show-all-versions: # "Show all versions"
+page.extend.button.update-package: # "Update Package"
+page.extend.error-class-implement: # "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
+page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
+page.extend.error-composer-json-not-readable: # "The Bolt extensions composer.json isn't readable."
+page.extend.error-composer-json-not-writable: # "The Bolt extensions composer.json isn't writable."
+page.extend.error-message-client: # "Client error: %errormessage%"
+page.extend.error-message-connection: # "Testing connection to extension server failed: %errormessage%"
+page.extend.error-message-generic: # "Generic failure while testing connection to extension server: %errormessage%"
+page.extend.error-message-server: # "Extension server returned an error: %errormessage%"
+page.extend.headline.bundled: # "Bundled Extensions"
+page.extend.headline.currently-installed: # "Your Currently Installed Extensions"
+page.extend.headline.install-new-extension: # "Install a new Extension"
+page.extend.headline.installation-complete: # "Installation complete"
+page.extend.headline.installing-package: # "Installing package"
+page.extend.headline.latest-version: # "Latest stable version"
+page.extend.headline.stable-versions: # "Stable versions"
+page.extend.headline.test-versions: # "Unstable test versions"
+page.extend.headline.theme-installation-complete: # "Theme installation complete"
+page.extend.headline.updates: # "Updates"
+page.extend.listheader.class: # "Class"
+page.extend.listheader.extension: # "Extension"
+page.extend.listheader.name: # "Name"
+page.extend.listheader.status: # "Status"
+page.extend.listheader.version: # "Version"
+page.extend.message.add-extension-with-form: # "Add a new extension using the form below."
+page.extend.message.autoload-dump: # "This will rebuild both the autoload files and cache."
+page.extend.message.autoloader-start: # "Loading Composer autoload dumper"
+page.extend.message.autoloader-update: # "Updating Composer autoloader"
+page.extend.message.bad-json: # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
+page.extend.message.before-theme-start: # "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
+page.extend.message.check-for-updates: # "Check for updates"
+page.extend.message.checking-for-updates: # "Checking for available updates (this may take up to 60 seconds)"
+page.extend.message.checking-installed-packages: # "Checking installed packages"
+page.extend.message.compatible-unstable-versions: # "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
+page.extend.message.confirm-remove: # "Please confirm that you want to remove this extension?"
+page.extend.message.copying: # "Copying theme assets …"
+page.extend.message.discover-by-visiting: # "You can discover new extensions by visiting"
+page.extend.message.ext-dir-missing: # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+page.extend.message.install-all: # "Running install of all packages …"
+page.extend.message.installation-running: # "Installation running"
+page.extend.message.installing: # "Preparing to install package …"
+page.extend.message.installing-selected-package: # "Installing selected package version (this may take up to 60 seconds)."
+page.extend.message.installs-all-listed-packages: # "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+page.extend.message.installs-updates: # "This will install all available updates."
+page.extend.message.invalid-theme-source-dir: # "Invalid theme source directory: %SOURCE%"
+page.extend.message.latest-version: # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
+page.extend.message.loading-disabled: # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+page.extend.message.marked-as-stable: # "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
+page.extend.message.no-bolt-extensions-installed: # "No Bolt Extensions installed."
+page.extend.message.no-package-check-in-readmode: # "Cannot check installed packages in read-only mode"
+page.extend.message.no-stable-versions-available: # "No Stable Versions Available"
+page.extend.message.no-test-versions-available: # "No Test Versions Available"
+page.extend.message.no-update-check-in-readmode: # "Cannot check for updates in read-only mode"
+page.extend.message.overwrite: # "This will overwrite any existing files! Are you sure?"
+page.extend.message.package-dependencies: # "Packages that depend on this"
+page.extend.message.package-install-info-fail: # "Unable to get installation information for %PACKAGE% %VERSION%."
+page.extend.message.removing: # "Preparing to remove package …"
+page.extend.message.running-update: # "Running update …"
+page.extend.message.running-update-all: # "Running updates"
+page.extend.message.shows-updates: # "This won't install anything, just show you available updates"
+page.extend.message.start-using-extension: # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
+page.extend.message.updated: # "Everything is up to date!"
+page.extend.message.updating: # "Searching for available updates …"
+page.extend.options: # "Extension Options"
+page.extend.pagetitle: # "Extend %BOLTNAME%"
+page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
+page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
+page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
-page.file-management.label.create-file: #
-page.file-management.message.save-failed-invalid-form: #
-page.file-management.message.upload-not-writable: #
+page.file-management.label.create-file: # "Create file"
+page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
+page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-panel.latest-activity.change: #
-panel.latest-activity.created: #
-panel.latest-activity.deleted: #
-panel.latest-activity.system: #
+panel.latest-activity.change: # "Latest changes"
+panel.latest-activity.created: # "Created"
+panel.latest-activity.deleted: # "Deleted"
+panel.latest-activity.system: # "Latest system activity"
 
-permissions.roles.description.anonymous: #
-permissions.roles.description.everyone: #
-permissions.roles.description.owner: #
-permissions.roles.description.root: #
+permissions.roles.description.anonymous: # "Built-in role, automatically granted at all times, even if no user is logged in"
+permissions.roles.description.everyone: # "Built-in role, automatically granted to every registered user"
+permissions.roles.description.owner: # "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource."
+permissions.roles.description.root: # "Built-in superuser role, automatically grants all permissions"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -328,44 +307,20 @@ permissions.roles.description.root: #
 "(none)": "(无)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>带有 Loripsum 示例文本</a> 的记录"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Body": "主体"
-"Categories": "类别"
-"Category": "类别"
-"Choose an entry": "选择条目"
 "Content": "内容"
 "Current (saved) status:": "当前(保存的)状态:"
-"Date": "日期"
-"Datetime": "日期时间"
 "Excerpt": "摘要"
 "Expand sidebar": "展开"
-"File": "文件"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "无法上传文件 '%file%' (错误的/不允许的文件类型)。确保文件扩展名是以下类型之一："
-"Filelist": "文件列表"
-"Floatfield": "Floatfield"
-"Geolocation": "地理位置"
 "Image": "图像"
-"Imagelist": "图像列表"
-"Integerfield": "整数字段"
-"Multiselect": "多选"
-"Select a page": "选择一个页面"
-"Select zero or more pages": "选择零或多个页面"
-"Selectentry": "条目选择"
-"Selectfield": "字段选择"
 "Skipped <tt>%key%</tt> (already has records)": "跳过 <tt>%key%</tt> (已有记录)"
-"Tag": "标签"
-"Tags": "标签"
-"Teaser": "摘要"
-"Template": "模板"
-"Textarea": "编辑区域"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的标识符和 slug 不同。('%slug%' 与 '%taxonomytype%')。请编辑 taxonomy.yml 保持一致，避免数据库存储和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和权限设置保存在 <code>%permissions%</code> 文件中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多个内容格式中。请编辑 contenttypes.yml 区分它们。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "无法创建翻译文件 '%s'。你需要自行使用编辑器修改文件。"
-"This is a checkbox": "这是个复选框"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本网站由<a href='%url%' target='_blank' title='精致、轻量、简洁的 CMS'>Bolt 构建</a>。"
 "Title": "标题"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以试着用FTP客户端登录，将文件设置可读权限，也可以尝试<a>返回</a>上一个页面。"
-"Video": "视频"
 "View (saved version) on site": "观看站点中(保存的版本)"
 "You've been logged on successfully.": "你已成功登录。"
 

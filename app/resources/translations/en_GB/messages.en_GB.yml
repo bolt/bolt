@@ -8,29 +8,15 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  16 Legacy untranslated messages
+#   2 Legacy untranslated messages
 #   2 Untranslated messages
-#  74 Legacy translation messages
+#  43 Legacy translation messages
 # 551 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
-"Alas, no about!": #
-"Content for home not found!": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Latest entries": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
+"Menu": #
+"Search": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -47,14 +33,8 @@ general.phrase.login-password-legacy: #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
-"Body": "Body"
-"Categories": "Categories"
-"Category": "Category"
-"Choose an entry": "Choose an entry"
 "Content": "Content"
 "Current (saved) status:": "Current (saved) status:"
-"Date": "Date"
-"Datetime": "Datetime"
 "Dependencies": "Dependencies"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
 "Do you really want to delete %FOLDERNAME%?": "Do you really want to delete %FOLDERNAME%?"
@@ -62,42 +42,18 @@ general.phrase.login-password-legacy: #
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
-"File": "File"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
-"Filelist": "File list"
 "Finding packages that require this one…": "Finding packages that require this one…"
-"Floatfield": "Float field"
-"Geolocation": "Geolocation"
-"Group": "Group"
-"Groups": "Groups"
-"Html": "Html"
 "Image": "Image"
-"Imagelist": "Image list"
-"Integerfield": "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!"
-"Link": "Link"
-"Markdown": "Markdown"
-"Multiselect": "Multi-select"
-"Repeater": "Repeater"
-"Select a page": "Select a page"
-"Select zero or more pages": "Select zero or more pages"
-"Selectentry": "Select entry"
-"Selectfield": "Select field"
 "Skipped <tt>%key%</tt> (already has records)": "Skipped <tt>%key%</tt> (already has records)"
-"Slug": "Slug"
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
-"Tag": "Tag"
-"Tags": "Tags"
-"Teaser": "Teaser"
-"Template": "Template"
-"Textarea": "Textarea"
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
-"This is a checkbox": "This is a checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 "Title": "Title"
@@ -110,7 +66,6 @@ general.phrase.login-password-legacy: #
 "Unable to rename directory: %DIR%": "Unable to rename directory: %DIR%"
 "Unable to rename file: %FILE%": "Unable to rename file: %FILE%"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>."
-"Video": "Video"
 "View (saved version) on site": "View (saved version) on site"
 "You've been logged on successfully.": "You've been logged on successfully."
 

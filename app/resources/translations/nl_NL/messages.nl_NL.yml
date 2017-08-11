@@ -1,4 +1,3 @@
-"Built with Bolt, tested with Codeception" : "Built with Bolt, tested with Codeception"
 # app/resources/translations/nl_NL/messages.nl_NL.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
@@ -9,7 +8,7 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   4 Legacy untranslated messages
+#   3 Legacy untranslated messages
 #  15 Untranslated messages
 #  42 Legacy translation messages
 # 538 Translation messages
@@ -18,7 +17,6 @@
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt, tested with Codeception</a>.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
 #--- Untranslated messages ----------------------------------------------------

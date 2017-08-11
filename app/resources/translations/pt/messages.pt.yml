@@ -8,113 +8,99 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  25 Legacy untranslated messages
+#  11 Legacy untranslated messages
 #  61 Untranslated messages
-#  65 Legacy translation messages
+#  34 Legacy translation messages
 # 492 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Alas, no about!": #
-"Content for home not found!": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Finding packages that require this one…": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Latest entries": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
-contenttypes.generic.invalid-hyphen: #
+contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
-field.block.label.add-new: #
-field.block.label.add-set: #
+field.block.label.add-new: # "Add new..."
+field.block.label.add-set: # "Add new %label% set"
 
-field.repeater.label.add-set: #
+field.repeater.label.add-set: # "Add new %label% set"
 
-field.slug.button.generate: #
+field.slug.button.generate: # "Generate from:"
 
-general.phrase.changelog-not-enabled: #
-general.phrase.changelog-note: #
-general.phrase.clashing-relation: #
-general.phrase.database-check: #
-general.phrase.database-update-required-post: #
-general.phrase.database-update-required-pre: #
-general.phrase.depublish-explanation: #
-general.phrase.error-mail-options-not-set: #
-general.phrase.error-session-data-login: #
-general.phrase.extensions-overview: #
-general.phrase.folder: #
-general.phrase.invalid-taxonomy-slug: #
+general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
+general.phrase.database-check: # "Check Database"
+general.phrase.database-update-required-post: # "to do this now."
+general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
+general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
+general.phrase.error-mail-options-not-set: # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+general.phrase.error-session-data-login: # "Unable to retrieve login session data. Please check your system's PHP session settings."
+general.phrase.extensions-overview: # "Extensions Overview"
+general.phrase.folder: # "Folder"
+general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
-general.phrase.redirect-detected: #
-general.phrase.related-content: #
-general.phrase.selection: #
-general.phrase.status-explanation: #
-general.phrase.warning-templatefields-loss: #
+general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
+general.phrase.related-content: # "Related content"
+general.phrase.selection: # "Selection"
+general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.warning-templatefields-loss: # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
 
-menu.configuration.checks: #
+menu.configuration.checks: # "Set-up checks"
 
-nut.greeting: #
+nut.greeting: # "Welcome to Bolt!"
 
-nut.version: #
+nut.version: # "version"
 
-page.checks.php-pass: #
-page.checks.php-problem: #
-page.checks.show-all: #
-page.checks.show-failed: #
-page.checks.system-pass: #
-page.checks.system-problem: #
+page.checks.php-pass: # "All PHP configuration checks pass!"
+page.checks.php-problem: # "PHP configuration check found problems!"
+page.checks.show-all: # "Show all checks"
+page.checks.show-failed: # "Show only failed checks"
+page.checks.system-pass: # "All system configuration checks pass!"
+page.checks.system-problem: # "System configuration check found problems!"
 
-page.edit-users.error.email-invalid: #
-page.edit-users.error.password-different-email: #
-page.edit-users.error.password-long: #
-page.edit-users.note-sqlite: #
+page.edit-users.error.email-invalid: # "This email address is not valid."
+page.edit-users.error.password-different-email: # "Password must not match the email address."
+page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
+page.edit-users.note-sqlite: # "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
 
-page.extend.button.link-config: #
-page.extend.button.link-marketplace: #
-page.extend.button.link-readme: #
-page.extend.button.link-repository: #
-page.extend.button.link-uninstall: #
-page.extend.button.link-versions: #
-page.extend.button.manage: #
-page.extend.button.package-dependencies: #
-page.extend.error-message-connection: #
-page.extend.headline.bundled: #
-page.extend.listheader.class: #
-page.extend.listheader.name: #
-page.extend.message.autoloader-start: #
-page.extend.message.autoloader-update: #
-page.extend.message.bad-json: #
-page.extend.message.ext-dir-missing: #
-page.extend.message.installation-running: #
-page.extend.message.invalid-theme-source-dir: #
-page.extend.message.loading-disabled: #
-page.extend.message.package-dependencies: #
-page.extend.message.running-update-all: #
-page.extend.options: #
-page.extend.theme.generation.failure: #
+page.extend.button.link-config: # "Edit configuration"
+page.extend.button.link-marketplace: # "View on marketplace"
+page.extend.button.link-readme: # "View README"
+page.extend.button.link-repository: # "View source repository"
+page.extend.button.link-uninstall: # "Uninstall extension"
+page.extend.button.link-versions: # "Install different version"
+page.extend.button.manage: # "Manage"
+page.extend.button.package-dependencies: # "Identify installed packages requiring this"
+page.extend.error-message-connection: # "Testing connection to extension server failed: %errormessage%"
+page.extend.headline.bundled: # "Bundled Extensions"
+page.extend.listheader.class: # "Class"
+page.extend.listheader.name: # "Name"
+page.extend.message.autoloader-start: # "Loading Composer autoload dumper"
+page.extend.message.autoloader-update: # "Updating Composer autoloader"
+page.extend.message.bad-json: # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
+page.extend.message.ext-dir-missing: # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+page.extend.message.installation-running: # "Installation running"
+page.extend.message.invalid-theme-source-dir: # "Invalid theme source directory: %SOURCE%"
+page.extend.message.loading-disabled: # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+page.extend.message.package-dependencies: # "Packages that depend on this"
+page.extend.message.running-update-all: # "Running updates"
+page.extend.options: # "Extension Options"
+page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 
-page.file-management.message.upload-not-writable: #
+page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -125,52 +111,22 @@ page.file-management.message.upload-not-writable: #
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
-"Body": "Corpo"
-"Categories": "Categorias"
-"Category": "Categoria"
-"Choose an entry": "Escolha um artigo"
 "Content": "Conteúdo"
 "Current (saved) status:": "Estado atual (guardado):"
-"Date": "Data"
-"Datetime": "Data e hora"
 "Do you really want to delete %FOLDERNAME%?": "Deseja mesmo eliminar %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Erro ao ler o ficheiro extensions/composer.json: %ERROR%"
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"File": "Ficheiro"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"Filelist": "Lista de ficheiros"
-"Floatfield": "Campo flutuante"
-"Geolocation": "Geolocalização"
-"Group": "Grupo"
-"Groups": "Grupos"
-"Html": "HTML"
 "Image": "Imagem"
-"Imagelist": "Lista de imagens"
-"Integerfield": "Campo de números inteiros"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
-"Link": "Hiperligação"
-"Markdown": "Markdown"
-"Multiselect": "Seleção múltipla"
-"Repeater": "Repetidor"
-"Select a page": "Selecionar uma página"
-"Select zero or more pages": "Selecione zero ou mais páginas"
-"Selectentry": "Selecionar artigo"
-"Selectfield": "Selecionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registo)"
-"Slug": "Nome curto"
-"Tag": "Etiqueta"
-"Tags": "Etiquetas"
-"Teaser": "Antevisão"
-"Template": "Tema"
-"Textarea": "Área de texto"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
-"This is a checkbox": "Esta é uma caixa de verificação"
 "Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente ligar-se através do seu cliente de FTP e tornar o ficheiro legível. Caso contrário, tente <a>voltar</a> para a última página."
 "Unable to create directory: %DIR%": "Não é possível criar a pasta: %DIR%"
@@ -180,7 +136,6 @@ page.file-management.message.upload-not-writable: #
 "Unable to duplicate file: %FILE%": "Não foi possível duplicar o ficheiro: %FILE%"
 "Unable to rename directory: %DIR%": "Não é possível renomear a pasta: %DIR%"
 "Unable to rename file: %FILE%": "Não foi possível renomear o ficheiro: %FILE%"
-"Video": "Vídeo"
 "View (saved version) on site": "Visualizar (versão guardada) no sítio"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 

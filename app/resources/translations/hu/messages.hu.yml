@@ -8,169 +8,148 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  33 Legacy untranslated messages
+#  12 Legacy untranslated messages
 # 103 Untranslated messages
-#  57 Legacy translation messages
+#  33 Legacy translation messages
 # 450 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"%contenttypes% overview": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Alas, no about!": #
-"Body": #
-"Content for home not found!": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
-"Latest entries": #
-"Link": #
-"No recent %contenttype%.": #
-"No results found for '%search%'. Please try another search.": #
-"Overview for": #
-"Permalink": #
-"Read more": #
-"Recent %contenttypes%": #
-"Related content:": #
-"Repeater": #
-"Search results for <b> %search% </b>.": #
-"Search…": #
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Written by <em>%name%</em> on %date%": #
-"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
-contenttypes.generic.invalid-hyphen: #
-contenttypes.generic.invalid-relation: #
-contenttypes.generic.recent-changes-one: #
+contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
+contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
 
-field.block.label.add-new: #
-field.block.label.add-set: #
+field.block.label.add-new: # "Add new..."
+field.block.label.add-set: # "Add new %label% set"
 
-field.geolocation.label.snap: #
+field.geolocation.label.snap: # "Snap to nearest address"
 
-field.image.label.alt: #
+field.image.label.alt: # "Alt"
 
-field.repeater.label.add-set: #
+field.repeater.label.add-set: # "Add new %label% set"
 
-field.slug.button.generate: #
-field.slug.button.lock: #
-field.slug.message.warning: #
+field.slug.button.generate: # "Generate from:"
+field.slug.button.lock: # "Lock"
+field.slug.message.warning: # "Editing this field might break existing links to this record!"
 
-field.video.height: #
-field.video.pixel: #
-field.video.width: #
+field.video.height: # "Height"
+field.video.pixel: # "pixel"
+field.video.width: # "Width"
 
-general.bolt-configuration-issues-detected: #
+general.bolt-configuration-issues-detected: # "Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:"
 
-general.phrase.access-denied-self-action: #
-general.phrase.add-selected: #
-general.phrase.changelog-not-enabled: #
-general.phrase.changelog-note: #
-general.phrase.clashing-relation: #
-general.phrase.clear-cache-complete: #
-general.phrase.database-check: #
-general.phrase.database-update-required-post: #
-general.phrase.database-update-required-pre: #
-general.phrase.delete-set: #
-general.phrase.depublish: #
-general.phrase.depublish-explanation: #
-general.phrase.duplicate-set: #
-general.phrase.error-cache-clear: #
-general.phrase.error-mail-options-not-set: #
-general.phrase.error-session-data-login: #
-general.phrase.extensions-overview: #
-general.phrase.file-not-exist: #
-general.phrase.file-not-readable: #
-general.phrase.folder: #
-general.phrase.id: #
-general.phrase.info: #
-general.phrase.invalid-taxonomy-slug: #
-general.phrase.live-edit: #
+general.phrase.access-denied-self-action: # "You cannot '%s' yourself."
+general.phrase.add-selected: # "Add Selected"
+general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
+general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
+general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
+general.phrase.clear-cache-complete: # "Cleared cache."
+general.phrase.database-check: # "Check Database"
+general.phrase.database-update-required-post: # "to do this now."
+general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
+general.phrase.delete-set: # "Delete Set"
+general.phrase.depublish: # "Depublish"
+general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
+general.phrase.duplicate-set: # "Duplicate Set"
+general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
+general.phrase.error-mail-options-not-set: # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
+general.phrase.error-session-data-login: # "Unable to retrieve login session data. Please check your system's PHP session settings."
+general.phrase.extensions-overview: # "Extensions Overview"
+general.phrase.file-not-exist: # "The file '%s' doesn't exist."
+general.phrase.file-not-readable: # "The file '%s' is not readable."
+general.phrase.folder: # "Folder"
+general.phrase.id: # "Id"
+general.phrase.info: # "Info"
+general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
+general.phrase.live-edit: # "Live Edit"
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
-general.phrase.missing-about-page-block: #
-general.phrase.move-down: #
-general.phrase.move-up: #
-general.phrase.no-preview: #
-general.phrase.only-root-change-file-extensions: #
-general.phrase.order: #
-general.phrase.publish: #
-general.phrase.record-related-to-variable: #
-general.phrase.redirect-detected: #
-general.phrase.related-content: #
-general.phrase.search-results-for-variable: #
-general.phrase.selection: #
-general.phrase.show-proposed-alterations: #
-general.phrase.slug-colon: #
-general.phrase.something-went-wrong-after-first-user: #
-general.phrase.status-explanation: #
-general.phrase.toggle-all: #
+general.phrase.missing-about-page-block: # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
+general.phrase.move-down: # "Move Down"
+general.phrase.move-up: # "Move Up"
+general.phrase.no-preview: # "No Preview"
+general.phrase.only-root-change-file-extensions: # "Only root can change file extensions."
+general.phrase.order: # "Order"
+general.phrase.publish: # "Publish"
+general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
+general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
+general.phrase.related-content: # "Related content"
+general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
+general.phrase.selection: # "Selection"
+general.phrase.show-proposed-alterations: # "Show proposed alterations"
+general.phrase.slug-colon: # "Slug:"
+general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
+general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.toggle-all: # "Check/Uncheck all"
 
-general.visit-bolt: #
+general.visit-bolt: # "Visit Bolt.cm"
 
-menu.configuration.checks: #
+menu.configuration.checks: # "Set-up checks"
 
-nut.greeting: #
+nut.greeting: # "Welcome to Bolt!"
 
-nut.version: #
+nut.version: # "version"
 
-page.checks.php-pass: #
-page.checks.php-problem: #
-page.checks.show-all: #
-page.checks.show-failed: #
-page.checks.system-pass: #
-page.checks.system-problem: #
+page.checks.php-pass: # "All PHP configuration checks pass!"
+page.checks.php-problem: # "PHP configuration check found problems!"
+page.checks.show-all: # "Show all checks"
+page.checks.show-failed: # "Show only failed checks"
+page.checks.system-pass: # "All system configuration checks pass!"
+page.checks.system-problem: # "System configuration check found problems!"
 
-page.edit-users.error.email-invalid: #
-page.edit-users.error.password-different-displayname: #
-page.edit-users.error.password-different-email: #
-page.edit-users.error.password-long: #
+page.edit-users.error.email-invalid: # "This email address is not valid."
+page.edit-users.error.password-different-displayname: # "Password must not be a part of the display name."
+page.edit-users.error.password-different-email: # "Password must not match the email address."
+page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
 
-page.extend.button.link-config: #
-page.extend.button.link-marketplace: #
-page.extend.button.link-readme: #
-page.extend.button.link-repository: #
-page.extend.button.link-uninstall: #
-page.extend.button.link-versions: #
-page.extend.button.manage: #
-page.extend.button.package-dependencies: #
-page.extend.error-class-implement: #
-page.extend.error-class-invalid: #
-page.extend.error-composer-json-not-readable: #
-page.extend.error-composer-json-not-writable: #
-page.extend.headline.bundled: #
-page.extend.listheader.class: #
-page.extend.listheader.name: #
-page.extend.message.autoload-dump: #
-page.extend.message.autoloader-start: #
-page.extend.message.autoloader-update: #
-page.extend.message.ext-dir-missing: #
-page.extend.message.installation-running: #
-page.extend.message.invalid-theme-source-dir: #
-page.extend.message.latest-version: #
-page.extend.message.loading-disabled: #
-page.extend.message.package-dependencies: #
-page.extend.message.package-install-info-fail: #
-page.extend.message.running-update-all: #
+page.extend.button.link-config: # "Edit configuration"
+page.extend.button.link-marketplace: # "View on marketplace"
+page.extend.button.link-readme: # "View README"
+page.extend.button.link-repository: # "View source repository"
+page.extend.button.link-uninstall: # "Uninstall extension"
+page.extend.button.link-versions: # "Install different version"
+page.extend.button.manage: # "Manage"
+page.extend.button.package-dependencies: # "Identify installed packages requiring this"
+page.extend.error-class-implement: # "Extension package %NAME% base class '%CLASS%' does not implement %TARGET% and has been skipped."
+page.extend.error-class-invalid: # "Extension package %NAME% has an invalid class '%CLASS%' and has been skipped."
+page.extend.error-composer-json-not-readable: # "The Bolt extensions composer.json isn't readable."
+page.extend.error-composer-json-not-writable: # "The Bolt extensions composer.json isn't writable."
+page.extend.headline.bundled: # "Bundled Extensions"
+page.extend.listheader.class: # "Class"
+page.extend.listheader.name: # "Name"
+page.extend.message.autoload-dump: # "This will rebuild both the autoload files and cache."
+page.extend.message.autoloader-start: # "Loading Composer autoload dumper"
+page.extend.message.autoloader-update: # "Updating Composer autoloader"
+page.extend.message.ext-dir-missing: # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+page.extend.message.installation-running: # "Installation running"
+page.extend.message.invalid-theme-source-dir: # "Invalid theme source directory: %SOURCE%"
+page.extend.message.latest-version: # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
+page.extend.message.loading-disabled: # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+page.extend.message.package-dependencies: # "Packages that depend on this"
+page.extend.message.package-install-info-fail: # "Unable to get installation information for %PACKAGE% %VERSION%."
+page.extend.message.running-update-all: # "Running updates"
 
-page.file-management.message.upload-not-writable: #
+page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
-panel.latest-activity.change: #
-panel.latest-activity.created: #
-panel.latest-activity.deleted: #
-panel.latest-activity.system: #
+panel.latest-activity.change: # "Latest changes"
+panel.latest-activity.created: # "Created"
+panel.latest-activity.deleted: # "Deleted"
+panel.latest-activity.system: # "Latest system activity"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -181,44 +160,21 @@ panel.latest-activity.system: #
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Hiba történt `%TABLE%` frissítése közben. A hiba: %ERROR%"
-"Categories": "Kategóriák"
-"Category": "Kategória"
-"Choose an entry": "Válassz egy bejegyzést"
 "Content": "Tartalom"
 "Current (saved) status:": "Jelenlegi (mentett) státusz:"
-"Date": "Dátum"
-"Datetime": "Dátum/idő"
 "Do you really want to delete %FOLDERNAME%?": "Valóban törölni szeretnéd a %FOLDERNAME% mappát?"
 "Everybody": "Mindenki"
 "Excerpt": "Kivonat"
 "Expand sidebar": "Oldalsáv kinyitása"
-"File": "Fájl"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "A '%file%' fájl nem tölthető fel (rossz/tiltott fájl típus). Bizonyosodjon meg róla, hogy a fájl kiterjesztése egy a következőkből:"
-"Filelist": "Fájl lista"
-"Floatfield": "Float mező"
-"Geolocation": "Geolokáció"
 "Image": "Kép"
-"Imagelist": "Képek listája"
-"Integerfield": "Egészszám mező"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Nincs egyező tartalomtípus vagy az útvonalválasztó."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
-"Markdown": "Markdown"
-"Multiselect": "Multiselect"
-"Select a page": "Oldal kiválasztása"
-"Select zero or more pages": "Válasszon ki egy vagy több oldalt"
-"Selectentry": "Bejegyzés választó"
-"Selectfield": "Mező választó"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
-"Tag": "Címke"
-"Tags": "Címkék"
-"Teaser": "Ajánló"
-"Template": "Sablon"
-"Textarea": "Szövegdoboz"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkeszd úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkeszd úgy a contenttypes.yml fájlt, hogy különbözzenek."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "A '%s' nyelvi fájl nem hozható létre. Egy szerkesztőt kell használnod ahhoz, hogy módosítani tudd."
-"This is a checkbox": "Ez egy jelölőnégyzet"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, korszerű és egyszerű tartalomkezelő'>Boltra épül</a>."
 "Title": "Cím"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Próbálj bejelentkezni az FTP klienseddel és állítsd a fájlt olvashatóvá vagy lépj <a>vissza</a> a legutóbbi oldalra."
@@ -228,7 +184,6 @@ panel.latest-activity.system: #
 "Unable to delete file: %FILE%": "Nem lehet törölni a %FILE% fájlt"
 "Unable to rename directory: %DIR%": "%DIR% mappa átnevezése sikertelen"
 "Unable to rename file: %FILE%": "%FILE% fájl átnevezése sikertelen"
-"Video": "Videó"
 "View (saved version) on site": "Megtekintés a szájton"
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 

@@ -74,7 +74,6 @@ class QueryParameterParser
      *
      * @param string $key
      * @param mixed  $value
-     * @param mixed  $value
      *
      * @throws QueryParseException
      * @throws QueryParseException
