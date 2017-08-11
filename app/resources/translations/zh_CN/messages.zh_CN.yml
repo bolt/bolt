@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  28 Legacy untranslated messages
+#  23 Legacy untranslated messages
 # 230 Untranslated messages
-#  46 Legacy translation messages
+#  22 Legacy translation messages
 # 321 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -23,15 +23,10 @@
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Repeater": #
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -310,44 +305,20 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(none)": "(无)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>带有 Loripsum 示例文本</a> 的记录"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Body": "主体"
-"Categories": "类别"
-"Category": "类别"
-"Choose an entry": "选择条目"
 "Content": "内容"
 "Current (saved) status:": "当前(保存的)状态:"
-"Date": "日期"
-"Datetime": "日期时间"
 "Excerpt": "摘要"
 "Expand sidebar": "展开"
-"File": "文件"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "无法上传文件 '%file%' (错误的/不允许的文件类型)。确保文件扩展名是以下类型之一："
-"Filelist": "文件列表"
-"Floatfield": "Floatfield"
-"Geolocation": "地理位置"
 "Image": "图像"
-"Imagelist": "图像列表"
-"Integerfield": "整数字段"
-"Multiselect": "多选"
-"Select a page": "选择一个页面"
-"Select zero or more pages": "选择零或多个页面"
-"Selectentry": "条目选择"
-"Selectfield": "字段选择"
 "Skipped <tt>%key%</tt> (already has records)": "跳过 <tt>%key%</tt> (已有记录)"
-"Tag": "标签"
-"Tags": "标签"
-"Teaser": "摘要"
-"Template": "模板"
-"Textarea": "编辑区域"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的标识符和 slug 不同。('%slug%' 与 '%taxonomytype%')。请编辑 taxonomy.yml 保持一致，避免数据库存储和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和权限设置保存在 <code>%permissions%</code> 文件中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多个内容格式中。请编辑 contenttypes.yml 区分它们。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "无法创建翻译文件 '%s'。你需要自行使用编辑器修改文件。"
-"This is a checkbox": "这是个复选框"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本网站由<a href='%url%' target='_blank' title='精致、轻量、简洁的 CMS'>Bolt 构建</a>。"
 "Title": "标题"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以试着用FTP客户端登录，将文件设置可读权限，也可以尝试<a>返回</a>上一个页面。"
-"Video": "视频"
 "View (saved version) on site": "观看站点中(保存的版本)"
 "You've been logged on successfully.": "你已成功登录。"
 

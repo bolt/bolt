@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Response;
 
-use Bolt\Collection\ImmutableBag;
+use Bolt\Collection\Bag;
 use Bolt\Response\TemplateResponse;
 use Bolt\Tests\BoltUnitTest;
 
@@ -36,7 +36,7 @@ class TemplateResponseTest extends BoltUnitTest
         $this->assertInstanceOf(TemplateResponse::class, $response);
         $this->assertEquals($status, $response->getStatusCode());
         $this->assertEquals($template, $response->getTemplate());
-        $this->assertInstanceOf(ImmutableBag::class, $response->getContext());
+        $this->assertInstanceOf(Bag::class, $response->getContext());
         $this->assertEquals($context, $response->getContext()->toArray());
     }
 }

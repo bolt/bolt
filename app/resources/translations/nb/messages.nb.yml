@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  49 Legacy untranslated messages
+#  28 Legacy untranslated messages
 # 373 Untranslated messages
-#  25 Legacy translation messages
+#  17 Legacy translation messages
 # 178 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -18,39 +18,19 @@
 "(none)": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Body": #
 "Current (saved) status:": #
-"Date": #
-"Datetime": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
-"File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Filelist": # "File list"
 "Finding packages that require this one…": #
-"Floatfield": # "Float field"
-"Geolocation": #
-"Group": #
-"Groups": #
-"Html": #
-"Imagelist": # "Image list"
-"Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Multiselect": # "Multi-select"
-"Repeater": #
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"Teaser": #
-"Template": #
-"Textarea": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
@@ -62,7 +42,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Video": #
 "View (saved version) on site": #
 
 #--- Untranslated messages ----------------------------------------------------
@@ -102,7 +81,7 @@ contenttypes.generic.show-more: # "More %contenttypes%"
 contenttypes.generic.view: # "View %contenttypes%"
 contenttypes.generic.wrong-use-field: # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
-contenttypes.record.comment-add-colon: #
+contenttypes.record.comment-add-colon: # "Add a comment:"
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
@@ -480,23 +459,15 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "(ingen gruppe)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Categories": "Kategorier"
-"Category": "Kategori"
-"Choose an entry": "Velg en oppføring"
 "Content": "Innhold"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
 "Image": "Bilde"
-"Select a page": "Velg en side"
-"Select zero or more pages": "Velg null eller flere sider"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppet over <tt>%key%</tt> (har allerede poster)"
-"Tag": "Merkelapp"
-"Tags": "Merkelapper"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikator og slug for '%taxonomytype%' er ikke det samme ('%slug%' vs. '%taxonomytype%'). Endre taxonomy.yml slik at de samsvarer for å hindre inkonsistens mellom databaselager og dine maler."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Innstillinger for roller og rettigheter lagres i %permissions%."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
-"This is a checkbox": "Dette er en avkrysningsboks"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
 "Title": "Tittel"
 "You've been logged on successfully.": "Du er vellykket logget ut."

@@ -2,7 +2,7 @@
 
 namespace Bolt\Response;
 
-use Bolt\Collection\ImmutableBag;
+use Bolt\Collection\Bag;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
@@ -15,7 +15,7 @@ class TemplateResponse extends Response
 {
     /** @var string */
     protected $template;
-    /** @var ImmutableBag */
+    /** @var Bag */
     protected $context;
 
     /**
@@ -59,7 +59,7 @@ class TemplateResponse extends Response
     }
 
     /**
-     * @return ImmutableBag
+     * @return Bag
      */
     public function getContext()
     {
@@ -73,7 +73,7 @@ class TemplateResponse extends Response
     {
         Assert::isTraversable($context);
 
-        $this->context = ImmutableBag::from($context);
+        $this->context = Bag::from($context);
     }
 
     /**

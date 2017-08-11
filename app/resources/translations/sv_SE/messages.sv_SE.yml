@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  14 Legacy untranslated messages
+#  12 Legacy untranslated messages
 #  72 Untranslated messages
-#  60 Legacy translation messages
+#  33 Legacy translation messages
 # 479 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -20,10 +20,8 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Link": #
-"Repeater": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -127,47 +125,21 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ett fel inträffade under uppdateringen av '%TABLE%'. Felet är %ERROR%"
-"Body": "Innehåll"
-"Categories": "Kategorier"
-"Category": "Kategori"
-"Choose an entry": "Välj ett inlägg"
 "Content": "Innehåll"
 "Current (saved) status:": "Nuvarande (sparad) status:"
-"Date": "Datum"
-"Datetime": "Datum/Tid"
 "Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
 "Everybody": "Alla"
 "Excerpt": "Utdrag"
 "Expand sidebar": "Visa sidomeny"
-"File": "Fil"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
-"Filelist": "Fillista"
-"Floatfield": "Decimaltals fält"
-"Geolocation": "Geolokalisering "
-"Html": "Html"
 "Image": "Bild"
-"Imagelist": "Bildlista"
-"Integerfield": "Heltalsfält"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
-"Markdown": "Markdown"
-"Multiselect": "Flerval"
-"Select a page": "Välj en sida"
-"Select zero or more pages": "Välj en eller flera sidor"
-"Selectentry": "Välj inlägg"
-"Selectfield": "Välj fält"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppade över <tt>%key%</tt> (har redan innehåll)"
-"Slug": "Permalänk"
-"Tag": "Tagg"
-"Tags": "Taggar"
-"Teaser": "Teaser"
-"Template": "Mall"
-"Textarea": "Textfält"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Översättningsfilen '%s' kunde inte skapas. Du behöver använda din egen textredigerare för att ändra på filen."
-"This is a checkbox": "Detta är en Kryssruta"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
 "Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan."
@@ -177,7 +149,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Unable to delete file: %FILE%": "Det går inte att ta bort filen: %FILE%"
 "Unable to rename directory: %DIR%": "Det gick inte att döpa om katalogen: %DIR%"
 "Unable to rename file: %FILE%": "Det går inte att döpa om på filen: %FILE%"
-"Video": "Video"
 "View (saved version) on site": "Se sparad version på sidan"
 "You've been logged on successfully.": "Du är nu inloggad."
 

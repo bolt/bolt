@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  56 Legacy untranslated messages
+#  33 Legacy untranslated messages
 # 353 Untranslated messages
-#  18 Legacy translation messages
+#  12 Legacy translation messages
 # 198 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -20,43 +20,21 @@
 "(none)": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Body": #
 "Current (saved) status:": #
-"Date": #
-"Datetime": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Expand sidebar": #
-"File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Filelist": # "File list"
 "Finding packages that require this one…": #
-"Floatfield": # "Float field"
-"Geolocation": #
-"Group": #
-"Groups": #
-"Html": #
 "Image": #
-"Imagelist": # "Image list"
-"Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Multiselect": # "Multi-select"
-"Repeater": #
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"Tag": #
-"Tags": #
-"Teaser": #
-"Template": #
-"Textarea": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -69,7 +47,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Video": #
 "View (saved version) on site": #
 
 #--- Untranslated messages ----------------------------------------------------
@@ -84,7 +61,7 @@ contenttypes.generic.not-saved-yet: # "This %contenttype% has not been saved yet
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
 contenttypes.generic.saving-impossible: # "Could not save %contenttype%."
 
-contenttypes.record.comment-add-colon: #
+contenttypes.record.comment-add-colon: # "Add a comment:"
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
@@ -466,18 +443,12 @@ permissions.roles.label.owner: # "Owner"
 "(no group)": "(nessun gruppo)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
-"Categories": "Categorie"
-"Category": "Categoria"
-"Choose an entry": "Scegli un inserimento"
 "Content": "Contenuto"
 "Excerpt": "Estratto"
-"Select a page": "Seleziona una pagina"
-"Select zero or more pages": "Seleziona nessuna o qualche pagina"
 "Skipped <tt>%key%</tt> (already has records)": "Saltato <tt>%key%</tt> (ha già contenuti)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "L'identificatore e lo slug per '%taxonomytype%' non sono lo stesso ('%slug%' vs. '%taxonomytype%'). Modifica taxonomy.yml, e rendili uguali per prevenire inconsistenze tra la memorizzazione nel database storage e i tuoi template."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Lo slug '%slug%' è utilizzato in più di un tipo di contenuto. Modifica contenttypes.yml e rendili differenti."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Il file di traduzione '%s' non può essere creato. Dovrai utilizzare un editor sul server per creare il file."
-"This is a checkbox": "Questo è un checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Questo sito web è <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>realizzato con Bolt</a>."
 "Title": "Titolo"
 "You've been logged on successfully.": "Accesso effettuato con successo."

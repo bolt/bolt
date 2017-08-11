@@ -8,25 +8,20 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  17 Legacy untranslated messages
+#  12 Legacy untranslated messages
 # 101 Untranslated messages
-#  57 Legacy translation messages
+#  33 Legacy translation messages
 # 450 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Body": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
-"Link": #
-"Repeater": #
-"Slug": #
+"Menu": #
+"Search": #
 "Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
@@ -163,44 +158,21 @@ panel.latest-activity.system: # "Latest system activity"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Hiba történt `%TABLE%` frissítése közben. A hiba: %ERROR%"
-"Categories": "Kategóriák"
-"Category": "Kategória"
-"Choose an entry": "Válassz egy bejegyzést"
 "Content": "Tartalom"
 "Current (saved) status:": "Jelenlegi (mentett) státusz:"
-"Date": "Dátum"
-"Datetime": "Dátum/idő"
 "Do you really want to delete %FOLDERNAME%?": "Valóban törölni szeretnéd a %FOLDERNAME% mappát?"
 "Everybody": "Mindenki"
 "Excerpt": "Kivonat"
 "Expand sidebar": "Oldalsáv kinyitása"
-"File": "Fájl"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "A '%file%' fájl nem tölthető fel (rossz/tiltott fájl típus). Bizonyosodjon meg róla, hogy a fájl kiterjesztése egy a következőkből:"
-"Filelist": "Fájl lista"
-"Floatfield": "Float mező"
-"Geolocation": "Geolokáció"
 "Image": "Kép"
-"Imagelist": "Képek listája"
-"Integerfield": "Egészszám mező"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Nincs egyező tartalomtípus vagy az útvonalválasztó."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
-"Markdown": "Markdown"
-"Multiselect": "Multiselect"
-"Select a page": "Oldal kiválasztása"
-"Select zero or more pages": "Válasszon ki egy vagy több oldalt"
-"Selectentry": "Bejegyzés választó"
-"Selectfield": "Mező választó"
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
-"Tag": "Címke"
-"Tags": "Címkék"
-"Teaser": "Ajánló"
-"Template": "Sablon"
-"Textarea": "Szövegdoboz"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkeszd úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkeszd úgy a contenttypes.yml fájlt, hogy különbözzenek."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "A '%s' nyelvi fájl nem hozható létre. Egy szerkesztőt kell használnod ahhoz, hogy módosítani tudd."
-"This is a checkbox": "Ez egy jelölőnégyzet"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, korszerű és egyszerű tartalomkezelő'>Boltra épül</a>."
 "Title": "Cím"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Próbálj bejelentkezni az FTP klienseddel és állítsd a fájlt olvashatóvá vagy lépj <a>vissza</a> a legutóbbi oldalra."
@@ -210,7 +182,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Unable to delete file: %FILE%": "Nem lehet törölni a %FILE% fájlt"
 "Unable to rename directory: %DIR%": "%DIR% mappa átnevezése sikertelen"
 "Unable to rename file: %FILE%": "%FILE% fájl átnevezése sikertelen"
-"Video": "Videó"
 "View (saved version) on site": "Megtekintés a szájton"
 "You've been logged on successfully.": "Sikeresen bejelentkezett."
 

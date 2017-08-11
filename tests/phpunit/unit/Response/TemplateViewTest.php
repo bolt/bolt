@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Response;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Bolt\Response\TemplateView;
 use PHPUnit_Framework_TestCase as TestCase;
 
@@ -26,14 +26,14 @@ class TemplateViewTest extends TestCase
     {
         $view = new TemplateView('', ['foo' => 'bar']);
 
-        $this->assertInstanceOf(Bag::class, $view->getContext());
+        $this->assertInstanceOf(MutableBag::class, $view->getContext());
         $this->assertSame('bar', $view->getContext()->get('foo'));
 
         $view->setContext(['hello' => 'world']);
-        $this->assertInstanceOf(Bag::class, $view->getContext());
+        $this->assertInstanceOf(MutableBag::class, $view->getContext());
         $this->assertEquals(['hello' => 'world'], $view->getContext()->toArray());
 
-        $view->setContext(Bag::from(['foo' => 'bar']));
+        $view->setContext(MutableBag::from(['foo' => 'bar']));
         $this->assertEquals(['foo' => 'bar'], $view->getContext()->toArray());
     }
 

@@ -2,7 +2,7 @@
 
 namespace Bolt\Composer\Script;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Bolt\Helpers\Str;
 use Composer\IO\IOInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -59,7 +59,7 @@ final class BootstrapYamlUpdater
         }
 
         $originalPaths = $contents['paths'];
-        $contents['paths'] = $newPaths = $this->updatePaths(new Bag($originalPaths))->toArray();
+        $contents['paths'] = $newPaths = $this->updatePaths(new MutableBag($originalPaths))->toArray();
 
         if ($originalPaths === $newPaths) {
             return;
@@ -124,11 +124,11 @@ final class BootstrapYamlUpdater
     /**
      * Update paths.
      *
-     * @param Bag $paths
+     * @param MutableBag $paths
      *
-     * @return Bag
+     * @return MutableBag
      */
-    public function updatePaths(Bag $paths)
+    public function updatePaths(MutableBag $paths)
     {
         if ($paths->isEmpty()) {
             return $paths;
