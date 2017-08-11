@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  25 Legacy untranslated messages
+#  20 Legacy untranslated messages
 # 205 Untranslated messages
-#  47 Legacy translation messages
+#  23 Legacy translation messages
 # 345 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -22,15 +22,10 @@
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
-"Html": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Repeater": #
-"Slug": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -277,45 +272,21 @@ panel.latest-activity.system: # "Latest system activity"
 "(none)": "(無)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Body": "主體"
-"Categories": "類別"
-"Category": "類別"
-"Choose an entry": "選擇條目"
 "Content": "內容"
 "Current (saved) status:": "當前(儲存的)狀態:"
-"Date": "日期"
-"Datetime": "日期時間"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
-"File": "檔案"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
-"Filelist": "檔案列表"
-"Floatfield": "Floatfield"
-"Geolocation": "地理位置"
 "Image": "影象"
-"Imagelist": "影象列表"
-"Integerfield": "整數欄位"
-"Multiselect": "多選"
-"Select a page": "選擇一個頁面"
-"Select zero or more pages": "選擇零或多個頁面"
-"Selectentry": "條目選擇"
-"Selectfield": "欄位選擇"
 "Skipped <tt>%key%</tt> (already has records)": "跳過 <tt>%key%</tt> (已有記錄)"
 "Skipped <tt>%key%</tt> (not checked)": "跳過 <tt>%key%</tt> (已檢查)"
-"Tag": "標籤"
-"Tags": "標籤"
-"Teaser": "摘要"
-"Template": "模板"
-"Textarea": "編輯區域"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "無法創建翻譯檔案 '%s'。你需要自行使用編輯器修改檔案。"
-"This is a checkbox": "這是個覈取方塊"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
 "Title": "標題"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。"
-"Video": "視訊"
 "View (saved version) on site": "觀看站點中(儲存的版本)"
 "You've been logged on successfully.": "你已成功登入。"
 

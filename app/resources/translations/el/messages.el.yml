@@ -8,54 +8,31 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  53 Legacy untranslated messages
+#  29 Legacy untranslated messages
 # 367 Untranslated messages
-#  19 Legacy translation messages
+#  14 Legacy translation messages
 # 183 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "(none)": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
-"Body": #
-"Date": #
-"Datetime": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
-"File": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
-"Filelist": # "File list"
 "Finding packages that require this one…": #
-"Floatfield": # "Float field"
-"Geolocation": #
-"Group": #
-"Groups": #
-"Html": #
-"Imagelist": # "Image list"
-"Integerfield": # "Integer field"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Markdown": #
-"Multiselect": # "Multi-select"
-"Repeater": #
-"Selectentry": # "Select entry"
-"Selectfield": # "Select field"
-"Slug": #
-"Tag": #
-"Tags": #
-"Teaser": #
-"Template": #
-"Textarea": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
-"This is a checkbox": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
@@ -66,7 +43,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"Video": #
 "View (saved version) on site": #
 
 #--- Untranslated messages ----------------------------------------------------
@@ -90,7 +66,7 @@ contenttypes.generic.saved-new: # "The new %contenttype% has been saved."
 contenttypes.generic.show-more: # "More %contenttypes%"
 contenttypes.generic.wrong-use-field: # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
-contenttypes.record.comment-add-colon: #
+contenttypes.record.comment-add-colon: # "Add a comment:"
 
 field.general.allowed-filetypes: # "Allowed file types are:"
 field.general.select-from-server: # "Select from server"
@@ -480,16 +456,11 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(no group)": "(χωρίς ομάδα)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
-"Categories": "Κατηγορίες"
-"Category": "Κατηγορία"
-"Choose an entry": "Επιλογή Καταχώρησης"
 "Content": "Περιεχόμενο"
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
 "Image": "Εικόνα"
-"Select a page": "Επιλογή σελίδας"
-"Select zero or more pages": "Επιλεξτε μηδέν ή περισσότερες σελίδες."
 "Skipped <tt>%key%</tt> (already has records)": "Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)"
 "Skipped <tt>%key%</tt> (not checked)": "Παράληψη <tt>%key%</tt> (δεν ελέγθηκε)"
 "Title": "Τίτλος"

@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   6 Legacy untranslated messages
+#   8 Legacy untranslated messages
 #  46 Untranslated messages
-#  66 Legacy translation messages
+#  35 Legacy translation messages
 # 504 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -18,6 +18,8 @@
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Finding packages that require this one…": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
@@ -87,53 +89,23 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
-"Body": "Corpo"
-"Categories": "Categorias"
-"Category": "Categoria"
-"Choose an entry": "Escolha um artigo"
 "Content": "Conteúdo"
 "Current (saved) status:": "Estado atual (guardado):"
-"Date": "Data"
-"Datetime": "Data e hora"
 "Do you really want to delete %FOLDERNAME%?": "Deseja mesmo eliminar %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Erro ao ler o ficheiro extensions/composer.json: %ERROR%"
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"File": "Ficheiro"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"Filelist": "Lista de ficheiros"
-"Floatfield": "Campo flutuante"
-"Geolocation": "Geolocalização"
-"Group": "Grupo"
-"Groups": "Grupos"
-"Html": "HTML"
 "Image": "Imagem"
-"Imagelist": "Lista de imagens"
-"Integerfield": "Campo de números inteiros"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
-"Link": "Hiperligação"
-"Markdown": "Markdown"
-"Multiselect": "Seleção múltipla"
-"Repeater": "Repetidor"
-"Select a page": "Selecionar uma página"
-"Select zero or more pages": "Selecione zero ou mais páginas"
-"Selectentry": "Selecionar artigo"
-"Selectfield": "Selecionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registo)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
-"Slug": "Nome curto"
-"Tag": "Etiqueta"
-"Tags": "Etiquetas"
-"Teaser": "Antevisão"
-"Template": "Tema"
-"Textarea": "Área de texto"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
-"This is a checkbox": "Esta é uma caixa de verificação"
 "Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente ligar-se através do seu cliente de FTP e tornar o ficheiro legível. Caso contrário, tente <a>voltar</a> para a última página."
 "Unable to create directory: %DIR%": "Não é possível criar a pasta: %DIR%"
@@ -143,7 +115,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Unable to duplicate file: %FILE%": "Não foi possível duplicar o ficheiro: %FILE%"
 "Unable to rename directory: %DIR%": "Não é possível renomear a pasta: %DIR%"
 "Unable to rename file: %FILE%": "Não foi possível renomear o ficheiro: %FILE%"
-"Video": "Vídeo"
 "View (saved version) on site": "Visualizar (versão guardada) no sítio"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 

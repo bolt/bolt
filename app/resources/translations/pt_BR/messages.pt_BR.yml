@@ -8,9 +8,9 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  27 Legacy untranslated messages
+#  19 Legacy untranslated messages
 # 240 Untranslated messages
-#  45 Legacy translation messages
+#  24 Legacy translation messages
 # 310 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -21,18 +21,10 @@
 "Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
-"Group": #
-"Groups": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
-"Link": #
-"Repeater": #
-"Selectentry": # "Select entry"
-"Slug": #
-"Tag": #
-"Tags": #
-"Teaser": #
-"Template": #
+"Menu": #
+"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -315,43 +307,22 @@ panel.latest-activity.system: # "Latest system activity"
 "(none)": "(nenhum)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
-"Body": "Corpo"
-"Categories": "Categorias"
-"Category": "Categoria"
-"Choose an entry": "Escolha uma entrada"
 "Content": "Conteúdo"
 "Current (saved) status:": "Status atual (salvo):"
-"Date": "Data"
-"Datetime": "Data e hora"
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"File": "Arquivo"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O arquivo '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"Filelist": "Lista de ficheiros"
-"Floatfield": "Campo flutuante"
-"Geolocation": "Geolocalização"
-"Html": "HTML"
 "Image": "Imagem"
-"Imagelist": "Lista de imagens"
-"Integerfield": "Campo inteiro"
-"Markdown": "Markdown"
-"Multiselect": "Selecionar vários"
-"Select a page": "Selecione uma página"
-"Select zero or more pages": "Selecione zero ou mais páginas"
-"Selectfield": "Selecionar campo"
 "Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "Skipped <tt>%key%</tt> (not checked)": "Ignorado <tt>%key%</tt> (não marcado)"
-"Textarea": "Área de texto"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
-"This is a checkbox": "Este é um checkbox"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este site é <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>Bolt</a>."
 "Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente fazer o login com o seu ftp-client e tornar o arquivo legível. Caso contrário, tente <a>voltar</a> para a última página."
-"Video": "Video"
 "View (saved version) on site": "Visualizar (versão salva) no site"
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
 
