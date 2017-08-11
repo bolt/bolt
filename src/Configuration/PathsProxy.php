@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * Bolt\Configuration\ResourceManager::getPaths() is proxied here, which used to return a simple array.

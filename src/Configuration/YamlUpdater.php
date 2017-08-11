@@ -3,9 +3,9 @@
 namespace Bolt\Configuration;
 
 use Bolt\Collection\MutableBag;
+use Bolt\Common\Deprecated;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\FileInterface;
-use Bolt\Helpers\Deprecated;
 use Silex\Application;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Inline;

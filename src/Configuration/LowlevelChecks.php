@@ -2,8 +2,8 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Common\Deprecated;
 use Bolt\Exception\BootException;
-use Bolt\Helpers\Deprecated;
 
 /**
  * @deprecated Deprecated since 3.1, to be removed in 4.0.

@@ -2,8 +2,8 @@
 
 namespace Bolt\Routing;
 
+use Bolt\Common\Deprecated;
 use Bolt\Extension\ExtensionInterface;
-use Bolt\Helpers\Deprecated;
 use Silex;
 
 /**

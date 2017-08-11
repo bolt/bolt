@@ -3,6 +3,7 @@
 namespace Bolt\Helpers;
 
 use Bolt\Collection;
+use Bolt\Common\Deprecated;
 
 /**
  * @deprecated since 3.3, to be removed in 4.0. Use {@see Bolt\Collection\Arr} instead.

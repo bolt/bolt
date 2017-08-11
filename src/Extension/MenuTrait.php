@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Menu\MenuEntry;
 use Pimple as Container;
 

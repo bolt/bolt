@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration\Check;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Silex\Application;
 
 /**

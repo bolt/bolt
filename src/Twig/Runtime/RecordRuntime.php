@@ -2,10 +2,10 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Deprecated;
 use Bolt\Common\Str;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
-use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Excerpt;
 use Bolt\Pager\PagerManager;
 use Symfony\Component\Finder\Finder;

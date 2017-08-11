@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Mapping;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * Trait for mapping a ContentType 'title' to a column name.

@@ -3,7 +3,7 @@
 namespace Bolt\Controller;
 
 use Bolt\AccessControl\Token\Token;
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Response\TemplateResponse;
 use Bolt\Response\TemplateView;
 use Bolt\Routing\DefaultControllerClassAwareInterface;

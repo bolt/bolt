@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;

@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Repository;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Storage\Entity;
 use Doctrine\DBAL\Query\QueryBuilder;
 
