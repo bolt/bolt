@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Common\Str;
 use Bolt\Exception\FileNotStackableException;
 use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -14,7 +15,6 @@ use Bolt\Form\FormType\FileEditType;
 use Bolt\Form\FormType\FileUploadType;
 use Bolt\Form\Validator\Constraints;
 use Bolt\Helpers\Input;
-use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
+use Webmozart\PathUtil\Path;
 
 /**
  * Backend controller for file/directory management routes.
@@ -330,16 +331,13 @@ class FileManager extends BackendBase
     {
         // Match foo(_local).*(.dist)
         $base = $file->getFilename();
-        if (Str::endsWith($base, '.dist')) {
-            $base = substr($base, 0, -5);
-        }
-        $ext = pathinfo($base, PATHINFO_EXTENSION);
-        $base = Str::replaceLast(".$ext", '', $base);
-        $base = Str::replaceLast('_local', '', $base);
+        $ext = Path::getExtension($base);
+        $base = Path::getFilenameWithoutExtension($base);
+        $base = Str::replaceLast($base, '_local', '');
 
         $dir = $file->getParent();
         $related = [];
-        foreach ([".$ext", "_local.$ext", ".$ext.dist"] as $tail) {
+        foreach ([".$ext", "_local.$ext"] as $tail) {
             $f = $dir->getFile($base . $tail);
             if ($f->getFilename() !== $file->getFilename() && $f->exists()) {
                 $related[] = $f;

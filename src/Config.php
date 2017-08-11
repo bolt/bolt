@@ -703,7 +703,7 @@ class Config
         $options = array_replace($options, $master);
 
         // Add platform specific random functions
-        $driver = Str::replaceFirst('pdo_', '', $options['driver']);
+        $driver = \Bolt\Common\Str::replaceFirst($options['driver'], 'pdo_', '');
         if ($driver === 'sqlite') {
             $options['driver'] = 'pdo_sqlite';
             $options['randomfunction'] = 'RANDOM()';

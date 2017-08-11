@@ -2,11 +2,11 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Str;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Excerpt;
-use Bolt\Helpers\Str;
 use Bolt\Pager\PagerManager;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -214,7 +214,7 @@ class RecordRuntime
         ;
 
         foreach ($finder as $file) {
-            $name = Str::replaceFirst($this->templatesDir->getFullPath(), '', $file->getFullPath());
+            $name = Str::replaceFirst($file->getFullPath(), $this->templatesDir->getFullPath(), '');
             $files[$name] = $name;
         }
 
