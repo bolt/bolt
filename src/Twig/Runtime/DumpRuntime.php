@@ -5,6 +5,7 @@ namespace Bolt\Twig\Runtime;
 use Bolt\Users;
 use Symfony\Component\VarDumper\Cloner\ClonerInterface;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Twig\Environment;
 
 /**
  * Twig Bridge's DumpExtension's runtime logic with custom enabled check.
@@ -41,9 +42,12 @@ class DumpRuntime
     }
 
     /**
-     * @param mixed $context
+     * @param Environment $env
+     * @param mixed       $context
+     *
+     * @return bool|null|string
      */
-    public function dump(\Twig_Environment $env, $context)
+    public function dump(Environment $env, $context)
     {
         if (!$this->isEnabled($env)) {
             return null;
@@ -76,13 +80,13 @@ class DumpRuntime
     /**
      * Output pretty-printed backtrace.
      *
-     * @param \Twig_Environment $env
-     * @param array             $context
-     * @param int               $depth
+     * @param Environment $env
+     * @param array       $context
+     * @param int         $depth
      *
      * @return string|null
      */
-    public function dumpBacktrace(\Twig_Environment $env, $context, $depth)
+    public function dumpBacktrace(Environment $env, $context, $depth)
     {
         if (!$this->isEnabled($env)) {
             return null;
@@ -92,11 +96,11 @@ class DumpRuntime
     }
 
     /**
-     * @param \Twig_Environment $env
+     * @param Environment $env
      *
      * @return bool
      */
-    protected function isEnabled(\Twig_Environment $env)
+    protected function isEnabled(Environment $env)
     {
         return $env->isDebug() && ($this->debugShowLoggedoff || $this->users->getCurrentUser() !== null);
     }
