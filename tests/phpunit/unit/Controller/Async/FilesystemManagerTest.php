@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Common\Json;
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -256,7 +257,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $response = $this->controller()->filesAutoComplete($this->getRequest());
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertCount($count * count($extensions), json_decode($response->getContent()));
+        $this->assertCount($count * count($extensions), Json::parse($response->getContent()));
 
         // Filtering by one extension should return only $count files
         $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
@@ -265,7 +266,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
 
         $response = $this->controller()->filesAutoComplete($this->getRequest());
-        $this->assertCount($count, json_decode($response->getContent()));
+        $this->assertCount($count, Json::parse($response->getContent()));
     }
 
     public function testFileBrowser()

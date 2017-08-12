@@ -2,6 +2,8 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Exception\ParseException;
+use Bolt\Common\Json;
 use Bolt\Helpers\Str;
 use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
@@ -36,11 +38,15 @@ class TextRuntime
      *
      * @param string $string The string to decode.
      *
-     * @return array The JSON decoded array
+     * @return array|null The JSON decoded array
      */
     public function jsonDecode($string)
     {
-        return json_decode($string, true);
+        try {
+            return Json::parse($string);
+        } catch (ParseException $e) {
+            return null;
+        }
     }
 
     /**
@@ -138,12 +144,6 @@ class TextRuntime
      */
     public function testJson($string)
     {
-        if (is_scalar($string) || is_callable([$string, '__toString'])) {
-            json_decode((string) $string, true);
-
-            return json_last_error() === JSON_ERROR_NONE;
-        }
-
-        return false;
+        return Json::test($string);
     }
 }

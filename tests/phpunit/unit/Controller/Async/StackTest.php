@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Common\Json;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
 use Bolt\Response\TemplateView;
@@ -38,7 +39,7 @@ class StackTest extends ControllerUnitTest
 
         $response = $this->controller()->add($request);
         $this->assertTrue($response instanceof JsonResponse);
-        $json = json_decode($response->getContent(), true);
+        $json = Json::parse($response->getContent());
 
         $this->assertNull($json['removed']);
         $this->assertContains('<div class="stackitem', $json['panel']);

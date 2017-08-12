@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Common\Deprecated;
+use Bolt\Common\Json;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\FieldInterface;
@@ -248,17 +249,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      */
     protected function isJson($value)
     {
-        if (!is_string($value)) {
-            return false;
-        }
+        Deprecated::method(3.4, '\Bolt\Common\Json::test');
 
-        // This handles an inconsistency in the result from the JSON parser across 5.x and 7.x of PHP
-        if ($value === '') {
-            return false;
-        }
-
-        json_decode($value);
-
-        return json_last_error() === JSON_ERROR_NONE;
+        return Json::test($value);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Composer;
 
+use Bolt\Common\Json;
 use Bolt\Composer\Package;
 use Bolt\Composer\PackageCollection;
 use PHPUnit\Framework\TestCase;
@@ -46,12 +47,12 @@ class PackageCollectionTest extends TestCase
     public function testJsonSerialize()
     {
         $input = ['name' => 'bolt/test', 'type' => 'bolt/extension'];
-        $expected = '{"bolt\/test":{"status":null,"type":"bolt\/extension","name":"bolt\/test","title":null,"description":"","version":"local","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"0.0.0","valid":false,"enabled":false}}';
+        $expected = '{"bolt/test":{"status":null,"type":"bolt/extension","name":"bolt/test","title":null,"description":"","version":"local","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"0.0.0","valid":false,"enabled":false}}';
         $package = Package::createFromComposerJson($input);
 
         $collection = new PackageCollection();
         $collection->add($package);
 
-        $this->assertSame($expected, json_encode($collection));
+        $this->assertSame($expected, Json::dump($collection));
     }
 }

@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Common\Deprecated;
+use Bolt\Common\Json;
 use Bolt\Legacy\AppSingleton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -185,14 +186,10 @@ class Library
     public static function smartUnserialize($str, $assoc = true)
     {
         if ($str[0] === '{' || $str[0] === '[') {
-            $data = json_decode($str, $assoc);
-            if ($data !== false) {
-                return $data;
-            }
-        } else {
-            $data = unserialize($str);
-
-            return $data;
+            return Json::parse($str, $assoc);
         }
+        $data = unserialize($str);
+
+        return $data;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\UsersRepository;
 use Symfony\Component\Console\Input\InputArgument;
@@ -79,7 +80,7 @@ class UserManage extends BaseCommand
                     $userEntity->getEmail(),
                     $userEntity->getDisplayname(),
                     implode(', ', $roles),
-                    json_encode($userEntity->getEnabled()),
+                    Json::dump($userEntity->getEnabled()),
                 ],
             ];
             $this->io->table($headers, $rows);
