@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   9 Legacy untranslated messages
 # 184 Untranslated messages
-#  36 Legacy translation messages
-# 367 Translation messages
+#  35 Legacy translation messages
+# 368 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -243,7 +243,6 @@ panel.latest-activity.by: # "by"
 "(none)": "(отсутствует)"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
-"Content": "Контент"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
 "Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
@@ -383,6 +382,7 @@ general.phrase.confirm-remove-files: "Вы действительно хотит
 general.phrase.confirm-remove-image: "Вы действительно хотите удалить это изображение?"
 general.phrase.confirm-remove-images: "Вы действительно хотите удалить эти изображения?"
 general.phrase.confirm-remove-record: "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
+general.phrase.content: "Контент"
 general.phrase.content-type-permissions: "Разрешения для сущности"
 general.phrase.content-types: "Сущности"
 general.phrase.create-user-first: "Создание первого пользователя"

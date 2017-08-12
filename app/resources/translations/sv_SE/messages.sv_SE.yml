@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  12 Legacy untranslated messages
 #  72 Untranslated messages
-#  33 Legacy translation messages
-# 479 Translation messages
+#  32 Legacy translation messages
+# 480 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -125,7 +125,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ett fel inträffade under uppdateringen av '%TABLE%'. Felet är %ERROR%"
-"Content": "Innehåll"
 "Current (saved) status:": "Nuvarande (sparad) status:"
 "Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
 "Everybody": "Alla"
@@ -282,6 +281,7 @@ general.phrase.confirm-remove-files: "Är du säker du vill ta bort dessa filer?
 general.phrase.confirm-remove-image: "Är du säker på att du vill ta bort denna bild?"
 general.phrase.confirm-remove-images: "Är du säker du vill ta bort dessa bilder?"
 general.phrase.confirm-remove-record: "Är du säker du vill ta bort detta inlägg? Det går inte att ångra."
+general.phrase.content: "Innehåll"
 general.phrase.content-type-permissions: "Innehållsrättigheter"
 general.phrase.content-types: "Innehållstyper"
 general.phrase.create-user-first: "Skapa första användaren"

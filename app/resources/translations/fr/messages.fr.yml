@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   7 Legacy untranslated messages
 #  26 Untranslated messages
-#  38 Legacy translation messages
-# 525 Translation messages
+#  37 Legacy translation messages
+# 526 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -71,7 +71,6 @@ page.extend.options: # "Extension Options"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Ajouter des enregistrements de démonstration</a>"
 "Added to <tt>%key%</tt> '%title%'": "Contenu '%title%' ajouté à <tt>%key%</tt>"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Une erreur s'est produite lors de la mise à jour de `%TABLE%`. L'erreur est %ERROR%"
-"Content": "Contenu"
 "Current (saved) status:": "Statut courant"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "La version détectée de Bolt est modifiée en <b>%VERSION%</b>, et le cache a été effacé. Veuillez <a href=\"%URI%\">vérifier la base de données</a>, si vous ne l'avez déjà fait."
 "Do you really want to delete %FOLDERNAME%?": "Etes-vous certain de vouloir supprimer le répertoire %FOLDERNAME% ?"
@@ -239,6 +238,7 @@ general.phrase.confirm-remove-files: "Etes-vous certain de vouloir retirer ces f
 general.phrase.confirm-remove-image: "Etes-vous certain de vouloir retirer cette image ?"
 general.phrase.confirm-remove-images: "Etes-vous certain de vouloir retirer ces images ?"
 general.phrase.confirm-remove-record: "Etes-vous certain de vouloir supprimer cet enregistrement ? Cette action est irréversible."
+general.phrase.content: "Contenu"
 general.phrase.content-type-permissions: "Droits par types de contenu"
 general.phrase.content-types: "Types de contenu"
 general.phrase.create-user-first: "Créer l'utilisateur initial"

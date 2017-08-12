@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  11 Legacy untranslated messages
 #  59 Untranslated messages
-#  34 Legacy translation messages
-# 492 Translation messages
+#  33 Legacy translation messages
+# 493 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -109,7 +109,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
-"Content": "Conteúdo"
 "Current (saved) status:": "Estado atual (guardado):"
 "Do you really want to delete %FOLDERNAME%?": "Deseja mesmo eliminar %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Erro ao ler o ficheiro extensions/composer.json: %ERROR%"
@@ -273,6 +272,7 @@ general.phrase.confirm-remove-files: "Tem a certeza que deseja eliminar estes fi
 general.phrase.confirm-remove-image: "Tem a certeza que deseja eliminar esta imagem?"
 general.phrase.confirm-remove-images: "Tem a certeza que quer eliminar estas imagens?"
 general.phrase.confirm-remove-record: "Tem a certeza que deseja eliminar este registo? Não será possível reverter."
+general.phrase.content: "Conteúdo"
 general.phrase.content-type-permissions: "Permissões de tipos de conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 general.phrase.create-user-first: "Criar o primeiro utilizador"

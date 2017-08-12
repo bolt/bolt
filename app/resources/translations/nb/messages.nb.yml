@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  28 Legacy untranslated messages
 # 373 Untranslated messages
-#  17 Legacy translation messages
-# 178 Translation messages
+#  16 Legacy translation messages
+# 179 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -459,7 +459,6 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "(ingen gruppe)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Content": "Innhold"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
 "Image": "Bilde"
@@ -519,6 +518,7 @@ general.phrase.clear-cache-again: "Tøm mellomlager igjen"
 general.phrase.clear-filter-sort: "Tøm sortering/filter"
 general.phrase.code-colon: "Kode:"
 general.phrase.configuration: "Oppsett"
+general.phrase.content: "Innhold"
 general.phrase.content-type-permissions: "Rettigheter etter innholdstype"
 general.phrase.content-types: "Innholdstyper"
 general.phrase.create-user-first: "Lag den første brukeren"

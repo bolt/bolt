@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  18 Legacy untranslated messages
 # 167 Untranslated messages
-#  27 Legacy translation messages
-# 384 Translation messages
+#  26 Legacy translation messages
+# 385 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -232,7 +232,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Dodaj trochę przykładowych <a href='%url%' class='btn btn-default'>wpisów z tekstem Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Dodano do <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Wystąpił błąd podczas aktualizowania `%TABLE%`. Błąd %ERROR%"
-"Content": "Zawartość"
 "Current (saved) status:": "Aktualny (zapisany) status:"
 "Do you really want to delete %FOLDERNAME%?": "Czy naprawdę chcesz usunąć %FOLDERNAME%?"
 "Everybody": "Wszyscy"
@@ -371,6 +370,7 @@ general.phrase.confirm-remove-files: "Czy na pewno chcesz usunąć te pliki?"
 general.phrase.confirm-remove-image: "Czy na pewno chcesz usunąć ten obraz?"
 general.phrase.confirm-remove-images: "Czy na pewno chcesz usunąć te obrazy?"
 general.phrase.confirm-remove-record: "Czy na pewno chcesz usunąć ten rekord? Operacja jest nieodwracalna."
+general.phrase.content: "Zawartość"
 general.phrase.content-type-permissions: "Uprawnienia do Typu zawartości"
 general.phrase.content-types: "Typy zawartości"
 general.phrase.create-user-first: "Utwórz pierwszego użytkownika"

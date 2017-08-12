@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   3 Legacy untranslated messages
 #  13 Untranslated messages
-#  42 Legacy translation messages
-# 538 Translation messages
+#  41 Legacy translation messages
+# 539 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -48,7 +48,6 @@ page.edit-users.error.password-long: # "This value is too long. It should have 1
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Er is een fout opgetreden tijdens het bijwerken van de '%TABLE%'. De fout is %ERROR%"
-"Content": "Content"
 "Current (saved) status:": "Huidige (opgeslagen) status"
 "Dependencies": "Afhankelijkheden"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Bolt versie <b>%VERSION%</b> gedetecteerd en de cache is gewist. <a href=\\\"%URI%\\\">Controleer de database</a>, als je dat nog niet gedaan hebt.\""
@@ -225,6 +224,7 @@ general.phrase.confirm-remove-files: "Weet je zeker dat je deze bestanden wil ve
 general.phrase.confirm-remove-image: "Weet je zeker dat je deze afbeelding wil verwijderen?"
 general.phrase.confirm-remove-images: "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
 general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wil verwijderen? Dit kan je niet ongedaan maken."
+general.phrase.content: "Content"
 general.phrase.content-type-permissions: "Content type permissies"
 general.phrase.content-types: "Contenttypen"
 general.phrase.create-user-first: "Maak de eerste gebruiker aan"
