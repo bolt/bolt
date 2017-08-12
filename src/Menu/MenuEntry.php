@@ -2,6 +2,8 @@
 
 namespace Bolt\Menu;
 
+use Bolt\Common\Serialization;
+use Serializable;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class MenuEntry
+class MenuEntry implements Serializable
 {
     /** @var MenuEntry|null */
     protected $parent;
@@ -236,5 +238,37 @@ class MenuEntry
     public function children()
     {
         return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return Serialization::dump([
+            'parent'     => $this->parent,
+            'children'   => $this->children,
+            'name'       => $this->name,
+            'label'      => $this->label,
+            'icon'       => $this->icon,
+            'permission' => $this->getPermission(),
+            'uri'        => $this->getUri(),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = Serialization::parse($serialized);
+
+        $this->parent = $data['parent'];
+        $this->children = $data['children'];
+        $this->name = $data['name'];
+        $this->label = $data['label'];
+        $this->icon = $data['icon'];
+        $this->permission = $data['permission'];
+        $this->uri = $data['uri'];
     }
 }
