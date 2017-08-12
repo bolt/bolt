@@ -2,6 +2,8 @@
 
 namespace Bolt\Asset\Snippet;
 
+use Bolt\Common\Exception\DumpException;
+use Bolt\Common\Serialization;
 use Bolt\Controller\Zone;
 use Twig\Markup;
 
@@ -150,8 +152,8 @@ class Snippet implements SnippetAssetInterface
         }
 
         try {
-            $msg = sprintf('Snippet loading failed with callable %s', serialize($this->callback));
-        } catch (\Exception $e) {
+            $msg = sprintf('Snippet loading failed with callable %s', Serialization::dump($this->callback));
+        } catch (DumpException $e) {
             $msg = sprintf('Snippet loading failed with an unknown callback.');
         }
 
