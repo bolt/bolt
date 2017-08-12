@@ -35,7 +35,7 @@
         "jdorn/sql-formatter": "^1.2",
         "monolog/monolog": "^1.21",
         "nesbot/carbon": "^1.21",
-        "php": "^7.0",
+        "php": "^7.0.8",
         "silex/silex": "^2.2",
         "silex/web-profiler": "^2.0",
         "siriusphp/upload": "^1.3",

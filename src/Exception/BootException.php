@@ -90,7 +90,7 @@ EOM;
     public static function earlyExceptionVersion()
     {
         $message = <<<EOM
-Bolt requires PHP <u>7.0.0</u>, or higher. 
+Bolt requires PHP <u>7.0.8</u>, or higher. 
 <br><br>
 You are running PHP <u>%s</u>, so Bolt will not run on your current setup.
 EOM;
