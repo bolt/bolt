@@ -69,6 +69,17 @@ class MenuEntry
     }
 
     /**
+     * @param string $name
+     * @param string $uri
+     *
+     * @return MenuEntry
+     */
+    public static function create($name, $uri = '')
+    {
+        return new static($name, $uri);
+    }
+
+    /**
      * Set the uri to be generated with given route name and params.
      *
      * @param string $routeName
