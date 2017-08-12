@@ -4,7 +4,7 @@
  */
 use Bolt\Exception\BootException;
 
-if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+if (version_compare(PHP_VERSION, '7.0.8', '<')) {
     require dirname(__DIR__) . '/src/Exception/BootException.php';
 
     BootException::earlyExceptionVersion();
