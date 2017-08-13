@@ -53,6 +53,9 @@ class MenuServiceProvider implements ServiceProviderInterface
                 $builder = new Builder\AdminContent($contentTypes);
                 $builder->build($rootEntry);
 
+                $resolver = new Resolver\RecentlyEdited($app['storage'], $app['markdown']);
+                $resolver->resolve($rootEntry, $contentTypes);
+
                 $resolver = new Resolver\Access($app['permissions']);
                 $resolver->resolve($rootEntry, $user);
 
