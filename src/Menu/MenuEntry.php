@@ -227,7 +227,11 @@ class MenuEntry implements Serializable
      */
     public function get($name)
     {
-        return $this->children[$name];
+        if (isset($this->children[$name])) {
+            return $this->children[$name];
+        }
+
+        throw new \InvalidArgumentException(sprintf('Menu entry %s does not have a child named "%s"', $this->name, $name));
     }
 
     /**
