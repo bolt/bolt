@@ -10,6 +10,7 @@ use Bolt\Menu\MenuEntry;
 use Bolt\Menu\Resolver;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
@@ -46,18 +47,33 @@ class MenuServiceProvider implements ServiceProviderInterface
                 }
                 $user = $token->getUser();
 
+                /** @var Stopwatch $watch */
+                $watch = $app['stopwatch'];
+
+                // ~ 1 ms
+                $watch->start('menu.build.admin');
                 $builder = new Builder\AdminMenu();
                 $builder->build($rootEntry);
+                $watch->stop('menu.build.admin');
 
+                // ~ 2 ms
+                $watch->start('menu.build.admin_content');
                 $contentTypes = Bag::fromRecursive($app['config']->get('contenttypes'));
                 $builder = new Builder\AdminContent($contentTypes);
                 $builder->build($rootEntry);
+                $watch->stop('menu.build.admin_content');
 
+                // ~ 100 ms
+                $watch->start('menu.resolve.recent');
                 $resolver = new Resolver\RecentlyEdited($app['storage'], $app['markdown']);
                 $resolver->resolve($rootEntry, $contentTypes);
+                $watch->stop('menu.resolve.recent');
 
+                // ~ 20 ms
+                $watch->start('menu.resolve.access');
                 $resolver = new Resolver\Access($app['permissions']);
                 $resolver->resolve($rootEntry, $user);
+                $watch->stop('menu.resolve.access');
 
                 return $rootEntry;
             }
