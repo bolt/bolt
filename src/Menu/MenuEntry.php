@@ -235,6 +235,28 @@ class MenuEntry implements Serializable
     }
 
     /**
+     * Returns true if the child is defined.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function has($name)
+    {
+        return isset($this->children[$name]);
+    }
+
+    /**
+     * Remove a menu entry's named child.
+     *
+     * @param string $name
+     */
+    public function remove($name)
+    {
+        unset($this->children[$name]);
+    }
+
+    /**
      * Return the menu entry's children.
      *
      * @return MenuEntry[]
