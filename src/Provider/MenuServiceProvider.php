@@ -2,10 +2,12 @@
 
 namespace Bolt\Provider;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Collection\Bag;
 use Bolt\Menu\Builder;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
+use Bolt\Menu\Resolver;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -38,6 +40,11 @@ class MenuServiceProvider implements ServiceProviderInterface
                 $baseUrl .= '/' . trim($app['controller.backend.mount_prefix'], '/');
 
                 $rootEntry = MenuEntry::createRoot($app['url_generator'], $baseUrl);
+                $token = $app['session']->get('authentication');
+                if (!$token instanceof Token) {
+                    return $rootEntry;
+                }
+                $user = $token->getUser();
 
                 $builder = new Builder\AdminMenu();
                 $builder->build($rootEntry);
@@ -45,6 +52,9 @@ class MenuServiceProvider implements ServiceProviderInterface
                 $contentTypes = Bag::fromRecursive($app['config']->get('contenttypes'));
                 $builder = new Builder\AdminContent($contentTypes);
                 $builder->build($rootEntry);
+
+                $resolver = new Resolver\Access($app['permissions']);
+                $resolver->resolve($rootEntry, $user);
 
                 return $rootEntry;
             }
