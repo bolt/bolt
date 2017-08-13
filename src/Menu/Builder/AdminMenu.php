@@ -1,7 +1,8 @@
 <?php
 
-namespace Bolt\Menu;
+namespace Bolt\Menu\Builder;
 
+use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 
 /**
@@ -12,7 +13,7 @@ use Bolt\Translation\Translator as Trans;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-final class AdminMenuBuilder
+final class AdminMenu
 {
     /**
      * Build the menus.

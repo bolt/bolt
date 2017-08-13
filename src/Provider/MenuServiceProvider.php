@@ -4,7 +4,6 @@ namespace Bolt\Provider;
 
 use Bolt\Collection\Bag;
 use Bolt\Menu\Builder;
-use Bolt\Menu\AdminMenuBuilder;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
 use Silex\Application;
@@ -40,7 +39,7 @@ class MenuServiceProvider implements ServiceProviderInterface
 
                 $rootEntry = MenuEntry::createRoot($app['url_generator'], $baseUrl);
 
-                $builder = new AdminMenuBuilder();
+                $builder = new Builder\AdminMenu();
                 $builder->build($rootEntry);
 
                 $contentTypes = Bag::fromRecursive($app['config']->get('contenttypes'));
