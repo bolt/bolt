@@ -2,7 +2,11 @@
 
 namespace Bolt\Tests\Extension;
 
+use Bolt\AccessControl\Permissions;
+use Bolt\AccessControl\Token\Token;
 use Bolt\Menu\MenuEntry;
+use Bolt\Storage\Entity\Authtoken;
+use Bolt\Storage\Entity\Users;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\MenuExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
@@ -17,6 +21,7 @@ class MenuTraitTest extends BoltUnitTest
     public function testEmptyMenus()
     {
         $app = $this->getApp();
+
         $ext = new NormalExtension();
         $baseDir = $app['filesystem']->getDir('extensions://local/bolt/menu');
         $ext->setBaseDirectory($baseDir);
@@ -54,5 +59,25 @@ class MenuTraitTest extends BoltUnitTest
         $this->assertSame('/bolt/extensions/look-up-live', $children['Drop Bear']->getUri());
         $this->assertSame('fa-thumbs-o-down', $children['Drop Bear']->getIcon());
         $this->assertSame('dangerous', $children['Drop Bear']->getPermission());
+    }
+
+    protected function getApp($boot = true)
+    {
+        $app = parent::getApp();
+        $token = new Token(New Users([]), new Authtoken([]));
+        $app['session']->set('authentication', $token);
+        $permissions = $this->getMockBuilder(Permissions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['isAllowed'])
+            ->getMock()
+        ;
+        $permissions
+            ->expects($this->any())
+            ->method('isAllowed')
+            ->willReturn(true)
+        ;
+        $app['permissions'] = $permissions;
+
+        return $app;
     }
 }
