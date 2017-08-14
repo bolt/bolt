@@ -2,13 +2,10 @@
 
 {% form_theme context.form 'form_bolt_layout.twig' _self %}
 
-{%- block button_icon %}
-    <i class="fa fa-fw fa-upload"> </i>
-{% endblock button_icon -%}
-<br>
+{% block button_icon %}<i class="fa fa-fw fa-upload hidden"></i> {% endblock button_icon %}
+
 {{ form_start(context.form) }}
     <fieldset>
-        <p><strong>{{ __('general.phrase.upload-file-to-directory') }}</strong> {{ macro.typepopover() }}</p>
         {{ form_widget(context.form.FileUpload) }}
         <div>
             {{ form_widget(context.form.upload) }}
