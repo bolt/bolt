@@ -64,7 +64,7 @@ class MenuEntry implements Serializable
      * @param string $name
      * @param string $uri
      */
-    public function __construct($name, $uri = '')
+    public function __construct($name, $uri = null)
     {
         $this->name = $name;
         $this->uri = $uri;
@@ -76,7 +76,7 @@ class MenuEntry implements Serializable
      *
      * @return MenuEntry
      */
-    public static function create($name, $uri = '')
+    public static function create($name, $uri = null)
     {
         return new static($name, $uri);
     }
@@ -127,7 +127,7 @@ class MenuEntry implements Serializable
             return $this->uri;
         }
 
-        return $this->parent->getUri() . '/' . $this->uri;
+        return $this->uri ? $this->parent->getUri() . '/' . $this->uri : $this->uri;
     }
 
     /**
