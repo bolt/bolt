@@ -96,7 +96,13 @@
     function addEventListeners() {
 
         // Input event
-        document.getElementById("file-manager-search").addEventListener("keyup", searchFiles);
+        document.getElementById('file-manager-search').addEventListener('keyup', searchFiles);
+
+        // Select file
+        $('#file_upload_select').addClass('btn-secondary').bootstrapFileInput();
+        document.getElementById('file_upload_select').addEventListener('change', function () {
+            document.getElementById('file_upload_upload').removeAttribute('disabled');
+        });
 
         // Lazy load images
         window.addEventListener('load', lazyLoadImages);
@@ -150,7 +156,7 @@
             uploadMultiple: 'true',
             enqueueForUpload: 'true',
             hiddenInputContainer: '.form-horizontal',
-            paramName: 'file_upload[FileUpload]',
+            paramName: 'file_upload[select]',
             clickable: false,
             autoProcessQueue: true,
             params: {

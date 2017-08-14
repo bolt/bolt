@@ -5,23 +5,10 @@
 {% block button_icon %}<i class="fa fa-fw fa-upload hidden"></i> {% endblock button_icon %}
 
 {{ form_start(context.form) }}
-    <fieldset>
-        {{ form_widget(context.form.FileUpload) }}
-        <div>
-            {{ form_widget(context.form.upload) }}
-        </div>
-    </fieldset>
+<fieldset>
+    {{ form_widget(context.form.select) }}
+    <div>
+        {{ form_widget(context.form.upload) }}
+    </div>
+</fieldset>
 {{ form_end(context.form) }}
-
-<script>
-    $(function() {
-        $('input[type=file]').addClass('btn-secondary').bootstrapFileInput();
-        $('input:file').change(
-            function(){
-                if ($(this).val()) {
-                    $('button:submit').removeAttr('disabled');
-                }
-            }
-        );
-    });
-</script>

@@ -237,7 +237,7 @@ class FileManager extends BackendBase
         }
 
         /** @var UploadedFile[] $files */
-        $files = $form->getData()['FileUpload'];
+        $files = $form->get('select')->getData();
         $permissions = $this->app['filepermissions'];
 
         foreach ($files as $fileToProcess) {
