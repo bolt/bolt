@@ -89,6 +89,8 @@
     },
     buid: buid(),
     uploadConfig: {
+        url: path('files'),
+        acceptFilesTypes: app.config.get('general/accept_file_types'),
         maxSize: app['filepermissions'].getMaxUploadSize(),
         maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
     },

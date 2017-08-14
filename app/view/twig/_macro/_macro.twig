@@ -77,7 +77,7 @@
 {% macro typepopover(types) %}
     {% set types = types|default(config.get('general/accept_file_types')) %}
     {% set text = __("field.general.allowed-filetypes") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
-    <span class="label label-default info-pop" data-title="" data-html="true" data-content="{{ text }}">
+    <span class="label label-default info-pop" data-title="" data-placement="left"  data-html="true" data-content="{{ text }}">
         <i class="fa fa-info-circle"></i>
         {{ __('general.phrase.types') }}
     </span>
