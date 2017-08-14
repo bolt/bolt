@@ -1,18 +1,9 @@
 {% import '@bolt/_nav/_macros.twig' as nav %}
+{% spaceless %}
+    {% set menu = menus.get('translations') %}
+    {% set sub = [] %}
 
-{% set tr_menu = app['menu.admin'].get('translations') %}
-{% set sub = [
-    {
-        icon: tr_menu.get('tr_messages').icon,
-        label: tr_menu.get('tr_messages').label,
-        link: tr_menu.get('tr_messages').uri,
-        isallowed: tr_menu.get('tr_messages').permission
-    }, {
-        icon: tr_menu.get('tr_long_messages').icon,
-        label: tr_menu.get('tr_long_messages').label,
-        link: tr_menu.get('tr_long_messages').uri,
-        isallowed: tr_menu.get('tr_long_messages').permission
-    }
-] %}
-
+    {% if menu.has('tr_messages') %}{% set sub = sub|merge([menu.get('tr_messages')]) %}{% endif %}
+    {% if menu.has('tr_long_messages') %}{% set sub = sub|merge([menu.get('tr_long_messages')]) %}{% endif %}
+{% endspaceless %}
 {{ nav.submenu('fa:flag', __('general.phrase.translations'), sub, (page_nav == 'Settings/Translations')) }}

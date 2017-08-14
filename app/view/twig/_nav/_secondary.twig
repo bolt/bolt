@@ -1,10 +1,17 @@
 {% import '@bolt/_nav/_macros.twig' as nav %}
 
 <ul class="nav">
-    {% if app.session.get('authentication') is not null %}
+    {% if app.session.has('authentication') %}
+        {% set menus = app['menu.admin'] %}
 
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
-        {{ include('@bolt/_nav/_secondary-search.twig') }}
+        <li class="search">
+            <form class="navbar-form">
+                <i class="icon fa fa-search"></i><div class="form-group has-feedback omnisearch" role="search">
+                    <select class="form-control" data-omnisearch-url="{{ path('omnisearch') }}"></select>
+                </div>
+            </form>
+        </li>
 
         {# Dashboard #}
         {{ nav.link('fa:dashboard', __('general.phrase.dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
@@ -19,33 +26,16 @@
         {{ include('@bolt/_nav/_secondary-content.twig') }}
 
         {# Settings #}
-        {% if isallowed('settings') %}
-            {% set nav_config %}{{ include('@bolt/_nav/_secondary-configuration.twig') }}{% endset %}
-            {% set nav_files %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endset %}
-            {% set nav_trans %}{{ include('@bolt/_nav/_secondary-translations.twig') }}{% endset %}
-            {# Link to Extend Bolt #}
-            {% if app['menu.admin'].get('extensions').children or isallowed('extensions||extensions:config') %}
-                {% set nav_extend %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endset %}
-            {% else %}
-                {% set nav_extend = '' %}
-            {% endif %}
-
-            {% if nav_config|trim or nav_files|trim or nav_trans|trim or nav_extend|trim %}
-                {{ nav.heading(__('general.phrase.settings'), 'fa:wrench') }}
-
-                {{ nav_config }}
-                {{ nav_files }}
-                {{ nav_trans }}
-                {{ nav_extend }}
-            {% endif %}
-
+        {% if menus.has('config') or menus.has('files') or menus.has('translations') or menus.has('extensions') %}
+            {{ nav.heading(__('general.phrase.settings'), 'fa:wrench') }}
         {% endif %}
-
+        {% if menus.has('config') %}{{ include('@bolt/_nav/_secondary-configuration.twig') }}{% endif %}
+        {% if menus.has('files') %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endif %}
+        {% if menus.has('translations') %}{{ include('@bolt/_nav/_secondary-translations.twig') }}{% endif %}
+        {% if menus.has('extensions') %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endif %}
 
         {{ nav.collapse() }}
-
     {% else %}
-
         {# View site #}
         <li>
             <a href="{{ path('homepage') }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('general.phrase.view-site') }}</a>
