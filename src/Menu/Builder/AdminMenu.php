@@ -41,7 +41,7 @@ final class AdminMenu
     {
         // Main configuration
         $configEntry = $root->add(
-            MenuEntry::create('config', 'config')
+            MenuEntry::create('config')
                 ->setLabel(Trans::__('general.phrase.configuration'))
                 ->setIcon('fa:cogs')
                 ->setPermission('settings')
@@ -62,7 +62,7 @@ final class AdminMenu
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'config.yml'])
                 ->setLabel(Trans::__('general.phrase.configuration-main'))
                 ->setIcon('fa:cog')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // ContentTypes
@@ -71,7 +71,7 @@ final class AdminMenu
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml'])
                 ->setLabel(Trans::__('general.phrase.content-types'))
                 ->setIcon('fa:paint-brush')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Taxonomy
@@ -80,7 +80,7 @@ final class AdminMenu
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml'])
                 ->setLabel(Trans::__('general.phrase.taxonomy'))
                 ->setIcon('fa:tags')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Menus
@@ -89,7 +89,7 @@ final class AdminMenu
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'menu.yml'])
                 ->setLabel(Trans::__('general.phrase.menu-setup'))
                 ->setIcon('fa:list')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Routing
@@ -98,7 +98,7 @@ final class AdminMenu
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'routing.yml'])
                 ->setLabel(Trans::__('menu.configuration.routing'))
                 ->setIcon('fa:random')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Database checks
@@ -155,10 +155,10 @@ final class AdminMenu
     private function addFileManagement(MenuEntry $root)
     {
         $fileEntry = $root->add(
-            MenuEntry::create('files', 'files')
-                ->setLabel(Trans::__('general.phrase.extensions'))
+            MenuEntry::create('files')
+                ->setLabel(Trans::__('general.phrase.file-management'))
                 ->setIcon('fa:cubes')
-                ->setPermission('extensions')
+                ->setPermission('files')
         );
 
         // Uploaded files
@@ -188,7 +188,7 @@ final class AdminMenu
     private function addTranslations(MenuEntry $root)
     {
         $translationEntry = $root->add(
-            MenuEntry::create('translations', 'tr')
+            MenuEntry::create('translations')
                 ->setLabel(Trans::__('general.phrase.translations'))
                 ->setPermission('translation')
         );
@@ -220,7 +220,8 @@ final class AdminMenu
     private function addExtend(MenuEntry $root)
     {
         $root->add(
-            MenuEntry::create('extensions', 'extensions')
+            MenuEntry::create('extensions')
+                ->setRoute('extensions')
                 ->setLabel(Trans::__('general.phrase.extensions-overview'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
