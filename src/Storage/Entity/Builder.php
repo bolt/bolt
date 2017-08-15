@@ -196,6 +196,7 @@ class Builder
      * @param mixed       $value
      * @param string      $field
      * @param string|null $subField
+     * @param string|null $block
      *
      * @return FieldValue|bool
      */
