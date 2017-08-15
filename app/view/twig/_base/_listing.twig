@@ -146,6 +146,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
 
     {### BLOCK: CONTENT ###}
     {% block listing_content %}
+
         {# COLUMN: Content #}
         <td class="excerpt {% if prop.extended %}large{% endif %}">
             {% set title = content.getTitle(true)|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>") %}
@@ -160,6 +161,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {{ title|raw }}
                     {% endif %}
                 </strong>
+
                 {{ content|excerpt(excerptlength - title|length, false, filter|default()) }}
             </span>
         </td>
@@ -189,8 +191,10 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {# COLUMN: Meta #}
             <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
-                {% if content.user.displayname is defined %}
-                {{ content.user.displayname|excerpt(15) }}
+                {% set owner = app.users.user(content.ownerid) %}
+
+                {% if owner %}
+                    {{ owner.displayname|excerpt(15) }}
             {% else %}
                 <s>{{ content.ownerid|excerpt(15) }}</s>
                 {% endif %}<br>
