@@ -65,6 +65,7 @@ class Excerpt
                 'status',
                 'taxonomy',
                 'templatefields',
+                'sortorder',
             ];
 
             $excerpt = '';
