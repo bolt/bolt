@@ -8,7 +8,7 @@ namespace Bolt\Configuration;
  *
  * @deprecated since 3.3, will be removed in 4.0.
  *
- * @@author Carson Full <carsonfull@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 class PathResolverFactory
 {

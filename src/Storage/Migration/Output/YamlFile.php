@@ -41,9 +41,7 @@ class YamlFile implements OutputFileInterface
     }
 
     /**
-     * @see \Bolt\Storage\Migration\File\MigrationFileInterface::addRecord()
-     *
-     * @param mixed $last
+     * {@inheritdoc}
      */
     public function addRecord(array $data, $last)
     {
