@@ -38,7 +38,7 @@ class YamlFile implements InputFileInterface
     }
 
     /**
-     * @see \Bolt\Storage\Migration\Input\InputFileInterface::readFile()
+     * {@inheritdoc}
      */
     public function readFile()
     {
