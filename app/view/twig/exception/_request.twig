@@ -5,12 +5,12 @@
             {% if v is iterable %}
                 <em>(object / array)</em>
             {% else %}
-                {{ v|excerpt(200)|default('<em>(empty)</em>')|raw }}
+                {{ v|slice(0, 200)|default('<em>(empty)</em>')|raw }}
             {% endif %}
             {% if not loop.last %}<br>{% endif %}
         {% endfor %}
     {% else %}
-        {{ value|excerpt(200)|default('<em>(empty)</em>')|raw }}
+        {{ value|slice(0, 200)|default('<em>(empty)</em>')|raw }}
     {% endif %}
 {% endmacro %}
 
