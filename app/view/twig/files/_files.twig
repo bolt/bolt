@@ -22,7 +22,7 @@
                         <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
                            class="magnific"
                            title="Image: {{ file.filename }}">
-                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            <b>{{ file.filename|slice(0, 80)|shy }}</b>
                         </a>
 
                     {% elseif file.extension in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
@@ -30,18 +30,18 @@
                         <i class="fa fa-fw fa-file-code-o"></i>
 
                         <a href="{{ path('fileedit', {'namespace': file.mountPoint, 'file': file.path}) }}">
-                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            <b>{{ file.filename|slice(0, 80)|shy }}</b>
                         </a>
 
                     {% else %}
                         {% if file.hasUrl %}
                             <i class="fa fa-fw fa-link"></i>
                             <a href="{{ file.url }}" target="_blank">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
+                                <b>{{ file.filename|slice(0, 80)|shy }}</b>
                             </a>
                         {% else %}
                             <i class="fa fa-fw fa-file-o disabled"></i>
-                            <b class="disabled">{{ file.filename|excerpt(80)|shy }}</b>
+                            <b class="disabled">{{ file.filename|slice(0, 80)|shy }}</b>
                         {% endif %}
                     {% endif %}
                 </td>
