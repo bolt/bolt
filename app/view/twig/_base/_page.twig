@@ -12,7 +12,7 @@
 {%- spaceless %}
 
 {% set page_locale_long = app.locale %}
-{% set page_locale_short = page_locale_long|slice(0, 2) %}
+{% set page_locale_short = page_locale_long[:2] %}
 {% set page_timezone_offset = app.timezone_offset %}
 
 {% if block('page_subtitle') is defined %}

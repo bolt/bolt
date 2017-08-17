@@ -186,9 +186,9 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
                 {% if content.user.displayname is defined %}
-                {{ content.user.displayname|slice(0, 15) }}
-            {% else %}
-                <s>{{ content.values.ownerid }}</s>
+                    {{ content.user.displayname[:15] }}
+                {% else %}
+                    <s>{{ content.values.ownerid }}</s>
                 {% endif %}<br>
                 {% if content.status == 'timed' %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
@@ -269,7 +269,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         <a class="nolink">
                             {{ __('general.phrase.author-colon') }} <strong><i class="fa fa-user"></i>
                                 {% if content.user.displayname is defined %}
-                                    {{ content.user.displayname|slice(0, 15) }}
+                                    {{ content.user.displayname[:15] }}
                                 {% else %}
                                     <s>user {{ content.values.ownerid }}</s>
                                 {% endif %}</strong>
@@ -280,7 +280,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     </li>
                     <li>
                         <a class="nolink">{{ __('general.phrase.slug-colon') }}
-                            <code title="{{ content.slug }}">{{ content.slug|slice(0, 24) }}</code>
+                            <code title="{{ content.slug }}">{{ content.slug[:24] }}</code>
                         </a>
                     </li>
                     <li>
@@ -302,13 +302,13 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {% if values|length > 1 %}
                             <li>
                                 <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
-                                    <i class="fa fa-tag"></i> {{ values|join(", ")|slice(0, 24) }}
+                                    <i class="fa fa-tag"></i> {{ values|join(", ")[:24] }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
                                 <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
-                                    <i class="fa fa-tag"></i> {{ values|first|slice(0, 24) }}
+                                    <i class="fa fa-tag"></i> {{ values|first[:24] }}
                                 </a>
                             </li>
                         {% endif %}

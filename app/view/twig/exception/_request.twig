@@ -5,12 +5,12 @@
             {% if v is iterable %}
                 <em>(object / array)</em>
             {% else %}
-                {{ v|slice(0, 200)|default('<em>(empty)</em>')|raw }}
+                {{ v[:200]|default('<em>(empty)</em>')|raw }}
             {% endif %}
             {% if not loop.last %}<br>{% endif %}
         {% endfor %}
     {% else %}
-        {{ value|slice(0, 200)|default('<em>(empty)</em>')|raw }}
+        {{ value[:200]|default('<em>(empty)</em>')|raw }}
     {% endif %}
 {% endmacro %}
 
@@ -21,9 +21,9 @@
     <tr>
         <th>{{ key }}</th>
         <td>
-            {% if key|slice(0, 13) in obfuscated %}<span class='obfuscated' data-value="{% endif %}
+            {% if key[:13] in obfuscated %}<span class='obfuscated' data-value="{% endif %}
             {{- macros.printvalue(value) -}}
-            {%- if key|slice(0, 13) in obfuscated -%}">(Click to reveal sensitive data)</span>{% endif %}
+            {%- if key[:13] in obfuscated -%}">(Click to reveal sensitive data)</span>{% endif %}
         </td>
     </tr>
 {% endmacro %}
