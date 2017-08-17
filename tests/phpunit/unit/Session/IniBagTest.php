@@ -8,6 +8,8 @@ use PHPUnit_Framework_TestCase as TestCase;
 /**
  * IniBag Tests.
  *
+ * @runTestsInSeparateProcesses
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class IniBagTest extends TestCase
@@ -132,7 +134,7 @@ class IniBagTest extends TestCase
         $this->assertFalse($ini->has('kajhsdfakjsdfh'));
     }
 
-    public function testSet()
+    public function testSetName()
     {
         $ini = new IniBag('session');
 
