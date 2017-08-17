@@ -28,7 +28,9 @@ class BuilderTest extends TestCase
     {
         $this->em = $this->prophesize(EntityManager::class);
         $this->generator = $this->prophesize(Prefill\RecordContentGenerator::class);
-        $this->generatorFactory = function () { return $this->generator->reveal(); };
+        $this->generatorFactory = function () {
+            return $this->generator->reveal();
+        };
     }
 
     public function testTableNotFound()

@@ -169,46 +169,46 @@ class ArrayRuntimeTest extends BoltUnitTest
             ],
 
             'Single additional key in different orders 1' => [
-                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def']
+                ['abc', 'bcd', 'cde'], ['abc', 'bcd', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def'],
             ],
             'Single additional key in different orders 2' => [
-                ['bcd', 'cde', 'abc'], ['def', 'abc', 'bcd'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc', 'def' => 'def']
+                ['bcd', 'cde', 'abc'], ['def', 'abc', 'bcd'], ['bcd' => 'bcd', 'cde' => 'cde', 'abc' => 'abc', 'def' => 'def'],
             ],
             'Single additional key in different orders 3' => [
-                ['cde', 'abc', 'bcd'], ['bcd', 'cde', 'def'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd', 'def' => 'def']
+                ['cde', 'abc', 'bcd'], ['bcd', 'cde', 'def'], ['cde' => 'cde', 'abc' => 'abc', 'bcd' => 'bcd', 'def' => 'def'],
             ],
 
             'Multiple additional keys in different orders 1' => [
-                ['abc', 'bcd', 'cde'], ['abc', 'def', 'fgh'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def', 'fgh' => 'fgh']
+                ['abc', 'bcd', 'cde'], ['abc', 'def', 'fgh'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'def' => 'def', 'fgh' => 'fgh'],
             ],
             'Multiple additional keys in different orders 2' => [
-                ['abc', 'bcd', 'cde'], ['fgh', 'cde', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def']
+                ['abc', 'bcd', 'cde'], ['fgh', 'cde', 'def'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def'],
             ],
             'Multiple additional keys in different orders 3' => [
-                ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def', 'efg' => 'efg']
+                ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'], ['abc' => 'abc', 'bcd' => 'bcd', 'cde' => 'cde', 'fgh' => 'fgh', 'def' => 'def', 'efg' => 'efg'],
             ],
 
             'Indexed array of values' => [
                 [
-                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'],
                 ],
                 [
-                    ['fgh', 'def', 'efg'], ['abc', 'bcd', 'cde']
+                    ['fgh', 'def', 'efg'], ['abc', 'bcd', 'cde'],
                 ],
                 [
-                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg']
+                    ['abc', 'bcd', 'cde'], ['fgh', 'def', 'efg'],
                 ],
             ],
 
             'Mapped array of values' => [
                 [
-                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg'],
                 ],
                 [
-                    'map2' => ['fgh', 'def', 'efg'], 'map1' => ['abc', 'bcd', 'cde']
+                    'map2' => ['fgh', 'def', 'efg'], 'map1' => ['abc', 'bcd', 'cde'],
                 ],
                 [
-                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg']
+                    'map1' => ['abc', 'bcd', 'cde'], 'map2' => ['fgh', 'def', 'efg'],
                 ],
             ],
         ];

@@ -262,7 +262,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
      */
     public function editThemeConfigTest(\AcceptanceTester $I)
     {
-        $I->wantTo("edit theme.yml and add TemplateFields configuration");
+        $I->wantTo('edit theme.yml and add TemplateFields configuration');
 
         // Set up the browser
         $this->setLoginCookies($I);
@@ -298,6 +298,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
         /**
          * Disabled as currently unsupported due to problems in extension
          * fields, and in test due to |first filter in base-2016:
+         *
          * @see https://github.com/bolt/bolt/blob/v3.2.16/theme/base-2016/partials/_sub_fields.twig#L104
          */
         //$I->see("repeater:\n{$indent}type: repeater");

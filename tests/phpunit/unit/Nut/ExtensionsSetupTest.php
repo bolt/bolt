@@ -34,7 +34,6 @@ class ExtensionsSetupTest extends TestCase
         ;
         $ioMock->expects($this->once())->method('getOutput');
 
-
         $configMock = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['get'])
             ->getMock()
