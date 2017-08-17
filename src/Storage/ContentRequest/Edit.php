@@ -150,7 +150,7 @@ class Edit
 
         /** @var Content $templateFieldsEntity */
         $templateFieldsEntity = $content->getTemplatefields();
-        $templateFields = null;
+        $templateFields = [];
         if ($templateFieldsEntity instanceof TemplateFields) {
             /** @var ContentType $templateFieldsContentType */
             $templateFieldsContentType = $templateFieldsEntity->getContenttype();
