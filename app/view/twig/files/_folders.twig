@@ -22,7 +22,7 @@
                 <td class="filename">
                     <i class="fa fa-fw fa-folder-open-o"></i>
                     <a href="{{ path('files', pathoptions|default({})|merge({'path': directory.path, 'namespace': directory.mountPoint})) }}">
-                        <b>{{ directory.filename|slice(0, 60)|shy }}</b>
+                        <b>{{ directory.filename[:60]|shy }}</b>
                     </a>
                 </td>
                 <td class="folder-meta">

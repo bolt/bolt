@@ -16,11 +16,11 @@
                     {% if file.hasUrl %}
                         <i class="fa fa-fw fa-file-image-o"></i>
                         <a class="filebrowserCallbackLink" href="{{ file.url }}">
-                            <b>{{ file.filename|slice(0, 60)|shy }}</b>
+                            <b>{{ file.filename[:60]|shy }}</b>
                         </a>
                     {% else %}
                         <i class="fa fa-fw fa-file-image-o disabled"></i>
-                        <b class="disabled">{{ file.filename|slice(0, 60)|shy }}</b>
+                        <b class="disabled">{{ file.filename[:60]|shy }}</b>
                     {% endif %}
                 </td>
                 <td class="listthumb">

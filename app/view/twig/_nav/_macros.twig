@@ -117,7 +117,7 @@
     {% from _self import icon %}
 
     {% if icon is empty %}
-        <i class="icon">{{ label|slice(0, 1) }}</i>
+        <i class="icon">{{ label[:1] }}</i>
     {% elseif icon != '-' %}
         {{ icon(icon, true) }}
     {% endif %}
@@ -131,8 +131,8 @@
 {% macro icon(icon, box) %}
     {% set class = box|default(false) ? 'icon' : 'fa-fw' %}
     {# Font Awsome #}
-    {% if icon|slice(0,3) == 'fa:' %}
-        <i class="fa fa-{{ icon|slice(3) }} {{ class }}"></i>
+    {% if icon[:3] == 'fa:' %}
+        <i class="fa fa-{{ icon[3:] }} {{ class }}"></i>
     {# Defaults to (?) #}
     {% else %}
         <i class="fa fa-question-circle {{ class }}" title="{{ icon }}"></i>

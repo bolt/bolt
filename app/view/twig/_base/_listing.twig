@@ -146,7 +146,6 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
 
     {### BLOCK: CONTENT ###}
     {% block listing_content %}
-
         {# COLUMN: Content #}
         <td class="excerpt {% if prop.extended %}large{% endif %}">
             {% set title = content.getTitle(true)|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>") %}
@@ -161,7 +160,6 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {{ title|raw }}
                     {% endif %}
                 </strong>
-
                 {{ content|excerpt(excerptlength - title|length, false, filter|default()) }}
             </span>
         </td>
@@ -194,8 +192,8 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 {% set owner = app.users.user(content.ownerid) %}
 
                 {% if owner %}
-                    {{ owner.displayname|slice(0, 15) }}
-            {% else %}
+                    {{ owner.displayname[:15] }}
+                {% else %}
                 <s>{{ content.ownerid }}</s>
                 {% endif %}<br>
                 {% if content.status == 'timed' %}
@@ -271,7 +269,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             {{ __('general.phrase.author-colon') }} <strong><i class="fa fa-user"></i>
                                 {% set owner = app.users.user(content.ownerid) %}
                                 {% if owner %}
-                                    {{ owner.displayname|slice(0, 15) }}
+                                    {{ owner.displayname[:15] }}
                                 {% else %}
                                     <s>user {{ content.ownerid }}</s>
                                 {% endif %}</strong>
@@ -282,7 +280,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     </li>
                     <li>
                         <a class="nolink">{{ __('general.phrase.slug-colon') }}
-                            <code title="{{ content.slug }}">{{ content.slug|slice(0, 24) }}</code>
+                            <code title="{{ content.slug }}">{{ content.slug[:24] }}</code>
                         </a>
                     </li>
                     <li>
@@ -310,14 +308,14 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             {% endfor %}
                             <li>
                                 <a class="nolink">{{ app.config.get('taxonomy')[type].name }}:
-                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")|slice(0, 24) }}
+                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")[:24] }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
                                 {% set taxonomy = taxonomies|first %}
                                 <a class="nolink">{{ app.config.get('taxonomy')[type].singular_name }}:
-                                    <i class="fa fa-tag"></i> {{ taxonomy.name|slice(0, 24) }}
+                                    <i class="fa fa-tag"></i> {{ taxonomy.name[:24] }}
                                 </a>
                             </li>
                         {% endif %}
