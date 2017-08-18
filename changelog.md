@@ -6,6 +6,7 @@ Bolt 3.3.2
 
 Released 2017-08-17. Notable changes:
 
+ - Change: Prevent install of PHP 7.2. Support for PHP 7.2 will land in 3.4
  - Change: Better handling & reporting of extension page failures [#6883](https://github.com/bolt/bolt/pull/6883)
  - Fixed: Incorrect formatting of dates & times according to locale [#6907](https://github.com/bolt/bolt/pull/6907)
  - Fixed: Restore support for sorting in ContentType Selects [#6878](https://github.com/bolt/bolt/pull/6878)
