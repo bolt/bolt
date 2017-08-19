@@ -11,6 +11,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -164,6 +165,8 @@ class AccessChecker
                 $this->getRepositoryAuthtoken()->deleteTokens($sessionAuth->getUser()->getId());
             } catch (TableNotFoundException $e) {
                 // Database tables have been dropped
+            } catch (InvalidFieldNameException $e) {
+                // Database tables need updating
             }
         }
 
