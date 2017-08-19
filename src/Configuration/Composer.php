@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

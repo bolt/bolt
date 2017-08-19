@@ -2,6 +2,7 @@
 
 namespace Bolt\AccessControl;
 
+use Bolt\Common\Json;
 use Bolt\Exception\AccessControlException;
 use Bolt\Legacy\Content;
 use Bolt\Storage\Entity;
@@ -551,11 +552,11 @@ class Permissions
 
         $cacheKey = "_permission_rule:$what";
         if ($this->app['cache']->contains($cacheKey)) {
-            $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
+            $rule = Json::parse($this->app['cache']->fetch($cacheKey));
         } else {
             $parser = new PermissionParser();
             $rule = $parser->run($what);
-            $this->app['cache']->save($cacheKey, json_encode($rule));
+            $this->app['cache']->save($cacheKey, Json::dump($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
         $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $content, $contenttypeSlug, $contentId);

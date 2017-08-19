@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Logger;
 
+use Bolt\Common\Json;
 use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\DoctrineMockBuilder;
@@ -162,7 +163,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 $this->equalTo('bolt_log_change'),
                 $this->callback(
                     function ($arg) use (&$actual) {
-                        $actual = json_decode($arg['diff'], true);
+                        $actual = Json::parse($arg['diff']);
 
                         return $arg;
                     }

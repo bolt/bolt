@@ -5,6 +5,7 @@ namespace Bolt\Tests\Twig\Runtime;
 use Bolt\Asset\Widget\Widget;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\WidgetRuntime;
+use Silex\Application;
 
 /**
  * Class to test Bolt\Twig\Runtime\WidgetRuntime.
@@ -181,7 +182,7 @@ class WidgetRuntimeTest extends BoltUnitTest
     /**
      * @param bool $strict
      *
-     * @return \Bolt\Application
+     * @return Application
      */
     protected function getStrictVariablesApp($strict)
     {

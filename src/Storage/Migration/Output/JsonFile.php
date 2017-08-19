@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Migration\Output;
 
+use Bolt\Common\Exception\DumpException;
+use Bolt\Common\Json;
 use Bolt\Storage\Migration\Export;
 
 /**
@@ -47,15 +49,16 @@ class JsonFile implements OutputFileInterface
         }
 
         // Generate the JSON string
-        $json = json_encode($data, JSON_PRETTY_PRINT);
-
-        if ($json === false) {
+        try {
+            $json = Json::dump($data);
+        } catch (DumpException $e) {
             $this->export
                 ->setError(true)
                 ->setErrorMessage('Unable to generate valid JSON data!');
 
             return false;
-        } elseif (!$last) {
+        }
+        if (!$last) {
             $json .= ",\n";
         }
 

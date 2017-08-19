@@ -2,7 +2,7 @@
 
 namespace Bolt\Asset;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * Bolt Snippet target location.

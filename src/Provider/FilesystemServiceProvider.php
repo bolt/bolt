@@ -2,13 +2,13 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Common\Deprecated;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\LazyFilesystem;
 use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Matcher;
 use Bolt\Filesystem\Plugin;
-use Bolt\Helpers\Deprecated;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

@@ -3,6 +3,7 @@
 namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Common\Serialization;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -108,7 +109,7 @@ class AccessControlListener implements EventSubscriberInterface
 
         /** @var \Bolt\Filesystem\Handler\File $sessionFile */
         foreach ($sessionFiles as $sessionFile) {
-            $data = unserialize($sessionFile->read());
+            $data = Serialization::parse($sessionFile->read());
             if (!isset($data['_sf2_attributes']['authentication'])) {
                 continue;
             }

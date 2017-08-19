@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Database\Schema\Table;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 class ContentType extends BaseTable
 {

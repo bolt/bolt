@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Collection\Arr;
+use Bolt\Common\Deprecated;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
@@ -11,7 +12,6 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Filesystem\Handler\ParsableInterface;
-use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Storage\Database;
@@ -703,7 +703,7 @@ class Config
         $options = array_replace($options, $master);
 
         // Add platform specific random functions
-        $driver = Str::replaceFirst('pdo_', '', $options['driver']);
+        $driver = \Bolt\Common\Str::replaceFirst($options['driver'], 'pdo_', '');
         if ($driver === 'sqlite') {
             $options['driver'] = 'pdo_sqlite';
             $options['randomfunction'] = 'RANDOM()';

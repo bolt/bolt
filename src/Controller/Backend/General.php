@@ -3,6 +3,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Collection\Bag;
+use Bolt\Common\Json;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Form\FormType\FileEditType;
 use Bolt\Form\FormType\PrefillType;
@@ -186,7 +187,7 @@ class General extends BackendBase
         // Create the form
         $options = [
             'attr' => [
-                'data-bind' => json_encode(['bind' => 'prefill']),
+                'data-bind' => Json::dump(['bind' => 'prefill']),
             ],
             'contenttypes' => $choices,
         ];

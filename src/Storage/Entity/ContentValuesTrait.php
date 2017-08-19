@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Common\Json;
 use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Legacy;
@@ -161,7 +162,7 @@ trait ContentValuesTrait
                             }
                         }
                         if (!empty($this->values[$field]['url'])) {
-                            $newvalue[$field] = json_encode($this->values[$field]);
+                            $newvalue[$field] = Json::dump($this->values[$field]);
                         } else {
                             $newvalue[$field] = '';
                         }
@@ -169,7 +170,7 @@ trait ContentValuesTrait
 
                     case 'geolocation':
                         if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
-                            $newvalue[$field] = json_encode($this->values[$field]);
+                            $newvalue[$field] = Json::dump($this->values[$field]);
                         } else {
                             $newvalue[$field] = '';
                         }
@@ -177,7 +178,7 @@ trait ContentValuesTrait
 
                     case 'image':
                         if (!empty($this->values[$field]['file'])) {
-                            $newvalue[$field] = json_encode($this->values[$field]);
+                            $newvalue[$field] = Json::dump($this->values[$field]);
                         } else {
                             $newvalue[$field] = '';
                         }
@@ -186,7 +187,7 @@ trait ContentValuesTrait
                     case 'imagelist':
                     case 'filelist':
                         if (is_array($this->values[$field])) {
-                            $newvalue[$field] = json_encode($this->values[$field]);
+                            $newvalue[$field] = Json::dump($this->values[$field]);
                         } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
                             // Don't store '[]'
                             $newvalue[$field] = '';
@@ -199,7 +200,7 @@ trait ContentValuesTrait
 
                     case 'select':
                         if (is_array($this->values[$field])) {
-                            $newvalue[$field] = json_encode($this->values[$field]);
+                            $newvalue[$field] = Json::dump($this->values[$field]);
                         } else {
                             $newvalue[$field] = $this->values[$field];
                         }
@@ -220,7 +221,7 @@ trait ContentValuesTrait
 
         if (!$stripped) {
             if (!empty($this['templatefields'])) {
-                $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true, true));
+                $newvalue['templatefields'] = Json::dump($this->values['templatefields']->getValues(true, true));
             } else {
                 $newvalue['templatefields'] = '';
             }

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Composer;
 
+use Bolt\Common\Json;
 use Bolt\Composer\Package;
 use Composer\Package\CompletePackage;
 use PHPUnit\Framework\TestCase;
@@ -43,16 +44,16 @@ class PackageTest extends TestCase
 
     public function testJsonSerialize()
     {
-        $expected = '{"status":null,"type":"bolt\/extension","name":"bolt\/test","title":null,"description":"An extension for Bolt.","version":"composer","authors":[{"name":"Bolt Contributor"},{"name":"Bolt Core Member"}],"keywords":["test","unit"],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"1.2.3","valid":false,"enabled":false}';
+        $expected = '{"status":null,"type":"bolt/extension","name":"bolt/test","title":null,"description":"An extension for Bolt.","version":"composer","authors":[{"name":"Bolt Contributor"},{"name":"Bolt Core Member"}],"keywords":["test","unit"],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"1.2.3","valid":false,"enabled":false}';
         $result = Package::createFromComposerJson($this->input);
 
-        $this->assertSame($expected, json_encode($result));
+        $this->assertSame($expected, Json::dump($result));
         $this->assertSame($this->input['name'], $result->getName());
     }
 
     public function testSetters()
     {
-        $expected = '{"status":"installed","type":"bolt\/extension","name":"bolt\/test","title":"bolt\/test","description":"An extension for Bolt.","version":"composer","authors":[{"name":"Bolt Contributor"},{"name":"Bolt Core Member"}],"keywords":["test","unit"],"readmeLink":"README.md","configLink":"README.md","repositoryLink":"GitHub","constraint":"^1.0","valid":true,"enabled":false}';
+        $expected = '{"status":"installed","type":"bolt/extension","name":"bolt/test","title":"bolt/test","description":"An extension for Bolt.","version":"composer","authors":[{"name":"Bolt Contributor"},{"name":"Bolt Core Member"}],"keywords":["test","unit"],"readmeLink":"README.md","configLink":"README.md","repositoryLink":"GitHub","constraint":"^1.0","valid":true,"enabled":false}';
         $result = Package::createFromComposerJson(['type' => null, 'name' => null]);
         $result->setStatus('installed');
         $result->setType($this->input['type']);
@@ -69,6 +70,6 @@ class PackageTest extends TestCase
         $result->setValid(true);
         $result->setEnabled(false);
 
-        $this->assertSame($expected, json_encode($result));
+        $this->assertSame($expected, Json::dump($result));
     }
 }

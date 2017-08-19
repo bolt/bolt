@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Mapping\ClassMetadata;
 
 /**
@@ -251,8 +252,8 @@ class LogChange extends Entity
     {
         return [
             'type'   => $fields[$key]['type'],
-            'before' => ['render' => json_decode($value[0], true)],
-            'after'  => ['render' => json_decode($value[1], true)],
+            'before' => ['render' => Json::parse($value[0])],
+            'after'  => ['render' => Json::parse($value[1])],
         ];
     }
 
@@ -267,8 +268,8 @@ class LogChange extends Entity
      */
     private function fieldGeolocation($key, $value, array $fields)
     {
-        $before = json_decode($value[0], true);
-        $after  = json_decode($value[1], true);
+        $before = Json::parse($value[0]);
+        $after  = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],
@@ -302,8 +303,8 @@ class LogChange extends Entity
      */
     private function fieldImage($key, $value, array $fields)
     {
-        $before = json_decode($value[0], true);
-        $after  = json_decode($value[1], true);
+        $before = Json::parse($value[0]);
+        $after  = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],
@@ -359,8 +360,8 @@ class LogChange extends Entity
      */
     private function fieldVideo($key, $value, array $fields)
     {
-        $before = json_decode($value[0], true);
-        $after  = json_decode($value[1], true);
+        $before = Json::parse($value[0]);
+        $after  = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],

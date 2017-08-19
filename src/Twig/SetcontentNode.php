@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Twig\Extension\BoltExtension;
 use Bolt\Twig\Runtime\BoltRuntime;
 use Twig\Node\Expression\ArrayExpression;

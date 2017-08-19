@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Common\Deprecated;
 use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
 use Bolt\Filesystem\Adapter\Local;
@@ -10,7 +11,6 @@ use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
-use Bolt\Helpers\Deprecated;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\LazyTranslator as Trans;
 use ReflectionClass;

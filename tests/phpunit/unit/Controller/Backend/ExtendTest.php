@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Common\Json;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis\QueryService;
 use Bolt\Controller\Backend\Extend;
@@ -60,8 +61,9 @@ class ExtendTest extends ControllerUnitTest
 
         $response = $controller->packageInfo($this->getRequest());
         $this->assertNotEmpty($response);
-        $content = json_decode($response->getContent());
-        $this->assertAttributeNotEmpty('name', $content);
+        $content = Json::parse($response->getContent());
+        $this->assertArrayHasKey('name', $content);
+        $this->assertNotEmpty($content['name']);
 
         $this->setRequest(Request::create('/'));
         $controller->expects($this->any())
@@ -114,9 +116,9 @@ class ExtendTest extends ControllerUnitTest
         $response = $this->controller()->installInfo($this->getRequest());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $parsedOutput = json_decode($response->getContent());
-        $this->assertNotEmpty($parsedOutput->dev);
-        $this->assertNotEmpty($parsedOutput->stable);
+        $parsedOutput = Json::parse($response->getContent());
+        $this->assertNotEmpty($parsedOutput['dev']);
+        $this->assertNotEmpty($parsedOutput['stable']);
     }
 
     public function packageInfoProvider()

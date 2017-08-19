@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Embed;
 
+use Bolt\Common\Json;
 use Bolt\Embed;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
@@ -42,7 +43,7 @@ class ResolverTest extends TestCase
         $factory = function ($url, $options = []) use ($requestUrl, $content) {
             $mock = new MockHandler([
                 new Psr7\Response(200),
-                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], Json::dump($content)),
             ]);
 
             $handler = HandlerStack::create($mock);
@@ -76,7 +77,7 @@ class ResolverTest extends TestCase
         $factory = function ($url, $options = []) use ($requestUrl, $content) {
             $mock = new MockHandler([
                 new Psr7\Response(200),
-                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], Json::dump($content)),
                 new Psr7\Response(200, ['Content-Type' => 'image/png'], file_get_contents(__DIR__ . '/../resources/generic-logo.png')),
             ]);
 
@@ -109,7 +110,7 @@ class ResolverTest extends TestCase
         $factory = function ($url, $options = []) use ($requestUrl, $content, $fileData) {
             $mock = new MockHandler([
                 new Psr7\Response(200),
-                new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+                new Psr7\Response(200, ['Content-Type' => 'application/json'], Json::dump($content)),
                 new Psr7\Response(200, ['Content-Type' => 'image/png'], $fileData),
                 new Psr7\Response(200, ['Content-Type' => 'image/png'], $fileData),
             ]);

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Common\Json;
 use Bolt\Controller\Zone;
 use Bolt\Response\TemplateView;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -185,11 +186,11 @@ class GeneralTest extends ControllerUnitTest
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
 
-        $json = json_decode($response->getContent());
+        $json = Json::parse($response->getContent());
 
-        $this->assertSame('Omnisearch', $json[0]->label);
-        $this->assertSame('New Showcase', $json[1]->label);
-        $this->assertSame('View Showcases', $json[2]->label);
+        $this->assertSame('Omnisearch', $json[0]['label']);
+        $this->assertSame('New Showcase', $json[1]['label']);
+        $this->assertSame('View Showcases', $json[2]['label']);
     }
 
     public function testPopularTags()
@@ -201,31 +202,31 @@ class GeneralTest extends ControllerUnitTest
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
 
-        $json = json_decode($response->getContent());
+        $json = Json::parse($response->getContent());
         $tags = $this->getDefaultTags();
 
         $this->assertCount(20, $json);
-        $this->assertTrue(in_array($json[0]->name, $tags));
+        $this->assertTrue(in_array($json[0]['name'], $tags));
     }
 
     public function testReadme()
     {
     }
 
-    public function testTags()
-    {
-        //         $this->setRequest(Request::create('/async/tags/tags'));
+//    public function testTags()
+//    {
+//         $this->setRequest(Request::create('/async/tags/tags'));
 //         $response = $this->controller()->tags($this->getRequest(), 'tags');
-
+//
 //         $this->assertTrue($response instanceof JsonResponse);
 //         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-
-//         $json = json_decode($response->getContent());
+//
+//         $json = Json::parse($response->getContent());
 //         $tags = $this->getDefaultTags();
-
+//
 //         $this->assertCount(20, $json);
-//         $this->assertTrue(in_array($json[0]->name, $tags));
-    }
+//         $this->assertTrue(in_array($json[0]['name'], $tags));
+//    }
 
     public function testWidget()
     {
