@@ -194,15 +194,17 @@ class General extends BackendBase
 
         if ($request->isMethod('POST') || $request->query->getBoolean('force')) {
             $form->handleRequest($request);
-            if ($form->get('contenttypes')->has('contenttypes')) {
+            if (!empty($form->get('contenttypes')->getData())) {
                 $contentTypeNames = (array) $form->get('contenttypes')->getData();
+                $skipNonEmpty = false;
             } else {
                 $contentTypes = $this->app['config']->get('contenttypes');
                 $contentTypeNames = array_keys($contentTypes);
+                $skipNonEmpty = true;
             }
 
             $builder = $this->app['prefill.builder'];
-            $results = $builder->build($contentTypeNames, 5);
+            $results = $builder->build($contentTypeNames, 5, $skipNonEmpty);
             $this->session()->set('prefill_result', $results);
 
             return $this->redirectToRoute('prefill');

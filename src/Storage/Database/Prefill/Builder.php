@@ -40,10 +40,11 @@ class Builder
      *
      * @param array $contentTypeNames
      * @param int   $count
+     * @param bool  $skipNonEmpty
      *
      * @return null
      */
-    public function build(array $contentTypeNames, $count)
+    public function build(array $contentTypeNames, $count, $skipNonEmpty)
     {
         $response = ['created' => null, 'errors' => null];
         foreach ($contentTypeNames as $contentTypeName) {
@@ -58,7 +59,8 @@ class Builder
                 continue;
             }
 
-            if ($existingCount >= $this->maxCount) {
+            // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
+            if ($existingCount >= $this->maxCount && $skipNonEmpty) {
                 $response['errors'][$contentTypeName] = Trans::__(
                     'Skipped <tt>%key%</tt> (already has records)',
                     ['%key%' => $contentTypeName]
@@ -67,7 +69,11 @@ class Builder
                 continue;
             }
 
-            $count -= $existingCount;
+            // Take the current amount of items into consideration, when adding more.
+            if ($skipNonEmpty) {
+                $count -= $existingCount;
+            }
+
             if ($count > 0) {
                 $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
                 try {
