@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt;
 use Bolt\Nut;
+use Bolt\SimpleDeploy\Nut\SetupDeploy;
 use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -38,7 +39,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
         $app['nut.commands'] = $app->share(
             function ($app) {
-                return [
+                $commands = [
                     new Nut\CacheClear(),
                     new Nut\ConfigGet(),
                     new Nut\ConfigSet(),
@@ -76,6 +77,11 @@ class NutServiceProvider implements ServiceProviderInterface
                     $app['nut.command.twig_debug'],
                     $app['nut.command.twig_lint'],
                 ];
+                if (class_exists(SetupDeploy::class)) {
+                    $commands[] = new SetupDeploy();
+                }
+
+                return $commands;
             }
         );
 

@@ -17,6 +17,7 @@ app/src/docs/
 app/src/grunt-local/*.js
 app/view/maps/
 pimple.json
+.deploy.yml
 
 # Bolt testing files
 coverage.xml
