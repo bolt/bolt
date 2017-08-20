@@ -15,6 +15,7 @@
         "blueimp-file-upload": "9.18.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
+        "dropzone": "^5.1.1",
         "font-awesome": "~4.7.0",
         "jquery": "~2.2.4",
         "jquery-formatdatetime": "~1.1.6",

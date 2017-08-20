@@ -49,6 +49,7 @@ module.exports = function (grunt) {
                 '<%= path.src.js %>/modules/extend.js',
                 '<%= path.src.js %>/modules/events.js',
                 '<%= path.src.js %>/modules/files.js',
+                '<%= path.src.js %>/modules/filemanager.js',
                 '<%= path.src.js %>/modules/liveeditor.js',
                 '<%= path.src.js %>/modules/omnisearch.js',
                 '<%= path.src.js %>/modules/secmenu.js',

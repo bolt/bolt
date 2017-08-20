@@ -13,6 +13,7 @@
  * @mixes Bolt.events
  * @mixes Bolt.extend
  * @mixes Bolt.files
+ * @mixes Bolt.filemanager
  * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
