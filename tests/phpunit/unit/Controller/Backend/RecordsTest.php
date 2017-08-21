@@ -38,7 +38,7 @@ class RecordsTest extends ControllerUnitTest
             'content_edit' => [
                 'save'   => 1,
                 '_token' => $token,
-            ]
+            ],
         ]));
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
 
@@ -57,9 +57,9 @@ class RecordsTest extends ControllerUnitTest
         $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
             'content_edit' => [
-                'save' => 1,
+                'save'   => 1,
                 '_token' => $token,
-            ]
+            ],
         ]);
         $this->setRequest($request);
 
@@ -98,7 +98,7 @@ class RecordsTest extends ControllerUnitTest
             'content_edit' => [
                 'save'   => 1,
                 '_token' => $token,
-            ]
+            ],
         ]);
         $this->setRequest($request);
 
@@ -162,12 +162,12 @@ class RecordsTest extends ControllerUnitTest
 
         $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
-            'title'  => 'Koala Country',
-            'slug'   => 'koala-country',
+            'title'        => 'Koala Country',
+            'slug'         => 'koala-country',
             'content_edit' => [
                 'save_return' => 1,
                 '_token'      => $token,
-            ]
+            ],
         ]);
         $this->setRequest($request);
 
@@ -194,12 +194,12 @@ class RecordsTest extends ControllerUnitTest
 
         $token = $this->getService('csrf.token_manager')->getToken('content_edit');
         $request = Request::create('/bolt/editcontent/pages', 'POST', [
-            'title'  => 'Koala Country',
-            'slug'   => 'koala-country',
+            'title'        => 'Koala Country',
+            'slug'         => 'koala-country',
             'content_edit' => [
                 'save'   => 1,
                 '_token' => $token,
-            ]
+            ],
         ]);
         $request->headers->set('X-Requested-With', 'XMLHttpRequest');
         $request->attributes->set('_test', true);

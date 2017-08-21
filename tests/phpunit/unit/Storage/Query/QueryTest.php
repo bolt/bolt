@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Query\QueryScopeInterface;
 use Bolt\Tests\BoltUnitTest;
@@ -32,7 +33,7 @@ class QueryTest extends BoltUnitTest
         $this->addSomeContent();
 
         $results = $app['query']->getContent('pages', ['id' => '<10', 'returnsingle' => true]);
-        $this->assertEquals(1, count($results));
+        $this->assertInstanceOf(Content::class, $results);
     }
 
     public function testGetContentByScope()

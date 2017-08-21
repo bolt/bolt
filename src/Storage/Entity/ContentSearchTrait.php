@@ -139,7 +139,7 @@ trait ContentSearchTrait
      *
      * @return integer The weight
      */
-    private function weighQueryText($subject, $complete, $words, $max)
+    private function weighQueryText($subject, $complete, array $words, $max)
     {
         $lowSubject = mb_strtolower(trim($subject));
 

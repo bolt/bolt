@@ -89,8 +89,9 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle = $this->getMockGuzzleClient();
         $testRequest = $this->createMock(RequestInterface::class);
         $testGuzzle->expects($this->any())
-                    ->method('get')
-                    ->will($this->returnValue($testRequest));
+            ->method('get')
+            ->will($this->returnValue($testRequest))
+        ;
         $this->setService('guzzle.client', $testGuzzle);
 
         $logger = $this->getMockLoggerManager();
@@ -115,8 +116,9 @@ class GeneralTest extends ControllerUnitTest
             ->will($this->returnValue('{"testing":[{"item":"one"},{"item":"two"},{"item":"three"}]}'))
         ;
         $testGuzzle->expects($this->any())
-                    ->method('get')
-                    ->will($this->returnValue($requestInterface));
+            ->method('get')
+            ->will($this->returnValue($requestInterface))
+        ;
         $this->setService('guzzle.client', $testGuzzle);
 
         $response = $this->controller()->dashboardNews($this->getRequest());

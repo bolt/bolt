@@ -26,7 +26,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                     'files'     => 'public/files',
                     'view'      => 'public/bolt-public/view',
                 ],
-                []
+                [],
             ],
 
             'custom web' => [
@@ -38,7 +38,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 ],
                 [
                     'web' => '%site%/web',
-                ]
+                ],
             ],
 
             'custom app (same base folder)' => [
@@ -49,7 +49,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 ],
                 [
                     'app' => '%site%/myapp',
-                ]
+                ],
             ],
 
             'custom app (one folder different)' => [
@@ -61,7 +61,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 [
                     'app'   => '%site%/myapp',
                     'cache' => '%var%/cache',
-                ]
+                ],
             ],
 
             'custom app (one folder different) #2' => [
@@ -73,7 +73,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                 [
                     'app'   => '%site%/..',
                     'cache' => '%var%/cache',
-                ]
+                ],
             ],
 
             'custom app (all folders different)' => [
@@ -86,7 +86,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                     'cache'    => '%var%/cache',
                     'config'   => 'myapp/config',
                     'database' => '../database',
-                ]
+                ],
             ],
 
             'custom leaves' => [
@@ -106,7 +106,7 @@ class BootstrapYamlUpdaterTest extends TestCase
                     'themes'      => '%web%/theme2',
                     'files'       => '%web%/files2',
                     'bolt_assets' => '%web%/bolt-public/view2',
-                ]
+                ],
             ],
         ];
     }
@@ -265,7 +265,7 @@ OUT;
         $updater = new BootstrapYamlUpdater($io, $filesystem);
 
         $updater->save([
-            'paths' => [],
+            'paths'       => [],
             'application' => 'My\App',
         ]);
 
@@ -293,7 +293,7 @@ OUT;
         $updater = new BootstrapYamlUpdater($io, $filesystem);
 
         $updater->save([
-            'paths' => [],
+            'paths'       => [],
             'application' => 'My\App',
         ]);
 

@@ -195,15 +195,20 @@ class General extends BackendBase
 
         if ($request->isMethod('POST') || $request->query->getBoolean('force')) {
             $form->handleRequest($request);
-            if ($form->get('contenttypes')->has('contenttypes')) {
-                $contentTypeNames = (array) $form->get('contenttypes')->getData();
-            } else {
-                $contentTypes = $this->app['config']->get('contenttypes');
-                $contentTypeNames = array_keys($contentTypes);
+            $contentTypeNames = (array) $form->get('contenttypes')->getData();
+
+            // ✓ - If the DB is empty
+            // ✓ - If ContentType(s) *are* selected
+            // ✓ - If *no* ContentTypes are selected *and* a ContentType's record count < max
+            // X - If *no* ContentTypes are selected *and* a ContentType's record count >= max
+            $canExceedMax = true;
+            if (count($contentTypeNames) === 0) {
+                $contentTypeNames = $choices;
+                $canExceedMax = false;
             }
 
             $builder = $this->app['prefill.builder'];
-            $results = $builder->build($contentTypeNames, 5);
+            $results = $builder->build($contentTypeNames, 5, $canExceedMax);
             $this->session()->set('prefill_result', $results);
 
             return $this->redirectToRoute('prefill');

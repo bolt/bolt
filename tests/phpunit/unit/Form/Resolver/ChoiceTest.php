@@ -62,7 +62,7 @@ class ChoiceTest extends TestCase
                             'values' => $values,
                         ],
                     ],
-                ]
+                ],
             ],
         ]);
         $result = $resolver->get($contentType, []);
@@ -277,7 +277,7 @@ class ChoiceTest extends TestCase
                 'select_array' => [
                     'type'   => 'select',
                     'values' => $values,
-                    'filter' => ['category' => 'test']
+                    'filter' => ['category' => 'test'],
                 ],
             ],
         ]);
@@ -304,15 +304,15 @@ class ChoiceTest extends TestCase
                     'type'   => 'select',
                     'values' => $values,
                     'keys'   => 'field_2',
-                    'filter' => ['category' => 'test']
+                    'filter' => ['category' => 'test'],
                 ],
             ],
         ]);
         $expect = [
             'select_array' => [
-                'Magoo Foo' => 'Foo Magoo',
-                'Bar Iron' => 'Iron Bar',
-                'Koala Kenny' => 'Kenny Koala',
+                'Magoo Foo'     => 'Foo Magoo',
+                'Bar Iron'      => 'Iron Bar',
+                'Koala Kenny'   => 'Kenny Koala',
                 'Danger Danger' => 'Drop Bear',
             ],
         ];
@@ -380,10 +380,7 @@ class ChoiceTest extends TestCase
         $resolver = new Choice($mockEntityManager, $mockQuery);
         $resolver->get($contentType1, []);
         $resolver->get($contentType2, []);
-
     }
-
-
 
     public function testGetTemplateFieldsSelect()
     {
@@ -400,7 +397,6 @@ class ChoiceTest extends TestCase
 
         $this->assertSame(['templatefields' => ['select_array' => $values]], $result);
     }
-
 
     /**
      * @return Content[]

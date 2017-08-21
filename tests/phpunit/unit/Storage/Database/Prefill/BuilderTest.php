@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Database\Prefill;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Database\Prefill;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository\ContentRepository;
@@ -28,7 +29,9 @@ class BuilderTest extends TestCase
     {
         $this->em = $this->prophesize(EntityManager::class);
         $this->generator = $this->prophesize(Prefill\RecordContentGenerator::class);
-        $this->generatorFactory = function () { return $this->generator->reveal(); };
+        $this->generatorFactory = function () {
+            return $this->generator->reveal();
+        };
     }
 
     public function testTableNotFound()
@@ -143,7 +146,35 @@ class BuilderTest extends TestCase
         $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
         $result = $builder->build(['pages'], 5);
 
+        $this->assertNotEmpty($result['errors'], 'No error messages returned from builder');
+        $this->assertArrayHasKey('pages', $result['errors'], 'Did not return error for "pages" ContentType');
         $this->assertRegExp('/(pages).+(already has records)/', $result['errors']['pages']);
+    }
+
+    public function testCountAllowExceeded()
+    {
+        $repo = $this->prophesize(ContentRepository::class);
+        $repo->count()->willReturn(9001);
+
+        $this->em
+            ->getRepository('pages')
+            ->willReturn($repo)
+        ;
+
+        $expected = [
+            'Kenny does Alice Springs',
+            'Up the gum tree without a paddle',
+        ];
+        $this->generator
+            ->generate(5)
+            ->willReturn($expected)
+        ;
+
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $result = $builder->build(['pages'], 5, true);
+
+        $this->assertNotNull($result['created'], 'Builder did not build anything');
+        $this->assertEmpty($result['errors'], 'Error messages were returned from builder: ' . Json::dump($result['errors'], Json::HUMAN));
     }
 
     public function testMaxCount()

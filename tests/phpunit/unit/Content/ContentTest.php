@@ -30,7 +30,7 @@ class ContentTest extends BoltUnitTest
     public function testGetRenderedValue()
     {
         $app = $this->getApp();
-        $mockContent =$this->getMockBuilder(Content::class)
+        $mockContent = $this->getMockBuilder(Content::class)
             ->setConstructorArgs([$app, 'pages'])
             ->setMethods(['getDecodedValue'])
             ->getMock()

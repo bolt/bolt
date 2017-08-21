@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  11 Legacy untranslated messages
-#  63 Untranslated messages
-#  33 Legacy translation messages
-# 493 Translation messages
+#   9 Legacy untranslated messages
+#  65 Untranslated messages
+#  32 Legacy translation messages
+# 494 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -21,10 +21,8 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
 #--- Untranslated messages ----------------------------------------------------
@@ -104,6 +102,9 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(tema padrão)"
@@ -123,7 +124,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Image": "Imagem"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
-"Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registo)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
@@ -649,6 +649,8 @@ page.login.password-reset-link-sent: "Foi enviada uma ligação ao '%user%' para
 page.login.password-show: "Exibir"
 page.login.placeholder.password: "O seu nome de utilizador"
 page.login.title: "Iniciar sessão"
+
+page.prefill.skipped-existing: "Ignorado <code>%key%</code> (já possui um registo)"
 
 panel.latest-activity.button.more: "mais atividades"
 panel.latest-activity.by: "por"

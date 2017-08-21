@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  23 Legacy untranslated messages
-# 218 Untranslated messages
-#  21 Legacy translation messages
-# 338 Translation messages
+#  21 Legacy untranslated messages
+# 220 Untranslated messages
+#  20 Legacy translation messages
+# 339 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -27,9 +27,7 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
@@ -277,6 +275,9 @@ page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
 panel.latest-activity.deleted: # "Deleted"
@@ -295,7 +296,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Expand sidebar": "展開"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
 "Image": "影象"
-"Skipped <tt>%key%</tt> (already has records)": "跳過 <tt>%key%</tt> (已有記錄)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
@@ -657,6 +657,8 @@ page.login.password-reset-link-sent: "密碼重置連結已發送到 '%user%'。
 page.login.password-show: "顯示"
 page.login.placeholder.password: "你的使用者名"
 page.login.title: "登入 Bolt"
+
+page.prefill.skipped-existing: "跳過 <code>%key%</code> (已有記錄)"
 
 panel.latest-activity.button.more: "更多活動日誌"
 panel.latest-activity.by: "由"

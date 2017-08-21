@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  14 Legacy untranslated messages
-# 173 Untranslated messages
-#  30 Legacy translation messages
-# 383 Translation messages
+#  12 Legacy untranslated messages
+# 175 Untranslated messages
+#  29 Legacy translation messages
+# 384 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -23,9 +23,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
@@ -223,6 +221,9 @@ page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(oletussivupohja)"
@@ -240,7 +241,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Image": "Kuva"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Ei vastaa määritettyjä sisältötyyppejä tai reittejä."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Luultavasti sen pitäisi olla 'link:'!"
-"Skipped <tt>%key%</tt> (already has records)": "Ohitettiin <tt>%key%</tt> (sisältää jo tietoja)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Tyypin '%taxonomytype%' tunnus ja tunniste eivät ole samat ('%slug%' vs. '%taxonomytype%'). Muokkaa ne samoiksi tiedostossa taxonomy.yml estääksesi ristiriidat tietokannan ja sivupohjiesi välillä."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
@@ -651,6 +651,8 @@ page.login.password-reset-link-sent: "Salasanan palautuslinkki lähetettiin käy
 page.login.password-show: "Näytä"
 page.login.placeholder.password: "Käyttäjätunnuksesi"
 page.login.title: "Bolt sisäänkirjautuminen"
+
+page.prefill.skipped-existing: "Ohitettiin <code>%key%</code> (sisältää jo tietoja)"
 
 panel.latest-activity.button.more: "Lisää tapahtumia"
 panel.latest-activity.by: "@"

@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   7 Legacy untranslated messages
-#  30 Untranslated messages
-#  37 Legacy translation messages
-# 526 Translation messages
+#   5 Legacy untranslated messages
+#  32 Untranslated messages
+#  36 Legacy translation messages
+# 527 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -20,8 +20,6 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -67,6 +65,9 @@ page.extend.options: # "Extension Options"
 
 page.file-management.actions-for-files: # "Actions for files"
 
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(modèle par défaut)"
@@ -87,7 +88,6 @@ page.file-management.actions-for-files: # "Actions for files"
 "Image": "Image"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Une entrée de menu invalide (%PATH%) est présente dans le fichier `menu.yml` : aucun type de contenu ou route correspondant."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Une entrée de menu invalide (%PATH%) est présente dans le fichier `menu.yml` : cela devrait certainement être un lien de type link"
-"Skipped <tt>%key%</tt> (already has records)": "Type de contenu <tt>%key%</tt> non traité (des enregistrements sont déjà présents)"
 "The field %field% has been changed to \"%newValue%\"": "Le champ %field% a été modifié pour \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "L'identifiant et le slug pour '%taxonomytype%' sont différents ('%slug%' et '%taxonomytype%') Veuillez modifier le fichier taxonomy.yml et le corriger pour prévenir des incohérences entre la base de données et le thème."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "La configuration des rôles et des droits est stockée dans le fichier <code>%permissions%</code>."
@@ -649,6 +649,8 @@ page.login.password-reset-link-sent: "Un lien pour réinitialiser le mot de pass
 page.login.password-show: "Afficher"
 page.login.placeholder.password: "Votre identifiant"
 page.login.title: "Connexion à Bolt"
+
+page.prefill.skipped-existing: "Type de contenu <code>%key%</code> non traité (des enregistrements sont déjà présents)"
 
 panel.latest-activity.button.more: "Afficher plus"
 panel.latest-activity.by: "par"

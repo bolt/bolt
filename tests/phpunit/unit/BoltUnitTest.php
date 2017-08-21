@@ -2,11 +2,11 @@
 
 namespace Bolt\Tests;
 
+use Bolt;
 use Bolt\AccessControl\AccessChecker;
 use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Permissions;
 use Bolt\AccessControl\Token;
-use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
@@ -19,6 +19,7 @@ use GuzzleHttp\Client;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use Silex\Application;
 use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -32,6 +33,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
  **/
 abstract class BoltUnitTest extends TestCase
 {
+    /** @var \Silex\Application|\Bolt\Application */
     private $app;
 
     protected function resetDb()
@@ -95,7 +97,7 @@ abstract class BoltUnitTest extends TestCase
      */
     protected function makeApp()
     {
-        $app = new Application();
+        $app = new Bolt\Application();
         $app['path_resolver.root'] = PHPUNIT_WEBROOT;
         $app['path_resolver.paths'] = ['web' => '.'];
         $app['debug'] = false;
@@ -166,8 +168,10 @@ abstract class BoltUnitTest extends TestCase
             'enabled'     => $enabled,
         ];
 
-        $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
-        $app['users']->users = [];
+        /** @var \Bolt\Users $users */
+        $users = $app['users'];
+        $users->saveUser(array_merge($users->getEmptyUser(), $user));
+        $users->users = [];
     }
 
     protected function allowLogin($app)

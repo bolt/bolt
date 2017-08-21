@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  18 Legacy untranslated messages
-# 171 Untranslated messages
-#  26 Legacy translation messages
-# 385 Translation messages
+#  16 Legacy untranslated messages
+# 173 Untranslated messages
+#  25 Legacy translation messages
+# 386 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -22,9 +22,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
@@ -227,6 +225,9 @@ page.extend.theme.generation.missing.name: # "No theme name found. Theme is not 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(domyślny szablon)"
@@ -245,7 +246,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Image": "Obraz"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Nie pasuje do żadnych skonfigurowanych typów zawartości ani trasy."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Nieprawidłowa ścieżka menu (%PATH%) ustawiona w menu.yml. Prawdopodobnie powinien być link: zamiast tego!"
-"Skipped <tt>%key%</tt> (already has records)": "Pominięty <tt>%key%</tt> (posiada rekordy)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identyfikator i slug dla '%taxonomytype%' to nie to samo ('%slug%' w porównaniu z '%taxonomytype%'). Proszę tak edytować taxonomy.yml, aby je dopasować, żeby zapobiec niespójności między bazą danych i szablonami."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Ustawienia dla ról i uprawnień są przechowywane w <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' jest używany w więcej niż jednym typie zawartości. Proszę przeedytować contenttypes.yml, i uczynić je różnymi."
@@ -652,6 +652,8 @@ page.login.password-reset-link-sent: "Link resetowania hasła został wysłany d
 page.login.password-show: "Pokaż"
 page.login.placeholder.password: "Twoja nazwa użytkownika"
 page.login.title: "Zaloguj się\\_do Bolt"
+
+page.prefill.skipped-existing: "Pominięty <code>%key%</code> (posiada rekordy)"
 
 panel.latest-activity.button.more: "więcej aktywności"
 panel.latest-activity.by: "przez"

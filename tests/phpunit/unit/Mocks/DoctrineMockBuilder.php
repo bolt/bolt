@@ -104,7 +104,6 @@ class DoctrineMockBuilder extends TestCase
             ->method('expr')
             ->will($this->returnValue($exprMock));
 
-
         return $mock;
     }
 

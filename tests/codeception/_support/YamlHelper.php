@@ -268,6 +268,7 @@ class YamlHelper extends \Codeception\Module
         /**
          * Disabled as currently unsupported due to problems in test due to
          * |first filter in base-2016:
+         *
          * @see https://github.com/bolt/bolt/blob/v3.2.16/theme/base-2016/partials/_sub_fields.twig#L104
          */
         unset($theme['templatefields']['extrafields.twig']);
@@ -303,7 +304,7 @@ class YamlHelper extends \Codeception\Module
                 'type'  => 'integer',
                 'index' => true,
             ],
-            'float' => ['type' => 'float'],
+            'float'      => ['type' => 'float'],
             'select_map' => [
                 'type'   => 'select',
                 'values' => [

@@ -137,7 +137,6 @@ class SwitchTokenParserTest extends AbstractTestTokenParser
         $defaultNodes = $switchNode->getNode('default');
         $this->assertSame($caseTextDefault, $defaultNodes->getAttribute('data'));
 
-
         // Test compilation
         $loader = $this->getMockBuilder(LoaderInterface::class)->getMock();
         $env = new Environment($loader, ['cache' => false, 'autoescape' => false, 'optimizations' => 0]);

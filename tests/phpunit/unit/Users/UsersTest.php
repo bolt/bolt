@@ -3,6 +3,7 @@
 namespace Bolt\Tests\Users;
 
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Users;
 
 /**
  * Class to test correct operation of src/Users.

@@ -62,7 +62,7 @@ class DumpRuntimeTest extends BoltUnitTest
                 new VarCloner(),
                 new HtmlDumper(),
                 $users,
-                $debugWhileLoggedOff
+                $debugWhileLoggedOff,
             ])
             ->getMock()
         ;
