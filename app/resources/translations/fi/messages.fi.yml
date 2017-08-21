@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  14 Legacy untranslated messages
 # 169 Untranslated messages
-#  31 Legacy translation messages
-# 382 Translation messages
+#  30 Legacy translation messages
+# 383 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -227,7 +227,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(none)": "(ei mitään)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
-"Content": "Sisältö"
 "Current (saved) status:": "Nykyinen (tallennettu) tila:"
 "Do you really want to delete %FOLDERNAME%?": "Haluatko varmasti poistaa kansion '%FOLDERNAME%'?"
 "Everybody": "Kaikki"
@@ -369,6 +368,7 @@ general.phrase.confirm-remove-file: "Haluatko varmasti poistaa tämän tiedoston
 general.phrase.confirm-remove-image: "Haluatko varmasti poistaa tämän kuvan?"
 general.phrase.confirm-remove-images: "Haluatko varmasti poistaa nämä kuvat?"
 general.phrase.confirm-remove-record: "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
+general.phrase.content: "Sisältö"
 general.phrase.content-type-permissions: "Sisätötyyppien oikeudet"
 general.phrase.content-types: "Sisältötyypit"
 general.phrase.create-user-first: "Luo ensimmäinen käyttäjä"

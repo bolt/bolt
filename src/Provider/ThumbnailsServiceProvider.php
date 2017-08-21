@@ -2,13 +2,13 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Common\Deprecated;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
 use Bolt\Filesystem\Exception\DefaultImageNotFoundException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Matcher;
-use Bolt\Helpers\Deprecated;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;

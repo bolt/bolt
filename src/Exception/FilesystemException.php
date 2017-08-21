@@ -2,7 +2,7 @@
 
 namespace Bolt\Exception;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * Filesystem exceptions.

@@ -189,10 +189,12 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {# COLUMN: Meta #}
             <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
-                {% if content.user.displayname is defined %}
-                {{ content.user.displayname|excerpt(15) }}
-            {% else %}
-                <s>{{ content.ownerid|excerpt(15) }}</s>
+                {% set owner = app.users.user(content.ownerid) %}
+
+                {% if owner %}
+                    {{ owner.displayname[:15] }}
+                {% else %}
+                <s>{{ content.ownerid }}</s>
                 {% endif %}<br>
                 {% if content.status == 'timed' %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
@@ -267,7 +269,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             {{ __('general.phrase.author-colon') }} <strong><i class="fa fa-user"></i>
                                 {% set owner = app.users.user(content.ownerid) %}
                                 {% if owner %}
-                                    {{ owner.displayname|excerpt(15) }}
+                                    {{ owner.displayname[:15] }}
                                 {% else %}
                                     <s>user {{ content.ownerid }}</s>
                                 {% endif %}</strong>
@@ -278,7 +280,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     </li>
                     <li>
                         <a class="nolink">{{ __('general.phrase.slug-colon') }}
-                            <code title="{{ content.slug }}">{{ content.slug|excerpt(24) }}</code>
+                            <code title="{{ content.slug }}">{{ content.slug[:24] }}</code>
                         </a>
                     </li>
                     <li>
@@ -306,14 +308,14 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             {% endfor %}
                             <li>
                                 <a class="nolink">{{ app.config.get('taxonomy')[type].name }}:
-                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")|excerpt(24) }}
+                                    <i class="fa fa-tag"></i> {{ taxlist|join(", ")[:24] }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
                                 {% set taxonomy = taxonomies|first %}
                                 <a class="nolink">{{ app.config.get('taxonomy')[type].singular_name }}:
-                                    <i class="fa fa-tag"></i> {{ taxonomy.name|excerpt(24) }}
+                                    <i class="fa fa-tag"></i> {{ taxonomy.name[:24] }}
                                 </a>
                             </li>
                         {% endif %}

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Embed;
 
+use Bolt\Common\Json;
 use Bolt\Embed;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
@@ -40,7 +41,7 @@ class GuzzleDispatcherTest extends TestCase
             'html'             => '<iframe width="480" height="270" src="https://www.youtube.com/embed/x4IDM3ltTYo?feature=oembed" frameborder="0" allowfullscreen></iframe>',
         ];
         $mock = new MockHandler([
-            new Psr7\Response(200, ['Content-Type' => 'application/json'], json_encode($content)),
+            new Psr7\Response(200, ['Content-Type' => 'application/json'], Json::dump($content)),
         ]);
 
         $handler = HandlerStack::create($mock);
@@ -53,7 +54,7 @@ class GuzzleDispatcherTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('application/json', $response->getContentType());
-        $this->assertSame($content, json_decode($response->getContent(), true));
+        $this->assertSame($content, Json::parse($response->getContent()));
     }
 
     public function testDispatchImages()

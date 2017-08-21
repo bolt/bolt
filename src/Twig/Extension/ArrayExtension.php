@@ -2,11 +2,10 @@
 
 namespace Bolt\Twig\Extension;
 
+use Bolt\Common\Deprecated;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use Bolt\Helpers\Deprecated;
-use Twig_Extension as Extension;
 
 /**
  * Bolt specific Twig functions and filters that provide array manipulation.

@@ -26,6 +26,7 @@ module.exports = {
                 '<%= path.src.lib %>/jquery-hotkeys/jquery-hotkeys.js',
                 '<%= path.tmp %>/modernizr-custom.js',
                 '<%= path.src.npm %>/jquery/dist/jquery.js',
+                '<%= path.src.npm %>/dropzone/dist/dropzone.js',
                 '<%= path.src.npm %>/jquery.cookie/jquery.cookie.js',
                 '<%= path.src.npm %>/jquery-formatdatetime/jquery.formatDateTime.js',
                 '<%= path.src.npm %>/jquery.tagcloud.js/jquery.tagcloud.js',

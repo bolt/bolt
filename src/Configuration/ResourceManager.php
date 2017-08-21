@@ -2,7 +2,7 @@
 
 namespace Bolt\Configuration;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Bolt\Pager\PagerManager;
 use Composer\Autoload\ClassLoader;

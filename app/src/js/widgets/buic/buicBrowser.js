@@ -171,6 +171,8 @@
          *
          * @private
          * @param {Object} modal - The modal dialog object
+         *
+         * TODO this only marks the first occurence of the string, swap out for Regex solution
          */
         _filter: function (modal) {
             var term = modal.body.find('input[name="filter"]').val(),

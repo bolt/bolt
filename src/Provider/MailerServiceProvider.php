@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Silex\Application;
 use Silex\Provider\SwiftmailerServiceProvider;
 use Silex\ServiceProviderInterface;

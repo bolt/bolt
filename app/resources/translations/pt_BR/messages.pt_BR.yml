@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  22 Legacy untranslated messages
 # 249 Untranslated messages
-#  23 Legacy translation messages
-# 302 Translation messages
+#  22 Legacy translation messages
+# 303 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -321,7 +321,6 @@ panel.latest-activity.system: # "Latest system activity"
 "(none)": "(nenhum)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar uma amostra <a href='%url%' class='btn btn-default'>de registro com Loripsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
-"Content": "Conteúdo"
 "Current (saved) status:": "Status atual (salvo):"
 "Everybody": "Todos"
 "Excerpt": "Resumo"
@@ -438,6 +437,7 @@ general.phrase.collapse-sidebar: "Minimizar barra lateral"
 general.phrase.configuration: "Configurações"
 general.phrase.configuration-main: "Principais Configurações"
 general.phrase.confirm-delete-user: "Tem certeza que deseja excluir %username%?"
+general.phrase.content: "Conteúdo"
 general.phrase.content-type-permissions: "Permissões de Tipos de Conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 general.phrase.create-user-first: "Criar o primeiro usuário"

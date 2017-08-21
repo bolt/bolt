@@ -2,6 +2,7 @@
 
 namespace Bolt\AccessControl;
 
+use Bolt\Common\Json;
 use Bolt\Exception\PermissionLexerException;
 use Bolt\Exception\PermissionParserException;
 
@@ -259,7 +260,7 @@ class PermissionParser
             if ($token['match']) {
                 $actualStr .= " ('" . addslashes($token['match']) . "')";
             }
-            $actualStr .= ' <<< ' . json_encode($token) . ' >>> ';
+            $actualStr .= ' <<< ' . Json::dump($token) . ' >>> ';
             throw new PermissionParserException("Parser error: expected $expectedStr, but found $actualStr");
         }
     }

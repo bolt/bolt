@@ -2,7 +2,7 @@
 
 namespace Bolt\Controller;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement} instead.

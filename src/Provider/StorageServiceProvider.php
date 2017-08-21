@@ -288,7 +288,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.flash'],
                     $app['password_factory'],
                     $app['access_control.hash.strength'],
-                    $app['config']->get('general/performance/timed_records/use_cron', false)
+                    !$app['config']->get('general/performance/timed_records/use_cron', false)
                 );
             }
         );

@@ -185,9 +185,7 @@ class General extends BackendBase
 
         // Create the form
         $options = [
-            'attr' => [
-                'data-bind' => json_encode(['bind' => 'prefill']),
-            ],
+            'attr'         => ['data-bind' => '{"bind":"prefill"}'],
             'contenttypes' => $choices,
         ];
         $form = $this->createFormBuilder(PrefillType::class, [], $options)

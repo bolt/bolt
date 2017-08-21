@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Json;
 use Bolt\Config;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Stack;
@@ -272,7 +273,7 @@ class AdminRuntime
                 } elseif ($name === 'class') {
                     $add($name, $this->hclass($value, true));
                 } elseif (is_array($value)) {
-                    $add($name, json_encode($value));
+                    $add($name, Json::dump($value));
                 } else {
                     $add($name, $value);
                 }

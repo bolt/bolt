@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Twig\Environment;
 use Twig\Extension\SandboxExtension;
 use Twig_ExtensionInterface as ExtensionInterface;

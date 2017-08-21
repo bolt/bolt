@@ -20,11 +20,11 @@
                 {# dir \Bolt\Filesystem\Handler\DirectoryInterface #}
                 {%- if not loop.last or loop.first -%}
                     <a href="#" data-fbrowser-chdir="{{ path('asyncbrowse', {'namespace': dir.mountPoint, 'path': dir.path}) }}">
-                        {{- (dir.filename ?: dir.mountPoint)|excerpt(40)|shy -}}
+                        {{- (dir.filename ?: dir.mountPoint)[:40]|shy -}}
                     </a>
                     {{- loop.first ? '://' : '/' -}}
                 {%- else -%}
-                    {{- (dir.filename ?: dir.mountPoint)|excerpt(40)|shy -}}
+                    {{- (dir.filename ?: dir.mountPoint)[:40]|shy -}}
                 {%- endif -%}
             {% endfor %}
         </h4>

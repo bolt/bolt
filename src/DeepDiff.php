@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Logger\Handler\RecordChangeHandler;
 
 /**

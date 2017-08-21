@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -114,8 +115,8 @@ class TemplateFieldsType extends FieldTypeBase
             if (!isset($input[$key])) {
                 continue;
             }
-            if ($this->isJson($input[$key])) {
-                $input[$key] = json_decode($input[$key], true);
+            if (Json::test($input[$key])) {
+                $input[$key] = Json::parse($input[$key]);
             }
             $output[$key] = $type->convertToDatabaseValue($input[$key], $this->getPlatform());
         }

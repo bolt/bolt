@@ -12,7 +12,8 @@ module.exports = {
         'bootbox':    true, // Bootbox.js
         'google':     true, // Google (Geolocation)
         'moment':     true, // Moment.js (deprecated)
-        'UIkit':      true  // UIkit
+        'UIkit':      true, // UIkit
+        'Dropzone':   true  // Dropzone.js
     },
     'extends': 'eslint:recommended',
     'rules': {

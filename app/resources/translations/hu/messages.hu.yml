@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  12 Legacy untranslated messages
 # 101 Untranslated messages
-#  33 Legacy translation messages
-# 450 Translation messages
+#  32 Legacy translation messages
+# 451 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -158,7 +158,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Hiba történt `%TABLE%` frissítése közben. A hiba: %ERROR%"
-"Content": "Tartalom"
 "Current (saved) status:": "Jelenlegi (mentett) státusz:"
 "Do you really want to delete %FOLDERNAME%?": "Valóban törölni szeretnéd a %FOLDERNAME% mappát?"
 "Everybody": "Mindenki"
@@ -306,6 +305,7 @@ general.phrase.confirm-remove-files: "Biztosan törölni szeretné ezeket a fáj
 general.phrase.confirm-remove-image: "Valóban törölni szeretnéd ezt a képet?"
 general.phrase.confirm-remove-images: "Valóban törölni szeretnéd ezeket a képeket?"
 general.phrase.confirm-remove-record: "Biztos törlöd ezt a rekordot? Később már nemlehet visszavonni."
+general.phrase.content: "Tartalom"
 general.phrase.content-type-permissions: "Tartalomtípus Engedélyek"
 general.phrase.content-types: "Tartalomtípusok"
 general.phrase.create-user-first: "Első felhasználó létrehozása"

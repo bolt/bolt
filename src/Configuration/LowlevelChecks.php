@@ -2,8 +2,8 @@
 
 namespace Bolt\Configuration;
 
+use Bolt\Common\Deprecated;
 use Bolt\Exception\BootException;
-use Bolt\Helpers\Deprecated;
 
 /**
  * @deprecated Deprecated since 3.1, to be removed in 4.0.
@@ -45,7 +45,7 @@ class LowlevelChecks
 
         $this->config = $config;
         $this->magicQuotes = get_magic_quotes_gpc();
-        $this->safeMode = ini_get('safe_mode');
+        $this->safeMode = false;
         $this->isApache = (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false);
         $this->postgresLoaded = extension_loaded('pdo_pgsql');
         $this->sqliteLoaded = extension_loaded('pdo_sqlite');

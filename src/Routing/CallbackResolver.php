@@ -2,7 +2,7 @@
 
 namespace Bolt\Routing;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 
 /**
  * Handles resolving callbacks from routing.yml that specify a class name.

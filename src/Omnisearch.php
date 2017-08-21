@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 use Symfony\Component\Finder\Finder;
@@ -219,8 +220,13 @@ class Omnisearch
         if (!$this->showExtensions) {
             return;
         }
+        /** @var MenuEntry $menus */
+        $menus = $this->app['menu.admin'];
+        if (!$menus->has('extensions')) {
+            return;
+        }
+        $extensionsMenu = $menus->get('extensions')->children();
 
-        $extensionsMenu = $this->app['menu.admin']->get('extensions')->children();
         $index = 0;
         /** @var \Bolt\Menu\MenuEntry $extension */
         foreach ($extensionsMenu as $extension) {

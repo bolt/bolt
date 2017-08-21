@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Twig\Runtime;
 
+use Bolt\Common\Json;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\TextRuntime;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
@@ -34,7 +35,7 @@ class TextRuntimeTest extends BoltUnitTest
             'extension' => 'Clippy',
         ];
 
-        $result = $handler->jsonDecode(json_encode($array));
+        $result = $handler->jsonDecode(Json::dump($array));
         $this->assertSame($array, $result);
     }
 
@@ -179,7 +180,7 @@ class TextRuntimeTest extends BoltUnitTest
         $handler = new TextRuntime($app['logger.system'], $app['slugify']);
 
         $array = ['koala', 'clippy'];
-        $result = $handler->testJson(json_encode($array));
+        $result = $handler->testJson(Json::dump($array));
         $this->assertTrue($result);
     }
 

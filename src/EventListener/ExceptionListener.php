@@ -2,6 +2,7 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Common\Serialization;
 use Bolt\Config;
 use Bolt\Exception\BootException;
 use Bolt\Exception\Configuration\Validation\Database\AbstractDatabaseValidationException;
@@ -342,7 +343,7 @@ class ExceptionListener implements EventSubscriberInterface
             return;
         }
 
-        $serialised = serialize(FlattenException::create($exception));
+        $serialised = Serialization::dump(FlattenException::create($exception));
 
         $sourceFile = str_replace($this->rootPath, '', $exception->getFile());
         $sourceFile = substr($sourceFile, -102);

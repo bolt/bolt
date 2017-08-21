@@ -221,7 +221,8 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
-     * @param string $field
+     * @param string      $field
+     * @param string|null $block
      *
      * @throws FieldConfigurationException
      *

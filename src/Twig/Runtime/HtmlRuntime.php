@@ -2,8 +2,8 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Deprecated;
 use Bolt\Config;
-use Bolt\Helpers\Deprecated;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
@@ -196,7 +196,7 @@ class HtmlRuntime
      */
     public function twig(Environment $env, $snippet, $context = [])
     {
-        Deprecated::warn(3.3, 'Use import(template_from_string()) instead');
+        Deprecated::warn('Using the Twig filter |twig', 3.3, 'Use import(template_from_string()) instead');
 
         $template = $env->createTemplate((string) $snippet);
 

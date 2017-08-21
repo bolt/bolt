@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Menu\MenuEntry;
 use Pimple as Container;
 
@@ -40,6 +40,10 @@ trait MenuTrait
             $app->extend(
                 'menu.admin',
                 function (MenuEntry $menus) {
+                    if (!$menus->has('extensions')) {
+                        return $menus;
+                    }
+
                     /** @var MenuEntry $menus */
                     $extendMenu = $menus->get('extensions');
 

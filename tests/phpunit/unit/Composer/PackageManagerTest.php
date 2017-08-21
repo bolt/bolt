@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Composer;
 
+use Bolt\Common\Json;
 use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
@@ -251,9 +252,9 @@ class PackageManagerTest extends TestCase
         $package = $packages->get('test/installed-b');
         $package->setConstraint('a.b.c');
 
-        $expected = '{"test\/installed-a":{"status":"installed","type":"library","name":"test\/installed-a","title":null,"description":null,"version":"1.2.3","authors":null,"keywords":null,"readmeLink":"\/async\/readme\/test\/installed-a","configLink":"\/bolt\/file\/edit\/extensions\/installed-a.test.yml","repositoryLink":null,"constraint":"x.y.z","valid":true,"enabled":false},"test\/installed-b":{"status":"installed","type":"library","name":"test\/installed-b","title":"test\/installed-b","description":null,"version":"2.4.6","authors":null,"keywords":null,"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"a.b.c","valid":true,"enabled":true},"test\/required-a":{"status":"pending","type":"unknown","name":"test\/required-a","title":"test\/required-a","description":"Not yet installed.","version":"^3.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false},"test\/required-b":{"status":"pending","type":"unknown","name":"test\/required-b","title":"test\/required-b","description":"Not yet installed.","version":"^4.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false}}';
+        $expected = '{"test/installed-a":{"status":"installed","type":"library","name":"test/installed-a","title":null,"description":null,"version":"1.2.3","authors":null,"keywords":null,"readmeLink":"/async/readme/test/installed-a","configLink":"/bolt/file/edit/extensions/installed-a.test.yml","repositoryLink":null,"constraint":"x.y.z","valid":true,"enabled":false},"test/installed-b":{"status":"installed","type":"library","name":"test/installed-b","title":"test/installed-b","description":null,"version":"2.4.6","authors":null,"keywords":null,"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":"a.b.c","valid":true,"enabled":true},"test/required-a":{"status":"pending","type":"unknown","name":"test/required-a","title":"test/required-a","description":"Not yet installed.","version":"^3.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false},"test/required-b":{"status":"pending","type":"unknown","name":"test/required-b","title":"test/required-b","description":"Not yet installed.","version":"^4.0","authors":[],"keywords":[],"readmeLink":null,"configLink":null,"repositoryLink":null,"constraint":null,"valid":false,"enabled":false}}';
 
-        $this->assertSame($expected, json_encode($packages));
+        $this->assertSame($expected, Json::dump($packages));
     }
 
     public function providerActions()

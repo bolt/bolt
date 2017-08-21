@@ -2,6 +2,7 @@
 
 namespace Bolt\Legacy;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Entity;
 use Silex;
 use Twig\Markup;
@@ -168,7 +169,7 @@ class Content implements \ArrayAccess
                 case 'filelist':
                     if (is_string($this->values[$name])) {
                         // Parse the field as JSON, return the array
-                        $value = json_decode($this->values[$name]);
+                        $value = Json::parse($this->values[$name]);
                     } else {
                         // Already an array, do nothing.
                         $value = $this->values[$name];
