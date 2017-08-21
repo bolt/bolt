@@ -45,8 +45,13 @@ class RepeaterType extends FieldTypeBase
 
         $subQuery = '(SELECT ' . $this->getPlatformGroupConcat($query) . " FROM $table f WHERE f.content_id = $alias.id AND f.contenttype='$boltname' AND f.name = '$field') as $field";
         $query->addSelect($subQuery);
+
+        return null;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function persist(QuerySet $queries, $entity)
     {
         $this->normalize($entity);

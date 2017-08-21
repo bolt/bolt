@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  22 Legacy untranslated messages
-# 249 Untranslated messages
-#  22 Legacy translation messages
-# 303 Translation messages
+#  20 Legacy untranslated messages
+# 253 Untranslated messages
+#  21 Legacy translation messages
+# 304 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -26,9 +26,7 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
@@ -154,6 +152,7 @@ general.phrase.system-config-checks: # "System Configuration Checks"
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.upload: # "Upload"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -302,11 +301,15 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 page.login.label.password: # "Password"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -327,7 +330,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Expand sidebar": "Expandir barra lateral"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O arquivo '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
 "Image": "Imagem"
-"Skipped <tt>%key%</tt> (already has records)": "Ignorado <tt>%key%</tt> (já possui um registro)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
@@ -654,6 +656,8 @@ page.login.password-reset-link-sent: "Um link para redefinir a senha foi enviado
 page.login.password-show: "Mostar"
 page.login.placeholder.password: "Seu nome de usuário"
 page.login.title: "Registrar no Bolt"
+
+page.prefill.skipped-existing: "Ignorado <code>%key%</code> (já possui um registro)"
 
 panel.latest-activity.button.more: "mais atividades"
 panel.latest-activity.by: "por"

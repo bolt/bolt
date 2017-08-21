@@ -55,7 +55,7 @@ class EntityTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $repo = $app['storage']->getRepository('pages');
-        $content = $repo->findOneBy(['id'=>1]);
+        $content = $repo->findOneBy(['id' => 1]);
         $vals = $content->getValues();
         $this->assertArrayNotHasKey('datepublish', $vals);
         $this->assertArrayNotHasKey('datedepublish', $vals);

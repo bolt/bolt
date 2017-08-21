@@ -11,6 +11,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
@@ -166,6 +167,8 @@ class AccessChecker
             } catch (TableNotFoundException $e) {
                 // Database tables have been dropped
             } catch (InvalidFieldNameException $e) {
+                // Database tables need updating
+            } catch (DriverException $e) {
                 // Database tables need updating
             }
         }

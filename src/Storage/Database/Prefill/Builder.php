@@ -40,10 +40,11 @@ class Builder
      *
      * @param array $contentTypeNames
      * @param int   $count
+     * @param bool  $canExceedMax
      *
-     * @return null
+     * @return array
      */
-    public function build(array $contentTypeNames, $count)
+    public function build(array $contentTypeNames, $count, $canExceedMax = false)
     {
         $response = ['created' => null, 'errors' => null];
         foreach ($contentTypeNames as $contentTypeName) {
@@ -51,34 +52,36 @@ class Builder
                 $existingCount = $this->storage->getRepository($contentTypeName)->count();
             } catch (TableNotFoundException $e) {
                 $response['errors'][$contentTypeName] = Trans::__(
-                    'Table not found for ContentType %CONTENTTYPE%, a database update is probably required.',
+                    'page.prefill.database-update-required',
                     ['%CONTENTTYPE%' => $contentTypeName]
                 );
 
                 continue;
             }
 
-            if ($existingCount >= $this->maxCount) {
+            // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
+            if ($existingCount >= $this->maxCount && !$canExceedMax) {
                 $response['errors'][$contentTypeName] = Trans::__(
-                    'Skipped <tt>%key%</tt> (already has records)',
+                    'page.prefill.skipped-existing',
                     ['%key%' => $contentTypeName]
                 );
 
                 continue;
             }
 
-            $count -= $existingCount;
-            if ($count > 0) {
-                $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
-                try {
-                    $response['created'][$contentTypeName] = $recordContentGenerator->generate($count);
-                } catch (RequestException $e) {
-                    $response['errors'][$contentTypeName] = Trans::__(
-                        "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
-                    );
+            // Take the current amount of items into consideration, when adding more.
+            $createCount = $canExceedMax ? $count : $count - $existingCount;
+            if ($createCount < 1) {
+                continue;
+            }
 
-                    return $response;
-                }
+            $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
+            try {
+                $response['created'][$contentTypeName] = $recordContentGenerator->generate($createCount);
+            } catch (RequestException $e) {
+                $response['errors'][$contentTypeName] = Trans::__('page.prefill.connection-timeout');
+
+                return $response;
             }
         }
 

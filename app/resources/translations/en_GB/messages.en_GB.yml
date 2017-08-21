@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   2 Legacy untranslated messages
 #   0 Untranslated messages
-#  42 Legacy translation messages
-# 552 Translation messages
+#  39 Legacy translation messages
+# 557 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -41,15 +41,12 @@
 "Image": "Image"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!"
-"Skipped <tt>%key%</tt> (already has records)": "Skipped <tt>%key%</tt> (already has records)"
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "The settings for roles and permissions are stored in <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 "Title": "Title"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page."
 "Unable to create directory: %DIR%": "Unable to create directory: %DIR%"
@@ -638,6 +635,10 @@ page.login.password-reset-link-sent: "A password reset link has been sent to '%u
 page.login.password-show: "Show"
 page.login.placeholder.password: "Your username"
 page.login.title: "Sign in to Bolt"
+
+page.prefill.connection-timeout: "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-existing: "Skipped <code>%key%</code> (already has records)"
 
 panel.latest-activity.button.more: "more activity"
 panel.latest-activity.by: "by"

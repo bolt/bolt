@@ -65,7 +65,6 @@ class RecordContentGeneratorTest extends BoltUnitTest
             $app['prefill.default_field_values']
         );
 
-
         return $generator;
     }
 }

@@ -8,16 +8,14 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   3 Legacy untranslated messages
-#  13 Untranslated messages
-#  41 Legacy translation messages
-# 539 Translation messages
+#   1 Legacy untranslated messages
+#  17 Untranslated messages
+#  40 Legacy translation messages
+# 540 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -25,6 +23,8 @@ field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
 field.repeater.label.add-set: # "Add new %label% set"
+
+general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
 
@@ -38,6 +38,11 @@ page.checks.system-problem: # "System configuration check found problems!"
 page.edit-users.error.email-invalid: # "This email address is not valid."
 page.edit-users.error.password-different-email: # "Password must not match the email address."
 page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
+
+page.file-management.actions-for-files: # "Actions for files"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -63,7 +68,6 @@ page.edit-users.error.password-long: # "This value is too long. It should have 1
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Waarschijnlijk had deze een link moeten zijn!"
 "Menu": "Menu"
 "Search": "Zoek"
-"Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
 "The field %field% has been changed to \"%newValue%\"": "Het veld %field% is aangepast naar \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "De identifier en slug voor '%taxonomytype%' zijn niet hetzelfde ('%slug%' vs. '%taxonomytype%'). Bewerk taxonomy.yml, en laat ze overeenkomen om inconsistenties tussen de database-opslag en je templates te voorkomen."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "De instellingen voor rollen en permissies zijn opgeslagen in <code>%permissions%</code>."
@@ -640,6 +644,8 @@ page.login.password-reset-link-sent: "Een link om het wachtwoord te resetten is 
 page.login.password-show: "Toon"
 page.login.placeholder.password: "Je inlognaam"
 page.login.title: "Inloggen"
+
+page.prefill.skipped-existing: "Overgeslagen: <code>%key%</code> (deze heeft al records)"
 
 panel.latest-activity.button.more: "meer activiteit"
 panel.latest-activity.by: "door"

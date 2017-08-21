@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  32 Legacy untranslated messages
-# 371 Untranslated messages
-#  12 Legacy translation messages
-# 181 Translation messages
+#  30 Legacy untranslated messages
+# 375 Untranslated messages
+#  11 Legacy translation messages
+# 182 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -29,14 +29,12 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -244,6 +242,7 @@ general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.used-libraries: # "Used Libraries / Components"
 general.phrase.users-none-create-first: # "There are no users in the database. Please create the first user."
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
@@ -422,6 +421,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -440,6 +440,9 @@ page.login.password-hide: # "Hide"
 page.login.password-show: # "Show"
 page.login.placeholder.password: # "Your username"
 page.login.title: # "Sign in to Bolt"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.button.more: # "more activity"
 panel.latest-activity.change: # "Latest changes"
@@ -469,7 +472,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
 "Image": "Εικόνα"
-"Skipped <tt>%key%</tt> (already has records)": "Παράληψη <tt>%key%</tt> (Έχει ήδη εγγραφές)"
 "Title": "Τίτλος"
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
 
@@ -669,6 +671,8 @@ page.file-management.message.upload-success: "Το αρχείο '%file%' φορ�
 page.file-management.title: "Αρχεία"
 
 page.login.password-reset-link-sent: "Σύνδεσμος για καινούριο κωδικό πρόσβασης στάλθηκε στον '%user%'."
+
+page.prefill.skipped-existing: "Παράληψη <code>%key%</code> (Έχει ήδη εγγραφές)"
 
 panel.latest-activity.by: "απο"
 

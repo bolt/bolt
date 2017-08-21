@@ -499,7 +499,7 @@ class General extends AsyncBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Get the 'latest' from the requested ContentType.
-        $latest = $this->getContent($contenttype['slug'], ['limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false]);
+        $latest = $this->getContent($contenttype['slug'], ['limit' => 5, 'order' => '-datechanged', 'hydrate' => false]);
 
         $context = [
             'latest'      => $latest,

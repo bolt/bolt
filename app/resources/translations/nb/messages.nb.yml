@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  28 Legacy untranslated messages
-# 373 Untranslated messages
-#  16 Legacy translation messages
-# 179 Translation messages
+#  26 Legacy untranslated messages
+# 377 Untranslated messages
+#  15 Legacy translation messages
+# 180 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -30,9 +30,7 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -244,6 +242,7 @@ general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.types: # "Types"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
@@ -420,6 +419,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -439,6 +439,9 @@ page.login.password-hide: # "Hide"
 page.login.password-show: # "Show"
 page.login.placeholder.password: # "Your username"
 page.login.title: # "Sign in to Bolt"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.button.more: # "more activity"
 panel.latest-activity.change: # "Latest changes"
@@ -462,7 +465,6 @@ panel.user-actions.button.add: # "Add a new user"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
 "Image": "Bilde"
-"Skipped <tt>%key%</tt> (already has records)": "Hoppet over <tt>%key%</tt> (har allerede poster)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikator og slug for '%taxonomytype%' er ikke det samme ('%slug%' vs. '%taxonomytype%'). Endre taxonomy.yml slik at de samsvarer for å hindre inkonsistens mellom databaselager og dine maler."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Innstillinger for roller og rettigheter lagres i %permissions%."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
@@ -665,6 +667,8 @@ page.file-management.message.save-success: "Fila «%s» er lagret."
 page.file-management.message.upload-success: "Fila «%file%» er lastet opp."
 
 page.login.password-reset-link-sent: "En lenke for nullstilling av passord er sendt til «%user%»."
+
+page.prefill.skipped-existing: "Hoppet over <code>%key%</code> (har allerede poster)"
 
 panel.latest-activity.by: "av"
 

@@ -177,14 +177,14 @@ class Excerpt
     {
         // If we only have 1 match we don't actually do the for loop so set to the first
         $startPos = (int) reset($locations);
-        $loccount = count($locations);
+        $locCount = count($locations);
         $smallestDiff = PHP_INT_MAX;
 
         // If we only have 2, skip as it's probably equally relevant
-        if (count($locations) > 2) {
+        if ($locCount > 2) {
             // skip the first as we check 1 behind
-            for ($i = 1; $i < $loccount; ++$i) {
-                if ($i === $loccount - 1) { // at the end
+            for ($i = 1; $i < $locCount; ++$i) {
+                if ($i === $locCount - 1) { // at the end
                     $diff = $locations[$i] - $locations[$i - 1];
                 } else {
                     $diff = $locations[$i + 1] - $locations[$i];
