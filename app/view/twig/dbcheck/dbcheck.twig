@@ -47,7 +47,10 @@
 
                 {{ list(__('general.phrase.hints-colon'), hints) }}
 
-                {% if isallowed('prefill') %}
+            {% endif %}
+
+            {% if isallowed('prefill') %}
+
                 <br>
                 <hr>
 
@@ -55,7 +58,6 @@
                     <b>{{ __('general.phrase.tip-colon') }}</b>
                     {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-default\'>Records with Loripsum text</a>', {'%url%': path('prefill')}) }}
                 </p>
-                {% endif %}
 
             {% endif %}
 

@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  12 Legacy untranslated messages
-# 101 Untranslated messages
-#  32 Legacy translation messages
-# 451 Translation messages
+#  10 Legacy untranslated messages
+# 105 Untranslated messages
+#  31 Legacy translation messages
+# 452 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -22,9 +22,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
@@ -94,6 +92,7 @@ general.phrase.slug-colon: # "Slug:"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-progress: # "Current uploads"
 
 general.visit-bolt: # "Visit Bolt.cm"
 
@@ -142,7 +141,11 @@ page.extend.message.package-dependencies: # "Packages that depend on this"
 page.extend.message.package-install-info-fail: # "Unable to get installation information for %PACKAGE% %VERSION%."
 page.extend.message.running-update-all: # "Running updates"
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -167,7 +170,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Image": "Kép"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Nincs egyező tartalomtípus vagy az útvonalválasztó."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
-"Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkeszd úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkeszd úgy a contenttypes.yml fájlt, hogy különbözzenek."
@@ -652,6 +654,8 @@ page.login.password-reset-link-sent: "Jelszó visszaállítási link elküldve a
 page.login.password-show: "Mutat"
 page.login.placeholder.password: "A felhasználóneved"
 page.login.title: "Bejelentkezés"
+
+page.prefill.skipped-existing: "<code>%key%</code> kihagyva (már tartalmaz bejegyzéseket)"
 
 panel.latest-activity.button.more: "további aktivitások"
 panel.latest-activity.by: "általa:"

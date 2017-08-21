@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  26 Legacy untranslated messages
-# 289 Untranslated messages
-#  18 Legacy translation messages
-# 263 Translation messages
+#  24 Legacy untranslated messages
+# 293 Untranslated messages
+#  17 Legacy translation messages
+# 264 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -28,9 +28,7 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -191,6 +189,7 @@ general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
@@ -345,6 +344,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.create-file: # "Please enter the new file name"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
@@ -352,6 +352,9 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.login.cookies-required: # "Note: Cookies are required to log on to Bolt. Please allow cookies."
 page.login.title: # "Sign in to Bolt"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.by: # "by"
 panel.latest-activity.change: # "Latest changes"
@@ -373,7 +376,6 @@ panel.user-actions.button.add: # "Add a new user"
 "Excerpt": "概要"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "ファイル '%file%' をアップロードできませんでした（間違っている/許可されていない ファイルの種類）。 ファイルの拡張子が以下に含まれるかご確認ください:"
 "Image": "画像"
-"Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt>をスキップしました (すでにレコードが存在します)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' の識別名とスラッグが同じではありません('%slug%' vs. '%taxonomytype%')。taxonomy.xml を編集して、２つを一致させ、データベースとテンプレートの不整合を解消してください。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "ロールとパーミッションの設定は<code>%permissions%</code>に保存されています。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
@@ -658,6 +660,8 @@ page.login.password-hide: "隠す"
 page.login.password-reset-link-sent: "パスワードリセット用のリンクが '%user%'に送信されました"
 page.login.password-show: "表示"
 page.login.placeholder.password: "ユーザー名"
+
+page.prefill.skipped-existing: "<code>%key%</code>をスキップしました (すでにレコードが存在します)"
 
 panel.latest-activity.button.more: "ほかの操作"
 panel.latest-activity.logged-in: "ログイン"
