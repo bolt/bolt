@@ -41,16 +41,14 @@ class YamlFile implements OutputFileInterface
     }
 
     /**
-     * @see \Bolt\Storage\Migration\File\MigrationFileInterface::addRecord()
-     *
-     * @param mixed $last
+     * {@inheritdoc}
      */
     public function addRecord(array $data, $last)
     {
         // Generate the YAML string
         try {
-            // Add the record as an indexed array of itself as we're writing @author gawain
-            // recorc/row at a time and… YAML.
+            // Add the record as an indexed array of itself as we're writing
+            // record/row at a time and… YAML.
             $yaml = $this->dumper->dump([$data], 4);
         } catch (\Exception $e) {
             $this->export

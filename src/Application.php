@@ -2,9 +2,9 @@
 
 namespace Bolt;
 
+use Bolt\Common\Deprecated;
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
-use Bolt\Helpers\Deprecated;
 use Bolt\Legacy\AppSingleton;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;

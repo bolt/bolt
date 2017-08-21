@@ -2,38 +2,27 @@
 
 {# Empty array for submenu #}
 {% set sub = [] %}
-{% set extend_menu = app['menu.admin'].get('extensions') %}
+{% set extend_menu = menus.get('extensions') %}
 
-{% if isallowed('extensions||extensions:config') %}
+{# Add the "view" and "configure" options #}
+{% set sub = sub|merge([{
+    icon: extend_menu.icon,
+    label: (extend_menu.children|length > 0) ? extend_menu.label : __('general.phrase.extensions'),
+    uri: extend_menu.uri
+}]) %}
 
-    {# Add the "view" and "configure" options #}
-    {% set sub = sub|merge([
-        {
-            icon: extend_menu.icon,
-            label: (extend_menu.children|length > 0) ? extend_menu.label : __('general.phrase.extensions'),
-            link: extend_menu.uri,
-            isallowed: extend_menu.permission
-        }
-    ]) %}
-
-    {# Add a divider, if there are any items to print. We don't want a divider with nothing below it #}
-    {% if extend_menu.children|length > 0 %}
-        {% set sub = sub|merge(['-']) %}
-    {% endif %}
-
-
+{# Add a divider, if there are any items to print. We don't want a divider with nothing below it #}
+{% if extend_menu.children|length > 0 %}
+    {% set sub = sub|merge(['-']) %}
 {% endif %}
 
 {# Add the available extensions that have added a menu-item. #}
 {% for extend_submenu in extend_menu.children %}
-    {% set sub = sub|merge([
-        {
-            icon: extend_submenu.icon|default('fa:briefcase'),
-            label: extend_submenu.label,
-            link: extend_submenu.uri,
-            isallowed: extend_submenu.permission
-        }
-    ]) %}
+    {% set sub = sub|merge([{
+        icon: extend_submenu.icon|default('fa:briefcase'),
+        label: extend_submenu.label,
+        uri: extend_submenu.uri
+    }]) %}
 {% endfor %}
 
 {{ nav.submenu('fa:cubes', __('general.phrase.extensions'), sub, (page_nav == 'Settings/ExtendBolt')) }}

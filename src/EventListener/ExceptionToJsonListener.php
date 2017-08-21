@@ -2,7 +2,7 @@
 
 namespace Bolt\EventListener;
 
-use Bolt\Helpers\Str;
+use Bolt\Common\Str;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,7 +87,7 @@ class ExceptionToJsonListener implements EventSubscriberInterface
             $errorType = substr($errorType, $pos);
         }
 
-        $errorType = Str::replaceLast('Exception', '', $errorType);
+        $errorType = Str::replaceLast($errorType, 'Exception', '');
 
         if (!$errorType) {
             $errorType = 'Unknown';

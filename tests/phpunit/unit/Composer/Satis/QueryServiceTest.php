@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Composer\Satis;
 
+use Bolt\Common\Json;
 use Bolt\Composer\Satis\QueryService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -21,7 +22,7 @@ class QueryServiceTest extends TestCase
     public function testPackageInfoValid()
     {
         $mock = new MockHandler([
-            new Response(200, [], json_encode(['package' => 'gawain/clippy', 'version' => '2.3.4'])),
+            new Response(200, [], Json::dump(['package' => 'gawain/clippy', 'version' => '2.3.4'])),
         ]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
@@ -36,7 +37,7 @@ class QueryServiceTest extends TestCase
     public function testPackageInfoInvalid()
     {
         $mock = new MockHandler([
-            new Response(200, [], json_encode(['package' => false, 'version' => false])),
+            new Response(200, [], Json::dump(['package' => false, 'version' => false])),
         ]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
@@ -53,7 +54,7 @@ class QueryServiceTest extends TestCase
     public function testInfoList()
     {
         $mock = new MockHandler([
-            new Response(200, [], json_encode(['packages' => [
+            new Response(200, [], Json::dump(['packages' => [
                 ['gawain/clippy', 'version' => '2.3.4'],
                 ['evil/clippy', 'version' => '0.0.1'],
             ]])),

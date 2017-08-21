@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt;
 use Bolt\Nut;
+use Bolt\SimpleDeploy\Nut\SetupDeploy;
 use LogicException;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -37,7 +38,7 @@ class NutServiceProvider implements ServiceProviderInterface, BootableProviderIn
         $app['nut.command.twig_lint'] = function () { return new Bridge\Twig\Command\LintCommand(); };
 
         $app['nut.commands'] = function ($app) {
-            return [
+            $commands = [
                 new Nut\CacheClear(),
                 new Nut\ConfigGet(),
                 new Nut\ConfigSet(),
@@ -75,6 +76,11 @@ class NutServiceProvider implements ServiceProviderInterface, BootableProviderIn
                 $app['nut.command.twig_debug'],
                 $app['nut.command.twig_lint'],
             ];
+            if (class_exists(SetupDeploy::class)) {
+                $commands[] = new SetupDeploy();
+            }
+
+            return $commands;
         };
 
         /**

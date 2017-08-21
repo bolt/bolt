@@ -1,7 +1,8 @@
 <?php
 
-namespace Bolt\Menu;
+namespace Bolt\Menu\Builder;
 
+use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 
 /**
@@ -12,7 +13,7 @@ use Bolt\Translation\Translator as Trans;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-final class AdminMenuBuilder
+final class AdminMenu
 {
     /**
      * Build the menus.
@@ -40,7 +41,7 @@ final class AdminMenuBuilder
     {
         // Main configuration
         $configEntry = $root->add(
-            (new MenuEntry('config', 'config'))
+            MenuEntry::create('config')
                 ->setLabel(Trans::__('general.phrase.configuration'))
                 ->setIcon('fa:cogs')
                 ->setPermission('settings')
@@ -48,7 +49,7 @@ final class AdminMenuBuilder
 
         // Users & Permissions
         $configEntry->add(
-            (new MenuEntry('users'))
+            MenuEntry::create('users')
                 ->setRoute('users')
                 ->setLabel(Trans::__('general.phrase.users-permissions'))
                 ->setIcon('fa:group')
@@ -57,52 +58,52 @@ final class AdminMenuBuilder
 
         // Main configuration
         $configEntry->add(
-            (new MenuEntry('config_main'))
+            MenuEntry::create('config_main')
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'config.yml'])
                 ->setLabel(Trans::__('general.phrase.configuration-main'))
                 ->setIcon('fa:cog')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // ContentTypes
         $configEntry->add(
-            (new MenuEntry('config_contenttypes'))
+            MenuEntry::create('config_contenttypes')
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml'])
                 ->setLabel(Trans::__('general.phrase.content-types'))
                 ->setIcon('fa:paint-brush')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Taxonomy
         $configEntry->add(
-            (new MenuEntry('config_taxonomy'))
+            MenuEntry::create('config_taxonomy')
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml'])
                 ->setLabel(Trans::__('general.phrase.taxonomy'))
                 ->setIcon('fa:tags')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Menus
         $configEntry->add(
-            (new MenuEntry('config_menu'))
+            MenuEntry::create('config_menu')
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'menu.yml'])
                 ->setLabel(Trans::__('general.phrase.menu-setup'))
                 ->setIcon('fa:list')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Routing
         $configEntry->add(
-            (new MenuEntry('config_routing'))
+            MenuEntry::create('config_routing')
                 ->setRoute('fileedit', ['namespace' => 'config', 'file' => 'routing.yml'])
                 ->setLabel(Trans::__('menu.configuration.routing'))
                 ->setIcon('fa:random')
-                ->setPermission('files:config')
+                ->setPermission('fileedit')
         );
 
         // Database checks
         $configEntry->add(
-            (new MenuEntry('dbcheck'))
+            MenuEntry::create('dbcheck')
                 ->setRoute('dbcheck')
                 ->setLabel(Trans::__('general.phrase.check-database'))
                 ->setIcon('fa:database')
@@ -111,7 +112,7 @@ final class AdminMenuBuilder
 
         // Cache flush
         $configEntry->add(
-            (new MenuEntry('clearcache'))
+            MenuEntry::create('clearcache')
                 ->setRoute('clearcache')
                 ->setLabel(Trans::__('general.phrase.clear-cache'))
                 ->setIcon('fa:eraser')
@@ -120,7 +121,7 @@ final class AdminMenuBuilder
 
         // Change log
         $configEntry->add(
-            (new MenuEntry('log_change'))
+            MenuEntry::create('log_change')
                 ->setRoute('changelog')
                 ->setLabel(Trans::__('logs.change-log'))
                 ->setIcon('fa:archive')
@@ -129,7 +130,7 @@ final class AdminMenuBuilder
 
         // System log
         $configEntry->add(
-            (new MenuEntry('log_system'))
+            MenuEntry::create('log_system')
                 ->setRoute('systemlog')
                 ->setLabel(Trans::__('logs.system-log'))
                 ->setIcon('fa:archive')
@@ -138,7 +139,7 @@ final class AdminMenuBuilder
 
         // Set-up checks
         $configEntry->add(
-            (new MenuEntry('setup_checks'))
+            MenuEntry::create('setup_checks')
                 ->setRoute('checks')
                 ->setLabel(Trans::__('menu.configuration.checks'))
                 ->setIcon('fa:support')
@@ -154,15 +155,15 @@ final class AdminMenuBuilder
     private function addFileManagement(MenuEntry $root)
     {
         $fileEntry = $root->add(
-            (new MenuEntry('files', 'files'))
-                ->setLabel(Trans::__('general.phrase.extensions'))
+            MenuEntry::create('files')
+                ->setLabel(Trans::__('general.phrase.file-management'))
                 ->setIcon('fa:cubes')
-                ->setPermission('extensions')
+                ->setPermission('files')
         );
 
         // Uploaded files
         $fileEntry->add(
-            (new MenuEntry('files_uploads'))
+            MenuEntry::create('files_uploads')
                 ->setRoute('files')
                 ->setLabel(Trans::__('general.phrase.general.phrase.uploaded-files'))
                 ->setIcon('fa:folder-open-o')
@@ -171,7 +172,7 @@ final class AdminMenuBuilder
 
         // Themes
         $fileEntry->add(
-            (new MenuEntry('files_themes'))
+            MenuEntry::create('files_themes')
                 ->setRoute('files', ['namespace' => 'themes'])
                 ->setLabel(Trans::__('general.phrase.view-edit-templates'))
                 ->setIcon('fa:desktop')
@@ -187,14 +188,14 @@ final class AdminMenuBuilder
     private function addTranslations(MenuEntry $root)
     {
         $translationEntry = $root->add(
-            (new MenuEntry('translations', 'tr'))
+            MenuEntry::create('translations')
                 ->setLabel(Trans::__('general.phrase.translations'))
                 ->setPermission('translation')
         );
 
         // Messages
         $translationEntry->add(
-            (new MenuEntry('tr_messages'))
+            MenuEntry::create('tr_messages')
                 ->setRoute('translation', ['domain' => 'messages'])
                 ->setLabel(Trans::__('general.phrase.messages'))
                 ->setIcon('fa:flag')
@@ -203,7 +204,7 @@ final class AdminMenuBuilder
 
         // Long messages
         $translationEntry->add(
-            (new MenuEntry('tr_long_messages'))
+            MenuEntry::create('tr_long_messages')
                 ->setRoute('translation', ['domain' => 'infos'])
                 ->setLabel(Trans::__('general.phrase.long-messages'))
                 ->setIcon('fa:flag')
@@ -219,7 +220,8 @@ final class AdminMenuBuilder
     private function addExtend(MenuEntry $root)
     {
         $root->add(
-            (new MenuEntry('extensions', 'extensions'))
+            MenuEntry::create('extensions')
+                ->setRoute('extensions')
                 ->setLabel(Trans::__('general.phrase.extensions-overview'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')

@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  32 Legacy untranslated messages
-# 373 Untranslated messages
-#  13 Legacy translation messages
-# 180 Translation messages
+# 375 Untranslated messages
+#  12 Legacy translation messages
+# 181 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -246,6 +246,7 @@ general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.used-libraries: # "Used Libraries / Components"
 general.phrase.users-none-create-first: # "There are no users in the database. Please create the first user."
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
@@ -424,6 +425,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -467,7 +469,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(no group)": "(χωρίς ομάδα)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
-"Content": "Περιεχόμενο"
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
@@ -533,6 +534,7 @@ general.phrase.clear-filter-sort: "Καθαρισμός ταξινόμησης/�
 general.phrase.code-colon: "Κώδικας:"
 general.phrase.configuration: "Παραμετροποίηση"
 general.phrase.confirm-delete-user: "Είστε σίγουροι ότι θέλετε να διαγραφεί ο/η %username%?"
+general.phrase.content: "Περιεχόμενο"
 general.phrase.create-user-first: "Δημιουργία του πρώτου χρήστη"
 general.phrase.created-on-colon: "Δημιουργήθηκε στις:"
 general.phrase.current-session-plural: "Τρέχων sessions"

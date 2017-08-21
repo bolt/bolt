@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  28 Legacy untranslated messages
-# 375 Untranslated messages
-#  17 Legacy translation messages
-# 178 Translation messages
+# 377 Untranslated messages
+#  16 Legacy translation messages
+# 179 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -246,6 +246,7 @@ general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.types: # "Types"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
@@ -422,6 +423,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -461,7 +463,6 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "(ingen gruppe)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Content": "Innhold"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
 "Image": "Bilde"
@@ -521,6 +522,7 @@ general.phrase.clear-cache-again: "Tøm mellomlager igjen"
 general.phrase.clear-filter-sort: "Tøm sortering/filter"
 general.phrase.code-colon: "Kode:"
 general.phrase.configuration: "Oppsett"
+general.phrase.content: "Innhold"
 general.phrase.content-type-permissions: "Rettigheter etter innholdstype"
 general.phrase.content-types: "Innholdstyper"
 general.phrase.create-user-first: "Lag den første brukeren"

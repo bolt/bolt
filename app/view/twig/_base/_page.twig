@@ -12,7 +12,7 @@
 {%- spaceless %}
 
 {% set page_locale_long = app.locale %}
-{% set page_locale_short = page_locale_long|slice(0, 2) %}
+{% set page_locale_short = page_locale_long[:2] %}
 {% set page_timezone_offset = app.timezone_offset %}
 
 {% if block('page_subtitle') is defined %}
@@ -28,10 +28,10 @@
 
 {# Add library locale files #}
 {% for lib in ['datepicker', 'moment', 'select2'] %}
-    {% if app.filesystem.has("bolt_assets://js/locale/#{lib}#{page_locale_long}.min.js") %}
-        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_long}.min.js", 'bolt')]) %}
-    {% elseif page_locale_short != 'en' and app.filesystem.has("bolt_assets://js/locale/#{lib}#{page_locale_short}.min.js") %}
-        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}#{page_locale_short}.min.js", 'bolt')]) %}
+    {% if app.filesystem.has("bolt_assets://js/locale/#{lib}/#{page_locale_long}.min.js") %}
+        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}/#{page_locale_long}.min.js", 'bolt')]) %}
+    {% elseif page_locale_short != 'en' and app.filesystem.has("bolt_assets://js/locale/#{lib}/#{page_locale_short}.min.js") %}
+        {% set page_scripts_inc = page_scripts_inc|merge([asset("js/locale/#{lib}/#{page_locale_short}.min.js", 'bolt')]) %}
     {% endif %}
 {% endfor %}
 
@@ -89,6 +89,8 @@
     },
     buid: buid(),
     uploadConfig: {
+        url: path('files'),
+        acceptFilesTypes: app.config.get('general/accept_file_types'),
         maxSize: app['filepermissions'].getMaxUploadSize(),
         maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
     },

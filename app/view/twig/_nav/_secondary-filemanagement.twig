@@ -1,18 +1,9 @@
 {% import '@bolt/_nav/_macros.twig' as nav %}
+{% spaceless %}
+    {% set menu = menus.get('files') %}
+    {% set sub = [] %}
 
-{% set files_menu = app['menu.admin'].get('files') %}
-{% set sub = [
-    {
-        icon: files_menu.get('files_uploads').icon,
-        label: files_menu.get('files_uploads').label,
-        link: files_menu.get('files_uploads').uri,
-        isallowed: files_menu.get('files_uploads').permission
-    }, {
-        icon: files_menu.get('files_themes').icon,
-        label: files_menu.get('files_themes').label,
-        link: files_menu.get('files_themes').uri,
-        isallowed: files_menu.get('files_themes').permission
-    }
-] %}
-
+    {% if menu.has('files_uploads') %}{% set sub = sub|merge([menu.get('files_uploads')]) %}{% endif %}
+    {% if menu.has('files_themes') %}{% set sub = sub|merge([menu.get('files_themes')]) %}{% endif %}
+{% endspaceless %}
 {{ nav.submenu('fa:folder-open', __('general.phrase.file-management'), sub, (page_nav == 'Settings/FileManagement')) }}

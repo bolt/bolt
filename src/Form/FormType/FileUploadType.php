@@ -23,7 +23,7 @@ class FileUploadType extends AbstractType
     {
         $builder
             ->add(
-                'FileUpload',
+                'select',
                 FileType::class,
                 [
                     'label'    => false,

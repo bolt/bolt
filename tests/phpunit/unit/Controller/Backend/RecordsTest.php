@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Common\Json;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -68,7 +69,7 @@ class RecordsTest extends ControllerUnitTest
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf(Entity\Content::class, $context['context']['content']);
-        $this->assertNull($context['context']['content']->id);
+        $this->assertNull($context['context']['content']['id']);
     }
 
     public function testEditGetNonExisting()
@@ -213,8 +214,8 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($request, 'pages', $newId);
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $returned = json_decode($response->getContent());
-        $this->assertEquals('Koala Country', $returned->title);
+        $returned = Json::parse($response->getContent());
+        $this->assertEquals('Koala Country', $returned['title']);
     }
 
     public function testOverview()

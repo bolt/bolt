@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Common\Json;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ class UploadTest extends ControllerUnitTest
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // We haven't posted a file so an empty resultset should be returned
-        $content = json_decode($response->getContent());
+        $content = Json::parse($response->getContent());
         $this->assertEquals(0, count($content));
     }
 
@@ -55,7 +55,7 @@ class UploadTest extends ControllerUnitTest
         $response = $this->controller()->uploadNamespace($request, 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $content = json_decode($response->getContent());
+        $content = Json::parse($response->getContent());
         $this->assertEquals(1, count($content));
     }
 
@@ -81,10 +81,10 @@ class UploadTest extends ControllerUnitTest
         $response = $this->controller()->uploadNamespace($this->getRequest(), 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $content = json_decode($response->getContent());
+        $content = Json::parse($response->getContent());
         $file = $content[0];
-        $this->assertAttributeNotEmpty('error', $file);
-        $this->assertRegExp('/extension/i', $file->error);
+        $this->assertArrayHasKey('error', $file);
+        $this->assertRegExp('/extension/i', $file['error']);
     }
 
     public function testHandlerParsing()

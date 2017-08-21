@@ -99,6 +99,7 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/bootstrap.min.js',                             //  24 kb
                 '<%= path.src.npm %>/select2/dist/js/select2.min.js',           //  62 kb
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
+                '<%= path.tmp %>/dropzone.min.js',                              //  37 kB
                 '<%= path.tmp %>/modernizr-custom.min.js',                      //   5 kb
                 '<%= path.tmp %>/select2.sortable.min.js'                       //   5 kb
             ],
@@ -120,7 +121,8 @@ module.exports = function (grunt, option) {
                 '<%= path.src.npm %>/select2/dist/css/select2.css',
                 '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload.css',
                 '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload-ui.css',
-                '<%= path.src.npm %>/magnific-popup/dist/magnific-popup.css'
+                '<%= path.src.npm %>/magnific-popup/dist/magnific-popup.css',
+                '<%= path.src.npm %>/dropzone/dist/dropzone.css'
             ],
             dest: '<%= path.dest.css %>/lib.css'
         }

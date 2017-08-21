@@ -17,8 +17,8 @@
  #}
 {% macro contentlink_by_id(contenttype, title, content_id) %}
     {% spaceless %}
-        <a href="{{ path('editcontent', {'contenttypeslug': contenttype.slug, 'id': content_id}) }}">
-            {{- title|excerpt(70)|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>")|raw -}}
+        <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content_id }) }}">
+            {{- title|striptags[:70]|default("<em>(" ~ __('general.phrase.no-title') ~ ")</em>")|raw -}}
         </a>
     {% endspaceless %}
 {% endmacro %}
@@ -77,7 +77,7 @@
 {% macro typepopover(types) %}
     {% set types = types|default(config.get('general/accept_file_types')) %}
     {% set text = __("field.general.allowed-filetypes") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
-    <span class="label label-default info-pop" data-title="" data-html="true" data-content="{{ text }}">
+    <span class="label label-default info-pop" data-title="" data-placement="left"  data-html="true" data-content="{{ text }}">
         <i class="fa fa-info-circle"></i>
         {{ __('general.phrase.types') }}
     </span>

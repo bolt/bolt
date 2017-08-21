@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;

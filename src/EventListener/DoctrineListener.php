@@ -27,6 +27,7 @@ class DoctrineListener implements EventSubscriber
     /**
      * Constructor.
      *
+     * @param Config          $config
      * @param LoggerInterface $logger
      */
     public function __construct(Config $config, LoggerInterface $logger)

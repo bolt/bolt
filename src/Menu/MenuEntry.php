@@ -2,6 +2,8 @@
 
 namespace Bolt\Menu;
 
+use Bolt\Common\Serialization;
+use Serializable;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class MenuEntry
+class MenuEntry implements Serializable
 {
     /** @var MenuEntry|null */
     protected $parent;
@@ -62,10 +64,21 @@ class MenuEntry
      * @param string $name
      * @param string $uri
      */
-    public function __construct($name, $uri = '')
+    public function __construct($name, $uri = null)
     {
         $this->name = $name;
         $this->uri = $uri;
+    }
+
+    /**
+     * @param string $name
+     * @param string $uri
+     *
+     * @return MenuEntry
+     */
+    public static function create($name, $uri = null)
+    {
+        return new static($name, $uri);
     }
 
     /**
@@ -114,7 +127,7 @@ class MenuEntry
             return $this->uri;
         }
 
-        return $this->parent->getUri() . '/' . $this->uri;
+        return $this->uri ? $this->parent->getUri() . '/' . $this->uri : $this->uri;
     }
 
     /**
@@ -214,7 +227,33 @@ class MenuEntry
      */
     public function get($name)
     {
-        return $this->children[$name];
+        if (isset($this->children[$name])) {
+            return $this->children[$name];
+        }
+
+        throw new \InvalidArgumentException(sprintf('Menu entry %s does not have a child named "%s"', $this->name, $name));
+    }
+
+    /**
+     * Returns true if the child is defined.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function has($name)
+    {
+        return isset($this->children[$name]);
+    }
+
+    /**
+     * Remove a menu entry's named child.
+     *
+     * @param string $name
+     */
+    public function remove($name)
+    {
+        unset($this->children[$name]);
     }
 
     /**
@@ -225,5 +264,37 @@ class MenuEntry
     public function children()
     {
         return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return Serialization::dump([
+            'parent'     => $this->parent,
+            'children'   => $this->children,
+            'name'       => $this->name,
+            'label'      => $this->label,
+            'icon'       => $this->icon,
+            'permission' => $this->getPermission(),
+            'uri'        => $this->getUri(),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = Serialization::parse($serialized);
+
+        $this->parent = $data['parent'];
+        $this->children = $data['children'];
+        $this->name = $data['name'];
+        $this->label = $data['label'];
+        $this->icon = $data['icon'];
+        $this->permission = $data['permission'];
+        $this->uri = $data['uri'];
     }
 }

@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  12 Legacy untranslated messages
-#  74 Untranslated messages
-#  33 Legacy translation messages
-# 479 Translation messages
+#  76 Untranslated messages
+#  32 Legacy translation messages
+# 480 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -72,6 +72,7 @@ general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
@@ -116,6 +117,7 @@ page.extend.message.package-install-info-fail: # "Unable to get installation inf
 page.extend.message.running-update-all: # "Running updates"
 page.extend.options: # "Extension Options"
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- Legacy translation messages ----------------------------------------------
@@ -127,7 +129,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ett fel inträffade under uppdateringen av '%TABLE%'. Felet är %ERROR%"
-"Content": "Innehåll"
 "Current (saved) status:": "Nuvarande (sparad) status:"
 "Do you really want to delete %FOLDERNAME%?": "Vill du verkligen ta bort %FOLDERNAME%?"
 "Everybody": "Alla"
@@ -284,6 +285,7 @@ general.phrase.confirm-remove-files: "Är du säker du vill ta bort dessa filer?
 general.phrase.confirm-remove-image: "Är du säker på att du vill ta bort denna bild?"
 general.phrase.confirm-remove-images: "Är du säker du vill ta bort dessa bilder?"
 general.phrase.confirm-remove-record: "Är du säker du vill ta bort detta inlägg? Det går inte att ångra."
+general.phrase.content: "Innehåll"
 general.phrase.content-type-permissions: "Innehållsrättigheter"
 general.phrase.content-types: "Innehållstyper"
 general.phrase.create-user-first: "Skapa första användaren"

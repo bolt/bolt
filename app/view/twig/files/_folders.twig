@@ -18,11 +18,11 @@
 
     <tbody>
         {% for directory in context.directories %}
-            <tr>
+            <tr class="entry" data-bolt-browse-name="{{ directory.filename|excerpt(60) | trim }}">
                 <td class="filename">
                     <i class="fa fa-fw fa-folder-open-o"></i>
                     <a href="{{ path('files', pathoptions|default({})|merge({'path': directory.path, 'namespace': directory.mountPoint})) }}">
-                        <b>{{ directory.filename|excerpt(60)|shy }}</b>
+                        <b class="name">{{ directory.filename[:60] }}</b>
                     </a>
                 </td>
                 <td class="folder-meta">

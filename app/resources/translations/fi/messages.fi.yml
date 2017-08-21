@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  14 Legacy untranslated messages
-# 171 Untranslated messages
-#  31 Legacy translation messages
-# 382 Translation messages
+# 173 Untranslated messages
+#  30 Legacy translation messages
+# 383 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -111,6 +111,7 @@ general.phrase.status-explanation: # "The status defines whether or not this rec
 general.phrase.system-config-checks: # "System Configuration Checks"
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
@@ -218,6 +219,7 @@ page.extend.options: # "Extension Options"
 page.extend.pagetitle: # "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
@@ -229,7 +231,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "(none)": "(ei mitään)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
-"Content": "Sisältö"
 "Current (saved) status:": "Nykyinen (tallennettu) tila:"
 "Do you really want to delete %FOLDERNAME%?": "Haluatko varmasti poistaa kansion '%FOLDERNAME%'?"
 "Everybody": "Kaikki"
@@ -371,6 +372,7 @@ general.phrase.confirm-remove-file: "Haluatko varmasti poistaa tämän tiedoston
 general.phrase.confirm-remove-image: "Haluatko varmasti poistaa tämän kuvan?"
 general.phrase.confirm-remove-images: "Haluatko varmasti poistaa nämä kuvat?"
 general.phrase.confirm-remove-record: "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
+general.phrase.content: "Sisältö"
 general.phrase.content-type-permissions: "Sisätötyyppien oikeudet"
 general.phrase.content-types: "Sisältötyypit"
 general.phrase.create-user-first: "Luo ensimmäinen käyttäjä"

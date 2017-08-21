@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  38 Legacy untranslated messages
-# 407 Untranslated messages
-#   7 Legacy translation messages
-# 146 Translation messages
+# 409 Untranslated messages
+#   6 Legacy translation messages
+# 147 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -281,6 +281,7 @@ general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.types: # "Types"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.used-libraries: # "Used Libraries / Components"
 general.phrase.users-none-create-first: # "There are no users in the database. Please create the first user."
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
@@ -461,6 +462,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -503,7 +505,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 
 "(no group)": "(Tidak ada kelompok)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
-"Content": "Konten"
 "Everybody": "Semua"
 "Excerpt": "Ringkasan"
 "Image": "Citra"
@@ -548,6 +549,7 @@ general.phrase.clear-filter-sort: "Bersihkan urutan/saringan"
 general.phrase.code-colon: "Kode"
 general.phrase.configuration: "Konfigurasi"
 general.phrase.confirm-delete-user: "Anda yakin menghapus %username%?"
+general.phrase.content: "Konten"
 general.phrase.content-types: "Tipe Konten"
 general.phrase.create-user-first: "Buat pengguna pertama"
 general.phrase.created-on-colon: "Dibuat pada:"

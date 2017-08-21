@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Twig\Runtime;
 
+use Bolt\Common\Json;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Extension\ArrayExtension;
 
@@ -39,7 +40,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, 'name', null);
-        $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"0":{"name":"Johno","type":"koala"},"2":{"name":"Wayne","type":"batman"}}', json_encode($result));
+        $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"0":{"name":"Johno","type":"koala"},"2":{"name":"Wayne","type":"batman"}}', Json::dump($result));
     }
 
     public function testOrderNameDesc()
@@ -53,7 +54,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, '-name', null);
-        $this->assertSame('{"0":{"name":"Wayne","type":"batman"},"2":{"name":"Johno","type":"koala"},"1":{"name":"Bruce","type":"clippy"}}', json_encode($result));
+        $this->assertSame('{"0":{"name":"Wayne","type":"batman"},"2":{"name":"Johno","type":"koala"},"1":{"name":"Bruce","type":"clippy"}}', Json::dump($result));
     }
 
     public function testOrderNameAscTypeAsc()
@@ -67,7 +68,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, 'name', 'type');
-        $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"2":{"name":"Johno","type":"batman"},"0":{"name":"Johno","type":"koala"}}', json_encode($result));
+        $this->assertSame('{"1":{"name":"Bruce","type":"clippy"},"2":{"name":"Johno","type":"batman"},"0":{"name":"Johno","type":"koala"}}', Json::dump($result));
     }
 
     public function testOrderNameAscTypeDesc()
@@ -81,7 +82,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, 'name', '-type');
-        $this->assertSame('{"2":{"name":"Bruce","type":"clippy"},"1":{"name":"Johno","type":"koala"},"0":{"name":"Johno","type":"batman"}}', json_encode($result));
+        $this->assertSame('{"2":{"name":"Bruce","type":"clippy"},"1":{"name":"Johno","type":"koala"},"0":{"name":"Johno","type":"batman"}}', Json::dump($result));
     }
 
     public function testOrderNameAscTypeDescMatchingSecondary()
@@ -95,7 +96,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, 'name', '-type');
-        $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"batman"},"[0-2]":{"name":"Johno","type":"batman"}}#', json_encode($result));
+        $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"batman"},"[0-2]":{"name":"Johno","type":"batman"}}#', Json::dump($result));
     }
 
     public function testOrderNameMatchNoSecondary()
@@ -109,7 +110,7 @@ class ArrayRuntimeTest extends BoltUnitTest
         $handler = new ArrayExtension();
 
         $result = $handler->order($srcArr, 'name');
-        $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', json_encode($result));
+        $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', Json::dump($result));
     }
 
     /**
@@ -218,7 +219,6 @@ class ArrayRuntimeTest extends BoltUnitTest
      */
     public function testUnique($arr1, $arr2, $expected)
     {
-        $app = $this->getApp();
         $handler = new ArrayExtension();
 
         $this->assertSame($expected, $handler->unique($arr1, $arr2));

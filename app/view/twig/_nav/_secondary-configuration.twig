@@ -1,67 +1,24 @@
 {% import '@bolt/_nav/_macros.twig' as nav %}
+{% spaceless %}
+    {% set menu = menus.get('config') %}
+    {% set sub = [] %}
 
-{% set config_menu = app['menu.admin'].get('config') %}
-{% set sub = [
-    {
-        icon: config_menu.get('users').icon,
-        label: config_menu.get('users').label,
-        link: config_menu.get('users').uri,
-        isallowed: config_menu.get('users').permission
-    }, {
-        icon: config_menu.get('config_main').icon,
-        label: config_menu.get('config_main').label,
-        link: config_menu.get('config_main').uri,
-        isallowed: config_menu.get('config_main').permission
-    }, {
-        icon: config_menu.get('config_contenttypes').icon,
-        label: config_menu.get('config_contenttypes').label,
-        link: config_menu.get('config_contenttypes').uri,
-        isallowed: config_menu.get('config_contenttypes').permission
-    }, {
-        icon: config_menu.get('config_taxonomy').icon,
-        label: config_menu.get('config_taxonomy').label,
-        link: config_menu.get('config_taxonomy').uri,
-        isallowed: config_menu.get('config_taxonomy').permission
-    },
-    '-',
-    {
-        icon: config_menu.get('config_menu').icon,
-        label: config_menu.get('config_menu').label,
-        link: config_menu.get('config_menu').uri,
-        isallowed: config_menu.get('config_menu').permission
-    }, {
-        icon: config_menu.get('config_routing').icon,
-        label: config_menu.get('config_routing').label,
-        link: config_menu.get('config_routing').uri,
-        isallowed: config_menu.get('config_routing').permission
-    },
-    '-',
-    {
-        icon: config_menu.get('dbcheck').icon,
-        label: config_menu.get('dbcheck').label,
-        link: config_menu.get('dbcheck').uri,
-        isallowed: config_menu.get('dbcheck').permission
-    }, {
-        icon: config_menu.get('clearcache').icon,
-        label: config_menu.get('clearcache').label,
-        link: config_menu.get('clearcache').uri,
-        isallowed: config_menu.get('clearcache').permission
-    }, {
-        icon: config_menu.get('log_change').icon,
-        label: config_menu.get('log_change').label,
-        link: config_menu.get('log_change').uri,
-        isallowed: config_menu.get('log_change').permission
-    }, {
-        icon: config_menu.get('log_system').icon,
-        label: config_menu.get('log_system').label,
-        link: config_menu.get('log_system').uri,
-        isallowed: config_menu.get('log_system').permission
-    }, {
-        icon: config_menu.get('setup_checks').icon,
-        label: config_menu.get('setup_checks').label,
-        link: config_menu.get('setup_checks').uri,
-        isallowed: config_menu.get('setup_checks').permission
-    }
-] %}
+    {% if menu.has('users') %}{% set sub = sub|merge([menu.get('users')]) %}{% endif %}
+    {% if menu.has('config_main') %}{% set sub = sub|merge([menu.get('config_main')]) %}{% endif %}
+    {% if menu.has('config_contenttypes') %}{% set sub = sub|merge([menu.get('config_contenttypes')]) %}{% endif %}
+    {% if menu.has('config_taxonomy') %}{% set sub = sub|merge([menu.get('config_taxonomy')]) %}{% endif %}
 
+    {% set sub = sub|merge(['-']) %}
+
+    {% if menu.has('config_menu') %}{% set sub = sub|merge([menu.get('config_menu')]) %}{% endif %}
+    {% if menu.has('config_routing') %}{% set sub = sub|merge([menu.get('config_routing')]) %}{% endif %}
+
+    {% set sub = sub|merge(['-']) %}
+
+    {% if menu.has('dbcheck') %}{% set sub = sub|merge([menu.get('dbcheck')]) %}{% endif %}
+    {% if menu.has('clearcache') %}{% set sub = sub|merge([menu.get('clearcache')]) %}{% endif %}
+    {% if menu.has('log_change') %}{% set sub = sub|merge([menu.get('log_change')]) %}{% endif %}
+    {% if menu.has('log_system') %}{% set sub = sub|merge([menu.get('log_system')]) %}{% endif %}
+    {% if menu.has('setup_checks') %}{% set sub = sub|merge([menu.get('setup_checks')]) %}{% endif %}
+{% endspaceless %}
 {{ nav.submenu('fa:cogs', __('general.phrase.configuration'), sub, (page_nav == 'Settings/Configuration')) }}

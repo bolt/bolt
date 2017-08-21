@@ -1,0 +1,16 @@
+{##
+ # Sidebar-Panel: Displays actions for files
+ #}
+{% extends '@bolt/_base/_panel.twig' %}
+
+{% block panel_class 'panel-uploadprogress hidden' %}
+
+{% block panel_icon 'fa-spinner' %}
+
+{% block panel_head  __('general.phrase.upload-progress') %}
+
+{% block panel_body %}
+  <div class="dropzone">
+    <div id="dropzone-preview" class="dropzone-preview"></div>
+  </div>
+{% endblock panel_body %}

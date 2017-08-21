@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Common\Json;
 use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
@@ -94,12 +95,12 @@ class RepeaterType extends FieldTypeBase
         }
 
         // This block separately handles JSON content for Templatefields
-        if (isset($data[$key]) && $this->isJson($data[$key])) {
+        if (isset($data[$key]) && Json::test($data[$key])) {
             $originalMapping[$key]['fields'] = $this->mapping['fields'];
             $originalMapping[$key]['type'] = 'repeater';
             $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
 
-            $decoded = json_decode($data[$key], true);
+            $decoded = Json::parse($data[$key]);
             $collection = new RepeatingFieldCollection($this->em, $mapping);
             $collection->setName($key);
 

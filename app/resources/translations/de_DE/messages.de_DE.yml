@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #   5 Legacy untranslated messages
-#  22 Untranslated messages
-#  40 Legacy translation messages
-# 531 Translation messages
+#  24 Untranslated messages
+#  39 Legacy translation messages
+# 532 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -34,6 +34,7 @@ general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
 general.phrase.login-password-hash-failure: #
 general.phrase.login-password-legacy: #
+general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
 
@@ -52,6 +53,8 @@ page.extend.headline.bundled: # "Bundled Extensions"
 page.extend.listheader.class: # "Class"
 page.extend.listheader.name: # "Name"
 
+page.file-management.actions-for-files: # "Actions for files"
+
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(Standardvorlage)"
@@ -61,7 +64,6 @@ page.extend.listheader.name: # "Name"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-default'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Es gab einen Fehler beim Updaten von `%TABLE%`. Der Error lautet %ERROR%"
-"Content": "Inhalt"
 "Current (saved) status:": "Momentaner (gespeicherter) Status:"
 "Dependencies": "Abhängigkeiten"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Änderung der Bolt-Version zu <b>%VERSION%</b> erkannt, der Cache wurde gelöscht. Wenn noch nicht geschehen, bitte <a href=\"%URI%\">Datenbank überprüfen</a>."
@@ -234,6 +236,7 @@ general.phrase.confirm-remove-files: "Bist du dir sicher, dass du diese Dateien 
 general.phrase.confirm-remove-image: "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
 general.phrase.confirm-remove-images: "Sind Sie sicher, dass Sie diese Bilder entfernen möchten?"
 general.phrase.confirm-remove-record: "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
+general.phrase.content: "Inhalt"
 general.phrase.content-type-permissions: "Datentyp-Berechtigungen"
 general.phrase.content-types: "Datentypen"
 general.phrase.create-user-first: "Den ersten Benutzer erstellen"

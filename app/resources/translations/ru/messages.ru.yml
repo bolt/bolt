@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #   9 Legacy untranslated messages
-# 186 Untranslated messages
-#  36 Legacy translation messages
-# 367 Translation messages
+# 188 Untranslated messages
+#  35 Legacy translation messages
+# 368 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -129,6 +129,7 @@ general.phrase.thumbnail: # "Thumbnail"
 general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -232,6 +233,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 
@@ -245,7 +247,6 @@ panel.latest-activity.by: # "by"
 "(none)": "(отсутствует)"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
-"Content": "Контент"
 "Current (saved) status:": "Текущий (сохранённый) статус:"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Обнаружена смена версии Bolt на <b>%VERSION%</b>, кэш был отчищен. Пожалуйста <a href=\"%URI%\">проверьте базу данных</a>, если вы уже этого не сделали."
 "Do you really want to delete %FOLDERNAME%?": "Вы действительно хотите удалить папку %FILENAME%?"
@@ -385,6 +386,7 @@ general.phrase.confirm-remove-files: "Вы действительно хотит
 general.phrase.confirm-remove-image: "Вы действительно хотите удалить это изображение?"
 general.phrase.confirm-remove-images: "Вы действительно хотите удалить эти изображения?"
 general.phrase.confirm-remove-record: "Вы действительно хотите удалить эту запись? Вы не сможете ее восстановить."
+general.phrase.content: "Контент"
 general.phrase.content-type-permissions: "Разрешения для сущности"
 general.phrase.content-types: "Сущности"
 general.phrase.create-user-first: "Создание первого пользователя"

@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  26 Legacy untranslated messages
-# 291 Untranslated messages
-#  19 Legacy translation messages
-# 262 Translation messages
+# 293 Untranslated messages
+#  18 Legacy translation messages
+# 263 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -193,6 +193,7 @@ general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
@@ -347,6 +348,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.create-file: # "Please enter the new file name"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
@@ -370,7 +372,6 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "（グループなし）"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
-"Content": "コンテンツ"
 "Current (saved) status:": "現在の（保存された）ステータス："
 "Everybody": "みなさん"
 "Excerpt": "概要"
@@ -468,6 +469,7 @@ general.phrase.clear-filter-sort: "並び替え/フィルタをクリア"
 general.phrase.code-colon: "コード："
 general.phrase.configuration: "全般設定"
 general.phrase.confirm-delete-user: "本当に '%username%' を"
+general.phrase.content: "コンテンツ"
 general.phrase.content-type-permissions: "コンテンツタイプのパーミッション"
 general.phrase.content-types: "コンテンツタイプ"
 general.phrase.create-user-first: "最初のユーザを作成"

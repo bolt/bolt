@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  10 Legacy untranslated messages
-# 118 Untranslated messages
-#  35 Legacy translation messages
-# 435 Translation messages
+# 120 Untranslated messages
+#  34 Legacy translation messages
+# 436 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -67,6 +67,7 @@ general.phrase.selection: # "Selection"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.tip-colon: # "Tip:"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
@@ -157,6 +158,7 @@ page.extend.options: # "Extension Options"
 page.extend.pagetitle: # "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 permissions.roles.label.anonymous: # "Anonymous"
@@ -170,7 +172,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-default'>Záznam s Lorem ipsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Přidáno do <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Během aktualizace `%TABLE%` došlo k chybě: %ERROR%"
-"Content": "Obsah"
 "Current (saved) status:": "Současný (uložený) stav:"
 "Do you really want to delete %FOLDERNAME%?": "Opravdu smazat %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Chyba při čtení souboru extensions/composer.json: %ERROR%"
@@ -329,6 +330,7 @@ general.phrase.confirm-remove-files: "Určitě chete odstranit tyto soubory?"
 general.phrase.confirm-remove-image: "Určitě chcete odstranit tento obrázek?"
 general.phrase.confirm-remove-images: "Určitě chcete odstranit tyto obrázky?"
 general.phrase.confirm-remove-record: "Určitě chcete odstranit tento záznam? Změny není možné vrátit zpět."
+general.phrase.content: "Obsah"
 general.phrase.content-type-permissions: "Oprávnění typu obsahu"
 general.phrase.content-types: "Typy obsahu"
 general.phrase.create-user-first: "Založení prvního uživatele"

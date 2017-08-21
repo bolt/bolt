@@ -2,11 +2,11 @@
 
 namespace Bolt;
 
+use Bolt\Common\Deprecated;
 use Bolt\Filesystem\CompositeFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
-use Bolt\Helpers\Deprecated;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**

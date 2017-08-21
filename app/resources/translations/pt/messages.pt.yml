@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  11 Legacy untranslated messages
-#  61 Untranslated messages
-#  34 Legacy translation messages
-# 492 Translation messages
+#  63 Untranslated messages
+#  33 Legacy translation messages
+# 493 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -56,6 +56,7 @@ general.phrase.redirect-detected: # "Redirect detected. Check if you are still l
 general.phrase.related-content: # "Related content"
 general.phrase.selection: # "Selection"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.warning-templatefields-loss: # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
 
 menu.configuration.checks: # "Set-up checks"
@@ -100,6 +101,7 @@ page.extend.message.running-update-all: # "Running updates"
 page.extend.options: # "Extension Options"
 page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 #--- Legacy translation messages ----------------------------------------------
@@ -111,7 +113,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
-"Content": "Conteúdo"
 "Current (saved) status:": "Estado atual (guardado):"
 "Do you really want to delete %FOLDERNAME%?": "Deseja mesmo eliminar %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Erro ao ler o ficheiro extensions/composer.json: %ERROR%"
@@ -275,6 +276,7 @@ general.phrase.confirm-remove-files: "Tem a certeza que deseja eliminar estes fi
 general.phrase.confirm-remove-image: "Tem a certeza que deseja eliminar esta imagem?"
 general.phrase.confirm-remove-images: "Tem a certeza que quer eliminar estas imagens?"
 general.phrase.confirm-remove-record: "Tem a certeza que deseja eliminar este registo? Não será possível reverter."
+general.phrase.content: "Conteúdo"
 general.phrase.content-type-permissions: "Permissões de tipos de conteúdo"
 general.phrase.content-types: "Tipos de conteúdo"
 general.phrase.create-user-first: "Criar o primeiro utilizador"

@@ -2,9 +2,10 @@
 
 namespace Bolt\Helpers;
 
+use Bolt\Common\Deprecated;
 use Cocur\Slugify\Slugify;
 
-class Str
+class Str extends \Bolt\Common\Str
 {
     /**
      * Returns a "safe" version of the given string - basically only US-ASCII and
@@ -38,45 +39,23 @@ class Str
     }
 
     /**
-     * Replace the first occurrence of a string only. Behaves like str_replace, but
-     * replaces _only_ the _first_ occurrence.
-     *
-     * @see http://stackoverflow.com/a/2606638
-     *
-     * @param string $search
-     * @param string $replace
-     * @param string $subject
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public static function replaceFirst($search, $replace, $subject)
+    public static function replaceFirst($search, $replace, $subject, $caseSensitive = true)
     {
-        $pos = strpos($subject, $search);
-        if ($pos !== false) {
-            $subject = substr_replace($subject, $replace, $pos, strlen($search));
-        }
+        Deprecated::method(3.4, parent::class);
 
-        return $subject;
+        return parent::replaceFirst($subject, $search, $replace);
     }
 
     /**
-     * Replace only the last occurrence of the $search text on the $subject.
-     *
-     * @param string $search
-     * @param string $replace
-     * @param string $subject
-     * @param bool   $caseSensitive
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public static function replaceLast($search, $replace, $subject, $caseSensitive = true)
     {
-        $pos = $caseSensitive ? strrpos($subject, $search) : strripos($subject, $search);
-        if ($pos !== false) {
-            $subject = substr_replace($subject, $replace, $pos, strlen($search));
-        }
+        Deprecated::method(3.4, parent::class);
 
-        return $subject;
+        return parent::replaceLast($subject, $search, $replace, $caseSensitive);
     }
 
     /**
@@ -101,21 +80,12 @@ class Str
     }
 
     /**
-     * Returns whether the subjects ends with the search string.
-     *
-     * @param string $subject
-     * @param string $search
-     * @param bool   $caseSensitive
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public static function endsWith($subject, $search, $caseSensitive = true)
     {
-        if ($caseSensitive) {
-            $subject = strtolower($subject);
-            $search = strtolower($search);
-        }
+        Deprecated::method(3.4, parent::class);
 
-        return $search === '' || substr($subject, -strlen($search)) === $search;
+        return parent::endsWith($subject, $search, $caseSensitive);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Bolt\Menu;
 
-use Bolt\Helpers\Deprecated;
+use Bolt\Common\Deprecated;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;

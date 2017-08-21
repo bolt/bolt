@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   2 Legacy untranslated messages
 #   2 Untranslated messages
-#  43 Legacy translation messages
-# 551 Translation messages
+#  42 Legacy translation messages
+# 554 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -33,7 +33,6 @@ general.phrase.login-password-legacy: #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled"
 "Added to <tt>%key%</tt> '%title%'": "Added to <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "An error occured while updating `%TABLE%`. The error is %ERROR%"
-"Content": "Content"
 "Current (saved) status:": "Current (saved) status:"
 "Dependencies": "Dependencies"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already."
@@ -215,6 +214,7 @@ general.phrase.confirm-remove-files: "Are you sure you want to remove these file
 general.phrase.confirm-remove-image: "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: "Are you sure you wish to delete this record? There is no undo."
+general.phrase.content: "Content"
 general.phrase.content-type-permissions: "ContentType Permissions"
 general.phrase.content-types: "ContentTypes"
 general.phrase.create-user-first: "Create the first user"
@@ -409,6 +409,7 @@ general.phrase.upload-file: "Upload file"
 general.phrase.upload-file-to-directory: "Upload a file to this folder"
 general.phrase.upload-image: "Upload image"
 general.phrase.upload-not-allowed: "Upload not allowed"
+general.phrase.upload-progress: "Current uploads"
 general.phrase.used-libraries: "Used Libraries / Components"
 general.phrase.user-deleted: "User '%s' is deleted."
 general.phrase.user-disabled: "User '%s' is disabled."
@@ -613,6 +614,7 @@ page.extend.theme.generation.failure: "We were unable to generate the theme. It 
 page.extend.theme.generation.missing.name: "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: "Actions for files"
 page.file-management.label.create-file: "Create file"
 page.file-management.label.create-folder: "Create folder"
 page.file-management.message.access-denied: "Uploading to this folder is not allowed."

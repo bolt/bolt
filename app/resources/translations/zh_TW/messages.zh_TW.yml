@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #  23 Legacy untranslated messages
-# 216 Untranslated messages
-#  22 Legacy translation messages
-# 337 Translation messages
+# 218 Untranslated messages
+#  21 Legacy translation messages
+# 338 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -157,6 +157,7 @@ general.phrase.system-config-checks: # "System Configuration Checks"
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -271,6 +272,7 @@ page.extend.pagetitle: # "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
@@ -288,7 +290,6 @@ panel.latest-activity.system: # "Latest system activity"
 "(none)": "(無)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Content": "內容"
 "Current (saved) status:": "當前(儲存的)狀態:"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
@@ -405,6 +406,7 @@ general.phrase.collapse-sidebar: "摺疊側邊欄"
 general.phrase.configuration: "配置"
 general.phrase.configuration-main: "主配置檔案"
 general.phrase.confirm-delete-user: "確定要刪除 %username% 嗎？"
+general.phrase.content: "內容"
 general.phrase.content-type-permissions: "內容格式的許可權"
 general.phrase.content-types: "內容格式"
 general.phrase.create-user-first: "創建第一個使用者"

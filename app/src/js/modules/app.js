@@ -164,6 +164,7 @@
         bolt.stack.init();
         bolt.omnisearch.init();
         bolt.extend.init();
+        bolt.filemanager.init();
 
         bolt.ckeditor.init();
         bolt.datetime.init();

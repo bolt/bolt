@@ -2,6 +2,7 @@
 
 namespace Bolt\Filesystem;
 
+use Bolt\Common\Ini;
 use Bolt\Config;
 use Bolt\Filesystem\Exception\IOException;
 
@@ -93,7 +94,7 @@ class FilePermissions
     public function allowedUpload($originalFilename)
     {
         // Check if file_uploads ini directive is true
-        if (ini_get('file_uploads') != 1) {
+        if (Ini::getBool('file_uploads') === false) {
             throw new IOException('File uploads are not allowed, check the file_uploads ini directive.');
         }
         // no UNIX-hidden files
@@ -125,9 +126,9 @@ class FilePermissions
     public function getMaxUploadSize()
     {
         if (!isset($this->maxUploadSize)) {
-            $size = $this->filesizeToBytes(ini_get('post_max_size'));
+            $size = Ini::getBytes('post_max_size');
 
-            $uploadMax = $this->filesizeToBytes(ini_get('upload_max_filesize'));
+            $uploadMax = Ini::getBytes('upload_max_filesize');
             if (($uploadMax > 0) && ($uploadMax < $size)) {
                 $size = $uploadMax;
             } else {
@@ -153,7 +154,7 @@ class FilePermissions
     }
 
     /**
-     * Format a filesize like '10.3 KiB' or '2.5 MiB'.
+     * Format a file size like '10.3 KiB' or '2.5 MiB'.
      *
      * @param integer $size
      *
@@ -167,25 +168,6 @@ class FilePermissions
             return sprintf('%0.2f KiB', ($size / 1024));
         } else {
             return $size . ' B';
-        }
-    }
-
-    /**
-     * Convert a size string, such as 5M to bytes.
-     *
-     * @param string $size
-     *
-     * @return double
-     */
-    private function filesizeToBytes($size)
-    {
-        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
-        $size = preg_replace('/[^0-9\.]/', '', $size);
-
-        if ($unit) {
-            return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-        } else {
-            return round($size);
         }
     }
 }

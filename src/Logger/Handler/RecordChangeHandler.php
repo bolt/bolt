@@ -2,6 +2,7 @@
 
 namespace Bolt\Logger\Handler;
 
+use Bolt\Common\Json;
 use Bolt\Exception\StorageException;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -25,9 +26,11 @@ class RecordChangeHandler extends AbstractProcessingHandler
     private $allowed;
 
     /**
+     * Constructor.
+     *
      * @param Application $app
-     * @param integer     $level
-     * @param boolean     $bubble
+     * @param bool|int    $level
+     * @param bool        $bubble
      */
     public function __construct(Application $app, $level = Logger::DEBUG, $bubble = true)
     {
@@ -91,7 +94,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
             return;
         }
 
-        $str = json_encode($data);
+        $str = Json::dump($data);
         $user = $this->app['users']->getCurrentUser();
 
         $this->app['db']->insert(

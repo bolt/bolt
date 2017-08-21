@@ -7,8 +7,9 @@ use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
+use Bolt\Common\Deprecated;
+use Bolt\Common\Thrower;
 use Bolt\Controller\Zone;
-use Bolt\Helpers\Deprecated;
 use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
@@ -203,22 +204,8 @@ class Queue implements QueueInterface
             return $html;
         }
 
-        /** @var \Exception $e */
-        $e = null;
-        set_error_handler(
-            function ($errno, $errstr) use (&$e) {
-                return $e = new \Exception($errstr, $errno);
-            }
-        );
+        $html = Thrower::call([$widget, '__toString']);
 
-        // Get the HTML from object cast and rethrow an exception if present
-        $html = (string) $widget;
-
-        restore_error_handler();
-
-        if ($e instanceof \Exception) {
-            throw $e;
-        }
         if ($widget->getCacheDuration() !== null) {
             $this->cache->save($key, $html, $widget->getCacheDuration());
         }

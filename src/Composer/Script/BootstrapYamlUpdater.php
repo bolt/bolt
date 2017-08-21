@@ -3,7 +3,7 @@
 namespace Bolt\Composer\Script;
 
 use Bolt\Collection\MutableBag;
-use Bolt\Helpers\Str;
+use Bolt\Common\Str;
 use Composer\IO\IOInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -219,7 +219,7 @@ final class BootstrapYamlUpdater
                 continue;
             }
             if ($appPathToTrim && strpos($path, $appPathToTrim) === 0) {
-                $path = Str::replaceFirst($appPathToTrim, '', $path);
+                $path = Str::replaceFirst($path, $appPathToTrim, '');
                 if ($path === $key) {
                     $paths->remove($key);
                 } else {

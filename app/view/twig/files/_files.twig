@@ -12,7 +12,7 @@
 
     <tbody>
         {% for file in context.files %}
-            <tr>
+            <tr class="entry" data-bolt-browse-name="{{ file.filename[:80] }}">
                 {# Column: Filename #}
                 <td class="filename" colspan="{{ file.image ? 1 : 2 }}">
                     {% if file.image %}
@@ -22,7 +22,7 @@
                         <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
                            class="magnific"
                            title="Image: {{ file.filename }}">
-                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            <b class="name">{{ file.filename[:80]|shy }}</b>
                         </a>
 
                     {% elseif file.extension in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
@@ -30,25 +30,25 @@
                         <i class="fa fa-fw fa-file-code-o"></i>
 
                         <a href="{{ path('fileedit', {'namespace': file.mountPoint, 'file': file.path}) }}">
-                            <b>{{ file.filename|excerpt(80)|shy }}</b>
+                            <b>{{ file.filename[:80]|shy }}</b>
                         </a>
 
                     {% else %}
                         {% if file.hasUrl %}
                             <i class="fa fa-fw fa-link"></i>
                             <a href="{{ file.url }}" target="_blank">
-                                <b>{{ file.filename|excerpt(80)|shy }}</b>
+                                <b class="name">{{ file.filename[:80]|shy }}</b>
                             </a>
                         {% else %}
                             <i class="fa fa-fw fa-file-o disabled"></i>
-                            <b class="disabled">{{ file.filename|excerpt(80)|shy }}</b>
+                            <b class="disabled name">{{ file.filename[:80]|shy }}</b>
                         {% endif %}
                     {% endif %}
                 </td>
                 {# Column: Thumbnail #}
                 {% if file.image %}
                     <td class="listthumb">
-                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('general.phrase.thumbnail')|e('html_attr') ~ '"'})|raw }}
+                      <img data-src="{{ file.path|thumbnail(54,40, 'c') }}">
                     </td>
                 {% endif %}
                 {# Column: Filesize / Modified #}
