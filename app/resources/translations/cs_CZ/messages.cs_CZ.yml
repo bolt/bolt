@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  10 Legacy untranslated messages
-# 116 Untranslated messages
-#  34 Legacy translation messages
-# 436 Translation messages
+#   8 Legacy untranslated messages
+# 120 Untranslated messages
+#  33 Legacy translation messages
+# 437 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -21,9 +21,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
 #--- Untranslated messages ----------------------------------------------------
@@ -65,6 +63,7 @@ general.phrase.selection: # "Selection"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.tip-colon: # "Tip:"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
@@ -155,7 +154,11 @@ page.extend.options: # "Extension Options"
 page.extend.pagetitle: # "Extend %BOLTNAME%"
 page.extend.theme.generation.failure: # "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 permissions.roles.label.anonymous: # "Anonymous"
 
@@ -178,7 +181,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 "Image": "Obrázek"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "V menu je nastavená špatná cesta (%PATH%). Neodpovídá žádnému z nastavených typů obsahu ani souačsnému routingu. Zkontrolujte soubor menu.yml."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "V menu menu.yml je nastavená špatná cesta (%PATH%). Mělo by tam pravděpodobně být link: !\""
-"Skipped <tt>%key%</tt> (already has records)": "Vynecháno <tt>%key%</tt> (již existuje)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikátor a trvalý odkaz pro '%taxonomytype%' se neshoduji ('%slug%' vs. '%taxonomytype%'). Upravte prosím taxonomy.yml, aby se shodovali. Zabráníte tím zmatkům mezi databází a vaší šablonou."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Nastavení uživatelský práv a rolí je v <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Trvalý odkaz '%slug%' je využíván více typy obsahu. Odliště je v konfiguračním souboru contenttypes.yml."
@@ -648,6 +650,8 @@ page.login.password-reset-link-sent: "Odkaz na obnovení hesla byl odeslán '%us
 page.login.password-show: "Zobrazit"
 page.login.placeholder.password: "Vaše uživatelské jméno"
 page.login.title: "Přihlášení do Boltu"
+
+page.prefill.skipped-existing: "Vynecháno <code>%key%</code> (již existuje)"
 
 panel.latest-activity.button.more: "více aktivit"
 panel.latest-activity.by: "od"

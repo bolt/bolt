@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   9 Legacy untranslated messages
-# 184 Untranslated messages
-#  35 Legacy translation messages
-# 368 Translation messages
+#   7 Legacy untranslated messages
+# 188 Untranslated messages
+#  34 Legacy translation messages
+# 369 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -21,9 +21,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -127,6 +125,7 @@ general.phrase.thumbnail: # "Thumbnail"
 general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -230,8 +229,12 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.by: # "by"
 
@@ -254,7 +257,6 @@ panel.latest-activity.by: # "by"
 "Image": "Изображение"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
-"Skipped <tt>%key%</tt> (already has records)": "Пропущено <tt>%key%</tt> (уже имеется записи)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Идентификатор для slug '%taxonomytype%' не может быть идентичным ('%slug%' и '%taxonomytype%'). Пожалуйста, отредактируйте taxonomy.yml, и сделать их соответствие для предотвращения несоответствий между хранением баз данных и шаблонов."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Настройки для роли и права доступа сохранены в <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
@@ -651,6 +653,8 @@ page.login.password-reset-link-sent: "Ссылка для сброса паро�
 page.login.password-show: "Показать"
 page.login.placeholder.password: "Ваше имя пользователя"
 page.login.title: "Войти в Bolt"
+
+page.prefill.skipped-existing: "Пропущено <code>%key%</code> (уже имеется записи)"
 
 panel.latest-activity.button.more: "Больше активностей"
 panel.latest-activity.change: "Последние изменения"

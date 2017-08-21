@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  33 Legacy untranslated messages
-# 353 Untranslated messages
-#  11 Legacy translation messages
-# 199 Translation messages
+#  31 Legacy untranslated messages
+# 357 Untranslated messages
+#  10 Legacy translation messages
+# 200 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -34,10 +34,8 @@
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -248,6 +246,7 @@ general.phrase.upload: # "Upload"
 general.phrase.upload-file: # "Upload file"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-none-create-first-extended: # "There are no users present in the system. Please create the first user, which will be granted root privileges."
 general.phrase.users-permissions: # "Users & Permissions"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
@@ -407,6 +406,7 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 page.extend.theme.generation.missing.name: # "No theme name found. Theme is not generated."
 page.extend.theme.generation.success: # "Theme successfully generated. You can now edit it directly from your theme folder."
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.label.create-folder: # "Create folder"
 page.file-management.message.create-file: # "Please enter the new file name"
@@ -418,6 +418,9 @@ page.login.button.log-on: # "Log on"
 page.login.cookies-required: # "Note: Cookies are required to log on to Bolt. Please allow cookies."
 page.login.label.password: # "Password"
 page.login.title: # "Sign in to Bolt"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 panel.latest-activity.by: # "by"
 panel.latest-activity.change: # "Latest changes"
@@ -444,7 +447,6 @@ permissions.roles.label.owner: # "Owner"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
 "Excerpt": "Estratto"
-"Skipped <tt>%key%</tt> (already has records)": "Saltato <tt>%key%</tt> (ha già contenuti)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "L'identificatore e lo slug per '%taxonomytype%' non sono lo stesso ('%slug%' vs. '%taxonomytype%'). Modifica taxonomy.yml, e rendili uguali per prevenire inconsistenze tra la memorizzazione nel database storage e i tuoi template."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Lo slug '%slug%' è utilizzato in più di un tipo di contenuto. Modifica contenttypes.yml e rendili differenti."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Il file di traduzione '%s' non può essere creato. Dovrai utilizzare un editor sul server per creare il file."
@@ -672,6 +674,8 @@ page.login.password-hide: "Nascondi"
 page.login.password-reset-link-sent: "Un link per il reset della password è stato inviato a '%user%'."
 page.login.password-show: "Mostra"
 page.login.placeholder.password: "Il tuo nome utente"
+
+page.prefill.skipped-existing: "Saltato <code>%key%</code> (ha già contenuti)"
 
 panel.latest-activity.button.more: "ulteriori attività"
 

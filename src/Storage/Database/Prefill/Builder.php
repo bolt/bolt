@@ -52,7 +52,7 @@ class Builder
                 $existingCount = $this->storage->getRepository($contentTypeName)->count();
             } catch (TableNotFoundException $e) {
                 $response['errors'][$contentTypeName] = Trans::__(
-                    'Table not found for ContentType %CONTENTTYPE%, a database update is probably required.',
+                    'page.prefill.database-update-required',
                     ['%CONTENTTYPE%' => $contentTypeName]
                 );
 
@@ -62,7 +62,7 @@ class Builder
             // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
             if ($existingCount >= $this->maxCount && $skipNonEmpty) {
                 $response['errors'][$contentTypeName] = Trans::__(
-                    'Skipped <tt>%key%</tt> (already has records)',
+                    'page.prefill.skipped-existing',
                     ['%key%' => $contentTypeName]
                 );
 
@@ -79,9 +79,7 @@ class Builder
                 try {
                     $response['created'][$contentTypeName] = $recordContentGenerator->generate($count);
                 } catch (RequestException $e) {
-                    $response['errors'][$contentTypeName] = Trans::__(
-                        "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
-                    );
+                    $response['errors'][$contentTypeName] = Trans::__('page.prefill.connection-timeout');
 
                     return $response;
                 }

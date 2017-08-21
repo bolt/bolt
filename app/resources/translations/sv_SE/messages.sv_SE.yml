@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  12 Legacy untranslated messages
-#  72 Untranslated messages
-#  32 Legacy translation messages
-# 480 Translation messages
+#  10 Legacy untranslated messages
+#  76 Untranslated messages
+#  31 Legacy translation messages
+# 481 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -22,9 +22,7 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
-"Table not found for ContentType %CONTENTTYPE%, a database update is probably required.": #
 "The field %field% has been changed to \"%newValue%\"": #
-"Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 
@@ -70,6 +68,7 @@ general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
@@ -114,7 +113,11 @@ page.extend.message.package-install-info-fail: # "Unable to get installation inf
 page.extend.message.running-update-all: # "Running updates"
 page.extend.options: # "Extension Options"
 
+page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
+page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -134,7 +137,6 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 "Image": "Bild"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
-"Skipped <tt>%key%</tt> (already has records)": "Hoppade över <tt>%key%</tt> (har redan innehåll)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Inställningarna för roller och rättigheter lagras i <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
@@ -646,6 +648,8 @@ page.login.password-reset-link-sent: "En återställningslänk för lösenord ha
 page.login.password-show: "Visa"
 page.login.placeholder.password: "Ditt användarnamn"
 page.login.title: "Logga in till bolt"
+
+page.prefill.skipped-existing: "Hoppade över <code>%key%</code> (har redan innehåll)"
 
 panel.latest-activity.button.more: "Mer aktivitet"
 panel.latest-activity.by: "av"
