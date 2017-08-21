@@ -32,7 +32,7 @@
     {% set allowedamount = 0 %}
     {% set allowedsingle = "" %}
     {% for item in subitems %}
-        {% if item != '-' and isallowed(item.isallowed|default('dashboard')) %}
+        {% if item != '-' %}
             {% set allowedany = true %}
             {% set allowedamount = allowedamount + 1 %}
             {% set allowedsingle = item %}
@@ -46,11 +46,11 @@
         <li{% if class %} class="{{ class }}"{% endif %}>
             {% if allowedamount == 1 and not force_submenu|default(false) %}
                 {% set item = allowedsingle %}
-                <a href="{{ item.link }}">
+                <a href="{{ item.uri }}">
                     {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __('general.phrase.no-content') ~ ")</em>")|raw }}
                 </a>
             {% else %}
-                <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
+                <a href="{% if popoveritems %}{{ popoveritems.0.uri|default('') }}{% else %}#{% endif %}" class="menu-pop">
                     {{ label(icon, label) }}
                 </a>
                 <ul class="nav submenu">
@@ -58,9 +58,9 @@
                     {% for item in popoveritems %}
                         {% if item == '-' %}
                             {% set divider = true %}
-                        {% elseif isallowed(item.isallowed|default('dashboard')) %}
+                        {% else %}
                             <li{% if divider %} class="subdivider"{% endif %}>
-                                <a href="{{ item.link }}">
+                                <a href="{{ item.uri|default('') }}">
                                     {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __('general.phrase.no-content') ~ ")</em>")|raw }}
                                 </a>
                             </li>

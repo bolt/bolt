@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   5 Legacy untranslated messages
 #  27 Untranslated messages
-#  40 Legacy translation messages
-# 524 Translation messages
+#  39 Legacy translation messages
+# 525 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -69,7 +69,6 @@ page.extend.options: # "Extension Options"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Se ha producido un error al actualizar '%TABLE%'. El error es %ERROR%"
-"Content": "Contenido"
 "Current (saved) status:": "Estado actual (guardado):"
 "Dependencies": "Dependencia"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Detectado cambio de versión de Bolt a <b>%VERSION%</b>, la caché ha sido limpiada. Por favor <a href=\"%URI%\">comprueba la base de datos</a>, si no lo has hecho todavía."
@@ -240,6 +239,7 @@ general.phrase.confirm-remove-files: "¿Está seguro que desea eliminar estos ar
 general.phrase.confirm-remove-image: "¿Seguro que quieres borrar esta imagen?"
 general.phrase.confirm-remove-images: "¿Seguro que quieres borrar estas imágenes?"
 general.phrase.confirm-remove-record: "¿Está seguro que desea eliminar este registro? No se puede deshacer."
+general.phrase.content: "Contenido"
 general.phrase.content-type-permissions: "Permisos por tipo de contenido"
 general.phrase.content-types: "Tipos de contenido"
 general.phrase.create-user-first: "Crear el primer usuario"

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  10 Legacy untranslated messages
 # 116 Untranslated messages
-#  35 Legacy translation messages
-# 435 Translation messages
+#  34 Legacy translation messages
+# 436 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -168,7 +168,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-default'>Záznam s Lorem ipsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Přidáno do <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Během aktualizace `%TABLE%` došlo k chybě: %ERROR%"
-"Content": "Obsah"
 "Current (saved) status:": "Současný (uložený) stav:"
 "Do you really want to delete %FOLDERNAME%?": "Opravdu smazat %FOLDERNAME%?"
 "Error reading extensions/composer.json file: %ERROR%": "Chyba při čtení souboru extensions/composer.json: %ERROR%"
@@ -327,6 +326,7 @@ general.phrase.confirm-remove-files: "Určitě chete odstranit tyto soubory?"
 general.phrase.confirm-remove-image: "Určitě chcete odstranit tento obrázek?"
 general.phrase.confirm-remove-images: "Určitě chcete odstranit tyto obrázky?"
 general.phrase.confirm-remove-record: "Určitě chcete odstranit tento záznam? Změny není možné vrátit zpět."
+general.phrase.content: "Obsah"
 general.phrase.content-type-permissions: "Oprávnění typu obsahu"
 general.phrase.content-types: "Typy obsahu"
 general.phrase.create-user-first: "Založení prvního uživatele"

@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  38 Legacy untranslated messages
 # 405 Untranslated messages
-#   7 Legacy translation messages
-# 146 Translation messages
+#   6 Legacy translation messages
+# 147 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -501,7 +501,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 
 "(no group)": "(Tidak ada kelompok)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
-"Content": "Konten"
 "Everybody": "Semua"
 "Excerpt": "Ringkasan"
 "Image": "Citra"
@@ -546,6 +545,7 @@ general.phrase.clear-filter-sort: "Bersihkan urutan/saringan"
 general.phrase.code-colon: "Kode"
 general.phrase.configuration: "Konfigurasi"
 general.phrase.confirm-delete-user: "Anda yakin menghapus %username%?"
+general.phrase.content: "Konten"
 general.phrase.content-types: "Tipe Konten"
 general.phrase.create-user-first: "Buat pengguna pertama"
 general.phrase.created-on-colon: "Dibuat pada:"

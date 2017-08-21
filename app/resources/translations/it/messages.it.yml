@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  33 Legacy untranslated messages
 # 353 Untranslated messages
-#  12 Legacy translation messages
-# 198 Translation messages
+#  11 Legacy translation messages
+# 199 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -443,7 +443,6 @@ permissions.roles.label.owner: # "Owner"
 "(no group)": "(nessun gruppo)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
-"Content": "Contenuto"
 "Excerpt": "Estratto"
 "Skipped <tt>%key%</tt> (already has records)": "Saltato <tt>%key%</tt> (ha già contenuti)"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "L'identificatore e lo slug per '%taxonomytype%' non sono lo stesso ('%slug%' vs. '%taxonomytype%'). Modifica taxonomy.yml, e rendili uguali per prevenire inconsistenze tra la memorizzazione nel database storage e i tuoi template."
@@ -521,6 +520,7 @@ general.phrase.clear-cache-again: "Svuota ancora la cache"
 general.phrase.clear-filter-sort: "Svuota ordine/filtro"
 general.phrase.configuration: "Configurazione"
 general.phrase.confirm-delete-user: "Sei sicuro di voler rimuovere %username%?"
+general.phrase.content: "Contenuto"
 general.phrase.content-types: "Tipi di Contenuto"
 general.phrase.create-user-first: "Crea il primo utente"
 general.phrase.created-on-colon: "Creato il:"

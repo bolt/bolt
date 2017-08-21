@@ -2,8 +2,10 @@
 
 namespace Bolt\Helpers;
 
+use Bolt\Collection\MutableBag;
 use Bolt\Legacy\Content as LegacyContent;
 use Bolt\Storage\Entity\Content;
+use Parsedown;
 
 class Excerpt
 {
@@ -95,6 +97,40 @@ class Excerpt
         }
 
         return trim($excerpt);
+    }
+
+    /**
+     * @internal
+     *
+     * @param Content   $entity
+     * @param int       $length
+     * @param Parsedown $markdown
+     *
+     * @return string
+     */
+    public static function createFromEntity(Content $entity, $length, Parsedown $markdown)
+    {
+        $contentType = $entity->getContenttype();
+        $parts = new MutableBag();
+
+        foreach ($contentType->getFields() as $key => $field) {
+            // Skip empty fields, and fields used as 'title'.
+            $fieldValue = $entity->get($key);
+            if (!$fieldValue || $fieldValue === $entity->getTitle()) {
+                continue;
+            }
+            // Add 'text', 'html' and 'textarea' fields.
+            if (in_array($field['type'], ['text', 'html', 'textarea'])) {
+                $parts[] = $fieldValue;
+            }
+            // Add 'markdown' field
+            if ($field['type'] === 'markdown') {
+                $parts[] = $markdown->text($fieldValue);
+            }
+        }
+        $excerpt = new static($parts->join(' '), $entity->getTitle());
+
+        return $excerpt->getExcerpt($length, true, false);
     }
 
     /**

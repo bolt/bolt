@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  26 Legacy untranslated messages
 # 289 Untranslated messages
-#  19 Legacy translation messages
-# 262 Translation messages
+#  18 Legacy translation messages
+# 263 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -368,7 +368,6 @@ panel.user-actions.button.add: # "Add a new user"
 "(no group)": "（グループなし）"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
-"Content": "コンテンツ"
 "Current (saved) status:": "現在の（保存された）ステータス："
 "Everybody": "みなさん"
 "Excerpt": "概要"
@@ -466,6 +465,7 @@ general.phrase.clear-filter-sort: "並び替え/フィルタをクリア"
 general.phrase.code-colon: "コード："
 general.phrase.configuration: "全般設定"
 general.phrase.confirm-delete-user: "本当に '%username%' を"
+general.phrase.content: "コンテンツ"
 general.phrase.content-type-permissions: "コンテンツタイプのパーミッション"
 general.phrase.content-types: "コンテンツタイプ"
 general.phrase.create-user-first: "最初のユーザを作成"

@@ -40,6 +40,10 @@ trait MenuTrait
             $app->extend(
                 'menu.admin',
                 function (MenuEntry $menus) {
+                    if (!$menus->has('extensions')) {
+                        return $menus;
+                    }
+
                     /** @var MenuEntry $menus */
                     $extendMenu = $menus->get('extensions');
 

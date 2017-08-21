@@ -10,8 +10,8 @@
 #   0 Unused messages
 #  23 Legacy untranslated messages
 # 230 Untranslated messages
-#  22 Legacy translation messages
-# 321 Translation messages
+#  21 Legacy translation messages
+# 322 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -305,7 +305,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "(none)": "(无)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>带有 Loripsum 示例文本</a> 的记录"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
-"Content": "内容"
 "Current (saved) status:": "当前(保存的)状态:"
 "Excerpt": "摘要"
 "Expand sidebar": "展开"
@@ -421,6 +420,7 @@ general.phrase.collapse-sidebar: "折叠侧边栏"
 general.phrase.configuration: "配置"
 general.phrase.configuration-main: "主配置文件"
 general.phrase.confirm-delete-user: "确定要删除 %username% 吗？"
+general.phrase.content: "内容"
 general.phrase.content-type-permissions: "内容格式的权限"
 general.phrase.content-types: "内容格式"
 general.phrase.create-user-first: "创建第一个用户"
