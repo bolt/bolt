@@ -40,11 +40,11 @@ class Builder
      *
      * @param array $contentTypeNames
      * @param int   $count
-     * @param bool  $skipNonEmpty
+     * @param bool  $canExceedMax
      *
-     * @return null
+     * @return array
      */
-    public function build(array $contentTypeNames, $count, $skipNonEmpty)
+    public function build(array $contentTypeNames, $count, $canExceedMax = false)
     {
         $response = ['created' => null, 'errors' => null];
         foreach ($contentTypeNames as $contentTypeName) {
@@ -60,7 +60,7 @@ class Builder
             }
 
             // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
-            if ($existingCount >= $this->maxCount && $skipNonEmpty) {
+            if ($existingCount >= $this->maxCount && !$canExceedMax) {
                 $response['errors'][$contentTypeName] = Trans::__(
                     'page.prefill.skipped-existing',
                     ['%key%' => $contentTypeName]
@@ -70,19 +70,18 @@ class Builder
             }
 
             // Take the current amount of items into consideration, when adding more.
-            if ($skipNonEmpty) {
-                $count -= $existingCount;
+            $createCount = $canExceedMax ? $count : $count - $existingCount;
+            if ($createCount < 1) {
+                continue;
             }
 
-            if ($count > 0) {
-                $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
-                try {
-                    $response['created'][$contentTypeName] = $recordContentGenerator->generate($count);
-                } catch (RequestException $e) {
-                    $response['errors'][$contentTypeName] = Trans::__('page.prefill.connection-timeout');
+            $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
+            try {
+                $response['created'][$contentTypeName] = $recordContentGenerator->generate($createCount);
+            } catch (RequestException $e) {
+                $response['errors'][$contentTypeName] = Trans::__('page.prefill.connection-timeout');
 
-                    return $response;
-                }
+                return $response;
             }
         }
 
