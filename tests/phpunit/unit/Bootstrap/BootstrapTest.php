@@ -297,7 +297,7 @@ EOF;
                 [
                     'Silex\Provider\HttpCacheServiceProvider' => [
                         'http_cache.options' => ['http_cache.cache_dir' => $this->rootPath],
-                    ]
+                    ],
                 ],
             ],
         ];

@@ -6,6 +6,7 @@ use Bolt\Exception\StorageException;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -29,11 +30,13 @@ class TaxonomyType extends JoinTypeBase
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
+     *
+     * @return QueryBuilder|null
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
-
+        /** @var Query\SelectQuery $query */
         foreach ($query->getFilters() as $filter) {
             foreach ((array) $filter->getKey() as $filterKey) {
                 if ($filterKey == $field) {
@@ -41,6 +44,8 @@ class TaxonomyType extends JoinTypeBase
                 }
             }
         }
+
+        return null;
     }
 
     /**
@@ -52,6 +57,8 @@ class TaxonomyType extends JoinTypeBase
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
+     * @return QueryBuilder|null
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -83,7 +90,10 @@ class TaxonomyType extends JoinTypeBase
                 $query))
             ->leftJoin($alias, $target, $field,
                 "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
-            ->addGroupBy("$alias.id");
+            ->addGroupBy("$alias.id")
+        ;
+
+        return null;
     }
 
     /**
@@ -94,10 +104,12 @@ class TaxonomyType extends JoinTypeBase
         $taxName = $this->mapping['fieldname'];
 
         $data = $this->normalizeData($data, $taxName);
+        /** @var Entity\Content $entity */
         if (!count($entity->getTaxonomy())) {
             $entity->setTaxonomy($this->em->createCollection(Entity\Taxonomy::class));
         }
 
+        /** @var Collection\Taxonomy $fieldTaxonomy */
         $fieldTaxonomy = $this->em->createCollection(Entity\Taxonomy::class);
         foreach ($data as $tax) {
             $tax['content_id'] = $entity->getId();
@@ -124,6 +136,7 @@ class TaxonomyType extends JoinTypeBase
 
         // Fetch existing taxonomies
         $existingDB = $this->getExistingTaxonomies($entity) ?: [];
+        /** @var Collection\Taxonomy $collection */
         $collection = $this->em->getCollectionManager()
             ->create(Entity\Taxonomy::class);
         $collection->setFromDatabaseValues($existingDB);
@@ -182,6 +195,11 @@ class TaxonomyType extends JoinTypeBase
         throw new StorageException(sprintf('Unsupported platform: %s', $platform));
     }
 
+    /**
+     * @param Collection\Taxonomy $taxonomy
+     *
+     * @return array|null
+     */
     protected function getGroup(Collection\Taxonomy $taxonomy)
     {
         $group = null;
@@ -203,6 +221,11 @@ class TaxonomyType extends JoinTypeBase
         return $group;
     }
 
+    /**
+     * @param Collection\Taxonomy $taxonomy
+     *
+     * @return int
+     */
     protected function getSortorder(Collection\Taxonomy $taxonomy)
     {
         $taxData = $this->mapping['data'];

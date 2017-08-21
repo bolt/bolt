@@ -6,6 +6,7 @@ use Bolt\Exception\StorageException;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -33,16 +34,20 @@ class RelationType extends JoinTypeBase
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
+     *
+     * @return QueryBuilder|null
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
-
+        /** @var Query\SelectQuery $query */
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
                 $this->rewriteQueryFilterParameters($filter, $query, $field, 'to_id');
             }
         }
+
+        return null;
     }
 
     /**
@@ -54,6 +59,8 @@ class RelationType extends JoinTypeBase
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
+     * @return QueryBuilder|null|void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -74,7 +81,10 @@ class RelationType extends JoinTypeBase
             ->addSelect($this->getPlatformGroupConcat("$field.id", '_' . $field . '_id', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.to_id", '_' . $field . '_toid', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
-            ->addGroupBy("$alias.id");
+            ->addGroupBy("$alias.id")
+        ;
+
+        return null;
     }
 
     /**
@@ -84,6 +94,7 @@ class RelationType extends JoinTypeBase
     {
         $field = $this->mapping['fieldname'];
         $data = $this->normalizeData($data, $field);
+        /** @var Entity\Content $entity */
         if (!count($entity->getRelation())) {
             $entity->setRelation($this->em->createCollection(Entity\Relations::class));
         }
@@ -116,13 +127,14 @@ class RelationType extends JoinTypeBase
         // Fetch existing relations and create two sets of records, updates and deletes.
         $existingDB = $this->getExistingRelations($entity) ?: [];
         $existingInverse = $this->getInverseRelations($entity) ?: [];
-
+        /** @var Collection\Relations $collection */
         $collection = $this->em->createCollection(Entity\Relations::class);
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($relations);
         $repo = $this->em->getRepository(Entity\Relations::class);
 
         // If we have bidirectional relations we need to delete the old inverted relations
+        /** @var Collection\Relations $inverseCollection */
         $inverseCollection = $this->em->createCollection(Entity\Relations::class);
         $inverseCollection->setFromDatabaseValues($existingInverse);
 

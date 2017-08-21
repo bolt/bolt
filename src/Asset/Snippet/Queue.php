@@ -107,7 +107,7 @@ class Queue implements QueueInterface
      */
     private function pregCallback($c)
     {
-        $key = '###bolt-comment-' . count($this->matchedComments) . '###';
+        $key = '###bolt-comment-' . count((array) $this->matchedComments) . '###';
         // Add it to the array of matched comments.
         $this->matchedComments['/' . $key . '/'] = $c[0];
 
