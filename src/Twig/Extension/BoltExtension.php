@@ -114,7 +114,7 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
      */
     public function getTokenParsers()
     {
-        $isLegacy = $this->config->get('general/compatibility/setcontent_legacy', false);
+        $isLegacy = $this->config->get('general/compatibility/setcontent_legacy', true);
         $parsers = [
             new SetcontentTokenParser($isLegacy),
             new SwitchTokenParser(),
