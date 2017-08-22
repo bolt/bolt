@@ -143,7 +143,7 @@ final class AdminMenu
                 ->setRoute('checks')
                 ->setLabel(Trans::__('menu.configuration.checks'))
                 ->setIcon('fa:support')
-                ->setPermission('files:config')
+                ->setPermission('checks')
         );
     }
 
