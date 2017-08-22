@@ -37,7 +37,13 @@
             {% for menu in menus.get('custom').children %}{{ nav.submenu(null, null, [menu]) }}{% endfor %}
         {% endif %}
 
-        {{ nav.collapse() }}
+        {# Collapse/expand sidebar #}
+        <li class="nav-secondary-collapse">
+            <a href="#">{{ nav.label('fa:compress', __('general.phrase.collapse-sidebar')) }}</a>
+        </li>
+        <li class="nav-secondary-expand">
+            <a href="#">{{ nav.label('fa:expand', __('Expand sidebar')) }}</a>
+        </li>
     {% else %}
         {# View site #}
         <li>

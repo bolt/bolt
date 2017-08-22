@@ -76,25 +76,6 @@
 
 
 {##
- # Sidebar-menu collapse/expand
- #}
-{% macro collapse() %}
-    {% from _self import label %}
-
-    <li class="nav-secondary-collapse">
-        <a href="#">
-            {{ label('fa:compress', __('general.phrase.collapse-sidebar')) }}
-        </a>
-    </li>
-    <li class="nav-secondary-expand">
-        <a href="#">
-            {{ label('fa:expand', __('Expand sidebar')) }}
-        </a>
-    </li>
-{% endmacro %}
-
-
-{##
  # Sidebar-menu link
  #}
 {% macro link(icon, label, pathname, active, divider) %}
