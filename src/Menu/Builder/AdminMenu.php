@@ -143,7 +143,7 @@ final class AdminMenu
                 ->setRoute('checks')
                 ->setLabel(Trans::__('menu.configuration.checks'))
                 ->setIcon('fa:support')
-                ->setPermission('files:config')
+                ->setPermission('checks')
         );
     }
 
@@ -225,6 +225,13 @@ final class AdminMenu
                 ->setLabel(Trans::__('general.phrase.extensions-overview'))
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
+        );
+
+        // Extension supplied entries
+        $root->add(
+            MenuEntry::create('custom')
+                ->setRoute('extensions')
+                ->setPermission('settings')
         );
     }
 }

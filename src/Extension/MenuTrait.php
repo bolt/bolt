@@ -36,16 +36,16 @@ trait MenuTrait
     {
         $app = $this->getContainer();
 
-        $app['menu.admin'] = $app->share(
+        $app['menu.admin_builder'] = $app->share(
             $app->extend(
-                'menu.admin',
+                'menu.admin_builder',
                 function (MenuEntry $menus) {
-                    if (!$menus->has('extensions')) {
+                    if (!$menus->has('custom')) {
                         return $menus;
                     }
 
                     /** @var MenuEntry $menus */
-                    $extendMenu = $menus->get('extensions');
+                    $extendMenu = $menus->get('custom');
 
                     foreach ($this->registerMenuEntries() as $menuEntry) {
                         if (!$menuEntry instanceof MenuEntry) {
