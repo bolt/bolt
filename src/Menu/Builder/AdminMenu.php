@@ -226,5 +226,12 @@ final class AdminMenu
                 ->setIcon('fa:cubes')
                 ->setPermission('extensions')
         );
+
+        // Extension supplied entries
+        $root->add(
+            MenuEntry::create('custom')
+                ->setRoute('extensions')
+                ->setPermission('settings')
+        );
     }
 }
