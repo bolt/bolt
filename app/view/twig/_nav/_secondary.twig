@@ -22,12 +22,16 @@
         </li>
 
         {# ContentTypes #}
-        {{ nav.heading(__('general.phrase.content'), 'fa:file-text') }}
+        <li class="divider">
+            <em>{{ nav.label('fa:file-text', __('general.phrase.content')) }}</em>
+        </li>
         {{ include('@bolt/_nav/_secondary-content.twig') }}
 
         {# Settings #}
         {% if menus.has('config') or menus.has('files') or menus.has('translations') or menus.has('extensions') %}
-            {{ nav.heading(__('general.phrase.settings'), 'fa:wrench') }}
+            <li class="divider">
+                <em>{{ nav.label('fa:wrench', __('general.phrase.settings')) }}</em>
+            </li>
         {% endif %}
         {% if menus.has('config') %}{{ include('@bolt/_nav/_secondary-configuration.twig') }}{% endif %}
         {% if menus.has('files') %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endif %}
@@ -37,7 +41,13 @@
             {% for menu in menus.get('custom').children %}{{ nav.submenu(null, null, [menu]) }}{% endfor %}
         {% endif %}
 
-        {{ nav.collapse() }}
+        {# Collapse/expand sidebar #}
+        <li class="nav-secondary-collapse">
+            <a href="#">{{ nav.label('fa:compress', __('general.phrase.collapse-sidebar')) }}</a>
+        </li>
+        <li class="nav-secondary-expand">
+            <a href="#">{{ nav.label('fa:expand', __('Expand sidebar')) }}</a>
+        </li>
     {% else %}
         {# View site #}
         <li>
