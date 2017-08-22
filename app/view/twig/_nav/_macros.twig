@@ -1,15 +1,4 @@
 {##
- # Sidebar-menu heading
- #}
-{% macro heading(title, icon) %}
-    {% from _self import label %}
-    <li class="divider">
-        <em>{{ label(icon, title) }}</em>
-    </li>
-{% endmacro %}
-
-
-{##
  # Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile)
  #
  # @param string  icon
