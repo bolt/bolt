@@ -79,7 +79,7 @@ final class RecentlyEdited
                 MenuEntry::create($entity->getSlug())
                     ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
                     ->setLabel($label)
-                    ->setIcon($contentType->get('icon_one', 'fa:file-text-o'))
+                    ->setIcon($contentType->getPath($contentTypeKey . '/icon_one', 'fa:file-text-o'))
             );
         }
     }

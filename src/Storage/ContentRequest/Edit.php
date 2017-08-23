@@ -161,6 +161,9 @@ class Edit
         // Temporary choice option resolver. Will be removed with Forms work circa Bolt 3.5.
         $choiceResolver = new Resolver\Choice($this->em, $this->query);
 
+        // Intersect the set taxonomies with actually existing ones, because bogus ones are just confusing.
+        $existingTaxonomies = array_intersect(array_keys($this->config->get('taxonomy')), (array) $contentType['taxonomy']);
+
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->users->isAllowed('files:uploads'),
@@ -172,7 +175,7 @@ class Edit
             'incoming_relations' => count($incomingNotInverted) > 0,
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== [],
-            'taxonomy'           => isset($contentType['taxonomy']),
+            'taxonomy'           => $existingTaxonomies !== [],
             'templatefields'     => count($templateFields) > 0,
         ];
         $contextValues = [

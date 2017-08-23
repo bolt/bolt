@@ -2,7 +2,6 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Common\Deprecated;
 use Bolt\Menu\MenuEntry;
 use Pimple\Container;
 
@@ -36,15 +35,15 @@ trait MenuTrait
     {
         $app = $this->getContainer();
 
-        $app['menu.admin'] = $app->extend(
-            'menu.admin',
+        $app['menu.admin_builder'] = $app->extend(
+            'menu.admin_builder',
             function (MenuEntry $menus) {
-                if (!$menus->has('extensions')) {
+                if (!$menus->has('custom')) {
                     return $menus;
                 }
 
                 /** @var MenuEntry $menus */
-                $extendMenu = $menus->get('extensions');
+                $extendMenu = $menus->get('custom');
 
                 foreach ($this->registerMenuEntries() as $menuEntry) {
                     if (!$menuEntry instanceof MenuEntry) {

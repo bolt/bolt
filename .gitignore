@@ -46,15 +46,12 @@ npm-debug.log
 
 # File-system cruft and temporary files
 .DS_Store
-.idea
 __*
 ._*
 Vagrantfile
 .vagrant*
-*.sublime-*
 .*.swp
 .swp
 *.lock
 .buildpath
-.project
 

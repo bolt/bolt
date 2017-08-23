@@ -7,10 +7,9 @@ use Bolt\Collection\Bag;
 use Bolt\Menu\Builder;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
+use Bolt\Menu\Resolver;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Bolt\Menu\Resolver;
-use Silex\Application;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class MenuServiceProvider implements ServiceProviderInterface
@@ -29,9 +28,7 @@ class MenuServiceProvider implements ServiceProviderInterface
         /**
          * @internal Backwards compatibility not guaranteed on this provider presently.
          */
-        $app['menu.admin'] = function ($app) {
-            // This service should not be invoked until request cycle since it depends
-            // on url generation and request base path. Probably should be refactored somehow.
+        $app['menu.admin_builder'] = function ($app) {
             $baseUrl = '';
             if (($request = $app['request_stack']->getCurrentRequest()) !== null) {
                 $baseUrl = $request->getBasePath();
@@ -39,27 +36,31 @@ class MenuServiceProvider implements ServiceProviderInterface
             $baseUrl .= '/' . trim($app['controller.backend.mount_prefix'], '/');
 
             $rootEntry = MenuEntry::createRoot($app['url_generator'], $baseUrl);
+
+            $builder = new Builder\AdminMenu();
+            $builder->build($rootEntry);
+
+            $contentTypes = Bag::fromRecursive($app['config']->get('contenttypes'));
+            $builder = new Builder\AdminContent($contentTypes);
+            $builder->build($rootEntry);
+
+            return $rootEntry;
+        };
+
+        /**
+         * @internal Backwards compatibility not guaranteed on this provider presently.
+         */
+        $app['menu.admin'] = function ($app) {
             $token = $app['session']->get('authentication');
             if (!$token instanceof Token) {
-                return $rootEntry;
+                return MenuEntry::create('root');
             }
             $user = $token->getUser();
 
             /** @var Stopwatch $watch */
             $watch = $app['stopwatch'];
-
-            // ~ 1 ms
-            $watch->start('menu.build.admin');
-            $builder = new Builder\AdminMenu();
-            $builder->build($rootEntry);
-            $watch->stop('menu.build.admin');
-
-            // ~ 2 ms
-            $watch->start('menu.build.admin_content');
-            $contentTypes = Bag::fromRecursive($app['config']->get('contenttypes'));
-            $builder = new Builder\AdminContent($contentTypes);
-            $builder->build($rootEntry);
-            $watch->stop('menu.build.admin_content');
+            $rootEntry = $app['menu.admin_builder'];
+            $contentTypes = Bag::from($app['config']->get('contenttypes'));
 
             // ~ 100 ms
             $watch->start('menu.resolve.recent');

@@ -1,15 +1,4 @@
 {##
- # Sidebar-menu heading
- #}
-{% macro heading(title, icon) %}
-    {% from _self import label %}
-    <li class="divider">
-        <em>{{ label(icon, title) }}</em>
-    </li>
-{% endmacro %}
-
-
-{##
  # Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile)
  #
  # @param string  icon
@@ -72,25 +61,6 @@
         </li>
     {% endif %}
 
-{% endmacro %}
-
-
-{##
- # Sidebar-menu collapse/expand
- #}
-{% macro collapse() %}
-    {% from _self import label %}
-
-    <li class="nav-secondary-collapse">
-        <a href="#">
-            {{ label('fa:compress', __('general.phrase.collapse-sidebar')) }}
-        </a>
-    </li>
-    <li class="nav-secondary-expand">
-        <a href="#">
-            {{ label('fa:expand', __('Expand sidebar')) }}
-        </a>
-    </li>
 {% endmacro %}
 
 
