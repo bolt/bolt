@@ -45,7 +45,7 @@ class MenuTraitTest extends BoltUnitTest
         $ext->setContainer($app);
         $ext->register($app);
         /** @var MenuEntry $extendMenu */
-        $extendMenu = $app['menu.admin']->get('extensions');
+        $extendMenu = $app['menu.admin']->get('custom');
         $children = $extendMenu->children();
 
         $this->assertSame('koala', $children['koala']->getName());
