@@ -15,6 +15,7 @@ use Bolt\Exception\Database\DatabaseExceptionInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Helpers\Html;
+use Bolt\Helpers\RequestSanitiser;
 use Bolt\Request\ProfilerAwareTrait;
 use Bolt\Users;
 use Carbon\Carbon;
@@ -248,9 +249,10 @@ class ExceptionListener implements EventSubscriberInterface
         $request = $this->requestStack->getCurrentRequest() ?: Request::createFromGlobals();
 
         return [
-            'debug'     => ($this->debug && ($loggedOnUser || $showLoggedOff)),
-            'request'   => $request,
-            'exception' => [
+            'debug'        => ($this->debug && ($loggedOnUser || $showLoggedOff)),
+            'request'      => $request,
+            'request_data' => RequestSanitiser::filter($request),
+            'exception'    => [
                 'object'      => $exception,
                 'class_name'  => $exception ? (new \ReflectionClass($exception))->getShortName() : null,
                 'class_fqn'   => $exception ? get_class($exception) : null,
