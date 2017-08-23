@@ -120,6 +120,7 @@ class PackageEventListener
             ->name('composer.json')
             ->notPath('vendor/composer')
             ->depth(2)
+            ->followLinks()
         ;
         try {
             $finder->in(['vendor']);
