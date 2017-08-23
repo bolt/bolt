@@ -17,7 +17,7 @@
         "bolt/session": "^1.0",
         "bolt/themes": "^1.0",
         "bolt/thumbs": "^4.0@dev",
-        "cocur/slugify": "^2.0",
+        "cocur/slugify": "^3.0",
         "composer/composer": "^1.2",
         "doctrine/cache": "^1.5",
         "doctrine/dbal": "^2.5",

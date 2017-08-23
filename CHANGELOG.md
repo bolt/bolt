@@ -4,6 +4,7 @@ Changelog for Bolt 4.x
 Bolt 4.0-dev
 -----------
 
+- Updated: cocur/slugify ^3.0
 - Change set: [#6726](https://github.com/bolt/bolt/pull/6726)
   - Added: Twig functions {{ prefetch() }} & {{ dns_prefetch() }}
   - Updated: silex/silex ^2.1
