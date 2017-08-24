@@ -402,16 +402,6 @@ HTML;
         $this->assertNotContains('js/jquery', $response->getContent());
     }
 
-    public function testAddJqueryOnlyOnce()
-    {
-        $app = $this->getApp();
-        $app->initialize();
-        $app['config']->set('general/add_jquery', true);
-        $response = new Response($this->template);
-        $app['asset.queue.file']->process($this->getRequest(), $response);
-        $app['asset.queue.file']->process($this->getRequest(), $response);
-    }
-
     public function testSnippetsWorkWithBadHtml()
     {
         $locations = [
