@@ -211,10 +211,6 @@ class GeneralTest extends ControllerUnitTest
         $this->assertTrue(in_array($json[0]['name'], $tags));
     }
 
-    public function testReadme()
-    {
-    }
-
 //    public function testTags()
 //    {
 //         $this->setRequest(Request::create('/async/tags/tags'));
@@ -229,10 +225,6 @@ class GeneralTest extends ControllerUnitTest
 //         $this->assertCount(20, $json);
 //         $this->assertTrue(in_array($json[0]['name'], $tags));
 //    }
-
-    public function testWidget()
-    {
-    }
 
     /**
      * @return \Bolt\Controller\Async\General
