@@ -12,3 +12,15 @@ pre[data-line]{position:relative;padding:1em 0 1em 3em}.line-highlight{position:
     font-style: italic;
     cursor: pointer;
 }
+
+th {
+    width: 22%;
+}
+
+th.narrow {
+    width: 8%;
+}
+
+td {
+    word-break: break-all;
+}
