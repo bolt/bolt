@@ -18,6 +18,7 @@ class ConfigurationTest extends AbstractValidationTest
         $this->config->getExceptions()->willReturn(null);
 
         $this->validator->check(Validator::CHECK_CONFIG);
+        $this->addToAssertionCount(1);
     }
 
     public function testConfigurationInvalid()

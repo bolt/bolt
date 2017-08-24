@@ -21,6 +21,7 @@ class DatabaseMySqlTest extends AbstractValidationTest
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
         $this->getDatabaseValidator()->check();
+        $this->addToAssertionCount(1);
     }
 
     /**
