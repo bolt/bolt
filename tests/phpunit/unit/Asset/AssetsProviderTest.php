@@ -225,7 +225,9 @@ HTML;
     public function testAddCss()
     {
         $app = $this->getApp();
-        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $stylesheet = Stylesheet::create();
+        /** @var Stylesheet $stylesheet */
+        $stylesheet->setFileName('testfile.css');
         $app['asset.queue.file']->add($stylesheet);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['stylesheet']));
@@ -234,7 +236,9 @@ HTML;
     public function testAddJs()
     {
         $app = $this->getApp();
-        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $javaScript = JavaScript::create();
+        /** @var JavaScript $javaScript */
+        $javaScript->setFileName('testfile.js');
         $app['asset.queue.file']->add($javaScript);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['javascript']));
@@ -261,7 +265,7 @@ HTML;
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
-        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $javaScript = JavaScript::create('testfile.js');
         $app['asset.queue.file']->add($javaScript);
         $app = $this->getApp();
 
@@ -274,8 +278,7 @@ HTML;
     public function testLateJs()
     {
         $app = $this->getApp();
-        $javaScript = (new JavaScript())
-            ->setFileName('testfile.js')
+        $javaScript = JavaScript::create('testfile.js')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($javaScript);
@@ -288,7 +291,7 @@ HTML;
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
-        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $stylesheet = Stylesheet::create('testfile.css');
         $app['asset.queue.file']->add($stylesheet);
         $response = new Response($this->template);
 
@@ -299,8 +302,7 @@ HTML;
     public function testLateCss()
     {
         $app = $this->getApp();
-        $stylesheet = (new Stylesheet())
-            ->setFileName('testfile.css')
+        $stylesheet = Stylesheet::create('testfile.css')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($stylesheet);
@@ -398,16 +400,6 @@ HTML;
         $response = new Response($this->template);
         $app['asset.queue.file']->process($this->getRequest(), $response);
         $this->assertNotContains('js/jquery', $response->getContent());
-    }
-
-    public function testAddJqueryOnlyOnce()
-    {
-        $app = $this->getApp();
-        $app->initialize();
-        $app['config']->set('general/add_jquery', true);
-        $response = new Response($this->template);
-        $app['asset.queue.file']->process($this->getRequest(), $response);
-        $app['asset.queue.file']->process($this->getRequest(), $response);
     }
 
     public function testSnippetsWorkWithBadHtml()

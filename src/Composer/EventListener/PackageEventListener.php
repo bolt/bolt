@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\EventListener;
 
+use Bolt\Common\Json;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
@@ -84,7 +85,7 @@ class PackageEventListener
 
         $vendorDir = $composer->getConfig()->get('vendor-dir');
         $fs = new Filesystem();
-        $fs->dumpFile($vendorDir . '/autoload.json', json_encode($extensions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        $fs->dumpFile($vendorDir . '/autoload.json', Json::dump($extensions, Json::HUMAN));
     }
 
     /**
