@@ -44,9 +44,9 @@
 
                             {% if debug %}
                                 <p class='exception'>
-                                    <tt><abbr title="{{ exception.class_fqn|default('unknown') }}">{{ exception.class_name|default('unknown') }}</abbr></tt> in <tt><abbr title="{{ exception.file_path|default('unknown') }}">
-                                    {{- exception.file_name|default('unknown') }}</abbr></tt> line <tt>
-                                    {{- exception.object.line|default('unknown') }}</tt>: <br>
+                                    <code><abbr title="{{ exception.class_fqn|default('unknown') }}">{{ exception.class_name|default('unknown') }}</abbr></code> in <code><abbr title="{{ exception.file_path|default('unknown') }}">
+                                    {{- exception.file_name|default('unknown') }}</abbr></code> line <code>
+                                    {{- exception.object.line|default('unknown') }}</code>: <br>
                                     <em><strong>{{ exception.object.message|default('unknown')|nl2br }}</strong></em>
                                 </p>
 
@@ -74,7 +74,7 @@
                             {% block request %}
                                 {% if debug and request is defined %}
                                     <hr>
-                                    {{ include('@bolt/exception/_request.twig') }}
+                                    {{ block('request_data', '@bolt/exception/_request.twig') }}
                                 {% endif %}
                             {% endblock request %}
 
@@ -83,10 +83,10 @@
                                     Exception, do one of the following: </p>
 
                                 <ul>
-                                    <li>Set <tt>debug: true</tt> in <tt>config.yml</tt>, and make sure you're logged in
+                                    <li>Set <code>debug: true</code> in <code>config.yml</code>, and make sure you're logged in
                                         to the Bolt Backend.</li>
-                                    <li>Set both <tt>debug: true</tt> and <tt>debug_show_loggedoff: true</tt> in
-                                        <tt>config.yml</tt>.
+                                    <li>Set both <code>debug: true</code> and <code>debug_show_loggedoff: true</code> in
+                                        <code>config.yml</code>.
                                 </ul>
                             {% endif %}
 
