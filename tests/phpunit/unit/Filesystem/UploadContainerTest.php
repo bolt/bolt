@@ -5,10 +5,10 @@ namespace Bolt\Tests\Filesystem;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\UploadContainer;
 use Bolt\Tests\BoltUnitTest;
-use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\Memory\MemoryAdapter;
 
 /**
- * Class to test src/Filesystem/UploadContainerTest.
+ * @covers \Bolt\Filesystem\UploadContainer
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -24,8 +24,9 @@ class UploadContainerTest extends BoltUnitTest
     {
         parent::setUp();
 
-        $adapter = new NullAdapter();
+        $adapter = new MemoryAdapter();
         $fs = new Filesystem($adapter);
+        $fs->put('koala.txt', 'koala');
 
         $this->container = new UploadContainer($fs);
     }
@@ -37,12 +38,19 @@ class UploadContainerTest extends BoltUnitTest
 
     public function testHas()
     {
-        $this->container->has('nonexistent');
+        $result = $this->container->has('nonexistent');
+        $this->assertFalse($result);
+
+        $result = $this->container->has('koala.txt');
+        $this->assertTrue($result);
     }
 
     public function testSave()
     {
         $this->container->save('filename', 'content');
+
+        $result = $this->container->has('filename');
+        $this->assertTrue($result);
     }
 
     /**
@@ -55,6 +63,9 @@ class UploadContainerTest extends BoltUnitTest
 
     public function testMoveUploadedFile()
     {
-        $this->container->moveUploadedFile(__FILE__, 'destination');
+        $this->container->moveUploadedFile(__FILE__, 'dropbear.txt');
+
+        $result = $this->container->has('dropbear.txt');
+        $this->assertTrue($result);
     }
 }
