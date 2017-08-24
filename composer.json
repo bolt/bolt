@@ -71,7 +71,7 @@
         "phpunit/phpunit": "^6.0",
         "psr/cache": "^1.0",
         "psr/simple-cache": "^1.0",
-        "sebastian/phpcpd": "^2.0",
+        "sebastian/phpcpd": "^3.0",
         "sorien/silex-pimple-dumper": "^2.0",
         "symfony/phpunit-bridge": "^3.3.2"
     },
