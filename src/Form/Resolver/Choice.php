@@ -169,7 +169,7 @@ final class Choice
             $entities = $repo->findBy([], $orderBy, $limit);
         } else {
             /** @var QueryResultset $entities */
-            $entities = $this->query->getContent('pages', $filter);
+            $entities = $this->query->getContent($contentType, $filter);
         }
         if (!$entities) {
             return $values;
