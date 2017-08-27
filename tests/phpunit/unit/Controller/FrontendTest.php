@@ -143,21 +143,6 @@ class FrontendTest extends ControllerUnitTest
         return $response;
     }
 
-    /**
-     * @return array
-     */
-    public function testCanonicalUrlProvider()
-    {
-        return [
-            ['http://bolt.test/', null, false],
-            ['http://bolt.test/', null, true],
-            ['https://foo.test/', 'https://foo.test/', false],
-            ['https://foo.test/', 'https://foo.test/', true],
-            ['http://bar.test/', 'http://bar.test/', false],
-            ['http://bar.test/', 'http://bar.test/', true],
-        ];
-    }
-
     public function testCanonicalUrlForHomepage()
     {
         $expected = 'http://foo.dev/';

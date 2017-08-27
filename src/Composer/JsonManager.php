@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt;
 use Bolt\Collection\Arr;
+use Bolt\Common\Json;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Translation\Translator as Trans;
@@ -44,7 +45,7 @@ class JsonManager
         if ($data === null) {
             $data = $this->setJsonDefaults([]);
         }
-        $this->app['filesystem']->write($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        $this->app['filesystem']->write($file, Json::dump($data, Json::HUMAN));
     }
 
     /**
