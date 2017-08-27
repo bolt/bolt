@@ -32,6 +32,7 @@ class DatabaseSqliteTest extends AbstractValidationTest
         ];
         $this->config->get('general/database')->willReturn($databaseConfig);
         $this->getDatabaseValidator()->check();
+        $this->addToAssertionCount(1);
     }
 
     public function testSqliteFileExistsWritable()

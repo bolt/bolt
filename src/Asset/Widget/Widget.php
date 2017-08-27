@@ -3,6 +3,7 @@
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\CallableInvokerTrait;
+use Bolt\Common\Json;
 
 /**
  * Widget objects.
@@ -84,7 +85,7 @@ class Widget implements WidgetAssetInterface
     public function setKey()
     {
         if ($this->key === null) {
-            $this->key = md5(json_encode(get_object_vars($this)));
+            $this->key = md5(Json::dump(get_object_vars($this)));
         }
 
         return $this;

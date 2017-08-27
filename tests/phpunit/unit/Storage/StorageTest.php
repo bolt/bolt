@@ -233,34 +233,6 @@ class StorageTest extends BoltUnitTest
         $this->assertEquals(0, $result['no_of_results']);
     }
 
-    public function testSearchAllContentTypes()
-    {
-        $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $storage = new Storage($app);
-        $results = $storage->searchAllContentTypes(['title' => 'lorem']);
-    }
-
-    public function testSearchContentType()
-    {
-    }
-
-    public function testGetContentByTaxonomy()
-    {
-    }
-
-    public function testPublishTimedRecords()
-    {
-    }
-
-    public function testDepublishExpiredRecords()
-    {
-    }
-
-    public function testGetContent()
-    {
-    }
-
     public function testGetContentSortOrderFromContentType()
     {
         $app = $this->getApp();
