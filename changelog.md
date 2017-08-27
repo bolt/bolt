@@ -6,7 +6,7 @@ Bolt 3.2.19
 
 Note: This will most likely be the last release in the 3.2 branch. In case of the discovery of an urgent security issue, we will make a fix for that available for users on 3.2. In other cases we advise to upgrade to Bolt 3.3.
 
-Released 2017-08-XX. Notable changes:
+Released 2017-08-27. Notable changes:
 
  - Change: Allow definition lists, `figure` and `figcaption` to allowed HTML tags [#6910](https://github.com/bolt/bolt/pull/6910) [#6945](https://github.com/bolt/bolt/pull/6945)
  - Change: Drop use of "sortable" as it is only used in Twig. Note: this change is for consistency and clarity. You can still use sorting on `type: select` fields. [#6943](https://github.com/bolt/bolt/pull/6943)
