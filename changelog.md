@@ -1,6 +1,23 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.3
+----------
+
+Released 2017-08-27. Notable changes:
+
+ - Change: Allow definition lists, `figure` and `figcaption` to allowed HTML tags [#6910](https://github.com/bolt/bolt/pull/6910) [#6945](https://github.com/bolt/bolt/pull/6945)
+ - Change: Catch exceptions better, don't break layout. [#6935](https://github.com/bolt/bolt/pull/6935)
+ - Change: Drop use of "sortable" as it is only used in Twig. Note: this change is for consistency and clarity. You can still use sorting on `type: select` fields. [#6943](https://github.com/bolt/bolt/pull/6943)
+ - Change: Fixate Doctrine/DBAL on 2.5.x, for Bolt 3.2.x [#6944](https://github.com/bolt/bolt/pull/6944)
+ - Change: Remove `.idea`, `.project`, `.sublime` from our git ignores, as they should be in the global ignore instead. [#6918](https://github.com/bolt/bolt/pull/6918)
+ - Change: Set maximum PHP version to be < 7.2 [#6912](https://github.com/bolt/bolt/pull/6912)
+ - Fixed: Don't show empty 'Taxonomies' tab. [#6932](https://github.com/bolt/bolt/pull/6932)
+ - Fixed: Filtered choice now works for other ContentTypes, and not just 'pages'. [#6941](https://github.com/bolt/bolt/pull/6941)
+ - Fixed: Fix caching of schema tables and prevent multiple builds per-request [#6942](https://github.com/bolt/bolt/pull/6942)
+ - Fixed: Fix Systemlog Filter by Context `extension`. [#6927](https://github.com/bolt/bolt/pull/6927)
+ - Fixed: Use followLinks() on Finder. [#6934](https://github.com/bolt/bolt/pull/6934)
+
 Bolt 3.3.2
 ----------
 
