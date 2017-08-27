@@ -77,9 +77,9 @@ class ChoiceTest extends TestCase
         $contentType = new ContentType('koala', [
             'fields' => [
                 'select_array' => [
-                    'type'     => 'select',
-                    'sortable' => true,
-                    'values'   => $values,
+                    'type'   => 'select',
+                    'sort'   => true,
+                    'values' => $values,
                 ],
             ],
         ]);
@@ -131,9 +131,9 @@ class ChoiceTest extends TestCase
         $contentType = new ContentType('koala', [
             'fields' => [
                 'select_array' => [
-                    'type'     => 'select',
-                    'sortable' => true,
-                    'values'   => $values,
+                    'type'   => 'select',
+                    'sort'   => true,
+                    'values' => $values,
                 ],
             ],
         ]);
