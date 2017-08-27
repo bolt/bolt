@@ -273,10 +273,26 @@ Bolt 3.3 betas were released on:
  - RC 3: Released 2017-07-25
  - RC 4: Released 2017-07-26
 
+Bolt 3.2.19
+-----------
+
+Note: This will most likely be the last release in the 3.2 branch. In case of the discovery of an urgent security issue, we will make a fix for that available for users on 3.2. In other cases we advise to upgrade to Bolt 3.3.
+
+Released 2017-08-27. Notable changes:
+
+ - Change: Allow definition lists, `figure` and `figcaption` to allowed HTML tags [#6910](https://github.com/bolt/bolt/pull/6910) [#6945](https://github.com/bolt/bolt/pull/6945)
+ - Change: Drop use of "sortable" as it is only used in Twig. Note: this change is for consistency and clarity. You can still use sorting on `type: select` fields. [#6943](https://github.com/bolt/bolt/pull/6943)
+ - Change: Fixate Doctrine/DBAL on 2.5.x, for Bolt 3.2.x [#6944](https://github.com/bolt/bolt/pull/6944)
+ - Change: Set maximum PHP version to be `< 7.2`. Bolt 3.4 will fully support PHP 7.2. [#6912](https://github.com/bolt/bolt/pull/6912)
+ - Fixed: Filtered choice now works for other ContentTypes, and not just 'pages'. [#6941](https://github.com/bolt/bolt/pull/6941)
+ - Fixed: Fix caching of schema tables and prevent multiple builds per-request [#6942](https://github.com/bolt/bolt/pull/6942)
+ - Fixed: Show singular name instead of contenttype slug. [#6876](https://github.com/bolt/bolt/pull/6876)
+ - Tests: Add test to check correct sorting gets applied [#6879](https://github.com/bolt/bolt/pull/6879)
+
 Bolt 3.2.18
 -----------
 
-Released 2017-07-XX. Notable changes:
+Released 2017-07-30. Notable changes:
 
  - Fixed: Fix for select fields in repeaters [#6865](https://github.com/bolt/bolt/pull/6865)
  - Fixed: Keeping `keys:` intact for select fields. [#6859](https://github.com/bolt/bolt/pull/6859)
