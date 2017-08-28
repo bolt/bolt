@@ -201,19 +201,20 @@ class Manager implements SchemaManagerInterface
         if ($this->schemaTables !== null) {
             return $this->schemaTables;
         }
+        $builder = $this->app['schema.builder'];
 
         /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-        $this->app['schema.builder']['extensions']->addPrefix($this->app['schema.prefix']);
+        $builder['extensions']->addPrefix($this->app['schema.prefix']);
 
         $schema = new Schema();
         $tables = array_merge(
-            $this->app['schema.builder']['base']->getSchemaTables($schema),
-            $this->app['schema.builder']['content']->getSchemaTables($schema, $this->config),
-            $this->app['schema.builder']['extensions']->getSchemaTables($schema)
+            $builder['base']->getSchemaTables($schema),
+            $builder['content']->getSchemaTables($schema, $this->config),
+            $builder['extensions']->getSchemaTables($schema)
         );
         $this->schema = $schema;
 
-        return $tables;
+        return $this->schemaTables = $tables;
     }
 
     /**

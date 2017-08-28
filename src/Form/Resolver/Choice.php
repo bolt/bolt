@@ -88,21 +88,20 @@ final class Choice
         $field += [
             'values'   => [],
             'limit'    => null,
-            'sortable' => false,
             'filter'   => null,
             'sort'     => null,
         ];
         $values = $field['values'];
         $limit = $field['limit'];
-        $sortable = $field['sortable'];
+        $sort = $field['sort'];
         $filter = $field['filter'];
         $key = isset($field['keys']) ? $field['keys'] : 'id';
         $orderBy = $field['sort'];
 
         // Get the appropriate values
         return is_string($values)
-            ? $this->getEntityValues($values, $limit, $sortable, $filter, $key, $orderBy)
-            : $this->getYamlValues($values, $limit, $sortable)
+            ? $this->getEntityValues($values, $limit, $filter, $key, $orderBy)
+            : $this->getYamlValues($values, $limit, $sort)
         ;
     }
 
@@ -111,16 +110,16 @@ final class Choice
      *
      * @param array $values
      * @param int   $limit
-     * @param bool  $sortable
+     * @param bool  $sort
      *
      * @return array
      */
-    private function getYamlValues(array $values, $limit, $sortable)
+    private function getYamlValues(array $values, $limit, $sort)
     {
         if ($values !== null) {
             $values = array_slice($values, 0, $limit);
         }
-        if ($sortable) {
+        if ($sort) {
             asort($values, SORT_REGULAR);
         }
 
@@ -132,13 +131,12 @@ final class Choice
      *
      * @param string $queryString
      * @param int    $limit
-     * @param bool   $sortable
      * @param array  $filter
      * @param string $key
      *
      * @return array
      */
-    private function getEntityValues($queryString, $limit, $sortable, $filter, $key, $orderBy = null)
+    private function getEntityValues($queryString, $limit, $filter, $key, $orderBy = null)
     {
         $baseParts = explode('/', $queryString);
         if (count($baseParts) < 2) {
