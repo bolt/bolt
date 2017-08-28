@@ -181,15 +181,17 @@ trait AssetTrait
         }
 
         $app = $this->getContainer();
+        /** @var \Bolt\Filesystem\Manager $filesystem */
+        $filesystem = $app['filesystem'];
 
-        $file = $app['filesystem']->getFile("extensions_assets://{$this->getId()}/$path");
+        $file = $filesystem->getFile("extensions_assets://{$this->getId()}/$path");
         if ($file->exists()) {
             $asset->setPackageName('extensions')->setPath($file->getPath());
 
             return;
         }
 
-        $themeFile = $app['filesystem']->getFile("theme://$path");
+        $themeFile = $filesystem->getFile("theme://$path");
         if ($themeFile->exists()) {
             $asset->setPackageName('theme');
 
