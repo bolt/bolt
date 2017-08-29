@@ -40,6 +40,8 @@ class Content extends Entity
     protected $relation;
     /** @var Collection\Taxonomy */
     protected $taxonomy;
+    /** @var TemplateFields */
+    protected $templatefields;
 
     /** @var array @deprecated Deprecated since 3.0, to be removed in 4.0. */
     protected $group;
@@ -375,7 +377,7 @@ class Content extends Entity
     }
 
     /**
-     * @return array
+     * @return TemplateFields|array|null
      */
     public function getTemplatefields()
     {
@@ -383,7 +385,7 @@ class Content extends Entity
     }
 
     /**
-     * @param array $value
+     * @param TemplateFields|array|null $value
      */
     public function setTemplatefields($value)
     {
