@@ -1,12 +1,19 @@
 <?php
 
-namespace Bolt\Storage\Mapping\Type;
+namespace Bolt\Storage\Database\Schema\Types;
 
 use Carbon\Carbon;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\DateType;
+use Doctrine\DBAL\Types\DateTimeType;
 
-class CarbonDateType extends DateType
+/**
+ * Doctrine DateTimeType using Carbon.
+ *
+ * @internal
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
+class CarbonDateTimeType extends DateTimeType
 {
     /**
      * {@inheritdoc}
