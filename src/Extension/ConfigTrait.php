@@ -43,15 +43,27 @@ trait ConfigTrait
     protected function extendConfigService()
     {
         $app = $this->getContainer();
+        $newFields = [];
         foreach ((array) $this->registerFields() as $fieldClass) {
             if ($fieldClass instanceof FieldInterface) {
-                $app['storage.typemap'] = array_merge(
-                    $app['storage.typemap'],
-                    [$fieldClass->getName() => get_class($fieldClass)]
-                );
-                $app['storage.field_manager']->addFieldType($fieldClass->getName(), $fieldClass);
+                $newFields[$fieldClass->getName()] = $fieldClass;
             }
         }
+
+        $app['storage.typemap'] = array_merge($app['storage.typemap'], $newFields);
+
+        $app['storage.field_manager'] = $app->share(
+            $app->extend(
+                'storage.field_manager',
+                function ($manager) use ($newFields) {
+                    foreach ($newFields as $fieldName => $fieldClass) {
+                        $manager->addFieldType($fieldName, $fieldClass);
+                    }
+
+                    return $manager;
+                }
+            )
+        );
     }
 
     /**
