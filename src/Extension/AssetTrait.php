@@ -37,6 +37,8 @@ trait AssetTrait
      * Call this in register method.
      *
      * @internal
+     *
+     * @throws \InvalidArgumentException
      */
     final protected function extendAssetServices()
     {
@@ -97,6 +99,8 @@ trait AssetTrait
 
     /**
      * Merges assets returned from registerAssets() to our list.
+     *
+     * @throws \InvalidArgumentException
      */
     private function loadAssets()
     {

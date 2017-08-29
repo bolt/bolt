@@ -22,6 +22,8 @@ class Import extends AbstractMigration
      * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
      *
      * @param mixed $files
+     *
+     * @return \Bolt\Storage\Migration\Import
      */
     public function setMigrationFiles($files)
     {

@@ -31,6 +31,8 @@ trait MenuTrait
      * Call this in register method.
      *
      * @internal
+     *
+     * @throws \InvalidArgumentException
      */
     final protected function extendMenuService()
     {
