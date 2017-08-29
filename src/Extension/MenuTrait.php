@@ -47,7 +47,7 @@ trait MenuTrait
                         if (!$menuEntry instanceof MenuEntry) {
                             throw new \InvalidArgumentException(sprintf(
                                 '%s::registerMenuEntries() should return a list of Bolt\Menu\MenuEntry objects. Got: %s',
-                                get_called_class(),
+                                static::class,
                                 get_class($menuEntry)
                             ));
                         }

@@ -22,7 +22,7 @@ abstract class AbstractCasterProvider
      */
     public static function getCasters()
     {
-        $cls = get_called_class();
+        $cls = static::class;
 
         return array_map(
             function ($func) use ($cls) {
