@@ -93,6 +93,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     } else {
                         Type::overrideType('json', Schema\Types\JsonType::class);
                     }
+                    Type::overrideType(Type::DATE, Schema\Types\CarbonDateType::class);
+                    Type::overrideType(Type::DATETIME, Schema\Types\CarbonDateTimeType::class);
 
                     return $db;
                 }
