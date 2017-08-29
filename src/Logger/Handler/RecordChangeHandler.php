@@ -195,7 +195,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
             return $content;
         }
 
-        $msg = sprintf('The ContentType %s has an invalid class specified. Unable to log the changes to its records', $contenttype['slug'], $contenttype['class']);
+        $msg = sprintf('The ContentType %s has an invalid class specified "%s". Unable to log the changes to its records', $contenttype['slug'], $contenttype['class']);
         $this->app['logger.system']->error($msg, ['event' => 'content']);
 
         throw new StorageException($msg);
