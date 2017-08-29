@@ -423,7 +423,8 @@ class Content extends Entity
     {
         if (empty($date)) {
             return null;
-        } elseif (is_string($date)) {
+        }
+        if (is_string($date)) {
             return new Carbon($date);
         }
 
