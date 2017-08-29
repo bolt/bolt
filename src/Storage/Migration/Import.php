@@ -2,8 +2,10 @@
 
 namespace Bolt\Storage\Migration;
 
-use Bolt\Storage\Repository;
 use Bolt\Collection\Arr;
+use Bolt\Storage\Entity\Relations;
+use Bolt\Storage\Field\Type\RelationType;
+use Bolt\Storage\Repository;
 
 /**
  * Database records import class.
@@ -211,7 +213,7 @@ class Import extends AbstractMigration
         $record->setValues($values);
 
         foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
-            if (is_a($field['fieldtype'], 'Bolt\Storage\Field\Type\RelationType', true)) {
+            if (is_a($field['fieldtype'], RelationType::class, true)) {
                 if (count($values[$field['fieldname']])) {
                     $this->relationQueue[$contenttypeslug . '/' . $values['slug']] = array_merge(
                         (array) $this->relationQueue[$contenttypeslug][$values['slug']],
@@ -265,7 +267,7 @@ class Import extends AbstractMigration
                 $relation = $this->app['query']->getContent($linkKey);
                 $relations[(string)$relation->getContentType()][] = $relation->getId();
             }
-            $related = $this->app['storage']->createCollection('Bolt\Storage\Entity\Relations');
+            $related = $this->app['storage']->createCollection(Relations::class);
             $related->setFromPost($relations, $entity);
             $entity->setRelation($related);
             $this->app['storage']->save($entity);

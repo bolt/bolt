@@ -11,6 +11,7 @@ use Bolt\Exception\StorageException;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Pager;
+use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
@@ -2414,7 +2415,6 @@ class Storage
 
     public function getRepeaters($content)
     {
-
         $ids = Arr::column($content, 'id');
 
         if (empty($ids)) {
@@ -2426,7 +2426,7 @@ class Storage
         // Try with the key first, if this isn't available then fall back to using the slug
         $contenttypeslug = (isset($first->contenttype['key'])) ? $first->contenttype['key'] : $first->contenttype['slug'] ;
         $contenttype = $this->getContentType($contenttypeslug);
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
+        $repo = $this->app['storage']->getRepository(FieldValue::class);
 
         foreach ($ids as $id) {
             foreach ($contenttype['fields'] as $fieldkey => $field) {
