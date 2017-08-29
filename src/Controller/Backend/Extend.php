@@ -399,11 +399,10 @@ class Extend extends BackendBase
      */
     public function update(Request $request)
     {
-        $package = $request->get('package') ? $request->get('package') : null;
-        $update = $package ? [$package] : [];
+        $package = $request->query->get('package');
 
         try {
-            $response = $this->app['extend.manager']->updatePackage($update);
+            $response = $this->app['extend.manager']->updatePackage((array) $package);
         } catch (\Exception $e) {
             return $this->getJsonException($e);
         }

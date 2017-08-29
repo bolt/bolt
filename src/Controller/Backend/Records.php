@@ -175,7 +175,7 @@ class Records extends BackendBase
 
             // Which related contenttype is to be shown?
             // If non is selected or selection does not exist, take the first one
-            $showSlug = $request->get('show') ? $request->get('show') : null;
+            $showSlug = $request->query->get('show');
             if (!isset($relations[$showSlug])) {
                 reset($relations);
                 $showSlug = key($relations);
