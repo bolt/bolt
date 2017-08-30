@@ -81,7 +81,7 @@ class DiffUpdater
         foreach ($schemaUpdateType as $columnName => $changeObject) {
             // Function name we need to call
             $func = $this->paramMap[$alterName];
-            $needsUnset = call_user_func_array([$this, $func], [$changeObject, $ignoredChange]);
+            $needsUnset = call_user_func([$this, $func], $changeObject, $ignoredChange);
             if ($needsUnset) {
                 unset($tableDiff->{$alterName}[$columnName]);
             }
