@@ -42,12 +42,10 @@ final class JsonType extends Types\Type
         }
 
         try {
-            $encoded = Json::dump($value);
+            return Json::dump($value);
         } catch (DumpException $e) {
             throw Types\ConversionException::conversionFailed($value, 'json');
         }
-
-        return $encoded;
     }
 
     /**
@@ -64,12 +62,10 @@ final class JsonType extends Types\Type
         }
 
         try {
-            $val = Json::parse($value, true);
+            return Json::parse($value);
         } catch (ParseException $e) {
             throw Types\ConversionException::conversionFailed($value, $this->getName());
         }
-
-        return $val;
     }
 
     /**
