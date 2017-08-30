@@ -962,7 +962,7 @@ class Config
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
                         $passed = false;
                     }
-                    if (in_array($relKey, array_keys($ct['fields']))) {
+                    if (array_key_exists($relKey, $ct['fields'])) {
                         $error = Trans::__(
                             'general.phrase.clashing-relation',
                             ['%contenttype%' => $key, '%relation%' => $relKey]
