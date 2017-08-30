@@ -36,11 +36,9 @@ abstract class JoinTypeBase extends FieldTypeBase
         $normalized = [];
 
         foreach ($data as $key => $value) {
-            if (strpos($key, '_') === 0) {
-                if (strpos($key, $field) === 1) {
-                    $path = explode('_', str_replace('_' . $field, '', $key));
-                    $normalized[$path[1]] = $value;
-                }
+            if (strpos($key, '_') === 0 && strpos($key, $field) === 1) {
+                $path = explode('_', str_replace('_' . $field, '', $key));
+                $normalized[$path[1]] = $value;
             }
         }
 
