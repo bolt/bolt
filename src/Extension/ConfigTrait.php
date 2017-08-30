@@ -8,6 +8,7 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\ParsableInterface;
 use Bolt\Storage\Field\FieldInterface;
+use Bolt\Storage\FieldManager;
 use Pimple as Container;
 
 /**
@@ -43,21 +44,28 @@ trait ConfigTrait
     protected function extendConfigService()
     {
         $app = $this->getContainer();
-        $newFields = [];
-        foreach ((array) $this->registerFields() as $fieldClass) {
-            if ($fieldClass instanceof FieldInterface) {
-                $newFields[$fieldClass->getName()] = $fieldClass;
-            }
+
+        $extFields = (array) $this->registerFields();
+        if ($extFields === []) {
+            return;
         }
 
+        $newFields = [];
+        foreach ($extFields as $fieldClass) {
+            if (!$fieldClass instanceof FieldInterface) {
+                continue;
+            }
+            $newFields[$fieldClass->getName()] = get_class($fieldClass);
+        }
         $app['storage.typemap'] = array_merge($app['storage.typemap'], $newFields);
 
         $app['storage.field_manager'] = $app->share(
             $app->extend(
                 'storage.field_manager',
-                function ($manager) use ($newFields) {
-                    foreach ($newFields as $fieldName => $fieldClass) {
-                        $manager->addFieldType($fieldName, $fieldClass);
+                function ($manager) use ($extFields) {
+                    foreach ($extFields as $fieldName => $fieldClass) {
+                        /** @var FieldManager $manager */
+                        $manager->addFieldType($fieldClass->getName(), $fieldClass);
                     }
 
                     return $manager;
