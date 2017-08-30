@@ -20,11 +20,7 @@ class CarbonDateType extends DateType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null) {
-            return $value;
-        }
-
-        if (empty($value)) {
+        if ($value === null || $value === '') {
             return null;
         }
 
