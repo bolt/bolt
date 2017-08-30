@@ -19,7 +19,7 @@ class UserManageTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->resetDb();
-        $this->addNewUser($app, 'koala', 'Kenny Koala', true);
+        $this->addNewUser($app, 'koala', 'Kenny Koala', 'editor', true);
 
         $command = new UserManage($app);
         $tester = new CommandTester($command);
@@ -31,14 +31,14 @@ class UserManageTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertRegExp('#koala(\s*)\|(\s*)koala@example\.com(\s*)\|(\s*)Kenny Koala(\s*)\|(\s*)\d*(\s*)\|(\s*)true#', $result);
+        $this->assertRegExp('#koala(\s*)\|(\s*)koala@example\.com(\s*)\|(\s*)Kenny Koala(\s*)\|(\s*)editor, everyone(\s*)\|(\s*)true#', $result);
     }
 
     public function testEnable()
     {
         $app = $this->getApp();
         $this->resetDb();
-        $this->addNewUser($app, 'koala', 'Kenny Koala', false);
+        $this->addNewUser($app, 'koala', 'Kenny Koala', 'editor', false);
 
         $command = new UserManage($app);
         $tester = new CommandTester($command);
@@ -62,10 +62,10 @@ class UserManageTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->resetDb();
-        $this->addNewUser($app, 'koala', 'Kenny Koala', true);
+        $this->addNewUser($app, 'koala', 'Kenny Koala', 'editor', true);
 
         $command = new UserManage($app);
-        $tester = new CommandTester($command, ['verbosity' => 256]);
+        $tester = new CommandTester($command);
 
         $tester->execute(
             [
