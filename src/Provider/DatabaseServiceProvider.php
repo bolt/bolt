@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Collection\MutableBag;
 use Bolt\EventListener\DoctrineListener;
 use Bolt\Storage\Database\Schema;
 use Doctrine\Common\Cache\ArrayCache;
@@ -28,6 +29,32 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         $app['db.options'] = function ($app) {
             return $app['config']->get('general/database');
         };
+
+        $app['db.types'] = new MutableBag([
+            'json'         => Schema\Types\JsonType::class,
+            Type::DATE     => Schema\Types\CarbonDateType::class,
+            Type::DATETIME => Schema\Types\CarbonDateTimeType::class,
+        ]);
+
+        // Extend options initializer to register types
+        $initializer = $app['dbs.options.initializer'];
+        $app['dbs.options.initializer'] = $app->protect(function () use ($app, $initializer) {
+            static $initialized = false;
+            if ($initialized) {
+                return;
+            }
+            $initialized = true;
+
+            foreach ($app['db.types'] as $name => $type) {
+                if (Type::hasType($name)) {
+                    Type::overrideType($name, $type);
+                } else {
+                    Type::addType($name, $type);
+                }
+            }
+
+            $initializer();
+        });
 
         $app['db.config'] = $app->share(
             $app->extend(
@@ -86,15 +113,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                 function ($db) use ($app) {
                     /** @var \Bolt\Storage\Database\Connection|\Bolt\Storage\Database\MasterSlaveConnection $db */
                     $db->setQueryCacheProfile($app['db.query_cache_profile']);
-
-                    // Currently, this can get called early, meaning the connection listener is too late
-                    if (!Type::hasType('json')) {
-                        Type::addType('json', Schema\Types\JsonType::class);
-                    } else {
-                        Type::overrideType('json', Schema\Types\JsonType::class);
-                    }
-                    Type::overrideType(Type::DATE, Schema\Types\CarbonDateType::class);
-                    Type::overrideType(Type::DATETIME, Schema\Types\CarbonDateTimeType::class);
 
                     return $db;
                 }
