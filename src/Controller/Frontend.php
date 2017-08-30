@@ -103,17 +103,17 @@ class Frontend extends ConfigurableBase
     public function homepage(Request $request)
     {
         $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
-        $listingparameters = $this->getListingParameters($homepage);
-        $content = $this->getContent($homepage, $listingparameters);
+        $listingParameters = $this->getListingParameters($homepage);
+        $content = $this->getContent($homepage, $listingParameters);
 
         $template = $this->templateChooser()->homepage($content);
         $globals = [];
 
-        if (is_array($content)) {
+        if (is_array($content) && count($content) > 0) {
             $first = current($content);
             $globals[$first->contenttype['slug']] = $content;
             $globals['records'] = $content;
-        } elseif (!empty($content)) {
+        } elseif (is_object($content)) {
             $globals['record'] = $content;
             $globals[$content->contenttype['singular_slug']] = $content;
             $globals['records'] = [$content->id => $content];
