@@ -44,7 +44,7 @@ final class JsonType extends Types\Type
         try {
             return Json::dump($value);
         } catch (DumpException $e) {
-            throw Types\ConversionException::conversionFailed($value, 'json');
+            throw ConversionException::conversionFailedSerialization($value, $this->getName(), $e->getMessage(), $e);
         }
     }
 
@@ -64,7 +64,7 @@ final class JsonType extends Types\Type
         try {
             return Json::parse($value);
         } catch (ParseException $e) {
-            throw Types\ConversionException::conversionFailed($value, $this->getName());
+            throw ConversionException::conversionFailed($value, $this->getName());
         }
     }
 
