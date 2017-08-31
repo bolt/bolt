@@ -9,6 +9,7 @@ use Bolt\Exception\StorageException;
 use Bolt\Filesystem\Handler\Image;
 use Bolt\Storage\CaseTransformTrait;
 use Bolt\Storage\Database\Schema\Manager;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Bolt\Storage\NamingStrategy;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
@@ -39,15 +40,15 @@ class MetadataDriver implements MappingDriver
 
     /** @var array */
     protected $defaultAliases = [
-        'bolt_authtoken'   => 'Bolt\Storage\Entity\Authtoken',
-        'bolt_cron'        => 'Bolt\Storage\Entity\Cron',
-        'bolt_field_value' => 'Bolt\Storage\Entity\FieldValue',
-        'bolt_log'         => 'Bolt\Storage\Entity\Log',
-        'bolt_log_change'  => 'Bolt\Storage\Entity\LogChange',
-        'bolt_log_system'  => 'Bolt\Storage\Entity\LogSystem',
-        'bolt_relations'   => 'Bolt\Storage\Entity\Relations',
-        'bolt_taxonomy'    => 'Bolt\Storage\Entity\Taxonomy',
-        'bolt_users'       => 'Bolt\Storage\Entity\Users',
+        'bolt_authtoken'   => Entity\Authtoken::class,
+        'bolt_cron'        => Entity\Cron::class,
+        'bolt_field_value' => Entity\FieldValue::class,
+        'bolt_log'         => Entity\Log::class,
+        'bolt_log_change'  => Entity\LogChange::class,
+        'bolt_log_system'  => Entity\LogSystem::class,
+        'bolt_relations'   => Entity\Relations::class,
+        'bolt_taxonomy'    => Entity\Taxonomy::class,
+        'bolt_users'       => Entity\Users::class,
     ];
 
     /** @var array */
@@ -68,7 +69,7 @@ class MetadataDriver implements MappingDriver
     protected $unmapped;
 
     /** @var string A default entity for any table not matched */
-    protected $fallbackEntity = 'Bolt\Storage\Entity\Content';
+    protected $fallbackEntity = Entity\Content::class;
     /** @var boolean */
     protected $initialized = false;
 
