@@ -59,16 +59,14 @@ class Frontend extends ConfigurableBase
         }
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($this->getOption('general/maintenance_mode')) {
-            if (!$this->isAllowed('maintenance-mode')) {
-                $twig = $this->app['twig'];
-                $template = $this->templateChooser()->maintenance();
+        if ($this->getOption('general/maintenance_mode') && !$this->isAllowed('maintenance-mode')) {
+            $twig = $this->app['twig'];
+            $template = $this->templateChooser()->maintenance();
 
-                $html = $twig->resolveTemplate($template)->render([]);
-                $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
+            $html = $twig->resolveTemplate($template)->render([]);
+            $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
 
-                return $response;
-            }
+            return $response;
         }
 
         // Stop the 'stopwatch' for the profiler.

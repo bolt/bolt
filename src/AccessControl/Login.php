@@ -297,6 +297,8 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
+     * @throws DriverException
+     *
      * @return Entity\Authtoken
      */
     protected function updateAuthToken($userEntity)

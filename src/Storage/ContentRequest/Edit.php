@@ -334,7 +334,7 @@ class Edit
             $groupIds[$id] = 1;
         };
 
-        foreach ($contentType['groups'] ? $contentType['groups'] : ['ungrouped'] as $group) {
+        foreach ($contentType['groups'] ?: ['ungrouped'] as $group) {
             if ($group === 'ungrouped') {
                 $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
             } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {

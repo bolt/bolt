@@ -25,6 +25,8 @@ class IncomingRelationType extends RelationType
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
+     * @return QueryBuilder|null|void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {

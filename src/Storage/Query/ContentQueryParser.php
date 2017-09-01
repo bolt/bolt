@@ -216,12 +216,14 @@ class ContentQueryParser
     public function runDirectives(QueryInterface $query, array $skipDirective = [])
     {
         foreach ($this->directives as $key => $value) {
-            if (!in_array($key, $skipDirective)) {
-                if ($this->hasDirectiveHandler($key)) {
-                    if (is_callable($this->getDirectiveHandler($key))) {
-                        call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
-                    }
-                }
+            if (in_array($key, $skipDirective)) {
+                continue;
+            }
+            if (!$this->hasDirectiveHandler($key)) {
+                continue;
+            }
+            if (is_callable($this->getDirectiveHandler($key))) {
+                call_user_func($this->getDirectiveHandler($key), $query, $value);
             }
         }
     }
@@ -432,7 +434,7 @@ class ContentQueryParser
     {
         $this->parse();
 
-        return call_user_func_array($this->handlers[$this->getOperation()], [$this]);
+        return call_user_func($this->handlers[$this->getOperation()], $this);
     }
 
     /**

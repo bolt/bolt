@@ -43,7 +43,8 @@ trait MagicAttributeTrait
     {
         if ($this->has($key) && property_exists($this, $key)) {
             unset($this->$key);
-        } elseif ($this->has($key)) {
+        }
+        if ($this->has($key)) {
             unset($this->_fields[$key]);
         }
 
@@ -67,7 +68,8 @@ trait MagicAttributeTrait
             foreach ($try as $test) {
                 if ($this->has($test) && property_exists($this, $test)) {
                     return $this->$test;
-                } elseif ($this->has($test)) {
+                }
+                if ($this->has($test)) {
                     return $this->_fields[$test];
                 }
             }

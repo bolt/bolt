@@ -169,6 +169,8 @@ class LogChange extends Entity
     /**
      * Get changed fields.
      *
+     * @param array $contentType
+     *
      * @return array
      */
     public function getChangedFields(array $contentType)

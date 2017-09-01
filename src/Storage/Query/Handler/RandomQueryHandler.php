@@ -26,6 +26,6 @@ class RandomQueryHandler
             $contentQuery->setDirective('order', 'RANDOM()');
         }
 
-        return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
+        return call_user_func($contentQuery->getHandler('select'), $contentQuery);
     }
 }

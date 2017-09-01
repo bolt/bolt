@@ -98,15 +98,13 @@ trait ContentRelationTrait
     /**
      * Add a relation.
      *
-     * @param string|array $contenttype
+     * @param string|array $contentType
      * @param integer      $id
      */
-    public function setRelation($contenttype, $id)
+    public function setRelation($contentType, $id)
     {
-        if (empty($this->relation[$contenttype])) {
-            $this->relation[$contenttype][] = $id;
-        } elseif (!in_array($id, $this->relation[$contenttype])) {
-            array_push($this->relation[$contenttype], $id);
+        if (empty($this->relation[$contentType]) || !in_array($id, $this->relation[$contentType], false)) {
+            $this->relation[$contentType][] = $id;
         }
     }
 

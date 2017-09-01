@@ -151,7 +151,7 @@ class Cron extends Event
         $hour = $this->app['config']->get('general/cron_hour', '03:00');
 
         if (is_numeric($hour)) {
-            $hour = $hour . ':00';
+            $hour .= ':00';
         }
 
         $this->cronHour = new \DateTime($hour);
