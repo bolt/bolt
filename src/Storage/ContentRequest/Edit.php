@@ -70,6 +70,7 @@ class Edit
 
     /**
      * @internal DO NOT USE.
+     *
      * @deprecated Temporary and to be removed circa 3.5.
      *
      * @param Query $query
@@ -181,7 +182,7 @@ class Edit
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
-            'select_choices'     => $choiceResolver->get($contentType, (array) $templateFields)
+            'select_choices'     => $choiceResolver->get($contentType, (array) $templateFields),
         ];
         $context = [
             'incoming_not_inv' => $incomingNotInverted,

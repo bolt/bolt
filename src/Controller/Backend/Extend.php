@@ -286,6 +286,7 @@ class Extend extends BackendBase
                 'No extension was selected. Try entering a name and press the "%s" button.',
                 Trans::__('page.extend.button.browse-versions')
             );
+
             return $this->getJsonException(new \Exception($message));
         }
         $versions = ['dev' => [], 'beta' => [], 'RC' => [], 'stable' => []];
