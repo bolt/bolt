@@ -16,6 +16,7 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Storage\Database;
 use Cocur\Slugify\Slugify;
 use InvalidArgumentException;
 use RuntimeException;
@@ -706,7 +707,7 @@ class Config
         }
 
         // Specify the wrapper class for the connection
-        $options['wrapperClass'] = '\Bolt\Storage\Database\Connection';
+        $options['wrapperClass'] = Database\Connection::class;
 
         // Parse SQLite separately since it has to figure out database path
         if ($driver === 'sqlite') {
@@ -719,7 +720,7 @@ class Config
         }
 
         // Specify we want a master slave connection
-        $options['wrapperClass'] = '\Bolt\Storage\Database\MasterSlaveConnection';
+        $options['wrapperClass'] = Database\MasterSlaveConnection::class;
 
         // Add master connection where MasterSlaveConnection looks for it.
         $options['master'] = $master;

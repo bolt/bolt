@@ -25,6 +25,6 @@ class GeolocationType extends FieldTypeBase
      */
     public function getStorageType()
     {
-        return Type::getType('json_array');
+        return Type::getType('json');
     }
 }
