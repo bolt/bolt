@@ -10,7 +10,7 @@ use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\FileInterface;
-use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Filesystem\Listing;
 use Bolt\Form\FormType\FileEditType;
 use Bolt\Form\FormType\FileUploadType;
 use Bolt\Form\Validator\Constraints;
@@ -125,10 +125,21 @@ class FileManager extends BackendBase
      */
     public function manage(Request $request, $namespace, $path)
     {
-        $directory = $this->filesystem()->getDir("$namespace://$path");
+        $fullPath = "$namespace://$path";
+        $directory = $this->filesystem()->getDir($fullPath);
+        $listing = new Listing($directory);
+        $showHidden = $this->isAllowed('files:hidden');
 
-        if (!$directory->authorized()) {
-            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $directory->getPath()]));
+        if (!$listing->isAuthorized()) {
+            $this->flashes()->error(Trans::__('general.phrase.access-denied-permissions-view-file-directory', ['%s' => $fullPath]));
+
+            return $this->redirectToRoute('dashboard');
+        }
+        try {
+            $directories = $listing->getDirectories($showHidden);
+            $files = $listing->getFiles($showHidden);
+        } catch (IOException $e) {
+            $this->flashes()->error(Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]));
 
             return $this->redirectToRoute('dashboard');
         }
@@ -146,27 +157,19 @@ class FileManager extends BackendBase
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->handleUpload($form, $directory);
 
-                return $this->redirectToRoute('files', ['path' => $directory->getPath(), 'namespace' => $directory->getMountPoint()]);
+                return $this->redirectToRoute('files', ['path' => $path, 'namespace' => $namespace]);
             }
         }
 
-        $it = $directory->getContents();
-        $files = array_filter($it, function (HandlerInterface $handler) {
-            return $handler->isFile();
-        });
-        $directories = array_filter($it, function (HandlerInterface $handler) {
-            return $handler->isDir();
-        });
-
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
-        // from CKeditor to insert a file.
+        // from CKEditor to insert a file.
         $template = $request->query->has('CKEditor') ? '@bolt/files_ck/files_ck.twig' : '@bolt/files/files.twig';
 
         $context = [
-            'directory'    => $directory,
-            'files'        => $files,
-            'directories'  => $directories,
-            'form'         => $form ? $form->createView() : false,
+            'directory'   => $directory,
+            'directories' => $directories,
+            'files'       => $files,
+            'form'        => $form ? $form->createView() : false,
         ];
 
         return $this->render($template, $context);
