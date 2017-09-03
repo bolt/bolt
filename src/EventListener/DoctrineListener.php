@@ -57,19 +57,20 @@ class DoctrineListener implements EventSubscriber
      * Note: Doctrine expects this method to be called postConnect
      *
      * @param ConnectionEventArgs $args
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function postConnect(ConnectionEventArgs $args)
     {
         $db = $args->getConnection();
-        $platform = $args->getDatabasePlatform()->getName();
+        $platform = $args->getDatabasePlatform();
+        $platformName = $platform->getName();
 
-        if ($platform === 'sqlite') {
+        if ($platformName === 'sqlite') {
             $db->query('PRAGMA synchronous = OFF');
-        } elseif ($platform === 'mysql') {
-            /**
-             * @see https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
-             */
-            $db->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        } elseif ($platformName === 'mysql') {
+            /** @see http://docs.doctrine-project.org/en/latest/cookbook/mysql-enums.html */
+            $platform->registerDoctrineTypeMapping('enum', 'string');
 
             // Set database character set & collation as configured
             $charset   = $this->config->get('general/database/charset');
@@ -82,10 +83,8 @@ class DoctrineListener implements EventSubscriber
             // the outcome of a GROUP_CONCAT() query will be more than 1024 bytes.
             // See also: http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_group_concat_max_len
             $db->executeQuery('SET SESSION group_concat_max_len = 100000');
-        } elseif ($platform === 'postgresql') {
-            /**
-             * @see https://github.com/doctrine/dbal/pull/828
-             */
+        } elseif ($platformName === 'postgresql') {
+            /** @see https://github.com/doctrine/dbal/pull/828 */
             $db->executeQuery("SET NAMES 'utf8'");
         }
     }

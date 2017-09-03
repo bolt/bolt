@@ -285,6 +285,6 @@ class Users extends Entity
      */
     public function setRoles(array $roles)
     {
-        $this->roles = array_values(array_unique($roles));
+        $this->roles = array_keys(array_count_values($roles));
     }
 }

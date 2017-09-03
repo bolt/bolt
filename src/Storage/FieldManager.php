@@ -64,7 +64,7 @@ class FieldManager
         if (array_key_exists($class, $this->handlers)) {
             $handler = $this->handlers[$class];
 
-            $field = call_user_func_array($handler, [$mapping, $this->em]);
+            $field = call_user_func($handler, $mapping, $this->em);
         } else {
             $field = new $class($mapping, $this->em);
         }

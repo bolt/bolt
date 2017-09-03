@@ -40,7 +40,7 @@ class Excerpt
         $title = null;
         if ($includeTitle && $this->title !== null) {
             $title = Html::trimText(strip_tags($this->title), $length);
-            $length = $length - strlen($title);
+            $length -= strlen($title);
         }
 
         if ($this->body instanceof Content) {
@@ -235,7 +235,7 @@ class Excerpt
 
         // if we are going to snip too much...
         if ($textlength - $startPos < $relLength) {
-            $startPos = $startPos - ($textlength - $startPos) / 2;
+            $startPos -= ($textlength - $startPos) / 2;
         }
 
         $relText = substr($fulltext, $startPos, $relLength);

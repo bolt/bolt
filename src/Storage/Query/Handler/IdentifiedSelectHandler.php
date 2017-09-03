@@ -25,6 +25,6 @@ class IdentifiedSelectHandler
             $contentQuery->setDirective('returnsingle', true);
         }
 
-        return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
+        return call_user_func($contentQuery->getHandler('select'), $contentQuery);
     }
 }

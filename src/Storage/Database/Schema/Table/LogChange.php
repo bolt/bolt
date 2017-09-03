@@ -18,12 +18,12 @@ class LogChange extends BaseTable
         $this->table->addColumn('id',            'integer',    ['autoincrement' => true]);
         $this->table->addColumn('date',          'datetime',   []);
         $this->table->addColumn('ownerid',       'integer',    ['notnull' => false]);
-        $this->table->addColumn('title',         'string',     ['length' => 256, 'default' => '']);
+        $this->table->addColumn('title',         'string',     ['length' => 256]);
         $this->table->addColumn('contenttype',   'string',     ['length' => 128]);
         $this->table->addColumn('contentid',     'integer',    []);
         $this->table->addColumn('mutation_type', 'string',     ['length' => 16]);
-        $this->table->addColumn('diff',          'json_array', []);
-        $this->table->addColumn('comment',       'string',     ['length' => 150, 'default' => '', 'notnull' => false]);
+        $this->table->addColumn('diff',          'json',       []);
+        $this->table->addColumn('comment',       'string',     ['length' => 150, 'notnull' => false]);
         // @codingStandardsIgnoreEnd
     }
 

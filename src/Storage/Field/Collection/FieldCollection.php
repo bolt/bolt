@@ -116,7 +116,7 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     {
         Assert::isInstanceOf($value, FieldValue::class);
 
-        $this->set($value->getFieldname(), $value);
+        $this->set($value->getFieldName(), $value);
 
         return true;
     }

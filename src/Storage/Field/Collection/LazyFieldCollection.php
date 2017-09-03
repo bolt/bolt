@@ -68,6 +68,14 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
     }
 
     /**
+     * @return string
+     */
+    public function getBlock()
+    {
+        return $this->first()->getBlock();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getFieldType($fieldName)

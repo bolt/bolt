@@ -40,10 +40,10 @@ class ExtensionTables extends BaseBuilder
         }
 
         foreach ($this->tableGenerators as $generator) {
-            $table = call_user_func($generator, $schema);
+            $table = $generator($schema);
 
             if (is_array($table)) {
-                /** @var Table $t */
+                /** @var Table[] $table */
                 foreach ($table as $t) {
                     $alias = str_replace($this->prefix, '', $t->getName());
                     $t->addOption('alias', $alias);
