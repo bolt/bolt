@@ -14,6 +14,7 @@ use Twig\Markup;
  */
 class Content implements \ArrayAccess
 {
+    use Entity\ContentTypeTrait;
     use Entity\ContentRelationTrait;
     use Entity\ContentRouteTrait;
     use Entity\ContentSearchTrait;
@@ -143,8 +144,8 @@ class Content implements \ArrayAccess
         $value = null;
 
         if (isset($this->values[$name])) {
-            $fieldtype = $this->fieldtype($name);
-            $fieldinfo = $this->fieldinfo($name);
+            $fieldtype = $this->fieldType($name);
+            $fieldinfo = $this->fieldInfo($name);
             $allowtwig = !empty($fieldinfo['allowtwig']);
 
             switch ($fieldtype) {
@@ -323,37 +324,6 @@ class Content implements \ArrayAccess
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $pager, $where);
 
         return $next;
-    }
-
-    /**
-     * Get field information for the given field.
-     *
-     * @param string $key
-     *
-     * @return array An associative array containing at least the key 'type',
-     *               and, depending on the type, other keys.
-     */
-    public function fieldinfo($key)
-    {
-        if (isset($this->contenttype['fields'][$key])) {
-            return $this->contenttype['fields'][$key];
-        } else {
-            return ['type' => ''];
-        }
-    }
-
-    /**
-     * Get the fieldtype for a given fieldname.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function fieldtype($key)
-    {
-        $field = $this->fieldinfo($key);
-
-        return $field['type'];
     }
 
     /**

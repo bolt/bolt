@@ -376,7 +376,7 @@ trait ContentValuesTrait
         ];
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key === 'templatefields')) {
+            if ((in_array($this->fieldType($key), $serializedFieldTypes)) || ($key === 'templatefields')) {
                 if (!empty($value) && is_string($value) && (substr($value, 0, 2) === 'a:' || $value[0] === '[' || $value[0] === '{')) {
                     try {
                         $unserdata = Lib::smartUnserialize($value);
@@ -390,7 +390,7 @@ trait ContentValuesTrait
                 }
             }
 
-            if ($this->fieldtype($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
+            if ($this->fieldType($key) === 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
                 $defaultValues = [
                     'html'       => '',
                     'responsive' => '',
@@ -427,7 +427,7 @@ trait ContentValuesTrait
                 $this->values[$key] = $video;
             }
 
-            if ($this->fieldtype($key) === 'repeater' && is_array($this->values[$key]) && !$this->isRootType) {
+            if ($this->fieldType($key) === 'repeater' && is_array($this->values[$key]) && !$this->isRootType) {
                 $originalMapping = null;
                 $originalMapping[$key]['fields'] = $this->contenttype['fields'][$key]['fields'];
                 $originalMapping[$key]['type'] = 'repeater';
@@ -443,7 +443,7 @@ trait ContentValuesTrait
                 $this->values[$key] = $repeater;
             }
 
-            if ($this->fieldtype($key) === 'date' || $this->fieldtype($key) === 'datetime') {
+            if ($this->fieldType($key) === 'date' || $this->fieldType($key) === 'datetime') {
                 if ($this->values[$key] === '') {
                     $this->values[$key] = null;
                 }
