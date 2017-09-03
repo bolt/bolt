@@ -90,7 +90,7 @@ trait TransparentProxyTrait
         };
 
         $cloner->addCasters([
-            get_called_class() => $caster,
+            static::class => $caster,
         ]);
     }
 }

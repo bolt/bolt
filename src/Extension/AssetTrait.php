@@ -37,6 +37,8 @@ trait AssetTrait
      * Call this in register method.
      *
      * @internal
+     *
+     * @throws \InvalidArgumentException
      */
     final protected function extendAssetServices()
     {
@@ -91,6 +93,8 @@ trait AssetTrait
 
     /**
      * Merges assets returned from registerAssets() to our list.
+     *
+     * @throws \InvalidArgumentException
      */
     private function loadAssets()
     {
@@ -102,7 +106,7 @@ trait AssetTrait
             if (!$asset instanceof AssetInterface) {
                 throw new \InvalidArgumentException(sprintf(
                     '%s::registerAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: %s',
-                    get_called_class(),
+                    static::class,
                     is_object($asset) ? get_class($asset) : gettype($asset)
                 ));
             }

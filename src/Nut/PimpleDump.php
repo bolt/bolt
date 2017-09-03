@@ -22,7 +22,7 @@ class PimpleDump extends BaseCommand
      */
     public function isEnabled()
     {
-        return class_exists('\Sorien\Provider\PimpleDumpProvider');
+        return class_exists(PimpleDumpProvider::class);
     }
 
     /**

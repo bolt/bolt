@@ -82,7 +82,8 @@ class Modify
     {
         if ($action === 'delete') {
             return $this->deleteRecord($repo, $entity);
-        } elseif ($action === 'modify' && $fieldData !== null) {
+        }
+        if ($action === 'modify' && $fieldData !== null) {
             $this->modifyRecord($entity, $fieldData);
 
             if ($entity->_modified === true) {

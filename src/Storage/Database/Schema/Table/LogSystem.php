@@ -22,9 +22,9 @@ class LogSystem extends BaseTable
         $this->table->addColumn('ownerid',    'integer',    ['notnull' => false]);
         $this->table->addColumn('requesturi', 'string',     ['length' => 128]);
         $this->table->addColumn('route',      'string',     ['length' => 128]);
-        $this->table->addColumn('ip',         'string',     ['length' => 45, 'default' => '']);
+        $this->table->addColumn('ip',         'string',     ['length' => 45]);
         $this->table->addColumn('context',    'string',     ['length' => 32]);
-        $this->table->addColumn('source',     'json_array', []);
+        $this->table->addColumn('source',     'json',       []);
         // @codingStandardsIgnoreEnd
     }
 

@@ -282,6 +282,7 @@ class Extend extends BackendBase
                 'No extension was selected. Try entering a name and press the "%s" button.',
                 Trans::__('page.extend.button.browse-versions')
             );
+
             return $this->getJsonException(new \Exception($message));
         }
         $versions = ['dev' => [], 'beta' => [], 'RC' => [], 'stable' => []];
@@ -395,11 +396,10 @@ class Extend extends BackendBase
      */
     public function update(Request $request)
     {
-        $package = $request->get('package') ? $request->get('package') : null;
-        $update = $package ? [$package] : [];
+        $package = $request->query->get('package');
 
         try {
-            $response = $this->app['extend.manager']->updatePackage($update);
+            $response = $this->app['extend.manager']->updatePackage((array) $package);
         } catch (\Exception $e) {
             return $this->getJsonException($e);
         }

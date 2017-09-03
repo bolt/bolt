@@ -59,16 +59,14 @@ class Frontend extends ConfigurableBase
         }
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($this->getOption('general/maintenance_mode')) {
-            if (!$this->isAllowed('maintenance-mode')) {
-                $twig = $this->app['twig'];
-                $template = $this->templateChooser()->maintenance();
+        if ($this->getOption('general/maintenance_mode') && !$this->isAllowed('maintenance-mode')) {
+            $twig = $this->app['twig'];
+            $template = $this->templateChooser()->maintenance();
 
-                $html = $twig->resolveTemplate($template)->render([]);
-                $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
+            $html = $twig->resolveTemplate($template)->render([]);
+            $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
 
-                return $response;
-            }
+            return $response;
         }
 
         // Stop the 'stopwatch' for the profiler.
@@ -109,11 +107,11 @@ class Frontend extends ConfigurableBase
         $template = $this->templateChooser()->homepage($content);
         $context = [];
 
-        if (is_array($content)) {
+        if (is_array($content) && count($content) > 0) {
             $first = current($content);
             $context[$first->contenttype['slug']] = $content;
             $context['records'] = $content;
-        } elseif (!empty($content)) {
+        } elseif (is_object($content)) {
             $context['record'] = $content;
             $context[$content->contenttype['singular_slug']] = $content;
             $context['records'] = [$content->id => $content];

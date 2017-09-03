@@ -9,7 +9,6 @@ use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Carbon\Carbon;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -25,7 +24,6 @@ class DateType extends FieldTypeBase
     public function __construct(array $mapping = [], EntityManager $em = null)
     {
         parent::__construct($mapping, $em);
-        Type::overrideType(Type::DATE, Mapping\Type\CarbonDateType::class);
     }
 
     /**

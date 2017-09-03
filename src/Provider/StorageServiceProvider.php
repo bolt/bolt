@@ -17,6 +17,7 @@ use Bolt\Storage\LazyEntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Repository;
+use Doctrine\DBAL;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
@@ -119,38 +120,38 @@ class StorageServiceProvider implements ServiceProviderInterface, BootableProvid
         $app['storage.repository.default'] = Repository\ContentRepository::class;
 
         $app['storage.typemap'] = [
-            'Doctrine\DBAL\Types\StringType'   => Field\Type\TextType::class,
-            'Doctrine\DBAL\Types\IntegerType'  => Field\Type\IntegerType::class,
-            'Doctrine\DBAL\Types\FloatType'    => Field\Type\FloatType::class,
-            'Doctrine\DBAL\Types\TextType'     => Field\Type\TextAreaType::class,
-            'Doctrine\DBAL\Types\DateType'     => Field\Type\DateType::class,
-            'Doctrine\DBAL\Types\DateTimeType' => Field\Type\DateTimeType::class,
-            'block'                            => Field\Type\BlockType::class,
-            'checkbox'                         => Field\Type\CheckboxType::class,
-            'date'                             => Field\Type\DateType::class,
-            'datetime'                         => Field\Type\DateTimeType::class,
-            'file'                             => Field\Type\FileType::class,
-            'filelist'                         => Field\Type\FileListType::class,
-            'float'                            => Field\Type\FloatType::class,
-            'geolocation'                      => Field\Type\GeolocationType::class,
-            'hidden'                           => Field\Type\HiddenType::class,
-            'html'                             => Field\Type\HtmlType::class,
-            'image'                            => Field\Type\ImageType::class,
-            'imagelist'                        => Field\Type\ImageListType::class,
-            'incomingrelation'                 => Field\Type\IncomingRelationType::class,
-            'integer'                          => Field\Type\IntegerType::class,
-            'markdown'                         => Field\Type\MarkdownType::class,
-            'relation'                         => Field\Type\RelationType::class,
-            'repeater'                         => Field\Type\RepeaterType::class,
-            'select'                           => Field\Type\SelectType::class,
-            'selectmultiple'                   => Field\Type\SelectMultipleType::class,
-            'slug'                             => Field\Type\SlugType::class,
-            'taxonomy'                         => Field\Type\TaxonomyType::class,
-            'templatefields'                   => Field\Type\TemplateFieldsType::class,
-            'templateselect'                   => Field\Type\TemplateSelectType::class,
-            'text'                             => Field\Type\TextType::class,
-            'textarea'                         => Field\Type\TextAreaType::class,
-            'video'                            => Field\Type\VideoType::class,
+            DBAL\Types\StringType::class   => Field\Type\TextType::class,
+            DBAL\Types\IntegerType::class  => Field\Type\IntegerType::class,
+            DBAL\Types\FloatType::class    => Field\Type\FloatType::class,
+            DBAL\Types\TextType::class     => Field\Type\TextAreaType::class,
+            DBAL\Types\DateType::class     => Field\Type\DateType::class,
+            DBAL\Types\DateTimeType::class => Field\Type\DateTimeType::class,
+            'block'                        => Field\Type\BlockType::class,
+            'checkbox'                     => Field\Type\CheckboxType::class,
+            'date'                         => Field\Type\DateType::class,
+            'datetime'                     => Field\Type\DateTimeType::class,
+            'file'                         => Field\Type\FileType::class,
+            'filelist'                     => Field\Type\FileListType::class,
+            'float'                        => Field\Type\FloatType::class,
+            'geolocation'                  => Field\Type\GeolocationType::class,
+            'hidden'                       => Field\Type\HiddenType::class,
+            'html'                         => Field\Type\HtmlType::class,
+            'image'                        => Field\Type\ImageType::class,
+            'imagelist'                    => Field\Type\ImageListType::class,
+            'incomingrelation'             => Field\Type\IncomingRelationType::class,
+            'integer'                      => Field\Type\IntegerType::class,
+            'markdown'                     => Field\Type\MarkdownType::class,
+            'relation'                     => Field\Type\RelationType::class,
+            'repeater'                     => Field\Type\RepeaterType::class,
+            'select'                       => Field\Type\SelectType::class,
+            'selectmultiple'               => Field\Type\SelectMultipleType::class,
+            'slug'                         => Field\Type\SlugType::class,
+            'taxonomy'                     => Field\Type\TaxonomyType::class,
+            'templatefields'               => Field\Type\TemplateFieldsType::class,
+            'templateselect'               => Field\Type\TemplateSelectType::class,
+            'text'                         => Field\Type\TextType::class,
+            'textarea'                     => Field\Type\TextAreaType::class,
+            'video'                        => Field\Type\VideoType::class,
         ];
 
         $app['storage.repositories'] = [

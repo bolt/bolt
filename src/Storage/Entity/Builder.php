@@ -137,11 +137,11 @@ class Builder
             $handler = isset($this->transformers[$mappedType]) ? $this->transformers[$mappedType] : null;
 
             if ($handler) {
-                call_user_func_array($handler, [$entity, $data[$key]]);
+                call_user_func($handler, $entity, $data[$key]);
             } else {
                 $val = isset($data[$key]) ? $data[$key] : null;
                 if ($fieldType instanceof FieldTypeInterface) {
-                    call_user_func_array([$fieldType, 'set'], [$entity, $val]);
+                    call_user_func([$fieldType, 'set'], $entity, $val);
                 }
             }
         }
@@ -166,7 +166,7 @@ class Builder
         foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             if ($fieldType instanceof FieldTypeInterface) {
-                call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
+                call_user_func([$fieldType, 'hydrate'], $data, $entity);
             }
         }
 
@@ -187,7 +187,7 @@ class Builder
             $getter = 'get' . ucfirst($key);
             $value = $entity->$getter();
             if ($value) {
-                call_user_func_array([$fieldType, 'set'], [$entity, $value]);
+                call_user_func([$fieldType, 'set'], $entity, $value);
             }
         }
     }

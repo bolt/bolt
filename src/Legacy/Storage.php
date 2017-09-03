@@ -471,6 +471,10 @@ class Storage
 
     /**
      * Decode search query into searchable parts.
+     *
+     * @param string $q
+     *
+     * @return array
      */
     private function decodeSearchQuery($q)
     {

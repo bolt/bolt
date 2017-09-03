@@ -21,7 +21,7 @@ if (PHP_SAPI === 'cli-server') {
     // Absolute path to entry file
     $_SERVER['SCRIPT_FILENAME'] = $frame['file'];
     // Relative path to entry file from document root (dir the server is point to)
-    $_SERVER['SCRIPT_NAME'] = preg_replace("#^{$_SERVER['DOCUMENT_ROOT']}#", '', $_SERVER['SCRIPT_FILENAME']);
+    $_SERVER['SCRIPT_NAME'] = preg_replace('#^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '\\') . "#", '', $_SERVER['SCRIPT_FILENAME']);
 }
 
 return require __DIR__ . '/bootstrap.php';

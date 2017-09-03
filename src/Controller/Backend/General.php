@@ -2,7 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
-use Bolt\Collection\Bag;
+use Bolt\Collection\MutableBag;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Form\FormType\FileEditType;
 use Bolt\Form\FormType\PrefillType;
@@ -76,7 +76,7 @@ class General extends BackendBase
             'pass' => ['php' => [], 'system' => []],
             'fail' => ['php' => [], 'system' => []],
         ];
-        $checks = Bag::fromRecursive([
+        $checks = MutableBag::fromRecursive([
             'requirements'    => $defaults,
             'recommendations' => $defaults,
         ]);
@@ -235,7 +235,7 @@ class General extends BackendBase
      */
     public function translation(Request $request, $domain, $tr_locale)
     {
-        $tr = Bag::from([
+        $tr = MutableBag::from([
             'domain' => $domain,
             'locale' => $tr_locale,
         ]);
@@ -313,11 +313,11 @@ class General extends BackendBase
     /**
      * Get the translation data.
      *
-     * @param Bag $tr
+     * @param MutableBag $tr
      *
      * @return array
      */
-    private function getTranslationData(Bag $tr)
+    private function getTranslationData(MutableBag $tr)
     {
         $translation = new TranslationFile($this->app, $tr->get('domain'), $tr->get('locale'));
 
@@ -332,12 +332,12 @@ class General extends BackendBase
     /**
      * Attempt to save the POST data for a translation file edit.
      *
-     * @param string $contents
-     * @param Bag    $tr
+     * @param string     $contents
+     * @param MutableBag $tr
      *
      * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function saveTranslationFile($contents, Bag $tr)
+    private function saveTranslationFile($contents, MutableBag $tr)
     {
         $contents = Input::cleanPostedData($contents) . "\n";
 
