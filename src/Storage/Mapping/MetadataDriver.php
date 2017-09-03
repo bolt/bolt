@@ -744,7 +744,7 @@ class MetadataDriver implements MappingDriver
     public function getContentTypeFromAlias($alias, $forceSlug = false)
     {
         foreach ($this->contenttypes->getData() as $key => $contenttype) {
-            if ($forceSlug && $forceSlug==='singular') {
+            if ($forceSlug && $forceSlug === 'singular') {
                 if (isset($contenttype['singular_slug']) && ($contenttype['slug'] == $alias || $contenttype['tablename'] == $alias)) {
                     return $contenttype['singular_slug'];
                 }
