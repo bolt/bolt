@@ -201,7 +201,7 @@ class ContentType extends BaseTable
     }
 
     /**
-     * Add a column for a 123 character string, not null, with an empty string default.
+     * Add a column for a 128 character string, not null, with an empty string default.
      *
      * @param string $fieldName
      */
@@ -209,7 +209,7 @@ class ContentType extends BaseTable
     {
         // Only additional slug fields will be added. If it's the
         // default slug, skip it instead.
-        if ($fieldName != 'slug') {
+        if ($fieldName !== 'slug') {
             $this->table->addColumn($fieldName, 'string', ['length' => 128, 'notnull' => false]);
         }
     }
