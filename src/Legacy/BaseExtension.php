@@ -213,8 +213,8 @@ abstract class BaseExtension extends SimpleExtension
     {
         if (method_exists($this, $callback)) {
             return call_user_func([$this, $callback], $var1, $var2, $var3);
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

@@ -204,7 +204,7 @@ class SearchWeighter
                 $multiplier = $weights[$field]['weight'] / 100;
 
                 if ($multiplier > 0) {
-                    $score = $score * $multiplier;
+                    $score *= $multiplier;
                 }
             }
         }

@@ -31,7 +31,7 @@ trait CallableInvokerTrait
     protected function invokeCallable(callable $callback, $callbackArguments)
     {
         if ($callbackArguments === null) {
-            return call_user_func($callback);
+            return $callback();
         }
 
         if (Arr::isIndexed($callbackArguments)) {

@@ -59,16 +59,14 @@ class Frontend extends ConfigurableBase
         }
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($this->getOption('general/maintenance_mode')) {
-            if (!$this->isAllowed('maintenance-mode')) {
-                $twig = $this->app['twig'];
-                $template = $this->templateChooser()->maintenance();
+        if ($this->getOption('general/maintenance_mode') && !$this->isAllowed('maintenance-mode')) {
+            $twig = $this->app['twig'];
+            $template = $this->templateChooser()->maintenance();
 
-                $html = $twig->resolveTemplate($template)->render([]);
-                $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
+            $html = $twig->resolveTemplate($template)->render([]);
+            $response = new TemplateResponse($template, [], $html, Response::HTTP_SERVICE_UNAVAILABLE);
 
-                return $response;
-            }
+            return $response;
         }
 
         // Stop the 'stopwatch' for the profiler.
@@ -103,17 +101,17 @@ class Frontend extends ConfigurableBase
     public function homepage(Request $request)
     {
         $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
-        $listingparameters = $this->getListingParameters($homepage);
-        $content = $this->getContent($homepage, $listingparameters);
+        $listingParameters = $this->getListingParameters($homepage);
+        $content = $this->getContent($homepage, $listingParameters);
 
         $template = $this->templateChooser()->homepage($content);
         $globals = [];
 
-        if (is_array($content)) {
+        if (is_array($content) && count($content) > 0) {
             $first = current($content);
             $globals[$first->contenttype['slug']] = $content;
             $globals['records'] = $content;
-        } elseif (!empty($content)) {
+        } elseif (is_object($content)) {
             $globals['record'] = $content;
             $globals[$content->contenttype['singular_slug']] = $content;
             $globals['records'] = [$content->id => $content];

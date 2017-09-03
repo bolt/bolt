@@ -267,7 +267,7 @@ class EntityManager implements EntityManagerInterface
         if (array_key_exists($classMetadata->getName(), $this->repositories)) {
             $repoClass = $this->repositories[$classMetadata->getName()];
             if (is_callable($repoClass)) {
-                $repo = call_user_func_array($repoClass, [$this, $classMetadata]);
+                $repo = call_user_func($repoClass, $this, $classMetadata);
             } else {
                 $repo = new $repoClass($this, $classMetadata);
             }

@@ -24,7 +24,7 @@ class NativeSearchHandler
             return $this->postgresSearch($contentQuery);
         }
 
-        return call_user_func_array($contentQuery->getHandler('search'), [$contentQuery]);
+        return call_user_func($contentQuery->getHandler('search'), $contentQuery);
     }
 
     /**

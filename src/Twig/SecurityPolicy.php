@@ -122,7 +122,7 @@ class SecurityPolicy implements SecurityPolicyInterface
     {
         $this->allowedMethods = [];
         foreach ($methods as $class => $m) {
-            $this->allowedMethods[$class] = array_map('strtolower', is_array($m) ? $m : [$m]);
+            $this->allowedMethods[$class] = array_map('strtolower', (array) $m);
         }
     }
 

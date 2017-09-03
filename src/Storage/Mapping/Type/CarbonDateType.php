@@ -2,25 +2,9 @@
 
 namespace Bolt\Storage\Mapping\Type;
 
-use Carbon\Carbon;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\DateType;
+use Bolt\Common\Deprecated;
+use Bolt\Storage\Database\Schema\Types;
 
-class CarbonDateType extends DateType
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        if ($value === null) {
-            return $value;
-        }
+Deprecated::cls(CarbonDateType::class, 3.3);
 
-        if (empty($value)) {
-            return null;
-        }
-
-        return Carbon::instance(parent::convertToPHPValue($value, $platform));
-    }
-}
+class_alias(Types\CarbonDateType::class, CarbonDateType::class);

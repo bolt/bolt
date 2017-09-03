@@ -236,7 +236,8 @@ abstract class AbstractMigration
     {
         if ($type === 'yml' || $type === 'yaml') {
             return 'yaml';
-        } elseif ($type === 'json') {
+        }
+        if ($type === 'json') {
             return 'json';
         }
     }

@@ -147,7 +147,7 @@ trait ContentSearchTrait
             // a complete match is 100% of the maximum
             return round((100 / 100) * $max);
         }
-        if (strstr($lowSubject, $complete)) {
+        if (strpos($lowSubject, $complete) !== false) {
             // when the whole query is found somewhere is 70% of the maximum
             return round((70 / 100) * $max);
         }
@@ -155,7 +155,7 @@ trait ContentSearchTrait
         $wordMatches = 0;
         $cntWords = count($words);
         foreach (array_keys($words) as $k) {
-            if (strstr($lowSubject, $words[$k])) {
+            if (strpos($lowSubject, $words[$k]) !== false) {
                 ++$wordMatches;
             }
         }

@@ -129,10 +129,11 @@ final class Choice
     /**
      * Return select field value options from a ContentType's records.
      *
-     * @param string $queryString
-     * @param int    $limit
-     * @param array  $filter
-     * @param string $key
+     * @param string      $queryString
+     * @param int         $limit
+     * @param array       $filter
+     * @param string      $key
+     * @param string|null $orderBy
      *
      * @return array
      */
