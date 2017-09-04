@@ -84,7 +84,7 @@ Released 2017-07-27. Notable changes:
  - Change: Add sub and super to default allowed tags [#6362](https://github.com/bolt/bolt/pull/6362)
  - Change: Allow 'extensions_config' as a prefix for FilePermissions checks [#6762](https://github.com/bolt/bolt/pull/6762)
  - Change: Allow `.bolt.php` to return extension objects [#6767](https://github.com/bolt/bolt/pull/6767)
- - Change: Always reset null templatefields to an empty array instead [[#6803](https://github.com/bolt/bolt/pull/6803)](https://github.com/bolt/bolt/pull/6803)
+ - Change: Always reset null templatefields to an empty array instead [#6803](https://github.com/bolt/bolt/pull/6803)
  - Change: Boot extension registered service providers - Fixes "Paths to extensions added pages don't work" [#6157](https://github.com/bolt/bolt/pull/6157)
  - Change: Bumped PostgreSQL minimum version to 9.1. (for MySQL we require version 5.5 or up, and almost any SQLite 3 will do).
  - Change: Bunch of maintenance work on `base-2016`: Updating Foundation to 6.3, etc. [#6185](https://github.com/bolt/bolt/pull/6185)
