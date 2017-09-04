@@ -19,10 +19,6 @@ class MySql extends BaseComparator
      */
     protected function setIgnoredChanges()
     {
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'date', 'date');
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'datetime', 'datetime');
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json_array');
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'default', 'text', 'text');
     }
 
     /**
