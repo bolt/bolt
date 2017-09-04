@@ -201,7 +201,7 @@ Released 2017-07-27. Notable changes:
  - Fixed: Fix to incorrect Extension Field Initialisation. [#6271](https://github.com/bolt/bolt/pull/6271)
  - Fixed: Fix twig `ismobileclient()` to _actually_ not use super global. [#6124](https://github.com/bolt/bolt/pull/6124)
  - Fixed: Fix/clean up `_sub_fields.twig` for `{{ fields() }}` [#6474](https://github.com/bolt/bolt/pull/6474)
- - Fixed: Fixes for `.bolt.yml` / `.bolt.php` custom path handling [#6805](https://github.com/bolt/bolt/pull/6805]
+ - Fixed: Fixes for `.bolt.yml` / `.bolt.php` custom path handling [#6805](https://github.com/bolt/bolt/pull/6805)
  - Fixed: Fixing the link to docs.bolt.cm/templating/fields-tag [#6611](https://github.com/bolt/bolt/pull/6611)
  - Fixed: Force saving of repeaters, even when empty. [#6518](https://github.com/bolt/bolt/pull/6518)
  - Fixed: Get fields from repeater, even if repeater isn't last. Obsoletes hackish include of HTML field. [#6719](https://github.com/bolt/bolt/pull/6719)
