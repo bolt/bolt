@@ -68,7 +68,7 @@ class DatabaseImport extends BaseCommand
         }
 
         // See if we're going to continue
-        if ($this->checkContinue($input, $output) === false) {
+        if ($this->checkContinue($input) === false) {
             return 0;
         }
 

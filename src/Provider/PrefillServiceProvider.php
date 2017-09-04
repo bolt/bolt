@@ -14,7 +14,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
         $app['prefill.api_url'] = 'http://loripsum.net/api/';
 
         $app['prefill'] = function ($app) {
-            return new Prefill\ApiClient($app['guzzle.client'], $app['prefill.api_url']);
+            return new Prefill\ApiClient($app['guzzle.client']);
         };
 
         $app['prefill.builder'] = function ($app) {
