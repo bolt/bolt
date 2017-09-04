@@ -96,7 +96,7 @@ Released 2017-07-27. Notable changes:
  - Change: Clarify error message for missing assets in extensions. [#6505](https://github.com/bolt/bolt/pull/6505)
  - Change: Clean up .gitignore [#6737](https://github.com/bolt/bolt/pull/6737)
  - Change: Composer installed default themes [#6816](https://github.com/bolt/bolt/pull/6816)
- - Change: Config update: suggest Sparkpost instead of Sendgrid. [#6787](https://github.com/bolt/bolt/pull/6787]
+ - Change: Config update: suggest Sparkpost instead of Sendgrid. [#6787](https://github.com/bolt/bolt/pull/6787)
  - Change: Core deprecation notice logging [#6389](https://github.com/bolt/bolt/pull/6389)
  - Change: Deprecate Render [#6310](https://github.com/bolt/bolt/pull/6310)
  - Change: Deprecation and associated clean ups. [#6159](https://github.com/bolt/bolt/pull/6159)
