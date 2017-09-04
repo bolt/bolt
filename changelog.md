@@ -1264,7 +1264,7 @@ Released 2015-11-27. Notable changes:
  - Fixed: Fix alt and title tags for popup & showimage, height/width for showImage (See [#4231](https://github.com/bolt/bolt/issues/4231))
  - Fixed: Make 'required' for `type: select` fields work. (See: #4420)
  - Fixed: Replace `☰` for `≡ `for better supported unicode on Android. (See [#4388](https://github.com/bolt/bolt/issues/4388))
- - Regex that insert snippets not working when </head> does not starts the line.  #4367
+ - Regex that insert snippets not working when </head> does not starts the line.  [#4367](https://github.com/bolt/bolt/issues/4367)
  - Changed: Set `composer/composer` to dev stability. (See [#4345](https://github.com/bolt/bolt/issues/4345))
  - Fixed: Fixed priority issue in assets (See [#4343](https://github.com/bolt/bolt/issues/4343))
  - Fixed: Fixing reordering images in an ImageList. (See [#3573](https://github.com/bolt/bolt/issues/3573))
@@ -1288,7 +1288,7 @@ Released 2015-10-07. Notable changes:
 - Added: Optionally allow spaces in tags.
 - Updated: Updating UIkit(2.22), CodeMirror and Marked.js
 - Changed: Ignore theme directory except for base-* and default
-- Changed: Use tag names instead of slugs for autocomplete and tag cloud. #4125
+- Changed: Use tag names instead of slugs for autocomplete and tag cloud. [#4125](https://github.com/bolt/bolt/issues/4125)
 - Changed: Strip periods, commas, colons & semi-colons from prefill titles
 - Changed: date-time format uses a more i18n-friendly format (See [#4053](https://github.com/bolt/bolt/issues/4053))
 - Changed: Moving 'Install new extension' to the top of the screen.
@@ -1297,7 +1297,7 @@ Released 2015-10-07. Notable changes:
 - Fixed: Fix the info text for imagelist fields (See [#4051](https://github.com/bolt/bolt/issues/4051))
 - Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
 - Fixed: No links for records that are 'viewless'. Fixes [#3999](https://github.com/bolt/bolt/issues/3999) for [2.2]
-- Fixed: [2.2] Allow non-strings as query parameters with pager. issue #4109
+- Fixed: [2.2] Allow non-strings as query parameters with pager. issue [#4109](https://github.com/bolt/bolt/issues/4109)
 - Fixed: "Timed publish" fixed for SQLITE (Now using a `DateTime` object instead of `CURRENT_TIMESTAMP`)
 - Fixed: Fix: Don't show notice about `mailoptions` when not logged on.
 - Fixed: Alignment of #navpage-secondary menu item icons in FireFox. (See [#4178](https://github.com/bolt/bolt/issues/4178))
@@ -1315,7 +1315,7 @@ Not yet released. Notable changes:
 - Added: Optionally allow spaces in tags.
 - Updated: Updating UIkit(2.22), CodeMirror and Marked.js
 - Changed: Ignore theme directory except for base-* and default
-- Changed: Use tag names instead of slugs for autocomplete and tag cloud. #4125
+- Changed: Use tag names instead of slugs for autocomplete and tag cloud. [#4125](https://github.com/bolt/bolt/issues/4125)
 - Changed: Strip periods, commas, colons & semi-colons from prefill titles
 - Changed: date-time format uses a more i18n-friendly format (See [#4053](https://github.com/bolt/bolt/issues/4053))
 - Changed: Moving 'Install new extension' to the top of the screen.
@@ -1326,7 +1326,7 @@ Not yet released. Notable changes:
 - Fixed: Fix the info text for imagelist fields (See [#4051](https://github.com/bolt/bolt/issues/4051))
 - Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
 - Fixed: No links for records that are 'viewless'. Fixes [#3999](https://github.com/bolt/bolt/issues/3999) for [2.2]
-- Fixed: [2.2] Allow non-strings as query parameters with pager. issue #4109
+- Fixed: [2.2] Allow non-strings as query parameters with pager. issue [#4109](https://github.com/bolt/bolt/issues/4109)
 - Fixed: "Timed publish" fixed for SQLITE (Now using a `DateTime` object instead of `CURRENT_TIMESTAMP`)
 - Fixed: Fix: Don't show notice about `mailoptions` when not logged on.
 - Fixed: Alignment of #navpage-secondary menu item icons in FireFox. (See [#4178](https://github.com/bolt/bolt/issues/4178))
@@ -1567,7 +1567,7 @@ Released 2015-06-04. Notable changes:
  - Prevent composer from sneaking in any `v2.7.0` symfony components. Remove `symfony/locale`.
  - Local extension autoloader See [#3607](https://github.com/bolt/bolt/issues/3607)
  - Request cache fix. See [#3561](https://github.com/bolt/bolt/issues/3561)
- - To make content 'stick' after saving, use `contentkey` instead of `key`. #3527
+ - To make content 'stick' after saving, use `contentkey` instead of `key`. [#3527](https://github.com/bolt/bolt/issues/3527)
  - Make sure `$unserdata` is an array, and not merely `false`. See [#3526](https://github.com/bolt/bolt/issues/3526)
  - Handle Flysystem exception correctly when a file is not found. See [#3519](https://github.com/bolt/bolt/issues/3519)
 
@@ -1822,7 +1822,7 @@ Released 2014-12-18. Notable changes:
 
 - Fix the pager for taxonomy-listings
 - Implemented "viewless" property for contenttypes. Fixes [#2149](https://github.com/bolt/bolt/issues/2149)
-- IE9: Javascript Dropdowns #2195
+- IE9: Javascript Dropdowns [#2195](https://github.com/bolt/bolt/issues/2195)
 - Set twig globals on 404 pages. Fixes [#2198](https://github.com/bolt/bolt/issues/2198)
 - Show Stack on "Browse Server" for images. Fixes [#2235](https://github.com/bolt/bolt/issues/2235)
 - Added "Copy to themes" button in Extend
@@ -1834,7 +1834,7 @@ Released 2014-12-18. Notable changes:
 - Refuse to display Bolt in an iframe, to prevent possible clickjacking. See [#2197](https://github.com/bolt/bolt/issues/2197). Thanks, @narendrabhati
 - Editcontent dates are now stored as entered, set the timezone in config.yml
 - Paging now works correctly for taxonomy-listings
-- Make ckeditor use new global locale setting #2087
+- Make ckeditor use new global locale setting [#2087](https://github.com/bolt/bolt/issues/2087)
 - Contenttype submenu labels are now translated
 - Store Geolocation fields, if only the coordinates are set. Make sure the view initialises, if on a second tab. Fixes [#2172](https://github.com/bolt/bolt/issues/2172)
 - Set moments locale before initialise
@@ -1845,7 +1845,7 @@ Released 2014-12-18. Notable changes:
 - Follow symlinks when loading local extensions
 - Responsive video. Fixes [#1916](https://github.com/bolt/bolt/issues/1916)
 - Set the correct mime type for woff2 font type
-- Tweaking the fonts, goes with #2099
+- Tweaking the fonts, goes with [#2099](https://github.com/bolt/bolt/issues/2099)
 - Fix #2085 allow editing of broken Yaml file
 - Actually load the _local file for extensions
 - Add register_shutdown_function() to bootstrap for earliest init we can get
@@ -1868,7 +1868,7 @@ Released 2014-12-18. Notable changes:
 - Parse markdown fields for excerpts. Fixes [#2246](https://github.com/bolt/bolt/issues/2246)
 - Sigh … If we have more relations, make sure we keep them all. See [#2255](https://github.com/bolt/bolt/issues/2255)
 - When looking for Twig template file names, also include any character that is not a vertical whitespace character
-- image and showimage wrong index #2275
+- image and showimage wrong index [#2275](https://github.com/bolt/bolt/issues/2275)
 - Logic fix in timestamp for theme/config.yml check
 
 
@@ -1877,9 +1877,9 @@ Bolt 2.0 "Beta 3"
 
 Released 2014-11-04. Notable changes:
 
-- Updated Moments.js to 2.8.3. Use moment.locale() instead of deprecated moment.lang() #2088
+- Updated Moments.js to 2.8.3. Use moment.locale() instead of deprecated moment.lang() [#2088](https://github.com/bolt/bolt/issues/2088)
 - Fixed: Simplified Html::trimText(), "excerpt" now works better on non-western-european strings
-- Fixed: Breadcrumbs in "edit file" screens work correctly now. #2077
+- Fixed: Breadcrumbs in "edit file" screens work correctly now. [#2077](https://github.com/bolt/bolt/issues/2077)
 - Fixed: Proper sorting in Backend overview. Fixes [#2036](https://github.com/bolt/bolt/issues/2036)
 - Fixed: "open_basedir restriction in effect" error related to Composer
 - Fixed: "File(`/dev/urandom`) is not within the allowed path(s)" error
@@ -1887,12 +1887,12 @@ Released 2014-11-04. Notable changes:
 - Switching from Googlefonts to our local version of Source Sans Pro. Fixes [#2038](https://github.com/bolt/bolt/issues/2038)
 - Ongoing fixes and changes to the translation files. (and added Chinese)
 - A bunch of fixes to the automatic acceptance tests
-- Fixed: Editable record list calls wrong listing template (for related content) #2028
-- Added: Javascript form validation #2019
+- Fixed: Editable record list calls wrong listing template (for related content) [#2028](https://github.com/bolt/bolt/issues/2028)
+- Added: Javascript form validation [#2019](https://github.com/bolt/bolt/issues/2019)
 - Added: custom `error: "message"` for use with javascript form validation
-- Fixed: Fix notice in `SearchPlugin::handle()` #2025
+- Fixed: Fix notice in `SearchPlugin::handle()` [#2025](https://github.com/bolt/bolt/issues/2025)
 - Added: Added hints generation for removed columns in dbcheck
-- Fixed: Exception when viewing related items #2026
+- Fixed: Exception when viewing related items [#2026](https://github.com/bolt/bolt/issues/2026)
 - Uploads from the "files" screens upload to the correct folder, instead of always to `files/`
 - Updated HTML/CSS for the "Changelog" screen
 - Added Pathogen, in order to handle paths on Windows systems better …
