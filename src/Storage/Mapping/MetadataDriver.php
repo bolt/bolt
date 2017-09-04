@@ -114,11 +114,17 @@ class MetadataDriver implements MappingDriver
                 $mainAlias = $this->getContentTypeFromAlias($table->getOption('alias'));
                 $this->aliases[$mainAlias] = $tableName;
                 $slugAlias = $this->getContentTypeFromAlias($table->getOption('alias'), true);
+                $singularAlias = $this->getContentTypeFromAlias($table->getOption('alias'), 'singular');
+
                 if ($mainAlias !== $slugAlias) {
                     $this->aliases[$slugAlias] = $tableName;
                 }
+                if ($mainAlias !== $singularAlias) {
+                    $this->aliases[$singularAlias] = $tableName;
+                }
             }
         }
+
     }
 
     /**
@@ -738,16 +744,20 @@ class MetadataDriver implements MappingDriver
     public function getContentTypeFromAlias($alias, $forceSlug = false)
     {
         foreach ($this->contenttypes->getData() as $key => $contenttype) {
-            if ($forceSlug) {
-                if (isset($contenttype['slug']) && ($contenttype['slug'] == $alias || $contenttype['tablename'] == $alias)) {
+            if ($forceSlug && $forceSlug === 'singular') {
+                if (isset($contenttype['singular_slug']) && ($contenttype['slug'] === $alias || $contenttype['tablename'] === $alias)) {
+                    return $contenttype['singular_slug'];
+                }
+            } elseif ($forceSlug) {
+                if (isset($contenttype['slug']) && ($contenttype['slug'] === $alias || $contenttype['tablename'] === $alias)) {
                     return $contenttype['slug'];
                 }
             }
-            if (isset($contenttype['tablename']) && $contenttype['tablename'] == $alias) {
+            if (isset($contenttype['tablename']) && $contenttype['tablename'] === $alias) {
                 return $key;
             }
 
-            if (isset($contenttype['slug']) && $contenttype['slug'] == $alias) {
+            if (isset($contenttype['slug']) && $contenttype['slug'] === $alias) {
                 return $key;
             }
         }
