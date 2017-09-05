@@ -88,7 +88,7 @@ class Environment
      */
     public function syncAssets()
     {
-        if ($this->boltPath . '/app/view' === $this->boltAssetsPath) {
+        if ($this->boltPath . '/public/bolt' === $this->boltAssetsPath) {
             return null;
         }
 
@@ -115,7 +115,7 @@ class Environment
      */
     protected function syncAssetsDirectory($dir)
     {
-        $source = $this->boltPath . '/app/view/' . $dir;
+        $source = $this->boltPath . '/public/bolt/' . $dir;
         $target = $this->boltAssetsPath . '/' . $dir;
 
         // Mirror source and destination, overwrite existing file and clean up removed files
