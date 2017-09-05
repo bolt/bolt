@@ -198,8 +198,8 @@ class BoltListener extends BaseTestListener
 
         // Mirror in required assets.
         $fs->mirror(TEST_ROOT . '/app/translations/',   PHPUNIT_WEBROOT . '/app/translations/',      null, ['override' => true]);
-        $fs->mirror(TEST_ROOT . '/app/theme_defaults/', PHPUNIT_WEBROOT . '/app/theme_defaults/', null, ['override' => true]);
-        $fs->mirror(TEST_ROOT . '/app/view/twig',       PHPUNIT_WEBROOT . '/app/view/twig',       null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/templates/defaults/', PHPUNIT_WEBROOT . '/templates/defaults/', null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/templates/bolt',      PHPUNIT_WEBROOT . '/templates/bolt',       null, ['override' => true]);
 
         // Make sure we wipe the db file to start with a clean one
         $fs->copy($this->boltdb, PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
