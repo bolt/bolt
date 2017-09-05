@@ -1,7 +1,7 @@
 {# file \Bolt\Filesystem\Handler\FileInterface #}
 
 <li data-file="{{ file.toJs|json_encode }}">
-    <a href="#" class="filebrowserCallbackLink">
+    <a href="{{ file.url }}" class="filebrowserCallbackLink">
         {{- file.filename }}
         <small>
             (
