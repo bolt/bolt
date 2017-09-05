@@ -1171,7 +1171,7 @@ Released 2016-04-19. Notable changes:
 
  - Fixed: templates output `{{ dump() }}` when not logged in. (See [#5122](https://github.com/bolt/bolt/issues/5122))
  - Change: Better log messages for failed login attempts (See [#5197](https://github.com/bolt/bolt/issues/5197))
- - Fixed: Strip tags from useragent. (minor security issue) ((See [#5179](https://github.com/bolt/bolt/issues/5179))
+ - Fixed: Strip tags from useragent. (minor security issue) (See [#5179](https://github.com/bolt/bolt/issues/5179))
  - Fixed: Fix issue with imagelists not updating due to event checking. (See [#5159](https://github.com/bolt/bolt/issues/5159))
  - Change: Update Composer version constraint for stable version (See [#5130](https://github.com/bolt/bolt/issues/5130))
  - Fix: Only skip htmlsnippets if we are returning a cached response (See [#5121](https://github.com/bolt/bolt/issues/5121))
