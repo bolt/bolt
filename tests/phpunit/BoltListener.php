@@ -197,7 +197,7 @@ class BoltListener extends BaseTestListener
         @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
         // Mirror in required assets.
-        $fs->mirror(TEST_ROOT . '/app/resources/',      PHPUNIT_WEBROOT . '/app/resources/',      null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/app/translations/',   PHPUNIT_WEBROOT . '/app/translations/',      null, ['override' => true]);
         $fs->mirror(TEST_ROOT . '/app/theme_defaults/', PHPUNIT_WEBROOT . '/app/theme_defaults/', null, ['override' => true]);
         $fs->mirror(TEST_ROOT . '/app/view/twig',       PHPUNIT_WEBROOT . '/app/view/twig',       null, ['override' => true]);
 

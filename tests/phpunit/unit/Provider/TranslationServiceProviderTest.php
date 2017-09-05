@@ -78,7 +78,7 @@ class TranslationServiceProviderTest extends BoltUnitTest
     {
         $fakeAppRoot = $pathResolver->resolve('cache');
         $pathResolver->define('root', $fakeAppRoot);
-        $fakeTranslationDir = "{$fakeAppRoot}/app/resources/translations/{$locale}";
+        $fakeTranslationDir = "{$fakeAppRoot}/app/translations/{$locale}";
         (new Filesystem())->mkdir($fakeTranslationDir);
         file_put_contents("{$fakeTranslationDir}/messages.{$locale}.yml", $fileContent);
     }

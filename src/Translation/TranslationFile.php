@@ -53,7 +53,7 @@ class TranslationFile
      */
     private function buildPath($domain, $locale)
     {
-        $path = '/resources/translations/' . $locale . '/' . $domain . '.' . $locale . '.yml';
+        $path = '/translations/' . $locale . '/' . $domain . '.' . $locale . '.yml';
 
         // If long locale dir doesn't exists try short locale and return it if that exists
         if (strlen($locale) == 5 && !is_dir($this->app['path_resolver']->resolve('%root%/app' . $path))) {
