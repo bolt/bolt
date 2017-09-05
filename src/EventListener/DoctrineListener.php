@@ -82,7 +82,8 @@ class DoctrineListener implements EventSubscriber
             // certain Bolt content types – particularly repeaters – where
             // the outcome of a GROUP_CONCAT() query will be more than 1024 bytes.
             // See also: http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_group_concat_max_len
-            $db->executeQuery('SET SESSION group_concat_max_len = 100000');
+            $groupConcatMaxLen = $this->config->get('general/database/group_concat_max_len', 100000);
+            $db->executeQuery('SET SESSION group_concat_max_len = ' . $groupConcatMaxLen);
         } elseif ($platformName === 'postgresql') {
             /** @see https://github.com/doctrine/dbal/pull/828 */
             $db->executeQuery("SET NAMES 'utf8'");
