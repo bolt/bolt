@@ -91,7 +91,7 @@ class BoltListener extends BaseTestListener
     protected function getTheme($theme)
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
-            return $this->getPath('theme', 'theme/base-2016');
+            return $this->getPath('theme', 'public/theme/base-2016');
         }
 
         return $this->getPath('theme', $theme['theme']);

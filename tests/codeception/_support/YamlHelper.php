@@ -263,7 +263,7 @@ class YamlHelper extends \Codeception\Module
 
     public function getUpdatedTheme()
     {
-        $theme = $this->readYaml('theme/base-2016/theme.yml');
+        $theme = $this->readYaml('public/theme/base-2016/theme.yml');
 
         /**
          * Disabled as currently unsupported due to problems in test due to
