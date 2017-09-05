@@ -107,7 +107,13 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
                 $fieldType = $val->getFieldType();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldType);
                 $type = $field->getStorageType();
-                $typeCol = 'value_' . $type->getName();
+                $typeName = $type->getName();
+                $typeCol = 'value_' . $typeName;
+                $valCol = 'value_' . $typeName;
+                if ($typeName === 'json') {
+                    /** @deprecated since 3.3 to be renamed in v4. */
+                    $valCol = 'value_json_array';
+                }
 
                 // Because there's a potential for custom fields that use json storage to 'double hydrate' this causes
                 // json_decode to throw a warning. Here we prevent that by replacing the error handler.
@@ -122,7 +128,7 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
                 if ($hydratedVal) {
                     $val->setValue($hydratedVal);
                 } else {
-                    $val->setValue($val->$typeCol);
+                    $val->setValue($val->$valCol);
                 }
 
                 $this->collection->add($val);
