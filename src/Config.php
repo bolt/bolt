@@ -151,7 +151,7 @@ class Config
                 return [];
             }
 
-            $this->app['filesystem']->copy("bolt://app/config/$filename.dist", "config://$filename");
+            $this->app['filesystem']->copy("bolt://config/$filename.dist", "config://$filename");
             $file = $directory->get($filename);
         }
 

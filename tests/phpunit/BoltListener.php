@@ -19,12 +19,12 @@ class BoltListener extends BaseTestListener
 {
     /** @var array */
     protected $configs = [
-        'config'       => 'app/config/config.yml.dist',
-        'contenttypes' => 'app/config/contenttypes.yml.dist',
-        'menu'         => 'app/config/menu.yml.dist',
-        'permissions'  => 'app/config/permissions.yml.dist',
-        'routing'      => 'app/config/routing.yml.dist',
-        'taxonomy'     => 'app/config/taxonomy.yml.dist',
+        'config'       => 'config/config.yml.dist',
+        'contenttypes' => 'config/contenttypes.yml.dist',
+        'menu'         => 'config/menu.yml.dist',
+        'permissions'  => 'config/permissions.yml.dist',
+        'routing'      => 'config/routing.yml.dist',
+        'taxonomy'     => 'config/taxonomy.yml.dist',
     ];
     /** @var string */
     protected $theme;
@@ -190,7 +190,7 @@ class BoltListener extends BaseTestListener
         // Create needed directories
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/var/cache/', 0777);
-        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/config/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/config/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/files/', 0777);
@@ -206,7 +206,7 @@ class BoltListener extends BaseTestListener
 
         // Copy in config files
         foreach ($this->configs as $config) {
-            $fs->copy($config, PHPUNIT_WEBROOT . '/app/config/' . basename($config), true);
+            $fs->copy($config, PHPUNIT_WEBROOT . '/config/' . basename($config), true);
         }
 
         // Copy in the theme

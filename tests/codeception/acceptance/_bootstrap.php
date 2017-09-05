@@ -53,12 +53,12 @@ Fixtures::add('users', [
 // Files that we'll backup. If they exist when we run, then we keep the
 // original in tact before starting the suite run
 Fixtures::add('backups', [
-    INSTALL_ROOT . '/app/config/config.yml'                                => false,
-    INSTALL_ROOT . '/app/config/contenttypes.yml'                          => false,
-    INSTALL_ROOT . '/app/config/menu.yml'                                  => false,
-    INSTALL_ROOT . '/app/config/permissions.yml'                           => false,
-    INSTALL_ROOT . '/app/config/routing.yml'                               => false,
-    INSTALL_ROOT . '/app/config/taxonomy.yml'                              => false,
+    INSTALL_ROOT . '/config/config.yml'                            => false,
+    INSTALL_ROOT . '/config/contenttypes.yml'                      => false,
+    INSTALL_ROOT . '/config/menu.yml'                              => false,
+    INSTALL_ROOT . '/config/permissions.yml'                       => false,
+    INSTALL_ROOT . '/config/routing.yml'                           => false,
+    INSTALL_ROOT . '/config/taxonomy.yml'                          => false,
     BOLT_ROOT . '/app/resources/translations/en_GB/messages.en_GB.yml'     => true,
     BOLT_ROOT . '/app/resources/translations/en_GB/infos.en_GB.yml'        => true,
     BOLT_ROOT . '/app/resources/translations/en_GB/contenttypes.en_GB.yml' => true,
