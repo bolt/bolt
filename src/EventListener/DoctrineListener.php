@@ -8,6 +8,7 @@ use Bolt\Exception\Database\DatabaseConnectionException;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
+use PDO;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
@@ -83,7 +84,7 @@ class DoctrineListener implements EventSubscriber
             // the outcome of a GROUP_CONCAT() query will be more than 1024 bytes.
             // See also: http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_group_concat_max_len
             $groupConcatMaxLen = $this->config->get('general/database/group_concat_max_len', 100000);
-            $db->executeQuery('SET SESSION group_concat_max_len = ' . $groupConcatMaxLen);
+            $db->executeQuery('SET SESSION group_concat_max_len = ?', [$groupConcatMaxLen], [PDO::PARAM_INT]);
         } elseif ($platformName === 'postgresql') {
             /** @see https://github.com/doctrine/dbal/pull/828 */
             $db->executeQuery("SET NAMES 'utf8'");
