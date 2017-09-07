@@ -76,7 +76,7 @@ class DoctrineListener implements EventSubscriber
             // Set database character set & collation as configured
             $charset   = $this->config->get('general/database/charset');
             $collation = $this->config->get('general/database/collate');
-            $db->executeQuery(sprintf('SET NAMES %s COLLATE %s', $charset, $collation));
+            $db->executeQuery('SET NAMES ? COLLATE ?', [$charset, $collation], [PDO::PARAM_STR]);
 
             // Increase group_concat_max_len to 100000. By default, MySQL
             // sets this to a low value – 1024 – which causes issues with
