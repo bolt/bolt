@@ -115,7 +115,7 @@ abstract class AbstractEntityTest extends BoltUnitTest
         try {
             $app['schema']->update();
         } catch (\Exception $e) {
-            $this->fail(sprintf('[FAIL %s] Unable to update schema: %s%s%s', $e->getMessage(), PHP_EOL, $e->getTraceAsString()));
+            $this->fail(sprintf('[FAIL %s] Unable to update schema: %s%s%s', $this->getBrand(), $e->getMessage(), PHP_EOL, $e->getTraceAsString()));
         }
     }
 

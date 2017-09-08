@@ -30,6 +30,7 @@ class FieldValue extends BaseTable
         $this->table->addColumn('value_decimal',    'decimal',      ['precision' => '18', 'scale' => '9', 'notnull' => false]);
         $this->table->addColumn('value_date',       'date',         ['notnull' => false]);
         $this->table->addColumn('value_datetime',   'datetime',     ['notnull' => false]);
+        /** @deprecated since 3.3 to be renamed 'value_json' in v4. */
         $this->table->addColumn('value_json_array', 'json',         []);
         $this->table->addColumn('value_boolean',    'boolean',      ['default' => 0]);
         // @codingStandardsIgnoreEnd
