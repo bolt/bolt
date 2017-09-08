@@ -47,7 +47,7 @@ page.
 
 ---
 
-[![Build Status][travis-badge]][travis] [![Scrutinizer Continuous Inspections][codeclimate-badge]][codeclimate] [![SensioLabsInsight][sensio-badge]][sensio-insight] [![Slack][slack-badge]](https://slack.bolt.cm)
+[![Build Status][travis-badge]][travis] [![Scrutinizer Continuous Inspections][codeclimate-badge]][codeclimate] [![SensioLabsInsight][sensio-badge]][sensio-insight] [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1223/badge)](https://bestpractices.coreinfrastructure.org/projects/1223) [![Slack][slack-badge]](https://slack.bolt.cm)
 
 [bolt-cm]: https://bolt.cm
 [MIT-license]: http://opensource.org/licenses/mit-license.php

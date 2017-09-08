@@ -134,7 +134,12 @@ class FieldValue extends Entity
     public function handleStorage($fieldObject)
     {
         $type = $fieldObject->getStorageType();
-        $typeCol = 'value_' . $type->getName();
+        $typeName = $type->getName();
+        if ($typeName === 'json') {
+            /** @deprecated since 3.3 to be renamed in v4. */
+            $typeName = 'json_array';
+        }
+        $typeCol = 'value_' . $typeName;
         $this->$typeCol = $this->getValue();
     }
 }

@@ -37,8 +37,9 @@
                 'field':      rfield,
                 'labelkey':   rfield.label|default(rkey|capitalize),
                 'context': {
-                    'content':  content,
-                    'can':      context.can,
+                    'content':      content,
+                    'can':          context.can,
+                    'file_matcher': context.file_matcher,
                 }
             } %}
             <div class="repeater-field" data-bolt-fieldset="{{ rfield.type }}">
