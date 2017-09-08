@@ -59,17 +59,32 @@ Direct link: [latest.msi](https://yarnpkg.com/latest.msi).
     yarn run grunt build
 ```
 
-### Updating dependencies to their latest versions
 
-Use `ncu` to check for packages that have major updates, not caught by the
-regular update that respects SemVer.
+### Updating dependencies
 
-If you don't foresee problems, run `ncu -u`.
+#### Minor version updates
 
-Next, upgrade yarn:
+To update packages according to the specified version ranges in `package.json`
+simply run:
 
 ```
     yarn upgrade --strict-semver
+    yarn install --strict-semver
+```
+
+
+#### Latest versions
+
+To check for packages that have major updates, you can run Yarn interactively
+with the `--latest` option that tells Yarn to ignore the specified version
+ranges in `package.json` and instead use the version tagged `latest` in the
+registry.
+
+This will allow the selection of individual, or all, packages to be updated
+in the lock file, and then on the filesystem.
+
+```
+    yarn upgrade-interactive --latest
     yarn install --strict-semver
 ```
 
