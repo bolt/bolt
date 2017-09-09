@@ -1,5 +1,5 @@
 {% if record.taxonomy is defined %}
-    {% for type, values in record.taxonomy %}
+    {% for type, values in record|taxonomy %}
         <em>
         {% if values|length < 2 %}
             {{ config.get('taxonomy')[type].singular_name }}:

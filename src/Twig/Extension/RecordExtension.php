@@ -33,6 +33,7 @@ class RecordExtension extends AbstractExtension
             new TwigFunction('listtemplates', [Runtime\RecordRuntime::class, 'listTemplates']),
             new TwigFunction('pager',         [Runtime\RecordRuntime::class, 'pager'], $env + $safe),
             new TwigFunction('trimtext',      [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
+            new TwigFunction('taxonomy',      [Runtime\RecordRuntime::class, 'taxonomy']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -51,6 +52,7 @@ class RecordExtension extends AbstractExtension
             new TwigFilter('excerpt',     [Runtime\RecordRuntime::class, 'excerpt'], $safe),
             new TwigFilter('selectfield', [Runtime\RecordRuntime::class, 'selectField']),
             new TwigFilter('trimtext',    [Runtime\RecordRuntime::class, 'excerpt'], $safe + $deprecated + ['alternative' => 'excerpt']),
+            new TwigFilter('taxonomy',    [Runtime\RecordRuntime::class, 'taxonomy']),
             // @codingStandardsIgnoreEnd
         ];
     }

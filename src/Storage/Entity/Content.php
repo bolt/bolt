@@ -14,6 +14,7 @@ use Carbon\Carbon;
 class Content extends Entity
 {
     use ContentRouteTrait;
+    use ContentTypeTrait;
     use ContentTypeTitleTrait;
 
     /** @var string|Mapping\ContentType */
