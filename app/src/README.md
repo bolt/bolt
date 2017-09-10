@@ -1,5 +1,5 @@
-Bolts backend’s frontend workflow using grunt
-=============================================
+Bolt's backend asset workflow using Yarn & Grunt
+================================================
 
 Quick Start
 -----------
@@ -38,27 +38,34 @@ Quick Start
     brew install yarn
 ```
 
+
 #### Windows
 
 Download and install the MSI from [Yarn's site](https://yarnpkg.com/).
 Direct link: [latest.msi](https://yarnpkg.com/latest.msi).
 
-### Install required components:
+
+### Install required components
 
 ```
     cd app/src/
     yarn install --strict-semver
 ```
 
-### Rebuild CSS & JavaScript:
+
+### Rebuild CSS & JavaScript
 
 ```
     yarn run grunt build
 ```
 
-### Updating dependencies to their latest versions:
 
-Use `ncu` to check for packages that have major updates, not caught by the regular update that respects SemVer. If you don't foresee problems, run `ncu -u`. Next, upgrade yarn:
+### Updating dependencies
+
+#### Minor version updates
+
+To update packages according to the specified version ranges in `package.json`
+simply run:
 
 ```
     yarn upgrade --strict-semver
@@ -66,60 +73,84 @@ Use `ncu` to check for packages that have major updates, not caught by the regul
 ```
 
 
+#### Latest versions
+
+To check for packages that have major updates, you can run Yarn interactively
+with the `--latest` option that tells Yarn to ignore the specified version
+ranges in `package.json` and instead use the version tagged `latest` in the
+registry.
+
+This will allow the selection of individual, or all, packages to be updated
+in the lock file, and then on the filesystem.
+
+```
+    yarn upgrade-interactive --latest
+    yarn install --strict-semver
+```
+
+
 Available grunt tasks
 ---------------------
 
-- **`grunt`**<br> Starts the watch task that monitors the Javascript and Sass source files and
-  automatically rebuilds `bolt.js`, `bolt.css` and `liveeditor.css` when changes are detected.
+- **`grunt`**<br> Starts the watch task that monitors the JavaScript and SASS
+  source files and automatically rebuilds `bolt.js`, `bolt.css` and `liveeditor.css`
+  when changes are detected.
 
 - **`grunt build`**<br> Rebuild all JS and CSS assets. Basically runs
   `updateLib`, `prepareCkeditor` and `updateBolt` sequentially.
 
-- **`grunt updateBolt`**<br> Manually starts a rebuild of `bolt.js`, `bolt.css` and
-  `liveeditor.css`.
+- **`grunt updateBolt`**<br> Manually starts a rebuild of `bolt.js`, `bolt.css`
+  and `liveeditor.css`.
 
-- **`grunt updateLib`**<br> Updates everything that depends on external resources, either
-  provided by npm or embedded in the `lib` folder. This command mainly builds `lib.js` and
-  `lib.css` from external libraries, installs fonts, CKEditor and library locale files. It has to
-  be run after any update to one of the external resources.
+- **`grunt updateLib`**<br> Updates everything that depends on external
+  resources, either provided by npm or embedded in the `lib` folder. This
+  command mainly builds `lib.js` and `lib.css` from external libraries,
+  installs fonts, CKEditor and library locale files. It has to be run after any
+  update to one of the external resources.
 
-- **`grunt prepareCkeditor`**<br> Does some cleanup on CKEditor files in `lib/ckeditor` after
-  updating it. Update process:
+- **`grunt prepareCkeditor`**<br> Does some cleanup on CKEditor files in
+  `lib/ckeditor` after updating it. Update process:
 
     * Get the latest version with URL extracted from `lib/ckeditor/build-config.js`.
     * Empty the folder `lib/ckeditor` and unpack the newer version there.
     * Run `grunt prepareCkeditor` to get files prepared.
     * Run `grunt updateLib` to get everything in place.
 
-- **`grunt docJs`**<br> Generates documentation of Bolt's own Javascript modules in the folder
-  `docs/js`.
+- **`grunt docJs`**<br> Generates documentation of Bolt's own JavaScript
+  modules in the folder `docs/js`.
 
-- **`grunt docPhp`**<br> Generates documentation of Bolt source files in the folder `docs/php`.
+- **`grunt docPhp`**<br> Generates documentation of Bolt source files in the
+  folder `docs/php`.
 
-- **`grunt lintHtml`**<br> Downloads the Bolt backend pages defined in `grunt-local/pages.js` and
-  checks them for html errors and problems.
+- **`grunt lintHtml`**<br> Downloads the Bolt backend pages defined in
+  `grunt-local/pages.js` and checks them for html errors and problems.
 
-- **`grunt lintBoot`**<br> Downloads Bolt backend pages defined in `grunt-local/pages.js` and
-  checks them for Bootstrap errors and problems.
+- **`grunt lintBoot`**<br> Downloads Bolt backend pages defined in
+  `grunt-local/pages.js` and checks them for Bootstrap errors and problems.
+
 
 Local options
 -------------
 
-Add JS options files to the folder `app/src/grunt-local/`, in which you can put the options you
-want to overwrite. The content of these files look like:
+Add JS options files to the folder `app/src/grunt-local/`, in which you can put
+the options you want to overwrite.
+
+The content of these files look like:
 
 ```javascript
     module.exports = {
         value: "The value"
     };
 ```
+
 These files will automatically be ignored by git.
 
 
 ### Sourcemaps
 
-If it doesn't yet exist, create the file `app/src/grunt-local/sourcemap.js`. A sample file to
-enable generation of sourcemaps looks like this:
+If it doesn't yet exist, create the file `app/src/grunt-local/sourcemap.js`.
+
+A sample file to enable generation of sourcemaps looks like this:
 
 ```javascript
     module.exports = {
@@ -128,11 +159,14 @@ enable generation of sourcemaps looks like this:
     };
 ```
 
+
 ### Pages
 
 For the linting tasks you have to define a list of pages to download to the
 `tmp/pages` folder. If it doesn't yet exist, create the file
-`app/src/grunt-local/pages.js`. A sample file to enable this task looks like this:
+`app/src/grunt-local/pages.js`.
+
+A sample file to enable this task looks like this:
 
 ```javascript
     module.exports = {
@@ -141,7 +175,8 @@ For the linting tasks you have to define a list of pages to download to the
     };
 ```
 
-The key of the `requests` part is the filename and the value defines the page to download.
+The key of the `requests` part is the filename and the value defines the page
+to download.
 
 - If no extension is given on the request key `.html` is automatically appended.
 - If the value is a string it is handled as a GET request with that value a relative url.
@@ -150,6 +185,7 @@ The key of the `requests` part is the filename and the value defines the page to
 - If the key is `@login` it is handled as not saved login request.
   The value has to be `{u: "<username>", p: "<password>"}` then.
 - If the key is `@logout` it is handled as not saved logout request. The value has to be `{}` then.
+
 
 #### Example: Key handling
 
@@ -165,6 +201,8 @@ Three requests save the same page to file `login.html`.
         }
     };
 ```
+
+
 #### Example: POST request
 
 Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
@@ -185,6 +223,8 @@ Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
         }
     };
 ```
+
+
 #### Example: "Full" interface check
 
 ```javascript
@@ -252,6 +292,8 @@ Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
         }
     };
 ```
+
+
 ### Bootlint
 
 If it doesn't yet exist, create the file `app/src/grunt-local/bootlint.js`.
@@ -266,6 +308,7 @@ You can override Bootlint options, e.g.:
         stoponwarning: false
     };
 ```
+
 
 ### Htmllint
 
@@ -282,18 +325,21 @@ You can override Htmllint options, e.g.:
     };
 ```
 
+
 Range Specifiers
 ----------------
 
 Just for the forgetful people and as JSON allows no comments …
 
-###Caret:
+
+### Caret
 
     ^0.0.3:   = 0.0.3
     ^0.1.2:   ≥ 0.1.2-0  and  < 0.2.0-0
     ^1.2.3:   ≥ 1.2.3-0  and  < 2.0.0-0
 
-###Tilde:
+
+### Tilde
 
     ~1.2.3:   ≥ 1.2.3-0  and  < 1.3.0-0
 
