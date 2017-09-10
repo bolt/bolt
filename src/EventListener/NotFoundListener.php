@@ -3,8 +3,8 @@
 namespace Bolt\EventListener;
 
 use Bolt\Controller\Zone;
-use Bolt\Legacy\Content;
-use Bolt\Legacy\Storage;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Query\Query;
 use Bolt\TemplateChooser;
 use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -25,8 +25,8 @@ class NotFoundListener implements EventSubscriberInterface
 {
     /** @var string */
     protected $notFoundPage;
-    /** @var Storage */
-    protected $storage;
+    /** @var Query */
+    protected $query;
     /** @var TemplateChooser */
     protected $templateChooser;
     /** @var Environment */
@@ -36,14 +36,14 @@ class NotFoundListener implements EventSubscriberInterface
      * Constructor.
      *
      * @param string          $notFoundPage
-     * @param Storage         $storage
+     * @param Query           $query
      * @param TemplateChooser $templateChooser
-     * @param Environment $twig
+     * @param Environment     $twig
      */
-    public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, Environment $twig)
+    public function __construct($notFoundPage, Query $query, TemplateChooser $templateChooser, Environment $twig)
     {
         $this->notFoundPage = $notFoundPage;
-        $this->storage = $storage;
+        $this->query = $query;
         $this->templateChooser = $templateChooser;
         $this->twig = $twig;
     }
@@ -72,13 +72,18 @@ class NotFoundListener implements EventSubscriberInterface
             // record, failing that let the exception handler take over
         }
 
-        $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
-        if (!$content instanceof Content || empty($content->id)) {
+        $content = $this->query->getContent($this->notFoundPage, ['returnsingle' => true]);
+        if (!$content instanceof Content) {
             return;
         }
 
         $template = $this->templateChooser->record($content);
-        $this->renderNotFound($event, $template, $content->getTemplateContext());
+        $contentTypeName = (string) $content->getContenttype();
+        $context = [
+            'record'         => $content,
+            $contentTypeName => $content,
+        ];
+        $this->renderNotFound($event, $template, $context);
     }
 
     /**
