@@ -3,7 +3,6 @@
 namespace Bolt\Controller;
 
 use Bolt\AccessControl\Token\Token;
-use Bolt\Common\Deprecated;
 use Bolt\Response\TemplateResponse;
 use Bolt\Response\TemplateView;
 use Bolt\Routing\DefaultControllerClassAwareInterface;
@@ -25,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Twig_Template as Template;
+use Twig\Template as Template;
 
 /**
  * Base class for all controllers which mainly provides shortcut methods for
@@ -83,20 +82,7 @@ abstract class Base implements ControllerProviderInterface
 
         $this->addResolvedRoute($context, $template->getTemplateName());
 
-        if ($this->getOption('general/compatibility/template_view', false)) {
-            return new TemplateView($template->getTemplateName(), $context);
-        }
-        Deprecated::warn(
-            'Returning a TemplateResponse from Bolt\Controller\Base::render',
-            3.3,
-            'Be sure no Response methods are used from return value and then set "compatibility/template_view"' .
-            ' to true in config.yml. This changes render() to return a TemplateView instead.'
-        );
-
-        $content = $template->render($context);
-        $response = new TemplateResponse($template->getTemplateName(), $context, $content);
-
-        return $response;
+        return new TemplateView($template->getTemplateName(), $context);
     }
 
     /**

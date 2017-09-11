@@ -53,17 +53,6 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('index.twig', $response->getTemplate());
     }
 
-    public function testLegacyDefaultHomepage()
-    {
-        $this->setRequest(Request::create('/'));
-        $this->getService('config')->set('general/compatibility/template_view', false);
-
-        $response = $this->controller()->homepage($this->getRequest());
-
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('index.twig', $response->getTemplate());
-    }
-
     public function testConfiguredConfigHomepageTemplate()
     {
         $this->getService('config')->set('general/homepage_template', 'custom-home.twig');
@@ -117,15 +106,6 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->getRecordResponse();
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('page.twig', $response->getTemplate());
-    }
-
-    public function testLegacyRecord()
-    {
-        $this->getService('config')->set('general/compatibility/template_view', false);
-        $response = $this->getRecordResponse();
-
-        $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('page.twig', $response->getTemplate());
     }
 
@@ -337,16 +317,6 @@ class FrontendTest extends ControllerUnitTest
         $this->assertTrue($response instanceof TemplateView);
     }
 
-    public function testLegacyListing()
-    {
-        $this->getService('config')->set('general/compatibility/template_view', false);
-        $this->setRequest(Request::create('/pages'));
-        $response = $this->controller()->listing($this->getRequest(), 'pages');
-
-        $this->assertSame('listing.twig', $response->getTemplate());
-        $this->assertTrue($response instanceof TemplateResponse);
-    }
-
     /**
      * @expectedException \Symfony\Component\HttpKernel\Exception\HttpException
      * @expectedExceptionMessage not found
@@ -403,18 +373,6 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('listing.twig', $response->getTemplate());
     }
 
-    public function testLegacyTaxonomyListing()
-    {
-        $this->getService('config')->set('general/compatibility/template_view', false);
-        $this->setRequest(Request::create('/categories/news'));
-        $this->getService('config')->set('taxonomy/categories/singular_slug', 'categories');
-
-        $response = $this->controller()->taxonomy($this->getRequest(), 'categories', 'news');
-
-        $this->assertTrue($response instanceof TemplateResponse);
-        $this->assertSame('listing.twig', $response->getTemplate());
-    }
-
     public function testSimpleTemplateRender()
     {
         $this->setRequest(Request::create('/example'));
@@ -422,17 +380,6 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->template('index');
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('index.twig', $response->getTemplate());
-    }
-
-    public function testLegacyTemplate()
-    {
-        $this->getService('config')->set('general/compatibility/template_view', false);
-        $this->setRequest(Request::create('/example'));
-
-        $response = $this->controller()->template('index');
-
-        $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('index.twig', $response->getTemplate());
     }
 
@@ -452,17 +399,6 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('search.twig', $response->getTemplate());
-    }
-
-    public function testLegacySearch()
-    {
-        $this->getService('config')->set('general/compatibility/template_view', false);
-        $this->setRequest(Request::create('/search', 'GET', ['q' => 'Lorem']));
-
-        $response = $this->controller()->search($this->getRequest());
-
-        $this->assertTrue($response instanceof TemplateResponse);
         $this->assertSame('search.twig', $response->getTemplate());
     }
 
