@@ -7,10 +7,8 @@ use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
-use Bolt\Common\Deprecated;
 use Bolt\Common\Thrower;
 use Bolt\Controller\Zone;
-use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +32,7 @@ class Queue implements QueueInterface
     /** @var \Doctrine\Common\Cache\CacheProvider */
     protected $cache;
     /** @var Environment */
-    protected $render;
+    protected $twig;
 
     /** @var boolean */
     private $deferAdded;
@@ -46,17 +44,13 @@ class Queue implements QueueInterface
      *
      * @param Injector      $injector
      * @param CacheProvider $cache
-     * @param Environment   $render
+     * @param Environment   $twig
      */
-    public function __construct(Injector $injector, CacheProvider $cache, $render)
+    public function __construct(Injector $injector, CacheProvider $cache, Environment $twig)
     {
         $this->injector = $injector;
         $this->cache = $cache;
-        $this->render = $render;
-
-        if ($render instanceof Render) {
-            Deprecated::warn('Passing Bolt\Render to the widget queue constructor', 3.3, 'Pass in Twig\Environment instead.');
-        }
+        $this->twig = $twig;
     }
 
     /**
@@ -185,7 +179,7 @@ class Queue implements QueueInterface
             return null;
         }
 
-        return $this->render->render($wrapperTemplate, ['location' => $location, 'widgets' => $widgets]);
+        return $this->twig->render($wrapperTemplate, ['location' => $location, 'widgets' => $widgets]);
     }
 
     /**
@@ -225,15 +219,10 @@ class Queue implements QueueInterface
             return;
         }
 
-        $javaScript = $this->render->render(
-            'widgetjavascript.twig',
-            [
-                'widget' => $widget,
-            ]
-        );
-        $snippet = (new Snippet())
-            ->setLocation(Target::AFTER_BODY_JS)
+        $javaScript = $this->twig->render('widgetjavascript.twig', ['widget' => $widget]);
+        $snippet = Snippet::create()
             ->setCallback((string) $javaScript)
+            ->setLocation(Target::AFTER_BODY_JS)
         ;
 
         $this->deferAdded = true;
