@@ -40,7 +40,7 @@ class ConfigSet extends AbstractConfig
             ? filter_var($value, FILTER_VALIDATE_BOOLEAN)
             : $value
         ;
-        $updater->change($key, $newValue, $backup, true);
+        $updater->change($key, $newValue, $backup);
 
         $this->io->title(sprintf('Updating configuration setting in file %s', $this->file->getFullPath()));
         $this->io->success([
