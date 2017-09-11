@@ -8,6 +8,7 @@ use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
 use Bolt\Config;
 use Bolt\Controller\Zone;
+use InvalidArgumentException;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,13 +54,15 @@ class Queue implements QueueInterface
      *
      * @param FileAssetInterface $asset
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function add(FileAssetInterface $asset)
     {
         if (!$asset->getPackageName()) {
-            // Deprecated.
-            $asset->setPackageName('extensions');
+            throw new InvalidArgumentException(sprintf(
+                'File asset with path "%s" was added to the queue without an asset package specified.',
+                $asset->getPath()
+            ));
         }
 
         $url = $this->packages->getUrl($asset->getPath(), $asset->getPackageName());
@@ -70,7 +73,7 @@ class Queue implements QueueInterface
         } elseif ($asset->getType() === 'stylesheet') {
             $this->stylesheet[$url] = $asset;
         } else {
-            throw new \InvalidArgumentException(sprintf('Requested asset type %s is not valid.', $asset->getType()));
+            throw new InvalidArgumentException(sprintf('Requested asset type %s is not valid.', $asset->getType()));
         }
     }
 
