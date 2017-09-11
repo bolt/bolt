@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Database\Schema\Table;
 
-use Bolt\Common\Deprecated;
 use Bolt\Exception\StorageException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
@@ -110,18 +109,6 @@ abstract class BaseTable
         }
 
         return $this->aliasName;
-    }
-
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @return string|null
-     */
-    protected function getTextDefault()
-    {
-        Deprecated::method(3.3);
-
-        return '';
     }
 
     /**
