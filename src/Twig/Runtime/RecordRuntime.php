@@ -7,7 +7,10 @@ use Bolt\Common\Str;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Excerpt;
+use Bolt\Storage\Entity;
+use Bolt\Legacy;
 use Bolt\Pager\PagerManager;
+use Bolt\Storage\Collection\Taxonomy;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
@@ -310,5 +313,44 @@ class RecordRuntime
             }
         }
         return $retval;
+    }
+
+    /**
+     * @param array|Taxonomy|Entity\Content|Legacy\Content $candidate
+     *
+     * @return array
+     */
+    public function taxonomy($candidate)
+    {
+        // If this is a legacy content object then we set the candidate to the taxonomy array
+        if ($candidate instanceof Legacy\Content) {
+            $candidate = $candidate->taxonomy;
+        }
+
+        // If it's a content entity then fetch the taxonomy field
+        if ($candidate instanceof Entity\Content) {
+            $candidate = $candidate->getTaxonomy();
+        }
+
+        // By this point we should have either an old-style array of taxonomies or a new-style
+        // Taxonomy Collection if the former then we can return at this point
+        if (is_array($candidate)) {
+            return $candidate;
+        }
+
+        // Finally just as a safeguard, if for any reason we don't have at this point a
+        // Taxonomy collection we return an empty array so we can guarantee the return type.
+        if (!$candidate instanceof Taxonomy) {
+            return [];
+        }
+
+        $compiled = [];
+        foreach ($candidate as $el) {
+            $type = $el->getTaxonomytype();
+            $slug = $el->getSlug();
+            $compiled[$type]["/$type/$slug"] = $slug;
+        }
+
+        return $compiled;
     }
 }

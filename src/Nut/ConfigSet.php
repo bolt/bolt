@@ -36,10 +36,11 @@ class ConfigSet extends AbstractConfig
         $value = $input->getArgument('value');
         $backup = $input->getOption('backup');
 
-        $updater->change($key, $value, $backup, true);
-        if (is_bool($value)) {
-            $value = $value ? 'true' : 'false';
-        }
+        $newValue = $value === 'true' || $value === 'false'
+            ? filter_var($value, FILTER_VALIDATE_BOOLEAN)
+            : $value
+        ;
+        $updater->change($key, $newValue, $backup, true);
 
         $this->io->title(sprintf('Updating configuration setting in file %s', $this->file->getFullPath()));
         $this->io->success([
