@@ -81,6 +81,8 @@ abstract class Base implements ControllerProviderInterface
         /** @var Template $template */
         $template = $twig->resolveTemplate($template);
 
+        $this->addResolvedRoute($context, $template->getTemplateName());
+
         if ($this->getOption('general/compatibility/template_view', false)) {
             return new TemplateView($template->getTemplateName(), $context);
         }
@@ -95,6 +97,37 @@ abstract class Base implements ControllerProviderInterface
         $response = new TemplateResponse($template->getTemplateName(), $context, $content);
 
         return $response;
+    }
+
+    /**
+     * Update the route attributes to change the canonical URL generated.
+     *
+     * @param array  $context
+     * @param string $template
+     */
+    private function addResolvedRoute(array $context, $template)
+    {
+        if (!isset($context['record'])) {
+            return;
+        }
+
+        $content = $context['record'];
+        $request = $this->app['request_stack']->getCurrentRequest();
+
+        $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
+        $uriID = $content->contenttype['singular_slug'] . '/' . $content->get('id');
+        $uriSlug = $content->contenttype['singular_slug'] . '/' . $content->get('slug');
+
+        if (($uriID === $homepage || $uriSlug === $homepage) && ($template === $this->getOption('general/homepage_template'))) {
+            $request->attributes->add(['_route' => 'homepage', '_route_params' => []]);
+
+            return;
+        }
+
+        list($routeName, $routeParams) = $content->getRouteNameAndParams();
+        if ($routeName) {
+            $request->attributes->add(['_route' => $routeName, '_route_params' => $routeParams]);
+        }
     }
 
     /**

@@ -150,7 +150,7 @@ class Frontend extends ConfigurableBase
         // First, try to get it by slug.
         $content = $this->getContent($contentType['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
 
-        if (!$content && is_numeric($slug)) {
+        if (is_numeric($slug) && (!$content || count($content) === 0)) {
             // And otherwise try getting it by ID
             $content = $this->getContent($contentType['slug'], ['id' => $slug, 'returnsingle' => true]);
         }
@@ -164,16 +164,6 @@ class Frontend extends ConfigurableBase
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $this->templateChooser()->record($content);
-
-        // Update the route attributes to change the canonical URL generated.
-        if ($content->isHome() && ($template === $this->getOption('general/homepage_template'))) {
-            $request->attributes->add(['_route' => 'homepage', '_route_params' => []]);
-        } else {
-            list($routeName, $routeParams) = $content->getRouteNameAndParams();
-            if ($routeName) {
-                $request->attributes->add(['_route' => $routeName, '_route_params' => $routeParams]);
-            }
-        }
 
         // Setting the editlink
         $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contentType['slug'], 'id' => $content->id]);
