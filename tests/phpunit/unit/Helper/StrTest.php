@@ -79,13 +79,4 @@ class StrTest extends BoltUnitTest
         $input = 'Skämt åsido satan vilket uruselt tillvägagångsätt';
         $this->assertEquals('skaemt-aasido-satan-vilket-uruselt-tillvaegagaangsaett', Str::makeSafe($input, true, ';'));
     }
-
-    /**
-     * @group legacy
-     */
-    public function testReplaceFirst()
-    {
-        $input = 'this is a test string this is a test string';
-        $this->assertEquals('one is a test string this is a test string', Str::replaceFirst('this', 'one', $input));
-    }
 }
