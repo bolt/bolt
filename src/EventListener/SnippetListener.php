@@ -53,7 +53,7 @@ class SnippetListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        if (Zone::isAsync($request) && $request->isXmlHttpRequest()) {
+        if (Zone::isAsync($request) || $request->isXmlHttpRequest()) {
             return;
         }
 
