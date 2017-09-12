@@ -214,7 +214,7 @@ HTML;
     public function testAddCss()
     {
         $app = $this->getApp();
-        $stylesheet = Stylesheet::create();
+        $stylesheet = Stylesheet::create()->setPackageName('extensions');
         /** @var Stylesheet $stylesheet */
         $stylesheet->setFileName('testfile.css');
         $app['asset.queue.file']->add($stylesheet);
@@ -225,7 +225,7 @@ HTML;
     public function testAddJs()
     {
         $app = $this->getApp();
-        $javaScript = JavaScript::create();
+        $javaScript = JavaScript::create()->setPackageName('extensions');
         /** @var JavaScript $javaScript */
         $javaScript->setFileName('testfile.js');
         $app['asset.queue.file']->add($javaScript);
@@ -254,7 +254,7 @@ HTML;
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
-        $javaScript = JavaScript::create('testfile.js');
+        $javaScript = JavaScript::create('testfile.js')->setPackageName('extensions');
         $app['asset.queue.file']->add($javaScript);
         $app = $this->getApp();
 
@@ -268,6 +268,7 @@ HTML;
     {
         $app = $this->getApp();
         $javaScript = JavaScript::create('testfile.js')
+            ->setPackageName('extensions')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($javaScript);
@@ -280,7 +281,7 @@ HTML;
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
-        $stylesheet = Stylesheet::create('testfile.css');
+        $stylesheet = Stylesheet::create('testfile.css')->setPackageName('extensions');
         $app['asset.queue.file']->add($stylesheet);
         $response = new Response($this->template);
 
@@ -292,6 +293,7 @@ HTML;
     {
         $app = $this->getApp();
         $stylesheet = Stylesheet::create('testfile.css')
+            ->setPackageName('extensions')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($stylesheet);

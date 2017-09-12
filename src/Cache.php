@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-use Bolt\Common\Deprecated;
 use Bolt\Filesystem\CompositeFilesystemInterface;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;

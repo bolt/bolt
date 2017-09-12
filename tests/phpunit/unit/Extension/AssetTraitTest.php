@@ -9,7 +9,6 @@ use Bolt\Asset\Widget\Widget;
 use Bolt\Filesystem\Adapter\Memory;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
-use Bolt\Filesystem\Manager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\AssetExtension;
 use Bolt\Tests\Extension\Mock\NormalExtension;
@@ -67,9 +66,9 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setWebDirectory($webDir);
         $ext->setAssets(
             [
-                new JavaScript('test.js'),
+                JavaScript::create('test.js')->setPackageName('extensions'),
                 new Snippet(),
-                new Stylesheet('test.css'),
+                Stylesheet::create('test.css')->setPackageName('extensions'),
                 new Widget(),
             ]
         );

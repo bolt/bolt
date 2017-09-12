@@ -6,7 +6,6 @@ use Bolt\Asset\AssetInterface;
 use Bolt\Asset\File\FileAssetInterface;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
-use Bolt\Common\Deprecated;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Pimple\Container;
 use Silex\Application;

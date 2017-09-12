@@ -54,7 +54,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
         $app['listener.not_found'] = function ($app) {
             return new Listener\NotFoundListener(
                 $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
-                $app['storage.legacy'],
+                $app['query'],
                 $app['templatechooser'],
                 $app['twig']
             );

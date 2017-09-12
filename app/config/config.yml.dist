@@ -455,9 +455,5 @@ hash_strength: 10
 
 # Options that will be forced in next major version
 compatibility:
-    # Whether to return TemplateView instead of TemplateResponse from Controller\Base::render()
-    # Response methods cannot be used on TemplateView objects.
-    # Setting this value to false is deprecated.
-    template_view: true
     # Set to 'false' to enable using a newer version of the setcontent parser.
     setcontent_legacy: true

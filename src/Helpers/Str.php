@@ -2,7 +2,6 @@
 
 namespace Bolt\Helpers;
 
-use Bolt\Common\Deprecated;
 use Cocur\Slugify\Slugify;
 
 class Str extends \Bolt\Common\Str
@@ -39,26 +38,6 @@ class Str extends \Bolt\Common\Str
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public static function replaceFirst($search, $replace, $subject, $caseSensitive = true)
-    {
-        Deprecated::method(3.4, parent::class);
-
-        return parent::replaceFirst($subject, $search, $replace);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function replaceLast($search, $replace, $subject, $caseSensitive = true)
-    {
-        Deprecated::method(3.4, parent::class);
-
-        return parent::replaceLast($subject, $search, $replace, $caseSensitive);
-    }
-
-    /**
      * Add 'soft hyphens' &shy; to a string, so that it won't break layout in HTML when
      * using strings without spaces or dashes. Only breaks in long (> 19 chars) words.
      *
@@ -77,15 +56,5 @@ class Str extends \Bolt\Common\Str
         }
 
         return $str;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function endsWith($subject, $search, $caseSensitive = true)
-    {
-        Deprecated::method(3.4, parent::class);
-
-        return parent::endsWith($subject, $search, $caseSensitive);
     }
 }

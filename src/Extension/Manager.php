@@ -2,7 +2,6 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Common\Deprecated;
 use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
 use Bolt\Filesystem\Adapter\Local;
