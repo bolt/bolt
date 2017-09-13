@@ -147,8 +147,8 @@ class Taxonomy extends ArrayCollection
         foreach ($this as $k => $existing) {
             if (
                 $existing->getContent_id() == $entity->getContent_id() &&
-                $existing->getTaxonomytype() == $entity->getTaxonomytype() &&
-                $existing->getSlug() == $entity->getSlug()
+                $existing->getTaxonomytype() === $entity->getTaxonomytype() &&
+                $existing->getSlug() === $entity->getSlug()
             ) {
                 return $existing;
             }
@@ -167,7 +167,7 @@ class Taxonomy extends ArrayCollection
     public function getField($fieldname)
     {
         return $this->filter(function ($el) use ($fieldname) {
-            return $el->getTaxonomytype() == $fieldname;
+            return $el->getTaxonomytype() === $fieldname;
         });
     }
 
@@ -196,7 +196,7 @@ class Taxonomy extends ArrayCollection
     public function containsKeyValue($field, $value)
     {
         foreach ($this->getField($field) as $element) {
-            if ($element->getSlug() == $value) {
+            if ($element->getSlug() === $value) {
                 return true;
             }
         }
@@ -207,7 +207,7 @@ class Taxonomy extends ArrayCollection
     public function getSortorder($field, $slug)
     {
         foreach ($this->getField($field) as $element) {
-            if ($element->getSlug() == $slug) {
+            if ($element->getSlug() === $slug) {
                 return $element->getSortorder();
             }
         }
