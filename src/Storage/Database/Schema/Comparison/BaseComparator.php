@@ -49,7 +49,6 @@ abstract class BaseComparator
         $this->connection = $connection;
         $this->prefix = $prefix;
         $this->systemLog = $systemLog;
-        $this->setIgnoredChanges();
     }
 
     /**
@@ -85,6 +84,9 @@ abstract class BaseComparator
     {
         if ($this->response !== null && $force === false) {
             return $this->getResponse();
+        }
+        if ($force === false) {
+            $this->setIgnoredChanges();
         }
 
         $this->checkTables($fromTables, $toTables);
@@ -277,6 +279,7 @@ abstract class BaseComparator
     {
         $platform = $this->connection->getDatabasePlatform();
         $response = $this->getResponse();
+        $this->setIgnoredChanges();
 
         foreach ($this->diffs as $tableName => $tableDiff) {
             $this->pending = true;

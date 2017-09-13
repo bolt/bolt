@@ -145,7 +145,7 @@ class Manager implements SchemaManagerInterface
         $toTables = $this->getSchemaTables();
         $protectedTableNames = $this->app['schema.content_tables']->keys();
 
-        $this->getSchemaComparator()->compare($fromTables, $toTables, $protectedTableNames);
+        $this->getSchemaComparator()->compare($fromTables, $toTables, $protectedTableNames, true);
         $response = $this->getSchemaComparator()->getResponse();
         $creates = $this->getSchemaComparator()->getCreates();
         $alters = $this->getSchemaComparator()->getAlters();
