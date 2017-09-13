@@ -1,6 +1,34 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.4
+----------
+
+Released 2017-09-XX. Notable changes:
+
+ - Added: Add CII badge [#6963](https://github.com/bolt/bolt/pull/6963)
+ - Added: Add inline variant to textarea field [#6983](https://github.com/bolt/bolt/pull/6983)
+ - Added: Add roave/security-advisories to require-dev [#6962](https://github.com/bolt/bolt/pull/6962)
+ - Added: Added CSS to known extensions for files directory [#6964](https://github.com/bolt/bolt/pull/6964)
+ - Added: Support DBAL 2.6 [#6940](https://github.com/bolt/bolt/pull/6940)
+ - Change: [GitHub] Re-prioritise the issue template slightly [#6967](https://github.com/bolt/bolt/pull/6967)
+ - Change: Performance micro tweaks & tidies [#6958](https://github.com/bolt/bolt/pull/6958)
+ - Change: Refactor fields trait to extend the type service with new fields [#6954](https://github.com/bolt/bolt/pull/6954)
+ - Change: Update messages.cs_CZ.yml [#6971](https://github.com/bolt/bolt/pull/6971)
+ - Change: Yarn 1.0 — Burn NPM, burn [#6986](https://github.com/bolt/bolt/pull/6986)
+ - Fixed: [GitHub] Page-jumps in the contributing guide [#6990](https://github.com/bolt/bolt/pull/6990)
+ - Fixed: [Security] Use a prepared statement for `group_concat_max_len` query [#6984](https://github.com/bolt/bolt/pull/6984)
+ - Fixed: Add FileMatcher to repeater context [#6980](https://github.com/bolt/bolt/pull/6980)
+ - Fixed: Additional schema change updates. (DBAL related) [#6966](https://github.com/bolt/bolt/pull/6966)
+ - Fixed: Broken links, add links to `changelog.md`. [#6975](https://github.com/bolt/bolt/pull/6975)
+ - Fixed: Don't try to use empty array, and only use objects as objects [#6959](https://github.com/bolt/bolt/pull/6959)
+ - Fixed: Fix AJAX detection logic in snippet listener. Prevents Meta tags sneaking in on Ajaxy requests. [#6993](https://github.com/bolt/bolt/pull/6993)
+ - Fixed: Fix linking for files in CKEditor [#6976](https://github.com/bolt/bolt/pull/6976)
+ - Fixed: Fixes regex warnings on Windows when a directory name starts with a 'p' [#6950](https://github.com/bolt/bolt/pull/6950)
+ - Fixed: Group Concat settings in `config.yml` [#6978](https://github.com/bolt/bolt/pull/6978)
+ - Fixed: Handle mismatch between type & column names for `json_array` to `json` [#6981](https://github.com/bolt/bolt/pull/6981)
+ - Fixed: Pass boolean string as `boolean` to YamlUpdater [#6988](https://github.com/bolt/bolt/pull/6988)
+
 Bolt 3.3.3
 ----------
 
