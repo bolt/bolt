@@ -144,9 +144,9 @@ class BuilderTest extends TestCase
         $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
         $result = $builder->build(['pages'], 5);
 
-        $this->assertNotEmpty($result['errors'], 'No error messages returned from builder');
-        $this->assertArrayHasKey('pages', $result['errors'], 'Did not return error for "pages" ContentType');
-        $this->assertRegExp('/(pages).+(already has records)/', $result['errors']['pages']);
+        $this->assertNotEmpty($result['warnings'], 'No warning messages returned from builder');
+        $this->assertArrayHasKey('pages', $result['warnings'], 'Did not return warning for "pages" ContentType');
+        $this->assertRegExp('/(pages).+(already has records)/', $result['warnings']['pages']);
     }
 
     public function testCountAllowExceeded()
