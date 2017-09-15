@@ -30,7 +30,7 @@
         _create: function () {
             var fieldset = this.element,
                 fileInput = $('input[type=file]', fieldset),
-                dropZone = $('.dropzone', fieldset),
+                dropZone = $('.elm-dropzone', fieldset),
                 //
                 accept = $(fileInput).attr('accept'),
                 extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],

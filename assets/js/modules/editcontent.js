@@ -74,14 +74,16 @@
         var changes = 0;
 
         $('form[name="content_edit"]').find('input, textarea, select').each(function () {
-            if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
-                if (ckeditor.instances[this.id].checkDirty()) {
-                    changes++;
-                }
-            } else {
-                var val = getComparable(this);
-                if (val !== undefined && $(this).data('watch') !== val) {
-                    changes++;
+            if($(this).attr('name') !== 'content_edit[save]') {
+                if (this.type === 'textarea' && $(this).hasClass('ckeditor')) {
+                    if (ckeditor.instances[this.id].checkDirty()) {
+                        changes++;
+                    }
+                } else {
+                    var val = getComparable(this);
+                    if (val !== undefined && $(this).data('watch') !== val) {
+                        changes++;
+                    }
                 }
             }
         });

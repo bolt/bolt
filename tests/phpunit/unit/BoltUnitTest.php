@@ -212,15 +212,24 @@ abstract class BoltUnitTest extends TestCase
         $this->setService('csrf.token_manager', $csrf);
     }
 
-    protected function addSomeContent()
+    /**
+     * @param array $contentTypes
+     * @param array $categories
+     * @param int   $count
+     */
+    protected function addSomeContent($contentTypes = null, $categories = null, $count = null)
     {
+        $contentTypes = $contentTypes ?: ['showcases', 'pages'];
+        $categories = $categories ?: ['news'];
+        $count = $count ?: 5;
+
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $app['config']->set('taxonomy/categories/options', ['news']);
+        $app['config']->set('taxonomy/categories/options', $categories);
         $this->setService('prefill', new LoripsumMock());
 
         $builder = $app['prefill.builder'];
-        $builder->build(['showcases', 'pages'], 5);
+        $builder->build($contentTypes, $count);
     }
 
     /**

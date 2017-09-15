@@ -356,11 +356,9 @@ class Config
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
                 $options = [];
-                foreach ($taxonomy['options'] as $optionkey => $optionvalue) {
-                    if (is_numeric($optionkey)) {
-                        $optionkey = Slugify::create()->slugify($optionvalue);
-                    }
-                    $options[$optionkey] = $optionvalue;
+                foreach ($taxonomy['options'] as $optionKey => $optionValue) {
+                    $optionKey = Slugify::create()->slugify($optionKey);
+                    $options[$optionKey] = $optionValue;
                 }
                 $taxonomy['options'] = $options;
             }

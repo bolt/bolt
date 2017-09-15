@@ -49,9 +49,25 @@ form[name="content_edit"] {
 
     /*** Dropzone ***/
 
-    .dropzone.hover,
-    .dropzone.in {
-        background: #DEF;
+    .elm-dropzone.hover,
+    .elm-dropzone.in {
+        background:rgba($boltblue, .6);
+        position:relative;
+
+        &:before {
+            content:'\f093';
+            font-family: FontAwesome;
+            font-size:25px;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: inherit;
+            position:absolute;
+            top:50%;
+            left:50%;
+            z-index:999999999;
+            transform:translate3d(-50%,-50%,0);
+            color:#fff;
+        }
 
         & * {
             opacity: 0.7;

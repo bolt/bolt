@@ -2,12 +2,8 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Legacy\Storage;
-use Bolt\Storage\Entity;
 use Bolt\Storage\Query\QueryResultset;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Tests\Mocks\LoripsumMock;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Storage/Query/ContentQueryParser.
@@ -46,16 +42,14 @@ class QueryFieldDelegationTest extends BoltUnitTest
         }
     }
 
-    protected function addSomeContent()
+    /**
+     * {@inheritdoc}
+     */
+    protected function addSomeContent($contentTypes = null, $categories = null, $count = null)
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $app['config']->set('taxonomy/categories/options', ['news']);
-        $prefillMock = new LoripsumMock();
-        $this->setService('prefill', $prefillMock);
-
-        $storage = new Storage($app);
-        $storage->prefill(['showcases', 'entries', 'pages']);
+        $storage = $app['storage'];
+        parent::addSomeContent(['showcases', 'entries', 'pages']);
 
         // We also set some relations between showcases and entries
         $showcases = $storage->getContent('showcases');

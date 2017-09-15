@@ -2,11 +2,11 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Collection\Bag;
 use Bolt\Exception\InvalidRepositoryException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Database pre-fill command.
@@ -22,7 +22,7 @@ class DatabasePrefill extends BaseCommand
     {
         $this
             ->setName('database:prefill')
-            ->setDescription('Pre-fill the database Lorem Ipsum records')
+            ->setDescription('Pre-fill the database with "Lorem Ipsum" records')
             ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of ContentTypes to pre-fill. If this argument is empty, all ContentTypes are used.')
         ;
     }
@@ -40,9 +40,7 @@ class DatabasePrefill extends BaseCommand
         if (!$input->getOption('no-interaction')) {
             $this->io->title('Creating dummy records for the following ContentTypes');
             $this->io->listing($contentTypeNames);
-            $question = new ConfirmationQuestion('<question>Continue with this action?</question> ', false);
-
-            if (!$this->io->askQuestion($question)) {
+            if (!$this->io->confirm('Continue with this action?', false)) {
                 return 0;
             }
         }
@@ -54,31 +52,46 @@ class DatabasePrefill extends BaseCommand
 
         $this->reportCreate($results);
         $this->reportError($results);
+        $this->reportWarn($results);
 
-        return count($results['errors']);
+        return $results->get('errors')->count();
     }
 
     /**
-     * @param array $results
+     * @param Bag $results
      */
-    private function reportError(array $results)
+    private function reportWarn(Bag $results)
     {
-        if ($results['errors'] === null) {
+        /** @var Bag $warnings */
+        $warnings = $results->get('warnings');
+        if ($warnings->count() === 0) {
             return;
         }
-        $this->io->writeln('');
+        $this->io->note($warnings->map(function ($k, $v) { return strip_tags($v); })->toArray());
     }
 
     /**
-     * @param array $results
+     * @param Bag $results
      */
-    private function reportCreate(array $results)
+    private function reportError(Bag $results)
     {
-        if ($results['created'] === null) {
+        $errors = $results->get('errors');
+        if ($errors->count() === 0) {
+            return;
+        }
+        $this->io->error($errors->map(function ($k, $v) { return strip_tags($v); })->toArray());
+    }
+
+    /**
+     * @param Bag $results
+     */
+    private function reportCreate(Bag $results)
+    {
+        if ($results->get('created') === null) {
             return;
         }
         $this->io->title('Database pre-filled with the following ContentTypes');
-        foreach ($results['created'] as $contentTypeName => $data) {
+        foreach ($results->get('created') as $contentTypeName => $data) {
             $this->io->writeln(sprintf('<info>  - %s</info>', $contentTypeName));
             foreach ($data as $created) {
                 $this->io->writeln(sprintf('<info>    - %s</info>', $created['title']));

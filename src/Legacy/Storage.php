@@ -110,7 +110,7 @@ class Storage
         $results = $builder->build($contentTypeNames, 5);
 
         $output = '';
-        foreach ((array) $results['created'] as $contentTypeName => $titles) {
+        foreach ($results->get('created') as $contentTypeName => $titles) {
             foreach ($titles as $title) {
                 $output .= Trans::__(
                     "Added to <tt>%key%</tt> '%title%'",
@@ -119,7 +119,10 @@ class Storage
                 $output .= "<br>\n";
             }
         }
-        foreach ((array) $results['errors'] as $errors) {
+        foreach ($results->get('warnings') as $warnings) {
+            $output .= $warnings;
+        }
+        foreach ($results->get('errors') as $errors) {
             $output .= $errors;
         }
 

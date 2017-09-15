@@ -22,15 +22,29 @@
     {% endif %}
 {% endblock prefill_response_pass %}
 
+{% block prefill_alert %}
+    <div class="alert alert-{{ alert_type }} alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <ul>
+            {% for outcome in outcomes %}
+                <li>{{ outcome|raw }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
 {% block prefill_response_fail %}
     {% if context.results.errors is not empty %}
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <ul>
-                {% for outcome in context.results.errors %}
-                    <li>{{ outcome|raw }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% with { alert_type: 'danger', outcomes: context.results.errors } %}
+        {{ block('prefill_alert') }}
+        {% endwith %}
     {% endif %}
-{% endblock prefill_response_fail %}
+{% endblock %}
+
+{% block prefill_response_warn %}
+    {% if context.results.warnings is not empty %}
+        {% with { alert_type: 'warning', outcomes: context.results.warnings } %}
+        {{ block('prefill_alert') }}
+        {% endwith %}
+    {% endif %}
+{% endblock %}

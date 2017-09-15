@@ -299,7 +299,7 @@ var init = {
 
         // @todo make it prettier, and distinguish between '.in' and '.hover'.
         $(document).bind('dragover', function (e) {
-            var dropZone = $('.dropzone'),
+            var dropZone = $('.elm-dropzone'),
                 timeout = window.dropZoneTimeout;
             if (!timeout) {
                 dropZone.addClass('in');
