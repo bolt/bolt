@@ -83,7 +83,7 @@ class StorageTest extends BoltUnitTest
         $output = $storage->prefill(['showcases']);
         $this->assertRegExp('#Added#', $output);
 
-        $output = $storage->prefill();
+        $output = $storage->prefill(['showcases']);
         $this->assertRegExp('#Skipped#', $output);
     }
 
