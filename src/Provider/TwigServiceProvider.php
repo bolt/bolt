@@ -116,11 +116,11 @@ class TwigServiceProvider implements ServiceProviderInterface, BootableProviderI
         $app['twig.loader.bolt_filesystem'] = function ($app) {
             $loader = new FilesystemLoader($app['filesystem']);
 
-            $loader->addPath('bolt://app/theme_defaults', 'theme');
-            $loader->addPath('bolt://app/view/twig', 'bolt');
+            $loader->addPath('bolt://templates/defaults', 'theme');
+            $loader->addPath('bolt://templates/bolt', 'bolt');
 
-            $loader->addPath('bolt://app/theme_defaults');
-            $loader->addPath('bolt://app/view/twig');
+            $loader->addPath('bolt://templates/defaults');
+            $loader->addPath('bolt://templates/bolt');
 
             return $loader;
         };

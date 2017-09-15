@@ -44,7 +44,7 @@ locale: en_GB
 # All other visitors are presented with a notice that the site is currently
 # offline.
 #
-# The default template file can be found in /app/theme_defaults/ and overridden
+# The default template file can be found in /templates/defaults/ and overridden
 # with this option using your own theme.
 #
 # Note: If you've changed the filename, and your changes do not show up on the
@@ -145,7 +145,7 @@ add_jquery: false
 recordsperpage: 10
 
 # Settings for caching in parts of Bolt.
-# - config:        Caches the parsed .yml files from /app/config. It's updated
+# - config:        Caches the parsed .yml files from config:// — It's updated
 #                  immediately when one of the files changes on disk. There
 #                  should be no good reason to turn this off.
 #

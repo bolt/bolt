@@ -57,8 +57,8 @@ abstract class BoltUnitTest extends TestCase
         ];
         foreach ($configFiles as $configFile) {
             // Make sure we wipe the db file to start with a clean one
-            if (is_readable(PHPUNIT_WEBROOT . '/app/config/' . $configFile)) {
-                unlink(PHPUNIT_WEBROOT . '/app/config/' . $configFile);
+            if (is_readable(PHPUNIT_WEBROOT . '/config/' . $configFile)) {
+                unlink(PHPUNIT_WEBROOT . '/config/' . $configFile);
             }
         }
         if (is_readable(PHPUNIT_WEBROOT . '/var/cache/config-cache.json')) {

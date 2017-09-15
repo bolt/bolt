@@ -19,8 +19,8 @@ class TranslationFileTest extends BoltUnitTest
     {
         $fs = new Filesystem();
         $fs->mirror(
-            TEST_ROOT . '/app/resources/translations/en_GB/',
-            PHPUNIT_WEBROOT . '/app/resources/translations/en_GB/',
+            TEST_ROOT . '/app/translations/en_GB/',
+            PHPUNIT_WEBROOT . '/app/translations/en_GB/',
             null,
             ['override' => true]
         );
@@ -38,7 +38,7 @@ class TranslationFileTest extends BoltUnitTest
         $app = $this->getApp();
         $tr = new TranslationFile($app, 'messages', 'en_GB');
         $path = $tr->path();
-        $this->assertEquals(PHPUNIT_WEBROOT . '/app/resources/translations/en_GB/messages.en_GB.yml', $path[0]);
+        $this->assertEquals(PHPUNIT_WEBROOT . '/app/translations/en_GB/messages.en_GB.yml', $path[0]);
     }
 
     public function testContentInfos()

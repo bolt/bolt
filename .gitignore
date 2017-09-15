@@ -1,14 +1,14 @@
 # Bolt specific stuff. Don't put config files, databases or 'vendor' in Git.
-app/config/*.yml
-app/config/extensions/
 app/database/*
-*config.yml
-files/*
+config/*.yml
+config/extensions/
 extensions/*
-thumbs/
+public/files/*
+public/thumbs/
+public/theme/*
 var/*
 vendor/
-theme/*
+*config.yml
 composer.lock
 
 # Bolt development files

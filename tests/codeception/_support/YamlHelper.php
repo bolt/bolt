@@ -41,7 +41,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedConfig()
     {
-        $config = $this->readYaml('app/config/config.yml');
+        $config = $this->readYaml('config/config.yml');
 
         $config['canonical'] = 'example.org';
         $config['notfound']  = 'resources/not-found';
@@ -112,7 +112,7 @@ class YamlHelper extends \Codeception\Module
      */
     private function getBasePermissions()
     {
-        $permissions = $this->readYaml('app/config/permissions.yml');
+        $permissions = $this->readYaml('config/permissions.yml');
 
         $permissions['contenttype-all'] = [
             'edit'             => ['developer', 'admin', 'chief-editor'],
@@ -179,7 +179,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedContentTypes()
     {
-        $contentTypes = $this->readYaml('app/config/contenttypes.yml');
+        $contentTypes = $this->readYaml('config/contenttypes.yml');
 
         $contentTypes['resources'] = [
             'name'          => 'Resources',
@@ -214,7 +214,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedTaxonomy()
     {
-        $taxonomy = $this->readYaml('app/config/taxonomy.yml');
+        $taxonomy = $this->readYaml('config/taxonomy.yml');
 
         $options = $taxonomy['categories']['options'];
         sort($options);
@@ -230,7 +230,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedMenu()
     {
-        $menus = $this->readYaml('app/config/menu.yml');
+        $menus = $this->readYaml('config/menu.yml');
 
         $menus['main'][] = ['label' => 'Showcases Listing', 'path' => 'showcases/'];
 
@@ -244,7 +244,7 @@ class YamlHelper extends \Codeception\Module
      */
     public function getUpdatedRouting()
     {
-        $filename = INSTALL_ROOT . '/app/config/routing.yml';
+        $filename = INSTALL_ROOT . '/config/routing.yml';
 
         $routing = [
             'pagebinding:',
@@ -263,7 +263,7 @@ class YamlHelper extends \Codeception\Module
 
     public function getUpdatedTheme()
     {
-        $theme = $this->readYaml('theme/base-2016/theme.yml');
+        $theme = $this->readYaml('public/theme/base-2016/theme.yml');
 
         /**
          * Disabled as currently unsupported due to problems in test due to

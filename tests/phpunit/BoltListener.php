@@ -19,12 +19,12 @@ class BoltListener extends BaseTestListener
 {
     /** @var array */
     protected $configs = [
-        'config'       => 'app/config/config.yml.dist',
-        'contenttypes' => 'app/config/contenttypes.yml.dist',
-        'menu'         => 'app/config/menu.yml.dist',
-        'permissions'  => 'app/config/permissions.yml.dist',
-        'routing'      => 'app/config/routing.yml.dist',
-        'taxonomy'     => 'app/config/taxonomy.yml.dist',
+        'config'       => 'config/config.yml.dist',
+        'contenttypes' => 'config/contenttypes.yml.dist',
+        'menu'         => 'config/menu.yml.dist',
+        'permissions'  => 'config/permissions.yml.dist',
+        'routing'      => 'config/routing.yml.dist',
+        'taxonomy'     => 'config/taxonomy.yml.dist',
     ];
     /** @var string */
     protected $theme;
@@ -91,7 +91,7 @@ class BoltListener extends BaseTestListener
     protected function getTheme($theme)
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
-            return $this->getPath('theme', 'theme/base-2016');
+            return $this->getPath('theme', 'public/theme/base-2016');
         }
 
         return $this->getPath('theme', $theme['theme']);
@@ -190,23 +190,23 @@ class BoltListener extends BaseTestListener
         // Create needed directories
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/var/cache/', 0777);
-        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/config/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/config/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/files/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
         // Mirror in required assets.
-        $fs->mirror(TEST_ROOT . '/app/resources/',      PHPUNIT_WEBROOT . '/app/resources/',      null, ['override' => true]);
-        $fs->mirror(TEST_ROOT . '/app/theme_defaults/', PHPUNIT_WEBROOT . '/app/theme_defaults/', null, ['override' => true]);
-        $fs->mirror(TEST_ROOT . '/app/view/twig',       PHPUNIT_WEBROOT . '/app/view/twig',       null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/app/translations/',   PHPUNIT_WEBROOT . '/app/translations/',      null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/templates/defaults/', PHPUNIT_WEBROOT . '/templates/defaults/', null, ['override' => true]);
+        $fs->mirror(TEST_ROOT . '/templates/bolt',      PHPUNIT_WEBROOT . '/templates/bolt',       null, ['override' => true]);
 
         // Make sure we wipe the db file to start with a clean one
         $fs->copy($this->boltdb, PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
 
         // Copy in config files
         foreach ($this->configs as $config) {
-            $fs->copy($config, PHPUNIT_WEBROOT . '/app/config/' . basename($config), true);
+            $fs->copy($config, PHPUNIT_WEBROOT . '/config/' . basename($config), true);
         }
 
         // Copy in the theme

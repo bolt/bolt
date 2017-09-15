@@ -105,8 +105,8 @@ class CodeceptionEventsExtension extends \Codeception\Extension
             }
         }
 
-        if ($fs->exists(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml')) {
-            $fs->remove(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml');
+        if ($fs->exists(INSTALL_ROOT . '/config/extensions/testerevents.bolt.yml')) {
+            $fs->remove(INSTALL_ROOT . '/config/extensions/testerevents.bolt.yml');
         }
     }
 

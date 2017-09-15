@@ -430,7 +430,7 @@ class Users extends BackendBase
             $transport->getSpool()->flushQueue($this->app['swiftmailer.transport']);
         } catch (TransportException $e) {
             // Sending message failed. What else can we do, send via snailmail?
-            $logger->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
+            $logger->error("The 'mailoptions' need to be set in config://config.yml", ['event' => 'config']);
         }
     }
 }

@@ -48,7 +48,7 @@ class ConfigGetTest extends BoltUnitTest
     {
         @mkdir(PHPUNIT_ROOT . '/resources/', 0777, true);
         @mkdir(TEST_ROOT . '/var/cache/', 0777, true);
-        $distname = realpath(TEST_ROOT . '/app/config/config.yml.dist');
+        $distname = realpath(TEST_ROOT . '/config/config.yml.dist');
         @copy($distname, PHPUNIT_ROOT . '/resources/config.yml');
     }
 
