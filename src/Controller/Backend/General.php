@@ -213,7 +213,7 @@ class General extends BackendBase
             return $this->redirectToRoute('prefill');
         }
 
-        $prefillResult = $this->session()->remove('prefill_result') ?: ['created' => null, 'errors' => null];
+        $prefillResult = $this->session()->remove('prefill_result') ?: ['created' => null, 'errors' => null, 'warnings' => null];
         $context = [
             'contenttypes' => $choices,
             'form'         => $form->createView(),

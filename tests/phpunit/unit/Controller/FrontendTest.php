@@ -4,11 +4,9 @@ namespace Bolt\Tests\Controller;
 
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
-use Bolt\Legacy\Storage;
 use Bolt\Response\TemplateResponse;
 use Bolt\Response\TemplateView;
 use Bolt\TemplateChooser;
-use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Runtime\HtmlRuntime;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -536,17 +534,6 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->before($this->getRequest());
 
         $this->assertNull($response);
-    }
-
-    protected function addSomeContent()
-    {
-        $app = $this->getApp();
-        $this->getService('config')->set('taxonomy/categories/options', ['news']);
-        $prefillMock = new LoripsumMock();
-        $this->setService('prefill', $prefillMock);
-
-        $storage = new Storage($app);
-        $storage->preFill(['pages']);
     }
 
     /**

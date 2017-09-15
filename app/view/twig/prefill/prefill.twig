@@ -32,6 +32,9 @@
             {% if context.results.errors is iterable %}
                 {{  block('prefill_response_fail') }}
             {% endif %}
+            {% if context.results.warnings is iterable %}
+                {{  block('prefill_response_warn') }}
+            {% endif %}
             {% if context.results.created is iterable %}
                 {{  block('prefill_response_pass') }}
             {% endif %}

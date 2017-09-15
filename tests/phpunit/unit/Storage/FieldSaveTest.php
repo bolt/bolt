@@ -2,12 +2,9 @@
 
 namespace Bolt\Tests\Storage;
 
-use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Tests\Mocks\LoripsumMock;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test src/Storage/Repository and field transforms for load and hydrate.
@@ -78,17 +75,15 @@ class FieldSaveTest extends BoltUnitTest
         $this->assertEquals(2, count($savedEntity->getCategories()));
     }
 
-    protected function addSomeContent()
+    /**
+     * {@inheritdoc}
+     */
+    protected function addSomeContent($contentTypes = null, $categories = null, $count = null)
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $app['request'] = Request::create('/');
-        $app['config']->set('taxonomy/categories/options', ['news']);
-        $prefillMock = new LoripsumMock();
-        $this->setService('prefill', $prefillMock);
-
-        $storage = new Storage($app);
-        $storage->prefill(['showcases', 'entries', 'pages']);
+        $storage = $app['storage'];
+        parent::addSomeContent(['showcases', 'entries', 'pages']);
 
         // We also set some relations between showcases and entries
         $showcases = $storage->getContent('showcases');
