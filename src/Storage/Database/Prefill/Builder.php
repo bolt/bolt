@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Prefill;
 
+use Bolt\Collection\MutableBag;
 use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
@@ -42,29 +43,29 @@ class Builder
      * @param int   $count
      * @param bool  $canExceedMax
      *
-     * @return array
+     * @return MutableBag
      */
     public function build(array $contentTypeNames, $count, $canExceedMax = false)
     {
-        $response = ['created' => null, 'errors' => null];
+        $response = MutableBag::fromRecursive(['created' => [], 'errors' => [], 'warnings' => []]);
         foreach ($contentTypeNames as $contentTypeName) {
             try {
                 $existingCount = $this->storage->getRepository($contentTypeName)->count();
             } catch (TableNotFoundException $e) {
-                $response['errors'][$contentTypeName] = Trans::__(
+                $response->setPath('errors/' . $contentTypeName, Trans::__(
                     'page.prefill.database-update-required',
                     ['%CONTENTTYPE%' => $contentTypeName]
-                );
+                ));
 
                 continue;
             }
 
             // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
             if ($existingCount >= $this->maxCount && !$canExceedMax) {
-                $response['errors'][$contentTypeName] = Trans::__(
+                $response->setPath('warnings/' . $contentTypeName, Trans::__(
                     'page.prefill.skipped-existing',
                     ['%key%' => $contentTypeName]
-                );
+                ));
 
                 continue;
             }
@@ -77,9 +78,9 @@ class Builder
 
             $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
             try {
-                $response['created'][$contentTypeName] = $recordContentGenerator->generate($createCount);
+                $response->setPath('created/' . $contentTypeName, $recordContentGenerator->generate($createCount));
             } catch (RequestException $e) {
-                $response['errors'][$contentTypeName] = Trans::__('page.prefill.connection-timeout');
+                $response->setPath('errors/' . $contentTypeName, Trans::__('page.prefill.connection-timeout'));
 
                 return $response;
             }
