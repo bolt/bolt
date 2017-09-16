@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Nut command to repair/update database schema.
  */
-class DatabaseRepair extends BaseCommand
+class DatabaseUpdate extends BaseCommand
 {
     /**
      * {@inheritdoc}
