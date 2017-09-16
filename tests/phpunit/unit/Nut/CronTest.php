@@ -2,21 +2,21 @@
 
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\CronRunner;
+use Bolt\Nut\Cron;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class to test src/Nut/CronRunner.
+ * @covers \Bolt\Nut\Cron
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class CronRunnerTest extends BoltUnitTest
+class CronTest extends BoltUnitTest
 {
     public function testRun()
     {
         $app = $this->getApp();
-        $command = new CronRunner($app);
+        $command = new Cron($app);
         $tester = new CommandTester($command);
 
         $events = [];

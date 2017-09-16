@@ -2,7 +2,7 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Cron;
+use Bolt\Cron as CronJob;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class CronRunner extends BaseCommand
+class Cron extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -46,7 +46,7 @@ class CronRunner extends BaseCommand
             ];
         }
 
-        $result = new Cron($this->app, $output);
+        $result = new CronJob($this->app, $output);
         if ($result->execute($param)) {
             if ($event) {
                 $message = sprintf('Cron "%s" job run', $event);

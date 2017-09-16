@@ -42,7 +42,7 @@ class NutServiceProvider implements ServiceProviderInterface, BootableProviderIn
                 new Nut\CacheClear(),
                 new Nut\ConfigGet(),
                 new Nut\ConfigSet(),
-                new Nut\CronRunner(),
+                new Nut\Cron(),
                 new Nut\DatabaseCheck(),
                 new Nut\DatabaseExport(),
                 new Nut\DatabaseImport(),
