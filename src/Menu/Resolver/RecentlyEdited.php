@@ -72,14 +72,15 @@ final class RecentlyEdited
 
         // Each of the ContentType record entries.
         foreach ($entities as $entity) {
-            $label = Str::replaceFirst(Excerpt::createFromEntity($entity, 80, $this->markdown), '</b>', '&nbsp;</b>');
+            $contentType = Bag::from($contentTypes->get($contentTypeKey));
+            $label = Str::replaceFirst(Excerpt::createFromEntity($entity, $contentTypes, 80, $this->markdown), '</b>', '&nbsp;</b>');
 
             /**@var Entity\Content $entity */
             $listingMenu->add(
                 MenuEntry::create($entity->getSlug())
                     ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
                     ->setLabel($label)
-                    ->setIcon($contentTypes->getPath($contentTypeKey . '/icon_one', 'fa:file-text-o'))
+                    ->setIcon($contentType->get('icon_one', 'fa:file-text-o'))
             );
         }
     }
