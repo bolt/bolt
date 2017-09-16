@@ -2,22 +2,22 @@
 
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\DatabaseRepair;
+use Bolt\Nut\DatabaseUpdate;
 use Bolt\Storage\Database\Schema\Table;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class to test src/Nut/DatabaseRepair.
+ * @covers \Bolt\Nut\DatabaseUpdate
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class DatabaseRepairTest extends BoltUnitTest
+class DatabaseUpdateTest extends BoltUnitTest
 {
     public function testSchemaUpToDate()
     {
         $app = $this->getApp();
-        $command = new DatabaseRepair($app);
+        $command = new DatabaseUpdate($app);
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -59,7 +59,7 @@ class DatabaseRepairTest extends BoltUnitTest
             return new Table\ContentType($platform, $prefix);
         };
 
-        $command = new DatabaseRepair($app);
+        $command = new DatabaseUpdate($app);
         $tester = new CommandTester($command);
 
         return $tester;

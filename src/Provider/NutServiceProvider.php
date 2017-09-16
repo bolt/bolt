@@ -48,7 +48,7 @@ class NutServiceProvider implements ServiceProviderInterface, BootableProviderIn
                 new Nut\DatabaseImport(),
                 new Nut\DatabaseOptimize(),
                 new Nut\DatabasePrefill(),
-                new Nut\DatabaseRepair(),
+                new Nut\DatabaseUpdate(),
                 new Nut\Extensions(),
                 new Nut\ExtensionsDumpAutoload(),
                 new Nut\ExtensionsInstall(),
