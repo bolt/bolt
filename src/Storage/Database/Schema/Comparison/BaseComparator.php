@@ -5,7 +5,6 @@ namespace Bolt\Storage\Database\Schema\Comparison;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Psr\Log\LoggerInterface;
