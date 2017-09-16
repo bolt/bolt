@@ -2,6 +2,7 @@
 
 namespace Bolt\Helpers;
 
+use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
 use Bolt\Legacy\Content as LegacyContent;
 use Bolt\Storage\Entity\Content;
@@ -103,17 +104,17 @@ class Excerpt
      * @internal
      *
      * @param Content   $entity
+     * @param Bag       $contentType
      * @param int       $length
      * @param Parsedown $markdown
      *
      * @return string
      */
-    public static function createFromEntity(Content $entity, $length, Parsedown $markdown)
+    public static function createFromEntity(Content $entity, Bag $contentType, $length, Parsedown $markdown)
     {
-        $contentType = $entity->getContenttype();
         $parts = new MutableBag();
 
-        foreach ($contentType->getFields() as $key => $field) {
+        foreach ($contentType->get('fields', []) as $key => $field) {
             // Skip empty fields, and fields used as 'title'.
             $fieldValue = $entity->get($key);
             if (!$fieldValue || $fieldValue === $entity->getTitle()) {
