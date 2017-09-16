@@ -39,9 +39,9 @@ final class RecentlyEdited
 
     /**
      * @param MenuEntry $menu
-     * @param Bag       $contentType
+     * @param Bag       $contentTypes
      */
-    public function resolve(MenuEntry $menu, Bag $contentType)
+    public function resolve(MenuEntry $menu, Bag $contentTypes)
     {
         $contentRoot = $menu->get('content');
         if (!$contentRoot->has('main')) {
@@ -49,16 +49,16 @@ final class RecentlyEdited
         }
 
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
-            $this->addRecentlyEdited($contentMenu, $name, $contentType);
+            $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
         }
     }
 
     /**
      * @param MenuEntry $contentMenu
      * @param string    $contentTypeKey
-     * @param Bag       $contentType
+     * @param Bag       $contentTypes
      */
-    private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentType)
+    private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
         $entities = $this->getRecords($contentTypeKey, 4);
         if (!$entities) {
@@ -79,7 +79,7 @@ final class RecentlyEdited
                 MenuEntry::create($entity->getSlug())
                     ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
                     ->setLabel($label)
-                    ->setIcon($contentType->getPath($contentTypeKey . '/icon_one', 'fa:file-text-o'))
+                    ->setIcon($contentTypes->getPath($contentTypeKey . '/icon_one', 'fa:file-text-o'))
             );
         }
     }
