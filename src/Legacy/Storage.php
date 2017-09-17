@@ -398,11 +398,11 @@ class Storage
      * Get a valid array to commit.
      *
      * @param array $fieldvalues
-     * @param array $contenttype
+     * @param Bolt\Storage\Mapping\ContentTypeCollection $contenttype
      *
      * @return array
      */
-    private function getValidSaveData(array $fieldvalues, array $contenttype)
+    private function getValidSaveData(array $fieldvalues, $contenttype)
     {
         // Clean up fields, check unneeded columns.
         foreach (array_keys($fieldvalues) as $key) {

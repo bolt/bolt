@@ -236,8 +236,8 @@ class MetadataDriver implements MappingDriver
         }
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
-        if ($contentKey && isset($this->contenttypes[$contentKey])) {
-            $this->setRelations($contentKey, $className);
+        if ($contentKey && $this->contenttypes->containsKey($contentKey)) {
+            $this->setRelations($contentKey, $className, $table);
             $this->setIncomingRelations($contentKey, $className);
             $this->setTaxonomies($contentKey, $className);
             $this->setTemplatefields($contentKey, $className);

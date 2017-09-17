@@ -103,6 +103,7 @@ class Application extends Silex\Application
         $this
             ->register(new Provider\FilesystemServiceProvider())
             ->register(new Provider\DatabaseSchemaServiceProvider())
+            ->register(new Provider\MappingServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
     }

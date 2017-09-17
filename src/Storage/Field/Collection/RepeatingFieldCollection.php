@@ -5,7 +5,7 @@ namespace Bolt\Storage\Field\Collection;
 use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
-use Bolt\Storage\Field\Type\FieldTypeBase;
+use Bolt\Storage\Mapping\Definition;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -26,10 +26,10 @@ class RepeatingFieldCollection extends ArrayCollection
      * Constructor.
      *
      * @param EntityManager $em
-     * @param array         $mapping
-     * @param array         $elements
+     * @param Definition $mapping
+     * @param array $elements
      */
-    public function __construct(EntityManager $em, array $mapping, $elements = [])
+    public function __construct(EntityManager $em, Definition $mapping, $elements = [])
     {
         $this->em = $em;
         $this->mapping = $mapping;

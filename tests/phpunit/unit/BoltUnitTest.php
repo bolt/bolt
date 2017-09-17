@@ -88,6 +88,7 @@ abstract class BoltUnitTest extends TestCase
                 $this->app->boot();
                 $this->app->flush();
             }
+            $verifier->checks();
         }
 
         return $this->app;

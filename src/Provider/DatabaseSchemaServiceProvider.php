@@ -102,7 +102,8 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 $contentTypes = $app['config']->get('contenttypes');
                 $acne = new \Pimple();
 
-                foreach (array_keys($contentTypes) as $contentType) {
+                foreach ($contentTypes->getKeys() as $contentType) {
+                    // @codingStandardsIgnoreStart
                     $tableName = $contentTypes[$contentType]['tablename'];
                     $acne[$tableName] = $app->share(
                         function () use ($platform, $prefix) {
