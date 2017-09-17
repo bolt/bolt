@@ -5,6 +5,7 @@ namespace Bolt\Tests\Nut;
 use Bolt\Nut\DatabaseCheck;
 use Bolt\Storage\Database\Schema\Table;
 use Bolt\Tests\BoltUnitTest;
+use Doctrine\DBAL;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -16,6 +17,11 @@ class DatabaseCheckTest extends BoltUnitTest
 {
     public function testRunNormal()
     {
+        /** @deprecated Drop when DBAL 2.6.3 is released. */
+        if (DBAL\Version::compare('2.6.0') <= 0 && DBAL\Version::compare('2.6.3') === 1) {
+            $this->markTestSkipped('DBAL 2.6.0 to 2.6.2 incorrectly detect column comments');
+        }
+
         $app = $this->getApp();
         $command = new DatabaseCheck($app);
         $tester = new CommandTester($command);

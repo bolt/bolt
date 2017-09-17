@@ -5,7 +5,6 @@ namespace Bolt\Storage\Database\Schema\Comparison;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Psr\Log\LoggerInterface;
@@ -49,7 +48,6 @@ abstract class BaseComparator
         $this->connection = $connection;
         $this->prefix = $prefix;
         $this->systemLog = $systemLog;
-        $this->setIgnoredChanges();
     }
 
     /**
@@ -85,6 +83,9 @@ abstract class BaseComparator
     {
         if ($this->response !== null && $force === false) {
             return $this->getResponse();
+        }
+        if ($force === false) {
+            $this->setIgnoredChanges();
         }
 
         $this->checkTables($fromTables, $toTables);
@@ -123,10 +124,12 @@ abstract class BaseComparator
             return [];
         }
 
+        $platform = $this->connection->getDatabasePlatform();
+        $flags = AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS;
         $queries = [];
+
         foreach ($this->tablesCreate as $tableName => $table) {
-            $queries[$tableName] = $this->connection->getDatabasePlatform()
-                ->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS);
+            $queries[$tableName] = $platform->getCreateTableSQL($table, $flags);
         }
 
         return $queries;
@@ -144,10 +147,11 @@ abstract class BaseComparator
             return $queries;
         }
 
+        $platform = $this->connection->getDatabasePlatform();
+
         /** @var $tableDiff TableDiff */
         foreach ($this->tablesAlter as $tableName => $tableDiff) {
-            $queries[$tableName] = $this->connection->getDatabasePlatform()
-                ->getAlterTableSQL($tableDiff);
+            $queries[$tableName] = $platform->getAlterTableSQL($tableDiff);
         }
 
         return $queries;
@@ -272,12 +276,16 @@ abstract class BaseComparator
      */
     protected function addAlterResponses()
     {
+        $platform = $this->connection->getDatabasePlatform();
+        $response = $this->getResponse();
+        $this->setIgnoredChanges();
+
         foreach ($this->diffs as $tableName => $tableDiff) {
             $this->pending = true;
             $this->tablesAlter[$tableName] = $tableDiff;
-            $this->getResponse()->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
-            $this->getResponse()->checkDiff($tableName, $tableDiff);
-            $this->systemLog->debug('Database update required', $this->connection->getDatabasePlatform()->getAlterTableSQL($tableDiff));
+            $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+            $response->checkDiff($tableName, $tableDiff);
+            $this->systemLog->debug('Database update required', $platform->getAlterTableSQL($tableDiff));
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Bolt\Tests\Nut;
 use Bolt\Nut\DatabaseUpdate;
 use Bolt\Storage\Database\Schema\Table;
 use Bolt\Tests\BoltUnitTest;
+use Doctrine\DBAL;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -16,6 +17,11 @@ class DatabaseUpdateTest extends BoltUnitTest
 {
     public function testSchemaUpToDate()
     {
+        /** @deprecated Drop when minimum PHP version is 7.1 or greater. */
+        if (DBAL\Version::compare('2.6.3') >= 0) {
+            $this->markTestSkipped();
+        }
+
         $app = $this->getApp();
         $command = new DatabaseUpdate($app);
         $tester = new CommandTester($command);
