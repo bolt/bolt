@@ -19,9 +19,6 @@ class PostgreSql extends BaseComparator
      */
     protected function setIgnoredChanges()
     {
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'string', 'json');
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json');
-        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'json_array', 'json');
     }
 
     /**

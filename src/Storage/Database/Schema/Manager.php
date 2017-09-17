@@ -103,7 +103,9 @@ class Manager implements SchemaManagerInterface
     {
         $fromTables = $this->getInstalledTables();
         $toTables = $this->getSchemaTables();
-        $pending = $this->getSchemaComparator()->hasPending($fromTables, $toTables, $this->app['schema.content_tables']->keys());
+        $protectedTableNames = $this->app['schema.content_tables']->keys();
+
+        $pending = $this->getSchemaComparator()->hasPending($fromTables, $toTables, $protectedTableNames);
 
         if (!$pending) {
             $this->getSchemaTimer()->setCheckExpiry();
@@ -121,7 +123,9 @@ class Manager implements SchemaManagerInterface
     {
         $fromTables = $this->getInstalledTables();
         $toTables = $this->getSchemaTables();
-        $response = $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
+        $protectedTableNames = $this->app['schema.content_tables']->keys();
+
+        $response = $this->getSchemaComparator()->compare($fromTables, $toTables, $protectedTableNames);
         if (!$response->hasResponses()) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
@@ -139,7 +143,9 @@ class Manager implements SchemaManagerInterface
         // Do the initial check
         $fromTables = $this->getInstalledTables();
         $toTables = $this->getSchemaTables();
-        $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
+        $protectedTableNames = $this->app['schema.content_tables']->keys();
+
+        $this->getSchemaComparator()->compare($fromTables, $toTables, $protectedTableNames, true);
         $response = $this->getSchemaComparator()->getResponse();
         $creates = $this->getSchemaComparator()->getCreates();
         $alters = $this->getSchemaComparator()->getAlters();
@@ -154,8 +160,8 @@ class Manager implements SchemaManagerInterface
         // Recheck now that we've processed
         $fromTables = $this->getInstalledTables();
         $toTables = $this->getSchemaTables();
-        $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
-        if (!$this->getSchemaComparator()->hasPending($fromTables, $toTables, $this->app['schema.content_tables']->keys())) {
+        $this->getSchemaComparator()->compare($fromTables, $toTables, $protectedTableNames);
+        if (!$this->getSchemaComparator()->hasPending($fromTables, $toTables, $protectedTableNames)) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
 
