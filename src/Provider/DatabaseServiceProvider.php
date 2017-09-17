@@ -32,6 +32,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 
         $app['db.types'] = new MutableBag([
             'json'         => Schema\Types\JsonType::class,
+            'json_array'   => Schema\Types\JsonArrayType::class,
             Type::DATE     => Schema\Types\CarbonDateType::class,
             Type::DATETIME => Schema\Types\CarbonDateTimeType::class,
         ]);
