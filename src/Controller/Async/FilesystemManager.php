@@ -6,7 +6,7 @@ use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\Handler\HandlerInterface;
+use Bolt\Filesystem\Listing;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,35 +69,26 @@ class FilesystemManager extends AsyncBase
     public function browse(Request $request, $namespace, $path)
     {
         $directory = $this->filesystem()->getDir("$namespace://$path");
+        $listing = new Listing($directory);
+        $showHidden = $this->isAllowed('files:hidden');
 
         try {
-            $it = $directory->getContents();
+            $directories = $listing->getDirectories($showHidden);
+            $files = $listing->getFiles($showHidden);
         } catch (IOException $e) {
-            $msg = Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]);
-            $this->logException($msg, $e);
-            $this->flashes()->error($msg);
-            $it = [];
+            $this->logException(Trans::__('page.file-management.message.folder-not-found', ['%s' => $path]), $e);
+            $directories = [];
+            $files = [];
         }
 
-        $files = array_filter($it, function (HandlerInterface $handler) {
-            return $handler->isFile();
-        });
-        $directories = array_filter($it, function (HandlerInterface $handler) {
-            return $handler->isDir();
-        });
-
         $context = [
-            'directory'    => $directory,
-            'files'        => $files,
-            'directories'  => $directories,
-            'multiselect'  => $request->query->getBoolean('multiselect'),
+            'directory'   => $directory,
+            'directories' => $directories,
+            'files'       => $files,
+            'multiselect' => $request->query->getBoolean('multiselect'),
         ];
 
-        return $this->render(
-            '@bolt/async/browse.twig',
-            ['context' => $context],
-            ['title', Trans::__('page.file-management.message.files-in', ['%s' => $path])]
-        );
+        return $this->render('@bolt/async/browse.twig', ['context' => $context]);
     }
 
     /**
