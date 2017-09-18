@@ -16,6 +16,8 @@
         {# Recently edited records for this ContentType #}
         {% if menu.has('recent') %}
             {% for record_menu in menu.get('recent').children %}{% set sub = sub|merge([record_menu]) %}{% endfor %}
+        {% elseif menu.has('singleton') %}
+            {% set sub = sub|merge([menu.children|first]) %}
         {% endif %}
 
         {{ nav.submenu(menu.icon, menu.label, sub, active, true) }}
