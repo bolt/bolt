@@ -1,3 +1,4 @@
+{% if not multiplecontent|first.contenttype.singleton %}
 <div class="contenttype-title">
     <span class="pull-right">
             <a href="{{ path('overview', {'contenttypeslug': contenttype}) }}" class="morelink">
@@ -23,3 +24,4 @@
         {% endfor %}
     </table>
 </div>
+{% endif %}
