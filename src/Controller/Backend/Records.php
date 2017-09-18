@@ -50,6 +50,10 @@ class Records extends BackendBase
         $duplicate = $request->query->getBoolean('duplicate');
         $new = $duplicate ? false : empty($id);
 
+        // Override return redirect for singletons
+        $isSingleton = $this->getOption('contenttypes/' . $contentTypeKey . '/singleton');
+        $deleteRoute = $isSingleton ? 'editcontent' : 'overview';
+
         // Test the access control
         if ($response = $this->checkEditAccess($contentTypeKey, $id)) {
             return $response;
@@ -76,7 +80,7 @@ class Records extends BackendBase
             if ($button->getName() === 'delete') {
                 $this->app['storage.request.modify']->action($contentTypeKey, [$id => ['delete' => true]]);
 
-                return $this->redirectToRoute('overview', ['contenttypeslug' => $contentTypeKey]);
+                return $this->redirectToRoute($deleteRoute, ['contenttypeslug' => $contentTypeKey]);
             } else {
                 $response = $this->recordSave()->action($formValues, $contentType, $id, $new || $duplicate, $returnTo, $editReferrer);
             }
