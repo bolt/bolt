@@ -540,6 +540,9 @@ class Config
         if (!isset($contentType['allow_numeric_slugs'])) {
             $contentType['allow_numeric_slugs'] = false;
         }
+        if (!isset($contentType['singleton'])) {
+            $contentType['singleton'] = false;
+        }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;
