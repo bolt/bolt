@@ -60,6 +60,12 @@ final class RecentlyEdited
      */
     private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
+        $isSingleton = $contentType->getPath($contentTypeKey . '/singleton');
+        if ($isSingleton) {
+            $this->addSingleton($contentMenu, $contentTypeKey);
+
+            return;
+        }
         $entities = $this->getRecords($contentTypeKey, 4);
         if (!$entities) {
             return;
@@ -83,6 +89,39 @@ final class RecentlyEdited
                     ->setIcon($contentType->get('icon_one', 'fa:file-text-o'))
             );
         }
+    }
+
+    /**
+     * @param MenuEntry $contentMenu
+     * @param string    $contentTypeKey
+     */
+    private function addSingleton(MenuEntry $contentMenu, $contentTypeKey)
+    {
+        $singleton = MenuEntry::create('singleton')
+            ->setLabel($contentMenu->getLabel())
+            ->setIcon($contentMenu->getIcon())
+        ;
+
+        // If there is an existing record, remove the ability to create a new one
+        $entities = $this->getRecords($contentTypeKey, 1);
+        if ($entities) {
+            $entity = reset($entities);
+            $singleton
+                ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
+                ->setPermission('contenttype:' . $contentTypeKey)
+            ;
+        } else {
+            $singleton
+                ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey])
+                ->setPermission('contenttype:' . $contentTypeKey . ':create')
+            ;
+        }
+
+        $contentMenu->add($singleton);
+
+        // We don't need 'view' or 'new' here
+        $contentMenu->remove('view');
+        $contentMenu->remove('new');
     }
 
     /**
