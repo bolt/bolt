@@ -60,7 +60,7 @@ final class RecentlyEdited
      */
     private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
-        $isSingleton = $contentType->getPath($contentTypeKey . '/singleton');
+        $isSingleton = $contentTypes->getPath($contentTypeKey . '/singleton');
         if ($isSingleton) {
             $this->addSingleton($contentMenu, $contentTypeKey);
 
