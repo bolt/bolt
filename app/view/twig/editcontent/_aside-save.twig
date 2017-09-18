@@ -3,6 +3,7 @@
         <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.singular_name}) }}
     </button>
 
+    {% if not context.contenttype.singleton %}
     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
@@ -21,4 +22,5 @@
             </button>
         </li>
     </ul>
+    {% endif %}
 </div>
