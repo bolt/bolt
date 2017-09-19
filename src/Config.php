@@ -332,13 +332,13 @@ class Config
 
         foreach ($taxonomies as $key => $taxonomy) {
             if (!isset($taxonomy['name'])) {
-                $taxonomy['name'] = ucwords($taxonomy['slug']);
+                $taxonomy['name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['slug'])));
             }
             if (!isset($taxonomy['singular_name'])) {
                 if (isset($taxonomy['singular_slug'])) {
-                    $taxonomy['singular_name'] = ucwords($taxonomy['singular_slug']);
+                    $taxonomy['singular_name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['singular_slug'])));
                 } else {
-                    $taxonomy['singular_name'] = ucwords($taxonomy['slug']);
+                    $taxonomy['singular_name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['slug'])));
                 }
             }
             if (!isset($taxonomy['slug'])) {
