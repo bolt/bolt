@@ -329,6 +329,7 @@ class Config
     protected function parseTaxonomy(array $taxonomies = null)
     {
         $taxonomies = $taxonomies ?: $this->parseConfigYaml('taxonomy.yml');
+        $slugify = Slugify::create();
 
         foreach ($taxonomies as $key => $taxonomy) {
             if (!isset($taxonomy['name'])) {
@@ -342,10 +343,10 @@ class Config
                 }
             }
             if (!isset($taxonomy['slug'])) {
-                $taxonomy['slug'] = strtolower(Str::makeSafe($taxonomy['name']));
+                $taxonomy['slug'] = $slugify->slugify($taxonomy['name']);
             }
             if (!isset($taxonomy['singular_slug'])) {
-                $taxonomy['singular_slug'] = strtolower(Str::makeSafe($taxonomy['singular_name']));
+                $taxonomy['singular_slug'] = $slugify->slugify($taxonomy['singular_name']);
             }
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
@@ -361,7 +362,7 @@ class Config
                     if (is_numeric($optionKey)) {
                         $optionKey = $optionValue;
                     }
-                    $optionKey = Slugify::create()->slugify($optionKey);
+                    $optionKey = $slugify->slugify($optionKey);
                     $options[$optionKey] = $optionValue;
                 }
                 $taxonomy['options'] = $options;
