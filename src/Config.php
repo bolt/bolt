@@ -322,11 +322,13 @@ class Config
     /**
      * Read and parse the taxonomy.yml configuration file.
      *
+     * @param array|null $taxonomies
+     *
      * @return array
      */
-    protected function parseTaxonomy()
+    protected function parseTaxonomy(array $taxonomies = null)
     {
-        $taxonomies = $this->parseConfigYaml('taxonomy.yml');
+        $taxonomies = $taxonomies ?: $this->parseConfigYaml('taxonomy.yml');
 
         foreach ($taxonomies as $key => $taxonomy) {
             if (!isset($taxonomy['name'])) {
