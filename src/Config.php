@@ -365,6 +365,8 @@ class Config
             // If taxonomy is like tags, set 'tagcloud' to true by default.
             if (($taxonomy['behaves_like'] == 'tags') && (!isset($taxonomy['tagcloud']))) {
                 $taxonomy['tagcloud'] = true;
+            } else {
+                $taxonomy += ['tagcloud' => false];
             }
 
             $taxonomies[$key] = $taxonomy;
