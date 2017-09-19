@@ -154,7 +154,6 @@ final class Choice
 
         $values = [];
         if ($filter === null) {
-
             if ($orderBy !== null) {
                 if (substr($orderBy, 0, 1) === '-') {
                     $orderBy = [substr($orderBy, 1), 'DESC'];
