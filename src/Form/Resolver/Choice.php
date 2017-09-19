@@ -152,21 +152,25 @@ final class Choice
             }
         }
 
-        if ($orderBy !== null) {
-            if (substr($orderBy, 0, 1) === '-') {
-                $orderBy = [substr($orderBy, 1), 'DESC'];
-            } else {
-                $orderBy = [$orderBy, 'ASC'];
-            }
-        } else {
-            $orderBy = [$queryFields[0], 'ASC'];
-        }
-
         $values = [];
         if ($filter === null) {
+
+            if ($orderBy !== null) {
+                if (substr($orderBy, 0, 1) === '-') {
+                    $orderBy = [substr($orderBy, 1), 'DESC'];
+                } else {
+                    $orderBy = [$orderBy, 'ASC'];
+                }
+            } else {
+                $orderBy = [$queryFields[0], 'ASC'];
+            }
+
             $repo = $this->em->getRepository($contentType);
             $entities = $repo->findBy([], $orderBy, $limit);
         } else {
+            if (!isset($filter['order']) && $orderBy) {
+                $filter['order'] = $orderBy;
+            }
             /** @var QueryResultset $entities */
             $entities = $this->query->getContent($contentType, $filter);
         }
