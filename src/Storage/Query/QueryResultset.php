@@ -93,4 +93,12 @@ class QueryResultset extends AppendIterator implements Countable
 
         return reset($this->originalQueries);
     }
+
+    /**
+     * @return QueryBuilder[]
+     */
+    public function getOriginalQueries()
+    {
+        return $this->originalQueries;
+    }
 }
