@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Migration;
 
-use Doctrine\Common\Collections\Collection;
+use Bolt\Version;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
@@ -13,16 +13,33 @@ use Symfony\Component\Filesystem\Exception\IOException;
 class Export extends AbstractMigration
 {
     /** @var array */
-    private $contenttypes = [];
+    private $contentTypes = [];
     /** @var string */
     private $hash;
+
+    /**
+     * Export the meta information to the export file.
+     */
+    public function exportMetaInformation()
+    {
+        $data = [
+            '__bolt_meta_information' => [
+                'date_generated'    => date('Y-m-d H:i:s'),
+                'bolt_version'      => Version::VERSION,
+                'database_platform' => $this->app['db']->getDatabasePlatform()->getName(),
+            ],
+        ];
+        $this->writeMigrationFile($data, false, true);
+
+        return $this;
+    }
 
     /**
      * Export set ContentType's records to the export file.
      *
      * @return \Bolt\Storage\Migration\Export
      */
-    public function exportContenttypesRecords()
+    public function exportContentTypesRecords()
     {
         if ($this->getError()) {
             return $this;
@@ -30,10 +47,10 @@ class Export extends AbstractMigration
 
         // Keep track of our export progress as some data formats require closing elements
         $last = false;
-        $end  = array_keys($this->contenttypes);
+        $end  = array_keys($this->contentTypes);
         $end  = end($end);
 
-        foreach ($this->contenttypes as $key => $contenttype) {
+        foreach ($this->contentTypes as $key => $contenttype) {
             if ($key === $end) {
                 $last = true;
             }
@@ -137,9 +154,9 @@ class Export extends AbstractMigration
     {
         // If nothing is passed in, we assume we're using all conenttypes
         if (empty($contenttypeslugs)) {
-            $this->contenttypes = $this->app['storage']->getContentTypes();
+            $this->contentTypes = $this->app['storage']->getContentTypes();
 
-            if (empty($this->contenttypes)) {
+            if (empty($this->contentTypes)) {
                 $this->setError(true)->setErrorMessage('This installation of Bolt has no contenttypes configured!');
             }
 
@@ -156,8 +173,8 @@ class Export extends AbstractMigration
 
         if (empty($contenttype)) {
             $this->setError(true)->setErrorMessage("The requested ContentType '$contenttypeslugs' doesn't exist!");
-        } elseif (!isset($this->contenttypes[$contenttypeslugs])) {
-            $this->contenttypes[] = $contenttypeslugs;
+        } elseif (!isset($this->contentTypes[$contenttypeslugs])) {
+            $this->contentTypes[] = $contenttypeslugs;
         }
 
         return $this;

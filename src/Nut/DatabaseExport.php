@@ -63,6 +63,7 @@ class DatabaseExport extends BaseCommand
             ->checkMigrationFilesExist('export')
             ->checkMigrationFilesWriteable()
             ->checkContenttypeValid($input->getOption('contenttypes'))
+            ->exportMetaInformation()
             ->exportContenttypesRecords()
         ;
 

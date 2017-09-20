@@ -16,10 +16,12 @@ class Import extends AbstractMigration
 {
     /** @var array $data */
     protected $data;
-
+    /** @var array */
     protected $relationQueue = [];
-
+    /** @var bool */
     protected $allowOverwrite = false;
+    /** @var array */
+    protected $contentTypes = [];
 
     /**
      * Set the migration files.
@@ -118,6 +120,14 @@ class Import extends AbstractMigration
 
             // Validate all the contenttypes in this file
             foreach ($data as $contenttypeslug => $values) {
+                // If we have meta information, output it, and continue with the next one.
+                if ($contenttypeslug === '__bolt_meta_information') {
+                    foreach ($values as $key => $value) {
+                        $this->setNotice(true)->setNoticeMessage("Meta information: {$key} = {$value}");
+                    }
+                    continue 2;
+                }
+
                 if (!$this->checkContenttypesValid($filename, $contenttypeslug)) {
                     return false;
                 }
