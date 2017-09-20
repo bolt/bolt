@@ -3,8 +3,8 @@
 namespace Bolt\Form\Resolver;
 
 use ArrayObject;
+use Bolt\Collection\Bag;
 use Bolt\Storage\Entity\Content;
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryResultset;
@@ -18,20 +18,16 @@ use Bolt\Storage\Query\QueryResultset;
  */
 final class Choice
 {
-    /** @var EntityManager */
-    private $em;
     /** @var Query */
     private $query;
 
     /**
      * Constructor.
      *
-     * @param EntityManager $em
-     * @param Query         $query
+     * @param Query $query
      */
-    public function __construct(EntityManager $em, Query $query)
+    public function __construct(Query $query)
     {
-        $this->em = $em;
         $this->query = $query;
     }
 
@@ -85,41 +81,23 @@ final class Choice
         if ($field['type'] !== 'select') {
             return null;
         }
-        $field += [
-            'values'   => [],
-            'limit'    => null,
-            'filter'   => null,
-            'sort'     => null,
-        ];
-        $values = $field['values'];
-        $limit = $field['limit'];
-        $sort = $field['sort'];
-        $filter = $field['filter'];
-        $key = isset($field['keys']) ? $field['keys'] : 'id';
-        $orderBy = $field['sort'];
+        $field = Bag::from($field);
 
         // Get the appropriate values
-        return is_string($values)
-            ? $this->getEntityValues($values, $limit, $filter, $key, $orderBy)
-            : $this->getYamlValues($values, $limit, $sort)
-        ;
+        return is_string($field->get('values', [])) ? $this->getEntityValues($field) : $this->getYamlValues($field);
     }
 
     /**
      * Return a YAML defined array of select field value options.
      *
-     * @param array $values
-     * @param int   $limit
-     * @param bool  $sort
+     * @param Bag $field
      *
      * @return array
      */
-    private function getYamlValues(array $values, $limit, $sort)
+    private function getYamlValues(Bag $field)
     {
-        if ($values !== null) {
-            $values = array_slice($values, 0, $limit);
-        }
-        if ($sort) {
+        $values = array_slice($field->get('values', []), 0, $field->get('limit'));
+        if ($field->get('sortable')) {
             asort($values, SORT_REGULAR);
         }
 
@@ -129,57 +107,38 @@ final class Choice
     /**
      * Return select field value options from a ContentType's records.
      *
-     * @param string      $queryString
-     * @param int         $limit
-     * @param array       $filter
-     * @param string      $key
-     * @param string|null $orderBy
+     * @param Bag $field
      *
      * @return array
      */
-    private function getEntityValues($queryString, $limit, $filter, $key, $orderBy = null)
+    private function getEntityValues(Bag $field)
     {
-        $baseParts = explode('/', $queryString);
+        $baseParts = explode('/', $field->get('values'));
         if (count($baseParts) < 2) {
-            throw new \InvalidArgumentException(sprintf('The "values" key for a ContentType select must be in the form of ContentType/field_name but "%s" given', $queryString));
+            throw new \InvalidArgumentException(sprintf('The "values" key for a ContentType select must be in the form of ContentType/field_name but "%s" given', $field->get('values')));
         }
 
         $contentType = $baseParts[0];
         $queryFields = explode(',', $baseParts[1]);
         foreach ($queryFields as $queryField) {
-            if ($queryField === '') {
-                throw new \InvalidArgumentException(sprintf('The "values" key for a ContentType select must include a single field, or comma separated fields, "%s" given', $queryString));
+            if ($queryField) {
+                continue;
             }
+            throw new \InvalidArgumentException(sprintf('The "values" key for a ContentType select must include a single field, or comma separated fields, "%s" given', $field->get('values')));
+        }
+
+        $filter = $field->get('filter');
+        $filter['order'] = $field->get('sort');
+        /** @var QueryResultset $entities */
+        $entities = $this->query->getContent($contentType, $filter);
+        if (!$entities) {
+            return [];
         }
 
         $values = [];
-        if ($filter === null) {
-            if ($orderBy !== null) {
-                if (substr($orderBy, 0, 1) === '-') {
-                    $orderBy = [substr($orderBy, 1), 'DESC'];
-                } else {
-                    $orderBy = [$orderBy, 'ASC'];
-                }
-            } else {
-                $orderBy = [$queryFields[0], 'ASC'];
-            }
-
-            $repo = $this->em->getRepository($contentType);
-            $entities = $repo->findBy([], $orderBy, $limit);
-        } else {
-            if (!isset($filter['order']) && $orderBy) {
-                $filter['order'] = $orderBy;
-            }
-            /** @var QueryResultset $entities */
-            $entities = $this->query->getContent($contentType, $filter);
-        }
-        if (!$entities) {
-            return $values;
-        }
-
-        /** @var Content $entity */
         foreach ($entities as $entity) {
-            $id = $entity->get($key);
+            /** @var Content $entity */
+            $id = $entity->get($field->get('keys', 'id'));
             $values[$id] = $entity->get($queryFields[0]);
             if (isset($queryFields[1])) {
                 $values[$id] .= ' / ' . $entity->get($queryFields[1]);
