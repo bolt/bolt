@@ -129,7 +129,7 @@ class Listing
                 ->setTotalpages(ceil($totalResults / $query->getMaxResults()))
                 ->setCurrent($currentPage)
                 ->setShowingFrom(($start * $query->getMaxResults()) + 1)
-                ->setShowingTo((($start - 1) * $query->getMaxResults()) + count($results));
+                ->setShowingTo((($start - 1) * $query->getMaxResults()) + $results->count());
         }
     }
 }
