@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Migration;
 
 use Bolt\Collection\Arr;
+use Bolt\Collection\MutableBag;
 use Bolt\Storage\Entity\Relations;
 use Bolt\Storage\Field\Type\RelationType;
 use Bolt\Storage\Repository;
@@ -179,8 +180,10 @@ class Import extends AbstractMigration
      */
     protected function insertRecord($filename, $contenttypeslug, array $values)
     {
+        $title = $this->getTitle($contenttypeslug, $values);
+
         // Determine a/the slug
-        $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($values['title']), 0, 127);
+        $slug = isset($values['slug']) ? $values['slug'] : substr($this->app['slugify']->slugify($title), 0, 127);
 
         if (!$this->isRecordUnique($contenttypeslug, $slug)) {
             $this->setWarning(true)->setWarningMessage("File '$filename' has an exiting ContentType '$contenttypeslug' with the slug '$slug'! Skipping record.");
@@ -189,17 +192,10 @@ class Import extends AbstractMigration
         }
 
         // Get a status
-        $status = isset($values['status']) ? $values['status'] : $this->contenttypes[$contenttypeslug]['default_status'];
+        $status = isset($values['status']) ? $values['status'] : $this->contentTypes[$contenttypeslug]['default_status'];
 
         // Transform the 'publish' action to a 'published' status
         $status = $status === 'publish' ? 'published' : $status;
-
-        // Insist on a title field
-        if (!isset($values['title'])) {
-            $this->setWarning(true)->setWarningMessage("File '$filename' has a '$contenttypeslug' with a missing title field! Skipping record.");
-
-            return false;
-        }
 
         // If not given a publish date, set it to now
         if (!isset($values['datepublish'])) {
@@ -234,11 +230,11 @@ class Import extends AbstractMigration
         }
 
         if ($repo->save($record) === false) {
-            $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$values['title']} from '$filename'! Skipping record.");
+            $this->setWarning(true)->setWarningMessage("Failed to imported record with title: {$title} from '$filename'! Skipping record.");
 
             return false;
         }
-        $this->setNotice(true)->setNoticeMessage("Imported record to {$contenttypeslug} with title: {$values['title']}.");
+        $this->setNotice(true)->setNoticeMessage("Imported record to {$contenttypeslug} with title: {$title}.");
 
         return true;
     }
@@ -282,5 +278,31 @@ class Import extends AbstractMigration
             $entity->setRelation($related);
             $this->app['storage']->save($entity);
         }
+    }
+
+    /**
+     * Get a title for display purposes.
+     *
+     * @param string $contentTypeName
+     * @param array  $values
+     *
+     * @return string
+     */
+    protected function getTitle($contentTypeName, $values)
+    {
+        if (isset($this->contentTypes[$contentTypeName]['fields']['slug']['uses'])) {
+            $slugUses = (array) $this->contentTypes[$contentTypeName]['fields']['slug']['uses'];
+        } else {
+            $slugUses = ['title'];
+        }
+
+        $title = MutableBag::from([]);
+        foreach ($slugUses as $key) {
+            if (isset($values[$key])) {
+                $title[] = $values[$key];
+            }
+        }
+
+        return $title->join(' ') ?: '[Untitled Record]';
     }
 }
