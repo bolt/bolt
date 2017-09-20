@@ -101,8 +101,8 @@ class Listing
         if ($records === false && $options->getPage() !== null) {
             $contentParameters['page'] = $options->getPreviousPage();
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
-            $this->runPagerQueries($records);
         }
+        $this->runPagerQueries($records);
 
         return $records;
     }
