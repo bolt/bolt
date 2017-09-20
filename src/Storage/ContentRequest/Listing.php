@@ -101,6 +101,7 @@ class Listing
         if ($records === false && $options->getPage() !== null) {
             $contentParameters['page'] = $options->getPreviousPage();
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
+            $this->runPagerQueries($records);
         }
 
         return $records;
@@ -109,10 +110,12 @@ class Listing
     /**
      * @param QueryResultset $results
      */
-    protected function runPagerQueries(QueryResultset $results)
+    protected function runPagerQueries($results)
     {
+        if (!$results instanceof QueryResultset) {
+            return;
+        }
         foreach ($results->getOriginalQueries() as $pagerName => $query) {
-
             $queryCopy = clone $query;
             $queryCopy->setMaxResults(null);
             $queryCopy->setFirstResult(null);
@@ -121,14 +124,12 @@ class Listing
             $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
             $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
 
-            $pager = $this->pager->createPager($pagerName)
+            $this->pager->createPager($pagerName)
                 ->setCount($totalResults)
                 ->setTotalpages(ceil($totalResults / $query->getMaxResults()))
                 ->setCurrent($currentPage)
                 ->setShowingFrom(($start * $query->getMaxResults()) + 1)
                 ->setShowingTo((($start - 1) * $query->getMaxResults()) + count($results));
         }
-
-
     }
 }
