@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Query\Directive;
 
-use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\Query\SelectQuery;
 
 /**
@@ -13,10 +12,11 @@ class OffsetDirective
     /**
      * @param SelectQuery $query
      * @param $page
+     * @param $otherDirectives
      */
-    public function __invoke(SelectQuery $query, $page)
+    public function __invoke(SelectQuery $query, $page, $otherDirectives)
     {
-        $limit = $query->getParameter('limit');
+        $limit = $otherDirectives['limit'] ? $otherDirectives['limit'] : 0;
         $query->getQueryBuilder()->setFirstResult(($page - 1) * $limit);
     }
 }

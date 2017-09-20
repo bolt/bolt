@@ -226,7 +226,7 @@ class ContentQueryParser
                 continue;
             }
             if (is_callable($this->getDirectiveHandler($key))) {
-                call_user_func($this->getDirectiveHandler($key), $query, $value);
+                call_user_func($this->getDirectiveHandler($key), $query, $value, $this->directives);
             }
         }
     }
