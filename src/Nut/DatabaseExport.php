@@ -35,9 +35,6 @@ class DatabaseExport extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Warn that this is experimental
-        $this->io->warning('This command operates on the current database, taking a backup is advised before export.');
-
         // Check if export file can be created
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
@@ -96,8 +93,8 @@ class DatabaseExport extends BaseCommand
         if ($input->getOption('no-interaction')) {
             return true;
         }
-        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the export?</question>');
+        $this->io->warning('This command operates on the current database, taking a backup is advised before export.');
 
-        return $this->io->askQuestion($question);
+        return $this->io->confirm('Are you sure you want to continue with the export');
     }
 }

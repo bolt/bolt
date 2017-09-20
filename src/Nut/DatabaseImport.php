@@ -36,9 +36,6 @@ class DatabaseImport extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Warn that this is experimental
-        $this->io->warning('This command may overwrite or replace data in the current database.');
-
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
         if (empty($file) && empty($directory)) {
@@ -125,8 +122,8 @@ class DatabaseImport extends BaseCommand
         if ($input->getOption('no-interaction')) {
             return true;
         }
-        $question = new ConfirmationQuestion('<question>Are you sure you want to continue with the import?</question>', false);
+        $this->io->warning('This command may overwrite or replace data in the current database.');
 
-        return $this->io->askQuestion($question);
+        return $this->io->confirm('Are you sure you want to continue with the import?', false);
     }
 }
