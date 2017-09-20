@@ -44,7 +44,7 @@ class SelectQueryHandler
 
             $result = $repo->queryWith($query);
             if ($result) {
-                $set->setOriginalQuery($contentType, $query);
+                $set->setOriginalQuery($contentType, $query->getQueryBuilder());
                 $set->add($result, $contentType);
             }
         }
