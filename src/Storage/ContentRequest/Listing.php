@@ -3,9 +3,11 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
+use Bolt\Pager\PagerManager;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Query;
+use Bolt\Storage\Query\QueryResultset;
 
 /**
  * Helper class for ContentType overview listings.
@@ -20,19 +22,23 @@ class Listing
     protected $config;
     /** @var Query */
     private $query;
+    /** @var PagerManager */
+    protected $pager;
 
     /**
      * Constructor.
      *
      * @param EntityManager $em
-     * @param Query         $query
-     * @param Config        $config
+     * @param Query $query
+     * @param Config $config
+     * @param PagerManager $pager
      */
-    public function __construct(EntityManager $em, Query $query, Config $config)
+    public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager)
     {
         $this->em = $em;
         $this->query = $query;
         $this->config = $config;
+        $this->pager = $pager;
     }
 
     /**
@@ -98,5 +104,31 @@ class Listing
         }
 
         return $records;
+    }
+
+    /**
+     * @param QueryResultset $results
+     */
+    protected function runPagerQueries(QueryResultset $results)
+    {
+        foreach ($results->getOriginalQueries() as $pagerName => $query) {
+
+            $queryCopy = clone $query;
+            $queryCopy->setMaxResults(null);
+            $queryCopy->setFirstResult(null);
+
+            $totalResults = (int)$queryCopy->execute()->fetchColumn();
+            $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
+            $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
+
+            $pager = $this->pager->createPager($pagerName)
+                ->setCount($totalResults)
+                ->setTotalpages(ceil($totalResults / $query->getMaxResults()))
+                ->setCurrent($currentPage)
+                ->setShowingFrom(($start * $query->getMaxResults()) + 1)
+                ->setShowingTo((($start - 1) * $query->getMaxResults()) + count($results));
+        }
+
+
     }
 }
