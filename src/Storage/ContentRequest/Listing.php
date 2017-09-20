@@ -117,10 +117,11 @@ class Listing
         }
         foreach ($results->getOriginalQueries() as $pagerName => $query) {
             $queryCopy = clone $query;
+            $queryCopy->select('count(*)');
             $queryCopy->setMaxResults(null);
             $queryCopy->setFirstResult(null);
 
-            $totalResults = (int)$queryCopy->execute()->fetchColumn();
+            $totalResults = (int)$queryCopy->execute()->rowCount();
             $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
             $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
 
@@ -129,7 +130,7 @@ class Listing
                 ->setTotalpages(ceil($totalResults / $query->getMaxResults()))
                 ->setCurrent($currentPage)
                 ->setShowingFrom(($start * $query->getMaxResults()) + 1)
-                ->setShowingTo((($start - 1) * $query->getMaxResults()) + $results->count());
+                ->setShowingTo(($start * $query->getMaxResults()) + $results->count());
         }
     }
 }
