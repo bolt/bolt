@@ -7,6 +7,7 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Directive\GetQueryDirective;
 use Bolt\Storage\Query\Directive\HydrateDirective;
 use Bolt\Storage\Query\Directive\LimitDirective;
+use Bolt\Storage\Query\Directive\OffsetDirective;
 use Bolt\Storage\Query\Directive\OrderDirective;
 use Bolt\Storage\Query\Directive\PagingDirective;
 use Bolt\Storage\Query\Directive\PrintQueryDirective;
@@ -86,6 +87,7 @@ class ContentQueryParser
         $this->addDirectiveHandler('hydrate', new HydrateDirective());
         $this->addDirectiveHandler('limit', new LimitDirective());
         $this->addDirectiveHandler('order', new OrderDirective());
+        $this->addDirectiveHandler('page', new OffsetDirective());
         $this->addDirectiveHandler('paging', new PagingDirective());
         $this->addDirectiveHandler('printquery', new PrintQueryDirective());
         $this->addDirectiveHandler('returnsingle', new ReturnSingleDirective());
