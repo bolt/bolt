@@ -33,7 +33,7 @@ class Listing
      * @param Config $config
      * @param PagerManager $pager
      */
-    public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager)
+    public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager = null)
     {
         $this->em = $em;
         $this->query = $query;
