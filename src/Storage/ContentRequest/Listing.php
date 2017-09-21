@@ -112,7 +112,7 @@ class Listing
      */
     protected function runPagerQueries($results)
     {
-        if (!$results instanceof QueryResultset) {
+        if (!$results instanceof QueryResultset || $this->pager === null) {
             return;
         }
         foreach ($results->getOriginalQueries() as $pagerName => $query) {
