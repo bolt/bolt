@@ -6,6 +6,7 @@ use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
@@ -103,8 +104,9 @@ class Modify
     protected function deleteRecord(Repository $repo, Content $entity)
     {
         $recordId = $entity->getId();
+        /** @var Mapping\ContentType $contentType */
         $contentType = $entity->getContenttype();
-        $contentTypeName = $contentType['singular_name'];
+        $contentTypeName = (string) $contentType;
         if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
             $this->loggerFlash->error(Trans::__('general.access-denied.content-not-modified', ['%title%' => $entity->getTitle()]));
 
@@ -112,7 +114,7 @@ class Modify
         }
         $result = $repo->delete($entity);
         if ($result) {
-            $this->loggerSystem->info(sprintf('Deleted %s: %s', $contentTypeName, $entity->getTitle()), ['event' => 'content']);
+            $this->loggerSystem->info(sprintf('Deleted %s: %s', $contentType['singular_name'], $entity->getTitle()), ['event' => 'content']);
         }
 
         return $result;
