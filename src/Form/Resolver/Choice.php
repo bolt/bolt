@@ -128,7 +128,7 @@ final class Choice
         }
 
         $filter = $field->get('filter');
-        $filter['order'] = $field->get('sort');
+        $filter['order'] = $field->get('sort', $queryFields[0]);
         /** @var QueryResultset $entities */
         $entities = $this->query->getContent($contentType, $filter);
         if (!$entities) {
