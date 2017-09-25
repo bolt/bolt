@@ -2,11 +2,17 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Storage\Migration\Export;
+use Bolt\Collection\MutableBag;
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
+use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Filesystem\Handler\YamlFile;
+use Bolt\Storage\Migration;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Webmozart\PathUtil\Path;
 
 /**
  * Nut database exporter command.
@@ -23,10 +29,9 @@ class DatabaseExport extends BaseCommand
         $this
             ->setName('database:export')
             ->setDescription('Export the database records to a YAML or JSON file.')
-            ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addOption('contenttypes',   'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'One or more ContentTypes to export records for.')
-            ->addOption('file',           'f', InputOption::VALUE_OPTIONAL, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
-            ->addOption('directory',      'd', InputOption::VALUE_OPTIONAL, 'A destination directory. The command will automatically generate filenames.')
+            ->addOption('file',        'f', InputOption::VALUE_REQUIRED, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
+            ->addOption('directory',   'd', InputOption::VALUE_REQUIRED, 'A destination directory. The command will automatically generate file names.')
+            ->addOption('contenttype', 'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ContentType name to export records for (can be used multiple times).')
         ;
     }
 
@@ -35,67 +40,62 @@ class DatabaseExport extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Check if export file can be created
-        $file = $input->getOption('file');
-        $directory = $input->getOption('directory');
-        if (empty($file) && empty($directory)) {
-            throw new \RuntimeException('One of the --file or --directory options is required.');
+        // Get file & directory paths
+        list($fileName, $dirPath) = $this->getResolvedPaths($input);
+        $filesystem = new Filesystem(new Local($dirPath));
+        /** @var JsonFile|YamlFile $file */
+        $file = $filesystem->getFile($fileName);
+
+        $this->io->warning('This command operates on the current database, taking a backup is advised before export.');
+        if (!$this->io->confirm('Are you sure you want to continue with the export')) {
+            return 1;
         }
 
-        // See if we're going to continue
-        if ($this->checkContinue($input) === false) {
-            return 0;
-        }
+        // Bag of ContentType names to export
+        $exportContentTypes = (array) $input->getOption('contenttype') ?: array_keys($this->app['config']->get('contenttypes'));
+        // Response bag
+        $responseBag = MutableBag::fromRecursive(['error' => [], 'warning' => [], 'success' => []]);
 
-        // If we are using the directory option, then we create the file and verify.
-        if (empty($file) && isset($directory)) {
-            $prefix = date('YmdHis');
-            $file = rtrim($directory, '/') . '/' . $prefix . '.yml';
-        }
+        $migration = new Migration\Export($this->app['storage'], $this->app['query']);
+        $exportData = $migration->run($exportContentTypes, $responseBag);
 
-        // Get the Bolt Export migration object
-        $export = new Export($this->app);
+        // Dump the file
+        $file->dump($exportData->toArrayRecursive(), ['inline' => 4]);
 
-        // Check the file extension is valid and writeable
-        $export
-            ->setMigrationFiles($file)
-            ->checkMigrationFilesValid(false)
-            ->checkMigrationFilesExist('export')
-            ->checkMigrationFilesWriteable()
-            ->checkContenttypeValid($input->getOption('contenttypes'))
-            ->exportMetaInformation()
-            ->exportContenttypesRecords()
-        ;
+        $this->io->note('Exported:');
+        $this->io->listing($responseBag->get('success')->toArray());
 
-        if (!$export->getError()) {
-            $this->io->success('Database exported to ' . $file);
+        $this->io->success('Database exported to ' . $fileName);
 
-            return 0;
-        }
-
-        foreach ($export->getErrorMessages() as $error) {
-            $this->io->writeln("<error>$error</error>");
-        }
-
-        $this->io->error('Aborting export!');
-
-        return 1;
+        return 0;
     }
 
     /**
-     * Check to see if we should continue.
-     *
      * @param InputInterface $input
      *
-     * @return boolean
+     * @throws RuntimeException
+     *
+     * @return array
      */
-    private function checkContinue(InputInterface $input)
+    private function getResolvedPaths(InputInterface $input)
     {
-        if ($input->getOption('no-interaction')) {
-            return true;
-        }
-        $this->io->warning('This command operates on the current database, taking a backup is advised before export.');
+        $fileName = $input->getOption('file');
+        $dirPath = $input->getOption('directory');
 
-        return $this->io->confirm('Are you sure you want to continue with the export');
+        if ($fileName === null && $dirPath === null) {
+            throw new RuntimeException('Either the --file or --directory option is required.');
+        }
+
+        $fileName = $fileName ?: rtrim($dirPath, '/') . '/' . date('YmdHis') . '.yml';
+        if (Path::isRelative($fileName)) {
+            $fileName = Path::makeAbsolute($fileName, getcwd());
+        }
+
+        $dirPath = $dirPath ?: dirname($fileName);
+        if (Path::isRelative($dirPath)) {
+            $dirPath = Path::makeAbsolute($dirPath, getcwd());
+        }
+
+        return [basename($fileName), $dirPath];
     }
 }
