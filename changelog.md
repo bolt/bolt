@@ -41,6 +41,47 @@ Bolt 3.4-dev
  - Fixed: Strict mode fixes for Repeater Blocks [#6593](https://github.com/bolt/bolt/pull/6593)
  - Tests: Deprecation import checks [#6723](https://github.com/bolt/bolt/pull/6723)
 
+Bolt 3.3.5
+----------
+
+Released 2017-09-25. Notable changes:
+
+ - Fixed: Loose compare `order` parameter as it can't be empty. Fixes breakage in FieldType Select without explicit ordering. [#7021](https://github.com/bolt/bolt/pull/7021) [#7019](https://github.com/bolt/bolt/pull/7019)
+ - Tests: Added coverage for `\Bolt\Storage\Query\Directive\OrderDirective`. [#7022](https://github.com/bolt/bolt/pull/7022)
+
+Bolt 3.3.4 - Codename "Happy birthday, Gawain! 🎉 🎊 🍺"
+-------------------------------------------------------
+
+Released 2017-09-22. Notable changes:
+
+ - Added: Add `is_numerical` check to Taxonomy selection. [#7010](https://github.com/bolt/bolt/pull/7010)
+ - Added: Add `roave/security-advisories` to `require-dev` [#6962](https://github.com/bolt/bolt/pull/6962)
+ - Added: Add CII badge [#6963](https://github.com/bolt/bolt/pull/6963)
+ - Added: Add inline variant to textarea field [#6983](https://github.com/bolt/bolt/pull/6983)
+ - Added: Added CSS to known extensions for files directory [#6964](https://github.com/bolt/bolt/pull/6964)
+ - Added: Support DBAL 2.6 [#6940](https://github.com/bolt/bolt/pull/6940)
+ - Change: [GitHub] Re-prioritise the issue template slightly [#6967](https://github.com/bolt/bolt/pull/6967)
+ - Change: Performance micro tweaks & tidies [#6958](https://github.com/bolt/bolt/pull/6958)
+ - Change: Refactor fields trait to extend the type service with new fields [#6954](https://github.com/bolt/bolt/pull/6954)
+ - Change: Update `messages.cs_CZ.yml` [#6971](https://github.com/bolt/bolt/pull/6971)
+ - Change: Yarn 1.0 — Burn NPM, burn [#6986](https://github.com/bolt/bolt/pull/6986)
+ - Fixed: [GitHub] Page-jumps in the contributing guide [#6990](https://github.com/bolt/bolt/pull/6990)
+ - Fixed: [Security] Use a prepared statement for `group_concat_max_len` query [#6984](https://github.com/bolt/bolt/pull/6984)
+ - Fixed: Add `FileMatcher` to repeater context [#6980](https://github.com/bolt/bolt/pull/6980)
+ - Fixed: Additional schema change updates. (DBAL related) [#6966](https://github.com/bolt/bolt/pull/6966)
+ - Fixed: Broken links, add links to `changelog.md`. [#6975](https://github.com/bolt/bolt/pull/6975)
+ - Fixed: Don't try to use empty array, and only use objects as objects [#6959](https://github.com/bolt/bolt/pull/6959)
+ - Fixed: Fix AJAX detection logic in snippet listener. Prevents Meta tags sneaking in on Ajaxy requests. [#6993](https://github.com/bolt/bolt/pull/6993)
+ - Fixed: Fix linking for files in CKEditor [#6976](https://github.com/bolt/bolt/pull/6976)
+ - Fixed: Fixes regex warnings on Windows when a directory name starts with a 'p' [#6950](https://github.com/bolt/bolt/pull/6950)
+ - Fixed: Group Concat settings in `config.yml` [#6978](https://github.com/bolt/bolt/pull/6978)
+ - Fixed: Handle mismatch between type & column names for `json_array` to `json` [#6981](https://github.com/bolt/bolt/pull/6981)
+ - Fixed: More fixes for DBAL 2.5 => 2.6 update. [#7000](https://github.com/bolt/bolt/pull/7000)
+ - Fixed: Pass boolean string as `boolean` to YamlUpdater [#6988](https://github.com/bolt/bolt/pull/6988)
+ - Fixed: Pass in the default `orderby` to a filter on the select fieldtype [#7011](https://github.com/bolt/bolt/pull/7011)
+ - Fixed: PermissionParser is not handling UTF-8 properly [#7017](https://github.com/bolt/bolt/pull/7017)
+ - Fixed: Taxonomies shown correctly as 'selected'. Fixes: Taxonomies get saved as 'slugs', but not checked as such in the editor. [#6995](https://github.com/bolt/bolt/pull/6995)
+
 Bolt 3.3.3
 ----------
 
