@@ -1,6 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.5
+----------
+
+Released 2017-09-25. Notable changes:
+
+ - Fixed: Loose compare `order` parameter as it can't be empty. Fixes breakage in FieldType Select without explicit ordering. [#7021](https://github.com/bolt/bolt/pull/7021) [#7019](https://github.com/bolt/bolt/pull/7019)
+ - Tests: Added coverage for `\Bolt\Storage\Query\Directive\OrderDirective`. [#7022](https://github.com/bolt/bolt/pull/7022)
+
 Bolt 3.3.4 - Codename "Happy birthday, Gawain! 🎉 🎊 🍺"
 -------------------------------------------------------
 
