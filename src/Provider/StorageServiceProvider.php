@@ -220,7 +220,7 @@ class StorageServiceProvider implements ServiceProviderInterface, BootableProvid
         };
 
         $app['storage.request.listing'] = function ($app) {
-            $cr = new ContentRequest\Listing($app['storage'], $app['query'], $app['config']);
+            $cr = new ContentRequest\Listing($app['storage'], $app['query'], $app['config'], $app['pager']);
 
             return $cr;
         };

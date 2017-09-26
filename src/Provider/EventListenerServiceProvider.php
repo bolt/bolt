@@ -105,6 +105,14 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
         $app['listener.zone_guesser'] = function ($app) {
             return new Listener\ZoneGuesser($app);
         };
+
+        $app['listener.profile'] = function ($app) {
+            return new Listener\ProfilerListener(
+                $app['session'],
+                $app['debug'],
+                $app['config']->get('general/debug_show_loggedoff')
+            );
+        };
     }
 
     public function boot(Application $app)
@@ -135,5 +143,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
         if (isset($app['listener.exception']) && !$app['config']->get('general/debug_error_use_symfony')) {
             $dispatcher->addSubscriber($app['listener.exception']);
         }
+
+        $dispatcher->addSubscriber($app['listener.profile']);
     }
 }
