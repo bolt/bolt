@@ -4,10 +4,8 @@ namespace Bolt\Tests\Form\Resolver;
 
 use Bolt\Form\Resolver\Choice;
 use Bolt\Storage\Entity\Content;
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Query\Query;
-use Bolt\Storage\Repository\ContentRepository;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -18,147 +16,102 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class ChoiceTest extends TestCase
 {
-    public function testGetYamlNoSelect()
+    public function providerGetYaml()
     {
-        $resolver = $this->getResolver();
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'text_field' => ['type'   => 'text'],
+        return [
+            'No select fields present' => [
+                null,
+                ['text_field' => ['type' => 'text']],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertNull($result);
-    }
-
-    public function testGetYamlIndexArray()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo', 'bar', 'koala', 'drop bear'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
+            'Field with indexed array' => [
+                ['select_array' => ['foo', 'bar', 'koala', 'drop bear']],
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => ['foo', 'bar', 'koala', 'drop bear'],
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame(['select_array' => $values], $result);
-    }
-
-    public function testGetYamlRepeaterIndexArray()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo', 'bar', 'koala', 'drop bear'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'repeater' => [
-                    'type'   => 'repeater',
-                    'fields' => [
-                        'select_array' => [
-                            'type'   => 'select',
-                            'values' => $values,
+            'Repeater field with indexed array' => [
+                ['select_array' => ['foo', 'bar', 'koala', 'drop bear']],
+                [
+                    'repeater' => [
+                        'type'   => 'repeater',
+                        'fields' => [
+                            'select_array' => [
+                                'type'   => 'select',
+                                'values' => ['foo', 'bar', 'koala', 'drop bear'],
+                            ],
                         ],
                     ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame(['select_array' => $values], $result);
-    }
-
-    public function testGetYamlIndexArraySorted()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo', 'bar', 'koala', 'drop bear'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'sort'   => true,
-                    'values' => $values,
+            'Field with sorted indexed array' => [
+                ['select_array' => [1 => 'bar', 3 => 'drop bear', 0 => 'foo', 2 => 'koala']],
+                [
+                    'select_array' => [
+                        'type'     => 'select',
+                        'sortable' => true,
+                        'values'   => ['foo', 'bar', 'koala', 'drop bear'],
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-        asort($values, SORT_REGULAR);
-
-        $this->assertSame(['select_array' => $values], $result);
-    }
-
-    public function testGetYamlIndexArrayLimit()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo', 'bar', 'koala', 'drop bear'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'limit'  => 2,
-                    'values' => $values,
+            'Field with limited count indexed array' => [
+                ['select_array' => ['foo', 'bar']],
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'limit'  => 2,
+                        'values' => ['foo', 'bar', 'koala', 'drop bear'],
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame(['select_array' => array_slice($values, 0, 2)], $result);
-    }
-
-    public function testGetYamlHashArray()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
+            'Field with hashed array' => [
+                ['select_array' => ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger']],
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'],
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame(['select_array' => $values], $result);
-    }
-
-    public function testGetYamlHashArraySorted()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'sort'   => true,
-                    'values' => $values,
+            'Field with sorted hashed array' => [
+                ['select_array' => ['drop bear' => 'Danger Danger', 'foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny']],
+                [
+                    'select_array' => [
+                        'type'     => 'select',
+                        'sortable' => true,
+                        'values'   => ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'],
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-        asort($values, SORT_REGULAR);
-
-        $this->assertSame(['select_array' => $values], $result);
-    }
-
-    public function testGetYamlHashArrayLimit()
-    {
-        $resolver = $this->getResolver();
-        $values = ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'];
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'limit'  => 2,
-                    'values' => $values,
+            'Field with limited count hashed array' => [
+                ['select_array' => ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar']],
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'limit'  => 2,
+                        'values' => ['foo' => 'Foo Magoo', 'bar' => 'Iron Bar', 'koala' => 'Kenny', 'drop bear' => 'Danger Danger'],
+                    ],
                 ],
             ],
-        ]);
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetYaml
+     *
+     * @param mixed $expected
+     * @param array $fields
+     */
+    public function testGetYaml($expected, array $fields)
+    {
+        $resolver = $this->getResolver();
+        $contentType = new ContentType('koala', ['fields' => $fields]);
+
         $result = $resolver->get($contentType, []);
 
-        $this->assertSame(['select_array' => array_slice($values, 0, 2)], $result);
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -199,187 +152,165 @@ class ChoiceTest extends TestCase
         $resolver->get($contentType, []);
     }
 
-    public function testGetEntitiesNotFound()
+    public function providerGetEntities()
     {
-        // Not passing entities into the mock will return a false inside the
-        // SUT, which should become an empty array.
-        $resolver = $this->getResolver();
-        $values = 'contenttype/field_1';
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
+        $entities = $this->getEntities();
+
+        return [
+            'No entities found' => [
+                // Not passing entities into the mock will return a false inside the
+                // SUT, which should become an empty array.
+                ['select_array' => []],
+                null,
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1',
+                    ],
                 ],
             ],
-        ]);
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame(['select_array' => []], $result);
-    }
-
-    public function testGetEntityOneField()
-    {
-        $resolver = $this->getResolver($this->getEntities());
-        $values = 'contenttype/field_1';
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
+            'Single ContentType field' => [
+                [
+                    'select_array' => [
+                        10 => 'Foo Magoo',
+                        22 => 'Iron Bar',
+                        33 => 'Kenny Koala',
+                        42 => 'Drop Bear',
+                    ],
+                ],
+                $entities,
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1',
+                    ],
                 ],
             ],
-        ]);
-        $expect = [
-            'select_array' => [
-                10 => 'Foo Magoo',
-                22 => 'Iron Bar',
-                33 => 'Kenny Koala',
-                42 => 'Drop Bear',
+            'Two ContentType fields' => [
+                [
+                    'select_array' => [
+                        10 => 'Foo Magoo / Magoo Foo',
+                        22 => 'Iron Bar / Bar Iron',
+                        33 => 'Kenny Koala / Koala Kenny',
+                        42 => 'Drop Bear / Danger Danger',
+                    ],
+                ],
+                $entities,
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1,field_2',
+                    ],
+                ],
+            ],
+            'Two ContentType fields with filter' => [
+                [
+                    'select_array' => [
+                        10 => 'Foo Magoo / Magoo Foo',
+                        22 => 'Iron Bar / Bar Iron',
+                        33 => 'Kenny Koala / Koala Kenny',
+                        42 => 'Drop Bear / Danger Danger',
+                    ],
+                ],
+                $entities,
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1,field_2',
+                        'filter' => ['category' => 'test'],
+                    ],
+                ],
+            ],
+            'Single ContentType field with different keys' => [
+                [
+                    'select_array' => [
+                        'Magoo Foo'     => 'Foo Magoo',
+                        'Bar Iron'      => 'Iron Bar',
+                        'Koala Kenny'   => 'Kenny Koala',
+                        'Danger Danger' => 'Drop Bear',
+                    ],
+                ],
+                $entities,
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1',
+                        'keys'   => 'field_2',
+                        'filter' => ['category' => 'test'],
+                    ],
+                ],
             ],
         ];
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame($expect, $result);
     }
 
-    public function testGetEntityTwoFields()
+    /**
+     * @dataProvider providerGetEntities
+     *
+     * @param array $expected
+     * @param array $mockReturn
+     * @param array $fields
+     */
+    public function testGetEntities(array $expected, $mockReturn, array $fields)
     {
-        $resolver = $this->getResolver($this->getEntities());
-        $values = 'contenttype/field_1,field_2';
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
+        $resolver = $this->getResolver($mockReturn);
+        $contentType = new ContentType('koala', ['fields' => $fields]);
+
+        $result = $resolver->get($contentType, []);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function providerEntitySorted()
+    {
+        return [
+            'Sorted normal' => [
+                'field_1',
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1,field_2',
+                        'sort'   => 'field_1',
+                    ],
                 ],
             ],
-        ]);
-        $expect = [
-            'select_array' => [
-                10 => 'Foo Magoo / Magoo Foo',
-                22 => 'Iron Bar / Bar Iron',
-                33 => 'Kenny Koala / Koala Kenny',
-                42 => 'Drop Bear / Danger Danger',
+            'Sorted reverse' => [
+                '-field_2',
+                [
+                    'select_array' => [
+                        'type'   => 'select',
+                        'values' => 'contenttype/field_1,field_2',
+                        'sort'   => '-field_2',
+                    ],
+                ],
             ],
         ];
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame($expect, $result);
     }
 
-    public function testGetEntityFiltered()
+    /**
+     * @dataProvider providerEntitySorted
+     *
+     * @param string $expected
+     * @param array  $fields
+     */
+    public function testGetEntitySorted($expected, array $fields)
     {
-        $resolver = $this->getResolver(null, $this->getEntities());
-        $values = 'contenttype/field_1,field_2';
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
-                    'filter' => ['category' => 'test'],
-                ],
-            ],
-        ]);
-        $expect = [
-            'select_array' => [
-                10 => 'Foo Magoo / Magoo Foo',
-                22 => 'Iron Bar / Bar Iron',
-                33 => 'Kenny Koala / Koala Kenny',
-                42 => 'Drop Bear / Danger Danger',
-            ],
-        ];
-        $result = $resolver->get($contentType, []);
+        $contentType = new ContentType('koala', ['fields' => $fields]);
 
-        $this->assertSame($expect, $result);
-    }
-
-    public function testGetEntityKeys()
-    {
-        $resolver = $this->getResolver(null, $this->getEntities());
-        $values = 'contenttype/field_1';
-        $contentType = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
-                    'keys'   => 'field_2',
-                    'filter' => ['category' => 'test'],
-                ],
-            ],
-        ]);
-        $expect = [
-            'select_array' => [
-                'Magoo Foo'     => 'Foo Magoo',
-                'Bar Iron'      => 'Iron Bar',
-                'Koala Kenny'   => 'Kenny Koala',
-                'Danger Danger' => 'Drop Bear',
-            ],
-        ];
-        $result = $resolver->get($contentType, []);
-
-        $this->assertSame($expect, $result);
-    }
-
-    public function testGetEntitySorted()
-    {
-        $values = 'contenttype/field_1,field_2';
-        $contentType1 = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
-                    'sort'   => 'field_1',
-                ],
-            ],
-        ]);
-
-        $contentType2 = new ContentType('koala', [
-            'fields' => [
-                'select_array' => [
-                    'type'   => 'select',
-                    'values' => $values,
-                    'sort'   => '-field_2',
-                ],
-            ],
-        ]);
-
-        $mockRepo = $this->getMockBuilder(ContentRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['findBy'])
-            ->getMock()
-        ;
-
-        $mockRepo->expects($this->at(0))
-            ->method('findBy')
-            ->with([], ['field_1', 'ASC'], null)
-        ;
-        $mockRepo->expects($this->at(1))
-            ->method('findBy')
-            ->with([], ['field_2', 'DESC'], null)
-        ;
-
-        $mockEntityManager = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getRepository'])
-            ->getMock()
-        ;
-
-        $mockEntityManager
-            ->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($mockRepo)
-        ;
-
+        /** @var Query|MockObject $mockQuery */
         $mockQuery = $this->getMockBuilder(Query::class)
             ->disableOriginalConstructor()
             ->setMethods(['getContent'])
             ->getMock()
         ;
+        $mockQuery
+            ->expects($this->at(0))
+            ->method('getContent')
+            ->with('contenttype', ['order' => $expected])
+        ;
 
-        $resolver = new Choice($mockEntityManager, $mockQuery);
-        $resolver->get($contentType1, []);
-        $resolver->get($contentType2, []);
+        $resolver = new Choice($mockQuery);
+
+        $resolver->get($contentType, []);
     }
 
     public function testGetTemplateFieldsSelect()
@@ -412,51 +343,26 @@ class ChoiceTest extends TestCase
     }
 
     /**
-     * @param array $repoReturn
-     * @param array $queryReturn
+     * @param array $mockReturn
      *
      * @return Choice
      */
-    private function getResolver($repoReturn = null, $queryReturn = null)
+    private function getResolver($mockReturn = null)
     {
-        /** @var ContentRepository|MockObject $mockRepo */
-        $mockRepo = $this->getMockBuilder(ContentRepository::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['findBy'])
-            ->getMock()
-        ;
-        if ($repoReturn) {
-            $mockRepo
-                ->expects($this->atLeastOnce())
-                ->method('findBy')
-                ->willReturn($repoReturn)
-            ;
-        }
-        /** @var EntityManager|MockObject $mockEntityManager */
-        $mockEntityManager = $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getRepository'])
-            ->getMock()
-        ;
-        $mockEntityManager
-            ->expects($this->any())
-            ->method('getRepository')
-            ->willReturn($mockRepo)
-        ;
         /** @var Query|MockObject $mockQuery */
         $mockQuery = $this->getMockBuilder(Query::class)
             ->disableOriginalConstructor()
             ->setMethods(['getContent'])
             ->getMock()
         ;
-        if ($queryReturn) {
+        if ($mockReturn) {
             $mockQuery
                 ->expects($this->atLeastOnce())
                 ->method('getContent')
-                ->willReturn($queryReturn)
+                ->willReturn($mockReturn)
             ;
         }
 
-        return new Choice($mockEntityManager, $mockQuery);
+        return new Choice($mockQuery);
     }
 }

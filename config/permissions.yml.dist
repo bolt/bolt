@@ -72,6 +72,7 @@ global:
     extensions:config: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
+    files:hidden: [ developer ]
     files:theme: [ developer ]
     files:uploads: [ admin, developer, chief-editor, editor ]
     files: [ admin, developer, chief-editor, editor ]

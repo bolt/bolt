@@ -66,7 +66,6 @@ class GuzzleDispatcherTest extends TestCase
         /** @var \Bolt\Filesystem\Handler\Image $mockFile */
         $mockFile = $filesystem->getFile('generic-logo.png');
         $fileData = $mockFile->readStream();
-        $dataUrl = 'data:image/png;base64,' . base64_encode($fileData);
 
         $mockHandler = new MockHandler([
             new Psr7\Response(200, ['Content-Type' => 'image/png'], $fileData),
@@ -80,7 +79,6 @@ class GuzzleDispatcherTest extends TestCase
         $urls = [
             Url::create($imageUrl),
             Url::create($thumbnailUrl),
-            Url::create($dataUrl),
         ];
 
         $responses = $dispatcher->dispatchImages($urls);
@@ -90,14 +88,10 @@ class GuzzleDispatcherTest extends TestCase
 
         /** @var ImageResponse $response */
         $response = $responses[0];
-        $this->assertSame($dataUrl, (string) $response->getUrl());
-        $this->assertSame($dataUrl, (string) $response->getStartingUrl());
-
-        $response = $responses[1];
         $this->assertSame($imageUrl, (string) $response->getUrl());
         $this->assertSame($imageUrl, (string) $response->getStartingUrl());
 
-        $response = $responses[2];
+        $response = $responses[1];
         $this->assertSame($thumbnailUrl, (string) $response->getUrl());
         $this->assertSame($thumbnailUrl, (string) $response->getStartingUrl());
     }

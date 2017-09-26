@@ -323,28 +323,31 @@ class Config
     /**
      * Read and parse the taxonomy.yml configuration file.
      *
+     * @param array|null $taxonomies
+     *
      * @return array
      */
-    protected function parseTaxonomy()
+    protected function parseTaxonomy(array $taxonomies = null)
     {
-        $taxonomies = $this->parseConfigYaml('taxonomy.yml');
+        $taxonomies = $taxonomies ?: $this->parseConfigYaml('taxonomy.yml');
+        $slugify = Slugify::create();
 
         foreach ($taxonomies as $key => $taxonomy) {
             if (!isset($taxonomy['name'])) {
-                $taxonomy['name'] = ucwords($taxonomy['slug']);
+                $taxonomy['name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['slug'])));
             }
             if (!isset($taxonomy['singular_name'])) {
                 if (isset($taxonomy['singular_slug'])) {
-                    $taxonomy['singular_name'] = ucwords($taxonomy['singular_slug']);
+                    $taxonomy['singular_name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['singular_slug'])));
                 } else {
-                    $taxonomy['singular_name'] = ucwords($taxonomy['slug']);
+                    $taxonomy['singular_name'] = ucwords(str_replace('-', ' ', Common\Str::humanize($taxonomy['slug'])));
                 }
             }
             if (!isset($taxonomy['slug'])) {
-                $taxonomy['slug'] = strtolower(Str::makeSafe($taxonomy['name']));
+                $taxonomy['slug'] = $slugify->slugify($taxonomy['name']);
             }
             if (!isset($taxonomy['singular_slug'])) {
-                $taxonomy['singular_slug'] = strtolower(Str::makeSafe($taxonomy['singular_name']));
+                $taxonomy['singular_slug'] = $slugify->slugify($taxonomy['singular_name']);
             }
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
@@ -357,7 +360,10 @@ class Config
             if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
                 $options = [];
                 foreach ($taxonomy['options'] as $optionKey => $optionValue) {
-                    $optionKey = Slugify::create()->slugify($optionKey);
+                    if (is_numeric($optionKey)) {
+                        $optionKey = $optionValue;
+                    }
+                    $optionKey = $slugify->slugify($optionKey);
                     $options[$optionKey] = $optionValue;
                 }
                 $taxonomy['options'] = $options;
@@ -369,6 +375,8 @@ class Config
             // If taxonomy is like tags, set 'tagcloud' to true by default.
             if (($taxonomy['behaves_like'] === 'tags') && (!isset($taxonomy['tagcloud']))) {
                 $taxonomy['tagcloud'] = true;
+            } else {
+                $taxonomy += ['tagcloud' => false];
             }
 
             $taxonomies[$key] = $taxonomy;
@@ -540,6 +548,9 @@ class Config
         }
         if (!isset($contentType['allow_numeric_slugs'])) {
             $contentType['allow_numeric_slugs'] = false;
+        }
+        if (!isset($contentType['singleton'])) {
+            $contentType['singleton'] = false;
         }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
