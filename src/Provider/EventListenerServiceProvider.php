@@ -97,6 +97,16 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 return new Listener\ZoneGuesser($app);
             }
         );
+
+        $app['listener.profile'] = $app->share(
+            function ($app) {
+                return new Listener\ProfilerListener(
+                    $app['session'],
+                    $app['debug'],
+                    $app['config']->get('general/debug_show_loggedoff')
+                );
+            }
+        );
     }
 
     public function boot(Application $app)
@@ -120,5 +130,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 $dispatcher->addSubscriber($app['listener.' . $name]);
             }
         }
+
+        $dispatcher->addSubscriber($app['listener.profile']);
     }
 }
