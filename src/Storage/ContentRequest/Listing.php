@@ -121,7 +121,7 @@ class Listing
             $queryCopy->setMaxResults(null);
             $queryCopy->setFirstResult(null);
 
-            $totalResults = (int)$queryCopy->execute()->rowCount();
+            $totalResults = (int)count($queryCopy->execute()->fetchAll());
             $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
             $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
 
