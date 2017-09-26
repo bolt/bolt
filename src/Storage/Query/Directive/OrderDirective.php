@@ -17,7 +17,7 @@ class OrderDirective
      */
     public function __invoke(QueryInterface $query, $order)
     {
-        if ($order === false) {
+        if (!$order) {
             return;
         }
 
