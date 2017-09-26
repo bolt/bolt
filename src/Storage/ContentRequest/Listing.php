@@ -3,9 +3,11 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
+use Bolt\Pager\PagerManager;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Query;
+use Bolt\Storage\Query\QueryResultset;
 
 /**
  * Helper class for ContentType overview listings.
@@ -20,19 +22,23 @@ class Listing
     protected $config;
     /** @var Query */
     private $query;
+    /** @var PagerManager */
+    protected $pager;
 
     /**
      * Constructor.
      *
      * @param EntityManager $em
-     * @param Query         $query
-     * @param Config        $config
+     * @param Query $query
+     * @param Config $config
+     * @param PagerManager $pager
      */
-    public function __construct(EntityManager $em, Query $query, Config $config)
+    public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager = null)
     {
         $this->em = $em;
         $this->query = $query;
         $this->config = $config;
+        $this->pager = $pager;
     }
 
     /**
@@ -96,7 +102,35 @@ class Listing
             $contentParameters['page'] = $options->getPreviousPage();
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
         }
+        $this->runPagerQueries($records);
 
         return $records;
+    }
+
+    /**
+     * @param QueryResultset $results
+     */
+    protected function runPagerQueries($results)
+    {
+        if (!$results instanceof QueryResultset || $this->pager === null) {
+            return;
+        }
+        foreach ($results->getOriginalQueries() as $pagerName => $query) {
+            $queryCopy = clone $query;
+            $queryCopy->select('count(*)');
+            $queryCopy->setMaxResults(null);
+            $queryCopy->setFirstResult(null);
+
+            $totalResults = (int)count($queryCopy->execute()->fetchAll());
+            $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
+            $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
+
+            $this->pager->createPager($pagerName)
+                ->setCount($totalResults)
+                ->setTotalpages(ceil($totalResults / $query->getMaxResults()))
+                ->setCurrent($currentPage)
+                ->setShowingFrom($start + 1)
+                ->setShowingTo($start + $results->count());
+        }
     }
 }
