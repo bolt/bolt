@@ -130,6 +130,16 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 return new Listener\ZoneGuesser($app);
             }
         );
+
+        $app['listener.profile'] = $app->share(
+            function ($app) {
+                return new Listener\ProfilerListener(
+                    $app['session'],
+                    $app['debug'],
+                    $app['config']->get('general/debug_show_loggedoff')
+                );
+            }
+        );
     }
 
     public function boot(Application $app)
@@ -160,5 +170,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         if (isset($app['listener.exception']) && !$app['config']->get('general/debug_error_use_symfony')) {
             $dispatcher->addSubscriber($app['listener.exception']);
         }
+
+        $dispatcher->addSubscriber($app['listener.profile']);
     }
 }
