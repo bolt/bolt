@@ -243,7 +243,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.request.listing'] = $app->share(
             function ($app) {
-                $cr = new ContentRequest\Listing($app['storage'], $app['query'], $app['config']);
+                $cr = new ContentRequest\Listing($app['storage'], $app['query'], $app['config'], $app['pager']);
 
                 return $cr;
             }
