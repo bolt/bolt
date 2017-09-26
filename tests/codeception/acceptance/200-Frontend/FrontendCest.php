@@ -159,4 +159,22 @@ class FrontendCest
         $I->amOnPage('/pages');
         $I->seeElement('li', ['class' => 'index-3 active']);
     }
+
+    /**
+     * Check that Bolt doesn't allow profiler access when we're not logged in.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkNoProfilerTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that there no profiler route available.');
+
+        $I->resetCookie($this->tokenNames['session']);
+
+        $I->amOnPage('/_profiler');
+        $I->seeResponseCodeIs(404);
+
+        $I->amOnPage('/_profiler/empty/search/results?limit=10');
+        $I->seeResponseCodeIs(404);
+    }
 }
