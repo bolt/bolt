@@ -121,6 +121,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
         $dispatcher = $app['dispatcher'];
 
         $listeners = [
+            'profile',
             'general',
             'disable_xss_protection',
             'exception_json',
@@ -143,7 +144,5 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
         if (isset($app['listener.exception']) && !$app['config']->get('general/debug_error_use_symfony')) {
             $dispatcher->addSubscriber($app['listener.exception']);
         }
-
-        $dispatcher->addSubscriber($app['listener.profile']);
     }
 }

@@ -19,7 +19,7 @@ class CanonicalServiceProvider implements ServiceProviderInterface, BootableProv
     {
         $app['canonical'] = function ($app) {
             return new Canonical(
-                $app['url_generator'],
+                $app['url_generator.lazy'],
                 $app['config']->get('general/force_ssl'),
                 $app['config']->get('general/canonical')
             );
