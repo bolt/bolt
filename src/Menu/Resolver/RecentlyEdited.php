@@ -49,7 +49,11 @@ final class RecentlyEdited
         }
 
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
-            $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
+            try {
+                $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
+            } catch (TableNotFoundException $e) {
+                $contentRoot->get('main')->remove($name);
+            }
         }
     }
 
@@ -141,10 +145,6 @@ final class RecentlyEdited
             ->orderBy('datechanged', 'DESC')
         ;
 
-        try {
-            return $repo->findWith($qb);
-        } catch (TableNotFoundException $e) {
-            return null;
-        }
+        return $repo->findWith($qb);
     }
 }
