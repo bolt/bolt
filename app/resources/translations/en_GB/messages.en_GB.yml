@@ -639,6 +639,7 @@ page.login.title: "Sign in to Bolt"
 page.prefill.connection-timeout: "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 page.prefill.skipped-existing: "Skipped <code>%key%</code> (already has records)"
+page.prefill.skipped-singleton: "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.button.more: "more activity"
 panel.latest-activity.by: "by"
