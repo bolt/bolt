@@ -31,6 +31,9 @@
     {% set sub = [] %}
 
     {% for sub_menu in menu.children %}
+        {% if sub_menu.has('singleton') %}
+            {% set sub_menu = sub_menu.children|first %}
+        {% endif %}
         {% set sub = sub|merge([sub_menu]) %}
     {% endfor %}
 

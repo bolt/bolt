@@ -47,12 +47,24 @@ final class RecentlyEdited
         if (!$contentRoot->has('main')) {
             return;
         }
-
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
+            if ($contentTypes->getPath($name . '/singleton')) {
+                $this->addSingleton($contentMenu, $name);
+                continue;
+            }
             try {
                 $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
             } catch (TableNotFoundException $e) {
                 $contentRoot->get('main')->remove($name);
+            }
+        }
+
+        if (!$contentRoot->has('other')) {
+            return;
+        }
+        foreach ($contentRoot->get('other')->children() as $name => $contentMenu) {
+            if ($contentTypes->getPath($name . '/singleton')) {
+                $this->addSingleton($contentMenu, $name);
             }
         }
     }
@@ -64,12 +76,6 @@ final class RecentlyEdited
      */
     private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
-        $isSingleton = $contentTypes->getPath($contentTypeKey . '/singleton');
-        if ($isSingleton) {
-            $this->addSingleton($contentMenu, $contentTypeKey);
-
-            return;
-        }
         $entities = $this->getRecords($contentTypeKey, 4);
         if (!$entities) {
             return;
