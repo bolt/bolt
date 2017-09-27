@@ -53,7 +53,7 @@ class RecordContentGeneratorTest extends BoltUnitTest
     public function getContentGenerator($contentTypeName)
     {
         $app = $this->getApp();
-        $path = $app['path_resolver']->resolve('%bolt%/files');
+        $path = $app['path_resolver']->resolve('%web%/files');
         $app['filesystem']->mountFilesystem('files', new Filesystem(new Local($path)));
 
         $generator = new Prefill\RecordContentGenerator(
