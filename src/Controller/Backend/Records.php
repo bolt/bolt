@@ -91,6 +91,10 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
+
+        // Ensure custom entities have the legacy ContentType set
+        $this->app['storage.legacy_service']->setupContenttype($content);
+
         $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
         $context['file_matcher'] = $this->app['filesystem.matcher'];
 
