@@ -144,7 +144,6 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     public function serialize()
     {
         $output = [];
-        $this->initialize();
 
         foreach ($this->collection as $field) {
             $output[$field->getFieldName()] = $field->getValue();
