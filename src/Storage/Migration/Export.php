@@ -2,197 +2,130 @@
 
 namespace Bolt\Storage\Migration;
 
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Filesystem\Exception\IOException;
+use Bolt\Collection\MutableBag;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\Entity;
+use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\Query;
+use Bolt\Storage\Repository\ContentRepository;
+use Bolt\Version;
+use Carbon\Carbon;
 
 /**
  * Database records export class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Ross Riley <riley.ross@gmail.com>
+ * @author Bob den Otter <bob@twokings.nl>
  */
-class Export extends AbstractMigration
+final class Export
 {
-    /** @var array */
-    private $contenttypes = [];
-    /** @var string */
-    private $hash;
+    /** @var EntityManager */
+    private $em;
+    /** @var Query */
+    private $query;
 
     /**
-     * Export set ContentType's records to the export file.
+     * Constructor.
      *
-     * @return \Bolt\Storage\Migration\Export
+     * @param EntityManager $em
+     * @param Query         $query
      */
-    public function exportContenttypesRecords()
+    public function __construct(EntityManager $em, Query $query)
     {
-        if ($this->getError()) {
-            return $this;
-        }
-
-        // Keep track of our export progress as some data formats require closing elements
-        $last = false;
-        $end  = array_keys($this->contenttypes);
-        $end  = end($end);
-
-        foreach ($this->contenttypes as $key => $contenttype) {
-            if ($key === $end) {
-                $last = true;
-            }
-
-            $this->exportContenttypeRecords($contenttype, $last);
-        }
-
-        return $this;
+        $this->em = $em;
+        $this->query = $query;
     }
 
     /**
-     * Set the migration files.
+     * Run the export process and return the data.
      *
-     * Also creates an output file object.
+     * @param array      $exportContentTypes
+     * @param MutableBag $responseBag
      *
-     * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
-     *
-     * @param mixed $files
-     *
-     * @return \Bolt\Storage\Migration\Export
+     * @return MutableBag
      */
-    public function setMigrationFiles($files)
+    public function run(array $exportContentTypes, MutableBag $responseBag)
     {
-        parent::setMigrationFiles($files);
+        // Get initial data object
+        $exportData = MutableBag::from([]);
+        // Add the meta header
+        $this->addExportMeta($exportData);
 
-        if ($this->getError()) {
-            return $this;
+        // Add records for each ContentType
+        foreach ($exportContentTypes as $contentTypeName) {
+            $exportData->set($contentTypeName, MutableBag::from([]));
+            $this->getRecords($contentTypeName, $exportData, $responseBag);
         }
 
-        $this->hash = md5($files);
-        $file = &$this->files[$this->hash];
-
-        if ($file['type'] === 'yaml') {
-            $file['handler'] = new Output\YamlFile($this, $file['file']);
-        } elseif ($file['type'] === 'json') {
-            $file['handler'] = new Output\JsonFile($this, $file['file']);
-        }
-
-        return $this;
+        return $exportData;
     }
 
     /**
-     * Export a single ContentType's records to the export file.
+     * Add the export meta information.
      *
-     * @param string  $contenttype
-     * @param boolean $last        Flag that indicates last contenttype
+     * @param MutableBag $exportData
      */
-    private function exportContenttypeRecords($contenttype, $last)
+    private function addExportMeta(MutableBag $exportData)
     {
-        // Get all the records for the contenttype
-        $records = $this->app['query']->getContent($contenttype);
-        $data = [];
-
-        // If we're on the last Contenttype, we want to know when we've got the
-        // last record so we can close off if need be
-        if ($last) {
-            $last = false;
-            $end  = count($records) -1;
-        } else {
-            $end = null;
-        }
-
-        foreach ($records as $key => $record) {
-            if ($key === $end) {
-                $last = true;
-            }
-
-            $values = [];
-            $repo = $this->app['storage']->getRepository($contenttype);
-            $metadata = $repo->getClassMetadata();
-            foreach ($metadata->getFieldMappings() as $field) {
-                $fieldName = $field['fieldname'];
-                $val = $record->$fieldName;
-                if (in_array($field['type'], ['date','datetime'])) {
-                    $val = (string)$record->$fieldName;
-                }
-                if (is_callable([$val, 'serialize'])) {
-                    $val = $val->serialize();
-                }
-
-                $values[$fieldName] = $val;
-            }
-
-
-            unset($values['id']);
-            $values['_id'] = $record->getContenttype() . '/' . $record->getSlug();
-            $data[$contenttype] = $values;
-
-            $this->writeMigrationFile($data, $last, true);
-        }
+        $exportData->set('__bolt_export_meta', [
+            'date'     => Carbon::now()->toRfc3339String(),
+            'version'  => Version::forComposer(),
+            'platform' => $this->em->getConnection()->getDatabasePlatform()->getName(),
+        ]);
     }
 
     /**
-     * Check Contenttype requested exists.
+     * Get the records for a given ContentType.
      *
-     * @param string|array $contenttypeslugs
-     *
-     * @return \Bolt\Storage\Migration\Export
+     * @param string     $contentTypeName
+     * @param MutableBag $exportData
+     * @param MutableBag $responseBag
      */
-    public function checkContenttypeValid($contenttypeslugs = [])
+    private function getRecords($contentTypeName, MutableBag $exportData, MutableBag $responseBag)
     {
-        // If nothing is passed in, we assume we're using all conenttypes
-        if (empty($contenttypeslugs)) {
-            $this->contenttypes = $this->app['storage']->getContentTypes();
+        /** @var ContentRepository $repo */
+        $repo = $this->em->getRepository($contentTypeName);
+        $metadata = $repo->getClassMetadata();
+        // Get all the records for the ContentType
+        $entities = $this->query->getContent($contentTypeName);
+        $contentTypeBag = $exportData->get($contentTypeName);
 
-            if (empty($this->contenttypes)) {
-                $this->setError(true)->setErrorMessage('This installation of Bolt has no contenttypes configured!');
-            }
-
-            return $this;
+        foreach ($entities as $key => $entity) {
+            $this->addRecord($contentTypeBag, $metadata, $entity);
         }
 
-        if (is_array($contenttypeslugs)) {
-            foreach ($contenttypeslugs as $contenttypeslug) {
-                return $this->checkContenttypeValid($contenttypeslug);
-            }
-        }
-
-        $contenttype = $this->app['storage']->getContentType($contenttypeslugs);
-
-        if (empty($contenttype)) {
-            $this->setError(true)->setErrorMessage("The requested ContentType '$contenttypeslugs' doesn't exist!");
-        } elseif (!isset($this->contenttypes[$contenttypeslugs])) {
-            $this->contenttypes[] = $contenttypeslugs;
-        }
-
-        return $this;
+        /** @var MutableBag $success */
+        $success = $responseBag->get('success');
+        $success->add(sprintf('%s: %s records', $contentTypeName, count($entities)));
     }
 
     /**
-     * Write a migration file.
+     * Add a single record to the export data.
      *
-     * This function will determine what type based on extension.
-     *
-     * @param array   $data   The data to write out
-     * @param boolean $last   Flag that indicates last record
-     * @param boolean $append Whether to append or abort file writing if a file exists
-     *
-     * @return array
+     * @param MutableBag    $contentTypeBag
+     * @param ClassMetadata $metadata
+     * @param Content       $entity
      */
-    protected function writeMigrationFile($data, $last, $append = false)
+    private function addRecord(MutableBag $contentTypeBag, ClassMetadata $metadata, Content $entity)
     {
-        $file = (string) $this->files[$this->hash]['file'];
-
-        if ($this->fs->exists($file) && $append === false) {
-            $this->setError(true)->setErrorMessage("Specified file '$file' already exists!");
-
-            return false;
+        $values = [];
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldName = $field['fieldname'];
+            $val = $entity->$fieldName;
+            if (in_array($field['type'], ['date', 'datetime'])) {
+                $val = (string) $entity->$fieldName;
+            }
+            if (is_callable([$val, 'serialize'])) {
+                /** @var Entity $val */
+                $val = $val->serialize();
+            }
+            $values[$fieldName] = $val;
         }
 
-        try {
-            $this->fs->touch($file);
-        } catch (IOException $e) {
-            $this->setError(true)->setErrorMessage("Specified file '$file' can not be created!");
-
-            return false;
-        }
-
-        // Write them out
-        return $this->files[$this->hash]['handler']->addRecord($data, $last);
+        unset($values['id']);
+        $values['_id'] = $entity->getContentType() . '/' . $entity->getSlug();
+        $contentTypeBag->add($values);
     }
 }
