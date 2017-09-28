@@ -1,6 +1,16 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.3.6
+----------
+
+Released 2017-09-29. Notable changes:
+
+ - Security: Added Request listener to prevent access to `_profiler` routes.
+ - Tests: Fix breakage due to upstream [#7025](https://github.com/bolt/bolt/pull/7025)
+ - Fixed: Added font sizes to headings in WYSIWYG fields. [#7032](https://github.com/bolt/bolt/pull/7032)
+ - Fixed: Added Legacy Content Type to Entity [#7033](https://github.com/bolt/bolt/pull/7033)
+
 Bolt 3.3.5
 ----------
 
