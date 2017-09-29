@@ -341,6 +341,13 @@ Bolt 3.3 betas were released on:
  - RC 3: Released 2017-07-25
  - RC 4: Released 2017-07-26
 
+Bolt 3.2.20
+-----------
+
+Released 2017-09-29. Notable changes:
+
+ - Security: Added Request listener to prevent access to `_profiler` routes.
+
 Bolt 3.2.19
 -----------
 
