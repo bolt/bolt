@@ -1,6 +1,13 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.2.20
+-----------
+
+Released 2017-09-29. Notable changes:
+
+ - Security: Added Request listener to prevent access to `_profiler` routes.
+
 Bolt 3.2.19
 -----------
 
