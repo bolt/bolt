@@ -141,6 +141,7 @@ final class Import
         foreach ($taxonomyFields as $taxonomyField) {
             foreach ($importDatum->get($taxonomyField) as $value) {
                 $taxonomy[$taxonomyField][] = $value['slug'];
+                $entity->set($taxonomyField, null);
             }
         }
 
