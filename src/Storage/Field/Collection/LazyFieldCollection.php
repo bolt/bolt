@@ -145,4 +145,16 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
 
         $this->em = null;
     }
+
+    public function serialize()
+    {
+        $output = [];
+        $this->initialize();
+
+        foreach ($this->collection as $field) {
+            $output[$field->getFieldName()] = $field->getValue();
+        }
+
+        return $output;
+    }
 }
