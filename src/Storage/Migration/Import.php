@@ -9,6 +9,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\RelationType;
+use Bolt\Storage\Field\Type\TaxonomyType;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository;
 use RuntimeException;
@@ -85,26 +86,26 @@ final class Import
 
         // Build a list of the relationship field names for this ContentType
         $relationFields = MutableBag::from([]);
+        $taxonomyFields = MutableBag::from([]);
         foreach ($repo->getClassMetadata()->getFieldMappings() as $field) {
             if (is_a($field['fieldtype'], RelationType::class, true)) {
                 $relationFields->add($field['fieldname']);
             }
+            if (is_a($field['fieldtype'], TaxonomyType::class, true)) {
+                $taxonomyFields->add($field['fieldname']);
+            }
         }
-        // Build a list of the taxonomy field names for this ContentType
-        $taxonomyFields = Bag::from($this->contentTypes->get($contentTypeName))
-            ->filter(function ($k, $v) {
-                return $k === 'taxonomy' && $v;
-            })
-            ->flatten()
-        ;
 
         /** @var MutableBag $importDatum */
         foreach ($importData as $importDatum) {
             /** @var Content $entity */
             $entity = $repo->create(['contenttype' => $contentTypeName]);
-            $entity->setValues($importDatum->toArrayRecursive());
+            $values = $importDatum->toArrayRecursive();
+            $entity->setValues($values);
             // Add relations now so they can still be applied if required on re-runs
             $this->addRelations($repo, $relationQueue, $importDatum, $relationFields);
+            // Add taxonomy fields
+            $this->addTaxonomy($entity, $taxonomyFields, $importDatum);
 
             $existing = $this->query->getContent($entity->getContenttype() . '/' . $entity->getSlug());
             if ($existing instanceof Content) {
@@ -114,11 +115,6 @@ final class Import
             if ($entity->getId() !== null && $overwrite === false) {
                 $responseBag->get('warning')->add(sprintf('ContentType "%s" with slug "%s" exists already! Skipping record.', $contentTypeName, $entity->getSlug()));
                 continue;
-            }
-
-            // Add taxonomy fields
-            if ($taxonomyFields->count() > 0) {
-                $this->addTaxonomy($entity, $taxonomyFields, $importDatum);
             }
 
             $repo->save($entity);
@@ -140,7 +136,7 @@ final class Import
         $taxonomy = [];
         foreach ($taxonomyFields as $taxonomyField) {
             foreach ($importDatum->get($taxonomyField) as $value) {
-                $taxonomy[$taxonomyField][] = $value['slug'];
+                $taxonomy[$taxonomyField][] = $value->toArray();
                 $entity->set($taxonomyField, null);
             }
         }
