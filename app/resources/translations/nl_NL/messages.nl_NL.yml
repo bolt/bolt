@@ -645,7 +645,10 @@ page.login.password-show: "Toon"
 page.login.placeholder.password: "Je inlognaam"
 page.login.title: "Inloggen"
 
+page.prefill.connection-timeout: "Timeout bij het verbinden met de 'Lorem Ipsum' generator. Het is op dit moment niet mogelijk om dummy inhoud toe te voegen."
+page.prefill.database-update-required: "De tabel van ContentType %CONTENTTYPE% werd niet gevonden. Waarschijnlijk is het nodig om de database bij te werken."
 page.prefill.skipped-existing: "Overgeslagen: <code>%key%</code> (deze heeft al records)"
+page.prefill.skipped-singleton: "Overgeslagen singleton <code>%key%</code> (deze heeft al een record)"
 
 panel.latest-activity.button.more: "meer activiteit"
 panel.latest-activity.by: "door"

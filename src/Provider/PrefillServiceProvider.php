@@ -21,7 +21,12 @@ class PrefillServiceProvider implements ServiceProviderInterface
 
         $app['prefill.builder'] = $app->share(
             function ($app) {
-                return new Prefill\Builder($app['storage'], $app['prefill.generator_factory'], 5);
+                return new Prefill\Builder(
+                    $app['storage'],
+                    $app['prefill.generator_factory'],
+                    5,
+                    Bag::from($app['config']->get('contenttypes'))
+                );
             }
         );
 
