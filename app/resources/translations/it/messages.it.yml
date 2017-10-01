@@ -8,10 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#  31 Legacy untranslated messages
-# 357 Untranslated messages
+#  30 Legacy untranslated messages
+# 359 Untranslated messages
 #  10 Legacy translation messages
-# 200 Translation messages
+# 199 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -29,7 +29,6 @@
 "Expand sidebar": #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
 "Finding packages that require this one…": #
-"Image": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
@@ -167,6 +166,7 @@ general.phrase.full-list-ellipsis: # "Full list …"
 general.phrase.global-permissions: # "Global Permissions"
 general.phrase.hints-colon: # "Hints:"
 general.phrase.id: # "Id"
+general.phrase.image: # "Image"
 general.phrase.info: # "Info"
 general.phrase.invalid-taxonomy-slug: # "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.keyword-ellipsis: # "Keyword …"
@@ -421,6 +421,7 @@ page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.by: # "by"
 panel.latest-activity.change: # "Latest changes"
@@ -658,7 +659,6 @@ page.extend.message.maintenance: "Manutenzione"
 
 page.file-management.message.access-denied: "L'upload in questa cartella non è permesso"
 page.file-management.message.file-not-readable: "Il file non è leggibile"
-page.file-management.message.files-in: "File in %s"
 page.file-management.message.folder-not-found: "La directory '%s' non è stata trovata, o non è leggibile."
 page.file-management.message.save-failed-colon: "Il file '%s' non può esser salvato:"
 page.file-management.message.save-failed-unknown: "Per quealche motivo il file '%s' non può esser salvato."

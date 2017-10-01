@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #   3 Legacy untranslated messages
-#  31 Untranslated messages
-#  38 Legacy translation messages
+#  32 Untranslated messages
+#  37 Legacy translation messages
 # 526 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -63,6 +63,7 @@ page.file-management.actions-for-files: # "Actions for files"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -83,7 +84,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Expand sidebar": "Expandir barra lateral"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "El archivo '%file%' no se pudo cargar (tipo de archivo incorrecto / no permitido). Asegúrese de que la extensión del archivo es una de las siguientes:"
 "Finding packages that require this one…": "Buscando paquetes que requieren éste..."
-"Image": "Imagen"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. No coincide con ningún tipo de contenido o ruta configurada."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ruta no válida para el menú (%PATH%), establecida en menu.yml. Probablemente debería ser un enlace en su lugar"
 "The field %field% has been changed to \"%newValue%\"": "El campo %field% ha sido cambiado a \"%newValue%\""
@@ -303,6 +303,7 @@ general.phrase.general.phrase.uploaded-files: "Archivos subidos"
 general.phrase.global-permissions: "Permisos globales"
 general.phrase.hints-colon: "Consejos"
 general.phrase.id: "Id"
+general.phrase.image: "Imagen"
 general.phrase.info: "Información"
 general.phrase.invalid-taxonomy-slug: "En la taxonomía '%taxonomy%', el slug para la opción '%option%' contiene una barra inclinada(/). Por favor, edite taxonomy.yml, y corrija eso."
 general.phrase.ip.address: "Dirección IP"
@@ -624,7 +625,6 @@ page.file-management.message.access-denied: "Subir a esta carpeta no está permi
 page.file-management.message.create-file: "Por favor, ¡introduzca un nuevo nombre de archivo!"
 page.file-management.message.create-folder: "Por favor, ¡introduzca un nuevo nombre de carpeta!"
 page.file-management.message.file-not-readable: "¡El archivo no puede ser leido!"
-page.file-management.message.files-in: "Archivos en %s"
 page.file-management.message.folder-not-found: "La carpeta '%s' no se puede encontrar o leer"
 page.file-management.message.save-failed-colon: "El archivo '%s' no puede ser guardado:"
 page.file-management.message.save-failed-invalid-form: "El archivo '%s' no se pudo guardar, porque el formulario no era válido."
