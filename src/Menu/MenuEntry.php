@@ -257,6 +257,16 @@ class MenuEntry implements Serializable
     }
 
     /**
+     * Return the menu entry's parent.
+     *
+     * @return MenuEntry
+     */
+    public function parent()
+    {
+        return $this->parent;
+    }
+
+    /**
      * Return the menu entry's children.
      *
      * @return MenuEntry[]
