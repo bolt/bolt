@@ -48,11 +48,11 @@ final class RecentlyEdited
             return;
         }
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
-            if ($contentTypes->getPath($name . '/singleton')) {
-                $this->addSingleton($contentMenu, $name);
-                continue;
-            }
             try {
+                if ($contentTypes->getPath($name . '/singleton')) {
+                    $this->addSingleton($contentMenu, $name);
+                    continue;
+                }
                 $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
             } catch (TableNotFoundException $e) {
                 $contentRoot->get('main')->remove($name);
