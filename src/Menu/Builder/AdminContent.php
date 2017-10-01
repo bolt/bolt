@@ -107,12 +107,12 @@ final class AdminContent
     {
         $groups = $this->contentTypes->call(function ($a) {
             $arr = [];
-            foreach ($a as $v) {
+            foreach ($a as $k => $v) {
                 if ($v['show_in_menu'] === true) {
                     continue;
                 }
-                $key = $v['show_in_menu'] ?: 'other';
-                $arr[$key][] = $v;
+                $group = $v['show_in_menu'] ?: 'other';
+                $arr[$group][$k] = $v;
             }
 
             return $arr;
