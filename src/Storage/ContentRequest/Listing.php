@@ -94,11 +94,7 @@ class Listing
     {
         $contentParameters = array_filter($contentParameters);
         $records = $this->query->getContent($contentTypeSlug, $contentParameters);
-
-        // UGLY HACK! Remove when cutting over to the new storage layer!
-        $records = empty($records) ? false : $records;
-
-        if ($records === false && $options->getPage() !== null) {
+        if ($records === null && $options->getPage() !== null) {
             $contentParameters['page'] = $options->getPreviousPage();
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
         }
@@ -120,8 +116,9 @@ class Listing
             $queryCopy->select('count(*)');
             $queryCopy->setMaxResults(null);
             $queryCopy->setFirstResult(null);
+            $queryCopy->resetQueryPart('orderBy');
 
-            $totalResults = (int)count($queryCopy->execute()->fetchAll());
+            $totalResults = (int) count($queryCopy->execute()->fetchAll());
             $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
             $currentPage = ($start + $query->getMaxResults()) / $query->getMaxResults();
 
