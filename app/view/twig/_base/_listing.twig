@@ -112,7 +112,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             <th class="hidden-xs">{{ buic_listing_slink('id', __('general.phrase.id'))}}</th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">{{ buic_listing_slink(content.TitleColumnName()|first, __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
+            <th style="width:80%">{{ buic_listing_slink(content.getTitleColumnName(content.contenttype), __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
 
             {# COLUMN: Thumbnail #}
             <th class="listthumb"></th>
