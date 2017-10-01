@@ -59,12 +59,14 @@ final class RecentlyEdited
             }
         }
 
-        if (!$contentRoot->has('other')) {
+        if (!$contentRoot->has('grouped')) {
             return;
         }
-        foreach ($contentRoot->get('other')->children() as $name => $contentMenu) {
-            if ($contentTypes->getPath($name . '/singleton')) {
-                $this->addSingleton($contentMenu, $name);
+        foreach ($contentRoot->get('grouped')->children() as $groupName => $groupMenu) {
+            foreach ($groupMenu->children() as $name => $contentMenu) {
+                if ($contentTypes->getPath($name . '/singleton')) {
+                    $this->addSingleton($contentMenu, $name);
+                }
             }
         }
     }
