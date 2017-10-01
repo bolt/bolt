@@ -48,15 +48,11 @@ final class RecentlyEdited
             return;
         }
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
-            try {
-                if ($contentTypes->getPath($name . '/singleton')) {
-                    $this->addSingleton($contentMenu, $name);
-                    continue;
-                }
-                $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
-            } catch (TableNotFoundException $e) {
-                $contentRoot->get('main')->remove($name);
+            if ($contentTypes->getPath($name . '/singleton')) {
+                $this->addSingleton($contentMenu, $name);
+                continue;
             }
+            $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
         }
 
         if (!$contentRoot->has('grouped')) {
@@ -78,7 +74,14 @@ final class RecentlyEdited
      */
     private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
-        $entities = $this->getRecords($contentTypeKey, 4);
+        try {
+            $entities = $this->getRecords($contentTypeKey, 4);
+        } catch (TableNotFoundException $e) {
+            $contentMenu->parent()->remove($contentMenu->getName());
+
+            return;
+        }
+
         if (!$entities) {
             return;
         }
@@ -109,13 +112,20 @@ final class RecentlyEdited
      */
     private function addSingleton(MenuEntry $contentMenu, $contentTypeKey)
     {
+        try {
+            $entities = $this->getRecords($contentTypeKey, 1);
+        } catch (TableNotFoundException $e) {
+            $contentMenu->parent()->remove($contentMenu->getName());
+
+            return;
+        }
+
         $singleton = MenuEntry::create('singleton')
             ->setLabel($contentMenu->getLabel())
             ->setIcon($contentMenu->getIcon())
         ;
 
         // If there is an existing record, remove the ability to create a new one
-        $entities = $this->getRecords($contentTypeKey, 1);
         if ($entities) {
             $entity = reset($entities);
             $singleton
