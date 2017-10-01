@@ -174,7 +174,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 {% set thumb_height = (thumbsize * 0.75)|round %}
                 {% set thumb_small = listimage|thumbnail(thumbsize, thumb_height, 'c') %}
                 {% set thumb_large = listimage|thumbnail(1000, 800, 'r') %}
-                {% set thumb_title = __('Image') ~ ': ' ~ listimage.title|default(' - ') %}
+                {% set thumb_title = __('general.phrase.image') ~ ': ' ~ listimage.title|default(' - ') %}
                 <a href="{{ thumb_large }}" class="magnific" title="{{ thumb_title }}">
                     <img src="{{ thumb_small }}" width="{{ thumbsize }}" height="{{ thumb_height }}" alt="{{ __('general.phrase.thumbnail') }}">
                 </a>

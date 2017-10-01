@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  10 Legacy untranslated messages
-# 105 Untranslated messages
-#  31 Legacy translation messages
+# 106 Untranslated messages
+#  30 Legacy translation messages
 # 452 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -146,6 +146,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -167,7 +168,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Excerpt": "Kivonat"
 "Expand sidebar": "Oldalsáv kinyitása"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "A '%file%' fájl nem tölthető fel (rossz/tiltott fájl típus). Bizonyosodjon meg róla, hogy a fájl kiterjesztése egy a következőkből:"
-"Image": "Kép"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Nincs egyező tartalomtípus vagy az útvonalválasztó."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Érvénytelen menü útvonal (%PATH%) beállítás a menu.yml-ben. Talán 'link' mezőre lenne inkább szükség?"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkeszd úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
@@ -356,6 +356,7 @@ general.phrase.full-list-ellipsis: "Teljes lista…"
 general.phrase.general.phrase.uploaded-files: "Feltöltött fájlok"
 general.phrase.global-permissions: "Globális engedélyek"
 general.phrase.hints-colon: "Tippek"
+general.phrase.image: "Kép"
 general.phrase.ip.address: "IP cím"
 general.phrase.keyword-ellipsis: "Kulcsszó _"
 general.phrase.last-edited-on-colon: "Utoljára szerkesztve:"
@@ -633,7 +634,6 @@ page.file-management.message.access-denied: "Ebbe a könyvtárba nem lehet felt�
 page.file-management.message.create-file: "Adj meg egy új fájlnevet!"
 page.file-management.message.create-folder: "Adj meg egy új mappanevet!"
 page.file-management.message.file-not-readable: "A fájl nem olvasható!"
-page.file-management.message.files-in: "Fájlok %s-ben"
 page.file-management.message.folder-not-found: "A '%s' könyvtár nem található vagy nem olvasható."
 page.file-management.message.save-failed-colon: "A '%s' nevű fájl nem menthető:"
 page.file-management.message.save-failed-invalid-form: "A '%s' fájl nem menthető mert a form érvénytelen."

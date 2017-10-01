@@ -9,9 +9,9 @@
 
 #   0 Unused messages
 #   1 Legacy untranslated messages
-#  17 Untranslated messages
-#  40 Legacy translation messages
-# 540 Translation messages
+#  15 Untranslated messages
+#  39 Legacy translation messages
+# 543 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -41,9 +41,6 @@ page.edit-users.error.password-long: # "This value is too long. It should have 1
 
 page.file-management.actions-for-files: # "Actions for files"
 
-page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
-page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
-
 #--- Legacy translation messages ----------------------------------------------
 
 "(default template)": "(standaard template)"
@@ -63,7 +60,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Expand sidebar": "Zijbalk uitklappen"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Het bestand '%file%' kon niet worden geüpload (foutief bestandstype). Zorg ervoor dat de bestandsextensie een van de volgende is."
 "Finding packages that require this one…": "Zoeken naar packages die deze package vereisen"
-"Image": "Afbeelding"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Het stemt niet overeen met bestaande contenttypes of routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ongeldige menu pad (%PATH%) ingesteld in menu.yml. Waarschijnlijk had deze een link moeten zijn!"
 "Menu": "Menu"
@@ -292,6 +288,7 @@ general.phrase.general.phrase.uploaded-files: "Geüploade bestanden"
 general.phrase.global-permissions: "Globale permissies"
 general.phrase.hints-colon: "Hints:"
 general.phrase.id: "Id"
+general.phrase.image: "Afbeelding"
 general.phrase.info: "Info"
 general.phrase.invalid-taxonomy-slug: "In de taxonomie '%taxonomy%' bevat de slug voor optie '%option%' een slash. Bewerk taxonomy.ymlen pas dit aan."
 general.phrase.ip.address: "IP-adres"
@@ -622,7 +619,6 @@ page.file-management.message.access-denied: "Uploaden naar deze map is niet toeg
 page.file-management.message.create-file: "Voer een nieuwe bestandsnaam in!"
 page.file-management.message.create-folder: "Voer een nieuwe mapnaam in!"
 page.file-management.message.file-not-readable: "Bestand is niet leesbaar!"
-page.file-management.message.files-in: "Bestanden in %s"
 page.file-management.message.folder-not-found: "Map '%s' werd niet gevonden, of is niet leesbaar."
 page.file-management.message.save-failed-colon: "Bestand '%s' kon niet worden opgeslagen: "
 page.file-management.message.save-failed-invalid-form: "Het bestand %s kon niet worden opgeslagen omdat het formulier niet juist is ingevuld."
