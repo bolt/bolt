@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  10 Legacy untranslated messages
-#  76 Untranslated messages
-#  31 Legacy translation messages
+#  77 Untranslated messages
+#  30 Legacy translation messages
 # 481 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -118,6 +118,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -134,7 +135,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Excerpt": "Utdrag"
 "Expand sidebar": "Visa sidomeny"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Fil '%file%' kunde inte laddas upp (fel/förbjuden filtyp). Se till att filtypen är en av följande:"
-"Image": "Bild"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ogiltig meny sökväg (%PATH%) i menu.yml. Matchar inte några konfigurerade innehållstyper eller rutter."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ogiltig menyn sökväg (%PATH%) i menu.yml. Borde nog vara en 'link:' istället!"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifieraren och permalänken för '%taxonomytype%' är inte samma ('%slug%' vs. '%taxonomytype%'). Redigera taxonomy.yml för att förebygga motsägelser mellan databas och mall."
@@ -340,6 +340,7 @@ general.phrase.general.phrase.uploaded-files: "Uppladdade filer"
 general.phrase.global-permissions: "Globala Rättigheter"
 general.phrase.hints-colon: "Tips:"
 general.phrase.id: "ID"
+general.phrase.image: "Bild"
 general.phrase.info: "Information"
 general.phrase.ip.address: "IP adress"
 general.phrase.keyword-ellipsis: "Sökord…"
@@ -627,7 +628,6 @@ page.file-management.message.access-denied: "Uppladdning till denna mappen är i
 page.file-management.message.create-file: "Välj ett nytt filnamn!"
 page.file-management.message.create-folder: "Välj ett nytt mappnamn!"
 page.file-management.message.file-not-readable: "Filen är inte läsbar!"
-page.file-management.message.files-in: "Filer i %s"
 page.file-management.message.folder-not-found: "Mappen '%s' kunde inte hittas, eller är inte läsbar."
 page.file-management.message.save-failed-colon: "Fil '%s' kunde inte sparas:"
 page.file-management.message.save-failed-invalid-form: "Filen '%s' kunde inte sparas, eftersom formuläret inte var giltigt."

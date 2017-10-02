@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #   3 Legacy untranslated messages
-#  24 Untranslated messages
-#  38 Legacy translation messages
+#  25 Untranslated messages
+#  37 Legacy translation messages
 # 533 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -53,6 +53,7 @@ page.file-management.actions-for-files: # "Actions for files"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -73,7 +74,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Expand sidebar": "Menü ausklappen"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
 "Finding packages that require this one…": "Finde Pakete die dieses erfordern…"
-"Image": "Bild"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Dieser stimmt mit keinem konfigurierten Datentyp oder einer Route überein."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Vielleichst sollte stattdessen link: benutzt werden!"
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde auf \"%newValue%\" geändert"
@@ -296,6 +296,7 @@ general.phrase.general.phrase.uploaded-files: "Hochgeladene Dateien"
 general.phrase.global-permissions: "Globale Berechtigungen"
 general.phrase.hints-colon: "Hinweise"
 general.phrase.id: "ID"
+general.phrase.image: "Bild"
 general.phrase.info: "Info"
 general.phrase.invalid-taxonomy-slug: "In der Taxonomie '%taxonomy% enthält das Slug der Eigenschaft '%option%' einen Schrägstrich (/). Bitte taxonomy.yml bearbeiten um dies zu beheben."
 general.phrase.ip.address: "IP Adresse"
@@ -623,7 +624,6 @@ page.file-management.message.access-denied: "Das Hochladen in dieses Verzeichnis
 page.file-management.message.create-file: "Bitte geben Sie einen neuen Dateinamen ein!"
 page.file-management.message.create-folder: "Bitte geben Sie einen neuen Verzeichnisnamen ein!"
 page.file-management.message.file-not-readable: "Die Datei ist nicht lesbar!"
-page.file-management.message.files-in: "Dateien in %s"
 page.file-management.message.folder-not-found: "Konnte nicht auf '%s' zugreifen."
 page.file-management.message.save-failed-colon: "Die Datei '%s' konnte nicht gespeichert werden:"
 page.file-management.message.save-failed-invalid-form: "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."

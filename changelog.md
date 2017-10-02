@@ -8,43 +8,88 @@ Bolt 3.5-dev
 
 Bolt 3.4-dev
 ------------
+Bolt 3.4 beta 2
+---------------
+
+Released: 2017-10-02. Notable changes
+
+ - Change: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
+ - Fixed: Catch `TableNotFoundException` for new ContentTypes. [#7041](https://github.com/bolt/bolt/pull/7041)
+ - Fixed: Fix taxonomies on `database:import` CLI script [#7039](https://github.com/bolt/bolt/pull/7039)
+ - Fixed: Fix thumbnails showing correctly in listing view, if an `imagelist` field is used. [#7044](https://github.com/bolt/bolt/pull/7044)
+ - Fixed: Menu drop bear. [#7042](https://github.com/bolt/bolt/pull/7042)
+ - Fixed: Reset `ORDER BY` on pager count queries, get "Title Column name" correctly. [#7045](https://github.com/bolt/bolt/pull/7045)
+
+Bolt 3.4 beta 1
+---------------
+
+Released: 2017-09-30. Notable changes
 
  - Added: Add environment support to config variable lookups [#6208](https://github.com/bolt/bolt/pull/6208)
  - Added: Add labels to translations for repeaters / new block fields [#6247](https://github.com/bolt/bolt/pull/6247)
- - Added: Base entity get()/set() [#6663](https://github.com/bolt/bolt/pull/6663)
+ - Added: Allow opt in to new setcontent queries [#6622](https://github.com/bolt/bolt/pull/6622)
+ - Added: Base entity `get()`/`set()` [#6663](https://github.com/bolt/bolt/pull/6663)
+ - Added: File manager improvements [#6898](https://github.com/bolt/bolt/pull/6898) [#6758](https://github.com/bolt/bolt/pull/6758) [#2263](https://github.com/bolt/bolt/pull/2263)
+ - Added: Implement the getBlock method on the LazyFieldCollection [#6960](https://github.com/bolt/bolt/pull/6960)
+ - Added: Implement use of `bolt/common` [#6892](https://github.com/bolt/bolt/pull/6892)
  - Added: Named Repeater Blocks [#6215](https://github.com/bolt/bolt/pull/6215)
+ - Added: New Storage Layer - Add Compatibility features to allow both systems to work concurrently [#6972](https://github.com/bolt/bolt/pull/6972)
+ - Added: New Storage Layer - Allow use of short alias for singular_slug [#6969](https://github.com/bolt/bolt/pull/6969)
+ - Added: Nut command to optimise the configured database [#6977](https://github.com/bolt/bolt/pull/6977)
  - Added: Nut command to perform Bolt set-up (first time, or post-update) tasks [#6594](https://github.com/bolt/bolt/pull/6594)
+ - Added: Nut Simple Deploy [#6901](https://github.com/bolt/bolt/pull/6901)
+ - Added: PHP 7.2 support [#6920](https://github.com/bolt/bolt/pull/6920)
  - Change: Adding codemirror features [#6436](https://github.com/bolt/bolt/pull/6436)
+ - Change: Allow for consecutive prefills. [#6919](https://github.com/bolt/bolt/pull/6919)
  - Change: Allow opt in to new setcontent queries [#6622](https://github.com/bolt/bolt/pull/6622)
  - Change: Backend listing entities [#6669](https://github.com/bolt/bolt/pull/6669)
- - Change: Enable no, partial, or full Q&A on Nut user:add [#6592](https://github.com/bolt/bolt/pull/6592)
+ - Change: Enable no, partial, or full Q&A on Nut `user:add` [#6592](https://github.com/bolt/bolt/pull/6592)
+ - Change: Inspection clean ups [#6968](https://github.com/bolt/bolt/pull/6968)
  - Change: Migrate pre-fill service to new storage layer [#6550](https://github.com/bolt/bolt/pull/6550)
- - Change: Modded core's select field to accommodate for multiple contenttypes. [#6270](https://github.com/bolt/bolt/pull/6270)
- - Change: Modded core's select field to accommodate for multiple contenttypes v2 [#6299](https://github.com/bolt/bolt/pull/6299)
+ - Change: Modded core's select field to accommodate for multiple contenttypes. [#6270](https://github.com/bolt/bolt/pull/6270) [#6299](https://github.com/bolt/bolt/pull/6299)
  - Change: More Symfony Forms updates [#6766](https://github.com/bolt/bolt/pull/6766)
- - Change: More Twig imports & aliases [#6625]()https://github.com/bolt/bolt/pull/66251
+ - Change: More Twig imports & aliases [#6625](https://github.com/bolt/bolt/pull/6625)
  - Change: Move Nut Import/Export to new Storage Engine and support multiple migrations [#6258](https://github.com/bolt/bolt/pull/6258)
  - Change: Nut styling & integer return values [#6586](https://github.com/bolt/bolt/pull/6586)
  - Change: Phase I of Symfony Forms use for the back-end record editing (Rouge Logic 1) [#6214](https://github.com/bolt/bolt/pull/6214)
  - Change: Pre-fill logic updates [#6659](https://github.com/bolt/bolt/pull/6659)
  - Change: Rebuild translation files [#6219](https://github.com/bolt/bolt/pull/6219)
+ - Change: Refactor Import / Export [#7012](https://github.com/bolt/bolt/pull/7012)
+ - Change: Refactor of Menus in backend [#6895](https://github.com/bolt/bolt/pull/6895) [#6931](https://github.com/bolt/bolt/pull/6931) [#6933](https://github.com/bolt/bolt/pull/6933)
  - Change: Refresh config checks page [#6775](https://github.com/bolt/bolt/pull/6775)
- - Change: Remove v0 columns … and NULL all the thingz [#6670](https://github.com/bolt/bolt/pull/6670)
+ - Change: Remove v0 columns … and `NULL` all the thingz [#6670](https://github.com/bolt/bolt/pull/6670)
  - Change: Requirement & recommended setting checks on first user [#6773](https://github.com/bolt/bolt/pull/6773)
- - Change: Update message & exception handling for Users::notifyUserSetupEmail [#6724](https://github.com/bolt/bolt/pull/6624)
+ - Change: Session split [#6884](https://github.com/bolt/bolt/pull/6884)
+ - Change: Update message & exception handling for `Users::notifyUserSetupEmail` [#6724](https://github.com/bolt/bolt/pull/6624)
  - Change: Update pager template to use blocks [#6381](https://github.com/bolt/bolt/pull/6381)
  - Change: Use class name resolution in Twig tokens tidy & tests [#6478](https://github.com/bolt/bolt/pull/6478)
  - Change: Use class name resolution though code base [#6396](https://github.com/bolt/bolt/pull/6396)
- - Deprecation: Add migration for Twig_Simple [#6596](https://github.com/bolt/bolt/pull/6596)
- - Deprecation: Add missing $form->isSubmitted() [#6667](https://github.com/bolt/bolt/pull/6667)
+ - Change: Use native JSON handling for Composer CLI [#6948](https://github.com/bolt/bolt/pull/6948)
+ - Deprecation: Add migration for `Twig_Simple` [#6596](https://github.com/bolt/bolt/pull/6596)
+ - Deprecation: Add missing `$form->isSubmitted()` [#6667](https://github.com/bolt/bolt/pull/6667)
  - Deprecation: Use namespaced Twig [#6742](https://github.com/bolt/bolt/pull/6742)
+ - Fixed: Catch `InvalidFieldNameException` in `revokeSession()` [#6916](https://github.com/bolt/bolt/pull/6916)
+ - Fixed: Correct order parameter to use minus sign [#6924](https://github.com/bolt/bolt/pull/6924)
+ - Fixed: Don't check for changes in dynamically inserted elements. Fixes browser naghing about losing form data when saving page [#6991](https://github.com/bolt/bolt/pull/6991) [#6996](https://github.com/bolt/bolt/pull/6996)
+ - Fixed: Fix crashes on new ContentTypes [#7028](https://github.com/bolt/bolt/pull/7028)
  - Fixed: Fix Javascript Error In Block Field Javascript [#6307](https://github.com/bolt/bolt/pull/6307)
+ - Fixed: Fix listing issues [#6900](https://github.com/bolt/bolt/pull/6900)
+ - Fixed: Fix styling for image divs [#6992](https://github.com/bolt/bolt/pull/6992)
  - Fixed: Incorrect Regex escaping [#6606](https://github.com/bolt/bolt/pull/6606)
+ - Fixed: Invert logic so setcontent legacy is on by default [#6923](https://github.com/bolt/bolt/pull/6923)
  - Fixed: JS Linting Errors [#6547](https://github.com/bolt/bolt/pull/6547)
  - Fixed: Multiple extends tags are forbidden [#6597](https://github.com/bolt/bolt/pull/6597)
+ - Fixed: New storage layer fixed pagination handling [#7014](https://github.com/bolt/bolt/pull/7014)
  - Fixed: Save Errors When Deleting Repeaters [#6314](https://github.com/bolt/bolt/pull/6314)
+ - Fixed: Singletons in submenus need to skip "overview" too [#7030](https://github.com/bolt/bolt/pull/7030)
  - Fixed: Strict mode fixes for Repeater Blocks [#6593](https://github.com/bolt/bolt/pull/6593)
+ - Fixed: Swap `Bag` for `MutableBag` [#6949](https://github.com/bolt/bolt/pull/6949)
+ - Fixed: Taxonomy template tweak [#6987](https://github.com/bolt/bolt/pull/6987)
+ - Fixed: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
  - Tests: Deprecation import checks [#6723](https://github.com/bolt/bolt/pull/6723)
+ - Tests: Risky Business [#6939](https://github.com/bolt/bolt/pull/6939)
+ - Tests: Setcontent [#6872](https://github.com/bolt/bolt/pull/6872)
+ - Travis: Drop HHVM and add PHP nightly builds [#6921](https://github.com/bolt/bolt/pull/6921)
 
 Bolt 3.3.5
 ----------
@@ -1067,7 +1112,6 @@ Released 2016-06-08. Notable changes:
  - Travis: Remove dependency on Postfix [#5421](https://github.com/bolt/bolt/pull/5421)
  - Updated: Update messages.en_GB.yml [#5386](https://github.com/bolt/bolt/pull/5386)
  - Updated: Updating NPM dependencies, rebuild CSS and JS [#5410](https://github.com/bolt/bolt/pull/5410)
-
 
 Bolt 3.0.4
 ----------

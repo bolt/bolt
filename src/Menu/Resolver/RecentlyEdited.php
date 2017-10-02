@@ -47,9 +47,23 @@ final class RecentlyEdited
         if (!$contentRoot->has('main')) {
             return;
         }
-
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
+            if ($contentTypes->getPath($name . '/singleton')) {
+                $this->addSingleton($contentMenu, $name);
+                continue;
+            }
             $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
+        }
+
+        if (!$contentRoot->has('grouped')) {
+            return;
+        }
+        foreach ($contentRoot->get('grouped')->children() as $groupName => $groupMenu) {
+            foreach ($groupMenu->children() as $name => $contentMenu) {
+                if ($contentTypes->getPath($name . '/singleton')) {
+                    $this->addSingleton($contentMenu, $name);
+                }
+            }
         }
     }
 
@@ -60,13 +74,14 @@ final class RecentlyEdited
      */
     private function addRecentlyEdited(MenuEntry $contentMenu, $contentTypeKey, Bag $contentTypes)
     {
-        $isSingleton = $contentTypes->getPath($contentTypeKey . '/singleton');
-        if ($isSingleton) {
-            $this->addSingleton($contentMenu, $contentTypeKey);
+        try {
+            $entities = $this->getRecords($contentTypeKey, 4);
+        } catch (TableNotFoundException $e) {
+            $contentMenu->parent()->remove($contentMenu->getName());
 
             return;
         }
-        $entities = $this->getRecords($contentTypeKey, 4);
+
         if (!$entities) {
             return;
         }
@@ -97,13 +112,20 @@ final class RecentlyEdited
      */
     private function addSingleton(MenuEntry $contentMenu, $contentTypeKey)
     {
+        try {
+            $entities = $this->getRecords($contentTypeKey, 1);
+        } catch (TableNotFoundException $e) {
+            $contentMenu->parent()->remove($contentMenu->getName());
+
+            return;
+        }
+
         $singleton = MenuEntry::create('singleton')
             ->setLabel($contentMenu->getLabel())
             ->setIcon($contentMenu->getIcon())
         ;
 
         // If there is an existing record, remove the ability to create a new one
-        $entities = $this->getRecords($contentTypeKey, 1);
         if ($entities) {
             $entity = reset($entities);
             $singleton
@@ -141,10 +163,6 @@ final class RecentlyEdited
             ->orderBy('datechanged', 'DESC')
         ;
 
-        try {
-            return $repo->findWith($qb);
-        } catch (TableNotFoundException $e) {
-            return null;
-        }
+        return $repo->findWith($qb);
     }
 }

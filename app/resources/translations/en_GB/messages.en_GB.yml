@@ -10,8 +10,8 @@
 #   0 Unused messages
 #   2 Legacy untranslated messages
 #   0 Untranslated messages
-#  39 Legacy translation messages
-# 557 Translation messages
+#  38 Legacy translation messages
+# 558 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -38,7 +38,6 @@
 "Expand sidebar": "Expand sidebar"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:"
 "Finding packages that require this one…": "Finding packages that require this one…"
-"Image": "Image"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!"
 "The field %field% has been changed to \"%newValue%\"": "The field %field% has been changed to \"%newValue%\""
@@ -270,6 +269,7 @@ general.phrase.general.phrase.uploaded-files: "Uploaded files"
 general.phrase.global-permissions: "Global Permissions"
 general.phrase.hints-colon: "Hints:"
 general.phrase.id: "Id"
+general.phrase.image: "Image"
 general.phrase.info: "Info"
 general.phrase.invalid-taxonomy-slug: "In the taxonomy '%taxonomy%' the slug for option '%option%' contains a slash. Please edit taxonomy.yml, and correct this."
 general.phrase.ip.address: "IP address"
@@ -613,7 +613,6 @@ page.file-management.message.access-denied: "Uploading to this folder is not all
 page.file-management.message.create-file: "Please enter the new file name"
 page.file-management.message.create-folder: "Please enter the new folder name"
 page.file-management.message.file-not-readable: "File is not readable!"
-page.file-management.message.files-in: "Files in %s"
 page.file-management.message.folder-not-found: "Folder '%s' could not be found, or is not readable."
 page.file-management.message.save-failed-colon: "File '%s' could not be saved:"
 page.file-management.message.save-failed-invalid-form: "File '%s' could not be saved, because the form wasn't valid."
@@ -639,6 +638,7 @@ page.login.title: "Sign in to Bolt"
 page.prefill.connection-timeout: "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 page.prefill.skipped-existing: "Skipped <code>%key%</code> (already has records)"
+page.prefill.skipped-singleton: "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.button.more: "more activity"
 panel.latest-activity.by: "by"

@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  20 Legacy untranslated messages
-# 253 Untranslated messages
-#  21 Legacy translation messages
+# 254 Untranslated messages
+#  20 Legacy translation messages
 # 304 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -310,6 +310,7 @@ page.login.label.password: # "Password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -329,7 +330,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O arquivo '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"Image": "Imagem"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
@@ -479,6 +479,7 @@ general.phrase.general.phrase.uploaded-files: "Enviar arquivos"
 general.phrase.global-permissions: "Permissões Globais"
 general.phrase.hints-colon: "Dicas:"
 general.phrase.id: "ID"
+general.phrase.image: "Imagem"
 general.phrase.info: "Informações"
 general.phrase.ip.address: "Endereço IP"
 general.phrase.last-edited-on-colon: "Última edição em:"
@@ -637,7 +638,6 @@ page.file-management.message.access-denied: "Uploading para esta pasta não é p
 page.file-management.message.create-file: "Por favor insira um novo nome de arquivo!"
 page.file-management.message.create-folder: "Por favor digite um novo nome para pasta!"
 page.file-management.message.file-not-readable: "Arquivo não pode ser lido!"
-page.file-management.message.files-in: "Arquivos em %s"
 page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
 page.file-management.message.save-failed-colon: "Arquivo '%s' não pode ser salvo:"
 page.file-management.message.save-failed-unknown: "Arquivo '%s' não pode ser salvo por alguma razão."

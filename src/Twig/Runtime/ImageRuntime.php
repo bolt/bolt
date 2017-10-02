@@ -136,7 +136,7 @@ class ImageRuntime
 
         // BC Nightmare… If we're passed a title, use it, if not we might have
         // one in the $fileName array, else use the file name
-        $title = $title ?: $thumb->getTitle() ?: sprintf('%s: %s', Trans::__('Image'), $thumb->getFileName());
+        $title = $title ?: $thumb->getTitle() ?: sprintf('%s: %s', Trans::__('general.phrase.image'), $thumb->getFileName());
         $altTitle = $thumb->getAltTitle() ?: $title;
 
         if ($this->getThumbnailUri($largeThumb)) {
