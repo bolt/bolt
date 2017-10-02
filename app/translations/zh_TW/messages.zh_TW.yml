@@ -1,4 +1,4 @@
-# app/resources/translations/zh_TW/messages.zh_TW.yml
+# app/translations/zh_TW/messages.zh_TW.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  21 Legacy untranslated messages
-# 220 Untranslated messages
-#  20 Legacy translation messages
+# 221 Untranslated messages
+#  19 Legacy translation messages
 # 339 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -277,6 +277,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -295,7 +296,6 @@ panel.latest-activity.system: # "Latest system activity"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
-"Image": "影象"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
@@ -447,6 +447,7 @@ general.phrase.full-list-ellipsis: "完整列表 …"
 general.phrase.general.phrase.uploaded-files: "已上傳的檔案"
 general.phrase.global-permissions: "全局許可權"
 general.phrase.hints-colon: "提示："
+general.phrase.image: "影象"
 general.phrase.info: "資訊"
 general.phrase.ip.address: "IP 地址"
 general.phrase.last-edited-on-colon: "上一次編輯於:"
@@ -637,7 +638,6 @@ page.file-management.message.access-denied: "不允許上傳到此資料夾。"
 page.file-management.message.create-file: "請輸入新檔名"
 page.file-management.message.create-folder: "請輸入新資料夾名"
 page.file-management.message.file-not-readable: "檔案不可讀取！"
-page.file-management.message.files-in: "%s 中的檔案"
 page.file-management.message.folder-not-found: "找不到 '%s' 資料夾，或者該資料夾不可讀。"
 page.file-management.message.save-failed-colon: "無法儲存檔案 '%s'："
 page.file-management.message.save-failed-unknown: "由於某種原因，檔案 '%s' 不能儲存。"

@@ -1,4 +1,4 @@
-# app/resources/translations/ru/messages.ru.yml
+# app/translations/ru/messages.ru.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #   7 Legacy untranslated messages
-# 190 Untranslated messages
-#  34 Legacy translation messages
+# 191 Untranslated messages
+#  33 Legacy translation messages
 # 369 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -237,6 +237,7 @@ page.file-management.message.save-failed-invalid-form: # "File '%s' could not be
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.by: # "by"
 
@@ -256,7 +257,6 @@ panel.latest-activity.by: # "by"
 "Excerpt": "Задержка"
 "Expand sidebar": "Развернуть боковую панель"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Файл '%file%' не может быть загружен (неверный/неразрешенный тип файла). Убедитесь что расширение файла является одним из следующих:"
-"Image": "Изображение"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Неправильный путь menu (%PATH%) в menu.yml. Он не соответствует ни одному настроенному contenttypes или routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Неправильный путь menu (%PATH%) в menu.yml. Скорее всего должен быть link:."
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Идентификатор для slug '%taxonomytype%' не может быть идентичным ('%slug%' и '%taxonomytype%'). Пожалуйста, отредактируйте taxonomy.yml, и сделать их соответствие для предотвращения несоответствий между хранением баз данных и шаблонов."
@@ -429,6 +429,7 @@ general.phrase.find: "Найти"
 general.phrase.folders: "Папки"
 general.phrase.general.phrase.uploaded-files: "Загрузить файлы"
 general.phrase.global-permissions: "Глобальные права"
+general.phrase.image: "Изображение"
 general.phrase.info: "Информация"
 general.phrase.ip.address: "IP адрес"
 general.phrase.last-edited-on-colon: "Последнее редактирование:"
@@ -634,7 +635,6 @@ page.file-management.message.access-denied: "Недостаточно прав �
 page.file-management.message.create-file: "Пожалуйста, введите новое имя файла!"
 page.file-management.message.create-folder: "Пожалуйста, введите новое имя папки!"
 page.file-management.message.file-not-readable: "Файл недоступен для чтения!"
-page.file-management.message.files-in: "Файлы в %s"
 page.file-management.message.folder-not-found: "Папка '%s' не может быть найдена, или недоступна для чтения."
 page.file-management.message.save-failed-colon: "Файл '%s' не может быть сохранён:"
 page.file-management.message.save-failed-unknown: "Файл '%s' по непонятным причинам, не может быть сохранён."

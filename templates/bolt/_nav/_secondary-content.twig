@@ -25,14 +25,18 @@
 {% endif %}
 
 {# "Other" ContentType menu and sub-menu #}
-{% if content_menus.other is defined %}
-    {% set menu = content_menus.other %}
-    {% set key = menu.label %}
-    {% set sub = [] %}
+{% if content_menus.grouped is defined %}
+    {% for name, menu in content_menus.grouped.children %}
+        {% set key = menu.label %}
+        {% set sub = [] %}
 
-    {% for sub_menu in menu.children %}
-        {% set sub = sub|merge([sub_menu]) %}
+        {% for sub_menu in menu.children %}
+            {% if sub_menu.has('singleton') %}
+                {% set sub_menu = sub_menu.children|first %}
+            {% endif %}
+            {% set sub = sub|merge([sub_menu]) %}
+        {% endfor %}
+
+        {{ nav.submenu(menu.icon, menu.label, sub, false, false, null, true) }}
     {% endfor %}
-
-    {{ nav.submenu(menu.icon, menu.label, sub, false, false, null, true) }}
 {% endif %}

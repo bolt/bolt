@@ -53,6 +53,10 @@ trait MagicAttributeTrait
 
     public function __call($method, $arguments)
     {
+        if (method_exists($this, $method)) {
+            return call_user_func_array([$this, $method], (array) $arguments);
+        }
+
         $var = lcfirst(preg_replace('/^(get|set|serialize)/i', '', $method));
         $underscored = $this->underscore($var);
         $camelized = $this->camelize($var);

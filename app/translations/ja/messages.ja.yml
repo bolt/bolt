@@ -1,4 +1,4 @@
-# app/resources/translations/ja/messages.ja.yml
+# app/translations/ja/messages.ja.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  24 Legacy untranslated messages
-# 295 Untranslated messages
-#  17 Legacy translation messages
+# 296 Untranslated messages
+#  16 Legacy translation messages
 # 264 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -357,6 +357,7 @@ page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.by: # "by"
 panel.latest-activity.change: # "Latest changes"
@@ -377,7 +378,6 @@ panel.user-actions.button.add: # "Add a new user"
 "Everybody": "みなさん"
 "Excerpt": "概要"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "ファイル '%file%' をアップロードできませんでした（間違っている/許可されていない ファイルの種類）。 ファイルの拡張子が以下に含まれるかご確認ください:"
-"Image": "画像"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' の識別名とスラッグが同じではありません('%slug%' vs. '%taxonomytype%')。taxonomy.xml を編集して、２つを一致させ、データベースとテンプレートの不整合を解消してください。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "ロールとパーミッションの設定は<code>%permissions%</code>に保存されています。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
@@ -506,6 +506,7 @@ general.phrase.folders: "フォルダ"
 general.phrase.full-list-ellipsis: "全てのリスト…"
 general.phrase.general.phrase.uploaded-files: "アップロードされたファイル"
 general.phrase.global-permissions: "グローバル パーミッション"
+general.phrase.image: "画像"
 general.phrase.info: "情報"
 general.phrase.ip.address: "IPアドレス"
 general.phrase.last-edited-on-colon: "最終更新日："
@@ -644,7 +645,6 @@ page.file-management.label.create-folder: "フォルダを作成"
 page.file-management.message.access-denied: "このフォルダへのアップロードは許可されていません。"
 page.file-management.message.create-folder: "新しいフォルダ名を入力してください"
 page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
-page.file-management.message.files-in: "%s の中のファイル"
 page.file-management.message.folder-not-found: "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
 page.file-management.message.save-failed-colon: "ファイル '%s' を保存できませんでした："
 page.file-management.message.save-failed-unknown: "何らかの理由でファイル '%s' を保存できませんでした。"

@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Storage\Database\Prefill;
 
+use Bolt\Collection\Bag;
 use Bolt\Common\Json;
 use Bolt\Storage\Database\Prefill;
 use Bolt\Storage\EntityManager;
@@ -41,7 +42,7 @@ class BuilderTest extends TestCase
             ->willThrow(TableNotFoundException::class)
         ;
 
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
         $builder->build(['drop_bears'], 5);
 
         $this->addToAssertionCount(1);
@@ -66,7 +67,7 @@ class BuilderTest extends TestCase
             ->willReturn($expected)
         ;
 
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
         $result = $builder->build(['pages'], 5);
 
         $this->assertSame($expected, $result['created']['pages']);
@@ -90,7 +91,7 @@ class BuilderTest extends TestCase
             ->generate(5)
             ->willReturn($expected)
         ;
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
 
         $customExpected = [
             'Two koalas and a dropbear',
@@ -127,7 +128,7 @@ class BuilderTest extends TestCase
             ->willThrow(RequestException::class)
         ;
 
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
         $result = $builder->build(['pages'], 5);
 
         $this->assertRegExp('/^Timeout attempting connection to the/', $result['errors']['pages']);
@@ -143,7 +144,7 @@ class BuilderTest extends TestCase
             ->willReturn($repo)
         ;
 
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
         $result = $builder->build(['pages'], 5);
 
         $this->assertNotEmpty($result['warnings'], 'No warning messages returned from builder');
@@ -170,7 +171,7 @@ class BuilderTest extends TestCase
             ->willReturn($expected)
         ;
 
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, Bag::from([]));
         $result = $builder->build(['pages'], 5, true);
 
         $this->assertNotNull($result['created'], 'Builder did not build anything');
@@ -179,10 +180,29 @@ class BuilderTest extends TestCase
 
     public function testMaxCount()
     {
-        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 21);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 21, Bag::from([]));
         $this->assertSame(21, $builder->getMaxCount());
 
         $builder->setMaxCount(42);
         $this->assertSame(42, $builder->getMaxCount());
+    }
+
+    public function testSingleton()
+    {
+        $repo = $this->prophesize(ContentRepository::class);
+        $repo->count()->willReturn(1);
+
+        $this->em
+            ->getRepository('pages')
+            ->willReturn($repo)
+        ;
+
+        $contentType = Bag::from(['pages' => ['singleton' => true]]);
+        $builder = new Prefill\Builder($this->em->reveal(), $this->generatorFactory, 5, $contentType);
+        $result = $builder->build(['pages'], 5);
+
+        $this->assertNotEmpty($result['warnings'], 'No warning messages returned from builder');
+        $this->assertArrayHasKey('pages', $result['warnings'], 'Did not return warning for "pages" ContentType');
+        $this->assertRegExp('/Skipped singleton.+(pages).+(already has a record)/', $result['warnings']['pages']);
     }
 }

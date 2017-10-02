@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Prefill;
 
+use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
 use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
@@ -21,6 +22,8 @@ class Builder
     private $generatorFactory;
     /** @var int */
     private $maxCount;
+    /** @var Bag */
+    private $contentTypes;
 
     /**
      * Constructor.
@@ -28,12 +31,14 @@ class Builder
      * @param EntityManager $storage
      * @param callable      $generatorFactory
      * @param int           $maxCount
+     * @param Bag           $contentTypes
      */
-    public function __construct(EntityManager $storage, callable $generatorFactory, $maxCount)
+    public function __construct(EntityManager $storage, callable $generatorFactory, $maxCount, Bag $contentTypes)
     {
         $this->storage = $storage;
         $this->generatorFactory = $generatorFactory;
         $this->maxCount = $maxCount;
+        $this->contentTypes = $contentTypes;
     }
 
     /**
@@ -68,6 +73,19 @@ class Builder
                 ));
 
                 continue;
+            }
+
+            // Singletons are always limited to 1 item max.
+            if ($this->contentTypes->getPath($contentTypeName . '/singleton')) {
+                $count = 1;
+                if ($existingCount > 0) {
+                    $response->setPath('warnings/' . $contentTypeName, Trans::__(
+                        'page.prefill.skipped-singleton',
+                        ['%key%' => $contentTypeName]
+                    ));
+
+                    continue;
+                }
             }
 
             // Take the current amount of items into consideration, when adding more.

@@ -1,4 +1,4 @@
-# app/resources/translations/el/messages.el.yml
+# app/translations/el/messages.el.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  30 Legacy untranslated messages
-# 377 Untranslated messages
-#  11 Legacy translation messages
+# 378 Untranslated messages
+#  10 Legacy translation messages
 # 182 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -445,6 +445,7 @@ page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.button.more: # "more activity"
 panel.latest-activity.change: # "Latest changes"
@@ -473,7 +474,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
-"Image": "Εικόνα"
 "Title": "Τίτλος"
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
 
@@ -560,6 +560,7 @@ general.phrase.filter: "Φίλτρο"
 general.phrase.folders: "Κατάλογοι"
 general.phrase.general.phrase.uploaded-files: "Φορτωμένο αρχείο"
 general.phrase.global-permissions: "Καθολικά Δικαιώματα"
+general.phrase.image: "Εικόνα"
 general.phrase.info: "Πληροφορίες"
 general.phrase.ip.address: "Διεύθυνση IP"
 general.phrase.last-edited-on-colon: "Τελευταία τροποποίηση στις:"
@@ -664,7 +665,6 @@ page.extend.message.maintenance: "Συντήρηση"
 
 page.file-management.message.access-denied: "Η φόρτωση αρχείου σε αυτον τον κατάλογο δεν επιτρέπετε."
 page.file-management.message.file-not-readable: "Το αρχείο δεν μπορεί να διαβαστεί!"
-page.file-management.message.files-in: "Αρχεία στο %s"
 page.file-management.message.folder-not-found: "Ο κατάλογος '%s' δεν μπορεί να βρεθεί ή να διαβαστεί."
 page.file-management.message.save-failed-colon: "Το αρχείο '%s' δεν μπορεί να αποθηκευτεί:"
 page.file-management.message.save-failed-unknown: "Το αρχέιο '%s' δεν μπορεί να αποθηκευτεί για κάποιο λόγο."

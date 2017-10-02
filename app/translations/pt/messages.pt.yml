@@ -1,4 +1,4 @@
-# app/resources/translations/pt/messages.pt.yml
+# app/translations/pt/messages.pt.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #   9 Legacy untranslated messages
-#  65 Untranslated messages
-#  32 Legacy translation messages
+#  66 Untranslated messages
+#  31 Legacy translation messages
 # 494 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -104,6 +104,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -121,7 +122,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "O ficheiro '%file%' não pode ser carregado (erro/tipo de arquivo não permitido). Certifique-se que a extensão é uma das seguintes:"
-"Image": "Imagem"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o nome curto para '%taxonomytype%' não são iguais ('%slug%' vs. '%taxonomytype%'). Edite o ficheiro taxonomy.yml, e faça-os coincidir para evitar inconsistências entre o armazenamento da base de dados e dos seus temas."
@@ -332,6 +332,7 @@ general.phrase.general.phrase.uploaded-files: "Ficheiros carregados"
 general.phrase.global-permissions: "Permissões globais"
 general.phrase.hints-colon: "Dicas:"
 general.phrase.id: "ID"
+general.phrase.image: "Imagem"
 general.phrase.info: "Informações"
 general.phrase.ip.address: "Endereço IP"
 general.phrase.keyword-ellipsis: "Termo-chave..."
@@ -628,7 +629,6 @@ page.file-management.message.access-denied: "Não é permitido carregar para est
 page.file-management.message.create-file: "Por favor insira um novo nome de ficheiro!"
 page.file-management.message.create-folder: "Por favor digite um novo nome para a pasta!"
 page.file-management.message.file-not-readable: "O ficheiro não pode ser lido!"
-page.file-management.message.files-in: "Ficheiros em %s"
 page.file-management.message.folder-not-found: "Pasta '%s' não foi encontrada ou não pode ser lida."
 page.file-management.message.save-failed-colon: "Ficheiro '%s' não pode ser guardado:"
 page.file-management.message.save-failed-invalid-form: "Não foi possível guardar o ficheiro '%s' , porque o formulário não está completo ou não é válido."

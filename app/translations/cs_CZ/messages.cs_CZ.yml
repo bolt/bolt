@@ -1,4 +1,4 @@
-# app/resources/translations/cs_CZ/messages.cs_CZ.yml
+# app/translations/cs_CZ/messages.cs_CZ.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #   8 Legacy untranslated messages
-#  19 Untranslated messages
-#  33 Legacy translation messages
+#  20 Untranslated messages
+#  32 Legacy translation messages
 # 540 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -52,6 +52,7 @@ page.file-management.actions-for-files: # "Actions for files"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -69,7 +70,6 @@ page.prefill.database-update-required: # "Table not found for ContentType %CONTE
 "Excerpt": "Souhrn"
 "Expand sidebar": "Roztáhnout postranní lištu"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Soubor „%file%“ nemohl být nahrán (špatný či nepovolený typ souboru). Zkontrolujte, zda se jedná jeden z povolených typů souboru:"
-"Image": "Obrázek"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "V menu je nastavená špatná cesta (%PATH%). Neodpovídá žádnému z nastavených typů obsahu ani současnému routingu. Zkontrolujte soubor menu.yml."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "V menu menu.yml je nastavená špatná cesta (%PATH%). Mělo by tam pravděpodobně být link: !\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikátor a trvalý odkaz pro '%taxonomytype%' se neshoduji ('%slug%' vs. '%taxonomytype%'). Upravte prosím taxonomy.yml, aby se shodovali. Zabráníte tím zmatkům mezi databází a vaší šablonou."
@@ -294,6 +294,7 @@ general.phrase.general.phrase.uploaded-files: "Nahrané soubory"
 general.phrase.global-permissions: "Globální oprávnění"
 general.phrase.hints-colon: "Tipy:"
 general.phrase.id: "ID"
+general.phrase.image: "Obrázek"
 general.phrase.info: "Info"
 general.phrase.invalid-taxonomy-slug: "V taxonomii „%taxonomy%“ alias volby „%option%“ obsahuje lomítko. Prosím, upravte soubor taxonomy.yml a napravte to."
 general.phrase.ip.address: "IP adresa"
@@ -624,7 +625,6 @@ page.file-management.message.access-denied: "Ukládání do této složky není 
 page.file-management.message.create-file: "Zadejte prosím nové jméno souboru!"
 page.file-management.message.create-folder: "Zadejte prosím nové jméno složky!"
 page.file-management.message.file-not-readable: "Soubor není čitelný!"
-page.file-management.message.files-in: "Soubory v %s"
 page.file-management.message.folder-not-found: "Složku „%s“ nelze nalézt nebo není přístupná ke čtení."
 page.file-management.message.save-failed-colon: "Soubor „%s“ nelze uložit:"
 page.file-management.message.save-failed-invalid-form: "Soubor „%s“ nelze uložit, formulář je neplatný."

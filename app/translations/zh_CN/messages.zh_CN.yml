@@ -1,4 +1,4 @@
-# app/resources/translations/zh_CN/messages.zh_CN.yml
+# app/translations/zh_CN/messages.zh_CN.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  21 Legacy untranslated messages
-# 236 Untranslated messages
-#  20 Legacy translation messages
+# 237 Untranslated messages
+#  19 Legacy translation messages
 # 323 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -291,6 +291,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.change: # "Latest changes"
 panel.latest-activity.created: # "Created"
@@ -314,7 +315,6 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 "Excerpt": "摘要"
 "Expand sidebar": "展开"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "无法上传文件 '%file%' (错误的/不允许的文件类型)。确保文件扩展名是以下类型之一："
-"Image": "图像"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的标识符和 slug 不同。('%slug%' 与 '%taxonomytype%')。请编辑 taxonomy.yml 保持一致，避免数据库存储和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和权限设置保存在 <code>%permissions%</code> 文件中。"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多个内容格式中。请编辑 contenttypes.yml 区分它们。"
@@ -463,6 +463,7 @@ general.phrase.folders: "文件夹"
 general.phrase.full-list-ellipsis: "完整列表 …"
 general.phrase.general.phrase.uploaded-files: "已上传的文件"
 general.phrase.global-permissions: "全局权限"
+general.phrase.image: "图像"
 general.phrase.info: "信息"
 general.phrase.ip.address: "IP 地址"
 general.phrase.last-edited-on-colon: "上一次编辑于:"
@@ -643,7 +644,6 @@ page.file-management.message.access-denied: "不允许上传到此文件夹。"
 page.file-management.message.create-file: "请输入新文件名"
 page.file-management.message.create-folder: "请输入新文件夹名"
 page.file-management.message.file-not-readable: "文件不可读取！"
-page.file-management.message.files-in: "%s 中的文件"
 page.file-management.message.folder-not-found: "找不到 '%s' 文件夹，或者该文件夹不可读。"
 page.file-management.message.save-failed-colon: "无法保存文件 '%s'："
 page.file-management.message.save-failed-unknown: "由于某种原因，文件 '%s' 不能保存。"

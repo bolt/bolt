@@ -21,7 +21,7 @@
     </th>
 
     <th>
-        <a href="{{ link }}image {% if global.request.get('order') == "image ASC" %}DESC{% else %}ASC{% endif %}">{{ __('Image') }}</a>
+        <a href="{{ link }}image {% if global.request.get('order') == "image ASC" %}DESC{% else %}ASC{% endif %}">{{ __('general.phrase.image') }}</a>
     </th>
 
     <th class="username hidden-xs"><a href="{{ link }}datecreated {% if global.request.get('order') == "datecreated ASC" %}DESC{% else %}ASC{% endif %}">{{ __('general.phrase.meta') }}</a></th>

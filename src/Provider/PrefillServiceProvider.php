@@ -18,7 +18,12 @@ class PrefillServiceProvider implements ServiceProviderInterface
         };
 
         $app['prefill.builder'] = function ($app) {
-            return new Prefill\Builder($app['storage'], $app['prefill.generator_factory'], 5);
+            return new Prefill\Builder(
+                $app['storage'],
+                $app['prefill.generator_factory'],
+                5,
+                Bag::from($app['config']->get('contenttypes'))
+            );
         };
 
         $app['prefill.default_field_values'] = function () {

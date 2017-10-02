@@ -58,7 +58,7 @@ final class AdminContent
         }
 
         // ContentTypes, where show_in_menu is set to a custom value or false
-        $this->addOtherContentTypes($contentRoot);
+        $this->addGroupedMenus($contentRoot);
 
         return $root;
     }
@@ -99,28 +99,58 @@ final class AdminContent
     }
 
     /**
-     * Add the "Other content" menu.
+     * Add the "Other content" & similar menu/sub menus.
      *
      * @param MenuEntry $contentRoot
      */
-    private function addOtherContentTypes(MenuEntry $contentRoot)
+    private function addGroupedMenus(MenuEntry $contentRoot)
     {
-        $contentTypes = $this->contentTypes->filter(function ($k, $v) {
-            return $v['show_in_menu'] !== true;
+        $groups = $this->contentTypes->call(function ($a) {
+            $arr = [];
+            foreach ($a as $k => $v) {
+                if ($v['show_in_menu'] === true) {
+                    continue;
+                }
+                $group = $v['show_in_menu'] ?: 'other';
+                $arr[$group][$k] = $v;
+            }
+
+            return $arr;
         });
-        if ($contentTypes->isEmpty()) {
+        if ($groups->isEmpty()) {
             return;
         }
 
-        // Other content root
-        $otherEntry = $contentRoot->add(
-            MenuEntry::create('other')
-                ->setLabel(Trans::__('general.phrase.other-content'))
-                ->setIcon('fa:th-list')
+        // Create a master node for these groups
+        $groupedMenusRoot = $contentRoot->add(
+            MenuEntry::create('grouped')
                 ->setPermission('dashboard')
         );
 
-        // Other content children
+        foreach ($groups as $key => $contentTypes) {
+            $label = $key === 'other' ? Trans::__('general.phrase.other-content') : ucwords($key);
+
+            // Other content root
+            $otherEntry = $groupedMenusRoot->add(
+                MenuEntry::create(strtolower($key))
+                    ->setLabel($label)
+                    ->setIcon('fa:th-list')
+                    ->setPermission('dashboard')
+            );
+            $groupedMenusRoot->add($otherEntry);
+
+            $this->addGroupedContentTypes($otherEntry, $contentTypes);
+        }
+    }
+
+    /**
+     * Add a group's children.
+     *
+     * @param MenuEntry $otherEntry
+     * @param array     $contentTypes
+     */
+    private function addGroupedContentTypes(MenuEntry $otherEntry, array $contentTypes)
+    {
         foreach ($contentTypes as $contentTypeKey => $contentType) {
             /** @var Bag $contentType */
             $otherEntry->add(

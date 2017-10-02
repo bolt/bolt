@@ -12,6 +12,7 @@ use Bolt\Omnisearch;
 use Bolt\Requirement\BoltRequirements;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Requirements\PhpConfigRequirement;
@@ -295,12 +296,18 @@ class General extends BackendBase
 
         // Get the 'latest' from each of the content types.
         foreach ($this->getOption('contenttypes') as $key => $contentType) {
-            if ($this->isAllowed('contenttype:' . $key) && $contentType['show_on_dashboard'] === true && $user !== null) {
-                $queryResultSet = $this->getContent($key, $queryParams);
-                $latest[$key] = $queryResultSet->get();
-                $permissions[$key] = $this->getContentTypeUserPermissions($contentType, $user);
-                $total += $queryResultSet->count();
+            if (!$this->isAllowed('contenttype:' . $key) || $contentType['show_on_dashboard'] !== true || $user === null) {
+                continue;
             }
+            try {
+                $queryResultSet = $this->getContent($key, $queryParams);
+            } catch (TableNotFoundException $e) {
+                // User will be alerted via flash notice
+                continue;
+            }
+            $latest[$key] = $queryResultSet->get();
+            $permissions[$key] = $this->getContentTypeUserPermissions($contentType, $user);
+            $total += $queryResultSet->count();
         }
 
         return [

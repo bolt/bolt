@@ -1,4 +1,4 @@
-# app/resources/translations/id/messages.id.yml
+# app/translations/id/messages.id.yml
 
 # Warning: Translations are in the process of being moved to a new keyword
 #          based translation messages. This is an ongoing process. Translations
@@ -9,8 +9,8 @@
 
 #   0 Unused messages
 #  35 Legacy untranslated messages
-# 412 Untranslated messages
-#   6 Legacy translation messages
+# 413 Untranslated messages
+#   5 Legacy translation messages
 # 147 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -483,6 +483,7 @@ page.login.title: # "Sign in to Bolt"
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 page.prefill.skipped-existing: # "Skipped <code>%key%</code> (already has records)"
+page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
 
 panel.latest-activity.button.more: # "more activity"
 panel.latest-activity.change: # "Latest changes"
@@ -508,7 +509,6 @@ permissions.roles.label.anonymous: # "Anonymous"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
 "Everybody": "Semua"
 "Excerpt": "Ringkasan"
-"Image": "Citra"
 "Title": "Judul"
 
 #--- Translation messages -----------------------------------------------------
@@ -579,6 +579,7 @@ general.phrase.filter: "Saringan"
 general.phrase.folders: "Map"
 general.phrase.general.phrase.uploaded-files: "Berkas Unggahan"
 general.phrase.global-permissions: "Ijin global"
+general.phrase.image: "Citra"
 general.phrase.ip.address: "Alamat IP"
 general.phrase.last-edited-on-colon: "Terakhir diubah:"
 general.phrase.last-known-ip: "IP dikenal terakhir"
@@ -668,7 +669,6 @@ page.extend.message.maintenance: "Perawatan"
 
 page.file-management.message.access-denied: "Pengunggahan ke map ini tidak diijinkan."
 page.file-management.message.file-not-readable: "Berkas tidak terbaca"
-page.file-management.message.files-in: "Berkas-berkas di %s"
 page.file-management.message.folder-not-found: "Map '%s' tidak dapat ditemukan atau tidak terbaca."
 page.file-management.message.save-failed-colon: "Berkas '%s' tidak dapat disimpan:"
 page.file-management.message.save-failed-unknown: "Berkas '%s' tidak dapat disimpan karena suatu alasan."
