@@ -1,57 +1,27 @@
-# Bolt specific stuff. Don't put config files, databases or 'vendor' in Git.
-app/database/*
-config/*.yml
-config/extensions/
-extensions/*
-public/files/*
-public/thumbs/
-public/theme/*
-var/*
-vendor/
-*config.yml
+# Bolt specific
+/app/database/*
+/config/extensions/
+/config/*.yml
+/extensions/*
+/public/files/*
+/public/theme/*
+/public/thumbs/
+/var/*
+/vendor/
 composer.lock
 
 # Bolt development files
-app/src/tmp/
-app/src/docs/
-app/src/grunt-local/*.js
-app/view/maps/
-pimple.json
-.deploy.yml
+/assets/grunt-local/*.js
+/assets/node_modules/
+/public/bolt/maps/
+/pimple.json
+/.deploy.yml
 
 # Bolt testing files
+/tests/codeception/_output
+/tests/codeception/_support/*Tester.php
+/tests/codeception/_support/_generated/
+/tests/phpunit/web-root/
 coverage.xml
 phpunit.xml
 *.codeception-backup
-tests/codeception/_output
-tests/codeception/_support/*Tester.php
-tests/codeception/_support/_generated/
-tests/phpunit/web-root/
-
-# Common developer tools
-codeception.phar
-composer.phar
-php-cs-fixer.phar
-scrutinizer.phar
-
-# NPM, Gulp and Grunt stuff
-node_modules
-bower_components
-npm-debug.log
-.sass-cache
-!yarn.lock
-
-# Sourcemaps
-*.map
-
-# File-system cruft and temporary files
-.DS_Store
-__*
-._*
-Vagrantfile
-.vagrant*
-.*.swp
-.swp
-*.lock
-.buildpath
-
