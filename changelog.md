@@ -1,6 +1,18 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4 beta 2
+---------------
+
+Released: 2017-10-02. Notable changes
+
+ - Change: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
+ - Fixed: Catch `TableNotFoundException` for new ContentTypes. [#7041](https://github.com/bolt/bolt/pull/7041)
+ - Fixed: Fix taxonomies on `database:import` CLI script [#7039](https://github.com/bolt/bolt/pull/7039)
+ - Fixed: Fix thumbnails showing correctly in listing view, if an `imagelist` field is used. [#7044](https://github.com/bolt/bolt/pull/7044)
+ - Fixed: Menu drop bear. [#7042](https://github.com/bolt/bolt/pull/7042)
+ - Fixed: Reset `ORDER BY` on pager count queries, get "Title Column name" correctly. [#7045](https://github.com/bolt/bolt/pull/7045)
+
 Bolt 3.4 beta 1
 ---------------
 
