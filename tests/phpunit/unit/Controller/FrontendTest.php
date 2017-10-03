@@ -53,25 +53,26 @@ class FrontendTest extends ControllerUnitTest
 
     public function testConfiguredConfigHomepageTemplate()
     {
+        $this->getService('filesystem')->put('theme://custom-home.twig', '');
         $this->getService('config')->set('general/homepage_template', 'custom-home.twig');
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('index.twig', $response->getTemplate());
+        $this->assertSame('custom-home.twig', $response->getTemplate());
     }
 
     public function testConfiguredThemeHomepageTemplate()
     {
-        $this->getService('filesystem')->put('theme://custom-home.twig', '');
-        $this->getService('config')->set('theme/homepage_template', 'custom-home.twig');
+        $this->getService('filesystem')->put('theme://custom-theme-home.twig', '');
+        $this->getService('config')->set('theme/homepage_template', 'custom-theme-home.twig');
         $this->setRequest(Request::create('/'));
 
         $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('custom-home.twig', $response->getTemplate());
+        $this->assertSame('custom-theme-home.twig', $response->getTemplate());
     }
 
     public function testHomepageContent()
