@@ -84,6 +84,16 @@ Released: 2017-09-30. Notable changes
  - Tests: Setcontent [#6872](https://github.com/bolt/bolt/pull/6872)
  - Travis: Drop HHVM and add PHP nightly builds [#6921](https://github.com/bolt/bolt/pull/6921)
 
+Bolt 3.3.6
+----------
+
+Released 2017-09-29. Notable changes:
+
+ - Security: Added Request listener to prevent access to `_profiler` routes.
+ - Tests: Fix breakage due to upstream [#7025](https://github.com/bolt/bolt/pull/7025)
+ - Fixed: Added font sizes to headings in WYSIWYG fields. [#7032](https://github.com/bolt/bolt/pull/7032)
+ - Fixed: Added Legacy Content Type to Entity [#7033](https://github.com/bolt/bolt/pull/7033)
+
 Bolt 3.3.5
 ----------
 
@@ -413,6 +423,13 @@ Bolt 3.3 betas were released on:
  - RC 2: Released 2017-07-21
  - RC 3: Released 2017-07-25
  - RC 4: Released 2017-07-26
+
+Bolt 3.2.20
+-----------
+
+Released 2017-09-29. Notable changes:
+
+ - Security: Added Request listener to prevent access to `_profiler` routes.
 
 Bolt 3.2.19
 -----------
