@@ -38,6 +38,10 @@ ajv@^4.7.0, ajv@^4.9.1:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
 
+almond@~0.3.1:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
+
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
@@ -1982,6 +1986,10 @@ jquery-formatdatetime@~1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/jquery-formatdatetime/-/jquery-formatdatetime-1.1.6.tgz#e3f2832e510ef881124c664d9d1196cf6659926c"
 
+jquery-mousewheel@~3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
+
 jquery.cookie@~1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jquery.cookie/-/jquery.cookie-1.4.1.tgz#d63dce209eab691fe63316db08ca9e47e0f9385b"
@@ -3015,9 +3023,12 @@ seek-bzip@^1.0.5:
   dependencies:
     commander "~2.8.1"
 
-select2@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.0.tgz#81b461456c77148e7e422eb63bd71ca0b254fce7"
+select2@~4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.4.tgz#a18a628785f98d13999971ae95d8d7e57268076b"
+  dependencies:
+    almond "~0.3.1"
+    jquery-mousewheel "~3.1.13"
 
 "semver@2 || 3 || 4 || 5", semver@^5.0.3:
   version "5.4.1"
