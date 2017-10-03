@@ -371,7 +371,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
 
         $body = file_get_contents(CODECEPTION_DATA . '/not-found.body.html');
 
-        $I->fillField('#title', '404');
+        $I->fillField('#title', '404 reasons to cry');
         $I->fillField('#slug',  'not-found');
         $I->fillField('#body',  $body);
 
