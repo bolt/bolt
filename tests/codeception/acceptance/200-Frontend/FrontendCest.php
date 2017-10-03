@@ -107,8 +107,8 @@ class FrontendCest
 
         $I->amOnPage('/resources');
 
-        $I->see('404 not found');
-        $I->see('The requested page was not found.');
+        $I->see('404 reasons to cry');
+        $I->see('Well, this is kind of embarrassing!');
     }
 
     /**
@@ -122,8 +122,8 @@ class FrontendCest
 
         $I->amOnPage('/derp-a-derp');
 
-        $I->see('404 not found');
-        $I->see('The requested page was not found.');
+        $I->see('404 reasons to cry');
+        $I->see('Well, this is kind of embarrassing!');
     }
 
     /**

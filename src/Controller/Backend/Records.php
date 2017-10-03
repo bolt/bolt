@@ -113,6 +113,9 @@ class Records extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
+        // Ensure custom entities have the legacy ContentType set
+        $this->app['storage.legacy_service']->setupContenttype($content);
+
         $context = $this->recordEdit()->action($content, $content->getContenttype(), $duplicate);
         $context['file_matcher'] = $this->app['filesystem.matcher'];
         $context['form'] = $form->createView();
