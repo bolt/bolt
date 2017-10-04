@@ -8,6 +8,7 @@ use Bolt\Profiler\DebugToolbarEnabler;
 use Doctrine\DBAL\Logging\DebugStack;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpKernel\DataCollector\LoggerDataCollector;
 
 /**
  * @author Carson Full <carsonfull@gmail.com>
@@ -55,6 +56,7 @@ class ProfilerServiceProvider implements ServiceProviderInterface
                     // @codingStandardsIgnoreStart
                     $collectors['bolt'] = $app->share(function ($app) { return new BoltDataCollector($app); });
                     $collectors['db'] = $app->share(function ($app) { return new DatabaseDataCollector($app['db.logger']); });
+                    $collectors['logs'] = $app->share(function ($app) { return new LoggerDataCollector($app['logger']); });
                     // @codingStandardsIgnoreEnd
 
                     return $collectors;
