@@ -83,20 +83,20 @@
                             <ul class="dropdown-menu pull-right hidden-xs">
                                 <li>
                                     <a href="#"
-                                       data-action="Bolt.files.renameFile('{{ file.mountPoint }}', '{{ file.dirname }}', '{{ file.filename }}', this);">
+                                       data-action="Bolt.files.renameFile('{{ file.mountPoint }}', '{{ file.dirname|e('js') }}', '{{ file.filename|e('js') }}', this);">
 
                                         <i class="fa fa-keyboard-o"></i>
                                         {{ __('general.phrase.rename-foldername', {'%foldername%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.deleteFile('{{ file.mountPoint }}', '{{ file.path }}', this);">
+                                    <a href="#" data-action="Bolt.files.deleteFile('{{ file.mountPoint }}', '{{ file.path|e('js') }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('general.phrase.delete-file-name', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path }}')">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path|e('js') }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('general.phrase.duplicate-file-name', {'%filename%': file.filename }) }}
                                     </a>

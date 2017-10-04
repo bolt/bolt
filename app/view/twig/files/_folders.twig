@@ -41,8 +41,8 @@
                                 <li>
                                     <a href="#"
                                        data-action="bolt.files.renameFolder('{{ directory.mountPoint }}',
-                                                                        '{{ directory.dirname }}',
-                                                                        '{{ directory.filename }}',
+                                                                        '{{ directory.dirname|e('js') }}',
+                                                                        '{{ directory.filename|e('js') }}',
                                                                         this);">
 
                                         <i class="fa fa-keyboard-o"></i>
@@ -51,8 +51,8 @@
                                     <a href="#"
                                        class="confirm"
                                        data-action="bolt.files.deleteFolder('{{ directory.mountPoint }}',
-                                                                        '{{ directory.dirname }}',
-                                                                        '{{ directory.filename }}',
+                                                                        '{{ directory.dirname|e('js') }}',
+                                                                        '{{ directory.filename|e('js') }}',
                                                                         this);">
 
                                         <i class="fa fa-ban"></i>
