@@ -61,45 +61,10 @@ ol,ul,dl
 	padding: 0 40px;
 }
 
-p, li
-{
-	font-size: 14px;
-}
-
 h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
 	line-height: 1.2;
-}
-
-h1
-{
-	font-size: 26px;
-}
-
-h2
-{
-	font-size: 24px;
-}
-
-h3
-{
-	font-size: 22px;
-}
-
-h4
-{
-	font-size: 20px;
-}
-
-h5
-{
-	font-size: 18px;
-}
-
-h6
-{
-	font-size: 16px;
 }
 
 hr
