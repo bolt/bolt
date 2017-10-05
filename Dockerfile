@@ -64,4 +64,4 @@ RUN cd /home && \
 
 EXPOSE 80
 WORKDIR /var/www/
-CMD "apachectl -d . -e info -DFOREGROUND"
+CMD ["apachectl", "-DFOREGROUND"]
