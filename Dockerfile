@@ -31,6 +31,10 @@ RUN apt update -y && \
         php \
         php-mysql \
         php-sqlite3 \
+        php-gd \
+        php-curl \
+        php-xml \
+        php-zip \
         php-intl \
         php-mcrypt && \
     rm -rf /var/lib/apt/lists/*
