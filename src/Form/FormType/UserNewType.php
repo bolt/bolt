@@ -2,6 +2,7 @@
 
 namespace Bolt\Form\FormType;
 
+use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -21,7 +22,7 @@ class UserNewType extends AbstractUserType
             ->addPassword($builder, ['required' => true])
             ->addEmail($builder)
             ->addDisplayName($builder)
-            ->addSave($builder, ['label' => 'Create the first user'])
+            ->addSave($builder, ['label' => Trans::__('general.phrase.create-user-first')])
         ;
     }
 }

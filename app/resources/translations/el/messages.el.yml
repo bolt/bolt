@@ -438,7 +438,7 @@ page.login.label.password: # "Password"
 page.login.label.username: # "Username / email"
 page.login.password-hide: # "Hide"
 page.login.password-show: # "Show"
-page.login.placeholder.password: # "Your username"
+page.login.placeholder.password: # "Your password"
 page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
