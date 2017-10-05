@@ -35,6 +35,7 @@ RUN apt update -y && \
         php-curl \
         php-xml \
         php-zip \
+        php-mbstring \
         php-intl \
         php-mcrypt && \
     rm -rf /var/lib/apt/lists/*
