@@ -54,3 +54,5 @@ Vagrantfile
 *.lock
 .buildpath
 
+# JetBrains .idea folder
+.idea/*
