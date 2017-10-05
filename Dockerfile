@@ -16,7 +16,6 @@ ENV LANG en_US.utf-8
 # Versions
 ENV PHP_VERSION 7.0.0
 ENV BOLT_VERSION 3.3
-ENV BOLT_URL "https://github.com/bolt/bolt.git"
 
 # Paths
 ENV WEB_ROOT /var/www/html
@@ -42,19 +41,19 @@ RUN curl -sS https://getcomposer.org/installer | \
 
 # Cloning
 RUN cd /home && \
-    git clone $BOLT_URL && \
+    git clone https://github.com/bolt/bolt.git && \
     cd bolt && \
     composer update && \
     rm -rf .github .git .gitignore .gitattributes \
          composer.json composer.lock \
          README.md LICENSE.md CONTRIBUTING.md \
          Dockerfile .travis.yml \
-         tests /usr/local/bin/composer $WEB_ROOT && \
+         tests /usr/local/bin/composer /var/www/html && \
     cd .. && \
-    mkdir $WEB_ROOT && \
-    mv bolt $WEB_ROOT && \
-    chown www-data:www-data -R $WEB_ROOT && \
-    chmod 755 -R $WEB_ROOT
+    mkdir /var/www/html && \
+    mv bolt /var/www/html && \
+    chown www-data:www-data -R /var/www/html && \
+    chmod 755 -R /var/www/html
 
 # EDIT VIRTUALHOST OR MOVE TO /VAR/WWW/HTML FILES FROM BOLT FILE
 
