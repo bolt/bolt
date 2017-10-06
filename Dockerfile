@@ -28,6 +28,7 @@ RUN apt update -y && \
     apt install -yq git \
         curl \
         apache2 \
+        libapache2-mod-php \
         php \
         php-mysql \
         php-sqlite3 \
@@ -55,9 +56,13 @@ RUN cd /home && \
          Dockerfile .travis.yml \
          tests /usr/local/bin/composer /var/www/html
 
+# Moving file to web root
 RUN mv /home/bolt /var/www/html && \
     chown www-data:www-data -R /var/www/html && \
     chmod 755 -R /var/www/html
+
+# Restart Apache2 HTTP Web Server
+RUN apache2ctl restart
 
 # EDIT VIRTUALHOST OR MOVE TO /VAR/WWW/HTML FILES FROM BOLT FILE
 
