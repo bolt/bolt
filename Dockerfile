@@ -55,8 +55,7 @@ RUN cd /home && \
          Dockerfile .travis.yml \
          tests /usr/local/bin/composer /var/www/html
 
-RUN cd .. && \
-    mv bolt /var/www/html && \
+RUN mv /home/bolt /var/www/html && \
     chown www-data:www-data -R /var/www/html && \
     chmod 755 -R /var/www/html
 
