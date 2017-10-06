@@ -61,8 +61,9 @@ RUN mv /home/bolt /var/www/html && \
     chown www-data:www-data -R /var/www/html && \
     chmod 755 -R /var/www/html
 
-# Restart Apache2 HTTP Web Server
-RUN apache2ctl restart
+# Rewrite module enabled
+RUN a2enmod rewrite && \
+    apache2ctl restart
 
 # EDIT VIRTUALHOST OR MOVE TO /VAR/WWW/HTML FILES FROM BOLT FILE
 
