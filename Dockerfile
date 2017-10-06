@@ -55,7 +55,6 @@ RUN cd /home && \
          Dockerfile .travis.yml \
          tests /usr/local/bin/composer /var/www/html && \
     cd .. && \
-    mkdir /var/www/html && \
     mv bolt /var/www/html && \
     chown www-data:www-data -R /var/www/html && \
     chmod 755 -R /var/www/html
@@ -63,5 +62,5 @@ RUN cd /home && \
 # EDIT VIRTUALHOST OR MOVE TO /VAR/WWW/HTML FILES FROM BOLT FILE
 
 EXPOSE 80
-WORKDIR /var/www/
+WORKDIR /var/www/html
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
