@@ -475,6 +475,7 @@ page.login.label.password: # "Password"
 page.login.label.username: # "Username / email"
 page.login.password-hide: # "Hide"
 page.login.password-show: # "Show"
+page.login.placeholder.username: # "Your username"
 page.login.placeholder.password: # "Your password"
 page.login.title: # "Sign in to Bolt"
 
