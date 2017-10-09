@@ -90,6 +90,10 @@ body.login {
     p.cookie-notice {
         display: none;
     }
+
+    p.reset-group {
+        display: none;
+    }
 }
 
 html.modernizr-no-cookies p.cookie-notice {

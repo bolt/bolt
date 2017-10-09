@@ -675,7 +675,8 @@ page.login.label.username: "Nome utente / e-mail"
 page.login.password-hide: "Nascondi"
 page.login.password-reset-link-sent: "Un link per il reset della password è stato inviato a '%user%'."
 page.login.password-show: "Mostra"
-page.login.placeholder.password: "Il tuo nome utente"
+page.login.placeholder.username: "Il tuo nome utente"
+page.login.placeholder.password: # "Your password"
 
 page.prefill.skipped-existing: "Saltato <code>%key%</code> (ha già contenuti)"
 

@@ -7,6 +7,7 @@ use Bolt\Form\Validator\Constraints as UsersAssert;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -69,6 +70,8 @@ abstract class AbstractUserType extends AbstractType
                 ] + $options
             )
         ;
+        $transformer = function ($username) { return mb_strtolower($username); };
+        $builder->get('username')->addModelTransformer(new CallbackTransformer($transformer, $transformer));
 
         return $this;
     }

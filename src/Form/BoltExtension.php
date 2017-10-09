@@ -31,6 +31,7 @@ class BoltExtension extends AbstractExtension
 
             // Form
             new FormType\UserEditType(),
+            new FormType\UserLoginType(),
             new FormType\UserNewType(),
             new FormType\UserProfileType(),
         ];

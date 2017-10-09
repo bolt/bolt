@@ -38,9 +38,9 @@ class AcceptanceHelper extends \Codeception\Module
         $web->client->getCookieJar()->clear();
 
         $web->amOnPage('/bolt/login');
-        $web->fillField('username', $usernameOrEmail);
-        $web->fillField('password', $password);
-        $web->click('Log on');
+        $web->fillField(['id' => 'user_login_username'], $usernameOrEmail);
+        $web->fillField(['id' => 'user_login_password'], $password);
+        $web->click(['id' => 'user_login_login']);
     }
 
     /**
