@@ -135,6 +135,9 @@ final class Import
         $taxonomies = $this->em->createCollection(Entity\Taxonomy::class);
         $taxonomy = [];
         foreach ($taxonomyFields as $taxonomyField) {
+            if ($importDatum->get($taxonomyField) === null) {
+                continue;
+            }
             foreach ($importDatum->get($taxonomyField) as $value) {
                 $taxonomy[$taxonomyField][] = $value->toArray();
                 $entity->set($taxonomyField, null);
