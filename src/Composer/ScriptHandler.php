@@ -62,7 +62,7 @@ final class ScriptHandler
      */
     public static function updateProject(Event $event)
     {
-        (new BootstrapYamlUpdater($event->getIO()))->update();
+        BootstrapYamlUpdater::fromEvent($event)->update();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Bolt\Composer\Script;
 use Bolt\Collection\MutableBag;
 use Bolt\Common\Str;
 use Composer\IO\IOInterface;
+use Composer\Script\Event;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -19,6 +20,8 @@ use Webmozart\PathUtil\Path;
  * <pre>
  * COMPOSER_ALLOW_XDEBUG=1 ./vendor/bin/composer run-script <script name>
  * </pre>
+ *
+ * @internal
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
@@ -41,6 +44,19 @@ final class BootstrapYamlUpdater
     {
         $this->io = $io;
         $this->filesystem = $filesystem ?: new Filesystem();
+    }
+
+    /**
+     * Create from a Composer event object.
+     *
+     * @param Event           $event
+     * @param Filesystem|null $filesystem
+     *
+     * @return BootstrapYamlUpdater
+     */
+    public static function fromEvent(Event $event, Filesystem $filesystem = null)
+    {
+        return new static($event->getIO(), $filesystem);
     }
 
     /**
