@@ -11,18 +11,16 @@
 
 {% block panel_head %}
     {{ __('general.phrase.upload-file-to-directory') }}
-    {{  macro.typepopover() }}
 {%  endblock panel_head %}
 
 {% block panel_body %}
-    <div class="file-upload">
-    <span class="dragdrop-hint">
-      <strong>Drop files in the file manager to upload them</strong>
-    </span>
-        <div class="text-center">
-            <span class="or">{{ __('general.phrase.or') }}</span>
-        </div>
+    <p>
+        {{ __('general.phrase.upload-drop-here') }}
+    </p>
 
-        {{ include('@bolt/files/_upload.twig') }}
-    </div>
+    <p>
+    {{ __('field.general.allowed-filetypes') }} {{  macro.typepopover() }}
+    </p>
+
+    {{ include('@bolt/files/_upload.twig') }}
 {% endblock panel_body %}
