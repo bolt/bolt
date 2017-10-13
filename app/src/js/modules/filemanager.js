@@ -178,9 +178,10 @@
             DropzoneTarget.removeFile(file);
         });
 
+        // After we're done uploading, we refresh the page. With a slight delay, or we might miss the latest file.
         DropzoneTarget.on('totaluploadprogress', function (progress) {
             if(progress === 100) {
-                location.reload();
+                window.setTimeout(function () { location.reload(); }, 200);
             }
         });
 
