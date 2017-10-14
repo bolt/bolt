@@ -3,6 +3,7 @@
 namespace Bolt\Twig\Runtime;
 
 use Bolt\Config;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Handler\NullableImage;
 use Bolt\Filesystem\Manager;
@@ -74,13 +75,22 @@ class ImageRuntime
             $fileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : '');
         }
 
+        // If _no_ filename is given, return nothing.
         if (!$fileName) {
             return null;
         }
 
-        $file = $this->filesystemMatcher->getFile($fileName);
-
-        $url = $file->url();
+        try {
+            $file = $this->filesystemMatcher->getFile($fileName);
+            $url = $file->url();
+        } catch (FileNotFoundException $e) {
+            // If a non-existing filename is given, we either re-throw the Exception (in DEV) or defer to the
+            // Thumbnailer, so the user sees the "404 image".
+            if ($this->config->get('general/debug')) {
+                throw $e;
+            }
+            $url = $this->getThumbnailUri($this->getThumbnail($fileName));
+        }
 
         return $url;
     }
