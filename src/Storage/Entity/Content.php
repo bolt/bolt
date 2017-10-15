@@ -345,7 +345,9 @@ class Content extends Entity
         $title = [];
         foreach ($fieldNames as $fieldName) {
             // Make sure we add strings only, as some fields may be an array or DateTime.
-            $title[] = is_array($fields[$fieldName]) ? implode(' ', $fields[$fieldName]) : (string) $fields[$fieldName];
+            if (array_key_exists($fieldName, $fields)) {
+                $title[] = is_array($fields[$fieldName]) ? implode(' ', $fields[$fieldName]) : (string) $fields[$fieldName];
+            }
         }
 
         return implode(' ', $title);
