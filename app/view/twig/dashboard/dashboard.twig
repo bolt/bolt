@@ -32,6 +32,7 @@
 
             {% for contenttype, multiplecontent in context.latest %}
                 {% if multiplecontent %}
+                    {% set contenttype = config.get('contenttypes/' ~ contenttype) %}
                     {{ include('@bolt/dashboard/_recently_edited.twig') }}
                 {% endif %}
             {% endfor %}

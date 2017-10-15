@@ -60,6 +60,11 @@ final class Choice
             if ($field['type'] === 'repeater') {
                 $this->build($select, $field['fields']);
             }
+            if ($field['type'] === 'block') {
+                foreach ($field['fields'] as $blockName => $block) {
+                    $this->build($select, $block['fields']);
+                }
+            }
             $values = $this->getValues($field);
             if ($values !== null) {
                 if ($isTemplateFields) {

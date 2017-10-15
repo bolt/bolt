@@ -28,7 +28,7 @@
  #}
 {% macro contentlink(contenttype, content) %}
     {% import _self as crosslinks %}
-    {% set title = content.getTitle(true) %}
+    {% set title = content.getTitle() %}
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
 

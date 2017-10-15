@@ -6,6 +6,18 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4 beta 3
+---------------
+
+Released: 2017-10-11. Notable changes
+
+ - Change: Migrate login forms to Symfony Form [#7056](https://github.com/bolt/bolt/pull/7056)
+ - Fixed: BC break on username case handling. Add transformer on username field [#7055](https://github.com/bolt/bolt/pull/7055)
+ - Fixed: Files & directories with certain characters can't be deleted - Use JavaScript context escape for file & directory paths in data-action [#7053](https://github.com/bolt/bolt/pull/7053)
+ - Fixed: Fixes for `title_format` handling [#7067](https://github.com/bolt/bolt/pull/7067)
+ - Fixed: Use 'singular_name' instead of slug in "Edit Content". [#7068](https://github.com/bolt/bolt/pull/7068)
+ - Tests: [Tests] Fixes for "not found" assertions [#7049](https://github.com/bolt/bolt/pull/7049)
+
 Bolt 3.4 beta 2
 ---------------
 
